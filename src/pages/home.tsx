@@ -79,120 +79,49 @@ function xjson(text: string) {
   return null
 }
 
-import type { VercelRequest, VercelResponse } from '@vercel/node'
-
-export default async function handler(req: VercelRequest, res: VercelResponse) {
-  res.setHeader('Access-Control-Allow-Origin', '*')
-  res.setHeader('Access-Control-Allow-Methods', 'GET')
-
-  const { handle } = req.query
-  if (!handle || typeof handle !== 'string') {
-    return res.status(400).json({ error: 'Handle required' })
-  }
-
-  const clean = handle.replace('@', '').trim()
-
+async function fetchCoinGecko(
+  projectName: string,
+  confirmedTicker?: string | null,
+  tokenHinted?: boolean,
+  allTickers?: string[]
+) {
   try {
-    // Fetch user profile + pinned tweet ID
-    const userRes = await fetch(
-      `https://api.twitter.com/2/users/by/username/${clean}?user.fields=public_metrics,verified,created_at,profile_image_url,description,entities,pinned_tweet_id`,
-      { headers: { Authorization: `Bearer ${process.env.X_API_BEARER_TOKEN}` } }
-    )
-    const userData = await userRes.json()
-    const u = userData.data
-    if (!u) return res.status(404).json({ error: 'User not found' })
-
-    const bio = u.description || ''
-    let pinnedTweetText = ''
-
-    // Fetch pinned tweet if exists
-    if (u.pinned_tweet_id) {
-      try {
-        const tweetRes = await fetch(
-          `https://api.twitter.com/2/tweets/${u.pinned_tweet_id}`,
-          { headers: { Authorization: `Bearer ${process.env.X_API_BEARER_TOKEN}` } }
-        )
-        const tweetData = await tweetRes.json()
-        pinnedTweetText = tweetData.data?.text || ''
-      } catch { }
+    const results: any[] = []
+    if (confirmedTicker) {
+      const r = await fetch(`https://api.coingecko.com/api/v3/search?query=${encodeURIComponent(confirmedTicker)}`)
+      const d = await r.json()
+      const match = d.coins?.find((c: any) => c.symbol?.toUpperCase() === confirmedTicker)
+      if (match) results.push(match)
     }
-
-    // Fetch recent tweets to look for token announcements
-    let recentTweetsText = ''
-    try {
-      const tweetsRes = await fetch(
-        `https://api.twitter.com/2/users/${u.id}/tweets?max_results=5&tweet.fields=text`,
-        { headers: { Authorization: `Bearer ${process.env.X_API_BEARER_TOKEN}` } }
-      )
-      const tweetsData = await tweetsRes.json()
-      recentTweetsText = (tweetsData.data || []).map((t: any) => t.text).join(' ')
-    } catch { }
-
-    // Search all text sources for $TICKER
-    const allText = `${bio} ${pinnedTweetText} ${recentTweetsText}`
-    const tickerMatches = allText.match(/\$([A-Z]{2,10})\b/g) || []
-    const tickers = [...new Set(tickerMatches.map(t => t.replace('$', '')))]
-
-    // Token launch signals across all text
-    const allTextLower = allText.toLowerCase()
-    const launchSignals = [
-      'token live', 'now live', 'trading now', 'listed on', 'available on',
-      'buy $', 'trade $', 'token launched', 'token is live', 'tge', 'airdrop live',
-      'claim now', 'token claim', 'now trading', 'token available'
-    ]
-    const tokenLaunchHinted = launchSignals.some(s => allTextLower.includes(s))
-    const confirmedTicker = tickers.length > 0 ? tickers[0] : null
-
-    const metrics = u.public_metrics
-    const followers = metrics?.followers_count || 0
-    const following = metrics?.following_count || 0
-    const tweetCount = metrics?.tweet_count || 0
-    const listed = metrics?.listed_count || 0
-
-    const createdYear = new Date(u.created_at || '').getFullYear()
-    const age = new Date().getFullYear() - createdYear
-
-    const followerScore = Math.min(100, Math.log10(Math.max(followers, 1)) / 5 * 100)
-    const listedScore = Math.min(100, Math.log10(Math.max(listed, 1)) / 4 * 100)
-    const ageScore = Math.min(100, (age / 5) * 100)
-    const activityScore = Math.min(100, (tweetCount / 1000) * 100)
-    const ratioScore = Math.min(100, (followers / Math.max(following, 1)) / 100 * 100)
-    const verifiedScore = u.verified ? 100 : 0
-
-    const cmvScore = Math.round(
-      (followerScore * 0.30) +
-      (listedScore * 0.20) +
-      (ageScore * 0.15) +
-      (activityScore * 0.15) +
-      (ratioScore * 0.10) +
-      (verifiedScore * 0.10)
-    )
-
-    return res.status(200).json({
-      followers,
-      following,
-      tweet_count: tweetCount,
-      listed,
-      verified: u.verified || false,
-      account_age_years: age,
-      profile_image_url: u.profile_image_url?.replace('_normal', '_bigger') || null,
-      description: bio,
-      pinned_tweet: pinnedTweetText,
-      confirmed_ticker: confirmedTicker,
-      all_tickers_found: tickers,
-      token_launch_hinted: tokenLaunchHinted,
-      cmv_score: Math.min(1000, Math.round(cmvScore * 10)),
-      breakdown: {
-        follower_reach: Math.round(followerScore),
-        listed_quality: Math.round(listedScore),
-        account_age: Math.round(ageScore),
-        posting_activity: Math.round(activityScore),
-        follower_ratio: Math.round(ratioScore),
-        verified: Math.round(verifiedScore),
+    if (results.length === 0) {
+      const r = await fetch(`https://api.coingecko.com/api/v3/search?query=${encodeURIComponent(projectName)}`)
+      const d = await r.json()
+      if (d.coins?.length > 0) {
+        const close = d.coins.find((c: any) => {
+          const cName = c.name?.toLowerCase() || ''
+          const pName = projectName.toLowerCase()
+          return cName.includes(pName) || pName.includes(cName) ||
+            (confirmedTicker && c.symbol?.toUpperCase() === confirmedTicker)
+        })
+        if (close) results.push(close)
       }
-    })
+    }
+    if (results.length === 0) {
+      return { token_live: false, token_price: 'Not Launched', token_note: 'No matching token found on CoinGecko' }
+    }
+    const coin = results[0]
+    const pr = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${coin.id}&vs_currencies=usd&include_market_cap=true`)
+    const pd = await pr.json()
+    const price = pd[coin.id]?.usd
+    if (!price || price === 0) {
+      return { token_live: false, ticker: coin.symbol?.toUpperCase(), token_price: 'Not Launched', token_note: 'Listed on CoinGecko but no active price — not yet trading' }
+    }
+    if (!confirmedTicker && !tokenHinted) {
+      return { token_live: false, ticker: coin.symbol?.toUpperCase(), token_price: 'Unconfirmed', token_note: `$${coin.symbol?.toUpperCase()} found on CoinGecko but not confirmed in project X bio or tweets — could be a different project` }
+    }
+    return { token_live: true, ticker: coin.symbol?.toUpperCase(), token_price: `$${price}`, market_cap: pd[coin.id]?.usd_market_cap, token_note: `Live on CoinGecko · confirmed from X data` }
   } catch {
-    return res.status(500).json({ error: 'Failed to fetch X data' })
+    return { token_live: false, token_price: 'Not Launched', token_note: 'CoinGecko lookup failed' }
   }
 }
 
@@ -440,7 +369,7 @@ export default function Home() {
     setLoading(true); setResult(null); setCgData(null); setXData(null); setError(null); setAtab('Fundamentals'); setAsec('metrics')
     const handle = (xUrl.replace('https://x.com/', '').replace('https://twitter.com/', '').replace('@', '').split('/')[0].trim()) || projName.replace(/\s+/g, '').toLowerCase()
 
-  const xd = await fetchProjectXData(handle)
+    const xd = await fetchProjectXData(handle)
     setXData(xd)
     const cg = await fetchCoinGecko(
       projName || handle,
