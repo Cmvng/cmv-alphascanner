@@ -119,6 +119,8 @@ async function fetchCoinGecko(
 
 const buildPrompt = (handle: string, xd: any, cg: any) => `You are CMV AlphaScanner, a sharp crypto/Web3 alpha analyst. Today: ${new Date().toDateString()}.
 
+NEVER use <cite> tags, XML tags, or citation markup anywhere in your response. All string fields must contain clean plain text only.
+
 CRITICAL RULES:
 1. Use web_search to find REAL data. Never guess or hallucinate.
 2. The X handle is the SINGLE SOURCE OF TRUTH for project identity. Do NOT search by project name — search by "@${handle}" specifically.
@@ -327,7 +329,18 @@ export default function Home() {
       if (!txt.trim()) throw new Error('No response received. Please try again.')
       const parsed = xjson(txt)
       if (!parsed) throw new Error('Could not read results. Please try again.')
-      setResult(parsed)
+      // Strip any cite tags Claude accidentally includes
+      function stripCites(obj: any): any {
+        if (typeof obj === 'string') return obj.replace(/<cite[^>]*>|<\/cite>/g, '').replace(/\[\d+\]/g, '').trim()
+        if (Array.isArray(obj)) return obj.map(stripCites)
+        if (obj && typeof obj === 'object') {
+          const clean: any = {}
+          for (const k in obj) clean[k] = stripCites(obj[k])
+          return clean
+        }
+        return obj
+      }
+      setResult(stripCites(parsed))
     } catch (e: any) {
       setError(e.message || 'Something went wrong. Please try again.')
     } finally {
@@ -508,7 +521,7 @@ export default function Home() {
         {/* Results */}
         {result && !loading && (
           <div style={{ animation: 'fadeIn 0.5s ease' }}>
-            {result.handle_note && <div style={{ background: '#e8ecff', border: '1px solid #c5d0ff', borderRadius: 10, padding: '10px 14px', marginBottom: 12, fontSize: 12, color: '#3b5bdb' }}>💡 {result.handle_note}</div>}
+            
 
             {/* Verdict share card — full width, fun */}
             <div style={{ background: otc.vbg, borderRadius: 18, padding: 22, marginBottom: 14, position: 'relative', overflow: 'hidden', boxShadow: `0 8px 32px ${otc.solid}30` }}>
@@ -622,28 +635,34 @@ export default function Home() {
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke="#3b5bdb" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
                 Deep Intel
               </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 10 }}>
+              {cgData?.token_live && (
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 10 }}>
+                  <div style={{ background: '#f8f9ff', border: '1px solid #dbe4ff', borderRadius: 8, padding: '10px 12px' }}>
+                    <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#868e96', letterSpacing: 1, marginBottom: 5 }}>TOKEN STATUS</div>
+                    <span style={{ background: '#ebfbee', color: '#2f9e44', border: '1px solid #8ce99a', borderRadius: 20, padding: '3px 10px', fontFamily: "'DM Mono',monospace", fontSize: 10, display: 'inline-flex', alignItems: 'center', gap: 5 }}>
+                      <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#2f9e44', display: 'inline-block' }} />
+                      {cgData.ticker} {cgData.token_price}
+                    </span>
+                    {cgData?.token_note && <div style={{ fontSize: 11, color: '#6c7a9c', marginTop: 4 }}>{cgData.token_note}</div>}
+                  </div>
+                  <div style={{ background: '#f8f9ff', border: '1px solid #dbe4ff', borderRadius: 8, padding: '10px 12px' }}>
+                    <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#868e96', letterSpacing: 1, marginBottom: 5 }}>TOKEN OUTLOOK</div>
+                    <div style={{ fontSize: 12, fontWeight: 600, color: result.post_tge_outlook === 'High Potential' ? '#2f9e44' : result.post_tge_outlook === 'Low Potential' ? '#868e96' : '#e67700' }}>{result.post_tge_outlook || 'Unknown'}</div>
+                  </div>
+                </div>
+              )}
+              {result.future_seasons && !result.future_seasons.toLowerCase().includes('no ') && !result.future_seasons.toLowerCase().includes('unknown') && !result.future_seasons.toLowerCase().includes('unconfirmed') && !result.future_seasons.toLowerCase().includes('likely given') && (
+                <div style={{ background: '#f8f9ff', border: '1px solid #dbe4ff', borderRadius: 8, padding: '10px 12px', marginBottom: 8 }}>
+                  <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#868e96', letterSpacing: 1, marginBottom: 5 }}>FUTURE SEASONS / POST-TGE</div>
+                  <div style={{ fontSize: 12, color: '#1c2b5a', lineHeight: 1.5 }}>{result.future_seasons}</div>
+                </div>
+              )}
+              {result.project_follows && result.project_follows.toLowerCase() !== 'unknown' && result.project_follows.length > 10 && (
                 <div style={{ background: '#f8f9ff', border: '1px solid #dbe4ff', borderRadius: 8, padding: '10px 12px' }}>
-                  <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#868e96', letterSpacing: 1, marginBottom: 5 }}>TOKEN STATUS</div>
-                  {cgData?.token_live
-                    ? <span style={{ background: '#ebfbee', color: '#2f9e44', border: '1px solid #8ce99a', borderRadius: 20, padding: '3px 10px', fontFamily: "'DM Mono',monospace", fontSize: 10, display: 'inline-flex', alignItems: 'center', gap: 5 }}><span style={{ width: 6, height: 6, borderRadius: '50%', background: '#2f9e44', display: 'inline-block' }} />{cgData.ticker} {cgData.token_price}</span>
-                    : <span style={{ background: '#f1f3f5', color: '#868e96', border: '1px solid #dee2e6', borderRadius: 20, padding: '3px 10px', fontFamily: "'DM Mono',monospace", fontSize: 10, display: 'inline-flex', alignItems: 'center', gap: 5 }}><span style={{ width: 6, height: 6, borderRadius: '50%', background: '#868e96', display: 'inline-block' }} />Not Launched</span>}
-                  {cgData?.token_note && <div style={{ fontSize: 11, color: '#6c7a9c', marginTop: 4 }}>{cgData.token_note}</div>}
+                  <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#868e96', letterSpacing: 1, marginBottom: 5 }}>NOTABLE X FOLLOWS (NETWORK SIGNAL)</div>
+                  <div style={{ fontSize: 12, color: '#1c2b5a', lineHeight: 1.5 }}>{result.project_follows}</div>
                 </div>
-                <div style={{ background: '#f8f9ff', border: '1px solid #dbe4ff', borderRadius: 8, padding: '10px 12px' }}>
-                  <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#868e96', letterSpacing: 1, marginBottom: 5 }}>TOKEN OUTLOOK</div>
-                  <div style={{ fontSize: 12, fontWeight: 600, color: result.post_tge_outlook === 'High Potential' ? '#2f9e44' : result.post_tge_outlook === 'Low Potential' ? '#868e96' : '#e67700' }}>{result.post_tge_outlook || 'Unknown'}</div>
-                </div>
-              </div>
-              {[
-                { lbl: 'FUTURE SEASONS / POST-TGE', val: result.future_seasons },
-                { lbl: 'NOTABLE X FOLLOWS (NETWORK SIGNAL)', val: result.project_follows },
-              ].filter(item => item.val).map(item => (
-                <div key={item.lbl} style={{ background: '#f8f9ff', border: '1px solid #dbe4ff', borderRadius: 8, padding: '10px 12px', marginBottom: 8 }}>
-                  <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#868e96', letterSpacing: 1, marginBottom: 5 }}>{item.lbl}</div>
-                  <div style={{ fontSize: 12, color: '#1c2b5a', lineHeight: 1.5 }}>{item.val}</div>
-                </div>
-              ))}
+              )}
             </div>
 
             {/* Team */}
