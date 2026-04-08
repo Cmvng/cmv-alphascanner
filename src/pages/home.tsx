@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { fetchXUserData } from '../lib/xapi'
+import { fetchProjectXData } from '../lib/xapi'
 
 const METRICS = [
   { id: 'funding', label: 'Funding Quality', icon: '💰', cat: 'Fundamentals' },
@@ -195,7 +195,7 @@ function VoiceCard({ voice }: { voice: any }) {
   const scbg = voice.sentiment === 'bullish' ? '#ebfbee' : voice.sentiment === 'bearish' ? '#fff5f5' : '#f1f3f5'
 
   useEffect(() => {
-    fetchXUserData(handle).then(d => { if (d) setXData(d) })
+    fetchXUserData(handle).then((d: any) => { if (d) setXData(d) })
   }, [handle])
 
   const merged = {
