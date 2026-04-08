@@ -195,7 +195,7 @@ function VoiceCard({ voice }: { voice: any }) {
   const scbg = voice.sentiment === 'bullish' ? '#ebfbee' : voice.sentiment === 'bearish' ? '#fff5f5' : '#f1f3f5'
 
   useEffect(() => {
-    fetchXUserData(handle).then((d: any) => { if (d) setXData(d) })
+    fetchProjectXData(handle).then((d: any) => { if (d) setXData(d) })
   }, [handle])
 
   const merged = {
