@@ -1,5 +1,9 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 
+// In-memory cache — persists for the lifetime of the serverless function instance
+const cache = new Map<string, { data: any; time: number }>()
+const CACHE_TTL = 1000 * 60 * 60 * 24 // 24 hours
+
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   res.setHeader('Access-Control-Allow-Origin', '*')
   res.setHeader('Access-Control-Allow-Methods', 'GET')
@@ -9,10 +13,16 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(400).json({ error: 'Handle required' })
   }
 
-  const clean = handle.replace('@', '').trim()
+  const clean = handle.replace('@', '').trim().toLowerCase()
+
+  // Return cached result if still fresh
+  const cached = cache.get(clean)
+  if (cached && Date.now() - cached.time < CACHE_TTL) {
+    return res.status(200).json({ ...cached.data, cached: true })
+  }
 
   try {
-    // Fetch user profile + pinned tweet ID
+    // Single API call — profile + pinned tweet in one request
     const userRes = await fetch(
       `https://api.twitter.com/2/users/by/username/${clean}?user.fields=public_metrics,verified,created_at,profile_image_url,description,entities,pinned_tweet_id`,
       { headers: { Authorization: `Bearer ${process.env.X_API_BEARER_TOKEN}` } }
@@ -24,7 +34,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const bio = u.description || ''
     let pinnedTweetText = ''
 
-    // Fetch pinned tweet if exists
+    // Fetch pinned tweet only if it exists — one extra call but worth it for ticker detection
     if (u.pinned_tweet_id) {
       try {
         const tweetRes = await fetch(
@@ -36,31 +46,20 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       } catch { }
     }
 
-    // Fetch recent tweets to look for token announcements
-    let recentTweetsText = ''
-    try {
-      const tweetsRes = await fetch(
-        `https://api.twitter.com/2/users/${u.id}/tweets?max_results=5&tweet.fields=text`,
-        { headers: { Authorization: `Bearer ${process.env.X_API_BEARER_TOKEN}` } }
-      )
-      const tweetsData = await tweetsRes.json()
-      recentTweetsText = (tweetsData.data || []).map((t: any) => t.text).join(' ')
-    } catch { }
-
-    // Search all text sources for $TICKER
-    const allText = `${bio} ${pinnedTweetText} ${recentTweetsText}`
+    // Search bio + pinned tweet for $TICKER pattern
+    const allText = `${bio} ${pinnedTweetText}`
     const tickerMatches = allText.match(/\$([A-Z]{2,10})\b/g) || []
     const tickers = [...new Set(tickerMatches.map(t => t.replace('$', '')))]
+    const confirmedTicker = tickers.length > 0 ? tickers[0] : null
 
-    // Token launch signals across all text
+    // Token launch signals
     const allTextLower = allText.toLowerCase()
     const launchSignals = [
       'token live', 'now live', 'trading now', 'listed on', 'available on',
-      'buy $', 'trade $', 'token launched', 'token is live', 'tge', 'airdrop live',
-      'claim now', 'token claim', 'now trading', 'token available'
+      'buy $', 'trade $', 'token launched', 'token is live', 'tge complete',
+      'airdrop live', 'claim now', 'token claim', 'now trading', 'token available'
     ]
     const tokenLaunchHinted = launchSignals.some(s => allTextLower.includes(s))
-    const confirmedTicker = tickers.length > 0 ? tickers[0] : null
 
     const metrics = u.public_metrics
     const followers = metrics?.followers_count || 0
@@ -71,6 +70,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const createdYear = new Date(u.created_at || '').getFullYear()
     const age = new Date().getFullYear() - createdYear
 
+    // CMV X Score calculation
     const followerScore = Math.min(100, Math.log10(Math.max(followers, 1)) / 5 * 100)
     const listedScore = Math.min(100, Math.log10(Math.max(listed, 1)) / 4 * 100)
     const ageScore = Math.min(100, (age / 5) * 100)
@@ -87,7 +87,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       (verifiedScore * 0.10)
     )
 
-    return res.status(200).json({
+    const result = {
       followers,
       following,
       tweet_count: tweetCount,
@@ -108,8 +108,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         posting_activity: Math.round(activityScore),
         follower_ratio: Math.round(ratioScore),
         verified: Math.round(verifiedScore),
-      }
-    })
+      },
+      cached: false
+    }
+
+    // Store in cache
+    cache.set(clean, { data: result, time: Date.now() })
+
+    return res.status(200).json(result)
   } catch {
     return res.status(500).json({ error: 'Failed to fetch X data' })
   }
