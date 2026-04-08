@@ -33,10 +33,10 @@ const PHASES = [
 ]
 
 const T: Record<string, any> = {
-  A: { bg: '#ebfbee', border: '#8ce99a', tc: '#2f9e44', solid: '#37b24d', lbl: 'Tier A', v: 'FARM IT', sub: 'High conviction play. Go hard.', guide: 'Try to be in the top 30-50% for a good cook. Grind the tasks, stack the points, refer people. This one has the fundamentals to reward serious farmers.', target: 'Top 30-50%', vbg: 'linear-gradient(135deg,#37b24d,#2f9e44)' },
-  B: { bg: '#fff3bf', border: '#ffe066', tc: '#e67700', solid: '#f59f00', lbl: 'Tier B', v: 'CREATE CONTENT', sub: 'Might cook or not. Keep expectations low.', guide: 'Try to be in the top 20% to have a shot at a meaningful reward. Create content, engage with the community, do the basic tasks — but do not over-invest time until token details are clearer.', target: 'Top 20%', vbg: 'linear-gradient(135deg,#f59f00,#e67700)' },
-  C: { bg: '#fff4e6', border: '#ffc078', tc: '#d9480f', solid: '#e8590c', lbl: 'Tier C', v: 'WATCH', sub: 'Too early to call. Monitor closely.', guide: 'If you farm this, target top 10% or do not bother. Only worth it if you can get in very early and dominate the leaderboard.', target: 'Top 10%', vbg: 'linear-gradient(135deg,#e8590c,#d9480f)' },
-  D: { bg: '#f1f3f5', border: '#dee2e6', tc: '#495057', solid: '#868e96', lbl: 'Tier D', v: 'SKIP', sub: 'Not worth your time right now.', guide: 'No expectations. Move on. The risk-reward does not justify the effort at this stage.', target: '', vbg: 'linear-gradient(135deg,#868e96,#495057)' },
+  A: { bg: '#ebfbee', border: '#8ce99a', tc: '#2f9e44', solid: '#37b24d', lbl: 'Tier A', v: 'FARM IT', sub: 'High conviction play. Go hard.', target: 'Top 30-50%', vbg: 'linear-gradient(135deg,#37b24d,#2f9e44)' },
+  B: { bg: '#fff3bf', border: '#ffe066', tc: '#e67700', solid: '#f59f00', lbl: 'Tier B', v: 'CREATE CONTENT', sub: 'Might cook or not. Keep expectations low.', target: 'Top 20%', vbg: 'linear-gradient(135deg,#f59f00,#e67700)' },
+  C: { bg: '#fff4e6', border: '#ffc078', tc: '#d9480f', solid: '#e8590c', lbl: 'Tier C', v: 'WATCH', sub: 'Too early to call. Monitor closely.', target: 'Top 10%', vbg: 'linear-gradient(135deg,#e8590c,#d9480f)' },
+  D: { bg: '#f1f3f5', border: '#dee2e6', tc: '#495057', solid: '#868e96', lbl: 'Tier D', v: 'SKIP', sub: 'Not worth your time right now.', target: '', vbg: 'linear-gradient(135deg,#868e96,#495057)' },
 }
 
 const HOW_TO_PLAY: Record<string, string> = {
@@ -133,15 +133,27 @@ SCORE INTEGRITY — be harsh:
 - vc_pedigree score < 40 = overall max 65
 - When in doubt score lower. Never inflate.
 
-For ct_voices include these fields for CMV Influence Score:
-followers (number), engagement_rate (decimal e.g. 0.05), verified (boolean), account_age_years (number), post_quality_score (0-100), authenticity_score (0-100), company_affiliated (boolean), company_credibility (0-100), vouch_score (0-100)
+VERDICT ACTION GUIDE — this is critical. The verdict_action field must be SPECIFIC to this project based on what you find:
+- If the project has a Season 2 or ongoing farming campaign: mention it specifically
+- If it is pre-TGE: say "Stack points before TGE — airdrop likely"
+- If it is a Perp DEX: say "Trade with delta neutral strategy, do NOT create content — this is a trading protocol"
+- If it requires trading volume: say "Generate trading volume on the platform"
+- If it requires Discord roles: say "Get Discord roles — they matter for allocation"
+- If it requires liquidity provision: say "Provide liquidity in the pools early"
+- If it requires onchain tasks: list the specific tasks
+- If content helps: say "Create content about [specific topic relevant to this project]"
+- If there is a leaderboard: say "Climb the leaderboard — top X% gets rewarded"
+- Be SPECIFIC to this project. Never give generic advice.
+
+For ct_voices include:
+- handle, name, quote, sentiment, x_score (0-1000 Wallchain-style score), ethos_score, is_paid, date
+- followers (number), engagement_rate (decimal), verified (boolean), account_age_years, post_quality_score (0-100), authenticity_score (0-100), company_affiliated (boolean), company_credibility (0-100), vouch_score (0-100)
 
 Detect project_category from: AI Project, Perp DEX, L1/L2, Testnet, Prediction Market, DeFi/Lending, NFT/Gaming, RWA, SocialFi, Infrastructure.
 
 Return ONLY valid JSON — no text before or after:
-{"project_name":"","ticker":"","description":"","team_location":"","founded":"","project_category":"Infrastructure","handle_note":null,"verdict":"WATCH","verdict_reason":"","overall_score":0,"score_rationale":"","data_accuracy_note":"","post_tge_outlook":"Medium Potential","future_seasons":"","founder_details":"","project_follows":"","mindshare_trend":{"labels":["8w ago","7w ago","6w ago","5w ago","4w ago","3w ago","2w ago","1w ago"],"values":[0,0,0,0,0,0,0,0],"current_pct":"0%","trend":"stable"},"ct_voices":[{"handle":"@h","name":"N","quote":"q","sentiment":"neutral","x_score":0,"ethos_score":0,"is_paid":false,"date":"","followers":0,"engagement_rate":0,"verified":false,"account_age_years":0,"post_quality_score":50,"authenticity_score":50,"company_affiliated":false,"company_credibility":0,"vouch_score":0}],"sources":[{"name":"","url":"","used_for":""}],"metrics":{"funding":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"vc_pedigree":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"copycat":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"niche":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"location":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"founder_cred":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"founder_activity":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"top_voices":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"token":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"metrics_clarity":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"user_count":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"fud":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"notable_mentions":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"content_type":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"mindshare":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"revenue":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"sentiment":{"score":0,"detail":"","why_this_score":"","signal":"neutral"}},"top_risks":["","",""],"top_opportunities":["",""]}`
+{"project_name":"","ticker":"","description":"","team_location":"","founded":"","project_category":"Infrastructure","handle_note":null,"verdict":"WATCH","verdict_reason":"","verdict_action":"Specific action guide for this exact project based on what you found","overall_score":0,"score_rationale":"","data_accuracy_note":"","post_tge_outlook":"Medium Potential","future_seasons":"","founder_details":"","project_follows":"","mindshare_trend":{"labels":["8w ago","7w ago","6w ago","5w ago","4w ago","3w ago","2w ago","1w ago"],"values":[0,0,0,0,0,0,0,0],"current_pct":"0%","trend":"stable"},"ct_voices":[{"handle":"@h","name":"N","quote":"q","sentiment":"neutral","x_score":0,"ethos_score":0,"is_paid":false,"date":"","followers":0,"engagement_rate":0,"verified":false,"account_age_years":0,"post_quality_score":50,"authenticity_score":50,"company_affiliated":false,"company_credibility":0,"vouch_score":0}],"sources":[{"name":"","url":"","used_for":""}],"metrics":{"funding":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"vc_pedigree":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"copycat":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"niche":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"location":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"founder_cred":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"founder_activity":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"top_voices":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"token":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"metrics_clarity":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"user_count":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"fud":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"notable_mentions":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"content_type":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"mindshare":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"revenue":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"sentiment":{"score":0,"detail":"","why_this_score":"","signal":"neutral"}},"top_risks":["","",""],"top_opportunities":["",""]}`
 
-// Separate component for metric row to properly use useState
 function MetricRow({ metric, data }: { metric: any, data: any }) {
   const [open, setOpen] = useState(false)
   const sc = typeof data?.score === 'number' ? data.score : 0
@@ -194,9 +206,6 @@ export default function Home() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const pint = useRef<any>(null)
   const tint = useRef<any>(null)
-
-  // Profile picture URL — replace with your own image URL
-  const PFP_URL = 'https://pbs.twimg.com/profile_images/1234567890/photo.jpg'
 
   useEffect(() => {
     if (loading) {
@@ -267,10 +276,12 @@ X Handle: @${handle}
 CoinGecko Token Data (pre-fetched — use directly, do NOT search CoinGecko again): ${JSON.stringify(cg)}
 
 Do 2 targeted searches:
-1. "${projName || handle} crypto project funding investors" to verify identity and funding
-2. "${handle} airdrop requirements CT sentiment 2025 2026" for community data
+1. "${projName || handle} crypto project season 2 airdrop farming requirements discord leaderboard" to find SPECIFIC farming actions needed
+2. "${handle} CT sentiment token unlock schedule community 2025 2026" for community data
 
-Return complete JSON with deep commentary on every metric. Be accurate. Apply strict score integrity rules. Return ONLY JSON.`
+For verdict_action: Be SPECIFIC. Find out if they have Season 2, if they need trading volume, Discord roles, liquidity provision, content creation, onchain tasks, leaderboard climbing. Name the exact actions needed for THIS project.
+
+Return complete JSON. Apply strict score integrity rules. Return ONLY JSON.`
           }]
         })
       })
@@ -301,11 +312,11 @@ Return complete JSON with deep commentary on every metric. Be accurate. Apply st
   ].map(g => ({ ...g, tier: getTier(g.score), cfg: T[getTier(g.score)] })) : []
 
   const loadingMessages = [
-    'info loading guys... a few more minutes',
-    'deep diving into the data...',
-    'checking what CT is saying...',
-    'running the numbers...',
-    'almost there...',
+    'Currently scanning.... 😊',
+    'Deep diving into the data... 😊',
+    'Checking what CT is saying... 😊',
+    'Running the numbers... 😊',
+    'Almost there... 😊',
   ]
   const msgIndex = Math.min(Math.floor(elapsed / 12), loadingMessages.length - 1)
 
@@ -361,17 +372,19 @@ Return complete JSON with deep commentary on every metric. Be accurate. Apply st
         {/* Loading */}
         {loading && (
           <div style={{ background: '#fff', border: '1px solid #dbe4ff', borderRadius: 14, padding: 24, marginBottom: 16 }}>
-            {/* Profile + message */}
             <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 20, background: '#f8f9ff', borderRadius: 12, padding: '14px 16px' }}>
-              <div style={{ width: 44, height: 44, borderRadius: '50%', background: '#1c2b5a', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, overflow: 'hidden' }}>
-                <span style={{ color: '#fff', fontSize: 18, fontWeight: 800 }}>C</span>
-              </div>
+              <img
+                src="/pfp.jpeg"
+                alt="CMV"
+                style={{ width: 48, height: 48, borderRadius: '50%', objectFit: 'cover', flexShrink: 0, border: '2px solid #dbe4ff' }}
+                onError={(e: any) => { e.target.style.display = 'none' }}
+              />
               <div style={{ flex: 1 }}>
                 <div style={{ fontSize: 12, fontWeight: 700, color: '#1c2b5a', marginBottom: 3 }}>@Cmv_ng</div>
-                <div style={{ fontSize: 13, color: '#6c7a9c', fontStyle: 'italic' }}>{loadingMessages[msgIndex]}</div>
+                <div style={{ fontSize: 14, color: '#6c7a9c' }}>{loadingMessages[msgIndex]}</div>
               </div>
-              <div style={{ textAlign: 'right' as const }}>
-                <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 20, fontWeight: 700, color: '#3b5bdb' }}>{elapsed}s</div>
+              <div style={{ textAlign: 'right' as const, flexShrink: 0 }}>
+                <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 22, fontWeight: 700, color: '#3b5bdb' }}>{elapsed}s</div>
                 <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 9, color: '#adb5bd' }}>elapsed</div>
               </div>
             </div>
@@ -421,7 +434,7 @@ Return complete JSON with deep commentary on every metric. Be accurate. Apply st
                 <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.9)', marginBottom: 10, fontStyle: 'italic' }}>{otc.sub}</div>
                 <div style={{ background: 'rgba(0,0,0,0.1)', borderRadius: 10, padding: '10px 12px', border: '1px solid rgba(255,255,255,0.3)' }}>
                   <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 8, letterSpacing: 1, marginBottom: 5, color: 'rgba(255,255,255,0.7)' }}>WHAT YOU SHOULD DO</div>
-                  <div style={{ fontSize: 11, lineHeight: 1.55, color: 'rgba(255,255,255,0.95)' }}>{otc.guide}</div>
+                  <div style={{ fontSize: 11, lineHeight: 1.6, color: 'rgba(255,255,255,0.95)' }}>{result.verdict_action || result.verdict_reason}</div>
                   {otc.target && <div style={{ marginTop: 8, display: 'inline-flex', alignItems: 'center', gap: 4, borderRadius: 20, padding: '3px 10px', fontFamily: "'DM Mono', monospace", fontSize: 9, color: '#fff', background: 'rgba(255,255,255,0.2)', border: '1px solid rgba(255,255,255,0.3)' }}>🎯 {otc.target}</div>}
                 </div>
               </div>
@@ -542,31 +555,58 @@ Return complete JSON with deep commentary on every metric. Be accurate. Apply st
             {asec === 'voices' && (
               <div style={{ background: '#fff', border: '1px solid #dbe4ff', borderRadius: 14, padding: 16, marginBottom: 12 }}>
                 <div style={{ fontSize: 13, fontWeight: 700, color: '#1c2b5a', marginBottom: 4 }}>What CT is saying</div>
-                <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 9, color: '#adb5bd', marginBottom: 6 }}>CMV Influence Score = our proprietary influence rating (0-1000)</div>
-                <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 9, color: '#3b5bdb', background: '#e8ecff', borderRadius: 6, padding: '5px 10px', display: 'inline-block', marginBottom: 14 }}>Kaito smart followers metric — connecting soon</div>
+                <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 9, color: '#adb5bd', marginBottom: 14 }}>CMV Influence Score = our proprietary influence rating (0-1000) · Kaito smart followers connecting soon</div>
                 {(result.ct_voices || []).length > 0 ? (result.ct_voices || []).map((v: any, i: number) => {
                   const cmv = computeCMVScore(v)
                   const ini = (v.name || v.handle || '?').replace('@', '').slice(0, 2).toUpperCase()
+                  const handle = (v.handle || '').replace('@', '')
                   const sc = v.sentiment === 'bullish' ? '#2f9e44' : v.sentiment === 'bearish' ? '#c92a2a' : '#868e96'
                   const scbg = v.sentiment === 'bullish' ? '#ebfbee' : v.sentiment === 'bearish' ? '#fff5f5' : '#f1f3f5'
-                  const handle = (v.handle || '').replace('@', '')
                   return (
                     <div key={i} style={{ border: '1px solid #f0f4ff', borderRadius: 10, padding: 13, marginBottom: 8 }}>
                       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                          <div style={{ width: 34, height: 34, borderRadius: '50%', background: '#e8ecff', color: '#3b5bdb', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'DM Mono', monospace", fontSize: 12, fontWeight: 500 }}>{ini}</div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                          {/* Profile picture from X */}
+                          <a href={`https://x.com/${handle}`} target="_blank" rel="noreferrer" style={{ textDecoration: 'none', flexShrink: 0 }}>
+                            <img
+                              src={`https://unavatar.io/twitter/${handle}`}
+                              alt={v.name}
+                              style={{ width: 38, height: 38, borderRadius: '50%', objectFit: 'cover', border: '1px solid #dbe4ff' }}
+                              onError={(e: any) => {
+                                e.target.style.display = 'none'
+                                e.target.nextSibling.style.display = 'flex'
+                              }}
+                            />
+                            <div style={{ width: 38, height: 38, borderRadius: '50%', background: '#e8ecff', color: '#3b5bdb', display: 'none', alignItems: 'center', justifyContent: 'center', fontFamily: "'DM Mono', monospace", fontSize: 12, fontWeight: 500 }}>{ini}</div>
+                          </a>
                           <div>
-                            <div style={{ fontSize: 12, fontWeight: 700, color: '#1c2b5a' }}>{v.name || v.handle}</div>
+                            <a href={`https://x.com/${handle}`} target="_blank" rel="noreferrer" style={{ textDecoration: 'none' }}>
+                              <div style={{ fontSize: 12, fontWeight: 700, color: '#1c2b5a' }}>{v.name || v.handle}</div>
+                            </a>
                             <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 9, color: '#adb5bd' }}>{v.handle} · {v.date}</div>
                           </div>
                         </div>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexShrink: 0 }}>
                           <span style={{ background: scbg, color: sc, fontFamily: "'DM Mono', monospace", fontSize: 9, padding: '3px 8px', borderRadius: 20 }}>{v.sentiment}</span>
                           <div style={{ display: 'inline-flex', alignItems: 'center', gap: 5, background: '#1c2b5a', color: '#fff', borderRadius: 6, padding: '3px 8px', fontFamily: "'DM Mono', monospace", fontSize: 9 }}>CMV {cmv.total}</div>
                         </div>
                       </div>
                       <div style={{ fontSize: 12, color: '#6c7a9c', lineHeight: 1.6, marginBottom: 8, fontStyle: 'italic' }}>"{v.quote}"</div>
-                      <div style={{ background: '#f8f9ff', border: '1px solid #dbe4ff', borderRadius: 8, padding: '10px 12px', marginBottom: 8 }}>
+
+                      {/* X Score displayed directly */}
+                      {v.x_score > 0 && (
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 8 }}>
+                          <div style={{ background: '#1c2b5a', borderRadius: 8, padding: '6px 12px', display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="#fff"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.259 5.631L18.244 2.25z" /></svg>
+                            <span style={{ fontFamily: "'DM Mono', monospace", fontSize: 10, color: '#fff', fontWeight: 500 }}>X Score: {v.x_score}</span>
+                          </div>
+                          {v.ethos_score > 0 && <span style={{ fontFamily: "'DM Mono', monospace", fontSize: 9, padding: '4px 10px', borderRadius: 20, background: '#f0f4ff', color: '#6c7a9c' }}>Ethos: {v.ethos_score}</span>}
+                          <span style={{ fontFamily: "'DM Mono', monospace", fontSize: 9, padding: '4px 10px', borderRadius: 20, background: v.is_paid ? '#fff3bf' : '#ebfbee', color: v.is_paid ? '#e67700' : '#2f9e44' }}>{v.is_paid ? 'Sponsored' : 'Organic'}</span>
+                        </div>
+                      )}
+
+                      {/* CMV breakdown */}
+                      <div style={{ background: '#f8f9ff', border: '1px solid #dbe4ff', borderRadius: 8, padding: '10px 12px' }}>
                         <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 8, color: '#868e96', marginBottom: 6, letterSpacing: 1 }}>CMV INFLUENCE SCORE BREAKDOWN</div>
                         {Object.entries(cmv.breakdown).map(([k, val]) => (
                           <div key={k} style={{ display: 'flex', alignItems: 'center', marginBottom: 5 }}>
@@ -578,12 +618,6 @@ Return complete JSON with deep commentary on every metric. Be accurate. Apply st
                           </div>
                         ))}
                         <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 8, color: '#adb5bd', marginTop: 6 }}>Kaito smart followers — connecting soon</div>
-                      </div>
-                      <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap' as const, alignItems: 'center' }}>
-                        {v.x_score > 0 && <span style={{ fontFamily: "'DM Mono', monospace", fontSize: 9, padding: '2px 8px', borderRadius: 20, background: '#f0f4ff', color: '#6c7a9c' }}>X Score: {v.x_score}</span>}
-                        {v.ethos_score > 0 && <span style={{ fontFamily: "'DM Mono', monospace", fontSize: 9, padding: '2px 8px', borderRadius: 20, background: '#f0f4ff', color: '#6c7a9c' }}>Ethos: {v.ethos_score}</span>}
-                        <span style={{ fontFamily: "'DM Mono', monospace", fontSize: 9, padding: '2px 8px', borderRadius: 20, background: v.is_paid ? '#fff3bf' : '#ebfbee', color: v.is_paid ? '#e67700' : '#2f9e44' }}>{v.is_paid ? 'Sponsored' : 'Organic'}</span>
-                        <a href={`https://app.wallchain.xyz/user/${handle}`} target="_blank" rel="noreferrer" style={{ fontFamily: "'DM Mono', monospace", fontSize: 9, color: '#3b5bdb', textDecoration: 'none', background: '#e8ecff', border: '1px solid #c5d0ff', borderRadius: 20, padding: '3px 8px' }}>Wallchain Score ↗</a>
                       </div>
                     </div>
                   )
@@ -655,7 +689,7 @@ Return complete JSON with deep commentary on every metric. Be accurate. Apply st
           </div>
         )}
 
-        {/* Empty state */}
+        {/* Empty */}
         {!loading && !result && !error && (
           <div style={{ border: '1.5px dashed #dbe4ff', borderRadius: 14, padding: '48px 24px', textAlign: 'center' as const, background: '#fff' }}>
             <div style={{ fontSize: 28, marginBottom: 12, opacity: 0.3 }}>🔭</div>
