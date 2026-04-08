@@ -24,12 +24,13 @@ const METRICS = [
 const CATS = ['Fundamentals', 'Team', 'Opportunity', 'Sentiment', 'Traction']
 
 const PHASES = [
-  'Searching the web...',
-  'Verifying project identity...',
   'Fetching X profile data...',
+  'Searching the web for alpha...',
+  'Verifying project identity...',
   'Researching VCs & funding...',
   'Scanning CT sentiment...',
-  'Computing tier score...',
+  'Computing CMV score...',
+  'Almost ready...',
 ]
 
 const LOADING_MSGS = [
@@ -37,7 +38,7 @@ const LOADING_MSGS = [
   { text: 'Deep diving into the data...', emoji: '🏊' },
   { text: 'Checking what CT is saying...', emoji: '👀' },
   { text: 'Almost there, do not move...', emoji: '🫡' },
-  { text: 'Final checks loading...', emoji: '⚡' },
+  { text: 'Final alpha checks loading...', emoji: '⚡' },
 ]
 
 const T: Record<string, any> = {
@@ -56,7 +57,7 @@ const HOW_TO_PLAY: Record<string, string> = {
   'DeFi/Lending': 'Provide liquidity early, monitor unlock schedules, watch for VC dump windows.',
   'NFT/Gaming': 'Engage with the community first, create content, hold floor assets carefully.',
   'RWA': 'Long term hold play. Create educational content. Do not expect a quick airdrop.',
-  'SocialFi': 'Be active early, build followers within the app itself, refer aggressively.',
+  'SocialFi': 'Be active early, build followers within the app itself, refer aggressively. First mover advantage is everything.',
   'Infrastructure': 'Build something on it publicly. Developer allocations are typically the most generous.',
 }
 
@@ -82,8 +83,7 @@ function xjson(text: string) {
 async function fetchCoinGecko(
   projectName: string,
   confirmedTicker?: string | null,
-  tokenHinted?: boolean,
-  allTickers?: string[]
+  tokenHinted?: boolean
 ) {
   try {
     const results: any[] = []
@@ -106,55 +106,64 @@ async function fetchCoinGecko(
         if (close) results.push(close)
       }
     }
-    if (results.length === 0) {
-      return { token_live: false, token_price: 'Not Launched', token_note: 'No matching token found on CoinGecko' }
-    }
+    if (results.length === 0) return { token_live: false, token_price: 'Not Launched', token_note: 'No matching token found on CoinGecko' }
     const coin = results[0]
     const pr = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${coin.id}&vs_currencies=usd&include_market_cap=true`)
     const pd = await pr.json()
     const price = pd[coin.id]?.usd
-    if (!price || price === 0) {
-      return { token_live: false, ticker: coin.symbol?.toUpperCase(), token_price: 'Not Launched', token_note: 'Listed on CoinGecko but no active price — not yet trading' }
-    }
-    if (!confirmedTicker && !tokenHinted) {
-      return { token_live: false, ticker: coin.symbol?.toUpperCase(), token_price: 'Unconfirmed', token_note: `$${coin.symbol?.toUpperCase()} found on CoinGecko but not confirmed in project X bio or tweets — could be a different project` }
-    }
+    if (!price || price === 0) return { token_live: false, ticker: coin.symbol?.toUpperCase(), token_price: 'Not Launched', token_note: 'Listed on CoinGecko but no active price — not yet trading' }
+    if (!confirmedTicker && !tokenHinted) return { token_live: false, ticker: coin.symbol?.toUpperCase(), token_price: 'Unconfirmed', token_note: `$${coin.symbol?.toUpperCase()} found on CoinGecko but not confirmed in project X bio or tweets` }
     return { token_live: true, ticker: coin.symbol?.toUpperCase(), token_price: `$${price}`, market_cap: pd[coin.id]?.usd_market_cap, token_note: `Live on CoinGecko · confirmed from X data` }
-  } catch {
-    return { token_live: false, token_price: 'Not Launched', token_note: 'CoinGecko lookup failed' }
-  }
+  } catch { return { token_live: false, token_price: 'Not Launched', token_note: 'CoinGecko lookup failed' } }
 }
 
-const SYSTEM_PROMPT = `You are CMV AlphaScanner, a sharp crypto/Web3 alpha analyst. Today: ${new Date().toDateString()}.
+const buildPrompt = (handle: string, xd: any, cg: any) => `You are CMV AlphaScanner, a sharp crypto/Web3 alpha analyst. Today: ${new Date().toDateString()}.
 
 CRITICAL RULES:
-1. Use web_search to find REAL current data. Never guess.
-2. Use BOTH project name and X URL to identify the EXACT correct project.
-3. Token status is pre-fetched from CoinGecko — use it directly, do NOT search CoinGecko.
-4. For founder/team details — ONLY state names if found from official sources (website, whitepaper, LinkedIn, CoinGecko). Include their X handles if found. If unconfirmed write: "Team details unconfirmed."
-5. Always return full results. Never block.
+1. Use web_search to find REAL data. Never guess or hallucinate.
+2. The X handle is the SINGLE SOURCE OF TRUTH for project identity. Do NOT search by project name — search by "@${handle}" specifically.
+3. Token data is pre-fetched — use it directly, do NOT search CoinGecko.
+4. Only state founder/team names if found from official sources. Mark confirmed:true only if verified.
+5. Always return complete JSON. Never block or refuse.
 
-SCORE INTEGRITY:
-- Most projects score 35-65. Score above 75 requires exceptional evidence.
+REAL X API DATA for @${handle} (use this as ground truth):
+- Followers: ${xd?.followers?.toLocaleString() || 'unknown'}
+- Following: ${xd?.following || 'unknown'}  
+- Verified: ${xd?.verified || false}
+- Account Age: ${xd?.account_age_years || 'unknown'} years
+- Total Tweets: ${xd?.tweet_count?.toLocaleString() || 'unknown'}
+- Listed Count: ${xd?.listed || 'unknown'}
+- Bio: "${xd?.description || 'unknown'}"
+- Pinned Tweet: "${xd?.pinned_tweet || 'none'}"
+- Confirmed Ticker from X: ${xd?.confirmed_ticker || 'none found in bio/tweets'}
+- All tickers found in X: ${JSON.stringify(xd?.all_tickers_found || [])}
+- Token launch signals in X: ${xd?.token_launch_hinted || false}
+- CMV X Score: ${xd?.cmv_score || 0}/1000
+
+CoinGecko Token Data (pre-fetched): ${JSON.stringify(cg)}
+
+IMPORTANT: The project is @${handle}. Search ONLY for "@${handle}" to find information about this specific project. Do not confuse it with other projects.
+
+Do 2 searches:
+1. "@${handle} crypto project funding investors team whitepaper season airdrop requirements"
+2. "@${handle} community sentiment CT discord leaderboard 2025 2026"
+
+SCORE INTEGRITY — be harsh and honest:
+- Most projects score 35-65. Above 75 requires exceptional evidence across ALL metrics.
 - Tier A = 80+ (confirmed funding + active founders + low dilution + strong CT ALL at once)
 - Tier B = 60-79, Tier C = 35-59, Tier D = 0-34
 - FUD < 40 = overall max 65. user_count < 30 = overall max 60. vc_pedigree < 40 = overall max 65.
+- If data is scarce, score conservatively — do not inflate.
 
-VERDICT ACTION — be SPECIFIC to this exact project:
-- Perp DEX: mention trading volume, delta neutral, not content creation
-- Has Season 2: mention it specifically
-- Pre-TGE: say stack points before TGE
-- Needs Discord roles: say get Discord roles
-- Needs liquidity: say provide liquidity early
-- Has leaderboard: mention specific leaderboard mechanics
+VERDICT ACTION — be SPECIFIC to @${handle}:
+- Check if they have Season 2, leaderboard, trading volume requirement, Discord roles, liquidity provision
+- Name the EXACT actions needed for THIS project
 - Never give generic advice
-
-TEAM SECTION — search for real founder names, X handles, LinkedIn, previous projects. Return as array of objects.
 
 Detect project_category: AI Project, Perp DEX, L1/L2, Testnet, Prediction Market, DeFi/Lending, NFT/Gaming, RWA, SocialFi, Infrastructure.
 
-Return ONLY valid JSON:
-{"project_name":"","ticker":"","description":"","team_location":"","founded":"","project_category":"Infrastructure","handle_note":null,"verdict":"WATCH","verdict_reason":"","verdict_action":"Specific action for this exact project","overall_score":0,"score_rationale":"","data_accuracy_note":"","post_tge_outlook":"Medium Potential","future_seasons":"","team_members":[{"name":"","role":"","x_handle":"","background":"","confirmed":true}],"project_follows":"","mindshare_trend":{"labels":["8w ago","7w ago","6w ago","5w ago","4w ago","3w ago","2w ago","1w ago"],"values":[0,0,0,0,0,0,0,0],"current_pct":"0%","trend":"stable"},"sources":[{"name":"","url":"","used_for":""}],"metrics":{"funding":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"vc_pedigree":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"copycat":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"niche":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"location":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"founder_cred":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"founder_activity":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"top_voices":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"token":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"metrics_clarity":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"user_count":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"fud":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"notable_mentions":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"content_type":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"mindshare":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"revenue":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"sentiment":{"score":0,"detail":"","why_this_score":"","signal":"neutral"}},"top_risks":["","",""],"top_opportunities":["",""]}`
+Return ONLY valid JSON — no text before or after:
+{"project_name":"","ticker":"","description":"","team_location":"","founded":"","project_category":"SocialFi","handle_note":null,"verdict":"WATCH","verdict_reason":"","verdict_action":"","overall_score":0,"score_rationale":"","data_accuracy_note":"","post_tge_outlook":"Medium Potential","future_seasons":"","team_members":[{"name":"","role":"","x_handle":"","background":"","confirmed":true}],"project_follows":"","mindshare_trend":{"labels":["8w ago","7w ago","6w ago","5w ago","4w ago","3w ago","2w ago","1w ago"],"values":[0,0,0,0,0,0,0,0],"current_pct":"0%","trend":"stable"},"sources":[{"name":"","url":"","used_for":""}],"metrics":{"funding":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"vc_pedigree":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"copycat":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"niche":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"location":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"founder_cred":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"founder_activity":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"top_voices":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"token":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"metrics_clarity":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"user_count":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"fud":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"notable_mentions":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"content_type":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"mindshare":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"revenue":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"sentiment":{"score":0,"detail":"","why_this_score":"","signal":"neutral"}},"top_risks":["","",""],"top_opportunities":["",""]}`
 
 function MetricRow({ metric, data }: { metric: any, data: any }) {
   const [open, setOpen] = useState(false)
@@ -165,7 +174,7 @@ function MetricRow({ metric, data }: { metric: any, data: any }) {
   const sigBg = sig === 'bullish' ? '#ebfbee' : sig === 'bearish' ? '#fff5f5' : '#f1f3f5'
   const sigTc = sig === 'bullish' ? '#2f9e44' : sig === 'bearish' ? '#c92a2a' : '#868e96'
   return (
-    <div onClick={() => setOpen(o => !o)} style={{ border: `1px solid ${open ? '#c5d0ff' : '#f0f4ff'}`, borderRadius: 10, padding: '11px 13px', marginBottom: 4, cursor: 'pointer', background: open ? '#f8f9ff' : '#fff' }}>
+    <div onClick={() => setOpen(o => !o)} style={{ border: `1px solid ${open ? '#c5d0ff' : '#f0f4ff'}`, borderRadius: 10, padding: '11px 13px', marginBottom: 4, cursor: 'pointer', background: open ? '#f8f9ff' : '#fff', transition: 'all 0.15s' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
         <span style={{ fontSize: 14 }}>{metric.icon}</span>
         <div style={{ flex: 1, minWidth: 0 }}>
@@ -193,21 +202,18 @@ function MetricRow({ metric, data }: { metric: any, data: any }) {
 }
 
 function TeamMemberCard({ member }: { member: any }) {
-  const [pfpError, setPfpError] = useState(false)
+  const [pfpErr, setPfpErr] = useState(false)
   const handle = (member.x_handle || '').replace('@', '')
   const ini = (member.name || '?').slice(0, 2).toUpperCase()
   return (
     <div style={{ background: '#f8f9ff', border: '1px solid #dbe4ff', borderRadius: 10, padding: '12px 14px', display: 'flex', alignItems: 'flex-start', gap: 12 }}>
       <a href={handle ? `https://x.com/${handle}` : '#'} target="_blank" rel="noreferrer" style={{ textDecoration: 'none', flexShrink: 0 }}>
-        {!pfpError && handle ? (
-          <img
-            src={`https://unavatar.io/twitter/${handle}`}
-            alt={member.name}
+        {!pfpErr && handle ? (
+          <img src={`https://unavatar.io/twitter/${handle}`} alt={member.name}
             style={{ width: 42, height: 42, borderRadius: '50%', objectFit: 'cover', border: '1px solid #dbe4ff' }}
-            onError={() => setPfpError(true)}
-          />
+            onError={() => setPfpErr(true)} />
         ) : (
-          <div style={{ width: 42, height: 42, borderRadius: '50%', background: '#e8ecff', color: '#3b5bdb', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'DM Mono',monospace", fontSize: 13, fontWeight: 600, border: '1px solid #dbe4ff' }}>{ini}</div>
+          <div style={{ width: 42, height: 42, borderRadius: '50%', background: '#e8ecff', color: '#3b5bdb', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'DM Mono',monospace", fontSize: 13, fontWeight: 600 }}>{ini}</div>
         )}
       </a>
       <div style={{ flex: 1, minWidth: 0 }}>
@@ -222,90 +228,11 @@ function TeamMemberCard({ member }: { member: any }) {
   )
 }
 
-function VerdictShareCard({ result, cgData, ot, otc, xData }: { result: any, cgData: any, ot: string, otc: any, xData: any }) {
-  const cardRef = useRef<HTMLDivElement>(null)
-  const [sharing, setSharing] = useState(false)
-
-  async function share() {
-    setSharing(true)
-    try {
-      const text = `🔍 CMV AlphaScanner Results\n\n${result.project_name} — ${otc.v} ${otc.emoji}\nAlpha Score: ${result.overall_score}/100 · ${otc.lbl}\n\n${result.verdict_action || result.verdict_reason}\n\n🎯 Target: ${otc.target || 'N/A'}\n\nScanned at cmv-alphascanner.vercel.app`
-      if (navigator.share) {
-        await navigator.share({ text, title: `${result.project_name} — CMV AlphaScanner` })
-      } else {
-        await navigator.clipboard.writeText(text)
-        alert('Result copied to clipboard! Paste it on X.')
-      }
-    } catch { }
-    setSharing(false)
-  }
-
-  return (
-    <div ref={cardRef} style={{ background: otc.vbg, borderRadius: 16, padding: 20, marginBottom: 14, position: 'relative', overflow: 'hidden' }}>
-      {/* Decorative background circle */}
-      <div style={{ position: 'absolute', top: -40, right: -40, width: 160, height: 160, borderRadius: '50%', background: 'rgba(255,255,255,0.08)', pointerEvents: 'none' }} />
-      <div style={{ position: 'absolute', bottom: -20, left: -20, width: 100, height: 100, borderRadius: '50%', background: 'rgba(255,255,255,0.05)', pointerEvents: 'none' }} />
-
-      {/* Header */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
-        {/* Project logo */}
-        <div style={{ width: 48, height: 48, borderRadius: 12, background: 'rgba(255,255,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.3)' }}>
-          {xData?.profile_image_url ? (
-            <img src={xData.profile_image_url} alt={result.project_name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-          ) : (
-            <span style={{ fontSize: 22, fontWeight: 800, color: '#fff' }}>{(result.project_name || '?').charAt(0).toUpperCase()}</span>
-          )}
-        </div>
-        <div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-            <span style={{ fontSize: 18, fontWeight: 800, color: '#fff' }}>{result.project_name}</span>
-            {result.ticker && result.ticker !== 'unknown' && <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: 'rgba(255,255,255,0.8)', background: 'rgba(255,255,255,0.15)', padding: '2px 7px', borderRadius: 4 }}>{result.ticker}</span>}
-          </div>
-          <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: 'rgba(255,255,255,0.7)', marginTop: 2 }}>
-            {result.project_category || 'Crypto Project'}
-            {cgData?.token_live ? ` · ${cgData.ticker} ${cgData.token_price}` : ' · Token Not Launched'}
-          </div>
-        </div>
-        <div style={{ marginLeft: 'auto', textAlign: 'right' as const }}>
-          <div style={{ fontSize: 36, fontWeight: 800, color: '#fff', lineHeight: 1, letterSpacing: -1 }}>{result.overall_score}</div>
-          <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: 'rgba(255,255,255,0.7)' }}>ALPHA SCORE</div>
-        </div>
-      </div>
-
-      {/* Verdict */}
-      <div style={{ background: 'rgba(0,0,0,0.15)', borderRadius: 10, padding: '12px 14px', marginBottom: 12, border: '1px solid rgba(255,255,255,0.2)' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
-          <span style={{ fontSize: 20 }}>{otc.emoji}</span>
-          <span style={{ fontSize: 20, fontWeight: 900, color: '#fff', letterSpacing: -0.5 }}>{otc.v}</span>
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 4, background: 'rgba(255,255,255,0.2)', border: '1px solid rgba(255,255,255,0.3)', borderRadius: 20, padding: '3px 10px', fontFamily: "'DM Mono',monospace", fontSize: 10, color: '#fff', marginLeft: 'auto' }}>
-            {ot} · {otc.lbl}
-          </div>
-        </div>
-        <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.95)', lineHeight: 1.6, fontWeight: 500 }}>{result.verdict_action || result.verdict_reason}</div>
-      </div>
-
-      {/* Target + share */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10 }}>
-        {otc.target ? (
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: 'rgba(255,255,255,0.15)', border: '1px solid rgba(255,255,255,0.25)', borderRadius: 20, padding: '5px 14px', fontFamily: "'DM Mono',monospace", fontSize: 10, color: '#fff', fontWeight: 500 }}>
-            🎯 Target: {otc.target}
-          </div>
-        ) : <div />}
-        <button onClick={share} disabled={sharing}
-          style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'rgba(255,255,255,0.2)', border: '1px solid rgba(255,255,255,0.3)', borderRadius: 20, padding: '6px 16px', fontFamily: "'Plus Jakarta Sans',sans-serif", fontSize: 12, fontWeight: 700, color: '#fff', cursor: 'pointer' }}>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13" /></svg>
-          {sharing ? 'Sharing...' : 'Share to X'}
-        </button>
-      </div>
-
-      {/* Watermark */}
-      <div style={{ marginTop: 12, fontFamily: "'DM Mono',monospace", fontSize: 8, color: 'rgba(255,255,255,0.4)', letterSpacing: 1 }}>CMV ALPHASCANNER · cmv-alphascanner.vercel.app</div>
-    </div>
-  )
+function Particle({ style }: { style: any }) {
+  return <div style={{ position: 'absolute', borderRadius: '50%', background: 'rgba(59,91,219,0.15)', animation: 'float 3s ease-in-out infinite', ...style }} />
 }
 
 export default function Home() {
-  const [projName, setProjName] = useState('')
   const [xUrl, setXUrl] = useState('')
   const [loading, setLoading] = useState(false)
   const [result, setResult] = useState<any>(null)
@@ -365,18 +292,16 @@ export default function Home() {
   }
 
   async function analyze() {
-    if (!projName.trim() && !xUrl.trim()) return
+    const url = xUrl.trim()
+    if (!url) return
+    const handle = url.replace('https://x.com/', '').replace('https://twitter.com/', '').replace('http://x.com/', '').replace('@', '').split('/')[0].trim()
+    if (!handle) return
     setLoading(true); setResult(null); setCgData(null); setXData(null); setError(null); setAtab('Fundamentals'); setAsec('metrics')
-    const handle = (xUrl.replace('https://x.com/', '').replace('https://twitter.com/', '').replace('@', '').split('/')[0].trim()) || projName.replace(/\s+/g, '').toLowerCase()
 
     const xd = await fetchProjectXData(handle)
     setXData(xd)
-    const cg = await fetchCoinGecko(
-      projName || handle,
-      xd?.confirmed_ticker,
-      xd?.token_launch_hinted,
-      xd?.all_tickers_found
-    )
+    const projectName = result?.project_name || xd?.description?.split(' ').slice(0, 3).join(' ') || handle
+    const cg = await fetchCoinGecko(projectName, xd?.confirmed_ticker, xd?.token_launch_hinted)
     setCgData(cg)
 
     try {
@@ -391,34 +316,9 @@ export default function Home() {
         body: JSON.stringify({
           model: 'claude-sonnet-4-20250514',
           max_tokens: 4000,
-          system: SYSTEM_PROMPT,
+          system: buildPrompt(handle, xd, cg),
           tools: [{ type: 'web_search_20250305', name: 'web_search' }],
-          messages: [{
-            role: 'user', content: `Research and analyze this crypto/Web3 project:
-Project Name: ${projName || 'unknown'}
-X Profile URL: ${xUrl || 'not provided'}
-X Handle: @${handle}
-
-Real X API Data for this project (already fetched):
-- Followers: ${xd?.followers || 'unknown'}
-- Following: ${xd?.following || 'unknown'}
-- Verified: ${xd?.verified || false}
-- Account Age: ${xd?.account_age_years || 'unknown'} years
-- Total Tweets: ${xd?.tweet_count || 'unknown'}
-- Listed Count: ${xd?.listed || 'unknown'}
-- Bio: ${xd?.description || 'unknown'}
-- CMV X Score: ${xd?.cmv_score || 'unknown'}/1000
-
-CoinGecko Token Data: ${JSON.stringify(cg)}
-
-Do 2 searches:
-1. "${projName || handle} crypto founders team members whitepaper season 2 airdrop farming requirements"
-2. "${handle} CT sentiment community discord leaderboard 2025 2026"
-
-For team_members: search their website, whitepaper, LinkedIn, CoinGecko. Include X handles. Mark confirmed:true only if you found from official source.
-For verdict_action: be SPECIFIC to this project based on what you find.
-Return ONLY JSON.`
-          }]
+          messages: [{ role: 'user', content: `Analyze the crypto project at X handle @${handle}. Use the real X API data provided in the system prompt as your primary source. Search specifically for "@${handle}" to find additional information. Return complete JSON only.` }]
         })
       })
       const data = await r.json()
@@ -435,9 +335,19 @@ Return ONLY JSON.`
     }
   }
 
+  async function shareResult() {
+    if (!result) return
+    const ot = getTier(result.overall_score ?? 0)
+    const otc = T[ot]
+    const text = `🔍 CMV AlphaScanner Results\n\n${result.project_name} ${otc.emoji}\nAlpha Score: ${result.overall_score}/100 · ${otc.lbl} · ${otc.v}\n\n${result.verdict_action || result.verdict_reason}\n\n🎯 Target: ${otc.target || 'N/A'}\n\nScanned at cmv-alphascanner.vercel.app`
+    try {
+      if (navigator.share) { await navigator.share({ text, title: `${result.project_name} — CMV AlphaScanner` }) }
+      else { await navigator.clipboard.writeText(text); alert('Copied to clipboard! Paste it on X.') }
+    } catch { }
+  }
+
   const ot = result ? getTier(result.overall_score ?? 0) : 'C'
   const otc = T[ot]
-
   const groups = result ? [
     { label: 'Team Intentions', score: Math.round(((result.metrics?.founder_cred?.score ?? 0) + (result.metrics?.founder_activity?.score ?? 0)) / 2) },
     { label: 'Funding', score: result.metrics?.funding?.score ?? 0 },
@@ -454,131 +364,242 @@ Return ONLY JSON.`
       <style>{`
         @keyframes spin{to{transform:rotate(360deg)}}
         @keyframes shimmer{0%{background-position:-400px 0}100%{background-position:400px 0}}
-        @keyframes pfpPulse{0%,100%{transform:scale(1);box-shadow:0 0 0 0 rgba(59,91,219,0.3)}50%{transform:scale(1.05);box-shadow:0 0 0 8px rgba(59,91,219,0)}}
-        @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes float{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-12px) scale(1.05)}}
+        @keyframes float2{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-8px) scale(0.95)}}
+        @keyframes float3{0%,100%{transform:translateY(0)}50%{transform:translateY(-16px)}}
+        @keyframes ring{0%,100%{transform:scale(1);opacity:0.5}50%{transform:scale(1.15);opacity:0.2}}
+        @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes textChange{0%,100%{opacity:1}45%,55%{opacity:0}}
+        @keyframes scanLine{0%{transform:translateX(-100%)}100%{transform:translateX(400%)}}
+        .hero-input:focus{outline:none;border-color:#3b5bdb!important;box-shadow:0 0 0 3px rgba(59,91,219,0.1)!important;}
       `}</style>
 
       {/* Nav */}
-      <div style={{ background: '#fff', borderBottom: '1px solid #dbe4ff', padding: '0 20px', display: 'flex', alignItems: 'center', height: 56, gap: 10 }}>
-        <div style={{ width: 32, height: 32, background: '#1c2b5a', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+      <div style={{ background: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(12px)', borderBottom: '1px solid #dbe4ff', padding: '0 24px', display: 'flex', alignItems: 'center', height: 58, gap: 10, position: 'sticky', top: 0, zIndex: 100 }}>
+        <div style={{ width: 34, height: 34, background: 'linear-gradient(135deg,#1c2b5a,#3b5bdb)', borderRadius: 9, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 000-1.41l-2.34-2.34a1 1 0 00-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" fill="#fff" /></svg>
         </div>
-        <span style={{ fontSize: 16, fontWeight: 800, color: '#1c2b5a', letterSpacing: -0.3 }}>CMV <span style={{ color: '#3b5bdb' }}>AlphaScanner</span></span>
-        <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#3b5bdb', background: '#e8ecff', borderRadius: 20, padding: '3px 8px', marginLeft: 'auto' }}>BETA</span>
+        <div>
+          <span style={{ fontSize: 16, fontWeight: 800, color: '#1c2b5a', letterSpacing: -0.5 }}>CMV <span style={{ color: '#3b5bdb' }}>AlphaScanner</span></span>
+          <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#adb5bd', letterSpacing: 0.5 }}>know if this project is worth your time</div>
+        </div>
+        <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#3b5bdb', background: '#e8ecff', borderRadius: 20, padding: '3px 8px', marginLeft: 'auto', border: '1px solid #c5d0ff' }}>BETA</span>
       </div>
 
-      <div style={{ maxWidth: 860, margin: '0 auto', padding: '28px 16px 60px' }}>
+      <div style={{ maxWidth: 860, margin: '0 auto', padding: '32px 16px 60px' }}>
 
+        {/* Hero */}
         {!result && !loading && (
-          <div style={{ textAlign: 'center', padding: '36px 0 32px' }}>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: '#e8ecff', borderRadius: 20, padding: '5px 14px', fontFamily: "'DM Mono',monospace", fontSize: 10, color: '#3b5bdb', marginBottom: 18 }}>Alpha Intelligence System</div>
-            <h1 style={{ fontSize: 'clamp(26px,4vw,40px)', fontWeight: 800, color: '#1c2b5a', lineHeight: 1.2, marginBottom: 14, letterSpacing: -0.5 }}>Know if this project<br />is <span style={{ color: '#3b5bdb' }}>worth your time.</span></h1>
-            <p style={{ fontSize: 14, color: '#6c7a9c', lineHeight: 1.7, maxWidth: 480, margin: '0 auto 12px' }}>Evaluating various metrics grouped into categories and tiers — telling you exactly what level you need to achieve per project.</p>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, flexWrap: 'wrap' as const }}>
-              {['17 metrics', '4 tiers', 'Real X data', 'Team profiles', 'Share results'].map(t => (
-                <span key={t} style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#868e96', background: '#fff', border: '1px solid #dbe4ff', borderRadius: 20, padding: '4px 10px' }}>{t}</span>
-              ))}
+          <div style={{ textAlign: 'center', padding: '32px 0 28px', animation: 'fadeIn 0.6s ease' }}>
+            {/* Big animated title */}
+            <div style={{ marginBottom: 20 }}>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'linear-gradient(135deg,#e8ecff,#f0f4ff)', borderRadius: 20, padding: '6px 16px', fontFamily: "'DM Mono',monospace", fontSize: 10, color: '#3b5bdb', marginBottom: 16, border: '1px solid #c5d0ff' }}>
+                <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#37b24d', display: 'inline-block', animation: 'ring 2s ease-in-out infinite' }} />
+                Live Alpha Intelligence
+              </div>
+              <h1 style={{ fontSize: 'clamp(28px,5vw,48px)', fontWeight: 800, color: '#1c2b5a', lineHeight: 1.15, marginBottom: 12, letterSpacing: -1 }}>
+                Is this project<br /><span style={{ color: '#3b5bdb', position: 'relative' }}>worth your time?</span>
+              </h1>
+              <p style={{ fontSize: 15, color: '#6c7a9c', lineHeight: 1.7, maxWidth: 500, margin: '0 auto 16px' }}>
+                Paste any project's X profile link. CMV AlphaScanner evaluates 17 metrics across categories and tiers — telling you exactly what to do and what level to target.
+              </p>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, flexWrap: 'wrap' as const }}>
+                {['17 metrics', '4 tiers', 'Real X data', 'Founder profiles', 'Share results', 'Sourceable'].map(t => (
+                  <span key={t} style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#6c7a9c', background: '#fff', border: '1px solid #dbe4ff', borderRadius: 20, padding: '4px 10px' }}>{t}</span>
+                ))}
+              </div>
             </div>
           </div>
         )}
 
-        {/* Search */}
-        <div style={{ background: '#fff', border: '1px solid #dbe4ff', borderRadius: 16, padding: 20, marginBottom: 18, boxShadow: '0 2px 12px rgba(59,91,219,0.06)' }}>
-          <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#868e96', letterSpacing: '1.5px', marginBottom: 6 }}>PROJECT NAME</div>
-          <input style={{ width: '100%', background: '#f8f9ff', border: '1px solid #dbe4ff', borderRadius: 10, padding: '11px 14px', fontSize: 14, color: '#1c2b5a', fontFamily: 'inherit', marginBottom: 12, outline: 'none' }}
-            placeholder="e.g. EigenLayer, Hyperliquid, Kaito..."
-            value={projName} onChange={e => setProjName(e.target.value)}
-            onKeyDown={e => e.key === 'Enter' && !loading && analyze()} disabled={loading} />
-          <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#868e96', letterSpacing: '1.5px', marginBottom: 6 }}>X PROFILE URL</div>
+        {/* Search — X URL only */}
+        <div style={{ background: '#fff', border: '1px solid #dbe4ff', borderRadius: 18, padding: 20, marginBottom: 20, boxShadow: '0 4px 24px rgba(59,91,219,0.07)', animation: 'slideUp 0.5s ease' }}>
+          {!result && !loading && (
+            <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#3b5bdb', letterSpacing: '1.5px', marginBottom: 8, display: 'flex', alignItems: 'center', gap: 6 }}>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="#3b5bdb"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.259 5.631L18.244 2.25z"/></svg>
+              PASTE THE PROJECT'S X PROFILE URL
+            </div>
+          )}
           <div style={{ display: 'flex', gap: 10 }}>
-            <input style={{ flex: 1, background: '#f8f9ff', border: '1px solid #dbe4ff', borderRadius: 10, padding: '11px 14px', fontSize: 12, color: '#1c2b5a', fontFamily: "'DM Mono',monospace", outline: 'none' }}
+            <input
+              className="hero-input"
+              style={{ flex: 1, background: '#f8f9ff', border: '1px solid #dbe4ff', borderRadius: 12, padding: '14px 16px', fontSize: 14, color: '#1c2b5a', fontFamily: "'DM Mono',monospace", outline: 'none', transition: 'all 0.2s' }}
               placeholder="https://x.com/projecthandle"
-              value={xUrl} onChange={e => setXUrl(e.target.value)}
-              onKeyDown={e => e.key === 'Enter' && !loading && analyze()} disabled={loading} />
-            <button onClick={analyze} disabled={loading || (!projName.trim() && !xUrl.trim())}
-              style={{ background: '#1c2b5a', color: '#fff', border: 'none', borderRadius: 10, padding: '11px 26px', fontSize: 13, fontWeight: 700, cursor: 'pointer', whiteSpace: 'nowrap' as const, fontFamily: 'inherit', opacity: loading || (!projName.trim() && !xUrl.trim()) ? 0.4 : 1 }}>
-              {loading ? 'Scanning...' : 'Analyze'}
+              value={xUrl}
+              onChange={e => setXUrl(e.target.value)}
+              onKeyDown={e => e.key === 'Enter' && !loading && analyze()}
+              disabled={loading}
+            />
+            <button onClick={analyze} disabled={loading || !xUrl.trim()}
+              style={{ background: loading || !xUrl.trim() ? '#e2e8f0' : 'linear-gradient(135deg,#1c2b5a,#3b5bdb)', color: loading || !xUrl.trim() ? '#adb5bd' : '#fff', border: 'none', borderRadius: 12, padding: '14px 28px', fontSize: 14, fontWeight: 700, cursor: loading || !xUrl.trim() ? 'not-allowed' : 'pointer', whiteSpace: 'nowrap' as const, fontFamily: 'inherit', transition: 'all 0.2s', boxShadow: loading || !xUrl.trim() ? 'none' : '0 4px 14px rgba(59,91,219,0.3)' }}>
+              {loading ? 'Scanning...' : 'Analyze →'}
             </button>
           </div>
-          <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#adb5bd', marginTop: 10 }}>Providing both the project name and X URL gives more accurate results</div>
+          <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#adb5bd', marginTop: 10, display: 'flex', alignItems: 'center', gap: 5 }}>
+            <span>e.g.</span>
+            {['https://x.com/eigenlayer', 'https://x.com/HyperliquidX', 'https://x.com/KaitoAI'].map(ex => (
+              <button key={ex} onClick={() => setXUrl(ex)} style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#3b5bdb', background: 'none', border: 'none', cursor: 'pointer', padding: 0, textDecoration: 'underline dotted' }}>{ex.replace('https://x.com/', '@')}</button>
+            ))}
+          </div>
         </div>
 
-        {/* Loading */}
+        {/* Loading — Fun animated screen */}
         {loading && (
-          <div style={{ background: '#fff', border: '1px solid #dbe4ff', borderRadius: 14, padding: 24, marginBottom: 16 }}>
-            {/* PFP animation block */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 20, background: 'linear-gradient(135deg,#f0f4ff,#e8ecff)', borderRadius: 14, padding: '16px 18px', border: '1px solid #c5d0ff', animation: 'fadeIn 0.4s ease' }}>
+          <div style={{ background: '#fff', border: '1px solid #dbe4ff', borderRadius: 18, padding: 28, marginBottom: 16, overflow: 'hidden', position: 'relative' }}>
+            {/* Scan line effect */}
+            <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: 'linear-gradient(90deg,transparent,#3b5bdb,transparent)', animation: 'scanLine 2s linear infinite', zIndex: 1 }} />
+
+            {/* Floating particles */}
+            <Particle style={{ width: 40, height: 40, top: '10%', right: '8%', animationDuration: '3s' }} />
+            <Particle style={{ width: 24, height: 24, top: '60%', right: '15%', animationDuration: '4s', animationDelay: '0.5s' }} />
+            <Particle style={{ width: 16, height: 16, top: '30%', right: '5%', animationDuration: '2.5s', animationDelay: '1s' }} />
+            <Particle style={{ width: 32, height: 32, bottom: '15%', left: '5%', animationDuration: '3.5s', animationDelay: '0.8s' }} />
+            <Particle style={{ width: 20, height: 20, top: '20%', left: '12%', animationDuration: '4.5s', animationDelay: '0.3s' }} />
+
+            {/* PFP + message */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 20, marginBottom: 24, position: 'relative', zIndex: 2 }}>
               <div style={{ position: 'relative', flexShrink: 0 }}>
-                <div style={{ width: 56, height: 56, borderRadius: '50%', overflow: 'hidden', border: '2.5px solid #3b5bdb', animation: 'pfpPulse 2s ease-in-out infinite', background: '#e8ecff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <img
-                    src="/pfp.jpeg"
-                    alt=""
-                    style={{ width: '100%', height: '100%', objectFit: 'cover', display: pfpLoaded ? 'block' : 'none' }}
-                    onLoad={() => setPfpLoaded(true)}
-                    onError={() => setPfpLoaded(false)}
-                  />
-                  {!pfpLoaded && <span style={{ fontSize: 24 }}>🔍</span>}
+                {/* Outer pulse ring */}
+                <div style={{ position: 'absolute', inset: -8, borderRadius: '50%', border: '2px solid rgba(59,91,219,0.2)', animation: 'ring 2s ease-in-out infinite' }} />
+                <div style={{ position: 'absolute', inset: -4, borderRadius: '50%', border: '1.5px solid rgba(59,91,219,0.3)', animation: 'ring 2s ease-in-out infinite 0.3s' }} />
+                {/* PFP */}
+                <div style={{ width: 64, height: 64, borderRadius: '50%', overflow: 'hidden', border: '3px solid #3b5bdb', background: 'linear-gradient(135deg,#e8ecff,#f0f4ff)', display: 'flex', alignItems: 'center', justifyContent: 'center', animation: 'float 3s ease-in-out infinite' }}>
+                  <img src="/pfp.jpeg" alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', display: pfpLoaded ? 'block' : 'none' }} onLoad={() => setPfpLoaded(true)} onError={() => setPfpLoaded(false)} />
+                  {!pfpLoaded && <span style={{ fontSize: 28 }}>🔍</span>}
                 </div>
-                {/* Pulse ring */}
-                <div style={{ position: 'absolute', inset: -4, borderRadius: '50%', border: '2px solid rgba(59,91,219,0.3)', animation: 'pfpPulse 2s ease-in-out infinite 0.5s' }} />
               </div>
               <div style={{ flex: 1 }}>
-                <div style={{ fontSize: 16, fontWeight: 700, color: '#1c2b5a', marginBottom: 4 }}>
-                  {msg.text} <span style={{ fontSize: 18 }}>{msg.emoji}</span>
+                <div style={{ fontSize: 17, fontWeight: 700, color: '#1c2b5a', marginBottom: 5, lineHeight: 1.3 }}>
+                  {msg.text} <span style={{ fontSize: 20 }}>{msg.emoji}</span>
                 </div>
-                <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 10, color: '#6c7a9c' }}>analyzing {projName || xUrl}</div>
+                <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 10, color: '#6c7a9c' }}>
+                  scanning <span style={{ color: '#3b5bdb', fontWeight: 600 }}>@{xUrl.replace('https://x.com/', '').replace('@', '').split('/')[0]}</span>
+                </div>
               </div>
               <div style={{ textAlign: 'right' as const, flexShrink: 0 }}>
-                <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 28, fontWeight: 700, color: '#3b5bdb', lineHeight: 1 }}>{elapsed}s</div>
+                <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 36, fontWeight: 800, color: '#3b5bdb', lineHeight: 1 }}>{elapsed}<span style={{ fontSize: 14, fontWeight: 500, color: '#adb5bd' }}>s</span></div>
                 <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#adb5bd' }}>elapsed</div>
               </div>
             </div>
 
-            <div style={{ display: 'flex', alignItems: 'center', gap: 13, marginBottom: 16 }}>
-              <div style={{ width: 26, height: 26, border: '2.5px solid #dbe4ff', borderTopColor: '#3b5bdb', borderRadius: '50%', animation: 'spin 0.7s linear infinite', flexShrink: 0 }} />
+            {/* Phase indicator */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 18, background: '#f8f9ff', borderRadius: 10, padding: '10px 14px', border: '1px solid #e8ecff' }}>
+              <div style={{ width: 22, height: 22, border: '2.5px solid #dbe4ff', borderTopColor: '#3b5bdb', borderRadius: '50%', animation: 'spin 0.7s linear infinite', flexShrink: 0 }} />
               <div style={{ fontSize: 13, fontWeight: 600, color: '#1c2b5a' }}>{phase}</div>
             </div>
+
+            {/* Skeleton */}
             {[100, 83, 91, 74].map((w, i) => (
-              <div key={i} style={{ height: 40, background: 'linear-gradient(90deg,#f0f4ff 25%,#e8ecff 50%,#f0f4ff 75%)', backgroundSize: '400px 100%', animation: 'shimmer 1.3s infinite', borderRadius: 8, marginBottom: 7, width: `${w}%` }} />
+              <div key={i} style={{ height: 42, background: 'linear-gradient(90deg,#f0f4ff 25%,#e8ecff 50%,#f0f4ff 75%)', backgroundSize: '400px 100%', animation: 'shimmer 1.3s infinite', borderRadius: 10, marginBottom: 8, width: `${w}%` }} />
             ))}
           </div>
         )}
 
         {/* Error */}
         {error && (
-          <div style={{ background: '#fff5f5', border: '1px solid #ffc9c9', borderRadius: 12, padding: '14px 16px', marginBottom: 14 }}>
-            <div style={{ fontSize: 12, fontWeight: 700, color: '#e03131', marginBottom: 4 }}>Scan failed</div>
-            <div style={{ fontSize: 11, color: '#c92a2a', lineHeight: 1.5, marginBottom: 8 }}>{error}</div>
-            <button onClick={analyze} style={{ fontSize: 11, padding: '5px 12px', borderRadius: 7, border: '1px solid #ffc9c9', background: '#fff5f5', color: '#e03131', cursor: 'pointer', fontFamily: 'inherit', fontWeight: 600 }}>Try again</button>
+          <div style={{ background: '#fff5f5', border: '1px solid #ffc9c9', borderRadius: 14, padding: '16px 18px', marginBottom: 14 }}>
+            <div style={{ fontSize: 13, fontWeight: 700, color: '#e03131', marginBottom: 5 }}>⚠️ Scan failed</div>
+            <div style={{ fontSize: 12, color: '#c92a2a', lineHeight: 1.6, marginBottom: 10 }}>{error}</div>
+            <button onClick={analyze} style={{ fontSize: 12, padding: '6px 14px', borderRadius: 8, border: '1px solid #ffc9c9', background: '#fff5f5', color: '#e03131', cursor: 'pointer', fontFamily: 'inherit', fontWeight: 600 }}>Try again</button>
           </div>
         )}
 
         {/* Results */}
         {result && !loading && (
           <div style={{ animation: 'fadeIn 0.5s ease' }}>
-            {result.handle_note && <div style={{ background: '#e8ecff', border: '1px solid #c5d0ff', borderRadius: 9, padding: '10px 14px', marginBottom: 12, fontSize: 12, color: '#3b5bdb' }}>💡 {result.handle_note}</div>}
+            {result.handle_note && <div style={{ background: '#e8ecff', border: '1px solid #c5d0ff', borderRadius: 10, padding: '10px 14px', marginBottom: 12, fontSize: 12, color: '#3b5bdb' }}>💡 {result.handle_note}</div>}
 
-            {/* Score card + Verdict share card */}
-            <div style={{ display: 'grid', gridTemplateColumns: '160px 1fr', gap: 12, marginBottom: 14 }}>
+            {/* Verdict share card — full width, fun */}
+            <div style={{ background: otc.vbg, borderRadius: 18, padding: 22, marginBottom: 14, position: 'relative', overflow: 'hidden', boxShadow: `0 8px 32px ${otc.solid}30` }}>
+              <div style={{ position: 'absolute', top: -50, right: -50, width: 200, height: 200, borderRadius: '50%', background: 'rgba(255,255,255,0.06)', pointerEvents: 'none' }} />
+              <div style={{ position: 'absolute', bottom: -30, left: -30, width: 140, height: 140, borderRadius: '50%', background: 'rgba(255,255,255,0.04)', pointerEvents: 'none' }} />
+
+              <div style={{ display: 'flex', alignItems: 'flex-start', gap: 16, marginBottom: 16, position: 'relative', zIndex: 1 }}>
+                {/* Project logo from X */}
+                <div style={{ width: 56, height: 56, borderRadius: 14, background: 'rgba(255,255,255,0.2)', border: '2px solid rgba(255,255,255,0.3)', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  {xData?.profile_image_url ? (
+                    <img src={xData.profile_image_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  ) : (
+                    <span style={{ fontSize: 26, fontWeight: 800, color: '#fff' }}>{(result.project_name || '?').charAt(0).toUpperCase()}</span>
+                  )}
+                </div>
+
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' as const, marginBottom: 3 }}>
+                    <span style={{ fontSize: 20, fontWeight: 800, color: '#fff', letterSpacing: -0.5 }}>{result.project_name || ''}</span>
+                    {result.ticker && result.ticker !== 'unknown' && <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 10, color: 'rgba(255,255,255,0.85)', background: 'rgba(255,255,255,0.15)', border: '1px solid rgba(255,255,255,0.25)', padding: '2px 8px', borderRadius: 5 }}>{result.ticker}</span>}
+                  </div>
+                  <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: 'rgba(255,255,255,0.65)' }}>
+                    {result.project_category || 'Crypto'} · {cgData?.token_live ? `${cgData.ticker} ${cgData.token_price}` : 'Token Not Launched'}
+                    {result.team_location ? ` · ${result.team_location}` : ''}
+                  </div>
+                </div>
+
+                <div style={{ textAlign: 'right' as const, flexShrink: 0 }}>
+                  <div style={{ fontSize: 44, fontWeight: 800, color: '#fff', lineHeight: 1, letterSpacing: -2 }}>{result.overall_score ?? 0}</div>
+                  <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: 'rgba(255,255,255,0.65)' }}>ALPHA SCORE</div>
+                  <div style={{ display: 'inline-flex', alignItems: 'center', gap: 4, background: 'rgba(255,255,255,0.2)', borderRadius: 20, padding: '3px 9px', fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#fff', marginTop: 4 }}>
+                    {ot} · {otc.lbl}
+                  </div>
+                </div>
+              </div>
+
+              {/* Verdict */}
+              <div style={{ background: 'rgba(0,0,0,0.15)', borderRadius: 12, padding: '14px 16px', marginBottom: 14, border: '1px solid rgba(255,255,255,0.15)', position: 'relative', zIndex: 1 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
+                  <span style={{ fontSize: 24 }}>{otc.emoji}</span>
+                  <span style={{ fontSize: 24, fontWeight: 900, color: '#fff', letterSpacing: -0.5 }}>{otc.v}</span>
+                  <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.75)', fontStyle: 'italic', marginLeft: 4 }}>{otc.sub}</span>
+                </div>
+                <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.95)', lineHeight: 1.65, fontWeight: 500 }}>{result.verdict_action || result.verdict_reason}</div>
+              </div>
+
+              {/* Bottom row */}
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, position: 'relative', zIndex: 1 }}>
+                <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' as const }}>
+                  {otc.target && <div style={{ display: 'inline-flex', alignItems: 'center', gap: 5, background: 'rgba(255,255,255,0.15)', border: '1px solid rgba(255,255,255,0.25)', borderRadius: 20, padding: '5px 14px', fontFamily: "'DM Mono',monospace", fontSize: 10, color: '#fff', fontWeight: 600 }}>🎯 {otc.target}</div>}
+                  {xData?.cmv_score ? <div style={{ display: 'inline-flex', alignItems: 'center', gap: 5, background: 'rgba(255,255,255,0.15)', border: '1px solid rgba(255,255,255,0.25)', borderRadius: 20, padding: '5px 14px', fontFamily: "'DM Mono',monospace", fontSize: 10, color: '#fff' }}>CMV X Score: {xData.cmv_score}/1000</div> : null}
+                </div>
+                <button onClick={shareResult}
+                  style={{ display: 'flex', alignItems: 'center', gap: 7, background: 'rgba(255,255,255,0.2)', border: '1px solid rgba(255,255,255,0.35)', borderRadius: 20, padding: '8px 18px', fontFamily: 'inherit', fontSize: 13, fontWeight: 700, color: '#fff', cursor: 'pointer', whiteSpace: 'nowrap' as const }}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13" /></svg>
+                  Share to X
+                </button>
+              </div>
+              <div style={{ marginTop: 12, fontFamily: "'DM Mono',monospace", fontSize: 8, color: 'rgba(255,255,255,0.35)', letterSpacing: 1, position: 'relative', zIndex: 1 }}>CMV ALPHASCANNER · cmv-alphascanner.vercel.app</div>
+            </div>
+
+            {/* Score + project info row */}
+            <div style={{ display: 'grid', gridTemplateColumns: '180px 1fr', gap: 12, marginBottom: 14 }}>
               <div style={{ background: '#fff', border: '1px solid #dbe4ff', borderRadius: 14, padding: 18, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 10 }}>
                 <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#868e96', letterSpacing: '1.5px' }}>ALPHA SCORE</div>
-                <div style={{ fontSize: 52, fontWeight: 800, color: otc.solid, lineHeight: 1, letterSpacing: -2 }}>{result.overall_score ?? 0}</div>
+                <div style={{ fontSize: 56, fontWeight: 800, color: otc.solid, lineHeight: 1, letterSpacing: -3 }}>{result.overall_score ?? 0}</div>
                 <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, borderRadius: 20, padding: '5px 12px', border: `1px solid ${otc.border}`, background: otc.bg }}>
                   <div dangerouslySetInnerHTML={{ __html: tsq(ot, 20) }} />
                   <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 10, color: otc.tc }}>Overall {otc.lbl}</span>
                 </div>
                 {xData && (
                   <div style={{ width: '100%', background: '#f8f9ff', border: '1px solid #dbe4ff', borderRadius: 8, padding: '8px 10px', textAlign: 'center' as const }}>
-                    <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#868e96', marginBottom: 3 }}>CMV X SCORE</div>
-                    <div style={{ fontSize: 18, fontWeight: 800, color: '#1c2b5a' }}>{xData.cmv_score || '—'}<span style={{ fontSize: 10, color: '#868e96', fontWeight: 400 }}>/1000</span></div>
-                    <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#868e96' }}>{xData.followers?.toLocaleString()} followers</div>
+                    <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#868e96', marginBottom: 2 }}>CMV X SCORE</div>
+                    <div style={{ fontSize: 20, fontWeight: 800, color: '#1c2b5a' }}>{xData.cmv_score || 0}<span style={{ fontSize: 11, color: '#868e96', fontWeight: 400 }}>/1000</span></div>
+                    <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#adb5bd' }}>{xData.followers?.toLocaleString()} followers</div>
                   </div>
                 )}
               </div>
-              <VerdictShareCard result={result} cgData={cgData} ot={ot} otc={otc} xData={xData} />
+
+              <div style={{ background: '#fff', border: '1px solid #dbe4ff', borderRadius: 14, padding: 16 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6, flexWrap: 'wrap' as const }}>
+                  <span style={{ fontSize: 18, fontWeight: 800, color: '#1c2b5a', letterSpacing: -0.5 }}>{result.project_name || ''}</span>
+                  {result.ticker && result.ticker !== 'unknown' && <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#3b5bdb', background: '#e8ecff', border: '1px solid #c5d0ff', padding: '2px 7px', borderRadius: 4 }}>{result.ticker}</span>}
+                </div>
+                {result.team_location && <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 10, color: '#868e96', marginBottom: 6 }}>📍 {result.team_location}{result.founded ? ` · Est. ${result.founded}` : ''}</div>}
+                <div style={{ fontSize: 12, color: '#6c7a9c', lineHeight: 1.6, marginBottom: 8 }}>{result.description || ''}</div>
+                {result.data_accuracy_note && <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#adb5bd', paddingTop: 8, borderTop: '1px solid #f0f4ff' }}>ℹ {result.data_accuracy_note}</div>}
+              </div>
             </div>
 
-            {/* Rationale */}
+            {/* Score rationale */}
             {result.score_rationale && (
               <div style={{ background: '#f8f9ff', border: '1px solid #dbe4ff', borderLeft: '3px solid #3b5bdb', padding: '12px 14px', marginBottom: 14 }}>
                 <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#3b5bdb', letterSpacing: 1, marginBottom: 5 }}>WHY THIS SCORE</div>
@@ -587,12 +608,12 @@ Return ONLY JSON.`
             )}
 
             {/* How to play */}
-            <div style={{ background: '#f0f4ff', border: '1px solid #c5d0ff', borderLeft: '3px solid #3b5bdb', borderRadius: 10, padding: '14px 16px', marginBottom: 14 }}>
+            <div style={{ background: 'linear-gradient(135deg,#f0f4ff,#e8ecff)', border: '1px solid #c5d0ff', borderLeft: '3px solid #3b5bdb', borderRadius: 12, padding: '14px 16px', marginBottom: 14 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
                 <span style={{ fontSize: 13, fontWeight: 700, color: '#1c2b5a' }}>How to play this</span>
-                <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#3b5bdb', background: '#e8ecff', border: '1px solid #c5d0ff', padding: '3px 9px', borderRadius: 20 }}>{result.project_category || 'Infrastructure'}</span>
+                <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#3b5bdb', background: '#fff', border: '1px solid #c5d0ff', padding: '3px 9px', borderRadius: 20 }}>{result.project_category || 'Infrastructure'}</span>
               </div>
-              <div style={{ fontSize: 12, color: '#6c7a9c', lineHeight: 1.6 }}>{HOW_TO_PLAY[result.project_category as string] || HOW_TO_PLAY['Infrastructure']}</div>
+              <div style={{ fontSize: 12, color: '#475569', lineHeight: 1.65 }}>{HOW_TO_PLAY[result.project_category as string] || HOW_TO_PLAY['Infrastructure']}</div>
             </div>
 
             {/* Deep Intel */}
@@ -614,21 +635,18 @@ Return ONLY JSON.`
                   <div style={{ fontSize: 12, fontWeight: 600, color: result.post_tge_outlook === 'High Potential' ? '#2f9e44' : result.post_tge_outlook === 'Low Potential' ? '#868e96' : '#e67700' }}>{result.post_tge_outlook || 'Unknown'}</div>
                 </div>
               </div>
-              {result.future_seasons && (
-                <div style={{ background: '#f8f9ff', border: '1px solid #dbe4ff', borderRadius: 8, padding: '10px 12px', marginBottom: 8 }}>
-                  <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#868e96', letterSpacing: 1, marginBottom: 5 }}>FUTURE SEASONS / POST-TGE</div>
-                  <div style={{ fontSize: 12, color: '#1c2b5a', lineHeight: 1.5 }}>{result.future_seasons}</div>
+              {[
+                { lbl: 'FUTURE SEASONS / POST-TGE', val: result.future_seasons },
+                { lbl: 'NOTABLE X FOLLOWS (NETWORK SIGNAL)', val: result.project_follows },
+              ].filter(item => item.val).map(item => (
+                <div key={item.lbl} style={{ background: '#f8f9ff', border: '1px solid #dbe4ff', borderRadius: 8, padding: '10px 12px', marginBottom: 8 }}>
+                  <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#868e96', letterSpacing: 1, marginBottom: 5 }}>{item.lbl}</div>
+                  <div style={{ fontSize: 12, color: '#1c2b5a', lineHeight: 1.5 }}>{item.val}</div>
                 </div>
-              )}
-              {result.project_follows && (
-                <div style={{ background: '#f8f9ff', border: '1px solid #dbe4ff', borderRadius: 8, padding: '10px 12px' }}>
-                  <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#868e96', letterSpacing: 1, marginBottom: 5 }}>NOTABLE X FOLLOWS (NETWORK SIGNAL)</div>
-                  <div style={{ fontSize: 12, color: '#1c2b5a', lineHeight: 1.5 }}>{result.project_follows}</div>
-                </div>
-              )}
+              ))}
             </div>
 
-            {/* Team Members */}
+            {/* Team */}
             {result.team_members?.length > 0 && (
               <div style={{ background: '#fff', border: '1px solid #dbe4ff', borderRadius: 14, padding: 16, marginBottom: 14 }}>
                 <div style={{ fontSize: 13, fontWeight: 700, color: '#1c2b5a', marginBottom: 12 }}>👥 Team & Founders</div>
@@ -660,17 +678,16 @@ Return ONLY JSON.`
               </div>
             </div>
 
-            {/* Section Nav — no CT Voices */}
+            {/* Tabs */}
             <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap' as const, marginBottom: 12 }}>
               {[{ id: 'metrics', l: '📊 Metrics' }, { id: 'mindshare', l: '🧠 Mindshare' }, { id: 'risks', l: '⚠️ Risks' }, { id: 'sources', l: '📎 Sources' }].map(sec => (
                 <button key={sec.id} onClick={() => setAsec(sec.id)}
-                  style={{ padding: '7px 16px', borderRadius: 8, border: `1px solid ${asec === sec.id ? '#1c2b5a' : '#dbe4ff'}`, background: asec === sec.id ? '#1c2b5a' : '#fff', color: asec === sec.id ? '#fff' : '#6c7a9c', fontSize: 12, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}>
+                  style={{ padding: '8px 18px', borderRadius: 10, border: `1px solid ${asec === sec.id ? '#1c2b5a' : '#dbe4ff'}`, background: asec === sec.id ? '#1c2b5a' : '#fff', color: asec === sec.id ? '#fff' : '#6c7a9c', fontSize: 12, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit', transition: 'all 0.15s' }}>
                   {sec.l}
                 </button>
               ))}
             </div>
 
-            {/* Metrics */}
             {asec === 'metrics' && (
               <div style={{ background: '#fff', border: '1px solid #dbe4ff', borderRadius: 14, padding: 16, marginBottom: 12 }}>
                 <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap' as const, marginBottom: 10 }}>
@@ -689,7 +706,6 @@ Return ONLY JSON.`
               </div>
             )}
 
-            {/* Mindshare */}
             {asec === 'mindshare' && (
               <div style={{ background: '#fff', border: '1px solid #dbe4ff', borderRadius: 14, padding: 16, marginBottom: 12 }}>
                 <div style={{ fontSize: 13, fontWeight: 700, color: '#1c2b5a', marginBottom: 4 }}>Mindshare Trend</div>
@@ -704,7 +720,6 @@ Return ONLY JSON.`
               </div>
             )}
 
-            {/* Risks */}
             {asec === 'risks' && (
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 12 }}>
                 <div style={{ background: '#fff', border: '1px solid #dbe4ff', borderRadius: 14, padding: 15 }}>
@@ -732,7 +747,6 @@ Return ONLY JSON.`
               </div>
             )}
 
-            {/* Sources */}
             {asec === 'sources' && (
               <div style={{ background: '#fff', border: '1px solid #dbe4ff', borderRadius: 14, padding: 16, marginBottom: 12 }}>
                 <div style={{ fontSize: 13, fontWeight: 700, color: '#1c2b5a', marginBottom: 14 }}>Research Sources</div>
@@ -754,10 +768,10 @@ Return ONLY JSON.`
         )}
 
         {!loading && !result && !error && (
-          <div style={{ border: '1.5px dashed #dbe4ff', borderRadius: 14, padding: '48px 24px', textAlign: 'center' as const, background: '#fff' }}>
-            <div style={{ fontSize: 28, marginBottom: 12, opacity: 0.3 }}>🔭</div>
-            <div style={{ fontSize: 14, fontWeight: 700, color: '#6c7a9c', marginBottom: 5 }}>No project scanned yet</div>
-            <div style={{ fontSize: 12, color: '#adb5bd' }}>Enter a project name and X URL above to begin your alpha research.</div>
+          <div style={{ border: '1.5px dashed #dbe4ff', borderRadius: 16, padding: '48px 24px', textAlign: 'center' as const, background: 'rgba(255,255,255,0.7)' }}>
+            <div style={{ fontSize: 32, marginBottom: 12 }}>🔭</div>
+            <div style={{ fontSize: 15, fontWeight: 700, color: '#6c7a9c', marginBottom: 6 }}>No project scanned yet</div>
+            <div style={{ fontSize: 12, color: '#adb5bd', lineHeight: 1.6 }}>Paste any project's X profile URL above.<br />The X link is the only thing you need.</div>
           </div>
         )}
       </div>
