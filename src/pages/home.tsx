@@ -41,7 +41,7 @@ const T: Record<string, any> = {
 
 const HOW_TO_PLAY: Record<string, string> = {
   'AI Project': 'Create content, test the product publicly and document your experience. Early users who build in public get rewarded. Share tutorials, feedback threads and use-case breakdowns.',
-  'Perp DEX': 'Farm carefully. Use delta neutral strategies or a signal provider. Do not trade with money you cannot afford to lose — the farming risk IS the protocol itself. Keep your farming wallet separate from your trading wallet.',
+  'Perp DEX': 'Farm carefully. Use delta neutral strategies or a signal provider. Do not trade with money you cannot afford to lose. Keep your farming wallet separate from your trading wallet.',
   'L1/L2': 'Create content, run a node if possible, and perform a wide variety of onchain tasks. Diversity of activity matters more than volume. Document everything publicly.',
   'Testnet': 'Do every single task available. Testnet rewards go to the most active early users. Document your activity with screenshots and share publicly.',
   'Prediction Market': 'Create content and farm points aggressively but never bet more than you can lose. Keep your farming wallet completely separate from your prediction wallet.',
@@ -134,12 +134,51 @@ SCORE INTEGRITY — be harsh:
 - When in doubt score lower. Never inflate.
 
 For ct_voices include these fields for CMV Influence Score:
-followers, engagement_rate, verified, account_age_years, post_quality_score, authenticity_score, company_affiliated, company_credibility, vouch_score
+followers (number), engagement_rate (decimal e.g. 0.05), verified (boolean), account_age_years (number), post_quality_score (0-100), authenticity_score (0-100), company_affiliated (boolean), company_credibility (0-100), vouch_score (0-100)
 
 Detect project_category from: AI Project, Perp DEX, L1/L2, Testnet, Prediction Market, DeFi/Lending, NFT/Gaming, RWA, SocialFi, Infrastructure.
 
 Return ONLY valid JSON — no text before or after:
 {"project_name":"","ticker":"","description":"","team_location":"","founded":"","project_category":"Infrastructure","handle_note":null,"verdict":"WATCH","verdict_reason":"","overall_score":0,"score_rationale":"","data_accuracy_note":"","post_tge_outlook":"Medium Potential","future_seasons":"","founder_details":"","project_follows":"","mindshare_trend":{"labels":["8w ago","7w ago","6w ago","5w ago","4w ago","3w ago","2w ago","1w ago"],"values":[0,0,0,0,0,0,0,0],"current_pct":"0%","trend":"stable"},"ct_voices":[{"handle":"@h","name":"N","quote":"q","sentiment":"neutral","x_score":0,"ethos_score":0,"is_paid":false,"date":"","followers":0,"engagement_rate":0,"verified":false,"account_age_years":0,"post_quality_score":50,"authenticity_score":50,"company_affiliated":false,"company_credibility":0,"vouch_score":0}],"sources":[{"name":"","url":"","used_for":""}],"metrics":{"funding":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"vc_pedigree":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"copycat":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"niche":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"location":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"founder_cred":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"founder_activity":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"top_voices":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"token":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"metrics_clarity":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"user_count":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"fud":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"notable_mentions":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"content_type":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"mindshare":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"revenue":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"sentiment":{"score":0,"detail":"","why_this_score":"","signal":"neutral"}},"top_risks":["","",""],"top_opportunities":["",""]}`
+
+// Separate component for metric row to properly use useState
+function MetricRow({ metric, data }: { metric: any, data: any }) {
+  const [open, setOpen] = useState(false)
+  const sc = typeof data?.score === 'number' ? data.score : 0
+  const tier = getTier(sc)
+  const col = T[tier].solid
+  const sig = data?.signal ?? 'neutral'
+  const sigBg = sig === 'bullish' ? '#ebfbee' : sig === 'bearish' ? '#fff5f5' : '#f1f3f5'
+  const sigTc = sig === 'bullish' ? '#2f9e44' : sig === 'bearish' ? '#c92a2a' : '#868e96'
+
+  return (
+    <div onClick={() => setOpen(o => !o)}
+      style={{ border: `1px solid ${open ? '#c5d0ff' : '#f0f4ff'}`, borderRadius: 10, padding: '11px 13px', marginBottom: 4, cursor: 'pointer', background: open ? '#f8f9ff' : '#fff' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
+        <span style={{ fontSize: 14 }}>{metric.icon}</span>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 5, gap: 8 }}>
+            <span style={{ fontSize: 12, fontWeight: 600, color: '#1c2b5a' }}>{metric.label}</span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 5, flexShrink: 0 }}>
+              <span style={{ fontFamily: "'DM Mono', monospace", fontSize: 9, padding: '2px 6px', borderRadius: 20, background: sigBg, color: sigTc }}>{sig}</span>
+              <div dangerouslySetInnerHTML={{ __html: tsq(tier, 18) }} />
+              <span style={{ fontSize: 15, fontWeight: 800, color: col, minWidth: 22, textAlign: 'right' as const }}>{sc}</span>
+            </div>
+          </div>
+          <div style={{ background: sig === 'bullish' ? '#ebfbee' : sig === 'bearish' ? '#fff5f5' : '#f0f4ff', borderRadius: 3, height: 4, overflow: 'hidden' }}>
+            <div style={{ width: `${sc}%`, height: '100%', background: col, borderRadius: 3, transition: 'width 1.1s cubic-bezier(0.4,0,0.2,1)' }} />
+          </div>
+        </div>
+      </div>
+      {open && (
+        <div style={{ marginTop: 10, paddingTop: 10, borderTop: '1px solid #f0f4ff', paddingLeft: 23 }}>
+          {data?.why_this_score && <div style={{ background: sigBg, borderRadius: 6, padding: '5px 10px', marginBottom: 7, fontSize: 11, fontWeight: 600, color: sigTc }}>→ {data.why_this_score}</div>}
+          {data?.detail && <div style={{ fontSize: 11, color: '#6c7a9c', lineHeight: 1.7 }}>{data.detail}</div>}
+        </div>
+      )}
+    </div>
+  )
+}
 
 export default function Home() {
   const [projName, setProjName] = useState('')
@@ -149,27 +188,31 @@ export default function Home() {
   const [cgData, setCgData] = useState<any>(null)
   const [error, setError] = useState<string | null>(null)
   const [phase, setPhase] = useState(PHASES[0])
-  const [dots, setDots] = useState('')
+  const [elapsed, setElapsed] = useState(0)
   const [atab, setAtab] = useState('Fundamentals')
   const [asec, setAsec] = useState('metrics')
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const pint = useRef<any>(null)
-  const dint = useRef<any>(null)
+  const tint = useRef<any>(null)
+
+  // Profile picture URL — replace with your own image URL
+  const PFP_URL = 'https://pbs.twimg.com/profile_images/1234567890/photo.jpg'
 
   useEffect(() => {
     if (loading) {
+      setElapsed(0)
       let pi = 0
-      dint.current = setInterval(() => setDots(d => d.length >= 3 ? '' : d + '.'), 500)
+      tint.current = setInterval(() => setElapsed(e => e + 1), 1000)
       pint.current = setInterval(() => { pi = (pi + 1) % PHASES.length; setPhase(PHASES[pi]) }, 4000)
     } else {
-      clearInterval(dint.current); clearInterval(pint.current); setDots('')
+      clearInterval(tint.current); clearInterval(pint.current)
     }
-    return () => { clearInterval(dint.current); clearInterval(pint.current) }
+    return () => { clearInterval(tint.current); clearInterval(pint.current) }
   }, [loading])
 
   useEffect(() => {
     if (result?.mindshare_trend && asec === 'mindshare' && canvasRef.current) {
-      drawChart(result.mindshare_trend)
+      setTimeout(() => drawChart(result.mindshare_trend), 100)
     }
   }, [asec, result])
 
@@ -185,8 +228,8 @@ export default function Home() {
     ctx.strokeStyle = '#3b5bdb'; ctx.lineWidth = 2.5; ctx.lineJoin = 'round'; ctx.stroke()
     ctx.lineTo(pts[pts.length - 1].x, h - pad); ctx.lineTo(pts[0].x, h - pad); ctx.closePath()
     ctx.fillStyle = 'rgba(59,91,219,0.08)'; ctx.fill()
-    pts.forEach((p: any) => { ctx.beginPath(); ctx.arc(p.x, p.y, 4, 0, Math.PI * 2); ctx.fillStyle = '#3b5bdb'; ctx.fill(); ctx.strokeStyle = '#fff'; ctx.lineWidth = 1.5; ctx.stroke() })
-    ;(trend.labels || []).forEach((l: string, i: number) => { ctx.fillStyle = '#adb5bd'; ctx.font = "9px 'DM Mono'"; ctx.textAlign = 'center'; ctx.fillText(l, pts[i].x, h - 6) })
+    pts.forEach((p: any) => { ctx.beginPath(); ctx.arc(p.x, p.y, 4, 0, Math.PI * 2); ctx.fillStyle = '#3b5bdb'; ctx.fill(); ctx.strokeStyle = '#fff'; ctx.lineWidth = 1.5; ctx.stroke() });
+    (trend.labels || []).forEach((l: string, i: number) => { ctx.fillStyle = '#adb5bd'; ctx.font = "9px 'DM Mono'"; ctx.textAlign = 'center'; ctx.fillText(l, pts[i].x, h - 6) })
   }
 
   function catScore(cat: string) {
@@ -234,6 +277,7 @@ Return complete JSON with deep commentary on every metric. Be accurate. Apply st
       const data = await r.json()
       if (data.error) throw new Error(data.error.message)
       const txt = (data.content || []).filter((b: any) => b.type === 'text').map((b: any) => b.text).join('\n')
+      if (!txt.trim()) throw new Error('No response received. Please try again.')
       const parsed = xjson(txt)
       if (!parsed) throw new Error('Could not read results. Please try again.')
       setResult(parsed)
@@ -256,10 +300,17 @@ Return complete JSON with deep commentary on every metric. Be accurate. Apply st
     { label: 'CT Buzz', score: Math.round(((result.metrics?.notable_mentions?.score ?? 0) + (result.metrics?.top_voices?.score ?? 0)) / 2) },
   ].map(g => ({ ...g, tier: getTier(g.score), cfg: T[getTier(g.score)] })) : []
 
-  const s = { fontFamily: "'Plus Jakarta Sans', sans-serif" }
+  const loadingMessages = [
+    'info loading guys... a few more minutes',
+    'deep diving into the data...',
+    'checking what CT is saying...',
+    'running the numbers...',
+    'almost there...',
+  ]
+  const msgIndex = Math.min(Math.floor(elapsed / 12), loadingMessages.length - 1)
 
   return (
-    <div style={{ minHeight: '100vh', background: '#f0f4ff', ...s }}>
+    <div style={{ minHeight: '100vh', background: '#f0f4ff', fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
 
       {/* Nav */}
       <div style={{ background: '#fff', borderBottom: '1px solid #dbe4ff', padding: '0 20px', display: 'flex', alignItems: 'center', height: 56, gap: 10 }}>
@@ -278,7 +329,7 @@ Return complete JSON with deep commentary on every metric. Be accurate. Apply st
             <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: '#e8ecff', borderRadius: 20, padding: '5px 14px', fontFamily: "'DM Mono', monospace", fontSize: 10, color: '#3b5bdb', marginBottom: 18 }}>Alpha Intelligence System</div>
             <h1 style={{ fontSize: 'clamp(26px,4vw,40px)', fontWeight: 800, color: '#1c2b5a', lineHeight: 1.2, marginBottom: 14, letterSpacing: -0.5 }}>Know if this project<br />is <span style={{ color: '#3b5bdb' }}>worth your time.</span></h1>
             <p style={{ fontSize: 14, color: '#6c7a9c', lineHeight: 1.7, maxWidth: 480, margin: '0 auto 12px' }}>Evaluating various metrics grouped into categories and tiers — telling you exactly what level you need to achieve per project to make it worth your effort.</p>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, flexWrap: 'wrap' as const }}>
               {['17 metrics', '4 tiers', 'CMV Influence Score', 'real web search', 'sources cited'].map(t => (
                 <span key={t} style={{ fontFamily: "'DM Mono', monospace", fontSize: 9, color: '#868e96', background: '#fff', border: '1px solid #dbe4ff', borderRadius: 20, padding: '4px 10px' }}>{t}</span>
               ))}
@@ -289,19 +340,19 @@ Return complete JSON with deep commentary on every metric. Be accurate. Apply st
         {/* Search */}
         <div style={{ background: '#fff', border: '1px solid #dbe4ff', borderRadius: 16, padding: 20, marginBottom: 18, boxShadow: '0 2px 12px rgba(59,91,219,0.06)' }}>
           <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 9, color: '#868e96', letterSpacing: '1.5px', marginBottom: 6 }}>PROJECT NAME</div>
-          <input style={{ width: '100%', background: '#f8f9ff', border: '1px solid #dbe4ff', borderRadius: 10, padding: '11px 14px', fontSize: 14, color: '#1c2b5a', fontFamily: 'inherit', marginBottom: 12 }}
+          <input style={{ width: '100%', background: '#f8f9ff', border: '1px solid #dbe4ff', borderRadius: 10, padding: '11px 14px', fontSize: 14, color: '#1c2b5a', fontFamily: 'inherit', marginBottom: 12, outline: 'none' }}
             placeholder="e.g. EigenLayer, Hyperliquid, Kaito..."
             value={projName} onChange={e => setProjName(e.target.value)}
             onKeyDown={e => e.key === 'Enter' && !loading && analyze()} disabled={loading} />
           <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 9, color: '#868e96', letterSpacing: '1.5px', marginBottom: 6 }}>X PROFILE URL</div>
           <div style={{ display: 'flex', gap: 10 }}>
-            <input style={{ flex: 1, background: '#f8f9ff', border: '1px solid #dbe4ff', borderRadius: 10, padding: '11px 14px', fontSize: 12, color: '#1c2b5a', fontFamily: "'DM Mono', monospace" }}
+            <input style={{ flex: 1, background: '#f8f9ff', border: '1px solid #dbe4ff', borderRadius: 10, padding: '11px 14px', fontSize: 12, color: '#1c2b5a', fontFamily: "'DM Mono', monospace", outline: 'none' }}
               placeholder="https://x.com/projecthandle"
               value={xUrl} onChange={e => setXUrl(e.target.value)}
               onKeyDown={e => e.key === 'Enter' && !loading && analyze()} disabled={loading} />
             <button onClick={analyze} disabled={loading || (!projName.trim() && !xUrl.trim())}
-              style={{ background: '#1c2b5a', color: '#fff', border: 'none', borderRadius: 10, padding: '11px 26px', fontSize: 13, fontWeight: 700, cursor: 'pointer', whiteSpace: 'nowrap', fontFamily: 'inherit', opacity: loading || (!projName.trim() && !xUrl.trim()) ? 0.4 : 1 }}>
-              {loading ? `Scanning${dots}` : 'Analyze'}
+              style={{ background: '#1c2b5a', color: '#fff', border: 'none', borderRadius: 10, padding: '11px 26px', fontSize: 13, fontWeight: 700, cursor: 'pointer', whiteSpace: 'nowrap' as const, fontFamily: 'inherit', opacity: loading || (!projName.trim() && !xUrl.trim()) ? 0.4 : 1 }}>
+              {loading ? 'Scanning...' : 'Analyze'}
             </button>
           </div>
           <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 9, color: '#adb5bd', marginTop: 10 }}>Providing both the project name and X URL gives more accurate results</div>
@@ -310,7 +361,21 @@ Return complete JSON with deep commentary on every metric. Be accurate. Apply st
         {/* Loading */}
         {loading && (
           <div style={{ background: '#fff', border: '1px solid #dbe4ff', borderRadius: 14, padding: 24, marginBottom: 16 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 13, marginBottom: 20 }}>
+            {/* Profile + message */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 20, background: '#f8f9ff', borderRadius: 12, padding: '14px 16px' }}>
+              <div style={{ width: 44, height: 44, borderRadius: '50%', background: '#1c2b5a', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, overflow: 'hidden' }}>
+                <span style={{ color: '#fff', fontSize: 18, fontWeight: 800 }}>C</span>
+              </div>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontSize: 12, fontWeight: 700, color: '#1c2b5a', marginBottom: 3 }}>@Cmv_ng</div>
+                <div style={{ fontSize: 13, color: '#6c7a9c', fontStyle: 'italic' }}>{loadingMessages[msgIndex]}</div>
+              </div>
+              <div style={{ textAlign: 'right' as const }}>
+                <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 20, fontWeight: 700, color: '#3b5bdb' }}>{elapsed}s</div>
+                <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 9, color: '#adb5bd' }}>elapsed</div>
+              </div>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 13, marginBottom: 16 }}>
               <div style={{ width: 28, height: 28, border: '2.5px solid #dbe4ff', borderTopColor: '#3b5bdb', borderRadius: '50%', animation: 'spin 0.7s linear infinite', flexShrink: 0 }} />
               <div>
                 <div style={{ fontSize: 13, fontWeight: 600, color: '#1c2b5a', marginBottom: 2 }}>{phase}</div>
@@ -333,13 +398,13 @@ Return complete JSON with deep commentary on every metric. Be accurate. Apply st
         )}
 
         {/* Results */}
-        {result && (
+        {result && !loading && (
           <div>
             {result.handle_note && (
               <div style={{ background: '#e8ecff', border: '1px solid #c5d0ff', borderRadius: 9, padding: '10px 14px', marginBottom: 12, fontSize: 12, color: '#3b5bdb' }}>💡 {result.handle_note}</div>
             )}
 
-            {/* Top 3 */}
+            {/* Top 3 cards */}
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,minmax(0,1fr))', gap: 12, marginBottom: 14 }}>
               <div style={{ background: '#fff', border: '1px solid #dbe4ff', borderRadius: 14, padding: 20, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 10 }}>
                 <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 9, color: '#868e96', letterSpacing: '1.5px' }}>ALPHA SCORE</div>
@@ -412,12 +477,12 @@ Return complete JSON with deep commentary on every metric. Be accurate. Apply st
                 { lbl: 'FUTURE SEASONS / POST-TGE', val: result.future_seasons },
                 { lbl: 'FOUNDERS & TEAM', val: result.founder_details },
                 { lbl: 'NOTABLE X FOLLOWS (NETWORK SIGNAL)', val: result.project_follows },
-              ].map(item => item.val ? (
+              ].filter(item => item.val).map(item => (
                 <div key={item.lbl} style={{ background: '#f8f9ff', border: '1px solid #dbe4ff', borderRadius: 8, padding: '10px 12px', marginBottom: 8 }}>
                   <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 8, color: '#868e96', letterSpacing: 1, marginBottom: 5 }}>{item.lbl}</div>
                   <div style={{ fontSize: 12, color: '#1c2b5a', lineHeight: 1.5 }}>{item.val}</div>
                 </div>
-              ) : null)}
+              ))}
             </div>
 
             {/* Tier Summary */}
@@ -452,7 +517,7 @@ Return complete JSON with deep commentary on every metric. Be accurate. Apply st
               ))}
             </div>
 
-            {/* Metrics Tab */}
+            {/* Metrics */}
             {asec === 'metrics' && (
               <div style={{ background: '#fff', border: '1px solid #dbe4ff', borderRadius: 14, padding: 16, marginBottom: 12 }}>
                 <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap' as const, marginBottom: 10 }}>
@@ -466,44 +531,10 @@ Return complete JSON with deep commentary on every metric. Be accurate. Apply st
                     )
                   })}
                 </div>
-                <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 9, color: '#adb5bd', textAlign: 'right', marginBottom: 10 }}>tap any row for analyst commentary</div>
-                {METRICS.filter(m => m.cat === atab).map(m => {
-                  const d = result.metrics?.[m.id]
-                  const sc = typeof d?.score === 'number' ? d.score : 0
-                  const tier = getTier(sc)
-                  const col = T[tier].solid
-                  const sig = d?.signal ?? 'neutral'
-                  const sigBg = sig === 'bullish' ? '#ebfbee' : sig === 'bearish' ? '#fff5f5' : '#f1f3f5'
-                  const sigTc = sig === 'bullish' ? '#2f9e44' : sig === 'bearish' ? '#c92a2a' : '#868e96'
-                  const [open, setOpen] = useState(false)
-                  return (
-                    <div key={m.id} onClick={() => setOpen(o => !o)}
-                      style={{ border: `1px solid ${open ? '#c5d0ff' : '#f0f4ff'}`, borderRadius: 10, padding: '11px 13px', marginBottom: 4, cursor: 'pointer', background: open ? '#f8f9ff' : '#fff' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
-                        <span style={{ fontSize: 14 }}>{m.icon}</span>
-                        <div style={{ flex: 1, minWidth: 0 }}>
-                          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 5, gap: 8 }}>
-                            <span style={{ fontSize: 12, fontWeight: 600, color: '#1c2b5a' }}>{m.label}</span>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: 5, flexShrink: 0 }}>
-                              <span style={{ fontFamily: "'DM Mono', monospace", fontSize: 9, padding: '2px 6px', borderRadius: 20, background: sigBg, color: sigTc }}>{sig}</span>
-                              <div dangerouslySetInnerHTML={{ __html: tsq(tier, 18) }} />
-                              <span style={{ fontSize: 15, fontWeight: 800, color: col, minWidth: 22, textAlign: 'right' }}>{sc}</span>
-                            </div>
-                          </div>
-                          <div style={{ background: sig === 'bullish' ? '#ebfbee' : sig === 'bearish' ? '#fff5f5' : '#f0f4ff', borderRadius: 3, height: 4, overflow: 'hidden' }}>
-                            <div style={{ width: `${sc}%`, height: '100%', background: col, borderRadius: 3, transition: 'width 1.1s cubic-bezier(0.4,0,0.2,1)' }} />
-                          </div>
-                        </div>
-                      </div>
-                      {open && (
-                        <div style={{ marginTop: 10, paddingTop: 10, borderTop: '1px solid #f0f4ff', paddingLeft: 23 }}>
-                          {d?.why_this_score && <div style={{ background: sigBg, borderRadius: 6, padding: '5px 10px', marginBottom: 7, fontSize: 11, fontWeight: 600, color: sigTc }}>→ {d.why_this_score}</div>}
-                          {d?.detail && <div style={{ fontSize: 11, color: '#6c7a9c', lineHeight: 1.7 }}>{d.detail}</div>}
-                        </div>
-                      )}
-                    </div>
-                  )
-                })}
+                <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 9, color: '#adb5bd', textAlign: 'right' as const, marginBottom: 10 }}>tap any row for analyst commentary</div>
+                {METRICS.filter(m => m.cat === atab).map(m => (
+                  <MetricRow key={m.id} metric={m} data={result.metrics?.[m.id]} />
+                ))}
               </div>
             )}
 
@@ -513,14 +544,14 @@ Return complete JSON with deep commentary on every metric. Be accurate. Apply st
                 <div style={{ fontSize: 13, fontWeight: 700, color: '#1c2b5a', marginBottom: 4 }}>What CT is saying</div>
                 <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 9, color: '#adb5bd', marginBottom: 6 }}>CMV Influence Score = our proprietary influence rating (0-1000)</div>
                 <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 9, color: '#3b5bdb', background: '#e8ecff', borderRadius: 6, padding: '5px 10px', display: 'inline-block', marginBottom: 14 }}>Kaito smart followers metric — connecting soon</div>
-                {result.ct_voices?.length ? result.ct_voices.map((v: any, i: number) => {
+                {(result.ct_voices || []).length > 0 ? (result.ct_voices || []).map((v: any, i: number) => {
                   const cmv = computeCMVScore(v)
                   const ini = (v.name || v.handle || '?').replace('@', '').slice(0, 2).toUpperCase()
                   const sc = v.sentiment === 'bullish' ? '#2f9e44' : v.sentiment === 'bearish' ? '#c92a2a' : '#868e96'
                   const scbg = v.sentiment === 'bullish' ? '#ebfbee' : v.sentiment === 'bearish' ? '#fff5f5' : '#f1f3f5'
                   const handle = (v.handle || '').replace('@', '')
                   return (
-                    <div key={i} style={{ border: '1px solid #f0f4ff', borderRadius: 10, padding: 13, marginBottom: 8, background: '#fff' }}>
+                    <div key={i} style={{ border: '1px solid #f0f4ff', borderRadius: 10, padding: 13, marginBottom: 8 }}>
                       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                           <div style={{ width: 34, height: 34, borderRadius: '50%', background: '#e8ecff', color: '#3b5bdb', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'DM Mono', monospace", fontSize: 12, fontWeight: 500 }}>{ini}</div>
@@ -538,8 +569,8 @@ Return complete JSON with deep commentary on every metric. Be accurate. Apply st
                       <div style={{ background: '#f8f9ff', border: '1px solid #dbe4ff', borderRadius: 8, padding: '10px 12px', marginBottom: 8 }}>
                         <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 8, color: '#868e96', marginBottom: 6, letterSpacing: 1 }}>CMV INFLUENCE SCORE BREAKDOWN</div>
                         {Object.entries(cmv.breakdown).map(([k, val]) => (
-                          <div key={k} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 5 }}>
-                            <span style={{ fontFamily: "'DM Mono', monospace", fontSize: 9, color: '#868e96', minWidth: 110 }}>{k}</span>
+                          <div key={k} style={{ display: 'flex', alignItems: 'center', marginBottom: 5 }}>
+                            <span style={{ fontFamily: "'DM Mono', monospace", fontSize: 9, color: '#868e96', minWidth: 120 }}>{k}</span>
                             <div style={{ flex: 1, height: 3, background: '#dbe4ff', borderRadius: 2, margin: '0 8px', overflow: 'hidden' }}>
                               <div style={{ width: `${val}%`, height: '100%', background: '#3b5bdb', borderRadius: 2 }} />
                             </div>
@@ -556,7 +587,7 @@ Return complete JSON with deep commentary on every metric. Be accurate. Apply st
                       </div>
                     </div>
                   )
-                }) : <div style={{ fontSize: 12, color: '#adb5bd', textAlign: 'center', padding: 24 }}>No CT voices found.</div>}
+                }) : <div style={{ fontSize: 12, color: '#adb5bd', textAlign: 'center' as const, padding: 24 }}>No CT voices found.</div>}
               </div>
             )}
 
@@ -580,7 +611,7 @@ Return complete JSON with deep commentary on every metric. Be accurate. Apply st
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 12 }}>
                 <div style={{ background: '#fff', border: '1px solid #dbe4ff', borderRadius: 14, padding: 15 }}>
                   <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 9, fontWeight: 500, letterSpacing: 1, marginBottom: 10, color: '#c92a2a', display: 'flex', alignItems: 'center', gap: 6 }}>
-                    <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#c92a2a', display: 'inline-block' }} />TOP RISKS <span style={{ fontSize: 8, color: '#adb5bd', fontWeight: 400 }}>reflected in score</span>
+                    <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#c92a2a', display: 'inline-block' }} />TOP RISKS
                   </div>
                   {(result.top_risks || []).map((x: string, i: number) => (
                     <div key={i} style={{ display: 'flex', gap: 8, marginBottom: 8 }}>
@@ -607,7 +638,7 @@ Return complete JSON with deep commentary on every metric. Be accurate. Apply st
             {asec === 'sources' && (
               <div style={{ background: '#fff', border: '1px solid #dbe4ff', borderRadius: 14, padding: 16, marginBottom: 12 }}>
                 <div style={{ fontSize: 13, fontWeight: 700, color: '#1c2b5a', marginBottom: 14 }}>Research Sources</div>
-                {result.sources?.length ? result.sources.map((src: any, i: number) => (
+                {(result.sources || []).length > 0 ? (result.sources || []).map((src: any, i: number) => (
                   <div key={i} style={{ display: 'flex', gap: 10, paddingBottom: 10, marginBottom: 10, borderBottom: '1px solid #f0f4ff' }}>
                     <div style={{ width: 22, height: 22, borderRadius: '50%', background: '#e8ecff', color: '#3b5bdb', fontFamily: "'DM Mono', monospace", fontSize: 9, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: 1 }}>{i + 1}</div>
                     <div>
@@ -616,17 +647,17 @@ Return complete JSON with deep commentary on every metric. Be accurate. Apply st
                       {src.url && src.url !== 'unknown' && <a href={src.url} target="_blank" rel="noreferrer" style={{ fontFamily: "'DM Mono', monospace", fontSize: 9, color: '#3b5bdb', textDecoration: 'none' }}>{src.url.slice(0, 55)}{src.url.length > 55 ? '...' : ''}</a>}
                     </div>
                   </div>
-                )) : <div style={{ fontSize: 12, color: '#adb5bd', textAlign: 'center', padding: 24 }}>No sources found.</div>}
+                )) : <div style={{ fontSize: 12, color: '#adb5bd', textAlign: 'center' as const, padding: 24 }}>No sources found.</div>}
               </div>
             )}
 
-            <div style={{ textAlign: 'center', fontFamily: "'DM Mono', monospace", fontSize: 9, color: '#adb5bd', letterSpacing: 1, paddingTop: 6 }}>CMV ALPHASCANNER · POWERED BY CLAUDE AI · NOT FINANCIAL ADVICE</div>
+            <div style={{ textAlign: 'center' as const, fontFamily: "'DM Mono', monospace", fontSize: 9, color: '#adb5bd', letterSpacing: 1, paddingTop: 6 }}>CMV ALPHASCANNER · POWERED BY CLAUDE AI · NOT FINANCIAL ADVICE</div>
           </div>
         )}
 
-        {/* Empty */}
+        {/* Empty state */}
         {!loading && !result && !error && (
-          <div style={{ border: '1.5px dashed #dbe4ff', borderRadius: 14, padding: '48px 24px', textAlign: 'center', background: '#fff' }}>
+          <div style={{ border: '1.5px dashed #dbe4ff', borderRadius: 14, padding: '48px 24px', textAlign: 'center' as const, background: '#fff' }}>
             <div style={{ fontSize: 28, marginBottom: 12, opacity: 0.3 }}>🔭</div>
             <div style={{ fontSize: 14, fontWeight: 700, color: '#6c7a9c', marginBottom: 5 }}>No project scanned yet</div>
             <div style={{ fontSize: 12, color: '#adb5bd' }}>Enter a project name and X URL above to begin your alpha research.</div>
