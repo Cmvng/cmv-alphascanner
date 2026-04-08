@@ -12,20 +12,55 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const clean = handle.replace('@', '').trim()
 
   try {
-    const [userRes, tweetsRes] = await Promise.all([
-      fetch(
-        `https://api.twitter.com/2/users/by/username/${clean}?user.fields=public_metrics,verified,created_at,profile_image_url,description,entities`,
-        { headers: { Authorization: `Bearer ${process.env.X_API_BEARER_TOKEN}` } }
-      ),
-      fetch(
-        `https://api.twitter.com/2/users/by/username/${clean}?user.fields=public_metrics`,
-        { headers: { Authorization: `Bearer ${process.env.X_API_BEARER_TOKEN}` } }
-      )
-    ])
-
+    // Fetch user profile + pinned tweet ID
+    const userRes = await fetch(
+      `https://api.twitter.com/2/users/by/username/${clean}?user.fields=public_metrics,verified,created_at,profile_image_url,description,entities,pinned_tweet_id`,
+      { headers: { Authorization: `Bearer ${process.env.X_API_BEARER_TOKEN}` } }
+    )
     const userData = await userRes.json()
     const u = userData.data
     if (!u) return res.status(404).json({ error: 'User not found' })
+
+    const bio = u.description || ''
+    let pinnedTweetText = ''
+
+    // Fetch pinned tweet if exists
+    if (u.pinned_tweet_id) {
+      try {
+        const tweetRes = await fetch(
+          `https://api.twitter.com/2/tweets/${u.pinned_tweet_id}`,
+          { headers: { Authorization: `Bearer ${process.env.X_API_BEARER_TOKEN}` } }
+        )
+        const tweetData = await tweetRes.json()
+        pinnedTweetText = tweetData.data?.text || ''
+      } catch { }
+    }
+
+    // Fetch recent tweets to look for token announcements
+    let recentTweetsText = ''
+    try {
+      const tweetsRes = await fetch(
+        `https://api.twitter.com/2/users/${u.id}/tweets?max_results=5&tweet.fields=text`,
+        { headers: { Authorization: `Bearer ${process.env.X_API_BEARER_TOKEN}` } }
+      )
+      const tweetsData = await tweetsRes.json()
+      recentTweetsText = (tweetsData.data || []).map((t: any) => t.text).join(' ')
+    } catch { }
+
+    // Search all text sources for $TICKER
+    const allText = `${bio} ${pinnedTweetText} ${recentTweetsText}`
+    const tickerMatches = allText.match(/\$([A-Z]{2,10})\b/g) || []
+    const tickers = [...new Set(tickerMatches.map(t => t.replace('$', '')))]
+
+    // Token launch signals across all text
+    const allTextLower = allText.toLowerCase()
+    const launchSignals = [
+      'token live', 'now live', 'trading now', 'listed on', 'available on',
+      'buy $', 'trade $', 'token launched', 'token is live', 'tge', 'airdrop live',
+      'claim now', 'token claim', 'now trading', 'token available'
+    ]
+    const tokenLaunchHinted = launchSignals.some(s => allTextLower.includes(s))
+    const confirmedTicker = tickers.length > 0 ? tickers[0] : null
 
     const metrics = u.public_metrics
     const followers = metrics?.followers_count || 0
@@ -60,8 +95,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       verified: u.verified || false,
       account_age_years: age,
       profile_image_url: u.profile_image_url?.replace('_normal', '_bigger') || null,
-      description: u.description || '',
-      cmv_score: Math.min(1000, cmvScore * 10),
+      description: bio,
+      pinned_tweet: pinnedTweetText,
+      confirmed_ticker: confirmedTicker,
+      all_tickers_found: tickers,
+      token_launch_hinted: tokenLaunchHinted,
+      cmv_score: Math.min(1000, Math.round(cmvScore * 10)),
       breakdown: {
         follower_reach: Math.round(followerScore),
         listed_quality: Math.round(listedScore),
@@ -71,7 +110,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         verified: Math.round(verifiedScore),
       }
     })
-  } catch (err) {
+  } catch {
     return res.status(500).json({ error: 'Failed to fetch X data' })
   }
 }
