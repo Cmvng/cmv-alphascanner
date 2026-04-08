@@ -440,11 +440,15 @@ export default function Home() {
     setLoading(true); setResult(null); setCgData(null); setXData(null); setError(null); setAtab('Fundamentals'); setAsec('metrics')
     const handle = (xUrl.replace('https://x.com/', '').replace('https://twitter.com/', '').replace('@', '').split('/')[0].trim()) || projName.replace(/\s+/g, '').toLowerCase()
 
-    const [cg, xd] = await Promise.all([
-      fetchCoinGecko(projName || handle),
-      fetchProjectXData(handle)
-    ])
-    setCgData(cg); setXData(xd)
+  const xd = await fetchProjectXData(handle)
+    setXData(xd)
+    const cg = await fetchCoinGecko(
+      projName || handle,
+      xd?.confirmed_ticker,
+      xd?.token_launch_hinted,
+      xd?.all_tickers_found
+    )
+    setCgData(cg)
 
     try {
       const r = await fetch('https://api.anthropic.com/v1/messages', {
