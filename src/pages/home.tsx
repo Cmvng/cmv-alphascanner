@@ -653,7 +653,7 @@ export default function Home() {
 
     // High-res canvas 2x
     const canvas = document.createElement('canvas')
-    const W = 1200, H = 500
+    const W = 1200, H = 520
     canvas.width = W; canvas.height = H
     const ctx = canvas.getContext('2d')!
 
@@ -774,14 +774,14 @@ export default function Home() {
     }
     // Badge pill
     const badgeText = '@' + (userName || 'cmvng') + ' says ' + otc.v.toLowerCase() + ' ' + otc.emoji
-    ctx.font = 'bold 18px Arial, sans-serif'
-    const badgeW = ctx.measureText(badgeText).width + (userPhoto ? 24 : 40)
+    ctx.font = 'bold 20px Arial, sans-serif'
+    const badgeW = ctx.measureText(badgeText).width + (userPhoto ? 28 : 44)
     ctx.fillStyle = 'rgba(255,255,255,0.18)'
     ctx.beginPath()
-    ctx.roundRect(userPhoto ? 52 : 50, 230, badgeW + (userPhoto ? 54 : 0), 44, 22)
+    ctx.roundRect(userPhoto ? 52 : 50, 228, badgeW + (userPhoto ? 58 : 0), 48, 24)
     ctx.fill()
     ctx.fillStyle = '#fff'
-    ctx.fillText(badgeText, userBadgeX, 259)
+    ctx.fillText(badgeText, userBadgeX, 261)
 
     // Verdict box
     ctx.fillStyle = 'rgba(0,0,0,0.2)'
@@ -811,7 +811,7 @@ export default function Home() {
 
     // Highlights + red flags on same row
     const flagCount = (result.red_flags || []).filter((f: any) => f.label).length
-    const hlY = 430
+    const hlY = 435
     const hlH = 38
     ctx.font = 'bold 15px Arial, sans-serif'
 
@@ -849,7 +849,7 @@ export default function Home() {
     ctx.globalAlpha = 0.3
     ctx.fillStyle = '#fff'
     ctx.font = '15px monospace'
-    ctx.fillText('CMV ALPHASCANNER  ·  cmv-alphascanner.vercel.app', 50, H - 22)
+    ctx.fillText('CMV ALPHASCANNER  ·  cmv-alphascanner.vercel.app', 50, H - 14)
     ctx.globalAlpha = 1
 
     const link = document.createElement('a')
