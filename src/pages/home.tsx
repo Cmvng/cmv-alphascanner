@@ -530,9 +530,21 @@ export default function Home() {
       cg = xd.token_data
     }
 
-    // Strategy 2: use confirmed ticker from X tweets
+    // Strategy 2: use confirmed ticker from X API (bio + pinned + recent tweets)
     if (!cg?.token_live && xd?.confirmed_ticker) {
       cg = await fetchCoinGecko(handle, xd.confirmed_ticker, true, handle)
+    }
+
+    // Strategy 2b: extract ticker directly from pinned tweet / recent tweets client-side
+    if (!cg?.token_live) {
+      const allXText = `${xd?.description || ''} ${xd?.pinned_tweet || ''} ${xd?.recent_tweets || ''}`
+      const tickers = (allXText.match(/\$([A-Z]{2,10})/g) || [])
+        .map((t: string) => t.replace('$', ''))
+        .filter((t: string) => !['USD','BTC','ETH','USDC','USDT','SOL','BASE','OP','ARB'].includes(t))
+      for (const ticker of tickers) {
+        const attempt = await fetchCoinGecko(handle, ticker, true, handle)
+        if (attempt?.token_live) { cg = attempt; break }
+      }
     }
 
     // Strategy 3: use handle-based search even without ticker
@@ -543,8 +555,18 @@ export default function Home() {
     // Strategy 4: always try handle-based search as last resort
     if (!cg?.token_live) {
       const attempt = await fetchCoinGecko(handle, null, false, handle)
-      // Only use if we found something with a real price
       if (attempt?.token_live) cg = attempt
+    }
+
+    // Strategy 5: direct CoinGecko search using xData bio text for any ticker
+    if (!cg?.token_live && xd?.description) {
+      const bioTickers = (xd.description + ' ' + (xd.pinned_tweet || '')).match(/\$([A-Z]{2,10})/g) || []
+      for (const t of bioTickers) {
+        const ticker = t.replace('$', '')
+        if (['USD','BTC','ETH','USDC','USDT','SOL','BASE','OP','ARB'].includes(ticker)) continue
+        const attempt = await fetchCoinGecko(handle, ticker, true, handle)
+        if (attempt?.token_live) { cg = attempt; break }
+      }
     }
 
     if (!cg) cg = { token_live: false, token_price: 'Not Launched', token_note: 'No token found' }
