@@ -3,6 +3,29 @@ import type { VercelRequest, VercelResponse } from '@vercel/node'
 const cache = new Map<string, { data: any; time: number }>()
 const CACHE_TTL = 1000 * 60 * 60 * 24 // 24 hours
 
+async function findCoinByXHandle(handle: string): Promise<{ id: string; symbol: string; name: string } | null> {
+  try {
+    // Search CoinGecko for coins matching this project name / handle
+    const r = await fetch(`https://api.coingecko.com/api/v3/search?query=${encodeURIComponent(handle)}`)
+    const d = await r.json()
+    const coins = d.coins || []
+
+    // For each top result, check if their links include this X handle
+    for (const coin of coins.slice(0, 8)) {
+      try {
+        const detail = await fetch(`https://api.coingecko.com/api/v3/coins/${coin.id}?localization=false&tickers=false&market_data=false&community_data=false&developer_data=false`)
+        const cd = await detail.json()
+        const twitterHandle = cd.links?.twitter_screen_name?.toLowerCase() || ''
+        const cleanHandle = handle.toLowerCase().replace('@', '')
+        if (twitterHandle === cleanHandle) {
+          return { id: coin.id, symbol: coin.symbol?.toUpperCase(), name: coin.name }
+        }
+      } catch { continue }
+    }
+    return null
+  } catch { return null }
+}
+
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   res.setHeader('Access-Control-Allow-Origin', '*')
   res.setHeader('Access-Control-Allow-Methods', 'GET')
@@ -46,7 +69,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       } catch { }
     }
 
-    // Fetch recent tweets to look for ticker announcements
+    // Fetch recent tweets
     try {
       const tweetsRes = await fetch(
         `https://api.twitter.com/2/users/${u.id}/tweets?max_results=10&tweet.fields=text&exclude=retweets`,
@@ -56,13 +79,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       recentTweetsText = (tweetsData.data || []).map((t: any) => t.text).join(' ')
     } catch { }
 
-    // Search all text for $TICKER pattern
+    // Search all text for $TICKER
     const allText = `${bio} ${pinnedTweetText} ${recentTweetsText}`
     const tickerMatches = allText.match(/\$([A-Z]{2,10})\b/g) || []
     const tickers = [...new Set(tickerMatches.map((t: string) => t.replace('$', '')))]
-
-    // Filter out common non-token dollar signs
-    const filtered = tickers.filter(t => !['USD', 'BTC', 'ETH', 'USDC', 'USDT', 'SOL'].includes(t))
+    const filtered = tickers.filter((t: string) => !['USD', 'BTC', 'ETH', 'USDC', 'USDT', 'SOL', 'BASE'].includes(t))
     const confirmedTicker = filtered.length > 0 ? filtered[0] : null
 
     // Token launch signals
@@ -70,10 +91,41 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const launchSignals = [
       'token live', 'now live', 'trading now', 'listed on', 'available on',
       'buy $', 'trade $', 'token launched', 'is officially live', 'tge complete',
-      'airdrop live', 'claim now', 'token claim', 'now trading', 'token available',
-      'officially live', 'live on', 'available on aerodrome', 'available on uniswap'
+      'airdrop live', 'claim now', 'now trading', 'officially live',
+      'available on aerodrome', 'available on uniswap', 'live on'
     ]
-    const tokenLaunchHinted = launchSignals.some(s => allTextLower.includes(s))
+    const tokenLaunchHinted = launchSignals.some((s: string) => allTextLower.includes(s))
+
+    // CoinGecko X handle match — most reliable method
+    let coingeckoMatch: { id: string; symbol: string; name: string } | null = null
+    try {
+      coingeckoMatch = await findCoinByXHandle(clean)
+    } catch { }
+
+    // Get live price if we have a CoinGecko match
+    let tokenData: any = null
+    if (coingeckoMatch) {
+      try {
+        const pr = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${coingeckoMatch.id}&vs_currencies=usd&include_market_cap=true`)
+        const pd = await pr.json()
+        const price = pd[coingeckoMatch.id]?.usd
+        const mcap = pd[coingeckoMatch.id]?.usd_market_cap
+        if (price && price > 0) {
+          const priceStr = price < 0.01 ? `$${price.toFixed(6)}` : price < 1 ? `$${price.toFixed(4)}` : `$${price.toFixed(2)}`
+          const mcapStr = mcap ? (mcap >= 1e9 ? `$${(mcap / 1e9).toFixed(1)}B` : mcap >= 1e6 ? `$${(mcap / 1e6).toFixed(1)}M` : `$${Math.round(mcap).toLocaleString()}`) : ''
+          tokenData = {
+            token_live: true,
+            ticker: coingeckoMatch.symbol,
+            token_price: priceStr,
+            market_cap: mcap,
+            market_cap_str: mcapStr,
+            token_note: `Live · Verified via CoinGecko X handle match${mcapStr ? ` · MCap ${mcapStr}` : ''}`,
+            coingecko_id: coingeckoMatch.id,
+            verified_match: true
+          }
+        }
+      } catch { }
+    }
 
     const metrics = u.public_metrics
     const followers = metrics?.followers_count || 0
@@ -110,10 +162,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       profile_image_url: u.profile_image_url?.replace('_normal', '_bigger') || null,
       description: bio,
       pinned_tweet: pinnedTweetText,
-      recent_tweets: recentTweetsText.slice(0, 500),
-      confirmed_ticker: confirmedTicker,
+      recent_tweets: recentTweetsText.slice(0, 600),
+      confirmed_ticker: coingeckoMatch?.symbol || confirmedTicker,
       all_tickers_found: filtered,
-      token_launch_hinted: tokenLaunchHinted,
+      token_launch_hinted: tokenLaunchHinted || !!coingeckoMatch,
+      token_data: tokenData, // Pre-fetched token data — use directly in frontend
       cmv_score: Math.min(1000, Math.round(cmvScore * 10)),
       breakdown: {
         follower_reach: Math.round(followerScore),
