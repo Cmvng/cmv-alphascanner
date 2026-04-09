@@ -233,16 +233,26 @@ SCORE INTEGRITY — be brutally honest:
 - Tier B = 60-79, Tier C = 35-59, Tier D = 0-34
 - FUD < 40 = overall max 65. user_count < 30 = overall max 60. vc_pedigree < 40 = overall max 65.
 
-RED FLAGS — search specifically for these and report honestly:
-- Rug history: did founders previously rug or exit scam?
-- Scam allegations: is there active CT calling this a scam?
-- Anonymous team: no doxxed founders anywhere?
-- All paid content: is 90%+ of CT coverage sponsored?
-- Token confusion: is the token ticker confirmed or is it a different project?
-- Founder dump: did founders dump tokens at TGE previously?
+RED FLAGS — THIS IS MANDATORY. You MUST search for problems first.
+Search aggressively for these and report every one you find:
+- Rug history: did founders previously rug or exit scam any project?
+- Security exploits: any hacks, exploits, or contract vulnerabilities?
+- Scam allegations: CT calling this project a scam or fraud?
+- Anonymous team: no doxxed founders anywhere online?
+- Paid shill campaign: 90%+ of CT coverage looks sponsored/paid?
+- Token dump: did team or VCs dump tokens at or after TGE?
+- Liquidity controversy: any issues with liquidity at launch?
+- Regulatory: any SEC, legal, or regulatory actions?
+- Community complaints: active community anger about broken promises?
 
-For red_flags array — only include CONFIRMED issues found from searching. Each flag needs a source.
-For good_highlights — only include genuinely positive confirmed facts.
+CRITICAL: If you find ANY of the above, you MUST include it in red_flags with:
+- type: one of 'rug', 'scam', 'exploit', 'shill', 'dump', 'anon', 'other'
+- label: short clear title
+- detail: what happened specifically
+- source: where you found this
+
+Do NOT omit real problems to give a better score. The FUD penalty exists specifically to punish bad actors.
+For good_highlights — only include genuinely positive confirmed facts, max 4.
 
 SEASON LOGIC — be specific:
 - If token is LIVE: do NOT mention any season unless you find a CONFIRMED official announcement with specific dates or requirements. If unsure, leave future_seasons as empty string.
@@ -454,14 +464,50 @@ export default function Home() {
           model: 'claude-sonnet-4-20250514', max_tokens: 4000,
           system: buildPrompt(handle, xd, cg),
           tools: [{ type: 'web_search_20250305', name: 'web_search' }],
-          messages: [{ role: 'user', content: `Analyze @${handle}.
+          messages: [{ role: 'user', content: `Analyze the crypto project @${handle}.
 
-X Bio (use this to determine project category): "${xd?.description || 'not available'}"
+X Bio: "${xd?.description || 'not available'}"
 X Pinned Tweet: "${xd?.pinned_tweet || 'none'}"
+X Recent Tweets hint: "${xd?.recent_tweets || 'none'}"
+Confirmed ticker from X: ${xd?.confirmed_ticker || 'none'}
+Token launch signals detected: ${xd?.token_launch_hinted || false}
 
-Search for "@${handle}" to find: funding, team, season details, farming requirements.
-Detect project_category from the X bio above — do NOT rely on web search for category.
-Return complete JSON only. No cite tags. No numbered references.` }]
+YOU MUST DO EXACTLY 3 SEARCHES IN THIS ORDER:
+
+SEARCH 1 — RED FLAGS ONLY (do this first, always):
+Search: "@${handle} rug scam controversy hack exploit fraud allegations"
+Look specifically for: previous rugs, exit scams, security exploits, founder misconduct, paid shill accusations, token dump at launch, regulatory issues, community complaints. Report EVERY flag you find with source. If nothing found, red_flags array stays empty.
+
+SEARCH 2 — PROJECT FUNDAMENTALS:
+Search: "@${handle} funding investors team whitepaper season airdrop requirements discord"
+Find: funding rounds, investor names, team members, farming requirements, season details.
+
+SEARCH 3 — CONFIRM SEASON/TOKEN INFO:
+Search: "@${handle} season 3 season 2 points program token TGE 2025 2026"
+Find the MOST RECENT season information. Use exact season number found — never invent one.
+
+CATEGORY RULE — read X bio first:
+Bio: "${xd?.description || ''}"
+- Contains "prediction", "predict", "outcome" → Prediction Market
+- Contains "perp", "perpetual", "derivatives" → Perp DEX
+- Contains "L1", "L2", "layer 1", "layer 2", "blockchain" → L1/L2
+- Contains "lend", "borrow", "yield" → DeFi/Lending
+- Contains "NFT", "gaming" → NFT/Gaming
+- Contains "RWA", "real world" → RWA
+- Contains "social", "creator" → SocialFi
+- Contains "AI", "agent" → AI Project
+- Contains "infrastructure", "SDK" → Infrastructure
+- Default → DeFi/Lending ONLY if project actually does lending
+
+FUD SCORING RULE — be harsh:
+- Any confirmed rug history → automatic Tier D, red_flags must include it
+- Security exploit found → add to red_flags with detail and source
+- 90%+ paid content → add to red_flags
+- Anonymous team with no verifiable background → add to red_flags
+- Token dump at launch → add to red_flags
+- If you find evidence, REPORT IT. Do not soften or omit real problems.
+
+Return complete JSON only. Zero cite tags. Zero numbered references.` }]
         })
       })
       const data = await r.json()
@@ -754,18 +800,42 @@ Return complete JSON only. No cite tags. No numbered references.` }]
 
             {/* Red Flags Alert */}
             {redFlags.length > 0 && (
-              <div style={{ background: '#fff5f5', border: '1px solid #ffc9c9', borderLeft: '4px solid #e03131', borderRadius: 12, padding: '14px 16px', marginBottom: 14, animation: 'pop 0.4s ease' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" stroke="#e03131" strokeWidth="2" strokeLinecap="round" /></svg>
-                  <span style={{ fontSize: 13, fontWeight: 700, color: '#e03131' }}>🚨 Red Flags Detected — Score Penalised</span>
+              <div style={{ background: '#fff5f5', border: '2px solid #e03131', borderRadius: 14, padding: '16px 18px', marginBottom: 14, animation: 'pop 0.4s ease' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
+                  <div style={{ width: 36, height: 36, background: '#e03131', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" stroke="#fff" strokeWidth="2" strokeLinecap="round" /></svg>
+                  </div>
+                  <div>
+                    <div style={{ fontSize: 14, fontWeight: 800, color: '#e03131' }}>🚨 {redFlags.length} Red Flag{redFlags.length > 1 ? 's' : ''} Detected</div>
+                    <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#c92a2a' }}>Score penalised · Proceed with extreme caution</div>
+                  </div>
+                  <div style={{ marginLeft: 'auto', background: '#e03131', borderRadius: 8, padding: '6px 12px', textAlign: 'center' as const }}>
+                    <div style={{ fontSize: 16, fontWeight: 800, color: '#fff' }}>-{fudPen}</div>
+                    <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: 'rgba(255,255,255,0.8)' }}>PENALTY</div>
+                  </div>
                 </div>
                 {redFlags.map((f: any, i: number) => (
-                  <div key={i} style={{ background: '#fff', border: '1px solid #ffc9c9', borderRadius: 8, padding: '8px 12px', marginBottom: 6 }}>
-                    <div style={{ fontSize: 12, fontWeight: 700, color: '#c92a2a', marginBottom: 2 }}>{f.label}</div>
-                    <div style={{ fontSize: 11, color: '#868e96', lineHeight: 1.5 }}>{f.detail}</div>
-                    {f.source && <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#adb5bd', marginTop: 3 }}>Source: {f.source}</div>}
+                  <div key={i} style={{ background: '#fff', border: '1px solid #fca5a5', borderLeft: '3px solid #e03131', borderRadius: 8, padding: '10px 14px', marginBottom: 8 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 4 }}>
+                      <span style={{ fontSize: 12 }}>
+                        {f.type === 'rug' ? '💀' : f.type === 'scam' ? '🚩' : f.type === 'exploit' ? '⚡' : f.type === 'dump' ? '📉' : f.type === 'shill' ? '🤥' : f.type === 'anon' ? '👻' : '⚠️'}
+                      </span>
+                      <span style={{ fontSize: 13, fontWeight: 700, color: '#c92a2a' }}>{f.label}</span>
+                    </div>
+                    <div style={{ fontSize: 12, color: '#4b5563', lineHeight: 1.6, marginBottom: 4 }}>{f.detail}</div>
+                    {f.source && <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#9ca3af', background: '#fef2f2', padding: '3px 8px', borderRadius: 4, display: 'inline-block' }}>Source: {f.source}</div>}
                   </div>
                 ))}
+              </div>
+            )}
+            {/* Clean bill — show when no flags found */}
+            {redFlags.length === 0 && result && (
+              <div style={{ background: '#f0fdf4', border: '1px solid #86efac', borderRadius: 10, padding: '10px 14px', marginBottom: 14, display: 'flex', alignItems: 'center', gap: 8 }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M22 11.08V12a10 10 0 11-5.93-9.14M22 4L12 14.01l-3-3" stroke="#16a34a" strokeWidth="2" strokeLinecap="round"/></svg>
+                <div>
+                  <span style={{ fontSize: 12, fontWeight: 700, color: '#15803d' }}>No major red flags detected</span>
+                  <span style={{ fontSize: 11, color: '#4b5563', marginLeft: 8 }}>FUD search ran — nothing significant found for this project</span>
+                </div>
               </div>
             )}
 
