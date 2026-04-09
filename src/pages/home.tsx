@@ -384,16 +384,16 @@ function TeamCardEnriched({ member }: { member: any }) {
 
   return (
     <div style={{ background: '#f8f9ff', border: '1px solid #dbe4ff', borderRadius: 10, padding: '12px 14px', display: 'flex', alignItems: 'flex-start', gap: 12 }}>
-      <a href={cleanHandle ? `https://x.com/${cleanHandle}` : '#'} target="_blank" rel="noreferrer" style={{ textDecoration: 'none', flexShrink: 0 }}>
+      <div onClick={() => cleanHandle && window.open(`https://x.com/${cleanHandle}`, '_blank', 'noopener,noreferrer')} style={{ flexShrink: 0, cursor: cleanHandle ? 'pointer' : 'default' }}>
         {!err && imgSrc ? (
           <img src={imgSrc} alt={member.name} style={{ width: 42, height: 42, borderRadius: '50%', objectFit: 'cover', border: '1px solid #dbe4ff' }} onError={() => setErr(true)} />
         ) : (
           <div style={{ width: 42, height: 42, borderRadius: '50%', background: '#dcfce7', color: '#15803d', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'DM Mono',monospace", fontSize: 13, fontWeight: 700 }}>{ini}</div>
         )}
-      </a>
+      </div>
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' as const, marginBottom: 2 }}>
-          <span style={{ fontSize: 13, fontWeight: 700, color: '#1c2b5a' }}>{member.name}</span>
+          <span onClick={openProfile} style={{ fontSize: 13, fontWeight: 700, color: '#1c2b5a', cursor: cleanHandle ? 'pointer' : 'default' }}>{member.name}</span>
           {!member.confirmed && <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#e67700', background: '#fff3bf', border: '1px solid #ffe066', padding: '1px 6px', borderRadius: 20 }}>unconfirmed</span>}
           {xProfile?.verified && <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#15803d', background: '#dcfce7', padding: '1px 6px', borderRadius: 20 }}>✓</span>}
         </div>
@@ -415,13 +415,13 @@ function TeamCard({ member }: { member: any }) {
   const imgSrc = member.profile_image_url || (cleanHandle ? `https://unavatar.io/twitter/${cleanHandle}` : null)
   return (
     <div style={{ background: '#f8f9ff', border: '1px solid #dbe4ff', borderRadius: 10, padding: '12px 14px', display: 'flex', alignItems: 'flex-start', gap: 12 }}>
-      <a href={cleanHandle ? `https://x.com/${cleanHandle}` : '#'} target="_blank" rel="noreferrer" style={{ textDecoration: 'none', flexShrink: 0 }}>
+      <div onClick={() => cleanHandle && window.open(`https://x.com/${cleanHandle}`, '_blank', 'noopener,noreferrer')} style={{ flexShrink: 0, cursor: cleanHandle ? 'pointer' : 'default' }}>
         {!err && imgSrc ? (
           <img src={imgSrc} alt={member.name} style={{ width: 42, height: 42, borderRadius: '50%', objectFit: 'cover', border: '1px solid #dbe4ff' }} onError={() => setErr(true)} />
         ) : (
           <div style={{ width: 42, height: 42, borderRadius: '50%', background: '#dcfce7', color: '#15803d', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'DM Mono',monospace", fontSize: 13, fontWeight: 700 }}>{ini}</div>
         )}
-      </a>
+      </div>
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' as const, marginBottom: 2 }}>
           <span style={{ fontSize: 13, fontWeight: 700, color: '#1c2b5a' }}>{member.name}</span>
@@ -590,85 +590,40 @@ export default function Home() {
     if (!cg) cg = { token_live: false, token_price: 'Not Launched', token_note: 'No token found' }
     setCgData(cg)
     try {
+      // CALL 1: Haiku + web search — FUD/funding/team only
+      const r1 = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-api-key': import.meta.env.VITE_ANTHROPIC_API_KEY, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
+        body: JSON.stringify({ model: 'claude-haiku-4-5-20251001', max_tokens: 1000, tools: [{ type: 'web_search_20250305', name: 'web_search' }], messages: [{ role: 'user', content: 'Research @' + handle + ' crypto project. Do 2 searches: (1) "@' + handle + ' rug scam hack dump manipulation audit tokenomics concerns" (2) "@' + handle + ' founder CEO team funding investors season". Return ONLY JSON: {"red_flags":[{"type":"other","label":"","detail":"","source":""}],"good_highlights":[""],"founder_names":[{"name":"","x_handle":"","role":""}],"funding_detail":"","season_detail":""}' }] })
+      })
+      const d1 = await r1.json()
+      let webData: any = {}
+      try {
+        const wt = (d1.content||[]).filter((b:any)=>b.type==='text').map((b:any)=>b.text).join('')
+        const j1 = wt.indexOf('{'); const j2 = wt.lastIndexOf('}')
+        if (j1 >= 0 && j2 > j1) webData = JSON.parse(wt.slice(j1, j2+1))
+      } catch {}
+
+      // CALL 2: Haiku without web search — full scoring
       const r = await fetch('https://api.anthropic.com/v1/messages', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'x-api-key': import.meta.env.VITE_ANTHROPIC_API_KEY, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
-        body: JSON.stringify({
-          model: 'claude-sonnet-4-20250514', max_tokens: 4000,
-          system: buildPrompt(handle, xd, cg),
-          tools: [{ type: 'web_search_20250305', name: 'web_search' }],
-          messages: [{ role: 'user', content: `Analyze the crypto project @${handle}.
-
-X Bio: "${xd?.description || 'not available'}"
-X Pinned Tweet: "${xd?.pinned_tweet || 'none'}"
-X Recent Tweets hint: "${xd?.recent_tweets || 'none'}"
-Confirmed ticker from X: ${xd?.confirmed_ticker || 'none'}
-Token launch signals detected: ${xd?.token_launch_hinted || false}
-Token data pre-fetched: ${JSON.stringify(cg || {})}
-NOTE: X API team data is NOT reliable for identifying founders — it just shows who the project follows. Ignore it. Find the REAL founders via web search only.
-
-YOU MUST DO EXACTLY 3 SEARCHES IN THIS ORDER:
-
-SEARCH 1 — RED FLAGS + CONCERNS (MANDATORY, do this first):
-Search: "@${handle} token dump price drop unlock schedule concerns criticism controversy manipulation"
-Then also search: "@${handle} audit security risk regulatory tokenomics sell pressure"
-
-You MUST report flags for ALL of these categories — check each one:
-1. PRICE ACTION: Did the token dump significantly after TGE? What % drop from launch price?
-2. TOKEN UNLOCKS: Are there large future unlocks that create sell pressure? Who holds big allocations?
-3. AUDIT: Is there a public smart contract security audit? If no → flag it
-4. CENTRALIZATION: Admin keys, multisig concerns, team concentration of tokens?
-5. REGULATORY: Does this project face regulatory risks (privacy coins, prediction markets, derivatives)?
-6. MANIPULATION: Any accusations of price manipulation, wash trading, or unfair launch mechanics?
-7. COMPETITION: Are there stronger competitors eating their market share?
-8. COMMUNITY: Active complaints about tokenomics, team behavior, broken promises?
-
-ALWAYS report at minimum 2-3 concerns even for good projects. Every project has risks.
-Format each as: type (rug/scam/exploit/dump/shill/anon/other), label, detail with specifics, source URL.
-Example: type:"other", label:"Token down 54% from launch price", detail:"$ZAMA launched at $0.05 clearing price, now trading at $0.022 — significant post-TGE sell pressure from auction participants", source:"CoinMarketCap price data".
-
-SEARCH 2 — PROJECT FUNDAMENTALS + TEAM NAMES:
-Search: "@${handle} founder CEO co-founder team whitepaper season airdrop requirements"
-Find: founder NAMES, funding rounds, investor names, farming requirements, season details.
-NOTE: X API already found team X profiles separately. Your job is to find their NAMES and ROLES.
-- For x_handle: leave as empty string "" if not 100% certain — X API handles photos
-- Focus on finding: who founded this, what is their background, previous projects
-- Always return at least 1 team member entry with real name if findable
-
-SEARCH 3 — CONFIRM SEASON/TOKEN INFO:
-Search: "@${handle} season 3 season 2 points program token TGE 2025 2026"
-Find the MOST RECENT season information. Use exact season number found — never invent one.
-
-CATEGORY RULE — read X bio first:
-Bio: "${xd?.description || ''}"
-- Contains "prediction", "predict", "outcome" → Prediction Market
-- Contains "perp", "perpetual", "derivatives" → Perp DEX
-- Contains "L1", "L2", "layer 1", "layer 2", "blockchain" → L1/L2
-- Contains "lend", "borrow", "yield" → DeFi/Lending
-- Contains "NFT", "gaming" → NFT/Gaming
-- Contains "RWA", "real world" → RWA
-- Contains "social", "creator" → SocialFi
-- Contains "AI", "agent" → AI Project
-- Contains "infrastructure", "SDK" → Infrastructure
-- Default → DeFi/Lending ONLY if project actually does lending
-
-FUD SCORING RULE — be harsh:
-- Any confirmed rug history → automatic Tier D, red_flags must include it
-- Security exploit found → add to red_flags with detail and source
-- 90%+ paid content → add to red_flags
-- Anonymous team with no verifiable background → add to red_flags
-- Token dump at launch → add to red_flags
-- If you find evidence, REPORT IT. Do not soften or omit real problems.
-
-Return complete JSON only. Zero cite tags. Zero numbered references.` }]
-        })
+        body: JSON.stringify({ model: 'claude-haiku-4-5-20251001', max_tokens: 2500, system: buildPrompt(handle, xd, cg), messages: [{ role: 'user', content: 'Analyze @' + handle + '. Use provided data only.
+Bio: ' + JSON.stringify(xd?.description||'') + '
+Followers: ' + (xd?.followers||0) + ' CMV: ' + (xd?.cmv_score||0) + '/1000 Ticker: ' + (xd?.confirmed_ticker||'none') + '
+Token: ' + JSON.stringify(cg||{}) + '
+WebResearch: ' + JSON.stringify(webData) + '
+Use red_flags and good_highlights from WebResearch. Return complete JSON only. No cite tags.' }] })
       })
       const data = await r.json()
       if (data.error) throw new Error(data.error.message)
-      const txt = (data.content || []).filter((b: any) => b.type === 'text').map((b: any) => b.text).join('\n')
+      const txt = (data.content || []).filter((b: any) => b.type === 'text').map((b: any) => b.text).join('
+')
       if (!txt.trim()) throw new Error('No response received. Please try again.')
       const parsed = xjson(txt)
       if (!parsed) throw new Error('Could not read results. Please try again.')
+      if ((webData.red_flags||[]).filter((f:any)=>f.label).length > 0 && !(parsed.red_flags||[]).filter((f:any)=>f.label).length) parsed.red_flags = webData.red_flags
+      if ((webData.good_highlights||[]).filter((h:string)=>h).length > 0 && !(parsed.good_highlights||[]).filter((h:string)=>h).length) parsed.good_highlights = webData.good_highlights
       const cleaned = stripCites(parsed)
       setResult(cleaned)
       // Save to browser cache
