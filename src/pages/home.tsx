@@ -142,64 +142,6 @@ function stripCites(obj: any): any {
   return obj
 }
 
-async function fetchCoinGecko(projectName: string, confirmedTicker?: string | null, tokenHinted?: boolean, xHandle?: string) {
-  try {
-    let bestCoin: any = null
-    if (confirmedTicker) {
-      const r = await fetch(`https://api.coingecko.com/api/v3/search?query=${encodeURIComponent(confirmedTicker)}`)
-      const d = await r.json()
-      const matches = (d.coins || []).filter((c: any) => c.symbol?.toUpperCase() === confirmedTicker.toUpperCase())
-      if (matches.length > 0) bestCoin = matches.sort((a: any, b: any) => (a.market_cap_rank || 9999) - (b.market_cap_rank || 9999))[0]
-    }
-    if (!bestCoin) {
-      const r = await fetch(`https://api.coingecko.com/api/v3/search?query=${encodeURIComponent(projectName)}`)
-      const d = await r.json()
-      if (d.coins?.length > 0) {
-        const close = d.coins.find((c: any) => {
-          const cName = c.name?.toLowerCase() || ''
-          const cSymbol = c.symbol?.toUpperCase() || ''
-          const pName = projectName.toLowerCase()
-          return (confirmedTicker && cSymbol === confirmedTicker.toUpperCase()) || cName === pName || ((cName.includes(pName) || pName.includes(cName)) && (c.market_cap_rank || 9999) < 1500)
-        })
-        if (close) bestCoin = close
-      }
-    }
-    if (!bestCoin && xHandle) {
-      const stripped = xHandle.replace(/^(try|use|get|the|go)/i, '')
-      if (stripped.length > 3 && stripped.toLowerCase() !== xHandle.toLowerCase()) {
-        const r = await fetch(`https://api.coingecko.com/api/v3/search?query=${encodeURIComponent(stripped)}`)
-        const d = await r.json()
-        if (d.coins?.length > 0) {
-          const nameMatches = (d.coins as any[]).filter((c: any) => {
-            const cName = c.name?.toLowerCase() || ''
-            return (cName.includes(stripped.toLowerCase()) || stripped.toLowerCase().includes(cName)) && (c.market_cap_rank || 9999) < 2000
-          })
-          if (nameMatches.length > 0) bestCoin = nameMatches.sort((a: any, b: any) => (a.market_cap_rank || 9999) - (b.market_cap_rank || 9999))[0]
-        }
-      }
-    }
-    if (!bestCoin && xHandle) {
-      const r = await fetch(`https://api.coingecko.com/api/v3/search?query=${encodeURIComponent(xHandle)}`)
-      const d = await r.json()
-      if (d.coins?.length > 0 && (d.coins[0].market_cap_rank || 9999) < 2000) bestCoin = d.coins[0]
-    }
-    if (!bestCoin) return { token_live: false, token_price: 'Not Launched', token_note: 'No matching token found on CoinGecko' }
-    const pr = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${bestCoin.id}&vs_currencies=usd&include_market_cap=true`)
-    const pd = await pr.json()
-    const price = pd[bestCoin.id]?.usd
-    const mcap = pd[bestCoin.id]?.usd_market_cap
-    if (!price || price === 0) return { token_live: false, ticker: bestCoin.symbol?.toUpperCase(), token_price: 'Not Launched', token_note: 'Listed on CoinGecko but no active price' }
-    const pStr = price < 0.01 ? '$' + price.toFixed(6) : price < 1 ? '$' + price.toFixed(4) : '$' + price.toFixed(2)
-    const mStr = !mcap ? '' : mcap >= 1e9 ? '$' + (mcap/1e9).toFixed(1) + 'B' : mcap >= 1e6 ? '$' + (mcap/1e6).toFixed(1) + 'M' : '$' + Math.round(mcap).toLocaleString()
-    if (!confirmedTicker && !tokenHinted) {
-      const rank = bestCoin.market_cap_rank || 9999
-      if (rank < 1500) return { token_live: true, ticker: bestCoin.symbol?.toUpperCase(), token_price: pStr, market_cap: mcap, market_cap_str: mStr, token_note: 'Live on CoinGecko · Rank #' + rank }
-      return { token_live: false, ticker: bestCoin.symbol?.toUpperCase(), token_price: pStr, token_note: 'Not confirmed in X bio' }
-    }
-    return { token_live: true, ticker: bestCoin.symbol?.toUpperCase(), token_price: pStr, market_cap: mcap, market_cap_str: mStr, token_note: 'Live on CoinGecko' + (mStr ? ' · MCap ' + mStr : '') }
-  } catch { return { token_live: false, token_price: 'Not Launched', token_note: 'CoinGecko lookup failed' } }
-}
-
 const buildPrompt = (handle: string, xd: any, cg: any) => `You are CMV AlphaScanner, a sharp and brutally honest crypto/Web3 alpha analyst. Today: ${new Date().toDateString()}.
 
 NEVER use <cite> tags, XML tags, numbered references like [1] or [2], or any citation markup. All string fields must be clean plain text only.
@@ -294,6 +236,64 @@ VERDICT ACTION — be SPECIFIC to @${handle}. Reference actual season numbers, r
 
 Return ONLY valid JSON, zero text before/after, zero cite tags:
 {"project_name":"","ticker":"","description":"","team_location":"","founded":"","project_category":"","verdict":"WATCH","verdict_reason":"","verdict_action":"","overall_score":0,"score_rationale":"","data_accuracy_note":"","post_tge_outlook":"","future_seasons":"","team_members":[{"name":"","role":"","x_handle":"","background":"","confirmed":true}],"project_follows":"","red_flags":[{"type":"other","label":"","detail":"","source":""}],"good_highlights":[""],"mindshare_trend":{"labels":["8w ago","7w ago","6w ago","5w ago","4w ago","3w ago","2w ago","1w ago"],"values":[0,0,0,0,0,0,0,0],"current_pct":"0%","trend":"stable"},"sources":[{"name":"","url":"","used_for":""}],"metrics":{"funding":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"vc_pedigree":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"copycat":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"niche":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"location":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"founder_cred":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"founder_activity":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"top_voices":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"token":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"metrics_clarity":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"user_count":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"fud":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"notable_mentions":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"content_type":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"mindshare":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"revenue":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"sentiment":{"score":0,"detail":"","why_this_score":"","signal":"neutral"}},"top_risks":[""],"top_opportunities":[""]}`
+
+async function fetchCoinGecko(projectName: string, confirmedTicker?: string | null, tokenHinted?: boolean, xHandle?: string) {
+  try {
+    let bestCoin: any = null
+    if (confirmedTicker) {
+      const r = await fetch(`https://api.coingecko.com/api/v3/search?query=${encodeURIComponent(confirmedTicker)}`)
+      const d = await r.json()
+      const matches = (d.coins || []).filter((c: any) => c.symbol?.toUpperCase() === confirmedTicker.toUpperCase())
+      if (matches.length > 0) bestCoin = matches.sort((a: any, b: any) => (a.market_cap_rank || 9999) - (b.market_cap_rank || 9999))[0]
+    }
+    if (!bestCoin) {
+      const r = await fetch(`https://api.coingecko.com/api/v3/search?query=${encodeURIComponent(projectName)}`)
+      const d = await r.json()
+      if (d.coins?.length > 0) {
+        const close = d.coins.find((c: any) => {
+          const cName = c.name?.toLowerCase() || ''
+          const cSymbol = c.symbol?.toUpperCase() || ''
+          const pName = projectName.toLowerCase()
+          return (confirmedTicker && cSymbol === confirmedTicker.toUpperCase()) || cName === pName || ((cName.includes(pName) || pName.includes(cName)) && (c.market_cap_rank || 9999) < 1500)
+        })
+        if (close) bestCoin = close
+      }
+    }
+    if (!bestCoin && xHandle) {
+      const stripped = xHandle.replace(/^(try|use|get|the|go)/i, '')
+      if (stripped.length > 3 && stripped.toLowerCase() !== xHandle.toLowerCase()) {
+        const r = await fetch(`https://api.coingecko.com/api/v3/search?query=${encodeURIComponent(stripped)}`)
+        const d = await r.json()
+        if (d.coins?.length > 0) {
+          const nameMatches = (d.coins as any[]).filter((c: any) => {
+            const cName = c.name?.toLowerCase() || ''
+            return (cName.includes(stripped.toLowerCase()) || stripped.toLowerCase().includes(cName)) && (c.market_cap_rank || 9999) < 2000
+          })
+          if (nameMatches.length > 0) bestCoin = nameMatches.sort((a: any, b: any) => (a.market_cap_rank || 9999) - (b.market_cap_rank || 9999))[0]
+        }
+      }
+    }
+    if (!bestCoin && xHandle) {
+      const r = await fetch(`https://api.coingecko.com/api/v3/search?query=${encodeURIComponent(xHandle)}`)
+      const d = await r.json()
+      if (d.coins?.length > 0 && (d.coins[0].market_cap_rank || 9999) < 2000) bestCoin = d.coins[0]
+    }
+    if (!bestCoin) return { token_live: false, token_price: 'Not Launched', token_note: 'No matching token found on CoinGecko' }
+    const pr = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${bestCoin.id}&vs_currencies=usd&include_market_cap=true`)
+    const pd = await pr.json()
+    const price = pd[bestCoin.id]?.usd
+    const mcap = pd[bestCoin.id]?.usd_market_cap
+    if (!price || price === 0) return { token_live: false, ticker: bestCoin.symbol?.toUpperCase(), token_price: 'Not Launched', token_note: 'Listed on CoinGecko but no active price' }
+    const pStr = price < 0.01 ? '$' + price.toFixed(6) : price < 1 ? '$' + price.toFixed(4) : '$' + price.toFixed(2)
+    const mStr = !mcap ? '' : mcap >= 1e9 ? '$' + (mcap/1e9).toFixed(1) + 'B' : mcap >= 1e6 ? '$' + (mcap/1e6).toFixed(1) + 'M' : '$' + Math.round(mcap).toLocaleString()
+    if (!confirmedTicker && !tokenHinted) {
+      const rank = bestCoin.market_cap_rank || 9999
+      if (rank < 1500) return { token_live: true, ticker: bestCoin.symbol?.toUpperCase(), token_price: pStr, market_cap: mcap, market_cap_str: mStr, token_note: 'Live on CoinGecko · Rank #' + rank }
+      return { token_live: false, ticker: bestCoin.symbol?.toUpperCase(), token_price: pStr, token_note: 'Not confirmed in X bio' }
+    }
+    return { token_live: true, ticker: bestCoin.symbol?.toUpperCase(), token_price: pStr, market_cap: mcap, market_cap_str: mStr, token_note: 'Live on CoinGecko' + (mStr ? ' · MCap ' + mStr : '') }
+  } catch { return { token_live: false, token_price: 'Not Launched', token_note: 'CoinGecko lookup failed' } }
+}
 
 function MetricRow({ metric, data }: { metric: any, data: any }) {
   const [open, setOpen] = useState(false)
