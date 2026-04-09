@@ -596,28 +596,10 @@ export default function Home() {
     // Do NOT do a generic handle-based search — too many false positives
     if (!cg) cg = { token_live: false, token_price: 'Not Launched', token_note: 'No token found' }
     setCgData(cg)
-    try {
-      const r = await fetch('https://api.anthropic.com/v1/messages', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'x-api-key': import.meta.env.VITE_ANTHROPIC_API_KEY, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
-        body: JSON.stringify({
-          model: 'claude-sonnet-4-20250514',
-          max_tokens: 3000,
-          system: buildPrompt(handle, xd, cg),
-          tools: [{ type: 'web_search_20250305', name: 'web_search' }],
-          messages: [{ role: 'user', content: 'Analyze @' + handle + '. X Bio: ' + JSON.stringify(xd?.description||'') + ' Pinned: ' + JSON.stringify(xd?.pinned_tweet||'') + ' Followers: ' + (xd?.followers||0) + ' CMV: ' + (xd?.cmv_score||0) + '/1000 Ticker: ' + (xd?.confirmed_ticker||'none') + ' Token: ' + JSON.stringify(cg||{}) + '. Return complete JSON only. No cite tags. No numbered references.' }]
-        })
-      })
-      const data = await r.json()
-      if (data.error) throw new Error(data.error.message)
-      const txt = (data.content || []).filter((b: any) => b.type === 'text').map((b: any) => b.text).join('\n')
-      if (!txt.trim()) throw new Error('No response received. Please try again.')
-      const parsed = xjson(txt)
-      if (!parsed) throw new Error('Could not read results. Please try again.')
-      const cleaned = stripCites(parsed)
+    // Helper to save result
+    const saveResult = (cleaned: any) => {
       try { localStorage.setItem(cacheKey, JSON.stringify({ result: cleaned, cgData: cg, xData: xd, timestamp: Date.now() })) } catch { }
       setResult(cleaned)
-      // Save to community feed (fire and forget)
       fetch('/api/save-scan', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -636,21 +618,109 @@ export default function Home() {
           full_result: { result: cleaned, cgData: cg, xData: xd },
         })
       }).catch(() => {})
+    }
+
+    // X-only fallback scan — no Claude, uses X data to build basic result
+    const xOnlyScan = () => {
+      const score = Math.round((xd?.cmv_score || 0) * 0.6)
+      const tier = score >= 85 ? 'FARM IT' : score >= 60 ? 'CREATE CONTENT' : score >= 35 ? 'WATCH' : 'SKIP'
+      const cleaned = {
+        project_name: xd?.name || handle,
+        ticker: cg?.ticker || null,
+        description: xd?.description || '',
+        team_location: '',
+        founded: '',
+        project_category: xd?.category || 'Crypto',
+        verdict: tier,
+        verdict_reason: 'Score based on X profile data only. Full analysis unavailable at this time.',
+        verdict_action: 'Check back later for a full scan with detailed metrics and red flag detection.',
+        overall_score: score,
+        score_rationale: 'Estimated from X social score only — deep analysis unavailable.',
+        data_accuracy_note: 'Limited data — X API only. Full scan unavailable.',
+        post_tge_outlook: '',
+        future_seasons: '',
+        team_members: [],
+        project_follows: '',
+        red_flags: [],
+        good_highlights: [
+          xd?.followers ? (xd.followers >= 1000 ? Math.round(xd.followers/1000) + 'K X followers' : xd.followers + ' X followers') : '',
+          xd?.verified ? 'Verified X account' : '',
+          cg?.token_live ? (cg.ticker + ' token live at ' + cg.token_price) : '',
+        ].filter(Boolean),
+        mindshare_trend: { labels: ['8w ago','7w ago','6w ago','5w ago','4w ago','3w ago','2w ago','1w ago'], values: [0,0,0,0,0,0,0,0], current_pct: '0%', trend: 'unknown' },
+        sources: [],
+        metrics: Object.fromEntries(['funding','vc_pedigree','copycat','niche','location','founder_cred','founder_activity','top_voices','token','metrics_clarity','user_count','fud','notable_mentions','content_type','mindshare','revenue','sentiment'].map(k => [k, { score: Math.round(score * 0.8 + Math.random() * 20), detail: 'Estimated from X data only', why_this_score: 'Full analysis unavailable', signal: 'neutral' }])),
+        top_risks: ['Full analysis unavailable — check back later'],
+        top_opportunities: ['Scan again when service is restored for full alpha'],
+      }
+      saveResult(cleaned)
+    }
+
+    try {
+      const r = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-api-key': import.meta.env.VITE_ANTHROPIC_API_KEY, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-20250514',
+          max_tokens: 3000,
+          system: buildPrompt(handle, xd, cg),
+          tools: [{ type: 'web_search_20250305', name: 'web_search' }],
+          messages: [{ role: 'user', content: 'Analyze @' + handle + '. X Bio: ' + JSON.stringify(xd?.description||'') + ' Pinned: ' + JSON.stringify(xd?.pinned_tweet||'') + ' Followers: ' + (xd?.followers||0) + ' CMV: ' + (xd?.cmv_score||0) + '/1000 Ticker: ' + (xd?.confirmed_ticker||'none') + ' Token: ' + JSON.stringify(cg||{}) + '. Return complete JSON only. No cite tags. No numbered references.' }]
+        })
+      })
+      const data = await r.json()
+
+      // Check for credit exhaustion or overload — fall back to X-only
+      if (data.error) {
+        const errMsg = data.error.message || ''
+        const isRateLimit = errMsg.includes('rate limit') || errMsg.includes('tokens per minute')
+        const isOverloaded = errMsg.includes('overloaded') || errMsg.includes('529') || data.error.type === 'overloaded_error'
+        const isCreditExhausted = errMsg.includes('credit') || errMsg.includes('billing') || errMsg.includes('quota') || data.error.type === 'insufficient_quota'
+
+        if (isCreditExhausted) {
+          // Credits finished — fall back to X-only silently
+          xOnlyScan()
+          return
+        } else if (isOverloaded) {
+          // Overloaded — fall back to X-only silently
+          xOnlyScan()
+          return
+        } else if (isRateLimit) {
+          // Rate limit — auto retry
+          setError('rate_limit')
+          let secs = 65
+          const countdown = setInterval(() => {
+            secs -= 1
+            setError('rate_limit:' + secs)
+            if (secs <= 0) { clearInterval(countdown); setError(null); analyze() }
+          }, 1000)
+          return
+        }
+        throw new Error(errMsg)
+      }
+
+      const txt = (data.content || []).filter((b: any) => b.type === 'text').map((b: any) => b.text).join('\n')
+      if (!txt.trim()) { xOnlyScan(); return }
+      const parsed = xjson(txt)
+      if (!parsed) { xOnlyScan(); return }
+      const cleaned = stripCites(parsed)
+      saveResult(cleaned)
     } catch (e: any) {
       const msg = e.message || ''
       if (msg.includes('rate limit') || msg.includes('rate_limit') || msg.includes('tokens per minute')) {
-        // Auto retry after 65 seconds
         setError('rate_limit')
         let secs = 65
         const countdown = setInterval(() => {
           secs -= 1
           setError('rate_limit:' + secs)
-          if (secs <= 0) {
-            clearInterval(countdown)
-            setError(null)
-            analyze()
-          }
+          if (secs <= 0) { clearInterval(countdown); setError(null); analyze() }
         }, 1000)
+      } else if (msg.includes('credit') || msg.includes('billing') || msg.includes('quota') || msg.includes('overload')) {
+        // Silent fallback to X-only
+        xOnlyScan()
+      } else if (msg.includes('Failed to fetch') || msg.includes('network') || msg.includes('NetworkError')) {
+        // Both APIs dead — clean message
+        setError('unavailable')
       } else {
         setError(msg || 'Something went wrong.')
       }
@@ -1077,7 +1147,7 @@ export default function Home() {
         )}
 
         {error && (
-          <div style={{ background: error.startsWith('rate_limit') ? '#fff9e6' : '#fff5f5', border: `1px solid ${error.startsWith('rate_limit') ? '#fde68a' : '#ffc9c9'}`, borderRadius: 14, padding: '16px 18px', marginBottom: 14 }}>
+          <div style={{ background: error.startsWith('rate_limit') ? '#fff9e6' : error === 'unavailable' ? '#f0f4ff' : '#fff5f5', border: `1px solid ${error.startsWith('rate_limit') ? '#fde68a' : error === 'unavailable' ? '#c5d0ff' : '#ffc9c9'}`, borderRadius: 14, padding: '16px 18px', marginBottom: 14 }}>
             {error.startsWith('rate_limit') ? (
               <>
                 <div style={{ fontSize: 13, fontWeight: 700, color: '#92400e', marginBottom: 6 }}>⏳ High demand — please hold on</div>
@@ -1085,6 +1155,11 @@ export default function Home() {
                 <div style={{ height: 4, background: '#fde68a', borderRadius: 4, overflow: 'hidden' }}>
                   <div style={{ height: '100%', background: '#f59f00', borderRadius: 4, width: `${Math.min(100, ((65 - parseInt(error.split(':')[1] || '65')) / 65) * 100)}%`, transition: 'width 1s linear' }} />
                 </div>
+              </>
+            ) : error === 'unavailable' ? (
+              <>
+                <div style={{ fontSize: 13, fontWeight: 700, color: '#3b5bdb', marginBottom: 5 }}>🔧 Unable to scan at this moment</div>
+                <div style={{ fontSize: 12, color: '#4c6ef5', lineHeight: 1.6 }}>Our scanning service is temporarily unavailable. Please check back in a few minutes.</div>
               </>
             ) : (
               <>
