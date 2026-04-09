@@ -64,7 +64,7 @@ const HOW_TO_PLAY: Record<string, string> = {
 const GOOD_TAGS = [
   { id: 'vc', label: 'Tier 1 VC backed 🔥' },
   { id: 'organic', label: 'Strong organic CT buzz 📣' },
-  { id: 'season2', label: 'Season 2 confirmed 🌾' },
+  { id: 'season', label: 'Active season confirmed 🌾' },
   { id: 'lowdilution', label: 'Low dilution risk 💎' },
   { id: 'doxxed', label: 'Doxxed team with track record 👤' },
   { id: 'revenue', label: 'Generating real revenue 📈' },
@@ -189,9 +189,11 @@ async function fetchCoinGecko(
       return { token_live: false, ticker: bestCoin.symbol?.toUpperCase(), token_price: 'Not Launched', token_note: 'Listed on CoinGecko but no active price' }
     }
 
+    // If ticker was explicitly found in X data, always confirm as live
     if (!confirmedTicker && !tokenHinted) {
       return { token_live: false, ticker: bestCoin.symbol?.toUpperCase(), token_price: 'Unconfirmed', token_note: `$${bestCoin.symbol?.toUpperCase()} found on CoinGecko but not confirmed in X bio` }
     }
+    // confirmedTicker found in X tweets = confirmed live
 
     const mcapStr = mcap ? (mcap >= 1e9 ? `$${(mcap/1e9).toFixed(1)}B` : mcap >= 1e6 ? `$${(mcap/1e6).toFixed(1)}M` : `$${Math.round(mcap).toLocaleString()}`) : ''
     const priceStr = price < 0.01 ? `$${price.toFixed(6)}` : price < 1 ? `$${price.toFixed(4)}` : `$${price.toFixed(2)}`
@@ -286,7 +288,7 @@ VERDICT ACTION — be SPECIFIC to @${handle}:
 - Has leaderboard: name the leaderboard and what matters
 
 Return ONLY valid JSON — zero text before or after, zero cite tags:
-{"project_name":"","ticker":"","description":"","team_location":"","founded":"","project_category":"SocialFi","verdict":"WATCH","verdict_reason":"","verdict_action":"","overall_score":0,"score_rationale":"","data_accuracy_note":"","post_tge_outlook":"","future_seasons":"","team_members":[{"name":"","role":"","x_handle":"","background":"","confirmed":true}],"project_follows":"","red_flags":[{"type":"rug","label":"","detail":"","source":""}],"good_highlights":["",""],"mindshare_trend":{"labels":["8w ago","7w ago","6w ago","5w ago","4w ago","3w ago","2w ago","1w ago"],"values":[0,0,0,0,0,0,0,0],"current_pct":"0%","trend":"stable"},"sources":[{"name":"","url":"","used_for":""}],"metrics":{"funding":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"vc_pedigree":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"copycat":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"niche":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"location":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"founder_cred":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"founder_activity":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"top_voices":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"token":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"metrics_clarity":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"user_count":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"fud":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"notable_mentions":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"content_type":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"mindshare":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"revenue":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"sentiment":{"score":0,"detail":"","why_this_score":"","signal":"neutral"}},"top_risks":["","",""],"top_opportunities":["",""]}`
+{"project_name":"","ticker":"","description":"","team_location":"","founded":"","project_category":"SocialFi","verdict":"WATCH","verdict_reason":"","verdict_action":"","overall_score":0,"score_rationale":"","data_accuracy_note":"","post_tge_outlook":"","future_seasons":"","team_members":[{"name":"Founder Name","role":"CEO / Co-founder","x_handle":"@handle","background":"Previous experience here","confirmed":true}],"project_follows":"","red_flags":[{"type":"rug","label":"","detail":"","source":""}],"good_highlights":["",""],"mindshare_trend":{"labels":["8w ago","7w ago","6w ago","5w ago","4w ago","3w ago","2w ago","1w ago"],"values":[0,0,0,0,0,0,0,0],"current_pct":"0%","trend":"stable"},"sources":[{"name":"","url":"","used_for":""}],"metrics":{"funding":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"vc_pedigree":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"copycat":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"niche":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"location":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"founder_cred":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"founder_activity":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"top_voices":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"token":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"metrics_clarity":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"user_count":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"fud":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"notable_mentions":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"content_type":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"mindshare":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"revenue":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"sentiment":{"score":0,"detail":"","why_this_score":"","signal":"neutral"}},"top_risks":["","",""],"top_opportunities":["",""]}`
 
 function MetricRow({ metric, data }: { metric: any, data: any }) {
   const [open, setOpen] = useState(false)
@@ -454,7 +456,13 @@ export default function Home() {
 
     const xd = await fetchProjectXData(handle)
     setXData(xd)
-    const cg = await fetchCoinGecko(handle, xd?.confirmed_ticker, xd?.token_launch_hinted)
+    // Use confirmed_ticker from X as primary — token_launch_hinted is secondary
+    const hasTicker = !!(xd?.confirmed_ticker)
+    const cg = await fetchCoinGecko(
+      handle,
+      xd?.confirmed_ticker || null,
+      hasTicker || xd?.token_launch_hinted || false
+    )
     setCgData(cg)
     try {
       const r = await fetch('https://api.anthropic.com/v1/messages', {
@@ -478,9 +486,11 @@ SEARCH 1 — RED FLAGS ONLY (do this first, always):
 Search: "@${handle} rug scam controversy hack exploit fraud allegations"
 Look specifically for: previous rugs, exit scams, security exploits, founder misconduct, paid shill accusations, token dump at launch, regulatory issues, community complaints. Report EVERY flag you find with source. If nothing found, red_flags array stays empty.
 
-SEARCH 2 — PROJECT FUNDAMENTALS:
-Search: "@${handle} funding investors team whitepaper season airdrop requirements discord"
-Find: funding rounds, investor names, team members, farming requirements, season details.
+SEARCH 2 — PROJECT FUNDAMENTALS + TEAM:
+Search: "@${handle} funding investors team CEO founder whitepaper season airdrop requirements"
+Find: funding rounds, investor names, team members with X handles, farming requirements, season details.
+For team: search specifically for founder names, CEO, co-founders. Include their X handles.
+Always return at least 1 team_member entry. If team is anon, write name "Anonymous Team" confirmed:false.
 
 SEARCH 3 — CONFIRM SEASON/TOKEN INFO:
 Search: "@${handle} season 3 season 2 points program token TGE 2025 2026"
@@ -829,12 +839,12 @@ Return complete JSON only. Zero cite tags. Zero numbered references.` }]
               </div>
             )}
             {/* Clean bill — show when no flags found */}
-            {redFlags.length === 0 && result && (
+            {redFlags.length === 0 && (
               <div style={{ background: '#f0fdf4', border: '1px solid #86efac', borderRadius: 10, padding: '10px 14px', marginBottom: 14, display: 'flex', alignItems: 'center', gap: 8 }}>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M22 11.08V12a10 10 0 11-5.93-9.14M22 4L12 14.01l-3-3" stroke="#16a34a" strokeWidth="2" strokeLinecap="round"/></svg>
                 <div>
                   <span style={{ fontSize: 12, fontWeight: 700, color: '#15803d' }}>No major red flags detected</span>
-                  <span style={{ fontSize: 11, color: '#4b5563', marginLeft: 8 }}>FUD search ran — nothing significant found for this project</span>
+                  <span style={{ fontSize: 11, color: '#4b5563', marginLeft: 8 }}>Dedicated FUD search ran — nothing significant found</span>
                 </div>
               </div>
             )}
@@ -1085,11 +1095,11 @@ Return complete JSON only. Zero cite tags. Zero numbered references.` }]
             )}
 
             {/* Team */}
-            {result.team_members?.filter((m: any) => m.name).length > 0 && (
+            {result.team_members?.filter((m: any) => m.name && m.name.length > 1).length > 0 && (
               <div style={{ background: '#fff', border: '1px solid #dbe4ff', borderRadius: 14, padding: 16, marginBottom: 14 }}>
                 <div style={{ fontSize: 13, fontWeight: 700, color: '#1c2b5a', marginBottom: 12 }}>👥 Team & Founders</div>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(240px,1fr))', gap: 10 }}>
-                  {result.team_members.filter((m: any) => m.name).map((m: any, i: number) => <TeamCard key={i} member={m} />)}
+                  {result.team_members.filter((m: any) => m.name && m.name.length > 1).map((m: any, i: number) => <TeamCard key={i} member={m} />)}
                 </div>
               </div>
             )}
