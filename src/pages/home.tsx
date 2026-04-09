@@ -988,17 +988,20 @@ export default function Home() {
                   <button onClick={() => { setResult(null); setCgData(null); setXData(null); setXUrl(''); setSelectedTags([]) }} style={{ background: '#fff', border: '1px solid #86efac', borderRadius: 12, padding: '14px 16px', fontSize: 13, fontWeight: 600, cursor: 'pointer', color: '#15803d', fontFamily: 'inherit', whiteSpace: 'nowrap' as const }}>+ New Scan</button>
                   <button onClick={async () => {
                     const handle = xUrl.replace('https://x.com/','').replace('https://twitter.com/','').replace('@','').split('/')[0].trim().toLowerCase()
-                    // Clear cache so fresh data is used
                     try { localStorage.removeItem('cmv_scan_' + handle) } catch {}
                     const freshXd = await fetchProjectXData(handle).catch(() => null)
                     if (freshXd) setXData(freshXd)
-                    // Re-check token with new logic
                     if (freshXd?.confirmed_ticker) {
                       const freshCg = await fetchCoinGecko(handle, freshXd.confirmed_ticker, true, handle).catch(() => null)
-                      if (freshCg?.token_live) setCgData(freshCg)
-                      else setCgData({ token_live: false, token_price: 'Not Launched', token_note: 'No token found' })
+                      if (freshCg?.token_live) {
+                        setCgData(freshCg)
+                      } else {
+                        setCgData({ token_live: false, token_price: 'Not Launched', token_note: 'No token found' })
+                        setResult((r: any) => r ? { ...r, ticker: null } : r)
+                      }
                     } else if (!freshXd?.token_launch_hinted) {
                       setCgData({ token_live: false, token_price: 'Not Launched', token_note: 'No token found' })
+                      setResult((r: any) => r ? { ...r, ticker: null } : r)
                     }
                   }} style={{ background: '#fff', border: '1px solid #86efac', borderRadius: 12, padding: '14px 16px', fontSize: 13, fontWeight: 600, cursor: 'pointer', color: '#15803d', fontFamily: 'inherit', whiteSpace: 'nowrap' as const }}>↺ Refresh</button>
                 </>
