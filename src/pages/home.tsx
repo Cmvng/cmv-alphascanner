@@ -290,7 +290,9 @@ CRITICAL: If you find ANY of the above, you MUST include it in red_flags with:
 - source: where you found this
 
 Do NOT omit real problems to give a better score. The FUD penalty exists specifically to punish bad actors.
-For good_highlights — only include genuinely positive confirmed facts, max 4.
+For good_highlights — max 4 short punchy confirmed facts about this project. These appear on the share card.
+Format like: "Backed by Coinbase Ventures", "$1.9B trading volume", "Season 3 active Jan-May 2026", "Doxxed team ex-Reface AI"
+Make them specific with numbers/names where possible. Never generic like "strong team" or "good product".
 
 SEASON LOGIC — be specific:
 - If token is LIVE: do NOT mention any season unless you find a CONFIRMED official announcement with specific dates or requirements. If unsure, leave future_seasons as empty string.
@@ -724,6 +726,7 @@ Return complete JSON only. Zero cite tags. Zero numbered references.` }]
         @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
         @keyframes float{0%,100%{transform:translateY(0) rotate(var(--r,0deg))}50%{transform:translateY(-10px) rotate(var(--r,0deg))}}
         @keyframes scan{0%{transform:translateX(-100%)}100%{transform:translateX(400%)}}
+        @keyframes thinkDot{0%,100%{opacity:0.2;transform:scale(0.8)}50%{opacity:1;transform:scale(1.2)}}
         @keyframes pop{0%{transform:scale(0.8);opacity:0}60%{transform:scale(1.05)}100%{transform:scale(1);opacity:1}}
         .tag-btn{transition:all 0.15s;cursor:pointer;}
         .tag-btn:hover{transform:translateY(-1px);}
@@ -994,16 +997,18 @@ Return complete JSON only. Zero cite tags. Zero numbered references.` }]
               <div style={{ position: 'absolute', bottom: -30, left: -30, width: 140, height: 140, borderRadius: '50%', background: 'rgba(255,255,255,0.04)', pointerEvents: 'none' }} />
 
               {/* User badge */}
-              {userName && (
-                <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(255,255,255,0.2)', border: '1px solid rgba(255,255,255,0.3)', borderRadius: 20, padding: '5px 12px', marginBottom: 14, animation: 'pop 0.5s ease' }}>
-                  {userPhoto ? (
-                    <img src={userPhoto} alt="" style={{ width: 26, height: 26, borderRadius: '50%', objectFit: 'cover', border: '1.5px solid rgba(255,255,255,0.5)' }} />
-                  ) : (
-                    <div style={{ width: 26, height: 26, borderRadius: '50%', background: 'rgba(255,255,255,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 700, color: '#fff' }}>{userName.charAt(0).toUpperCase()}</div>
-                  )}
-                  <span style={{ fontSize: 13, fontWeight: 700, color: '#fff' }}>{userName} says</span>
-                </div>
-              )}
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(255,255,255,0.2)', border: '1px solid rgba(255,255,255,0.3)', borderRadius: 20, padding: '5px 14px 5px 6px', marginBottom: 14, animation: 'pop 0.5s ease' }}>
+                {userPhoto ? (
+                  <img src={userPhoto} alt="" style={{ width: 28, height: 28, borderRadius: '50%', objectFit: 'cover', border: '1.5px solid rgba(255,255,255,0.5)' }} />
+                ) : (
+                  <div style={{ width: 28, height: 28, borderRadius: '50%', background: 'rgba(255,255,255,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 700, color: '#fff' }}>
+                    {userName ? userName.charAt(0).toUpperCase() : 'C'}
+                  </div>
+                )}
+                <span style={{ fontSize: 13, fontWeight: 700, color: '#fff' }}>
+                  {userName || 'CMV'} says {otc.v.toLowerCase()} {otc.emoji}
+                </span>
+              </div>
 
               <div style={{ display: 'flex', alignItems: 'flex-start', gap: 16, marginBottom: 16, position: 'relative', zIndex: 1 }}>
                 <div style={{ width: 56, height: 56, borderRadius: 14, background: 'rgba(255,255,255,0.2)', border: '2px solid rgba(255,255,255,0.3)', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
@@ -1025,6 +1030,22 @@ Return complete JSON only. Zero cite tags. Zero numbered references.` }]
                   <div style={{ display: 'inline-flex', alignItems: 'center', gap: 4, background: 'rgba(255,255,255,0.2)', borderRadius: 20, padding: '3px 9px', fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#fff', marginTop: 4 }}>{ot} · {otc.lbl}</div>
                 </div>
               </div>
+
+              {/* CMV Says — key highlights */}
+              {goodHighlights.length > 0 && (
+                <div style={{ marginBottom: 12, position: 'relative', zIndex: 1 }}>
+                  <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: 'rgba(255,255,255,0.6)', letterSpacing: 1, marginBottom: 6 }}>
+                    {userName || 'CMV'} SAYS
+                  </div>
+                  <div style={{ display: 'flex', flexWrap: 'wrap' as const, gap: 6 }}>
+                    {goodHighlights.slice(0, 3).map((h: string, i: number) => (
+                      <div key={i} style={{ background: 'rgba(255,255,255,0.15)', border: '1px solid rgba(255,255,255,0.25)', borderRadius: 20, padding: '4px 12px', fontSize: 11, fontWeight: 600, color: '#fff' }}>
+                        ✓ {h}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
 
               <div style={{ background: 'rgba(0,0,0,0.15)', borderRadius: 12, padding: '14px 16px', marginBottom: 14, border: '1px solid rgba(255,255,255,0.15)', position: 'relative', zIndex: 1 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
