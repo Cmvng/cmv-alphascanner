@@ -292,8 +292,8 @@ For team_members: search "[project] founder CEO team" to find real names and rol
 
 VERDICT ACTION — be SPECIFIC to @${handle}. Reference actual season numbers, requirements, and token data found above.
 
-Return ONLY valid JSON — zero text before or after, zero cite tags:
-{"project_name":"","ticker":"","description":"","team_location":"","founded":"","project_category":"SocialFi","verdict":"WATCH","verdict_reason":"","verdict_action":"","overall_score":0,"score_rationale":"","data_accuracy_note":"","post_tge_outlook":"","future_seasons":"","team_members":[{"name":"Founder Name","role":"CEO / Co-founder","x_handle":"@handle","background":"Previous experience here","confirmed":true}],"project_follows":"","red_flags":[{"type":"rug","label":"","detail":"","source":""}],"good_highlights":["",""],"mindshare_trend":{"labels":["8w ago","7w ago","6w ago","5w ago","4w ago","3w ago","2w ago","1w ago"],"values":[0,0,0,0,0,0,0,0],"current_pct":"0%","trend":"stable"},"sources":[{"name":"","url":"","used_for":""}],"metrics":{"funding":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"vc_pedigree":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"copycat":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"niche":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"location":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"founder_cred":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"founder_activity":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"top_voices":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"token":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"metrics_clarity":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"user_count":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"fud":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"notable_mentions":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"content_type":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"mindshare":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"revenue":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"sentiment":{"score":0,"detail":"","why_this_score":"","signal":"neutral"}},"top_risks":["","",""],"top_opportunities":["",""]}`
+Return ONLY valid JSON, zero text before/after, zero cite tags:
+{"project_name":"","ticker":"","description":"","team_location":"","founded":"","project_category":"","verdict":"WATCH","verdict_reason":"","verdict_action":"","overall_score":0,"score_rationale":"","data_accuracy_note":"","post_tge_outlook":"","future_seasons":"","team_members":[{"name":"","role":"","x_handle":"","background":"","confirmed":true}],"project_follows":"","red_flags":[{"type":"other","label":"","detail":"","source":""}],"good_highlights":[""],"mindshare_trend":{"labels":["8w ago","7w ago","6w ago","5w ago","4w ago","3w ago","2w ago","1w ago"],"values":[0,0,0,0,0,0,0,0],"current_pct":"0%","trend":"stable"},"sources":[{"name":"","url":"","used_for":""}],"metrics":{"funding":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"vc_pedigree":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"copycat":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"niche":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"location":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"founder_cred":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"founder_activity":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"top_voices":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"token":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"metrics_clarity":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"user_count":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"fud":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"notable_mentions":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"content_type":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"mindshare":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"revenue":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"sentiment":{"score":0,"detail":"","why_this_score":"","signal":"neutral"}},"top_risks":[""],"top_opportunities":[""]}`
 
 function MetricRow({ metric, data }: { metric: any, data: any }) {
   const [open, setOpen] = useState(false)
@@ -565,7 +565,7 @@ export default function Home() {
         headers: { 'Content-Type': 'application/json', 'x-api-key': import.meta.env.VITE_ANTHROPIC_API_KEY, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
         body: JSON.stringify({
           model: 'claude-sonnet-4-20250514',
-          max_tokens: 4000,
+          max_tokens: 3000,
           system: buildPrompt(handle, xd, cg),
           tools: [{ type: 'web_search_20250305', name: 'web_search' }],
           messages: [{ role: 'user', content: 'Analyze @' + handle + '. X Bio: ' + JSON.stringify(xd?.description||'') + ' Pinned: ' + JSON.stringify(xd?.pinned_tweet||'') + ' Followers: ' + (xd?.followers||0) + ' CMV: ' + (xd?.cmv_score||0) + '/1000 Ticker: ' + (xd?.confirmed_ticker||'none') + ' Token: ' + JSON.stringify(cg||{}) + '. Return complete JSON only. No cite tags. No numbered references.' }]
@@ -600,7 +600,23 @@ export default function Home() {
         })
       }).catch(() => {})
     } catch (e: any) {
-      setError(e.message || 'Something went wrong.')
+      const msg = e.message || ''
+      if (msg.includes('rate limit') || msg.includes('rate_limit') || msg.includes('tokens per minute')) {
+        // Auto retry after 65 seconds
+        setError('rate_limit')
+        let secs = 65
+        const countdown = setInterval(() => {
+          secs -= 1
+          setError('rate_limit:' + secs)
+          if (secs <= 0) {
+            clearInterval(countdown)
+            setError(null)
+            analyze()
+          }
+        }, 1000)
+      } else {
+        setError(msg || 'Something went wrong.')
+      }
     } finally { setLoading(false) }
   }
 
@@ -612,6 +628,136 @@ export default function Home() {
     const name = userName || 'CMV AlphaScanner'
     const text = `${name} says ${otc.v} ${otc.emoji} on ${result.project_name}\n\nAlpha Score: ${result.overall_score}/100 · ${otc.lbl}\n${tagLabels.map(t => `• ${t}`).join('\n')}\n\n${result.verdict_action || result.verdict_reason}\n\n🎯 ${otc.target || 'Skip entirely'}\n\nScanned at cmv-alphascanner.vercel.app`
     try { if (navigator.share) await navigator.share({ text, title: `${result.project_name} — CMV AlphaScanner` }); else { await navigator.clipboard.writeText(text); alert('Copied! Paste it on X.') } } catch { }
+  }
+
+  async function downloadCard() {
+    if (!result) return
+    const ot = getTier(result.overall_score ?? 0)
+    const otc = T[ot]
+    const tagLabels = selectedTags.map(id => {
+      const good = GOOD_TAGS.find(t => t.id === id)
+      const bad = BAD_TAGS.find(t => t.id === id)
+      return good?.label || bad?.label || ''
+    }).filter(Boolean)
+
+    // Build canvas
+    const canvas = document.createElement('canvas')
+    const W = 800, H = 420
+    canvas.width = W; canvas.height = H
+    const ctx = canvas.getContext('2d')!
+
+    // Background gradient
+    const grad = ctx.createLinearGradient(0, 0, W, H)
+    const colors = otc.vbg.match(/#[0-9a-fA-F]{6}/g) || ['#37b24d', '#2f9e44']
+    grad.addColorStop(0, colors[0])
+    grad.addColorStop(1, colors[1])
+    ctx.fillStyle = grad
+    ctx.roundRect(0, 0, W, H, 20)
+    ctx.fill()
+
+    // Decorative circles
+    ctx.globalAlpha = 0.06
+    ctx.beginPath(); ctx.arc(W + 50, -50, 200, 0, Math.PI * 2); ctx.fillStyle = '#fff'; ctx.fill()
+    ctx.beginPath(); ctx.arc(-30, H + 30, 140, 0, Math.PI * 2); ctx.fill()
+    ctx.globalAlpha = 1
+
+    // User badge
+    ctx.fillStyle = 'rgba(255,255,255,0.2)'
+    ctx.roundRect(30, 28, 180, 32, 16)
+    ctx.fill()
+    ctx.fillStyle = '#fff'
+    ctx.font = 'bold 13px Plus Jakarta Sans, sans-serif'
+    ctx.fillText((userName || 'CMV') + ' says ' + otc.v.toLowerCase() + ' ' + otc.emoji, 44, 49)
+
+    // Project name
+    ctx.fillStyle = '#fff'
+    ctx.font = 'bold 32px Plus Jakarta Sans, sans-serif'
+    ctx.fillText(result.project_name || '', 30, 110)
+
+    // Category + location
+    ctx.globalAlpha = 0.7
+    ctx.font = '14px DM Mono, monospace'
+    ctx.fillStyle = '#fff'
+    ctx.fillText((result.project_category || 'Crypto') + (result.team_location ? ' · ' + result.team_location : ''), 30, 135)
+    ctx.globalAlpha = 1
+
+    // Token price
+    if (cgData?.token_live && cgData.ticker) {
+      ctx.fillStyle = 'rgba(255,255,255,0.25)'
+      ctx.roundRect(30, 148, 180, 28, 14)
+      ctx.fill()
+      ctx.fillStyle = '#fff'
+      ctx.font = 'bold 12px DM Mono, monospace'
+      ctx.fillText('🟢 ' + cgData.ticker + ' ' + cgData.token_price + (cgData.market_cap_str ? ' · ' + cgData.market_cap_str : ''), 44, 167)
+    }
+
+    // Score
+    ctx.fillStyle = '#fff'
+    ctx.font = 'bold 88px Plus Jakarta Sans, sans-serif'
+    ctx.textAlign = 'right'
+    ctx.fillText(String(result.overall_score ?? 0), W - 30, 130)
+    ctx.font = '13px DM Mono, monospace'
+    ctx.globalAlpha = 0.7
+    ctx.fillText('ALPHA SCORE', W - 30, 150)
+    ctx.globalAlpha = 1
+    ctx.font = '14px DM Mono, monospace'
+    ctx.fillText(ot + ' · ' + otc.lbl, W - 30, 172)
+    ctx.textAlign = 'left'
+
+    // Verdict box
+    ctx.fillStyle = 'rgba(0,0,0,0.18)'
+    ctx.roundRect(30, 200, W - 60, 90, 12)
+    ctx.fill()
+    ctx.fillStyle = '#fff'
+    ctx.font = 'bold 22px Plus Jakarta Sans, sans-serif'
+    ctx.fillText(otc.emoji + ' ' + otc.v, 46, 228)
+    ctx.font = '13px Plus Jakarta Sans, sans-serif'
+    ctx.globalAlpha = 0.85
+    const verdict = (result.verdict_action || result.verdict_reason || '').slice(0, 100)
+    ctx.fillText(verdict.length > 90 ? verdict.slice(0, 90) + '...' : verdict, 46, 252)
+    ctx.globalAlpha = 1
+
+    // Tags
+    let tagX = 30
+    tagLabels.slice(0, 2).forEach(tag => {
+      ctx.fillStyle = 'rgba(255,255,255,0.2)'
+      const tw = ctx.measureText(tag).width + 24
+      ctx.roundRect(tagX, 308, tw, 28, 14)
+      ctx.fill()
+      ctx.fillStyle = '#fff'
+      ctx.font = 'bold 12px Plus Jakarta Sans, sans-serif'
+      ctx.fillText(tag, tagX + 12, 327)
+      tagX += tw + 8
+    })
+
+    // Highlights
+    let hlY = 310
+    const goodHighlights = result?.good_highlights?.filter((h: string) => h && h.length > 5) || []
+    if (tagLabels.length === 0 && goodHighlights.length > 0) {
+      goodHighlights.slice(0, 3).forEach((h: string) => {
+        ctx.fillStyle = 'rgba(255,255,255,0.2)'
+        const hw = ctx.measureText('✓ ' + h).width + 24
+        ctx.roundRect(tagX, 308, hw, 28, 14)
+        ctx.fill()
+        ctx.fillStyle = '#fff'
+        ctx.font = '12px Plus Jakarta Sans, sans-serif'
+        ctx.fillText('✓ ' + h, tagX + 12, 327)
+        tagX += hw + 8
+      })
+    }
+
+    // Footer
+    ctx.globalAlpha = 0.4
+    ctx.font = '11px DM Mono, monospace'
+    ctx.fillStyle = '#fff'
+    ctx.fillText('CMV ALPHASCANNER · cmv-alphascanner.vercel.app', 30, H - 18)
+    ctx.globalAlpha = 1
+
+    // Download
+    const link = document.createElement('a')
+    link.download = `${result.project_name || 'scan'}-cmv-alpha.png`
+    link.href = canvas.toDataURL('image/png')
+    link.click()
   }
 
   const ot = result ? getTier(result.overall_score ?? 0) : 'C'
@@ -778,10 +924,22 @@ export default function Home() {
         )}
 
         {error && (
-          <div style={{ background: '#fff5f5', border: '1px solid #ffc9c9', borderRadius: 14, padding: '16px 18px', marginBottom: 14 }}>
-            <div style={{ fontSize: 13, fontWeight: 700, color: '#e03131', marginBottom: 5 }}>⚠️ Scan failed</div>
-            <div style={{ fontSize: 12, color: '#c92a2a', lineHeight: 1.6, marginBottom: 10 }}>{error}</div>
-            <button onClick={analyze} style={{ fontSize: 12, padding: '6px 14px', borderRadius: 8, border: '1px solid #ffc9c9', background: '#fff5f5', color: '#e03131', cursor: 'pointer', fontFamily: 'inherit', fontWeight: 600 }}>Try again</button>
+          <div style={{ background: error.startsWith('rate_limit') ? '#fff9e6' : '#fff5f5', border: `1px solid ${error.startsWith('rate_limit') ? '#fde68a' : '#ffc9c9'}`, borderRadius: 14, padding: '16px 18px', marginBottom: 14 }}>
+            {error.startsWith('rate_limit') ? (
+              <>
+                <div style={{ fontSize: 13, fontWeight: 700, color: '#92400e', marginBottom: 6 }}>⏳ High demand — please hold on</div>
+                <div style={{ fontSize: 12, color: '#78350f', lineHeight: 1.6, marginBottom: 6 }}>Too many scans at once. Auto-retrying in <strong>{error.split(':')[1] || '65'}s</strong>...</div>
+                <div style={{ height: 4, background: '#fde68a', borderRadius: 4, overflow: 'hidden' }}>
+                  <div style={{ height: '100%', background: '#f59f00', borderRadius: 4, width: `${Math.min(100, ((65 - parseInt(error.split(':')[1] || '65')) / 65) * 100)}%`, transition: 'width 1s linear' }} />
+                </div>
+              </>
+            ) : (
+              <>
+                <div style={{ fontSize: 13, fontWeight: 700, color: '#e03131', marginBottom: 5 }}>⚠️ Scan failed</div>
+                <div style={{ fontSize: 12, color: '#c92a2a', lineHeight: 1.6, marginBottom: 10 }}>{error}</div>
+                <button onClick={analyze} style={{ fontSize: 12, padding: '6px 14px', borderRadius: 8, border: '1px solid #ffc9c9', background: '#fff5f5', color: '#e03131', cursor: 'pointer', fontFamily: 'inherit', fontWeight: 600 }}>Try again</button>
+              </>
+            )}
           </div>
         )}
 
@@ -873,10 +1031,16 @@ export default function Home() {
                 <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' as const }}>
                   {otc.target && <div style={{ display: 'inline-flex', alignItems: 'center', gap: 5, background: 'rgba(255,255,255,0.15)', border: '1px solid rgba(255,255,255,0.25)', borderRadius: 20, padding: '5px 14px', fontFamily: "'DM Mono',monospace", fontSize: 10, color: '#fff', fontWeight: 600 }}>🎯 {otc.target}</div>}
                 </div>
-                <button onClick={shareResult} style={{ display: 'flex', alignItems: 'center', gap: 7, background: 'rgba(255,255,255,0.2)', border: '1px solid rgba(255,255,255,0.35)', borderRadius: 20, padding: '8px 18px', fontFamily: 'inherit', fontSize: 13, fontWeight: 700, color: '#fff', cursor: 'pointer', whiteSpace: 'nowrap' as const }}>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13" /></svg>
-                  Share to X
-                </button>
+                <div style={{ display: 'flex', gap: 8 }}>
+                  <button onClick={downloadCard} style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'rgba(255,255,255,0.2)', border: '1px solid rgba(255,255,255,0.35)', borderRadius: 20, padding: '8px 16px', fontFamily: 'inherit', fontSize: 13, fontWeight: 700, color: '#fff', cursor: 'pointer', whiteSpace: 'nowrap' as const }}>
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+                    Download
+                  </button>
+                  <button onClick={shareResult} style={{ display: 'flex', alignItems: 'center', gap: 7, background: 'rgba(255,255,255,0.2)', border: '1px solid rgba(255,255,255,0.35)', borderRadius: 20, padding: '8px 18px', fontFamily: 'inherit', fontSize: 13, fontWeight: 700, color: '#fff', cursor: 'pointer', whiteSpace: 'nowrap' as const }}>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13" /></svg>
+                    Share to X
+                  </button>
+                </div>
               </div>
               <div style={{ marginTop: 12, fontFamily: "'DM Mono',monospace", fontSize: 8, color: 'rgba(255,255,255,0.35)', letterSpacing: 1 }}>CMV ALPHASCANNER · cmv-alphascanner.vercel.app</div>
             </div>
