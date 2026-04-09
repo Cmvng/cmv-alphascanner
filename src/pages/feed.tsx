@@ -90,11 +90,17 @@ export default function Feed() {
           <div style={{ width: 34, height: 34, background: 'linear-gradient(135deg,#166534,#16a34a)', borderRadius: 9, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 000-1.41l-2.34-2.34a1 1 0 00-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" fill="#fff" /></svg>
           </div>
-          <span style={{ fontSize: 16, fontWeight: 800, color: '#1c2b5a' }}>CMV <span style={{ color: '#16a34a' }}>AlphaScanner</span></span>
+          <div>
+            <span style={{ fontSize: 16, fontWeight: 800, color: '#1c2b5a' }}>CMV <span style={{ color: '#16a34a' }}>AlphaScanner</span></span>
+            <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#16a34a' }}>click to scan a project</div>
+          </div>
         </a>
         <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 8 }}>
           <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#15803d', background: '#dcfce7', borderRadius: 20, padding: '3px 10px', border: '1px solid #86efac' }}>🔴 LIVE FEED</span>
-          <a href="/" style={{ fontFamily: "'DM Mono',monospace", fontSize: 10, color: '#16a34a', textDecoration: 'none', background: '#f0fdf4', border: '1px solid #86efac', borderRadius: 20, padding: '5px 14px', fontWeight: 600 }}>← Scan Project</a>
+          <a href="/" style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'linear-gradient(135deg,#166534,#16a34a)', color: '#fff', textDecoration: 'none', borderRadius: 20, padding: '8px 16px', fontSize: 13, fontWeight: 700, fontFamily: 'inherit', boxShadow: '0 2px 8px rgba(22,163,74,0.3)' }}>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+            Scan Project
+          </a>
         </div>
       </div>
 
@@ -145,7 +151,7 @@ export default function Feed() {
               const livePrice = scan.ticker ? prices[scan.ticker] : null
               const displayPrice = livePrice || scan.token_price
               return (
-                <a key={scan.id} href={`/?scan=${scan.handle}`} onClick={e => { e.preventDefault(); window.location.href = `/?q=${scan.handle}` }} style={{ textDecoration: 'none' }}>
+                <div key={scan.id} style={{ textDecoration: 'none' }}>
                   <div onClick={() => { window.location.href = `/?q=${scan.handle}` }} style={{ background: '#fff', border: '1.5px solid #e5e7eb', borderRadius: 14, padding: 16, cursor: 'pointer', transition: 'all 0.15s', position: 'relative', overflow: 'hidden' }}
                     onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = t.border; (e.currentTarget as HTMLElement).style.boxShadow = `0 4px 20px ${t.solid}20` }}
                     onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = '#e5e7eb'; (e.currentTarget as HTMLElement).style.boxShadow = 'none' }}>
@@ -199,7 +205,7 @@ export default function Feed() {
                       <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#9ca3af' }}>{timeAgo(scan.scanned_at)}</span>
                     </div>
                   </div>
-                </a>
+                </div>
               )
             })}
           </div>
