@@ -86,7 +86,7 @@ const BAD_TAGS = [
 function getTier(s: number) { return s >= 80 ? 'A' : s >= 60 ? 'B' : s >= 35 ? 'C' : 'D' }
 
 function computeCMVAlphaScore(metrics: any, redFlags: any[]) {
-  if (!metrics) return { total: 0, categories: {} }
+  if (!metrics) return { total: 0, categories: {}, fudPenalty: 0 }
   const cats: Record<string, { score: number; max: number; metrics: string[] }> = {
     Fundamentals: { score: 0, max: 200, metrics: ['funding', 'vc_pedigree', 'copycat', 'niche', 'location'] },
     Team: { score: 0, max: 200, metrics: ['founder_cred', 'founder_activity', 'top_voices'] },
@@ -95,22 +95,25 @@ function computeCMVAlphaScore(metrics: any, redFlags: any[]) {
     Traction: { score: 0, max: 200, metrics: ['mindshare', 'revenue', 'sentiment'] },
   }
   for (const [cat, data] of Object.entries(cats)) {
-    const scores = data.metrics.map(m => metrics[m]?.score ?? 0)
-    const avg = scores.reduce((a, b) => a + b, 0) / scores.length
+    const scores = data.metrics.map((m: string) => metrics[m]?.score ?? 0)
+    const avg = scores.reduce((a: number, b: number) => a + b, 0) / scores.length
     cats[cat].score = Math.round((avg / 100) * 200)
   }
+  // Each flag deducts from 1000pt scale — max 200pt total penalty
   let fudPenalty = 0
   for (const flag of redFlags) {
-    if (flag.type === 'rug') fudPenalty += 100
-    else if (flag.type === 'scam') fudPenalty += 100
-    else if (flag.type === 'shill') fudPenalty += 60
-    else if (flag.type === 'anon') fudPenalty += 40
-    else fudPenalty += 25
+    if (!flag?.label) continue
+    if (flag.type === 'rug') fudPenalty += 80
+    else if (flag.type === 'scam') fudPenalty += 80
+    else if (flag.type === 'shill') fudPenalty += 40
+    else if (flag.type === 'anon') fudPenalty += 30
+    else fudPenalty += 20
   }
   fudPenalty = Math.min(200, fudPenalty)
-  const rawTotal = Object.values(cats).reduce((a, c) => a + c.score, 0)
+  const rawTotal = Object.values(cats).reduce((a: number, c: any) => a + c.score, 0)
+  // rawTotal is out of 1000, fudPenalty is out of 200 (same scale)
   const total = Math.max(0, Math.min(1000, rawTotal - fudPenalty))
-  return { total, categories: cats, fudPenalty: fudPenalty || 0 }
+  return { total, categories: cats, fudPenalty }
 }
 
 function tsq(tier: string, sz = 20) {
@@ -213,8 +216,26 @@ For good_highlights — only include genuinely positive confirmed facts.
 
 SEASON LOGIC — be specific:
 - If token is LIVE: do NOT mention any season unless you find a CONFIRMED official announcement with specific dates or requirements. If unsure, leave future_seasons as empty string.
-- NEVER invent season numbers. If you see Season 2 mentioned somewhere, do not assume Season 3 exists.
-- The verdict_action and future_seasons must be consistent — never say different season numbers in the same result.
+- NEVER invent or guess season numbers. Only state what you find from official sources.
+- The verdict_action and future_seasons MUST use the exact same season number — never contradict each other.
+- If you find Season 3 data, use Season 3 everywhere. If you find Season 2, use Season 2 everywhere.
+- If conflicting season data found, use the MOST RECENT one only.
+
+PROJECT CATEGORY — this is critical:
+- Read the X bio carefully: "${xd?.description || ''}"
+- Detect category from bio keywords:
+  * "prediction market", "predict", "outcome" → Prediction Market
+  * "perp", "perpetual", "derivatives trading" → Perp DEX  
+  * "layer 1", "layer 2", "L1", "L2", "blockchain" → L1/L2
+  * "testnet", "devnet" → Testnet
+  * "lending", "borrow", "yield" → DeFi/Lending
+  * "NFT", "gaming", "game" → NFT/Gaming
+  * "real world asset", "RWA", "tokenized" → RWA
+  * "social", "creator", "content" → SocialFi
+  * "AI", "agent", "model" → AI Project
+  * "infrastructure", "protocol", "SDK" → Infrastructure
+- NEVER assign DeFi/Lending unless the project specifically does lending or yield farming
+- Use the bio as primary source, web search as confirmation only
 - If pre-TGE: mention farming strategy if found
 - If no season info found: leave future_seasons empty string
 
@@ -377,7 +398,20 @@ export default function Home() {
     if (!url) return
     const handle = url.replace('https://x.com/', '').replace('https://twitter.com/', '').replace('http://x.com/', '').replace('@', '').split('/')[0].trim()
     if (!handle) return
+    const cacheKey = `cmv_scan_${handle.toLowerCase()}`
     setLoading(true); setResult(null); setCgData(null); setXData(null); setError(null); setAtab('Fundamentals'); setAsec('metrics'); setSelectedTags([])
+
+    // Check browser cache first — 24hr expiry
+    try {
+      const cached = localStorage.getItem(cacheKey)
+      if (cached) {
+        const { result: cr, cgData: cc, xData: cx, timestamp } = JSON.parse(cached)
+        if (Date.now() - timestamp < 1000 * 60 * 60 * 24) {
+          setResult(cr); setCgData(cc); setXData(cx); setLoading(false); return
+        }
+      }
+    } catch { }
+
     const xd = await fetchProjectXData(handle)
     setXData(xd)
     const cg = await fetchCoinGecko(handle, xd?.confirmed_ticker, xd?.token_launch_hinted)
@@ -390,7 +424,14 @@ export default function Home() {
           model: 'claude-sonnet-4-20250514', max_tokens: 4000,
           system: buildPrompt(handle, xd, cg),
           tools: [{ type: 'web_search_20250305', name: 'web_search' }],
-          messages: [{ role: 'user', content: `Analyze @${handle}. Search for "@${handle}" specifically. Return complete JSON only. No cite tags. No numbered references.` }]
+          messages: [{ role: 'user', content: `Analyze @${handle}.
+
+X Bio (use this to determine project category): "${xd?.description || 'not available'}"
+X Pinned Tweet: "${xd?.pinned_tweet || 'none'}"
+
+Search for "@${handle}" to find: funding, team, season details, farming requirements.
+Detect project_category from the X bio above — do NOT rely on web search for category.
+Return complete JSON only. No cite tags. No numbered references.` }]
         })
       })
       const data = await r.json()
@@ -399,7 +440,14 @@ export default function Home() {
       if (!txt.trim()) throw new Error('No response received. Please try again.')
       const parsed = xjson(txt)
       if (!parsed) throw new Error('Could not read results. Please try again.')
-      setResult(stripCites(parsed))
+      const cleaned = stripCites(parsed)
+      setResult(cleaned)
+      // Save to browser cache
+      try {
+        localStorage.setItem(cacheKey, JSON.stringify({
+          result: cleaned, cgData: cg, xData: xd, timestamp: Date.now()
+        }))
+      } catch { }
     } catch (e: any) {
       setError(e.message || 'Something went wrong.')
     } finally { setLoading(false) }
@@ -596,10 +644,22 @@ export default function Home() {
               value={xUrl} onChange={e => setXUrl(e.target.value)}
               onKeyDown={e => e.key === 'Enter' && !loading && analyze()} disabled={loading}
               onFocus={e => e.target.style.borderColor = '#3b5bdb'} onBlur={e => e.target.style.borderColor = '#dbe4ff'} />
-            <button onClick={analyze} disabled={loading || !xUrl.trim()}
-              style={{ background: loading || !xUrl.trim() ? '#e2e8f0' : 'linear-gradient(135deg,#166534,#16a34a)', color: loading || !xUrl.trim() ? '#adb5bd' : '#fff', border: 'none', borderRadius: 12, padding: '14px 28px', fontSize: 14, fontWeight: 700, cursor: loading || !xUrl.trim() ? 'not-allowed' : 'pointer', whiteSpace: 'nowrap' as const, fontFamily: 'inherit', transition: 'all 0.2s', boxShadow: loading || !xUrl.trim() ? 'none' : '0 4px 14px rgba(22,163,74,0.3)' }}>
-              {loading ? 'Scanning...' : 'Analyze →'}
-            </button>
+            <div style={{ display: 'flex', gap: 8, flexShrink: 0 }}>
+              {result && !loading && (
+                <button onClick={() => {
+                  const handle = xUrl.replace('https://x.com/','').replace('https://twitter.com/','').replace('@','').split('/')[0].trim().toLowerCase()
+                  try { localStorage.removeItem(`cmv_scan_${handle}`) } catch {}
+                  analyze()
+                }}
+                  style={{ background: '#fff', border: '1px solid #86efac', borderRadius: 12, padding: '14px 16px', fontSize: 13, fontWeight: 600, cursor: 'pointer', color: '#15803d', fontFamily: 'inherit', whiteSpace: 'nowrap' as const }}>
+                  ↺ Refresh
+                </button>
+              )}
+              <button onClick={analyze} disabled={loading || !xUrl.trim()}
+                style={{ background: loading || !xUrl.trim() ? '#e2e8f0' : 'linear-gradient(135deg,#166534,#16a34a)', color: loading || !xUrl.trim() ? '#adb5bd' : '#fff', border: 'none', borderRadius: 12, padding: '14px 28px', fontSize: 14, fontWeight: 700, cursor: loading || !xUrl.trim() ? 'not-allowed' : 'pointer', whiteSpace: 'nowrap' as const, fontFamily: 'inherit', transition: 'all 0.2s', boxShadow: loading || !xUrl.trim() ? 'none' : '0 4px 14px rgba(22,163,74,0.3)' }}>
+                {loading ? 'Scanning...' : 'Analyze →'}
+              </button>
+            </div>
           </div>
           <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#adb5bd', marginTop: 10, display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' as const }}>
             <span>try:</span>
