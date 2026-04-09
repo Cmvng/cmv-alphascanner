@@ -147,20 +147,21 @@ function stripCites(obj: any): any {
 async function fetchCoinGecko(
   projectName: string,
   confirmedTicker?: string | null,
-  tokenHinted?: boolean
+  tokenHinted?: boolean,
+  xHandle?: string
 ) {
   try {
     let bestCoin: any = null
 
+    // Strategy 1: confirmed ticker from X
     if (confirmedTicker) {
       const r = await fetch(`https://api.coingecko.com/api/v3/search?query=${encodeURIComponent(confirmedTicker)}`)
       const d = await r.json()
       const matches = (d.coins || []).filter((c: any) => c.symbol?.toUpperCase() === confirmedTicker.toUpperCase())
-      if (matches.length > 0) {
-        bestCoin = matches.sort((a: any, b: any) => (a.market_cap_rank || 9999) - (b.market_cap_rank || 9999))[0]
-      }
+      if (matches.length > 0) bestCoin = matches.sort((a: any, b: any) => (a.market_cap_rank || 9999) - (b.market_cap_rank || 9999))[0]
     }
 
+    // Strategy 2: project name search
     if (!bestCoin) {
       const r = await fetch(`https://api.coingecko.com/api/v3/search?query=${encodeURIComponent(projectName)}`)
       const d = await r.json()
@@ -169,12 +170,27 @@ async function fetchCoinGecko(
           const cName = c.name?.toLowerCase() || ''
           const cSymbol = c.symbol?.toUpperCase() || ''
           const pName = projectName.toLowerCase()
-          const tickerMatch = confirmedTicker && cSymbol === confirmedTicker.toUpperCase()
-          const nameExact = cName === pName
-          const nameClose = (cName.includes(pName) || pName.includes(cName)) && (c.market_cap_rank || 9999) < 2000
-          return tickerMatch || nameExact || nameClose
+          return (confirmedTicker && cSymbol === confirmedTicker.toUpperCase()) ||
+            cName === pName ||
+            ((cName.includes(pName) || pName.includes(cName)) && (c.market_cap_rank || 9999) < 1500)
         })
         if (close) bestCoin = close
+      }
+    }
+
+    // Strategy 3: strip prefix from X handle (trylimitless → limitless)
+    if (!bestCoin && xHandle) {
+      const stripped = xHandle.replace(/^(try|use|get|the|go)/i, '')
+      if (stripped.length > 3 && stripped.toLowerCase() !== xHandle.toLowerCase()) {
+        const r = await fetch(`https://api.coingecko.com/api/v3/search?query=${encodeURIComponent(stripped)}`)
+        const d = await r.json()
+        if (d.coins?.length > 0) {
+          const match = d.coins.find((c: any) => {
+            const cName = c.name?.toLowerCase() || ''
+            return (cName.includes(stripped.toLowerCase()) || stripped.toLowerCase().includes(cName)) && (c.market_cap_rank || 9999) < 1500
+          })
+          if (match) bestCoin = match
+        }
       }
     }
 
@@ -185,15 +201,8 @@ async function fetchCoinGecko(
     const price = pd[bestCoin.id]?.usd
     const mcap = pd[bestCoin.id]?.usd_market_cap
 
-    if (!price || price === 0) {
-      return { token_live: false, ticker: bestCoin.symbol?.toUpperCase(), token_price: 'Not Launched', token_note: 'Listed on CoinGecko but no active price' }
-    }
-
-    // If ticker was explicitly found in X data, always confirm as live
-    if (!confirmedTicker && !tokenHinted) {
-      return { token_live: false, ticker: bestCoin.symbol?.toUpperCase(), token_price: 'Unconfirmed', token_note: `$${bestCoin.symbol?.toUpperCase()} found on CoinGecko but not confirmed in X bio` }
-    }
-    // confirmedTicker found in X tweets = confirmed live
+    if (!price || price === 0) return { token_live: false, ticker: bestCoin.symbol?.toUpperCase(), token_price: 'Not Launched', token_note: 'Listed on CoinGecko but no active price' }
+    if (!confirmedTicker && !tokenHinted) return { token_live: false, ticker: bestCoin.symbol?.toUpperCase(), token_price: 'Unconfirmed', token_note: `$${bestCoin.symbol?.toUpperCase()} found on CoinGecko but ticker not confirmed in X` }
 
     const mcapStr = mcap ? (mcap >= 1e9 ? `$${(mcap/1e9).toFixed(1)}B` : mcap >= 1e6 ? `$${(mcap/1e6).toFixed(1)}M` : `$${Math.round(mcap).toLocaleString()}`) : ''
     const priceStr = price < 0.01 ? `$${price.toFixed(6)}` : price < 1 ? `$${price.toFixed(4)}` : `$${price.toFixed(2)}`
@@ -328,15 +337,17 @@ function MetricRow({ metric, data }: { metric: any, data: any }) {
 
 function TeamCard({ member }: { member: any }) {
   const [err, setErr] = useState(false)
-  const handle = (member.x_handle || '').replace('@', '')
+  const handle = (member.x_handle || '').replace('@', '').replace('@', '')
+  const cleanHandle = handle.toLowerCase() === 'unknown' ? '' : handle
   const ini = (member.name || '?').slice(0, 2).toUpperCase()
+  const imgSrc = member.profile_image_url || (cleanHandle ? `https://unavatar.io/twitter/${cleanHandle}` : null)
   return (
     <div style={{ background: '#f8f9ff', border: '1px solid #dbe4ff', borderRadius: 10, padding: '12px 14px', display: 'flex', alignItems: 'flex-start', gap: 12 }}>
-      <a href={handle ? `https://x.com/${handle}` : '#'} target="_blank" rel="noreferrer" style={{ textDecoration: 'none', flexShrink: 0 }}>
-        {!err && handle ? (
-          <img src={`https://unavatar.io/twitter/${handle}`} alt={member.name} style={{ width: 42, height: 42, borderRadius: '50%', objectFit: 'cover', border: '1px solid #dbe4ff' }} onError={() => setErr(true)} />
+      <a href={cleanHandle ? `https://x.com/${cleanHandle}` : '#'} target="_blank" rel="noreferrer" style={{ textDecoration: 'none', flexShrink: 0 }}>
+        {!err && imgSrc ? (
+          <img src={imgSrc} alt={member.name} style={{ width: 42, height: 42, borderRadius: '50%', objectFit: 'cover', border: '1px solid #dbe4ff' }} onError={() => setErr(true)} />
         ) : (
-          <div style={{ width: 42, height: 42, borderRadius: '50%', background: '#e8ecff', color: '#3b5bdb', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'DM Mono',monospace", fontSize: 13, fontWeight: 600 }}>{ini}</div>
+          <div style={{ width: 42, height: 42, borderRadius: '50%', background: '#dcfce7', color: '#15803d', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'DM Mono',monospace", fontSize: 13, fontWeight: 700 }}>{ini}</div>
         )}
       </a>
       <div style={{ flex: 1, minWidth: 0 }}>
@@ -344,7 +355,7 @@ function TeamCard({ member }: { member: any }) {
           <span style={{ fontSize: 13, fontWeight: 700, color: '#1c2b5a' }}>{member.name}</span>
           {!member.confirmed && <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#e67700', background: '#fff3bf', border: '1px solid #ffe066', padding: '1px 6px', borderRadius: 20 }}>unconfirmed</span>}
         </div>
-        <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 10, color: '#3b5bdb', marginBottom: 4 }}>{member.role}{handle ? ` · @${handle}` : ''}</div>
+        <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 10, color: '#16a34a', marginBottom: 4 }}>{member.role}{cleanHandle ? ` · @${cleanHandle}` : ''}</div>
         {member.background && <div style={{ fontSize: 11, color: '#6c7a9c', lineHeight: 1.5 }}>{member.background}</div>}
       </div>
     </div>
@@ -456,18 +467,17 @@ export default function Home() {
 
     const xd = await fetchProjectXData(handle)
     setXData(xd)
-    // Use pre-fetched token data from xproject if available (CoinGecko X handle match)
-    let cg
-    if (xd?.token_data?.token_live) {
-      // X handle matched CoinGecko directly — most accurate
-      cg = xd.token_data
-    } else {
-      // Fallback: search CoinGecko by ticker or name
+    // Fetch token data from CoinGecko with multiple strategies
+    // Use token data pre-fetched by X API serverless function
+    let cg = xd?.token_data || null
+    if (!cg || !cg.token_live) {
+      // Fallback to client-side CoinGecko search
       const hasTicker = !!(xd?.confirmed_ticker)
       cg = await fetchCoinGecko(
         handle,
         xd?.confirmed_ticker || null,
-        hasTicker || xd?.token_launch_hinted || false
+        hasTicker || xd?.token_launch_hinted || false,
+        handle
       )
     }
     setCgData(cg)
@@ -486,18 +496,34 @@ X Pinned Tweet: "${xd?.pinned_tweet || 'none'}"
 X Recent Tweets hint: "${xd?.recent_tweets || 'none'}"
 Confirmed ticker from X: ${xd?.confirmed_ticker || 'none'}
 Token launch signals detected: ${xd?.token_launch_hinted || false}
+Token data pre-fetched: ${JSON.stringify(cg || {})}
+X API found these potential team members (verify names/roles via web search): ${JSON.stringify((xd?.founder_profiles || []).map((fp: any) => ({ handle: fp.x_handle, name: fp.name, bio: fp.description?.slice(0,100) })))}
 
 YOU MUST DO EXACTLY 3 SEARCHES IN THIS ORDER:
 
-SEARCH 1 — RED FLAGS ONLY (do this first, always):
-Search: "@${handle} rug scam controversy hack exploit fraud allegations"
-Look specifically for: previous rugs, exit scams, security exploits, founder misconduct, paid shill accusations, token dump at launch, regulatory issues, community complaints. Report EVERY flag you find with source. If nothing found, red_flags array stays empty.
+SEARCH 1 — RED FLAGS + CONCERNS (do this first, always):
+Search: "@${handle} rug scam hack exploit controversy criticism concerns issues risk warning"
+Look for ALL of these — major AND minor:
+MAJOR (type: rug/scam/exploit): rugs, exit scams, hacks, exploits, fraud
+MEDIUM (type: dump/shill): token dump at launch, 80%+ paid content, VC dump risk
+MINOR (type: other): no security audit, centralization concerns, team wallet concentration, competitor allegations, regulatory grey area, community criticism about tokenomics, unlock schedule concerns
 
-SEARCH 2 — PROJECT FUNDAMENTALS + TEAM:
-Search: "@${handle} funding investors team CEO founder whitepaper season airdrop requirements"
-Find: funding rounds, investor names, team members with X handles, farming requirements, season details.
-For team: search specifically for founder names, CEO, co-founders. Include their X handles.
-Always return at least 1 team_member entry. If team is anon, write name "Anonymous Team" confirmed:false.
+IMPORTANT: Every project has at least some concerns. If you find NO major flags, still report minor concerns.
+Examples of minor flags worth reporting:
+- "No public smart contract audit found" 
+- "Large team token allocation (X%) with short vesting"
+- "Token launched with price drop of X% in first week"
+- "Centralized sequencer / admin key concerns"
+- "Regulatory uncertainty in prediction market space"
+Report these with type: "other" and confirmed source.
+
+SEARCH 2 — PROJECT FUNDAMENTALS + TEAM NAMES:
+Search: "@${handle} founder CEO co-founder team whitepaper season airdrop requirements"
+Find: founder NAMES, funding rounds, investor names, farming requirements, season details.
+NOTE: X API already found team X profiles separately. Your job is to find their NAMES and ROLES.
+- For x_handle: leave as empty string "" if not 100% certain — X API handles photos
+- Focus on finding: who founded this, what is their background, previous projects
+- Always return at least 1 team member entry with real name if findable
 
 SEARCH 3 — CONFIRM SEASON/TOKEN INFO:
 Search: "@${handle} season 3 season 2 points program token TGE 2025 2026"
@@ -1101,12 +1127,30 @@ Return complete JSON only. Zero cite tags. Zero numbered references.` }]
               </div>
             )}
 
-            {/* Team */}
-            {result.team_members?.filter((m: any) => m.name && m.name.length > 1).length > 0 && (
+            {/* Team — from Claude research + X API founder profiles */}
+            {(result.team_members?.filter((m: any) => m.name && m.name.length > 1).length > 0 || xData?.founder_profiles?.length > 0) && (
               <div style={{ background: '#fff', border: '1px solid #dbe4ff', borderRadius: 14, padding: 16, marginBottom: 14 }}>
-                <div style={{ fontSize: 13, fontWeight: 700, color: '#1c2b5a', marginBottom: 12 }}>👥 Team & Founders</div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
+                  <span style={{ fontSize: 13, fontWeight: 700, color: '#1c2b5a' }}>👥 Team & Founders</span>
+                  {xData?.founder_profiles?.length > 0 && <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#15803d', background: '#dcfce7', border: '1px solid #86efac', padding: '2px 8px', borderRadius: 20 }}>X API verified</span>}
+                </div>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(240px,1fr))', gap: 10 }}>
-                  {result.team_members.filter((m: any) => m.name && m.name.length > 1).map((m: any, i: number) => <TeamCard key={i} member={m} />)}
+                  {/* Claude-researched team members */}
+                  {result.team_members?.filter((m: any) => m.name && m.name.length > 1 && m.name.toLowerCase() !== 'anonymous').map((m: any, i: number) => <TeamCard key={`claude-${i}`} member={m} />)}
+                  {/* X API found profiles — real data */}
+                  {xData?.founder_profiles?.filter((fp: any) => {
+                    const alreadyShown = result.team_members?.some((m: any) => m.x_handle?.toLowerCase() === fp.x_handle?.toLowerCase())
+                    return !alreadyShown
+                  }).map((fp: any, i: number) => (
+                    <TeamCard key={`xapi-${i}`} member={{
+                      name: fp.name,
+                      role: 'Team Member',
+                      x_handle: fp.x_handle,
+                      background: fp.description?.slice(0, 120) || '',
+                      confirmed: true,
+                      profile_image_url: fp.profile_image_url
+                    }} />
+                  ))}
                 </div>
               </div>
             )}
