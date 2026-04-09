@@ -57,58 +57,7 @@ async function getCoingeckoToken(ticker: string, handle: string) {
   } catch { return null }
 }
 
-async function findFounderProfiles(userId: string, token: string): Promise<any[]> {
-  try {
-    // Get accounts this project follows — founders often follow each other
-    const following = await xFetch(
-      `https://api.twitter.com/2/users/${userId}/following?max_results=100&user.fields=name,username,description,profile_image_url,public_metrics,verified`,
-      token
-    )
 
-    const followingList = following.data || []
-
-    // Also get people who are mentioned in recent tweets
-    const tweets = await xFetch(
-      `https://api.twitter.com/2/users/${userId}/tweets?max_results=20&tweet.fields=text,entities&expansions=entities.mentions.username&user.fields=name,username,description,profile_image_url,public_metrics`,
-      token
-    )
-
-    const mentionedUsers = tweets.includes?.users || []
-
-    // Keywords that suggest someone is a founder/team member
-    const founderKeywords = ['founder', 'co-founder', 'ceo', 'cto', 'coo', 'cpo', 'head of', 'lead', 'built', 'building', 'creator', 'team']
-
-    // Filter following list for likely team members
-    const teamFromFollowing = followingList.filter((u: any) => {
-      const bio = (u.description || '').toLowerCase()
-      return founderKeywords.some(k => bio.includes(k))
-    }).slice(0, 6)
-
-    // Filter mentioned users for likely team members
-    const teamFromMentions = mentionedUsers.filter((u: any) => {
-      const bio = (u.description || '').toLowerCase()
-      return founderKeywords.some(k => bio.includes(k))
-    }).slice(0, 4)
-
-    // Combine and deduplicate
-    const combined = [...teamFromFollowing, ...teamFromMentions]
-    const seen = new Set<string>()
-    const unique = combined.filter((u: any) => {
-      if (seen.has(u.id)) return false
-      seen.add(u.id)
-      return true
-    })
-
-    return unique.map((u: any) => ({
-      name: u.name,
-      x_handle: `@${u.username}`,
-      profile_image_url: u.profile_image_url?.replace('_normal', '_bigger') || null,
-      description: u.description || '',
-      followers: u.public_metrics?.followers_count || 0,
-      verified: u.verified || false,
-    }))
-  } catch { return [] }
-}
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   res.setHeader('Access-Control-Allow-Origin', '*')
@@ -122,11 +71,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const clean = handle.replace('@', '').trim().toLowerCase()
   const TOKEN = process.env.X_API_BEARER_TOKEN!
 
-  // Return cached result if fresh
+  // Return cached result if fresh (pass ?nocache=true to bypass)
+  const noCache = req.query.nocache === 'true'
   const cached = cache.get(clean)
-  if (cached && Date.now() - cached.time < CACHE_TTL) {
+  if (!noCache && cached && Date.now() - cached.time < CACHE_TTL) {
     return res.status(200).json({ ...cached.data, cached: true })
   }
+  // Clear cache if requested
+  if (noCache) cache.delete(clean)
 
   try {
     // 1. Fetch project X profile
@@ -158,8 +110,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       recentTweetsText = (tweetsData.data || []).map((t: any) => t.text).join(' ')
     } catch { }
 
-    // 4. Find founder profiles via X API following/mentions
-    const founderProfiles = await findFounderProfiles(u.id, TOKEN)
+    // Founder profiles fetched separately via xuser API per team member
 
     // 5. Extract ticker from all X text
     const allText = `${bio} ${pinnedTweetText} ${recentTweetsText}`
@@ -215,7 +166,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       all_tickers_found: filtered,
       token_launch_hinted: tokenLaunchHinted || !!tokenData?.token_live,
       token_data: tokenData,
-      founder_profiles: founderProfiles,
+
       cmv_score: Math.min(1000, Math.round(cmvScore * 10)),
       breakdown: {
         follower_reach: Math.round(followerScore),
