@@ -986,6 +986,11 @@ export default function Home() {
               {result && !loading && (
                 <>
                   <button onClick={() => { setResult(null); setCgData(null); setXData(null); setXUrl(''); setSelectedTags([]) }} style={{ background: '#fff', border: '1px solid #86efac', borderRadius: 12, padding: '14px 16px', fontSize: 13, fontWeight: 600, cursor: 'pointer', color: '#15803d', fontFamily: 'inherit', whiteSpace: 'nowrap' as const }}>+ New Scan</button>
+                  <button onClick={() => {
+                    const handle = xUrl.replace('https://x.com/','').replace('https://twitter.com/','').replace('@','').split('/')[0].trim().toLowerCase()
+                    try { localStorage.removeItem('cmv_scan_' + handle) } catch {}
+                    analyze()
+                  }} style={{ background: '#fff', border: '1px solid #c5d0ff', borderRadius: 12, padding: '14px 16px', fontSize: 13, fontWeight: 600, cursor: 'pointer', color: '#3b5bdb', fontFamily: 'inherit', whiteSpace: 'nowrap' as const }}>🔄 Re-scan</button>
                   <button onClick={async () => {
                     const handle = xUrl.replace('https://x.com/','').replace('https://twitter.com/','').replace('@','').split('/')[0].trim().toLowerCase()
                     try { localStorage.removeItem('cmv_scan_' + handle) } catch {}
