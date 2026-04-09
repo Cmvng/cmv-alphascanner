@@ -335,6 +335,49 @@ function MetricRow({ metric, data }: { metric: any, data: any }) {
   )
 }
 
+function TeamCardEnriched({ member }: { member: any }) {
+  const [xProfile, setXProfile] = useState<any>(null)
+  const [err, setErr] = useState(false)
+  const handle = (member.x_handle || '').replace('@', '')
+  const cleanHandle = handle.toLowerCase() === 'unknown' || handle === '' ? '' : handle
+
+  useEffect(() => {
+    if (!cleanHandle) return
+    fetch(`/api/xuser?handle=${cleanHandle}`)
+      .then(r => r.ok ? r.json() : null)
+      .then(d => { if (d && !d.error) setXProfile(d) })
+      .catch(() => {})
+  }, [cleanHandle])
+
+  const ini = (member.name || '?').slice(0, 2).toUpperCase()
+  const imgSrc = xProfile?.profile_image_url || member.profile_image_url ||
+    (cleanHandle ? `https://unavatar.io/twitter/${cleanHandle}` : null)
+
+  return (
+    <div style={{ background: '#f8f9ff', border: '1px solid #dbe4ff', borderRadius: 10, padding: '12px 14px', display: 'flex', alignItems: 'flex-start', gap: 12 }}>
+      <a href={cleanHandle ? `https://x.com/${cleanHandle}` : '#'} target="_blank" rel="noreferrer" style={{ textDecoration: 'none', flexShrink: 0 }}>
+        {!err && imgSrc ? (
+          <img src={imgSrc} alt={member.name} style={{ width: 42, height: 42, borderRadius: '50%', objectFit: 'cover', border: '1px solid #dbe4ff' }} onError={() => setErr(true)} />
+        ) : (
+          <div style={{ width: 42, height: 42, borderRadius: '50%', background: '#dcfce7', color: '#15803d', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'DM Mono',monospace", fontSize: 13, fontWeight: 700 }}>{ini}</div>
+        )}
+      </a>
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' as const, marginBottom: 2 }}>
+          <span style={{ fontSize: 13, fontWeight: 700, color: '#1c2b5a' }}>{member.name}</span>
+          {!member.confirmed && <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#e67700', background: '#fff3bf', border: '1px solid #ffe066', padding: '1px 6px', borderRadius: 20 }}>unconfirmed</span>}
+          {xProfile?.verified && <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#15803d', background: '#dcfce7', padding: '1px 6px', borderRadius: 20 }}>✓</span>}
+        </div>
+        <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 10, color: '#16a34a', marginBottom: 4 }}>
+          {member.role}{cleanHandle ? ` · @${cleanHandle}` : ''}
+          {xProfile?.followers ? <span style={{ color: '#9ca3af', marginLeft: 6 }}>{xProfile.followers >= 1000 ? `${(xProfile.followers/1000).toFixed(0)}K` : xProfile.followers} followers</span> : null}
+        </div>
+        {member.background && <div style={{ fontSize: 11, color: '#6c7a9c', lineHeight: 1.5 }}>{member.background}</div>}
+      </div>
+    </div>
+  )
+}
+
 function TeamCard({ member }: { member: any }) {
   const [err, setErr] = useState(false)
   const handle = (member.x_handle || '').replace('@', '').replace('@', '')
@@ -497,7 +540,7 @@ X Recent Tweets hint: "${xd?.recent_tweets || 'none'}"
 Confirmed ticker from X: ${xd?.confirmed_ticker || 'none'}
 Token launch signals detected: ${xd?.token_launch_hinted || false}
 Token data pre-fetched: ${JSON.stringify(cg || {})}
-X API found these potential team members (verify names/roles via web search): ${JSON.stringify((xd?.founder_profiles || []).map((fp: any) => ({ handle: fp.x_handle, name: fp.name, bio: fp.description?.slice(0,100) })))}
+NOTE: X API team data is NOT reliable for identifying founders — it just shows who the project follows. Ignore it. Find the REAL founders via web search only.
 
 YOU MUST DO EXACTLY 3 SEARCHES IN THIS ORDER:
 
@@ -1127,29 +1170,16 @@ Return complete JSON only. Zero cite tags. Zero numbered references.` }]
               </div>
             )}
 
-            {/* Team — from Claude research + X API founder profiles */}
-            {(result.team_members?.filter((m: any) => m.name && m.name.length > 1).length > 0 || xData?.founder_profiles?.length > 0) && (
+            {/* Team — Claude finds real names, X API enriches with photos */}
+            {result.team_members?.filter((m: any) => m.name && m.name.length > 1 && m.name.toLowerCase() !== 'anonymous team').length > 0 && (
               <div style={{ background: '#fff', border: '1px solid #dbe4ff', borderRadius: 14, padding: 16, marginBottom: 14 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
                   <span style={{ fontSize: 13, fontWeight: 700, color: '#1c2b5a' }}>👥 Team & Founders</span>
-                  {xData?.founder_profiles?.length > 0 && <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#15803d', background: '#dcfce7', border: '1px solid #86efac', padding: '2px 8px', borderRadius: 20 }}>X API verified</span>}
+                  <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#15803d', background: '#dcfce7', border: '1px solid #86efac', padding: '2px 8px', borderRadius: 20 }}>X API enriched</span>
                 </div>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(240px,1fr))', gap: 10 }}>
-                  {/* Claude-researched team members */}
-                  {result.team_members?.filter((m: any) => m.name && m.name.length > 1 && m.name.toLowerCase() !== 'anonymous').map((m: any, i: number) => <TeamCard key={`claude-${i}`} member={m} />)}
-                  {/* X API found profiles — real data */}
-                  {xData?.founder_profiles?.filter((fp: any) => {
-                    const alreadyShown = result.team_members?.some((m: any) => m.x_handle?.toLowerCase() === fp.x_handle?.toLowerCase())
-                    return !alreadyShown
-                  }).map((fp: any, i: number) => (
-                    <TeamCard key={`xapi-${i}`} member={{
-                      name: fp.name,
-                      role: 'Team Member',
-                      x_handle: fp.x_handle,
-                      background: fp.description?.slice(0, 120) || '',
-                      confirmed: true,
-                      profile_image_url: fp.profile_image_url
-                    }} />
+                  {result.team_members.filter((m: any) => m.name && m.name.length > 1 && m.name.toLowerCase() !== 'anonymous team').map((m: any, i: number) => (
+                    <TeamCardEnriched key={i} member={m} />
                   ))}
                 </div>
               </div>
