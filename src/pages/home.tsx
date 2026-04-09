@@ -42,7 +42,7 @@ const LOADING_MSGS = [
 ]
 
 const T: Record<string, any> = {
-  A: { bg: '#ebfbee', border: '#8ce99a', tc: '#2f9e44', solid: '#37b24d', lbl: 'Tier A', v: 'FARM IT', sub: 'High conviction play. Go hard.', target: 'Top 30-50%', vbg: 'linear-gradient(135deg,#37b24d,#2f9e44)', emoji: '🌾', range: '800-1000' },
+  A: { bg: '#ebfbee', border: '#8ce99a', tc: '#2f9e44', solid: '#37b24d', lbl: 'Tier A', v: 'FARM IT', sub: 'High conviction play. Go hard.', target: 'Top 30-50%', vbg: 'linear-gradient(135deg,#37b24d,#2f9e44)', emoji: '🌾', range: '850-1000' },
   B: { bg: '#fff3bf', border: '#ffe066', tc: '#e67700', solid: '#f59f00', lbl: 'Tier B', v: 'CREATE CONTENT', sub: 'Might cook or not. Keep expectations low.', target: 'Top 20%', vbg: 'linear-gradient(135deg,#f59f00,#e67700)', emoji: '✍️', range: '600-799' },
   C: { bg: '#fff4e6', border: '#ffc078', tc: '#d9480f', solid: '#e8590c', lbl: 'Tier C', v: 'WATCH', sub: 'Too early to call. Monitor closely.', target: 'Top 10%', vbg: 'linear-gradient(135deg,#e8590c,#d9480f)', emoji: '👁️', range: '350-599' },
   D: { bg: '#f1f3f5', border: '#dee2e6', tc: '#495057', solid: '#868e96', lbl: 'Tier D', v: 'SKIP', sub: 'Not worth your time right now.', target: '', vbg: 'linear-gradient(135deg,#868e96,#495057)', emoji: '🚫', range: '0-349' },
@@ -83,7 +83,13 @@ const BAD_TAGS = [
   { id: 'notoken', label: 'No token clarity whatsoever ❓' },
 ]
 
-function getTier(s: number) { return s >= 80 ? 'A' : s >= 60 ? 'B' : s >= 35 ? 'C' : 'D' }
+function getTier(s: number) { return s >= 85 ? 'A' : s >= 60 ? 'B' : s >= 35 ? 'C' : 'D' }
+
+function computeCombinedScore(alphaScore: number, xScore: number) {
+  // 70% Claude alpha analysis + 30% X social score
+  const combined = Math.round((alphaScore * 0.5) + (xScore * 0.5))
+  return Math.min(1000, Math.max(0, combined))
+}
 
 function computeCMVAlphaScore(metrics: any, redFlags: any[]) {
   if (!metrics) return { total: 0, categories: {}, fudPenalty: 0 }
@@ -102,13 +108,15 @@ function computeCMVAlphaScore(metrics: any, redFlags: any[]) {
   let fudPenalty = 0
   for (const flag of redFlags) {
     if (!flag?.label) continue
-    if (flag.type === 'rug') fudPenalty += 80
-    else if (flag.type === 'scam') fudPenalty += 80
-    else if (flag.type === 'shill') fudPenalty += 40
-    else if (flag.type === 'anon') fudPenalty += 30
-    else fudPenalty += 20
+    if (flag.type === 'rug') fudPenalty += 150
+    else if (flag.type === 'scam') fudPenalty += 150
+    else if (flag.type === 'exploit') fudPenalty += 100
+    else if (flag.type === 'dump') fudPenalty += 80
+    else if (flag.type === 'shill') fudPenalty += 60
+    else if (flag.type === 'anon') fudPenalty += 40
+    else fudPenalty += 30
   }
-  fudPenalty = Math.min(200, fudPenalty)
+  fudPenalty = Math.min(300, fudPenalty)
   const rawTotal = Object.values(cats).reduce((a: number, c: any) => a + c.score, 0)
   const total = Math.max(0, Math.min(1000, rawTotal - fudPenalty))
   return { total, categories: cats, fudPenalty }
@@ -171,11 +179,16 @@ CoinGecko Token Data: ${JSON.stringify(cg)}
 
 Search ONLY for "@${handle}" — do not confuse with other projects.
 
-SCORE INTEGRITY — be brutally honest:
+SCORE INTEGRITY — be brutally honest. Tier A is reserved for the best projects in CT.
 - Most projects score 35-65. Above 75 requires exceptional evidence.
-- Tier A = 80+ ALL of: confirmed funding + active founders + low dilution + strong CT
-- Tier B = 60-79, Tier C = 35-59, Tier D = 0-34
-- FUD < 40 = overall max 65. user_count < 30 = overall max 60. vc_pedigree < 40 = overall max 65.
+- Tier A = 85+ requires ALL of: confirmed Tier 1 VC + doxxed founders with track record + active live product + low dilution risk + strong organic CT + no major red flags
+- Tier B = 60-84. Good project but missing 1-2 key signals.
+- Tier C = 35-59. Too early, too risky, or too much uncertainty.
+- Tier D = 0-34. Skip entirely.
+- ANY rug or scam history = maximum score of 40, no exceptions.
+- ANY major red flag = automatic cap of 65.
+- FUD < 40 = overall max 60. user_count < 30 = overall max 55. vc_pedigree < 40 = overall max 60.
+- Do NOT give Tier A just because a project is popular on CT. Popularity ≠ quality.
 
 RED FLAGS — THIS IS MANDATORY. You MUST search for problems first.
 Do TWO dedicated searches before anything else:
@@ -995,11 +1008,7 @@ export default function Home() {
               {result && !loading && (
                 <>
                   <button onClick={() => { setResult(null); setCgData(null); setXData(null); setXUrl(''); setSelectedTags([]) }} style={{ background: '#fff', border: '1px solid #86efac', borderRadius: 12, padding: '14px 16px', fontSize: 13, fontWeight: 600, cursor: 'pointer', color: '#15803d', fontFamily: 'inherit', whiteSpace: 'nowrap' as const }}>+ New Scan</button>
-                  <button onClick={() => {
-                    const handle = xUrl.replace('https://x.com/','').replace('https://twitter.com/','').replace('@','').split('/')[0].trim().toLowerCase()
-                    try { localStorage.removeItem('cmv_scan_' + handle) } catch {}
-                    analyze()
-                  }} style={{ background: '#fff', border: '1px solid #c5d0ff', borderRadius: 12, padding: '14px 16px', fontSize: 13, fontWeight: 600, cursor: 'pointer', color: '#3b5bdb', fontFamily: 'inherit', whiteSpace: 'nowrap' as const }}>🔄 Re-scan</button>
+
                   <button onClick={async () => {
                     const handle = xUrl.replace('https://x.com/','').replace('https://twitter.com/','').replace('@','').split('/')[0].trim().toLowerCase()
                     try { localStorage.removeItem('cmv_scan_' + handle) } catch {}
@@ -1203,6 +1212,16 @@ export default function Home() {
                   <div>
                     <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#868e96', letterSpacing: 2, marginBottom: 4 }}>CMV ALPHA SCORE</div>
                     <div style={{ display: 'flex', alignItems: 'baseline', gap: 6 }}><span style={{ fontSize: 48, fontWeight: 800, color: '#1c2b5a', letterSpacing: -3, lineHeight: 1 }}>{cmvScore.total}</span><span style={{ fontFamily: "'DM Mono',monospace", fontSize: 14, color: '#adb5bd' }}>/1000</span></div>
+                    {xData?.cmv_score ? (
+                      <div style={{ marginTop: 8 }}>
+                        <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#868e96', letterSpacing: 2, marginBottom: 4 }}>COMBINED SCORE</div>
+                        <div style={{ display: 'flex', alignItems: 'baseline', gap: 6 }}>
+                          <span style={{ fontSize: 32, fontWeight: 800, color: otc.solid, letterSpacing: -2, lineHeight: 1 }}>{computeCombinedScore(cmvScore.total, xData.cmv_score)}</span>
+                          <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 12, color: '#adb5bd' }}>/1000</span>
+                        </div>
+                        <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#adb5bd' }}>50% alpha · 50% X score</div>
+                      </div>
+                    ) : null}
                   </div>
                   <div style={{ textAlign: 'right' as const }}>
                     <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: otc.bg, border: `1px solid ${otc.border}`, borderRadius: 12, padding: '8px 16px', marginBottom: 6 }}><div style={{ width: 10, height: 10, borderRadius: '50%', background: otc.solid }} /><span style={{ fontWeight: 700, fontSize: 14, color: otc.tc }}>{otc.lbl} · {otc.v}</span></div>
@@ -1225,7 +1244,7 @@ export default function Home() {
                 <div style={{ background: '#f8f9ff', border: '1px solid #dbe4ff', borderRadius: 10, padding: '12px 14px' }}>
                   <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#868e96', letterSpacing: 1, marginBottom: 8 }}>SCORE LEGEND — WHAT EACH RANGE MEANS</div>
                   <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' as const }}>
-                    {[{ range: '800-1000', tier: 'A', label: 'FARM IT' }, { range: '600-799', tier: 'B', label: 'CREATE CONTENT' }, { range: '350-599', tier: 'C', label: 'WATCH' }, { range: '0-349', tier: 'D', label: 'SKIP' }].map(item => (
+                    {[{ range: '850-1000', tier: 'A', label: 'FARM IT' }, { range: '600-799', tier: 'B', label: 'CREATE CONTENT' }, { range: '350-599', tier: 'C', label: 'WATCH' }, { range: '0-349', tier: 'D', label: 'SKIP' }].map(item => (
                       <div key={item.tier} style={{ display: 'flex', alignItems: 'center', gap: 6, background: T[item.tier].bg, border: `1px solid ${T[item.tier].border}`, borderRadius: 8, padding: '5px 10px' }}>
                         <div style={{ width: 8, height: 8, borderRadius: '50%', background: T[item.tier].solid }} />
                         <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, fontWeight: 700, color: T[item.tier].tc }}>{item.range}</span>
@@ -1389,7 +1408,7 @@ export default function Home() {
               </div>
             )}
 
-            <div style={{ textAlign: 'center' as const, fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#adb5bd', letterSpacing: 1, paddingTop: 6 }}>CMV ALPHASCANNER · POWERED BY CLAUDE AI · NOT FINANCIAL ADVICE</div>
+            <div style={{ textAlign: 'center' as const, fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#adb5bd', letterSpacing: 1, paddingTop: 6 }}>CMV ALPHASCANNER · POWERED BY AI · NOT FINANCIAL ADVICE</div>
           </div>
         )}
 
