@@ -144,35 +144,65 @@ function stripCites(obj: any): any {
   return obj
 }
 
-async function fetchCoinGecko(projectName: string, confirmedTicker?: string | null, tokenHinted?: boolean) {
+async function fetchCoinGecko(
+  projectName: string,
+  confirmedTicker?: string | null,
+  tokenHinted?: boolean
+) {
   try {
-    const results: any[] = []
+    let bestCoin: any = null
+
     if (confirmedTicker) {
       const r = await fetch(`https://api.coingecko.com/api/v3/search?query=${encodeURIComponent(confirmedTicker)}`)
       const d = await r.json()
-      const match = d.coins?.find((c: any) => c.symbol?.toUpperCase() === confirmedTicker)
-      if (match) results.push(match)
+      const matches = (d.coins || []).filter((c: any) => c.symbol?.toUpperCase() === confirmedTicker.toUpperCase())
+      if (matches.length > 0) {
+        bestCoin = matches.sort((a: any, b: any) => (a.market_cap_rank || 9999) - (b.market_cap_rank || 9999))[0]
+      }
     }
-    if (results.length === 0) {
+
+    if (!bestCoin) {
       const r = await fetch(`https://api.coingecko.com/api/v3/search?query=${encodeURIComponent(projectName)}`)
       const d = await r.json()
       if (d.coins?.length > 0) {
         const close = d.coins.find((c: any) => {
           const cName = c.name?.toLowerCase() || ''
+          const cSymbol = c.symbol?.toUpperCase() || ''
           const pName = projectName.toLowerCase()
-          return cName.includes(pName) || pName.includes(cName) || (confirmedTicker && c.symbol?.toUpperCase() === confirmedTicker)
+          const tickerMatch = confirmedTicker && cSymbol === confirmedTicker.toUpperCase()
+          const nameExact = cName === pName
+          const nameClose = (cName.includes(pName) || pName.includes(cName)) && (c.market_cap_rank || 9999) < 2000
+          return tickerMatch || nameExact || nameClose
         })
-        if (close) results.push(close)
+        if (close) bestCoin = close
       }
     }
-    if (results.length === 0) return { token_live: false, token_price: 'Not Launched', token_note: 'No matching token found on CoinGecko' }
-    const coin = results[0]
-    const pr = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${coin.id}&vs_currencies=usd&include_market_cap=true`)
+
+    if (!bestCoin) return { token_live: false, token_price: 'Not Launched', token_note: 'No matching token found on CoinGecko' }
+
+    const pr = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${bestCoin.id}&vs_currencies=usd&include_market_cap=true`)
     const pd = await pr.json()
-    const price = pd[coin.id]?.usd
-    if (!price || price === 0) return { token_live: false, ticker: coin.symbol?.toUpperCase(), token_price: 'Not Launched', token_note: 'Listed on CoinGecko but no active price — not yet trading' }
-    if (!confirmedTicker && !tokenHinted) return { token_live: false, ticker: coin.symbol?.toUpperCase(), token_price: 'Unconfirmed', token_note: `$${coin.symbol?.toUpperCase()} found on CoinGecko but not confirmed in X bio or tweets` }
-    return { token_live: true, ticker: coin.symbol?.toUpperCase(), token_price: `$${price}`, market_cap: pd[coin.id]?.usd_market_cap, token_note: `Live on CoinGecko · confirmed from X data` }
+    const price = pd[bestCoin.id]?.usd
+    const mcap = pd[bestCoin.id]?.usd_market_cap
+
+    if (!price || price === 0) {
+      return { token_live: false, ticker: bestCoin.symbol?.toUpperCase(), token_price: 'Not Launched', token_note: 'Listed on CoinGecko but no active price' }
+    }
+
+    if (!confirmedTicker && !tokenHinted) {
+      return { token_live: false, ticker: bestCoin.symbol?.toUpperCase(), token_price: 'Unconfirmed', token_note: `$${bestCoin.symbol?.toUpperCase()} found on CoinGecko but not confirmed in X bio` }
+    }
+
+    const mcapStr = mcap ? (mcap >= 1e9 ? `$${(mcap/1e9).toFixed(1)}B` : mcap >= 1e6 ? `$${(mcap/1e6).toFixed(1)}M` : `$${Math.round(mcap).toLocaleString()}`) : ''
+    const priceStr = price < 0.01 ? `$${price.toFixed(6)}` : price < 1 ? `$${price.toFixed(4)}` : `$${price.toFixed(2)}`
+    return {
+      token_live: true,
+      ticker: bestCoin.symbol?.toUpperCase(),
+      token_price: priceStr,
+      market_cap: mcap,
+      market_cap_str: mcapStr,
+      token_note: `Live on CoinGecko${mcapStr ? ` · MCap ${mcapStr}` : ''}`
+    }
   } catch { return { token_live: false, token_price: 'Not Launched', token_note: 'CoinGecko lookup failed' } }
 }
 
@@ -767,7 +797,7 @@ Return complete JSON only. No cite tags. No numbered references.` }]
                   </div>
                   <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: 'rgba(255,255,255,0.65)', display:'flex', alignItems:'center', gap:6, flexWrap:'wrap' as const }}>
                     <span>{result.project_category || 'Crypto'}{result.team_location ? ` · ${result.team_location}` : ''}</span>
-                    {cgData?.token_live && <span style={{ background:'rgba(255,255,255,0.2)', border:'1px solid rgba(255,255,255,0.3)', borderRadius:20, padding:'1px 8px', fontSize:9, color:'#fff', fontWeight:700 }}>🟢 {cgData.ticker} {cgData.token_price}</span>}
+                    {cgData?.token_live && <span style={{ background:'rgba(255,255,255,0.2)', border:'1px solid rgba(255,255,255,0.3)', borderRadius:20, padding:'2px 10px', fontSize:10, color:'#fff', fontWeight:700 }}>🟢 {cgData.ticker} {cgData.token_price}{cgData.market_cap_str ? ` · ${cgData.market_cap_str}` : ''}</span>}
                   </div>
                 </div>
                 <div style={{ textAlign: 'right' as const, flexShrink: 0 }}>
@@ -865,9 +895,9 @@ Return complete JSON only. No cite tags. No numbered references.` }]
                   {/* FUD Penalty */}
                   <div style={{ background: fudPen > 0 ? '#fff5f5' : '#f8f9ff', border: `1px solid ${fudPen > 0 ? '#ffc9c9' : '#dbe4ff'}`, borderRadius: 10, padding: '12px' }}>
                     <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: fudPen > 0 ? '#c92a2a' : '#868e96', letterSpacing: 1, marginBottom: 3 }}>FUD PENALTY ⚠</div>
-                    <div style={{ fontSize: 22, fontWeight: 800, color: fudPen > 0 ? '#c92a2a' : '#adb5bd', lineHeight: 1 }}>-{fudPen * 10}<span style={{ fontSize: 11, color: '#adb5bd', fontWeight: 400 }}>/200</span></div>
+                    <div style={{ fontSize: 22, fontWeight: 800, color: fudPen > 0 ? '#c92a2a' : '#adb5bd', lineHeight: 1 }}>{fudPen > 0 ? `-${fudPen}` : '0'}<span style={{ fontSize: 11, color: '#adb5bd', fontWeight: 400 }}>/200</span></div>
                     <div style={{ height: 6, background: '#fee2e2', borderRadius: 4, overflow: 'hidden', margin: '6px 0' }}>
-                      <div style={{ width: `${(fudPen / 200) * 100}%`, height: '100%', background: '#e03131', borderRadius: 4 }} />
+                      <div style={{ width: `${Math.min(100, (fudPen / 200) * 100)}%`, height: '100%', background: '#e03131', borderRadius: 4 }} />
                     </div>
                     <div style={{ fontSize: 10, color: fudPen > 0 ? '#c92a2a' : '#6c7a9c' }}>{fudPen > 0 ? `${redFlags.length} flag(s) detected` : 'No major FUD detected'}</div>
                   </div>
