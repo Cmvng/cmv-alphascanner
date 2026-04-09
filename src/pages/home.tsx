@@ -420,32 +420,32 @@ export default function Home() {
   useEffect(() => { setTempName(userName); setTempPhoto(userPhoto) }, [userName, userPhoto])
 
   // Coming from feed — load cached result and refresh X + CoinGecko only (no Claude, no credits)
-  useEffect(() => { (async () => {
+  useEffect(() => {
     const params = new URLSearchParams(window.location.search)
     const q = params.get('q')
     if (!q) return
     window.history.replaceState({}, '', '/')
     const handle = q.toLowerCase()
-    setXUrl(`https://x.com/${handle}`)
+    setXUrl('https://x.com/' + handle)
+    const cacheKey = 'cmv_scan_' + handle
 
-    const cacheKey = `cmv_scan_${handle}`
-    try {
-      // Try browser cache first
+    async function loadFromFeed() {
       let cr: any = null, cc: any = null, cx: any = null
-      const cached = localStorage.getItem(cacheKey)
-      if (cached) {
-        const parsed = JSON.parse(cached)
-        if (parsed.result) { cr = parsed.result; cc = parsed.cgData; cx = parsed.xData }
-      }
+      try {
+        const cached = localStorage.getItem(cacheKey)
+        if (cached) {
+          const parsed = JSON.parse(cached)
+          if (parsed.result) { cr = parsed.result; cc = parsed.cgData; cx = parsed.xData }
+        }
+      } catch {}
 
-      // If no browser cache, try Supabase
       if (!cr) {
         try {
           const sbUrl = import.meta.env.VITE_SUPABASE_URL
           const sbKey = import.meta.env.VITE_SUPABASE_ANON_KEY
           if (sbUrl && sbKey) {
-            const r = await fetch(`${sbUrl}/rest/v1/scans?handle=eq.${handle}&select=full_result&limit=1`, {
-              headers: { 'apikey': sbKey, 'Authorization': `Bearer ${sbKey}` }
+            const r = await fetch(sbUrl + '/rest/v1/scans?handle=eq.' + handle + '&select=full_result&limit=1', {
+              headers: { 'apikey': sbKey, 'Authorization': 'Bearer ' + sbKey }
             })
             if (r.ok) {
               const rows = await r.json()
@@ -453,7 +453,6 @@ export default function Home() {
                 cr = rows[0].full_result.result
                 cc = rows[0].full_result.cgData
                 cx = rows[0].full_result.xData
-                // Save to browser cache for next time
                 try { localStorage.setItem(cacheKey, JSON.stringify({ result: cr, cgData: cc, xData: cx, timestamp: Date.now() })) } catch {}
               }
             }
@@ -462,25 +461,17 @@ export default function Home() {
       }
 
       if (!cr) return
-
-      // Show result immediately
       setResult(cr)
       setCgData(cc)
       setXData(cx)
-
-      // Silently refresh X data in background
-      fetchProjectXData(handle).then(freshXd => {
-        if (freshXd) setXData(freshXd)
-      }).catch(() => {})
-
-      // Silently refresh token price in background
+      fetchProjectXData(handle).then(freshXd => { if (freshXd) setXData(freshXd) }).catch(() => {})
       if (cc?.ticker) {
-        fetchCoinGecko(handle, cc.ticker, true, handle).then(freshCg => {
-          if (freshCg?.token_live) setCgData(freshCg)
-        }).catch(() => {})
+        fetchCoinGecko(handle, cc.ticker, true, handle).then(freshCg => { if (freshCg?.token_live) setCgData(freshCg) }).catch(() => {})
       }
-    } catch { }
-  })() }, [])
+    }
+
+    loadFromFeed()
+  }, [])
 
   useEffect(() => {
     if (loading) {
