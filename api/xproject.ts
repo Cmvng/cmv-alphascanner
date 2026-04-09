@@ -64,9 +64,16 @@ function extractIntelligence(tweets: any[], bio: string, pinnedTweet: string) {
   const allText = [bio, pinnedTweet, ...tweets.map((t: any) => t.text)].join(' ')
   const allLower = allText.toLowerCase()
 
-  // Extract tickers
-  const tickerMatches = allText.match(/\$([A-Z]{2,10})\b/g) || []
-  const tickers = [...new Set(tickerMatches.map((t: string) => t.replace('$', '')))]
+  // Extract tickers — only from bio and pinned tweet, NOT from general tweets
+  // This prevents false positives like $MON appearing in tweets about other projects
+  const IGNORE_TICKERS = ['USD','BTC','ETH','USDC','USDT','SOL','BASE','OP','ARB','BNB','MATIC','AVAX','SUI','APT','SEI','INJ','TIA','DYDX','GMX','SNX']
+  const bioAndPinned = [bio, pinnedTweet].join(' ')
+  const bioTickerMatches = bioAndPinned.match(/\$([A-Z]{2,10})\b/g) || []
+  const tickers = [...new Set(
+    bioTickerMatches
+      .map((t: string) => t.replace('$', ''))
+      .filter((t: string) => !IGNORE_TICKERS.includes(t))
+  )]
     .filter((t: string) => !['USD', 'BTC', 'ETH', 'USDC', 'USDT', 'SOL', 'BASE', 'OP', 'ARB', 'BNB'].includes(t))
 
   // Season detection
@@ -118,7 +125,7 @@ function extractIntelligence(tweets: any[], bio: string, pinnedTweet: string) {
 
   return {
     tickers,
-    confirmedTicker: tickers[0] || null,
+    confirmedTicker: tickers.length > 0 ? tickers[0] : null,
     tokenLaunchHinted,
     latestSeason,
     seasonDates: dateMatches.slice(0, 3),
