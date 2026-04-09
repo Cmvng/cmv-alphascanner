@@ -22,20 +22,19 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     const followers = u.public_metrics?.followers_count || 0
     const listed = u.public_metrics?.listed_count || 0
-    const engRate = Math.min(0.3, (listed / Math.max(followers, 1)) * 2)
     const createdYear = new Date(u.created_at || '').getFullYear()
     const age = new Date().getFullYear() - createdYear
-    const pfp = u.profile_image_url?.replace('_normal', '_bigger') || null
+    const engRate = Math.min(0.3, (listed / Math.max(followers, 1)) * 2)
 
     return res.status(200).json({
       followers,
       engagement_rate: engRate,
       verified: u.verified || false,
       account_age_years: age,
-      profile_image_url: pfp,
+      profile_image_url: u.profile_image_url?.replace('_normal', '_bigger') || null,
       description: u.description || '',
     })
-  } catch (err) {
-    return res.status(500).json({ error: 'Failed to fetch X data' })
+  } catch {
+    return res.status(500).json({ error: 'Failed to fetch user' })
   }
 }
