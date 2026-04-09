@@ -590,35 +590,30 @@ export default function Home() {
     if (!cg) cg = { token_live: false, token_price: 'Not Launched', token_note: 'No token found' }
     setCgData(cg)
     try {
-      // CALL 1: Haiku + web search — FUD/funding/team only
-      const r1 = await fetch('https://api.anthropic.com/v1/messages', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'x-api-key': import.meta.env.VITE_ANTHROPIC_API_KEY, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
-        body: JSON.stringify({ model: 'claude-haiku-4-5-20251001', max_tokens: 1000, tools: [{ type: 'web_search_20250305', name: 'web_search' }], messages: [{ role: 'user', content: 'Research @' + handle + ' crypto project. Do 2 searches: (1) "@' + handle + ' rug scam hack dump manipulation audit tokenomics concerns" (2) "@' + handle + ' founder CEO team funding investors season". Return ONLY JSON: {"red_flags":[{"type":"other","label":"","detail":"","source":""}],"good_highlights":[""],"founder_names":[{"name":"","x_handle":"","role":""}],"funding_detail":"","season_detail":""}' }] })
-      })
-      const d1 = await r1.json()
-      let webData: any = {}
-      try {
-        const wt = (d1.content||[]).filter((b:any)=>b.type==='text').map((b:any)=>b.text).join('')
-        const j1 = wt.indexOf('{'); const j2 = wt.lastIndexOf('}')
-        if (j1 >= 0 && j2 > j1) webData = JSON.parse(wt.slice(j1, j2+1))
-      } catch {}
-
-      // CALL 2: Sonnet for full scoring — Haiku too weak for large JSON
       const r = await fetch('https://api.anthropic.com/v1/messages', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'x-api-key': import.meta.env.VITE_ANTHROPIC_API_KEY, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
-        body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 4000, system: buildPrompt(handle, xd, cg), messages: [{ role: 'user', content: 'Analyze @' + handle + '. Use provided data only.Bio: ' + JSON.stringify(xd?.description||'') + 'Followers: ' + (xd?.followers||0) + ' CMV: ' + (xd?.cmv_score||0) + '/1000 Ticker: ' + (xd?.confirmed_ticker||'none') + 'Token: ' + JSON.stringify(cg||{}) + 'WebResearch: ' + JSON.stringify(webData) + 'Use red_flags and good_highlights from WebResearch. Return complete JSON only. No cite tags.' }] })
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-20250514',
+          max_tokens: 4000,
+          system: buildPrompt(handle, xd, cg),
+          tools: [{ type: 'web_search_20250305', name: 'web_search' }],
+          messages: [{ role: 'user', content: 'Analyze @' + handle + '. X Bio: ' + JSON.stringify(xd?.description||'') + ' Pinned: ' + JSON.stringify(xd?.pinned_tweet||'') + ' Followers: ' + (xd?.followers||0) + ' CMV: ' + (xd?.cmv_score||0) + '/1000 Ticker: ' + (xd?.confirmed_ticker||'none') + ' Token: ' + JSON.stringify(cg||{}) + '. Return complete JSON only. No cite tags. No numbered references.' }]
+        })
       })
       const data = await r.json()
       if (data.error) throw new Error(data.error.message)
-      const txt = (data.content || []).filter((b: any) => b.type === 'text').map((b: any) => b.text).join('')
+      const txt = (data.content || []).filter((b: any) => b.type === 'text').map((b: any) => b.text).join('\n')
       if (!txt.trim()) throw new Error('No response received. Please try again.')
       const parsed = xjson(txt)
       if (!parsed) throw new Error('Could not read results. Please try again.')
-      if ((webData.red_flags||[]).filter((f:any)=>f.label).length > 0 && !(parsed.red_flags||[]).filter((f:any)=>f.label).length) parsed.red_flags = webData.red_flags
-      if ((webData.good_highlights||[]).filter((h:string)=>h).length > 0 && !(parsed.good_highlights||[]).filter((h:string)=>h).length) parsed.good_highlights = webData.good_highlights
       const cleaned = stripCites(parsed)
+      // Save to browser cache
+      try {
+        localStorage.setItem(cacheKey, JSON.stringify({
+          result: cleaned, cgData: cg, xData: xd, timestamp: Date.now()
+        }))
+      } catch { }
       setResult(cleaned)
       // Save to browser cache
       try {
