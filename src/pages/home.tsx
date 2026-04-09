@@ -188,15 +188,15 @@ async function fetchCoinGecko(projectName: string, confirmedTicker?: string | nu
     const pd = await pr.json()
     const price = pd[bestCoin.id]?.usd
     const mcap = pd[bestCoin.id]?.usd_market_cap
-    const priceStr = price ? (price < 0.01 ? `$${price.toFixed(6)}` : price < 1 ? `$${price.toFixed(4)}` : `$${price.toFixed(2)}`) : ''
-    const mcapStr = mcap ? (mcap >= 1e9 ? `$${(mcap/1e9).toFixed(1)}B` : mcap >= 1e6 ? `$${(mcap/1e6).toFixed(1)}M` : `$${Math.round(mcap).toLocaleString()}`) : ''
     if (!price || price === 0) return { token_live: false, ticker: bestCoin.symbol?.toUpperCase(), token_price: 'Not Launched', token_note: 'Listed on CoinGecko but no active price' }
+    const pStr = price < 0.01 ? '$' + price.toFixed(6) : price < 1 ? '$' + price.toFixed(4) : '$' + price.toFixed(2)
+    const mStr = !mcap ? '' : mcap >= 1e9 ? '$' + (mcap/1e9).toFixed(1) + 'B' : mcap >= 1e6 ? '$' + (mcap/1e6).toFixed(1) + 'M' : '$' + Math.round(mcap).toLocaleString()
     if (!confirmedTicker && !tokenHinted) {
       const rank = bestCoin.market_cap_rank || 9999
-      if (rank < 1500 && price > 0) return { token_live: true, ticker: bestCoin.symbol?.toUpperCase(), token_price: priceStr, market_cap: mcap, market_cap_str: mcapStr, token_note: `Live on CoinGecko · $${bestCoin.symbol?.toUpperCase()} · Rank #${rank}` }
-      return { token_live: false, ticker: bestCoin.symbol?.toUpperCase(), token_price: 'Unconfirmed', token_note: `$${bestCoin.symbol?.toUpperCase()} found on CoinGecko but not confirmed in X bio` }
+      if (rank < 1500) return { token_live: true, ticker: bestCoin.symbol?.toUpperCase(), token_price: pStr, market_cap: mcap, market_cap_str: mStr, token_note: 'Live on CoinGecko · Rank #' + rank }
+      return { token_live: false, ticker: bestCoin.symbol?.toUpperCase(), token_price: pStr, token_note: 'Not confirmed in X bio' }
     }
-    return { token_live: true, ticker: bestCoin.symbol?.toUpperCase(), token_price: priceStr, market_cap: mcap, market_cap_str: mcapStr, token_note: `Live on CoinGecko${mcapStr ? ` · MCap ${mcapStr}` : ''}` }
+    return { token_live: true, ticker: bestCoin.symbol?.toUpperCase(), token_price: pStr, market_cap: mcap, market_cap_str: mStr, token_note: 'Live on CoinGecko' + (mStr ? ' · MCap ' + mStr : '') }
   } catch { return { token_live: false, token_price: 'Not Launched', token_note: 'CoinGecko lookup failed' } }
 }
 
