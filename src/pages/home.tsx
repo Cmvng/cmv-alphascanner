@@ -110,7 +110,7 @@ function computeCMVAlphaScore(metrics: any, redFlags: any[]) {
   fudPenalty = Math.min(200, fudPenalty)
   const rawTotal = Object.values(cats).reduce((a, c) => a + c.score, 0)
   const total = Math.max(0, Math.min(1000, rawTotal - fudPenalty * 10))
-  return { total, categories: cats, fudPenalty }
+  return { total, categories: cats, fudPenalty: fudPenalty || 0 }
 }
 
 function tsq(tier: string, sz = 20) {
@@ -425,6 +425,7 @@ export default function Home() {
   const redFlags = result?.red_flags?.filter((f: any) => f.label) || []
   const goodHighlights = result?.good_highlights?.filter((h: string) => h && h.length > 5) || []
   const cmvScore = result ? computeCMVAlphaScore(result.metrics, redFlags) : null
+  const fudPen = cmvScore?.fudPenalty ?? 0
   const isGoodScore = result && result.overall_score >= 60
   const availableTags = isGoodScore ? GOOD_TAGS : BAD_TAGS
   const groups = result ? [
@@ -749,13 +750,13 @@ export default function Home() {
                   })}
 
                   {/* FUD Penalty */}
-                  <div style={{ background: (cmvScore.fudPenalty ?? 0) > 0 ? '#fff5f5' : '#f8f9ff', border: `1px solid ${cmvScore.fudPenalty > 0 ? '#ffc9c9' : '#dbe4ff'}`, borderRadius: 10, padding: '12px' }}>
-                    <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: cmvScore.fudPenalty > 0 ? '#c92a2a' : '#868e96', letterSpacing: 1, marginBottom: 3 }}>FUD PENALTY ⚠</div>
-                    <div style={{ fontSize: 22, fontWeight: 800, color: cmvScore.fudPenalty > 0 ? '#c92a2a' : '#adb5bd', lineHeight: 1 }}>-{cmvScore.fudPenalty * 10}<span style={{ fontSize: 11, color: '#adb5bd', fontWeight: 400 }}>/200</span></div>
+                  <div style={{ background: fudPen > 0 ? '#fff5f5' : '#f8f9ff', border: `1px solid ${fudPen > 0 ? '#ffc9c9' : '#dbe4ff'}`, borderRadius: 10, padding: '12px' }}>
+                    <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: fudPen > 0 ? '#c92a2a' : '#868e96', letterSpacing: 1, marginBottom: 3 }}>FUD PENALTY ⚠</div>
+                    <div style={{ fontSize: 22, fontWeight: 800, color: fudPen > 0 ? '#c92a2a' : '#adb5bd', lineHeight: 1 }}>-{fudPen * 10}<span style={{ fontSize: 11, color: '#adb5bd', fontWeight: 400 }}>/200</span></div>
                     <div style={{ height: 6, background: '#fee2e2', borderRadius: 4, overflow: 'hidden', margin: '6px 0' }}>
-                      <div style={{ width: `${(cmvScore.fudPenalty / 200) * 100}%`, height: '100%', background: '#e03131', borderRadius: 4 }} />
+                      <div style={{ width: `${(fudPen / 200) * 100}%`, height: '100%', background: '#e03131', borderRadius: 4 }} />
                     </div>
-                    <div style={{ fontSize: 10, color: cmvScore.fudPenalty > 0 ? '#c92a2a' : '#6c7a9c' }}>{cmvScore.fudPenalty > 0 ? `${redFlags.length} flag(s) detected` : 'No major FUD detected'}</div>
+                    <div style={{ fontSize: 10, color: fudPen > 0 ? '#c92a2a' : '#6c7a9c' }}>{fudPen > 0 ? `${redFlags.length} flag(s) detected` : 'No major FUD detected'}</div>
                   </div>
                 </div>
 
