@@ -236,19 +236,26 @@ SCORE INTEGRITY — be brutally honest:
 - FUD < 40 = overall max 65. user_count < 30 = overall max 60. vc_pedigree < 40 = overall max 65.
 
 RED FLAGS — THIS IS MANDATORY. You MUST search for problems first.
-Search aggressively for these and report every one you find:
-- Rug history: did founders previously rug or exit scam any project?
-- Security exploits: any hacks, exploits, or contract vulnerabilities?
-- Scam allegations: CT calling this project a scam or fraud?
-- Anonymous team: no doxxed founders anywhere online?
-- Paid shill campaign: 90%+ of CT coverage looks sponsored/paid?
-- Token dump: did team or VCs dump tokens at or after TGE?
-- Liquidity controversy: any issues with liquidity at launch?
-- Regulatory: any SEC, legal, or regulatory actions?
-- Community complaints: active community anger about broken promises?
-- Token price drop: significant % drop from launch or auction price?
-- Unlock schedule: large team/VC unlocks creating sell pressure?
-ALWAYS report minimum 2 concerns. Every project has risks.
+Do TWO dedicated searches before anything else:
+Search 1: "@${handle} rug scam hack exploit controversy criticism delay postponed"
+Search 2: "@${handle} TGE delay presale refund community angry broken promise token launch"
+
+Report every concern you find including:
+- Rug history or exit scam by founders on previous projects
+- Security exploits, hacks, contract vulnerabilities
+- Scam allegations from CT community
+- TGE delays: promised token launch repeatedly postponed — how many months delayed?
+- Presale taken but no TGE: did they collect presale funds and delay/cancel launch?
+- Community anger: CT users calling out the team for delays or broken promises
+- Anonymous team with no verifiable background
+- Paid shill campaign covering up problems
+- Token dump at or after TGE
+- Regulatory issues
+- High valuation with no token price discovery yet
+- No security audit for a project handling sensitive data
+
+ALWAYS report minimum 2-3 concerns. Every project has risks worth flagging.
+For each flag include: type, label, specific detail with dates/amounts, source URL.
 
 CRITICAL: If you find ANY of the above, you MUST include it in red_flags with:
 - type: one of 'rug', 'scam', 'exploit', 'shill', 'dump', 'anon', 'other'
