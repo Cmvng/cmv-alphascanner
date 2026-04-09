@@ -393,7 +393,7 @@ function TeamCardEnriched({ member }: { member: any }) {
       </div>
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' as const, marginBottom: 2 }}>
-          <span onClick={openProfile} style={{ fontSize: 13, fontWeight: 700, color: '#1c2b5a', cursor: cleanHandle ? 'pointer' : 'default' }}>{member.name}</span>
+          <span onClick={() => cleanHandle && window.open(`https://x.com/${cleanHandle}`, '_blank', 'noopener,noreferrer')} style={{ fontSize: 13, fontWeight: 700, color: '#1c2b5a', cursor: cleanHandle ? 'pointer' : 'default' }}>{member.name}</span>
           {!member.confirmed && <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#e67700', background: '#fff3bf', border: '1px solid #ffe066', padding: '1px 6px', borderRadius: 20 }}>unconfirmed</span>}
           {xProfile?.verified && <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#15803d', background: '#dcfce7', padding: '1px 6px', borderRadius: 20 }}>✓</span>}
         </div>
