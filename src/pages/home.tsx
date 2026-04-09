@@ -598,8 +598,7 @@ export default function Home() {
           max_tokens: 4000,
           system: buildPrompt(handle, xd, cg),
           tools: [{ type: 'web_search_20250305', name: 'web_search' }],
-          messages: [{ role: 'user', content: 'Analyze @' + handle + '. X Bio: ' + JSON.stringify(xd?.description||'') + ' Pinned: ' + JSON.stringify(xd?.pinned_tweet||'') + ' Followers: ' + (xd?.followers||0) + ' CMV: ' + (xd?.cmv_score||0) + '/1000 Ticker: ' + (xd?.confirmed_ticker||'none') + ' Token: ' + JSON.stringify(cg||{}) + '. Return complete JSON only. No cite tags. No numbered references.' }]
-        })
+          messages: [{ role: 'user', content: 'Analyze @' + handle + '. X Data: Bio=' + JSON.stringify(xd?.description||'') + ' Pinned=' + JSON.stringify(xd?.pinned_tweet||'') + ' Followers=' + (xd?.followers||0) + ' CMV=' + (xd?.cmv_score||0) + '/1000 Ticker=' + (xd?.confirmed_ticker||'none') + ' Token=' + JSON.stringify(cg||{}) + ' Category=' + (xd?.category||'unknown') + ' LatestSeason=' + (xd?.latest_season ? 'Season '+xd.latest_season : 'none') + ' SeasonDates=' + JSON.stringify(xd?.season_dates||[]) + ' FundingMentions=' + JSON.stringify(xd?.funding_mentions||[]) + ' VCsMentioned=' + JSON.stringify(xd?.vc_mentions||[]) + ' TractionData=' + JSON.stringify(xd?.user_count_mentions||[]) + ' ContentType=' + (xd?.content_type||'organic') + ' AvgLikes=' + (xd?.avg_likes||0) + '. Use X data for category/season — only web search for FUD and team. Return complete JSON only. No cite tags. No numbered references.' }]
       })
       const data = await r.json()
       if (data.error) throw new Error(data.error.message)
