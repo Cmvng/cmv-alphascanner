@@ -456,13 +456,20 @@ export default function Home() {
 
     const xd = await fetchProjectXData(handle)
     setXData(xd)
-    // Use confirmed_ticker from X as primary — token_launch_hinted is secondary
-    const hasTicker = !!(xd?.confirmed_ticker)
-    const cg = await fetchCoinGecko(
-      handle,
-      xd?.confirmed_ticker || null,
-      hasTicker || xd?.token_launch_hinted || false
-    )
+    // Use pre-fetched token data from xproject if available (CoinGecko X handle match)
+    let cg
+    if (xd?.token_data?.token_live) {
+      // X handle matched CoinGecko directly — most accurate
+      cg = xd.token_data
+    } else {
+      // Fallback: search CoinGecko by ticker or name
+      const hasTicker = !!(xd?.confirmed_ticker)
+      cg = await fetchCoinGecko(
+        handle,
+        xd?.confirmed_ticker || null,
+        hasTicker || xd?.token_launch_hinted || false
+      )
+    }
     setCgData(cg)
     try {
       const r = await fetch('https://api.anthropic.com/v1/messages', {
