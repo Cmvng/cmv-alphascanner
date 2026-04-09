@@ -653,7 +653,7 @@ export default function Home() {
 
     // High-res canvas 2x
     const canvas = document.createElement('canvas')
-    const W = 1200, H = 630
+    const W = 1200, H = 500
     canvas.width = W; canvas.height = H
     const ctx = canvas.getContext('2d')!
 
@@ -809,43 +809,51 @@ export default function Home() {
     if (lineY <= 398) ctx.fillText(line.trim(), 74, lineY)
     ctx.globalAlpha = 1
 
-    // Highlights row
+    // Highlights + red flags on same row
+    const flagCount = (result.red_flags || []).filter((f: any) => f.label).length
+    const hlY = 430
+    const hlH = 38
+    ctx.font = 'bold 15px Arial, sans-serif'
+
+    // Calculate how many highlights fit before red flag badge
+    const flagBadgeW = flagCount > 0 ? 160 : 0
+    const availW = W - 100 - flagBadgeW - (flagCount > 0 ? 14 : 0)
     let hx = 50
-    displayHighlights.slice(0, 3).forEach((h: string) => {
-      ctx.font = 'bold 16px Arial, sans-serif'
-      const tw = Math.min(ctx.measureText('✓ ' + h).width + 32, 360)
-      if (hx + tw > W - 50) return
+    displayHighlights.forEach((h: string) => {
+      const fullLabel = '✓  ' + h
+      let label = fullLabel
+      const maxPillW = Math.floor(availW / Math.min(displayHighlights.length, 3)) - 10
+      ctx.font = 'bold 15px Arial, sans-serif'
+      while (ctx.measureText(label).width > maxPillW - 28 && label.length > 5) label = label.slice(0, -4) + '…'
+      const pillW = ctx.measureText(label).width + 28
+      if (hx + pillW > W - 50 - flagBadgeW - 14) return
       ctx.fillStyle = 'rgba(255,255,255,0.18)'
-      ctx.beginPath(); ctx.roundRect(hx, 424, tw, 36, 18); ctx.fill()
+      ctx.beginPath(); ctx.roundRect(hx, hlY, pillW, hlH, 19); ctx.fill()
       ctx.fillStyle = '#fff'
-      // Truncate if needed
-      let label = '✓ ' + h
-      while (ctx.measureText(label).width > tw - 32 && label.length > 4) label = label.slice(0, -4) + '...'
-      ctx.fillText(label, hx + 16, 448)
-      hx += tw + 10
+      ctx.fillText(label, hx + 14, hlY + 25)
+      hx += pillW + 8
     })
 
-    // Red flag count
-    const flagCount = (result.red_flags || []).filter((f: any) => f.label).length
+    // Red flag badge — right aligned
     if (flagCount > 0) {
-      ctx.fillStyle = 'rgba(220,38,38,0.85)'
-      ctx.beginPath(); ctx.roundRect(W - 200, 424, 150, 36, 18); ctx.fill()
+      ctx.fillStyle = 'rgba(200,30,30,0.9)'
+      ctx.beginPath(); ctx.roundRect(W - 50 - flagBadgeW, hlY, flagBadgeW, hlH, 19); ctx.fill()
       ctx.fillStyle = '#fff'
-      ctx.font = 'bold 16px Arial, sans-serif'
-      ctx.textAlign = 'right'
-      ctx.fillText('🚨 ' + flagCount + ' red flag' + (flagCount > 1 ? 's' : ''), W - 66, 448)
+      ctx.font = 'bold 15px Arial, sans-serif'
+      ctx.textAlign = 'center'
+      ctx.fillText('🚨  ' + flagCount + ' red flag' + (flagCount > 1 ? 's' : ''), W - 50 - flagBadgeW / 2, hlY + 25)
       ctx.textAlign = 'left'
     }
 
     // Footer
-    ctx.globalAlpha = 0.35
+    ctx.globalAlpha = 0.3
     ctx.fillStyle = '#fff'
-    ctx.font = '16px monospace'
-    ctx.fillText('CMV ALPHASCANNER  ·  cmv-alphascanner.vercel.app', 50, H - 24)
+    ctx.font = '15px monospace'
+    ctx.fillText('CMV ALPHASCANNER  ·  cmv-alphascanner.vercel.app', 50, H - 22)
     ctx.globalAlpha = 1
 
     const link = document.createElement('a')
-    link.download = (result.project_name || 'scan').replace(/\s+/g, '_') + '-cmv-alpha.png'
+    link.download = (result.project_name || 'scan').replace(/[^a-zA-Z0-9]/g, '_') + '-cmv-alpha.png'
     link.href = canvas.toDataURL('image/png', 1.0)
     link.click()
   }
