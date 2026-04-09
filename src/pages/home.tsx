@@ -244,7 +244,18 @@ async function fetchCoinGecko(projectName: string, confirmedTicker?: string | nu
       const r = await fetch(`https://api.coingecko.com/api/v3/search?query=${encodeURIComponent(confirmedTicker)}`)
       const d = await r.json()
       const matches = (d.coins || []).filter((c: any) => c.symbol?.toUpperCase() === confirmedTicker.toUpperCase())
-      if (matches.length > 0) bestCoin = matches.sort((a: any, b: any) => (a.market_cap_rank || 9999) - (b.market_cap_rank || 9999))[0]
+      if (matches.length > 0) {
+        const pNameLower = projectName.toLowerCase()
+        const xHandleLower = (xHandle || '').toLowerCase()
+        // Prefer coin whose name matches the project name or handle
+        const nameMatch = matches.find((c: any) => {
+          const cName = c.name?.toLowerCase() || ''
+          return cName.includes(pNameLower) || pNameLower.includes(cName) ||
+            cName.includes(xHandleLower) || xHandleLower.includes(cName)
+        })
+        // Only fall back to rank-based if name match found or only 1 result
+        bestCoin = nameMatch || (matches.length === 1 ? matches[0] : null)
+      }
     }
     if (!bestCoin) {
       const r = await fetch(`https://api.coingecko.com/api/v3/search?query=${encodeURIComponent(projectName)}`)
@@ -548,24 +559,28 @@ export default function Home() {
     const xd = await fetchProjectXData(handle)
     setXData(xd)
     let cg = null
+    const hasConfirmedToken = xd?.confirmed_ticker || xd?.token_data?.token_live || xd?.token_launch_hinted
+
     if (xd?.token_data?.token_live) { cg = xd.token_data }
-    if (!cg?.token_live && xd?.confirmed_ticker) { cg = await fetchCoinGecko(handle, xd.confirmed_ticker, true, handle) }
-    if (!cg?.token_live) {
-      const allXText = `${xd?.description || ''} ${xd?.pinned_tweet || ''} ${xd?.recent_tweets || ''}`
-      const tickers = (allXText.match(/\$([A-Z]{2,10})/g) || []).map((t: string) => t.replace('$', '')).filter((t: string) => !['USD','BTC','ETH','USDC','USDT','SOL','BASE','OP','ARB'].includes(t))
-      for (const ticker of tickers) { const attempt = await fetchCoinGecko(handle, ticker, true, handle); if (attempt?.token_live) { cg = attempt; break } }
+
+    // Only search CoinGecko if X API confirms a ticker or token signal
+    if (!cg?.token_live && xd?.confirmed_ticker) {
+      cg = await fetchCoinGecko(handle, xd.confirmed_ticker, true, handle)
     }
-    if (!cg?.token_live && xd?.token_launch_hinted) { cg = await fetchCoinGecko(handle, null, true, handle) }
-    if (!cg?.token_live) { const attempt = await fetchCoinGecko(handle, null, false, handle); if (attempt?.token_live) cg = attempt }
-    if (!cg?.token_live && xd?.description) {
-      const bioTickers = (xd.description + ' ' + (xd.pinned_tweet || '')).match(/\$([A-Z]{2,10})/g) || []
-      for (const t of bioTickers) {
-        const ticker = t.replace('$', '')
-        if (['USD','BTC','ETH','USDC','USDT','SOL','BASE','OP','ARB'].includes(ticker)) continue
+
+    // Only scan bio for tickers if there's a token hint from X
+    if (!cg?.token_live && xd?.token_launch_hinted) {
+      const allXText = (xd?.description || '') + ' ' + (xd?.pinned_tweet || '')
+      const tickers = (allXText.match(/\$([A-Z]{2,10})/g) || [])
+        .map((t: string) => t.replace('$', ''))
+        .filter((t: string) => !['USD','BTC','ETH','USDC','USDT','SOL','BASE','OP','ARB'].includes(t))
+      for (const ticker of tickers) {
         const attempt = await fetchCoinGecko(handle, ticker, true, handle)
         if (attempt?.token_live) { cg = attempt; break }
       }
     }
+
+    // Do NOT do a generic handle-based search — too many false positives
     if (!cg) cg = { token_live: false, token_price: 'Not Launched', token_note: 'No token found' }
     setCgData(cg)
     try {
