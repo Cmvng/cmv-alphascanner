@@ -67,13 +67,34 @@ function extractIntelligence(tweets: any[], bio: string, pinnedTweet: string) {
   // Extract tickers — only from bio and pinned tweet, NOT from general tweets
   // This prevents false positives like $MON appearing in tweets about other projects
   const IGNORE_TICKERS = ['USD','BTC','ETH','USDC','USDT','SOL','BASE','OP','ARB','BNB','MATIC','AVAX','SUI','APT','SEI','INJ','TIA','DYDX','GMX','SNX']
+  
+  // Known top project → ticker mappings as fallback
+  const KNOWN_TICKERS: Record<string, string> = {
+    'hyperliquid': 'HYPE', 'eigenlayer': 'EIGEN', 'ethena': 'ENA',
+    'jupiter': 'JUP', 'jito': 'JTO', 'wormhole': 'W',
+    'starknet': 'STRK', 'zksync': 'ZK', 'scroll': 'SCR',
+    'optimism': 'OP', 'arbitrum': 'ARB', 'celestia': 'TIA',
+    'sei': 'SEI', 'aptos': 'APT', 'sui': 'SUI',
+    'dydx': 'DYDX', 'gmx': 'GMX', 'synthetix': 'SNX',
+    'aave': 'AAVE', 'uniswap': 'UNI', 'chainlink': 'LINK',
+    'kaito': 'KAITO', 'berachain': 'BERA', 'monad': 'MON',
+  }
+
   const bioAndPinned = [bio, pinnedTweet].join(' ')
   const bioTickerMatches = bioAndPinned.match(/\$([A-Z]{2,10})\b/g) || []
-  const tickers = [...new Set(
-    bioTickerMatches
+  
+  // Also check all text for known project tickers
+  const allTextLower = [bio, pinnedTweet, ...tweets.map((t: any) => t.text)].join(' ').toLowerCase()
+  const knownTicker = Object.entries(KNOWN_TICKERS).find(([proj]) => 
+    allTextLower.includes(proj) || allTextLower.includes(proj.replace(/[^a-z]/g, ''))
+  )?.[1] || null
+
+  const tickers = [...new Set([
+    ...bioTickerMatches
       .map((t: string) => t.replace('$', ''))
-      .filter((t: string) => !IGNORE_TICKERS.includes(t))
-  )]
+      .filter((t: string) => !IGNORE_TICKERS.includes(t)),
+    ...(knownTicker ? [knownTicker] : [])
+  ])]
     .filter((t: string) => !['USD', 'BTC', 'ETH', 'USDC', 'USDT', 'SOL', 'BASE', 'OP', 'ARB', 'BNB'].includes(t))
 
   // Season detection
