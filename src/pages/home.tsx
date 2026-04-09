@@ -178,19 +178,30 @@ async function fetchCoinGecko(
       }
     }
 
-    // Strategy 3: strip prefix from X handle (trylimitless → limitless)
+    // Strategy 3: strip prefix from X handle (trylimitless → limitless), pick best ranked
     if (!bestCoin && xHandle) {
       const stripped = xHandle.replace(/^(try|use|get|the|go)/i, '')
       if (stripped.length > 3 && stripped.toLowerCase() !== xHandle.toLowerCase()) {
         const r = await fetch(`https://api.coingecko.com/api/v3/search?query=${encodeURIComponent(stripped)}`)
         const d = await r.json()
         if (d.coins?.length > 0) {
-          const match = d.coins.find((c: any) => {
+          const nameMatches = (d.coins as any[]).filter((c: any) => {
             const cName = c.name?.toLowerCase() || ''
-            return (cName.includes(stripped.toLowerCase()) || stripped.toLowerCase().includes(cName)) && (c.market_cap_rank || 9999) < 1500
+            return (cName.includes(stripped.toLowerCase()) || stripped.toLowerCase().includes(cName)) && (c.market_cap_rank || 9999) < 2000
           })
-          if (match) bestCoin = match
+          if (nameMatches.length > 0) {
+            bestCoin = nameMatches.sort((a: any, b: any) => (a.market_cap_rank || 9999) - (b.market_cap_rank || 9999))[0]
+          }
         }
+      }
+    }
+
+    // Strategy 4: search full handle as-is
+    if (!bestCoin && xHandle) {
+      const r = await fetch(`https://api.coingecko.com/api/v3/search?query=${encodeURIComponent(xHandle)}`)
+      const d = await r.json()
+      if (d.coins?.length > 0 && (d.coins[0].market_cap_rank || 9999) < 2000) {
+        bestCoin = d.coins[0]
       }
     }
 
@@ -511,18 +522,32 @@ export default function Home() {
     const xd = await fetchProjectXData(handle)
     setXData(xd)
     // Fetch token data from CoinGecko with multiple strategies
-    // Use token data pre-fetched by X API serverless function
-    let cg = xd?.token_data || null
-    if (!cg || !cg.token_live) {
-      // Fallback to client-side CoinGecko search
-      const hasTicker = !!(xd?.confirmed_ticker)
-      cg = await fetchCoinGecko(
-        handle,
-        xd?.confirmed_ticker || null,
-        hasTicker || xd?.token_launch_hinted || false,
-        handle
-      )
+    // Token detection — try multiple strategies
+    let cg = null
+
+    // Strategy 1: use pre-fetched from xproject serverless (fastest)
+    if (xd?.token_data?.token_live) {
+      cg = xd.token_data
     }
+
+    // Strategy 2: use confirmed ticker from X tweets
+    if (!cg?.token_live && xd?.confirmed_ticker) {
+      cg = await fetchCoinGecko(handle, xd.confirmed_ticker, true, handle)
+    }
+
+    // Strategy 3: use handle-based search even without ticker
+    if (!cg?.token_live && xd?.token_launch_hinted) {
+      cg = await fetchCoinGecko(handle, null, true, handle)
+    }
+
+    // Strategy 4: always try handle-based search as last resort
+    if (!cg?.token_live) {
+      const attempt = await fetchCoinGecko(handle, null, false, handle)
+      // Only use if we found something with a real price
+      if (attempt?.token_live) cg = attempt
+    }
+
+    if (!cg) cg = { token_live: false, token_price: 'Not Launched', token_note: 'No token found' }
     setCgData(cg)
     try {
       const r = await fetch('https://api.anthropic.com/v1/messages', {
