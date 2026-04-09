@@ -15,7 +15,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    const { handle, project_name, verdict, score, ticker, token_price, market_cap_str, category, profile_image_url, good_highlights, red_flag_count } = req.body
+    const { handle, project_name, verdict, score, ticker, token_price, market_cap_str, category, profile_image_url, good_highlights, red_flag_count, full_result } = req.body
 
     if (!handle) return res.status(400).json({ error: 'Handle required' })
 
@@ -40,6 +40,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         profile_image_url: profile_image_url || null,
         good_highlights: good_highlights || [],
         red_flag_count: red_flag_count || 0,
+        full_result: full_result || null,
         scanned_at: new Date().toISOString(),
       })
     })
