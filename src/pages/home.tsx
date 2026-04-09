@@ -526,6 +526,24 @@ export default function Home() {
       const cleaned = stripCites(parsed)
       try { localStorage.setItem(cacheKey, JSON.stringify({ result: cleaned, cgData: cg, xData: xd, timestamp: Date.now() })) } catch { }
       setResult(cleaned)
+      // Save to community feed (fire and forget)
+      fetch('/api/save-scan', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          handle,
+          project_name: cleaned.project_name,
+          verdict: cleaned.verdict,
+          score: cleaned.overall_score,
+          ticker: cg?.ticker || null,
+          token_price: cg?.token_price || null,
+          market_cap_str: cg?.market_cap_str || null,
+          category: cleaned.project_category,
+          profile_image_url: xd?.profile_image_url || null,
+          good_highlights: cleaned.good_highlights || [],
+          red_flag_count: (cleaned.red_flags || []).filter((f: any) => f.label).length,
+        })
+      }).catch(() => {})
     } catch (e: any) {
       setError(e.message || 'Something went wrong.')
     } finally { setLoading(false) }
@@ -589,6 +607,7 @@ export default function Home() {
             {userPhoto ? <img src={userPhoto} alt="" style={{ width: 24, height: 24, borderRadius: '50%', objectFit: 'cover' }} /> : <div style={{ width: 24, height: 24, borderRadius: '50%', background: '#e8ecff', color: '#3b5bdb', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 10, fontWeight: 700 }}>{userName ? userName.charAt(0).toUpperCase() : '?'}</div>}
             <span style={{ fontSize: 12, fontWeight: 600, color: '#14532d' }}>{userName || 'Set profile'}</span>
           </button>
+          <a href="/feed" style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#15803d', background: '#f0fdf4', border: '1px solid #86efac', borderRadius: 20, padding: '5px 12px', textDecoration: 'none', fontWeight: 600 }}>🌐 Feed</a>
           <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#15803d', background: '#dcfce7', borderRadius: 20, padding: '3px 8px', border: '1px solid #86efac' }}>BETA</span>
         </div>
       </div>
