@@ -873,7 +873,15 @@ export default function Home() {
               {result && !loading && (
                 <>
                   <button onClick={() => { setResult(null); setCgData(null); setXData(null); setXUrl(''); setSelectedTags([]) }} style={{ background: '#fff', border: '1px solid #86efac', borderRadius: 12, padding: '14px 16px', fontSize: 13, fontWeight: 600, cursor: 'pointer', color: '#15803d', fontFamily: 'inherit', whiteSpace: 'nowrap' as const }}>+ New Scan</button>
-                  <button onClick={() => { const handle = xUrl.replace('https://x.com/','').replace('https://twitter.com/','').replace('@','').split('/')[0].trim().toLowerCase(); try { localStorage.removeItem(`cmv_scan_${handle}`) } catch {} analyze() }} style={{ background: '#fff', border: '1px solid #86efac', borderRadius: 12, padding: '14px 16px', fontSize: 13, fontWeight: 600, cursor: 'pointer', color: '#15803d', fontFamily: 'inherit', whiteSpace: 'nowrap' as const }}>↺ Refresh</button>
+                  <button onClick={async () => {
+                    const handle = xUrl.replace('https://x.com/','').replace('https://twitter.com/','').replace('@','').split('/')[0].trim().toLowerCase()
+                    const freshXd = await fetchProjectXData(handle).catch(() => null)
+                    if (freshXd) setXData(freshXd)
+                    if (cgData?.ticker) {
+                      const freshCg = await fetchCoinGecko(handle, cgData.ticker, true, handle).catch(() => null)
+                      if (freshCg?.token_live) setCgData(freshCg)
+                    }
+                  }} style={{ background: '#fff', border: '1px solid #86efac', borderRadius: 12, padding: '14px 16px', fontSize: 13, fontWeight: 600, cursor: 'pointer', color: '#15803d', fontFamily: 'inherit', whiteSpace: 'nowrap' as const }}>↺ Refresh</button>
                 </>
               )}
               <button onClick={analyze} disabled={loading || !xUrl.trim()} style={{ background: loading || !xUrl.trim() ? '#e2e8f0' : 'linear-gradient(135deg,#166534,#16a34a)', color: loading || !xUrl.trim() ? '#adb5bd' : '#fff', border: 'none', borderRadius: 12, padding: '14px 28px', fontSize: 14, fontWeight: 700, cursor: loading || !xUrl.trim() ? 'not-allowed' : 'pointer', whiteSpace: 'nowrap' as const, fontFamily: 'inherit', transition: 'all 0.2s', boxShadow: loading || !xUrl.trim() ? 'none' : '0 4px 14px rgba(22,163,74,0.3)' }}>{loading ? 'Scanning...' : 'Analyze →'}</button>
