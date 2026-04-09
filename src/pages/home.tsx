@@ -608,17 +608,11 @@ export default function Home() {
       const r = await fetch('https://api.anthropic.com/v1/messages', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'x-api-key': import.meta.env.VITE_ANTHROPIC_API_KEY, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
-        body: JSON.stringify({ model: 'claude-haiku-4-5-20251001', max_tokens: 2500, system: buildPrompt(handle, xd, cg), messages: [{ role: 'user', content: 'Analyze @' + handle + '. Use provided data only.
-Bio: ' + JSON.stringify(xd?.description||'') + '
-Followers: ' + (xd?.followers||0) + ' CMV: ' + (xd?.cmv_score||0) + '/1000 Ticker: ' + (xd?.confirmed_ticker||'none') + '
-Token: ' + JSON.stringify(cg||{}) + '
-WebResearch: ' + JSON.stringify(webData) + '
-Use red_flags and good_highlights from WebResearch. Return complete JSON only. No cite tags.' }] })
+        body: JSON.stringify({ model: 'claude-haiku-4-5-20251001', max_tokens: 2500, system: buildPrompt(handle, xd, cg), messages: [{ role: 'user', content: 'Analyze @' + handle + '. Use provided data only.Bio: ' + JSON.stringify(xd?.description||'') + 'Followers: ' + (xd?.followers||0) + ' CMV: ' + (xd?.cmv_score||0) + '/1000 Ticker: ' + (xd?.confirmed_ticker||'none') + 'Token: ' + JSON.stringify(cg||{}) + 'WebResearch: ' + JSON.stringify(webData) + 'Use red_flags and good_highlights from WebResearch. Return complete JSON only. No cite tags.' }] })
       })
       const data = await r.json()
       if (data.error) throw new Error(data.error.message)
-      const txt = (data.content || []).filter((b: any) => b.type === 'text').map((b: any) => b.text).join('
-')
+      const txt = (data.content || []).filter((b: any) => b.type === 'text').map((b: any) => b.text).join('')
       if (!txt.trim()) throw new Error('No response received. Please try again.')
       const parsed = xjson(txt)
       if (!parsed) throw new Error('Could not read results. Please try again.')
