@@ -431,6 +431,8 @@ export default function Home() {
 
     async function loadFromFeed() {
       let cr: any = null, cc: any = null, cx: any = null
+
+      // 1. Check browser cache
       try {
         const cached = localStorage.getItem(cacheKey)
         if (cached) {
@@ -439,6 +441,7 @@ export default function Home() {
         }
       } catch {}
 
+      // 2. Check Supabase if no browser cache
       if (!cr) {
         try {
           const sbUrl = import.meta.env.VITE_SUPABASE_URL
@@ -460,7 +463,13 @@ export default function Home() {
         } catch {}
       }
 
-      if (!cr) return
+      // 3. Not in feed or cache — run full scan to add it
+      if (!cr) {
+        analyze()
+        return
+      }
+
+      // 4. Found — show immediately then refresh X + price silently
       setResult(cr)
       setCgData(cc)
       setXData(cx)
