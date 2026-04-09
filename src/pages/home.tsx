@@ -101,15 +101,15 @@ function computeCMVAlphaScore(metrics: any, redFlags: any[]) {
   }
   let fudPenalty = 0
   for (const flag of redFlags) {
-    if (flag.type === 'rug') fudPenalty += 200
-    else if (flag.type === 'scam') fudPenalty += 200
-    else if (flag.type === 'shill') fudPenalty += 100
-    else if (flag.type === 'anon') fudPenalty += 80
-    else fudPenalty += 50
+    if (flag.type === 'rug') fudPenalty += 100
+    else if (flag.type === 'scam') fudPenalty += 100
+    else if (flag.type === 'shill') fudPenalty += 60
+    else if (flag.type === 'anon') fudPenalty += 40
+    else fudPenalty += 25
   }
   fudPenalty = Math.min(200, fudPenalty)
   const rawTotal = Object.values(cats).reduce((a, c) => a + c.score, 0)
-  const total = Math.max(0, Math.min(1000, rawTotal - fudPenalty * 10))
+  const total = Math.max(0, Math.min(1000, rawTotal - fudPenalty))
   return { total, categories: cats, fudPenalty: fudPenalty || 0 }
 }
 
@@ -212,7 +212,9 @@ For red_flags array — only include CONFIRMED issues found from searching. Each
 For good_highlights — only include genuinely positive confirmed facts.
 
 SEASON LOGIC — be specific:
-- If token is LIVE: do NOT mention season 2 unless you find confirmed official announcement
+- If token is LIVE: do NOT mention any season unless you find a CONFIRMED official announcement with specific dates or requirements. If unsure, leave future_seasons as empty string.
+- NEVER invent season numbers. If you see Season 2 mentioned somewhere, do not assume Season 3 exists.
+- The verdict_action and future_seasons must be consistent — never say different season numbers in the same result.
 - If pre-TGE: mention farming strategy if found
 - If no season info found: leave future_seasons empty string
 
@@ -239,7 +241,7 @@ function MetricRow({ metric, data }: { metric: any, data: any }) {
         <span style={{ fontSize: 14 }}>{metric.icon}</span>
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 5, gap: 8 }}>
-            <span style={{ fontSize: 12, fontWeight: 600, color: '#1c2b5a' }}>{metric.label}</span>
+            <span style={{ fontSize: 12, fontWeight: 600, color: '#14532d' }}>{metric.label}</span>
             <div style={{ display: 'flex', alignItems: 'center', gap: 5, flexShrink: 0 }}>
               <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, padding: '2px 6px', borderRadius: 20, background: sigBg, color: sigTc }}>{sig}</span>
               <div dangerouslySetInnerHTML={{ __html: tsq(tier, 18) }} />
@@ -439,7 +441,7 @@ export default function Home() {
   const msg = LOADING_MSGS[msgIdx]
 
   return (
-    <div style={{ minHeight: '100vh', background: '#f0f4ff', fontFamily: "'Plus Jakarta Sans',sans-serif" }}>
+    <div style={{ minHeight: '100vh', background: '#faf7f0', fontFamily: "'Plus Jakarta Sans',sans-serif" }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap');
         @keyframes spin{to{transform:rotate(360deg)}}
@@ -447,6 +449,7 @@ export default function Home() {
         @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
         @keyframes ring{0%,100%{transform:scale(1);opacity:0.4}50%{transform:scale(1.2);opacity:0.1}}
         @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes float{0%,100%{transform:translateY(0) rotate(var(--r,0deg))}50%{transform:translateY(-10px) rotate(var(--r,0deg))}}
         @keyframes scan{0%{transform:translateX(-100%)}100%{transform:translateX(400%)}}
         @keyframes pop{0%{transform:scale(0.8);opacity:0}60%{transform:scale(1.05)}100%{transform:scale(1);opacity:1}}
         .tag-btn{transition:all 0.15s;cursor:pointer;}
@@ -455,25 +458,25 @@ export default function Home() {
       `}</style>
 
       {/* Nav */}
-      <div style={{ background: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(12px)', borderBottom: '1px solid #dbe4ff', padding: '0 24px', display: 'flex', alignItems: 'center', height: 58, gap: 10, position: 'sticky', top: 0, zIndex: 100 }}>
-        <div style={{ width: 34, height: 34, background: 'linear-gradient(135deg,#1c2b5a,#3b5bdb)', borderRadius: 9, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+      <div style={{ background: '#fff', borderBottom: '1px solid #d4e8d0', padding: '0 24px', display: 'flex', alignItems: 'center', height: 58, gap: 10, position: 'sticky', top: 0, zIndex: 100 }}>
+        <div style={{ width: 34, height: 34, background: 'linear-gradient(135deg,#166534,#16a34a)', borderRadius: 9, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 000-1.41l-2.34-2.34a1 1 0 00-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" fill="#fff" /></svg>
         </div>
         <div>
-          <span style={{ fontSize: 16, fontWeight: 800, color: '#1c2b5a', letterSpacing: -0.5 }}>CMV <span style={{ color: '#3b5bdb' }}>AlphaScanner</span></span>
-          <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#adb5bd', letterSpacing: 0.5 }}>know if this project is worth your time</div>
+          <span style={{ fontSize: 16, fontWeight: 800, color: '#1c2b5a', letterSpacing: -0.5 }}>CMV <span style={{ color: '#16a34a' }}>AlphaScanner</span></span>
+          <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#4ade80', letterSpacing: 0.5 }}>know if this project is worth your time</div>
         </div>
         {/* Profile button */}
         <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 8 }}>
-          <button onClick={() => setShowProfileSetup(true)} style={{ display: 'flex', alignItems: 'center', gap: 7, background: '#f8f9ff', border: '1px solid #dbe4ff', borderRadius: 20, padding: '5px 12px 5px 6px', cursor: 'pointer', fontFamily: 'inherit' }}>
+          <button onClick={() => setShowProfileSetup(true)} style={{ display: 'flex', alignItems: 'center', gap: 7, background: '#f0fdf4', border: '1px solid #86efac', borderRadius: 20, padding: '5px 12px 5px 6px', cursor: 'pointer', fontFamily: 'inherit' }}>
             {userPhoto ? (
               <img src={userPhoto} alt="" style={{ width: 24, height: 24, borderRadius: '50%', objectFit: 'cover' }} />
             ) : (
               <div style={{ width: 24, height: 24, borderRadius: '50%', background: '#e8ecff', color: '#3b5bdb', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 10, fontWeight: 700 }}>{userName ? userName.charAt(0).toUpperCase() : '?'}</div>
             )}
-            <span style={{ fontSize: 12, fontWeight: 600, color: '#1c2b5a' }}>{userName || 'Set profile'}</span>
+            <span style={{ fontSize: 12, fontWeight: 600, color: '#14532d' }}>{userName || 'Set profile'}</span>
           </button>
-          <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#3b5bdb', background: '#e8ecff', borderRadius: 20, padding: '3px 8px', border: '1px solid #c5d0ff' }}>BETA</span>
+          <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#15803d', background: '#dcfce7', borderRadius: 20, padding: '3px 8px', border: '1px solid #86efac' }}>BETA</span>
         </div>
       </div>
 
@@ -505,7 +508,7 @@ export default function Home() {
             <div style={{ display: 'flex', gap: 8 }}>
               <button onClick={() => setShowProfileSetup(false)} style={{ flex: 1, background: '#f8f9ff', border: '1px solid #dbe4ff', borderRadius: 10, padding: '11px', fontSize: 13, fontWeight: 600, color: '#6c7a9c', cursor: 'pointer', fontFamily: 'inherit' }}>Cancel</button>
               <button onClick={() => { saveProfile(tempName, tempPhoto); setShowProfileSetup(false) }}
-                style={{ flex: 2, background: '#1c2b5a', color: '#fff', border: 'none', borderRadius: 10, padding: '11px', fontSize: 13, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit' }}>Save Profile</button>
+                style={{ flex: 2, background: '#14532d', color: '#fff', border: 'none', borderRadius: 10, padding: '11px', fontSize: 13, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit' }}>Save Profile</button>
             </div>
           </div>
         </div>
@@ -515,19 +518,66 @@ export default function Home() {
 
         {/* Hero */}
         {!result && !loading && (
-          <div style={{ textAlign: 'center', padding: '32px 0 28px', animation: 'fadeIn 0.6s ease' }}>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'linear-gradient(135deg,#e8ecff,#f0f4ff)', borderRadius: 20, padding: '6px 16px', fontFamily: "'DM Mono',monospace", fontSize: 10, color: '#3b5bdb', marginBottom: 16, border: '1px solid #c5d0ff' }}>
-              <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#37b24d', display: 'inline-block', animation: 'ring 2s ease-in-out infinite' }} />
-              Live Alpha Intelligence
+          <div style={{ position: 'relative', overflow: 'hidden', padding: '0 0 8px' }}>
+            {/* Soft cream circle bg */}
+            <div style={{ position: 'absolute', top: -80, left: '50%', transform: 'translateX(-50%)', width: 600, height: 600, borderRadius: '50%', background: '#dcfce7', opacity: 0.45, pointerEvents: 'none' }} />
+            <div style={{ position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)', width: 360, height: 360, borderRadius: '50%', border: '1px solid #86efac', opacity: 0.35, pointerEvents: 'none', animation: 'ring 5s ease-in-out infinite' }} />
+
+            {/* Floating verdict chips */}
+            <div style={{ position: 'absolute', left: '1%', top: 20, transform: 'rotate(-6deg)', animation: 'float 5s ease-in-out infinite', zIndex: 1 }}>
+              <div style={{ background: '#fff', border: '1.5px solid #86efac', borderRadius: 12, padding: '9px 14px', boxShadow: '0 4px 16px rgba(21,128,61,0.1)' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 2 }}>
+                  <div style={{ width: 7, height: 7, borderRadius: '50%', background: '#16a34a' }} />
+                  <span style={{ fontSize: 11, fontWeight: 800, color: '#14532d' }}>🌾 FARM IT</span>
+                </div>
+                <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#9ca3af' }}>EigenLayer · 84/100</div>
+              </div>
             </div>
-            <h1 style={{ fontSize: 'clamp(28px,5vw,48px)', fontWeight: 800, color: '#1c2b5a', lineHeight: 1.15, marginBottom: 12, letterSpacing: -1 }}>
-              Is this project<br /><span style={{ color: '#3b5bdb' }}>worth your time?</span>
-            </h1>
-            <p style={{ fontSize: 15, color: '#6c7a9c', lineHeight: 1.7, maxWidth: 500, margin: '0 auto 16px' }}>Paste any X profile link. CMV AlphaScanner evaluates 17 metrics, detects red flags, computes a CMV Alpha Score out of 1000 — and tells you exactly what to do.</p>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, flexWrap: 'wrap' as const }}>
-              {['17 metrics', '1000pt score', 'Red flag detection', 'Real X data', 'Personalised cards'].map(t => (
-                <span key={t} style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#6c7a9c', background: '#fff', border: '1px solid #dbe4ff', borderRadius: 20, padding: '4px 10px' }}>{t}</span>
-              ))}
+            <div style={{ position: 'absolute', right: '1%', top: 30, transform: 'rotate(5deg)', animation: 'float 6s ease-in-out infinite 0.8s', zIndex: 1 }}>
+              <div style={{ background: '#fff', border: '1.5px solid #fde68a', borderRadius: 12, padding: '9px 14px', boxShadow: '0 4px 16px rgba(0,0,0,0.06)' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 2 }}>
+                  <div style={{ width: 7, height: 7, borderRadius: '50%', background: '#d97706' }} />
+                  <span style={{ fontSize: 11, fontWeight: 800, color: '#78350f' }}>✍️ CREATE</span>
+                </div>
+                <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#9ca3af' }}>KaitoAI · 67/100</div>
+              </div>
+            </div>
+            <div style={{ position: 'absolute', left: '3%', bottom: 40, transform: 'rotate(4deg)', animation: 'float 7s ease-in-out infinite 1.3s', zIndex: 1, opacity: 0.85 }}>
+              <div style={{ background: '#fff', border: '1.5px solid #fca5a5', borderRadius: 12, padding: '9px 14px', boxShadow: '0 4px 16px rgba(0,0,0,0.06)' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 2 }}>
+                  <div style={{ width: 7, height: 7, borderRadius: '50%', background: '#dc2626' }} />
+                  <span style={{ fontSize: 11, fontWeight: 800, color: '#7f1d1d' }}>🚫 SKIP 🚨</span>
+                </div>
+                <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#9ca3af' }}>SuspectDAO · 12/100</div>
+              </div>
+            </div>
+            <div style={{ position: 'absolute', right: '2%', bottom: 50, transform: 'rotate(-4deg)', animation: 'float 5.5s ease-in-out infinite 0.5s', zIndex: 1, opacity: 0.85 }}>
+              <div style={{ background: '#fff', border: '1.5px solid #fed7aa', borderRadius: 12, padding: '9px 14px', boxShadow: '0 4px 16px rgba(0,0,0,0.06)' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 2 }}>
+                  <div style={{ width: 7, height: 7, borderRadius: '50%', background: '#ea580c' }} />
+                  <span style={{ fontSize: 11, fontWeight: 800, color: '#7c2d12' }}>👁️ WATCH</span>
+                </div>
+                <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#9ca3af' }}>RallyOnChain · 49/100</div>
+              </div>
+            </div>
+
+            {/* Main content */}
+            <div style={{ position: 'relative', zIndex: 2, textAlign: 'center', padding: '48px 24px 52px', animation: 'fadeIn 0.7s ease' }}>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: 7, background: '#dcfce7', border: '1px solid #86efac', borderRadius: 20, padding: '6px 16px', marginBottom: 22 }}>
+                <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#16a34a', animation: 'ring 2s ease-in-out infinite' }} />
+                <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 10, color: '#15803d', letterSpacing: '0.5px' }}>CRYPTO ALPHA INTELLIGENCE</span>
+              </div>
+              <h1 style={{ fontSize: 'clamp(38px,5.5vw,64px)', fontWeight: 900, color: '#14532d', lineHeight: 1.05, letterSpacing: -2, marginBottom: 14 }}>
+                Know before<br /><span style={{ color: '#16a34a' }}>you farm.</span>
+              </h1>
+              <p style={{ fontSize: 15, color: '#4b5563', lineHeight: 1.7, maxWidth: 440, margin: '0 auto 36px' }}>
+                Paste any project's X link. Get the full alpha — 17 metrics, red flag detection, a CMV score out of 1000, and a personalised verdict card you can share.
+              </p>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, flexWrap: 'wrap' as const, marginBottom: 24 }}>
+                {['17 metrics', '1000pt score', 'Red flag detection', 'Real X data', 'Personalised cards'].map(t => (
+                  <span key={t} style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#15803d', background: '#f0fdf4', border: '1px solid #86efac', borderRadius: 20, padding: '5px 12px' }}>{t}</span>
+                ))}
+              </div>
             </div>
           </div>
         )}
@@ -541,20 +591,20 @@ export default function Home() {
             </div>
           )}
           <div style={{ display: 'flex', gap: 10 }}>
-            <input style={{ flex: 1, background: '#f8f9ff', border: '1px solid #dbe4ff', borderRadius: 12, padding: '14px 16px', fontSize: 14, color: '#1c2b5a', fontFamily: "'DM Mono',monospace", outline: 'none', transition: 'border-color 0.2s' }}
+            <input style={{ flex: 1, background: '#f8f9ff', border: '1px solid #86efac', borderRadius: 12, padding: '14px 16px', fontSize: 14, color: '#1c2b5a', fontFamily: "'DM Mono',monospace", outline: 'none', transition: 'border-color 0.2s' }}
               placeholder="https://x.com/projecthandle or @handle"
               value={xUrl} onChange={e => setXUrl(e.target.value)}
               onKeyDown={e => e.key === 'Enter' && !loading && analyze()} disabled={loading}
               onFocus={e => e.target.style.borderColor = '#3b5bdb'} onBlur={e => e.target.style.borderColor = '#dbe4ff'} />
             <button onClick={analyze} disabled={loading || !xUrl.trim()}
-              style={{ background: loading || !xUrl.trim() ? '#e2e8f0' : 'linear-gradient(135deg,#1c2b5a,#3b5bdb)', color: loading || !xUrl.trim() ? '#adb5bd' : '#fff', border: 'none', borderRadius: 12, padding: '14px 28px', fontSize: 14, fontWeight: 700, cursor: loading || !xUrl.trim() ? 'not-allowed' : 'pointer', whiteSpace: 'nowrap' as const, fontFamily: 'inherit', transition: 'all 0.2s', boxShadow: loading || !xUrl.trim() ? 'none' : '0 4px 14px rgba(59,91,219,0.3)' }}>
+              style={{ background: loading || !xUrl.trim() ? '#e2e8f0' : 'linear-gradient(135deg,#166534,#16a34a)', color: loading || !xUrl.trim() ? '#adb5bd' : '#fff', border: 'none', borderRadius: 12, padding: '14px 28px', fontSize: 14, fontWeight: 700, cursor: loading || !xUrl.trim() ? 'not-allowed' : 'pointer', whiteSpace: 'nowrap' as const, fontFamily: 'inherit', transition: 'all 0.2s', boxShadow: loading || !xUrl.trim() ? 'none' : '0 4px 14px rgba(22,163,74,0.3)' }}>
               {loading ? 'Scanning...' : 'Analyze →'}
             </button>
           </div>
           <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#adb5bd', marginTop: 10, display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' as const }}>
             <span>try:</span>
             {['https://x.com/eigenlayer', 'https://x.com/KaitoAI', 'https://x.com/RallyOnChain'].map(ex => (
-              <button key={ex} onClick={() => setXUrl(ex)} style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#3b5bdb', background: 'none', border: 'none', cursor: 'pointer', padding: 0, textDecoration: 'underline dotted' }}>{ex.replace('https://x.com/', '@')}</button>
+              <button key={ex} onClick={() => setXUrl(ex)} style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#16a34a', background: 'none', border: 'none', cursor: 'pointer', padding: 0, textDecoration: 'underline dotted' }}>{ex.replace('https://x.com/', '@')}</button>
             ))}
           </div>
         </div>
@@ -562,7 +612,7 @@ export default function Home() {
         {/* Loading */}
         {loading && (
           <div style={{ background: '#fff', border: '1px solid #dbe4ff', borderRadius: 18, padding: 28, marginBottom: 16, overflow: 'hidden', position: 'relative' }}>
-            <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: 'linear-gradient(90deg,transparent,#3b5bdb,transparent)', animation: 'scan 2s linear infinite' }} />
+            <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: 'linear-gradient(90deg,transparent,#16a34a,transparent)', animation: 'scan 2s linear infinite' }} />
             {[
               { w: 40, h: 40, t: '8%', r: '6%', d: '3s' },
               { w: 24, h: 24, t: '55%', r: '12%', d: '4s' },
@@ -585,12 +635,12 @@ export default function Home() {
                 <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 10, color: '#6c7a9c' }}>scanning <span style={{ color: '#3b5bdb', fontWeight: 600 }}>@{xUrl.replace('https://x.com/', '').replace('@', '').split('/')[0]}</span></div>
               </div>
               <div style={{ textAlign: 'right' as const, flexShrink: 0 }}>
-                <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 36, fontWeight: 800, color: '#3b5bdb', lineHeight: 1 }}>{elapsed}<span style={{ fontSize: 14, color: '#adb5bd' }}>s</span></div>
+                <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 36, fontWeight: 800, color: '#16a34a', lineHeight: 1 }}>{elapsed}<span style={{ fontSize: 14, color: '#adb5bd' }}>s</span></div>
                 <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#adb5bd' }}>elapsed</div>
               </div>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 18, background: '#f8f9ff', borderRadius: 10, padding: '10px 14px', border: '1px solid #e8ecff' }}>
-              <div style={{ width: 22, height: 22, border: '2.5px solid #dbe4ff', borderTopColor: '#3b5bdb', borderRadius: '50%', animation: 'spin 0.7s linear infinite', flexShrink: 0 }} />
+              <div style={{ width: 22, height: 22, border: '2.5px solid #dbe4ff', borderTopColor: '#16a34a', borderRadius: '50%', animation: 'spin 0.7s linear infinite', flexShrink: 0 }} />
               <div style={{ fontSize: 13, fontWeight: 600, color: '#1c2b5a' }}>{phase}</div>
             </div>
             {[100, 83, 91, 74].map((w, i) => (
@@ -655,7 +705,10 @@ export default function Home() {
                     <span style={{ fontSize: 20, fontWeight: 800, color: '#fff', letterSpacing: -0.5 }}>{result.project_name || ''}</span>
                     {cgData?.token_live && cgData.ticker && <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 10, color: 'rgba(255,255,255,0.85)', background: 'rgba(255,255,255,0.15)', border: '1px solid rgba(255,255,255,0.25)', padding: '2px 8px', borderRadius: 5 }}>{cgData.ticker} {cgData.token_price}</span>}
                   </div>
-                  <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: 'rgba(255,255,255,0.65)' }}>{result.project_category || 'Crypto'}{result.team_location ? ` · ${result.team_location}` : ''}</div>
+                  <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: 'rgba(255,255,255,0.65)', display:'flex', alignItems:'center', gap:6, flexWrap:'wrap' as const }}>
+                    <span>{result.project_category || 'Crypto'}{result.team_location ? ` · ${result.team_location}` : ''}</span>
+                    {cgData?.token_live && <span style={{ background:'rgba(255,255,255,0.2)', border:'1px solid rgba(255,255,255,0.3)', borderRadius:20, padding:'1px 8px', fontSize:9, color:'#fff', fontWeight:700 }}>🟢 {cgData.ticker} {cgData.token_price}</span>}
+                  </div>
                 </div>
                 <div style={{ textAlign: 'right' as const, flexShrink: 0 }}>
                   <div style={{ fontSize: 44, fontWeight: 800, color: '#fff', lineHeight: 1, letterSpacing: -2 }}>{result.overall_score ?? 0}</div>
@@ -818,17 +871,17 @@ export default function Home() {
 
             {/* Rationale */}
             {result.score_rationale && (
-              <div style={{ background: '#f8f9ff', border: '1px solid #dbe4ff', borderLeft: '3px solid #3b5bdb', padding: '12px 14px', marginBottom: 14 }}>
-                <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#3b5bdb', letterSpacing: 1, marginBottom: 5 }}>WHY THIS SCORE</div>
+              <div style={{ background: '#f8f9ff', border: '1px solid #dbe4ff', borderLeft: '3px solid #16a34a', padding: '12px 14px', marginBottom: 14 }}>
+                <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#15803d', letterSpacing: 1, marginBottom: 5 }}>WHY THIS SCORE</div>
                 <div style={{ fontSize: 12, color: '#6c7a9c', lineHeight: 1.7 }}>{result.score_rationale}</div>
               </div>
             )}
 
             {/* How to play */}
-            <div style={{ background: 'linear-gradient(135deg,#f0f4ff,#e8ecff)', border: '1px solid #c5d0ff', borderLeft: '3px solid #3b5bdb', borderRadius: 12, padding: '14px 16px', marginBottom: 14 }}>
+            <div style={{ background: 'linear-gradient(135deg,#f0f4ff,#e8ecff)', border: '1px solid #c5d0ff', borderLeft: '3px solid #16a34a', borderRadius: 12, padding: '14px 16px', marginBottom: 14 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
                 <span style={{ fontSize: 13, fontWeight: 700, color: '#1c2b5a' }}>How to play this</span>
-                <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#3b5bdb', background: '#fff', border: '1px solid #c5d0ff', padding: '3px 9px', borderRadius: 20 }}>{result.project_category || 'Infrastructure'}</span>
+                <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#15803d', background: '#fff', border: '1px solid #86efac', padding: '3px 9px', borderRadius: 20 }}>{result.project_category || 'Infrastructure'}</span>
               </div>
               <div style={{ fontSize: 12, color: '#475569', lineHeight: 1.65 }}>{HOW_TO_PLAY[result.project_category as string] || HOW_TO_PLAY['Infrastructure']}</div>
             </div>
@@ -907,7 +960,7 @@ export default function Home() {
             <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap' as const, marginBottom: 12 }}>
               {[{ id: 'metrics', l: '📊 Metrics' }, { id: 'mindshare', l: '🧠 Mindshare' }, { id: 'risks', l: '⚠️ Risks' }, { id: 'sources', l: '📎 Sources' }].map(sec => (
                 <button key={sec.id} onClick={() => setAsec(sec.id)}
-                  style={{ padding: '8px 18px', borderRadius: 10, border: `1px solid ${asec === sec.id ? '#1c2b5a' : '#dbe4ff'}`, background: asec === sec.id ? '#1c2b5a' : '#fff', color: asec === sec.id ? '#fff' : '#6c7a9c', fontSize: 12, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit', transition: 'all 0.15s' }}>
+                  style={{ padding: '8px 18px', borderRadius: 10, border: `1px solid ${asec === sec.id ? '#14532d' : '#d4e8d0'}`, background: asec === sec.id ? '#14532d' : '#fff', color: asec === sec.id ? '#fff' : '#6c7a9c', fontSize: 12, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit', transition: 'all 0.15s' }}>
                   {sec.l}
                 </button>
               ))}
@@ -920,7 +973,7 @@ export default function Home() {
                     const sc = catScore(cat)
                     return (
                       <button key={cat} onClick={() => setAtab(cat)}
-                        style={{ padding: '5px 12px', borderRadius: 7, border: `1px solid ${atab === cat ? '#1c2b5a' : '#dbe4ff'}`, background: atab === cat ? '#1c2b5a' : '#fff', color: atab === cat ? '#fff' : '#6c7a9c', fontSize: 11, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}>
+                        style={{ padding: '5px 12px', borderRadius: 7, border: `1px solid ${atab === cat ? '#14532d' : '#d4e8d0'}`, background: atab === cat ? '#14532d' : '#fff', color: atab === cat ? '#fff' : '#6c7a9c', fontSize: 11, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}>
                         {cat} <span style={{ color: atab === cat ? '#fff' : T[getTier(sc)].solid, fontFamily: "'DM Mono',monospace", fontSize: 9 }}>{sc}</span>
                       </button>
                     )
@@ -979,7 +1032,7 @@ export default function Home() {
                   <div key={i} style={{ display: 'flex', gap: 10, paddingBottom: 10, marginBottom: 10, borderBottom: '1px solid #f0f4ff' }}>
                     <div style={{ width: 22, height: 22, borderRadius: '50%', background: '#e8ecff', color: '#3b5bdb', fontFamily: "'DM Mono',monospace", fontSize: 9, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: 1 }}>{i + 1}</div>
                     <div>
-                      <div style={{ fontSize: 12, fontWeight: 600, color: '#1c2b5a', marginBottom: 2 }}>{src.name || src.title || ''}</div>
+                      <div style={{ fontSize: 12, fontWeight: 600, color: '#14532d', marginBottom: 2 }}>{src.name || src.title || ''}</div>
                       <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#adb5bd', marginBottom: 3 }}>{src.used_for || src.type || ''}</div>
                       {src.url && src.url !== 'unknown' && <a href={src.url} target="_blank" rel="noreferrer" style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#3b5bdb', textDecoration: 'none' }}>{src.url.slice(0, 55)}{src.url.length > 55 ? '...' : ''}</a>}
                     </div>
@@ -993,7 +1046,7 @@ export default function Home() {
         )}
 
         {!loading && !result && !error && (
-          <div style={{ border: '1.5px dashed #dbe4ff', borderRadius: 16, padding: '48px 24px', textAlign: 'center' as const, background: 'rgba(255,255,255,0.7)' }}>
+          <div style={{ border: '1.5px dashed #86efac', borderRadius: 16, padding: '48px 24px', textAlign: 'center' as const, background: 'rgba(255,255,255,0.7)' }}>
             <div style={{ fontSize: 32, marginBottom: 12 }}>🔭</div>
             <div style={{ fontSize: 15, fontWeight: 700, color: '#6c7a9c', marginBottom: 6 }}>No project scanned yet</div>
             <div style={{ fontSize: 12, color: '#adb5bd', lineHeight: 1.6 }}>Paste any project X URL or handle above.<br />Works with URLs, @handles, or just the username.</div>
