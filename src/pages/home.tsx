@@ -643,129 +643,175 @@ export default function Home() {
     if (!result) return
     const ot = getTier(result.overall_score ?? 0)
     const otc = T[ot]
+    const highlights = (result.good_highlights || []).filter((h: string) => h && h.length > 5)
     const tagLabels = selectedTags.map(id => {
-      const good = GOOD_TAGS.find(t => t.id === id)
-      const bad = BAD_TAGS.find(t => t.id === id)
-      return good?.label || bad?.label || ''
+      const g = GOOD_TAGS.find(t => t.id === id); const b = BAD_TAGS.find(t => t.id === id)
+      return g?.label || b?.label || ''
     }).filter(Boolean)
+    const displayHighlights = tagLabels.length > 0 ? tagLabels : highlights.slice(0, 3)
+    const colors = otc.vbg.match(/#[0-9a-fA-F]{6}/g) || ['#37b24d', '#2f9e44']
 
-    // Build canvas
+    // High-res canvas 2x
     const canvas = document.createElement('canvas')
-    const W = 800, H = 420
+    const W = 1200, H = 630
     canvas.width = W; canvas.height = H
     const ctx = canvas.getContext('2d')!
 
     // Background gradient
     const grad = ctx.createLinearGradient(0, 0, W, H)
-    const colors = otc.vbg.match(/#[0-9a-fA-F]{6}/g) || ['#37b24d', '#2f9e44']
     grad.addColorStop(0, colors[0])
-    grad.addColorStop(1, colors[1])
+    grad.addColorStop(1, colors[1] || colors[0])
     ctx.fillStyle = grad
-    ctx.roundRect(0, 0, W, H, 20)
-    ctx.fill()
+    ctx.fillRect(0, 0, W, H)
 
     // Decorative circles
-    ctx.globalAlpha = 0.06
-    ctx.beginPath(); ctx.arc(W + 50, -50, 200, 0, Math.PI * 2); ctx.fillStyle = '#fff'; ctx.fill()
-    ctx.beginPath(); ctx.arc(-30, H + 30, 140, 0, Math.PI * 2); ctx.fill()
-    ctx.globalAlpha = 1
-
-    // User badge
-    ctx.fillStyle = 'rgba(255,255,255,0.2)'
-    ctx.roundRect(30, 28, 180, 32, 16)
-    ctx.fill()
+    ctx.save()
+    ctx.globalAlpha = 0.07
     ctx.fillStyle = '#fff'
-    ctx.font = 'bold 13px Plus Jakarta Sans, sans-serif'
-    ctx.fillText((userName || 'CMV') + ' says ' + otc.v.toLowerCase() + ' ' + otc.emoji, 44, 49)
+    ctx.beginPath(); ctx.arc(W - 80, -100, 320, 0, Math.PI * 2); ctx.fill()
+    ctx.beginPath(); ctx.arc(-60, H + 60, 240, 0, Math.PI * 2); ctx.fill()
+    ctx.beginPath(); ctx.arc(W / 2, H + 120, 180, 0, Math.PI * 2); ctx.fill()
+    ctx.restore()
 
-    // Project name
-    ctx.fillStyle = '#fff'
-    ctx.font = 'bold 32px Plus Jakarta Sans, sans-serif'
-    ctx.fillText(result.project_name || '', 30, 110)
-
-    // Category + location
-    ctx.globalAlpha = 0.7
-    ctx.font = '14px DM Mono, monospace'
-    ctx.fillStyle = '#fff'
-    ctx.fillText((result.project_category || 'Crypto') + (result.team_location ? ' · ' + result.team_location : ''), 30, 135)
-    ctx.globalAlpha = 1
-
-    // Token price
-    if (cgData?.token_live && cgData.ticker) {
-      ctx.fillStyle = 'rgba(255,255,255,0.25)'
-      ctx.roundRect(30, 148, 180, 28, 14)
-      ctx.fill()
-      ctx.fillStyle = '#fff'
-      ctx.font = 'bold 12px DM Mono, monospace'
-      ctx.fillText('🟢 ' + cgData.ticker + ' ' + cgData.token_price + (cgData.market_cap_str ? ' · ' + cgData.market_cap_str : ''), 44, 167)
+    // PFP — draw profile image if available
+    const pfpUrl = xData?.profile_image_url
+    if (pfpUrl) {
+      try {
+        const img = new Image()
+        img.crossOrigin = 'anonymous'
+        await new Promise<void>((resolve) => {
+          img.onload = () => {
+            // Draw circular PFP — big and bold
+            ctx.save()
+            ctx.beginPath()
+            ctx.arc(100, 110, 68, 0, Math.PI * 2)
+            ctx.clip()
+            ctx.drawImage(img, 32, 42, 136, 136)
+            ctx.restore()
+            // White border ring
+            ctx.save()
+            ctx.strokeStyle = 'rgba(255,255,255,0.6)'
+            ctx.lineWidth = 4
+            ctx.beginPath()
+            ctx.arc(100, 110, 68, 0, Math.PI * 2)
+            ctx.stroke()
+            ctx.restore()
+            resolve()
+          }
+          img.onerror = () => resolve()
+          img.src = pfpUrl
+        })
+      } catch {}
     }
 
-    // Score
+    // Project name — big bold
     ctx.fillStyle = '#fff'
-    ctx.font = 'bold 88px Plus Jakarta Sans, sans-serif'
-    ctx.textAlign = 'right'
-    ctx.fillText(String(result.overall_score ?? 0), W - 30, 130)
-    ctx.font = '13px DM Mono, monospace'
-    ctx.globalAlpha = 0.7
-    ctx.fillText('ALPHA SCORE', W - 30, 150)
-    ctx.globalAlpha = 1
-    ctx.font = '14px DM Mono, monospace'
-    ctx.fillText(ot + ' · ' + otc.lbl, W - 30, 172)
-    ctx.textAlign = 'left'
+    ctx.font = 'bold 56px Arial, sans-serif'
+    const nameX = pfpUrl ? 190 : 50
+    ctx.fillText(result.project_name || '', nameX, 100)
 
-    // Verdict box
-    ctx.fillStyle = 'rgba(0,0,0,0.18)'
-    ctx.roundRect(30, 200, W - 60, 90, 12)
-    ctx.fill()
-    ctx.fillStyle = '#fff'
-    ctx.font = 'bold 22px Plus Jakarta Sans, sans-serif'
-    ctx.fillText(otc.emoji + ' ' + otc.v, 46, 228)
-    ctx.font = '13px Plus Jakarta Sans, sans-serif'
-    ctx.globalAlpha = 0.85
-    const verdict = (result.verdict_action || result.verdict_reason || '').slice(0, 100)
-    ctx.fillText(verdict.length > 90 ? verdict.slice(0, 90) + '...' : verdict, 46, 252)
+    // Category · Location
+    ctx.globalAlpha = 0.75
+    ctx.font = '24px monospace'
+    ctx.fillText((result.project_category || 'Crypto') + (result.team_location ? ' · ' + result.team_location : ''), nameX, 140)
     ctx.globalAlpha = 1
 
-    // Tags
-    let tagX = 30
-    tagLabels.slice(0, 2).forEach(tag => {
-      ctx.fillStyle = 'rgba(255,255,255,0.2)'
-      const tw = ctx.measureText(tag).width + 24
-      ctx.roundRect(tagX, 308, tw, 28, 14)
+    // Token badge
+    if (cgData?.token_live && cgData.ticker) {
+      ctx.fillStyle = 'rgba(255,255,255,0.22)'
+      ctx.beginPath()
+      ctx.roundRect(nameX, 158, 280, 38, 19)
       ctx.fill()
       ctx.fillStyle = '#fff'
-      ctx.font = 'bold 12px Plus Jakarta Sans, sans-serif'
-      ctx.fillText(tag, tagX + 12, 327)
-      tagX += tw + 8
+      ctx.font = 'bold 18px monospace'
+      ctx.fillText('● ' + cgData.ticker + '  ' + cgData.token_price + (cgData.market_cap_str ? '  ·  ' + cgData.market_cap_str : ''), nameX + 16, 183)
+    }
+
+    // Score — huge
+    ctx.fillStyle = '#fff'
+    ctx.font = 'bold 130px Arial, sans-serif'
+    ctx.textAlign = 'right'
+    ctx.fillText(String(result.overall_score ?? 0), W - 50, 148)
+    ctx.font = 'bold 22px monospace'
+    ctx.globalAlpha = 0.7
+    ctx.fillText('ALPHA SCORE', W - 50, 178)
+    ctx.globalAlpha = 1
+    ctx.font = 'bold 20px monospace'
+    ctx.fillStyle = 'rgba(255,255,255,0.9)'
+    ctx.fillText(ot + '  ·  ' + otc.lbl, W - 50, 210)
+    ctx.textAlign = 'left'
+
+    // User badge
+    ctx.fillStyle = 'rgba(255,255,255,0.18)'
+    ctx.beginPath(); ctx.roundRect(50, 230, 320, 44, 22); ctx.fill()
+    ctx.fillStyle = '#fff'
+    ctx.font = 'bold 19px Arial, sans-serif'
+    ctx.fillText((userName || 'CMV') + ' says ' + otc.v.toLowerCase() + ' ' + otc.emoji, 70, 259)
+
+    // Verdict box
+    ctx.fillStyle = 'rgba(0,0,0,0.2)'
+    ctx.beginPath(); ctx.roundRect(50, 286, W - 100, 120, 16); ctx.fill()
+
+    ctx.fillStyle = '#fff'
+    ctx.font = 'bold 34px Arial, sans-serif'
+    ctx.fillText(otc.emoji + '  ' + otc.v, 74, 330)
+
+    ctx.globalAlpha = 0.88
+    ctx.font = '20px Arial, sans-serif'
+    const verdictText = (result.verdict_action || result.verdict_reason || '')
+    const maxW = W - 160
+    // Word wrap
+    const words = verdictText.split(' ')
+    let line = '', lineY = 365
+    for (const word of words) {
+      const test = line + word + ' '
+      if (ctx.measureText(test).width > maxW && line) {
+        ctx.fillText(line.trim(), 74, lineY)
+        line = word + ' '; lineY += 28
+        if (lineY > 398) break
+      } else { line = test }
+    }
+    if (lineY <= 398) ctx.fillText(line.trim(), 74, lineY)
+    ctx.globalAlpha = 1
+
+    // Highlights row
+    let hx = 50
+    displayHighlights.slice(0, 3).forEach((h: string) => {
+      ctx.font = 'bold 16px Arial, sans-serif'
+      const tw = Math.min(ctx.measureText('✓ ' + h).width + 32, 360)
+      if (hx + tw > W - 50) return
+      ctx.fillStyle = 'rgba(255,255,255,0.18)'
+      ctx.beginPath(); ctx.roundRect(hx, 424, tw, 36, 18); ctx.fill()
+      ctx.fillStyle = '#fff'
+      // Truncate if needed
+      let label = '✓ ' + h
+      while (ctx.measureText(label).width > tw - 32 && label.length > 4) label = label.slice(0, -4) + '...'
+      ctx.fillText(label, hx + 16, 448)
+      hx += tw + 10
     })
 
-    // Highlights
-    let hlY = 310
-    const goodHighlights = result?.good_highlights?.filter((h: string) => h && h.length > 5) || []
-    if (tagLabels.length === 0 && goodHighlights.length > 0) {
-      goodHighlights.slice(0, 3).forEach((h: string) => {
-        ctx.fillStyle = 'rgba(255,255,255,0.2)'
-        const hw = ctx.measureText('✓ ' + h).width + 24
-        ctx.roundRect(tagX, 308, hw, 28, 14)
-        ctx.fill()
-        ctx.fillStyle = '#fff'
-        ctx.font = '12px Plus Jakarta Sans, sans-serif'
-        ctx.fillText('✓ ' + h, tagX + 12, 327)
-        tagX += hw + 8
-      })
+    // Red flag count
+    const flagCount = (result.red_flags || []).filter((f: any) => f.label).length
+    if (flagCount > 0) {
+      ctx.fillStyle = 'rgba(220,38,38,0.85)'
+      ctx.beginPath(); ctx.roundRect(W - 200, 424, 150, 36, 18); ctx.fill()
+      ctx.fillStyle = '#fff'
+      ctx.font = 'bold 16px Arial, sans-serif'
+      ctx.textAlign = 'right'
+      ctx.fillText('🚨 ' + flagCount + ' red flag' + (flagCount > 1 ? 's' : ''), W - 66, 448)
+      ctx.textAlign = 'left'
     }
 
     // Footer
-    ctx.globalAlpha = 0.4
-    ctx.font = '11px DM Mono, monospace'
+    ctx.globalAlpha = 0.35
     ctx.fillStyle = '#fff'
-    ctx.fillText('CMV ALPHASCANNER · cmv-alphascanner.vercel.app', 30, H - 18)
+    ctx.font = '16px monospace'
+    ctx.fillText('CMV ALPHASCANNER  ·  cmv-alphascanner.vercel.app', 50, H - 24)
     ctx.globalAlpha = 1
 
-    // Download
     const link = document.createElement('a')
-    link.download = `${result.project_name || 'scan'}-cmv-alpha.png`
-    link.href = canvas.toDataURL('image/png')
+    link.download = (result.project_name || 'scan').replace(/\s+/g, '_') + '-cmv-alpha.png'
+    link.href = canvas.toDataURL('image/png', 1.0)
     link.click()
   }
 
