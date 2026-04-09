@@ -420,7 +420,7 @@ export default function Home() {
   useEffect(() => { setTempName(userName); setTempPhoto(userPhoto) }, [userName, userPhoto])
 
   // Coming from feed — load cached result and refresh X + CoinGecko only (no Claude, no credits)
-  useEffect(() => {
+  useEffect(() => { (async () => {
     const params = new URLSearchParams(window.location.search)
     const q = params.get('q')
     if (!q) return
@@ -480,7 +480,7 @@ export default function Home() {
         }).catch(() => {})
       }
     } catch { }
-  }, [])
+  })() }, [])
 
   useEffect(() => {
     if (loading) {
