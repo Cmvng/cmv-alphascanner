@@ -10,80 +10,149 @@ async function xFetch(url: string, token: string) {
 
 async function getCoingeckoToken(ticker: string, handle: string) {
   try {
-    // Search by ticker first
-    if (ticker) {
-      const r = await fetch(`https://api.coingecko.com/api/v3/search?query=${encodeURIComponent(ticker)}`)
-      const d = await r.json()
-      const matches = (d.coins || []).filter((c: any) => c.symbol?.toUpperCase() === ticker.toUpperCase())
-      if (matches.length > 0) {
-        const best = matches.sort((a: any, b: any) => (a.market_cap_rank || 9999) - (b.market_cap_rank || 9999))[0]
-        const pr = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${best.id}&vs_currencies=usd&include_market_cap=true`)
-        const pd = await pr.json()
-        const price = pd[best.id]?.usd
-        const mcap = pd[best.id]?.usd_market_cap
-        if (price && price > 0) {
-          const priceStr = price < 0.01 ? `$${price.toFixed(6)}` : price < 1 ? `$${price.toFixed(4)}` : `$${price.toFixed(2)}`
-          const mcapStr = mcap ? (mcap >= 1e9 ? `$${(mcap / 1e9).toFixed(1)}B` : mcap >= 1e6 ? `$${(mcap / 1e6).toFixed(1)}M` : `$${Math.round(mcap).toLocaleString()}`) : ''
-          return { token_live: true, ticker: best.symbol?.toUpperCase(), token_price: priceStr, market_cap: mcap, market_cap_str: mcapStr, token_note: `Live · $${best.symbol?.toUpperCase()} · ${mcapStr}` }
-        }
-      }
-    }
+    const searchTerms: string[] = []
+    if (ticker) searchTerms.push(ticker)
+    searchTerms.push(handle)
+    const stripped = handle.replace(/^(try|use|get|go|the)/i, '')
+    if (stripped !== handle && stripped.length > 3) searchTerms.push(stripped)
 
-    // Search by handle variants (strip try/use/go prefixes)
-    const variants = [handle, handle.replace(/^(try|use|get|go|the)/i, '')]
-    for (const v of variants) {
-      if (v.length < 3) continue
-      const r = await fetch(`https://api.coingecko.com/api/v3/search?query=${encodeURIComponent(v)}`)
-      const d = await r.json()
-      if (d.coins?.length > 0) {
-        const match = d.coins.find((c: any) => {
-          const cName = c.name?.toLowerCase() || ''
-          return (cName.includes(v.toLowerCase()) || v.toLowerCase().includes(cName)) && (c.market_cap_rank || 9999) < 1500
-        })
-        if (match) {
-          const pr = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${match.id}&vs_currencies=usd&include_market_cap=true`)
-          const pd = await pr.json()
-          const price = pd[match.id]?.usd
-          const mcap = pd[match.id]?.usd_market_cap
-          if (price && price > 0 && ticker) {
-            const priceStr = price < 0.01 ? `$${price.toFixed(6)}` : price < 1 ? `$${price.toFixed(4)}` : `$${price.toFixed(2)}`
-            const mcapStr = mcap ? (mcap >= 1e9 ? `$${(mcap / 1e9).toFixed(1)}B` : mcap >= 1e6 ? `$${(mcap / 1e6).toFixed(1)}M` : `$${Math.round(mcap).toLocaleString()}`) : ''
-            return { token_live: true, ticker: match.symbol?.toUpperCase(), token_price: priceStr, market_cap: mcap, market_cap_str: mcapStr, token_note: `Live · $${match.symbol?.toUpperCase()} · ${mcapStr}` }
-          }
+    for (const term of searchTerms) {
+      if (!term || term.length < 2) continue
+      try {
+        const r = await fetch(`https://api.coingecko.com/api/v3/search?query=${encodeURIComponent(term)}`)
+        const d = await r.json()
+        if (!d.coins?.length) continue
+
+        let match: any = null
+        if (ticker && term === ticker) {
+          const exact = d.coins.filter((c: any) => c.symbol?.toUpperCase() === ticker.toUpperCase())
+          if (exact.length > 0) match = exact.sort((a: any, b: any) => (a.market_cap_rank || 9999) - (b.market_cap_rank || 9999))[0]
+        } else {
+          const nameMatches = d.coins.filter((c: any) => {
+            const cName = c.name?.toLowerCase() || ''
+            const t = term.toLowerCase()
+            return (cName.includes(t) || t.includes(cName)) && (c.market_cap_rank || 9999) < 2000
+          })
+          if (nameMatches.length > 0) match = nameMatches.sort((a: any, b: any) => (a.market_cap_rank || 9999) - (b.market_cap_rank || 9999))[0]
         }
-      }
+
+        if (!match) continue
+
+        const pr = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${match.id}&vs_currencies=usd&include_market_cap=true`)
+        const pd = await pr.json()
+        const price = pd[match.id]?.usd
+        const mcap = pd[match.id]?.usd_market_cap
+        if (!price || price === 0) continue
+
+        const priceStr = price < 0.01 ? `$${price.toFixed(6)}` : price < 1 ? `$${price.toFixed(4)}` : `$${price.toFixed(2)}`
+        const mcapStr = mcap ? (mcap >= 1e9 ? `$${(mcap / 1e9).toFixed(1)}B` : mcap >= 1e6 ? `$${(mcap / 1e6).toFixed(1)}M` : `$${Math.round(mcap).toLocaleString()}`) : ''
+        return {
+          token_live: true,
+          ticker: match.symbol?.toUpperCase(),
+          token_price: priceStr,
+          market_cap: mcap,
+          market_cap_str: mcapStr,
+          token_note: `Live · $${match.symbol?.toUpperCase()} · ${mcapStr}`
+        }
+      } catch { continue }
     }
     return null
   } catch { return null }
 }
 
+function extractIntelligence(tweets: any[], bio: string, pinnedTweet: string) {
+  const allText = [bio, pinnedTweet, ...tweets.map((t: any) => t.text)].join(' ')
+  const allLower = allText.toLowerCase()
 
+  // Extract tickers
+  const tickerMatches = allText.match(/\$([A-Z]{2,10})\b/g) || []
+  const tickers = [...new Set(tickerMatches.map((t: string) => t.replace('$', '')))]
+    .filter((t: string) => !['USD', 'BTC', 'ETH', 'USDC', 'USDT', 'SOL', 'BASE', 'OP', 'ARB', 'BNB'].includes(t))
+
+  // Season detection
+  const seasonMatches = allText.match(/[Ss]eason\s*(\d+)/g) || []
+  const seasonNums = seasonMatches.map((s: string) => parseInt(s.match(/\d+/)?.[0] || '0')).filter(Boolean)
+  const latestSeason = seasonNums.length > 0 ? Math.max(...seasonNums) : null
+
+  // Date extraction for seasons
+  const dateMatches = allText.match(/([A-Z][a-z]+ \d{1,2}[\s,]+ ?202[456])/g) || []
+
+  // Funding and VC signals
+  const fundingMatches = allText.match(/\$[\d.]+[MBK]\+?\s*(raised|funding|round|backed)/gi) || []
+  const vcList = ['coinbase', 'a16z', 'paradigm', 'pantera', 'multicoin', 'polychain', 'binance', 'sequoia', 'dragonfly', '1confirmation', 'maelstrom', 'dcg', 'animoca', 'arthur hayes', 'naval', 'blockchange']
+  const vcMentions = vcList.filter(vc => allLower.includes(vc))
+
+  // Token launch signals
+  const launchSignals = ['token live', 'officially live', 'tge complete', 'now trading', 'buy $', 'claim now', 'airdrop live', 'listed on', 'listing']
+  const tokenLaunchHinted = launchSignals.some(s => allLower.includes(s))
+
+  // User/traction metrics from tweets
+  const userCountMatches = allText.match(/([\d,.]+[KMB]?\+?)\s*(users|traders|participants|addresses|wallets|volume)/gi) || []
+
+  // Engagement
+  const totalLikes = tweets.reduce((sum: number, t: any) => sum + (t.public_metrics?.like_count || 0), 0)
+  const totalRetweets = tweets.reduce((sum: number, t: any) => sum + (t.public_metrics?.retweet_count || 0), 0)
+  const avgLikes = tweets.length > 0 ? Math.round(totalLikes / tweets.length) : 0
+  const avgRetweets = tweets.length > 0 ? Math.round(totalRetweets / tweets.length) : 0
+
+  // Paid/organic detection
+  const paidSignals = ['sponsored', 'paid partnership', '#ad', 'ambassador', 'in partnership with']
+  const paidCount = paidSignals.filter(s => allLower.includes(s)).length
+  const contentType = paidCount >= 2 ? 'mostly_paid' : 'organic'
+
+  // Category from bio
+  const bioLower = bio.toLowerCase()
+  let category = 'DeFi'
+  if (bioLower.includes('predict') || bioLower.includes('outcome') || bioLower.includes('forecast')) category = 'Prediction Market'
+  else if (bioLower.includes('perp') || bioLower.includes('perpetual') || bioLower.includes('derivatives')) category = 'Perp DEX'
+  else if (bioLower.includes('layer 1') || bioLower.includes('layer 2') || bioLower.includes(' l1 ') || bioLower.includes(' l2 ')) category = 'L1/L2'
+  else if (bioLower.includes('lend') || bioLower.includes('borrow') || bioLower.includes('yield')) category = 'Lending/Yield'
+  else if (bioLower.includes('nft') || bioLower.includes('gaming') || bioLower.includes('game')) category = 'NFT/Gaming'
+  else if (bioLower.includes('real world') || bioLower.includes('rwa') || bioLower.includes('tokenized')) category = 'RWA'
+  else if (bioLower.includes('social') || bioLower.includes('creator')) category = 'SocialFi'
+  else if (bioLower.includes('agent') || bioLower.includes('intelligence') || (bioLower.includes('ai') && bioLower.includes('chain'))) category = 'AI'
+  else if (bioLower.includes('infrastructure') || bioLower.includes('encryption') || bioLower.includes('sdk')) category = 'Infrastructure'
+  else if (bioLower.includes('exchange') || bioLower.includes(' dex') || bioLower.includes('swap')) category = 'DEX'
+  else if (bioLower.includes('restak')) category = 'Restaking'
+  else if (bioLower.includes('bridge') || bioLower.includes('cross-chain')) category = 'Bridge'
+
+  return {
+    tickers,
+    confirmedTicker: tickers[0] || null,
+    tokenLaunchHinted,
+    latestSeason,
+    seasonDates: dateMatches.slice(0, 3),
+    fundingMentions: fundingMatches.slice(0, 3),
+    vcMentions,
+    userCountMentions: userCountMatches.slice(0, 4),
+    contentType,
+    avgLikes,
+    avgRetweets,
+    category,
+  }
+}
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   res.setHeader('Access-Control-Allow-Origin', '*')
   res.setHeader('Access-Control-Allow-Methods', 'GET')
 
   const { handle } = req.query
-  if (!handle || typeof handle !== 'string') {
-    return res.status(400).json({ error: 'Handle required' })
-  }
+  if (!handle || typeof handle !== 'string') return res.status(400).json({ error: 'Handle required' })
 
   const clean = handle.replace('@', '').trim().toLowerCase()
   const TOKEN = process.env.X_API_BEARER_TOKEN!
 
-  // Return cached result if fresh (pass ?nocache=true to bypass)
   const noCache = req.query.nocache === 'true'
   const cached = cache.get(clean)
   if (!noCache && cached && Date.now() - cached.time < CACHE_TTL) {
     return res.status(200).json({ ...cached.data, cached: true })
   }
-  // Clear cache if requested
   if (noCache) cache.delete(clean)
 
   try {
-    // 1. Fetch project X profile
+    // 1. Project profile
     const userData = await xFetch(
-      `https://api.twitter.com/2/users/by/username/${clean}?user.fields=public_metrics,verified,created_at,profile_image_url,description,entities,pinned_tweet_id,id`,
+      `https://api.twitter.com/2/users/by/username/${clean}?user.fields=public_metrics,verified,created_at,profile_image_url,description,pinned_tweet_id,id`,
       TOKEN
     )
     const u = userData.data
@@ -91,42 +160,32 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     const bio = u.description || ''
     let pinnedTweetText = ''
-    let recentTweetsText = ''
 
-    // 2. Fetch pinned tweet
+    // 2. Pinned tweet
     if (u.pinned_tweet_id) {
       try {
-        const tweetData = await xFetch(`https://api.twitter.com/2/tweets/${u.pinned_tweet_id}?tweet.fields=text`, TOKEN)
-        pinnedTweetText = tweetData.data?.text || ''
+        const td = await xFetch(`https://api.twitter.com/2/tweets/${u.pinned_tweet_id}?tweet.fields=text,public_metrics`, TOKEN)
+        pinnedTweetText = td.data?.text || ''
       } catch { }
     }
 
-    // 3. Fetch recent tweets for ticker detection
+    // 3. Recent tweets with engagement metrics
+    let recentTweets: any[] = []
     try {
-      const tweetsData = await xFetch(
-        `https://api.twitter.com/2/users/${u.id}/tweets?max_results=10&tweet.fields=text&exclude=retweets`,
+      const td = await xFetch(
+        `https://api.twitter.com/2/users/${u.id}/tweets?max_results=20&tweet.fields=text,public_metrics,created_at&exclude=retweets`,
         TOKEN
       )
-      recentTweetsText = (tweetsData.data || []).map((t: any) => t.text).join(' ')
+      recentTweets = td.data || []
     } catch { }
 
-    // Founder profiles fetched separately via xuser API per team member
+    // 4. Extract all intelligence from X data
+    const intel = extractIntelligence(recentTweets, bio, pinnedTweetText)
 
-    // 5. Extract ticker from all X text
-    const allText = `${bio} ${pinnedTweetText} ${recentTweetsText}`
-    const tickerMatches = allText.match(/\$([A-Z]{2,10})\b/g) || []
-    const tickers = [...new Set(tickerMatches.map((t: string) => t.replace('$', '')))]
-    const filtered = tickers.filter((t: string) => !['USD', 'BTC', 'ETH', 'USDC', 'USDT', 'SOL', 'BASE', 'OP', 'ARB'].includes(t))
-    const confirmedTicker = filtered.length > 0 ? filtered[0] : null
+    // 5. Token data from CoinGecko
+    const tokenData = await getCoingeckoToken(intel.confirmedTicker || '', clean)
 
-    const allTextLower = allText.toLowerCase()
-    const launchSignals = ['token live', 'now live', 'trading now', 'listed on', 'officially live', 'tge complete', 'airdrop live', 'now trading', 'available on aerodrome', 'available on uniswap', 'live on', 'buy $', 'claim now']
-    const tokenLaunchHinted = launchSignals.some(s => allTextLower.includes(s))
-
-    // 6. Fetch token data from CoinGecko
-    const tokenData = await getCoingeckoToken(confirmedTicker || '', clean)
-
-    // 7. Compute CMV X Score
+    // 6. CMV X Score
     const metrics = u.public_metrics
     const followers = metrics?.followers_count || 0
     const following = metrics?.following_count || 0
@@ -141,31 +200,36 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const activityScore = Math.min(100, (tweetCount / 1000) * 100)
     const ratioScore = Math.min(100, (followers / Math.max(following, 1)) / 100 * 100)
     const verifiedScore = u.verified ? 100 : 0
+    const engagementScore = Math.min(100, (intel.avgLikes / Math.max(followers * 0.01, 1)) * 100)
 
     const cmvScore = Math.round(
-      (followerScore * 0.30) +
-      (listedScore * 0.20) +
-      (ageScore * 0.15) +
-      (activityScore * 0.15) +
-      (ratioScore * 0.10) +
-      (verifiedScore * 0.10)
+      (followerScore * 0.28) + (listedScore * 0.18) + (ageScore * 0.12) +
+      (activityScore * 0.12) + (ratioScore * 0.10) + (verifiedScore * 0.10) + (engagementScore * 0.10)
     )
 
     const result = {
-      followers,
-      following,
-      tweet_count: tweetCount,
-      listed,
+      followers, following, tweet_count: tweetCount, listed,
       verified: u.verified || false,
       account_age_years: age,
       profile_image_url: u.profile_image_url?.replace('_normal', '_bigger') || null,
       description: bio,
       pinned_tweet: pinnedTweetText,
-      recent_tweets: recentTweetsText.slice(0, 600),
-      confirmed_ticker: tokenData?.ticker || confirmedTicker,
-      all_tickers_found: filtered,
-      token_launch_hinted: tokenLaunchHinted || !!tokenData?.token_live,
+      recent_tweets: recentTweets.map((t: any) => t.text).join(' ').slice(0, 800),
+
+      // X intelligence — Claude uses this instead of searching for it
+      confirmed_ticker: tokenData?.ticker || intel.confirmedTicker,
+      all_tickers_found: intel.tickers,
+      token_launch_hinted: intel.tokenLaunchHinted || !!tokenData?.token_live,
       token_data: tokenData,
+      category: intel.category,
+      latest_season: intel.latestSeason,
+      season_dates: intel.seasonDates,
+      funding_mentions: intel.fundingMentions,
+      vc_mentions: intel.vcMentions,
+      user_count_mentions: intel.userCountMentions,
+      content_type: intel.contentType,
+      avg_likes: intel.avgLikes,
+      avg_retweets: intel.avgRetweets,
 
       cmv_score: Math.min(1000, Math.round(cmvScore * 10)),
       breakdown: {
@@ -175,6 +239,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         posting_activity: Math.round(activityScore),
         follower_ratio: Math.round(ratioScore),
         verified: Math.round(verifiedScore),
+        engagement: Math.round(engagementScore),
       },
       cached: false
     }
