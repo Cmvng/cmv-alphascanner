@@ -741,12 +741,47 @@ export default function Home() {
     ctx.fillText(ot + '  ·  ' + otc.lbl, W - 50, 210)
     ctx.textAlign = 'left'
 
-    // User badge
+    // User PFP + badge — draw user photo if available
+    let userBadgeX = 50
+    if (userPhoto) {
+      try {
+        const uImg = new Image()
+        uImg.crossOrigin = 'anonymous'
+        await new Promise<void>((resolve) => {
+          uImg.onload = () => {
+            // Circular user photo
+            ctx.save()
+            ctx.beginPath()
+            ctx.arc(74, 252, 22, 0, Math.PI * 2)
+            ctx.clip()
+            ctx.drawImage(uImg, 52, 230, 44, 44)
+            ctx.restore()
+            // White border
+            ctx.save()
+            ctx.strokeStyle = 'rgba(255,255,255,0.8)'
+            ctx.lineWidth = 2.5
+            ctx.beginPath()
+            ctx.arc(74, 252, 22, 0, Math.PI * 2)
+            ctx.stroke()
+            ctx.restore()
+            resolve()
+          }
+          uImg.onerror = () => resolve()
+          uImg.src = userPhoto
+        })
+        userBadgeX = 106
+      } catch {}
+    }
+    // Badge pill
+    const badgeText = '@' + (userName || 'cmvng') + ' says ' + otc.v.toLowerCase() + ' ' + otc.emoji
+    ctx.font = 'bold 18px Arial, sans-serif'
+    const badgeW = ctx.measureText(badgeText).width + (userPhoto ? 24 : 40)
     ctx.fillStyle = 'rgba(255,255,255,0.18)'
-    ctx.beginPath(); ctx.roundRect(50, 230, 320, 44, 22); ctx.fill()
+    ctx.beginPath()
+    ctx.roundRect(userPhoto ? 52 : 50, 230, badgeW + (userPhoto ? 54 : 0), 44, 22)
+    ctx.fill()
     ctx.fillStyle = '#fff'
-    ctx.font = 'bold 19px Arial, sans-serif'
-    ctx.fillText((userName || 'CMV') + ' says ' + otc.v.toLowerCase() + ' ' + otc.emoji, 70, 259)
+    ctx.fillText(badgeText, userBadgeX, 259)
 
     // Verdict box
     ctx.fillStyle = 'rgba(0,0,0,0.2)'
