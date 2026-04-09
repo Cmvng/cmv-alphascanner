@@ -97,7 +97,7 @@ export default function Feed() {
         </a>
         <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 8 }}>
           <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#15803d', background: '#dcfce7', borderRadius: 20, padding: '3px 10px', border: '1px solid #86efac' }}>🔴 LIVE FEED</span>
-          <a href="/" style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'linear-gradient(135deg,#166534,#16a34a)', color: '#fff', textDecoration: 'none', borderRadius: 20, padding: '8px 16px', fontSize: 13, fontWeight: 700, fontFamily: 'inherit', boxShadow: '0 2px 8px rgba(22,163,74,0.3)' }}>
+          <a href="/" style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'linear-gradient(135deg,#166534,#16a34a)', color: '#fff', textDecoration: 'none', borderRadius: 20, padding: '7px 14px', fontSize: 12, fontWeight: 700, fontFamily: 'inherit', boxShadow: '0 2px 8px rgba(22,163,74,0.3)', whiteSpace: 'nowrap' as const }}>
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
             Scan Project
           </a>
@@ -113,7 +113,7 @@ export default function Feed() {
         </div>
 
         {/* Filter tabs */}
-        <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' as const, marginBottom: 20 }}>
+        <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' as const, marginBottom: 16 }}>
           {verdicts.map(v => {
             const t = T[v]
             const active = filter === v
@@ -128,7 +128,7 @@ export default function Feed() {
 
         {/* Loading */}
         {loading && (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(260px,1fr))', gap: 12 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(min(260px,100%),1fr))', gap: 12 }}>
             {[1,2,3,4,5,6].map(i => <div key={i} style={{ height: 160, background: 'linear-gradient(90deg,#f0fdf4 25%,#dcfce7 50%,#f0fdf4 75%)', backgroundSize: '400px 100%', animation: 'shimmer 1.5s infinite', borderRadius: 14 }} />)}
           </div>
         )}
@@ -145,7 +145,7 @@ export default function Feed() {
 
         {/* Grid */}
         {!loading && filtered.length > 0 && (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(260px,1fr))', gap: 12 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(min(260px,100%),1fr))', gap: 12 }}>
             {filtered.map((scan: any) => {
               const t = T[scan.verdict] || T['WATCH']
               const livePrice = scan.ticker ? prices[scan.ticker] : null
