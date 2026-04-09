@@ -749,7 +749,7 @@ export default function Home() {
                   })}
 
                   {/* FUD Penalty */}
-                  <div style={{ background: cmvScore.fudPenalty > 0 ? '#fff5f5' : '#f8f9ff', border: `1px solid ${cmvScore.fudPenalty > 0 ? '#ffc9c9' : '#dbe4ff'}`, borderRadius: 10, padding: '12px' }}>
+                  <div style={{ background: (cmvScore.fudPenalty ?? 0) > 0 ? '#fff5f5' : '#f8f9ff', border: `1px solid ${cmvScore.fudPenalty > 0 ? '#ffc9c9' : '#dbe4ff'}`, borderRadius: 10, padding: '12px' }}>
                     <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: cmvScore.fudPenalty > 0 ? '#c92a2a' : '#868e96', letterSpacing: 1, marginBottom: 3 }}>FUD PENALTY ⚠</div>
                     <div style={{ fontSize: 22, fontWeight: 800, color: cmvScore.fudPenalty > 0 ? '#c92a2a' : '#adb5bd', lineHeight: 1 }}>-{cmvScore.fudPenalty * 10}<span style={{ fontSize: 11, color: '#adb5bd', fontWeight: 400 }}>/200</span></div>
                     <div style={{ height: 6, background: '#fee2e2', borderRadius: 4, overflow: 'hidden', margin: '6px 0' }}>
