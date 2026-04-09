@@ -1,6 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 
-// In-memory cache — persists for the lifetime of the serverless function instance
 const cache = new Map<string, { data: any; time: number }>()
 const CACHE_TTL = 1000 * 60 * 60 * 24 // 24 hours
 
@@ -15,14 +14,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   const clean = handle.replace('@', '').trim().toLowerCase()
 
-  // Return cached result if still fresh
+  // Return cached result if fresh
   const cached = cache.get(clean)
   if (cached && Date.now() - cached.time < CACHE_TTL) {
     return res.status(200).json({ ...cached.data, cached: true })
   }
 
   try {
-    // Single API call — profile + pinned tweet in one request
+    // Fetch user profile + pinned tweet ID
     const userRes = await fetch(
       `https://api.twitter.com/2/users/by/username/${clean}?user.fields=public_metrics,verified,created_at,profile_image_url,description,entities,pinned_tweet_id`,
       { headers: { Authorization: `Bearer ${process.env.X_API_BEARER_TOKEN}` } }
@@ -33,12 +32,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     const bio = u.description || ''
     let pinnedTweetText = ''
+    let recentTweetsText = ''
 
-    // Fetch pinned tweet only if it exists — one extra call but worth it for ticker detection
+    // Fetch pinned tweet
     if (u.pinned_tweet_id) {
       try {
         const tweetRes = await fetch(
-          `https://api.twitter.com/2/tweets/${u.pinned_tweet_id}`,
+          `https://api.twitter.com/2/tweets/${u.pinned_tweet_id}?tweet.fields=text`,
           { headers: { Authorization: `Bearer ${process.env.X_API_BEARER_TOKEN}` } }
         )
         const tweetData = await tweetRes.json()
@@ -46,18 +46,32 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       } catch { }
     }
 
-    // Search bio + pinned tweet for $TICKER pattern
-    const allText = `${bio} ${pinnedTweetText}`
+    // Fetch recent tweets to look for ticker announcements
+    try {
+      const tweetsRes = await fetch(
+        `https://api.twitter.com/2/users/${u.id}/tweets?max_results=10&tweet.fields=text&exclude=retweets`,
+        { headers: { Authorization: `Bearer ${process.env.X_API_BEARER_TOKEN}` } }
+      )
+      const tweetsData = await tweetsRes.json()
+      recentTweetsText = (tweetsData.data || []).map((t: any) => t.text).join(' ')
+    } catch { }
+
+    // Search all text for $TICKER pattern
+    const allText = `${bio} ${pinnedTweetText} ${recentTweetsText}`
     const tickerMatches = allText.match(/\$([A-Z]{2,10})\b/g) || []
-    const tickers = [...new Set(tickerMatches.map(t => t.replace('$', '')))]
-    const confirmedTicker = tickers.length > 0 ? tickers[0] : null
+    const tickers = [...new Set(tickerMatches.map((t: string) => t.replace('$', '')))]
+
+    // Filter out common non-token dollar signs
+    const filtered = tickers.filter(t => !['USD', 'BTC', 'ETH', 'USDC', 'USDT', 'SOL'].includes(t))
+    const confirmedTicker = filtered.length > 0 ? filtered[0] : null
 
     // Token launch signals
     const allTextLower = allText.toLowerCase()
     const launchSignals = [
       'token live', 'now live', 'trading now', 'listed on', 'available on',
-      'buy $', 'trade $', 'token launched', 'token is live', 'tge complete',
-      'airdrop live', 'claim now', 'token claim', 'now trading', 'token available'
+      'buy $', 'trade $', 'token launched', 'is officially live', 'tge complete',
+      'airdrop live', 'claim now', 'token claim', 'now trading', 'token available',
+      'officially live', 'live on', 'available on aerodrome', 'available on uniswap'
     ]
     const tokenLaunchHinted = launchSignals.some(s => allTextLower.includes(s))
 
@@ -66,11 +80,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const following = metrics?.following_count || 0
     const tweetCount = metrics?.tweet_count || 0
     const listed = metrics?.listed_count || 0
-
     const createdYear = new Date(u.created_at || '').getFullYear()
     const age = new Date().getFullYear() - createdYear
 
-    // CMV X Score calculation
+    // CMV X Score
     const followerScore = Math.min(100, Math.log10(Math.max(followers, 1)) / 5 * 100)
     const listedScore = Math.min(100, Math.log10(Math.max(listed, 1)) / 4 * 100)
     const ageScore = Math.min(100, (age / 5) * 100)
@@ -97,8 +110,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       profile_image_url: u.profile_image_url?.replace('_normal', '_bigger') || null,
       description: bio,
       pinned_tweet: pinnedTweetText,
+      recent_tweets: recentTweetsText.slice(0, 500),
       confirmed_ticker: confirmedTicker,
-      all_tickers_found: tickers,
+      all_tickers_found: filtered,
       token_launch_hinted: tokenLaunchHinted,
       cmv_score: Math.min(1000, Math.round(cmvScore * 10)),
       breakdown: {
@@ -112,9 +126,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       cached: false
     }
 
-    // Store in cache
     cache.set(clean, { data: result, time: Date.now() })
-
     return res.status(200).json(result)
   } catch {
     return res.status(500).json({ error: 'Failed to fetch X data' })
