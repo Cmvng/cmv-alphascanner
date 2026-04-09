@@ -609,21 +609,23 @@ NOTE: X API team data is NOT reliable for identifying founders — it just shows
 
 YOU MUST DO EXACTLY 3 SEARCHES IN THIS ORDER:
 
-SEARCH 1 — RED FLAGS + CONCERNS (do this first, always):
-Search: "@${handle} rug scam hack exploit controversy criticism concerns issues risk warning"
-Look for ALL of these — major AND minor:
-MAJOR (type: rug/scam/exploit): rugs, exit scams, hacks, exploits, fraud
-MEDIUM (type: dump/shill): token dump at launch, 80%+ paid content, VC dump risk
-MINOR (type: other): no security audit, centralization concerns, team wallet concentration, competitor allegations, regulatory grey area, community criticism about tokenomics, unlock schedule concerns
+SEARCH 1 — RED FLAGS + CONCERNS (MANDATORY, do this first):
+Search: "@${handle} token dump price drop unlock schedule concerns criticism controversy manipulation"
+Then also search: "@${handle} audit security risk regulatory tokenomics sell pressure"
 
-IMPORTANT: Every project has at least some concerns. If you find NO major flags, still report minor concerns.
-Examples of minor flags worth reporting:
-- "No public smart contract audit found" 
-- "Large team token allocation (X%) with short vesting"
-- "Token launched with price drop of X% in first week"
-- "Centralized sequencer / admin key concerns"
-- "Regulatory uncertainty in prediction market space"
-Report these with type: "other" and confirmed source.
+You MUST report flags for ALL of these categories — check each one:
+1. PRICE ACTION: Did the token dump significantly after TGE? What % drop from launch price?
+2. TOKEN UNLOCKS: Are there large future unlocks that create sell pressure? Who holds big allocations?
+3. AUDIT: Is there a public smart contract security audit? If no → flag it
+4. CENTRALIZATION: Admin keys, multisig concerns, team concentration of tokens?
+5. REGULATORY: Does this project face regulatory risks (privacy coins, prediction markets, derivatives)?
+6. MANIPULATION: Any accusations of price manipulation, wash trading, or unfair launch mechanics?
+7. COMPETITION: Are there stronger competitors eating their market share?
+8. COMMUNITY: Active complaints about tokenomics, team behavior, broken promises?
+
+ALWAYS report at minimum 2-3 concerns even for good projects. Every project has risks.
+Format each as: type (rug/scam/exploit/dump/shill/anon/other), label, detail with specifics, source URL.
+Example: type:"other", label:"Token down 54% from launch price", detail:"$ZAMA launched at $0.05 clearing price, now trading at $0.022 — significant post-TGE sell pressure from auction participants", source:"CoinMarketCap price data".
 
 SEARCH 2 — PROJECT FUNDAMENTALS + TEAM NAMES:
 Search: "@${handle} founder CEO co-founder team whitepaper season airdrop requirements"
