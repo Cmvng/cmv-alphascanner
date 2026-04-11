@@ -89,24 +89,43 @@ export default function Admin() {
 
   const VERDICT_COLORS: Record<string, string> = { 'FARM IT': '#37b24d', 'CREATE CONTENT': '#f59f00', 'WATCH': '#e8590c', 'SKIP': '#868e96' }
 
+  // Fake 404 page — only reveals login on secret key sequence
+  const [keySeq, setKeySeq] = useState('')
+  const [showLogin, setShowLogin] = useState(false)
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    const next = (keySeq + e.key).slice(-6)
+    setKeySeq(next)
+    if (next === 'cmvadm') setShowLogin(true)
+  }
+
   if (!auth) return (
-    <div style={{ minHeight: '100vh', background: '#0f172a', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Plus Jakarta Sans',sans-serif" }}>
+    <div onKeyDown={handleKeyDown} tabIndex={0} style={{ minHeight: '100vh', background: '#faf7f0', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Plus Jakarta Sans',sans-serif", outline: 'none' }} autoFocus>
       <style>{`@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap');`}</style>
-      <div style={{ background: '#1e293b', borderRadius: 16, padding: 32, width: 320, border: '1px solid #334155' }}>
-        <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 11, color: '#64748b', letterSpacing: 2, marginBottom: 8 }}>CMV ALPHASCANNER</div>
-        <div style={{ fontSize: 20, fontWeight: 800, color: '#f1f5f9', marginBottom: 4 }}>Admin Access</div>
-        <div style={{ fontSize: 12, color: '#64748b', marginBottom: 24 }}>Restricted area</div>
-        <input type="password" placeholder="Password" value={pass} onChange={e => setPass(e.target.value)}
-          onKeyDown={e => { if (e.key === 'Enter' && pass === ADMIN_PASSWORD) setAuth(true) }}
-          style={{ width: '100%', background: '#0f172a', border: '1px solid #334155', borderRadius: 8, padding: '12px 14px', fontSize: 14, color: '#f1f5f9', fontFamily: 'inherit', outline: 'none', boxSizing: 'border-box' as const, marginBottom: 12 }} />
-        <button onClick={() => { if (pass === ADMIN_PASSWORD) setAuth(true); else alert('Wrong password') }}
-          style={{ width: '100%', background: '#16a34a', border: 'none', borderRadius: 8, padding: '12px', fontSize: 14, fontWeight: 700, color: '#fff', cursor: 'pointer', fontFamily: 'inherit' }}>
-          Enter
-        </button>
-        <div style={{ textAlign: 'center' as const, marginTop: 16 }}>
-          <a href="/" style={{ fontSize: 12, color: '#475569', textDecoration: 'none' }}>← Back to app</a>
+      {!showLogin ? (
+        // Fake 404
+        <div style={{ textAlign: 'center' as const }}>
+          <div style={{ fontSize: 96, fontWeight: 900, color: '#e5e7eb', letterSpacing: -4, lineHeight: 1 }}>404</div>
+          <div style={{ fontSize: 18, fontWeight: 700, color: '#6b7280', marginBottom: 8 }}>Page not found</div>
+          <div style={{ fontSize: 13, color: '#9ca3af', marginBottom: 24 }}>The page you're looking for doesn't exist.</div>
+          <a href="/" style={{ padding: '10px 24px', background: '#16a34a', color: '#fff', borderRadius: 20, fontSize: 13, fontWeight: 700, textDecoration: 'none' }}>← Go home</a>
         </div>
-      </div>
+      ) : (
+        // Real login — only shown after typing 'cmvadm'
+        <div style={{ background: '#1e293b', borderRadius: 16, padding: 32, width: 320, border: '1px solid #334155' }}>
+          <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 11, color: '#64748b', letterSpacing: 2, marginBottom: 8 }}>CMV ALPHASCANNER</div>
+          <div style={{ fontSize: 20, fontWeight: 800, color: '#f1f5f9', marginBottom: 4 }}>Admin Access</div>
+          <div style={{ fontSize: 12, color: '#64748b', marginBottom: 24 }}>Enter your password</div>
+          <input type="password" placeholder="Password" value={pass} onChange={e => setPass(e.target.value)}
+            onKeyDown={e => { if (e.key === 'Enter') { if (pass === ADMIN_PASSWORD) { setAuth(true) } else { setPass(''); setShowLogin(false); setKeySeq('') } } }}
+            autoFocus
+            style={{ width: '100%', background: '#0f172a', border: '1px solid #334155', borderRadius: 8, padding: '12px 14px', fontSize: 14, color: '#f1f5f9', fontFamily: 'inherit', outline: 'none', boxSizing: 'border-box' as const, marginBottom: 12 }} />
+          <button onClick={() => { if (pass === ADMIN_PASSWORD) setAuth(true); else { setPass(''); setShowLogin(false); setKeySeq('') } }}
+            style={{ width: '100%', background: '#16a34a', border: 'none', borderRadius: 8, padding: '12px', fontSize: 14, fontWeight: 700, color: '#fff', cursor: 'pointer', fontFamily: 'inherit' }}>
+            Enter
+          </button>
+        </div>
+      )}
     </div>
   )
 
