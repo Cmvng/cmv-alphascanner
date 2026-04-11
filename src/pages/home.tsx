@@ -170,10 +170,34 @@ REAL X API DATA for @${handle} (ground truth — use this directly):
 - Latest season detected: ${xd?.latest_season ? 'Season ' + xd?.latest_season : 'none'}
 - Season dates: ${JSON.stringify(xd?.season_dates || [])}
 - Funding mentions in tweets: ${JSON.stringify(xd?.funding_mentions || [])}
-- VCs mentioned: ${JSON.stringify(xd?.vc_mentions || [])}
+- VCs mentioned in tweets: ${JSON.stringify(xd?.vc_mentions || [])}
 - Traction data from tweets: ${JSON.stringify(xd?.user_count_mentions || [])}
 - Content type: ${xd?.content_type || 'organic'}
 - Avg likes per tweet: ${xd?.avg_likes || 0}
+- Avg retweets per tweet: ${xd?.avg_retweets || 0}
+
+VERIFIED EXTERNAL DATA (use this directly — do not search for what is already here):
+- TVL (DefiLlama): ${xd?.enriched?.tvl || 'not found'}
+- Daily fees: ${xd?.enriched?.fees_24h || 'not found'}
+- Daily revenue: ${xd?.enriched?.revenue_24h || 'not found'}
+- Total raised (DefiLlama): ${xd?.enriched?.total_raised_defillama || 'not found'}
+- Total raised (RootData): ${xd?.enriched?.total_raised_rootdata || 'not found'}
+- Confirmed investors: ${JSON.stringify(xd?.enriched?.confirmed_investors || [])}
+- Team members (RootData): ${JSON.stringify(xd?.enriched?.rootdata_team || [])}
+- Chains deployed on: ${JSON.stringify(xd?.enriched?.chains || [])}
+- Known hacks/exploits: ${JSON.stringify(xd?.enriched?.known_hacks || [])}
+- DEX 24h volume: ${xd?.enriched?.dex_volume_24h || 'not found'}
+- DEX liquidity: ${xd?.enriched?.dex_liquidity || 'not found'}
+- Token dump detected: ${xd?.enriched?.dex_dump_detected || false}
+- Token price change 24h: ${xd?.enriched?.dex_price_change_24h !== null ? xd?.enriched?.dex_price_change_24h + '%' : 'n/a'}
+- News sentiment: ${xd?.enriched?.news_sentiment || 'unknown'}
+- Recent news (${xd?.enriched?.news_article_count || 0} articles found): ${JSON.stringify(xd?.enriched?.news_recent || [])}
+- Red flag headlines from news: ${JSON.stringify(xd?.enriched?.news_red_flags || [])}
+
+IMPORTANT: Since TVL, revenue, investors, and hacks data are already provided above, do NOT waste web searches on these. Instead focus your searches on:
+1. FUD, controversies, community complaints, TGE delays
+2. Season details and requirements if not found above
+3. Notable CT mentions and mindshare
 
 CoinGecko Token Data: ${JSON.stringify(cg)}
 
