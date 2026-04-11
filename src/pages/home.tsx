@@ -1028,3 +1028,548 @@ export default function Home() {
     link.href = canvas.toDataURL('image/png', 1.0)
     link.click()
   }
+
+  const ot = result ? getTier(result.overall_score ?? 0) : 'C'
+  const otc = T[ot]
+  const redFlags = result?.red_flags?.filter((f: any) => f.label) || []
+  const goodHighlights = result?.good_highlights?.filter((h: string) => h && h.length > 5) || []
+  const cmvScore = result ? computeCMVAlphaScore(result.metrics, redFlags) : null
+  const fudPen = cmvScore?.fudPenalty ?? 0
+  const isGoodScore = result && result.overall_score >= 60
+  const availableTags = isGoodScore ? GOOD_TAGS : BAD_TAGS
+  const groups = result ? [
+    { label: 'Team Intentions', score: Math.round(((result.metrics?.founder_cred?.score ?? 0) + (result.metrics?.founder_activity?.score ?? 0)) / 2) },
+    { label: 'Funding', score: result.metrics?.funding?.score ?? 0 },
+    { label: 'Narrative', score: result.metrics?.niche?.score ?? 0 },
+    { label: 'Revenue', score: result.metrics?.revenue?.score ?? 0 },
+    { label: 'Community', score: result.metrics?.sentiment?.score ?? 0 },
+    { label: 'CT Buzz', score: Math.round(((result.metrics?.notable_mentions?.score ?? 0) + (result.metrics?.top_voices?.score ?? 0)) / 2) },
+  ].map(g => ({ ...g, tier: getTier(g.score), cfg: T[getTier(g.score)] })) : []
+  const msg = LOADING_MSGS[msgIdx]
+
+  return (
+    <div style={{ minHeight: '100vh', background: '#faf7f0', fontFamily: "'Plus Jakarta Sans',sans-serif" }}>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap');
+        @keyframes spin{to{transform:rotate(360deg)}}
+        @keyframes shimmer{0%{background-position:-400px 0}100%{background-position:400px 0}}
+        @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+        @keyframes ring{0%,100%{transform:scale(1);opacity:0.4}50%{transform:scale(1.2);opacity:0.1}}
+        @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes scan{0%{transform:translateX(-100%)}100%{transform:translateX(400%)}}
+        @keyframes thinkDot{0%,100%{opacity:0.2;transform:scale(0.8)}50%{opacity:1;transform:scale(1.2)}}
+        @keyframes pop{0%{transform:scale(0.8);opacity:0}60%{transform:scale(1.05)}100%{transform:scale(1);opacity:1}}
+        .tag-btn{transition:all 0.15s;cursor:pointer;}
+        .tag-btn:hover{transform:translateY(-1px);}
+        input:focus{outline:none;}
+        @media(max-width:600px){
+          .grid-score{grid-template-columns:1fr!important;}
+          .grid-3{grid-template-columns:1fr 1fr!important;}
+          .grid-2{grid-template-columns:1fr!important;}
+          .grid-tier{grid-template-columns:1fr 1fr!important;}
+          .search-btns{flex-wrap:wrap!important;}
+          .verdict-row{flex-wrap:wrap!important;}
+        }
+      `}</style>
+
+      {/* Nav */}
+      <div style={{ background: '#fff', borderBottom: '1px solid #d4e8d0', padding: '0 24px', display: 'flex', alignItems: 'center', height: 58, gap: 10, position: 'sticky', top: 0, zIndex: 100 }}>
+        <div style={{ width: 34, height: 34, background: 'linear-gradient(135deg,#166534,#16a34a)', borderRadius: 9, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 000-1.41l-2.34-2.34a1 1 0 00-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" fill="#fff" /></svg>
+        </div>
+        <div>
+          <span style={{ fontSize: 16, fontWeight: 800, color: '#1c2b5a', letterSpacing: -0.5 }}>CMV <span style={{ color: '#16a34a' }}>AlphaScanner</span></span>
+          <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#4ade80', letterSpacing: 0.5, display: 'none' } as any}>know if this project is worth your time</div>
+        </div>
+        <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 8 }}>
+          <a href="/tierlist" style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#3b5bdb', background: '#f0f4ff', border: '1px solid #c5d0ff', borderRadius: 20, padding: '5px 12px', textDecoration: 'none', fontWeight: 600 }}>📊 Tier List</a>
+          <a href="/feed" style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#15803d', background: '#f0fdf4', border: '1px solid #86efac', borderRadius: 20, padding: '5px 12px', textDecoration: 'none', fontWeight: 600 }}>🌐 Feed</a>
+          <button onClick={() => setShowProfileSetup(true)} style={{ display: 'flex', alignItems: 'center', gap: 7, background: '#f0fdf4', border: '1px solid #86efac', borderRadius: 20, padding: '5px 12px 5px 6px', cursor: 'pointer', fontFamily: 'inherit' }}>
+            {userPhoto ? <img src={userPhoto} alt="" style={{ width: 24, height: 24, borderRadius: '50%', objectFit: 'cover' }} /> : <div style={{ width: 24, height: 24, borderRadius: '50%', background: '#e8ecff', color: '#3b5bdb', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 10, fontWeight: 700 }}>{userName ? userName.charAt(0).toUpperCase() : '?'}</div>}
+            <span style={{ fontSize: 12, fontWeight: 600, color: '#14532d' }}>{userName || 'Set profile'}</span>
+          </button>
+          <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#15803d', background: '#dcfce7', borderRadius: 20, padding: '3px 8px', border: '1px solid #86efac' }}>BETA</span>
+        </div>
+      </div>
+
+      {/* Profile Setup Modal */}
+      {showProfileSetup && (
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.4)', zIndex: 200, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 16 }}>
+          <div style={{ background: '#fff', borderRadius: 20, padding: 24, width: '100%', maxWidth: 400, animation: 'fadeIn 0.3s ease' }}>
+            <div style={{ fontSize: 16, fontWeight: 800, color: '#1c2b5a', marginBottom: 4 }}>Your Alpha Profile</div>
+            <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#868e96', marginBottom: 20 }}>Shows on every verdict card you generate</div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 20 }}>
+              <div onClick={() => fileRef.current?.click()} style={{ width: 72, height: 72, borderRadius: '50%', background: '#f8f9ff', border: '2px dashed #c5d0ff', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', overflow: 'hidden', flexShrink: 0 }}>
+                {tempPhoto ? <img src={tempPhoto} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <div style={{ textAlign: 'center' as const }}><svg width="20" height="20" viewBox="0 0 24 24" fill="none" style={{ display: 'block', margin: '0 auto 4px' }}><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12" stroke="#adb5bd" strokeWidth="2" strokeLinecap="round" /></svg><span style={{ fontSize: 9, color: '#adb5bd', fontFamily: "'DM Mono',monospace" }}>upload</span></div>}
+              </div>
+              <input ref={fileRef} type="file" accept="image/*" style={{ display: 'none' }} onChange={handlePhotoUpload} />
+              <div style={{ flex: 1 }}>
+                <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#868e96', letterSpacing: 1, marginBottom: 6 }}>YOUR NAME OR HANDLE</div>
+                <input style={{ width: '100%', border: '1px solid #dbe4ff', borderRadius: 10, padding: '10px 14px', fontSize: 14, color: '#1c2b5a', fontFamily: 'inherit' }} placeholder="e.g. Charles or @Cmv_ng" maxLength={20} value={tempName} onChange={e => setTempName(e.target.value)} />
+              </div>
+            </div>
+            <div style={{ display: 'flex', gap: 8 }}>
+              <button onClick={() => setShowProfileSetup(false)} style={{ flex: 1, background: '#f8f9ff', border: '1px solid #dbe4ff', borderRadius: 10, padding: '11px', fontSize: 13, fontWeight: 600, color: '#6c7a9c', cursor: 'pointer', fontFamily: 'inherit' }}>Cancel</button>
+              <button onClick={() => { saveProfile(tempName, tempPhoto); setShowProfileSetup(false) }} style={{ flex: 2, background: '#14532d', color: '#fff', border: 'none', borderRadius: 10, padding: '11px', fontSize: 13, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit' }}>Save Profile</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <div style={{ maxWidth: 860, margin: '0 auto', padding: '32px 16px 60px' }}>
+
+        {/* Hero */}
+        {!result && !loading && (
+          <div style={{ position: 'relative', overflow: 'hidden', padding: '0 0 8px' }}>
+            <div style={{ position: 'absolute', top: -80, left: '50%', transform: 'translateX(-50%)', width: 600, height: 600, borderRadius: '50%', background: '#dcfce7', opacity: 0.45, pointerEvents: 'none' }} />
+            <div style={{ position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)', width: 360, height: 360, borderRadius: '50%', border: '1px solid #86efac', opacity: 0.35, pointerEvents: 'none', animation: 'ring 5s ease-in-out infinite' }} />
+            <div style={{ position: 'absolute', left: '1%', top: 20, transform: 'rotate(-6deg)', animation: 'float 5s ease-in-out infinite', zIndex: 1 }}><div style={{ background: '#fff', border: '1.5px solid #86efac', borderRadius: 12, padding: '9px 14px', boxShadow: '0 4px 16px rgba(21,128,61,0.1)' }}><div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 2 }}><div style={{ width: 7, height: 7, borderRadius: '50%', background: '#16a34a' }} /><span style={{ fontSize: 11, fontWeight: 800, color: '#14532d' }}>🌾 FARM IT</span></div><div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#9ca3af' }}>EigenLayer · 84/100</div></div></div>
+            <div style={{ position: 'absolute', right: '1%', top: 30, transform: 'rotate(5deg)', animation: 'float 6s ease-in-out infinite 0.8s', zIndex: 1 }}><div style={{ background: '#fff', border: '1.5px solid #fde68a', borderRadius: 12, padding: '9px 14px', boxShadow: '0 4px 16px rgba(0,0,0,0.06)' }}><div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 2 }}><div style={{ width: 7, height: 7, borderRadius: '50%', background: '#d97706' }} /><span style={{ fontSize: 11, fontWeight: 800, color: '#78350f' }}>✍️ CREATE</span></div><div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#9ca3af' }}>KaitoAI · 67/100</div></div></div>
+            <div style={{ position: 'absolute', left: '3%', bottom: 40, transform: 'rotate(4deg)', animation: 'float 7s ease-in-out infinite 1.3s', zIndex: 1, opacity: 0.85 }}><div style={{ background: '#fff', border: '1.5px solid #fca5a5', borderRadius: 12, padding: '9px 14px', boxShadow: '0 4px 16px rgba(0,0,0,0.06)' }}><div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 2 }}><div style={{ width: 7, height: 7, borderRadius: '50%', background: '#dc2626' }} /><span style={{ fontSize: 11, fontWeight: 800, color: '#7f1d1d' }}>🚫 SKIP 🚨</span></div><div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#9ca3af' }}>SuspectDAO · 12/100</div></div></div>
+            <div style={{ position: 'absolute', right: '2%', bottom: 50, transform: 'rotate(-4deg)', animation: 'float 5.5s ease-in-out infinite 0.5s', zIndex: 1, opacity: 0.85 }}><div style={{ background: '#fff', border: '1.5px solid #fed7aa', borderRadius: 12, padding: '9px 14px', boxShadow: '0 4px 16px rgba(0,0,0,0.06)' }}><div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 2 }}><div style={{ width: 7, height: 7, borderRadius: '50%', background: '#ea580c' }} /><span style={{ fontSize: 11, fontWeight: 800, color: '#7c2d12' }}>👁️ WATCH</span></div><div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#9ca3af' }}>RallyOnChain · 49/100</div></div></div>
+            <div style={{ position: 'relative', zIndex: 2, textAlign: 'center', padding: '48px 24px 52px', animation: 'fadeIn 0.7s ease' }}>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: 7, background: '#dcfce7', border: '1px solid #86efac', borderRadius: 20, padding: '6px 16px', marginBottom: 22 }}>
+                <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#16a34a', animation: 'ring 2s ease-in-out infinite' }} />
+                <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 10, color: '#15803d', letterSpacing: '0.5px' }}>CRYPTO ALPHA INTELLIGENCE</span>
+              </div>
+              <h1 style={{ fontSize: 'clamp(38px,5.5vw,64px)', fontWeight: 900, color: '#14532d', lineHeight: 1.05, letterSpacing: -2, marginBottom: 14 }}>Know before<br /><span style={{ color: '#16a34a' }}>you farm.</span></h1>
+              <p style={{ fontSize: 15, color: '#4b5563', lineHeight: 1.7, maxWidth: 440, margin: '0 auto 36px' }}>Paste any project's X link. Get the full alpha — 17 metrics, red flag detection, a CMV score out of 1000, and a personalised verdict card you can share.</p>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, flexWrap: 'wrap' as const, marginBottom: 24 }}>
+                {['17 metrics', '1000pt score', 'Red flag detection', 'Real X data', 'Personalised cards'].map(t => <span key={t} style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#15803d', background: '#f0fdf4', border: '1px solid #86efac', borderRadius: 20, padding: '5px 12px' }}>{t}</span>)}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Search */}
+        <div style={{ background: '#fff', border: '1px solid #dbe4ff', borderRadius: 18, padding: 20, marginBottom: 20, boxShadow: '0 4px 24px rgba(59,91,219,0.07)' }}>
+          {!result && !loading && (
+            <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#3b5bdb', letterSpacing: '1.5px', marginBottom: 8, display: 'flex', alignItems: 'center', gap: 6 }}>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="#3b5bdb"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.259 5.631L18.244 2.25z" /></svg>
+              PASTE PROJECT X URL OR HANDLE
+            </div>
+          )}
+          <div style={{ display: 'flex', gap: 10 }}>
+            <input style={{ flex: 1, background: '#f8f9ff', border: '1px solid #86efac', borderRadius: 12, padding: '14px 16px', fontSize: 14, color: '#1c2b5a', fontFamily: "'DM Mono',monospace", outline: 'none', transition: 'border-color 0.2s' }} placeholder="https://x.com/projecthandle or @handle" value={xUrl} onChange={e => setXUrl(e.target.value)} onKeyDown={e => e.key === 'Enter' && !loading && analyze()} disabled={loading} onFocus={e => e.target.style.borderColor = '#3b5bdb'} onBlur={e => e.target.style.borderColor = '#dbe4ff'} />
+            <div className="search-btns" style={{ display: 'flex', gap: 8, flexShrink: 0 }}>
+              {result && !loading && (
+                <>
+                  <button onClick={() => { setResult(null); setCgData(null); setXData(null); setXUrl(''); setSelectedTags([]) }} style={{ background: '#fff', border: '1px solid #86efac', borderRadius: 12, padding: '14px 16px', fontSize: 13, fontWeight: 600, cursor: 'pointer', color: '#15803d', fontFamily: 'inherit', whiteSpace: 'nowrap' as const }}>+ New Scan</button>
+                  <button onClick={async () => {
+                    const handle = xUrl.replace('https://x.com/','').replace('https://twitter.com/','').replace('@','').split('/')[0].trim().toLowerCase()
+                    try { localStorage.removeItem('cmv_scan_' + handle) } catch {}
+                    const freshXd = await fetchProjectXData(handle).catch(() => null)
+                    if (freshXd) setXData(freshXd)
+                    if (freshXd?.confirmed_ticker) {
+                      const freshCg = await fetchCoinGecko(handle, freshXd.confirmed_ticker, true, handle).catch(() => null)
+                      if (freshCg?.token_live) { setCgData(freshCg) } else { setCgData({ token_live: false, token_price: 'Not Launched', token_note: 'No token found' }); setResult((r: any) => r ? { ...r, ticker: null } : r) }
+                    } else if (!freshXd?.token_launch_hinted) { setCgData({ token_live: false, token_price: 'Not Launched', token_note: 'No token found' }); setResult((r: any) => r ? { ...r, ticker: null } : r) }
+                  }} style={{ background: '#fff', border: '1px solid #86efac', borderRadius: 12, padding: '14px 16px', fontSize: 13, fontWeight: 600, cursor: 'pointer', color: '#15803d', fontFamily: 'inherit', whiteSpace: 'nowrap' as const }}>↺ Refresh</button>
+                </>
+              )}
+              <button onClick={analyze} disabled={loading || !xUrl.trim()} style={{ background: loading || !xUrl.trim() ? '#e2e8f0' : 'linear-gradient(135deg,#166534,#16a34a)', color: loading || !xUrl.trim() ? '#adb5bd' : '#fff', border: 'none', borderRadius: 12, padding: '14px 28px', fontSize: 14, fontWeight: 700, cursor: loading || !xUrl.trim() ? 'not-allowed' : 'pointer', whiteSpace: 'nowrap' as const, fontFamily: 'inherit', transition: 'all 0.2s', boxShadow: loading || !xUrl.trim() ? 'none' : '0 4px 14px rgba(22,163,74,0.3)' }}>{loading ? 'Scanning...' : 'Analyze →'}</button>
+            </div>
+          </div>
+          <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#adb5bd', marginTop: 10, display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' as const }}>
+            <span>try:</span>
+            {['https://x.com/eigenlayer', 'https://x.com/KaitoAI', 'https://x.com/RallyOnChain'].map(ex => <button key={ex} onClick={() => setXUrl(ex)} style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#16a34a', background: 'none', border: 'none', cursor: 'pointer', padding: 0, textDecoration: 'underline dotted' }}>{ex.replace('https://x.com/', '@')}</button>)}
+          </div>
+        </div>
+
+        {/* Loading */}
+        {loading && (
+          <div style={{ background: '#fff', border: '1px solid #d4e8d0', borderRadius: 18, padding: 28, marginBottom: 16, overflow: 'hidden', position: 'relative' }}>
+            <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3, background: 'linear-gradient(90deg,transparent 0%,#16a34a 50%,transparent 100%)', animation: 'scan 2s linear infinite', borderRadius: '18px 18px 0 0' }} />
+            <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 24 }}>
+              <div style={{ position: 'relative', flexShrink: 0 }}>
+                <div style={{ position: 'absolute', inset: -6, borderRadius: '50%', border: '2px solid rgba(22,163,74,0.2)', animation: 'ring 2s ease-in-out infinite' }} />
+                <div style={{ width: 60, height: 60, borderRadius: '50%', overflow: 'hidden', border: '2.5px solid #16a34a', background: '#dcfce7', display: 'flex', alignItems: 'center', justifyContent: 'center', animation: 'float 3s ease-in-out infinite' }}>
+                  <img src="/pfp.jpeg" alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', display: pfpLoaded ? 'block' : 'none' }} onLoad={() => setPfpLoaded(true)} onError={() => setPfpLoaded(false)} />
+                  {!pfpLoaded && <span style={{ fontSize: 26 }}>🔍</span>}
+                </div>
+              </div>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontSize: 16, fontWeight: 700, color: '#14532d', marginBottom: 6 }}>{msg.text} <span style={{ fontSize: 18 }}>{msg.emoji}</span></div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                  <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 10, color: '#6b7280' }}>scanning</div>
+                  <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 10, color: '#16a34a', fontWeight: 600 }}>@{xUrl.replace('https://x.com/','').replace('@','').split('/')[0]}</span>
+                  <div style={{ display: 'flex', gap: 3, marginLeft: 4 }}>
+                    {[0,1,2].map(i => <div key={i} style={{ width: 6, height: 6, borderRadius: '50%', background: '#16a34a', animation: 'thinkDot 1.2s ease-in-out infinite', animationDelay: `${i * 0.2}s` }} />)}
+                  </div>
+                </div>
+              </div>
+              <div style={{ textAlign: 'right' as const, flexShrink: 0 }}>
+                <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 32, fontWeight: 800, color: '#16a34a', lineHeight: 1 }}>{elapsed}<span style={{ fontSize: 13, color: '#9ca3af', fontWeight: 400 }}>s</span></div>
+              </div>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 20, background: '#f0fdf4', borderRadius: 10, padding: '10px 14px', border: '1px solid #86efac' }}>
+              <div style={{ display: 'flex', gap: 3 }}>{[0,1,2].map(i => <div key={i} style={{ width: 7, height: 7, borderRadius: '50%', background: '#16a34a', animation: 'thinkDot 1.2s ease-in-out infinite', animationDelay: `${i * 0.15}s` }} />)}</div>
+              <div style={{ fontSize: 12, fontWeight: 600, color: '#14532d' }}>{phase}</div>
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: '160px 1fr', gap: 12, marginBottom: 12 }}>
+              <div style={{ height: 140, background: 'linear-gradient(90deg,#f0fdf4 25%,#dcfce7 50%,#f0fdf4 75%)', backgroundSize: '400px 100%', animation: 'shimmer 1.5s infinite', borderRadius: 14 }} />
+              <div style={{ height: 140, background: 'linear-gradient(90deg,#f0fdf4 25%,#dcfce7 50%,#f0fdf4 75%)', backgroundSize: '400px 100%', animation: 'shimmer 1.5s infinite 0.2s', borderRadius: 14 }} />
+            </div>
+            {[95, 80].map((w, i) => <div key={i} style={{ height: 36, background: 'linear-gradient(90deg,#f0fdf4 25%,#dcfce7 50%,#f0fdf4 75%)', backgroundSize: '400px 100%', animation: 'shimmer 1.5s infinite', borderRadius: 10, marginBottom: 8, width: `${w}%` }} />)}
+          </div>
+        )}
+
+        {/* Error */}
+        {error && (
+          <div style={{ background: error.startsWith('rate_limit') ? '#fff9e6' : error === 'unavailable' ? '#f0f4ff' : '#fff5f5', border: `1px solid ${error.startsWith('rate_limit') ? '#fde68a' : error === 'unavailable' ? '#c5d0ff' : '#ffc9c9'}`, borderRadius: 14, padding: '16px 18px', marginBottom: 14 }}>
+            {error.startsWith('rate_limit') ? (
+              <>
+                <div style={{ fontSize: 13, fontWeight: 700, color: '#92400e', marginBottom: 6 }}>⏳ High demand — please hold on</div>
+                <div style={{ fontSize: 12, color: '#78350f', lineHeight: 1.6, marginBottom: 6 }}>Too many scans at once. Auto-retrying in <strong>{error.split(':')[1] || '65'}s</strong>...</div>
+                <div style={{ height: 4, background: '#fde68a', borderRadius: 4, overflow: 'hidden' }}>
+                  <div style={{ height: '100%', background: '#f59f00', borderRadius: 4, width: `${Math.min(100, ((65 - parseInt(error.split(':')[1] || '65')) / 65) * 100)}%`, transition: 'width 1s linear' }} />
+                </div>
+              </>
+            ) : error === 'unavailable' ? (
+              <>
+                <div style={{ fontSize: 13, fontWeight: 700, color: '#3b5bdb', marginBottom: 5 }}>🔧 Unable to scan at this moment</div>
+                <div style={{ fontSize: 12, color: '#4c6ef5', lineHeight: 1.6 }}>Our scanning service is temporarily unavailable. Please check back in a few minutes.</div>
+              </>
+            ) : (
+              <>
+                <div style={{ fontSize: 13, fontWeight: 700, color: '#e03131', marginBottom: 5 }}>⚠️ Scan failed</div>
+                <div style={{ fontSize: 12, color: '#c92a2a', lineHeight: 1.6, marginBottom: 10 }}>{error}</div>
+                <button onClick={analyze} style={{ fontSize: 12, padding: '6px 14px', borderRadius: 8, border: '1px solid #ffc9c9', background: '#fff5f5', color: '#e03131', cursor: 'pointer', fontFamily: 'inherit', fontWeight: 600 }}>Try again</button>
+              </>
+            )}
+          </div>
+        )}
+
+        {/* Results */}
+        {result && !loading && (
+          <div style={{ animation: 'fadeIn 0.5s ease' }}>
+
+            {redFlags.length > 0 && (
+              <div style={{ background: '#fff5f5', border: '2px solid #e03131', borderRadius: 14, padding: '16px 18px', marginBottom: 14, animation: 'pop 0.4s ease' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
+                  <div style={{ width: 36, height: 36, background: '#e03131', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" stroke="#fff" strokeWidth="2" strokeLinecap="round" /></svg>
+                  </div>
+                  <div>
+                    <div style={{ fontSize: 14, fontWeight: 800, color: '#e03131' }}>🚨 {redFlags.length} Red Flag{redFlags.length > 1 ? 's' : ''} Detected</div>
+                    <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#c92a2a' }}>Score penalised · Proceed with extreme caution</div>
+                  </div>
+                  <div style={{ marginLeft: 'auto', background: '#e03131', borderRadius: 8, padding: '6px 12px', textAlign: 'center' as const }}>
+                    <div style={{ fontSize: 16, fontWeight: 800, color: '#fff' }}>-{fudPen}</div>
+                    <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: 'rgba(255,255,255,0.8)' }}>PENALTY</div>
+                  </div>
+                </div>
+                {redFlags.map((f: any, i: number) => (
+                  <div key={i} style={{ background: '#fff', border: '1px solid #fca5a5', borderLeft: '3px solid #e03131', borderRadius: 8, padding: '10px 14px', marginBottom: 8 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 4 }}>
+                      <span style={{ fontSize: 12 }}>{f.type === 'rug' ? '💀' : f.type === 'scam' ? '🚩' : f.type === 'exploit' ? '⚡' : f.type === 'dump' ? '📉' : f.type === 'shill' ? '🤥' : f.type === 'anon' ? '👻' : '⚠️'}</span>
+                      <span style={{ fontSize: 13, fontWeight: 700, color: '#c92a2a' }}>{f.label}</span>
+                    </div>
+                    <div style={{ fontSize: 12, color: '#4b5563', lineHeight: 1.6, marginBottom: 4 }}>{f.detail}</div>
+                    {f.source && <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#9ca3af', background: '#fef2f2', padding: '3px 8px', borderRadius: 4, display: 'inline-block' }}>Source: {f.source}</div>}
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {redFlags.length === 0 && (
+              <div style={{ background: '#f0fdf4', border: '1px solid #86efac', borderRadius: 10, padding: '10px 14px', marginBottom: 14, display: 'flex', alignItems: 'center', gap: 8 }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M22 11.08V12a10 10 0 11-5.93-9.14M22 4L12 14.01l-3-3" stroke="#16a34a" strokeWidth="2" strokeLinecap="round"/></svg>
+                <div><span style={{ fontSize: 12, fontWeight: 700, color: '#15803d' }}>No major red flags detected</span><span style={{ fontSize: 11, color: '#4b5563', marginLeft: 8 }}>Dedicated FUD search ran — nothing significant found</span></div>
+              </div>
+            )}
+
+            {/* Verdict Card */}
+            <div style={{ background: otc.vbg, borderRadius: 18, padding: 22, marginBottom: 14, position: 'relative', overflow: 'hidden', boxShadow: `0 8px 32px ${otc.solid}30` }}>
+              <div style={{ position: 'absolute', top: -50, right: -50, width: 200, height: 200, borderRadius: '50%', background: 'rgba(255,255,255,0.06)', pointerEvents: 'none' }} />
+              <div style={{ position: 'absolute', bottom: -30, left: -30, width: 140, height: 140, borderRadius: '50%', background: 'rgba(255,255,255,0.04)', pointerEvents: 'none' }} />
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(255,255,255,0.2)', border: '1px solid rgba(255,255,255,0.3)', borderRadius: 20, padding: '5px 14px 5px 6px', marginBottom: 14, animation: 'pop 0.5s ease' }}>
+                {userPhoto ? <img src={userPhoto} alt="" style={{ width: 28, height: 28, borderRadius: '50%', objectFit: 'cover', border: '1.5px solid rgba(255,255,255,0.5)' }} /> : <div style={{ width: 28, height: 28, borderRadius: '50%', background: 'rgba(255,255,255,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 700, color: '#fff' }}>{userName ? userName.charAt(0).toUpperCase() : 'C'}</div>}
+                <span style={{ fontSize: 13, fontWeight: 700, color: '#fff' }}>{userName || 'CMV'} says {otc.v.toLowerCase()} {otc.emoji}</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'flex-start', gap: 16, marginBottom: 16, position: 'relative', zIndex: 1 }}>
+                <div style={{ width: 56, height: 56, borderRadius: 14, background: 'rgba(255,255,255,0.2)', border: '2px solid rgba(255,255,255,0.3)', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  {xData?.profile_image_url ? <img src={xData.profile_image_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <span style={{ fontSize: 26, fontWeight: 800, color: '#fff' }}>{(result.project_name || '?').charAt(0).toUpperCase()}</span>}
+                </div>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' as const, marginBottom: 3 }}>
+                    <span style={{ fontSize: 20, fontWeight: 800, color: '#fff', letterSpacing: -0.5 }}>{result.project_name || ''}</span>
+                    {cgData?.token_live && cgData.ticker && <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 10, color: 'rgba(255,255,255,0.85)', background: 'rgba(255,255,255,0.15)', border: '1px solid rgba(255,255,255,0.25)', padding: '2px 8px', borderRadius: 5 }}>{cgData.ticker} {cgData.token_price}</span>}
+                  </div>
+                  <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: 'rgba(255,255,255,0.65)', display:'flex', alignItems:'center', gap:6, flexWrap:'wrap' as const }}>
+                    <span>{result.project_category || 'Crypto'}{result.team_location ? ` · ${result.team_location}` : ''}</span>
+                  </div>
+                </div>
+                <div style={{ textAlign: 'right' as const, flexShrink: 0 }}>
+                  <div style={{ fontSize: 44, fontWeight: 800, color: '#fff', lineHeight: 1, letterSpacing: -2 }}>{result.overall_score ?? 0}</div>
+                  <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: 'rgba(255,255,255,0.65)' }}>ALPHA SCORE</div>
+                  <div style={{ display: 'inline-flex', alignItems: 'center', gap: 4, background: 'rgba(255,255,255,0.2)', borderRadius: 20, padding: '3px 9px', fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#fff', marginTop: 4 }}>{ot} · {otc.lbl}</div>
+                </div>
+              </div>
+              {goodHighlights.length > 0 && (
+                <div style={{ marginBottom: 12, position: 'relative', zIndex: 1 }}>
+                  <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: 'rgba(255,255,255,0.6)', letterSpacing: 1, marginBottom: 6 }}>{userName || 'CMV'} SAYS</div>
+                  <div style={{ display: 'flex', flexWrap: 'wrap' as const, gap: 6 }}>
+                    {goodHighlights.slice(0, 3).map((h: string, i: number) => <div key={i} style={{ background: 'rgba(255,255,255,0.15)', border: '1px solid rgba(255,255,255,0.25)', borderRadius: 20, padding: '4px 12px', fontSize: 11, fontWeight: 600, color: '#fff' }}>✓ {h}</div>)}
+                  </div>
+                </div>
+              )}
+              <div style={{ background: 'rgba(0,0,0,0.15)', borderRadius: 12, padding: '14px 16px', marginBottom: 14, border: '1px solid rgba(255,255,255,0.15)', position: 'relative', zIndex: 1 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
+                  <span style={{ fontSize: 24 }}>{otc.emoji}</span>
+                  <span style={{ fontSize: 24, fontWeight: 900, color: '#fff', letterSpacing: -0.5 }}>{otc.v}</span>
+                  <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.75)', fontStyle: 'italic', marginLeft: 4 }}>{otc.sub}</span>
+                </div>
+                <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.95)', lineHeight: 1.65, fontWeight: 500 }}>{result.verdict_action || result.verdict_reason}</div>
+              </div>
+              {selectedTags.length > 0 && (
+                <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' as const, marginBottom: 12, position: 'relative', zIndex: 1 }}>
+                  {selectedTags.map(id => { const tag = [...GOOD_TAGS, ...BAD_TAGS].find(t => t.id === id); return tag ? <div key={id} style={{ background: 'rgba(255,255,255,0.2)', border: '1px solid rgba(255,255,255,0.3)', borderRadius: 20, padding: '5px 12px', fontSize: 11, fontWeight: 700, color: '#fff', animation: 'pop 0.3s ease' }}>{tag.label}</div> : null })}
+                </div>
+              )}
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, position: 'relative', zIndex: 1 }}>
+                <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' as const }}>
+                  {otc.target && <div style={{ display: 'inline-flex', alignItems: 'center', gap: 5, background: 'rgba(255,255,255,0.15)', border: '1px solid rgba(255,255,255,0.25)', borderRadius: 20, padding: '5px 14px', fontFamily: "'DM Mono',monospace", fontSize: 10, color: '#fff', fontWeight: 600 }}>🎯 {otc.target}</div>}
+                </div>
+                <div style={{ display: 'flex', gap: 8 }}>
+                  <button onClick={downloadCard} style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'rgba(255,255,255,0.2)', border: '1px solid rgba(255,255,255,0.35)', borderRadius: 20, padding: '8px 16px', fontFamily: 'inherit', fontSize: 13, fontWeight: 700, color: '#fff', cursor: 'pointer', whiteSpace: 'nowrap' as const }}>
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+                    Download
+                  </button>
+                  <button onClick={shareResult} style={{ display: 'flex', alignItems: 'center', gap: 7, background: 'rgba(255,255,255,0.2)', border: '1px solid rgba(255,255,255,0.35)', borderRadius: 20, padding: '8px 18px', fontFamily: 'inherit', fontSize: 13, fontWeight: 700, color: '#fff', cursor: 'pointer', whiteSpace: 'nowrap' as const }}>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13" /></svg>
+                    Share to X
+                  </button>
+                </div>
+              </div>
+              <div style={{ marginTop: 12, fontFamily: "'DM Mono',monospace", fontSize: 8, color: 'rgba(255,255,255,0.35)', letterSpacing: 1 }}>CMV ALPHASCANNER · cmv-alphascanner.vercel.app</div>
+            </div>
+
+            {/* Tag Picker */}
+            <div style={{ background: '#fff', border: '1px solid #dbe4ff', borderRadius: 14, padding: 16, marginBottom: 14 }}>
+              <div style={{ fontSize: 13, fontWeight: 700, color: '#1c2b5a', marginBottom: 4 }}>Pick 2 highlights for your share card</div>
+              <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#adb5bd', marginBottom: 12 }}>Selected {selectedTags.length}/2</div>
+              <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' as const }}>
+                {availableTags.map(tag => { const selected = selectedTags.includes(tag.id); const disabled = !selected && selectedTags.length >= 2; return <button key={tag.id} className="tag-btn" onClick={() => !disabled && toggleTag(tag.id)} style={{ padding: '7px 14px', borderRadius: 20, border: `1.5px solid ${selected ? otc.solid : '#dbe4ff'}`, background: selected ? otc.bg : '#f8f9ff', color: selected ? otc.tc : disabled ? '#adb5bd' : '#475569', fontSize: 12, fontWeight: selected ? 700 : 500, fontFamily: 'inherit', opacity: disabled ? 0.5 : 1, cursor: disabled ? 'not-allowed' : 'pointer' }}>{tag.label}</button> })}
+              </div>
+            </div>
+
+            {/* CMV Alpha Score */}
+            {cmvScore && (
+              <div style={{ background: '#fff', border: '1px solid #dbe4ff', borderRadius: 14, padding: 20, marginBottom: 14 }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20, flexWrap: 'wrap' as const, gap: 12 }}>
+                  <div>
+                    <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#868e96', letterSpacing: 2, marginBottom: 4 }}>CMV ALPHA SCORE</div>
+                    <div style={{ display: 'flex', alignItems: 'baseline', gap: 6 }}><span style={{ fontSize: 48, fontWeight: 800, color: '#1c2b5a', letterSpacing: -3, lineHeight: 1 }}>{cmvScore.total}</span><span style={{ fontFamily: "'DM Mono',monospace", fontSize: 14, color: '#adb5bd' }}>/1000</span></div>
+                    {xData?.cmv_score ? (
+                      <div style={{ marginTop: 8 }}>
+                        <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#868e96', letterSpacing: 2, marginBottom: 4 }}>COMBINED SCORE</div>
+                        <div style={{ display: 'flex', alignItems: 'baseline', gap: 6 }}>
+                          <span style={{ fontSize: 32, fontWeight: 800, color: otc.solid, letterSpacing: -2, lineHeight: 1 }}>{computeCombinedScore(cmvScore.total, xData.cmv_score)}</span>
+                          <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 12, color: '#adb5bd' }}>/1000</span>
+                        </div>
+                        <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#adb5bd' }}>50% alpha · 50% X score</div>
+                      </div>
+                    ) : null}
+                  </div>
+                  <div style={{ textAlign: 'right' as const }}>
+                    <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: otc.bg, border: `1px solid ${otc.border}`, borderRadius: 12, padding: '8px 16px', marginBottom: 6 }}><div style={{ width: 10, height: 10, borderRadius: '50%', background: otc.solid }} /><span style={{ fontWeight: 700, fontSize: 14, color: otc.tc }}>{otc.lbl} · {otc.v}</span></div>
+                    <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#adb5bd' }}>{otc.range}/1000 range</div>
+                  </div>
+                </div>
+                <div className="grid-3" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 10, marginBottom: 16 }}>
+                  {Object.entries(cmvScore.categories).map(([cat, data]: [string, any]) => {
+                    const pct = Math.round((data.score / data.max) * 100)
+                    const col = pct >= 70 ? '#37b24d' : pct >= 50 ? '#f59f00' : '#e8590c'
+                    return <div key={cat} style={{ background: '#f8f9ff', border: '1px solid #dbe4ff', borderRadius: 10, padding: '12px' }}><div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#868e96', letterSpacing: 1, marginBottom: 3 }}>{cat.toUpperCase()}</div><div style={{ fontSize: 22, fontWeight: 800, color: col, lineHeight: 1 }}>{data.score}<span style={{ fontSize: 11, color: '#adb5bd', fontWeight: 400 }}>/{data.max}</span></div><div style={{ height: 6, background: '#e8ecff', borderRadius: 4, overflow: 'hidden', margin: '6px 0' }}><div style={{ width: `${pct}%`, height: '100%', background: col, borderRadius: 4, transition: 'width 1.2s cubic-bezier(0.4,0,0.2,1)' }} /></div><div style={{ fontSize: 10, color: '#6c7a9c' }}>{METRICS.filter(m => m.cat === cat).map(m => m.label.split(' ')[0]).join(' · ')}</div></div>
+                  })}
+                  <div style={{ background: fudPen > 0 ? '#fff5f5' : '#f8f9ff', border: `1px solid ${fudPen > 0 ? '#ffc9c9' : '#dbe4ff'}`, borderRadius: 10, padding: '12px' }}>
+                    <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: fudPen > 0 ? '#c92a2a' : '#868e96', letterSpacing: 1, marginBottom: 3 }}>FUD PENALTY ⚠</div>
+                    <div style={{ fontSize: 22, fontWeight: 800, color: fudPen > 0 ? '#c92a2a' : '#adb5bd', lineHeight: 1 }}>{fudPen > 0 ? `-${fudPen}` : '0'}<span style={{ fontSize: 11, color: '#adb5bd', fontWeight: 400 }}>/300</span></div>
+                    <div style={{ height: 6, background: '#fee2e2', borderRadius: 4, overflow: 'hidden', margin: '6px 0' }}><div style={{ width: `${Math.min(100, (fudPen / 300) * 100)}%`, height: '100%', background: '#e03131', borderRadius: 4 }} /></div>
+                    <div style={{ fontSize: 10, color: fudPen > 0 ? '#c92a2a' : '#6c7a9c' }}>{fudPen > 0 ? `${redFlags.length} flag(s)` : 'Clean'}</div>
+                  </div>
+                </div>
+                <div style={{ background: '#f8f9ff', border: '1px solid #dbe4ff', borderRadius: 10, padding: '12px 14px' }}>
+                  <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#868e96', letterSpacing: 1, marginBottom: 8 }}>SCORE LEGEND</div>
+                  <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' as const }}>
+                    {[{ range: '850-1000', tier: 'A', label: 'FARM IT' }, { range: '600-849', tier: 'B', label: 'CREATE CONTENT' }, { range: '350-599', tier: 'C', label: 'WATCH' }, { range: '0-349', tier: 'D', label: 'SKIP' }].map(item => (
+                      <div key={item.tier} style={{ display: 'flex', alignItems: 'center', gap: 6, background: T[item.tier].bg, border: `1px solid ${T[item.tier].border}`, borderRadius: 8, padding: '5px 10px' }}>
+                        <div style={{ width: 8, height: 8, borderRadius: '50%', background: T[item.tier].solid }} />
+                        <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, fontWeight: 700, color: T[item.tier].tc }}>{item.range}</span>
+                        <span style={{ fontSize: 10, color: T[item.tier].tc }}>{item.label}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Score + Project Info */}
+            <div className="grid-score" style={{ display: 'grid', gridTemplateColumns: '160px 1fr', gap: 12, marginBottom: 14 }}>
+              <div style={{ background: '#fff', border: '1px solid #dbe4ff', borderRadius: 14, padding: 18, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 10 }}>
+                <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#868e96', letterSpacing: '1.5px' }}>ALPHA SCORE</div>
+                <div style={{ fontSize: 52, fontWeight: 800, color: otc.solid, lineHeight: 1, letterSpacing: -3 }}>{result.overall_score ?? 0}</div>
+                <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, borderRadius: 20, padding: '5px 12px', border: `1px solid ${otc.border}`, background: otc.bg }}><div dangerouslySetInnerHTML={{ __html: tsq(ot, 20) }} /><span style={{ fontFamily: "'DM Mono',monospace", fontSize: 10, color: otc.tc }}>Overall {otc.lbl}</span></div>
+                {xData?.cmv_score ? (
+                  <div style={{ width: '100%', background: '#f8f9ff', border: '1px solid #dbe4ff', borderRadius: 8, padding: '8px 10px', textAlign: 'center' as const }}>
+                    <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#868e96', marginBottom: 2 }}>CMV X SCORE</div>
+                    <div style={{ fontSize: 20, fontWeight: 800, color: '#1c2b5a' }}>{xData.cmv_score}<span style={{ fontSize: 11, color: '#868e96', fontWeight: 400 }}>/1000</span></div>
+                    <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#adb5bd' }}>{xData.followers?.toLocaleString()} followers</div>
+                  </div>
+                ) : null}
+              </div>
+              <div style={{ background: '#fff', border: '1px solid #dbe4ff', borderRadius: 14, padding: 16 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6, flexWrap: 'wrap' as const }}>
+                  <span style={{ fontSize: 18, fontWeight: 800, color: '#1c2b5a', letterSpacing: -0.5 }}>{result.project_name || ''}</span>
+                  {cgData?.token_live && cgData.ticker && <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#3b5bdb', background: '#e8ecff', border: '1px solid #c5d0ff', padding: '2px 7px', borderRadius: 4 }}>{cgData.ticker} {cgData.token_price}</span>}
+                  {!cgData?.token_live && <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#868e96', background: '#f1f3f5', border: '1px solid #dee2e6', padding: '2px 7px', borderRadius: 4 }}>No Token</span>}
+                </div>
+                {result.team_location && <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 10, color: '#868e96', marginBottom: 6 }}>📍 {result.team_location}{result.founded ? ` · Est. ${result.founded}` : ''}</div>}
+                <div style={{ fontSize: 12, color: '#6c7a9c', lineHeight: 1.6, marginBottom: 8 }}>{result.description || ''}</div>
+                {goodHighlights.length > 0 && <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap' as const }}>{goodHighlights.map((h: string, i: number) => <span key={i} style={{ fontSize: 10, background: '#ebfbee', color: '#2f9e44', border: '1px solid #8ce99a', borderRadius: 20, padding: '2px 8px' }}>✓ {h}</span>)}</div>}
+                {result.data_accuracy_note && <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#adb5bd', marginTop: 8, paddingTop: 8, borderTop: '1px solid #f0f4ff' }}>ℹ {result.data_accuracy_note}</div>}
+              </div>
+            </div>
+
+            {result.score_rationale && (
+              <div style={{ background: '#f8f9ff', border: '1px solid #dbe4ff', borderLeft: '3px solid #16a34a', borderRadius: 0, padding: '12px 14px', marginBottom: 14 }}>
+                <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#15803d', letterSpacing: 1, marginBottom: 5 }}>WHY THIS SCORE</div>
+                <div style={{ fontSize: 12, color: '#6c7a9c', lineHeight: 1.7 }}>{result.score_rationale}</div>
+              </div>
+            )}
+
+            <div style={{ background: 'linear-gradient(135deg,#f0f4ff,#e8ecff)', border: '1px solid #c5d0ff', borderLeft: '3px solid #16a34a', borderRadius: 12, padding: '14px 16px', marginBottom: 14 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
+                <span style={{ fontSize: 13, fontWeight: 700, color: '#1c2b5a' }}>How to play this</span>
+                <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#15803d', background: '#fff', border: '1px solid #86efac', padding: '3px 9px', borderRadius: 20 }}>{result.project_category || 'Infrastructure'}</span>
+              </div>
+              <div style={{ fontSize: 12, color: '#475569', lineHeight: 1.65 }}>{HOW_TO_PLAY[result.project_category as string] || HOW_TO_PLAY['Infrastructure']}</div>
+            </div>
+
+            {(cgData?.token_live || result.future_seasons || result.project_follows) && (
+              <div style={{ background: '#fff', border: '1px solid #dbe4ff', borderRadius: 14, padding: 16, marginBottom: 14 }}>
+                <div style={{ fontSize: 13, fontWeight: 700, color: '#1c2b5a', marginBottom: 14, display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke="#3b5bdb" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                  Deep Intel
+                </div>
+                {cgData?.token_live && (
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 10 }}>
+                    <div style={{ background: '#f8f9ff', border: '1px solid #dbe4ff', borderRadius: 8, padding: '10px 12px' }}>
+                      <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#868e96', letterSpacing: 1, marginBottom: 5 }}>TOKEN STATUS</div>
+                      <span style={{ background: '#ebfbee', color: '#2f9e44', border: '1px solid #8ce99a', borderRadius: 20, padding: '3px 10px', fontFamily: "'DM Mono',monospace", fontSize: 10, display: 'inline-flex', alignItems: 'center', gap: 5 }}><span style={{ width: 6, height: 6, borderRadius: '50%', background: '#2f9e44', display: 'inline-block' }} />{cgData.ticker} {cgData.token_price}</span>
+                      {cgData.token_note && <div style={{ fontSize: 11, color: '#6c7a9c', marginTop: 4 }}>{cgData.token_note}</div>}
+                    </div>
+                    <div style={{ background: '#f8f9ff', border: '1px solid #dbe4ff', borderRadius: 8, padding: '10px 12px' }}>
+                      <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#868e96', letterSpacing: 1, marginBottom: 5 }}>TOKEN OUTLOOK</div>
+                      <div style={{ fontSize: 12, fontWeight: 600, color: result.post_tge_outlook === 'High Potential' ? '#2f9e44' : result.post_tge_outlook === 'Low Potential' ? '#868e96' : '#e67700' }}>{result.post_tge_outlook || 'Unknown'}</div>
+                    </div>
+                  </div>
+                )}
+                {result.future_seasons && !result.future_seasons.toLowerCase().includes('no ') && !result.future_seasons.toLowerCase().includes('unknown') && result.future_seasons.length > 15 && (
+                  <div style={{ background: '#f8f9ff', border: '1px solid #dbe4ff', borderRadius: 8, padding: '10px 12px', marginBottom: 8 }}>
+                    <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#868e96', letterSpacing: 1, marginBottom: 5 }}>FUTURE SEASONS / POST-TGE</div>
+                    <div style={{ fontSize: 12, color: '#1c2b5a', lineHeight: 1.5 }}>{result.future_seasons}</div>
+                  </div>
+                )}
+                {result.project_follows && result.project_follows.toLowerCase() !== 'unknown' && result.project_follows.length > 15 && (
+                  <div style={{ background: '#f8f9ff', border: '1px solid #dbe4ff', borderRadius: 8, padding: '10px 12px' }}>
+                    <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#868e96', letterSpacing: 1, marginBottom: 5 }}>NOTABLE X FOLLOWS</div>
+                    <div style={{ fontSize: 12, color: '#1c2b5a', lineHeight: 1.5 }}>{result.project_follows}</div>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {result.team_members?.filter((m: any) => m.name && m.name.length > 1 && m.name.toLowerCase() !== 'anonymous team').length > 0 && (
+              <div style={{ background: '#fff', border: '1px solid #dbe4ff', borderRadius: 14, padding: 16, marginBottom: 14 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
+                  <span style={{ fontSize: 13, fontWeight: 700, color: '#1c2b5a' }}>👥 Team & Founders</span>
+                  <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#15803d', background: '#dcfce7', border: '1px solid #86efac', padding: '2px 8px', borderRadius: 20 }}>X API enriched</span>
+                </div>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(240px,1fr))', gap: 10 }}>
+                  {result.team_members.filter((m: any) => m.name && m.name.length > 1 && m.name.toLowerCase() !== 'anonymous team').map((m: any, i: number) => <TeamCardEnriched key={i} member={m} />)}
+                </div>
+              </div>
+            )}
+
+            <div style={{ background: '#fff', border: '1px solid #dbe4ff', borderRadius: 14, padding: 16, marginBottom: 14 }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12, paddingBottom: 10, borderBottom: '1px solid #f0f4ff' }}>
+                <span style={{ fontSize: 13, fontWeight: 700, color: '#1c2b5a' }}>Project Tier Summary</span>
+                <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, borderRadius: 8, padding: '4px 10px', border: `1px solid ${otc.border}`, background: otc.bg }}><div dangerouslySetInnerHTML={{ __html: tsq(ot, 18) }} /><span style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: otc.tc }}>Overall {otc.lbl} · {otc.v}</span></div>
+              </div>
+              <div className="grid-tier" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 8 }}>
+                {groups.map(g => (
+                  <div key={g.label} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: '#f8f9ff', border: `1px solid ${g.cfg.border}`, borderRadius: 8, padding: '8px 12px' }}>
+                    <span style={{ fontSize: 11, color: '#6c7a9c' }}>{g.label}</span>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}><div dangerouslySetInnerHTML={{ __html: tsq(g.tier, 17) }} /><span style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: g.cfg.tc }}>{g.cfg.lbl}</span></div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap' as const, marginBottom: 12 }}>
+              {[{ id: 'metrics', l: '📊 Metrics' }, { id: 'mindshare', l: '🧠 Mindshare' }, { id: 'risks', l: '⚠️ Risks' }, { id: 'sources', l: '📎 Sources' }].map(sec => (
+                <button key={sec.id} onClick={() => setAsec(sec.id)} style={{ padding: '8px 18px', borderRadius: 10, border: `1px solid ${asec === sec.id ? '#14532d' : '#d4e8d0'}`, background: asec === sec.id ? '#14532d' : '#fff', color: asec === sec.id ? '#fff' : '#6c7a9c', fontSize: 12, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit', transition: 'all 0.15s' }}>{sec.l}</button>
+              ))}
+            </div>
+
+            {asec === 'metrics' && (
+              <div style={{ background: '#fff', border: '1px solid #dbe4ff', borderRadius: 14, padding: 16, marginBottom: 12 }}>
+                <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap' as const, marginBottom: 10 }}>
+                  {CATS.map(cat => { const sc = catScore(cat); return <button key={cat} onClick={() => setAtab(cat)} style={{ padding: '5px 12px', borderRadius: 7, border: `1px solid ${atab === cat ? '#14532d' : '#d4e8d0'}`, background: atab === cat ? '#14532d' : '#fff', color: atab === cat ? '#fff' : '#6c7a9c', fontSize: 11, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}>{cat} <span style={{ color: atab === cat ? '#fff' : T[getTier(sc)].solid, fontFamily: "'DM Mono',monospace", fontSize: 9 }}>{sc}</span></button> })}
+                </div>
+                <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#adb5bd', textAlign: 'right' as const, marginBottom: 10 }}>tap any row for analyst commentary</div>
+                {METRICS.filter(m => m.cat === atab).map(m => <MetricRow key={m.id} metric={m} data={result.metrics?.[m.id]} />)}
+              </div>
+            )}
+
+            {asec === 'mindshare' && (
+              <div style={{ background: '#fff', border: '1px solid #dbe4ff', borderRadius: 14, padding: 16, marginBottom: 12 }}>
+                <div style={{ fontSize: 13, fontWeight: 700, color: '#1c2b5a', marginBottom: 4 }}>Mindshare Trend</div>
+                <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#adb5bd', marginBottom: 14 }}>Estimated CT mindshare over past 8 weeks</div>
+                <canvas ref={canvasRef} style={{ width: '100%', height: 110 }} />
+                {result.mindshare_trend && <div style={{ display: 'flex', gap: 16, marginTop: 8 }}><span style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#868e96' }}>Current: <strong style={{ color: '#3b5bdb' }}>{result.mindshare_trend.current_pct || 'n/a'}</strong></span><span style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#868e96' }}>Trend: <strong style={{ color: '#3b5bdb' }}>{result.mindshare_trend.trend || 'n/a'}</strong></span></div>}
+              </div>
+            )}
+
+            {asec === 'risks' && (
+              <div className="grid-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 12 }}>
+                <div style={{ background: '#fff', border: '1px solid #dbe4ff', borderRadius: 14, padding: 15 }}>
+                  <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, fontWeight: 500, letterSpacing: 1, marginBottom: 10, color: '#c92a2a', display: 'flex', alignItems: 'center', gap: 6 }}><span style={{ width: 6, height: 6, borderRadius: '50%', background: '#c92a2a', display: 'inline-block' }} />TOP RISKS</div>
+                  {(result.top_risks || []).filter((x: string) => x).map((x: string, i: number) => <div key={i} style={{ display: 'flex', gap: 8, marginBottom: 8 }}><span style={{ color: '#ffc9c9', flexShrink: 0, fontSize: 16 }}>•</span><span style={{ fontSize: 11, color: '#6c7a9c', lineHeight: 1.5 }}>{x}</span></div>)}
+                </div>
+                <div style={{ background: '#fff', border: '1px solid #dbe4ff', borderRadius: 14, padding: 15 }}>
+                  <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, fontWeight: 500, letterSpacing: 1, marginBottom: 10, color: '#2f9e44', display: 'flex', alignItems: 'center', gap: 6 }}><span style={{ width: 6, height: 6, borderRadius: '50%', background: '#2f9e44', display: 'inline-block' }} />OPPORTUNITIES</div>
+                  {(result.top_opportunities || []).filter((x: string) => x).map((x: string, i: number) => <div key={i} style={{ display: 'flex', gap: 8, marginBottom: 8 }}><span style={{ color: '#8ce99a', flexShrink: 0, fontSize: 16 }}>•</span><span style={{ fontSize: 11, color: '#6c7a9c', lineHeight: 1.5 }}>{x}</span></div>)}
+                </div>
+              </div>
+            )}
+
+            {asec === 'sources' && (
+              <div style={{ background: '#fff', border: '1px solid #dbe4ff', borderRadius: 14, padding: 16, marginBottom: 12 }}>
+                <div style={{ fontSize: 13, fontWeight: 700, color: '#1c2b5a', marginBottom: 14 }}>Research Sources</div>
+                {(result.sources || []).filter((s: any) => s.name).length > 0 ? (result.sources || []).filter((s: any) => s.name).map((src: any, i: number) => (
+                  <div key={i} style={{ display: 'flex', gap: 10, paddingBottom: 10, marginBottom: 10, borderBottom: '1px solid #f0f4ff' }}>
+                    <div style={{ width: 22, height: 22, borderRadius: '50%', background: '#e8ecff', color: '#3b5bdb', fontFamily: "'DM Mono',monospace", fontSize: 9, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: 1 }}>{i + 1}</div>
+                    <div><div style={{ fontSize: 12, fontWeight: 600, color: '#14532d', marginBottom: 2 }}>{src.name || src.title || ''}</div><div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#adb5bd', marginBottom: 3 }}>{src.used_for || src.type || ''}</div>{src.url && src.url !== 'unknown' && <a href={src.url} target="_blank" rel="noreferrer" style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#3b5bdb', textDecoration: 'none' }}>{src.url.slice(0, 55)}{src.url.length > 55 ? '...' : ''}</a>}</div>
+                  </div>
+                )) : <div style={{ fontSize: 12, color: '#adb5bd', textAlign: 'center' as const, padding: 24 }}>No sources found.</div>}
+              </div>
+            )}
+
+            <div style={{ textAlign: 'center' as const, fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#adb5bd', letterSpacing: 1, paddingTop: 6 }}>CMV ALPHASCANNER · POWERED BY AI · NOT FINANCIAL ADVICE</div>
+          </div>
+        )}
+
+        {!loading && !result && !error && (
+          <div style={{ border: '1.5px dashed #86efac', borderRadius: 16, padding: '48px 24px', textAlign: 'center' as const, background: 'rgba(255,255,255,0.7)' }}>
+            <div style={{ fontSize: 32, marginBottom: 12 }}>🔭</div>
+            <div style={{ fontSize: 15, fontWeight: 700, color: '#6c7a9c', marginBottom: 6 }}>No project scanned yet</div>
+            <div style={{ fontSize: 12, color: '#adb5bd', lineHeight: 1.6 }}>Paste any project X URL or handle above.<br />Works with URLs, @handles, or just the username.</div>
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}
