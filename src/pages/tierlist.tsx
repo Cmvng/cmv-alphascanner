@@ -101,147 +101,155 @@ export default function TierList() {
   async function downloadTierList() {
     setDownloading(true)
     const canvas = document.createElement('canvas')
-    const W = 1200, HEADER = 80, TIER_H = 140, PADDING = 20
-    const activeTiers = ['A', 'B', 'C', 'D'].filter(t => tiers[t]?.length > 0)
-    const H = HEADER + activeTiers.length * (TIER_H + PADDING) + PADDING * 2
-    canvas.width = W; canvas.height = H
+    const W = 1200
+    const activeTiers = ['A','B','C','D'].filter(t => (tiers[t]||[]).length > 0)
+    const HEADER = 90
+    const TIER_H = 160
+    const GAP = 10
+    const PAD = 24
+    const H = HEADER + activeTiers.length * (TIER_H + GAP) + PAD
+    canvas.width = W
+    canvas.height = H
     const ctx = canvas.getContext('2d')!
 
     // Background
-    ctx.fillStyle = '#faf7f0'
+    ctx.fillStyle = '#f6f8fa'
     ctx.fillRect(0, 0, W, H)
 
     // Header
-    ctx.fillStyle = '#14532d'
-    ctx.font = 'bold 32px Arial, sans-serif'
+    ctx.fillStyle = '#0f172a'
+    ctx.font = 'bold 28px Arial, sans-serif'
     ctx.textAlign = 'center'
-    ctx.fillText('CMV AlphaScanner — My Crypto Tier List', W / 2, 52)
-    ctx.font = '16px monospace'
+    ctx.fillText('CMV AlphaScanner — My Crypto Tier List', W / 2, 46)
+    ctx.font = '14px monospace'
     ctx.fillStyle = '#9ca3af'
-    ctx.fillText(`cmv-alphascanner.vercel.app · ${new Date().toLocaleDateString()}`, W / 2, 72)
+    ctx.fillText('cmv-alphascanner.vercel.app  ·  ' + new Date().toLocaleDateString(), W / 2, 68)
+    ctx.textAlign = 'left'
 
-    let yOffset = HEADER + PADDING
+    let yOff = HEADER + GAP
 
     for (const tier of activeTiers) {
       const t = TIER_CONFIG[tier]
-      const projects = tiers[tier].map(h => getScan(h)).filter(Boolean)
-      const rowH = TIER_H
+      const projects = (tiers[tier] || []).map(h => getScan(h)).filter(Boolean)
 
       // Tier label box
       ctx.fillStyle = t.color
       ctx.beginPath()
-      ctx.roundRect(PADDING, yOffset, 70, rowH, 12)
+      ctx.roundRect(PAD, yOff, 64, TIER_H, 14)
       ctx.fill()
       ctx.fillStyle = '#fff'
-      ctx.font = 'bold 42px Arial, sans-serif'
+      ctx.font = 'bold 38px Arial'
       ctx.textAlign = 'center'
-      ctx.fillText(tier, PADDING + 35, yOffset + 50)
-      ctx.font = '14px Arial'
-      ctx.fillText(t.emoji, PADDING + 35, yOffset + 75)
+      ctx.fillText(tier, PAD + 32, yOff + 46)
+      ctx.font = '13px Arial'
+      ctx.fillText(t.sub, PAD + 32, yOff + 66)
+      ctx.textAlign = 'left'
 
-      // Projects area
+      // White project area
       ctx.fillStyle = '#fff'
       ctx.beginPath()
-      ctx.roundRect(PADDING + 80, yOffset, W - PADDING * 2 - 80, rowH, 12)
+      ctx.roundRect(PAD + 74, yOff, W - PAD * 2 - 74, TIER_H, 14)
       ctx.fill()
       ctx.strokeStyle = t.border
-      ctx.lineWidth = 2
+      ctx.lineWidth = 1.5
       ctx.stroke()
 
-      // Draw project cards
-      const cardW = 160, cardH = 110, cardPad = 12
-      let xPos = PADDING + 80 + cardPad
+      // Draw projects
+      const CARD_W = 140
+      const LOGO_R = 36
+      let xPos = PAD + 74 + 16
 
-      for (const scan of projects.slice(0, 6)) {
-        if (xPos + cardW > W - PADDING) break
+      for (let pi = 0; pi < Math.min(projects.length, 7); pi++) {
+        const scan = projects[pi]
+        if (xPos + CARD_W > W - PAD * 2) break
 
-        // Try to draw logo
+        const cx = xPos + LOGO_R
+        const cy = yOff + 50
+
+        // Draw logo
+        let logoDrawn = false
         if (scan.profile_image_url) {
           try {
-            const img = new Image()
-            img.crossOrigin = 'anonymous'
             await new Promise<void>(resolve => {
+              const img = new Image()
+              img.crossOrigin = 'anonymous'
               img.onload = () => {
                 ctx.save()
                 ctx.beginPath()
-                ctx.arc(xPos + 28, yOffset + 32, 24, 0, Math.PI * 2)
+                ctx.arc(cx, cy, LOGO_R, 0, Math.PI * 2)
                 ctx.clip()
-                ctx.drawImage(img, xPos + 4, yOffset + 8, 48, 48)
+                ctx.drawImage(img, cx - LOGO_R, cy - LOGO_R, LOGO_R * 2, LOGO_R * 2)
                 ctx.restore()
-                // Circle border
+                // Border
                 ctx.strokeStyle = t.border
                 ctx.lineWidth = 2
                 ctx.beginPath()
-                ctx.arc(xPos + 28, yOffset + 32, 24, 0, Math.PI * 2)
+                ctx.arc(cx, cy, LOGO_R, 0, Math.PI * 2)
                 ctx.stroke()
+                logoDrawn = true
                 resolve()
               }
-              img.onerror = () => {
-                // Fallback initial
-                ctx.fillStyle = t.bg
-                ctx.beginPath()
-                ctx.arc(xPos + 28, yOffset + 32, 24, 0, Math.PI * 2)
-                ctx.fill()
-                ctx.fillStyle = t.tc
-                ctx.font = 'bold 20px Arial'
-                ctx.textAlign = 'center'
-                ctx.fillText((scan.project_name || '?').charAt(0), xPos + 28, yOffset + 40)
-                resolve()
-              }
+              img.onerror = () => resolve()
               img.src = scan.profile_image_url
             })
           } catch {}
-        } else {
+        }
+        if (!logoDrawn) {
           ctx.fillStyle = t.bg
           ctx.beginPath()
-          ctx.arc(xPos + 28, yOffset + 32, 24, 0, Math.PI * 2)
+          ctx.arc(cx, cy, LOGO_R, 0, Math.PI * 2)
           ctx.fill()
+          ctx.strokeStyle = t.border
+          ctx.lineWidth = 2
+          ctx.stroke()
           ctx.fillStyle = t.tc
-          ctx.font = 'bold 20px Arial'
+          ctx.font = 'bold 22px Arial'
           ctx.textAlign = 'center'
-          ctx.fillText((scan.project_name || '?').charAt(0), xPos + 28, yOffset + 40)
+          ctx.fillText((scan.project_name||'?').charAt(0).toUpperCase(), cx, cy + 8)
+          ctx.textAlign = 'left'
         }
 
-        // Project name
-        ctx.fillStyle = '#1c2b5a'
-        ctx.font = 'bold 13px Arial'
+        // Project name — always shown
+        const name = (scan.project_name || scan.handle || '')
+        const shortName = name.length > 11 ? name.slice(0, 10) + '…' : name
+        ctx.fillStyle = '#111'
+        ctx.font = 'bold 12px Arial'
         ctx.textAlign = 'center'
-        let name = scan.project_name || scan.handle
-        if (name.length > 12) name = name.slice(0, 11) + '…'
-        ctx.fillText(name, xPos + 28, yOffset + 72)
+        ctx.fillText(shortName, cx, yOff + 102)
 
         // Score
         ctx.fillStyle = t.color
-        ctx.font = 'bold 12px monospace'
-        ctx.fillText(String(scan.score), xPos + 28, yOffset + 90)
+        ctx.font = 'bold 13px monospace'
+        ctx.fillText(String(scan.score), cx, yOff + 118)
 
-        // Token price if live
+        // Ticker if live
         if (scan.ticker && scan.token_price && scan.token_price !== 'Not Launched') {
           ctx.fillStyle = '#9ca3af'
           ctx.font = '10px monospace'
-          ctx.fillText(scan.ticker, xPos + 28, yOffset + 105)
+          ctx.fillText(scan.ticker, cx, yOff + 133)
         }
 
-        xPos += cardW - 40
+        ctx.textAlign = 'left'
+        xPos += CARD_W
       }
 
-      // Show +N more if truncated
-      const remaining = projects.length - 6
-      if (remaining > 0) {
+      // +N more badge
+      if (projects.length > 7) {
         ctx.fillStyle = '#9ca3af'
-        ctx.font = '14px Arial'
-        ctx.textAlign = 'center'
-        ctx.fillText(`+${remaining} more`, W - PADDING - 60, yOffset + rowH / 2 + 6)
+        ctx.font = 'bold 13px Arial'
+        ctx.textAlign = 'right'
+        ctx.fillText('+' + (projects.length - 7) + ' more', W - PAD * 2 - 10, yOff + TIER_H / 2 + 6)
+        ctx.textAlign = 'left'
       }
 
-      yOffset += rowH + PADDING
+      yOff += TIER_H + GAP
     }
 
     // Footer
-    ctx.fillStyle = '#9ca3af'
-    ctx.font = '13px monospace'
+    ctx.fillStyle = '#cbd5e1'
+    ctx.font = '12px monospace'
     ctx.textAlign = 'center'
-    ctx.fillText('CMV ALPHASCANNER · cmv-alphascanner.vercel.app', W / 2, H - 14)
+    ctx.fillText('CMV ALPHASCANNER  ·  cmv-alphascanner.vercel.app', W / 2, H - 12)
 
     const link = document.createElement('a')
     link.download = 'cmv-tierlist.png'
@@ -249,6 +257,7 @@ export default function TierList() {
     link.click()
     setDownloading(false)
   }
+
 
   function resetTiers() {
     if (!confirm('Reset your tier list? This cannot be undone.')) return
