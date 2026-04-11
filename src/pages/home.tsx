@@ -878,7 +878,7 @@ export default function Home() {
     // What it's building
     ctx.fillStyle = 'rgba(255,255,255,0.55)'
     ctx.font = '13px monospace'
-    ctx.fillText('WHAT IT'S BUILDING', 44, midY)
+    ctx.fillText("WHAT IT BUILDS", 44, midY)
     ctx.fillStyle = '#fff'
     ctx.font = '20px Arial, sans-serif'
     // Word wrap
@@ -906,7 +906,7 @@ export default function Home() {
     if (catalyst && catalyst.length > 10) {
       ctx.fillStyle = 'rgba(255,255,255,0.55)'
       ctx.font = '12px monospace'
-      ctx.fillText('WATCH FOR', 44, trendY + 44)
+      ctx.fillText("WATCH FOR", 44, trendY + 44)
       ctx.fillStyle = '#fff'
       ctx.font = '16px Arial'
       const catalystShort = catalyst.slice(0, 80) + (catalyst.length > 80 ? '…' : '')
