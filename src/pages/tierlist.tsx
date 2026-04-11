@@ -7,7 +7,6 @@ const TIER_CONFIG: Record<string, any> = {
   D: { color: '#868e96', bg: '#f1f3f5', border: '#dee2e6', tc: '#495057', label: 'Tier D', sub: 'Skip', emoji: '🚫' },
 }
 
-const ADMIN_PASSWORD = 'Damilola'
 const STORAGE_KEY = 'cmv_tierlist_v1'
 
 function Logo({ scan, size = 48 }: { scan: any, size?: number }) {
@@ -26,11 +25,6 @@ export default function TierList() {
   const [loading, setLoading] = useState(true)
   const [dragItem, setDragItem] = useState<string | null>(null)
   const [dragOver, setDragOver] = useState<string | null>(null)
-  const [adminInput, setAdminInput] = useState('')
-  const [isAdmin, setIsAdmin] = useState(false)
-  const [rescanning, setRescanning] = useState(false)
-  const [rescanStatus, setRescanStatus] = useState('')
-  const [rescanProgress, setRescanProgress] = useState(0)
   const [downloading, setDownloading] = useState(false)
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
@@ -103,29 +97,6 @@ export default function TierList() {
     if (dragItem) { moveTo(dragItem, tier); setDragItem(null); setDragOver(null) }
   }
   function onDragEnd() { setDragItem(null); setDragOver(null) }
-
-  async function rescanAll() {
-    if (!isAdmin) return
-    const allHandles = [...tiers.A, ...tiers.B, ...tiers.C, ...tiers.D, ...tiers.unranked]
-    setRescanning(true)
-    setRescanProgress(0)
-    for (let i = 0; i < allHandles.length; i++) {
-      const handle = allHandles[i]
-      setRescanStatus(`Rescanning ${handle} (${i + 1}/${allHandles.length})...`)
-      setRescanProgress(Math.round(((i + 1) / allHandles.length) * 100))
-      try {
-        // Clear cache
-        localStorage.removeItem(`cmv_scan_${handle}`)
-        // Trigger scan via xproject to refresh Supabase
-        await fetch(`/api/xproject?handle=${handle}`)
-      } catch {}
-      // 30s delay between scans to avoid rate limits
-      if (i < allHandles.length - 1) await new Promise(r => setTimeout(r, 30000))
-    }
-    setRescanning(false)
-    setRescanStatus('All projects rescanned!')
-    await loadScans()
-  }
 
   async function downloadTierList() {
     setDownloading(true)
@@ -336,37 +307,7 @@ export default function TierList() {
           </div>
         </div>
 
-        {/* Admin panel */}
-        <div style={{ background: '#fff', border: '1px solid #dbe4ff', borderRadius: 12, padding: '12px 16px', marginBottom: 20, display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' as const }}>
-          {!isAdmin ? (
-            <>
-              <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 10, color: '#6b7280' }}>Admin access:</div>
-              <input type="password" placeholder="Enter password" value={adminInput} onChange={e => setAdminInput(e.target.value)}
-                onKeyDown={e => { if (e.key === 'Enter' && adminInput === ADMIN_PASSWORD) setIsAdmin(true) }}
-                style={{ border: '1px solid #dbe4ff', borderRadius: 8, padding: '6px 12px', fontSize: 12, fontFamily: 'inherit', outline: 'none', width: 160 }} />
-              <button onClick={() => { if (adminInput === ADMIN_PASSWORD) setIsAdmin(true) }} style={{ padding: '6px 14px', borderRadius: 8, border: '1px solid #dbe4ff', background: '#f0f4ff', color: '#3b5bdb', fontSize: 12, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}>Unlock</button>
-            </>
-          ) : (
-            <>
-              <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 10, color: '#15803d', background: '#dcfce7', padding: '3px 10px', borderRadius: 20 }}>✓ Admin unlocked</span>
-              <button onClick={rescanAll} disabled={rescanning} style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '7px 16px', borderRadius: 8, border: 'none', background: rescanning ? '#e2e8f0' : '#1c2b5a', color: rescanning ? '#9ca3af' : '#fff', fontSize: 12, fontWeight: 700, cursor: rescanning ? 'not-allowed' : 'pointer', fontFamily: 'inherit' }}>
-                {rescanning ? `↻ ${rescanStatus}` : '↻ Rescan All Projects'}
-              </button>
-              {rescanning && (
-                <div style={{ flex: 1, minWidth: 200 }}>
-                  <div style={{ height: 4, background: '#e8ecff', borderRadius: 4, overflow: 'hidden' }}>
-                    <div style={{ height: '100%', background: '#3b5bdb', borderRadius: 4, width: `${rescanProgress}%`, transition: 'width 0.5s' }} />
-                  </div>
-                  <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#6b7280', marginTop: 3 }}>{rescanStatus}</div>
-                </div>
-              )}
-              {!rescanning && rescanStatus === 'All projects rescanned!' && (
-                <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 10, color: '#15803d' }}>✓ {rescanStatus}</span>
-              )}
-              <button onClick={() => setIsAdmin(false)} style={{ marginLeft: 'auto', padding: '4px 10px', borderRadius: 8, border: '1px solid #e5e7eb', background: '#fff', color: '#9ca3af', fontSize: 11, cursor: 'pointer', fontFamily: 'inherit' }}>Lock</button>
-            </>
-          )}
-        </div>
+
 
         {loading && (
           <div style={{ textAlign: 'center' as const, padding: 40, color: '#9ca3af' }}>
