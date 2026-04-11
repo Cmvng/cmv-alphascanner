@@ -596,28 +596,34 @@ export default function Home() {
     const xd = await fetchProjectXData(handle)
     setXData(xd)
     let cg = null
-    const hasConfirmedToken = xd?.confirmed_ticker || xd?.token_data?.token_live || xd?.token_launch_hinted
 
-    if (xd?.token_data?.token_live) { cg = xd.token_data }
-
-    // Only search CoinGecko if X API confirms a ticker or token signal
-    if (!cg?.token_live && xd?.confirmed_ticker) {
-      cg = await fetchCoinGecko(handle, xd.confirmed_ticker, true, handle)
+    // Priority 1: DexScreener from xproject (most accurate — verifies name match)
+    if (xd?.token_data?.token_live && xd.token_data.source === 'dexscreener') {
+      cg = xd.token_data
     }
 
-    // Only scan bio for tickers if there's a token hint from X
-    if (!cg?.token_live && xd?.token_launch_hinted) {
-      const allXText = (xd?.description || '') + ' ' + (xd?.pinned_tweet || '')
-      const tickers = (allXText.match(/\$([A-Z]{2,10})/g) || [])
-        .map((t: string) => t.replace('$', ''))
-        .filter((t: string) => !['USD','BTC','ETH','USDC','USDT','SOL','BASE','OP','ARB'].includes(t))
-      for (const ticker of tickers) {
-        const attempt = await fetchCoinGecko(handle, ticker, true, handle)
-        if (attempt?.token_live) { cg = attempt; break }
+    // Priority 2: GeckoTerminal from xproject
+    if (!cg?.token_live && xd?.token_data?.token_live && xd.token_data.source === 'geckoterminal') {
+      cg = xd.token_data
+    }
+
+    // Priority 3: CoinGecko with confirmed ticker from bio/pinned only
+    if (!cg?.token_live && xd?.confirmed_ticker) {
+      cg = await fetchCoinGecko(handle, xd.confirmed_ticker, true, handle)
+      // Verify name match to prevent false positives like Variational/MON
+      if (cg?.token_live && cg?.ticker) {
+        const projectLower = (xd?.name || handle).toLowerCase()
+        const tickerName = cg.ticker.toLowerCase()
+        // If the ticker doesn't appear in bio AND project name doesn't match, be cautious
+        const bioHasTicker = (xd?.description || '').toLowerCase().includes('$' + cg.ticker.toLowerCase())
+        if (!bioHasTicker && !projectLower.includes(tickerName) && !tickerName.includes(projectLower)) {
+          // Unconfirmed match — don't show token
+          cg = { token_live: false, token_price: 'Not Launched', token_note: 'Token unconfirmed' }
+        }
       }
     }
 
-    // Do NOT do a generic handle-based search — too many false positives
+    // No generic handle-based search — prevents false positives
     if (!cg) cg = { token_live: false, token_price: 'Not Launched', token_note: 'No token found' }
     setCgData(cg)
     // Helper to save result
@@ -863,25 +869,23 @@ export default function Home() {
     ctx.fillText(ot + '  ·  ' + otc.lbl, W - 50, 210)
     ctx.textAlign = 'left'
 
-    // User PFP + badge — draw user photo if available
+    // User PFP + badge — userPhoto is base64 from localStorage upload
     let userBadgeX = 50
     if (userPhoto) {
       try {
-        const uImg = new Image()
-        uImg.crossOrigin = 'anonymous'
         await new Promise<void>((resolve) => {
+          const uImg = new Image()
+          // No crossOrigin needed — it's base64 data URI from file upload
           uImg.onload = () => {
-            // Circular user photo
             ctx.save()
             ctx.beginPath()
             ctx.arc(74, 252, 22, 0, Math.PI * 2)
             ctx.clip()
             ctx.drawImage(uImg, 52, 230, 44, 44)
             ctx.restore()
-            // White border
             ctx.save()
-            ctx.strokeStyle = 'rgba(255,255,255,0.8)'
-            ctx.lineWidth = 2.5
+            ctx.strokeStyle = 'rgba(255,255,255,0.9)'
+            ctx.lineWidth = 3
             ctx.beginPath()
             ctx.arc(74, 252, 22, 0, Math.PI * 2)
             ctx.stroke()
@@ -891,7 +895,7 @@ export default function Home() {
           uImg.onerror = () => resolve()
           uImg.src = userPhoto
         })
-        userBadgeX = 106
+        userBadgeX = 108
       } catch {}
     }
     // Badge pill
