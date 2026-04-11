@@ -154,6 +154,8 @@ const buildPrompt = (handle: string, xd: any, cg: any) => `You are CMV AlphaScan
 
 NEVER use <cite> tags, XML tags, numbered references like [1] or [2], or any citation markup. All string fields must be clean plain text only.
 
+TOOLS-FIRST APPROACH: You have pre-fetched data from DefiLlama, RootData, DexScreener, GeckoTerminal and CryptoNews already in this prompt. Use that data directly to score metrics. Only web search for FUD/controversies that APIs cannot detect. Most scans should need 0-1 web searches.
+
 REAL X API DATA for @${handle} (ground truth — use this directly):
 - Followers: ${xd?.followers?.toLocaleString() || 'unknown'}
 - Following: ${xd?.following || 'unknown'}
@@ -194,10 +196,22 @@ VERIFIED EXTERNAL DATA (use this directly — do not search for what is already 
 - Recent news (${xd?.enriched?.news_article_count || 0} articles found): ${JSON.stringify(xd?.enriched?.news_recent || [])}
 - Red flag headlines from news: ${JSON.stringify(xd?.enriched?.news_red_flags || [])}
 
-IMPORTANT: Since TVL, revenue, investors, and hacks data are already provided above, do NOT waste web searches on these. Instead focus your searches on:
-1. FUD, controversies, community complaints, TGE delays
-2. Season details and requirements if not found above
-3. Notable CT mentions and mindshare
+STRICT SEARCH RULES — you have pre-fetched data from 5 APIs. Follow these exactly:
+
+DO NOT SEARCH FOR (already provided above — use it directly):
+- TVL, revenue, fees → use DefiLlama data above
+- VC names, funding amounts → use RootData/confirmed investors above  
+- Token price, volume → use DexScreener/CoinGecko data above
+- Known hacks/exploits → use hacks database above
+- News sentiment → use CryptoNews data above
+- Team members → use RootData team above
+
+ONLY RUN 1-2 WEB SEARCHES FOR:
+1. TGE delays, presale issues, community anger, broken promises
+2. Specific season requirements/dates if not found in X data above
+
+If all data is already provided, skip web searches entirely and score directly.
+Use the pre-fetched data to fill all metrics. Web search is a last resort only.
 
 CoinGecko Token Data: ${JSON.stringify(cg)}
 
@@ -692,7 +706,7 @@ export default function Home() {
         headers: { 'Content-Type': 'application/json', 'x-api-key': import.meta.env.VITE_ANTHROPIC_API_KEY, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
         body: JSON.stringify({
           model: 'claude-sonnet-4-20250514',
-          max_tokens: 3000,
+          max_tokens: 2000,
           system: buildPrompt(handle, xd, cg),
           tools: [{ type: 'web_search_20250305', name: 'web_search' }],
           messages: [{ role: 'user', content: 'Analyze @' + handle + '. X Bio: ' + JSON.stringify(xd?.description||'') + ' Pinned: ' + JSON.stringify(xd?.pinned_tweet||'') + ' Followers: ' + (xd?.followers||0) + ' CMV: ' + (xd?.cmv_score||0) + '/1000 Ticker: ' + (xd?.confirmed_ticker||'none') + ' Token: ' + JSON.stringify(cg||{}) + '. Return complete JSON only. No cite tags. No numbered references.' }]
