@@ -202,7 +202,18 @@ function extractIntelligence(tweets: any[], bio: string, pinnedTweet: string) {
   const allText = [bio, pinnedTweet, ...tweets.map((t: any) => t.text)].join(' ')
   const allLower = allText.toLowerCase()
 
-  const IGNORE_TICKERS = ['USD','BTC','ETH','USDC','USDT','SOL','BASE','OP','ARB','BNB','MATIC','AVAX','SUI','APT','SEI','INJ','TIA','DYDX','GMX','SNX','WIF','PEPE','BONK']
+  // Ignore major tokens that projects reference but don't own
+  const IGNORE_TICKERS = [
+    'USD','BTC','ETH','USDC','USDT','SOL','BASE','OP','ARB','BNB','MATIC','AVAX',
+    'SUI','APT','SEI','INJ','TIA','DYDX','GMX','SNX','WIF','PEPE','BONK',
+    // Major DeFi tokens often referenced in bios but not owned by the project
+    'AAVE','UNI','LINK','CRV','MKR','COMP','BAL','SUSHI','YFI','1INCH',
+    'LIDO','RPL','FXS','CVX','LDO','STG','GNO','SAFE',
+    // Layer tokens often mentioned
+    'STRK','ZK','MANTA','SCROLL','BLAST','MODE','ZORA',
+    // Exchange tokens
+    'BNB','OKB','KCS','FTT','CRO','HT',
+  ]
   const KNOWN_TICKERS: Record<string, string> = {
     'hyperliquid': 'HYPE', 'eigenlayer': 'EIGEN', 'ethena': 'ENA',
     'jupiter': 'JUP', 'jito': 'JTO', 'wormhole': 'W',
@@ -219,6 +230,16 @@ function extractIntelligence(tweets: any[], bio: string, pinnedTweet: string) {
   const bioTickerMatches = (bioAndPinned.match(/\$([A-Z]{2,10})\b/g) || [])
     .map((t: string) => t.replace('$', ''))
     .filter((t: string) => !IGNORE_TICKERS.includes(t))
+    .filter((t: string) => {
+      // Extra check: reject if the ticker appears in a "powered by" or "built on" context
+      const bioLower = bioAndPinned.toLowerCase()
+      const tLower = t.toLowerCase()
+      const poweredByContext = ['powered by','built on','built with','uses','via','through','accepts','supports','collateral','yields in','earn','stake','deposit']
+      const tickerIdx = bioLower.indexOf('$' + tLower)
+      if (tickerIdx === -1) return true
+      const before = bioLower.slice(Math.max(0, tickerIdx - 30), tickerIdx)
+      return !poweredByContext.some(ctx => before.includes(ctx))
+    })
 
   // Known map fallback
   const knownEntry = Object.entries(KNOWN_TICKERS).find(([proj]) => allLower.includes(proj))
