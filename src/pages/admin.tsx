@@ -49,8 +49,8 @@ export default function Admin() {
       const log = `[${i+1}/${scans.length}] Rescanning @${s.handle}...`
       setRescanLog(prev => [log, ...prev.slice(0, 19)])
       try {
-        localStorage.removeItem(`cmv_scan_${s.handle}`)
-        await fetch(`/api/xproject?handle=${s.handle}`)
+        try { localStorage.removeItem('cmv_scan_' + s.handle) } catch {}
+        await fetch('/api/xproject?handle=' + s.handle)
         setRescanLog(prev => [`✓ @${s.handle} — refreshed`, ...prev.slice(0, 19)])
       } catch {
         setRescanLog(prev => [`✗ @${s.handle} — failed`, ...prev.slice(0, 19)])
@@ -63,13 +63,14 @@ export default function Admin() {
   }
 
   async function rescanOne(handle: string) {
-    localStorage.removeItem(`cmv_scan_${handle}`)
-    setRescanLog(prev => [`↻ Rescanning @${handle}...`, ...prev.slice(0, 19)])
+    // Clear ALL cached data for this handle
+    try { localStorage.removeItem('cmv_scan_' + handle) } catch {}
+    setRescanLog(prev => ['↻ Rescanning @' + handle + '...', ...prev.slice(0, 19)])
     try {
-      await fetch(`/api/xproject?handle=${handle}`)
-      setRescanLog(prev => [`✓ @${handle} done`, ...prev.slice(0, 19)])
+      await fetch('/api/xproject?handle=' + handle)
+      setRescanLog(prev => ['✓ @' + handle + ' done — clear browser cache and re-scan for fresh token data', ...prev.slice(0, 19)])
     } catch {
-      setRescanLog(prev => [`✗ @${handle} failed`, ...prev.slice(0, 19)])
+      setRescanLog(prev => ['✗ @' + handle + ' failed', ...prev.slice(0, 19)])
     }
   }
 
