@@ -664,7 +664,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         verified: Math.round(verifiedScore),
         engagement: Math.round(engagementScore),
       },
-      name: u.name || clean,
+      name: u?.name || clean,
       enriched,
       cached: false
     }
@@ -672,6 +672,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     cache.set(clean, { data: result, time: Date.now() })
     return res.status(200).json(result)
   } catch (e: any) {
-    return res.status(500).json({ error: e.message || 'Failed to fetch X data' })
+    console.error('xproject error:', e.message)
+    return res.status(200).json({ 
+      error: e.message, partial: true, handle: clean,
+      name: clean, description: '', followers: 0, tweet_count: 0,
+      enriched: {}, token_data: null, cmv_score: 0,
+      category: 'Crypto', confirmed_ticker: null,
+      avg_likes: 0, avg_retweets: 0, account_age_years: 0,
+      verified: false, profile_image_url: null,
+    })
   }
 }
