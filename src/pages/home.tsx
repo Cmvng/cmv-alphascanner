@@ -490,8 +490,6 @@ export default function Home() {
       }).catch(() => {})
     }
 
-    // Merge auto-detected FUD flags into result when Claude runs
-    }
 
     // X-only fallback scan — no Claude, uses X data to build basic result
     const xOnlyScan = () => {
