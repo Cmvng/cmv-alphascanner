@@ -150,214 +150,6 @@ function stripCites(obj: any): any {
   return obj
 }
 
-const buildPrompt = (handle: string, xd: any, cg: any) => `You are CMV AlphaScanner, a sharp and brutally honest crypto/Web3 alpha analyst. Today: ${new Date().toDateString()}.
-
-NEVER use <cite> tags, XML tags, numbered references like [1] or [2], or any citation markup. All string fields must be clean plain text only.
-
-TOOLS-FIRST APPROACH: You have pre-fetched data from DefiLlama, RootData, DexScreener, GeckoTerminal and CryptoNews already in this prompt. Use that data directly to score metrics. Only web search for FUD/controversies that APIs cannot detect. Most scans should need 0-1 web searches.
-
-REAL X API DATA for @${handle} (ground truth — use this directly):
-- Followers: ${xd?.followers?.toLocaleString() || 'unknown'}
-- Following: ${xd?.following || 'unknown'}
-- Verified: ${xd?.verified || false}
-- Account Age: ${xd?.account_age_years || 'unknown'} years
-- Total Tweets: ${xd?.tweet_count?.toLocaleString() || 'unknown'}
-- Listed Count: ${xd?.listed || 'unknown'}
-- Bio: "${xd?.description || 'unknown'}"
-- Pinned Tweet: "${xd?.pinned_tweet || 'none'}"
-- Confirmed Ticker from X: ${xd?.confirmed_ticker || 'none found'}
-- Token launch signals: ${xd?.token_launch_hinted || false}
-- CMV X Score: ${xd?.cmv_score || 0}/1000
-- Category detected from bio: ${xd?.category || 'unknown'}
-- Latest season detected: ${xd?.latest_season ? 'Season ' + xd?.latest_season : 'none'}
-- Season dates: ${JSON.stringify(xd?.season_dates || [])}
-- Funding mentions in tweets: ${JSON.stringify(xd?.funding_mentions || [])}
-- VCs mentioned in tweets: ${JSON.stringify(xd?.vc_mentions || [])}
-- Traction data from tweets: ${JSON.stringify(xd?.user_count_mentions || [])}
-- Content type: ${xd?.content_type || 'organic'}
-- Avg likes per tweet: ${xd?.avg_likes || 0}
-- Avg retweets per tweet: ${xd?.avg_retweets || 0}
-
-VERIFIED EXTERNAL DATA (use this directly — do not search for what is already here):
-- TVL (DefiLlama): ${xd?.enriched?.tvl || 'not found'}
-- Daily fees: ${xd?.enriched?.fees_24h || 'not found'}
-- Daily revenue: ${xd?.enriched?.revenue_24h || 'not found'}
-- Total raised (DefiLlama): ${xd?.enriched?.total_raised_defillama || 'not found'}
-- Total raised (RootData): ${xd?.enriched?.total_raised_rootdata || 'not found'}
-- Confirmed investors: ${JSON.stringify(xd?.enriched?.confirmed_investors || [])}
-- Team members (RootData): ${JSON.stringify(xd?.enriched?.rootdata_team || [])}
-- Chains deployed on: ${JSON.stringify(xd?.enriched?.chains || [])}
-- Known hacks/exploits: ${JSON.stringify(xd?.enriched?.known_hacks || [])}
-- DEX 24h volume: ${xd?.enriched?.dex_volume_24h || 'not found'}
-- DEX liquidity: ${xd?.enriched?.dex_liquidity || 'not found'}
-- Token dump detected: ${xd?.enriched?.dex_dump_detected || false}
-- Token price change 24h: ${xd?.enriched?.dex_price_change_24h !== null ? xd?.enriched?.dex_price_change_24h + '%' : 'n/a'}
-- News sentiment: ${xd?.enriched?.news_sentiment || 'unknown'}
-- Recent news (${xd?.enriched?.news_article_count || 0} articles found): ${JSON.stringify(xd?.enriched?.news_recent || [])}
-- Red flag headlines from news: ${JSON.stringify(xd?.enriched?.news_red_flags || [])}
-- AUTO-DETECTED FUD FLAGS (verified by tools — include ALL of these in red_flags, do not ignore them):
-${(xd?.enriched?.auto_fud_flags || []).map((f: any) => `  * [${f.type}] ${f.label}: ${f.detail}`).join('\n')}
-
-STRICT SEARCH RULES — you have pre-fetched data from 5 APIs. Follow these exactly:
-
-DO NOT SEARCH FOR (already provided above — use it directly):
-- TVL, revenue, fees → use DefiLlama data above
-- VC names, funding amounts → use RootData/confirmed investors above  
-- Token price, volume → use DexScreener/CoinGecko data above
-- Known hacks/exploits → use hacks database above
-- News sentiment → use CryptoNews data above
-- Team members → use RootData team above
-
-ONLY RUN 1-2 WEB SEARCHES FOR:
-1. TGE delays, presale issues, community anger, broken promises
-2. Specific season requirements/dates if not found in X data above
-
-If all data is already provided, skip web searches entirely and score directly.
-Use the pre-fetched data to fill all metrics. Web search is a last resort only.
-
-CoinGecko Token Data: ${JSON.stringify(cg)}
-
-Search ONLY for "@${handle}" — do not confuse with other projects.
-
-SCORE INTEGRITY — be brutally honest. Tier A is reserved for the best projects in CT.
-- Most projects score 35-65. Above 75 requires exceptional evidence.
-- Tier A = 85+ requires ALL of: confirmed Tier 1 VC + doxxed founders with track record + active live product + low dilution risk + strong organic CT + no major red flags
-- Tier B = 60-84. Good project but missing 1-2 key signals.
-- Tier C = 35-59. Too early, too risky, or too much uncertainty.
-- Tier D = 0-34. Skip entirely.
-- ANY rug or scam history = maximum score of 40, no exceptions.
-- ANY major red flag = automatic cap of 65.
-- FUD < 40 = overall max 60. user_count < 30 = overall max 55. vc_pedigree < 40 = overall max 60.
-- Do NOT give Tier A just because a project is popular on CT. Popularity ≠ quality.
-
-RED FLAGS — THIS IS MANDATORY. You MUST search for problems first.
-Do TWO dedicated searches before anything else:
-Search 1: "@${handle} rug scam hack exploit controversy criticism delay postponed"
-Search 2: "@${handle} TGE delay presale refund community angry broken promise token launch"
-
-Report every concern you find including:
-- Rug history or exit scam by founders on previous projects
-- Security exploits, hacks, contract vulnerabilities
-- Scam allegations from CT community
-- TGE delays: promised token launch repeatedly postponed — how many months delayed?
-- Presale taken but no TGE: did they collect presale funds and delay/cancel launch?
-- Community anger: CT users calling out the team for delays or broken promises
-- Anonymous team with no verifiable background
-- Paid shill campaign covering up problems
-- Token dump at or after TGE
-- Regulatory issues
-- High valuation with no token price discovery yet
-- No security audit for a project handling sensitive data
-
-ALWAYS report minimum 2-3 concerns. Every project has risks worth flagging.
-For each flag include: type, label, specific detail with dates/amounts, source URL.
-
-CRITICAL: If you find ANY of the above, you MUST include it in red_flags with:
-- type: one of 'rug', 'scam', 'exploit', 'shill', 'dump', 'anon', 'other'
-- label: short clear title
-- detail: what happened specifically with numbers where possible
-- source: where you found this
-
-Do NOT omit real problems to give a better score. The FUD penalty exists specifically to punish bad actors.
-For good_highlights — max 4 short punchy confirmed facts about this project. These appear on the share card.
-Format like: "Backed by Coinbase Ventures", "$1.9B trading volume", "Season 3 active Jan-May 2026", "Doxxed team ex-Reface AI"
-Make them specific with numbers/names where possible. Never generic like "strong team" or "good product".
-
-CATEGORY — use the X API detected category above first. Only override if web search gives clear contradictory evidence.
-
-SEASON LOGIC — use the X API detected season first:
-- If X API found Season 3, use Season 3 everywhere. Never contradict it.
-- Only search for season details if X API shows none.
-- NEVER invent season numbers.
-- The verdict_action and future_seasons MUST use the exact same season number.
-
-PROJECT CATEGORY from bio keywords (use X API category above as primary):
-- "prediction market", "predict", "outcome" → Prediction Market
-- "perp", "perpetual", "derivatives trading" → Perp DEX
-- "layer 1", "layer 2", "L1", "L2", "blockchain" → L1/L2
-- "testnet", "devnet" → Testnet
-- "lending", "borrow", "yield" → DeFi/Lending
-- "NFT", "gaming", "game" → NFT/Gaming
-- "real world asset", "RWA", "tokenized" → RWA
-- "social", "creator", "content" → SocialFi
-- "AI", "agent", "model" → AI Project
-- "infrastructure", "protocol", "SDK" → Infrastructure
-
-For team_members: search "[project] founder CEO team" to find real names and roles. Leave x_handle as empty string if not 100% certain. Always return at least 1 team member entry.
-
-VERDICT ACTION — be SPECIFIC to @${handle}. Reference actual season numbers, requirements, and token data found above.
-
-Return ONLY valid JSON, zero text before/after, zero cite tags:
-{"project_name":"","ticker":"","description":"","team_location":"","founded":"","project_category":"","verdict":"WATCH","verdict_reason":"","verdict_action":"","overall_score":0,"score_rationale":"","data_accuracy_note":"","post_tge_outlook":"","future_seasons":"","team_members":[{"name":"","role":"","x_handle":"","background":"","confirmed":true}],"project_follows":"","red_flags":[{"type":"other","label":"","detail":"","source":""}],"good_highlights":[""],"mindshare_trend":{"labels":["8w ago","7w ago","6w ago","5w ago","4w ago","3w ago","2w ago","1w ago"],"values":[0,0,0,0,0,0,0,0],"current_pct":"0%","trend":"stable"},"sources":[{"name":"","url":"","used_for":""}],"metrics":{"funding":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"vc_pedigree":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"copycat":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"niche":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"location":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"founder_cred":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"founder_activity":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"top_voices":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"token":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"metrics_clarity":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"user_count":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"fud":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"notable_mentions":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"content_type":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"mindshare":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"revenue":{"score":0,"detail":"","why_this_score":"","signal":"neutral"},"sentiment":{"score":0,"detail":"","why_this_score":"","signal":"neutral"}},"top_risks":[""],"top_opportunities":[""]}`
-
-async function fetchCoinGecko(projectName: string, confirmedTicker?: string | null, tokenHinted?: boolean, xHandle?: string) {
-  try {
-    let bestCoin: any = null
-    if (confirmedTicker) {
-      const r = await fetch(`https://api.coingecko.com/api/v3/search?query=${encodeURIComponent(confirmedTicker)}`)
-      const d = await r.json()
-      const matches = (d.coins || []).filter((c: any) => c.symbol?.toUpperCase() === confirmedTicker.toUpperCase())
-      if (matches.length > 0) {
-        const pNameLower = projectName.toLowerCase()
-        const xHandleLower = (xHandle || '').toLowerCase()
-        // Prefer coin whose name matches the project name or handle
-        const nameMatch = matches.find((c: any) => {
-          const cName = c.name?.toLowerCase() || ''
-          return cName.includes(pNameLower) || pNameLower.includes(cName) ||
-            cName.includes(xHandleLower) || xHandleLower.includes(cName)
-        })
-        // Only fall back to rank-based if name match found or only 1 result
-        bestCoin = nameMatch || (matches.length === 1 ? matches[0] : null)
-      }
-    }
-    if (!bestCoin) {
-      const r = await fetch(`https://api.coingecko.com/api/v3/search?query=${encodeURIComponent(projectName)}`)
-      const d = await r.json()
-      if (d.coins?.length > 0) {
-        const close = d.coins.find((c: any) => {
-          const cName = c.name?.toLowerCase() || ''
-          const cSymbol = c.symbol?.toUpperCase() || ''
-          const pName = projectName.toLowerCase()
-          return (confirmedTicker && cSymbol === confirmedTicker.toUpperCase()) || cName === pName || ((cName.includes(pName) || pName.includes(cName)) && (c.market_cap_rank || 9999) < 1500)
-        })
-        if (close) bestCoin = close
-      }
-    }
-    if (!bestCoin && xHandle) {
-      const stripped = xHandle.replace(/^(try|use|get|the|go)/i, '')
-      if (stripped.length > 3 && stripped.toLowerCase() !== xHandle.toLowerCase()) {
-        const r = await fetch(`https://api.coingecko.com/api/v3/search?query=${encodeURIComponent(stripped)}`)
-        const d = await r.json()
-        if (d.coins?.length > 0) {
-          const nameMatches = (d.coins as any[]).filter((c: any) => {
-            const cName = c.name?.toLowerCase() || ''
-            return (cName.includes(stripped.toLowerCase()) || stripped.toLowerCase().includes(cName)) && (c.market_cap_rank || 9999) < 2000
-          })
-          if (nameMatches.length > 0) bestCoin = nameMatches.sort((a: any, b: any) => (a.market_cap_rank || 9999) - (b.market_cap_rank || 9999))[0]
-        }
-      }
-    }
-    if (!bestCoin && xHandle) {
-      const r = await fetch(`https://api.coingecko.com/api/v3/search?query=${encodeURIComponent(xHandle)}`)
-      const d = await r.json()
-      if (d.coins?.length > 0 && (d.coins[0].market_cap_rank || 9999) < 2000) bestCoin = d.coins[0]
-    }
-    if (!bestCoin) return { token_live: false, token_price: 'Not Launched', token_note: 'No matching token found on CoinGecko' }
-    const pr = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${bestCoin.id}&vs_currencies=usd&include_market_cap=true`)
-    const pd = await pr.json()
-    const price = pd[bestCoin.id]?.usd
-    const mcap = pd[bestCoin.id]?.usd_market_cap
-    if (!price || price === 0) return { token_live: false, ticker: bestCoin.symbol?.toUpperCase(), token_price: 'Not Launched', token_note: 'Listed on CoinGecko but no active price' }
-    const pStr = price < 0.01 ? '$' + price.toFixed(6) : price < 1 ? '$' + price.toFixed(4) : '$' + price.toFixed(2)
-    const mStr = !mcap ? '' : mcap >= 1e9 ? '$' + (mcap/1e9).toFixed(1) + 'B' : mcap >= 1e6 ? '$' + (mcap/1e6).toFixed(1) + 'M' : '$' + Math.round(mcap).toLocaleString()
-    if (!confirmedTicker && !tokenHinted) {
-      const rank = bestCoin.market_cap_rank || 9999
-      if (rank < 1500) return { token_live: true, ticker: bestCoin.symbol?.toUpperCase(), token_price: pStr, market_cap: mcap, market_cap_str: mStr, token_note: 'Live on CoinGecko · Rank #' + rank }
-      return { token_live: false, ticker: bestCoin.symbol?.toUpperCase(), token_price: pStr, token_note: 'Not confirmed in X bio' }
-    }
-    return { token_live: true, ticker: bestCoin.symbol?.toUpperCase(), token_price: pStr, market_cap: mcap, market_cap_str: mStr, token_note: 'Live on CoinGecko' + (mStr ? ' · MCap ' + mStr : '') }
-  } catch { return { token_live: false, token_price: 'Not Launched', token_note: 'CoinGecko lookup failed' } }
-}
 
 function MetricRow({ metric, data }: { metric: any, data: any }) {
   const [open, setOpen] = useState(false)
@@ -699,17 +491,6 @@ export default function Home() {
     }
 
     // Merge auto-detected FUD flags into result when Claude runs
-    const mergeAutoFlags = (cleaned: any) => {
-      const autoFlags = (xd?.enriched?.auto_fud_flags || []).map((f: any) => ({
-        type: f.type,
-        label: f.label,
-        detail: f.detail,
-        source: 'Auto-detected by CMV tools'
-      }))
-      // Add auto flags that Claude didn't already catch
-      const existingLabels = (cleaned.red_flags || []).map((f: any) => f.label?.toLowerCase())
-      const newFlags = autoFlags.filter((f: any) => !existingLabels.some((l: string) => l.includes(f.label.toLowerCase().slice(0, 10))))
-      return { ...cleaned, red_flags: [...(cleaned.red_flags || []), ...newFlags] }
     }
 
     // X-only fallback scan — no Claude, uses X data to build basic result
@@ -724,15 +505,15 @@ export default function Home() {
         (enriched.confirmed_investors || []).length > 0 ||
         (enriched.rootdata_team || []).length > 0)
 
-      // If both X API and all tools failed — show honest insufficient data
-      if (!hasXData && !hasToolData && xd?.partial) {
+      // If both X API and all tools returned nothing — show honest insufficient data
+      if (!hasXData && !hasToolData) {
         const emptyResult = {
           project_name: handle,
           description: '',
           project_category: 'Crypto',
           verdict: 'WATCH',
           verdict_reason: 'Insufficient data available for this project.',
-          verdict_action: 'We could not retrieve data for this handle from X API or any of our data sources. Please verify the handle is correct and try again. If the account is new or restricted, data may not be available yet.',
+          verdict_action: 'We could not retrieve data for @' + handle + ' from X API or any of our data sources. The account may be new, restricted, or the handle may be incorrect. Try again in a few minutes.',
           overall_score: 0,
           score_rationale: 'No data returned from X API, DefiLlama, RootData, DexScreener or CryptoNews. Cannot score this project reliably.',
           good_highlights: [],
@@ -917,77 +698,11 @@ export default function Home() {
       saveResult(cleaned)
     }
 
-    try {
-      const r = await fetch('https://api.anthropic.com/v1/messages', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'x-api-key': import.meta.env.VITE_ANTHROPIC_API_KEY, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
-        body: JSON.stringify({
-          model: 'claude-sonnet-4-20250514',
-          max_tokens: 2000,
-          system: buildPrompt(handle, xd, cg),
-          tools: [{ type: 'web_search_20250305', name: 'web_search' }],
-          messages: [{ role: 'user', content: 'Analyze @' + handle + '. X Bio: ' + JSON.stringify(xd?.description||'') + ' Pinned: ' + JSON.stringify(xd?.pinned_tweet||'') + ' Followers: ' + (xd?.followers||0) + ' CMV: ' + (xd?.cmv_score||0) + '/1000 Ticker: ' + (xd?.confirmed_ticker||'none') + ' Token: ' + JSON.stringify(cg||{}) + '. Return complete JSON only. No cite tags. No numbered references.' }]
-        })
-      })
-      const data = await r.json()
-
-      // Check for credit exhaustion or overload — fall back to X-only
-      if (data.error) {
-        const errMsg = data.error.message || ''
-        const isRateLimit = errMsg.includes('rate limit') || errMsg.includes('tokens per minute')
-        const isOverloaded = errMsg.includes('overloaded') || errMsg.includes('529') || data.error.type === 'overloaded_error'
-        const isCreditExhausted = errMsg.includes('credit') || errMsg.includes('billing') || errMsg.includes('quota') || data.error.type === 'insufficient_quota'
-
-        if (isCreditExhausted) {
-          // Credits finished — fall back to X-only silently
-          xOnlyScan()
-          return
-        } else if (isOverloaded) {
-          // Overloaded — fall back to X-only silently
-          xOnlyScan()
-          return
-        } else if (isRateLimit) {
-          // Rate limit — auto retry
-          setError('rate_limit')
-          let secs = 65
-          const countdown = setInterval(() => {
-            secs -= 1
-            setError('rate_limit:' + secs)
-            if (secs <= 0) { clearInterval(countdown); setError(null); analyze() }
-          }, 1000)
-          return
-        }
-        throw new Error(errMsg)
-      }
-
-      const txt = (data.content || []).filter((b: any) => b.type === 'text').map((b: any) => b.text).join('\n')
-      if (!txt.trim()) { xOnlyScan(); return }
-      const parsed = xjson(txt)
-      if (!parsed) { xOnlyScan(); return }
-      const cleaned = stripCites(parsed)
-      const withAutoFlags = mergeAutoFlags(cleaned)
-      saveResult(withAutoFlags)
-    } catch (e: any) {
-      const msg = e.message || ''
-      if (msg.includes('rate limit') || msg.includes('rate_limit') || msg.includes('tokens per minute')) {
-        setError('rate_limit')
-        let secs = 65
-        const countdown = setInterval(() => {
-          secs -= 1
-          setError('rate_limit:' + secs)
-          if (secs <= 0) { clearInterval(countdown); setError(null); analyze() }
-        }, 1000)
-      } else if (msg.includes('credit') || msg.includes('billing') || msg.includes('quota') || msg.includes('overload')) {
-        // Silent fallback to X-only
-        xOnlyScan()
-      } else if (msg.includes('Failed to fetch') || msg.includes('network') || msg.includes('NetworkError')) {
-        // Both APIs dead — clean message
-        setError('unavailable')
-      } else {
-        setError(msg || 'Something went wrong.')
-      }
-    } finally { setLoading(false) }
+    // Run tool-native scoring — no Claude needed
+    xOnlyScan()
+    setLoading(false)
   }
+
 
   async function shareResult() {
     if (!result) return
