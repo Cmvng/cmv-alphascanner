@@ -598,8 +598,14 @@ export default function Home() {
   async function analyze() {
     const url = xUrl.trim()
     if (!url) return
-    const handle = url.replace('https://x.com/', '').replace('https://twitter.com/', '').replace('http://x.com/', '').replace('@', '').split('/')[0].trim()
+    // Strip URL parts, @, and any invalid X handle characters (only a-z 0-9 _ allowed)
+    const rawHandle = url.replace('https://x.com/', '').replace('https://twitter.com/', '').replace('http://x.com/', '').replace('@', '').split('/')[0].trim()
+    const handle = rawHandle.replace(/[^a-zA-Z0-9_]/g, '')
     if (!handle) return
+    // If handle changed after sanitization, warn user
+    if (handle.toLowerCase() !== rawHandle.toLowerCase()) {
+      console.warn('Handle sanitized:', rawHandle, '→', handle)
+    }
     const cacheKey = `cmv_scan_${handle.toLowerCase()}`
     setLoading(true); setResult(null); setCgData(null); setXData(null); setError(null); setAtab('Fundamentals'); setAsec('metrics'); setSelectedTags([])
     try {
@@ -610,6 +616,18 @@ export default function Home() {
       }
     } catch { }
     const xd = await fetchProjectXData(handle)
+    // If X API returned incomplete data (rate limit or restricted), show error
+    if (!xd || (xd?.error && xd?.partial)) {
+      setError(xd?.error || 'Unable to fetch X data for this account. Please try again.')
+      setLoading(false)
+      return
+    }
+    // If followers is 0 and tweets is 0, X API data is unreliable — don't scan
+    if ((xd?.followers === 0 && xd?.tweet_count === 0)) {
+      setError('X API returned 0 followers and 0 tweets for this account — data may be incomplete. Try refreshing or checking the handle is correct.')
+      setLoading(false)
+      return
+    }
     setXData(xd)
     let cg = null
 
@@ -682,36 +700,175 @@ export default function Home() {
 
     // X-only fallback scan — no Claude, uses X data to build basic result
     const xOnlyScan = () => {
-      const score = Math.round((xd?.cmv_score || 0) * 0.6)
-      const tier = score >= 85 ? 'FARM IT' : score >= 60 ? 'CREATE CONTENT' : score >= 35 ? 'WATCH' : 'SKIP'
+      // ── FULL TOOL-NATIVE SCORING ENGINE ──
+      // No Claude needed. Uses DefiLlama, DexScreener, RootData, CryptoNews, X API.
+
+      const enriched = xd?.enriched || {}
+      const autoFlags = enriched.auto_fud_flags || []
+      const followers = xd?.followers || 0
+      const following = xd?.following || 0
+      const listed = xd?.listed || 0
+      const tweetCount = xd?.tweet_count || 0
+      const accountAge = xd?.account_age_years || 0
+      const avgLikes = xd?.avg_likes || 0
+      const verified = xd?.verified || false
+      const cmvXScore = xd?.cmv_score || 0
+
+      // ── METRIC SCORES FROM TOOLS ──
+
+      // 1. Funding (RootData + DefiLlama)
+      const hasRaised = enriched.total_raised_rootdata || enriched.total_raised_defillama
+      const investors = enriched.confirmed_investors || []
+      const topVCs = ['paradigm','a16z','coinbase','polychain','multicoin','pantera','sequoia','dragonfly','binance','animoca']
+      const hasTopVC = investors.some((v: string) => topVCs.some(vc => v.toLowerCase().includes(vc)))
+      const fundingScore = hasTopVC ? 90 : investors.length > 3 ? 75 : hasRaised ? 60 : investors.length > 0 ? 45 : 25
+
+      // 2. TVL / Revenue (DefiLlama)
+      const tvl = enriched.tvl
+      const revenue = enriched.revenue_24h
+      const fees = enriched.fees_24h
+      const tvlNum = tvl ? (tvl.includes('B') ? parseFloat(tvl)*1e9 : tvl.includes('M') ? parseFloat(tvl)*1e6 : parseFloat(tvl)*1e3) : 0
+      const revenueScore = revenue ? (revenue.includes('M') ? 90 : revenue.includes('K') ? 70 : 50) : tvlNum > 1e9 ? 80 : tvlNum > 1e8 ? 65 : tvlNum > 1e6 ? 50 : 20
+
+      // 3. Token health (DexScreener)
+      const dexDump = enriched.dex_dump_detected
+      const dexLiq = enriched.dex_liquidity
+      const tokenLive = cg?.token_live
+      const tokenScore = dexDump ? 10 : tokenLive && dexLiq ? (dexLiq.includes('M') ? 75 : dexLiq.includes('K') ? 55 : 35) : xd?.token_launch_hinted ? 50 : 40
+
+      // 4. Community / X presence
+      const followerScore = followers > 500000 ? 95 : followers > 100000 ? 85 : followers > 50000 ? 75 : followers > 10000 ? 60 : followers > 5000 ? 45 : 25
+      const engagementScore = avgLikes > 1000 ? 90 : avgLikes > 500 ? 75 : avgLikes > 100 ? 60 : avgLikes > 20 ? 45 : 20
+
+      // 5. Team credibility (RootData + X)
+      const team = enriched.rootdata_team || []
+      const teamScore = team.length > 3 ? 80 : team.length > 1 ? 65 : verified ? 60 : accountAge > 3 ? 55 : accountAge > 1 ? 45 : 30
+
+      // 6. News sentiment (CryptoNews)
+      const sentiment = enriched.news_sentiment
+      const sentimentScore = sentiment === 'positive' ? 80 : sentiment === 'neutral' ? 60 : sentiment === 'negative' ? 25 : 50
+
+      // 7. Security (DefiLlama hacks)
+      const hacks = enriched.known_hacks || []
+      const securityScore = hacks.length > 0 ? 10 : tvlNum > 0 ? 75 : 55
+
+      // ── FUD PENALTY ──
+      let fudPenalty = 0
+      autoFlags.forEach((f: any) => {
+        if (f.severity === 'high') fudPenalty += 100
+        else if (f.severity === 'medium') fudPenalty += 50
+        else fudPenalty += 25
+      })
+      fudPenalty = Math.min(fudPenalty, 300)
+
+      // ── COMPOSITE SCORE ──
+      const weights = { funding: 0.20, revenue: 0.18, token: 0.12, follower: 0.15, engagement: 0.12, team: 0.10, sentiment: 0.08, security: 0.05 }
+      const rawScore = Math.round(
+        fundingScore * weights.funding +
+        revenueScore * weights.revenue +
+        tokenScore * weights.token +
+        followerScore * weights.follower +
+        engagementScore * weights.engagement +
+        teamScore * weights.team +
+        sentimentScore * weights.sentiment +
+        securityScore * weights.security
+      )
+      // Combine with CMV X score (social proof)
+      const combined = Math.round(rawScore * 0.6 + (cmvXScore / 10) * 0.4)
+      const finalScore = Math.max(0, Math.min(100, combined - Math.round(fudPenalty / 10)))
+
+      // Hard caps
+      const hasHack = hacks.length > 0
+      const hasDump = enriched.dex_dump_detected
+      const cappedScore = hasHack ? Math.min(finalScore, 35) : hasDump ? Math.min(finalScore, 45) : finalScore
+
+      // ── VERDICT ──
+      const verdict = cappedScore >= 85 ? 'FARM IT' : cappedScore >= 60 ? 'CREATE CONTENT' : cappedScore >= 35 ? 'WATCH' : 'SKIP'
+
+      // ── GENERATE HIGHLIGHTS FROM TOOLS ──
+      const highlights: string[] = []
+      if (hasRaised) highlights.push(`${enriched.total_raised_rootdata || enriched.total_raised_defillama} raised`)
+      if (hasTopVC) highlights.push(`Backed by ${investors.slice(0,2).join(', ')}`)
+      if (tvl) highlights.push(`${tvl} TVL deployed`)
+      if (revenue) highlights.push(`${revenue} daily revenue`)
+      if (followers > 10000) highlights.push(`${(followers/1000).toFixed(0)}K X followers`)
+      if (team.length > 0) highlights.push(`${team.length} verified team members`)
+      if (verified) highlights.push('Verified X account')
+      if (enriched.chains?.length > 0) highlights.push(`Live on ${enriched.chains.slice(0,2).join(', ')}`)
+
+      // ── VERDICT REASON FROM TOOLS ──
+      const parts: string[] = []
+      if (hasRaised && hasTopVC) parts.push(`Backed by top VCs including ${investors[0]}`)
+      else if (hasRaised) parts.push(`Has raised ${enriched.total_raised_rootdata || enriched.total_raised_defillama}`)
+      if (tvl) parts.push(`${tvl} TVL showing real capital deployment`)
+      if (revenue) parts.push(`Generating ${revenue} in daily revenue`)
+      if (followers > 10000) parts.push(`Strong X presence with ${(followers/1000).toFixed(0)}K followers`)
+      if (hacks.length > 0) parts.push(`WARNING: ${hacks.length} known security exploit(s) on record`)
+      if (dexDump) parts.push(`Token showing significant price decline`)
+      if (autoFlags.length > 0) parts.push(`${autoFlags.length} automated red flag(s) detected`)
+      if (sentiment === 'negative') parts.push('Negative news sentiment detected')
+
+      const verdictReason = parts.length > 0 ? parts.join('. ') + '.' : `Based on available data: ${followers.toLocaleString()} followers, ${accountAge.toFixed(1)} year old account.`
+
+      const verdictAction: Record<string, string> = {
+        'FARM IT': 'Strong fundamentals confirmed by multiple data sources. Actively farm this project.',
+        'CREATE CONTENT': 'Solid metrics but monitor closely. Create content and track progress.',
+        'WATCH': 'Insufficient data or mixed signals. Watch for more clarity before committing.',
+        'SKIP': 'Multiple red flags or weak fundamentals detected across data sources. Skip for now.'
+      }
+
+      // ── BUILD FULL RESULT ──
       const cleaned = {
         project_name: xd?.name || handle,
-        ticker: cg?.ticker || null,
+        ticker: cg?.ticker || xd?.confirmed_ticker || null,
         description: xd?.description || '',
         team_location: '',
         founded: '',
         project_category: xd?.category || 'Crypto',
-        verdict: tier,
-        verdict_reason: 'Score based on X profile data only. Full analysis unavailable at this time.',
-        verdict_action: 'Check back later for a full scan with detailed metrics and red flag detection.',
-        overall_score: score,
-        score_rationale: 'Estimated from X social score only — deep analysis unavailable.',
-        data_accuracy_note: 'Limited data — X API only. Full scan unavailable.',
-        post_tge_outlook: '',
-        future_seasons: '',
-        team_members: [],
-        project_follows: '',
-        red_flags: [],
-        good_highlights: [
-          xd?.followers ? (xd.followers >= 1000 ? Math.round(xd.followers/1000) + 'K X followers' : xd.followers + ' X followers') : '',
-          xd?.verified ? 'Verified X account' : '',
-          cg?.token_live ? (cg.ticker + ' token live at ' + cg.token_price) : '',
+        verdict: verdict,
+        verdict_reason: verdictReason,
+        verdict_action: verdictAction[verdict],
+        overall_score: cappedScore,
+        score_rationale: `Tool-native score: Funding ${fundingScore}/100 · Revenue ${revenueScore}/100 · Community ${followerScore}/100 · Team ${teamScore}/100. FUD penalty: -${fudPenalty}pts. Claude analysis unavailable — score based on verified tool data only.`,
+        good_highlights: highlights.slice(0, 5),
+        red_flags: autoFlags.map((f: any) => ({ type: f.type, label: f.label, detail: f.detail })),
+        top_risks: [
+          hacks.length > 0 ? `Security: ${hacks.length} known exploit(s)` : null,
+          dexDump ? 'Token showing significant price dump' : null,
+          dexLiq && dexLiq.includes('K') && !dexLiq.includes('00K') ? 'Low DEX liquidity — rug risk' : null,
+          sentiment === 'negative' ? 'Negative news coverage detected' : null,
+          followers < 1000 ? 'Very low social presence' : null,
+        ].filter(Boolean).slice(0, 4),
+        top_opportunities: [
+          !tokenLive && xd?.token_launch_hinted ? 'Token not yet launched — early farming opportunity' : null,
+          tvlNum > 1e8 ? `High TVL of ${tvl} showing strong ecosystem` : null,
+          hasTopVC ? `VC backing from ${investors[0]} adds credibility` : null,
+          enriched.chains?.length > 1 ? `Multi-chain deployment on ${enriched.chains.join(', ')}` : null,
+        ].filter(Boolean).slice(0, 3),
+        team_members: (enriched.rootdata_team || []).map((t: any) => ({
+          name: t.name,
+          role: t.role,
+          x_handle: t.x_handle,
+        })),
+        sources: [
+          tvl ? { name: 'DefiLlama', used_for: 'TVL and revenue data' } : null,
+          investors.length > 0 ? { name: 'RootData', used_for: 'Funding and investor data' } : null,
+          tokenLive ? { name: 'DexScreener', used_for: 'Token price and liquidity' } : null,
+          sentiment ? { name: 'CryptoNews', used_for: 'News sentiment analysis' } : null,
         ].filter(Boolean),
-        mindshare_trend: { labels: ['8w ago','7w ago','6w ago','5w ago','4w ago','3w ago','2w ago','1w ago'], values: [0,0,0,0,0,0,0,0], current_pct: '0%', trend: 'unknown' },
-        sources: [],
-        metrics: Object.fromEntries(['funding','vc_pedigree','copycat','niche','location','founder_cred','founder_activity','top_voices','token','metrics_clarity','user_count','fud','notable_mentions','content_type','mindshare','revenue','sentiment'].map(k => [k, { score: Math.round(score * 0.8 + Math.random() * 20), detail: 'Estimated from X data only', why_this_score: 'Full analysis unavailable', signal: 'neutral' }])),
-        top_risks: ['Full analysis unavailable — check back later'],
-        top_opportunities: ['Scan again when service is restored for full alpha'],
+        data_accuracy_note: 'Analysis powered by DefiLlama, RootData, DexScreener, CryptoNews and X API. Claude AI analysis unavailable — using tool-native scoring.',
+        metrics: {
+          funding: { score: fundingScore, summary: hasRaised ? `${enriched.total_raised_rootdata || enriched.total_raised_defillama} raised from ${investors.length} investors` : 'No confirmed funding found' },
+          revenue: { score: revenueScore, summary: revenue ? `${revenue} daily revenue, ${fees || 'N/A'} fees` : tvl ? `${tvl} TVL` : 'No revenue data found' },
+          community: { score: followerScore, summary: `${followers.toLocaleString()} followers, ${(avgLikes).toFixed(0)} avg likes, account ${accountAge.toFixed(1)}y old` },
+          team: { score: teamScore, summary: team.length > 0 ? `${team.length} verified team members via RootData` : 'Team details unverified' },
+          sentiment: { score: sentimentScore, summary: `${sentiment || 'neutral'} news sentiment from ${enriched.news_article_count || 0} articles` },
+          security: { score: securityScore, summary: hacks.length > 0 ? `${hacks.length} known exploit(s) on DefiLlama` : 'No known security incidents' },
+        },
+        mindshare_trend: null,
+        future_seasons: null,
+        post_tge_outlook: tokenLive ? (dexDump ? 'Poor — token declining' : 'Moderate') : 'Token not yet live',
+        project_follows: null,
       }
       saveResult(cleaned)
     }
@@ -1001,3 +1158,369 @@ export default function Home() {
     link.href = canvas.toDataURL('image/png', 1.0)
     link.click()
   }
+
+
+
+
+  const ot = result ? getTier(result.overall_score ?? 0) : 'C'
+  const otc = T[ot]
+  const redFlags = result?.red_flags?.filter((f: any) => f.label) || []
+  const goodHighlights = result?.good_highlights?.filter((h: string) => h && h.length > 5) || []
+  const cmvScore = result ? computeCMVAlphaScore(result.metrics, redFlags) : null
+  const fudPen = cmvScore?.fudPenalty ?? 0
+  const isGoodScore = result && result.overall_score >= 60
+  const availableTags = isGoodScore ? GOOD_TAGS : BAD_TAGS
+  const groups = result ? [
+    { label: 'Team Intentions', score: Math.round(((result.metrics?.founder_cred?.score ?? 0) + (result.metrics?.founder_activity?.score ?? 0)) / 2) },
+    { label: 'Funding', score: result.metrics?.funding?.score ?? 0 },
+    { label: 'Narrative', score: result.metrics?.niche?.score ?? 0 },
+    { label: 'Revenue', score: result.metrics?.revenue?.score ?? 0 },
+    { label: 'Community', score: result.metrics?.sentiment?.score ?? 0 },
+    { label: 'CT Buzz', score: Math.round(((result.metrics?.notable_mentions?.score ?? 0) + (result.metrics?.top_voices?.score ?? 0)) / 2) },
+  ].map(g => ({ ...g, tier: getTier(g.score), cfg: T[getTier(g.score)] })) : []
+  const msg = LOADING_MSGS[msgIdx]
+
+  return (
+    <div style={{ minHeight: '100vh', background: '#f6f8fa', fontFamily: "'Inter',sans-serif" }}>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&family=Inter:wght@300;400;500;600&display=swap');
+        *{box-sizing:border-box;}
+        @keyframes spin{to{transform:rotate(360deg)}}
+        @keyframes shimmer{0%{background-position:-700px 0}100%{background-position:700px 0}}
+        @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+        @keyframes ring{0%,100%{transform:scale(1);opacity:0.3}50%{transform:scale(1.15);opacity:0.08}}
+        @keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes scan{0%{transform:translateX(-100%)}100%{transform:translateX(500%)}}
+        @keyframes thinkDot{0%,100%{opacity:0.15;transform:scale(0.7)}50%{opacity:1;transform:scale(1.1)}}
+        @keyframes pop{0%{transform:scale(0.85);opacity:0}60%{transform:scale(1.03)}100%{transform:scale(1);opacity:1}}
+        .tag-btn{transition:all 0.2s;cursor:pointer;}
+        .tag-btn:hover{transform:translateY(-2px);}
+        .metric-row{transition:all 0.2s;cursor:pointer;}
+        .metric-row:hover{background:#f0fdf4!important;}
+        .nav-link{transition:opacity 0.15s;}
+        .nav-link:hover{opacity:0.7;}
+        input:focus{outline:none;}
+        @media(max-width:640px){
+          .grid-score{grid-template-columns:1fr!important;}
+          .grid-3{grid-template-columns:1fr 1fr!important;}
+          .grid-2{grid-template-columns:1fr!important;}
+          .grid-tier{grid-template-columns:1fr 1fr!important;}
+          .search-btns{flex-wrap:wrap!important;}
+          .hero-title{font-size:36px!important;}
+        }
+      `}</style>
+
+      {/* Nav */}
+      <div style={{ background: 'rgba(255,255,255,0.92)', backdropFilter: 'blur(12px)', borderBottom: '1px solid rgba(0,0,0,0.06)', padding: '0 28px', display: 'flex', alignItems: 'center', height: 60, gap: 12, position: 'sticky', top: 0, zIndex: 100 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexShrink: 0 }}>
+          <div style={{ width: 32, height: 32, background: '#16a34a', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 000-1.41l-2.34-2.34a1 1 0 00-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" fill="#fff" /></svg>
+          </div>
+          <span style={{ fontSize: 15, fontWeight: 700, color: '#111', letterSpacing: -0.3, fontFamily: "'Syne',sans-serif" }}>CMV <span style={{ color: '#16a34a' }}>Alpha</span></span>
+        </div>
+        <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 6 }}>
+          <a href="/tierlist" className="nav-link" style={{ fontFamily: "'DM Mono',monospace", fontSize: 10, color: '#6b7280', textDecoration: 'none', padding: '5px 12px', borderRadius: 8, border: '1px solid #e5e7eb', background: '#fff' }}>Tiers</a>
+          <a href="/feed" className="nav-link" style={{ fontFamily: "'DM Mono',monospace", fontSize: 10, color: '#6b7280', textDecoration: 'none', padding: '5px 12px', borderRadius: 8, border: '1px solid #e5e7eb', background: '#fff' }}>Feed</a>
+          <button onClick={() => setShowProfileSetup(true)} style={{ display: 'flex', alignItems: 'center', gap: 7, background: '#f9fafb', border: '1px solid #e5e7eb', borderRadius: 20, padding: '5px 12px 5px 6px', cursor: 'pointer', fontFamily: 'inherit' }}>
+            {userPhoto ? <img src={userPhoto} alt="" style={{ width: 22, height: 22, borderRadius: '50%', objectFit: 'cover' }} /> : <div style={{ width: 22, height: 22, borderRadius: '50%', background: '#dcfce7', color: '#16a34a', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 9, fontWeight: 700 }}>{userName ? userName.charAt(0).toUpperCase() : '?'}</div>}
+            <span style={{ fontSize: 12, fontWeight: 500, color: '#374151' }}>{userName || 'Profile'}</span>
+          </button>
+        </div>
+      </div>
+
+      {/* Profile Setup Modal */}
+      {showProfileSetup && (
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.4)', zIndex: 200, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 16 }}>
+          <div style={{ background: '#fff', borderRadius: 20, padding: 24, width: '100%', maxWidth: 400, animation: 'fadeIn 0.3s ease' }}>
+            <div style={{ fontSize: 16, fontWeight: 700, color: '#111', marginBottom: 4, fontFamily: "'Syne',sans-serif" }}>Your Alpha Profile</div>
+            <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#9ca3af', marginBottom: 20 }}>Shows on every verdict card you generate</div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 20 }}>
+              <div onClick={() => fileRef.current?.click()} style={{ width: 72, height: 72, borderRadius: '50%', background: '#f8f9ff', border: '2px dashed #c5d0ff', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', overflow: 'hidden', flexShrink: 0 }}>
+                {tempPhoto ? <img src={tempPhoto} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <div style={{ textAlign: 'center' as const }}><svg width="20" height="20" viewBox="0 0 24 24" fill="none" style={{ display: 'block', margin: '0 auto 4px' }}><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12" stroke="#adb5bd" strokeWidth="2" strokeLinecap="round" /></svg><span style={{ fontSize: 9, color: '#adb5bd', fontFamily: "'DM Mono',monospace" }}>upload</span></div>}
+              </div>
+              <input ref={fileRef} type="file" accept="image/*" style={{ display: 'none' }} onChange={handlePhotoUpload} />
+              <div style={{ flex: 1 }}>
+                <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#9ca3af', letterSpacing: 1, marginBottom: 6 }}>YOUR NAME OR HANDLE</div>
+                <input style={{ width: '100%', border: '1px solid #e5e7eb', borderRadius: 10, padding: '10px 14px', fontSize: 14, color: '#111', fontFamily: 'inherit' }} placeholder="e.g. Charles or @Cmv_ng" maxLength={20} value={tempName} onChange={e => setTempName(e.target.value)} />
+              </div>
+            </div>
+            <div style={{ display: 'flex', gap: 8 }}>
+              <button onClick={() => setShowProfileSetup(false)} style={{ flex: 1, background: '#f8f9ff', border: '1px solid #e5e7eb', borderRadius: 10, padding: '11px', fontSize: 13, fontWeight: 600, color: '#6b7280', cursor: 'pointer', fontFamily: 'inherit' }}>Cancel</button>
+              <button onClick={() => { saveProfile(tempName, tempPhoto); setShowProfileSetup(false) }} style={{ flex: 2, background: '#14532d', color: '#fff', border: 'none', borderRadius: 10, padding: '11px', fontSize: 13, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit' }}>Save Profile</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <div style={{ maxWidth: 880, margin: '0 auto', padding: '28px 20px 80px' }}>
+
+        {/* Hero */}
+        {!result && !loading && (
+          <div style={{ position: 'relative', textAlign: 'center', padding: '48px 24px 52px' }}>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 7, background: '#dcfce7', border: '1px solid #86efac', borderRadius: 20, padding: '6px 16px', marginBottom: 22 }}>
+              <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#16a34a' }} />
+              <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 10, color: '#15803d', letterSpacing: '0.5px' }}>CRYPTO ALPHA INTELLIGENCE</span>
+            </div>
+            <h1 className="hero-title" style={{ fontSize: 'clamp(40px,6vw,72px)', fontWeight: 800, color: '#0f172a', lineHeight: 1.0, letterSpacing: -2.5, marginBottom: 16, fontFamily: "'Syne',sans-serif" }}>Know before<br /><span style={{ color: '#16a34a' }}>you farm.</span></h1>
+            <p style={{ fontSize: 16, color: '#6b7280', lineHeight: 1.7, maxWidth: 420, margin: '0 auto 36px', fontWeight: 400 }}>Paste any crypto project's X handle. Get 17 metrics, red flag detection, a score out of 1000, and a shareable verdict card.</p>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, flexWrap: 'wrap' as const }}>
+              {['17 metrics','1000pt score','Red flag detection','Tool-native scoring','Shareable cards'].map(t => <span key={t} style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#15803d', background: '#f0fdf4', border: '1px solid #86efac', borderRadius: 20, padding: '5px 12px' }}>{t}</span>)}
+            </div>
+          </div>
+        )}
+
+        {/* Search */}
+        <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 16, padding: 16, marginBottom: 16, boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}>
+          {!result && !loading && (
+            <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#9ca3af', letterSpacing: '1.5px', marginBottom: 8 }}>PASTE X URL OR HANDLE</div>
+          )}
+          <div style={{ display: 'flex', gap: 8 }}>
+            <input style={{ flex: 1, background: '#f9fafb', border: '1.5px solid #e5e7eb', borderRadius: 10, padding: '13px 16px', fontSize: 14, color: '#111', fontFamily: "'DM Mono',monospace", outline: 'none', transition: 'all 0.2s' }} placeholder="@projecthandle or https://x.com/handle" value={xUrl} onChange={e => setXUrl(e.target.value)} onKeyDown={e => e.key === 'Enter' && !loading && analyze()} disabled={loading} onFocus={e => { e.target.style.borderColor = '#16a34a'; e.target.style.background = '#fff' }} onBlur={e => { e.target.style.borderColor = '#e5e7eb'; e.target.style.background = '#f9fafb' }} />
+            <div className="search-btns" style={{ display: 'flex', gap: 8, flexShrink: 0 }}>
+              {result && !loading && (
+                <>
+                  <button onClick={() => { setResult(null); setCgData(null); setXData(null); setXUrl(''); setSelectedTags([]) }} style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 10, padding: '13px 16px', fontSize: 13, fontWeight: 600, cursor: 'pointer', color: '#374151', fontFamily: 'inherit', whiteSpace: 'nowrap' as const }}>+ New Scan</button>
+                  <button onClick={async () => {
+                    const rawHandle = xUrl.replace('https://x.com/','').replace('https://twitter.com/','').replace('@','').split('/')[0].trim()
+                    const handle2 = rawHandle.replace(/[^a-zA-Z0-9_]/g, '')
+                    try { localStorage.removeItem('cmv_scan_' + handle2) } catch {}
+                    const freshXd = await fetchProjectXData(handle2).catch(() => null)
+                    if (freshXd) setXData(freshXd)
+                  }} style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 10, padding: '13px 16px', fontSize: 13, fontWeight: 600, cursor: 'pointer', color: '#374151', fontFamily: 'inherit', whiteSpace: 'nowrap' as const }}>↺ Refresh</button>
+                </>
+              )}
+              <button onClick={analyze} disabled={loading || !xUrl.trim()} style={{ background: loading || !xUrl.trim() ? '#f3f4f6' : '#16a34a', color: loading || !xUrl.trim() ? '#9ca3af' : '#fff', border: 'none', borderRadius: 10, padding: '13px 24px', fontSize: 14, fontWeight: 600, cursor: loading || !xUrl.trim() ? 'not-allowed' : 'pointer', whiteSpace: 'nowrap' as const, fontFamily: "'Syne',sans-serif", transition: 'all 0.2s' }}>{loading ? 'Scanning...' : 'Analyze →'}</button>
+            </div>
+          </div>
+          <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#9ca3af', marginTop: 10, display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' as const }}>
+            <span>try:</span>
+            {['eigenlayer','KaitoAI','hyperliquid'].map(ex => <button key={ex} onClick={() => setXUrl('https://x.com/' + ex)} style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#16a34a', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>@{ex}</button>)}
+          </div>
+        </div>
+
+        {/* Loading */}
+        {loading && (
+          <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 16, padding: 28, marginBottom: 16, overflow: 'hidden', position: 'relative' }}>
+            <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3, background: 'linear-gradient(90deg,transparent,#16a34a,transparent)', animation: 'scan 2s linear infinite', borderRadius: '16px 16px 0 0' }} />
+            <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 20 }}>
+              <div style={{ width: 52, height: 52, borderRadius: '50%', border: '2px solid #16a34a', background: '#f0fdf4', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                <span style={{ fontSize: 22 }}>🔍</span>
+              </div>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontSize: 15, fontWeight: 600, color: '#111', marginBottom: 4, fontFamily: "'Syne',sans-serif" }}>{msg.text} {msg.emoji}</div>
+                <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 10, color: '#6b7280' }}>scanning @{xUrl.replace('https://x.com/','').replace('@','').split('/')[0].replace(/[^a-zA-Z0-9_]/g,'')}...</div>
+              </div>
+              <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 28, fontWeight: 800, color: '#16a34a' }}>{elapsed}<span style={{ fontSize: 13, color: '#9ca3af' }}>s</span></div>
+            </div>
+            <div style={{ background: '#f0fdf4', borderRadius: 8, padding: '8px 12px', marginBottom: 16, border: '1px solid #86efac' }}>
+              <div style={{ fontSize: 12, fontWeight: 600, color: '#15803d' }}>{phase}</div>
+            </div>
+            {[100,80].map((w,i) => <div key={i} style={{ height: 36, background: 'linear-gradient(90deg,#f0fdf4 25%,#dcfce7 50%,#f0fdf4 75%)', backgroundSize: '700px 100%', animation: 'shimmer 1.5s infinite', borderRadius: 8, marginBottom: 8, width: w + '%' }} />)}
+          </div>
+        )}
+
+        {/* Error */}
+        {error && (
+          <div style={{ background: error.startsWith('rate_limit') ? '#fffbeb' : '#fef2f2', border: `1px solid ${error.startsWith('rate_limit') ? '#fcd34d' : '#fca5a5'}`, borderRadius: 12, padding: '16px 18px', marginBottom: 14 }}>
+            {error.startsWith('rate_limit') ? (
+              <><div style={{ fontSize: 13, fontWeight: 600, color: '#92400e', marginBottom: 4 }}>⏳ High demand — retrying in {error.split(':')[1] || '65'}s</div><div style={{ height: 3, background: '#fde68a', borderRadius: 3 }}><div style={{ height: '100%', background: '#f59f00', borderRadius: 3, width: '60%' }} /></div></>
+            ) : (
+              <><div style={{ fontSize: 13, fontWeight: 600, color: '#dc2626', marginBottom: 6 }}>⚠️ Scan failed</div><div style={{ fontSize: 12, color: '#7f1d1d', marginBottom: 10 }}>{error}</div><button onClick={analyze} style={{ fontSize: 12, padding: '6px 14px', borderRadius: 8, border: '1px solid #fca5a5', background: '#fff', color: '#dc2626', cursor: 'pointer', fontFamily: 'inherit' }}>Try again</button></>
+            )}
+          </div>
+        )}
+
+        {/* Results */}
+        {result && !loading && (
+          <div style={{ animation: 'fadeIn 0.5s ease' }}>
+
+            {redFlags.length > 0 && (
+              <div style={{ background: '#fff5f5', border: '1.5px solid #fca5a5', borderRadius: 14, padding: '16px 18px', marginBottom: 12, animation: 'pop 0.4s ease' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
+                  <div style={{ width: 36, height: 36, background: '#dc2626', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" stroke="#fff" strokeWidth="2" strokeLinecap="round" /></svg>
+                  </div>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontSize: 14, fontWeight: 700, color: '#dc2626', fontFamily: "'Syne',sans-serif" }}>🚨 {redFlags.length} Red Flag{redFlags.length > 1 ? 's' : ''} Detected</div>
+                    <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#c92a2a' }}>Score penalised · Proceed with extreme caution</div>
+                  </div>
+                  <div style={{ background: '#dc2626', borderRadius: 8, padding: '6px 12px', textAlign: 'center' as const, flexShrink: 0 }}>
+                    <div style={{ fontSize: 16, fontWeight: 800, color: '#fff' }}>-{fudPen}</div>
+                    <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: 'rgba(255,255,255,0.8)' }}>PENALTY</div>
+                  </div>
+                </div>
+                {redFlags.map((f: any, i: number) => (
+                  <div key={i} style={{ background: '#fff', border: '1px solid #fca5a5', borderLeft: '3px solid #dc2626', borderRadius: 8, padding: '10px 14px', marginBottom: 8 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 4 }}>
+                      <span style={{ fontSize: 12 }}>{f.type === 'dump' ? '📉' : f.type === 'exploit' ? '⚡' : f.type === 'shill' ? '🤥' : f.type === 'anon' ? '👻' : '⚠️'}</span>
+                      <span style={{ fontSize: 13, fontWeight: 600, color: '#dc2626', fontFamily: "'Syne',sans-serif" }}>{f.label}</span>
+                    </div>
+                    <div style={{ fontSize: 12, color: '#4b5563', lineHeight: 1.6 }}>{f.detail}</div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {redFlags.length === 0 && (
+              <div style={{ background: '#f0fdf4', border: '1px solid #86efac', borderRadius: 10, padding: '10px 14px', marginBottom: 12, display: 'flex', alignItems: 'center', gap: 8 }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M22 11.08V12a10 10 0 11-5.93-9.14M22 4L12 14.01l-3-3" stroke="#16a34a" strokeWidth="2" strokeLinecap="round"/></svg>
+                <span style={{ fontSize: 12, fontWeight: 600, color: '#15803d' }}>No red flags detected</span>
+              </div>
+            )}
+
+            {/* Verdict Card */}
+            <div style={{ background: otc.vbg, borderRadius: 18, padding: 22, marginBottom: 12, position: 'relative', overflow: 'hidden' }}>
+              <div style={{ position: 'absolute', top: -50, right: -50, width: 200, height: 200, borderRadius: '50%', background: 'rgba(255,255,255,0.05)', pointerEvents: 'none' }} />
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(255,255,255,0.2)', border: '1px solid rgba(255,255,255,0.3)', borderRadius: 20, padding: '5px 14px 5px 6px', marginBottom: 14 }}>
+                {userPhoto ? <img src={userPhoto} alt="" style={{ width: 28, height: 28, borderRadius: '50%', objectFit: 'cover', border: '1.5px solid rgba(255,255,255,0.5)' }} /> : <div style={{ width: 28, height: 28, borderRadius: '50%', background: 'rgba(255,255,255,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 700, color: '#fff' }}>{userName ? userName.charAt(0).toUpperCase() : 'C'}</div>}
+                <span style={{ fontSize: 13, fontWeight: 700, color: '#fff' }}>{userName || 'CMV'} says {otc.v.toLowerCase()} {otc.emoji}</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'flex-start', gap: 16, marginBottom: 14 }}>
+                <div style={{ width: 54, height: 54, borderRadius: 14, overflow: 'hidden', background: 'rgba(255,255,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, border: '2px solid rgba(255,255,255,0.3)' }}>
+                  {xData?.profile_image_url ? <img src={xData.profile_image_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <span style={{ fontSize: 24, fontWeight: 800, color: '#fff' }}>{(result.project_name||'?').charAt(0).toUpperCase()}</span>}
+                </div>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' as const, marginBottom: 2 }}>
+                    <span style={{ fontSize: 20, fontWeight: 800, color: '#fff', fontFamily: "'Syne',sans-serif" }}>{result.project_name || ''}</span>
+                    {cgData?.token_live && cgData.ticker && <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 10, color: 'rgba(255,255,255,0.85)', background: 'rgba(255,255,255,0.15)', padding: '2px 8px', borderRadius: 5 }}>{cgData.ticker} {cgData.token_price}</span>}
+                  </div>
+                  <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: 'rgba(255,255,255,0.65)' }}>{result.project_category || 'Crypto'}</div>
+                </div>
+                <div style={{ textAlign: 'right' as const, flexShrink: 0 }}>
+                  <div style={{ fontSize: 48, fontWeight: 800, color: '#fff', lineHeight: 1, fontFamily: "'Syne',sans-serif" }}>{result.overall_score ?? 0}</div>
+                  <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: 'rgba(255,255,255,0.65)' }}>ALPHA SCORE</div>
+                  <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#fff', background: 'rgba(255,255,255,0.2)', borderRadius: 20, padding: '2px 8px', display: 'inline-block', marginTop: 3 }}>{ot} · {otc.lbl}</div>
+                </div>
+              </div>
+              {goodHighlights.length > 0 && (
+                <div style={{ display: 'flex', flexWrap: 'wrap' as const, gap: 6, marginBottom: 12 }}>
+                  {goodHighlights.slice(0, 3).map((h: string, i: number) => <div key={i} style={{ background: 'rgba(255,255,255,0.15)', border: '1px solid rgba(255,255,255,0.25)', borderRadius: 20, padding: '4px 12px', fontSize: 11, fontWeight: 600, color: '#fff' }}>✓ {h}</div>)}
+                </div>
+              )}
+              <div style={{ background: 'rgba(0,0,0,0.15)', borderRadius: 12, padding: '14px 16px', marginBottom: 14, border: '1px solid rgba(255,255,255,0.12)' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
+                  <span style={{ fontSize: 22 }}>{otc.emoji}</span>
+                  <span style={{ fontSize: 22, fontWeight: 800, color: '#fff', fontFamily: "'Syne',sans-serif" }}>{otc.v}</span>
+                </div>
+                <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.92)', lineHeight: 1.65 }}>{result.verdict_action || result.verdict_reason}</div>
+              </div>
+              {result.data_accuracy_note && (
+                <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: 'rgba(255,255,255,0.45)', marginBottom: 10 }}>ℹ {result.data_accuracy_note}</div>
+              )}
+              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8 }}>
+                <button onClick={downloadCard} style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'rgba(255,255,255,0.2)', border: '1px solid rgba(255,255,255,0.35)', borderRadius: 20, padding: '8px 16px', fontFamily: 'inherit', fontSize: 13, fontWeight: 600, color: '#fff', cursor: 'pointer' }}>
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>Download
+                </button>
+                <button onClick={shareResult} style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'rgba(255,255,255,0.2)', border: '1px solid rgba(255,255,255,0.35)', borderRadius: 20, padding: '8px 18px', fontFamily: 'inherit', fontSize: 13, fontWeight: 600, color: '#fff', cursor: 'pointer' }}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13" /></svg>Share to X
+                </button>
+              </div>
+            </div>
+
+            {/* Score Section */}
+            <div className="grid-score" style={{ display: 'grid', gridTemplateColumns: '150px 1fr', gap: 10, marginBottom: 10 }}>
+              <div style={{ background: '#fff', border: '1px solid #f1f5f9', borderRadius: 14, padding: 16, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
+                <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#9ca3af', letterSpacing: 1 }}>ALPHA SCORE</div>
+                <div style={{ fontSize: 56, fontWeight: 800, color: otc.solid, lineHeight: 1, fontFamily: "'Syne',sans-serif" }}>{result.overall_score ?? 0}</div>
+                <div style={{ background: otc.bg, border: `1px solid ${otc.border}`, borderRadius: 20, padding: '4px 12px', fontFamily: "'DM Mono',monospace", fontSize: 9, color: otc.tc }}>{ot} · {otc.lbl}</div>
+                {xData?.cmv_score ? <div style={{ background: '#f8faff', border: '1px solid #e5e7eb', borderRadius: 8, padding: '8px 10px', width: '100%', textAlign: 'center' as const }}><div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#9ca3af' }}>CMV X SCORE</div><div style={{ fontSize: 18, fontWeight: 700, color: '#111', fontFamily: "'Syne',sans-serif" }}>{xData.cmv_score}<span style={{ fontSize: 10, color: '#9ca3af' }}>/1000</span></div></div> : null}
+              </div>
+              <div style={{ background: '#fff', border: '1px solid #f1f5f9', borderRadius: 14, padding: 16 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6, flexWrap: 'wrap' as const }}>
+                  <span style={{ fontSize: 18, fontWeight: 700, color: '#111', fontFamily: "'Syne',sans-serif" }}>{result.project_name || ''}</span>
+                  {cgData?.token_live && cgData.ticker && <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#3b5bdb', background: '#eff6ff', border: '1px solid #bfdbfe', padding: '2px 7px', borderRadius: 4 }}>{cgData.ticker} {cgData.token_price}</span>}
+                  {!cgData?.token_live && <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#9ca3af', background: '#f1f5f9', padding: '2px 7px', borderRadius: 4 }}>No Token</span>}
+                </div>
+                {result.team_location && <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#9ca3af', marginBottom: 6 }}>📍 {result.team_location}{result.founded ? ` · Est. ${result.founded}` : ''}</div>}
+                <div style={{ fontSize: 12, color: '#6b7280', lineHeight: 1.6, marginBottom: 8 }}>{result.description || ''}</div>
+                {goodHighlights.length > 0 && <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap' as const }}>{goodHighlights.map((h: string, i: number) => <span key={i} style={{ fontSize: 10, background: '#f0fdf4', color: '#16a34a', border: '1px solid #86efac', borderRadius: 20, padding: '2px 8px' }}>✓ {h}</span>)}</div>}
+              </div>
+            </div>
+
+            {result.score_rationale && (
+              <div style={{ background: '#fff', border: '1px solid #f1f5f9', borderLeft: '3px solid #16a34a', borderRadius: 0, padding: '12px 14px', marginBottom: 10 }}>
+                <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#16a34a', letterSpacing: 1, marginBottom: 4 }}>WHY THIS SCORE</div>
+                <div style={{ fontSize: 12, color: '#6b7280', lineHeight: 1.7 }}>{result.score_rationale}</div>
+              </div>
+            )}
+
+            {(result.top_risks?.length > 0 || result.top_opportunities?.length > 0) && (
+              <div className="grid-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 10 }}>
+                <div style={{ background: '#fff', border: '1px solid #f1f5f9', borderRadius: 14, padding: 14 }}>
+                  <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#dc2626', letterSpacing: 1, marginBottom: 8 }}>TOP RISKS</div>
+                  {(result.top_risks || []).filter((x: string) => x).map((x: string, i: number) => <div key={i} style={{ display: 'flex', gap: 8, marginBottom: 6 }}><span style={{ color: '#fca5a5', flexShrink: 0 }}>•</span><span style={{ fontSize: 11, color: '#6b7280', lineHeight: 1.5 }}>{x}</span></div>)}
+                </div>
+                <div style={{ background: '#fff', border: '1px solid #f1f5f9', borderRadius: 14, padding: 14 }}>
+                  <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#16a34a', letterSpacing: 1, marginBottom: 8 }}>OPPORTUNITIES</div>
+                  {(result.top_opportunities || []).filter((x: string) => x).map((x: string, i: number) => <div key={i} style={{ display: 'flex', gap: 8, marginBottom: 6 }}><span style={{ color: '#86efac', flexShrink: 0 }}>•</span><span style={{ fontSize: 11, color: '#6b7280', lineHeight: 1.5 }}>{x}</span></div>)}
+                </div>
+              </div>
+            )}
+
+            {result.team_members?.filter((m: any) => m.name?.length > 1).length > 0 && (
+              <div style={{ background: '#fff', border: '1px solid #f1f5f9', borderRadius: 14, padding: 14, marginBottom: 10 }}>
+                <div style={{ fontFamily: "'Syne',sans-serif", fontSize: 13, fontWeight: 600, color: '#111', marginBottom: 10 }}>👥 Team</div>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(220px,1fr))', gap: 8 }}>
+                  {result.team_members.filter((m: any) => m.name?.length > 1).map((m: any, i: number) => <TeamCardEnriched key={i} member={m} />)}
+                </div>
+              </div>
+            )}
+
+            <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap' as const, marginBottom: 10 }}>
+              {[{ id: 'metrics', l: '📊 Metrics' }, { id: 'mindshare', l: '🧠 Mindshare' }, { id: 'risks', l: '⚠️ Risks' }].map(sec => (
+                <button key={sec.id} onClick={() => setAsec(sec.id)} style={{ padding: '7px 16px', borderRadius: 8, border: `1px solid ${asec === sec.id ? '#16a34a' : '#e5e7eb'}`, background: asec === sec.id ? '#16a34a' : '#fff', color: asec === sec.id ? '#fff' : '#6b7280', fontSize: 12, fontWeight: 500, cursor: 'pointer', fontFamily: 'inherit', transition: 'all 0.15s' }}>{sec.l}</button>
+              ))}
+            </div>
+
+            {asec === 'metrics' && result.metrics && (
+              <div style={{ background: '#fff', border: '1px solid #f1f5f9', borderRadius: 14, padding: 14, marginBottom: 10 }}>
+                {Object.entries(result.metrics).map(([key, data]: [string, any]) => (
+                  <div key={key} className="metric-row" style={{ border: '1px solid #f1f5f9', borderRadius: 8, padding: '10px 12px', marginBottom: 4, background: '#fff' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                      <span style={{ fontSize: 12, fontWeight: 500, color: '#374151', textTransform: 'capitalize' as const }}>{key.replace(/_/g,' ')}</span>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                        <div style={{ width: 80, height: 4, background: '#f1f5f9', borderRadius: 2, overflow: 'hidden' }}><div style={{ width: (data.score || 0) + '%', height: '100%', background: data.score >= 70 ? '#16a34a' : data.score >= 50 ? '#f59f00' : '#dc2626', borderRadius: 2 }} /></div>
+                        <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 11, fontWeight: 600, color: data.score >= 70 ? '#16a34a' : data.score >= 50 ? '#f59f00' : '#dc2626', minWidth: 28, textAlign: 'right' as const }}>{data.score}</span>
+                      </div>
+                    </div>
+                    {data.summary && <div style={{ fontSize: 11, color: '#9ca3af', marginTop: 4 }}>{data.summary}</div>}
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {asec === 'mindshare' && (
+              <div style={{ background: '#fff', border: '1px solid #f1f5f9', borderRadius: 14, padding: 14, marginBottom: 10 }}>
+                <div style={{ fontFamily: "'Syne',sans-serif", fontSize: 13, fontWeight: 600, color: '#111', marginBottom: 8 }}>Mindshare</div>
+                <canvas ref={canvasRef} style={{ width: '100%', height: 110 }} />
+              </div>
+            )}
+
+            {asec === 'risks' && (
+              <div className="grid-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 10 }}>
+                <div style={{ background: '#fff', border: '1px solid #f1f5f9', borderRadius: 14, padding: 14 }}>
+                  <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#dc2626', letterSpacing: 1, marginBottom: 8 }}>TOP RISKS</div>
+                  {(result.top_risks || []).filter((x: string) => x).map((x: string, i: number) => <div key={i} style={{ display: 'flex', gap: 8, marginBottom: 6 }}><span style={{ color: '#fca5a5' }}>•</span><span style={{ fontSize: 11, color: '#6b7280', lineHeight: 1.5 }}>{x}</span></div>)}
+                </div>
+                <div style={{ background: '#fff', border: '1px solid #f1f5f9', borderRadius: 14, padding: 14 }}>
+                  <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#16a34a', letterSpacing: 1, marginBottom: 8 }}>OPPORTUNITIES</div>
+                  {(result.top_opportunities || []).filter((x: string) => x).map((x: string, i: number) => <div key={i} style={{ display: 'flex', gap: 8, marginBottom: 6 }}><span style={{ color: '#86efac' }}>•</span><span style={{ fontSize: 11, color: '#6b7280', lineHeight: 1.5 }}>{x}</span></div>)}
+                </div>
+              </div>
+            )}
+
+            <div style={{ textAlign: 'center' as const, fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#9ca3af', letterSpacing: 1, paddingTop: 16 }}>CMV ALPHASCANNER · POWERED BY DEFILLAMA, ROOTDATA, DEXSCREENER, CRYPTONEWS & X API</div>
+          </div>
+        )}
+
+        {!loading && !result && !error && (
+          <div style={{ border: '1.5px dashed #86efac', borderRadius: 14, padding: '48px 24px', textAlign: 'center' as const, background: 'rgba(255,255,255,0.7)' }}>
+            <div style={{ fontSize: 32, marginBottom: 10 }}>🔭</div>
+            <div style={{ fontSize: 14, fontWeight: 600, color: '#6b7280', marginBottom: 4, fontFamily: "'Syne',sans-serif" }}>No project scanned yet</div>
+            <div style={{ fontSize: 12, color: '#9ca3af' }}>Paste any crypto project X URL or handle above.</div>
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}
