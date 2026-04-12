@@ -8,6 +8,12 @@ async function xFetch(url: string, token: string) {
   return r.json()
 }
 
+// Timeout wrapper — prevents slow APIs from blocking the whole scan
+async function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T | null> {
+  const timeout = new Promise<null>((_, reject) => setTimeout(() => reject(new Error('timeout')), ms))
+  try { return await Promise.race([promise, timeout]) as T } catch { return null }
+}
+
 async function getCoingeckoToken(ticker: string, handle: string) {
   try {
     const searchTerms: string[] = []
@@ -527,25 +533,24 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       `https://api.twitter.com/2/users/by/username/${clean}?user.fields=public_metrics,verified,created_at,profile_image_url,description,pinned_tweet_id,id`,
       TOKEN
     )
-    const u = userData.data
-    if (!u) return res.status(404).json({ error: 'User not found' })
+    const u = userData.data || null
 
-    const bio = u.description || ''
+    const bio = u?.description || ''
     let pinnedTweetText = ''
 
     // 2. Pinned tweet
-    if (u.pinned_tweet_id) {
+    if (u?.pinned_tweet_id) {
       try {
-        const td = await xFetch(`https://api.twitter.com/2/tweets/${u.pinned_tweet_id}?tweet.fields=text,public_metrics`, TOKEN)
+        const td = await xFetch(`https://api.twitter.com/2/tweets/${u?.pinned_tweet_id}?tweet.fields=text,public_metrics`, TOKEN)
         pinnedTweetText = td.data?.text || ''
       } catch { }
     }
 
     // 3. Recent tweets with engagement metrics
     let recentTweets: any[] = []
-    try {
+    if (u?.id) try {
       const td = await xFetch(
-        `https://api.twitter.com/2/users/${u.id}/tweets?max_results=20&tweet.fields=text,public_metrics,created_at&exclude=retweets`,
+        `https://api.twitter.com/2/users/${u?.id}/tweets?max_results=20&tweet.fields=text,public_metrics,created_at&exclude=retweets`,
         TOKEN
       )
       recentTweets = td.data || []
@@ -558,12 +563,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const tokenData_cg = await getCoingeckoToken(intel.confirmedTicker || '', clean)
 
     // 6. CMV X Score
-    const metrics = u.public_metrics
+    const metrics = u?.public_metrics
     const followers = metrics?.followers_count || 0
     const following = metrics?.following_count || 0
     const tweetCount = metrics?.tweet_count || 0
     const listed = metrics?.listed_count || 0
-    const createdYear = new Date(u.created_at || '').getFullYear()
+    const createdYear = new Date(u?.created_at || '').getFullYear()
     const age = new Date().getFullYear() - createdYear
 
     const followerScore = Math.min(100, Math.log10(Math.max(followers, 1)) / 5 * 100)
@@ -571,7 +576,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const ageScore = Math.min(100, (age / 5) * 100)
     const activityScore = Math.min(100, (tweetCount / 1000) * 100)
     const ratioScore = Math.min(100, (followers / Math.max(following, 1)) / 100 * 100)
-    const verifiedScore = u.verified ? 100 : 0
+    const verifiedScore = u?.verified ? 100 : 0
     const engagementScore = Math.min(100, (intel.avgLikes / Math.max(followers * 0.01, 1)) * 100)
 
     const cmvScore = Math.round(
@@ -581,16 +586,16 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   
   // ── Run enrichment tools in parallel ──────────────────────────────────
-  const projectName = u.name || clean
+  const projectName = u?.name || clean
   const confirmedTicker = intel.confirmedTicker || null
 
   const [_dl, _dlh, _dex, _gecko, _news, _rd] = await Promise.allSettled([
-    fetchDefiLlama(projectName, clean),
-    fetchDefiLlamaHacks(projectName),
-    confirmedTicker ? fetchDexScreener(confirmedTicker, projectName) : Promise.resolve(null),
-    confirmedTicker ? fetchGeckoTerminal(confirmedTicker, projectName) : Promise.resolve(null),
-    fetchCryptoNewsSentiment(projectName, confirmedTicker || undefined),
-    process.env.ROOTDATA_API_KEY ? fetchRootData(projectName, process.env.ROOTDATA_API_KEY) : Promise.resolve(null),
+    withTimeout(fetchDefiLlama(projectName, clean), 4000),
+    withTimeout(fetchDefiLlamaHacks(projectName), 3000),
+    confirmedTicker ? withTimeout(fetchDexScreener(confirmedTicker, projectName), 3000) : Promise.resolve(null),
+    confirmedTicker ? withTimeout(fetchGeckoTerminal(confirmedTicker, projectName), 3000) : Promise.resolve(null),
+    withTimeout(fetchCryptoNewsSentiment(projectName, confirmedTicker || undefined), 3000),
+    process.env.ROOTDATA_API_KEY ? withTimeout(fetchRootData(projectName, process.env.ROOTDATA_API_KEY), 4000) : Promise.resolve(null),
   ])
 
   const dlData  = _dl.status  === 'fulfilled' ? _dl.value  : null
@@ -632,9 +637,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   const result = {
       followers, following, tweet_count: tweetCount, listed,
-      verified: u.verified || false,
+      verified: u?.verified || false,
       account_age_years: age,
-      profile_image_url: u.profile_image_url?.replace('_normal', '_bigger') || null,
+      profile_image_url: u?.profile_image_url?.replace('_normal', '_bigger') || null,
       description: bio,
       pinned_tweet: pinnedTweetText,
       recent_tweets: recentTweets.map((t: any) => t.text).join(' ').slice(0, 800),
