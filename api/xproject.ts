@@ -507,10 +507,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     // u may be null — tools will still run and return partial data
 
     // 2. Fetch recent tweets + pinned
-    const tweetsRes = u?.id ? await fetch(`https://api.twitter.com/2/users/${u.id}/tweets?max_results=20&tweet.fields=text,public_metrics,created_at`, {
-      headers: { Authorization: `Bearer ${BEARER}` }
-    })
-    const tweetsData = (u?.id && tweetsRes && tweetsRes.ok) ? await tweetsRes.json() : { data: [] }
+    let tweetsRes: any = null
+    if (u?.id) {
+      tweetsRes = await fetch(`https://api.twitter.com/2/users/${u.id}/tweets?max_results=20&tweet.fields=text,public_metrics,created_at`, {
+        headers: { Authorization: `Bearer ${BEARER}` }
+      })
+    }
+    const tweetsData = (tweetsRes?.ok) ? await tweetsRes.json() : { data: [] }
     const recentTweets = tweetsData.data || []
 
     let pinnedTweetText = ''
