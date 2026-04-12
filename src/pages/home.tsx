@@ -715,9 +715,38 @@ export default function Home() {
     // X-only fallback scan — no Claude, uses X data to build basic result
     const xOnlyScan = () => {
       // ── FULL TOOL-NATIVE SCORING ENGINE ──
-      // No Claude needed. Uses DefiLlama, DexScreener, RootData, CryptoNews, X API.
-
       const enriched = xd?.enriched || {}
+
+      // Check if we have ANY useful data at all
+      const hasXData = (xd?.followers || 0) > 0 || (xd?.tweet_count || 0) > 0
+      const hasToolData = !!(enriched.tvl || enriched.total_raised_rootdata ||
+        enriched.total_raised_defillama || enriched.dex_volume_24h ||
+        (enriched.confirmed_investors || []).length > 0 ||
+        (enriched.rootdata_team || []).length > 0)
+
+      // If both X API and all tools failed — show honest insufficient data
+      if (!hasXData && !hasToolData && xd?.partial) {
+        const emptyResult = {
+          project_name: handle,
+          description: '',
+          project_category: 'Crypto',
+          verdict: 'WATCH',
+          verdict_reason: 'Insufficient data available for this project.',
+          verdict_action: 'We could not retrieve data for this handle from X API or any of our data sources. Please verify the handle is correct and try again. If the account is new or restricted, data may not be available yet.',
+          overall_score: 0,
+          score_rationale: 'No data returned from X API, DefiLlama, RootData, DexScreener or CryptoNews. Cannot score this project reliably.',
+          good_highlights: [],
+          red_flags: [],
+          top_risks: ['X API returned no data for this account', 'No TVL, funding or token data found across any data source'],
+          top_opportunities: [],
+          team_members: [],
+          data_accuracy_note: 'Insufficient data. Try scanning again or check if the handle is correct.',
+          metrics: {},
+          sources: [],
+        }
+        saveResult(emptyResult)
+        return
+      }
       const autoFlags = enriched.auto_fud_flags || []
       const followers = xd?.followers || 0
       const following = xd?.following || 0
@@ -750,9 +779,10 @@ export default function Home() {
       const tokenLive = cg?.token_live
       const tokenScore = dexDump ? 10 : tokenLive && dexLiq ? (dexLiq.includes('M') ? 75 : dexLiq.includes('K') ? 55 : 35) : xd?.token_launch_hinted ? 50 : 40
 
-      // 4. Community / X presence
-      const followerScore = followers > 500000 ? 95 : followers > 100000 ? 85 : followers > 50000 ? 75 : followers > 10000 ? 60 : followers > 5000 ? 45 : 25
-      const engagementScore = avgLikes > 1000 ? 90 : avgLikes > 500 ? 75 : avgLikes > 100 ? 60 : avgLikes > 20 ? 45 : 20
+      // 4. Community / X presence — only score if real X data came back
+      const hasRealXData = followers > 0 || tweetCount > 0
+      const followerScore = !hasRealXData ? 50 : followers > 500000 ? 95 : followers > 100000 ? 85 : followers > 50000 ? 75 : followers > 10000 ? 60 : followers > 5000 ? 45 : 25
+      const engagementScore = !hasRealXData ? 50 : avgLikes > 1000 ? 90 : avgLikes > 500 ? 75 : avgLikes > 100 ? 60 : avgLikes > 20 ? 45 : 20
 
       // 5. Team credibility (RootData + X)
       const team = enriched.rootdata_team || []
@@ -805,7 +835,7 @@ export default function Home() {
       if (hasTopVC) highlights.push(`Backed by ${investors.slice(0,2).join(', ')}`)
       if (tvl) highlights.push(`${tvl} TVL deployed`)
       if (revenue) highlights.push(`${revenue} daily revenue`)
-      if (followers > 10000) highlights.push(`${(followers/1000).toFixed(0)}K X followers`)
+      if (hasRealXData && followers > 10000) highlights.push(`${(followers/1000).toFixed(0)}K X followers`)
       if (team.length > 0) highlights.push(`${team.length} verified team members`)
       if (verified) highlights.push('Verified X account')
       if (enriched.chains?.length > 0) highlights.push(`Live on ${enriched.chains.slice(0,2).join(', ')}`)
@@ -816,7 +846,7 @@ export default function Home() {
       else if (hasRaised) parts.push(`Has raised ${enriched.total_raised_rootdata || enriched.total_raised_defillama}`)
       if (tvl) parts.push(`${tvl} TVL showing real capital deployment`)
       if (revenue) parts.push(`Generating ${revenue} in daily revenue`)
-      if (followers > 10000) parts.push(`Strong X presence with ${(followers/1000).toFixed(0)}K followers`)
+      if (hasRealXData && followers > 10000) parts.push(`Strong X presence with ${(followers/1000).toFixed(0)}K followers`)
       if (hacks.length > 0) parts.push(`WARNING: ${hacks.length} known security exploit(s) on record`)
       if (dexDump) parts.push(`Token showing significant price decline`)
       if (autoFlags.length > 0) parts.push(`${autoFlags.length} automated red flag(s) detected`)
@@ -851,7 +881,7 @@ export default function Home() {
           dexDump ? 'Token showing significant price dump' : null,
           dexLiq && dexLiq.includes('K') && !dexLiq.includes('00K') ? 'Low DEX liquidity — rug risk' : null,
           sentiment === 'negative' ? 'Negative news coverage detected' : null,
-          followers < 1000 ? 'Very low social presence' : null,
+          (hasRealXData && followers < 1000) ? 'Very low social presence' : null,
         ].filter(Boolean).slice(0, 4),
         top_opportunities: [
           !tokenLive && xd?.token_launch_hinted ? 'Token not yet launched — early farming opportunity' : null,
@@ -874,7 +904,7 @@ export default function Home() {
         metrics: {
           funding: { score: fundingScore, summary: hasRaised ? `${enriched.total_raised_rootdata || enriched.total_raised_defillama} raised from ${investors.length} investors` : 'No confirmed funding found' },
           revenue: { score: revenueScore, summary: revenue ? `${revenue} daily revenue, ${fees || 'N/A'} fees` : tvl ? `${tvl} TVL` : 'No revenue data found' },
-          community: { score: followerScore, summary: `${followers.toLocaleString()} followers, ${(avgLikes).toFixed(0)} avg likes, account ${accountAge.toFixed(1)}y old` },
+          community: { score: followerScore, summary: hasRealXData ? `${followers.toLocaleString()} followers, ${(avgLikes).toFixed(0)} avg likes, account ${accountAge.toFixed(1)}y old` : 'X API unavailable — community data not retrieved' },
           team: { score: teamScore, summary: team.length > 0 ? `${team.length} verified team members via RootData` : 'Team details unverified' },
           sentiment: { score: sentimentScore, summary: `${sentiment || 'neutral'} news sentiment from ${enriched.news_article_count || 0} articles` },
           security: { score: securityScore, summary: hacks.length > 0 ? `${hacks.length} known exploit(s) on DefiLlama` : 'No known security incidents' },
@@ -1437,7 +1467,7 @@ export default function Home() {
                 <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#9ca3af', letterSpacing: 1 }}>ALPHA SCORE</div>
                 <div style={{ fontSize: 56, fontWeight: 800, color: otc.solid, lineHeight: 1, fontFamily: "'Syne',sans-serif" }}>{result.overall_score ?? 0}</div>
                 <div style={{ background: otc.bg, border: `1px solid ${otc.border}`, borderRadius: 20, padding: '4px 12px', fontFamily: "'DM Mono',monospace", fontSize: 9, color: otc.tc }}>{ot} · {otc.lbl}</div>
-                {xData?.cmv_score ? <div style={{ background: '#f8faff', border: '1px solid #e5e7eb', borderRadius: 8, padding: '8px 10px', width: '100%', textAlign: 'center' as const }}><div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#9ca3af' }}>CMV X SCORE</div><div style={{ fontSize: 18, fontWeight: 700, color: '#111', fontFamily: "'Syne',sans-serif" }}>{xData.cmv_score}<span style={{ fontSize: 10, color: '#9ca3af' }}>/1000</span></div></div> : null}
+                {(xData?.cmv_score && xData.cmv_score > 0) ? <div style={{ background: '#f8faff', border: '1px solid #e5e7eb', borderRadius: 8, padding: '8px 10px', width: '100%', textAlign: 'center' as const }}><div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#9ca3af' }}>CMV X SCORE</div><div style={{ fontSize: 18, fontWeight: 700, color: '#111', fontFamily: "'Syne',sans-serif" }}>{xData.cmv_score}<span style={{ fontSize: 10, color: '#9ca3af' }}>/1000</span></div></div> : null}
               </div>
               <div style={{ background: '#fff', border: '1px solid #f1f5f9', borderRadius: 14, padding: 16 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6, flexWrap: 'wrap' as const }}>
