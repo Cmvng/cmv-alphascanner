@@ -330,9 +330,7 @@ export default function Home() {
       setCgData(cc)
       setXData(cx)
       fetchProjectXData(handle).then(freshXd => { if (freshXd) setXData(freshXd) }).catch(() => {})
-      if (cc?.ticker) {
-        fetchCoinGecko(handle, cc.ticker, true, handle).then(freshCg => { if (freshCg?.token_live) setCgData(freshCg) }).catch(() => {})
-      }
+
     }
 
     loadFromFeed()
@@ -447,23 +445,7 @@ export default function Home() {
       cg = xd.token_data
     }
 
-    // Priority 3: CoinGecko with confirmed ticker from bio/pinned only
-    if (!cg?.token_live && xd?.confirmed_ticker) {
-      cg = await fetchCoinGecko(handle, xd.confirmed_ticker, true, handle)
-      // Verify name match to prevent false positives like Variational/MON
-      if (cg?.token_live && cg?.ticker) {
-        const projectLower = (xd?.name || handle).toLowerCase()
-        const tickerName = cg.ticker.toLowerCase()
-        // If the ticker doesn't appear in bio AND project name doesn't match, be cautious
-        const bioHasTicker = (xd?.description || '').toLowerCase().includes('$' + cg.ticker.toLowerCase())
-        if (!bioHasTicker && !projectLower.includes(tickerName) && !tickerName.includes(projectLower)) {
-          // Unconfirmed match — don't show token
-          cg = { token_live: false, token_price: 'Not Launched', token_note: 'Token unconfirmed' }
-        }
-      }
-    }
-
-    // No generic handle-based search — prevents false positives
+    // No CoinGecko — DexScreener and GeckoTerminal handle all token data
     if (!cg) cg = { token_live: false, token_price: 'Not Launched', token_note: 'No token found' }
     setCgData(cg)
     // Helper to save result
