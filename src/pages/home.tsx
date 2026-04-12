@@ -1324,12 +1324,13 @@ export default function Home() {
               {result && !loading && (
                 <>
                   <button onClick={() => { setResult(null); setCgData(null); setXData(null); setXUrl(''); setSelectedTags([]) }} style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 10, padding: '13px 16px', fontSize: 13, fontWeight: 600, cursor: 'pointer', color: '#374151', fontFamily: 'inherit', whiteSpace: 'nowrap' as const }}>+ New Scan</button>
-                  <button onClick={async () => {
+                  <button onClick={() => {
+                    // Clear cache then re-run full analyze
                     const rawHandle = xUrl.replace('https://x.com/','').replace('https://twitter.com/','').replace('@','').split('/')[0].trim()
                     const handle2 = rawHandle.replace(/[^a-zA-Z0-9_]/g, '')
-                    try { localStorage.removeItem('cmv_scan_' + handle2) } catch {}
-                    const freshXd = await fetchProjectXData(handle2).catch(() => null)
-                    if (freshXd) setXData(freshXd)
+                    try { localStorage.removeItem('cmv_scan_' + handle2.toLowerCase()) } catch {}
+                    setResult(null); setCgData(null); setXData(null); setSelectedTags([])
+                    analyze()
                   }} style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 10, padding: '13px 16px', fontSize: 13, fontWeight: 600, cursor: 'pointer', color: '#374151', fontFamily: 'inherit', whiteSpace: 'nowrap' as const }}>↺ Refresh</button>
                 </>
               )}
