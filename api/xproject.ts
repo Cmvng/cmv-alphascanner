@@ -160,8 +160,8 @@ function extractIntelligence(tweets: any[], bio: string, pinnedTweet: string) {
   }
 }
 
+// ─── Enrichment Tools ───────────────────────────────────────────────────
 
-// ─── fetchDefiLlama ─────────────────────────────────────────────────
 async function fetchDefiLlama(projectName: string, handle: string) {
   try {
     const slug = projectName.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
@@ -216,7 +216,6 @@ async function fetchDefiLlama(projectName: string, handle: string) {
   } catch { return null }
 }
 
-// ─── fetchDefiLlamaHacks ─────────────────────────────────────────────────
 async function fetchDefiLlamaHacks(projectName: string) {
   try {
     const r = await fetch('https://api.llama.fi/hacks')
@@ -234,7 +233,6 @@ async function fetchDefiLlamaHacks(projectName: string) {
   } catch { return [] }
 }
 
-// ─── fetchRootData ─────────────────────────────────────────────────
 async function fetchRootData(projectName: string, apiKey?: string) {
   try {
     if (!apiKey) return null
@@ -279,7 +277,6 @@ async function fetchRootData(projectName: string, apiKey?: string) {
   } catch { return null }
 }
 
-// ─── fetchDexScreener ─────────────────────────────────────────────────
 async function fetchDexScreener(ticker: string, projectName: string) {
   try {
     const query = ticker || projectName
@@ -325,7 +322,6 @@ async function fetchDexScreener(ticker: string, projectName: string) {
   } catch { return null }
 }
 
-// ─── fetchGeckoTerminal ─────────────────────────────────────────────────
 async function fetchGeckoTerminal(ticker: string, projectName: string) {
   try {
     const query = ticker || projectName
@@ -352,7 +348,6 @@ async function fetchGeckoTerminal(ticker: string, projectName: string) {
   } catch { return null }
 }
 
-// ─── fetchCryptoNewsSentiment ─────────────────────────────────────────────────
 async function fetchCryptoNewsSentiment(projectName: string, ticker?: string) {
   try {
     const query = ticker || projectName
@@ -379,7 +374,6 @@ async function fetchCryptoNewsSentiment(projectName: string, ticker?: string) {
   } catch { return null }
 }
 
-// ─── detectFUDSignals ─────────────────────────────────────────────────
 function detectFUDSignals(u: any, intel: any, dexData: any, hacksData: any[], newsData: any) {
   const flags: Array<{type: string, label: string, detail: string, severity: 'high'|'medium'|'low'}> = []
 
@@ -390,7 +384,7 @@ function detectFUDSignals(u: any, intel: any, dexData: any, hacksData: any[], ne
   const following = u?.public_metrics?.following_count || 0
   const listed = u?.public_metrics?.listed_count || 0
   const tweetCount = u?.public_metrics?.tweet_count || 0
-  const createdAt = u?.created_at ? new Date(u.created_at) : new Date()
+  const createdAt = u?.created_at ? new Date(u?.created_at) : new Date()
   const ageMonths = (Date.now() - createdAt.getTime()) / (1000 * 60 * 60 * 24 * 30)
 
   // 1. Very new account with inflated followers — only if real X data
@@ -561,7 +555,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const intel = extractIntelligence(recentTweets, bio, pinnedTweetText)
 
     // 5. Token data from CoinGecko
-    const tokenData = await getCoingeckoToken(intel.confirmedTicker || '', clean)
+    const tokenData_cg = await getCoingeckoToken(intel.confirmedTicker || '', clean)
 
     // 6. CMV X Score
     const metrics = u.public_metrics
@@ -585,11 +579,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       (activityScore * 0.12) + (ratioScore * 0.10) + (verifiedScore * 0.10) + (engagementScore * 0.10)
     )
 
-    // ── Run all enrichment tools in parallel ──────────────────────────
+  
+  // ── Run enrichment tools in parallel ──────────────────────────────────
   const projectName = u.name || clean
-  const confirmedTicker = intel.confirmedTicker
+  const confirmedTicker = intel.confirmedTicker || null
 
-  const [defiLlama, defiLlamaHacks, dexScreener, geckoTerminal, newsData, rootData] = await Promise.allSettled([
+  const [_dl, _dlh, _dex, _gecko, _news, _rd] = await Promise.allSettled([
     fetchDefiLlama(projectName, clean),
     fetchDefiLlamaHacks(projectName),
     confirmedTicker ? fetchDexScreener(confirmedTicker, projectName) : Promise.resolve(null),
@@ -598,22 +593,21 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     process.env.ROOTDATA_API_KEY ? fetchRootData(projectName, process.env.ROOTDATA_API_KEY) : Promise.resolve(null),
   ])
 
-  const dlData = defiLlama.status === 'fulfilled' ? defiLlama.value : null
-  const hacksData = defiLlamaHacks.status === 'fulfilled' ? defiLlamaHacks.value : []
-  const dexData = dexScreener.status === 'fulfilled' ? dexScreener.value : null
-  const geckoData = geckoTerminal.status === 'fulfilled' ? geckoTerminal.value : null
-  const news = newsData.status === 'fulfilled' ? newsData.value : null
-  const rdData = rootData.status === 'fulfilled' ? rootData.value : null
+  const dlData  = _dl.status  === 'fulfilled' ? _dl.value  : null
+  const hacksData = _dlh.status === 'fulfilled' ? _dlh.value : []
+  const dexData = _dex.status  === 'fulfilled' ? _dex.value : null
+  const geckoData = _gecko.status === 'fulfilled' ? _gecko.value : null
+  const news    = _news.status === 'fulfilled' ? _news.value : null
+  const rdData  = _rd.status   === 'fulfilled' ? _rd.value  : null
 
-  let tokenData: any = null
+  let tokenData: any = tokenData_cg || null
   if (dexData?.token_live) tokenData = { ...dexData, source: 'dexscreener' }
   else if (geckoData?.token_live) tokenData = { ...geckoData, source: 'geckoterminal' }
 
   const allInvestors = [...new Set([...(dlData?.investors || []), ...(rdData?.investors || [])])]
-
   const autoFudFlags = detectFUDSignals(u, intel, dexData, hacksData || [], news)
 
-  const enrichedContext = {
+  const enriched = {
     tvl: dlData?.tvl || null,
     fees_24h: dlData?.fees_24h || null,
     revenue_24h: dlData?.revenue_24h || null,
@@ -670,19 +664,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         verified: Math.round(verifiedScore),
         engagement: Math.round(engagementScore),
       },
-      name: u.name || handle,
-      handle: clean,
-      enriched: enrichedContext,
+      name: u.name || clean,
+      enriched,
       cached: false
     }
 
     cache.set(clean, { data: result, time: Date.now() })
     return res.status(200).json(result)
   } catch (e: any) {
-    return res.status(200).json({ 
-      error: e.message, partial: true, handle: clean,
-      name: clean, description: '', followers: 0, tweet_count: 0,
-      enriched: {}, token_data: null, cmv_score: 0
-    })
+    return res.status(500).json({ error: e.message || 'Failed to fetch X data' })
   }
 }
