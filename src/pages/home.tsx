@@ -615,18 +615,32 @@ export default function Home() {
         if (Date.now() - timestamp < 1000 * 60 * 60 * 24) { setResult(cr); setCgData(cc); setXData(cx); setLoading(false); return }
       }
     } catch { }
-    const xd = await fetchProjectXData(handle)
-    // If X API returned incomplete data (rate limit or restricted), show error
-    if (!xd || (xd?.error && xd?.partial)) {
-      setError(xd?.error || 'Unable to fetch X data for this account. Please try again.')
+    // Fetch X data — catch ALL errors and continue with what we have
+    let xd: any = null
+    try {
+      xd = await fetchProjectXData(handle)
+    } catch (xErr) {
+      console.warn('X API fetch failed:', xErr)
+    }
+
+    // If X API completely failed AND we have no data at all — show retry
+    // But if we have partial data, continue — tools can still score the project
+    if (!xd && !handle) {
+      setError('Unable to reach X API. Please try again.')
       setLoading(false)
       return
     }
-    // If followers is 0 and tweets is 0, X API data is unreliable — don't scan
-    if ((xd?.followers === 0 && xd?.tweet_count === 0)) {
-      setError('X API returned 0 followers and 0 tweets for this account — data may be incomplete. Try refreshing or checking the handle is correct.')
-      setLoading(false)
-      return
+
+    // If null, create a minimal stub so tool-native scoring can still run
+    if (!xd) {
+      xd = {
+        name: handle, handle, description: '', followers: 0, following: 0,
+        tweet_count: 0, listed: 0, verified: false, account_age_years: 0,
+        avg_likes: 0, avg_retweets: 0, cmv_score: 0,
+        confirmed_ticker: null, token_launch_hinted: false,
+        category: 'Crypto', enriched: {}, profile_image_url: null,
+        error: 'X API unavailable', partial: true
+      }
     }
     setXData(xd)
     let cg = null
