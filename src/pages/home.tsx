@@ -432,6 +432,7 @@ export default function Home() {
         error: 'X API unavailable', partial: true
       }
     }
+    console.log('xd received:', JSON.stringify({ followers: xd?.followers, enriched_tvl: xd?.enriched?.tvl, enriched_investors: xd?.enriched?.confirmed_investors?.length, error: xd?.error, partial: xd?.partial }))
     setXData(xd)
     let cg = null
 
@@ -634,7 +635,7 @@ export default function Home() {
         verdict_reason: verdictReason,
         verdict_action: verdictAction[verdict],
         overall_score: cappedScore,
-        score_rationale: `Tool-native score: Funding ${fundingScore}/100 · Revenue ${revenueScore}/100 · Community ${followerScore}/100 · Team ${teamScore}/100. FUD penalty: -${fudPenalty}pts. Claude analysis unavailable — score based on verified tool data only.`,
+        score_rationale: `Tool-native score: Funding ${fundingScore}/100 · Revenue ${revenueScore}/100 · Community ${followerScore}/100 · Team ${teamScore}/100. FUD penalty: -${fudPenalty}pts. Raw: followers=${xd?.followers || 0} tvl=${enriched.tvl || 'none'} investors=${(enriched.confirmed_investors||[]).length} sentiment=${enriched.news_sentiment || 'none'}`,
         good_highlights: highlights.slice(0, 5),
         red_flags: autoFlags.map((f: any) => ({ type: f.type, label: f.label, detail: f.detail })),
         top_risks: [
