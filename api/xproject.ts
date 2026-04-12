@@ -328,6 +328,135 @@ function computeCMVScore(followers: number, following: number, listed: number, t
   return Math.min(1000, Math.round(score))
 }
 
+// ─── Auto FUD Signal Detection (no Claude needed) ────────────────────────────
+function detectFUDSignals(u: any, intel: any, dexData: any, hacksData: any[], newsData: any) {
+  const flags: Array<{type: string, label: string, detail: string, severity: 'high'|'medium'|'low'}> = []
+
+  const followers = u.public_metrics?.followers_count || 0
+  const following = u.public_metrics?.following_count || 0
+  const listed = u.public_metrics?.listed_count || 0
+  const tweetCount = u.public_metrics?.tweet_count || 0
+  const createdAt = u.created_at ? new Date(u.created_at) : new Date()
+  const ageMonths = (Date.now() - createdAt.getTime()) / (1000 * 60 * 60 * 24 * 30)
+
+  // 1. Very new account with inflated followers
+  if (ageMonths < 6 && followers > 10000) {
+    flags.push({
+      type: 'suspicious',
+      label: 'New account with high followers',
+      detail: `Account is only ${Math.round(ageMonths)} months old but has ${followers.toLocaleString()} followers — possible purchased followers or rebranded account.`,
+      severity: 'medium'
+    })
+  }
+
+  // 2. Follow farming — following way more than followers
+  if (following > followers * 2 && followers < 5000) {
+    flags.push({
+      type: 'suspicious',
+      label: 'Follow-farming detected',
+      detail: `Following ${following.toLocaleString()} accounts but only ${followers.toLocaleString()} followers — classic follow-for-follow farming pattern.`,
+      severity: 'low'
+    })
+  }
+
+  // 3. Low listed count vs high followers (fake/bot followers)
+  if (followers > 5000 && listed < followers * 0.005) {
+    flags.push({
+      type: 'suspicious',
+      label: 'Low credibility ratio',
+      detail: `Only ${listed} accounts have listed this project despite ${followers.toLocaleString()} followers — suggests low genuine engagement or bot followers.`,
+      severity: 'low'
+    })
+  }
+
+  // 4. Very low tweet count for age (inactive or abandoned)
+  if (ageMonths > 12 && tweetCount < 50) {
+    flags.push({
+      type: 'other',
+      label: 'Inactive account',
+      detail: `Account is ${Math.round(ageMonths)} months old but only has ${tweetCount} tweets — possibly abandoned or not genuinely active.`,
+      severity: 'low'
+    })
+  }
+
+  // 5. Token dump detected from DexScreener
+  if (dexData?.dump_detected) {
+    const change = dexData.price_change_24h || 0
+    flags.push({
+      type: 'dump',
+      label: 'Token dump detected',
+      detail: `Token price dropped ${Math.abs(change).toFixed(1)}% in the last 24 hours — significant sell pressure detected on DEX.`,
+      severity: 'high'
+    })
+  }
+
+  // 6. Very low liquidity — easy rug
+  if (dexData?.token_live && dexData?.liquidity) {
+    const liqNum = parseFloat(dexData.liquidity.replace(/[$KMB]/g, '')) *
+      (dexData.liquidity.includes('B') ? 1e9 : dexData.liquidity.includes('M') ? 1e6 : dexData.liquidity.includes('K') ? 1e3 : 1)
+    if (liqNum < 50000) {
+      flags.push({
+        type: 'dump',
+        label: 'Extremely low liquidity',
+        detail: `Only ${dexData.liquidity} liquidity on DEX — very easy to rug pull or manipulate price.`,
+        severity: 'high'
+      })
+    }
+  }
+
+  // 7. Known hack from DefiLlama
+  if (hacksData && hacksData.length > 0) {
+    hacksData.forEach((hack: any) => {
+      flags.push({
+        type: 'exploit',
+        label: 'Security exploit on record',
+        detail: `${hack.classification || 'Hack'} detected — ${hack.amount} lost via ${hack.technique || 'unknown technique'}.`,
+        severity: 'high'
+      })
+    })
+  }
+
+  // 8. Negative news signals
+  if (newsData?.red_flag_headlines && newsData.red_flag_headlines.length > 0) {
+    const headlines = newsData.red_flag_headlines.slice(0, 2)
+    flags.push({
+      type: 'other',
+      label: 'Negative news coverage',
+      detail: `Recent negative headlines detected: "${headlines[0]}"${headlines[1] ? ` and "${headlines[1]}"` : ''}.`,
+      severity: 'medium'
+    })
+  }
+
+  // 9. Reward campaign in pinned tweet (paid shill signal)
+  const pinnedLower = (u.pinned_tweet_text || '').toLowerCase()
+  const rewardKeywords = ['$5000','$10k','rewards pool','top creators','create a thread','retweet to win','airdrop campaign','task campaign']
+  const hasRewardCampaign = rewardKeywords.some(k => pinnedLower.includes(k))
+  if (hasRewardCampaign) {
+    flags.push({
+      type: 'shill',
+      label: 'Paid content campaign active',
+      detail: 'Pinned tweet contains a paid content/reward campaign — inflating organic mentions artificially.',
+      severity: 'medium'
+    })
+  }
+
+  // 10. Bio mentions multiple big names without verification (name dropping)
+  const bioLower = (u.description || '').toLowerCase()
+  const bigNames = ['binance','coinbase','a16z','paradigm','sequoia','polychain','multicoin','pantera']
+  const bigNameMentions = bigNames.filter(n => bioLower.includes(n))
+  if (bigNameMentions.length >= 2 && intel.vcMentions.length === 0) {
+    flags.push({
+      type: 'suspicious',
+      label: 'Unverified name-dropping in bio',
+      detail: `Bio mentions ${bigNameMentions.join(', ')} but no confirmed funding rounds found — possible false credibility claims.`,
+      severity: 'medium'
+    })
+  }
+
+  return flags
+}
+
+
 // ─── Main Handler ─────────────────────────────────────────────────────────────
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   res.setHeader('Access-Control-Allow-Origin', '*')
@@ -433,7 +562,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       dex_liquidity: dexData?.liquidity || null,
       dex_dump_detected: dexData?.dump_detected || false,
       dex_price_change_24h: dexData?.price_change_24h || null,
+      // Auto-detected FUD signals — no Claude needed
+      auto_fud_flags: autoFudFlags,
+      auto_fud_count: autoFudFlags.length,
     }
+
+    // Auto-detect FUD signals from all available data
+    const autoFudFlags = detectFUDSignals(u, intel, dexData, hacksData || [], news)
 
     return res.status(200).json({
       id: u.id,
