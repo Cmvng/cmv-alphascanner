@@ -7,7 +7,20 @@ async function fetchDefiLlama(projectName: string, handle: string) {
   try {
     const slug = projectName.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
     const handleSlug = handle.toLowerCase().replace(/[^a-z0-9]/g, '')
-    const slugsToTry = [slug, handleSlug, slug.replace(/-/g, ''), handleSlug + '-protocol']
+    // Generate more slug variations to improve match rate
+    const words = projectName.toLowerCase().split(/\s+/)
+    const acronym = words.map((w: string) => w[0]).join('')
+    const slugsToTry = [
+      slug,
+      handleSlug,
+      slug.replace(/-/g, ''),
+      handleSlug + '-protocol',
+      handleSlug + '-fi',
+      words.slice(0,3).join('-'),
+      words.slice(0,2).join('-'),
+      acronym,
+      handle.toLowerCase(),
+    ].filter((s: string, i: number, arr: string[]) => s && arr.indexOf(s) === i) // dedupe
 
     let data: any = null
     for (const s of slugsToTry) {
@@ -66,11 +79,21 @@ async function fetchDefiLlamaHacks(projectName: string) {
 async function fetchRootData(projectName: string, apiKey?: string) {
   try {
     if (!apiKey) return null
-    const searchRes = await fetch('https://api.rootdata.com/open/ser_inv', {
-      method: 'POST',
-      headers: { 'apikey': apiKey, 'language': 'en', 'Content-Type': 'application/json' },
-      body: JSON.stringify({ query: projectName })
-    })
+    // Try project name first, then handle as fallback
+    const queries = [projectName, handle].filter((q, i, a) => q && a.indexOf(q) === i)
+    let searchData: any = null
+    for (const query of queries) {
+      const searchRes = await fetch('https://api.rootdata.com/open/ser_inv', {
+        method: 'POST',
+        headers: { 'apikey': apiKey, 'language': 'en', 'Content-Type': 'application/json' },
+        body: JSON.stringify({ query })
+      })
+      if (!searchRes.ok) continue
+      const data = await searchRes.json()
+      if (data.data?.length > 0) { searchData = data; break }
+    }
+    const fakeSearchRes = { ok: !!searchData, json: async () => searchData || { data: [] } }
+    const searchRes = fakeSearchRes
     if (!searchRes.ok) return null
     const searchData = await searchRes.json()
     const project = searchData.data?.find((d: any) => d.type === 1)
@@ -332,15 +355,18 @@ function computeCMVScore(followers: number, following: number, listed: number, t
 function detectFUDSignals(u: any, intel: any, dexData: any, hacksData: any[], newsData: any) {
   const flags: Array<{type: string, label: string, detail: string, severity: 'high'|'medium'|'low'}> = []
 
-  const followers = u.public_metrics?.followers_count || 0
-  const following = u.public_metrics?.following_count || 0
-  const listed = u.public_metrics?.listed_count || 0
-  const tweetCount = u.public_metrics?.tweet_count || 0
-  const createdAt = u.created_at ? new Date(u.created_at) : new Date()
+  // Only run X-based checks if Twitter actually returned real data
+  const hasRealXData = u && u.public_metrics && (u.public_metrics.followers_count > 0 || u.public_metrics.tweet_count > 0)
+
+  const followers = u?.public_metrics?.followers_count || 0
+  const following = u?.public_metrics?.following_count || 0
+  const listed = u?.public_metrics?.listed_count || 0
+  const tweetCount = u?.public_metrics?.tweet_count || 0
+  const createdAt = u?.created_at ? new Date(u.created_at) : new Date()
   const ageMonths = (Date.now() - createdAt.getTime()) / (1000 * 60 * 60 * 24 * 30)
 
-  // 1. Very new account with inflated followers
-  if (ageMonths < 6 && followers > 10000) {
+  // 1. Very new account with inflated followers — only if real X data
+  if (hasRealXData && ageMonths < 6 && followers > 10000) {
     flags.push({
       type: 'suspicious',
       label: 'New account with high followers',
@@ -349,8 +375,8 @@ function detectFUDSignals(u: any, intel: any, dexData: any, hacksData: any[], ne
     })
   }
 
-  // 2. Follow farming — following way more than followers
-  if (following > followers * 2 && followers < 5000) {
+  // 2. Follow farming — only if real X data
+  if (hasRealXData && following > followers * 2 && followers < 5000) {
     flags.push({
       type: 'suspicious',
       label: 'Follow-farming detected',
@@ -359,8 +385,8 @@ function detectFUDSignals(u: any, intel: any, dexData: any, hacksData: any[], ne
     })
   }
 
-  // 3. Low listed count vs high followers (fake/bot followers)
-  if (followers > 5000 && listed < followers * 0.005) {
+  // 3. Low listed count — only if real X data
+  if (hasRealXData && followers > 5000 && listed < followers * 0.005) {
     flags.push({
       type: 'suspicious',
       label: 'Low credibility ratio',
@@ -369,8 +395,8 @@ function detectFUDSignals(u: any, intel: any, dexData: any, hacksData: any[], ne
     })
   }
 
-  // 4. Very low tweet count for age (inactive or abandoned)
-  if (ageMonths > 12 && tweetCount < 50) {
+  // 4. Inactive account — only if real X data
+  if (hasRealXData && ageMonths > 12 && tweetCount < 50) {
     flags.push({
       type: 'other',
       label: 'Inactive account',
@@ -428,7 +454,7 @@ function detectFUDSignals(u: any, intel: any, dexData: any, hacksData: any[], ne
   }
 
   // 9. Reward campaign in pinned tweet (paid shill signal)
-  const pinnedLower = (u.pinned_tweet_text || '').toLowerCase()
+  const pinnedLower = (u?.pinned_tweet_text || '').toLowerCase()
   const rewardKeywords = ['$5000','$10k','rewards pool','top creators','create a thread','retweet to win','airdrop campaign','task campaign']
   const hasRewardCampaign = rewardKeywords.some(k => pinnedLower.includes(k))
   if (hasRewardCampaign) {
@@ -441,10 +467,10 @@ function detectFUDSignals(u: any, intel: any, dexData: any, hacksData: any[], ne
   }
 
   // 10. Bio mentions multiple big names without verification (name dropping)
-  const bioLower = (u.description || '').toLowerCase()
+  const bioLower = (u?.description || '').toLowerCase()
   const bigNames = ['binance','coinbase','a16z','paradigm','sequoia','polychain','multicoin','pantera']
   const bigNameMentions = bigNames.filter(n => bioLower.includes(n))
-  if (bigNameMentions.length >= 2 && intel.vcMentions.length === 0) {
+  if (hasRealXData && bigNameMentions.length >= 2 && intel.vcMentions.length === 0) {
     flags.push({
       type: 'suspicious',
       label: 'Unverified name-dropping in bio',
@@ -472,37 +498,43 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const uRes = await fetch(`https://api.twitter.com/2/users/by/username/${handle}?user.fields=description,public_metrics,verified,created_at,entities,pinned_tweet_id,profile_image_url`, {
       headers: { Authorization: `Bearer ${BEARER}` }
     })
-    if (!uRes.ok) return res.status(uRes.status).json({ error: 'X API error' })
-    const uData = await uRes.json()
-    const u = uData.data
-    if (!u) return res.status(404).json({ error: 'User not found' })
+    // If Twitter API fails, continue with other tools — don't block the scan
+    let u: any = null
+    if (uRes.ok) {
+      const uData = await uRes.json()
+      u = uData.data || null
+    }
+    // u may be null — tools will still run and return partial data
 
     // 2. Fetch recent tweets + pinned
-    const tweetsRes = await fetch(`https://api.twitter.com/2/users/${u.id}/tweets?max_results=20&tweet.fields=text,public_metrics,created_at`, {
+    const tweetsRes = u?.id ? await fetch(`https://api.twitter.com/2/users/${u.id}/tweets?max_results=20&tweet.fields=text,public_metrics,created_at`, {
       headers: { Authorization: `Bearer ${BEARER}` }
     })
-    const tweetsData = tweetsRes.ok ? await tweetsRes.json() : { data: [] }
+    const tweetsData = (u?.id && tweetsRes && tweetsRes.ok) ? await tweetsRes.json() : { data: [] }
     const recentTweets = tweetsData.data || []
 
     let pinnedTweetText = ''
-    if (u.pinned_tweet_id) {
+    if (u?.pinned_tweet_id) {
       const ptRes = await fetch(`https://api.twitter.com/2/tweets/${u.pinned_tweet_id}?tweet.fields=text`, {
         headers: { Authorization: `Bearer ${BEARER}` }
       })
       if (ptRes.ok) { const pt = await ptRes.json(); pinnedTweetText = pt.data?.text || '' }
     }
 
-    const bio = u.description || ''
-    const metrics = u.public_metrics
+    const bio = u?.description || ''
+    const metrics = u?.public_metrics || null
     const followers = metrics?.followers_count || 0
     const following = metrics?.following_count || 0
     const listed = metrics?.listed_count || 0
     const tweetCount = metrics?.tweet_count || 0
-    const verified = u.verified || false
-    const createdAt = u.created_at ? new Date(u.created_at) : new Date()
+    const verified = u?.verified || false
+
+    // Note: if Twitter API failed, followers/tweets will be 0 — that's fine
+    // Other tools will still provide data
+    const createdAt = u?.created_at ? new Date(u.created_at) : new Date()
     const accountAgeYears = (Date.now() - createdAt.getTime()) / (1000 * 60 * 60 * 24 * 365)
-    const pfpUrl = u.profile_image_url?.replace('_normal', '_400x400') || null
-    const projectName = u.name || handle
+    const pfpUrl = u?.profile_image_url?.replace('_normal', '_400x400') || null
+    const projectName = u?.name || handle
 
     // 3. Extract X intelligence
     const intel = extractIntelligence(recentTweets, bio, pinnedTweetText)
