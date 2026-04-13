@@ -486,29 +486,7 @@ export default function Home() {
         (enriched.confirmed_investors || []).length > 0 ||
         (enriched.rootdata_team || []).length > 0)
 
-      // If both X API and all tools returned nothing — show honest insufficient data
-      if (!hasXData && !hasToolData) {
-        const emptyResult = {
-          project_name: handle,
-          description: '',
-          project_category: 'Crypto',
-          verdict: 'WATCH',
-          verdict_reason: 'Insufficient data available for this project.',
-          verdict_action: 'We could not retrieve data for @' + handle + ' from X API or any of our data sources. The account may be new, restricted, or the handle may be incorrect. Try again in a few minutes.',
-          overall_score: 0,
-          score_rationale: 'No data returned from X API, DefiLlama, RootData, DexScreener or CryptoNews. Cannot score this project reliably.',
-          good_highlights: [],
-          red_flags: [],
-          top_risks: ['X API returned no data for this account', 'No TVL, funding or token data found across any data source'],
-          top_opportunities: [],
-          team_members: [],
-          data_accuracy_note: 'Insufficient data. Try scanning again or check if the handle is correct.',
-          metrics: {},
-          sources: [],
-        }
-        saveResult(emptyResult)
-        return
-      }
+      // Note: even with low/zero data, still score using what we have
       const autoFlags = enriched.auto_fud_flags || []
       const followers = xd?.followers || 0
       const following = xd?.following || 0
@@ -533,7 +511,8 @@ export default function Home() {
       const revenue = enriched.revenue_24h
       const fees = enriched.fees_24h
       const tvlNum = tvl ? (tvl.includes('B') ? parseFloat(tvl)*1e9 : tvl.includes('M') ? parseFloat(tvl)*1e6 : parseFloat(tvl)*1e3) : 0
-      const revenueScore = revenue ? (revenue.includes('M') ? 90 : revenue.includes('K') ? 70 : 50) : tvlNum > 1e9 ? 80 : tvlNum > 1e8 ? 65 : tvlNum > 1e6 ? 50 : 20
+      const hasRevenue = !!(enriched.revenue_24h || enriched.fees_24h)
+      const revenueScore = enriched.revenue_24h ? (enriched.revenue_24h.includes('M') ? 95 : enriched.revenue_24h.includes('K') ? 75 : 60) : enriched.fees_24h ? (enriched.fees_24h.includes('M') ? 85 : enriched.fees_24h.includes('K') ? 65 : 55) : tvlNum > 1e9 ? 75 : tvlNum > 1e8 ? 60 : tvlNum > 1e6 ? 45 : 20
 
       // 3. Token health (DexScreener)
       const dexDump = enriched.dex_dump_detected
@@ -604,6 +583,7 @@ export default function Home() {
 
       // ── VERDICT REASON FROM TOOLS ──
       const parts: string[] = []
+      if (enriched.defillama_category) parts.push(`${enriched.defillama_category} project`)
       if (hasRaised && hasTopVC) parts.push(`Backed by top VCs including ${investors[0]}`)
       else if (hasRaised) parts.push(`Has raised ${enriched.total_raised_rootdata || enriched.total_raised_defillama}`)
       if (tvl) parts.push(`${tvl} TVL showing real capital deployment`)
@@ -616,6 +596,7 @@ export default function Home() {
 
       const verdictReason = parts.length > 0 ? parts.join('. ') + '.' : `Based on available data: ${followers.toLocaleString()} followers, ${accountAge.toFixed(1)} year old account.`
 
+      const categoryLabel = enriched.defillama_category || xd?.category || 'Crypto'
       const verdictAction: Record<string, string> = {
         'FARM IT': 'Strong fundamentals confirmed by multiple data sources. Actively farm this project.',
         'CREATE CONTENT': 'Solid metrics but monitor closely. Create content and track progress.',
@@ -630,7 +611,7 @@ export default function Home() {
         description: xd?.description || '',
         team_location: '',
         founded: '',
-        project_category: xd?.category || 'Crypto',
+        project_category: enriched.defillama_category || xd?.category || 'Crypto',
         verdict: verdict,
         verdict_reason: verdictReason,
         verdict_action: verdictAction[verdict],
@@ -665,7 +646,7 @@ export default function Home() {
         data_accuracy_note: 'Analysis powered by DefiLlama, RootData, DexScreener, CryptoNews and X API. Claude AI analysis unavailable — using tool-native scoring.',
         metrics: {
           funding: { score: fundingScore, summary: hasRaised ? `${enriched.total_raised_rootdata || enriched.total_raised_defillama} raised from ${investors.length} investors` : 'No confirmed funding found' },
-          revenue: { score: revenueScore, summary: revenue ? `${revenue} daily revenue, ${fees || 'N/A'} fees` : tvl ? `${tvl} TVL` : 'No revenue data found' },
+          revenue: { score: revenueScore, summary: enriched.revenue_24h ? `${enriched.revenue_24h} daily revenue` : enriched.fees_24h ? `${enriched.fees_24h} daily fees` : tvl ? `${tvl} TVL (no revenue data)` : 'No revenue data found' },
           community: { score: followerScore, summary: hasRealXData ? `${followers.toLocaleString()} followers, ${(avgLikes).toFixed(0)} avg likes, account ${accountAge.toFixed(1)}y old` : 'X API unavailable — community data not retrieved' },
           team: { score: teamScore, summary: team.length > 0 ? `${team.length} verified team members via RootData` : 'Team details unverified' },
           sentiment: { score: sentimentScore, summary: `${sentiment || 'neutral'} news sentiment from ${enriched.news_article_count || 0} articles` },
