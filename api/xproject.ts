@@ -670,94 +670,6 @@ async function fetchCoinPaprika(projectName: string, handle: string, ticker?: st
 }
 
 
-// ─── Find Founder Profiles via X API ────────────────────────────────────────
-// Looks at who the project follows + who they mention in tweets
-// Filters for bios containing founder/ceo/cto keywords
-async function findFounderProfiles(userId: string, handle: string, projectName: string, token: string): Promise<any[]> {
-  try {
-    const founderKeywords = ['founder', 'co-founder', 'ceo', 'cto', 'coo', 'cpo', 'head of', 'lead', 'built', 'building', 'creator', 'team at', 'team @']
-    const roleKeywords = ['founder', 'co-founder', 'ceo', 'cto', 'coo', 'cpo', 'head of', 'lead', 'director', 'vp of', 'engineer', 'designer', 'researcher', 'advisor']
-    
-    const handleLower = handle.toLowerCase()
-    const projectLower = projectName.toLowerCase()
-    // Short versions of project name for bio matching
-    const projectShort = projectLower.replace(/\s*(protocol|finance|labs|dao|fi|xyz|app)\s*/gi, '').trim()
-
-    // Get accounts this project follows
-    const following = await xFetch(
-      `https://api.twitter.com/2/users/${userId}/following?max_results=200&user.fields=name,username,description,profile_image_url,public_metrics,verified`,
-      token
-    )
-    const followingList = following.data || []
-
-    // Core logic: person the project follows whose bio mentions the project
-    // This is the strongest signal — team members always have the project in their bio
-    const teamFromBioMention = followingList.filter((u: any) => {
-      const bio = (u.description || '').toLowerCase()
-      const username = (u.username || '').toLowerCase()
-      
-      // Their bio must mention the project name or handle
-      const mentionsProject = bio.includes(handleLower) || 
-                              bio.includes(projectLower) ||
-                              (projectShort.length > 3 && bio.includes(projectShort)) ||
-                              bio.includes('@' + handleLower)
-      
-      // AND they must have a role/founder keyword in bio OR be a mutual follow
-      const hasRole = roleKeywords.some(k => bio.includes(k))
-      
-      return mentionsProject && hasRole
-    })
-
-    // Secondary: people who follow the project back AND have founder keywords
-    // (mutual follows who are builders)
-    const teamFromFounderKeyword = followingList.filter((u: any) => {
-      const bio = (u.description || '').toLowerCase()
-      // Not already caught above
-      const alreadyCaught = teamFromBioMention.some((t: any) => t.id === u.id)
-      if (alreadyCaught) return false
-      // Has strong founder signal AND some project mention
-      const hasStrongFounder = ['founder', 'co-founder', 'ceo', 'cto', 'built'].some(k => bio.includes(k))
-      const mentionsProject = bio.includes(handleLower) || bio.includes(projectShort)
-      return hasStrongFounder && mentionsProject
-    }).slice(0, 3)
-
-    // Extract role from bio
-    const extractRole = (bio: string): string => {
-      const bioLower = bio.toLowerCase()
-      for (const role of roleKeywords) {
-        const idx = bioLower.indexOf(role)
-        if (idx >= 0) {
-          // Get the phrase around the role keyword
-          const phrase = bio.slice(Math.max(0, idx), Math.min(bio.length, idx + 30))
-          return phrase.split(/[|,·
-]/)[0].trim()
-        }
-      }
-      return ''
-    }
-
-    const seen = new Set<string>()
-    return [...teamFromBioMention, ...teamFromFounderKeyword]
-      .filter((u: any) => {
-        if (seen.has(u.id)) return false
-        seen.add(u.id)
-        return true
-      })
-      .slice(0, 8)
-      .map((u: any) => ({
-        name: u.name,
-        x_handle: `@${u.username}`,
-        profile_image_url: u.profile_image_url?.replace('_normal', '_bigger') || null,
-        description: u.description || '',
-        followers: u.public_metrics?.followers_count || 0,
-        verified: u.verified || false,
-        role: extractRole(u.description || ''),
-        confirmed: true,
-      }))
-  } catch { return [] }
-}
-
-
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   res.setHeader('Access-Control-Allow-Origin', '*')
   res.setHeader('Access-Control-Allow-Methods', 'GET')
@@ -807,9 +719,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     // 4. Extract all intelligence from X data
     const intel = extractIntelligence(recentTweets, bio, pinnedTweetText)
 
-    // 5. Find founder profiles via X API — uses project name to filter bios
-    const projectNameEarly = u?.name || clean
-    const founderProfiles = u?.id ? await withTimeout(findFounderProfiles(u.id, clean, projectNameEarly, TOKEN), 5000) || [] : []
+
 
     // 5. Token data from CoinGecko
     const tokenData_cg = await getCoingeckoToken(intel.confirmedTicker || '', clean)
@@ -891,19 +801,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const cpTeam = (cpData?.team || []).filter((cm: any) => 
       !rdTeam.some((rm: any) => rm.name?.toLowerCase() === cm.name?.toLowerCase())
     )
-    // Also include X API founder profiles not already in RootData/CoinPaprika
-    const xTeam = (founderProfiles || []).filter((fp: any) =>
-      !rdTeam.some((rm: any) => rm.x_handle?.toLowerCase() === fp.x_handle?.toLowerCase()) &&
-      !cpTeam.some((cm: any) => cm.name?.toLowerCase() === fp.name?.toLowerCase())
-    ).map((fp: any) => ({
-      name: fp.name,
-      role: fp.role || '',
-      x_handle: fp.x_handle,
-      profile_image_url: fp.profile_image_url,
-      followers: fp.followers,
-      verified: fp.verified,
-    }))
-    const mergedTeam = [...rdTeam, ...cpTeam, ...xTeam].slice(0, 8)
+    const mergedTeam = [...rdTeam, ...cpTeam].slice(0, 8)
     const autoFudFlags = detectFUDSignals(u, intel, dexData, hacksData || [], news)
 
     const enriched = {
@@ -970,7 +868,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         engagement: Math.round(engagementScore),
       },
       name: u?.name || clean,
-      founder_profiles: founderProfiles,
       enriched,
       cached: false
     }
