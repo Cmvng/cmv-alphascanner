@@ -275,15 +275,9 @@ CryptoNews: sentiment=${enriched.news_sentiment || 'unknown'} | articles=${enric
 Auto-detected FUD signals (from tools): ${JSON.stringify((enriched.auto_fud_flags || []).map((f:any) => f.label))}
 
 === INSTRUCTIONS ===
-DO NOT web search for: TVL, revenue, investors, token price — all provided above.
-DO web search for (max 2-3 searches total):
-1. Team members — search "@${handle} founder CEO team" if RootData team above is empty
-2. Community FUD, controversies, rug concerns
-3. TGE dates, airdrop details, season info
-
-For team_members: use RootData team if provided. If empty, search for founders/team online.
-Include their X handle ONLY if you are 100% certain — leave empty string if unsure.
-Always return at least 1 team member if findable.
+All financial data is provided above — do NOT search for TVL, revenue, token price, investors.
+\${(enriched.rootdata_team || []).length === 0 ? 'RootData has no team data. Do 1 web search: "@' + handle + ' founder CEO" to find team members.' : 'Use the RootData team data provided above. No team search needed.'}
+Be concise in metrics — 1 sentence with specific data points only.
 
 Score strictly. Tier A (85+) = only the best CT projects with strong fundamentals. Most projects are B or C.
 
@@ -311,23 +305,23 @@ Return this exact JSON:
   "sources": [{"name": "string", "url": "string", "used_for": "string"}],
   "data_accuracy_note": "string",
   "metrics": {
-    "funding": {"score": 0-100, "detail": "2 sentences: what was raised, from who, when", "signal": "bullish|bearish|neutral"},
-    "vc_pedigree": {"score": 0-100, "detail": "2 sentences: name the VCs, their track record in crypto", "signal": "bullish|bearish|neutral"},
-    "copycat": {"score": 0-100, "detail": "2 sentences: what makes it original or derivative, name competitors", "signal": "bullish|bearish|neutral"},
-    "niche": {"score": 0-100, "detail": "2 sentences: what sector, how large is the opportunity", "signal": "bullish|bearish|neutral"},
+    "funding": {"score": 0-100, "detail": "1 sentence with specific numbers", "signal": "bullish|bearish|neutral"},
+    "vc_pedigree": {"score": 0-100, "detail": "1 concise sentence with data", "signal": "bullish|bearish|neutral"},
+    "copycat": {"score": 0-100, "detail": "1 concise sentence with data", "signal": "bullish|bearish|neutral"},
+    "niche": {"score": 0-100, "detail": "1 concise sentence with data", "signal": "bullish|bearish|neutral"},
     "location": {"score": 0-100, "detail": "1 sentence: team location if known, why it matters", "signal": "bullish|bearish|neutral"},
-    "founder_cred": {"score": 0-100, "detail": "2 sentences: founder names and backgrounds if known", "signal": "bullish|bearish|neutral"},
-    "founder_activity": {"score": 0-100, "detail": "2 sentences: how active are founders on X, posting frequency", "signal": "bullish|bearish|neutral"},
-    "top_voices": {"score": 0-100, "detail": "2 sentences: name any CT influencers or KOLs engaging with project", "signal": "bullish|bearish|neutral"},
-    "token": {"score": 0-100, "detail": "2 sentences: token status, price, market cap, unlock schedule if known", "signal": "bullish|bearish|neutral"},
-    "metrics_clarity": {"score": 0-100, "detail": "2 sentences: what onchain metrics are available, TVL, users, volume", "signal": "bullish|bearish|neutral"},
-    "user_count": {"score": 0-100, "detail": "2 sentences: how many users/wallets, growth trend", "signal": "bullish|bearish|neutral"},
-    "fud": {"score": 0-100, "detail": "2 sentences: specific FUD or controversies found, or confirm none", "signal": "bullish|bearish|neutral"},
-    "notable_mentions": {"score": 0-100, "detail": "2 sentences: name any notable CT accounts or media that covered this", "signal": "bullish|bearish|neutral"},
-    "content_type": {"score": 0-100, "detail": "2 sentences: what type of content the project posts, quality assessment", "signal": "bullish|bearish|neutral"},
-    "mindshare": {"score": 0-100, "detail": "2 sentences: current CT mindshare level, trending or fading", "signal": "bullish|bearish|neutral"},
-    "revenue": {"score": 0-100, "detail": "2 sentences: actual revenue numbers from tools, protocol fees, TVL", "signal": "bullish|bearish|neutral"},
-    "sentiment": {"score": 0-100, "detail": "2 sentences: overall CT sentiment, specific positive or negative signals", "signal": "bullish|bearish|neutral"}
+    "founder_cred": {"score": 0-100, "detail": "1 concise sentence with data", "signal": "bullish|bearish|neutral"},
+    "founder_activity": {"score": 0-100, "detail": "1 concise sentence with data", "signal": "bullish|bearish|neutral"},
+    "top_voices": {"score": 0-100, "detail": "1 concise sentence with data", "signal": "bullish|bearish|neutral"},
+    "token": {"score": 0-100, "detail": "1 concise sentence with data", "signal": "bullish|bearish|neutral"},
+    "metrics_clarity": {"score": 0-100, "detail": "1 concise sentence with data", "signal": "bullish|bearish|neutral"},
+    "user_count": {"score": 0-100, "detail": "1 concise sentence with data", "signal": "bullish|bearish|neutral"},
+    "fud": {"score": 0-100, "detail": "1 concise sentence with data", "signal": "bullish|bearish|neutral"},
+    "notable_mentions": {"score": 0-100, "detail": "1 concise sentence with data", "signal": "bullish|bearish|neutral"},
+    "content_type": {"score": 0-100, "detail": "1 concise sentence with data", "signal": "bullish|bearish|neutral"},
+    "mindshare": {"score": 0-100, "detail": "1 concise sentence with data", "signal": "bullish|bearish|neutral"},
+    "revenue": {"score": 0-100, "detail": "1 concise sentence with data", "signal": "bullish|bearish|neutral"},
+    "sentiment": {"score": 0-100, "detail": "1 concise sentence with data", "signal": "bullish|bearish|neutral"}
   }
 }`
 }
@@ -767,9 +761,9 @@ export default function Home() {
         },
         body: JSON.stringify({
           model: 'claude-sonnet-4-20250514',
-          max_tokens: 4000,
+          max_tokens: 2000,
           system: buildSystemPrompt(handle, xd, cg),
-          tools: [{ type: 'web_search_20250305', name: 'web_search' }],
+          ...(((xd?.enriched?.rootdata_team || []).length === 0) ? { tools: [{ type: 'web_search_20250305', name: 'web_search' }] } : {}),
           messages: [{ role: 'user', content: `Analyze @${handle}. Use the tool data in the system prompt. Return JSON only.` }]
         })
       })
