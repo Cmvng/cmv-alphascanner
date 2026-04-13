@@ -512,13 +512,21 @@ export default function Home() {
       const fees = enriched.fees_24h
       const tvlNum = tvl ? (tvl.includes('B') ? parseFloat(tvl)*1e9 : tvl.includes('M') ? parseFloat(tvl)*1e6 : parseFloat(tvl)*1e3) : 0
       const hasRevenue = !!(enriched.revenue_24h || enriched.fees_24h)
-      const revenueScore = enriched.revenue_24h ? (enriched.revenue_24h.includes('M') ? 95 : enriched.revenue_24h.includes('K') ? 75 : 60) : enriched.fees_24h ? (enriched.fees_24h.includes('M') ? 85 : enriched.fees_24h.includes('K') ? 65 : 55) : tvlNum > 1e9 ? 75 : tvlNum > 1e8 ? 60 : tvlNum > 1e6 ? 45 : 20
+      const revenueScore = enriched.revenue_24h ? 
+        (enriched.revenue_24h.includes('M') ? 95 : enriched.revenue_24h.includes('K') ? 75 : 60) : 
+        enriched.fees_24h ? 
+        (enriched.fees_24h.includes('M') ? 85 : enriched.fees_24h.includes('K') ? 65 : 55) : 
+        tvlNum > 1e9 ? 85 : tvlNum > 1e8 ? 75 : tvlNum > 1e7 ? 65 : tvlNum > 1e6 ? 55 : tvlNum > 0 ? 40 : 15
 
       // 3. Token health (DexScreener)
       const dexDump = enriched.dex_dump_detected
       const dexLiq = enriched.dex_liquidity
-      const tokenLive = cg?.token_live
-      const tokenScore = dexDump ? 10 : tokenLive && dexLiq ? (dexLiq.includes('M') ? 75 : dexLiq.includes('K') ? 55 : 35) : xd?.token_launch_hinted ? 50 : 40
+      const tokenLive = cg?.token_live || xd?.token_data?.token_live
+      const dexToken = xd?.token_data
+      const tokenScore = dexDump ? 10 : 
+        (tokenLive && dexLiq) ? (dexLiq.includes('M') ? 80 : dexLiq.includes('K') ? 60 : 40) : 
+        tokenLive ? 55 :
+        xd?.token_launch_hinted ? 50 : 35
 
       // 4. Community / X presence — only score if real X data came back
       const hasRealXData = followers > 0 || tweetCount > 0
@@ -526,8 +534,8 @@ export default function Home() {
       const engagementScore = !hasRealXData ? 50 : avgLikes > 1000 ? 90 : avgLikes > 500 ? 75 : avgLikes > 100 ? 60 : avgLikes > 20 ? 45 : 20
 
       // 5. Team credibility (RootData + X)
-      const team = enriched.rootdata_team || []
-      const teamScore = team.length > 3 ? 80 : team.length > 1 ? 65 : verified ? 60 : accountAge > 3 ? 55 : accountAge > 1 ? 45 : 30
+      const team = (enriched.rootdata_team || []).filter((t: any) => t.name && t.name.length > 1)
+      const teamScore = team.length > 4 ? 90 : team.length > 2 ? 75 : team.length > 0 ? 65 : verified ? 55 : accountAge > 3 ? 50 : 30
 
       // 6. News sentiment (CryptoNews)
       const sentiment = enriched.news_sentiment
@@ -632,10 +640,12 @@ export default function Home() {
           hasTopVC ? `VC backing from ${investors[0]} adds credibility` : null,
           enriched.chains?.length > 1 ? `Multi-chain deployment on ${enriched.chains.join(', ')}` : null,
         ].filter(Boolean).slice(0, 3),
-        team_members: (enriched.rootdata_team || []).map((t: any) => ({
+        team_members: (enriched.rootdata_team || []).filter((t: any) => t.name && t.name.length > 1).map((t: any) => ({
           name: t.name,
-          role: t.role,
-          x_handle: t.x_handle,
+          role: t.role || '',
+          x_handle: t.x_handle || '',
+          background: enriched.coinpaprika_description ? `${enriched.coinpaprika_description.slice(0, 100)}` : '',
+          confirmed: !!(t.x_handle),
         })),
         sources: [
           tvl ? { name: 'DefiLlama', used_for: 'TVL and revenue data' } : null,
@@ -648,7 +658,7 @@ export default function Home() {
           funding: { score: fundingScore, summary: hasRaised ? `${enriched.total_raised_rootdata || enriched.total_raised_defillama} raised from ${investors.length} investors` : 'No confirmed funding found' },
           revenue: { score: revenueScore, summary: enriched.revenue_24h ? `${enriched.revenue_24h} daily revenue` : enriched.fees_24h ? `${enriched.fees_24h} daily fees` : tvl ? `${tvl} TVL (no revenue data)` : 'No revenue data found' },
           community: { score: followerScore, summary: hasRealXData ? `${followers.toLocaleString()} followers, ${(avgLikes).toFixed(0)} avg likes, account ${accountAge.toFixed(1)}y old` : 'X API unavailable — community data not retrieved' },
-          team: { score: teamScore, summary: team.length > 0 ? `${team.length} verified team members via RootData` : 'Team details unverified' },
+          team: { score: teamScore, summary: team.length > 0 ? `${team.length} team member${team.length > 1 ? 's' : ''} found via RootData: ${team.slice(0,3).map((t: any) => t.name + (t.role ? ' (' + t.role + ')' : '')).join(', ')}` : verified ? 'Verified X account — no team data on RootData' : 'No team data found' },
           sentiment: { score: sentimentScore, summary: `${sentiment || 'neutral'} news sentiment from ${enriched.news_article_count || 0} articles` },
           security: { score: securityScore, summary: hacks.length > 0 ? `${hacks.length} known exploit(s) on DefiLlama` : 'No known security incidents' },
         },
@@ -656,7 +666,7 @@ export default function Home() {
         project_follows: null,
         future_seasons: enriched.news_recent?.length > 0 ? `Recent coverage: ${enriched.news_recent.slice(0,2).join('. ')}` : null,
         mindshare_trend: null,
-        token_data: cg?.token_live ? cg : null,
+        token_data: cg?.token_live ? cg : (xd?.token_data?.token_live ? xd.token_data : null),
       }
       saveResult(cleaned)
     }
@@ -1194,6 +1204,17 @@ export default function Home() {
                   <div style={{ background: '#f8faff', border: '1px solid #e5e7eb', borderRadius: 8, padding: '10px 12px' }}>
                     <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#9ca3af', letterSpacing: 1, marginBottom: 4 }}>RECENT COVERAGE</div>
                     <div style={{ fontSize: 12, color: '#374151', lineHeight: 1.5 }}>{result.future_seasons}</div>
+                  </div>
+                )}
+                {(xData?.enriched?.coinpaprika_contracts || []).length > 0 && (
+                  <div style={{ background: '#f8faff', border: '1px solid #e5e7eb', borderRadius: 8, padding: '10px 12px', marginTop: 8 }}>
+                    <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#9ca3af', letterSpacing: 1, marginBottom: 6 }}>CONTRACT ADDRESSES</div>
+                    {(xData?.enriched?.coinpaprika_contracts || []).map((c: any, i: number) => (
+                      <div key={i} style={{ marginBottom: 4 }}>
+                        <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#16a34a', background: '#f0fdf4', padding: '2px 6px', borderRadius: 4, marginRight: 6 }}>{c.chain}</span>
+                        <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#6b7280' }}>{c.address.slice(0,8)}...{c.address.slice(-6)}</span>
+                      </div>
+                    ))}
                   </div>
                 )}
               </div>
