@@ -381,14 +381,16 @@ export default function Home() {
     window.history.replaceState({}, '', '/')
     const handle = q.toLowerCase()
     setXUrl('https://x.com/' + handle)
-    const cacheKey = 'cmv_scan_' + handle
+    const cacheKey = 'cmv_scan_v4_' + handle
 
     async function loadFromFeed() {
       let cr: any = null, cc: any = null, cx: any = null
 
-      // 1. Check browser cache
+      // 1. Check browser cache (v4 first, then older versions)
       try {
-        const cached = localStorage.getItem(cacheKey)
+        const cached = localStorage.getItem(cacheKey) || 
+                       localStorage.getItem('cmv_scan_v3_' + handle) ||
+                       localStorage.getItem('cmv_scan_v2_' + handle)
         if (cached) {
           const parsed = JSON.parse(cached)
           if (parsed.result) { cr = parsed.result; cc = parsed.cgData; cx = parsed.xData }
