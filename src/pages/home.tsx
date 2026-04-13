@@ -288,15 +288,16 @@ Do NOT return empty red_flags if auto_fud_flags has entries.
 Be specific in detail — include numbers and sources.
 Be concise in metrics — 1 sentence with specific data points only.
 
-RED FLAGS — only flag these real issues (must be verifiable):
+RED FLAGS — flag ALL of these when present:
 - Known hacks or exploits (from DefiLlama hacks data)
-- Token dump >30% in 24h (from DexScreener data)
-- Extremely low liquidity <$50K (rug risk, from DexScreener)
-- Negative news with specific evidence: scam/fraud/SEC/investigation
-- Suspicious on-chain activity: insider selling, wallet dumps
-- Follow farming: following >> followers ratio
-DO NOT flag: missing team data, no TVL for non-DeFi projects, low mindshare, early stage, no revenue pre-launch. These are NOT red flags.
-If auto_fud_flags above shows 0 flags AND no negative news, return red_flags as empty array.
+- Token dump >30% in 24h (from DexScreener)
+- Token pump >100% in 24h → flag as "Extreme Volatility" (speculation/manipulation risk)
+- Liquidity <$50K → "Low liquidity / rug risk"
+- No team data for non-anonymous project → "Unverified team"
+- Negative news: scam/fraud/SEC/investigation
+- Large upcoming token unlocks found in search → "Token unlock risk"
+- Follow farming: following >> followers
+DO NOT flag: no TVL for non-DeFi, low mindshare, early stage, no revenue pre-launch.
 
 Score strictly. Tier A (85+) = only the best CT projects with strong fundamentals. Most projects are B or C.
 Entertainment/events projects without DeFi TVL should NOT be penalized on revenue — use event revenue if mentioned.
