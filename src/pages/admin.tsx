@@ -38,6 +38,13 @@ export default function Admin() {
     setLoading(false)
   }
 
+  function clearAllCache() {
+    let cleared = 0
+    const keys = Object.keys(localStorage).filter(k => k.startsWith('cmv_scan'))
+    keys.forEach(k => { try { localStorage.removeItem(k); cleared++ } catch {} })
+    setRescanLog(prev => [`✓ Cleared ${cleared} cached scans from browser`, ...prev.slice(0, 19)])
+  }
+
   async function rescanAll() {
     if (!confirm(`Rescan all ${scans.length} projects? This will use credits and take ~${Math.round(scans.length * 0.5)} minutes.`)) return
     setRescanning(true)
@@ -280,6 +287,7 @@ export default function Admin() {
             <div style={{ background: '#1e293b', border: '1px solid #334155', borderRadius: 12, padding: 14 }}>
               <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 10, color: '#64748b', letterSpacing: 1, marginBottom: 10 }}>QUICK ACTIONS</div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                <button onClick={clearAllCache} style={{ padding: '8px 12px', borderRadius: 8, border: '1px solid #ef4444', background: 'none', color: '#ef4444', fontSize: 12, cursor: 'pointer', fontFamily: 'inherit', textAlign: 'left' as const }}>🗑 Clear All Browser Cache</button>
                 <button onClick={loadData} style={{ padding: '8px 12px', borderRadius: 8, border: '1px solid #334155', background: 'none', color: '#94a3b8', fontSize: 12, cursor: 'pointer', fontFamily: 'inherit', textAlign: 'left' as const }}>↺ Refresh data</button>
                 <a href="/tierlist" style={{ padding: '8px 12px', borderRadius: 8, border: '1px solid #334155', background: 'none', color: '#94a3b8', fontSize: 12, textDecoration: 'none', display: 'block' }}>📊 Tier List</a>
                 <a href="/feed" style={{ padding: '8px 12px', borderRadius: 8, border: '1px solid #334155', background: 'none', color: '#94a3b8', fontSize: 12, textDecoration: 'none', display: 'block' }}>🌐 Public Feed</a>
