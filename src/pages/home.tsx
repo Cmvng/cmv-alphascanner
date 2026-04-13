@@ -277,9 +277,19 @@ Auto-detected FUD signals (from tools): ${JSON.stringify((enriched.auto_fud_flag
 === INSTRUCTIONS ===
 DO NOT search for: TVL, revenue, token price, investors, funding — all provided above.
 ALWAYS do these searches (max 3 total):
-1. REQUIRED: Search "@${handle} scandal rug hack scam controversy 2024 2025 2026" — find any red flags or negative news
-2. REQUIRED: Search "@${handle} token price airdrop TGE unlock" — find token details if not in tool data
+1. REQUIRED: Search "@${handle} scandal rug hack scam insider dump controversy investigation 2025 2026" — find CURRENT red flags
+2. REQUIRED: Search "@${handle} token unlock vesting schedule airdrop" — find token/unlock details
 3. IF team empty above: Search "@${handle} founder CEO team" — find team members
+
+For RED FLAGS be aggressive — report anything suspicious you find:
+- Insider wallet activity, large dumps, suspicious on-chain moves
+- Team exits, departures, anonymous team concerns  
+- Token unlock schedules with large upcoming unlocks
+- Regulatory issues, investigations, legal problems
+- Community complaints, delays, broken promises
+- Low float / high FDV manipulation risk
+- Copied code, forked without attribution
+If you find NOTHING negative after searching, only then return empty red_flags.
 Be concise in metrics — 1 sentence with specific data points only.
 
 RED FLAGS — only flag these real issues (must be verifiable):
@@ -308,7 +318,7 @@ Return this exact JSON:
   "overall_score": number (0-100),
   "score_rationale": "explain score using specific tool data",
   "good_highlights": ["specific highlight with data", "another", "another"],
-  "red_flags": [{"type": "string", "label": "string", "detail": "specific detail with data source"}],
+  "red_flags": [{"type": "dump|hack|shill|suspicious|regulatory|tokenomics|team", "label": "short label", "detail": "specific detail with source and date"}],
   "top_risks": ["specific risk", "another"],
   "top_opportunities": ["specific opportunity", "another"],
   "team_members": [{"name": "string", "role": "string", "x_handle": "@handle or empty", "background": "1 sentence", "confirmed": true/false}],
