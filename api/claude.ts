@@ -7,8 +7,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method === 'OPTIONS') return res.status(200).end()
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' })
 
-  const ANTHROPIC_KEY = process.env.ANTHROPIC_API_KEY
-  if (!ANTHROPIC_KEY) return res.status(500).json({ error: 'Anthropic key not configured' })
+  // Try both env var names — ANTHROPIC_API_KEY (server) or VITE_ANTHROPIC_API_KEY (if set that way)
+  const ANTHROPIC_KEY = process.env.ANTHROPIC_API_KEY || process.env.VITE_ANTHROPIC_API_KEY
+  if (!ANTHROPIC_KEY) return res.status(500).json({ error: 'Anthropic key not configured — add ANTHROPIC_API_KEY to Vercel env vars' })
 
   try {
     const { system, messages } = req.body
