@@ -270,7 +270,14 @@ async function fetchRootData(projectName: string, apiKey?: string) {
       x_handle: t.twitter ? '@' + t.twitter.replace('https://twitter.com/', '').replace('@', '') : '',
     })).filter((t: any) => t.name).slice(0, 5)
 
-    return { total_raised: totalRaised, investors, team, tags: d.tags || [], one_liner: d.one_liner || '' }
+    return { 
+      total_raised: totalRaised, 
+      investors, 
+      team,
+      tags: d.tags || [], 
+      one_liner: d.one_liner || '',
+      description: d.description || '',
+    }
   } catch { return null }
 }
 
@@ -347,7 +354,9 @@ async function fetchGeckoTerminal(ticker: string, projectName: string) {
 
 async function fetchCryptoNewsSentiment(projectName: string, ticker?: string) {
   try {
-    const query = ticker || projectName
+    // Use ticker if available (more specific), otherwise project name
+    // Short project names get too many false positives - use ticker when possible
+    const query = ticker && ticker.length > 2 ? ticker : projectName
     const r = await fetch(`https://cryptocurrency.cv/api/news?q=${encodeURIComponent(query)}&limit=10`)
     if (!r.ok) return null
     const data = await r.json()
@@ -501,6 +510,94 @@ function detectFUDSignals(u: any, intel: any, dexData: any, hacksData: any[], ne
   return flags
 }
 
+// ─── CoinPaprika ─────────────────────────────────────────────────────────────
+// Free, no key — returns team, investors, contract addresses, links
+async function fetchCoinPaprika(projectName: string, handle: string, ticker?: string | null) {
+  try {
+    // Search for the project
+    const searchR = await fetch(`https://api.coinpaprika.com/v1/search?q=${encodeURIComponent(ticker || projectName)}&c=currencies&limit=10`)
+    if (!searchR.ok) return null
+    const searchData = await searchR.json()
+    const currencies = searchData.currencies || []
+    if (currencies.length === 0) return null
+
+    // Find best match - prefer exact ticker match, then name match
+    const nameLower = projectName.toLowerCase()
+    const handleLower = handle.toLowerCase()
+    const tickerUpper = (ticker || '').toUpperCase()
+
+    const match = currencies.find((c: any) => 
+      tickerUpper && c.symbol?.toUpperCase() === tickerUpper
+    ) || currencies.find((c: any) =>
+      c.name?.toLowerCase().includes(nameLower) || 
+      nameLower.includes(c.name?.toLowerCase() || '') ||
+      c.id?.includes(handleLower)
+    ) || currencies[0]
+
+    if (!match) return null
+
+    // Get full coin details including team and contracts
+    const coinR = await fetch(`https://api.coinpaprika.com/v1/coins/${match.id}`)
+    if (!coinR.ok) return null
+    const coin = await coinR.json()
+
+    // Get price data
+    let price = null
+    try {
+      const tickerR = await fetch(`https://api.coinpaprika.com/v1/tickers/${match.id}?quotes=USD`)
+      if (tickerR.ok) {
+        const tickerData = await tickerR.json()
+        const usd = tickerData.quotes?.USD
+        if (usd?.price) {
+          const p = usd.price
+          price = {
+            price: p < 0.01 ? `$${p.toFixed(6)}` : p < 1 ? `$${p.toFixed(4)}` : `$${p.toFixed(2)}`,
+            market_cap: usd.market_cap ? (usd.market_cap >= 1e9 ? `$${(usd.market_cap/1e9).toFixed(1)}B` : `$${(usd.market_cap/1e6).toFixed(1)}M`) : null,
+            volume_24h: usd.volume_24h ? (usd.volume_24h >= 1e6 ? `$${(usd.volume_24h/1e6).toFixed(1)}M` : `$${(usd.volume_24h/1e3).toFixed(0)}K`) : null,
+            change_24h: usd.percent_change_24h || null,
+          }
+        }
+      }
+    } catch {}
+
+    // Extract team members with social links
+    const team = (coin.team || []).map((m: any) => ({
+      name: m.name || '',
+      role: m.position || '',
+      x_handle: '',  // CoinPaprika gives name/position, cross-ref with RootData for handles
+    })).filter((m: any) => m.name).slice(0, 8)
+
+    // Contract addresses - key for token disambiguation
+    const contracts = (coin.contracts || []).map((c: any) => ({
+      chain: c.type || '',
+      address: c.contract || '',
+    })).slice(0, 5)
+
+    // Links
+    const links = coin.links_extended || []
+    const twitterLink = links.find((l: any) => l.type === 'twitter')?.url || ''
+    const githubLink = links.find((l: any) => l.type === 'github')?.url || ''
+
+    return {
+      coin_id: match.id,
+      symbol: coin.symbol?.toUpperCase() || match.symbol?.toUpperCase(),
+      name: coin.name || match.name,
+      description: coin.description || '',
+      team,
+      contracts,
+      price_data: price,
+      token_live: !!price,
+      tags: (coin.tags || []).map((t: any) => t.name || t).filter(Boolean).slice(0, 5),
+      github: githubLink,
+      twitter: twitterLink,
+      started_at: coin.started_at || null,
+      development_status: coin.development_status || null,
+      proof_type: coin.proof_type || null,
+    }
+  } catch { return null }
+}
+
+
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   res.setHeader('Access-Control-Allow-Origin', '*')
   res.setHeader('Access-Control-Allow-Methods', 'GET')
@@ -580,27 +677,49 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const projectName = u?.name || clean
     const confirmedTicker = intel.confirmedTicker || null
 
-    const [_dl, _dlh, _dex, _gecko, _news, _rd] = await Promise.allSettled([
+    const [_dl, _dlh, _dex, _gecko, _news, _rd, _cp] = await Promise.allSettled([
       withTimeout(fetchDefiLlama(projectName, clean), 4000),
       withTimeout(fetchDefiLlamaHacks(projectName), 3000),
-      confirmedTicker ? withTimeout(fetchDexScreener(confirmedTicker, projectName), 3000) : Promise.resolve(null),
-      confirmedTicker ? withTimeout(fetchGeckoTerminal(confirmedTicker, projectName), 3000) : Promise.resolve(null),
+      withTimeout(fetchDexScreener(confirmedTicker || projectName, projectName), 3000),
+      withTimeout(fetchGeckoTerminal(confirmedTicker || projectName, projectName), 3000),
       withTimeout(fetchCryptoNewsSentiment(projectName, confirmedTicker || undefined), 3000),
       process.env.ROOTDATA_API_KEY ? withTimeout(fetchRootData(projectName, process.env.ROOTDATA_API_KEY), 4000) : Promise.resolve(null),
+      withTimeout(fetchCoinPaprika(projectName, clean, confirmedTicker), 4000),
     ])
 
-    const dlData  = _dl.status  === 'fulfilled' ? _dl.value  : null
-    const hacksData = _dlh.status === 'fulfilled' ? _dlh.value : []
-    const dexData = _dex.status  === 'fulfilled' ? _dex.value : null
+    const dlData   = _dl.status   === 'fulfilled' ? _dl.value   : null
+    const hacksData = _dlh.status === 'fulfilled' ? _dlh.value  : []
+    const dexData  = _dex.status  === 'fulfilled' ? _dex.value  : null
     const geckoData = _gecko.status === 'fulfilled' ? _gecko.value : null
-    const news    = _news.status === 'fulfilled' ? _news.value : null
-    const rdData  = _rd.status   === 'fulfilled' ? _rd.value  : null
+    const news     = _news.status === 'fulfilled' ? _news.value  : null
+    const rdData   = _rd.status   === 'fulfilled' ? _rd.value   : null
+    const cpData   = _cp.status   === 'fulfilled' ? _cp.value   : null
 
     let tokenData: any = tokenData_cg || null
     if (dexData?.token_live) tokenData = { ...dexData, source: 'dexscreener' }
     else if (geckoData?.token_live) tokenData = { ...geckoData, source: 'geckoterminal' }
+    else if (cpData?.token_live && cpData?.price_data) {
+      tokenData = {
+        token_live: true,
+        ticker: cpData.symbol,
+        token_price: cpData.price_data.price,
+        market_cap_str: cpData.price_data.market_cap,
+        volume_24h: cpData.price_data.volume_24h,
+        price_change_24h: cpData.price_data.change_24h,
+        contracts: cpData.contracts,
+        source: 'coinpaprika',
+      }
+    }
 
     const allInvestors = [...new Set([...(dlData?.investors || []), ...(rdData?.investors || [])])]
+
+    // Merge team: RootData (has X handles) + CoinPaprika (has roles)
+    // RootData takes priority as it has social links
+    const rdTeam = rdData?.team || []
+    const cpTeam = (cpData?.team || []).filter((cm: any) => 
+      !rdTeam.some((rm: any) => rm.name?.toLowerCase() === cm.name?.toLowerCase())
+    )
+    const mergedTeam = [...rdTeam, ...cpTeam].slice(0, 8)
     const autoFudFlags = detectFUDSignals(u, intel, dexData, hacksData || [], news)
 
     const enriched = {
@@ -611,7 +730,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       defillama_category: dlData?.category || null,
       chains: dlData?.chains || [],
       total_raised_rootdata: rdData?.total_raised || null,
-      rootdata_team: rdData?.team || [],
+      rootdata_team: mergedTeam.filter((t: any) => t.name && t.name.length > 1),
       confirmed_investors: allInvestors,
       known_hacks: hacksData,
       news_sentiment: news?.sentiment || null,
@@ -624,6 +743,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       dex_price_change_24h: dexData?.price_change_24h || null,
       auto_fud_flags: autoFudFlags,
       auto_fud_count: autoFudFlags.length,
+      // CoinPaprika extras
+      coinpaprika_contracts: cpData?.contracts || [],
+      coinpaprika_tags: cpData?.tags || [],
+      coinpaprika_github: cpData?.github || null,
+      coinpaprika_started: cpData?.started_at || null,
+      coinpaprika_description: cpData?.description || null,
     }
 
     const result = {
