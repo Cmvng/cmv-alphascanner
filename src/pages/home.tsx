@@ -777,6 +777,11 @@ export default function Home() {
           messages: [{ role: 'user', content: `Analyze @${handle}. Use the tool data in the system prompt. Return JSON only.` }]
         })
       })
+      if (!r.ok) {
+        const errText = await r.text()
+        console.error('Claude API error:', r.status, errText)
+        xOnlyScan(); return
+      }
       const data = await r.json()
 
       if (data.error) {
