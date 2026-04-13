@@ -47,6 +47,35 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     if (!r.ok) {
       const err = await r.text()
+      console.error('Supabase error:', r.status, err)
+      // If full_result is too large, retry without it
+      if (err.includes('too large') || err.includes('payload') || full_result) {
+        const r2 = await fetch(`${SUPABASE_URL}/rest/v1/scans`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'apikey': SUPABASE_ANON_KEY,
+            'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+            'Prefer': 'resolution=merge-duplicates',
+          },
+          body: JSON.stringify({
+            handle: handle.toLowerCase(),
+            project_name,
+            verdict,
+            score,
+            ticker: ticker || null,
+            token_price: token_price || null,
+            market_cap_str: market_cap_str || null,
+            category,
+            profile_image_url: profile_image_url || null,
+            good_highlights: good_highlights || [],
+            red_flag_count: red_flag_count || 0,
+            full_result: null,
+            scanned_at: new Date().toISOString(),
+          })
+        })
+        if (r2.ok) return res.status(200).json({ success: true, note: 'saved without full_result' })
+      }
       return res.status(400).json({ error: err })
     }
 
