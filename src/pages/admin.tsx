@@ -70,43 +70,22 @@ export default function Admin() {
   }
 
   async function rescanOne(handle: string) {
-    // Clear ALL cached versions
-    try { 
+    // Clears browser cache only — does NOT overwrite Supabase
+    // Full Claude rescan happens when user clicks Analyze on main app
+    try {
       localStorage.removeItem('cmv_scan_' + handle)
       localStorage.removeItem('cmv_scan_v2_' + handle)
       localStorage.removeItem('cmv_scan_v3_' + handle)
       localStorage.removeItem('cmv_scan_v4_' + handle)
     } catch {}
-    setRescanLog(prev => ['↻ Rescanning @' + handle + '...', ...prev.slice(0, 19)])
+    setRescanLog(prev => ['↻ Clearing cache for @' + handle + '...', ...prev.slice(0, 19)])
     try {
-      // Get fresh data from xproject
+      // Refresh xproject server cache with nocache=true
       const xr = await fetch('/api/xproject?handle=' + handle + '&nocache=true')
       if (!xr.ok) throw new Error('xproject failed')
-      const xd = await xr.json()
-      // Save to Supabase via save-scan so feed updates
-      await fetch('/api/save-scan', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          handle,
-          project_name: xd.name || handle,
-          verdict: null,
-          score: null,
-          ticker: xd.token_data?.ticker || null,
-          token_price: xd.token_data?.token_price || null,
-          market_cap_str: xd.token_data?.market_cap_str || null,
-          category: xd.enriched?.defillama_category || xd.category || 'Crypto',
-          profile_image_url: xd.profile_image_url || null,
-          good_highlights: [],
-          red_flag_count: xd.enriched?.auto_fud_count || 0,
-          full_result: { xData: xd },
-        })
-      }).catch(() => {})
-      setRescanLog(prev => ['✓ @' + handle + ' rescanned and feed updated', ...prev.slice(0, 19)])
-      // Refresh the scans list
-      loadData()
+      setRescanLog(prev => ['✓ @' + handle + ' ready — go to main app and click Analyze', ...prev.slice(0, 19)])
     } catch {
-      setRescanLog(prev => ['✗ @' + handle + ' failed', ...prev.slice(0, 19)])
+      setRescanLog(prev => ['✗ @' + handle + ' failed to refresh', ...prev.slice(0, 19)])
     }
   }
 
