@@ -14,7 +14,7 @@ async function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T | null
   try { return await Promise.race([promise, timeout]) as T } catch { return null }
 }
 
-async function getCoingeckoToken(ticker: string, handle: string) {
+async function getCoingeckoToken(ticker: string, handle: string, projectName?: string) {
   try {
     // Strategy: search CoinGecko and find best match by:
     // 1. Exact coin ID match with handle (e.g. handle=ravedao → id=ravedao)
@@ -23,7 +23,9 @@ async function getCoingeckoToken(ticker: string, handle: string) {
     // NEVER match just by chain name (avoids SUI/ETH/BTC false positives)
     
     const CHAIN_TOKENS = ['SUI','ETH','BTC','SOL','BNB','MATIC','AVAX','OP','ARB','BASE','NEAR','APT','SEI','INJ']
-    const searchTerms = [...new Set([ticker, handle].filter(Boolean))]
+    // Search by ticker, handle, AND project display name (e.g. "Opinion Labs" finds OPNT better than "opinionlabsxyz")
+    const cleanProjectName = (projectName || '').toLowerCase().replace(/[^a-z0-9\s]/g, '').trim()
+    const searchTerms = [...new Set([ticker, handle, cleanProjectName].filter(Boolean))]
     
     for (const term of searchTerms) {
       if (!term || term.length < 2) continue
@@ -722,7 +724,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
 
     // 5. Token data from CoinGecko
-    const tokenData_cg = await getCoingeckoToken(intel.confirmedTicker || '', clean)
+    const tokenData_cg = await getCoingeckoToken(intel.confirmedTicker || '', clean, u?.name || '')
 
     // 6. CMV X Score
     const metrics = u?.public_metrics
