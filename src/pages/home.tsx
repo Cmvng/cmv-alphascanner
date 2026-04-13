@@ -656,6 +656,9 @@ export default function Home() {
         future_seasons: null,
         post_tge_outlook: tokenLive ? (dexDump ? 'Poor — token declining' : 'Moderate') : 'Token not yet live',
         project_follows: null,
+        future_seasons: enriched.news_recent?.length > 0 ? `Recent coverage: ${enriched.news_recent.slice(0,2).join('. ')}` : null,
+        mindshare_trend: null,
+        token_data: cg?.token_live ? cg : null,
       }
       saveResult(cleaned)
     }
@@ -1166,6 +1169,38 @@ export default function Home() {
               </div>
             )}
 
+            {/* Deep Intel - token + outlook */}
+            {(result.token_data?.token_live || result.post_tge_outlook || result.future_seasons) && (
+              <div style={{ background: '#fff', border: '1px solid #f1f5f9', borderRadius: 14, padding: 16, marginBottom: 10 }}>
+                <div style={{ fontSize: 13, fontWeight: 600, color: '#111', marginBottom: 12, fontFamily: "'Syne',sans-serif", display: 'flex', alignItems: 'center', gap: 6 }}>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke="#3b5bdb" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                  Deep Intel
+                </div>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 10 }}>
+                  <div style={{ background: '#f8faff', border: '1px solid #e5e7eb', borderRadius: 8, padding: '10px 12px' }}>
+                    <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#9ca3af', letterSpacing: 1, marginBottom: 4 }}>TOKEN STATUS</div>
+                    {result.token_data?.token_live ? (
+                      <span style={{ background: '#dcfce7', color: '#16a34a', border: '1px solid #86efac', borderRadius: 20, padding: '3px 10px', fontFamily: "'DM Mono',monospace", fontSize: 10, display: 'inline-flex', alignItems: 'center', gap: 5 }}>
+                        <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#16a34a', display: 'inline-block' }} />{result.token_data.ticker} {result.token_data.token_price}
+                      </span>
+                    ) : (
+                      <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 11, color: '#9ca3af' }}>Not yet launched</span>
+                    )}
+                  </div>
+                  <div style={{ background: '#f8faff', border: '1px solid #e5e7eb', borderRadius: 8, padding: '10px 12px' }}>
+                    <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#9ca3af', letterSpacing: 1, marginBottom: 4 }}>TOKEN OUTLOOK</div>
+                    <div style={{ fontSize: 12, fontWeight: 600, color: result.post_tge_outlook?.includes('Poor') ? '#e8590c' : result.post_tge_outlook?.includes('High') ? '#16a34a' : '#f59f00' }}>{result.post_tge_outlook || 'Unknown'}</div>
+                  </div>
+                </div>
+                {result.future_seasons && (
+                  <div style={{ background: '#f8faff', border: '1px solid #e5e7eb', borderRadius: 8, padding: '10px 12px' }}>
+                    <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#9ca3af', letterSpacing: 1, marginBottom: 4 }}>RECENT COVERAGE</div>
+                    <div style={{ fontSize: 12, color: '#374151', lineHeight: 1.5 }}>{result.future_seasons}</div>
+                  </div>
+                )}
+              </div>
+            )}
+
             {(result.top_risks?.length > 0 || result.top_opportunities?.length > 0) && (
               <div className="grid-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 10 }}>
                 <div style={{ background: '#fff', border: '1px solid #f1f5f9', borderRadius: 14, padding: 14 }}>
@@ -1196,18 +1231,26 @@ export default function Home() {
 
             {asec === 'metrics' && result.metrics && (
               <div style={{ background: '#fff', border: '1px solid #f1f5f9', borderRadius: 14, padding: 14, marginBottom: 10 }}>
-                {Object.entries(result.metrics).map(([key, data]: [string, any]) => (
-                  <div key={key} className="metric-row" style={{ border: '1px solid #f1f5f9', borderRadius: 8, padding: '10px 12px', marginBottom: 4, background: '#fff' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                      <span style={{ fontSize: 12, fontWeight: 500, color: '#374151', textTransform: 'capitalize' as const }}>{key.replace(/_/g,' ')}</span>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 8 }}>
+                {Object.entries(result.metrics).map(([key, data]: [string, any]) => {
+                  const score = data.score || 0
+                  const color = score >= 70 ? '#16a34a' : score >= 50 ? '#f59f00' : '#dc2626'
+                  const bg = score >= 70 ? '#f0fdf4' : score >= 50 ? '#fffbeb' : '#fef2f2'
+                  return (
+                  <div key={key} className="metric-row" style={{ border: '1px solid #f1f5f9', borderRadius: 10, padding: '12px 14px', background: '#fafafa' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
+                      <span style={{ fontSize: 12, fontWeight: 600, color: '#374151', textTransform: 'capitalize' as const, fontFamily: "'Syne',sans-serif" }}>{key.replace(/_/g,' ')}</span>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                        <div style={{ width: 80, height: 4, background: '#f1f5f9', borderRadius: 2, overflow: 'hidden' }}><div style={{ width: (data.score || 0) + '%', height: '100%', background: data.score >= 70 ? '#16a34a' : data.score >= 50 ? '#f59f00' : '#dc2626', borderRadius: 2 }} /></div>
-                        <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 11, fontWeight: 600, color: data.score >= 70 ? '#16a34a' : data.score >= 50 ? '#f59f00' : '#dc2626', minWidth: 28, textAlign: 'right' as const }}>{data.score}</span>
+                        <div style={{ width: 60, height: 3, background: '#e5e7eb', borderRadius: 2, overflow: 'hidden' }}>
+                          <div style={{ width: score + '%', height: '100%', background: color, borderRadius: 2 }} />
+                        </div>
+                        <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 12, fontWeight: 700, color, minWidth: 28, textAlign: 'right' as const }}>{score}</span>
                       </div>
                     </div>
-                    {data.summary && <div style={{ fontSize: 11, color: '#9ca3af', marginTop: 4 }}>{data.summary}</div>}
+                    {data.summary && <div style={{ fontSize: 11, color: '#6b7280', lineHeight: 1.5, background: bg, padding: '4px 8px', borderRadius: 6 }}>{data.summary}</div>}
                   </div>
-                ))}
+                )})}
+                </div>
               </div>
             )}
 
