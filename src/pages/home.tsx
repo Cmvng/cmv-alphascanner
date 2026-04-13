@@ -276,10 +276,20 @@ Auto-detected FUD signals (from tools): ${JSON.stringify((enriched.auto_fud_flag
 
 === INSTRUCTIONS ===
 All financial data is provided above — do NOT search for TVL, revenue, token price, investors.
-\${(enriched.rootdata_team || []).length === 0 ? 'RootData has no team data. Do 1 web search: "@' + handle + ' founder CEO" to find team members.' : 'Use the RootData team data provided above. No team search needed.'}
+\${(enriched.rootdata_team || []).length === 0 ? 'RootData found no team. Do 1 web search for "@' + handle + ' founder CEO team" to find real names.' : 'Use the RootData team data provided above. No team search needed.'}
 Be concise in metrics — 1 sentence with specific data points only.
 
+RED FLAGS — only flag these real issues:
+- Known hacks or exploits (from tool data)
+- Token dump >30% in 24h (from DexScreener)
+- Extremely low liquidity <$50K (rug risk)
+- Negative news: scam/fraud/SEC/investigation headlines
+- Suspicious on-chain activity (wallet dumps, insider selling)
+- Follow farming or bot followers
+DO NOT flag: missing team data, no TVL for non-DeFi projects, low mindshare, early stage metrics. These are NOT red flags.
+
 Score strictly. Tier A (85+) = only the best CT projects with strong fundamentals. Most projects are B or C.
+Entertainment/events projects without DeFi TVL should NOT be penalized on revenue — use event revenue if mentioned.
 
 Return this exact JSON:
 {
