@@ -272,24 +272,20 @@ Token: ${cg?.token_live ? 'LIVE — ' + (cg.ticker || '') + ' at ' + (cg.token_p
 
 CryptoNews: sentiment=${enriched.news_sentiment || 'unknown'} | articles=${enriched.news_article_count || 0} | red flags=${JSON.stringify(enriched.news_red_flags || [])}
 
-Auto-detected FUD signals (from tools): ${JSON.stringify((enriched.auto_fud_flags || []).map((f:any) => f.label))}
+Auto-detected FUD signals (from tools): ${JSON.stringify((enriched.auto_fud_flags || []).map((f:any) => ({label: f.label, detail: f.detail, severity: f.severity})))}
 
 === INSTRUCTIONS ===
 DO NOT search for: TVL, revenue, token price, investors, funding — all provided above.
-ALWAYS do these searches (max 3 total):
-1. REQUIRED: Search "@${handle} scandal rug hack scam insider dump controversy investigation 2025 2026" — find CURRENT red flags
-2. REQUIRED: Search "@${handle} token unlock vesting schedule airdrop" — find token/unlock details
-3. IF team empty above: Search "@${handle} founder CEO team" — find team members
-
-For RED FLAGS be aggressive — report anything suspicious you find:
-- Insider wallet activity, large dumps, suspicious on-chain moves
-- Team exits, departures, anonymous team concerns  
-- Token unlock schedules with large upcoming unlocks
-- Regulatory issues, investigations, legal problems
-- Community complaints, delays, broken promises
-- Low float / high FDV manipulation risk
-- Copied code, forked without attribution
-If you find NOTHING negative after searching, only then return empty red_flags.
+For RED FLAGS — this is critical:
+ALWAYS convert ALL auto_fud_flags listed above into red_flags entries. Every single one.
+ALSO add flags for:
+- Any hacks listed above → "Security exploit" flag
+- Token dump detected → "Token dump" flag  
+- Negative news red flags listed above → flag each one
+- Low liquidity if dex_liquidity < $50K → "Low liquidity" flag
+- No team data + anonymous project → "Anonymous team" flag
+Do NOT return empty red_flags if auto_fud_flags has entries.
+Be specific in detail — include numbers and sources.
 Be concise in metrics — 1 sentence with specific data points only.
 
 RED FLAGS — only flag these real issues (must be verifiable):
@@ -770,30 +766,55 @@ export default function Home() {
 
     // Run Claude with all tool data — xOnlyScan as fallback
     try {
-      const r = await fetch('https://api.anthropic.com/v1/messages', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-api-key': import.meta.env.VITE_ANTHROPIC_API_KEY,
-          'anthropic-version': '2023-06-01',
-          'anthropic-dangerous-direct-browser-access': 'true'
-        },
-        body: JSON.stringify({
-          model: 'claude-sonnet-4-20250514',
-          max_tokens: 2000,
-          system: buildSystemPrompt(handle, xd, cg),
-          tools: [{ type: 'web_search_20250305', name: 'web_search' }],
-          messages: [{ role: 'user', content: `Analyze @${handle}. Use the tool data in the system prompt. Return JSON only.` }]
+      const ANTHROPIC_HEADERS = {
+        'Content-Type': 'application/json',
+        'x-api-key': import.meta.env.VITE_ANTHROPIC_API_KEY,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      }
+      const systemPrompt = buildSystemPrompt(handle, xd, cg)
+      const messages: any[] = [{ role: 'user', content: `Analyze @${handle}. Use the tool data in the system prompt. Return JSON only.` }]
+      
+      // Server tool: web_search_20250305 — Anthropic executes searches
+      // stop_reason='pause_turn' means searching, 'end_turn' means done
+      // Loop: append response, continue until end_turn
+      let data: any = null
+      for (let turn = 0; turn < 5; turn++) {
+        const r = await fetch('https://api.anthropic.com/v1/messages', {
+          method: 'POST',
+          headers: ANTHROPIC_HEADERS,
+          body: JSON.stringify({
+            model: 'claude-sonnet-4-20250514',
+            max_tokens: 2000,
+            system: systemPrompt,
+            tools: [{ type: 'web_search_20250305', name: 'web_search', max_uses: 3 }],
+            messages
+          })
         })
-      })
-      const data = await r.json()
+        data = await r.json()
+        if (data.error) break
+        if (data.stop_reason === 'end_turn') break
+        if (data.stop_reason === 'pause_turn') {
+          // Claude is searching — append its response and continue
+          messages.push({ role: 'assistant', content: data.content })
+          continue
+        }
+        break
+      }
 
       if (data.error) {
         const msg = data.error.message || ''
-        const isCredits = msg.includes('credit') || msg.includes('billing') || msg.includes('quota') || data.error.type === 'insufficient_quota'
-        const isOverload = msg.includes('overload') || data.error.type === 'overloaded_error'
+        const errType = data.error.type || ''
+        const isCredits = msg.includes('credit') || msg.includes('billing') || msg.includes('quota') || errType === 'insufficient_quota'
+        const isOverload = msg.includes('overload') || errType === 'overloaded_error'
         const isRateLimit = msg.includes('rate limit') || msg.includes('tokens per minute')
+        const isAuth = errType === 'authentication_error' || msg.includes('invalid x-api-key') || msg.includes('invalid api key')
 
+        if (isAuth) { 
+          // API key missing or wrong - fall to xOnlyScan but log clearly
+          console.error('Anthropic API key issue:', msg)
+          xOnlyScan(); return 
+        }
         if (isCredits || isOverload) { xOnlyScan(); return }
         if (isRateLimit) {
           setError('rate_limit'); let secs = 65
