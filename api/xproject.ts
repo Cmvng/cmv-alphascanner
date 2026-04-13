@@ -567,8 +567,8 @@ function detectFUDSignals(u: any, intel: any, dexData: any, hacksData: any[], ne
 // Free, no key — returns team, investors, contract addresses, links
 async function fetchCoinPaprika(projectName: string, handle: string, ticker?: string | null) {
   try {
-    // Search for the project
-    const searchR = await fetch(`https://api.coinpaprika.com/v1/search?q=${encodeURIComponent(ticker || projectName)}&c=currencies&limit=10`)
+    // Search by project name only - never by ticker alone (prevents CHIP matching wrong project)
+    const searchR = await fetch(`https://api.coinpaprika.com/v1/search?q=${encodeURIComponent(projectName)}&c=currencies&limit=10`)
     if (!searchR.ok) return null
     const searchData = await searchR.json()
     const currencies = searchData.currencies || []
@@ -749,7 +749,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   
     // ── Run enrichment tools in parallel ──────────────────────────────────
     const projectName = u?.name || clean
-    const confirmedTicker = intel.confirmedTicker || null
+    // ONLY use ticker verified by CoinGecko — bio tickers like $CHIP are unverified
+    // and will match wrong projects on DexScreener/GeckoTerminal
+    const confirmedTicker = tokenData_cg?.ticker || null
 
     const [_dl, _dlh, _dex, _gecko, _news, _rd, _cp] = await Promise.allSettled([
       withTimeout(fetchDefiLlama(projectName, clean), 4000),
