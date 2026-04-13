@@ -49,7 +49,7 @@ export default function Admin() {
       const log = `[${i+1}/${scans.length}] Rescanning @${s.handle}...`
       setRescanLog(prev => [log, ...prev.slice(0, 19)])
       try {
-        try { localStorage.removeItem('cmv_scan_' + s.handle) } catch {}
+        try { localStorage.removeItem('cmv_scan_v4_' + s.handle); localStorage.removeItem('cmv_scan_v3_' + s.handle); localStorage.removeItem('cmv_scan_' + s.handle) } catch {}
         await fetch('/api/xproject?handle=' + s.handle)
         setRescanLog(prev => [`✓ @${s.handle} — refreshed`, ...prev.slice(0, 19)])
       } catch {
@@ -63,12 +63,41 @@ export default function Admin() {
   }
 
   async function rescanOne(handle: string) {
-    // Clear ALL cached data for this handle
-    try { localStorage.removeItem('cmv_scan_' + handle) } catch {}
+    // Clear ALL cached versions
+    try { 
+      localStorage.removeItem('cmv_scan_' + handle)
+      localStorage.removeItem('cmv_scan_v2_' + handle)
+      localStorage.removeItem('cmv_scan_v3_' + handle)
+      localStorage.removeItem('cmv_scan_v4_' + handle)
+    } catch {}
     setRescanLog(prev => ['↻ Rescanning @' + handle + '...', ...prev.slice(0, 19)])
     try {
-      await fetch('/api/xproject?handle=' + handle)
-      setRescanLog(prev => ['✓ @' + handle + ' done — clear browser cache and re-scan for fresh token data', ...prev.slice(0, 19)])
+      // Get fresh data from xproject
+      const xr = await fetch('/api/xproject?handle=' + handle + '&nocache=true')
+      if (!xr.ok) throw new Error('xproject failed')
+      const xd = await xr.json()
+      // Save to Supabase via save-scan so feed updates
+      await fetch('/api/save-scan', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          handle,
+          project_name: xd.name || handle,
+          verdict: null,
+          score: null,
+          ticker: xd.token_data?.ticker || null,
+          token_price: xd.token_data?.token_price || null,
+          market_cap_str: xd.token_data?.market_cap_str || null,
+          category: xd.enriched?.defillama_category || xd.category || 'Crypto',
+          profile_image_url: xd.profile_image_url || null,
+          good_highlights: [],
+          red_flag_count: xd.enriched?.auto_fud_count || 0,
+          full_result: { xData: xd },
+        })
+      }).catch(() => {})
+      setRescanLog(prev => ['✓ @' + handle + ' rescanned and feed updated', ...prev.slice(0, 19)])
+      // Refresh the scans list
+      loadScans()
     } catch {
       setRescanLog(prev => ['✗ @' + handle + ' failed', ...prev.slice(0, 19)])
     }
