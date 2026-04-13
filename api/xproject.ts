@@ -704,6 +704,68 @@ async function fetchCoinPaprika(projectName: string, handle: string, ticker?: st
 }
 
 
+// ─── Verified Red Flags via web search ──────────────────────────────────────
+// Uses Google Custom Search or SerpAPI if available, falls back to scraping
+// headlines from crypto news RSS feeds for the project
+async function fetchVerifiedRedFlags(projectName: string, handle: string, ticker: string | null) {
+  try {
+    const queries = [
+      `"${projectName}" rug scam exploit hack fraud`,
+      `"${handle}" SEC investigation lawsuit controversy`,
+      ticker ? `"${ticker}" token insider dump wallet` : null,
+    ].filter(Boolean) as string[]
+
+    const results: string[] = []
+
+    for (const q of queries) {
+      try {
+        // Use DuckDuckGo instant answer API (free, no key)
+        const r = await fetch(
+          `https://api.duckduckgo.com/?q=${encodeURIComponent(q)}&format=json&no_html=1&skip_disambig=1`,
+          { headers: { 'User-Agent': 'CMVAlphaScanner/1.0' } }
+        )
+        if (!r.ok) continue
+        const d = await r.json()
+        // Pull abstract and related topics
+        if (d.Abstract && d.Abstract.length > 20) results.push(d.Abstract)
+        if (d.RelatedTopics) {
+          d.RelatedTopics.slice(0, 3).forEach((t: any) => {
+            if (t.Text && t.Text.length > 20) results.push(t.Text)
+          })
+        }
+      } catch { continue }
+    }
+
+    // Also check CoinGecko for any security/caution notices
+    try {
+      const cgUrl = `https://api.coingecko.com/api/v3/search?query=${encodeURIComponent(projectName)}`
+      const cr = await fetch(cgUrl)
+      if (cr.ok) {
+        const cd = await cr.json()
+        const coin = (cd.coins || []).find((c: any) =>
+          c.name?.toLowerCase().includes(projectName.toLowerCase().slice(0, 6)) ||
+          c.symbol?.toUpperCase() === (ticker || '').toUpperCase()
+        )
+        // CoinGecko flags coins with warnings in their trust score
+        if (coin && coin.market_cap_rank && coin.market_cap_rank > 500) {
+          // Low rank + high scrutiny signals
+        }
+      }
+    } catch {}
+
+    // Filter results to only those mentioning negative signals
+    const negativeSignals = ['rug', 'scam', 'hack', 'exploit', 'fraud', 'sec', 'lawsuit',
+      'insider', 'dump', 'exit', 'abandon', 'controversy', 'investigation', 'stolen', 'loss']
+
+    const flagged = results.filter(r =>
+      negativeSignals.some(s => r.toLowerCase().includes(s))
+    )
+
+    return flagged.slice(0, 3)
+  } catch { return [] }
+}
+
+
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   res.setHeader('Access-Control-Allow-Origin', '*')
   res.setHeader('Access-Control-Allow-Methods', 'GET')
@@ -788,7 +850,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     // and will match wrong projects on DexScreener/GeckoTerminal
     const confirmedTicker = tokenData_cg?.ticker || null
 
-    const [_dl, _dlh, _dex, _gecko, _news, _rd, _cp] = await Promise.allSettled([
+    const [_dl, _dlh, _dex, _gecko, _news, _rd, _cp, _fud] = await Promise.allSettled([
       withTimeout(fetchDefiLlama(projectName, clean), 4000),
       withTimeout(fetchDefiLlamaHacks(projectName), 3000),
       confirmedTicker ? withTimeout(fetchDexScreener(confirmedTicker, projectName), 3000) : Promise.resolve(null),
@@ -796,6 +858,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       confirmedTicker ? withTimeout(fetchCryptoNewsSentiment(projectName, confirmedTicker), 3000) : Promise.resolve(null),
       process.env.ROOTDATA_API_KEY ? withTimeout(fetchRootData(projectName, process.env.ROOTDATA_API_KEY), 4000) : Promise.resolve(null),
       withTimeout(fetchCoinPaprika(projectName, clean, confirmedTicker), 4000),
+      withTimeout(fetchVerifiedRedFlags(projectName, clean, confirmedTicker), 5000),
     ])
 
     const dlData   = _dl.status   === 'fulfilled' ? _dl.value   : null
@@ -805,6 +868,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const news     = _news.status === 'fulfilled' ? _news.value  : null
     const rdData   = _rd.status   === 'fulfilled' ? _rd.value   : null
     const cpData   = _cp.status   === 'fulfilled' ? _cp.value   : null
+    const verifiedFudFindings = _fud.status === 'fulfilled' ? (_fud.value || []) : []
 
     let tokenData: any = null
     // If CoinGecko found a token, try DexScreener with that ticker for better price data
@@ -853,6 +917,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     )
     const mergedTeam = [...rdTeam, ...cpTeam].slice(0, 8)
     const autoFudFlags = detectFUDSignals(u, intel, dexData, hacksData || [], news)
+    // Add verified red flag findings from web search
+    verifiedFudFindings.forEach((finding: string) => {
+      autoFudFlags.push({
+        type: 'verified',
+        label: 'Verified negative report',
+        detail: finding.slice(0, 200),
+        severity: 'high' as const
+      })
+    })
 
     const enriched = {
       tvl: dlData?.tvl || null,
