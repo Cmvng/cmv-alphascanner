@@ -199,10 +199,11 @@ async function fetchDefiLlama(projectName: string, handle: string) {
     const currentTvl = data.tvl?.slice(-1)[0]?.totalLiquidityUSD || 0
     const tvlStr = currentTvl >= 1e9 ? `$${(currentTvl/1e9).toFixed(1)}B` : currentTvl >= 1e6 ? `$${(currentTvl/1e6).toFixed(1)}M` : currentTvl > 0 ? `$${Math.round(currentTvl).toLocaleString()}` : null
 
-    const fees24h = data.metrics?.fees?.['24h'] || 0
-    const revenue24h = data.metrics?.revenue?.['24h'] || 0
-    const feesStr = fees24h >= 1e6 ? `$${(fees24h/1e6).toFixed(1)}M/day` : fees24h >= 1e3 ? `$${(fees24h/1e3).toFixed(0)}K/day` : null
-    const revenueStr = revenue24h >= 1e6 ? `$${(revenue24h/1e6).toFixed(1)}M/day` : revenue24h >= 1e3 ? `$${(revenue24h/1e3).toFixed(0)}K/day` : null
+    // DefiLlama revenue - check multiple possible locations in response
+    const fees24h = data.totalFees24h || data.metrics?.fees?.['24h'] || data.fees?.['24h'] || 0
+    const revenue24h = data.totalRevenue24h || data.metrics?.revenue?.['24h'] || data.revenue?.['24h'] || 0
+    const feesStr = fees24h >= 1e6 ? `$${(fees24h/1e6).toFixed(1)}M/day` : fees24h >= 1e3 ? `$${(fees24h/1e3).toFixed(0)}K/day` : fees24h > 0 ? `$${fees24h.toFixed(0)}/day` : null
+    const revenueStr = revenue24h >= 1e6 ? `$${(revenue24h/1e6).toFixed(1)}M/day` : revenue24h >= 1e3 ? `$${(revenue24h/1e3).toFixed(0)}K/day` : revenue24h > 0 ? `$${revenue24h.toFixed(0)}/day` : null
 
     const raises = data.raises || []
     const totalRaised = raises.reduce((sum: number, r: any) => sum + (r.amount || 0), 0)
@@ -403,8 +404,8 @@ function detectFUDSignals(u: any, intel: any, dexData: any, hacksData: any[], ne
     })
   }
 
-  // 3. Low listed count — only if real X data
-  if (hasRealXData && followers > 5000 && listed < followers * 0.005) {
+  // 3. Low listed count — only flag extreme cases (less than 0.1% listed ratio for big accounts)
+  if (hasRealXData && followers > 50000 && listed < followers * 0.001) {
     flags.push({
       type: 'suspicious',
       label: 'Low credibility ratio',
@@ -639,7 +640,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       all_tickers_found: intel.tickers,
       token_launch_hinted: intel.tokenLaunchHinted || !!tokenData?.token_live,
       token_data: tokenData,
-      category: intel.category,
+      category: intel.category,  // Will be overridden by DefiLlama in enriched.defillama_category
       latest_season: intel.latestSeason,
       season_dates: intel.seasonDates,
       funding_mentions: intel.fundingMentions,
