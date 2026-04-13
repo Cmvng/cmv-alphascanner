@@ -3,6 +3,9 @@ import type { VercelRequest, VercelResponse } from '@vercel/node'
 const cache = new Map<string, { data: any; time: number }>()
 const CACHE_TTL = 1000 * 60 * 60 * 24
 
+// Top-level constant — used in multiple functions
+const CHAIN_TOKENS = ['SUI','ETH','BTC','SOL','BNB','MATIC','AVAX','OP','ARB','BASE','NEAR','APT','SEI','INJ','DOT','ATOM','ADA','TRX','XRP','LTC','BCH','FTM','ONE','ALGO','VET','XLM','EOS','HBAR','EGLD','FLOW','CHZ','MANA','SAND','AXS','THETA','XTZ','NEO','WAVES','ZIL','ICX','IOTA','ONT']
+
 async function xFetch(url: string, token: string) {
   const r = await fetch(url, { headers: { Authorization: `Bearer ${token}` } })
   return r.json()
@@ -22,7 +25,6 @@ async function getCoingeckoToken(ticker: string, handle: string, projectName?: s
     // 3. Name contains handle or handle contains name
     // NEVER match just by chain name (avoids SUI/ETH/BTC false positives)
     
-    const CHAIN_TOKENS = ['SUI','ETH','BTC','SOL','BNB','MATIC','AVAX','OP','ARB','BASE','NEAR','APT','SEI','INJ','DOT','ATOM','ADA','TRX','XRP','LTC','BCH','FTM','ONE','ALGO','VET','XLM','EOS','HBAR','EGLD','FLOW','CHZ','MANA','SAND','AXS','THETA','XTZ','NEO','WAVES','ZIL','ICX','IOTA','ONT']
     // Search by ticker, handle, AND project display name (e.g. "Opinion Labs" finds OPNT better than "opinionlabsxyz")
     const cleanProjectName = (projectName || '').toLowerCase().replace(/[^a-z0-9 ]/g, '').trim()
     const searchTerms = [...new Set([ticker, handle, cleanProjectName].filter(Boolean))]
