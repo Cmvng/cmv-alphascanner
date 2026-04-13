@@ -88,8 +88,9 @@ async function getCoingeckoToken(ticker: string, handle: string, projectName?: s
 
         if (!match) continue
         
-        // Double-check: reject if matched coin is a chain token
-        if (CHAIN_TOKENS.includes(match.symbol?.toUpperCase())) continue
+        // Only reject chain tokens if matched by TICKER (Priority 2)
+        // Coin ID and name matches are legitimate even for chain tokens
+        // e.g. searching "polkadot" → DOT is correct, not a false match
 
         // Fetch price data
         const pr = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${match.id}&vs_currencies=usd&include_market_cap=true&include_24hr_vol=true&include_24hr_change=true`)
@@ -103,6 +104,13 @@ async function getCoingeckoToken(ticker: string, handle: string, projectName?: s
         const priceStr = price < 0.0001 ? `$${price.toFixed(8)}` : price < 0.01 ? `$${price.toFixed(6)}` : price < 1 ? `$${price.toFixed(4)}` : `$${price.toFixed(2)}`
         const mcapStr = mcap ? (mcap >= 1e9 ? `$${(mcap/1e9).toFixed(1)}B` : mcap >= 1e6 ? `$${(mcap/1e6).toFixed(1)}M` : `$${Math.round(mcap).toLocaleString()}`) : ''
         const volStr = vol ? (vol >= 1e6 ? `$${(vol/1e6).toFixed(1)}M` : `$${(vol/1e3).toFixed(0)}K`) : null
+        
+        // Sanity check: if project is a stablecoin (USD in name) but price is far from $1, reject
+        const isStablecoinProject = handle.toLowerCase().includes('usd') || 
+                                    (projectName || '').toLowerCase().includes('usd') ||
+                                    handle.toLowerCase().includes('dai') ||
+                                    handle.toLowerCase().includes('usdc')
+        if (isStablecoinProject && price < 0.01) continue // Wrong match - real stablecoin would be ~$1
         
         return {
           token_live: true,
