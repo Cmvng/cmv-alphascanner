@@ -268,7 +268,7 @@ Hacks: ${JSON.stringify(enriched.known_hacks || [])}
 
 RootData: Raised=${enriched.total_raised_rootdata || 'none'} | Investors=${JSON.stringify(enriched.confirmed_investors || [])} | Team=${JSON.stringify((enriched.rootdata_team || []).map((t:any) => ({name:t.name, role:t.role, x:t.x_handle})))}
 
-Token (DexScreener/CoinGecko): live=${cg?.token_live || false} | ticker=${cg?.ticker || 'none'} | price=${cg?.token_price || 'none'} | mcap=${cg?.market_cap_str || 'none'} | volume=${cg?.volume_24h || 'none'} | change24h=${cg?.price_change_24h || 'none'}%
+Token: ${cg?.token_live ? 'LIVE — ' + (cg.ticker || '') + ' at ' + (cg.token_price || '') + ' | mcap=' + (cg.market_cap_str || 'unknown') + ' | vol24h=' + (cg.volume_24h || 'unknown') + ' | change24h=' + (cg.price_change_24h || 0) + '%' : 'NOT YET LAUNCHED — no confirmed token on any DEX'}
 
 CryptoNews: sentiment=${enriched.news_sentiment || 'unknown'} | articles=${enriched.news_article_count || 0} | red flags=${JSON.stringify(enriched.news_red_flags || [])}
 
@@ -313,7 +313,7 @@ Return this exact JSON:
     "founder_cred": {"score": 0-100, "detail": "1 concise sentence with data", "signal": "bullish|bearish|neutral"},
     "founder_activity": {"score": 0-100, "detail": "1 concise sentence with data", "signal": "bullish|bearish|neutral"},
     "top_voices": {"score": 0-100, "detail": "1 concise sentence with data", "signal": "bullish|bearish|neutral"},
-    "token": {"score": 0-100, "detail": "1 concise sentence with data", "signal": "bullish|bearish|neutral"},
+    "token": {"score": 0-100, "detail": "state if live or not, include price/mcap/volume if live", "signal": "bullish|bearish|neutral"},
     "metrics_clarity": {"score": 0-100, "detail": "1 concise sentence with data", "signal": "bullish|bearish|neutral"},
     "user_count": {"score": 0-100, "detail": "1 concise sentence with data", "signal": "bullish|bearish|neutral"},
     "fud": {"score": 0-100, "detail": "1 concise sentence with data", "signal": "bullish|bearish|neutral"},
@@ -1319,15 +1319,18 @@ export default function Home() {
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 10 }}>
                   <div style={{ background: '#f8faff', border: '1px solid #e5e7eb', borderRadius: 8, padding: '10px 12px' }}>
                     <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#9ca3af', letterSpacing: 1, marginBottom: 4 }}>TOKEN STATUS</div>
-                    {result.token_data?.token_live ? (
-                      <span style={{ background: '#dcfce7', color: '#16a34a', border: '1px solid #86efac', borderRadius: 20, padding: '3px 10px', fontFamily: "'DM Mono',monospace", fontSize: 10, display: 'inline-flex', alignItems: 'center', gap: 5 }}>
-                        <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#16a34a', display: 'inline-block' }} />{result.token_data.ticker} {result.token_data.token_price}
-                      </span>
-                    ) : (
+                    {(result.token_data?.token_live || cgData?.token_live) ? (() => {
+                        const td = result.token_data?.token_live ? result.token_data : cgData
+                        return (
+                          <span style={{ background: '#dcfce7', color: '#16a34a', border: '1px solid #86efac', borderRadius: 20, padding: '3px 10px', fontFamily: "'DM Mono',monospace", fontSize: 10, display: 'inline-flex', alignItems: 'center', gap: 5 }}>
+                            <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#16a34a', display: 'inline-block' }} />{td.ticker} {td.token_price}
+                          </span>
+                        )
+                      })() : (
                       <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 11, color: '#9ca3af' }}>Not yet launched</span>
                     )}
                   </div>
-                  {result.token_data?.token_live && result.post_tge_outlook && (
+                  {(result.token_data?.token_live || cgData?.token_live) && result.post_tge_outlook && (
                     <div style={{ background: '#f8faff', border: '1px solid #e5e7eb', borderRadius: 8, padding: '10px 12px' }}>
                       <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#9ca3af', letterSpacing: 1, marginBottom: 4 }}>TOKEN OUTLOOK</div>
                       <div style={{ fontSize: 12, fontWeight: 600, color: result.post_tge_outlook?.includes('Poor') ? '#e8590c' : result.post_tge_outlook?.includes('High') ? '#16a34a' : '#f59f00' }}>{result.post_tge_outlook}</div>
