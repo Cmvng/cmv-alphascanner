@@ -16,12 +16,15 @@ async function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T | null
 
 async function getCoingeckoToken(ticker: string, handle: string) {
   try {
-    const searchTerms: string[] = []
-    if (ticker) searchTerms.push(ticker)
-    searchTerms.push(handle)
-    const stripped = handle.replace(/^(try|use|get|go|the)/i, '')
-    if (stripped !== handle && stripped.length > 3) searchTerms.push(stripped)
-
+    // Strategy: search CoinGecko and find best match by:
+    // 1. Exact coin ID match with handle (e.g. handle=ravedao → id=ravedao)
+    // 2. Exact ticker symbol match
+    // 3. Name contains handle or handle contains name
+    // NEVER match just by chain name (avoids SUI/ETH/BTC false positives)
+    
+    const CHAIN_TOKENS = ['SUI','ETH','BTC','SOL','BNB','MATIC','AVAX','OP','ARB','BASE','NEAR','APT','SEI','INJ']
+    const searchTerms = [...new Set([ticker, handle].filter(Boolean))]
+    
     for (const term of searchTerms) {
       if (!term || term.length < 2) continue
       try {
@@ -29,42 +32,84 @@ async function getCoingeckoToken(ticker: string, handle: string) {
         const d = await r.json()
         if (!d.coins?.length) continue
 
-        let match: any = null
-        if (ticker && term === ticker) {
-          const exact = d.coins.filter((c: any) => c.symbol?.toUpperCase() === ticker.toUpperCase())
-          if (exact.length > 0) match = exact.sort((a: any, b: any) => (a.market_cap_rank || 9999) - (b.market_cap_rank || 9999))[0]
-        } else {
+        const handleLower = handle.toLowerCase().replace(/[^a-z0-9]/g, '')
+        const tickerUpper = (ticker || '').toUpperCase()
+        
+        // Priority 1: coin ID exactly matches handle (most reliable)
+        let match = d.coins.find((c: any) => {
+          const coinId = (c.id || '').toLowerCase().replace(/[^a-z0-9]/g, '')
+          return coinId === handleLower || coinId === handleLower + 'dao' || 
+                 handleLower === coinId || handleLower.includes(coinId) && coinId.length > 4
+        })
+        
+        // Priority 2: exact ticker match but NOT a chain token
+        if (!match && tickerUpper && !CHAIN_TOKENS.includes(tickerUpper)) {
+          const tickerMatches = d.coins.filter((c: any) => 
+            c.symbol?.toUpperCase() === tickerUpper
+          )
+          if (tickerMatches.length > 0) {
+            match = tickerMatches.sort((a: any, b: any) => 
+              (a.market_cap_rank || 9999) - (b.market_cap_rank || 9999)
+            )[0]
+          }
+        }
+        
+        // Priority 3: name match — both must contain each other
+        if (!match) {
+          const nameLower = (d.coins[0]?.name || '').toLowerCase().replace(/[^a-z0-9]/g, '')
           const nameMatches = d.coins.filter((c: any) => {
-            const cName = c.name?.toLowerCase() || ''
-            const t = term.toLowerCase()
-            return (cName.includes(t) || t.includes(cName)) && (c.market_cap_rank || 9999) < 2000
+            const cName = (c.name || '').toLowerCase().replace(/[^a-z0-9]/g, '')
+            // Must be a strong match, not just partial
+            return (cName === handleLower || 
+                    cName.includes(handleLower) || 
+                    handleLower.includes(cName)) && 
+                   cName.length > 3 &&
+                   !CHAIN_TOKENS.includes(c.symbol?.toUpperCase()) &&
+                   (c.market_cap_rank || 9999) < 3000
           })
-          if (nameMatches.length > 0) match = nameMatches.sort((a: any, b: any) => (a.market_cap_rank || 9999) - (b.market_cap_rank || 9999))[0]
+          if (nameMatches.length > 0) {
+            match = nameMatches.sort((a: any, b: any) => 
+              (a.market_cap_rank || 9999) - (b.market_cap_rank || 9999)
+            )[0]
+          }
         }
 
         if (!match) continue
+        
+        // Double-check: reject if matched coin is a chain token
+        if (CHAIN_TOKENS.includes(match.symbol?.toUpperCase())) continue
 
-        const pr = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${match.id}&vs_currencies=usd&include_market_cap=true`)
+        // Fetch price data
+        const pr = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${match.id}&vs_currencies=usd&include_market_cap=true&include_24hr_vol=true&include_24hr_change=true`)
         const pd = await pr.json()
         const price = pd[match.id]?.usd
         const mcap = pd[match.id]?.usd_market_cap
+        const vol = pd[match.id]?.usd_24h_vol
+        const change = pd[match.id]?.usd_24h_change
         if (!price || price === 0) continue
 
-        const priceStr = price < 0.01 ? `$${price.toFixed(6)}` : price < 1 ? `$${price.toFixed(4)}` : `$${price.toFixed(2)}`
-        const mcapStr = mcap ? (mcap >= 1e9 ? `$${(mcap / 1e9).toFixed(1)}B` : mcap >= 1e6 ? `$${(mcap / 1e6).toFixed(1)}M` : `$${Math.round(mcap).toLocaleString()}`) : ''
+        const priceStr = price < 0.0001 ? `$${price.toFixed(8)}` : price < 0.01 ? `$${price.toFixed(6)}` : price < 1 ? `$${price.toFixed(4)}` : `$${price.toFixed(2)}`
+        const mcapStr = mcap ? (mcap >= 1e9 ? `$${(mcap/1e9).toFixed(1)}B` : mcap >= 1e6 ? `$${(mcap/1e6).toFixed(1)}M` : `$${Math.round(mcap).toLocaleString()}`) : ''
+        const volStr = vol ? (vol >= 1e6 ? `$${(vol/1e6).toFixed(1)}M` : `$${(vol/1e3).toFixed(0)}K`) : null
+        
         return {
           token_live: true,
           ticker: match.symbol?.toUpperCase(),
           token_price: priceStr,
           market_cap: mcap,
           market_cap_str: mcapStr,
-          token_note: `Live · $${match.symbol?.toUpperCase()} · ${mcapStr}`
+          volume_24h: volStr,
+          price_change_24h: change ? parseFloat(change.toFixed(2)) : null,
+          coingecko_id: match.id,
+          token_note: `Live · $${match.symbol?.toUpperCase()} · ${mcapStr}`,
+          source: 'coingecko',
         }
       } catch { continue }
     }
     return null
   } catch { return null }
 }
+
 
 function extractIntelligence(tweets: any[], bio: string, pinnedTweet: string) {
   const allText = [bio, pinnedTweet, ...tweets.map((t: any) => t.text)].join(' ')
@@ -680,9 +725,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const [_dl, _dlh, _dex, _gecko, _news, _rd, _cp] = await Promise.allSettled([
       withTimeout(fetchDefiLlama(projectName, clean), 4000),
       withTimeout(fetchDefiLlamaHacks(projectName), 3000),
-      withTimeout(fetchDexScreener(confirmedTicker || projectName, projectName), 3000),
-      withTimeout(fetchGeckoTerminal(confirmedTicker || projectName, projectName), 3000),
-      withTimeout(fetchCryptoNewsSentiment(projectName, confirmedTicker || undefined), 3000),
+      confirmedTicker ? withTimeout(fetchDexScreener(confirmedTicker, projectName), 3000) : Promise.resolve(null),
+      confirmedTicker ? withTimeout(fetchGeckoTerminal(confirmedTicker, projectName), 3000) : Promise.resolve(null),
+      confirmedTicker ? withTimeout(fetchCryptoNewsSentiment(projectName, confirmedTicker), 3000) : Promise.resolve(null),
       process.env.ROOTDATA_API_KEY ? withTimeout(fetchRootData(projectName, process.env.ROOTDATA_API_KEY), 4000) : Promise.resolve(null),
       withTimeout(fetchCoinPaprika(projectName, clean, confirmedTicker), 4000),
     ])
@@ -695,10 +740,18 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const rdData   = _rd.status   === 'fulfilled' ? _rd.value   : null
     const cpData   = _cp.status   === 'fulfilled' ? _cp.value   : null
 
-    let tokenData: any = tokenData_cg || null
-    if (dexData?.token_live) tokenData = { ...dexData, source: 'dexscreener' }
-    else if (geckoData?.token_live) tokenData = { ...geckoData, source: 'geckoterminal' }
-    else if (cpData?.token_live && cpData?.price_data) {
+    let tokenData: any = null
+    // If CoinGecko found a token, try DexScreener with that ticker for better price data
+    if (tokenData_cg?.token_live && tokenData_cg.ticker && !dexData?.token_live) {
+      try {
+        const dexRetry = await withTimeout(fetchDexScreener(tokenData_cg.ticker, projectName), 3000)
+        if (dexRetry?.token_live) tokenData = { ...dexRetry, source: 'dexscreener' }
+      } catch {}
+    }
+    if (!tokenData && dexData?.token_live) tokenData = { ...dexData, source: 'dexscreener' }
+    else if (!tokenData && geckoData?.token_live) tokenData = { ...geckoData, source: 'geckoterminal' }
+    if (!tokenData && tokenData_cg?.token_live) tokenData = { ...tokenData_cg }
+    else if (!tokenData && cpData?.token_live && cpData?.price_data) {
       tokenData = {
         token_live: true,
         ticker: cpData.symbol,
