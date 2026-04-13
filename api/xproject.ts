@@ -22,7 +22,7 @@ async function getCoingeckoToken(ticker: string, handle: string, projectName?: s
     // 3. Name contains handle or handle contains name
     // NEVER match just by chain name (avoids SUI/ETH/BTC false positives)
     
-    const CHAIN_TOKENS = ['SUI','ETH','BTC','SOL','BNB','MATIC','AVAX','OP','ARB','BASE','NEAR','APT','SEI','INJ']
+    const CHAIN_TOKENS = ['SUI','ETH','BTC','SOL','BNB','MATIC','AVAX','OP','ARB','BASE','NEAR','APT','SEI','INJ','DOT','ATOM','ADA','TRX','XRP','LTC','BCH','FTM','ONE','ALGO','VET','XLM','EOS','HBAR','EGLD','FLOW','CHZ','MANA','SAND','AXS','THETA','XTZ','NEO','WAVES','ZIL','ICX','IOTA','ONT']
     // Search by ticker, handle, AND project display name (e.g. "Opinion Labs" finds OPNT better than "opinionlabsxyz")
     const cleanProjectName = (projectName || '').toLowerCase().replace(/[^a-z0-9\s]/g, '').trim()
     const searchTerms = [...new Set([ticker, handle, cleanProjectName].filter(Boolean))]
@@ -775,15 +775,28 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     let tokenData: any = null
     // If CoinGecko found a token, try DexScreener with that ticker for better price data
-    if (tokenData_cg?.token_live && tokenData_cg.ticker && !dexData?.token_live) {
+    // BUT: skip if ticker is a major L1/chain token (DOT, ATOM etc) - DexScreener finds scam copies
+    const skipDexRetry = CHAIN_TOKENS.includes((tokenData_cg?.ticker || '').toUpperCase())
+    if (tokenData_cg?.token_live && tokenData_cg.ticker && !dexData?.token_live && !skipDexRetry) {
       try {
         const dexRetry = await withTimeout(fetchDexScreener(tokenData_cg.ticker, projectName), 3000)
-        if (dexRetry?.token_live) tokenData = { ...dexRetry, source: 'dexscreener' }
+        // Only use DexScreener result if price is significantly different from CoinGecko
+        // and not suspiciously low (scam token detection)
+        const cgPrice = parseFloat((tokenData_cg.token_price || '0').replace('$',''))
+        const dexPrice = parseFloat((dexRetry?.token_price || '0').replace('$',''))
+        const priceRatio = cgPrice > 0 ? dexPrice / cgPrice : 0
+        // Reject if DexScreener price is less than 10% of CoinGecko price (likely scam copy)
+        if (dexRetry?.token_live && priceRatio > 0.1) tokenData = { ...dexRetry, source: 'dexscreener' }
       } catch {}
     }
     if (!tokenData && dexData?.token_live) tokenData = { ...dexData, source: 'dexscreener' }
     else if (!tokenData && geckoData?.token_live) tokenData = { ...geckoData, source: 'geckoterminal' }
+    // Always fall back to CoinGecko data - it's verified and accurate
     if (!tokenData && tokenData_cg?.token_live) tokenData = { ...tokenData_cg }
+    // If CoinGecko found it but we used DexScreener, keep CoinGecko as backup for mcap/supply data
+    if (tokenData && !tokenData.market_cap_str && tokenData_cg?.market_cap_str) {
+      tokenData.market_cap_str = tokenData_cg.market_cap_str
+    }
     else if (!tokenData && cpData?.token_live && cpData?.price_data) {
       tokenData = {
         token_live: true,
