@@ -1,915 +1,1492 @@
-import type { VercelRequest, VercelResponse } from '@vercel/node'
+import { useState, useEffect, useRef } from 'react'
+import { fetchProjectXData } from '../lib/xapi'
 
-const cache = new Map<string, { data: any; time: number }>()
-const CACHE_TTL = 1000 * 60 * 60 * 24
+const METRICS = [
+  { id: 'funding', label: 'Funding Quality', icon: '💰', cat: 'Fundamentals', weight: 200 },
+  { id: 'vc_pedigree', label: 'VC Pedigree & Track Record', icon: '🏦', cat: 'Fundamentals', weight: 200 },
+  { id: 'copycat', label: 'Originality Check', icon: '🔍', cat: 'Fundamentals', weight: 200 },
+  { id: 'niche', label: 'Niche Potential', icon: '🎯', cat: 'Fundamentals', weight: 200 },
+  { id: 'location', label: 'Team Location & Ecosystem', icon: '🌍', cat: 'Fundamentals', weight: 200 },
+  { id: 'founder_cred', label: 'Founder Credibility', icon: '👤', cat: 'Team', weight: 200 },
+  { id: 'founder_activity', label: 'Founder X Activity', icon: '📡', cat: 'Team', weight: 200 },
+  { id: 'top_voices', label: 'Top Voices Talking About It', icon: '🎙️', cat: 'Team', weight: 200 },
+  { id: 'token', label: 'Token Confirmation', icon: '🪙', cat: 'Opportunity', weight: 200 },
+  { id: 'metrics_clarity', label: 'Top 1-10% Requirements', icon: '📊', cat: 'Opportunity', weight: 200 },
+  { id: 'user_count', label: 'User Count & Dilution Risk', icon: '👥', cat: 'Opportunity', weight: 200 },
+  { id: 'fud', label: 'FUD Alert', icon: '⚠️', cat: 'Sentiment', weight: 200 },
+  { id: 'notable_mentions', label: 'Notable CT Mentions', icon: '📣', cat: 'Sentiment', weight: 200 },
+  { id: 'content_type', label: 'Organic vs Sponsored', icon: '🎬', cat: 'Sentiment', weight: 200 },
+  { id: 'mindshare', label: 'Current Mindshare', icon: '🧠', cat: 'Traction', weight: 200 },
+  { id: 'revenue', label: 'Revenue Generation', icon: '📈', cat: 'Traction', weight: 200 },
+  { id: 'sentiment', label: 'Overall CT Sentiment', icon: '🌡️', cat: 'Traction', weight: 200 },
+]
 
-// Top-level constant — used in multiple functions
-const CHAIN_TOKENS = ['SUI','ETH','BTC','SOL','BNB','MATIC','AVAX','OP','ARB','BASE','NEAR','APT','SEI','INJ','DOT','ATOM','ADA','TRX','XRP','LTC','BCH','FTM','ONE','ALGO','VET','XLM','EOS','HBAR','EGLD','FLOW','CHZ','MANA','SAND','AXS','THETA','XTZ','NEO','WAVES','ZIL','ICX','IOTA','ONT']
+const CATS = ['Fundamentals', 'Team', 'Opportunity', 'Sentiment', 'Traction']
 
-async function xFetch(url: string, token: string) {
-  const r = await fetch(url, { headers: { Authorization: `Bearer ${token}` } })
-  return r.json()
+const PHASES = [
+  'Fetching X profile data...',
+  'Searching the web for alpha...',
+  'Verifying project identity...',
+  'Researching VCs & funding...',
+  'Detecting red flags...',
+  'Computing CMV Alpha Score...',
+  'Almost ready...',
+]
+
+const LOADING_MSGS = [
+  { text: 'Currently scanning.... hold tight', emoji: '🔍' },
+  { text: 'Deep diving into the data...', emoji: '🏊' },
+  { text: 'Checking what CT is saying...', emoji: '👀' },
+  { text: 'Almost there, do not move...', emoji: '🫡' },
+  { text: 'Final alpha checks loading...', emoji: '⚡' },
+]
+
+const T: Record<string, any> = {
+  A: { bg: '#ebfbee', border: '#8ce99a', tc: '#2f9e44', solid: '#37b24d', lbl: 'Tier A', v: 'FARM IT', sub: 'High conviction play. Go hard.', target: 'Top 30-50%', vbg: 'linear-gradient(135deg,#37b24d,#2f9e44)', emoji: '🌾', range: '850-1000' },
+  B: { bg: '#fff3bf', border: '#ffe066', tc: '#e67700', solid: '#f59f00', lbl: 'Tier B', v: 'CREATE CONTENT', sub: 'Might cook or not. Keep expectations low.', target: 'Top 20%', vbg: 'linear-gradient(135deg,#f59f00,#e67700)', emoji: '✍️', range: '600-799' },
+  C: { bg: '#fff4e6', border: '#ffc078', tc: '#d9480f', solid: '#e8590c', lbl: 'Tier C', v: 'WATCH', sub: 'Too early to call. Monitor closely.', target: 'Top 10%', vbg: 'linear-gradient(135deg,#e8590c,#d9480f)', emoji: '👁️', range: '350-599' },
+  D: { bg: '#f1f3f5', border: '#dee2e6', tc: '#495057', solid: '#868e96', lbl: 'Tier D', v: 'SKIP', sub: 'Not worth your time right now.', target: '', vbg: 'linear-gradient(135deg,#868e96,#495057)', emoji: '🚫', range: '0-349' },
 }
 
-// Timeout wrapper — prevents slow APIs from blocking the whole scan
-async function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T | null> {
-  const timeout = new Promise<null>((_, reject) => setTimeout(() => reject(new Error('timeout')), ms))
-  try { return await Promise.race([promise, timeout]) as T } catch { return null }
+const HOW_TO_PLAY: Record<string, string> = {
+  'AI Project': 'Create content, test the product publicly and document your experience. Early users who build in public get rewarded.',
+  'Perp DEX': 'Farm carefully. Use delta neutral strategies or a signal provider. Do not trade with money you cannot afford to lose.',
+  'L1/L2': 'Create content, run a node if possible, and perform a wide variety of onchain tasks. Diversity matters more than volume.',
+  'Testnet': 'Do every single task available. Testnet rewards go to the most active early users. Screenshot everything.',
+  'Prediction Market': 'Farm points aggressively but never bet more than you can lose. Keep farming wallet separate from prediction wallet.',
+  'DeFi/Lending': 'Provide liquidity early, monitor unlock schedules, watch for VC dump windows.',
+  'NFT/Gaming': 'Engage with the community first, create content, hold floor assets carefully.',
+  'RWA': 'Long term hold play. Create educational content. Do not expect a quick airdrop.',
+  'SocialFi': 'Be active early, build followers within the app itself, refer aggressively. First mover advantage is everything.',
+  'Infrastructure': 'Build something on it publicly. Developer allocations are typically the most generous.',
 }
 
-async function getCoingeckoToken(ticker: string, handle: string, projectName?: string) {
-  try {
-    // Strategy: search CoinGecko and find best match by:
-    // 1. Exact coin ID match with handle (e.g. handle=ravedao → id=ravedao)
-    // 2. Exact ticker symbol match
-    // 3. Name contains handle or handle contains name
-    // NEVER match just by chain name (avoids SUI/ETH/BTC false positives)
-    
-    // Search by ticker, handle, AND project display name (e.g. "Opinion Labs" finds OPNT better than "opinionlabsxyz")
-    const cleanProjectName = (projectName || '').toLowerCase().replace(/[^a-z0-9 ]/g, '').trim()
-    const searchTerms = [...new Set([ticker, handle, cleanProjectName].filter(Boolean))]
-    
-    for (const term of searchTerms) {
-      if (!term || term.length < 2) continue
+const GOOD_TAGS = [
+  { id: 'vc', label: 'Tier 1 VC backed 🔥' },
+  { id: 'organic', label: 'Strong organic CT buzz 📣' },
+  { id: 'season', label: 'Active season confirmed 🌾' },
+  { id: 'lowdilution', label: 'Low dilution risk 💎' },
+  { id: 'doxxed', label: 'Doxxed team with track record 👤' },
+  { id: 'revenue', label: 'Generating real revenue 📈' },
+  { id: 'earlystage', label: 'Early stage — get in now ⏰' },
+  { id: 'mindshare', label: 'Rising mindshare fast 🧠' },
+]
+
+const BAD_TAGS = [
+  { id: 'rughistory', label: 'Rug history detected 🚨' },
+  { id: 'allshill', label: '99% paid content — all shill 🤥' },
+  { id: 'anonteam', label: 'Anonymous team — no track record ⚠️' },
+  { id: 'diluted', label: '2M+ users — heavily diluted 👥' },
+  { id: 'noproduct', label: 'No revenue, no product 📉' },
+  { id: 'fud', label: 'Active scam allegations 🚩' },
+  { id: 'vcbag', label: 'VCs holding massive bags 💀' },
+  { id: 'notoken', label: 'No token clarity whatsoever ❓' },
+]
+
+function getTier(s: number) { return s >= 85 ? 'A' : s >= 60 ? 'B' : s >= 35 ? 'C' : 'D' }
+
+function computeCombinedScore(alphaScore: number, xScore: number) {
+  // 70% Claude alpha analysis + 30% X social score
+  const combined = Math.round((alphaScore * 0.5) + (xScore * 0.5))
+  return Math.min(1000, Math.max(0, combined))
+}
+
+function computeCMVAlphaScore(metrics: any, redFlags: any[]) {
+  if (!metrics) return { total: 0, categories: {}, fudPenalty: 0 }
+  const cats: Record<string, { score: number; max: number; metrics: string[] }> = {
+    Fundamentals: { score: 0, max: 200, metrics: ['funding', 'vc_pedigree', 'copycat', 'niche', 'location'] },
+    Team: { score: 0, max: 200, metrics: ['founder_cred', 'founder_activity', 'top_voices'] },
+    Opportunity: { score: 0, max: 200, metrics: ['token', 'metrics_clarity', 'user_count'] },
+    Sentiment: { score: 0, max: 200, metrics: ['fud', 'notable_mentions', 'content_type'] },
+    Traction: { score: 0, max: 200, metrics: ['mindshare', 'revenue', 'sentiment'] },
+  }
+  for (const [cat, data] of Object.entries(cats)) {
+    const scores = data.metrics.map((m: string) => metrics[m]?.score ?? 0)
+    const avg = scores.reduce((a: number, b: number) => a + b, 0) / scores.length
+    cats[cat].score = Math.round((avg / 100) * 200)
+  }
+  let fudPenalty = 0
+  for (const flag of redFlags) {
+    if (!flag?.label) continue
+    if (flag.type === 'rug') fudPenalty += 150
+    else if (flag.type === 'scam') fudPenalty += 150
+    else if (flag.type === 'exploit') fudPenalty += 100
+    else if (flag.type === 'dump') fudPenalty += 80
+    else if (flag.type === 'shill') fudPenalty += 60
+    else if (flag.type === 'anon') fudPenalty += 40
+    else fudPenalty += 30
+  }
+  fudPenalty = Math.min(300, fudPenalty)
+  const rawTotal = Object.values(cats).reduce((a: number, c: any) => a + c.score, 0)
+  const total = Math.max(0, Math.min(1000, rawTotal - fudPenalty))
+  return { total, categories: cats, fudPenalty }
+}
+
+function tsq(tier: string, sz = 20) {
+  return `<div style="width:${sz}px;height:${sz}px;background:${T[tier].solid};border-radius:${sz > 20 ? 6 : 4}px;display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:${sz > 20 ? 12 : 9}px;font-weight:500;color:#fff;flex-shrink:0">${tier}</div>`
+}
+
+function xjson(text: string) {
+  const c = text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim()
+  const cands: string[] = []; let d = 0, s = -1
+  for (let i = 0; i < c.length; i++) {
+    if (c[i] === '{') { if (d === 0) s = i; d++ }
+    else if (c[i] === '}') { d--; if (d === 0 && s !== -1) { cands.push(c.slice(s, i + 1)); s = -1 } }
+  }
+  for (const x of cands.sort((a, b) => b.length - a.length)) {
+    try { const o = JSON.parse(x); if (o?.metrics && o?.verdict) return o } catch { continue }
+  }
+  return null
+}
+
+function stripCites(obj: any): any {
+  if (typeof obj === 'string') return obj.replace(/<cite[^>]*>|<\/cite>/g, '').replace(/\[\d+\]/g, '').trim()
+  if (Array.isArray(obj)) return obj.map(stripCites)
+  if (obj && typeof obj === 'object') {
+    const clean: any = {}
+    for (const k in obj) clean[k] = stripCites(obj[k])
+    return clean
+  }
+  return obj
+}
+
+
+function MetricRow({ metric, data }: { metric: any, data: any }) {
+  const [open, setOpen] = useState(false)
+  const sc = typeof data?.score === 'number' ? data.score : 0
+  const tier = getTier(sc)
+  const col = T[tier].solid
+  const sig = data?.signal ?? 'neutral'
+  const sigBg = sig === 'bullish' ? '#ebfbee' : sig === 'bearish' ? '#fff5f5' : '#f1f3f5'
+  const sigTc = sig === 'bullish' ? '#2f9e44' : sig === 'bearish' ? '#c92a2a' : '#868e96'
+  return (
+    <div className="metric-row" onClick={() => setOpen(o => !o)} style={{ border: `1px solid ${open ? '#d1fae5' : '#f1f5f9'}`, borderRadius: 10, padding: '11px 13px', marginBottom: 3, cursor: 'pointer', background: open ? '#f0fdf4' : '#fff', transition: 'all 0.2s' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
+        <span style={{ fontSize: 14 }}>{metric.icon}</span>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 5, gap: 8 }}>
+            <span style={{ fontSize: 12, fontWeight: 600, color: '#14532d' }}>{metric.label}</span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 5, flexShrink: 0 }}>
+              <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, padding: '2px 6px', borderRadius: 20, background: sigBg, color: sigTc }}>{sig}</span>
+              <div dangerouslySetInnerHTML={{ __html: tsq(tier, 18) }} />
+              <span style={{ fontSize: 15, fontWeight: 800, color: col, minWidth: 22, textAlign: 'right' as const }}>{sc}</span>
+            </div>
+          </div>
+          <div style={{ background: sig === 'bullish' ? '#ebfbee' : sig === 'bearish' ? '#fff5f5' : '#f0f4ff', borderRadius: 3, height: 4, overflow: 'hidden' }}>
+            <div style={{ width: `${sc}%`, height: '100%', background: col, borderRadius: 3, transition: 'width 1.1s cubic-bezier(0.4,0,0.2,1)' }} />
+          </div>
+        </div>
+      </div>
+      {open && (
+        <div style={{ marginTop: 10, paddingTop: 10, borderTop: '1px solid #f0f4ff', paddingLeft: 23 }}>
+          {data?.why_this_score && <div style={{ background: sigBg, borderRadius: 6, padding: '5px 10px', marginBottom: 7, fontSize: 11, fontWeight: 600, color: sigTc }}>→ {data.why_this_score}</div>}
+          {data?.detail && <div style={{ fontSize: 11, color: '#6c7a9c', lineHeight: 1.7 }}>{data.detail}</div>}
+        </div>
+      )}
+    </div>
+  )
+}
+
+function TeamCardEnriched({ member }: { member: any }) {
+  const [xProfile, setXProfile] = useState<any>(null)
+  const [err, setErr] = useState(false)
+  const handle = (member.x_handle || '').replace('@', '')
+  const cleanHandle = handle.toLowerCase() === 'unknown' || handle === '' ? '' : handle
+  useEffect(() => {
+    if (!cleanHandle) return
+    fetch(`/api/xuser?handle=${cleanHandle}`).then(r => r.ok ? r.json() : null).then(d => { if (d && !d.error) setXProfile(d) }).catch(() => {})
+  }, [cleanHandle])
+  const ini = (member.name || '?').slice(0, 2).toUpperCase()
+  const imgSrc = xProfile?.profile_image_url || member.profile_image_url || (cleanHandle ? `https://unavatar.io/twitter/${cleanHandle}` : null)
+  return (
+    <div style={{ background: '#f8f9ff', border: '1px solid #dbe4ff', borderRadius: 10, padding: '12px 14px', display: 'flex', alignItems: 'flex-start', gap: 12 }}>
+      <div onClick={() => { if (cleanHandle) window.open('https://x.com/' + cleanHandle, '_blank', 'noopener,noreferrer') }} style={{ flexShrink: 0, cursor: cleanHandle ? 'pointer' : 'default' }}>
+        {!err && imgSrc ? <img src={imgSrc} alt={member.name} style={{ width: 42, height: 42, borderRadius: '50%', objectFit: 'cover', border: '1px solid #dbe4ff' }} onError={() => setErr(true)} /> : <div style={{ width: 42, height: 42, borderRadius: '50%', background: '#dcfce7', color: '#15803d', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'DM Mono',monospace", fontSize: 13, fontWeight: 700 }}>{ini}</div>}
+      </div>
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' as const, marginBottom: 2 }}>
+          <span onClick={() => { if (cleanHandle) window.open('https://x.com/' + cleanHandle, '_blank', 'noopener,noreferrer') }} style={{ fontSize: 13, fontWeight: 600, color: '#111', fontFamily: "'Syne',sans-serif", cursor: cleanHandle ? 'pointer' : 'default', textDecoration: cleanHandle ? 'underline' : 'none' }}>{member.name}</span>
+          {!member.confirmed && <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#e67700', background: '#fff3bf', border: '1px solid #ffe066', padding: '1px 6px', borderRadius: 20 }}>unconfirmed</span>}
+          {xProfile?.verified && <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#15803d', background: '#dcfce7', padding: '1px 6px', borderRadius: 20 }}>✓</span>}
+        </div>
+        <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 10, color: '#16a34a', marginBottom: 4 }}>
+          {member.role}{cleanHandle ? ` · @${cleanHandle}` : ''}
+          {xProfile?.followers ? <span style={{ color: '#9ca3af', marginLeft: 6 }}>{xProfile.followers >= 1000 ? `${(xProfile.followers/1000).toFixed(0)}K` : xProfile.followers} followers</span> : null}
+        </div>
+        {member.background && <div style={{ fontSize: 11, color: '#6c7a9c', lineHeight: 1.5 }}>{member.background}</div>}
+      </div>
+    </div>
+  )
+}
+
+function TeamCard({ member }: { member: any }) {
+  const [err, setErr] = useState(false)
+  const handle = (member.x_handle || '').replace('@', '').replace('@', '')
+  const cleanHandle = handle.toLowerCase() === 'unknown' ? '' : handle
+  const ini = (member.name || '?').slice(0, 2).toUpperCase()
+  const imgSrc = member.profile_image_url || (cleanHandle ? `https://unavatar.io/twitter/${cleanHandle}` : null)
+  return (
+    <div style={{ background: '#f8f9ff', border: '1px solid #dbe4ff', borderRadius: 10, padding: '12px 14px', display: 'flex', alignItems: 'flex-start', gap: 12 }}>
+      <div onClick={() => cleanHandle && window.open(`https://x.com/${cleanHandle}`, '_blank', 'noopener,noreferrer')} style={{ flexShrink: 0, cursor: cleanHandle ? 'pointer' : 'default' }}>
+        {!err && imgSrc ? <img src={imgSrc} alt={member.name} style={{ width: 42, height: 42, borderRadius: '50%', objectFit: 'cover', border: '1px solid #dbe4ff' }} onError={() => setErr(true)} /> : <div style={{ width: 42, height: 42, borderRadius: '50%', background: '#dcfce7', color: '#15803d', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'DM Mono',monospace", fontSize: 13, fontWeight: 700 }}>{ini}</div>}
+      </div>
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' as const, marginBottom: 2 }}>
+          <span style={{ fontSize: 13, fontWeight: 600, color: '#111', fontFamily: "'Syne',sans-serif" }}>{member.name}</span>
+          {!member.confirmed && <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#e67700', background: '#fff3bf', border: '1px solid #ffe066', padding: '1px 6px', borderRadius: 20 }}>unconfirmed</span>}
+        </div>
+        <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 10, color: '#16a34a', marginBottom: 4 }}>{member.role}{cleanHandle ? ` · @${cleanHandle}` : ''}</div>
+        {member.background && <div style={{ fontSize: 11, color: '#6c7a9c', lineHeight: 1.5 }}>{member.background}</div>}
+      </div>
+    </div>
+  )
+}
+
+function useProfile() {
+  const [name, setName] = useState(() => localStorage.getItem('cmv_name') || '')
+  const [photo, setPhoto] = useState(() => localStorage.getItem('cmv_photo') || '')
+  const save = (n: string, p: string) => { setName(n); setPhoto(p); localStorage.setItem('cmv_name', n); if (p) localStorage.setItem('cmv_photo', p) }
+  return { name, photo, save }
+}
+
+const buildSystemPrompt = (handle: string, xd: any, cg: any) => {
+  const enriched = xd?.enriched || {}
+  return `You are CMV AlphaScanner, a sharp crypto/Web3 alpha analyst. Today: ${new Date().toDateString()}.
+
+CRITICAL: Return ONLY valid JSON. No markdown, no explanation, no code blocks.
+
+You have pre-fetched data from multiple tools. Use it directly — do NOT search for data already provided below.
+
+=== VERIFIED TOOL DATA ===
+X Profile: ${xd?.followers || 0} followers, ${xd?.tweet_count || 0} tweets, ${xd?.account_age_years || 0}y old account, verified: ${xd?.verified || false}
+Bio: ${xd?.description || 'none'}
+Avg likes: ${xd?.avg_likes || 0} | Category: ${xd?.category || 'unknown'}
+Confirmed ticker: ${xd?.confirmed_ticker || 'none'} | Token hinted: ${xd?.token_launch_hinted || false}
+
+DefiLlama: TVL=${enriched.tvl || 'none'} | Revenue/day=${enriched.revenue_24h || 'none'} | Fees/day=${enriched.fees_24h || 'none'} | Raised=${enriched.total_raised_defillama || 'none'} | Category=${enriched.defillama_category || 'none'} | Chains=${JSON.stringify(enriched.chains || [])}
+Hacks: ${JSON.stringify(enriched.known_hacks || [])}
+
+RootData: Raised=${enriched.total_raised_rootdata || 'none'} | Investors=${JSON.stringify(enriched.confirmed_investors || [])} | Team=${JSON.stringify((enriched.rootdata_team || []).map((t:any) => ({name:t.name, role:t.role, x:t.x_handle})))}
+
+Token: ${cg?.token_live ? 'LIVE — ' + (cg.ticker || '') + ' at ' + (cg.token_price || '') + ' | mcap=' + (cg.market_cap_str || 'unknown') + ' | vol24h=' + (cg.volume_24h || 'unknown') + ' | change24h=' + (cg.price_change_24h || 0) + '%' : 'NOT YET LAUNCHED — no confirmed token on any DEX'}
+
+CryptoNews: sentiment=${enriched.news_sentiment || 'unknown'} | articles=${enriched.news_article_count || 0} | red flags=${JSON.stringify(enriched.news_red_flags || [])}
+
+Auto-detected FUD signals (from tools): ${JSON.stringify((enriched.auto_fud_flags || []).map((f:any) => f.label))}
+
+=== INSTRUCTIONS ===
+DO NOT search for: TVL, revenue, token price, investors, funding — all provided above.
+ALWAYS do these searches (max 3 total):
+1. REQUIRED: Search "@${handle} scandal rug hack scam insider dump controversy investigation 2025 2026" — find CURRENT red flags
+2. REQUIRED: Search "@${handle} token unlock vesting schedule airdrop" — find token/unlock details
+3. IF team empty above: Search "@${handle} founder CEO team" — find team members
+
+For RED FLAGS be aggressive — report anything suspicious you find:
+- Insider wallet activity, large dumps, suspicious on-chain moves
+- Team exits, departures, anonymous team concerns  
+- Token unlock schedules with large upcoming unlocks
+- Regulatory issues, investigations, legal problems
+- Community complaints, delays, broken promises
+- Low float / high FDV manipulation risk
+- Copied code, forked without attribution
+If you find NOTHING negative after searching, only then return empty red_flags.
+Be concise in metrics — 1 sentence with specific data points only.
+
+RED FLAGS — only flag these real issues (must be verifiable):
+- Known hacks or exploits (from DefiLlama hacks data)
+- Token dump >30% in 24h (from DexScreener data)
+- Extremely low liquidity <$50K (rug risk, from DexScreener)
+- Negative news with specific evidence: scam/fraud/SEC/investigation
+- Suspicious on-chain activity: insider selling, wallet dumps
+- Follow farming: following >> followers ratio
+DO NOT flag: missing team data, no TVL for non-DeFi projects, low mindshare, early stage, no revenue pre-launch. These are NOT red flags.
+If auto_fud_flags above shows 0 flags AND no negative news, return red_flags as empty array.
+
+Score strictly. Tier A (85+) = only the best CT projects with strong fundamentals. Most projects are B or C.
+Entertainment/events projects without DeFi TVL should NOT be penalized on revenue — use event revenue if mentioned.
+
+Return this exact JSON:
+{
+  "project_name": "string",
+  "project_category": "string (use DefiLlama category if available, else infer from bio: Prediction Market, DeFi, L1/L2, RWA, AI, Gaming, etc)",
+  "description": "2-3 sentence description of what the project builds",
+  "team_location": "string or empty",
+  "founded": "year or empty",
+  "verdict": "FARM IT|CREATE CONTENT|WATCH|SKIP",
+  "verdict_reason": "2-3 sentences with specific data points from tool data",
+  "verdict_action": "specific actionable advice for CT farmers",
+  "overall_score": number (0-100),
+  "score_rationale": "explain score using specific tool data",
+  "good_highlights": ["specific highlight with data", "another", "another"],
+  "red_flags": [{"type": "dump|hack|shill|suspicious|regulatory|tokenomics|team", "label": "short label", "detail": "specific detail with source and date"}],
+  "top_risks": ["specific risk", "another"],
+  "top_opportunities": ["specific opportunity", "another"],
+  "team_members": [{"name": "string", "role": "string", "x_handle": "@handle or empty", "background": "1 sentence", "confirmed": true/false}],
+  "future_seasons": "token/season/airdrop info if any",
+  "post_tge_outlook": "string if token live",
+  "project_follows": "notable CT accounts that follow this project",
+  "mindshare_trend": {"labels": ["8w ago","7w ago","6w ago","5w ago","4w ago","3w ago","2w ago","1w ago"], "values": [0,0,0,0,0,0,0,0], "current_pct": "string", "trend": "rising|falling|stable"},
+  "sources": [{"name": "string", "url": "string", "used_for": "string"}],
+  "data_accuracy_note": "string",
+  "metrics": {
+    "funding": {"score": 0-100, "detail": "1 sentence with specific numbers", "signal": "bullish|bearish|neutral"},
+    "vc_pedigree": {"score": 0-100, "detail": "1 concise sentence with data", "signal": "bullish|bearish|neutral"},
+    "copycat": {"score": 0-100, "detail": "1 concise sentence with data", "signal": "bullish|bearish|neutral"},
+    "niche": {"score": 0-100, "detail": "1 concise sentence with data", "signal": "bullish|bearish|neutral"},
+    "location": {"score": 0-100, "detail": "1 sentence: team location if known, why it matters", "signal": "bullish|bearish|neutral"},
+    "founder_cred": {"score": 0-100, "detail": "1 concise sentence with data", "signal": "bullish|bearish|neutral"},
+    "founder_activity": {"score": 0-100, "detail": "1 concise sentence with data", "signal": "bullish|bearish|neutral"},
+    "top_voices": {"score": 0-100, "detail": "1 concise sentence with data", "signal": "bullish|bearish|neutral"},
+    "token": {"score": 0-100, "detail": "state if live or not, include price/mcap/volume if live", "signal": "bullish|bearish|neutral"},
+    "metrics_clarity": {"score": 0-100, "detail": "1 concise sentence with data", "signal": "bullish|bearish|neutral"},
+    "user_count": {"score": 0-100, "detail": "1 concise sentence with data", "signal": "bullish|bearish|neutral"},
+    "fud": {"score": 0-100, "detail": "1 concise sentence with data", "signal": "bullish|bearish|neutral"},
+    "notable_mentions": {"score": 0-100, "detail": "1 concise sentence with data", "signal": "bullish|bearish|neutral"},
+    "content_type": {"score": 0-100, "detail": "1 concise sentence with data", "signal": "bullish|bearish|neutral"},
+    "mindshare": {"score": 0-100, "detail": "1 concise sentence with data", "signal": "bullish|bearish|neutral"},
+    "revenue": {"score": 0-100, "detail": "1 concise sentence with data", "signal": "bullish|bearish|neutral"},
+    "sentiment": {"score": 0-100, "detail": "1 concise sentence with data", "signal": "bullish|bearish|neutral"}
+  }
+}`
+}
+
+
+export default function Home() {
+  const [xUrl, setXUrl] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [result, setResult] = useState<any>(null)
+  const [cgData, setCgData] = useState<any>(null)
+  const [xData, setXData] = useState<any>(null)
+  const [error, setError] = useState<string | null>(null)
+  const [phase, setPhase] = useState(PHASES[0])
+  const [elapsed, setElapsed] = useState(0)
+  const [msgIdx, setMsgIdx] = useState(0)
+  const [pfpLoaded, setPfpLoaded] = useState(false)
+  const [atab, setAtab] = useState('Fundamentals')
+  const [asec, setAsec] = useState('metrics')
+  const [selectedTags, setSelectedTags] = useState<string[]>([])
+  const [showProfileSetup, setShowProfileSetup] = useState(false)
+  const [tempName, setTempName] = useState('')
+  const [tempPhoto, setTempPhoto] = useState('')
+  const { name: userName, photo: userPhoto, save: saveProfile } = useProfile()
+  const canvasRef = useRef<HTMLCanvasElement>(null)
+  const pint = useRef<any>(null)
+  const tint = useRef<any>(null)
+  const mint = useRef<any>(null)
+  const fileRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => { setTempName(userName); setTempPhoto(userPhoto) }, [userName, userPhoto])
+
+  // Coming from feed — load cached result and refresh X + CoinGecko only (no Claude, no credits)
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    const q = params.get('q')
+    if (!q) return
+    window.history.replaceState({}, '', '/')
+    const handle = q.toLowerCase()
+    setXUrl('https://x.com/' + handle)
+    const cacheKey = 'cmv_scan_' + handle
+
+    async function loadFromFeed() {
+      let cr: any = null, cc: any = null, cx: any = null
+
+      // 1. Check browser cache
       try {
-        const r = await fetch(`https://api.coingecko.com/api/v3/search?query=${encodeURIComponent(term)}`)
-        const d = await r.json()
-        if (!d.coins?.length) continue
-
-        const handleLower = handle.toLowerCase().replace(/[^a-z0-9]/g, '')
-        const tickerUpper = (ticker || '').toUpperCase()
-        
-        // Priority 1: coin ID exactly matches handle (most reliable)
-        let match = d.coins.find((c: any) => {
-          const coinId = (c.id || '').toLowerCase().replace(/[^a-z0-9]/g, '')
-          return coinId === handleLower || coinId === handleLower + 'dao' || 
-                 handleLower === coinId || handleLower.includes(coinId) && coinId.length > 4
-        })
-        
-        // Priority 2: ticker match — but ONLY if coin name/id also relates to this project
-        // This prevents "$CHIP" in bio matching a random CHIP token from another project
-        if (!match && tickerUpper && !CHAIN_TOKENS.includes(tickerUpper)) {
-          const tickerMatches = d.coins.filter((c: any) => {
-            if (c.symbol?.toUpperCase() !== tickerUpper) return false
-            if (CHAIN_TOKENS.includes(c.symbol?.toUpperCase())) return false
-            // Verify the coin actually relates to this project
-            const cId = (c.id || '').toLowerCase().replace(/[^a-z0-9]/g, '')
-            const cName = (c.name || '').toLowerCase().replace(/[^a-z0-9]/g, '')
-            return cId.includes(handleLower) || handleLower.includes(cId) ||
-                   cName.includes(handleLower) || handleLower.includes(cName) ||
-                   (handleLower.length > 4 && cId.includes(handleLower.slice(0,5)))
-          })
-          if (tickerMatches.length > 0) {
-            match = tickerMatches.sort((a: any, b: any) => 
-              (a.market_cap_rank || 9999) - (b.market_cap_rank || 9999)
-            )[0]
-          }
+        const cached = localStorage.getItem(cacheKey)
+        if (cached) {
+          const parsed = JSON.parse(cached)
+          if (parsed.result) { cr = parsed.result; cc = parsed.cgData; cx = parsed.xData }
         }
-        
-        // Priority 3: name match — both must contain each other
-        if (!match) {
-          const nameLower = (d.coins[0]?.name || '').toLowerCase().replace(/[^a-z0-9]/g, '')
-          const nameMatches = d.coins.filter((c: any) => {
-            const cName = (c.name || '').toLowerCase().replace(/[^a-z0-9]/g, '')
-            // Must be a strong match, not just partial
-            return (cName === handleLower || 
-                    cName.includes(handleLower) || 
-                    handleLower.includes(cName)) && 
-                   cName.length > 3 &&
-                   !CHAIN_TOKENS.includes(c.symbol?.toUpperCase()) &&
-                   (c.market_cap_rank || 9999) < 3000
-          })
-          if (nameMatches.length > 0) {
-            match = nameMatches.sort((a: any, b: any) => 
-              (a.market_cap_rank || 9999) - (b.market_cap_rank || 9999)
-            )[0]
-          }
-        }
-
-        if (!match) continue
-        
-        // Only reject chain tokens if matched by TICKER (Priority 2)
-        // Coin ID and name matches are legitimate even for chain tokens
-        // e.g. searching "polkadot" → DOT is correct, not a false match
-
-        // Fetch price data
-        const pr = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${match.id}&vs_currencies=usd&include_market_cap=true&include_24hr_vol=true&include_24hr_change=true`)
-        const pd = await pr.json()
-        const price = pd[match.id]?.usd
-        const mcap = pd[match.id]?.usd_market_cap
-        const vol = pd[match.id]?.usd_24h_vol
-        const change = pd[match.id]?.usd_24h_change
-        if (!price || price === 0) continue
-
-        const priceStr = price < 0.0001 ? `$${price.toFixed(8)}` : price < 0.01 ? `$${price.toFixed(6)}` : price < 1 ? `$${price.toFixed(4)}` : `$${price.toFixed(2)}`
-        const mcapStr = mcap ? (mcap >= 1e9 ? `$${(mcap/1e9).toFixed(1)}B` : mcap >= 1e6 ? `$${(mcap/1e6).toFixed(1)}M` : `$${Math.round(mcap).toLocaleString()}`) : ''
-        const volStr = vol ? (vol >= 1e6 ? `$${(vol/1e6).toFixed(1)}M` : `$${(vol/1e3).toFixed(0)}K`) : null
-        
-        // Sanity check: if project is a stablecoin (USD in name) but price is far from $1, reject
-        const isStablecoinProject = handle.toLowerCase().includes('usd') || 
-                                    (projectName || '').toLowerCase().includes('usd') ||
-                                    handle.toLowerCase().includes('dai') ||
-                                    handle.toLowerCase().includes('usdc')
-        if (isStablecoinProject && price < 0.01) continue // Wrong match - real stablecoin would be ~$1
-        
-        return {
-          token_live: true,
-          ticker: match.symbol?.toUpperCase(),
-          token_price: priceStr,
-          market_cap: mcap,
-          market_cap_str: mcapStr,
-          volume_24h: volStr,
-          price_change_24h: change ? parseFloat(change.toFixed(2)) : null,
-          coingecko_id: match.id,
-          token_note: `Live · $${match.symbol?.toUpperCase()} · ${mcapStr}`,
-          source: 'coingecko',
-        }
-      } catch { continue }
-    }
-    return null
-  } catch { return null }
-}
-
-
-function extractIntelligence(tweets: any[], bio: string, pinnedTweet: string) {
-  const allText = [bio, pinnedTweet, ...tweets.map((t: any) => t.text)].join(' ')
-  const allLower = allText.toLowerCase()
-
-  // Extract tickers — only from bio and pinned tweet, NOT from general tweets
-  // This prevents false positives like $MON appearing in tweets about other projects
-  const IGNORE_TICKERS = ['USD','BTC','ETH','USDC','USDT','SOL','BASE','OP','ARB','BNB','MATIC','AVAX','SUI','APT','SEI','INJ','TIA','DYDX','GMX','SNX']
-  
-  // Known top project → ticker mappings as fallback
-  const KNOWN_TICKERS: Record<string, string> = {
-    'hyperliquid': 'HYPE', 'eigenlayer': 'EIGEN', 'ethena': 'ENA',
-    'jupiter': 'JUP', 'jito': 'JTO', 'wormhole': 'W',
-    'starknet': 'STRK', 'zksync': 'ZK', 'scroll': 'SCR',
-    'optimism': 'OP', 'arbitrum': 'ARB', 'celestia': 'TIA',
-    'sei': 'SEI', 'aptos': 'APT', 'sui': 'SUI',
-    'dydx': 'DYDX', 'gmx': 'GMX', 'synthetix': 'SNX',
-    'aave': 'AAVE', 'uniswap': 'UNI', 'chainlink': 'LINK',
-    'kaito': 'KAITO', 'berachain': 'BERA', 'monad': 'MON',
-  }
-
-  const bioAndPinned = [bio, pinnedTweet].join(' ')
-  const bioTickerMatches = bioAndPinned.match(/\$([A-Z]{2,10})\b/g) || []
-  
-  // Also check all text for known project tickers
-  const allTextLower = [bio, pinnedTweet, ...tweets.map((t: any) => t.text)].join(' ').toLowerCase()
-  const knownTicker = Object.entries(KNOWN_TICKERS).find(([proj]) => 
-    allTextLower.includes(proj) || allTextLower.includes(proj.replace(/[^a-z]/g, ''))
-  )?.[1] || null
-
-  const tickers = [...new Set([
-    ...bioTickerMatches
-      .map((t: string) => t.replace('$', ''))
-      .filter((t: string) => !IGNORE_TICKERS.includes(t)),
-    ...(knownTicker ? [knownTicker] : [])
-  ])]
-    .filter((t: string) => !['USD', 'BTC', 'ETH', 'USDC', 'USDT', 'SOL', 'BASE', 'OP', 'ARB', 'BNB'].includes(t))
-
-  // Season detection
-  const seasonMatches = allText.match(/[Ss]eason\s*(\d+)/g) || []
-  const seasonNums = seasonMatches.map((s: string) => parseInt(s.match(/\d+/)?.[0] || '0')).filter(Boolean)
-  const latestSeason = seasonNums.length > 0 ? Math.max(...seasonNums) : null
-
-  // Date extraction for seasons
-  const dateMatches = allText.match(/([A-Z][a-z]+ \d{1,2}[\s,]+ ?202[456])/g) || []
-
-  // Funding and VC signals
-  const fundingMatches = allText.match(/\$[\d.]+[MBK]\+?\s*(raised|funding|round|backed)/gi) || []
-  const vcList = ['coinbase', 'a16z', 'paradigm', 'pantera', 'multicoin', 'polychain', 'binance', 'sequoia', 'dragonfly', '1confirmation', 'maelstrom', 'dcg', 'animoca', 'arthur hayes', 'naval', 'blockchange']
-  const vcMentions = vcList.filter(vc => allLower.includes(vc))
-
-  // Token launch signals
-  const launchSignals = ['token live', 'officially live', 'tge complete', 'now trading', 'buy $', 'claim now', 'airdrop live', 'listed on', 'listing']
-  const tokenLaunchHinted = launchSignals.some(s => allLower.includes(s))
-
-  // User/traction metrics from tweets
-  const userCountMatches = allText.match(/([\d,.]+[KMB]?\+?)\s*(users|traders|participants|addresses|wallets|volume)/gi) || []
-
-  // Engagement
-  const totalLikes = tweets.reduce((sum: number, t: any) => sum + (t.public_metrics?.like_count || 0), 0)
-  const totalRetweets = tweets.reduce((sum: number, t: any) => sum + (t.public_metrics?.retweet_count || 0), 0)
-  const avgLikes = tweets.length > 0 ? Math.round(totalLikes / tweets.length) : 0
-  const avgRetweets = tweets.length > 0 ? Math.round(totalRetweets / tweets.length) : 0
-
-  // Paid/organic detection
-  const paidSignals = ['sponsored', 'paid partnership', '#ad', 'ambassador', 'in partnership with']
-  const paidCount = paidSignals.filter(s => allLower.includes(s)).length
-  const contentType = paidCount >= 2 ? 'mostly_paid' : 'organic'
-
-  // Category from bio
-  const bioLower = bio.toLowerCase()
-  let category = 'DeFi'
-  if (bioLower.includes('predict') || bioLower.includes('outcome') || bioLower.includes('forecast')) category = 'Prediction Market'
-  else if (bioLower.includes('perp') || bioLower.includes('perpetual') || bioLower.includes('derivatives')) category = 'Perp DEX'
-  else if (bioLower.includes('layer 1') || bioLower.includes('layer 2') || bioLower.includes(' l1 ') || bioLower.includes(' l2 ')) category = 'L1/L2'
-  else if (bioLower.includes('lend') || bioLower.includes('borrow') || bioLower.includes('yield')) category = 'Lending/Yield'
-  else if (bioLower.includes('nft') || bioLower.includes('gaming') || bioLower.includes('game')) category = 'NFT/Gaming'
-  else if (bioLower.includes('real world') || bioLower.includes('rwa') || bioLower.includes('tokenized')) category = 'RWA'
-  else if (bioLower.includes('social') || bioLower.includes('creator')) category = 'SocialFi'
-  else if (bioLower.includes('agent') || bioLower.includes('intelligence') || (bioLower.includes('ai') && bioLower.includes('chain'))) category = 'AI'
-  else if (bioLower.includes('infrastructure') || bioLower.includes('encryption') || bioLower.includes('sdk')) category = 'Infrastructure'
-  else if (bioLower.includes('exchange') || bioLower.includes(' dex') || bioLower.includes('swap')) category = 'DEX'
-  else if (bioLower.includes('restak')) category = 'Restaking'
-  else if (bioLower.includes('bridge') || bioLower.includes('cross-chain')) category = 'Bridge'
-
-  return {
-    tickers,
-    confirmedTicker: tickers.length > 0 ? tickers[0] : null,
-    tokenLaunchHinted,
-    latestSeason,
-    seasonDates: dateMatches.slice(0, 3),
-    fundingMentions: fundingMatches.slice(0, 3),
-    vcMentions,
-    userCountMentions: userCountMatches.slice(0, 4),
-    contentType,
-    avgLikes,
-    avgRetweets,
-    category,
-  }
-}
-
-// ─── Enrichment Tools ───────────────────────────────────────────────────
-
-async function fetchDefiLlama(projectName: string, handle: string) {
-  try {
-    const slug = projectName.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
-    const handleSlug = handle.toLowerCase().replace(/[^a-z0-9]/g, '')
-    // Generate more slug variations to improve match rate
-    const words = projectName.toLowerCase().split(/\s+/)
-    const acronym = words.map((w: string) => w[0]).join('')
-    const slugsToTry = [
-      slug,
-      handleSlug,
-      slug.replace(/-/g, ''),
-      handleSlug + '-protocol',
-      handleSlug + '-fi',
-      words.slice(0,3).join('-'),
-      words.slice(0,2).join('-'),
-      acronym,
-      handle.toLowerCase(),
-    ].filter((s: string, i: number, arr: string[]) => s && arr.indexOf(s) === i) // dedupe
-
-    let data: any = null
-    for (const s of slugsToTry) {
-      try {
-        const r = await fetch(`https://api.llama.fi/protocol/${s}`)
-        if (r.ok) { data = await r.json(); break }
-      } catch { continue }
-    }
-    if (!data) return null
-
-    const currentTvl = data.tvl?.slice(-1)[0]?.totalLiquidityUSD || 0
-    const tvlStr = currentTvl >= 1e9 ? `$${(currentTvl/1e9).toFixed(1)}B` : currentTvl >= 1e6 ? `$${(currentTvl/1e6).toFixed(1)}M` : currentTvl > 0 ? `$${Math.round(currentTvl).toLocaleString()}` : null
-
-    // DefiLlama revenue - check multiple possible locations in response
-    const fees24h = data.totalFees24h || data.metrics?.fees?.['24h'] || data.fees?.['24h'] || 0
-    const revenue24h = data.totalRevenue24h || data.metrics?.revenue?.['24h'] || data.revenue?.['24h'] || 0
-    const feesStr = fees24h >= 1e6 ? `$${(fees24h/1e6).toFixed(1)}M/day` : fees24h >= 1e3 ? `$${(fees24h/1e3).toFixed(0)}K/day` : fees24h > 0 ? `$${fees24h.toFixed(0)}/day` : null
-    const revenueStr = revenue24h >= 1e6 ? `$${(revenue24h/1e6).toFixed(1)}M/day` : revenue24h >= 1e3 ? `$${(revenue24h/1e3).toFixed(0)}K/day` : revenue24h > 0 ? `$${revenue24h.toFixed(0)}/day` : null
-
-    const raises = data.raises || []
-    const totalRaised = raises.reduce((sum: number, r: any) => sum + (r.amount || 0), 0)
-    const raisedStr = totalRaised >= 1e6 ? `$${(totalRaised/1e6).toFixed(1)}M raised` : null
-    const investors = raises.flatMap((r: any) => (r.leadInvestors || []).concat(r.otherInvestors || [])).filter(Boolean).slice(0, 5)
-
-    return {
-      tvl: tvlStr,
-      fees_24h: feesStr,
-      revenue_24h: revenueStr,
-      total_raised: raisedStr,
-      investors: investors.slice(0, 5),
-      category: data.category || null,
-      chains: data.chains?.slice(0, 3) || [],
-      audits: data.audits || [],
-    }
-  } catch { return null }
-}
-
-async function fetchDefiLlamaHacks(projectName: string) {
-  try {
-    const r = await fetch('https://api.llama.fi/hacks')
-    if (!r.ok) return []
-    const hacks = await r.json()
-    const nameLower = projectName.toLowerCase()
-    return hacks.filter((h: any) =>
-      h.name?.toLowerCase().includes(nameLower) || nameLower.includes(h.name?.toLowerCase() || '')
-    ).map((h: any) => ({
-      date: h.date,
-      amount: h.amount ? `$${(h.amount/1e6).toFixed(1)}M` : 'unknown',
-      technique: h.technique || 'unknown',
-      classification: h.classification || 'Hack'
-    })).slice(0, 3)
-  } catch { return [] }
-}
-
-async function fetchRootData(projectName: string, apiKey?: string) {
-  try {
-    if (!apiKey) return null
-    const searchRes = await fetch('https://api.rootdata.com/open/ser_inv', {
-      method: 'POST',
-      headers: { 'apikey': apiKey, 'language': 'en', 'Content-Type': 'application/json' },
-      body: JSON.stringify({ query: projectName })
-    })
-    if (!searchRes.ok) return null
-    const searchData = await searchRes.json()
-    const project = searchData.data?.find((d: any) => d.type === 1)
-    if (!project) return null
-
-    const detailRes = await fetch('https://api.rootdata.com/open/get_item', {
-      method: 'POST',
-      headers: { 'apikey': apiKey, 'language': 'en', 'Content-Type': 'application/json' },
-      body: JSON.stringify({ project_id: project.id, include_team: 1, include_investors: 1 })
-    })
-    if (!detailRes.ok) return null
-    const detail = await detailRes.json()
-    const d = detail.data
-
-    const totalRaised = d.total_funding ? `$${(d.total_funding/1e6).toFixed(1)}M` : null
-    const investors = (d.investors || []).map((i: any) => i.name).filter(Boolean).slice(0, 6)
-    const team = (d.team_members || []).map((t: any) => ({
-      name: t.name || '',
-      role: t.title || '',
-      x_handle: t.twitter ? '@' + t.twitter.replace('https://twitter.com/', '').replace('@', '') : '',
-    })).filter((t: any) => t.name).slice(0, 5)
-
-    return { 
-      total_raised: totalRaised, 
-      investors, 
-      team,
-      tags: d.tags || [], 
-      one_liner: d.one_liner || '',
-      description: d.description || '',
-    }
-  } catch { return null }
-}
-
-async function fetchDexScreener(ticker: string, projectName: string) {
-  try {
-    const query = ticker || projectName
-    const r = await fetch(`https://api.dexscreener.com/latest/dex/search?q=${encodeURIComponent(query)}`)
-    if (!r.ok) return null
-    const data = await r.json()
-    const pairs = data.pairs || []
-    if (pairs.length === 0) return null
-
-    const nameLower = projectName.toLowerCase()
-    const tickerUpper = (ticker || '').toUpperCase()
-
-    const best = pairs.find((p: any) =>
-      (tickerUpper && p.baseToken?.symbol?.toUpperCase() === tickerUpper) &&
-      (p.baseToken?.name?.toLowerCase().includes(nameLower) || nameLower.includes(p.baseToken?.name?.toLowerCase() || ''))
-    ) || pairs.find((p: any) =>
-      tickerUpper && p.baseToken?.symbol?.toUpperCase() === tickerUpper
-    ) || pairs.sort((a: any, b: any) => (b.liquidity?.usd || 0) - (a.liquidity?.usd || 0))[0]
-
-    if (!best) return null
-
-    const price = parseFloat(best.priceUsd || '0')
-    const priceStr = price > 0 ? (price < 0.01 ? `$${price.toFixed(6)}` : price < 1 ? `$${price.toFixed(4)}` : `$${price.toFixed(2)}`) : null
-    const vol24h = best.volume?.h24 || 0
-    const volStr = vol24h >= 1e6 ? `$${(vol24h/1e6).toFixed(1)}M` : vol24h >= 1e3 ? `$${(vol24h/1e3).toFixed(0)}K` : null
-    const liq = best.liquidity?.usd || 0
-    const liqStr = liq >= 1e6 ? `$${(liq/1e6).toFixed(1)}M` : liq >= 1e3 ? `$${(liq/1e3).toFixed(0)}K` : null
-    const change24h = best.priceChange?.h24 || 0
-    const isDown = change24h < -20
-
-    return {
-      token_live: price > 0,
-      ticker: best.baseToken?.symbol?.toUpperCase(),
-      token_price: priceStr,
-      volume_24h: volStr,
-      liquidity: liqStr,
-      price_change_24h: change24h,
-      dump_detected: isDown && change24h < -30,
-      dex: best.dexId,
-      chain: best.chainId,
-      pair_url: best.url,
-    }
-  } catch { return null }
-}
-
-async function fetchGeckoTerminal(ticker: string, projectName: string) {
-  try {
-    const query = ticker || projectName
-    const r = await fetch(`https://api.geckoterminal.com/api/v2/search/pools?query=${encodeURIComponent(query)}&page=1`, {
-      headers: { 'Accept': 'application/json;version=20230302' }
-    })
-    if (!r.ok) return null
-    const data = await r.json()
-    const pools = data.data || []
-    if (pools.length === 0) return null
-
-    const tickerUpper = (ticker || '').toUpperCase()
-    const best = pools.find((p: any) =>
-      p.attributes?.base_token_price_usd &&
-      (p.attributes?.name?.toUpperCase().includes(tickerUpper) || tickerUpper === '')
-    ) || pools[0]
-
-    if (!best?.attributes) return null
-    const price = parseFloat(best.attributes.base_token_price_usd || '0')
-    if (price === 0) return null
-
-    const priceStr = price < 0.01 ? `$${price.toFixed(6)}` : price < 1 ? `$${price.toFixed(4)}` : `$${price.toFixed(2)}`
-    return { token_live: true, token_price: priceStr, source: 'geckoterminal' }
-  } catch { return null }
-}
-
-async function fetchCryptoNewsSentiment(projectName: string, ticker?: string) {
-  try {
-    // Use ticker if available (more specific), otherwise project name
-    // Short project names get too many false positives - use ticker when possible
-    const query = ticker && ticker.length > 2 ? ticker : projectName
-    const r = await fetch(`https://cryptocurrency.cv/api/news?q=${encodeURIComponent(query)}&limit=10`)
-    if (!r.ok) return null
-    const data = await r.json()
-    const articles = data.articles || []
-    if (articles.length === 0) return null
-
-    const titles = articles.map((a: any) => a.title || '').filter(Boolean)
-    const negWords = ['hack', 'rug', 'scam', 'fraud', 'exit', 'delay', 'postpone', 'cancel', 'sue', 'sec', 'investigation', 'collapse', 'dump', 'exploit']
-    const posWords = ['launch', 'partnership', 'funding', 'raised', 'growth', 'milestone', 'integration', 'listed', 'airdrop', 'season']
-    let negCount = 0, posCount = 0
-    titles.forEach((t: string) => {
-      const tl = t.toLowerCase()
-      negWords.forEach(w => { if (tl.includes(w)) negCount++ })
-      posWords.forEach(w => { if (tl.includes(w)) posCount++ })
-    })
-    const sentiment = negCount > posCount + 2 ? 'negative' : posCount > negCount ? 'positive' : 'neutral'
-    const recentHeadlines = titles.slice(0, 5)
-    const redFlagHeadlines = titles.filter(t => negWords.some(w => t.toLowerCase().includes(w))).slice(0, 3)
-
-    return { sentiment, article_count: articles.length, recent_headlines: recentHeadlines, red_flag_headlines: redFlagHeadlines, negative_signals: negCount, positive_signals: posCount }
-  } catch { return null }
-}
-
-function detectFUDSignals(u: any, intel: any, dexData: any, hacksData: any[], newsData: any) {
-  const flags: Array<{type: string, label: string, detail: string, severity: 'high'|'medium'|'low'}> = []
-
-  // Only run X-based checks if Twitter actually returned real data
-  const hasRealXData = u && u.public_metrics && (u.public_metrics.followers_count > 0 || u.public_metrics.tweet_count > 0)
-
-  const followers = u?.public_metrics?.followers_count || 0
-  const following = u?.public_metrics?.following_count || 0
-  const listed = u?.public_metrics?.listed_count || 0
-  const tweetCount = u?.public_metrics?.tweet_count || 0
-  const createdAt = u?.created_at ? new Date(u?.created_at) : new Date()
-  const ageMonths = (Date.now() - createdAt.getTime()) / (1000 * 60 * 60 * 24 * 30)
-
-  // 1. Very new account with inflated followers — only if real X data
-  if (hasRealXData && ageMonths < 6 && followers > 10000) {
-    flags.push({
-      type: 'suspicious',
-      label: 'New account with high followers',
-      detail: `Account is only ${Math.round(ageMonths)} months old but has ${followers.toLocaleString()} followers — possible purchased followers or rebranded account.`,
-      severity: 'medium'
-    })
-  }
-
-  // 2. Follow farming — only if real X data
-  if (hasRealXData && following > followers * 2 && followers < 5000) {
-    flags.push({
-      type: 'suspicious',
-      label: 'Follow-farming detected',
-      detail: `Following ${following.toLocaleString()} accounts but only ${followers.toLocaleString()} followers — classic follow-for-follow farming pattern.`,
-      severity: 'low'
-    })
-  }
-
-  // 3. Low listed count — only flag extreme cases (less than 0.1% listed ratio for big accounts)
-  if (hasRealXData && followers > 50000 && listed < followers * 0.001) {
-    flags.push({
-      type: 'suspicious',
-      label: 'Low credibility ratio',
-      detail: `Only ${listed} accounts have listed this project despite ${followers.toLocaleString()} followers — suggests low genuine engagement or bot followers.`,
-      severity: 'low'
-    })
-  }
-
-  // 4. Inactive account — only if real X data
-  if (hasRealXData && ageMonths > 12 && tweetCount < 50) {
-    flags.push({
-      type: 'other',
-      label: 'Inactive account',
-      detail: `Account is ${Math.round(ageMonths)} months old but only has ${tweetCount} tweets — possibly abandoned or not genuinely active.`,
-      severity: 'low'
-    })
-  }
-
-  // 5. Token dump detected from DexScreener
-  if (dexData?.dump_detected) {
-    const change = dexData.price_change_24h || 0
-    flags.push({
-      type: 'dump',
-      label: 'Token dump detected',
-      detail: `Token price dropped ${Math.abs(change).toFixed(1)}% in the last 24 hours — significant sell pressure detected on DEX.`,
-      severity: 'high'
-    })
-  }
-
-  // 6. Very low liquidity — easy rug
-  if (dexData?.token_live && dexData?.liquidity) {
-    const liqNum = parseFloat(dexData.liquidity.replace(/[$KMB]/g, '')) *
-      (dexData.liquidity.includes('B') ? 1e9 : dexData.liquidity.includes('M') ? 1e6 : dexData.liquidity.includes('K') ? 1e3 : 1)
-    if (liqNum < 50000) {
-      flags.push({
-        type: 'dump',
-        label: 'Extremely low liquidity',
-        detail: `Only ${dexData.liquidity} liquidity on DEX — very easy to rug pull or manipulate price.`,
-        severity: 'high'
-      })
-    }
-  }
-
-  // 7. Known hack from DefiLlama
-  if (hacksData && hacksData.length > 0) {
-    hacksData.forEach((hack: any) => {
-      flags.push({
-        type: 'exploit',
-        label: 'Security exploit on record',
-        detail: `${hack.classification || 'Hack'} detected — ${hack.amount} lost via ${hack.technique || 'unknown technique'}.`,
-        severity: 'high'
-      })
-    })
-  }
-
-  // 8. Negative news signals
-  if (newsData?.red_flag_headlines && newsData.red_flag_headlines.length > 0) {
-    const headlines = newsData.red_flag_headlines.slice(0, 2)
-    flags.push({
-      type: 'other',
-      label: 'Negative news coverage',
-      detail: `Recent negative headlines detected: "${headlines[0]}"${headlines[1] ? ` and "${headlines[1]}"` : ''}.`,
-      severity: 'medium'
-    })
-  }
-
-  // 9. Reward campaign in pinned tweet (paid shill signal)
-  const pinnedLower = (u?.pinned_tweet_text || '').toLowerCase()
-  const rewardKeywords = ['$5000','$10k','rewards pool','top creators','create a thread','retweet to win','airdrop campaign','task campaign']
-  const hasRewardCampaign = rewardKeywords.some(k => pinnedLower.includes(k))
-  if (hasRewardCampaign) {
-    flags.push({
-      type: 'shill',
-      label: 'Paid content campaign active',
-      detail: 'Pinned tweet contains a paid content/reward campaign — inflating organic mentions artificially.',
-      severity: 'medium'
-    })
-  }
-
-  // 10. Bio mentions multiple big names without verification (name dropping)
-  const bioLower = (u?.description || '').toLowerCase()
-  const bigNames = ['binance','coinbase','a16z','paradigm','sequoia','polychain','multicoin','pantera']
-  const bigNameMentions = bigNames.filter(n => bioLower.includes(n))
-  if (hasRealXData && bigNameMentions.length >= 2 && intel.vcMentions.length === 0) {
-    flags.push({
-      type: 'suspicious',
-      label: 'Unverified name-dropping in bio',
-      detail: `Bio mentions ${bigNameMentions.join(', ')} but no confirmed funding rounds found — possible false credibility claims.`,
-      severity: 'medium'
-    })
-  }
-
-  return flags
-}
-
-// ─── CoinPaprika ─────────────────────────────────────────────────────────────
-// Free, no key — returns team, investors, contract addresses, links
-async function fetchCoinPaprika(projectName: string, handle: string, ticker?: string | null) {
-  try {
-    // Search by project name only - never by ticker alone (prevents CHIP matching wrong project)
-    const searchR = await fetch(`https://api.coinpaprika.com/v1/search?q=${encodeURIComponent(projectName)}&c=currencies&limit=10`)
-    if (!searchR.ok) return null
-    const searchData = await searchR.json()
-    const currencies = searchData.currencies || []
-    if (currencies.length === 0) return null
-
-    // Find best match - prefer exact ticker match, then name match
-    const nameLower = projectName.toLowerCase()
-    const handleLower = handle.toLowerCase()
-    const tickerUpper = (ticker || '').toUpperCase()
-
-    // Strict match — must be confident it's the right project
-    const CHAIN_TOKENS_CP = ['SUI','ETH','BTC','SOL','BNB','MATIC','AVAX','OP','ARB','BASE','NEAR','APT','SEI','INJ','ATOM','DOT','ADA']
-    
-    const match = currencies.find((c: any) => 
-      tickerUpper && c.symbol?.toUpperCase() === tickerUpper &&
-      !CHAIN_TOKENS_CP.includes(c.symbol?.toUpperCase())
-    ) || currencies.find((c: any) => {
-      const cName = (c.name || '').toLowerCase().replace(/[^a-z0-9]/g, '')
-      const cId = (c.id || '').toLowerCase().replace(/[^a-z0-9]/g, '')
-      // Must be a strong name match, not just partial
-      return (cId === handleLower || cName === nameLower || 
-              (cId.includes(handleLower) && handleLower.length > 4) ||
-              (handleLower.includes(cId) && cId.length > 4)) &&
-             !CHAIN_TOKENS_CP.includes(c.symbol?.toUpperCase())
-    })
-
-    if (!match) return null
-    // Final safety: reject chain tokens
-    if (CHAIN_TOKENS_CP.includes(match.symbol?.toUpperCase())) return null
-
-    // Get full coin details including team and contracts
-    const coinR = await fetch(`https://api.coinpaprika.com/v1/coins/${match.id}`)
-    if (!coinR.ok) return null
-    const coin = await coinR.json()
-
-    // Get price data
-    let price = null
-    try {
-      const tickerR = await fetch(`https://api.coinpaprika.com/v1/tickers/${match.id}?quotes=USD`)
-      if (tickerR.ok) {
-        const tickerData = await tickerR.json()
-        const usd = tickerData.quotes?.USD
-        if (usd?.price) {
-          const p = usd.price
-          price = {
-            price: p < 0.01 ? `$${p.toFixed(6)}` : p < 1 ? `$${p.toFixed(4)}` : `$${p.toFixed(2)}`,
-            market_cap: usd.market_cap ? (usd.market_cap >= 1e9 ? `$${(usd.market_cap/1e9).toFixed(1)}B` : `$${(usd.market_cap/1e6).toFixed(1)}M`) : null,
-            volume_24h: usd.volume_24h ? (usd.volume_24h >= 1e6 ? `$${(usd.volume_24h/1e6).toFixed(1)}M` : `$${(usd.volume_24h/1e3).toFixed(0)}K`) : null,
-            change_24h: usd.percent_change_24h || null,
-          }
-        }
-      }
-    } catch {}
-
-    // Extract team members with social links
-    const team = (coin.team || []).map((m: any) => ({
-      name: m.name || '',
-      role: m.position || '',
-      x_handle: '',  // CoinPaprika gives name/position, cross-ref with RootData for handles
-    })).filter((m: any) => m.name).slice(0, 8)
-
-    // Contract addresses - key for token disambiguation
-    const contracts = (coin.contracts || []).map((c: any) => ({
-      chain: c.type || '',
-      address: c.contract || '',
-    })).slice(0, 5)
-
-    // Links
-    const links = coin.links_extended || []
-    const twitterLink = links.find((l: any) => l.type === 'twitter')?.url || ''
-    const githubLink = links.find((l: any) => l.type === 'github')?.url || ''
-
-    // Final verification: coin name must relate to project
-    const coinNameClean = (coin.name || '').toLowerCase().replace(/[^a-z0-9]/g, '')
-    const projectNameClean = projectName.toLowerCase().replace(/[^a-z0-9]/g, '')
-    const handleClean2 = handle.toLowerCase().replace(/[^a-z0-9]/g, '')
-    const nameMatch = coinNameClean.includes(handleClean2) || handleClean2.includes(coinNameClean) ||
-                      coinNameClean.includes(projectNameClean.slice(0,6)) || 
-                      (match.id || '').toLowerCase().includes(handleClean2)
-    if (!nameMatch && !ticker) return null // Without ticker confirmation, must name-match
-
-    return {
-      coin_id: match.id,
-      symbol: coin.symbol?.toUpperCase() || match.symbol?.toUpperCase(),
-      name: coin.name || match.name,
-      description: coin.description || '',
-      team,
-      contracts,
-      price_data: price,
-      token_live: !!price,
-      tags: (coin.tags || []).map((t: any) => t.name || t).filter(Boolean).slice(0, 5),
-      github: githubLink,
-      twitter: twitterLink,
-      started_at: coin.started_at || null,
-      development_status: coin.development_status || null,
-      proof_type: coin.proof_type || null,
-    }
-  } catch { return null }
-}
-
-
-export default async function handler(req: VercelRequest, res: VercelResponse) {
-  res.setHeader('Access-Control-Allow-Origin', '*')
-  res.setHeader('Access-Control-Allow-Methods', 'GET')
-
-  const { handle } = req.query
-  if (!handle || typeof handle !== 'string') return res.status(400).json({ error: 'Handle required' })
-
-  const clean = handle.replace('@', '').trim().toLowerCase()
-  const TOKEN = process.env.X_API_BEARER_TOKEN!
-
-  const noCache = req.query.nocache === 'true'
-  const cached = cache.get(clean)
-  if (!noCache && cached && Date.now() - cached.time < CACHE_TTL) {
-    return res.status(200).json({ ...cached.data, cached: true })
-  }
-  if (noCache) cache.delete(clean)
-
-  try {
-    // 1. Project profile
-    const userData = await xFetch(
-      `https://api.twitter.com/2/users/by/username/${clean}?user.fields=public_metrics,verified,created_at,profile_image_url,description,pinned_tweet_id,id`,
-      TOKEN
-    )
-    const u = userData.data || null
-
-    const bio = u?.description || ''
-    let pinnedTweetText = ''
-
-    // 2. Pinned tweet
-    if (u?.pinned_tweet_id) {
-      try {
-        const td = await xFetch(`https://api.twitter.com/2/tweets/${u?.pinned_tweet_id}?tweet.fields=text,public_metrics`, TOKEN)
-        pinnedTweetText = td.data?.text || ''
-      } catch { }
-    }
-
-    // 3. Recent tweets with engagement metrics
-    let recentTweets: any[] = []
-    if (u?.id) try {
-      const td = await xFetch(
-        `https://api.twitter.com/2/users/${u?.id}/tweets?max_results=20&tweet.fields=text,public_metrics,created_at&exclude=retweets`,
-        TOKEN
-      )
-      recentTweets = td.data || []
-    } catch { }
-
-    // 4. Extract all intelligence from X data
-    const intel = extractIntelligence(recentTweets, bio, pinnedTweetText)
-
-
-
-    // 5. Token data from CoinGecko
-    const tokenData_cg = await getCoingeckoToken(intel.confirmedTicker || '', clean, u?.name || '')
-
-    // 6. CMV X Score
-    const metrics = u?.public_metrics
-    const followers = metrics?.followers_count || 0
-    const following = metrics?.following_count || 0
-    const tweetCount = metrics?.tweet_count || 0
-    const listed = metrics?.listed_count || 0
-    const createdYear = new Date(u?.created_at || '').getFullYear()
-    const age = new Date().getFullYear() - createdYear
-
-    const followerScore = Math.min(100, Math.log10(Math.max(followers, 1)) / 5 * 100)
-    const listedScore = Math.min(100, Math.log10(Math.max(listed, 1)) / 4 * 100)
-    const ageScore = Math.min(100, (age / 5) * 100)
-    const activityScore = Math.min(100, (tweetCount / 1000) * 100)
-    const ratioScore = Math.min(100, (followers / Math.max(following, 1)) / 100 * 100)
-    const verifiedScore = u?.verified ? 100 : 0
-    const engagementScore = Math.min(100, (intel.avgLikes / Math.max(followers * 0.01, 1)) * 100)
-
-    const cmvScore = Math.round(
-      (followerScore * 0.28) + (listedScore * 0.18) + (ageScore * 0.12) +
-      (activityScore * 0.12) + (ratioScore * 0.10) + (verifiedScore * 0.10) + (engagementScore * 0.10)
-    )
-
-  
-    // ── Run enrichment tools in parallel ──────────────────────────────────
-    const projectName = u?.name || clean
-    // ONLY use ticker verified by CoinGecko — bio tickers like $CHIP are unverified
-    // and will match wrong projects on DexScreener/GeckoTerminal
-    const confirmedTicker = tokenData_cg?.ticker || null
-
-    const [_dl, _dlh, _dex, _gecko, _news, _rd, _cp] = await Promise.allSettled([
-      withTimeout(fetchDefiLlama(projectName, clean), 4000),
-      withTimeout(fetchDefiLlamaHacks(projectName), 3000),
-      confirmedTicker ? withTimeout(fetchDexScreener(confirmedTicker, projectName), 3000) : Promise.resolve(null),
-      confirmedTicker ? withTimeout(fetchGeckoTerminal(confirmedTicker, projectName), 3000) : Promise.resolve(null),
-      confirmedTicker ? withTimeout(fetchCryptoNewsSentiment(projectName, confirmedTicker), 3000) : Promise.resolve(null),
-      process.env.ROOTDATA_API_KEY ? withTimeout(fetchRootData(projectName, process.env.ROOTDATA_API_KEY), 4000) : Promise.resolve(null),
-      withTimeout(fetchCoinPaprika(projectName, clean, confirmedTicker), 4000),
-    ])
-
-    const dlData   = _dl.status   === 'fulfilled' ? _dl.value   : null
-    const hacksData = _dlh.status === 'fulfilled' ? _dlh.value  : []
-    const dexData  = _dex.status  === 'fulfilled' ? _dex.value  : null
-    const geckoData = _gecko.status === 'fulfilled' ? _gecko.value : null
-    const news     = _news.status === 'fulfilled' ? _news.value  : null
-    const rdData   = _rd.status   === 'fulfilled' ? _rd.value   : null
-    const cpData   = _cp.status   === 'fulfilled' ? _cp.value   : null
-
-    let tokenData: any = null
-    // If CoinGecko found a token, try DexScreener with that ticker for better price data
-    // BUT: skip if ticker is a major L1/chain token (DOT, ATOM etc) - DexScreener finds scam copies
-    const skipDexRetry = CHAIN_TOKENS.includes((tokenData_cg?.ticker || '').toUpperCase())
-    if (tokenData_cg?.token_live && tokenData_cg.ticker && !dexData?.token_live && !skipDexRetry) {
-      try {
-        const dexRetry = await withTimeout(fetchDexScreener(tokenData_cg.ticker, projectName), 3000)
-        // Only use DexScreener result if price is significantly different from CoinGecko
-        // and not suspiciously low (scam token detection)
-        const cgPrice = parseFloat((tokenData_cg.token_price || '0').replace('$',''))
-        const dexPrice = parseFloat((dexRetry?.token_price || '0').replace('$',''))
-        const priceRatio = cgPrice > 0 ? dexPrice / cgPrice : 0
-        // Reject if DexScreener price is less than 10% of CoinGecko price (likely scam copy)
-        if (dexRetry?.token_live && priceRatio > 0.1) tokenData = { ...dexRetry, source: 'dexscreener' }
       } catch {}
+
+      // 2. Check Supabase if no browser cache
+      if (!cr) {
+        try {
+          const sbUrl = import.meta.env.VITE_SUPABASE_URL
+          const sbKey = import.meta.env.VITE_SUPABASE_ANON_KEY
+          if (sbUrl && sbKey) {
+            const r = await fetch(sbUrl + '/rest/v1/scans?handle=eq.' + handle + '&select=full_result&limit=1', {
+              headers: { 'apikey': sbKey, 'Authorization': 'Bearer ' + sbKey }
+            })
+            if (r.ok) {
+              const rows = await r.json()
+              if (rows[0]?.full_result) {
+                cr = rows[0].full_result.result
+                cc = rows[0].full_result.cgData
+                cx = rows[0].full_result.xData
+                try { localStorage.setItem(cacheKey, JSON.stringify({ result: cr, cgData: cc, xData: cx, timestamp: Date.now() })) } catch {}
+              }
+            }
+          }
+        } catch {}
+      }
+
+      // 3. Not in feed or cache — run full scan to add it
+      if (!cr) {
+        analyze()
+        return
+      }
+
+      // 4. Found — show immediately then refresh X + price silently
+      setResult(cr)
+      setCgData(cc)
+      setXData(cx)
+      fetchProjectXData(handle).then(freshXd => { if (freshXd) setXData(freshXd) }).catch(() => {})
+
     }
-    if (!tokenData && dexData?.token_live) tokenData = { ...dexData, source: 'dexscreener' }
-    else if (!tokenData && geckoData?.token_live) tokenData = { ...geckoData, source: 'geckoterminal' }
-    // Always fall back to CoinGecko data - it's verified and accurate
-    if (!tokenData && tokenData_cg?.token_live) tokenData = { ...tokenData_cg }
-    // If CoinGecko found it but we used DexScreener, keep CoinGecko as backup for mcap/supply data
-    if (tokenData && !tokenData.market_cap_str && tokenData_cg?.market_cap_str) {
-      tokenData.market_cap_str = tokenData_cg.market_cap_str
+
+    loadFromFeed()
+  }, [])
+
+  useEffect(() => {
+    if (loading) {
+      setElapsed(0); setMsgIdx(0); setPfpLoaded(false)
+      tint.current = setInterval(() => setElapsed(e => e + 1), 1000)
+      let pi = 0
+      pint.current = setInterval(() => { pi = (pi + 1) % PHASES.length; setPhase(PHASES[pi]) }, 4000)
+      mint.current = setInterval(() => setMsgIdx(i => Math.min(i + 1, LOADING_MSGS.length - 1)), 12000)
+    } else { clearInterval(tint.current); clearInterval(pint.current); clearInterval(mint.current) }
+    return () => { clearInterval(tint.current); clearInterval(pint.current); clearInterval(mint.current) }
+  }, [loading])
+
+  useEffect(() => {
+    if (result?.mindshare_trend && asec === 'mindshare' && canvasRef.current) setTimeout(() => drawChart(result.mindshare_trend), 100)
+  }, [asec, result])
+
+  function drawChart(trend: any) {
+    const canvas = canvasRef.current
+    if (!canvas || !trend?.values?.length) return
+    const ctx = canvas.getContext('2d')!
+    const vals = trend.values, max = Math.max(...vals, 1)
+    const w = canvas.offsetWidth || 700, h = 110, pad = 24
+    canvas.width = w; canvas.height = h; ctx.clearRect(0, 0, w, h)
+    const pts = vals.map((v: number, i: number) => ({ x: pad + (i / (vals.length - 1)) * (w - pad * 2), y: h - pad - (v / max) * (h - pad * 2) }))
+    ctx.beginPath(); ctx.moveTo(pts[0].x, pts[0].y); pts.slice(1).forEach((p: any) => ctx.lineTo(p.x, p.y))
+    ctx.strokeStyle = '#3b5bdb'; ctx.lineWidth = 2.5; ctx.lineJoin = 'round'; ctx.stroke()
+    ctx.lineTo(pts[pts.length - 1].x, h - pad); ctx.lineTo(pts[0].x, h - pad); ctx.closePath()
+    ctx.fillStyle = 'rgba(59,91,219,0.08)'; ctx.fill()
+    pts.forEach((p: any) => { ctx.beginPath(); ctx.arc(p.x, p.y, 4, 0, Math.PI * 2); ctx.fillStyle = '#3b5bdb'; ctx.fill(); ctx.strokeStyle = '#fff'; ctx.lineWidth = 1.5; ctx.stroke() });
+    (trend.labels || []).forEach((l: string, i: number) => { ctx.fillStyle = '#adb5bd'; ctx.font = "9px 'DM Mono'"; ctx.textAlign = 'center'; ctx.fillText(l, pts[i].x, h - 6) })
+  }
+
+  function catScore(cat: string) {
+    if (!result) return 0
+    const ms = METRICS.filter(m => m.cat === cat)
+    return Math.round(ms.map(m => result.metrics?.[m.id]?.score ?? 0).reduce((a: number, b: number) => a + b, 0) / ms.length)
+  }
+
+  function toggleTag(id: string) {
+    setSelectedTags(prev => prev.includes(id) ? prev.filter(t => t !== id) : prev.length < 2 ? [...prev, id] : prev)
+  }
+
+  function handlePhotoUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0]
+    if (!file) return
+    const reader = new FileReader()
+    reader.onload = (ev) => setTempPhoto(ev.target?.result as string)
+    reader.readAsDataURL(file)
+  }
+
+  async function analyze() {
+    const url = xUrl.trim()
+    if (!url) return
+    // Strip URL parts, @, and any invalid X handle characters (only a-z 0-9 _ allowed)
+    const rawHandle = url.replace('https://x.com/', '').replace('https://twitter.com/', '').replace('http://x.com/', '').replace('@', '').split('/')[0].trim()
+    const handle = rawHandle.replace(/[^a-zA-Z0-9_]/g, '')
+    if (!handle) return
+    // If handle changed after sanitization, warn user
+    if (handle.toLowerCase() !== rawHandle.toLowerCase()) {
+      console.warn('Handle sanitized:', rawHandle, '→', handle)
     }
-    else if (!tokenData && cpData?.token_live && cpData?.price_data) {
-      tokenData = {
-        token_live: true,
-        ticker: cpData.symbol,
-        token_price: cpData.price_data.price,
-        market_cap_str: cpData.price_data.market_cap,
-        volume_24h: cpData.price_data.volume_24h,
-        price_change_24h: cpData.price_data.change_24h,
-        contracts: cpData.contracts,
-        source: 'coinpaprika',
+    const cacheKey = `cmv_scan_v4_${handle.toLowerCase()}`
+    // Clear old cache versions silently
+    try { localStorage.removeItem(`cmv_scan_v3_${handle.toLowerCase()}`); localStorage.removeItem(`cmv_scan_v2_${handle.toLowerCase()}`); localStorage.removeItem(`cmv_scan_${handle.toLowerCase()}`) } catch {}
+    setLoading(true); setResult(null); setCgData(null); setXData(null); setError(null); setAtab('Fundamentals'); setAsec('metrics'); setSelectedTags([])
+    try {
+      const cached = localStorage.getItem(cacheKey)
+      if (cached) {
+        const { result: cr, cgData: cc, xData: cx, timestamp } = JSON.parse(cached)
+        if (Date.now() - timestamp < 1000 * 60 * 60 * 24) { setResult(cr); setCgData(cc); setXData(cx); setLoading(false); return }
+      }
+    } catch { }
+    // Fetch X data — catch ALL errors and continue with what we have
+    let xd: any = null
+    try {
+      xd = await fetchProjectXData(handle)
+    } catch (xErr) {
+      console.warn('X API fetch failed:', xErr)
+    }
+
+    // If X API completely failed AND we have no data at all — show retry
+    // But if we have partial data, continue — tools can still score the project
+    if (!xd && !handle) {
+      setError('Unable to reach X API. Please try again.')
+      setLoading(false)
+      return
+    }
+
+    // If null, create a minimal stub so tool-native scoring can still run
+    if (!xd) {
+      xd = {
+        name: handle, handle, description: '', followers: 0, following: 0,
+        tweet_count: 0, listed: 0, verified: false, account_age_years: 0,
+        avg_likes: 0, avg_retweets: 0, cmv_score: 0,
+        confirmed_ticker: null, token_launch_hinted: false,
+        category: 'Crypto', enriched: {}, profile_image_url: null,
+        error: 'X API unavailable', partial: true
       }
     }
+    setXData(xd)
+    let cg = null
 
-    const allInvestors = [...new Set([...(dlData?.investors || []), ...(rdData?.investors || [])])]
-
-    // Merge team: RootData (has X handles) + CoinPaprika (has roles)
-    // RootData takes priority as it has social links
-    const rdTeam = rdData?.team || []
-    const cpTeam = (cpData?.team || []).filter((cm: any) => 
-      !rdTeam.some((rm: any) => rm.name?.toLowerCase() === cm.name?.toLowerCase())
-    )
-    const mergedTeam = [...rdTeam, ...cpTeam].slice(0, 8)
-    const autoFudFlags = detectFUDSignals(u, intel, dexData, hacksData || [], news)
-
-    const enriched = {
-      tvl: dlData?.tvl || null,
-      fees_24h: dlData?.fees_24h || null,
-      revenue_24h: dlData?.revenue_24h || null,
-      total_raised_defillama: dlData?.total_raised || null,
-      defillama_category: dlData?.category || null,
-      chains: dlData?.chains || [],
-      total_raised_rootdata: rdData?.total_raised || null,
-      rootdata_team: mergedTeam.filter((t: any) => t.name && t.name.length > 1),
-      confirmed_investors: allInvestors,
-      known_hacks: hacksData,
-      news_sentiment: news?.sentiment || null,
-      news_article_count: news?.article_count || 0,
-      news_red_flags: news?.red_flag_headlines || [],
-      news_recent: news?.recent_headlines?.slice(0, 3) || [],
-      dex_volume_24h: dexData?.volume_24h || null,
-      dex_liquidity: dexData?.liquidity || null,
-      dex_dump_detected: dexData?.dump_detected || false,
-      dex_price_change_24h: dexData?.price_change_24h || null,
-      auto_fud_flags: autoFudFlags,
-      auto_fud_count: autoFudFlags.length,
-      // CoinPaprika extras
-      coinpaprika_contracts: cpData?.contracts || [],
-      coinpaprika_tags: cpData?.tags || [],
-      coinpaprika_github: cpData?.github || null,
-      coinpaprika_started: cpData?.started_at || null,
-      coinpaprika_description: cpData?.description || null,
+    // Use token_data from xproject — already prioritized (DexScreener > GeckoTerminal > CoinGecko)
+    if (xd?.token_data?.token_live) {
+      cg = xd.token_data
     }
 
-    const result = {
-      followers, following, tweet_count: tweetCount, listed,
-      verified: u?.verified || false,
-      account_age_years: age,
-      profile_image_url: u?.profile_image_url?.replace('_normal', '_bigger') || null,
-      description: bio,
-      pinned_tweet: pinnedTweetText,
-      recent_tweets: recentTweets.map((t: any) => t.text).join(' ').slice(0, 800),
-
-      // X intelligence — Claude uses this instead of searching for it
-      confirmed_ticker: tokenData?.ticker || intel.confirmedTicker,
-      all_tickers_found: intel.tickers,
-      token_launch_hinted: intel.tokenLaunchHinted || !!tokenData?.token_live,
-      token_data: tokenData,
-      category: intel.category,  // Will be overridden by DefiLlama in enriched.defillama_category
-      latest_season: intel.latestSeason,
-      season_dates: intel.seasonDates,
-      funding_mentions: intel.fundingMentions,
-      vc_mentions: intel.vcMentions,
-      user_count_mentions: intel.userCountMentions,
-      content_type: intel.contentType,
-      avg_likes: intel.avgLikes,
-      avg_retweets: intel.avgRetweets,
-
-      cmv_score: Math.min(1000, Math.round(cmvScore * 10)),
-      breakdown: {
-        follower_reach: Math.round(followerScore),
-        listed_quality: Math.round(listedScore),
-        account_age: Math.round(ageScore),
-        posting_activity: Math.round(activityScore),
-        follower_ratio: Math.round(ratioScore),
-        verified: Math.round(verifiedScore),
-        engagement: Math.round(engagementScore),
-      },
-      name: u?.name || clean,
-      enriched,
-      cached: false
+    if (!cg) cg = { token_live: false, token_price: 'Not Launched', token_note: 'No token found' }
+    setCgData(cg)
+    // Helper to save result
+    const saveResult = (cleaned: any) => {
+      try { localStorage.setItem(cacheKey, JSON.stringify({ result: cleaned, cgData: cg, xData: xd, timestamp: Date.now() })) } catch { }
+      setResult(cleaned)
+      fetch('/api/save-scan', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          handle,
+          project_name: cleaned.project_name,
+          verdict: cleaned.verdict,
+          score: cleaned.overall_score,
+          ticker: cg?.ticker || null,
+          token_price: cg?.token_price || null,
+          market_cap_str: cg?.market_cap_str || null,
+          category: cleaned.project_category,
+          profile_image_url: xd?.profile_image_url || null,
+          good_highlights: cleaned.good_highlights || [],
+          red_flag_count: (cleaned.red_flags || []).filter((f: any) => f.label).length,
+          full_result: { result: cleaned, cgData: cg, xData: xd },
+        })
+      }).catch(() => {})
     }
 
-    cache.set(clean, { data: result, time: Date.now() })
-    return res.status(200).json(result)
-  } catch (e: any) {
-    console.error('xproject error:', e.message)
-    return res.status(200).json({ 
-      error: e.message, partial: true, handle: clean,
-      name: clean, description: '', followers: 0, tweet_count: 0,
-      enriched: {}, token_data: null, cmv_score: 0,
-      category: 'Crypto', confirmed_ticker: null,
-      avg_likes: 0, avg_retweets: 0, account_age_years: 0,
-      verified: false, profile_image_url: null,
-    })
+
+    // X-only fallback scan — no Claude, uses X data to build basic result
+    const xOnlyScan = () => {
+      // ── FULL TOOL-NATIVE SCORING ENGINE ──
+      const enriched = xd?.enriched || {}
+
+      // Check if we have ANY useful data at all
+      const hasXData = (xd?.followers || 0) > 0 || (xd?.tweet_count || 0) > 0
+      const hasToolData = !!(enriched.tvl || enriched.total_raised_rootdata ||
+        enriched.total_raised_defillama || enriched.dex_volume_24h ||
+        (enriched.confirmed_investors || []).length > 0 ||
+        (enriched.rootdata_team || []).length > 0)
+
+      // Note: even with low/zero data, still score using what we have
+      const autoFlags = enriched.auto_fud_flags || []
+      const followers = xd?.followers || 0
+      const following = xd?.following || 0
+      const listed = xd?.listed || 0
+      const tweetCount = xd?.tweet_count || 0
+      const accountAge = xd?.account_age_years || 0
+      const avgLikes = xd?.avg_likes || 0
+      const verified = xd?.verified || false
+      const cmvXScore = xd?.cmv_score || 0
+
+      // ── METRIC SCORES FROM TOOLS ──
+
+      // 1. Funding (RootData + DefiLlama)
+      const hasRaised = enriched.total_raised_rootdata || enriched.total_raised_defillama
+      const investors = enriched.confirmed_investors || []
+      const topVCs = ['paradigm','a16z','coinbase','polychain','multicoin','pantera','sequoia','dragonfly','binance','animoca']
+      const hasTopVC = investors.some((v: string) => topVCs.some(vc => v.toLowerCase().includes(vc)))
+      const fundingScore = hasTopVC ? 90 : investors.length > 3 ? 75 : hasRaised ? 60 : investors.length > 0 ? 45 : 25
+
+      // 2. TVL / Revenue (DefiLlama)
+      const tvl = enriched.tvl
+      const revenue = enriched.revenue_24h
+      const fees = enriched.fees_24h
+      const tvlNum = tvl ? (tvl.includes('B') ? parseFloat(tvl)*1e9 : tvl.includes('M') ? parseFloat(tvl)*1e6 : parseFloat(tvl)*1e3) : 0
+      const hasRevenue = !!(enriched.revenue_24h || enriched.fees_24h)
+      const revenueScore = enriched.revenue_24h ? 
+        (enriched.revenue_24h.includes('M') ? 95 : enriched.revenue_24h.includes('K') ? 75 : 60) : 
+        enriched.fees_24h ? 
+        (enriched.fees_24h.includes('M') ? 85 : enriched.fees_24h.includes('K') ? 65 : 55) : 
+        tvlNum > 1e9 ? 85 : tvlNum > 1e8 ? 75 : tvlNum > 1e7 ? 65 : tvlNum > 1e6 ? 55 : tvlNum > 0 ? 40 : 15
+
+      // 3. Token health (DexScreener)
+      const dexDump = enriched.dex_dump_detected
+      const dexLiq = enriched.dex_liquidity
+      const tokenLive = cg?.token_live || xd?.token_data?.token_live
+      const dexToken = xd?.token_data
+      const tokenScore = dexDump ? 10 : 
+        (tokenLive && dexLiq) ? (dexLiq.includes('M') ? 80 : dexLiq.includes('K') ? 60 : 40) : 
+        tokenLive ? 55 :
+        xd?.token_launch_hinted ? 50 : 35
+
+      // 4. Community / X presence — only score if real X data came back
+      const hasRealXData = followers > 0 || tweetCount > 0
+      const followerScore = !hasRealXData ? 50 : followers > 500000 ? 95 : followers > 100000 ? 85 : followers > 50000 ? 75 : followers > 10000 ? 60 : followers > 5000 ? 45 : 25
+      const engagementScore = !hasRealXData ? 50 : avgLikes > 1000 ? 90 : avgLikes > 500 ? 75 : avgLikes > 100 ? 60 : avgLikes > 20 ? 45 : 20
+
+      // 5. Team credibility (RootData + X)
+      const team = (enriched.rootdata_team || []).filter((t: any) => t.name && t.name.length > 1)
+      const teamScore = team.length > 4 ? 90 : team.length > 2 ? 75 : team.length > 0 ? 65 : verified ? 55 : accountAge > 3 ? 50 : 30
+
+      // 6. News sentiment (CryptoNews)
+      const sentiment = enriched.news_sentiment
+      const sentimentScore = sentiment === 'positive' ? 80 : sentiment === 'neutral' ? 60 : sentiment === 'negative' ? 25 : 50
+
+      // 7. Security (DefiLlama hacks)
+      const hacks = enriched.known_hacks || []
+      const securityScore = hacks.length > 0 ? 10 : tvlNum > 0 ? 75 : 55
+
+      // ── FUD PENALTY ──
+      let fudPenalty = 0
+      autoFlags.forEach((f: any) => {
+        if (f.severity === 'high') fudPenalty += 100
+        else if (f.severity === 'medium') fudPenalty += 50
+        else fudPenalty += 25
+      })
+      fudPenalty = Math.min(fudPenalty, 300)
+
+      // ── COMPOSITE SCORE ──
+      const weights = { funding: 0.20, revenue: 0.18, token: 0.12, follower: 0.15, engagement: 0.12, team: 0.10, sentiment: 0.08, security: 0.05 }
+      const rawScore = Math.round(
+        fundingScore * weights.funding +
+        revenueScore * weights.revenue +
+        tokenScore * weights.token +
+        followerScore * weights.follower +
+        engagementScore * weights.engagement +
+        teamScore * weights.team +
+        sentimentScore * weights.sentiment +
+        securityScore * weights.security
+      )
+      // Combine with CMV X score (social proof)
+      const combined = Math.round(rawScore * 0.6 + (cmvXScore / 10) * 0.4)
+      const finalScore = Math.max(0, Math.min(100, combined - Math.round(fudPenalty / 10)))
+
+      // Hard caps
+      const hasHack = hacks.length > 0
+      const hasDump = enriched.dex_dump_detected
+      const cappedScore = hasHack ? Math.min(finalScore, 35) : hasDump ? Math.min(finalScore, 45) : finalScore
+
+      // ── VERDICT ──
+      const verdict = cappedScore >= 85 ? 'FARM IT' : cappedScore >= 60 ? 'CREATE CONTENT' : cappedScore >= 35 ? 'WATCH' : 'SKIP'
+
+      // ── GENERATE HIGHLIGHTS FROM TOOLS ──
+      const highlights: string[] = []
+      if (hasRaised) highlights.push(`${enriched.total_raised_rootdata || enriched.total_raised_defillama} raised`)
+      if (hasTopVC) highlights.push(`Backed by ${investors.slice(0,2).join(', ')}`)
+      if (tvl) highlights.push(`${tvl} TVL deployed`)
+      if (revenue) highlights.push(`${revenue} daily revenue`)
+      if (hasRealXData && followers > 10000) highlights.push(`${(followers/1000).toFixed(0)}K X followers`)
+      if (team.length > 0) highlights.push(`${team.length} verified team members`)
+      if (verified) highlights.push('Verified X account')
+      if (enriched.chains?.length > 0) highlights.push(`Live on ${enriched.chains.slice(0,2).join(', ')}`)
+
+      // ── VERDICT REASON FROM TOOLS ──
+      const parts: string[] = []
+      if (enriched.defillama_category) parts.push(`${enriched.defillama_category} project`)
+      if (hasRaised && hasTopVC) parts.push(`Backed by top VCs including ${investors[0]}`)
+      else if (hasRaised) parts.push(`Has raised ${enriched.total_raised_rootdata || enriched.total_raised_defillama}`)
+      if (tvl) parts.push(`${tvl} TVL showing real capital deployment`)
+      if (revenue) parts.push(`Generating ${revenue} in daily revenue`)
+      if (hasRealXData && followers > 10000) parts.push(`Strong X presence with ${(followers/1000).toFixed(0)}K followers`)
+      if (hacks.length > 0) parts.push(`WARNING: ${hacks.length} known security exploit(s) on record`)
+      if (dexDump) parts.push(`Token showing significant price decline`)
+      if (autoFlags.length > 0) parts.push(`${autoFlags.length} automated red flag(s) detected`)
+      if (sentiment === 'negative') parts.push('Negative news sentiment detected')
+
+      const verdictReason = parts.length > 0 ? parts.join('. ') + '.' : `Based on available data: ${followers.toLocaleString()} followers, ${accountAge.toFixed(1)} year old account.`
+
+      const categoryLabel = enriched.defillama_category || xd?.category || 'Crypto'
+      const verdictAction: Record<string, string> = {
+        'FARM IT': 'Strong fundamentals confirmed by multiple data sources. Actively farm this project.',
+        'CREATE CONTENT': 'Solid metrics but monitor closely. Create content and track progress.',
+        'WATCH': 'Insufficient data or mixed signals. Watch for more clarity before committing.',
+        'SKIP': 'Multiple red flags or weak fundamentals detected across data sources. Skip for now.'
+      }
+
+      // ── BUILD FULL RESULT ──
+      const cleaned = {
+        project_name: xd?.name || handle,
+        ticker: cg?.ticker || xd?.confirmed_ticker || null,
+        description: xd?.description || '',
+        team_location: '',
+        founded: '',
+        project_category: enriched.defillama_category || xd?.category || 'Crypto',
+        verdict: verdict,
+        verdict_reason: verdictReason,
+        verdict_action: verdictAction[verdict],
+        overall_score: cappedScore,
+        score_rationale: `Tool-native score: Funding ${fundingScore}/100 · Revenue ${revenueScore}/100 · Community ${followerScore}/100 · Team ${teamScore}/100. FUD penalty: -${fudPenalty}pts. Raw: followers=${xd?.followers || 0} tvl=${enriched.tvl || 'none'} investors=${(enriched.confirmed_investors||[]).length} sentiment=${enriched.news_sentiment || 'none'}`,
+        good_highlights: highlights.slice(0, 5),
+        red_flags: autoFlags.map((f: any) => ({ type: f.type, label: f.label, detail: f.detail })),
+        top_risks: [
+          hacks.length > 0 ? `Security: ${hacks.length} known exploit(s)` : null,
+          dexDump ? 'Token showing significant price dump' : null,
+          dexLiq && dexLiq.includes('K') && !dexLiq.includes('00K') ? 'Low DEX liquidity — rug risk' : null,
+          sentiment === 'negative' ? 'Negative news coverage detected' : null,
+          (hasRealXData && followers < 1000) ? 'Very low social presence' : null,
+        ].filter(Boolean).slice(0, 4),
+        top_opportunities: [
+          !tokenLive && xd?.token_launch_hinted ? 'Token not yet launched — early farming opportunity' : null,
+          tvlNum > 1e8 ? `High TVL of ${tvl} showing strong ecosystem` : null,
+          hasTopVC ? `VC backing from ${investors[0]} adds credibility` : null,
+          enriched.chains?.length > 1 ? `Multi-chain deployment on ${enriched.chains.join(', ')}` : null,
+        ].filter(Boolean).slice(0, 3),
+        team_members: (enriched.rootdata_team || []).filter((t: any) => t.name && t.name.length > 1).map((t: any) => ({
+          name: t.name,
+          role: t.role || '',
+          x_handle: t.x_handle || '',
+          background: enriched.coinpaprika_description ? `${enriched.coinpaprika_description.slice(0, 100)}` : '',
+          confirmed: !!(t.x_handle),
+        })),
+        sources: [
+          tvl ? { name: 'DefiLlama', used_for: 'TVL and revenue data' } : null,
+          investors.length > 0 ? { name: 'RootData', used_for: 'Funding and investor data' } : null,
+          tokenLive ? { name: 'DexScreener', used_for: 'Token price and liquidity' } : null,
+          sentiment ? { name: 'CryptoNews', used_for: 'News sentiment analysis' } : null,
+        ].filter(Boolean),
+        data_accuracy_note: 'Analysis powered by DefiLlama, RootData, DexScreener, CryptoNews and X API. Claude AI analysis unavailable — using tool-native scoring.',
+        metrics: {
+          funding: { score: fundingScore, summary: hasRaised ? `${enriched.total_raised_rootdata || enriched.total_raised_defillama} raised from ${investors.length} investors` : 'No confirmed funding found' },
+          revenue: { score: revenueScore, summary: enriched.revenue_24h ? `${enriched.revenue_24h} daily revenue` : enriched.fees_24h ? `${enriched.fees_24h} daily fees` : tvl ? `${tvl} TVL (no revenue data)` : 'No revenue data found' },
+          community: { score: followerScore, summary: hasRealXData ? `${followers.toLocaleString()} followers, ${(avgLikes).toFixed(0)} avg likes, account ${accountAge.toFixed(1)}y old` : 'X API unavailable — community data not retrieved' },
+          team: { score: teamScore, summary: team.length > 0 ? `${team.length} team member${team.length > 1 ? 's' : ''} found via RootData: ${team.slice(0,3).map((t: any) => t.name + (t.role ? ' (' + t.role + ')' : '')).join(', ')}` : verified ? 'Verified X account — no team data on RootData' : 'No team data found' },
+          sentiment: { score: sentimentScore, summary: `${sentiment || 'neutral'} news sentiment from ${enriched.news_article_count || 0} articles` },
+          security: { score: securityScore, summary: hacks.length > 0 ? `${hacks.length} known exploit(s) on DefiLlama` : 'No known security incidents' },
+        },
+        post_tge_outlook: tokenLive ? (dexDump ? 'Poor — token declining' : 'Moderate') : 'Token not yet live',
+        project_follows: null,
+        future_seasons: enriched.news_recent?.length > 0 ? `Recent coverage: ${enriched.news_recent.slice(0,2).join('. ')}` : null,
+        mindshare_trend: null,
+        token_data: cg?.token_live ? cg : (xd?.token_data?.token_live ? xd.token_data : null),
+      }
+      saveResult(cleaned)
+    }
+
+    // Run Claude with all tool data — xOnlyScan as fallback
+    try {
+      const ANTHROPIC_HEADERS = {
+        'Content-Type': 'application/json',
+        'x-api-key': import.meta.env.VITE_ANTHROPIC_API_KEY,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      }
+      const systemPrompt = buildSystemPrompt(handle, xd, cg)
+      const messages: any[] = [{ role: 'user', content: `Analyze @${handle}. Use the tool data in the system prompt. Return JSON only.` }]
+      
+      // web_search_20250305 is server-side — Anthropic handles search results automatically
+      // We just need to keep the conversation going until Claude returns end_turn with text
+      let data: any = null
+      for (let turn = 0; turn < 4; turn++) {
+        const r = await fetch('https://api.anthropic.com/v1/messages', {
+          method: 'POST',
+          headers: ANTHROPIC_HEADERS,
+          body: JSON.stringify({
+            model: 'claude-sonnet-4-20250514',
+            max_tokens: 2000,
+            system: systemPrompt,
+            tools: [{ type: 'web_search_20250305', name: 'web_search' }],
+            messages
+          })
+        })
+        data = await r.json()
+        if (data.error) break
+        // If Claude finished (end_turn) or returned text, we're done
+        if (data.stop_reason === 'end_turn') break
+        // If Claude used tools (stop_reason === 'tool_use'), add response to messages and continue
+        if (data.stop_reason === 'tool_use') {
+          messages.push({ role: 'assistant', content: data.content })
+          continue
+        }
+        break
+      }
+
+      if (data.error) {
+        const msg = data.error.message || ''
+        const errType = data.error.type || ''
+        const isCredits = msg.includes('credit') || msg.includes('billing') || msg.includes('quota') || errType === 'insufficient_quota'
+        const isOverload = msg.includes('overload') || errType === 'overloaded_error'
+        const isRateLimit = msg.includes('rate limit') || msg.includes('tokens per minute')
+        const isAuth = errType === 'authentication_error' || msg.includes('invalid x-api-key') || msg.includes('invalid api key')
+
+        if (isAuth) { 
+          // API key missing or wrong - fall to xOnlyScan but log clearly
+          console.error('Anthropic API key issue:', msg)
+          xOnlyScan(); return 
+        }
+        if (isCredits || isOverload) { xOnlyScan(); return }
+        if (isRateLimit) {
+          setError('rate_limit'); let secs = 65
+          const cd = setInterval(() => { secs--; setError('rate_limit:' + secs); if (secs <= 0) { clearInterval(cd); setError(null); analyze() } }, 1000)
+          return
+        }
+        throw new Error(msg)
+      }
+
+      const txt = (data.content || []).filter((b: any) => b.type === 'text').map((b: any) => b.text).join('\n')
+      if (!txt.trim()) { xOnlyScan(); return }
+      const parsed = xjson(txt)
+      if (!parsed) { xOnlyScan(); return }
+      const cleaned = stripCites(parsed)
+      // Merge auto FUD flags Claude may have missed
+      const autoFlags = (xd?.enriched?.auto_fud_flags || []).map((f: any) => ({ type: f.type, label: f.label, detail: f.detail }))
+      const existingLabels = (cleaned.red_flags || []).map((f: any) => f.label?.toLowerCase())
+      const newFlags = autoFlags.filter((f: any) => !existingLabels.some((l: string) => l.includes(f.label.toLowerCase().slice(0,10))))
+      cleaned.red_flags = [...(cleaned.red_flags || []), ...newFlags]
+      saveResult(cleaned)
+    } catch (e: any) {
+      const msg = e.message || ''
+      if (msg.includes('credit') || msg.includes('billing') || msg.includes('overload')) { xOnlyScan(); return }
+      if (msg.includes('rate limit')) {
+        setError('rate_limit'); let secs = 65
+        const cd = setInterval(() => { secs--; setError('rate_limit:' + secs); if (secs <= 0) { clearInterval(cd); setError(null); analyze() } }, 1000)
+        return
+      }
+      if (msg.includes('Failed to fetch') || msg.includes('NetworkError')) { setError('unavailable'); return }
+      xOnlyScan()
+    } finally { setLoading(false) }
   }
+
+
+  async function shareResult() {
+    if (!result) return
+    const ot = getTier(result.overall_score ?? 0)
+    const otc = T[ot]
+    const tagLabels = selectedTags.map(id => { const good = GOOD_TAGS.find(t => t.id === id); const bad = BAD_TAGS.find(t => t.id === id); return good?.label || bad?.label || '' }).filter(Boolean)
+    const name = userName || 'CMV AlphaScanner'
+    const text = `${name} says ${otc.v} ${otc.emoji} on ${result.project_name}\n\nAlpha Score: ${result.overall_score}/100 · ${otc.lbl}\n${tagLabels.map(t => `• ${t}`).join('\n')}\n\n${result.verdict_action || result.verdict_reason}\n\n🎯 ${otc.target || 'Skip entirely'}\n\nScanned at cmv-alphascanner.vercel.app`
+    try { if (navigator.share) await navigator.share({ text, title: `${result.project_name} — CMV AlphaScanner` }); else { await navigator.clipboard.writeText(text); alert('Copied! Paste it on X.') } } catch { }
+  }
+
+  async function downloadCard() {
+    if (!result) return
+    const ot = getTier(result.overall_score ?? 0)
+    const otc = T[ot]
+    const colors = otc.vbg.match(/#[0-9a-fA-F]{6}/g) || ['#37b24d','#2f9e44']
+    const goodHighlights = (result.good_highlights || []).filter((h: string) => h && h.length > 5)
+    const flagCount = (result.red_flags || []).filter((f: any) => f.label).length
+
+    // Verdict text — word wrap helper
+    const wrapText = (ctx2: CanvasRenderingContext2D, text: string, x: number, y: number, maxW: number, lineH: number, maxLines: number) => {
+      const words = text.split(' ')
+      let line = '', lY = y, lines = 0
+      for (const word of words) {
+        const test = line + word + ' '
+        if (ctx2.measureText(test).width > maxW && line) {
+          ctx2.fillText(line.trim(), x, lY)
+          line = word + ' '; lY += lineH; lines++
+          if (lines >= maxLines - 1) { line = line.trim() + '…'; break }
+        } else line = test
+      }
+      if (line.trim()) ctx2.fillText(line.trim(), x, lY)
+    }
+
+    const canvas = document.createElement('canvas')
+    const W = 1200, H = 630
+    canvas.width = W; canvas.height = H
+    const ctx = canvas.getContext('2d')!
+
+    // ── BACKGROUND ──
+    const grad = ctx.createLinearGradient(0, 0, W, H)
+    grad.addColorStop(0, colors[0])
+    grad.addColorStop(1, colors[1] || colors[0])
+    ctx.fillStyle = grad
+    ctx.fillRect(0, 0, W, H)
+
+    // Subtle decoration
+    ctx.save()
+    ctx.globalAlpha = 0.06
+    ctx.fillStyle = '#fff'
+    ctx.beginPath(); ctx.arc(W + 80, -80, 380, 0, Math.PI * 2); ctx.fill()
+    ctx.beginPath(); ctx.arc(-60, H + 60, 280, 0, Math.PI * 2); ctx.fill()
+    ctx.restore()
+
+    // ── LEFT COLUMN (project info) ──
+    const leftW = 520
+    const pad = 50
+
+    // Project PFP — large circle
+    const pfpUrl = xData?.profile_image_url
+    let pfpOk = false
+    if (pfpUrl) {
+      await new Promise<void>(resolve => {
+        const img = new Image()
+        img.crossOrigin = 'anonymous'
+        img.onload = () => {
+          ctx.save()
+          ctx.beginPath(); ctx.arc(pad + 56, 90, 52, 0, Math.PI * 2); ctx.clip()
+          ctx.drawImage(img, pad + 4, 38, 104, 104)
+          ctx.restore()
+          ctx.strokeStyle = 'rgba(255,255,255,0.5)'; ctx.lineWidth = 3
+          ctx.beginPath(); ctx.arc(pad + 56, 90, 52, 0, Math.PI * 2); ctx.stroke()
+          pfpOk = true; resolve()
+        }
+        img.onerror = () => resolve()
+        img.src = pfpUrl
+      })
+    }
+    if (!pfpOk) {
+      ctx.fillStyle = 'rgba(255,255,255,0.2)'
+      ctx.beginPath(); ctx.arc(pad + 56, 90, 52, 0, Math.PI * 2); ctx.fill()
+      ctx.fillStyle = '#fff'; ctx.font = 'bold 38px Arial'; ctx.textAlign = 'center'
+      ctx.fillText((result.project_name||'?').charAt(0).toUpperCase(), pad + 56, 106)
+      ctx.textAlign = 'left'
+    }
+
+    // Project name
+    ctx.fillStyle = '#fff'
+    ctx.font = 'bold 46px Arial, sans-serif'
+    const nameX = pad + 126
+    ctx.fillText((result.project_name || '').slice(0, 18), nameX, 78)
+
+    // Category pill
+    const cat = result.project_category || 'Crypto'
+    ctx.fillStyle = 'rgba(0,0,0,0.2)'
+    const catW = ctx.measureText(cat).width + 28
+    ctx.font = 'bold 14px Arial'
+    ctx.beginPath(); ctx.roundRect(nameX, 88, catW, 28, 14); ctx.fill()
+    ctx.fillStyle = '#fff'
+    ctx.fillText(cat, nameX + 14, 107)
+
+    // ── DIVIDER ──
+    ctx.strokeStyle = 'rgba(255,255,255,0.15)'; ctx.lineWidth = 1
+    ctx.beginPath(); ctx.moveTo(pad, 162); ctx.lineTo(leftW + pad, 162); ctx.stroke()
+
+    // Description — up to 3 lines
+    ctx.fillStyle = '#fff'; ctx.globalAlpha = 0.92
+    ctx.font = '18px Arial, sans-serif'
+    wrapText(ctx, result.description || '', pad, 195, leftW, 28, 3)
+    ctx.globalAlpha = 1
+
+    // ── HIGHLIGHTS ──
+    const hlY = 290
+    ctx.font = 'bold 13px Arial'
+    let hx = pad
+    goodHighlights.slice(0, 3).forEach((h: string) => {
+      let label = '✓  ' + h
+      const maxPW = (leftW - 20) / 3 - 8
+      while (ctx.measureText(label).width > maxPW - 20 && label.length > 4) label = label.slice(0, -4) + '…'
+      const pw = Math.min(ctx.measureText(label).width + 20, maxPW)
+      ctx.fillStyle = 'rgba(255,255,255,0.15)'
+      ctx.beginPath(); ctx.roundRect(hx, hlY, pw, 30, 15); ctx.fill()
+      ctx.fillStyle = '#fff'
+      ctx.fillText(label, hx + 10, hlY + 20)
+      hx += pw + 8
+    })
+
+    // Red flags pill
+    if (flagCount > 0) {
+      ctx.fillStyle = 'rgba(180,20,20,0.85)'
+      ctx.font = 'bold 13px Arial'
+      const fpW = ctx.measureText('🚨 ' + flagCount + ' red flag' + (flagCount > 1 ? 's' : '')).width + 24
+      ctx.beginPath(); ctx.roundRect(pad, hlY + 40, fpW, 28, 14); ctx.fill()
+      ctx.fillStyle = '#fff'
+      ctx.fillText('🚨 ' + flagCount + ' red flag' + (flagCount > 1 ? 's' : ''), pad + 12, hlY + 59)
+    }
+
+    // ── RIGHT COLUMN ──
+    const rightX = leftW + pad + 60
+    const rightW = W - rightX - pad
+
+    // Score — massive
+    ctx.fillStyle = '#fff'
+    ctx.font = 'bold 120px Arial, sans-serif'
+    ctx.textAlign = 'right'
+    ctx.fillText(String(result.overall_score ?? 0), W - pad, 120)
+    ctx.font = 'bold 16px monospace'
+    ctx.globalAlpha = 0.6
+    ctx.fillText('ALPHA SCORE', W - pad, 148)
+    ctx.globalAlpha = 1
+    ctx.font = 'bold 18px Arial'
+    ctx.fillText(ot + '  ·  ' + otc.lbl, W - pad, 174)
+    ctx.textAlign = 'left'
+
+    // Vertical divider
+    ctx.strokeStyle = 'rgba(255,255,255,0.15)'; ctx.lineWidth = 1
+    ctx.beginPath(); ctx.moveTo(rightX - 30, 60); ctx.lineTo(rightX - 30, H - 60); ctx.stroke()
+
+    // User badge — PFP + name + says
+    let userOk = false
+    const uBadgeY = 210
+    if (userPhoto) {
+      await new Promise<void>(resolve => {
+        const uImg = new Image()
+        uImg.onload = () => {
+          ctx.save()
+          ctx.beginPath(); ctx.arc(rightX + 24, uBadgeY, 22, 0, Math.PI * 2); ctx.clip()
+          ctx.drawImage(uImg, rightX + 2, uBadgeY - 22, 44, 44)
+          ctx.restore()
+          ctx.strokeStyle = 'rgba(255,255,255,0.8)'; ctx.lineWidth = 2.5
+          ctx.beginPath(); ctx.arc(rightX + 24, uBadgeY, 22, 0, Math.PI * 2); ctx.stroke()
+          userOk = true; resolve()
+        }
+        uImg.onerror = () => resolve()
+        uImg.src = userPhoto
+      })
+    }
+    if (!userOk) {
+      ctx.fillStyle = 'rgba(255,255,255,0.25)'
+      ctx.beginPath(); ctx.arc(rightX + 24, uBadgeY, 22, 0, Math.PI * 2); ctx.fill()
+      ctx.fillStyle = '#fff'; ctx.font = 'bold 16px Arial'; ctx.textAlign = 'center'
+      ctx.fillText((userName || 'C').charAt(0).toUpperCase(), rightX + 24, uBadgeY + 6)
+      ctx.textAlign = 'left'
+    }
+    ctx.fillStyle = 'rgba(255,255,255,0.7)'; ctx.font = '13px Arial'
+    ctx.fillText('@' + (userName || 'cmvng') + ' says', rightX + 56, uBadgeY - 8)
+    ctx.fillStyle = '#fff'; ctx.font = 'bold 22px Arial'
+    ctx.fillText(otc.v.toLowerCase() + '  ' + otc.emoji, rightX + 56, uBadgeY + 16)
+
+    // Verdict box
+    const vBoxY = uBadgeY + 48
+    const vBoxH = 180
+    ctx.fillStyle = 'rgba(0,0,0,0.22)'
+    ctx.beginPath(); ctx.roundRect(rightX, vBoxY, rightW, vBoxH, 16); ctx.fill()
+
+    ctx.fillStyle = '#fff'
+    ctx.font = 'bold 26px Arial'
+    ctx.fillText(otc.emoji + '  ' + otc.v, rightX + 18, vBoxY + 38)
+
+    ctx.font = '15px Arial'; ctx.globalAlpha = 0.88
+    wrapText(ctx, result.verdict_action || result.verdict_reason || '', rightX + 18, vBoxY + 72, rightW - 36, 24, 5)
+    ctx.globalAlpha = 1
+
+    // Footer
+    ctx.globalAlpha = 0.28; ctx.fillStyle = '#fff'; ctx.font = '13px monospace'
+    ctx.textAlign = 'center'
+    ctx.fillText('CMV ALPHASCANNER  ·  cmv-alphascanner.vercel.app', W / 2, H - 18)
+    ctx.globalAlpha = 1; ctx.textAlign = 'left'
+
+    const link = document.createElement('a')
+    link.download = (result.project_name || 'scan').replace(/[^a-zA-Z0-9]/g, '_') + '-cmv-alpha.png'
+    link.href = canvas.toDataURL('image/png', 1.0)
+    link.click()
+  }
+
+
+
+
+  const ot = result ? getTier(result.overall_score ?? 0) : 'C'
+  const otc = T[ot]
+  const redFlags = result?.red_flags?.filter((f: any) => f.label) || []
+  const goodHighlights = result?.good_highlights?.filter((h: string) => h && h.length > 5) || []
+  const cmvScore = result ? computeCMVAlphaScore(result.metrics, redFlags) : null
+  const fudPen = cmvScore?.fudPenalty ?? 0
+  const isGoodScore = result && result.overall_score >= 60
+  const availableTags = isGoodScore ? GOOD_TAGS : BAD_TAGS
+  const groups = result ? [
+    { label: 'Team Intentions', score: Math.round(((result.metrics?.founder_cred?.score ?? 0) + (result.metrics?.founder_activity?.score ?? 0)) / 2) },
+    { label: 'Funding', score: result.metrics?.funding?.score ?? 0 },
+    { label: 'Narrative', score: result.metrics?.niche?.score ?? 0 },
+    { label: 'Revenue', score: result.metrics?.revenue?.score ?? 0 },
+    { label: 'Community', score: result.metrics?.sentiment?.score ?? 0 },
+    { label: 'CT Buzz', score: Math.round(((result.metrics?.notable_mentions?.score ?? 0) + (result.metrics?.top_voices?.score ?? 0)) / 2) },
+  ].map(g => ({ ...g, tier: getTier(g.score), cfg: T[getTier(g.score)] })) : []
+  const msg = LOADING_MSGS[msgIdx]
+
+  return (
+    <div style={{ minHeight: '100vh', background: '#f6f8fa', fontFamily: "'Inter',sans-serif" }}>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&family=Inter:wght@300;400;500;600&display=swap');
+        *{box-sizing:border-box;}
+        @keyframes spin{to{transform:rotate(360deg)}}
+        @keyframes shimmer{0%{background-position:-700px 0}100%{background-position:700px 0}}
+        @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+        @keyframes ring{0%,100%{transform:scale(1);opacity:0.3}50%{transform:scale(1.15);opacity:0.08}}
+        @keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes scan{0%{transform:translateX(-100%)}100%{transform:translateX(500%)}}
+        @keyframes thinkDot{0%,100%{opacity:0.15;transform:scale(0.7)}50%{opacity:1;transform:scale(1.1)}}
+        @keyframes pop{0%{transform:scale(0.85);opacity:0}60%{transform:scale(1.03)}100%{transform:scale(1);opacity:1}}
+        .tag-btn{transition:all 0.2s;cursor:pointer;}
+        .tag-btn:hover{transform:translateY(-2px);}
+        .metric-row{transition:all 0.2s;cursor:pointer;}
+        .metric-row:hover{background:#f0fdf4!important;}
+        .nav-link{transition:opacity 0.15s;}
+        .nav-link:hover{opacity:0.7;}
+        input:focus{outline:none;}
+        @media(max-width:640px){
+          .grid-score{grid-template-columns:1fr!important;}
+          .grid-3{grid-template-columns:1fr 1fr!important;}
+          .grid-2{grid-template-columns:1fr!important;}
+          .grid-tier{grid-template-columns:1fr 1fr!important;}
+          .search-btns{flex-wrap:wrap!important;}
+          .hero-title{font-size:36px!important;}
+        }
+      `}</style>
+
+      {/* Nav */}
+      <div style={{ background: 'rgba(255,255,255,0.92)', backdropFilter: 'blur(12px)', borderBottom: '1px solid rgba(0,0,0,0.06)', padding: '0 28px', display: 'flex', alignItems: 'center', height: 60, gap: 12, position: 'sticky', top: 0, zIndex: 100 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexShrink: 0 }}>
+          <div style={{ width: 32, height: 32, background: '#16a34a', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 000-1.41l-2.34-2.34a1 1 0 00-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" fill="#fff" /></svg>
+          </div>
+          <span style={{ fontSize: 15, fontWeight: 700, color: '#111', letterSpacing: -0.3, fontFamily: "'Syne',sans-serif" }}>CMV <span style={{ color: '#16a34a' }}>Alpha</span></span>
+        </div>
+        <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 6 }}>
+          <a href="/tierlist" className="nav-link" style={{ fontFamily: "'DM Mono',monospace", fontSize: 10, color: '#6b7280', textDecoration: 'none', padding: '5px 12px', borderRadius: 8, border: '1px solid #e5e7eb', background: '#fff' }}>Tiers</a>
+          <a href="/feed" className="nav-link" style={{ fontFamily: "'DM Mono',monospace", fontSize: 10, color: '#6b7280', textDecoration: 'none', padding: '5px 12px', borderRadius: 8, border: '1px solid #e5e7eb', background: '#fff' }}>Feed</a>
+          <button onClick={() => setShowProfileSetup(true)} style={{ display: 'flex', alignItems: 'center', gap: 7, background: '#f9fafb', border: '1px solid #e5e7eb', borderRadius: 20, padding: '5px 12px 5px 6px', cursor: 'pointer', fontFamily: 'inherit' }}>
+            {userPhoto ? <img src={userPhoto} alt="" style={{ width: 22, height: 22, borderRadius: '50%', objectFit: 'cover' }} /> : <div style={{ width: 22, height: 22, borderRadius: '50%', background: '#dcfce7', color: '#16a34a', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 9, fontWeight: 700 }}>{userName ? userName.charAt(0).toUpperCase() : '?'}</div>}
+            <span style={{ fontSize: 12, fontWeight: 500, color: '#374151' }}>{userName || 'Profile'}</span>
+          </button>
+        </div>
+      </div>
+
+      {/* Profile Setup Modal */}
+      {showProfileSetup && (
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.4)', zIndex: 200, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 16 }}>
+          <div style={{ background: '#fff', borderRadius: 20, padding: 24, width: '100%', maxWidth: 400, animation: 'fadeIn 0.3s ease' }}>
+            <div style={{ fontSize: 16, fontWeight: 700, color: '#111', marginBottom: 4, fontFamily: "'Syne',sans-serif" }}>Your Alpha Profile</div>
+            <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#9ca3af', marginBottom: 20 }}>Shows on every verdict card you generate</div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 20 }}>
+              <div onClick={() => fileRef.current?.click()} style={{ width: 72, height: 72, borderRadius: '50%', background: '#f8f9ff', border: '2px dashed #c5d0ff', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', overflow: 'hidden', flexShrink: 0 }}>
+                {tempPhoto ? <img src={tempPhoto} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <div style={{ textAlign: 'center' as const }}><svg width="20" height="20" viewBox="0 0 24 24" fill="none" style={{ display: 'block', margin: '0 auto 4px' }}><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12" stroke="#adb5bd" strokeWidth="2" strokeLinecap="round" /></svg><span style={{ fontSize: 9, color: '#adb5bd', fontFamily: "'DM Mono',monospace" }}>upload</span></div>}
+              </div>
+              <input ref={fileRef} type="file" accept="image/*" style={{ display: 'none' }} onChange={handlePhotoUpload} />
+              <div style={{ flex: 1 }}>
+                <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#9ca3af', letterSpacing: 1, marginBottom: 6 }}>YOUR NAME OR HANDLE</div>
+                <input style={{ width: '100%', border: '1px solid #e5e7eb', borderRadius: 10, padding: '10px 14px', fontSize: 14, color: '#111', fontFamily: 'inherit' }} placeholder="e.g. Charles or @Cmv_ng" maxLength={20} value={tempName} onChange={e => setTempName(e.target.value)} />
+              </div>
+            </div>
+            <div style={{ display: 'flex', gap: 8 }}>
+              <button onClick={() => setShowProfileSetup(false)} style={{ flex: 1, background: '#f8f9ff', border: '1px solid #e5e7eb', borderRadius: 10, padding: '11px', fontSize: 13, fontWeight: 600, color: '#6b7280', cursor: 'pointer', fontFamily: 'inherit' }}>Cancel</button>
+              <button onClick={() => { saveProfile(tempName, tempPhoto); setShowProfileSetup(false) }} style={{ flex: 2, background: '#14532d', color: '#fff', border: 'none', borderRadius: 10, padding: '11px', fontSize: 13, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit' }}>Save Profile</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <div style={{ maxWidth: 880, margin: '0 auto', padding: '28px 20px 80px' }}>
+
+        {/* Hero */}
+        {!result && !loading && (
+          <div style={{ position: 'relative', textAlign: 'center', padding: '48px 24px 52px' }}>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 7, background: '#dcfce7', border: '1px solid #86efac', borderRadius: 20, padding: '6px 16px', marginBottom: 22 }}>
+              <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#16a34a' }} />
+              <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 10, color: '#15803d', letterSpacing: '0.5px' }}>CRYPTO ALPHA INTELLIGENCE</span>
+            </div>
+            <h1 className="hero-title" style={{ fontSize: 'clamp(40px,6vw,72px)', fontWeight: 800, color: '#0f172a', lineHeight: 1.0, letterSpacing: -2.5, marginBottom: 16, fontFamily: "'Syne',sans-serif" }}>Know before<br /><span style={{ color: '#16a34a' }}>you farm.</span></h1>
+            <p style={{ fontSize: 16, color: '#6b7280', lineHeight: 1.7, maxWidth: 420, margin: '0 auto 36px', fontWeight: 400 }}>Paste any crypto project's X handle. Get 17 metrics, red flag detection, a score out of 1000, and a shareable verdict card.</p>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, flexWrap: 'wrap' as const }}>
+              {['17 metrics','1000pt score','Red flag detection','Tool-native scoring','Shareable cards'].map(t => <span key={t} style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#15803d', background: '#f0fdf4', border: '1px solid #86efac', borderRadius: 20, padding: '5px 12px' }}>{t}</span>)}
+            </div>
+          </div>
+        )}
+
+        {/* Search */}
+        <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 16, padding: 16, marginBottom: 16, boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}>
+          {!result && !loading && (
+            <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#9ca3af', letterSpacing: '1.5px', marginBottom: 8 }}>PASTE X URL OR HANDLE</div>
+          )}
+          <div style={{ display: 'flex', gap: 8 }}>
+            <input style={{ flex: 1, background: '#f9fafb', border: '1.5px solid #e5e7eb', borderRadius: 10, padding: '13px 16px', fontSize: 14, color: '#111', fontFamily: "'DM Mono',monospace", outline: 'none', transition: 'all 0.2s' }} placeholder="@projecthandle or https://x.com/handle" value={xUrl} onChange={e => setXUrl(e.target.value)} onKeyDown={e => e.key === 'Enter' && !loading && analyze()} disabled={loading} onFocus={e => { e.target.style.borderColor = '#16a34a'; e.target.style.background = '#fff' }} onBlur={e => { e.target.style.borderColor = '#e5e7eb'; e.target.style.background = '#f9fafb' }} />
+            <div className="search-btns" style={{ display: 'flex', gap: 8, flexShrink: 0 }}>
+              {result && !loading && (
+                <button onClick={() => { setResult(null); setCgData(null); setXData(null); setXUrl(''); setSelectedTags([]) }} style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 10, padding: '13px 16px', fontSize: 13, fontWeight: 600, cursor: 'pointer', color: '#374151', fontFamily: 'inherit', whiteSpace: 'nowrap' as const }}>+ New Scan</button>
+              )}
+              <button onClick={analyze} disabled={loading || !xUrl.trim()} style={{ background: loading || !xUrl.trim() ? '#f3f4f6' : '#16a34a', color: loading || !xUrl.trim() ? '#9ca3af' : '#fff', border: 'none', borderRadius: 10, padding: '13px 24px', fontSize: 14, fontWeight: 600, cursor: loading || !xUrl.trim() ? 'not-allowed' : 'pointer', whiteSpace: 'nowrap' as const, fontFamily: "'Syne',sans-serif", transition: 'all 0.2s' }}>{loading ? 'Scanning...' : 'Analyze →'}</button>
+            </div>
+          </div>
+          <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#9ca3af', marginTop: 10, display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' as const }}>
+            <span>try:</span>
+            {['eigenlayer','KaitoAI','hyperliquid'].map(ex => <button key={ex} onClick={() => setXUrl('https://x.com/' + ex)} style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#16a34a', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>@{ex}</button>)}
+          </div>
+        </div>
+
+        {/* Loading */}
+        {loading && (
+          <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 16, padding: 28, marginBottom: 16, overflow: 'hidden', position: 'relative' }}>
+            <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3, background: 'linear-gradient(90deg,transparent,#16a34a,transparent)', animation: 'scan 2s linear infinite', borderRadius: '16px 16px 0 0' }} />
+            <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 20 }}>
+              <div style={{ width: 52, height: 52, borderRadius: '50%', border: '2px solid #16a34a', background: '#f0fdf4', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                <span style={{ fontSize: 22 }}>🔍</span>
+              </div>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontSize: 15, fontWeight: 600, color: '#111', marginBottom: 4, fontFamily: "'Syne',sans-serif" }}>{msg.text} {msg.emoji}</div>
+                <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 10, color: '#6b7280' }}>scanning @{xUrl.replace('https://x.com/','').replace('@','').split('/')[0].replace(/[^a-zA-Z0-9_]/g,'')}...</div>
+              </div>
+              <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 28, fontWeight: 800, color: '#16a34a' }}>{elapsed}<span style={{ fontSize: 13, color: '#9ca3af' }}>s</span></div>
+            </div>
+            <div style={{ background: '#f0fdf4', borderRadius: 8, padding: '8px 12px', marginBottom: 16, border: '1px solid #86efac' }}>
+              <div style={{ fontSize: 12, fontWeight: 600, color: '#15803d' }}>{phase}</div>
+            </div>
+            {[100,80].map((w,i) => <div key={i} style={{ height: 36, background: 'linear-gradient(90deg,#f0fdf4 25%,#dcfce7 50%,#f0fdf4 75%)', backgroundSize: '700px 100%', animation: 'shimmer 1.5s infinite', borderRadius: 8, marginBottom: 8, width: w + '%' }} />)}
+          </div>
+        )}
+
+        {/* Error */}
+        {error && (
+          <div style={{ background: error.startsWith('rate_limit') ? '#fffbeb' : '#fef2f2', border: `1px solid ${error.startsWith('rate_limit') ? '#fcd34d' : '#fca5a5'}`, borderRadius: 12, padding: '16px 18px', marginBottom: 14 }}>
+            {error.startsWith('rate_limit') ? (
+              <><div style={{ fontSize: 13, fontWeight: 600, color: '#92400e', marginBottom: 4 }}>⏳ High demand — retrying in {error.split(':')[1] || '65'}s</div><div style={{ height: 3, background: '#fde68a', borderRadius: 3 }}><div style={{ height: '100%', background: '#f59f00', borderRadius: 3, width: '60%' }} /></div></>
+            ) : (
+              <><div style={{ fontSize: 13, fontWeight: 600, color: '#dc2626', marginBottom: 6 }}>⚠️ Scan failed</div><div style={{ fontSize: 12, color: '#7f1d1d', marginBottom: 10 }}>{error}</div><button onClick={analyze} style={{ fontSize: 12, padding: '6px 14px', borderRadius: 8, border: '1px solid #fca5a5', background: '#fff', color: '#dc2626', cursor: 'pointer', fontFamily: 'inherit' }}>Try again</button></>
+            )}
+          </div>
+        )}
+
+        {/* Results */}
+        {result && !loading && (
+          <div style={{ animation: 'fadeIn 0.5s ease' }}>
+
+            {redFlags.length > 0 && (
+              <div style={{ background: '#fff5f5', border: '1.5px solid #fca5a5', borderRadius: 14, padding: '16px 18px', marginBottom: 12, animation: 'pop 0.4s ease' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
+                  <div style={{ width: 36, height: 36, background: '#dc2626', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" stroke="#fff" strokeWidth="2" strokeLinecap="round" /></svg>
+                  </div>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontSize: 14, fontWeight: 700, color: '#dc2626', fontFamily: "'Syne',sans-serif" }}>🚨 {redFlags.length} Red Flag{redFlags.length > 1 ? 's' : ''} Detected</div>
+                    <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#c92a2a' }}>Score penalised · Proceed with extreme caution</div>
+                  </div>
+                  <div style={{ background: '#dc2626', borderRadius: 8, padding: '6px 12px', textAlign: 'center' as const, flexShrink: 0 }}>
+                    <div style={{ fontSize: 16, fontWeight: 800, color: '#fff' }}>-{fudPen}</div>
+                    <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: 'rgba(255,255,255,0.8)' }}>PENALTY</div>
+                  </div>
+                </div>
+                {redFlags.map((f: any, i: number) => (
+                  <div key={i} style={{ background: '#fff', border: '1px solid #fca5a5', borderLeft: '3px solid #dc2626', borderRadius: 8, padding: '10px 14px', marginBottom: 8 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 4 }}>
+                      <span style={{ fontSize: 12 }}>{f.type === 'dump' ? '📉' : f.type === 'exploit' ? '⚡' : f.type === 'shill' ? '🤥' : f.type === 'anon' ? '👻' : '⚠️'}</span>
+                      <span style={{ fontSize: 13, fontWeight: 600, color: '#dc2626', fontFamily: "'Syne',sans-serif" }}>{f.label}</span>
+                    </div>
+                    <div style={{ fontSize: 12, color: '#4b5563', lineHeight: 1.6 }}>{f.detail}</div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {redFlags.length === 0 && (
+              <div style={{ background: '#f0fdf4', border: '1px solid #86efac', borderRadius: 10, padding: '10px 14px', marginBottom: 12, display: 'flex', alignItems: 'center', gap: 8 }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M22 11.08V12a10 10 0 11-5.93-9.14M22 4L12 14.01l-3-3" stroke="#16a34a" strokeWidth="2" strokeLinecap="round"/></svg>
+                <span style={{ fontSize: 12, fontWeight: 600, color: '#15803d' }}>No red flags detected</span>
+              </div>
+            )}
+
+            {/* Verdict Card */}
+            <div style={{ background: otc.vbg, borderRadius: 18, padding: 22, marginBottom: 12, position: 'relative', overflow: 'hidden' }}>
+              <div style={{ position: 'absolute', top: -50, right: -50, width: 200, height: 200, borderRadius: '50%', background: 'rgba(255,255,255,0.05)', pointerEvents: 'none' }} />
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(255,255,255,0.2)', border: '1px solid rgba(255,255,255,0.3)', borderRadius: 20, padding: '5px 14px 5px 6px', marginBottom: 14 }}>
+                {userPhoto ? <img src={userPhoto} alt="" style={{ width: 28, height: 28, borderRadius: '50%', objectFit: 'cover', border: '1.5px solid rgba(255,255,255,0.5)' }} /> : <div style={{ width: 28, height: 28, borderRadius: '50%', background: 'rgba(255,255,255,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 700, color: '#fff' }}>{userName ? userName.charAt(0).toUpperCase() : 'C'}</div>}
+                <span style={{ fontSize: 13, fontWeight: 700, color: '#fff' }}>{userName || 'CMV'} says {otc.v.toLowerCase()} {otc.emoji}</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'flex-start', gap: 16, marginBottom: 14 }}>
+                <div style={{ width: 54, height: 54, borderRadius: 14, overflow: 'hidden', background: 'rgba(255,255,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, border: '2px solid rgba(255,255,255,0.3)' }}>
+                  {(() => {
+                    const imgUrl = xData?.profile_image_url || (xUrl ? `https://unavatar.io/twitter/${xUrl.replace('https://x.com/','').replace('https://twitter.com/','').replace('@','').split('/')[0].trim()}` : null)
+                    return imgUrl ? <img src={imgUrl} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' as const }} onError={(e) => { (e.target as HTMLImageElement).style.display='none' }} /> : <span style={{ fontSize: 24, fontWeight: 800, color: '#fff' }}>{(result.project_name||'?').charAt(0).toUpperCase()}</span>
+                  })()}
+                </div>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' as const, marginBottom: 2 }}>
+                    <span style={{ fontSize: 20, fontWeight: 800, color: '#fff', fontFamily: "'Syne',sans-serif" }}>{result.project_name || ''}</span>
+                    {cgData?.token_live && cgData.ticker && <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 10, color: 'rgba(255,255,255,0.85)', background: 'rgba(255,255,255,0.15)', padding: '2px 8px', borderRadius: 5 }}>{cgData.ticker} {cgData.token_price}</span>}
+                  </div>
+                  <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: 'rgba(255,255,255,0.65)' }}>{result.project_category || 'Crypto'}</div>
+                </div>
+                <div style={{ textAlign: 'right' as const, flexShrink: 0 }}>
+                  <div style={{ fontSize: 48, fontWeight: 800, color: '#fff', lineHeight: 1, fontFamily: "'Syne',sans-serif" }}>{result.overall_score ?? 0}</div>
+                  <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: 'rgba(255,255,255,0.65)' }}>ALPHA SCORE</div>
+                  <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#fff', background: 'rgba(255,255,255,0.2)', borderRadius: 20, padding: '2px 8px', display: 'inline-block', marginTop: 3 }}>{ot} · {otc.lbl}</div>
+                </div>
+              </div>
+              {goodHighlights.length > 0 && (
+                <div style={{ display: 'flex', flexWrap: 'wrap' as const, gap: 6, marginBottom: 12 }}>
+                  {goodHighlights.slice(0, 3).map((h: string, i: number) => <div key={i} style={{ background: 'rgba(255,255,255,0.15)', border: '1px solid rgba(255,255,255,0.25)', borderRadius: 20, padding: '4px 12px', fontSize: 11, fontWeight: 600, color: '#fff' }}>✓ {h}</div>)}
+                </div>
+              )}
+              <div style={{ background: 'rgba(0,0,0,0.15)', borderRadius: 12, padding: '14px 16px', marginBottom: 14, border: '1px solid rgba(255,255,255,0.12)' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
+                  <span style={{ fontSize: 22 }}>{otc.emoji}</span>
+                  <span style={{ fontSize: 22, fontWeight: 800, color: '#fff', fontFamily: "'Syne',sans-serif" }}>{otc.v}</span>
+                </div>
+                <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.92)', lineHeight: 1.65 }}>{result.verdict_action || result.verdict_reason}</div>
+              </div>
+
+              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8 }}>
+                <button onClick={downloadCard} style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'rgba(255,255,255,0.2)', border: '1px solid rgba(255,255,255,0.35)', borderRadius: 20, padding: '8px 16px', fontFamily: 'inherit', fontSize: 13, fontWeight: 600, color: '#fff', cursor: 'pointer' }}>
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>Download
+                </button>
+                <button onClick={shareResult} style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'rgba(255,255,255,0.2)', border: '1px solid rgba(255,255,255,0.35)', borderRadius: 20, padding: '8px 18px', fontFamily: 'inherit', fontSize: 13, fontWeight: 600, color: '#fff', cursor: 'pointer' }}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13" /></svg>Share to X
+                </button>
+              </div>
+            </div>
+
+            {/* Score Section */}
+            <div className="grid-score" style={{ display: 'grid', gridTemplateColumns: '150px 1fr', gap: 10, marginBottom: 10 }}>
+              <div style={{ background: '#fff', border: '1px solid #f1f5f9', borderRadius: 14, padding: 16, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
+                <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#9ca3af', letterSpacing: 1 }}>ALPHA SCORE</div>
+                <div style={{ fontSize: 56, fontWeight: 800, color: otc.solid, lineHeight: 1, fontFamily: "'Syne',sans-serif" }}>{result.overall_score ?? 0}</div>
+                <div style={{ background: otc.bg, border: `1px solid ${otc.border}`, borderRadius: 20, padding: '4px 12px', fontFamily: "'DM Mono',monospace", fontSize: 9, color: otc.tc }}>{ot} · {otc.lbl}</div>
+                {(xData?.cmv_score && xData.cmv_score > 0) ? <div style={{ background: '#f8faff', border: '1px solid #e5e7eb', borderRadius: 8, padding: '8px 10px', width: '100%', textAlign: 'center' as const }}><div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#9ca3af' }}>CMV X SCORE</div><div style={{ fontSize: 18, fontWeight: 700, color: '#111', fontFamily: "'Syne',sans-serif" }}>{xData.cmv_score}<span style={{ fontSize: 10, color: '#9ca3af' }}>/1000</span></div></div> : null}
+              </div>
+              <div style={{ background: '#fff', border: '1px solid #f1f5f9', borderRadius: 14, padding: 16 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6, flexWrap: 'wrap' as const }}>
+                  <span style={{ fontSize: 18, fontWeight: 700, color: '#111', fontFamily: "'Syne',sans-serif" }}>{result.project_name || ''}</span>
+                  {cgData?.token_live && cgData.ticker && <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#3b5bdb', background: '#eff6ff', border: '1px solid #bfdbfe', padding: '2px 7px', borderRadius: 4 }}>{cgData.ticker} {cgData.token_price}</span>}
+                  {!cgData?.token_live && <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#9ca3af', background: '#f1f5f9', padding: '2px 7px', borderRadius: 4 }}>No Token</span>}
+                </div>
+                {result.team_location && <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#9ca3af', marginBottom: 6 }}>📍 {result.team_location}{result.founded ? ` · Est. ${result.founded}` : ''}</div>}
+                <div style={{ fontSize: 12, color: '#6b7280', lineHeight: 1.6, marginBottom: 8 }}>{result.description || ''}</div>
+                {goodHighlights.length > 0 && <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap' as const }}>{goodHighlights.map((h: string, i: number) => <span key={i} style={{ fontSize: 10, background: '#f0fdf4', color: '#16a34a', border: '1px solid #86efac', borderRadius: 20, padding: '2px 8px' }}>✓ {h}</span>)}</div>}
+              </div>
+            </div>
+
+            {result.score_rationale && (
+              <div style={{ background: '#fff', border: '1px solid #f1f5f9', borderLeft: '3px solid #16a34a', borderRadius: 0, padding: '12px 14px', marginBottom: 10 }}>
+                <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#16a34a', letterSpacing: 1, marginBottom: 4 }}>WHY THIS SCORE</div>
+                <div style={{ fontSize: 12, color: '#6b7280', lineHeight: 1.7 }}>{result.score_rationale}</div>
+              </div>
+            )}
+
+            {/* Deep Intel - token + outlook */}
+            {(result.token_data?.token_live || result.post_tge_outlook || result.future_seasons) && (
+              <div style={{ background: '#fff', border: '1px solid #f1f5f9', borderRadius: 14, padding: 16, marginBottom: 10 }}>
+                <div style={{ fontSize: 13, fontWeight: 600, color: '#111', marginBottom: 12, fontFamily: "'Syne',sans-serif", display: 'flex', alignItems: 'center', gap: 6 }}>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke="#3b5bdb" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                  Deep Intel
+                </div>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 10 }}>
+                  <div style={{ background: '#f8faff', border: '1px solid #e5e7eb', borderRadius: 8, padding: '10px 12px' }}>
+                    <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#9ca3af', letterSpacing: 1, marginBottom: 4 }}>TOKEN STATUS</div>
+                    {(result.token_data?.token_live || cgData?.token_live) ? (() => {
+                        const td = result.token_data?.token_live ? result.token_data : cgData
+                        return (
+                          <span style={{ background: '#dcfce7', color: '#16a34a', border: '1px solid #86efac', borderRadius: 20, padding: '3px 10px', fontFamily: "'DM Mono',monospace", fontSize: 10, display: 'inline-flex', alignItems: 'center', gap: 5 }}>
+                            <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#16a34a', display: 'inline-block' }} />{td.ticker} {td.token_price}
+                          </span>
+                        )
+                      })() : (
+                      <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 11, color: '#9ca3af' }}>Not yet launched</span>
+                    )}
+                  </div>
+                  {(result.token_data?.token_live || cgData?.token_live) && result.post_tge_outlook && (
+                    <div style={{ background: '#f8faff', border: '1px solid #e5e7eb', borderRadius: 8, padding: '10px 12px' }}>
+                      <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#9ca3af', letterSpacing: 1, marginBottom: 4 }}>TOKEN OUTLOOK</div>
+                      <div style={{ fontSize: 12, fontWeight: 600, color: result.post_tge_outlook?.includes('Poor') ? '#e8590c' : result.post_tge_outlook?.includes('High') ? '#16a34a' : '#f59f00' }}>{result.post_tge_outlook}</div>
+                    </div>
+                  )}
+                </div>
+                {result.future_seasons && (
+                  <div style={{ background: '#f8faff', border: '1px solid #e5e7eb', borderRadius: 8, padding: '10px 12px' }}>
+                    <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#9ca3af', letterSpacing: 1, marginBottom: 4 }}>RECENT COVERAGE</div>
+                    <div style={{ fontSize: 12, color: '#374151', lineHeight: 1.5 }}>{result.future_seasons}</div>
+                  </div>
+                )}
+                {(xData?.enriched?.coinpaprika_contracts || []).length > 0 && (
+                  <div style={{ background: '#f8faff', border: '1px solid #e5e7eb', borderRadius: 8, padding: '10px 12px', marginTop: 8 }}>
+                    <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#9ca3af', letterSpacing: 1, marginBottom: 6 }}>CONTRACT ADDRESSES</div>
+                    {(xData?.enriched?.coinpaprika_contracts || []).map((c: any, i: number) => (
+                      <div key={i} style={{ marginBottom: 4 }}>
+                        <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#16a34a', background: '#f0fdf4', padding: '2px 6px', borderRadius: 4, marginRight: 6 }}>{c.chain}</span>
+                        <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#6b7280' }}>{c.address.slice(0,8)}...{c.address.slice(-6)}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {(result.top_risks?.length > 0 || result.top_opportunities?.length > 0) && (
+              <div className="grid-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 10 }}>
+                <div style={{ background: '#fff', border: '1px solid #f1f5f9', borderRadius: 14, padding: 14 }}>
+                  <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#dc2626', letterSpacing: 1, marginBottom: 8 }}>TOP RISKS</div>
+                  {(result.top_risks || []).filter((x: string) => x).map((x: string, i: number) => <div key={i} style={{ display: 'flex', gap: 8, marginBottom: 6 }}><span style={{ color: '#fca5a5', flexShrink: 0 }}>•</span><span style={{ fontSize: 11, color: '#6b7280', lineHeight: 1.5 }}>{x}</span></div>)}
+                </div>
+                <div style={{ background: '#fff', border: '1px solid #f1f5f9', borderRadius: 14, padding: 14 }}>
+                  <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#16a34a', letterSpacing: 1, marginBottom: 8 }}>OPPORTUNITIES</div>
+                  {(result.top_opportunities || []).filter((x: string) => x).map((x: string, i: number) => <div key={i} style={{ display: 'flex', gap: 8, marginBottom: 6 }}><span style={{ color: '#86efac', flexShrink: 0 }}>•</span><span style={{ fontSize: 11, color: '#6b7280', lineHeight: 1.5 }}>{x}</span></div>)}
+                </div>
+              </div>
+            )}
+
+            {result.team_members?.filter((m: any) => m.name?.length > 1).length > 0 && (
+              <div style={{ background: '#fff', border: '1px solid #f1f5f9', borderRadius: 14, padding: 14, marginBottom: 10 }}>
+                <div style={{ fontFamily: "'Syne',sans-serif", fontSize: 13, fontWeight: 600, color: '#111', marginBottom: 10 }}>👥 Team</div>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(220px,1fr))', gap: 8 }}>
+                  {result.team_members.filter((m: any) => m.name?.length > 1).map((m: any, i: number) => <TeamCardEnriched key={i} member={m} />)}
+                </div>
+              </div>
+            )}
+
+            <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap' as const, marginBottom: 10 }}>
+              {[{ id: 'metrics', l: '📊 Metrics' }, { id: 'mindshare', l: '🧠 Mindshare' }, { id: 'risks', l: '⚠️ Risks' }].map(sec => (
+                <button key={sec.id} onClick={() => setAsec(sec.id)} style={{ padding: '7px 16px', borderRadius: 8, border: `1px solid ${asec === sec.id ? '#16a34a' : '#e5e7eb'}`, background: asec === sec.id ? '#16a34a' : '#fff', color: asec === sec.id ? '#fff' : '#6b7280', fontSize: 12, fontWeight: 500, cursor: 'pointer', fontFamily: 'inherit', transition: 'all 0.15s' }}>{sec.l}</button>
+              ))}
+            </div>
+
+            {asec === 'metrics' && result.metrics && (
+              <div style={{ background: '#fff', border: '1px solid #f1f5f9', borderRadius: 14, padding: 14, marginBottom: 10 }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 8 }}>
+                {Object.entries(result.metrics).map(([key, data]: [string, any]) => {
+                  const score = data.score || 0
+                  const color = score >= 70 ? '#16a34a' : score >= 50 ? '#f59f00' : '#dc2626'
+                  const bg = score >= 70 ? '#f0fdf4' : score >= 50 ? '#fffbeb' : '#fef2f2'
+                  return (
+                  <div key={key} className="metric-row" style={{ border: '1px solid #f1f5f9', borderRadius: 10, padding: '12px 14px', background: '#fafafa' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
+                      <span style={{ fontSize: 12, fontWeight: 600, color: '#374151', textTransform: 'capitalize' as const, fontFamily: "'Syne',sans-serif" }}>{key.replace(/_/g,' ')}</span>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                        <div style={{ width: 60, height: 3, background: '#e5e7eb', borderRadius: 2, overflow: 'hidden' }}>
+                          <div style={{ width: score + '%', height: '100%', background: color, borderRadius: 2 }} />
+                        </div>
+                        <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 12, fontWeight: 700, color, minWidth: 28, textAlign: 'right' as const }}>{score}</span>
+                      </div>
+                    </div>
+                    {(data.detail || data.why_this_score || data.summary) && (
+                      <div style={{ fontSize: 11, color: '#6b7280', lineHeight: 1.5, background: bg, padding: '4px 8px', borderRadius: 6 }}>
+                        {data.detail || data.why_this_score || data.summary}
+                      </div>
+                    )}
+                    {data.signal && (
+                      <span style={{ fontSize: 9, fontFamily: "'DM Mono',monospace", padding: '1px 6px', borderRadius: 10, marginTop: 4, display: 'inline-block',
+                        background: data.signal === 'bullish' ? '#dcfce7' : data.signal === 'bearish' ? '#fee2e2' : '#f3f4f6',
+                        color: data.signal === 'bullish' ? '#16a34a' : data.signal === 'bearish' ? '#dc2626' : '#6b7280'
+                      }}>{data.signal}</span>
+                    )}
+                  </div>
+                )})}
+                </div>
+              </div>
+            )}
+
+            {asec === 'mindshare' && (
+              <div style={{ background: '#fff', border: '1px solid #f1f5f9', borderRadius: 14, padding: 14, marginBottom: 10 }}>
+                <div style={{ fontFamily: "'Syne',sans-serif", fontSize: 13, fontWeight: 600, color: '#111', marginBottom: 8 }}>Mindshare</div>
+                <canvas ref={canvasRef} style={{ width: '100%', height: 110 }} />
+              </div>
+            )}
+
+            {asec === 'risks' && (
+              <div className="grid-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 10 }}>
+                <div style={{ background: '#fff', border: '1px solid #f1f5f9', borderRadius: 14, padding: 14 }}>
+                  <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#dc2626', letterSpacing: 1, marginBottom: 8 }}>TOP RISKS</div>
+                  {(result.top_risks || []).filter((x: string) => x).map((x: string, i: number) => <div key={i} style={{ display: 'flex', gap: 8, marginBottom: 6 }}><span style={{ color: '#fca5a5' }}>•</span><span style={{ fontSize: 11, color: '#6b7280', lineHeight: 1.5 }}>{x}</span></div>)}
+                </div>
+                <div style={{ background: '#fff', border: '1px solid #f1f5f9', borderRadius: 14, padding: 14 }}>
+                  <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#16a34a', letterSpacing: 1, marginBottom: 8 }}>OPPORTUNITIES</div>
+                  {(result.top_opportunities || []).filter((x: string) => x).map((x: string, i: number) => <div key={i} style={{ display: 'flex', gap: 8, marginBottom: 6 }}><span style={{ color: '#86efac' }}>•</span><span style={{ fontSize: 11, color: '#6b7280', lineHeight: 1.5 }}>{x}</span></div>)}
+                </div>
+              </div>
+            )}
+
+            
+          </div>
+        )}
+
+        {!loading && !result && !error && (
+          <div style={{ border: '1.5px dashed #86efac', borderRadius: 14, padding: '48px 24px', textAlign: 'center' as const, background: 'rgba(255,255,255,0.7)' }}>
+            <div style={{ fontSize: 32, marginBottom: 10 }}>🔭</div>
+            <div style={{ fontSize: 14, fontWeight: 600, color: '#6b7280', marginBottom: 4, fontFamily: "'Syne',sans-serif" }}>No project scanned yet</div>
+            <div style={{ fontSize: 12, color: '#9ca3af' }}>Paste any crypto project X URL or handle above.</div>
+          </div>
+        )}
+      </div>
+    </div>
+  )
 }
