@@ -24,7 +24,7 @@ async function getCoingeckoToken(ticker: string, handle: string, projectName?: s
     
     const CHAIN_TOKENS = ['SUI','ETH','BTC','SOL','BNB','MATIC','AVAX','OP','ARB','BASE','NEAR','APT','SEI','INJ','DOT','ATOM','ADA','TRX','XRP','LTC','BCH','FTM','ONE','ALGO','VET','XLM','EOS','HBAR','EGLD','FLOW','CHZ','MANA','SAND','AXS','THETA','XTZ','NEO','WAVES','ZIL','ICX','IOTA','ONT']
     // Search by ticker, handle, AND project display name (e.g. "Opinion Labs" finds OPNT better than "opinionlabsxyz")
-    const cleanProjectName = (projectName || '').toLowerCase().replace(/[^a-z0-9\s]/g, '').trim()
+    const cleanProjectName = (projectName || '').toLowerCase().replace(/[^a-z0-9 ]/g, '').trim()
     const searchTerms = [...new Set([ticker, handle, cleanProjectName].filter(Boolean))]
     
     for (const term of searchTerms) {
