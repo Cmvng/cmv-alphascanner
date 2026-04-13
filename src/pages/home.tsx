@@ -766,43 +766,18 @@ export default function Home() {
       saveResult(cleaned)
     }
 
-    // Run Claude with all tool data — xOnlyScan as fallback
+    // Run Claude via serverless function — avoids CORS and key exposure
     try {
-      const ANTHROPIC_HEADERS = {
-        'Content-Type': 'application/json',
-        'x-api-key': import.meta.env.VITE_ANTHROPIC_API_KEY,
-        'anthropic-version': '2023-06-01',
-        'anthropic-dangerous-direct-browser-access': 'true'
-      }
       const systemPrompt = buildSystemPrompt(handle, xd, cg)
-      const messages: any[] = [{ role: 'user', content: `Analyze @${handle}. Use the tool data in the system prompt. Return JSON only.` }]
-      
-      // Server tool: web_search_20250305 — Anthropic executes searches
-      // stop_reason='pause_turn' means searching, 'end_turn' means done
-      // Loop: append response, continue until end_turn
-      let data: any = null
-      for (let turn = 0; turn < 5; turn++) {
-        const r = await fetch('https://api.anthropic.com/v1/messages', {
-          method: 'POST',
-          headers: ANTHROPIC_HEADERS,
-          body: JSON.stringify({
-            model: 'claude-sonnet-4-20250514',
-            max_tokens: 2000,
-            system: systemPrompt,
-            tools: [{ type: 'web_search_20250305', name: 'web_search', max_uses: 3 }],
-            messages
-          })
+      const r = await fetch('/api/claude', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          system: systemPrompt,
+          messages: [{ role: 'user', content: `Analyze @${handle}. Use the tool data in the system prompt. Return JSON only.` }]
         })
-        data = await r.json()
-        if (data.error) break
-        if (data.stop_reason === 'end_turn') break
-        if (data.stop_reason === 'pause_turn') {
-          // Claude is searching — append its response and continue
-          messages.push({ role: 'assistant', content: data.content })
-          continue
-        }
-        break
-      }
+      })
+      const data = await r.json()
 
       if (data.error) {
         const msg = data.error.message || ''
