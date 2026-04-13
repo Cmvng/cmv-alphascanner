@@ -1269,9 +1269,7 @@ export default function Home() {
                 </div>
                 <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.92)', lineHeight: 1.65 }}>{result.verdict_action || result.verdict_reason}</div>
               </div>
-              {result.data_accuracy_note && (
-                <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: 'rgba(255,255,255,0.45)', marginBottom: 10 }}>ℹ {result.data_accuracy_note}</div>
-              )}
+
               <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8 }}>
                 <button onClick={downloadCard} style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'rgba(255,255,255,0.2)', border: '1px solid rgba(255,255,255,0.35)', borderRadius: 20, padding: '8px 16px', fontFamily: 'inherit', fontSize: 13, fontWeight: 600, color: '#fff', cursor: 'pointer' }}>
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>Download
@@ -1440,7 +1438,7 @@ export default function Home() {
               </div>
             )}
 
-            <div style={{ textAlign: 'center' as const, fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#9ca3af', letterSpacing: 1, paddingTop: 16 }}>CMV ALPHASCANNER · POWERED BY DEFILLAMA, ROOTDATA, DEXSCREENER, CRYPTONEWS & X API</div>
+            
           </div>
         )}
 
