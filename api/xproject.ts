@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 
 const cache = new Map<string, { data: any; time: number }>()
-const CACHE_TTL = 1000 * 60 * 60 * 24
+const CACHE_TTL = 1000 * 60 * 5 // 5 min — short TTL so data stays fresh
 
 // Top-level constant — used in multiple functions
 const CHAIN_TOKENS = ['SUI','ETH','BTC','SOL','BNB','MATIC','AVAX','OP','ARB','BASE','NEAR','APT','SEI','INJ','DOT','ATOM','ADA','TRX','XRP','LTC','BCH','FTM','ONE','ALGO','VET','XLM','EOS','HBAR','EGLD','FLOW','CHZ','MANA','SAND','AXS','THETA','XTZ','NEO','WAVES','ZIL','ICX','IOTA','ONT']
@@ -702,11 +702,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const TOKEN = process.env.X_API_BEARER_TOKEN!
 
   const noCache = req.query.nocache === 'true'
-  const cached = cache.get(clean)
-  if (!noCache && cached && Date.now() - cached.time < CACHE_TTL) {
-    return res.status(200).json({ ...cached.data, cached: true })
+  if (!noCache) {
+    const cached = cache.get(clean)
+    if (cached && Date.now() - cached.time < CACHE_TTL) {
+      return res.status(200).json({ ...cached.data, cached: true })
+    }
   }
-  if (noCache) cache.delete(clean)
 
   try {
     // 1. Project profile
