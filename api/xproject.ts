@@ -242,21 +242,11 @@ async function fetchDefiLlamaHacks(projectName: string) {
 async function fetchRootData(projectName: string, apiKey?: string) {
   try {
     if (!apiKey) return null
-    // Try project name first, then handle as fallback
-    const queries = [projectName, handle].filter((q, i, a) => q && a.indexOf(q) === i)
-    let searchData: any = null
-    for (const query of queries) {
-      const searchRes = await fetch('https://api.rootdata.com/open/ser_inv', {
-        method: 'POST',
-        headers: { 'apikey': apiKey, 'language': 'en', 'Content-Type': 'application/json' },
-        body: JSON.stringify({ query })
-      })
-      if (!searchRes.ok) continue
-      const data = await searchRes.json()
-      if (data.data?.length > 0) { searchData = data; break }
-    }
-    const fakeSearchRes = { ok: !!searchData, json: async () => searchData || { data: [] } }
-    const searchRes = fakeSearchRes
+    const searchRes = await fetch('https://api.rootdata.com/open/ser_inv', {
+      method: 'POST',
+      headers: { 'apikey': apiKey, 'language': 'en', 'Content-Type': 'application/json' },
+      body: JSON.stringify({ query: projectName })
+    })
     if (!searchRes.ok) return null
     const searchData = await searchRes.json()
     const project = searchData.data?.find((d: any) => d.type === 1)
