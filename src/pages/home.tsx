@@ -275,8 +275,15 @@ CryptoNews: sentiment=${enriched.news_sentiment || 'unknown'} | articles=${enric
 Auto-detected FUD signals (from tools): ${JSON.stringify((enriched.auto_fud_flags || []).map((f:any) => f.label))}
 
 === INSTRUCTIONS ===
-DO NOT web search for: TVL, revenue, investors, token price, team — all above.
-Only web search (max 1-2) for: community FUD, TGE delays, controversies, CT sentiment.
+DO NOT web search for: TVL, revenue, investors, token price — all provided above.
+DO web search for (max 2-3 searches total):
+1. Team members — search "@${handle} founder CEO team" if RootData team above is empty
+2. Community FUD, controversies, rug concerns
+3. TGE dates, airdrop details, season info
+
+For team_members: use RootData team if provided. If empty, search for founders/team online.
+Include their X handle ONLY if you are 100% certain — leave empty string if unsure.
+Always return at least 1 team member if findable.
 
 Score strictly. Tier A (85+) = only the best CT projects with strong fundamentals. Most projects are B or C.
 
@@ -1366,15 +1373,11 @@ export default function Home() {
               </div>
             )}
 
-            {(result.team_members?.filter((m: any) => m.name?.length > 1).length > 0 || xData?.founder_profiles?.length > 0) && (
+            {result.team_members?.filter((m: any) => m.name?.length > 1).length > 0 && (
               <div style={{ background: '#fff', border: '1px solid #f1f5f9', borderRadius: 14, padding: 14, marginBottom: 10 }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
-                  <span style={{ fontFamily: "'Syne',sans-serif", fontSize: 13, fontWeight: 600, color: '#111' }}>👥 Team</span>
-                  {xData?.founder_profiles?.length > 0 && <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#15803d', background: '#dcfce7', border: '1px solid #86efac', padding: '2px 8px', borderRadius: 20 }}>✓ X API verified</span>}
-                </div>
+                <div style={{ fontFamily: "'Syne',sans-serif", fontSize: 13, fontWeight: 600, color: '#111', marginBottom: 10 }}>👥 Team</div>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(220px,1fr))', gap: 8 }}>
-                  {result.team_members?.filter((m: any) => m.name?.length > 1).map((m: any, i: number) => <TeamCardEnriched key={`rd-${i}`} member={m} />)}
-                  {(xData?.founder_profiles || []).filter((fp: any) => !result.team_members?.some((m: any) => m.x_handle?.toLowerCase() === fp.x_handle?.toLowerCase())).map((fp: any, i: number) => <TeamCardEnriched key={`xapi-${i}`} member={{ name: fp.name, x_handle: fp.x_handle, role: fp.role || '', profile_image_url: fp.profile_image_url, confirmed: true, background: (fp.description || '').slice(0,120) }} />)}
+                  {result.team_members.filter((m: any) => m.name?.length > 1).map((m: any, i: number) => <TeamCardEnriched key={i} member={m} />)}
                 </div>
               </div>
             )}
