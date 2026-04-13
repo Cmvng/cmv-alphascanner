@@ -249,6 +249,83 @@ function useProfile() {
   return { name, photo, save }
 }
 
+const buildSystemPrompt = (handle: string, xd: any, cg: any) => {
+  const enriched = xd?.enriched || {}
+  return `You are CMV AlphaScanner, a sharp crypto/Web3 alpha analyst. Today: ${new Date().toDateString()}.
+
+CRITICAL: Return ONLY valid JSON. No markdown, no explanation, no code blocks.
+
+You have pre-fetched data from multiple tools. Use it directly — do NOT search for data already provided below.
+
+=== VERIFIED TOOL DATA ===
+X Profile: ${xd?.followers || 0} followers, ${xd?.tweet_count || 0} tweets, ${xd?.account_age_years || 0}y old account, verified: ${xd?.verified || false}
+Bio: ${xd?.description || 'none'}
+Avg likes: ${xd?.avg_likes || 0} | Category: ${xd?.category || 'unknown'}
+Confirmed ticker: ${xd?.confirmed_ticker || 'none'} | Token hinted: ${xd?.token_launch_hinted || false}
+
+DefiLlama: TVL=${enriched.tvl || 'none'} | Revenue/day=${enriched.revenue_24h || 'none'} | Fees/day=${enriched.fees_24h || 'none'} | Raised=${enriched.total_raised_defillama || 'none'} | Category=${enriched.defillama_category || 'none'} | Chains=${JSON.stringify(enriched.chains || [])}
+Hacks: ${JSON.stringify(enriched.known_hacks || [])}
+
+RootData: Raised=${enriched.total_raised_rootdata || 'none'} | Investors=${JSON.stringify(enriched.confirmed_investors || [])} | Team=${JSON.stringify((enriched.rootdata_team || []).map((t:any) => ({name:t.name, role:t.role, x:t.x_handle})))}
+
+Token (DexScreener/CoinGecko): live=${cg?.token_live || false} | ticker=${cg?.ticker || 'none'} | price=${cg?.token_price || 'none'} | mcap=${cg?.market_cap_str || 'none'} | volume=${cg?.volume_24h || 'none'} | change24h=${cg?.price_change_24h || 'none'}%
+
+CryptoNews: sentiment=${enriched.news_sentiment || 'unknown'} | articles=${enriched.news_article_count || 0} | red flags=${JSON.stringify(enriched.news_red_flags || [])}
+
+Auto-detected FUD signals (from tools): ${JSON.stringify((enriched.auto_fud_flags || []).map((f:any) => f.label))}
+
+=== INSTRUCTIONS ===
+DO NOT web search for: TVL, revenue, investors, token price, team — all above.
+Only web search (max 1-2) for: community FUD, TGE delays, controversies, CT sentiment.
+
+Score strictly. Tier A (85+) = only the best CT projects with strong fundamentals. Most projects are B or C.
+
+Return this exact JSON:
+{
+  "project_name": "string",
+  "project_category": "string (use DefiLlama category if available)",
+  "description": "2-3 sentence description of what the project builds",
+  "team_location": "string or empty",
+  "founded": "year or empty",
+  "verdict": "FARM IT|CREATE CONTENT|WATCH|SKIP",
+  "verdict_reason": "2-3 sentences with specific data points from tool data",
+  "verdict_action": "specific actionable advice for CT farmers",
+  "overall_score": number (0-100),
+  "score_rationale": "explain score using specific tool data",
+  "good_highlights": ["specific highlight with data", "another", "another"],
+  "red_flags": [{"type": "string", "label": "string", "detail": "specific detail with data source"}],
+  "top_risks": ["specific risk", "another"],
+  "top_opportunities": ["specific opportunity", "another"],
+  "team_members": [{"name": "string", "role": "string", "x_handle": "@handle or empty", "background": "1 sentence", "confirmed": true/false}],
+  "future_seasons": "token/season/airdrop info if any",
+  "post_tge_outlook": "string if token live",
+  "project_follows": "notable CT accounts that follow this project",
+  "mindshare_trend": {"labels": ["8w ago","7w ago","6w ago","5w ago","4w ago","3w ago","2w ago","1w ago"], "values": [0,0,0,0,0,0,0,0], "current_pct": "string", "trend": "rising|falling|stable"},
+  "sources": [{"name": "string", "url": "string", "used_for": "string"}],
+  "data_accuracy_note": "string",
+  "metrics": {
+    "funding": {"score": 0-100, "detail": "specific", "why_this_score": "string", "signal": "bullish|bearish|neutral"},
+    "vc_pedigree": {"score": 0-100, "detail": "specific", "why_this_score": "string", "signal": "bullish|bearish|neutral"},
+    "copycat": {"score": 0-100, "detail": "specific", "why_this_score": "string", "signal": "bullish|bearish|neutral"},
+    "niche": {"score": 0-100, "detail": "specific", "why_this_score": "string", "signal": "bullish|bearish|neutral"},
+    "location": {"score": 0-100, "detail": "specific", "why_this_score": "string", "signal": "bullish|bearish|neutral"},
+    "founder_cred": {"score": 0-100, "detail": "specific", "why_this_score": "string", "signal": "bullish|bearish|neutral"},
+    "founder_activity": {"score": 0-100, "detail": "specific", "why_this_score": "string", "signal": "bullish|bearish|neutral"},
+    "top_voices": {"score": 0-100, "detail": "specific", "why_this_score": "string", "signal": "bullish|bearish|neutral"},
+    "token": {"score": 0-100, "detail": "specific", "why_this_score": "string", "signal": "bullish|bearish|neutral"},
+    "metrics_clarity": {"score": 0-100, "detail": "specific", "why_this_score": "string", "signal": "bullish|bearish|neutral"},
+    "user_count": {"score": 0-100, "detail": "specific", "why_this_score": "string", "signal": "bullish|bearish|neutral"},
+    "fud": {"score": 0-100, "detail": "specific", "why_this_score": "string", "signal": "bullish|bearish|neutral"},
+    "notable_mentions": {"score": 0-100, "detail": "specific", "why_this_score": "string", "signal": "bullish|bearish|neutral"},
+    "content_type": {"score": 0-100, "detail": "specific", "why_this_score": "string", "signal": "bullish|bearish|neutral"},
+    "mindshare": {"score": 0-100, "detail": "specific", "why_this_score": "string", "signal": "bullish|bearish|neutral"},
+    "revenue": {"score": 0-100, "detail": "specific", "why_this_score": "string", "signal": "bullish|bearish|neutral"},
+    "sentiment": {"score": 0-100, "detail": "specific", "why_this_score": "string", "signal": "bullish|bearish|neutral"}
+  }
+}`
+}
+
+
 export default function Home() {
   const [xUrl, setXUrl] = useState('')
   const [loading, setLoading] = useState(false)
@@ -671,9 +748,63 @@ export default function Home() {
       saveResult(cleaned)
     }
 
-    // Run tool-native scoring — no Claude needed
-    xOnlyScan()
-    setLoading(false)
+    // Run Claude with all tool data — xOnlyScan as fallback
+    try {
+      const r = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': import.meta.env.VITE_ANTHROPIC_API_KEY,
+          'anthropic-version': '2023-06-01',
+          'anthropic-dangerous-direct-browser-access': 'true'
+        },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-20250514',
+          max_tokens: 2500,
+          system: buildSystemPrompt(handle, xd, cg),
+          tools: [{ type: 'web_search_20250305', name: 'web_search' }],
+          messages: [{ role: 'user', content: `Analyze @${handle}. Use the tool data in the system prompt. Return JSON only.` }]
+        })
+      })
+      const data = await r.json()
+
+      if (data.error) {
+        const msg = data.error.message || ''
+        const isCredits = msg.includes('credit') || msg.includes('billing') || msg.includes('quota') || data.error.type === 'insufficient_quota'
+        const isOverload = msg.includes('overload') || data.error.type === 'overloaded_error'
+        const isRateLimit = msg.includes('rate limit') || msg.includes('tokens per minute')
+
+        if (isCredits || isOverload) { xOnlyScan(); return }
+        if (isRateLimit) {
+          setError('rate_limit'); let secs = 65
+          const cd = setInterval(() => { secs--; setError('rate_limit:' + secs); if (secs <= 0) { clearInterval(cd); setError(null); analyze() } }, 1000)
+          return
+        }
+        throw new Error(msg)
+      }
+
+      const txt = (data.content || []).filter((b: any) => b.type === 'text').map((b: any) => b.text).join('\n')
+      if (!txt.trim()) { xOnlyScan(); return }
+      const parsed = xjson(txt)
+      if (!parsed) { xOnlyScan(); return }
+      const cleaned = stripCites(parsed)
+      // Merge auto FUD flags Claude may have missed
+      const autoFlags = (xd?.enriched?.auto_fud_flags || []).map((f: any) => ({ type: f.type, label: f.label, detail: f.detail }))
+      const existingLabels = (cleaned.red_flags || []).map((f: any) => f.label?.toLowerCase())
+      const newFlags = autoFlags.filter((f: any) => !existingLabels.some((l: string) => l.includes(f.label.toLowerCase().slice(0,10))))
+      cleaned.red_flags = [...(cleaned.red_flags || []), ...newFlags]
+      saveResult(cleaned)
+    } catch (e: any) {
+      const msg = e.message || ''
+      if (msg.includes('credit') || msg.includes('billing') || msg.includes('overload')) { xOnlyScan(); return }
+      if (msg.includes('rate limit')) {
+        setError('rate_limit'); let secs = 65
+        const cd = setInterval(() => { secs--; setError('rate_limit:' + secs); if (secs <= 0) { clearInterval(cd); setError(null); analyze() } }, 1000)
+        return
+      }
+      if (msg.includes('Failed to fetch') || msg.includes('NetworkError')) { setError('unavailable'); return }
+      xOnlyScan()
+    } finally { setLoading(false) }
   }
 
 
