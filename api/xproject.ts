@@ -513,9 +513,22 @@ function detectFUDSignals(u: any, intel: any, dexData: any, hacksData: any[], ne
     flags.push({
       type: 'dump',
       label: 'Token dump detected',
-      detail: `Token price dropped ${Math.abs(change).toFixed(1)}% in the last 24 hours — significant sell pressure detected on DEX.`,
+      detail: `Token price dropped ${Math.abs(change).toFixed(1)}% in 24h — significant sell pressure detected.`,
       severity: 'high'
     })
+  }
+
+  // 5b. Extreme pump — manipulation / speculation risk
+  if (dexData?.token_live && !dexData?.dump_detected) {
+    const pumpChange = dexData.price_change_24h || 0
+    if (pumpChange > 100) {
+      flags.push({
+        type: 'suspicious',
+        label: 'Extreme price pump',
+        detail: `Token surged ${pumpChange.toFixed(0)}% in 24h — high speculation risk, likely followed by correction.`,
+        severity: 'medium'
+      })
+    }
   }
 
   // 6. Very low liquidity — easy rug
