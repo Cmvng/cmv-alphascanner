@@ -488,7 +488,9 @@ export default function Home() {
     if (handle.toLowerCase() !== rawHandle.toLowerCase()) {
       console.warn('Handle sanitized:', rawHandle, '→', handle)
     }
-    const cacheKey = `cmv_scan_v3_${handle.toLowerCase()}`
+    const cacheKey = `cmv_scan_v4_${handle.toLowerCase()}`
+    // Clear old cache versions silently
+    try { localStorage.removeItem(`cmv_scan_v3_${handle.toLowerCase()}`); localStorage.removeItem(`cmv_scan_v2_${handle.toLowerCase()}`); localStorage.removeItem(`cmv_scan_${handle.toLowerCase()}`) } catch {}
     setLoading(true); setResult(null); setCgData(null); setXData(null); setError(null); setAtab('Fundamentals'); setAsec('metrics'); setSelectedTags([])
     try {
       const cached = localStorage.getItem(cacheKey)
@@ -1149,17 +1151,7 @@ export default function Home() {
             <input style={{ flex: 1, background: '#f9fafb', border: '1.5px solid #e5e7eb', borderRadius: 10, padding: '13px 16px', fontSize: 14, color: '#111', fontFamily: "'DM Mono',monospace", outline: 'none', transition: 'all 0.2s' }} placeholder="@projecthandle or https://x.com/handle" value={xUrl} onChange={e => setXUrl(e.target.value)} onKeyDown={e => e.key === 'Enter' && !loading && analyze()} disabled={loading} onFocus={e => { e.target.style.borderColor = '#16a34a'; e.target.style.background = '#fff' }} onBlur={e => { e.target.style.borderColor = '#e5e7eb'; e.target.style.background = '#f9fafb' }} />
             <div className="search-btns" style={{ display: 'flex', gap: 8, flexShrink: 0 }}>
               {result && !loading && (
-                <>
-                  <button onClick={() => { setResult(null); setCgData(null); setXData(null); setXUrl(''); setSelectedTags([]) }} style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 10, padding: '13px 16px', fontSize: 13, fontWeight: 600, cursor: 'pointer', color: '#374151', fontFamily: 'inherit', whiteSpace: 'nowrap' as const }}>+ New Scan</button>
-                  <button onClick={() => {
-                    // Clear cache then re-run full analyze
-                    const rawHandle = xUrl.replace('https://x.com/','').replace('https://twitter.com/','').replace('@','').split('/')[0].trim()
-                    const handle2 = rawHandle.replace(/[^a-zA-Z0-9_]/g, '')
-                    try { localStorage.removeItem('cmv_scan_v3_' + handle2.toLowerCase()); localStorage.removeItem('cmv_scan_v2_' + handle2.toLowerCase()); localStorage.removeItem('cmv_scan_' + handle2.toLowerCase()) } catch {}
-                    setResult(null); setCgData(null); setXData(null); setSelectedTags([])
-                    analyze()
-                  }} style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 10, padding: '13px 16px', fontSize: 13, fontWeight: 600, cursor: 'pointer', color: '#374151', fontFamily: 'inherit', whiteSpace: 'nowrap' as const }}>↺ Refresh</button>
-                </>
+                <button onClick={() => { setResult(null); setCgData(null); setXData(null); setXUrl(''); setSelectedTags([]) }} style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 10, padding: '13px 16px', fontSize: 13, fontWeight: 600, cursor: 'pointer', color: '#374151', fontFamily: 'inherit', whiteSpace: 'nowrap' as const }}>+ New Scan</button>
               )}
               <button onClick={analyze} disabled={loading || !xUrl.trim()} style={{ background: loading || !xUrl.trim() ? '#f3f4f6' : '#16a34a', color: loading || !xUrl.trim() ? '#9ca3af' : '#fff', border: 'none', borderRadius: 10, padding: '13px 24px', fontSize: 14, fontWeight: 600, cursor: loading || !xUrl.trim() ? 'not-allowed' : 'pointer', whiteSpace: 'nowrap' as const, fontFamily: "'Syne',sans-serif", transition: 'all 0.2s' }}>{loading ? 'Scanning...' : 'Analyze →'}</button>
             </div>
