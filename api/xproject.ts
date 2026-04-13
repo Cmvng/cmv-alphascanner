@@ -571,15 +571,25 @@ async function fetchCoinPaprika(projectName: string, handle: string, ticker?: st
     const handleLower = handle.toLowerCase()
     const tickerUpper = (ticker || '').toUpperCase()
 
+    // Strict match — must be confident it's the right project
+    const CHAIN_TOKENS_CP = ['SUI','ETH','BTC','SOL','BNB','MATIC','AVAX','OP','ARB','BASE','NEAR','APT','SEI','INJ','ATOM','DOT','ADA']
+    
     const match = currencies.find((c: any) => 
-      tickerUpper && c.symbol?.toUpperCase() === tickerUpper
-    ) || currencies.find((c: any) =>
-      c.name?.toLowerCase().includes(nameLower) || 
-      nameLower.includes(c.name?.toLowerCase() || '') ||
-      c.id?.includes(handleLower)
-    ) || currencies[0]
+      tickerUpper && c.symbol?.toUpperCase() === tickerUpper &&
+      !CHAIN_TOKENS_CP.includes(c.symbol?.toUpperCase())
+    ) || currencies.find((c: any) => {
+      const cName = (c.name || '').toLowerCase().replace(/[^a-z0-9]/g, '')
+      const cId = (c.id || '').toLowerCase().replace(/[^a-z0-9]/g, '')
+      // Must be a strong name match, not just partial
+      return (cId === handleLower || cName === nameLower || 
+              (cId.includes(handleLower) && handleLower.length > 4) ||
+              (handleLower.includes(cId) && cId.length > 4)) &&
+             !CHAIN_TOKENS_CP.includes(c.symbol?.toUpperCase())
+    })
 
     if (!match) return null
+    // Final safety: reject chain tokens
+    if (CHAIN_TOKENS_CP.includes(match.symbol?.toUpperCase())) return null
 
     // Get full coin details including team and contracts
     const coinR = await fetch(`https://api.coinpaprika.com/v1/coins/${match.id}`)
@@ -622,6 +632,15 @@ async function fetchCoinPaprika(projectName: string, handle: string, ticker?: st
     const links = coin.links_extended || []
     const twitterLink = links.find((l: any) => l.type === 'twitter')?.url || ''
     const githubLink = links.find((l: any) => l.type === 'github')?.url || ''
+
+    // Final verification: coin name must relate to project
+    const coinNameClean = (coin.name || '').toLowerCase().replace(/[^a-z0-9]/g, '')
+    const projectNameClean = projectName.toLowerCase().replace(/[^a-z0-9]/g, '')
+    const handleClean2 = handle.toLowerCase().replace(/[^a-z0-9]/g, '')
+    const nameMatch = coinNameClean.includes(handleClean2) || handleClean2.includes(coinNameClean) ||
+                      coinNameClean.includes(projectNameClean.slice(0,6)) || 
+                      (match.id || '').toLowerCase().includes(handleClean2)
+    if (!nameMatch && !ticker) return null // Without ticker confirmation, must name-match
 
     return {
       coin_id: match.id,
