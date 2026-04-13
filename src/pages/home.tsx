@@ -275,18 +275,22 @@ CryptoNews: sentiment=${enriched.news_sentiment || 'unknown'} | articles=${enric
 Auto-detected FUD signals (from tools): ${JSON.stringify((enriched.auto_fud_flags || []).map((f:any) => f.label))}
 
 === INSTRUCTIONS ===
-All financial data is provided above — do NOT search for TVL, revenue, token price, investors.
-\${(enriched.rootdata_team || []).length === 0 ? 'RootData found no team. Do 1 web search for "@' + handle + ' founder CEO team" to find real names.' : 'Use the RootData team data provided above. No team search needed.'}
+DO NOT search for: TVL, revenue, token price, investors, funding — all provided above.
+ALWAYS do these searches (max 3 total):
+1. REQUIRED: Search "@${handle} scandal rug hack scam controversy 2024 2025 2026" — find any red flags or negative news
+2. REQUIRED: Search "@${handle} token price airdrop TGE unlock" — find token details if not in tool data
+3. IF team empty above: Search "@${handle} founder CEO team" — find team members
 Be concise in metrics — 1 sentence with specific data points only.
 
-RED FLAGS — only flag these real issues:
-- Known hacks or exploits (from tool data)
-- Token dump >30% in 24h (from DexScreener)
-- Extremely low liquidity <$50K (rug risk)
-- Negative news: scam/fraud/SEC/investigation headlines
-- Suspicious on-chain activity (wallet dumps, insider selling)
-- Follow farming or bot followers
-DO NOT flag: missing team data, no TVL for non-DeFi projects, low mindshare, early stage metrics. These are NOT red flags.
+RED FLAGS — only flag these real issues (must be verifiable):
+- Known hacks or exploits (from DefiLlama hacks data)
+- Token dump >30% in 24h (from DexScreener data)
+- Extremely low liquidity <$50K (rug risk, from DexScreener)
+- Negative news with specific evidence: scam/fraud/SEC/investigation
+- Suspicious on-chain activity: insider selling, wallet dumps
+- Follow farming: following >> followers ratio
+DO NOT flag: missing team data, no TVL for non-DeFi projects, low mindshare, early stage, no revenue pre-launch. These are NOT red flags.
+If auto_fud_flags above shows 0 flags AND no negative news, return red_flags as empty array.
 
 Score strictly. Tier A (85+) = only the best CT projects with strong fundamentals. Most projects are B or C.
 Entertainment/events projects without DeFi TVL should NOT be penalized on revenue — use event revenue if mentioned.
@@ -294,7 +298,7 @@ Entertainment/events projects without DeFi TVL should NOT be penalized on revenu
 Return this exact JSON:
 {
   "project_name": "string",
-  "project_category": "string (use DefiLlama category if available)",
+  "project_category": "string (use DefiLlama category if available, else infer from bio: Prediction Market, DeFi, L1/L2, RWA, AI, Gaming, etc)",
   "description": "2-3 sentence description of what the project builds",
   "team_location": "string or empty",
   "founded": "year or empty",
@@ -520,21 +524,14 @@ export default function Home() {
         error: 'X API unavailable', partial: true
       }
     }
-    console.log('xd received:', JSON.stringify({ followers: xd?.followers, enriched_tvl: xd?.enriched?.tvl, enriched_investors: xd?.enriched?.confirmed_investors?.length, error: xd?.error, partial: xd?.partial }))
     setXData(xd)
     let cg = null
 
-    // Priority 1: DexScreener from xproject (most accurate — verifies name match)
-    if (xd?.token_data?.token_live && xd.token_data.source === 'dexscreener') {
+    // Use token_data from xproject — already prioritized (DexScreener > GeckoTerminal > CoinGecko)
+    if (xd?.token_data?.token_live) {
       cg = xd.token_data
     }
 
-    // Priority 2: GeckoTerminal from xproject
-    if (!cg?.token_live && xd?.token_data?.token_live && xd.token_data.source === 'geckoterminal') {
-      cg = xd.token_data
-    }
-
-    // No CoinGecko — DexScreener and GeckoTerminal handle all token data
     if (!cg) cg = { token_live: false, token_price: 'Not Launched', token_note: 'No token found' }
     setCgData(cg)
     // Helper to save result
@@ -773,7 +770,7 @@ export default function Home() {
           model: 'claude-sonnet-4-20250514',
           max_tokens: 2000,
           system: buildSystemPrompt(handle, xd, cg),
-          ...(((xd?.enriched?.rootdata_team || []).length === 0) ? { tools: [{ type: 'web_search_20250305', name: 'web_search' }] } : {}),
+          tools: [{ type: 'web_search_20250305', name: 'web_search' }],
           messages: [{ role: 'user', content: `Analyze @${handle}. Use the tool data in the system prompt. Return JSON only.` }]
         })
       })
@@ -1252,7 +1249,10 @@ export default function Home() {
               </div>
               <div style={{ display: 'flex', alignItems: 'flex-start', gap: 16, marginBottom: 14 }}>
                 <div style={{ width: 54, height: 54, borderRadius: 14, overflow: 'hidden', background: 'rgba(255,255,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, border: '2px solid rgba(255,255,255,0.3)' }}>
-                  {xData?.profile_image_url ? <img src={xData.profile_image_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <span style={{ fontSize: 24, fontWeight: 800, color: '#fff' }}>{(result.project_name||'?').charAt(0).toUpperCase()}</span>}
+                  {(() => {
+                    const imgUrl = xData?.profile_image_url || (xUrl ? `https://unavatar.io/twitter/${xUrl.replace('https://x.com/','').replace('https://twitter.com/','').replace('@','').split('/')[0].trim()}` : null)
+                    return imgUrl ? <img src={imgUrl} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' as const }} onError={(e) => { (e.target as HTMLImageElement).style.display='none' }} /> : <span style={{ fontSize: 24, fontWeight: 800, color: '#fff' }}>{(result.project_name||'?').charAt(0).toUpperCase()}</span>
+                  })()}
                 </div>
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' as const, marginBottom: 2 }}>
