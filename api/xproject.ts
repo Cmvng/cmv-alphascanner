@@ -585,57 +585,57 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     )
 
   
-  // ── Run enrichment tools in parallel ──────────────────────────────────
-  const projectName = u?.name || clean
-  const confirmedTicker = intel.confirmedTicker || null
+    // ── Run enrichment tools in parallel ──────────────────────────────────
+    const projectName = u?.name || clean
+    const confirmedTicker = intel.confirmedTicker || null
 
-  const [_dl, _dlh, _dex, _gecko, _news, _rd] = await Promise.allSettled([
-    withTimeout(fetchDefiLlama(projectName, clean), 4000),
-    withTimeout(fetchDefiLlamaHacks(projectName), 3000),
-    confirmedTicker ? withTimeout(fetchDexScreener(confirmedTicker, projectName), 3000) : Promise.resolve(null),
-    confirmedTicker ? withTimeout(fetchGeckoTerminal(confirmedTicker, projectName), 3000) : Promise.resolve(null),
-    withTimeout(fetchCryptoNewsSentiment(projectName, confirmedTicker || undefined), 3000),
-    process.env.ROOTDATA_API_KEY ? withTimeout(fetchRootData(projectName, process.env.ROOTDATA_API_KEY), 4000) : Promise.resolve(null),
-  ])
+    const [_dl, _dlh, _dex, _gecko, _news, _rd] = await Promise.allSettled([
+      withTimeout(fetchDefiLlama(projectName, clean), 4000),
+      withTimeout(fetchDefiLlamaHacks(projectName), 3000),
+      confirmedTicker ? withTimeout(fetchDexScreener(confirmedTicker, projectName), 3000) : Promise.resolve(null),
+      confirmedTicker ? withTimeout(fetchGeckoTerminal(confirmedTicker, projectName), 3000) : Promise.resolve(null),
+      withTimeout(fetchCryptoNewsSentiment(projectName, confirmedTicker || undefined), 3000),
+      process.env.ROOTDATA_API_KEY ? withTimeout(fetchRootData(projectName, process.env.ROOTDATA_API_KEY), 4000) : Promise.resolve(null),
+    ])
 
-  const dlData  = _dl.status  === 'fulfilled' ? _dl.value  : null
-  const hacksData = _dlh.status === 'fulfilled' ? _dlh.value : []
-  const dexData = _dex.status  === 'fulfilled' ? _dex.value : null
-  const geckoData = _gecko.status === 'fulfilled' ? _gecko.value : null
-  const news    = _news.status === 'fulfilled' ? _news.value : null
-  const rdData  = _rd.status   === 'fulfilled' ? _rd.value  : null
+    const dlData  = _dl.status  === 'fulfilled' ? _dl.value  : null
+    const hacksData = _dlh.status === 'fulfilled' ? _dlh.value : []
+    const dexData = _dex.status  === 'fulfilled' ? _dex.value : null
+    const geckoData = _gecko.status === 'fulfilled' ? _gecko.value : null
+    const news    = _news.status === 'fulfilled' ? _news.value : null
+    const rdData  = _rd.status   === 'fulfilled' ? _rd.value  : null
 
-  let tokenData: any = tokenData_cg || null
-  if (dexData?.token_live) tokenData = { ...dexData, source: 'dexscreener' }
-  else if (geckoData?.token_live) tokenData = { ...geckoData, source: 'geckoterminal' }
+    let tokenData: any = tokenData_cg || null
+    if (dexData?.token_live) tokenData = { ...dexData, source: 'dexscreener' }
+    else if (geckoData?.token_live) tokenData = { ...geckoData, source: 'geckoterminal' }
 
-  const allInvestors = [...new Set([...(dlData?.investors || []), ...(rdData?.investors || [])])]
-  const autoFudFlags = detectFUDSignals(u, intel, dexData, hacksData || [], news)
+    const allInvestors = [...new Set([...(dlData?.investors || []), ...(rdData?.investors || [])])]
+    const autoFudFlags = detectFUDSignals(u, intel, dexData, hacksData || [], news)
 
-  const enriched = {
-    tvl: dlData?.tvl || null,
-    fees_24h: dlData?.fees_24h || null,
-    revenue_24h: dlData?.revenue_24h || null,
-    total_raised_defillama: dlData?.total_raised || null,
-    defillama_category: dlData?.category || null,
-    chains: dlData?.chains || [],
-    total_raised_rootdata: rdData?.total_raised || null,
-    rootdata_team: rdData?.team || [],
-    confirmed_investors: allInvestors,
-    known_hacks: hacksData,
-    news_sentiment: news?.sentiment || null,
-    news_article_count: news?.article_count || 0,
-    news_red_flags: news?.red_flag_headlines || [],
-    news_recent: news?.recent_headlines?.slice(0, 3) || [],
-    dex_volume_24h: dexData?.volume_24h || null,
-    dex_liquidity: dexData?.liquidity || null,
-    dex_dump_detected: dexData?.dump_detected || false,
-    dex_price_change_24h: dexData?.price_change_24h || null,
-    auto_fud_flags: autoFudFlags,
-    auto_fud_count: autoFudFlags.length,
-  }
+    const enriched = {
+      tvl: dlData?.tvl || null,
+      fees_24h: dlData?.fees_24h || null,
+      revenue_24h: dlData?.revenue_24h || null,
+      total_raised_defillama: dlData?.total_raised || null,
+      defillama_category: dlData?.category || null,
+      chains: dlData?.chains || [],
+      total_raised_rootdata: rdData?.total_raised || null,
+      rootdata_team: rdData?.team || [],
+      confirmed_investors: allInvestors,
+      known_hacks: hacksData,
+      news_sentiment: news?.sentiment || null,
+      news_article_count: news?.article_count || 0,
+      news_red_flags: news?.red_flag_headlines || [],
+      news_recent: news?.recent_headlines?.slice(0, 3) || [],
+      dex_volume_24h: dexData?.volume_24h || null,
+      dex_liquidity: dexData?.liquidity || null,
+      dex_dump_detected: dexData?.dump_detected || false,
+      dex_price_change_24h: dexData?.price_change_24h || null,
+      auto_fud_flags: autoFudFlags,
+      auto_fud_count: autoFudFlags.length,
+    }
 
-  const result = {
+    const result = {
       followers, following, tweet_count: tweetCount, listed,
       verified: u?.verified || false,
       account_age_years: age,
