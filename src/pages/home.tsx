@@ -304,23 +304,23 @@ Return this exact JSON:
   "sources": [{"name": "string", "url": "string", "used_for": "string"}],
   "data_accuracy_note": "string",
   "metrics": {
-    "funding": {"score": 0-100, "detail": "specific", "why_this_score": "string", "signal": "bullish|bearish|neutral"},
-    "vc_pedigree": {"score": 0-100, "detail": "specific", "why_this_score": "string", "signal": "bullish|bearish|neutral"},
-    "copycat": {"score": 0-100, "detail": "specific", "why_this_score": "string", "signal": "bullish|bearish|neutral"},
-    "niche": {"score": 0-100, "detail": "specific", "why_this_score": "string", "signal": "bullish|bearish|neutral"},
-    "location": {"score": 0-100, "detail": "specific", "why_this_score": "string", "signal": "bullish|bearish|neutral"},
-    "founder_cred": {"score": 0-100, "detail": "specific", "why_this_score": "string", "signal": "bullish|bearish|neutral"},
-    "founder_activity": {"score": 0-100, "detail": "specific", "why_this_score": "string", "signal": "bullish|bearish|neutral"},
-    "top_voices": {"score": 0-100, "detail": "specific", "why_this_score": "string", "signal": "bullish|bearish|neutral"},
-    "token": {"score": 0-100, "detail": "specific", "why_this_score": "string", "signal": "bullish|bearish|neutral"},
-    "metrics_clarity": {"score": 0-100, "detail": "specific", "why_this_score": "string", "signal": "bullish|bearish|neutral"},
-    "user_count": {"score": 0-100, "detail": "specific", "why_this_score": "string", "signal": "bullish|bearish|neutral"},
-    "fud": {"score": 0-100, "detail": "specific", "why_this_score": "string", "signal": "bullish|bearish|neutral"},
-    "notable_mentions": {"score": 0-100, "detail": "specific", "why_this_score": "string", "signal": "bullish|bearish|neutral"},
-    "content_type": {"score": 0-100, "detail": "specific", "why_this_score": "string", "signal": "bullish|bearish|neutral"},
-    "mindshare": {"score": 0-100, "detail": "specific", "why_this_score": "string", "signal": "bullish|bearish|neutral"},
-    "revenue": {"score": 0-100, "detail": "specific", "why_this_score": "string", "signal": "bullish|bearish|neutral"},
-    "sentiment": {"score": 0-100, "detail": "specific", "why_this_score": "string", "signal": "bullish|bearish|neutral"}
+    "funding": {"score": 0-100, "detail": "2 sentences: what was raised, from who, when", "signal": "bullish|bearish|neutral"},
+    "vc_pedigree": {"score": 0-100, "detail": "2 sentences: name the VCs, their track record in crypto", "signal": "bullish|bearish|neutral"},
+    "copycat": {"score": 0-100, "detail": "2 sentences: what makes it original or derivative, name competitors", "signal": "bullish|bearish|neutral"},
+    "niche": {"score": 0-100, "detail": "2 sentences: what sector, how large is the opportunity", "signal": "bullish|bearish|neutral"},
+    "location": {"score": 0-100, "detail": "1 sentence: team location if known, why it matters", "signal": "bullish|bearish|neutral"},
+    "founder_cred": {"score": 0-100, "detail": "2 sentences: founder names and backgrounds if known", "signal": "bullish|bearish|neutral"},
+    "founder_activity": {"score": 0-100, "detail": "2 sentences: how active are founders on X, posting frequency", "signal": "bullish|bearish|neutral"},
+    "top_voices": {"score": 0-100, "detail": "2 sentences: name any CT influencers or KOLs engaging with project", "signal": "bullish|bearish|neutral"},
+    "token": {"score": 0-100, "detail": "2 sentences: token status, price, market cap, unlock schedule if known", "signal": "bullish|bearish|neutral"},
+    "metrics_clarity": {"score": 0-100, "detail": "2 sentences: what onchain metrics are available, TVL, users, volume", "signal": "bullish|bearish|neutral"},
+    "user_count": {"score": 0-100, "detail": "2 sentences: how many users/wallets, growth trend", "signal": "bullish|bearish|neutral"},
+    "fud": {"score": 0-100, "detail": "2 sentences: specific FUD or controversies found, or confirm none", "signal": "bullish|bearish|neutral"},
+    "notable_mentions": {"score": 0-100, "detail": "2 sentences: name any notable CT accounts or media that covered this", "signal": "bullish|bearish|neutral"},
+    "content_type": {"score": 0-100, "detail": "2 sentences: what type of content the project posts, quality assessment", "signal": "bullish|bearish|neutral"},
+    "mindshare": {"score": 0-100, "detail": "2 sentences: current CT mindshare level, trending or fading", "signal": "bullish|bearish|neutral"},
+    "revenue": {"score": 0-100, "detail": "2 sentences: actual revenue numbers from tools, protocol fees, TVL", "signal": "bullish|bearish|neutral"},
+    "sentiment": {"score": 0-100, "detail": "2 sentences: overall CT sentiment, specific positive or negative signals", "signal": "bullish|bearish|neutral"}
   }
 }`
 }
@@ -760,7 +760,7 @@ export default function Home() {
         },
         body: JSON.stringify({
           model: 'claude-sonnet-4-20250514',
-          max_tokens: 2500,
+          max_tokens: 4000,
           system: buildSystemPrompt(handle, xd, cg),
           tools: [{ type: 'web_search_20250305', name: 'web_search' }],
           messages: [{ role: 'user', content: `Analyze @${handle}. Use the tool data in the system prompt. Return JSON only.` }]
@@ -1366,11 +1366,15 @@ export default function Home() {
               </div>
             )}
 
-            {result.team_members?.filter((m: any) => m.name?.length > 1).length > 0 && (
+            {(result.team_members?.filter((m: any) => m.name?.length > 1).length > 0 || xData?.founder_profiles?.length > 0) && (
               <div style={{ background: '#fff', border: '1px solid #f1f5f9', borderRadius: 14, padding: 14, marginBottom: 10 }}>
-                <div style={{ fontFamily: "'Syne',sans-serif", fontSize: 13, fontWeight: 600, color: '#111', marginBottom: 10 }}>👥 Team</div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
+                  <span style={{ fontFamily: "'Syne',sans-serif", fontSize: 13, fontWeight: 600, color: '#111' }}>👥 Team</span>
+                  {xData?.founder_profiles?.length > 0 && <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#15803d', background: '#dcfce7', border: '1px solid #86efac', padding: '2px 8px', borderRadius: 20 }}>✓ X API verified</span>}
+                </div>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(220px,1fr))', gap: 8 }}>
-                  {result.team_members.filter((m: any) => m.name?.length > 1).map((m: any, i: number) => <TeamCardEnriched key={i} member={m} />)}
+                  {result.team_members?.filter((m: any) => m.name?.length > 1).map((m: any, i: number) => <TeamCardEnriched key={`rd-${i}`} member={m} />)}
+                  {(xData?.founder_profiles || []).filter((fp: any) => !result.team_members?.some((m: any) => m.x_handle?.toLowerCase() === fp.x_handle?.toLowerCase())).map((fp: any, i: number) => <TeamCardEnriched key={`xapi-${i}`} member={{ name: fp.name, x_handle: fp.x_handle, role: fp.role || '', profile_image_url: fp.profile_image_url, confirmed: true, background: (fp.description || '').slice(0,120) }} />)}
                 </div>
               </div>
             )}
