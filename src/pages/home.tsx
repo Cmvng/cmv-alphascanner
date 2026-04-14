@@ -847,204 +847,184 @@ export default function Home() {
     const ot = getTier(result.overall_score ?? 0)
     const otc = T[ot]
     const colors = otc.vbg.match(/#[0-9a-fA-F]{6}/g) || ['#37b24d','#2f9e44']
-    const goodHighlights = (result.good_highlights || []).filter((h: string) => h && h.length > 5)
+    const highlights = (result.good_highlights || []).filter((h: string) => h && h.length > 5).slice(0, 4)
     const flagCount = (result.red_flags || []).filter((f: any) => f.label).length
 
-    // Verdict text — word wrap helper
-    const wrapText = (ctx2: CanvasRenderingContext2D, text: string, x: number, y: number, maxW: number, lineH: number, maxLines: number) => {
-      const words = text.split(' ')
-      let line = '', lY = y, lines = 0
-      for (const word of words) {
-        const test = line + word + ' '
-        if (ctx2.measureText(test).width > maxW && line) {
-          ctx2.fillText(line.trim(), x, lY)
-          line = word + ' '; lY += lineH; lines++
-          if (lines >= maxLines - 1) { line = line.trim() + '…'; break }
-        } else line = test
-      }
-      if (line.trim()) ctx2.fillText(line.trim(), x, lY)
-    }
-
-    const canvas = document.createElement('canvas')
     const W = 1200, H = 630
+    const canvas = document.createElement('canvas')
     canvas.width = W; canvas.height = H
     const ctx = canvas.getContext('2d')!
 
+    // Helper: load image with timeout + CORS fallback
+    const loadImg = (src: string, timeout = 4000): Promise<HTMLImageElement | null> =>
+      new Promise(resolve => {
+        const img = new Image()
+        const done = (result: HTMLImageElement | null) => { clearTimeout(timer); resolve(result) }
+        const timer = setTimeout(() => done(null), timeout)
+        img.crossOrigin = 'anonymous'
+        img.onload = () => done(img)
+        img.onerror = () => {
+          // Retry without CORS
+          const img2 = new Image()
+          const t2 = setTimeout(() => done(null), 2000)
+          img2.onload = () => { clearTimeout(t2); done(img2) }
+          img2.onerror = () => { clearTimeout(t2); done(null) }
+          img2.src = src
+        }
+        img.src = src
+      })
+
+    // Word wrap helper
+    const wrap = (text: string, x: number, y: number, maxW: number, lineH: number, maxLines: number) => {
+      const words = text.split(' '); let line = '', lY = y, n = 0
+      for (const w of words) {
+        const t = line + w + ' '
+        if (ctx.measureText(t).width > maxW && line) {
+          ctx.fillText(line.trim(), x, lY); line = w + ' '; lY += lineH; n++
+          if (n >= maxLines - 1) { line = line.trim() + '…'; break }
+        } else line = t
+      }
+      if (line.trim()) ctx.fillText(line.trim(), x, lY)
+    }
+
     // ── BACKGROUND ──
     const grad = ctx.createLinearGradient(0, 0, W, H)
-    grad.addColorStop(0, colors[0])
-    grad.addColorStop(1, colors[1] || colors[0])
-    ctx.fillStyle = grad
-    ctx.fillRect(0, 0, W, H)
-
-    // Subtle decoration
-    ctx.save()
-    ctx.globalAlpha = 0.06
-    ctx.fillStyle = '#fff'
-    ctx.beginPath(); ctx.arc(W + 80, -80, 380, 0, Math.PI * 2); ctx.fill()
-    ctx.beginPath(); ctx.arc(-60, H + 60, 280, 0, Math.PI * 2); ctx.fill()
+    grad.addColorStop(0, colors[0]); grad.addColorStop(1, colors[1] || colors[0])
+    ctx.fillStyle = grad; ctx.fillRect(0, 0, W, H)
+    ctx.save(); ctx.globalAlpha = 0.06; ctx.fillStyle = '#fff'
+    ctx.beginPath(); ctx.arc(W + 100, -100, 400, 0, Math.PI * 2); ctx.fill()
+    ctx.beginPath(); ctx.arc(-80, H + 80, 300, 0, Math.PI * 2); ctx.fill()
     ctx.restore()
 
-    // ── LEFT COLUMN (project info) ──
-    const leftW = 520
-    const pad = 50
+    const PAD = 48, LW = 600
 
-    // Project PFP — large circle
-    const pfpUrl = xData?.profile_image_url
-    let pfpOk = false
-    if (pfpUrl) {
-      await new Promise<void>(resolve => {
-        const img = new Image()
-        img.crossOrigin = 'anonymous'
-        img.onload = () => {
-          ctx.save()
-          ctx.beginPath(); ctx.arc(pad + 56, 90, 52, 0, Math.PI * 2); ctx.clip()
-          ctx.drawImage(img, pad + 4, 38, 104, 104)
-          ctx.restore()
-          ctx.strokeStyle = 'rgba(255,255,255,0.5)'; ctx.lineWidth = 3
-          ctx.beginPath(); ctx.arc(pad + 56, 90, 52, 0, Math.PI * 2); ctx.stroke()
-          pfpOk = true; resolve()
-        }
-        img.onerror = () => resolve()
-        img.src = pfpUrl
-      })
-    }
-    if (!pfpOk) {
+    // ── PROJECT LOGO ──
+    const pfpSrc = xData?.profile_image_url?.replace('_normal', '_400x400') ||
+      (xUrl ? `https://unavatar.io/twitter/${xUrl.replace(/https?:\/\/[tx]\.(?:com|co)\//,'').replace('@','').split('/')[0].trim()}` : null)
+    const pfpImg = pfpSrc ? await loadImg(pfpSrc) : null
+    if (pfpImg) {
+      ctx.save()
+      ctx.beginPath(); ctx.arc(PAD + 50, 88, 46, 0, Math.PI * 2); ctx.clip()
+      ctx.drawImage(pfpImg, PAD + 4, 42, 92, 92)
+      ctx.restore()
+      ctx.strokeStyle = 'rgba(255,255,255,0.7)'; ctx.lineWidth = 3
+      ctx.beginPath(); ctx.arc(PAD + 50, 88, 46, 0, Math.PI * 2); ctx.stroke()
+    } else {
       ctx.fillStyle = 'rgba(255,255,255,0.2)'
-      ctx.beginPath(); ctx.arc(pad + 56, 90, 52, 0, Math.PI * 2); ctx.fill()
-      ctx.fillStyle = '#fff'; ctx.font = 'bold 38px Arial'; ctx.textAlign = 'center'
-      ctx.fillText((result.project_name||'?').charAt(0).toUpperCase(), pad + 56, 106)
+      ctx.beginPath(); ctx.arc(PAD + 50, 88, 46, 0, Math.PI * 2); ctx.fill()
+      ctx.strokeStyle = 'rgba(255,255,255,0.5)'; ctx.lineWidth = 3
+      ctx.beginPath(); ctx.arc(PAD + 50, 88, 46, 0, Math.PI * 2); ctx.stroke()
+      ctx.fillStyle = '#fff'; ctx.font = 'bold 34px Arial'; ctx.textAlign = 'center'
+      ctx.fillText((result.project_name||'?').charAt(0).toUpperCase(), PAD + 50, 100)
       ctx.textAlign = 'left'
     }
 
-    // Project name
-    ctx.fillStyle = '#fff'
-    ctx.font = 'bold 46px Arial, sans-serif'
-    const nameX = pad + 126
-    ctx.fillText((result.project_name || '').slice(0, 18), nameX, 78)
+    // ── PROJECT NAME ──
+    const NX = PAD + 114
+    ctx.fillStyle = '#fff'; ctx.font = 'bold 42px Arial'
+    ctx.fillText((result.project_name||'').slice(0, 22), NX, 76)
 
-    // Category pill
-    const cat = result.project_category || 'Crypto'
-    ctx.fillStyle = 'rgba(0,0,0,0.2)'
-    const catW = ctx.measureText(cat).width + 28
-    ctx.font = 'bold 14px Arial'
-    ctx.beginPath(); ctx.roundRect(nameX, 88, catW, 28, 14); ctx.fill()
-    ctx.fillStyle = '#fff'
-    ctx.fillText(cat, nameX + 14, 107)
+    // Category + location
+    const meta = [result.project_category || 'Crypto', result.team_location].filter(Boolean).join(' · ')
+    ctx.fillStyle = 'rgba(255,255,255,0.65)'; ctx.font = '15px Arial'
+    ctx.fillText(meta.slice(0, 50), NX, 102)
+
+    // Token pill
+    if (cgData?.token_live && cgData.ticker) {
+      const tok = cgData.ticker + (cgData.token_price ? '  ' + cgData.token_price : '') + (cgData.market_cap_str ? '  ·  mcap ' + cgData.market_cap_str : '')
+      ctx.font = 'bold 12px monospace'
+      const tw = ctx.measureText(tok).width + 22
+      ctx.fillStyle = 'rgba(0,0,0,0.25)'
+      ctx.beginPath(); (ctx as any).roundRect(NX, 112, tw, 24, 12); ctx.fill()
+      ctx.fillStyle = '#fff'; ctx.fillText(tok, NX + 11, 129)
+    }
 
     // ── DIVIDER ──
     ctx.strokeStyle = 'rgba(255,255,255,0.15)'; ctx.lineWidth = 1
-    ctx.beginPath(); ctx.moveTo(pad, 162); ctx.lineTo(leftW + pad, 162); ctx.stroke()
+    ctx.beginPath(); ctx.moveTo(PAD, 152); ctx.lineTo(LW, 152); ctx.stroke()
 
-    // Description — up to 3 lines
-    ctx.fillStyle = '#fff'; ctx.globalAlpha = 0.92
-    ctx.font = '18px Arial, sans-serif'
-    wrapText(ctx, result.description || '', pad, 195, leftW, 28, 3)
-    ctx.globalAlpha = 1
+    // ── DESCRIPTION ──
+    ctx.fillStyle = 'rgba(255,255,255,0.85)'; ctx.font = '17px Arial'
+    wrap(result.description || '', PAD, 184, LW - PAD - 10, 26, 3)
 
-    // ── HIGHLIGHTS ──
-    const hlY = 290
+    // ── HIGHLIGHTS — stacked, not side by side ──
+    let hlY = 262
     ctx.font = 'bold 13px Arial'
-    let hx = pad
-    goodHighlights.slice(0, 3).forEach((h: string) => {
-      let label = '✓  ' + h
-      const maxPW = (leftW - 20) / 3 - 8
-      while (ctx.measureText(label).width > maxPW - 20 && label.length > 4) label = label.slice(0, -4) + '…'
-      const pw = Math.min(ctx.measureText(label).width + 20, maxPW)
-      ctx.fillStyle = 'rgba(255,255,255,0.15)'
-      ctx.beginPath(); ctx.roundRect(hx, hlY, pw, 30, 15); ctx.fill()
-      ctx.fillStyle = '#fff'
-      ctx.fillText(label, hx + 10, hlY + 20)
-      hx += pw + 8
+    highlights.forEach((h: string) => {
+      const label = '✓  ' + (h.length > 68 ? h.slice(0, 66) + '…' : h)
+      const pw = Math.min(ctx.measureText(label).width + 24, LW - PAD - 10)
+      ctx.fillStyle = 'rgba(255,255,255,0.14)'
+      ctx.beginPath(); (ctx as any).roundRect(PAD, hlY, pw, 28, 14); ctx.fill()
+      ctx.fillStyle = '#fff'; ctx.fillText(label, PAD + 12, hlY + 19)
+      hlY += 36
     })
 
-    // Red flags pill
+    // Red flag pill
     if (flagCount > 0) {
-      ctx.fillStyle = 'rgba(180,20,20,0.85)'
       ctx.font = 'bold 13px Arial'
-      const fpW = ctx.measureText('🚨 ' + flagCount + ' red flag' + (flagCount > 1 ? 's' : '')).width + 24
-      ctx.beginPath(); ctx.roundRect(pad, hlY + 40, fpW, 28, 14); ctx.fill()
-      ctx.fillStyle = '#fff'
-      ctx.fillText('🚨 ' + flagCount + ' red flag' + (flagCount > 1 ? 's' : ''), pad + 12, hlY + 59)
+      const fl = '🚨  ' + flagCount + ' red flag' + (flagCount > 1 ? 's' : '') + ' detected'
+      const fw = ctx.measureText(fl).width + 24
+      ctx.fillStyle = 'rgba(180,20,20,0.9)'
+      ctx.beginPath(); (ctx as any).roundRect(PAD, hlY + 4, fw, 28, 14); ctx.fill()
+      ctx.fillStyle = '#fff'; ctx.fillText(fl, PAD + 12, hlY + 23)
     }
 
-    // ── RIGHT COLUMN ──
-    const rightX = leftW + pad + 60
-    const rightW = W - rightX - pad
+    // ── VERTICAL DIVIDER ──
+    ctx.strokeStyle = 'rgba(255,255,255,0.15)'; ctx.lineWidth = 1
+    ctx.beginPath(); ctx.moveTo(LW + 20, 40); ctx.lineTo(LW + 20, H - 40); ctx.stroke()
 
-    // Score — massive
-    ctx.fillStyle = '#fff'
-    ctx.font = 'bold 120px Arial, sans-serif'
-    ctx.textAlign = 'right'
-    ctx.fillText(String(result.overall_score ?? 0), W - pad, 120)
-    ctx.font = 'bold 16px monospace'
-    ctx.globalAlpha = 0.6
-    ctx.fillText('ALPHA SCORE', W - pad, 148)
-    ctx.globalAlpha = 1
-    ctx.font = 'bold 18px Arial'
-    ctx.fillText(ot + '  ·  ' + otc.lbl, W - pad, 174)
+    // ── RIGHT SIDE ──
+    const RX = LW + 46
+
+    // Big score
+    ctx.fillStyle = '#fff'; ctx.font = 'bold 120px Arial'; ctx.textAlign = 'right'
+    ctx.fillText(String(result.overall_score ?? 0), W - PAD, 128)
+    ctx.font = 'bold 13px monospace'; ctx.globalAlpha = 0.6
+    ctx.fillText('ALPHA SCORE', W - PAD, 154)
+    ctx.globalAlpha = 1; ctx.font = 'bold 15px Arial'
+    ctx.fillText(ot + '  ·  ' + otc.lbl, W - PAD, 178)
     ctx.textAlign = 'left'
 
-    // Vertical divider
-    ctx.strokeStyle = 'rgba(255,255,255,0.15)'; ctx.lineWidth = 1
-    ctx.beginPath(); ctx.moveTo(rightX - 30, 60); ctx.lineTo(rightX - 30, H - 60); ctx.stroke()
-
-    // User badge — PFP + name + says
-    let userOk = false
-    const uBadgeY = 210
-    if (userPhoto) {
-      await new Promise<void>(resolve => {
-        const uImg = new Image()
-        uImg.onload = () => {
-          ctx.save()
-          ctx.beginPath(); ctx.arc(rightX + 24, uBadgeY, 22, 0, Math.PI * 2); ctx.clip()
-          ctx.drawImage(uImg, rightX + 2, uBadgeY - 22, 44, 44)
-          ctx.restore()
-          ctx.strokeStyle = 'rgba(255,255,255,0.8)'; ctx.lineWidth = 2.5
-          ctx.beginPath(); ctx.arc(rightX + 24, uBadgeY, 22, 0, Math.PI * 2); ctx.stroke()
-          userOk = true; resolve()
-        }
-        uImg.onerror = () => resolve()
-        uImg.src = userPhoto
-      })
-    }
-    if (!userOk) {
+    // ── USER BADGE ──
+    const UY = 224
+    const userImg = userPhoto ? await loadImg(userPhoto, 3000) : null
+    if (userImg) {
+      ctx.save(); ctx.beginPath(); ctx.arc(RX + 22, UY, 20, 0, Math.PI * 2); ctx.clip()
+      ctx.drawImage(userImg, RX + 2, UY - 20, 40, 40); ctx.restore()
+      ctx.strokeStyle = 'rgba(255,255,255,0.8)'; ctx.lineWidth = 2
+      ctx.beginPath(); ctx.arc(RX + 22, UY, 20, 0, Math.PI * 2); ctx.stroke()
+    } else {
       ctx.fillStyle = 'rgba(255,255,255,0.25)'
-      ctx.beginPath(); ctx.arc(rightX + 24, uBadgeY, 22, 0, Math.PI * 2); ctx.fill()
-      ctx.fillStyle = '#fff'; ctx.font = 'bold 16px Arial'; ctx.textAlign = 'center'
-      ctx.fillText((userName || 'C').charAt(0).toUpperCase(), rightX + 24, uBadgeY + 6)
-      ctx.textAlign = 'left'
+      ctx.beginPath(); ctx.arc(RX + 22, UY, 20, 0, Math.PI * 2); ctx.fill()
+      ctx.fillStyle = '#fff'; ctx.font = 'bold 14px Arial'; ctx.textAlign = 'center'
+      ctx.fillText((userName||'C').charAt(0).toUpperCase(), RX + 22, UY + 5); ctx.textAlign = 'left'
     }
-    ctx.fillStyle = 'rgba(255,255,255,0.7)'; ctx.font = '13px Arial'
-    ctx.fillText('@' + (userName || 'cmvng') + ' says', rightX + 56, uBadgeY - 8)
+    ctx.fillStyle = 'rgba(255,255,255,0.6)'; ctx.font = '12px Arial'
+    ctx.fillText('@' + (userName||'cmvng') + ' says', RX + 52, UY - 8)
+    ctx.fillStyle = '#fff'; ctx.font = 'bold 20px Arial'
+    ctx.fillText(otc.v.toLowerCase() + '  ' + otc.emoji, RX + 52, UY + 14)
+
+    // ── VERDICT BOX ──
+    const VBY = UY + 44, RW = W - RX - PAD
+    ctx.fillStyle = 'rgba(0,0,0,0.2)'
+    ctx.beginPath(); (ctx as any).roundRect(RX, VBY, RW, 210, 16); ctx.fill()
+    ctx.strokeStyle = 'rgba(255,255,255,0.1)'; ctx.lineWidth = 1
+    ctx.beginPath(); (ctx as any).roundRect(RX, VBY, RW, 210, 16); ctx.stroke()
     ctx.fillStyle = '#fff'; ctx.font = 'bold 22px Arial'
-    ctx.fillText(otc.v.toLowerCase() + '  ' + otc.emoji, rightX + 56, uBadgeY + 16)
+    ctx.fillText(otc.emoji + '  ' + otc.v, RX + 18, VBY + 34)
+    ctx.font = '14px Arial'; ctx.fillStyle = 'rgba(255,255,255,0.85)'
+    wrap(result.verdict_action || result.verdict_reason || '', RX + 18, VBY + 66, RW - 36, 23, 6)
 
-    // Verdict box
-    const vBoxY = uBadgeY + 48
-    const vBoxH = 180
-    ctx.fillStyle = 'rgba(0,0,0,0.22)'
-    ctx.beginPath(); ctx.roundRect(rightX, vBoxY, rightW, vBoxH, 16); ctx.fill()
-
-    ctx.fillStyle = '#fff'
-    ctx.font = 'bold 26px Arial'
-    ctx.fillText(otc.emoji + '  ' + otc.v, rightX + 18, vBoxY + 38)
-
-    ctx.font = '15px Arial'; ctx.globalAlpha = 0.88
-    wrapText(ctx, result.verdict_action || result.verdict_reason || '', rightX + 18, vBoxY + 72, rightW - 36, 24, 5)
+    // ── FOOTER ──
+    ctx.globalAlpha = 0.3; ctx.fillStyle = '#fff'; ctx.font = '12px monospace'; ctx.textAlign = 'center'
+    ctx.fillText('CMV ALPHASCANNER  ·  cmv-alphascanner.vercel.app', W / 2, H - 16)
     ctx.globalAlpha = 1
 
-    // Footer
-    ctx.globalAlpha = 0.28; ctx.fillStyle = '#fff'; ctx.font = '13px monospace'
-    ctx.textAlign = 'center'
-    ctx.fillText('CMV ALPHASCANNER  ·  cmv-alphascanner.vercel.app', W / 2, H - 18)
-    ctx.globalAlpha = 1; ctx.textAlign = 'left'
-
     const link = document.createElement('a')
-    link.download = (result.project_name || 'scan').replace(/[^a-zA-Z0-9]/g, '_') + '-cmv-alpha.png'
-    link.href = canvas.toDataURL('image/png', 1.0)
-    link.click()
+    link.download = (result.project_name||'scan').replace(/[^a-zA-Z0-9]/g,'_') + '_cmv_alpha.png'
+    link.href = canvas.toDataURL('image/png', 1.0); link.click()
   }
+
 
 
 
@@ -1323,7 +1303,6 @@ export default function Home() {
               </div>
             )}
 
-            {/* Deep Intel - token + outlook */}
             {(result.token_data?.token_live || result.post_tge_outlook || result.future_seasons) && (
               <div style={{ background: '#fff', border: '1px solid #f1f5f9', borderRadius: 14, padding: 16, marginBottom: 10 }}>
                 <div style={{ fontSize: 13, fontWeight: 600, color: '#111', marginBottom: 12, fontFamily: "'Syne',sans-serif", display: 'flex', alignItems: 'center', gap: 6 }}>
@@ -1454,7 +1433,6 @@ export default function Home() {
               </div>
             )}
 
-            
           </div>
         )}
 
