@@ -87,7 +87,6 @@ const BAD_TAGS = [
 function getTier(s: number) { return s >= 95 ? 'S' : s >= 85 ? 'A' : s >= 60 ? 'B' : s >= 35 ? 'C' : 'D' }
 
 function computeCombinedScore(alphaScore: number, xScore: number) {
-  // 70% Claude alpha analysis + 30% X social score
   const combined = Math.round((alphaScore * 0.5) + (xScore * 0.5))
   return Math.min(1000, Math.max(0, combined))
 }
@@ -124,7 +123,7 @@ function computeCMVAlphaScore(metrics: any, redFlags: any[]) {
 }
 
 function tsq(tier: string, sz = 20) {
-  return `<div style="width:${sz}px;height:${sz}px;background:${T[tier].solid};border-radius:${sz > 20 ? 6 : 4}px;display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:${sz > 20 ? 12 : 9}px;font-weight:500;color:#fff;flex-shrink:0">${tier}</div>`
+  return `<div style="width:${sz}px;height:${sz}px;background:${T[tier].solid};border-radius:${sz > 20 ? 6 : 4}px;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:${sz > 20 ? 12 : 9}px;font-weight:500;color:#fff;flex-shrink:0">${tier}</div>`
 }
 
 function xjson(text: string) {
@@ -152,42 +151,6 @@ function stripCites(obj: any): any {
 }
 
 
-function MetricRow({ metric, data }: { metric: any, data: any }) {
-  const [open, setOpen] = useState(false)
-  const sc = typeof data?.score === 'number' ? data.score : 0
-  const tier = getTier(sc)
-  const col = T[tier].solid
-  const sig = data?.signal ?? 'neutral'
-  const sigBg = sig === 'bullish' ? '#ebfbee' : sig === 'bearish' ? '#fff5f5' : '#f1f3f5'
-  const sigTc = sig === 'bullish' ? '#2f9e44' : sig === 'bearish' ? '#c92a2a' : '#868e96'
-  return (
-    <div className="metric-row" onClick={() => setOpen(o => !o)} style={{ border: `1px solid ${open ? '#d1fae5' : '#f1f5f9'}`, borderRadius: 10, padding: '11px 13px', marginBottom: 3, cursor: 'pointer', background: open ? '#f0fdf4' : '#fff', transition: 'all 0.2s' }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
-        <span style={{ fontSize: 14 }}>{metric.icon}</span>
-        <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 5, gap: 8 }}>
-            <span style={{ fontSize: 12, fontWeight: 600, color: '#14532d' }}>{metric.label}</span>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 5, flexShrink: 0 }}>
-              <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, padding: '2px 6px', borderRadius: 20, background: sigBg, color: sigTc }}>{sig}</span>
-              <div dangerouslySetInnerHTML={{ __html: tsq(tier, 18) }} />
-              <span style={{ fontSize: 15, fontWeight: 800, color: col, minWidth: 22, textAlign: 'right' as const }}>{sc}</span>
-            </div>
-          </div>
-          <div style={{ background: sig === 'bullish' ? '#ebfbee' : sig === 'bearish' ? '#fff5f5' : '#f0f4ff', borderRadius: 3, height: 4, overflow: 'hidden' }}>
-            <div style={{ width: `${sc}%`, height: '100%', background: col, borderRadius: 3, transition: 'width 1.1s cubic-bezier(0.4,0,0.2,1)' }} />
-          </div>
-        </div>
-      </div>
-      {open && (
-        <div style={{ marginTop: 10, paddingTop: 10, borderTop: '1px solid #f0f4ff', paddingLeft: 23 }}>
-          {data?.why_this_score && <div style={{ background: sigBg, borderRadius: 6, padding: '5px 10px', marginBottom: 7, fontSize: 11, fontWeight: 600, color: sigTc }}>→ {data.why_this_score}</div>}
-          {data?.detail && <div style={{ fontSize: 11, color: '#6c7a9c', lineHeight: 1.7 }}>{data.detail}</div>}
-        </div>
-      )}
-    </div>
-  )
-}
-
 function TeamCardEnriched({ member }: { member: any }) {
   const [xProfile, setXProfile] = useState<any>(null)
   const [err, setErr] = useState(false)
@@ -200,44 +163,21 @@ function TeamCardEnriched({ member }: { member: any }) {
   const ini = (member.name || '?').slice(0, 2).toUpperCase()
   const imgSrc = xProfile?.profile_image_url || member.profile_image_url || (cleanHandle ? `https://unavatar.io/twitter/${cleanHandle}` : null)
   return (
-    <div style={{ background: '#f8f9ff', border: '1px solid #dbe4ff', borderRadius: 10, padding: '12px 14px', display: 'flex', alignItems: 'flex-start', gap: 12 }}>
+    <div className="team-card">
       <div onClick={() => { if (cleanHandle) window.open('https://x.com/' + cleanHandle, '_blank', 'noopener,noreferrer') }} style={{ flexShrink: 0, cursor: cleanHandle ? 'pointer' : 'default' }}>
-        {!err && imgSrc ? <img src={imgSrc} alt={member.name} style={{ width: 42, height: 42, borderRadius: '50%', objectFit: 'cover', border: '1px solid #dbe4ff' }} onError={() => setErr(true)} /> : <div style={{ width: 42, height: 42, borderRadius: '50%', background: '#dcfce7', color: '#15803d', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'DM Mono',monospace", fontSize: 13, fontWeight: 700 }}>{ini}</div>}
+        {!err && imgSrc ? <img src={imgSrc} alt={member.name} className="team-avatar" onError={() => setErr(true)} /> : <div className="team-avatar-fallback">{ini}</div>}
       </div>
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' as const, marginBottom: 2 }}>
-          <span onClick={() => { if (cleanHandle) window.open('https://x.com/' + cleanHandle, '_blank', 'noopener,noreferrer') }} style={{ fontSize: 13, fontWeight: 600, color: '#111', fontFamily: "'Syne',sans-serif", cursor: cleanHandle ? 'pointer' : 'default', textDecoration: cleanHandle ? 'underline' : 'none' }}>{member.name}</span>
-          {!member.confirmed && <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#e67700', background: '#fff3bf', border: '1px solid #ffe066', padding: '1px 6px', borderRadius: 20 }}>unconfirmed</span>}
-          {xProfile?.verified && <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#15803d', background: '#dcfce7', padding: '1px 6px', borderRadius: 20 }}>✓</span>}
+          <span onClick={() => { if (cleanHandle) window.open('https://x.com/' + cleanHandle, '_blank', 'noopener,noreferrer') }} className="team-name" style={{ cursor: cleanHandle ? 'pointer' : 'default', textDecoration: cleanHandle ? 'underline' : 'none' }}>{member.name}</span>
+          {!member.confirmed && <span className="tag-warn">unconfirmed</span>}
+          {xProfile?.verified && <span className="tag-ok">✓</span>}
         </div>
-        <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 10, color: '#16a34a', marginBottom: 4 }}>
+        <div className="team-meta">
           {member.role}{cleanHandle ? ` · @${cleanHandle}` : ''}
-          {xProfile?.followers ? <span style={{ color: '#9ca3af', marginLeft: 6 }}>{xProfile.followers >= 1000 ? `${(xProfile.followers/1000).toFixed(0)}K` : xProfile.followers} followers</span> : null}
+          {xProfile?.followers ? <span style={{ color: 'var(--text-4)', marginLeft: 6 }}>{xProfile.followers >= 1000 ? `${(xProfile.followers/1000).toFixed(0)}K` : xProfile.followers} followers</span> : null}
         </div>
-        {member.background && <div style={{ fontSize: 11, color: '#6c7a9c', lineHeight: 1.5 }}>{member.background}</div>}
-      </div>
-    </div>
-  )
-}
-
-function TeamCard({ member }: { member: any }) {
-  const [err, setErr] = useState(false)
-  const handle = (member.x_handle || '').replace('@', '').replace('@', '')
-  const cleanHandle = handle.toLowerCase() === 'unknown' ? '' : handle
-  const ini = (member.name || '?').slice(0, 2).toUpperCase()
-  const imgSrc = member.profile_image_url || (cleanHandle ? `https://unavatar.io/twitter/${cleanHandle}` : null)
-  return (
-    <div style={{ background: '#f8f9ff', border: '1px solid #dbe4ff', borderRadius: 10, padding: '12px 14px', display: 'flex', alignItems: 'flex-start', gap: 12 }}>
-      <div onClick={() => cleanHandle && window.open(`https://x.com/${cleanHandle}`, '_blank', 'noopener,noreferrer')} style={{ flexShrink: 0, cursor: cleanHandle ? 'pointer' : 'default' }}>
-        {!err && imgSrc ? <img src={imgSrc} alt={member.name} style={{ width: 42, height: 42, borderRadius: '50%', objectFit: 'cover', border: '1px solid #dbe4ff' }} onError={() => setErr(true)} /> : <div style={{ width: 42, height: 42, borderRadius: '50%', background: '#dcfce7', color: '#15803d', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'DM Mono',monospace", fontSize: 13, fontWeight: 700 }}>{ini}</div>}
-      </div>
-      <div style={{ flex: 1, minWidth: 0 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' as const, marginBottom: 2 }}>
-          <span style={{ fontSize: 13, fontWeight: 600, color: '#111', fontFamily: "'Syne',sans-serif" }}>{member.name}</span>
-          {!member.confirmed && <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#e67700', background: '#fff3bf', border: '1px solid #ffe066', padding: '1px 6px', borderRadius: 20 }}>unconfirmed</span>}
-        </div>
-        <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 10, color: '#16a34a', marginBottom: 4 }}>{member.role}{cleanHandle ? ` · @${cleanHandle}` : ''}</div>
-        {member.background && <div style={{ fontSize: 11, color: '#6c7a9c', lineHeight: 1.5 }}>{member.background}</div>}
+        {member.background && <div className="team-bg">{member.background}</div>}
       </div>
     </div>
   )
@@ -361,6 +301,46 @@ Return this exact JSON:
 }`
 }
 
+/* ─── FEATURED PROJECTS MINI COMPONENT ─── */
+function FeaturedProjects() {
+  const [feats, setFeats] = useState<any[]>([])
+  useEffect(() => {
+    (async () => {
+      try {
+        const url = `${import.meta.env.VITE_SUPABASE_URL}/rest/v1/scans?select=*&order=scanned_at.desc&limit=8`
+        const r = await fetch(url, { headers: { 'apikey': import.meta.env.VITE_SUPABASE_ANON_KEY, 'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}` } })
+        if (r.ok) setFeats(await r.json())
+      } catch {}
+    })()
+  }, [])
+  if (feats.length === 0) return null
+  const VERDICT_COLOR: Record<string, string> = { 'FARM IT': '#16a34a', 'CREATE CONTENT': '#ca8a04', 'WATCH': '#ea580c', 'SKIP': '#6b7280' }
+  return (
+    <div className="featured-section" style={{ animationDelay: '0.5s' }}>
+      <div className="section-label">Recently Scanned</div>
+      <div className="featured-grid">
+        {feats.map((s: any) => (
+          <a key={s.id} href={`/?q=${s.handle}`} className="feat-card">
+            <div className="feat-card-inner">
+              <div className="feat-logo-wrap">
+                {s.profile_image_url
+                  ? <img src={s.profile_image_url} alt="" className="feat-logo" onError={e => { (e.target as HTMLImageElement).style.display='none' }} />
+                  : <span className="feat-logo-letter">{(s.project_name||s.handle||'?').charAt(0).toUpperCase()}</span>}
+              </div>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div className="feat-name">{s.project_name || s.handle}</div>
+                <div className="feat-meta">{s.category || 'Crypto'}</div>
+              </div>
+              <div className="feat-score-wrap">
+                <div className="feat-score" style={{ color: VERDICT_COLOR[s.verdict] || '#6b7280' }}>{s.score}</div>
+              </div>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  )
+}
 
 export default function Home() {
   const [xUrl, setXUrl] = useState('')
@@ -401,7 +381,6 @@ export default function Home() {
     async function loadFromFeed() {
       let cr: any = null, cc: any = null, cx: any = null
 
-      // 1. Check browser cache (v4 first, then older versions)
       try {
         const cached = localStorage.getItem(cacheKey) || 
                        localStorage.getItem('cmv_scan_v3_' + handle) ||
@@ -412,7 +391,6 @@ export default function Home() {
         }
       } catch {}
 
-      // 2. Check Supabase if no browser cache
       if (!cr) {
         try {
           const sbUrl = import.meta.env.VITE_SUPABASE_URL
@@ -434,13 +412,11 @@ export default function Home() {
         } catch {}
       }
 
-      // 3. Not in feed or cache — run full scan to add it
       if (!cr) {
         analyze()
         return
       }
 
-      // 4. Found — show immediately then refresh X + price silently
       setResult(cr)
       setCgData(cc)
       setXData(cx)
@@ -479,7 +455,7 @@ export default function Home() {
     ctx.lineTo(pts[pts.length - 1].x, h - pad); ctx.lineTo(pts[0].x, h - pad); ctx.closePath()
     ctx.fillStyle = 'rgba(59,91,219,0.08)'; ctx.fill()
     pts.forEach((p: any) => { ctx.beginPath(); ctx.arc(p.x, p.y, 4, 0, Math.PI * 2); ctx.fillStyle = '#3b5bdb'; ctx.fill(); ctx.strokeStyle = '#fff'; ctx.lineWidth = 1.5; ctx.stroke() });
-    (trend.labels || []).forEach((l: string, i: number) => { ctx.fillStyle = '#adb5bd'; ctx.font = "9px 'DM Mono'"; ctx.textAlign = 'center'; ctx.fillText(l, pts[i].x, h - 6) })
+    (trend.labels || []).forEach((l: string, i: number) => { ctx.fillStyle = '#adb5bd'; ctx.font = "9px 'JetBrains Mono'"; ctx.textAlign = 'center'; ctx.fillText(l, pts[i].x, h - 6) })
   }
 
   function catScore(cat: string) {
@@ -503,16 +479,13 @@ export default function Home() {
   async function analyze() {
     const url = xUrl.trim()
     if (!url) return
-    // Strip URL parts, @, and any invalid X handle characters (only a-z 0-9 _ allowed)
     const rawHandle = url.replace('https://x.com/', '').replace('https://twitter.com/', '').replace('http://x.com/', '').replace('@', '').split('/')[0].trim()
     const handle = rawHandle.replace(/[^a-zA-Z0-9_]/g, '')
     if (!handle) return
-    // If handle changed after sanitization, warn user
     if (handle.toLowerCase() !== rawHandle.toLowerCase()) {
       console.warn('Handle sanitized:', rawHandle, '→', handle)
     }
     const cacheKey = `cmv_scan_v4_${handle.toLowerCase()}`
-    // Clear old cache versions silently
     try { localStorage.removeItem(`cmv_scan_v3_${handle.toLowerCase()}`); localStorage.removeItem(`cmv_scan_v2_${handle.toLowerCase()}`); localStorage.removeItem(`cmv_scan_${handle.toLowerCase()}`) } catch {}
     setLoading(true); setResult(null); setCgData(null); setXData(null); setError(null); setAtab('Fundamentals'); setAsec('metrics'); setSelectedTags([])
     try {
@@ -522,7 +495,6 @@ export default function Home() {
         if (Date.now() - timestamp < 1000 * 60 * 60 * 24) { setResult(cr); setCgData(cc); setXData(cx); setLoading(false); return }
       }
     } catch { }
-    // Fetch X data — catch ALL errors and continue with what we have
     let xd: any = null
     try {
       xd = await fetchProjectXData(handle)
@@ -530,14 +502,12 @@ export default function Home() {
       console.warn('X API fetch failed:', xErr)
     }
 
-    // If X API completely failed AND we have no data at all — show retry
     if (!xd && !handle) {
       setError('Unable to reach X API. Please try again.')
       setLoading(false)
       return
     }
 
-    // Non-crypto detection — check bio for crypto signals
     if (xd && !xd.partial && xd.followers > 0) {
       const bio = (xd.description || '').toLowerCase()
       const cryptoSignals = ['crypto','web3','defi','blockchain','token','nft','dao','airdrop','chain','protocol','dex','yield','stake','wallet','btc','eth','sol','base','layer']
@@ -553,7 +523,6 @@ export default function Home() {
       }
     }
 
-    // If null, create a minimal stub so tool-native scoring can still run
     if (!xd) {
       xd = {
         name: handle, handle, description: '', followers: 0, following: 0,
@@ -567,14 +536,12 @@ export default function Home() {
     setXData(xd)
     let cg = null
 
-    // Use token_data from xproject — already prioritized (DexScreener > GeckoTerminal > CoinGecko)
     if (xd?.token_data?.token_live) {
       cg = xd.token_data
     }
 
     if (!cg) cg = { token_live: false, token_price: 'Not Launched', token_note: 'No token found' }
     setCgData(cg)
-    // Helper to save result
     const saveResult = (cleaned: any) => {
       try { localStorage.setItem(cacheKey, JSON.stringify({ result: cleaned, cgData: cg, xData: xd, timestamp: Date.now() })) } catch { }
       setResult(cleaned)
@@ -599,19 +566,15 @@ export default function Home() {
     }
 
 
-    // X-only fallback scan — no Claude, uses X data to build basic result
     const xOnlyScan = () => {
-      // ── FULL TOOL-NATIVE SCORING ENGINE ──
       const enriched = xd?.enriched || {}
 
-      // Check if we have ANY useful data at all
       const hasXData = (xd?.followers || 0) > 0 || (xd?.tweet_count || 0) > 0
       const hasToolData = !!(enriched.tvl || enriched.total_raised_rootdata ||
         enriched.total_raised_defillama || enriched.dex_volume_24h ||
         (enriched.confirmed_investors || []).length > 0 ||
         (enriched.rootdata_team || []).length > 0)
 
-      // Note: even with low/zero data, still score using what we have
       const autoFlags = enriched.auto_fud_flags || []
       const followers = xd?.followers || 0
       const following = xd?.following || 0
@@ -622,16 +585,12 @@ export default function Home() {
       const verified = xd?.verified || false
       const cmvXScore = xd?.cmv_score || 0
 
-      // ── METRIC SCORES FROM TOOLS ──
-
-      // 1. Funding (RootData + DefiLlama)
       const hasRaised = enriched.total_raised_rootdata || enriched.total_raised_defillama
       const investors = enriched.confirmed_investors || []
       const topVCs = ['paradigm','a16z','coinbase','polychain','multicoin','pantera','sequoia','dragonfly','binance','animoca']
       const hasTopVC = investors.some((v: string) => topVCs.some(vc => v.toLowerCase().includes(vc)))
       const fundingScore = hasTopVC ? 90 : investors.length > 3 ? 75 : hasRaised ? 60 : investors.length > 0 ? 45 : 25
 
-      // 2. TVL / Revenue (DefiLlama)
       const tvl = enriched.tvl
       const revenue = enriched.revenue_24h
       const fees = enriched.fees_24h
@@ -643,7 +602,6 @@ export default function Home() {
         (enriched.fees_24h.includes('M') ? 85 : enriched.fees_24h.includes('K') ? 65 : 55) : 
         tvlNum > 1e9 ? 85 : tvlNum > 1e8 ? 75 : tvlNum > 1e7 ? 65 : tvlNum > 1e6 ? 55 : tvlNum > 0 ? 40 : 15
 
-      // 3. Token health (DexScreener)
       const dexDump = enriched.dex_dump_detected
       const dexLiq = enriched.dex_liquidity
       const tokenLive = cg?.token_live || xd?.token_data?.token_live
@@ -653,24 +611,19 @@ export default function Home() {
         tokenLive ? 55 :
         xd?.token_launch_hinted ? 50 : 35
 
-      // 4. Community / X presence — only score if real X data came back
       const hasRealXData = followers > 0 || tweetCount > 0
       const followerScore = !hasRealXData ? 50 : followers > 500000 ? 95 : followers > 100000 ? 85 : followers > 50000 ? 75 : followers > 10000 ? 60 : followers > 5000 ? 45 : 25
       const engagementScore = !hasRealXData ? 50 : avgLikes > 1000 ? 90 : avgLikes > 500 ? 75 : avgLikes > 100 ? 60 : avgLikes > 20 ? 45 : 20
 
-      // 5. Team credibility (RootData + X)
       const team = (enriched.rootdata_team || []).filter((t: any) => t.name && t.name.length > 1)
       const teamScore = team.length > 4 ? 90 : team.length > 2 ? 75 : team.length > 0 ? 65 : verified ? 55 : accountAge > 3 ? 50 : 30
 
-      // 6. News sentiment (CryptoNews)
       const sentiment = enriched.news_sentiment
       const sentimentScore = sentiment === 'positive' ? 80 : sentiment === 'neutral' ? 60 : sentiment === 'negative' ? 25 : 50
 
-      // 7. Security (DefiLlama hacks)
       const hacks = enriched.known_hacks || []
       const securityScore = hacks.length > 0 ? 10 : tvlNum > 0 ? 75 : 55
 
-      // ── FUD PENALTY ──
       let fudPenalty = 0
       autoFlags.forEach((f: any) => {
         if (f.severity === 'high') fudPenalty += 100
@@ -679,7 +632,6 @@ export default function Home() {
       })
       fudPenalty = Math.min(fudPenalty, 300)
 
-      // ── COMPOSITE SCORE ──
       const weights = { funding: 0.20, revenue: 0.18, token: 0.12, follower: 0.15, engagement: 0.12, team: 0.10, sentiment: 0.08, security: 0.05 }
       const rawScore = Math.round(
         fundingScore * weights.funding +
@@ -691,19 +643,15 @@ export default function Home() {
         sentimentScore * weights.sentiment +
         securityScore * weights.security
       )
-      // Combine with CMV X score (social proof)
       const combined = Math.round(rawScore * 0.6 + (cmvXScore / 10) * 0.4)
       const finalScore = Math.max(0, Math.min(100, combined - Math.round(fudPenalty / 10)))
 
-      // Hard caps
       const hasHack = hacks.length > 0
       const hasDump = enriched.dex_dump_detected
       const cappedScore = hasHack ? Math.min(finalScore, 35) : hasDump ? Math.min(finalScore, 45) : finalScore
 
-      // ── VERDICT ──
       const verdict = cappedScore >= 95 ? 'ALPHA PLAY' : cappedScore >= 85 ? 'FARM IT' : cappedScore >= 60 ? 'ENGAGE' : cappedScore >= 35 ? 'OBSERVE' : 'AVOID'
 
-      // ── GENERATE HIGHLIGHTS FROM TOOLS ──
       const highlights: string[] = []
       if (hasRaised) highlights.push(`${enriched.total_raised_rootdata || enriched.total_raised_defillama} raised`)
       if (hasTopVC) highlights.push(`Backed by ${investors.slice(0,2).join(', ')}`)
@@ -714,7 +662,6 @@ export default function Home() {
       if (verified) highlights.push('Verified X account')
       if (enriched.chains?.length > 0) highlights.push(`Live on ${enriched.chains.slice(0,2).join(', ')}`)
 
-      // ── VERDICT REASON FROM TOOLS ──
       const parts: string[] = []
       if (enriched.defillama_category) parts.push(`${enriched.defillama_category} project`)
       if (hasRaised && hasTopVC) parts.push(`Backed by top VCs including ${investors[0]}`)
@@ -738,7 +685,6 @@ export default function Home() {
         'AVOID': 'Too many red flags detected. Not worth your time right now.'
       }
 
-      // ── BUILD FULL RESULT ──
       const cleaned = {
         project_name: xd?.name || handle,
         ticker: cg?.ticker || xd?.confirmed_ticker || null,
@@ -797,7 +743,6 @@ export default function Home() {
       saveResult(cleaned)
     }
 
-    // Run Claude via serverless function — avoids CORS and key exposure
     try {
       const systemPrompt = buildSystemPrompt(handle, xd, cg)
       const r = await fetch('/api/claude', {
@@ -824,7 +769,6 @@ export default function Home() {
         const isAuth = errType === 'authentication_error' || msg.includes('invalid x-api-key') || msg.includes('invalid api key')
 
         if (isAuth) { 
-          // API key missing or wrong - fall to xOnlyScan but log clearly
           console.error('Anthropic API key issue:', msg)
           xOnlyScan(); return 
         }
@@ -842,7 +786,6 @@ export default function Home() {
       const parsed = xjson(txt)
       if (!parsed) { xOnlyScan(); return }
       const cleaned = stripCites(parsed)
-      // Merge auto FUD flags Claude may have missed
       const autoFlags = (xd?.enriched?.auto_fud_flags || []).map((f: any) => ({ type: f.type, label: f.label, detail: f.detail }))
       const existingLabels = (cleaned.red_flags || []).map((f: any) => f.label?.toLowerCase())
       const newFlags = autoFlags.filter((f: any) => !existingLabels.some((l: string) => l.includes(f.label.toLowerCase().slice(0,10))))
@@ -880,7 +823,6 @@ export default function Home() {
     const highlights = (result.good_highlights || []).filter((h: string) => h && h.length > 5).slice(0, 3)
     const flagCount = (result.red_flags || []).filter((f: any) => f.label).length
 
-    // Twitter: 1200x628 at 2x = 2400x1256 for crisp display
     const W = 1200, H = 628, DPR = 2
     const canvas = document.createElement('canvas')
     canvas.width = W * DPR; canvas.height = H * DPR
@@ -912,145 +854,154 @@ export default function Home() {
       if (line.trim()) ctx.fillText(line.trim(), x, lY)
     }
 
-    // ── BACKGROUND: dark gradient matching theme ──
+    // ── BACKGROUND: deep dark with subtle texture ──
     const bg = ctx.createLinearGradient(0, 0, W, H)
-    bg.addColorStop(0, '#0a0a0f'); bg.addColorStop(1, '#0f1420')
+    bg.addColorStop(0, '#080b12'); bg.addColorStop(0.5, '#0c1018'); bg.addColorStop(1, '#080b12')
     ctx.fillStyle = bg; ctx.fillRect(0, 0, W, H)
 
-    // Colored accent panel (left 45%)
-    const accentGrad = ctx.createLinearGradient(0, 0, W * 0.45, H)
-    accentGrad.addColorStop(0, colors[0] + 'cc'); accentGrad.addColorStop(1, colors[0] + '33')
-    ctx.fillStyle = accentGrad; ctx.fillRect(0, 0, W * 0.45, H)
+    // Accent strip — thin left edge
+    ctx.fillStyle = colors[0]
+    ctx.fillRect(0, 0, 4, H)
 
-    // Subtle grid overlay
-    ctx.save(); ctx.globalAlpha = 0.03; ctx.strokeStyle = '#fff'; ctx.lineWidth = 0.5
-    for (let x = 0; x < W; x += 40) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke() }
-    for (let y = 0; y < H; y += 40) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke() }
+    // Subtle dot grid
+    ctx.save(); ctx.globalAlpha = 0.04; ctx.fillStyle = '#fff'
+    for (let x = 30; x < W; x += 30) {
+      for (let y = 30; y < H; y += 30) {
+        ctx.beginPath(); ctx.arc(x, y, 0.6, 0, Math.PI * 2); ctx.fill()
+      }
+    }
     ctx.restore()
 
-    // Decorative circles
-    ctx.save(); ctx.globalAlpha = 0.08; ctx.fillStyle = '#fff'
-    ctx.beginPath(); ctx.arc(W * 0.42, -40, 200, 0, Math.PI * 2); ctx.fill()
-    ctx.beginPath(); ctx.arc(20, H + 20, 150, 0, Math.PI * 2); ctx.fill()
+    // Large faded score watermark
+    ctx.save(); ctx.globalAlpha = 0.04; ctx.fillStyle = '#fff'
+    ctx.font = 'bold 400px Arial'; ctx.textAlign = 'right'
+    ctx.fillText(String(result.overall_score ?? 0), W - 20, 420)
     ctx.restore()
 
-    const PAD = 44
+    const PAD = 52
+    const COL_R = W * 0.55 // right column start
 
-    // ── LEFT: Project info ──
+    // ── TOP BAR: tier badge + branding ──
+    ctx.fillStyle = colors[0] + '18'
+    ctx.beginPath(); (ctx as any).roundRect(PAD, 36, 90, 28, 14); ctx.fill()
+    ctx.strokeStyle = colors[0] + '44'; ctx.lineWidth = 1
+    ctx.beginPath(); (ctx as any).roundRect(PAD, 36, 90, 28, 14); ctx.stroke()
+    ctx.fillStyle = colors[0]; ctx.font = 'bold 11px Arial'; ctx.textAlign = 'center'
+    ctx.fillText(otc.lbl, PAD + 45, 54); ctx.textAlign = 'left'
+
+    // CMV branding top-right
+    ctx.fillStyle = 'rgba(255,255,255,0.25)'; ctx.font = '10px monospace'; ctx.textAlign = 'right'
+    ctx.fillText('CMV ALPHASCANNER', W - PAD, 54); ctx.textAlign = 'left'
+
+    // ── LEFT COLUMN ──
     // Logo
+    const LOGO_Y = 90
     const pfpSrc = xData?.profile_image_url?.replace('_normal','_400x400') ||
       (xUrl ? `https://unavatar.io/twitter/${xUrl.replace('https://x.com/','').replace('https://twitter.com/','').replace('@','').split('/')[0].trim()}` : null)
     const pfpImg = pfpSrc ? await loadImg(pfpSrc) : null
     if (pfpImg) {
-      ctx.save(); ctx.beginPath(); ctx.arc(PAD + 42, 74, 38, 0, Math.PI * 2); ctx.clip()
-      ctx.drawImage(pfpImg, PAD + 4, 36, 76, 76); ctx.restore()
-      ctx.strokeStyle = 'rgba(255,255,255,0.5)'; ctx.lineWidth = 2
-      ctx.beginPath(); ctx.arc(PAD + 42, 74, 38, 0, Math.PI * 2); ctx.stroke()
+      ctx.save(); ctx.beginPath(); ctx.arc(PAD + 30, LOGO_Y + 30, 28, 0, Math.PI * 2); ctx.clip()
+      ctx.drawImage(pfpImg, PAD + 2, LOGO_Y + 2, 56, 56); ctx.restore()
+      ctx.strokeStyle = 'rgba(255,255,255,0.12)'; ctx.lineWidth = 1.5
+      ctx.beginPath(); ctx.arc(PAD + 30, LOGO_Y + 30, 28, 0, Math.PI * 2); ctx.stroke()
     } else {
-      ctx.fillStyle = 'rgba(255,255,255,0.1)'
-      ctx.beginPath(); ctx.arc(PAD + 42, 74, 38, 0, Math.PI * 2); ctx.fill()
-      ctx.fillStyle = '#fff'; ctx.font = 'bold 28px Arial'; ctx.textAlign = 'center'
-      ctx.fillText((result.project_name||'?').charAt(0).toUpperCase(), PAD + 42, 84); ctx.textAlign = 'left'
+      ctx.fillStyle = colors[0] + '33'
+      ctx.beginPath(); ctx.arc(PAD + 30, LOGO_Y + 30, 28, 0, Math.PI * 2); ctx.fill()
+      ctx.fillStyle = '#fff'; ctx.font = 'bold 22px Arial'; ctx.textAlign = 'center'
+      ctx.fillText((result.project_name||'?').charAt(0).toUpperCase(), PAD + 30, LOGO_Y + 38); ctx.textAlign = 'left'
     }
 
     // Project name
-    ctx.fillStyle = '#fff'; ctx.font = 'bold 36px Arial'
-    ctx.fillText((result.project_name||'').slice(0, 20), PAD + 96, 64)
+    ctx.fillStyle = '#fff'; ctx.font = 'bold 28px Arial'
+    ctx.fillText((result.project_name||'').slice(0, 22), PAD + 70, LOGO_Y + 22)
 
-    // Category + location line
-    const meta = [result.project_category, result.team_location].filter(Boolean).join(' · ')
-    ctx.fillStyle = 'rgba(255,255,255,0.5)'; ctx.font = '13px Arial'
-    ctx.fillText(meta.slice(0,48), PAD + 96, 85)
+    // Category + ticker
+    const metaLine = [result.project_category, result.team_location].filter(Boolean).join(' · ')
+    ctx.fillStyle = 'rgba(255,255,255,0.35)'; ctx.font = '12px Arial'
+    ctx.fillText(metaLine.slice(0, 50), PAD + 70, LOGO_Y + 42)
 
-    // Token pill
     if (cgData?.token_live && cgData.ticker) {
-      const tok = cgData.ticker + (cgData.token_price ? '  ' + cgData.token_price : '')
-      ctx.font = 'bold 11px monospace'
-      const tw = ctx.measureText(tok).width + 18
-      ctx.fillStyle = 'rgba(22,163,74,0.3)'; ctx.strokeStyle = 'rgba(22,163,74,0.5)'; ctx.lineWidth = 1
-      ctx.beginPath(); (ctx as any).roundRect(PAD + 96, 93, tw, 20, 10); ctx.fill(); ctx.stroke()
-      ctx.fillStyle = '#fff'; ctx.fillText(tok, PAD + 105, 107)
+      const tok = cgData.ticker + '  ' + (cgData.token_price || '')
+      ctx.font = 'bold 10px monospace'
+      const tw = ctx.measureText(tok).width + 16
+      ctx.fillStyle = 'rgba(22,163,74,0.2)'; ctx.strokeStyle = 'rgba(22,163,74,0.3)'; ctx.lineWidth = 1
+      ctx.beginPath(); (ctx as any).roundRect(PAD + 70, LOGO_Y + 50, tw, 18, 9); ctx.fill(); ctx.stroke()
+      ctx.fillStyle = '#4ade80'; ctx.fillText(tok, PAD + 78, LOGO_Y + 63)
     }
 
     // Divider
-    ctx.strokeStyle = 'rgba(255,255,255,0.1)'; ctx.lineWidth = 1
-    ctx.beginPath(); ctx.moveTo(PAD, 128); ctx.lineTo(W * 0.44, 128); ctx.stroke()
+    const DIV_Y = LOGO_Y + 80
+    ctx.strokeStyle = 'rgba(255,255,255,0.06)'; ctx.lineWidth = 1
+    ctx.beginPath(); ctx.moveTo(PAD, DIV_Y); ctx.lineTo(COL_R - 30, DIV_Y); ctx.stroke()
 
     // Description
-    ctx.fillStyle = 'rgba(255,255,255,0.75)'; ctx.font = '14px Arial'
-    wrap(result.description || '', PAD, 152, W * 0.44 - PAD - 10, 22, 3)
+    ctx.fillStyle = 'rgba(255,255,255,0.55)'; ctx.font = '13px Arial'
+    wrap(result.description || '', PAD, DIV_Y + 24, COL_R - PAD - 50, 20, 3)
 
     // Highlights
-    let hlY = 218
-    ctx.font = 'bold 11px Arial'
+    let hlY = DIV_Y + 90
     highlights.forEach((h: string) => {
-      const label = '✓  ' + (h.length > 56 ? h.slice(0,54)+'…' : h)
-      const pw = Math.min(ctx.measureText(label).width + 20, W * 0.44 - PAD - 10)
-      ctx.fillStyle = 'rgba(255,255,255,0.08)'
-      ctx.beginPath(); (ctx as any).roundRect(PAD, hlY, pw, 24, 12); ctx.fill()
-      ctx.fillStyle = 'rgba(255,255,255,0.9)'; ctx.fillText(label, PAD + 10, hlY + 16)
-      hlY += 32
+      const label = '✓  ' + (h.length > 50 ? h.slice(0,48)+'…' : h)
+      ctx.font = 'bold 11px Arial'
+      const pw = Math.min(ctx.measureText(label).width + 20, COL_R - PAD - 50)
+      ctx.fillStyle = 'rgba(22,163,74,0.1)'
+      ctx.beginPath(); (ctx as any).roundRect(PAD, hlY, pw, 22, 11); ctx.fill()
+      ctx.fillStyle = '#4ade80'; ctx.fillText(label, PAD + 10, hlY + 15)
+      hlY += 30
     })
 
-    // Red flag pill
+    // Red flags
     if (flagCount > 0) {
       ctx.font = 'bold 11px Arial'
-      const fl = '🚨  ' + flagCount + ' red flag' + (flagCount > 1 ? 's' : '')
-      const fw = ctx.measureText(fl).width + 18
-      ctx.fillStyle = 'rgba(220,38,38,0.8)'
-      ctx.beginPath(); (ctx as any).roundRect(PAD, hlY + 4, fw, 24, 12); ctx.fill()
-      ctx.fillStyle = '#fff'; ctx.fillText(fl, PAD + 9, hlY + 19)
+      const fl = flagCount + ' red flag' + (flagCount > 1 ? 's' : '') + ' detected'
+      const fw = ctx.measureText(fl).width + 24
+      ctx.fillStyle = 'rgba(220,38,38,0.15)'
+      ctx.beginPath(); (ctx as any).roundRect(PAD, hlY + 4, fw, 22, 11); ctx.fill()
+      ctx.fillStyle = '#f87171'; ctx.fillText(fl, PAD + 12, hlY + 18)
     }
 
-    // ── DIVIDER LINE ──
-    ctx.strokeStyle = 'rgba(255,255,255,0.08)'; ctx.lineWidth = 1
-    ctx.beginPath(); ctx.moveTo(W * 0.46, 30); ctx.lineTo(W * 0.46, H - 30); ctx.stroke()
+    // ── VERTICAL DIVIDER ──
+    ctx.strokeStyle = 'rgba(255,255,255,0.05)'; ctx.lineWidth = 1
+    ctx.beginPath(); ctx.moveTo(COL_R - 16, 80); ctx.lineTo(COL_R - 16, H - 50); ctx.stroke()
 
-    // ── RIGHT: Score + verdict ──
-    const RX = W * 0.48
-
-    // Tier badge
-    ctx.fillStyle = colors[0] + '33'; ctx.strokeStyle = colors[0] + '66'; ctx.lineWidth = 1
-    ctx.beginPath(); (ctx as any).roundRect(RX, 28, 80, 26, 13); ctx.fill(); ctx.stroke()
-    ctx.fillStyle = '#fff'; ctx.font = 'bold 11px monospace'; ctx.textAlign = 'center'
-    ctx.fillText(otc.lbl, RX + 40, 45); ctx.textAlign = 'left'
-
+    // ── RIGHT COLUMN: Score + Verdict ──
     // Big score
-    ctx.fillStyle = '#fff'; ctx.font = 'bold 110px Arial'; ctx.textAlign = 'right'
-    ctx.fillText(String(result.overall_score ?? 0), W - PAD, 118)
-    ctx.font = '11px monospace'; ctx.fillStyle = 'rgba(255,255,255,0.35)'
-    ctx.fillText('ALPHA SCORE', W - PAD, 136); ctx.textAlign = 'left'
+    ctx.fillStyle = '#fff'; ctx.font = 'bold 96px Arial'; ctx.textAlign = 'right'
+    ctx.fillText(String(result.overall_score ?? 0), W - PAD, 150)
+    ctx.font = '10px monospace'; ctx.fillStyle = 'rgba(255,255,255,0.25)'; ctx.textAlign = 'right'
+    ctx.fillText('/100  ALPHA SCORE', W - PAD, 168); ctx.textAlign = 'left'
 
     // User badge
-    const UY = 168
+    const UY = 200
     const uImg = userPhoto ? await loadImg(userPhoto) : null
     if (uImg) {
-      ctx.save(); ctx.beginPath(); ctx.arc(RX + 18, UY, 16, 0, Math.PI * 2); ctx.clip()
-      ctx.drawImage(uImg, RX + 2, UY - 16, 32, 32); ctx.restore()
-      ctx.strokeStyle = 'rgba(255,255,255,0.5)'; ctx.lineWidth = 1.5
-      ctx.beginPath(); ctx.arc(RX + 18, UY, 16, 0, Math.PI * 2); ctx.stroke()
+      ctx.save(); ctx.beginPath(); ctx.arc(COL_R + 14, UY, 14, 0, Math.PI * 2); ctx.clip()
+      ctx.drawImage(uImg, COL_R, UY - 14, 28, 28); ctx.restore()
+      ctx.strokeStyle = 'rgba(255,255,255,0.2)'; ctx.lineWidth = 1
+      ctx.beginPath(); ctx.arc(COL_R + 14, UY, 14, 0, Math.PI * 2); ctx.stroke()
     } else {
-      ctx.fillStyle = colors[0]; ctx.beginPath(); ctx.arc(RX + 18, UY, 16, 0, Math.PI * 2); ctx.fill()
-      ctx.fillStyle = '#fff'; ctx.font = 'bold 12px Arial'; ctx.textAlign = 'center'
-      ctx.fillText((userName||'C').charAt(0).toUpperCase(), RX + 18, UY + 4); ctx.textAlign = 'left'
+      ctx.fillStyle = colors[0]; ctx.beginPath(); ctx.arc(COL_R + 14, UY, 14, 0, Math.PI * 2); ctx.fill()
+      ctx.fillStyle = '#fff'; ctx.font = 'bold 11px Arial'; ctx.textAlign = 'center'
+      ctx.fillText((userName||'C').charAt(0).toUpperCase(), COL_R + 14, UY + 4); ctx.textAlign = 'left'
     }
-    ctx.fillStyle = 'rgba(255,255,255,0.4)'; ctx.font = '10px Arial'
-    ctx.fillText('@' + (userName||'cmvng') + ' says', RX + 44, UY - 5)
-    ctx.fillStyle = '#fff'; ctx.font = 'bold 17px Arial'
-    ctx.fillText(otc.v, RX + 44, UY + 12)
+    ctx.fillStyle = 'rgba(255,255,255,0.3)'; ctx.font = '10px Arial'
+    ctx.fillText('@' + (userName||'cmvng') + ' says', COL_R + 38, UY - 4)
+    ctx.fillStyle = colors[0]; ctx.font = 'bold 16px Arial'
+    ctx.fillText(otc.v, COL_R + 38, UY + 14)
 
-    // Verdict box
-    const VBY = UY + 32, RW = W - RX - PAD
-    ctx.fillStyle = colors[0] + '22'
-    ctx.beginPath(); (ctx as any).roundRect(RX, VBY, RW, H - VBY - 36, 14); ctx.fill()
-    ctx.strokeStyle = colors[0] + '44'; ctx.lineWidth = 1
-    ctx.beginPath(); (ctx as any).roundRect(RX, VBY, RW, H - VBY - 36, 14); ctx.stroke()
-    ctx.fillStyle = '#fff'; ctx.font = 'bold 13px Arial'
-    wrap(result.verdict_action || result.verdict_reason || '', RX + 16, VBY + 28, RW - 32, 21, 8)
+    // Verdict reasoning box
+    const VBY = UY + 36
+    const VBW = W - COL_R - PAD
+    ctx.fillStyle = 'rgba(255,255,255,0.03)'
+    ctx.beginPath(); (ctx as any).roundRect(COL_R, VBY, VBW, H - VBY - 50, 12); ctx.fill()
+    ctx.strokeStyle = 'rgba(255,255,255,0.06)'; ctx.lineWidth = 1
+    ctx.beginPath(); (ctx as any).roundRect(COL_R, VBY, VBW, H - VBY - 50, 12); ctx.stroke()
+    ctx.fillStyle = 'rgba(255,255,255,0.6)'; ctx.font = '12px Arial'
+    wrap(result.verdict_action || result.verdict_reason || '', COL_R + 14, VBY + 22, VBW - 28, 19, 9)
 
     // Footer
-    ctx.fillStyle = 'rgba(255,255,255,0.2)'; ctx.font = '10px monospace'; ctx.textAlign = 'center'
-    ctx.fillText('CMV ALPHASCANNER  ·  cmv-alphascanner.vercel.app', W / 2, H - 14)
+    ctx.fillStyle = 'rgba(255,255,255,0.15)'; ctx.font = '9px monospace'; ctx.textAlign = 'center'
+    ctx.fillText('cmv-alphascanner.vercel.app', W / 2, H - 16)
     ctx.globalAlpha = 1
 
     const link = document.createElement('a')
@@ -1066,7 +1017,6 @@ export default function Home() {
   const fudPen = cmvScore?.fudPenalty ?? 0
   const msg = LOADING_MSGS[msgIdx]
 
-  // ── Good vs Bad vs Conclusion for bottom section ──
   const goodSides = result ? Object.entries(result.metrics || {})
     .filter(([,d]: any) => d.signal === 'bullish' && d.score >= 70)
     .sort(([,a]: any, [,b]: any) => b.score - a.score)
@@ -1079,319 +1029,981 @@ export default function Home() {
     .slice(0, 4)
     .map(([k, d]: any) => ({ key: k, label: k.replace(/_/g,' '), score: d.score, detail: d.detail || d.summary || '' })) : []
 
+  // Show landing page only when no result, not loading, no error, and NOT coming from feed
+  const showLanding = !result && !loading && !error
+
   return (
-    <div style={{ minHeight: '100vh', background: '#0a0a0f', fontFamily: "'Inter',sans-serif", color: '#fff' }}>
+    <div className="app-root">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&family=Inter:wght@300;400;500;600&display=swap');
-        *{box-sizing:border-box;margin:0;padding:0;}
-        @keyframes spin{to{transform:rotate(360deg)}}
-        @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-        @keyframes scan{0%{transform:translateX(-100%)}100%{transform:translateX(500%)}}
-        @keyframes pulse{0%,100%{opacity:0.4}50%{opacity:1}}
-        @keyframes shimmer{0%{background-position:-700px 0}100%{background-position:700px 0}}
-        @keyframes pop{0%{transform:scale(0.9);opacity:0}60%{transform:scale(1.02)}100%{transform:scale(1);opacity:1}}
-        @keyframes glow{0%,100%{box-shadow:0 0 20px rgba(22,163,74,0.15)}50%{box-shadow:0 0 40px rgba(22,163,74,0.3)}}
-        .nav-link{transition:color 0.2s;opacity:0.6;} .nav-link:hover{opacity:1;}
-        .scan-btn:hover{transform:translateY(-1px);box-shadow:0 8px 32px rgba(22,163,74,0.4);}
-        .scan-btn{transition:all 0.2s;}
-        .metric-card:hover{background:#1a1a2e!important;border-color:#2d2d4e!important;}
-        .metric-card{transition:all 0.15s;}
-        input:focus{outline:none;}
-        ::-webkit-scrollbar{width:4px;} ::-webkit-scrollbar-track{background:#0a0a0f;} ::-webkit-scrollbar-thumb{background:#2d2d4e;border-radius:2px;}
-        @media(max-width:640px){
-          .hero-grid{grid-template-columns:1fr!important;}
-          .result-grid{grid-template-columns:1fr!important;}
-          .metrics-grid{grid-template-columns:1fr!important;}
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+        :root {
+          --bg: #f8faf8;
+          --bg-2: #ffffff;
+          --bg-3: #f1f5f1;
+          --bg-card: #ffffff;
+          --border: #e2e8e4;
+          --border-2: #d1d9d3;
+          --text-1: #0f1a12;
+          --text-2: #2d3b30;
+          --text-3: #5a6b5e;
+          --text-4: #8a9b8e;
+          --green: #16a34a;
+          --green-light: #dcfce7;
+          --green-dark: #14532d;
+          --red: #dc2626;
+          --red-light: #fef2f2;
+          --amber: #d97706;
+          --amber-light: #fef3c7;
+          --font: 'Outfit', sans-serif;
+          --mono: 'JetBrains Mono', monospace;
+          --radius: 12px;
+          --radius-lg: 16px;
+          --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+          --shadow: 0 2px 8px rgba(0,0,0,0.06);
+          --shadow-lg: 0 8px 30px rgba(0,0,0,0.08);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        .app-root {
+          min-height: 100vh;
+          background: var(--bg);
+          font-family: var(--font);
+          color: var(--text-1);
+          -webkit-font-smoothing: antialiased;
+        }
+
+        /* ── NAV ── */
+        .nav {
+          background: rgba(248,250,248,0.85);
+          backdrop-filter: blur(20px) saturate(180%);
+          -webkit-backdrop-filter: blur(20px) saturate(180%);
+          border-bottom: 1px solid var(--border);
+          padding: 0 24px;
+          display: flex;
+          align-items: center;
+          height: 56px;
+          position: sticky;
+          top: 0;
+          z-index: 100;
+        }
+        .nav-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+        .nav-logo {
+          width: 28px; height: 28px;
+          background: var(--green);
+          border-radius: 7px;
+          display: flex; align-items: center; justify-content: center;
+        }
+        .nav-title { font-size: 15px; font-weight: 700; color: var(--text-1); letter-spacing: -0.3px; }
+        .nav-title span { color: var(--green); }
+        .nav-links { margin-left: auto; display: flex; align-items: center; gap: 2px; }
+        .nav-link {
+          font-family: var(--mono);
+          font-size: 11px;
+          color: var(--text-3);
+          text-decoration: none;
+          padding: 6px 12px;
+          border-radius: 6px;
+          transition: all 0.15s;
+        }
+        .nav-link:hover { color: var(--text-1); background: var(--bg-3); }
+        .nav-sep { width: 1px; height: 16px; background: var(--border); margin: 0 8px; }
+        .nav-profile {
+          display: flex; align-items: center; gap: 6px;
+          background: var(--bg-3);
+          border: 1px solid var(--border);
+          border-radius: 20px;
+          padding: 3px 10px 3px 4px;
+          cursor: pointer;
+          transition: all 0.15s;
+        }
+        .nav-profile:hover { border-color: var(--border-2); }
+        .nav-profile-img { width: 22px; height: 22px; border-radius: 50%; object-fit: cover; }
+        .nav-profile-fallback {
+          width: 22px; height: 22px; border-radius: 50%;
+          background: var(--green);
+          display: flex; align-items: center; justify-content: center;
+          font-size: 9px; font-weight: 700; color: #fff;
+        }
+
+        /* ── ANIMATIONS ── */
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes scan { 0% { transform: translateX(-100%); } 100% { transform: translateX(500%); } }
+        @keyframes pulse { 0%,100% { opacity: 0.4; } 50% { opacity: 1; } }
+        @keyframes shimmer { 0% { background-position: -700px 0; } 100% { background-position: 700px 0; } }
+        @keyframes pop { 0% { transform: scale(0.97); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes slideIn { from { opacity: 0; transform: translateX(-8px); } to { opacity: 1; transform: translateX(0); } }
+
+        .animate-in { animation: fadeUp 0.5s ease both; }
+
+        /* ── HERO ── */
+        .hero {
+          text-align: center;
+          padding: 72px 24px 48px;
+          position: relative;
+          overflow: hidden;
+        }
+        .hero::before {
+          content: '';
+          position: absolute;
+          top: -120px; left: 50%; transform: translateX(-50%);
+          width: 600px; height: 600px;
+          background: radial-gradient(circle, rgba(22,163,74,0.06) 0%, transparent 70%);
+          pointer-events: none;
+        }
+        .hero-badge {
+          display: inline-flex; align-items: center; gap: 6px;
+          background: var(--green-light);
+          border: 1px solid rgba(22,163,74,0.2);
+          border-radius: 20px;
+          padding: 5px 14px;
+          margin-bottom: 24px;
+        }
+        .hero-badge-dot {
+          width: 5px; height: 5px; border-radius: 50%;
+          background: var(--green);
+          animation: pulse 2s infinite;
+        }
+        .hero-badge-text {
+          font-family: var(--mono);
+          font-size: 10px;
+          color: var(--green-dark);
+          letter-spacing: 1.5px;
+          font-weight: 600;
+        }
+        .hero-title {
+          font-size: clamp(40px, 6vw, 72px);
+          font-weight: 900;
+          color: var(--text-1);
+          line-height: 1.0;
+          letter-spacing: -3px;
+          margin-bottom: 20px;
+        }
+        .hero-title span { color: var(--green); }
+        .hero-sub {
+          font-size: 16px;
+          color: var(--text-3);
+          line-height: 1.7;
+          max-width: 440px;
+          margin: 0 auto 40px;
+          font-weight: 400;
+        }
+        .hero-tags {
+          display: flex; justify-content: center; gap: 8px; flex-wrap: wrap;
+        }
+        .hero-tag {
+          font-family: var(--mono);
+          font-size: 10px;
+          color: var(--text-4);
+          background: var(--bg-2);
+          border: 1px solid var(--border);
+          border-radius: 20px;
+          padding: 5px 14px;
+        }
+
+        /* ── HOW IT WORKS ── */
+        .how-section {
+          max-width: 720px;
+          margin: 0 auto;
+          padding: 48px 0 0;
+          animation: fadeUp 0.6s ease both;
+          animation-delay: 0.3s;
+        }
+        .section-label {
+          font-family: var(--mono);
+          font-size: 10px;
+          font-weight: 600;
+          color: var(--text-4);
+          letter-spacing: 2px;
+          text-transform: uppercase;
+          margin-bottom: 16px;
+        }
+        .how-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 12px;
+        }
+        .how-card {
+          background: var(--bg-2);
+          border: 1px solid var(--border);
+          border-radius: var(--radius);
+          padding: 20px;
+          text-align: left;
+        }
+        .how-num {
+          font-family: var(--mono);
+          font-size: 10px;
+          font-weight: 700;
+          color: var(--green);
+          margin-bottom: 8px;
+        }
+        .how-title {
+          font-size: 14px;
+          font-weight: 700;
+          color: var(--text-1);
+          margin-bottom: 4px;
+        }
+        .how-desc {
+          font-size: 12px;
+          color: var(--text-3);
+          line-height: 1.5;
+        }
+
+        /* ── FEATURED ── */
+        .featured-section {
+          max-width: 720px;
+          margin: 0 auto;
+          padding: 40px 0 0;
+          animation: fadeUp 0.6s ease both;
+        }
+        .featured-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
+          gap: 8px;
+        }
+        .feat-card {
+          text-decoration: none;
+          display: block;
+          background: var(--bg-2);
+          border: 1px solid var(--border);
+          border-radius: var(--radius);
+          padding: 12px 14px;
+          transition: all 0.15s;
+        }
+        .feat-card:hover { border-color: var(--green); box-shadow: var(--shadow); }
+        .feat-card-inner { display: flex; align-items: center; gap: 10px; }
+        .feat-logo-wrap {
+          width: 36px; height: 36px; border-radius: 50%;
+          overflow: hidden; flex-shrink: 0;
+          background: var(--bg-3);
+          display: flex; align-items: center; justify-content: center;
+        }
+        .feat-logo { width: 100%; height: 100%; object-fit: cover; }
+        .feat-logo-letter { font-size: 14px; font-weight: 700; color: var(--text-3); }
+        .feat-name { font-size: 13px; font-weight: 600; color: var(--text-1); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .feat-meta { font-family: var(--mono); font-size: 10px; color: var(--text-4); margin-top: 1px; }
+        .feat-score-wrap { flex-shrink: 0; text-align: right; }
+        .feat-score { font-family: var(--mono); font-size: 18px; font-weight: 700; }
+
+        /* ── SEARCH BOX ── */
+        .search-box {
+          background: var(--bg-2);
+          border: 1px solid var(--border);
+          border-radius: var(--radius-lg);
+          padding: 14px;
+          margin-bottom: 14px;
+          box-shadow: var(--shadow-sm);
+        }
+        .search-row { display: flex; gap: 8px; }
+        .search-input {
+          flex: 1;
+          background: var(--bg-3);
+          border: 1.5px solid var(--border);
+          border-radius: 10px;
+          padding: 12px 16px;
+          font-size: 14px;
+          color: var(--text-1);
+          font-family: var(--mono);
+          transition: border-color 0.2s;
+          outline: none;
+        }
+        .search-input:focus { border-color: var(--green); }
+        .search-input::placeholder { color: var(--text-4); }
+        .search-btns { display: flex; gap: 8px; flex-shrink: 0; }
+        .btn-new {
+          background: var(--bg-3);
+          border: 1px solid var(--border);
+          border-radius: 10px;
+          padding: 12px 16px;
+          font-size: 13px;
+          font-weight: 600;
+          cursor: pointer;
+          color: var(--text-3);
+          font-family: var(--font);
+          white-space: nowrap;
+          transition: all 0.15s;
+        }
+        .btn-new:hover { border-color: var(--border-2); }
+        .btn-scan {
+          background: var(--green);
+          color: #fff;
+          border: none;
+          border-radius: 10px;
+          padding: 12px 24px;
+          font-size: 14px;
+          font-weight: 600;
+          cursor: pointer;
+          white-space: nowrap;
+          font-family: var(--font);
+          transition: all 0.2s;
+        }
+        .btn-scan:hover { background: #15803d; transform: translateY(-1px); box-shadow: 0 4px 16px rgba(22,163,74,0.3); }
+        .btn-scan:disabled { background: var(--bg-3); color: var(--text-4); cursor: not-allowed; transform: none; box-shadow: none; }
+        .search-hints {
+          font-family: var(--mono);
+          font-size: 10px;
+          color: var(--text-4);
+          margin-top: 10px;
+          display: flex; gap: 8px; align-items: center;
+        }
+        .search-hint-link {
+          font-family: var(--mono);
+          font-size: 10px;
+          color: var(--green);
+          background: none;
+          border: none;
+          cursor: pointer;
+          padding: 0;
+        }
+        .search-hint-link:hover { text-decoration: underline; }
+
+        /* ── LOADING ── */
+        .loading-card {
+          background: var(--bg-2);
+          border: 1px solid var(--border);
+          border-radius: var(--radius-lg);
+          padding: 24px;
+          margin-bottom: 14px;
+          position: relative;
+          overflow: hidden;
+        }
+        .loading-bar {
+          position: absolute; top: 0; left: 0; right: 0; height: 2px;
+          background: rgba(22,163,74,0.1);
+        }
+        .loading-bar-inner {
+          height: 100%;
+          background: linear-gradient(90deg, transparent, var(--green), transparent);
+          animation: scan 2s linear infinite;
+        }
+        .loading-row {
+          display: flex; align-items: center; gap: 14px; margin-bottom: 20px;
+        }
+        .loading-icon {
+          width: 44px; height: 44px; border-radius: 50%;
+          border: 1.5px solid rgba(22,163,74,0.3);
+          display: flex; align-items: center; justify-content: center;
+          flex-shrink: 0;
+        }
+        .loading-icon span { font-size: 18px; animation: spin 3s linear infinite; }
+        .loading-title { font-size: 14px; font-weight: 600; color: var(--text-1); margin-bottom: 3px; }
+        .loading-phase { font-family: var(--mono); font-size: 10px; color: var(--text-4); }
+        .loading-timer { font-family: var(--mono); font-size: 22px; font-weight: 700; color: var(--green); }
+        .loading-timer span { font-size: 11px; color: var(--text-4); }
+        .shimmer-bar {
+          height: 28px;
+          background: linear-gradient(90deg, var(--bg-3) 25%, var(--border) 50%, var(--bg-3) 75%);
+          background-size: 700px 100%;
+          animation: shimmer 1.8s infinite;
+          border-radius: 8px;
+          margin-bottom: 8px;
+        }
+
+        /* ── ERRORS ── */
+        .error-card {
+          background: var(--bg-2);
+          border: 1px solid var(--border);
+          border-radius: var(--radius);
+          padding: 20px;
+          margin-bottom: 14px;
+        }
+        .error-card.rate-limit { border-color: rgba(217,119,6,0.3); }
+        .error-card.fail { border-color: rgba(220,38,38,0.3); }
+
+        /* ── RESULT CARDS ── */
+        .card {
+          background: var(--bg-2);
+          border: 1px solid var(--border);
+          border-radius: var(--radius-lg);
+          padding: 20px;
+          margin-bottom: 10px;
+          box-shadow: var(--shadow-sm);
+        }
+        .card-label {
+          font-family: var(--mono);
+          font-size: 9px;
+          font-weight: 600;
+          color: var(--text-4);
+          letter-spacing: 1.5px;
+          text-transform: uppercase;
+          margin-bottom: 12px;
+        }
+
+        /* ── RED FLAGS ── */
+        .flags-card {
+          background: var(--red-light);
+          border: 1.5px solid rgba(220,38,38,0.2);
+          border-radius: var(--radius-lg);
+          padding: 18px;
+          margin-bottom: 10px;
+          animation: pop 0.4s ease;
+        }
+        .flag-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+        .flag-icon {
+          width: 32px; height: 32px; background: var(--red); border-radius: 8px;
+          display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+        }
+        .flag-title { font-size: 14px; font-weight: 700; color: var(--red); }
+        .flag-sub { font-family: var(--mono); font-size: 9px; color: rgba(220,38,38,0.6); }
+        .flag-penalty {
+          background: var(--red); border-radius: 8px; padding: 5px 10px; text-align: center;
+        }
+        .flag-penalty-num { font-size: 15px; font-weight: 800; color: #fff; }
+        .flag-penalty-label { font-family: var(--mono); font-size: 7px; color: rgba(255,255,255,0.7); }
+        .flag-item {
+          background: rgba(220,38,38,0.04);
+          border: 1px solid rgba(220,38,38,0.1);
+          border-left: 3px solid var(--red);
+          border-radius: 8px;
+          padding: 10px 14px;
+          margin-bottom: 6px;
+        }
+        .flag-item-label { font-size: 12px; font-weight: 600; color: var(--red); }
+        .flag-item-detail { font-size: 11px; color: var(--text-3); line-height: 1.5; margin-top: 3px; }
+
+        .clean-badge {
+          background: var(--green-light);
+          border: 1px solid rgba(22,163,74,0.15);
+          border-radius: 10px;
+          padding: 10px 14px;
+          margin-bottom: 10px;
+          display: flex; align-items: center; gap: 8px;
+        }
+        .clean-badge span { font-size: 12px; font-weight: 600; color: var(--green); }
+
+        /* ── VERDICT CARD ── */
+        .verdict-card {
+          border-radius: 20px;
+          padding: 24px;
+          margin-bottom: 10px;
+          position: relative;
+          overflow: hidden;
+          color: #fff;
+        }
+        .verdict-bg-circle {
+          position: absolute; border-radius: 50%; pointer-events: none;
+        }
+        .verdict-user-badge {
+          display: inline-flex; align-items: center; gap: 7px;
+          background: rgba(0,0,0,0.2);
+          border-radius: 20px;
+          padding: 4px 12px 4px 5px;
+          margin-bottom: 16px;
+        }
+        .verdict-user-img { width: 24px; height: 24px; border-radius: 50%; object-fit: cover; }
+        .verdict-user-fallback {
+          width: 24px; height: 24px; border-radius: 50%;
+          background: rgba(255,255,255,0.2);
+          display: flex; align-items: center; justify-content: center;
+          font-size: 10px; font-weight: 700; color: #fff;
+        }
+        .verdict-header { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px; }
+        .verdict-logo {
+          width: 48px; height: 48px; border-radius: 12px;
+          overflow: hidden; background: rgba(255,255,255,0.15);
+          display: flex; align-items: center; justify-content: center;
+          flex-shrink: 0; border: 1.5px solid rgba(255,255,255,0.2);
+        }
+        .verdict-logo img { width: 100%; height: 100%; object-fit: cover; }
+        .verdict-name { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; }
+        .verdict-ticker {
+          font-family: var(--mono); font-size: 10px;
+          background: rgba(0,0,0,0.2); padding: 2px 8px; border-radius: 4px;
+        }
+        .verdict-cat { font-family: var(--mono); font-size: 9px; color: rgba(255,255,255,0.5); }
+        .verdict-score { font-size: 48px; font-weight: 800; line-height: 1; }
+        .verdict-score-label { font-family: var(--mono); font-size: 7px; color: rgba(255,255,255,0.5); }
+        .verdict-tier { font-family: var(--mono); font-size: 9px; background: rgba(0,0,0,0.2); border-radius: 20px; padding: 2px 8px; display: inline-block; margin-top: 3px; }
+        .verdict-highlight {
+          background: rgba(0,0,0,0.15); border: 1px solid rgba(255,255,255,0.12);
+          border-radius: 20px; padding: 3px 10px; font-size: 11px; color: rgba(255,255,255,0.9);
+        }
+        .verdict-action-box { background: rgba(0,0,0,0.2); border-radius: 12px; padding: 14px 16px; margin-bottom: 16px; }
+        .verdict-action-title { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+        .verdict-action-text { font-size: 13px; color: rgba(255,255,255,0.85); line-height: 1.6; }
+        .verdict-btns { display: flex; gap: 8px; justify-content: flex-end; }
+        .verdict-btn {
+          display: flex; align-items: center; gap: 5px;
+          background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2);
+          border-radius: 20px; padding: 7px 14px; font-size: 12px; font-weight: 600;
+          color: #fff; cursor: pointer; font-family: var(--font); transition: all 0.15s;
+        }
+        .verdict-btn:hover { background: rgba(255,255,255,0.2); }
+
+        /* ── OVERVIEW GRID ── */
+        .overview-grid {
+          display: grid;
+          grid-template-columns: 120px 1fr;
+          gap: 10px;
+          margin-bottom: 10px;
+        }
+        .score-tower {
+          background: var(--bg-2);
+          border: 1px solid var(--border);
+          border-radius: var(--radius-lg);
+          padding: 16px;
+          display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
+        }
+        .score-tower-label { font-family: var(--mono); font-size: 8px; color: var(--text-4); letter-spacing: 1px; }
+        .score-tower-num { font-size: 48px; font-weight: 800; line-height: 1; }
+        .score-tower-tier { font-family: var(--mono); font-size: 9px; border-radius: 20px; padding: 2px 10px; display: inline-block; margin-top: 2px; }
+        .overview-info {
+          background: var(--bg-2);
+          border: 1px solid var(--border);
+          border-radius: var(--radius-lg);
+          padding: 16px;
+        }
+        .overview-name { font-size: 16px; font-weight: 700; color: var(--text-1); margin-bottom: 2px; }
+        .overview-token-live {
+          font-family: var(--mono); font-size: 9px; color: #3b82f6;
+          background: rgba(59,130,246,0.08); border: 1px solid rgba(59,130,246,0.15);
+          padding: 2px 7px; border-radius: 4px;
+        }
+        .overview-token-none {
+          font-family: var(--mono); font-size: 9px; color: var(--text-4);
+          background: var(--bg-3); padding: 2px 7px; border-radius: 4px;
+        }
+        .overview-desc { font-size: 13px; color: var(--text-3); line-height: 1.6; margin-bottom: 8px; }
+        .overview-hl {
+          font-size: 10px; background: var(--green-light); color: var(--green);
+          border: 1px solid rgba(22,163,74,0.12); border-radius: 20px; padding: 2px 8px;
+        }
+
+        /* ── ALPHA BREAKDOWN ── */
+        .breakdown-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+        .breakdown-col-label {
+          font-family: var(--mono); font-size: 9px; letter-spacing: 1px; margin-bottom: 10px; font-weight: 600;
+        }
+        .breakdown-item { margin-bottom: 10px; }
+        .breakdown-item-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 3px; }
+        .breakdown-item-label { font-size: 11px; font-weight: 600; color: var(--text-2); text-transform: capitalize; }
+        .breakdown-item-score { font-family: var(--mono); font-size: 11px; font-weight: 700; }
+        .breakdown-item-detail { font-size: 10px; color: var(--text-4); line-height: 1.5; }
+        .conclusion-box { border-radius: 10px; padding: 14px; }
+        .conclusion-label { font-family: var(--mono); font-size: 8px; letter-spacing: 1px; margin-bottom: 5px; font-weight: 600; }
+        .conclusion-text { font-size: 12px; color: var(--text-3); line-height: 1.65; }
+
+        /* ── TEAM CARDS ── */
+        .team-card {
+          background: var(--bg-3);
+          border: 1px solid var(--border);
+          border-radius: 10px;
+          padding: 12px 14px;
+          display: flex; align-items: flex-start; gap: 12px;
+        }
+        .team-avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 1px solid var(--border); }
+        .team-avatar-fallback {
+          width: 40px; height: 40px; border-radius: 50%;
+          background: var(--green-light); color: var(--green);
+          display: flex; align-items: center; justify-content: center;
+          font-family: var(--mono); font-size: 13px; font-weight: 700;
+        }
+        .team-name { font-size: 13px; font-weight: 600; color: var(--text-1); }
+        .tag-warn { font-family: var(--mono); font-size: 8px; color: var(--amber); background: var(--amber-light); border: 1px solid rgba(217,119,6,0.2); padding: 1px 6px; border-radius: 20px; }
+        .tag-ok { font-family: var(--mono); font-size: 8px; color: var(--green); background: var(--green-light); padding: 1px 6px; border-radius: 20px; }
+        .team-meta { font-family: var(--mono); font-size: 10px; color: var(--green); margin-bottom: 3px; }
+        .team-bg { font-size: 11px; color: var(--text-3); line-height: 1.5; }
+
+        /* ── MODAL ── */
+        .modal-overlay {
+          position: fixed; inset: 0;
+          background: rgba(0,0,0,0.4);
+          backdrop-filter: blur(4px);
+          z-index: 200;
+          display: flex; align-items: center; justify-content: center;
+          padding: 16px;
+        }
+        .modal {
+          background: var(--bg-2);
+          border: 1px solid var(--border);
+          border-radius: 20px;
+          padding: 28px;
+          width: 100%; max-width: 380px;
+          animation: fadeUp 0.3s ease;
+          box-shadow: var(--shadow-lg);
+        }
+        .modal-title { font-size: 16px; font-weight: 700; color: var(--text-1); margin-bottom: 4px; }
+        .modal-sub { font-family: var(--mono); font-size: 9px; color: var(--text-4); margin-bottom: 20px; }
+        .modal-avatar-btn {
+          width: 64px; height: 64px; border-radius: 50%;
+          background: var(--bg-3); border: 2px dashed var(--border);
+          display: flex; align-items: center; justify-content: center;
+          cursor: pointer; overflow: hidden; flex-shrink: 0;
+        }
+        .modal-avatar-btn img { width: 100%; height: 100%; object-fit: cover; }
+        .modal-input {
+          width: 100%; background: var(--bg-3); border: 1px solid var(--border);
+          border-radius: 8px; padding: 9px 12px; font-size: 13px;
+          color: var(--text-1); font-family: var(--font); outline: none;
+        }
+        .modal-input:focus { border-color: var(--green); }
+        .btn-cancel {
+          flex: 1; background: none; border: 1px solid var(--border);
+          border-radius: 10px; padding: 10px; font-size: 13px;
+          color: var(--text-3); cursor: pointer; font-family: var(--font);
+        }
+        .btn-save {
+          flex: 2; background: var(--green); border: none;
+          border-radius: 10px; padding: 10px; font-size: 13px;
+          font-weight: 700; color: #fff; cursor: pointer; font-family: var(--font);
+        }
+
+        /* ── EMPTY ── */
+        .empty-state {
+          border: 1px dashed var(--border);
+          border-radius: var(--radius-lg);
+          padding: 48px 24px;
+          text-align: center;
+        }
+        .empty-icon { font-size: 28px; margin-bottom: 10px; opacity: 0.4; }
+        .empty-title { font-size: 14px; font-weight: 600; color: var(--text-4); margin-bottom: 4px; }
+        .empty-desc { font-size: 12px; color: var(--text-4); }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 640px) {
+          .overview-grid { grid-template-columns: 1fr !important; }
+          .breakdown-grid { grid-template-columns: 1fr !important; }
+          .how-grid { grid-template-columns: 1fr !important; }
+          .search-row { flex-direction: column; }
+          .search-btns { width: 100%; }
+          .btn-scan { width: 100%; }
+          .btn-new { flex: 1; }
+          .verdict-header { flex-direction: column; }
         }
       `}</style>
 
       {/* ── NAV ── */}
-      <nav style={{ background: 'rgba(10,10,15,0.8)', backdropFilter: 'blur(20px)', borderBottom: '1px solid rgba(255,255,255,0.06)', padding: '0 24px', display: 'flex', alignItems: 'center', height: 58, position: 'sticky', top: 0, zIndex: 100 }}>
-        <a href="/" style={{ display: 'flex', alignItems: 'center', gap: 9, textDecoration: 'none' }}>
-          <div style={{ width: 30, height: 30, background: 'linear-gradient(135deg,#16a34a,#14532d)', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 000-1.41l-2.34-2.34a1 1 0 00-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" fill="#fff"/></svg>
+      <nav className="nav">
+        <a href="/" className="nav-brand">
+          <div className="nav-logo">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 000-1.41l-2.34-2.34a1 1 0 00-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" fill="#fff"/></svg>
           </div>
-          <span style={{ fontSize: 14, fontWeight: 700, color: '#fff', fontFamily: "'Syne',sans-serif", letterSpacing: -0.3 }}>CMV <span style={{ color: '#16a34a' }}>Alpha</span></span>
+          <span className="nav-title">CMV <span>Alpha</span></span>
         </a>
-        <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 4 }}>
+        <div className="nav-links">
           {[{href:'/',label:'Home'},{href:'/tierlist',label:'Tiers'},{href:'/feed',label:'Feed'}].map(({href,label}) => (
-            <a key={label} href={href} className="nav-link" style={{ fontFamily: "'DM Mono',monospace", fontSize: 10, color: '#fff', textDecoration: 'none', padding: '5px 10px', borderRadius: 6 }}>{label}</a>
+            <a key={label} href={href} className="nav-link">{label}</a>
           ))}
-          <div style={{ width: 1, height: 16, background: 'rgba(255,255,255,0.1)', margin: '0 6px' }} />
-          <button onClick={() => setShowProfileSetup(true)} style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 20, padding: '4px 10px 4px 5px', cursor: 'pointer' }}>
-            {userPhoto ? <img src={userPhoto} alt="" style={{ width: 20, height: 20, borderRadius: '50%', objectFit: 'cover' }} /> : <div style={{ width: 20, height: 20, borderRadius: '50%', background: '#16a34a', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 8, fontWeight: 700 }}>{userName?.charAt(0).toUpperCase() || '?'}</div>}
-            <span style={{ fontSize: 11, color: '#fff', fontFamily: "'DM Mono',monospace" }}>{userName || 'Profile'}</span>
+          <div className="nav-sep" />
+          <button onClick={() => setShowProfileSetup(true)} className="nav-profile">
+            {userPhoto ? <img src={userPhoto} alt="" className="nav-profile-img" /> : <div className="nav-profile-fallback">{userName?.charAt(0).toUpperCase() || '?'}</div>}
+            <span style={{ fontSize: 11, color: 'var(--text-2)', fontFamily: 'var(--mono)' }}>{userName || 'Profile'}</span>
           </button>
         </div>
       </nav>
 
       {/* ── PROFILE MODAL ── */}
       {showProfileSetup && (
-        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.7)', zIndex: 200, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 16 }}>
-          <div style={{ background: '#111117', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 20, padding: 28, width: '100%', maxWidth: 380, animation: 'fadeUp 0.3s ease' }}>
-            <div style={{ fontSize: 16, fontWeight: 700, color: '#fff', marginBottom: 4, fontFamily: "'Syne',sans-serif" }}>Your Alpha Profile</div>
-            <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#6b7280', marginBottom: 20 }}>Appears on every verdict card you share</div>
+        <div className="modal-overlay">
+          <div className="modal">
+            <div className="modal-title">Your Alpha Profile</div>
+            <div className="modal-sub">Appears on every verdict card you share</div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 20 }}>
-              <div onClick={() => fileRef.current?.click()} style={{ width: 64, height: 64, borderRadius: '50%', background: 'rgba(255,255,255,0.05)', border: '2px dashed rgba(255,255,255,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', overflow: 'hidden', flexShrink: 0 }}>
-                {tempPhoto ? <img src={tempPhoto} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12" stroke="#6b7280" strokeWidth="2" strokeLinecap="round"/></svg>}
+              <div onClick={() => fileRef.current?.click()} className="modal-avatar-btn">
+                {tempPhoto ? <img src={tempPhoto} alt="" /> : <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12" stroke="#9ca3af" strokeWidth="2" strokeLinecap="round"/></svg>}
               </div>
               <input ref={fileRef} type="file" accept="image/*" style={{ display: 'none' }} onChange={handlePhotoUpload} />
               <div style={{ flex: 1 }}>
-                <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#6b7280', letterSpacing: 1, marginBottom: 6 }}>YOUR HANDLE</div>
-                <input style={{ width: '100%', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, padding: '9px 12px', fontSize: 13, color: '#fff', fontFamily: 'inherit' }} placeholder="e.g. @cmvng" maxLength={20} value={tempName} onChange={e => setTempName(e.target.value)} />
+                <div style={{ fontFamily: 'var(--mono)', fontSize: 8, color: 'var(--text-4)', letterSpacing: 1, marginBottom: 6 }}>YOUR HANDLE</div>
+                <input className="modal-input" placeholder="e.g. @cmvng" maxLength={20} value={tempName} onChange={e => setTempName(e.target.value)} />
               </div>
             </div>
             <div style={{ display: 'flex', gap: 8 }}>
-              <button onClick={() => setShowProfileSetup(false)} style={{ flex: 1, background: 'none', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, padding: 10, fontSize: 13, color: '#6b7280', cursor: 'pointer', fontFamily: 'inherit' }}>Cancel</button>
-              <button onClick={() => { saveProfile(tempName, tempPhoto); setShowProfileSetup(false) }} style={{ flex: 2, background: '#16a34a', border: 'none', borderRadius: 10, padding: 10, fontSize: 13, fontWeight: 700, color: '#fff', cursor: 'pointer', fontFamily: 'inherit' }}>Save</button>
+              <button onClick={() => setShowProfileSetup(false)} className="btn-cancel">Cancel</button>
+              <button onClick={() => { saveProfile(tempName, tempPhoto); setShowProfileSetup(false) }} className="btn-save">Save</button>
             </div>
           </div>
         </div>
       )}
 
-      <div style={{ maxWidth: 860, margin: '0 auto', padding: '32px 20px 80px' }}>
+      <div style={{ maxWidth: 800, margin: '0 auto', padding: '0 20px 80px' }}>
 
-        {/* ── HERO ── */}
-        {!result && !loading && (
-          <div style={{ textAlign: 'center', padding: '52px 0 44px', animation: 'fadeUp 0.6s ease' }}>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: 'rgba(22,163,74,0.12)', border: '1px solid rgba(22,163,74,0.25)', borderRadius: 20, padding: '5px 14px', marginBottom: 24 }}>
-              <div style={{ width: 5, height: 5, borderRadius: '50%', background: '#16a34a', animation: 'pulse 2s infinite' }} />
-              <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 10, color: '#16a34a', letterSpacing: 1 }}>CRYPTO ALPHA INTELLIGENCE</span>
+        {/* ── HERO (only when no result) ── */}
+        {showLanding && (
+          <>
+            <div className="hero animate-in">
+              <div className="hero-badge">
+                <div className="hero-badge-dot" />
+                <span className="hero-badge-text">CRYPTO ALPHA INTELLIGENCE</span>
+              </div>
+              <h1 className="hero-title">
+                Know before<br /><span>you farm.</span>
+              </h1>
+              <p className="hero-sub">
+                Paste any crypto project's X handle. Get instant red flag detection, a verified alpha score, and a shareable verdict card.
+              </p>
+              <div className="hero-tags">
+                {['Red flag detection','17 metrics','AI-powered','Shareable cards','Live token data'].map(t => (
+                  <span key={t} className="hero-tag">{t}</span>
+                ))}
+              </div>
             </div>
-            <h1 style={{ fontSize: 'clamp(38px,5.5vw,68px)', fontWeight: 800, color: '#fff', lineHeight: 1.0, letterSpacing: -2, marginBottom: 18, fontFamily: "'Syne',sans-serif" }}>
-              Know before<br /><span style={{ color: '#16a34a' }}>you farm.</span>
-            </h1>
-            <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.5)', lineHeight: 1.7, maxWidth: 400, margin: '0 auto 36px' }}>
-              Paste any crypto project's X handle. Get instant red flag detection, a verified alpha score, and a shareable verdict card.
-            </p>
-            <div style={{ display: 'flex', justifyContent: 'center', gap: 8, flexWrap: 'wrap' as const }}>
-              {['Red flag detection','17 metrics','AI-powered','Shareable cards','Token data'].map(t => (
-                <span key={t} style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: 'rgba(255,255,255,0.4)', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 20, padding: '4px 12px' }}>{t}</span>
-              ))}
-            </div>
-          </div>
+          </>
         )}
 
         {/* ── SEARCH BOX ── */}
-        <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 16, padding: 16, marginBottom: 16, backdropFilter: 'blur(10px)' }}>
-          <div style={{ display: 'flex', gap: 8 }}>
+        <div className="search-box" style={showLanding ? {} : { marginTop: 24 }}>
+          <div className="search-row">
             <input
-              style={{ flex: 1, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, padding: '13px 16px', fontSize: 14, color: '#fff', fontFamily: "'DM Mono',monospace", transition: 'border-color 0.2s' }}
+              className="search-input"
               placeholder="@handle or https://x.com/handle"
               value={xUrl} onChange={e => setXUrl(e.target.value)}
               onKeyDown={e => e.key === 'Enter' && !loading && analyze()}
               disabled={loading}
-              onFocus={e => e.target.style.borderColor = 'rgba(22,163,74,0.5)'}
-              onBlur={e => e.target.style.borderColor = 'rgba(255,255,255,0.1)'}
             />
-            <div style={{ display: 'flex', gap: 8, flexShrink: 0 }}>
+            <div className="search-btns">
               {result && !loading && (
-                <button onClick={() => { setResult(null); setCgData(null); setXData(null); setXUrl(''); setSelectedTags([]) }}
-                  style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, padding: '13px 16px', fontSize: 13, fontWeight: 600, cursor: 'pointer', color: 'rgba(255,255,255,0.7)', fontFamily: 'inherit', whiteSpace: 'nowrap' as const }}>
+                <button onClick={() => { setResult(null); setCgData(null); setXData(null); setXUrl(''); setSelectedTags([]) }} className="btn-new">
                   + New Scan
                 </button>
               )}
-              <button className="scan-btn" onClick={analyze} disabled={loading || !xUrl.trim()}
-                style={{ background: loading || !xUrl.trim() ? 'rgba(255,255,255,0.06)' : '#16a34a', color: loading || !xUrl.trim() ? 'rgba(255,255,255,0.3)' : '#fff', border: 'none', borderRadius: 10, padding: '13px 24px', fontSize: 14, fontWeight: 600, cursor: loading || !xUrl.trim() ? 'not-allowed' : 'pointer', whiteSpace: 'nowrap' as const, fontFamily: "'Syne',sans-serif" }}>
-                {loading ? 'Scanning...' : 'Analyze →'}
+              <button className="btn-scan" onClick={analyze} disabled={loading || !xUrl.trim()}>
+                {loading ? 'Scanning...' : 'Analyze'}
               </button>
             </div>
           </div>
-          <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: 'rgba(255,255,255,0.25)', marginTop: 10, display: 'flex', gap: 8, alignItems: 'center' }}>
+          <div className="search-hints">
             <span>try:</span>
             {['eigenlayer','KaitoAI','hyperliquid'].map(ex => (
-              <button key={ex} onClick={() => setXUrl('https://x.com/' + ex)} style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#16a34a', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>@{ex}</button>
+              <button key={ex} onClick={() => setXUrl('https://x.com/' + ex)} className="search-hint-link">@{ex}</button>
             ))}
           </div>
         </div>
 
+        {/* ── HOW IT WORKS (landing only) ── */}
+        {showLanding && (
+          <>
+            <div className="how-section">
+              <div className="section-label">How It Works</div>
+              <div className="how-grid">
+                <div className="how-card">
+                  <div className="how-num">01</div>
+                  <div className="how-title">Paste a handle</div>
+                  <div className="how-desc">Drop any crypto project's X URL or handle into the search box.</div>
+                </div>
+                <div className="how-card">
+                  <div className="how-num">02</div>
+                  <div className="how-title">AI scans everything</div>
+                  <div className="how-desc">We pull data from X, DefiLlama, RootData, DexScreener, CoinGecko & CryptoNews.</div>
+                </div>
+                <div className="how-card">
+                  <div className="how-num">03</div>
+                  <div className="how-title">Get your verdict</div>
+                  <div className="how-desc">Receive a scored verdict card you can download and share on X.</div>
+                </div>
+              </div>
+            </div>
+            <FeaturedProjects />
+          </>
+        )}
+
         {/* ── LOADING ── */}
         {loading && (
-          <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 16, padding: 28, marginBottom: 16, position: 'relative', overflow: 'hidden' }}>
-            <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: 'rgba(22,163,74,0.15)' }}>
-              <div style={{ height: '100%', background: 'linear-gradient(90deg,transparent,#16a34a,transparent)', animation: 'scan 2s linear infinite' }} />
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 24 }}>
-              <div style={{ width: 48, height: 48, borderRadius: '50%', border: '1.5px solid rgba(22,163,74,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                <span style={{ fontSize: 20, animation: 'spin 3s linear infinite' }}>⚡</span>
-              </div>
+          <div className="loading-card">
+            <div className="loading-bar"><div className="loading-bar-inner" /></div>
+            <div className="loading-row">
+              <div className="loading-icon"><span>⚡</span></div>
               <div style={{ flex: 1 }}>
-                <div style={{ fontSize: 15, fontWeight: 600, color: '#fff', marginBottom: 4, fontFamily: "'Syne',sans-serif" }}>{msg.text}</div>
-                <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 10, color: 'rgba(255,255,255,0.35)' }}>{phase}</div>
+                <div className="loading-title">{msg.text}</div>
+                <div className="loading-phase">{phase}</div>
               </div>
-              <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 24, fontWeight: 800, color: '#16a34a' }}>{elapsed}<span style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)' }}>s</span></div>
+              <div className="loading-timer">{elapsed}<span>s</span></div>
             </div>
-            <div style={{ background: 'rgba(22,163,74,0.06)', borderRadius: 8, padding: '8px 12px', border: '1px solid rgba(22,163,74,0.1)', marginBottom: 12 }}>
-              <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 10, color: 'rgba(22,163,74,0.8)' }}>est. 15-30s · AI analysis running</div>
+            <div style={{ background: 'var(--green-light)', borderRadius: 8, padding: '7px 12px', border: '1px solid rgba(22,163,74,0.1)', marginBottom: 12 }}>
+              <div style={{ fontFamily: 'var(--mono)', fontSize: 10, color: 'var(--green)' }}>est. 15-30s · AI analysis running</div>
             </div>
-            {['100%','78%'].map((w,i) => <div key={i} style={{ height: 32, background: 'linear-gradient(90deg,rgba(255,255,255,0.03) 25%,rgba(255,255,255,0.06) 50%,rgba(255,255,255,0.03) 75%)', backgroundSize: '700px 100%', animation: 'shimmer 1.8s infinite', borderRadius: 8, marginBottom: 8, width: w }} />)}
+            <div className="shimmer-bar" style={{ width: '100%' }} />
+            <div className="shimmer-bar" style={{ width: '78%' }} />
           </div>
         )}
 
         {/* ── ERROR ── */}
         {error && !loading && (
-          <div style={{ background: error.startsWith('rate_limit') ? 'rgba(245,158,11,0.08)' : 'rgba(220,38,38,0.08)', border: `1px solid ${error.startsWith('rate_limit') ? 'rgba(245,158,11,0.2)' : 'rgba(220,38,38,0.2)'}`, borderRadius: 12, padding: '18px 20px', marginBottom: 14 }}>
+          <div className={`error-card ${error.startsWith('rate_limit') ? 'rate-limit' : 'fail'}`}>
             {error.startsWith('rate_limit') ? (
-              <><div style={{ fontSize: 13, fontWeight: 600, color: '#f59f00', marginBottom: 4 }}>⏳ High demand — retrying in {error.split(':')[1] || '65'}s</div><div style={{ height: 2, background: 'rgba(245,158,11,0.2)', borderRadius: 2 }}><div style={{ height: '100%', background: '#f59f00', borderRadius: 2, width: '60%' }} /></div></>
+              <>
+                <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--amber)', marginBottom: 4 }}>High demand — retrying in {error.split(':')[1] || '65'}s</div>
+                <div style={{ height: 2, background: 'var(--amber-light)', borderRadius: 2 }}><div style={{ height: '100%', background: 'var(--amber)', borderRadius: 2, width: '60%' }} /></div>
+              </>
             ) : error === 'not_crypto' ? (
-              <div style={{ textAlign: 'center' as const }}>
+              <div style={{ textAlign: 'center' }}>
                 <div style={{ fontSize: 28, marginBottom: 10 }}>🤔</div>
-                <div style={{ fontSize: 14, fontWeight: 700, color: '#fff', marginBottom: 6 }}>This doesn't look like a crypto project</div>
-                <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', marginBottom: 14, lineHeight: 1.6 }}>The X account you entered doesn't appear to be a Web3 or crypto project. Please paste the X link of a crypto project to scan.</div>
-                <button onClick={() => { setError(null); setXUrl('') }} style={{ fontSize: 12, padding: '8px 18px', borderRadius: 8, border: '1px solid rgba(255,255,255,0.15)', background: 'none', color: 'rgba(255,255,255,0.6)', cursor: 'pointer', fontFamily: 'inherit' }}>Try another project</button>
+                <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--text-1)', marginBottom: 6 }}>This doesn't look like a crypto project</div>
+                <div style={{ fontSize: 12, color: 'var(--text-3)', marginBottom: 14, lineHeight: 1.6 }}>The X account you entered doesn't appear to be a Web3 or crypto project. Please paste the X link of a crypto project to scan.</div>
+                <button onClick={() => { setError(null); setXUrl('') }} style={{ fontSize: 12, padding: '8px 18px', borderRadius: 8, border: '1px solid var(--border)', background: 'none', color: 'var(--text-3)', cursor: 'pointer', fontFamily: 'var(--font)' }}>Try another project</button>
               </div>
             ) : (
-              <><div style={{ fontSize: 13, fontWeight: 600, color: '#ef4444', marginBottom: 6 }}>⚠️ Scan failed</div><div style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', marginBottom: 10 }}>{error}</div><button onClick={analyze} style={{ fontSize: 12, padding: '6px 14px', borderRadius: 8, border: '1px solid rgba(220,38,38,0.3)', background: 'none', color: '#ef4444', cursor: 'pointer', fontFamily: 'inherit' }}>Try again</button></>
+              <>
+                <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--red)', marginBottom: 6 }}>Scan failed</div>
+                <div style={{ fontSize: 12, color: 'var(--text-3)', marginBottom: 10 }}>{error}</div>
+                <button onClick={analyze} style={{ fontSize: 12, padding: '6px 14px', borderRadius: 8, border: '1px solid rgba(220,38,38,0.2)', background: 'none', color: 'var(--red)', cursor: 'pointer', fontFamily: 'var(--font)' }}>Try again</button>
+              </>
             )}
           </div>
         )}
 
         {/* ── RESULTS ── */}
         {result && !loading && (
-          <div style={{ animation: 'fadeUp 0.4s ease' }}>
+          <div className="animate-in">
 
             {/* Red flags */}
             {redFlags.length > 0 && (
-              <div style={{ background: 'rgba(220,38,38,0.08)', border: '1.5px solid rgba(220,38,38,0.25)', borderRadius: 14, padding: '16px 18px', marginBottom: 12, animation: 'pop 0.4s ease' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
-                  <div style={{ width: 34, height: 34, background: '#dc2626', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" stroke="#fff" strokeWidth="2" strokeLinecap="round"/></svg>
+              <div className="flags-card">
+                <div className="flag-header">
+                  <div className="flag-icon">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" stroke="#fff" strokeWidth="2" strokeLinecap="round"/></svg>
                   </div>
                   <div style={{ flex: 1 }}>
-                    <div style={{ fontSize: 14, fontWeight: 700, color: '#ef4444', fontFamily: "'Syne',sans-serif" }}>🚨 {redFlags.length} Red Flag{redFlags.length > 1 ? 's' : ''} Detected</div>
-                    <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: 'rgba(239,68,68,0.7)' }}>Score penalised · Proceed with extreme caution</div>
+                    <div className="flag-title">{redFlags.length} Red Flag{redFlags.length > 1 ? 's' : ''} Detected</div>
+                    <div className="flag-sub">Score penalised · Proceed with extreme caution</div>
                   </div>
-                  <div style={{ background: '#dc2626', borderRadius: 8, padding: '5px 10px', textAlign: 'center' as const }}>
-                    <div style={{ fontSize: 15, fontWeight: 800, color: '#fff' }}>-{fudPen}</div>
-                    <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 7, color: 'rgba(255,255,255,0.7)' }}>PENALTY</div>
+                  <div className="flag-penalty">
+                    <div className="flag-penalty-num">-{fudPen}</div>
+                    <div className="flag-penalty-label">PENALTY</div>
                   </div>
                 </div>
                 {redFlags.map((f: any, i: number) => (
-                  <div key={i} style={{ background: 'rgba(220,38,38,0.06)', border: '1px solid rgba(220,38,38,0.15)', borderLeft: '3px solid #dc2626', borderRadius: 8, padding: '10px 14px', marginBottom: 8 }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 3 }}>
-                      <span style={{ fontSize: 11 }}>{f.type === 'dump' ? '📉' : f.type === 'exploit' ? '⚡' : f.type === 'shill' ? '🤥' : '⚠️'}</span>
-                      <span style={{ fontSize: 12, fontWeight: 600, color: '#ef4444', fontFamily: "'Syne',sans-serif" }}>{f.label}</span>
+                  <div key={i} className="flag-item">
+                    <div className="flag-item-label">
+                      {f.type === 'dump' ? '📉' : f.type === 'exploit' ? '⚡' : f.type === 'shill' ? '🤥' : '⚠️'} {f.label}
                     </div>
-                    <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.5)', lineHeight: 1.6 }}>{f.detail}</div>
+                    <div className="flag-item-detail">{f.detail}</div>
                   </div>
                 ))}
               </div>
             )}
 
             {redFlags.length === 0 && (
-              <div style={{ background: 'rgba(22,163,74,0.06)', border: '1px solid rgba(22,163,74,0.15)', borderRadius: 10, padding: '10px 14px', marginBottom: 12, display: 'flex', alignItems: 'center', gap: 8 }}>
+              <div className="clean-badge">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M22 11.08V12a10 10 0 11-5.93-9.14M22 4L12 14.01l-3-3" stroke="#16a34a" strokeWidth="2" strokeLinecap="round"/></svg>
-                <span style={{ fontSize: 12, fontWeight: 600, color: '#16a34a' }}>No red flags detected</span>
+                <span>No red flags detected</span>
               </div>
             )}
 
             {/* ── VERDICT CARD ── */}
-            <div style={{ background: otc.vbg, borderRadius: 20, padding: 24, marginBottom: 12, position: 'relative', overflow: 'hidden' }}>
-              <div style={{ position: 'absolute', top: -60, right: -60, width: 220, height: 220, borderRadius: '50%', background: 'rgba(255,255,255,0.06)', pointerEvents: 'none' }} />
-              <div style={{ position: 'absolute', bottom: -40, left: -40, width: 160, height: 160, borderRadius: '50%', background: 'rgba(0,0,0,0.1)', pointerEvents: 'none' }} />
+            <div className="verdict-card" style={{ background: otc.vbg }}>
+              <div className="verdict-bg-circle" style={{ top: -60, right: -60, width: 200, height: 200, background: 'rgba(255,255,255,0.06)' }} />
+              <div className="verdict-bg-circle" style={{ bottom: -40, left: -40, width: 140, height: 140, background: 'rgba(0,0,0,0.08)' }} />
 
-              {/* User badge */}
-              <div style={{ display: 'inline-flex', alignItems: 'center', gap: 7, background: 'rgba(0,0,0,0.2)', borderRadius: 20, padding: '4px 12px 4px 5px', marginBottom: 16 }}>
-                {userPhoto ? <img src={userPhoto} alt="" style={{ width: 24, height: 24, borderRadius: '50%', objectFit: 'cover' }} /> : <div style={{ width: 24, height: 24, borderRadius: '50%', background: 'rgba(255,255,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 10, fontWeight: 700, color: '#fff' }}>{userName?.charAt(0)?.toUpperCase() || 'C'}</div>}
+              <div className="verdict-user-badge">
+                {userPhoto ? <img src={userPhoto} alt="" className="verdict-user-img" /> : <div className="verdict-user-fallback">{userName?.charAt(0)?.toUpperCase() || 'C'}</div>}
                 <span style={{ fontSize: 12, fontWeight: 600, color: 'rgba(255,255,255,0.9)' }}>{userName || 'cmvng'} says {otc.v.toLowerCase()} {otc.emoji}</span>
               </div>
 
-              <div style={{ display: 'flex', alignItems: 'flex-start', gap: 14, marginBottom: 16 }}>
-                <div style={{ width: 52, height: 52, borderRadius: 13, overflow: 'hidden', background: 'rgba(255,255,255,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, border: '1.5px solid rgba(255,255,255,0.25)' }}>
+              <div className="verdict-header">
+                <div className="verdict-logo">
                   {(() => {
                     const imgUrl = xData?.profile_image_url || (xUrl ? `https://unavatar.io/twitter/${xUrl.replace('https://x.com/','').replace('@','').split('/')[0].trim()}` : null)
-                    return imgUrl ? <img src={imgUrl} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' as const }} onError={(e) => { (e.target as HTMLImageElement).style.display='none' }} /> : <span style={{ fontSize: 22, fontWeight: 800, color: '#fff' }}>{(result.project_name||'?').charAt(0).toUpperCase()}</span>
+                    return imgUrl ? <img src={imgUrl} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={(e) => { (e.target as HTMLImageElement).style.display='none' }} /> : <span style={{ fontSize: 20, fontWeight: 800, color: '#fff' }}>{(result.project_name||'?').charAt(0).toUpperCase()}</span>
                   })()}
                 </div>
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' as const, marginBottom: 3 }}>
-                    <span style={{ fontSize: 22, fontWeight: 800, color: '#fff', fontFamily: "'Syne',sans-serif" }}>{result.project_name}</span>
-                    {cgData?.token_live && cgData.ticker && <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 10, color: 'rgba(255,255,255,0.8)', background: 'rgba(0,0,0,0.2)', padding: '2px 8px', borderRadius: 5 }}>{cgData.ticker} {cgData.token_price}</span>}
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap', marginBottom: 3 }}>
+                    <span className="verdict-name">{result.project_name}</span>
+                    {cgData?.token_live && cgData.ticker && <span className="verdict-ticker">{cgData.ticker} {cgData.token_price}</span>}
                   </div>
-                  <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: 'rgba(255,255,255,0.5)' }}>{result.project_category}{result.team_location ? ' · ' + result.team_location : ''}</div>
+                  <div className="verdict-cat">{result.project_category}{result.team_location ? ' · ' + result.team_location : ''}</div>
                 </div>
-                <div style={{ textAlign: 'right' as const, flexShrink: 0 }}>
-                  <div style={{ fontSize: 52, fontWeight: 800, color: '#fff', lineHeight: 1, fontFamily: "'Syne',sans-serif" }}>{result.overall_score ?? 0}</div>
-                  <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 7, color: 'rgba(255,255,255,0.5)' }}>ALPHA SCORE</div>
-                  <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#fff', background: 'rgba(0,0,0,0.2)', borderRadius: 20, padding: '2px 8px', display: 'inline-block', marginTop: 3 }}>{otc.lbl}</div>
+                <div style={{ textAlign: 'right', flexShrink: 0 }}>
+                  <div className="verdict-score">{result.overall_score ?? 0}</div>
+                  <div className="verdict-score-label">ALPHA SCORE</div>
+                  <div className="verdict-tier">{otc.lbl}</div>
                 </div>
               </div>
 
               {goodHighlights.length > 0 && (
-                <div style={{ display: 'flex', flexWrap: 'wrap' as const, gap: 5, marginBottom: 14 }}>
-                  {goodHighlights.slice(0,3).map((h: string, i: number) => <div key={i} style={{ background: 'rgba(0,0,0,0.15)', border: '1px solid rgba(255,255,255,0.15)', borderRadius: 20, padding: '3px 10px', fontSize: 11, color: 'rgba(255,255,255,0.9)' }}>✓ {h}</div>)}
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginBottom: 14 }}>
+                  {goodHighlights.slice(0,3).map((h: string, i: number) => <div key={i} className="verdict-highlight">✓ {h}</div>)}
                 </div>
               )}
 
-              <div style={{ background: 'rgba(0,0,0,0.2)', borderRadius: 12, padding: '14px 16px', marginBottom: 16 }}>
-                <div style={{ fontSize: 13, fontWeight: 700, color: '#fff', fontFamily: "'Syne',sans-serif", marginBottom: 6 }}>{otc.v}</div>
-                <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.85)', lineHeight: 1.65 }}>{result.verdict_action || result.verdict_reason}</div>
+              <div className="verdict-action-box">
+                <div className="verdict-action-title">{otc.v}</div>
+                <div className="verdict-action-text">{result.verdict_action || result.verdict_reason}</div>
               </div>
 
-              <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end' }}>
-                <button onClick={downloadCard} style={{ display: 'flex', alignItems: 'center', gap: 5, background: 'rgba(255,255,255,0.12)', border: '1px solid rgba(255,255,255,0.2)', borderRadius: 20, padding: '7px 14px', fontSize: 12, fontWeight: 600, color: '#fff', cursor: 'pointer', fontFamily: 'inherit' }}>
+              <div className="verdict-btns">
+                <button onClick={downloadCard} className="verdict-btn">
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>Download
                 </button>
-                <button onClick={shareResult} style={{ display: 'flex', alignItems: 'center', gap: 5, background: 'rgba(255,255,255,0.12)', border: '1px solid rgba(255,255,255,0.2)', borderRadius: 20, padding: '7px 16px', fontSize: 12, fontWeight: 600, color: '#fff', cursor: 'pointer', fontFamily: 'inherit' }}>
+                <button onClick={shareResult} className="verdict-btn">
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13"/></svg>Share to X
                 </button>
               </div>
             </div>
 
             {/* ── SCORE + OVERVIEW ── */}
-            <div className="result-grid" style={{ display: 'grid', gridTemplateColumns: '140px 1fr', gap: 10, marginBottom: 10 }}>
-              <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 14, padding: 16, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
-                <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 7, color: 'rgba(255,255,255,0.3)', letterSpacing: 1 }}>ALPHA SCORE</div>
-                <div style={{ fontSize: 52, fontWeight: 800, color: otc.solid, lineHeight: 1, fontFamily: "'Syne',sans-serif" }}>{result.overall_score ?? 0}</div>
-                <div style={{ background: 'rgba(0,0,0,0.2)', border: `1px solid ${otc.solid}30`, borderRadius: 20, padding: '3px 10px', fontFamily: "'DM Mono',monospace", fontSize: 8, color: otc.solid }}>{otc.lbl}</div>
-                {xData?.cmv_score > 0 && <div style={{ background: 'rgba(255,255,255,0.04)', borderRadius: 8, padding: '6px 8px', width: '100%', textAlign: 'center' as const, marginTop: 4 }}><div style={{ fontFamily: "'DM Mono',monospace", fontSize: 7, color: 'rgba(255,255,255,0.3)' }}>CMV X</div><div style={{ fontSize: 16, fontWeight: 700, color: '#fff', fontFamily: "'Syne',sans-serif" }}>{xData.cmv_score}<span style={{ fontSize: 9, color: 'rgba(255,255,255,0.3)' }}>/1k</span></div></div>}
+            <div className="overview-grid">
+              <div className="score-tower">
+                <div className="score-tower-label">ALPHA SCORE</div>
+                <div className="score-tower-num" style={{ color: otc.solid }}>{result.overall_score ?? 0}</div>
+                <div className="score-tower-tier" style={{ background: otc.bg, color: otc.tc, border: `1px solid ${otc.border}` }}>{otc.lbl}</div>
+                {xData?.cmv_score > 0 && (
+                  <div style={{ background: 'var(--bg-3)', borderRadius: 8, padding: '6px 8px', width: '100%', textAlign: 'center', marginTop: 4 }}>
+                    <div style={{ fontFamily: 'var(--mono)', fontSize: 7, color: 'var(--text-4)' }}>CMV X</div>
+                    <div style={{ fontSize: 16, fontWeight: 700, color: 'var(--text-1)' }}>{xData.cmv_score}<span style={{ fontSize: 9, color: 'var(--text-4)' }}>/1k</span></div>
+                  </div>
+                )}
               </div>
-              <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 14, padding: 16 }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8, flexWrap: 'wrap' as const }}>
-                  <span style={{ fontSize: 16, fontWeight: 700, color: '#fff', fontFamily: "'Syne',sans-serif" }}>{result.project_name}</span>
-                  {cgData?.token_live && cgData.ticker ? <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#60a5fa', background: 'rgba(59,130,246,0.1)', border: '1px solid rgba(59,130,246,0.2)', padding: '2px 7px', borderRadius: 4 }}>{cgData.ticker} {cgData.token_price}</span> : <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: 'rgba(255,255,255,0.25)', background: 'rgba(255,255,255,0.04)', padding: '2px 7px', borderRadius: 4 }}>No Token</span>}
+              <div className="overview-info">
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4, flexWrap: 'wrap' }}>
+                  <span className="overview-name">{result.project_name}</span>
+                  {cgData?.token_live && cgData.ticker
+                    ? <span className="overview-token-live">{cgData.ticker} {cgData.token_price}</span>
+                    : <span className="overview-token-none">No Token</span>}
                 </div>
-                {result.team_location && <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: 'rgba(255,255,255,0.3)', marginBottom: 8 }}>📍 {result.team_location}{result.founded ? ' · Est. ' + result.founded : ''}</div>}
-                <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.5)', lineHeight: 1.65, marginBottom: 10 }}>{result.description}</div>
-                {goodHighlights.length > 0 && <div style={{ display: 'flex', flexWrap: 'wrap' as const, gap: 4 }}>{goodHighlights.map((h: string, i: number) => <span key={i} style={{ fontSize: 10, background: 'rgba(22,163,74,0.08)', color: '#16a34a', border: '1px solid rgba(22,163,74,0.15)', borderRadius: 20, padding: '2px 8px' }}>✓ {h}</span>)}</div>}
+                {result.team_location && <div style={{ fontFamily: 'var(--mono)', fontSize: 9, color: 'var(--text-4)', marginBottom: 6 }}>📍 {result.team_location}{result.founded ? ' · Est. ' + result.founded : ''}</div>}
+                <div className="overview-desc">{result.description}</div>
+                {goodHighlights.length > 0 && (
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+                    {goodHighlights.map((h: string, i: number) => <span key={i} className="overview-hl">✓ {h}</span>)}
+                  </div>
+                )}
               </div>
             </div>
 
             {/* WHY THIS SCORE */}
             {result.score_rationale && (
-              <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', borderLeft: '3px solid #16a34a', borderRadius: 0, padding: '12px 14px', marginBottom: 10 }}>
-                <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 7, color: '#16a34a', letterSpacing: 1, marginBottom: 4 }}>WHY THIS SCORE</div>
-                <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.5)', lineHeight: 1.7 }}>{result.score_rationale}</div>
+              <div className="card" style={{ borderLeft: '3px solid var(--green)', borderRadius: 0 }}>
+                <div className="card-label">WHY THIS SCORE</div>
+                <div style={{ fontSize: 12, color: 'var(--text-3)', lineHeight: 1.7 }}>{result.score_rationale}</div>
               </div>
             )}
 
-            {/* TOKEN + CONTRACTS */}
+            {/* TOKEN + DEEP INTEL */}
             {(result.token_data?.token_live || cgData?.token_live || result.post_tge_outlook || result.future_seasons) && (
-              <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 14, padding: 16, marginBottom: 10 }}>
-                <div style={{ fontSize: 12, fontWeight: 600, color: 'rgba(255,255,255,0.5)', marginBottom: 12, fontFamily: "'DM Mono',monospace", letterSpacing: 1 }}>DEEP INTEL</div>
+              <div className="card">
+                <div className="card-label">DEEP INTEL</div>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 8 }}>
-                  <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 8, padding: '10px 12px' }}>
-                    <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 7, color: 'rgba(255,255,255,0.3)', letterSpacing: 1, marginBottom: 5 }}>TOKEN STATUS</div>
+                  <div style={{ background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: 8, padding: '10px 12px' }}>
+                    <div style={{ fontFamily: 'var(--mono)', fontSize: 7, color: 'var(--text-4)', letterSpacing: 1, marginBottom: 5 }}>TOKEN STATUS</div>
                     {(result.token_data?.token_live || cgData?.token_live) ? (() => {
                       const td = result.token_data?.token_live ? result.token_data : cgData
-                      return <span style={{ background: 'rgba(22,163,74,0.12)', color: '#16a34a', border: '1px solid rgba(22,163,74,0.2)', borderRadius: 20, padding: '3px 10px', fontFamily: "'DM Mono',monospace", fontSize: 10, display: 'inline-flex', alignItems: 'center', gap: 5 }}><span style={{ width: 5, height: 5, borderRadius: '50%', background: '#16a34a', display: 'inline-block', animation: 'pulse 2s infinite' }} />{td.ticker} {td.token_price}</span>
-                    })() : <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 10, color: 'rgba(255,255,255,0.3)' }}>Not yet launched</span>}
+                      return <span style={{ background: 'var(--green-light)', color: 'var(--green)', border: '1px solid rgba(22,163,74,0.2)', borderRadius: 20, padding: '3px 10px', fontFamily: 'var(--mono)', fontSize: 10, display: 'inline-flex', alignItems: 'center', gap: 5 }}><span style={{ width: 5, height: 5, borderRadius: '50%', background: 'var(--green)', display: 'inline-block', animation: 'pulse 2s infinite' }} />{td.ticker} {td.token_price}</span>
+                    })() : <span style={{ fontFamily: 'var(--mono)', fontSize: 10, color: 'var(--text-4)' }}>Not yet launched</span>}
                   </div>
                   {(result.token_data?.token_live || cgData?.token_live) && result.post_tge_outlook && (
-                    <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 8, padding: '10px 12px' }}>
-                      <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 7, color: 'rgba(255,255,255,0.3)', letterSpacing: 1, marginBottom: 5 }}>TOKEN OUTLOOK</div>
-                      <div style={{ fontSize: 11, fontWeight: 600, color: result.post_tge_outlook?.includes('Poor') ? '#ef4444' : '#16a34a' }}>{result.post_tge_outlook}</div>
+                    <div style={{ background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: 8, padding: '10px 12px' }}>
+                      <div style={{ fontFamily: 'var(--mono)', fontSize: 7, color: 'var(--text-4)', letterSpacing: 1, marginBottom: 5 }}>TOKEN OUTLOOK</div>
+                      <div style={{ fontSize: 11, fontWeight: 600, color: result.post_tge_outlook?.includes('Poor') ? 'var(--red)' : 'var(--green)' }}>{result.post_tge_outlook}</div>
                     </div>
                   )}
                 </div>
-                {result.future_seasons && <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 8, padding: '10px 12px', marginBottom: 8 }}><div style={{ fontFamily: "'DM Mono',monospace", fontSize: 7, color: 'rgba(255,255,255,0.3)', letterSpacing: 1, marginBottom: 4 }}>RECENT COVERAGE</div><div style={{ fontSize: 11, color: 'rgba(255,255,255,0.5)', lineHeight: 1.5 }}>{result.future_seasons}</div></div>}
+                {result.future_seasons && (
+                  <div style={{ background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: 8, padding: '10px 12px', marginBottom: 8 }}>
+                    <div style={{ fontFamily: 'var(--mono)', fontSize: 7, color: 'var(--text-4)', letterSpacing: 1, marginBottom: 4 }}>RECENT COVERAGE</div>
+                    <div style={{ fontSize: 11, color: 'var(--text-3)', lineHeight: 1.5 }}>{result.future_seasons}</div>
+                  </div>
+                )}
                 {(xData?.enriched?.coinpaprika_contracts || []).length > 0 && (
-                  <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 8, padding: '10px 12px' }}>
-                    <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 7, color: 'rgba(255,255,255,0.3)', letterSpacing: 1, marginBottom: 6 }}>CONTRACT ADDRESSES</div>
+                  <div style={{ background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: 8, padding: '10px 12px' }}>
+                    <div style={{ fontFamily: 'var(--mono)', fontSize: 7, color: 'var(--text-4)', letterSpacing: 1, marginBottom: 6 }}>CONTRACT ADDRESSES</div>
                     {(xData?.enriched?.coinpaprika_contracts || []).map((c: any, i: number) => (
                       <div key={i} style={{ marginBottom: 3, display: 'flex', alignItems: 'center', gap: 6 }}>
-                        <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#16a34a', background: 'rgba(22,163,74,0.08)', padding: '1px 5px', borderRadius: 3 }}>{c.chain}</span>
-                        <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: 'rgba(255,255,255,0.3)' }}>{c.address.slice(0,8)}...{c.address.slice(-6)}</span>
+                        <span style={{ fontFamily: 'var(--mono)', fontSize: 8, color: 'var(--green)', background: 'var(--green-light)', padding: '1px 5px', borderRadius: 3 }}>{c.chain}</span>
+                        <span style={{ fontFamily: 'var(--mono)', fontSize: 9, color: 'var(--text-4)' }}>{c.address.slice(0,8)}...{c.address.slice(-6)}</span>
                       </div>
                     ))}
                   </div>
@@ -1401,63 +2013,60 @@ export default function Home() {
 
             {/* TEAM */}
             {result.team_members?.filter((m: any) => m.name?.length > 1).length > 0 && (
-              <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 14, padding: 14, marginBottom: 10 }}>
-                <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 7, color: 'rgba(255,255,255,0.3)', letterSpacing: 1, marginBottom: 10 }}>TEAM</div>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(200px,1fr))', gap: 8 }}>
+              <div className="card">
+                <div className="card-label">TEAM</div>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 8 }}>
                   {result.team_members.filter((m: any) => m.name?.length > 1).map((m: any, i: number) => <TeamCardEnriched key={i} member={m} />)}
                 </div>
               </div>
             )}
 
-            {/* ── GOOD vs BAD vs CONCLUSION ── */}
-            <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 14, padding: 16, marginBottom: 10 }}>
-              <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 7, color: 'rgba(255,255,255,0.3)', letterSpacing: 1, marginBottom: 14 }}>ALPHA BREAKDOWN</div>
+            {/* ── ALPHA BREAKDOWN ── */}
+            <div className="card">
+              <div className="card-label">ALPHA BREAKDOWN</div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 12 }}>
-                {/* Good sides */}
+              <div className="breakdown-grid">
                 <div>
-                  <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#16a34a', letterSpacing: 1, marginBottom: 8 }}>WHAT'S WORKING ✓</div>
+                  <div className="breakdown-col-label" style={{ color: 'var(--green)' }}>WHAT'S WORKING</div>
                   {goodSides.length > 0 ? goodSides.map((g: any, i: number) => (
-                    <div key={i} style={{ marginBottom: 8 }}>
-                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 3 }}>
-                        <span style={{ fontSize: 11, fontWeight: 600, color: 'rgba(255,255,255,0.7)', textTransform: 'capitalize' as const }}>{g.label}</span>
-                        <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 10, color: '#16a34a', fontWeight: 700 }}>{g.score}</span>
+                    <div key={i} className="breakdown-item">
+                      <div className="breakdown-item-header">
+                        <span className="breakdown-item-label">{g.label}</span>
+                        <span className="breakdown-item-score" style={{ color: 'var(--green)' }}>{g.score}</span>
                       </div>
-                      {g.detail && <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.35)', lineHeight: 1.5 }}>{g.detail}</div>}
+                      {g.detail && <div className="breakdown-item-detail">{g.detail}</div>}
                     </div>
-                  )) : <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.25)' }}>No strong positives found</div>}
+                  )) : <div style={{ fontSize: 11, color: 'var(--text-4)' }}>No strong positives found</div>}
                 </div>
 
-                {/* Bad sides */}
                 <div>
-                  <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#ef4444', letterSpacing: 1, marginBottom: 8 }}>WATCH OUT ✗</div>
+                  <div className="breakdown-col-label" style={{ color: 'var(--red)' }}>WATCH OUT</div>
                   {badSides.length > 0 ? badSides.map((b: any, i: number) => (
-                    <div key={i} style={{ marginBottom: 8 }}>
-                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 3 }}>
-                        <span style={{ fontSize: 11, fontWeight: 600, color: 'rgba(255,255,255,0.7)', textTransform: 'capitalize' as const }}>{b.label}</span>
-                        <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 10, color: '#ef4444', fontWeight: 700 }}>{b.score}</span>
+                    <div key={i} className="breakdown-item">
+                      <div className="breakdown-item-header">
+                        <span className="breakdown-item-label">{b.label}</span>
+                        <span className="breakdown-item-score" style={{ color: 'var(--red)' }}>{b.score}</span>
                       </div>
-                      {b.detail && <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.35)', lineHeight: 1.5 }}>{b.detail}</div>}
+                      {b.detail && <div className="breakdown-item-detail">{b.detail}</div>}
                     </div>
-                  )) : <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.25)' }}>No major concerns</div>}
+                  )) : <div style={{ fontSize: 11, color: 'var(--text-4)' }}>No major concerns</div>}
                 </div>
               </div>
 
-              {/* Conclusion */}
-              <div style={{ background: `linear-gradient(135deg,${otc.solid}15,transparent)`, border: `1px solid ${otc.solid}25`, borderRadius: 10, padding: '12px 14px' }}>
-                <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 7, color: otc.solid, letterSpacing: 1, marginBottom: 5 }}>CONCLUSION</div>
-                <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.7)', lineHeight: 1.65 }}>{result.score_rationale || result.verdict_reason}</div>
+              <div className="conclusion-box" style={{ background: `linear-gradient(135deg, ${otc.solid}0a, transparent)`, border: `1px solid ${otc.solid}18` }}>
+                <div className="conclusion-label" style={{ color: otc.solid }}>CONCLUSION</div>
+                <div className="conclusion-text">{result.score_rationale || result.verdict_reason}</div>
               </div>
             </div>
 
           </div>
         )}
 
-        {!loading && !result && !error && (
-          <div style={{ border: '1px dashed rgba(255,255,255,0.08)', borderRadius: 14, padding: '48px 24px', textAlign: 'center' as const }}>
-            <div style={{ fontSize: 28, marginBottom: 10, opacity: 0.4 }}>🔭</div>
-            <div style={{ fontSize: 14, fontWeight: 600, color: 'rgba(255,255,255,0.3)', marginBottom: 4, fontFamily: "'Syne',sans-serif" }}>No project scanned yet</div>
-            <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.2)' }}>Paste any crypto project X URL or handle above.</div>
+        {!loading && !result && !error && !showLanding && (
+          <div className="empty-state">
+            <div className="empty-icon">🔭</div>
+            <div className="empty-title">No project scanned yet</div>
+            <div className="empty-desc">Paste any crypto project X URL or handle above.</div>
           </div>
         )}
       </div>
