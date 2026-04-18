@@ -938,175 +938,179 @@ export default function Home() {
       if (line.trim()) ctx.fillText(line.trim(), x, lY)
     }
 
-    // ── BACKGROUND: deep dark with subtle texture ──
-    const bg = ctx.createLinearGradient(0, 0, W, H)
-    bg.addColorStop(0, '#080b12'); bg.addColorStop(0.5, '#0c1018'); bg.addColorStop(1, '#080b12')
-    ctx.fillStyle = bg; ctx.fillRect(0, 0, W, H)
+    // ── BACKGROUND: clean light with green accent ──
+    ctx.fillStyle = '#f8faf8'
+    ctx.fillRect(0, 0, W, H)
 
-    // Accent strip — left edge
-    const accentGrad = ctx.createLinearGradient(0, 0, 0, H)
-    accentGrad.addColorStop(0, colors[0]); accentGrad.addColorStop(1, colors[0] + '44')
-    ctx.fillStyle = accentGrad
-    ctx.fillRect(0, 0, 5, H)
+    // Top accent bar
+    const topBar = ctx.createLinearGradient(0, 0, W, 0)
+    topBar.addColorStop(0, colors[0]); topBar.addColorStop(1, colors[0] + 'cc')
+    ctx.fillStyle = topBar
+    ctx.fillRect(0, 0, W, 5)
 
-    // Subtle dot grid
-    ctx.save(); ctx.globalAlpha = 0.03; ctx.fillStyle = '#fff'
-    for (let x = 30; x < W; x += 28) {
-      for (let y = 30; y < H; y += 28) {
-        ctx.beginPath(); ctx.arc(x, y, 0.5, 0, Math.PI * 2); ctx.fill()
-      }
-    }
+    // Subtle grid
+    ctx.save(); ctx.globalAlpha = 0.02; ctx.strokeStyle = '#16a34a'
+    for (let x = 0; x < W; x += 40) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.lineWidth = 0.5; ctx.stroke() }
+    for (let y = 0; y < H; y += 40) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.lineWidth = 0.5; ctx.stroke() }
     ctx.restore()
 
-    // Large faded score watermark
-    ctx.save(); ctx.globalAlpha = 0.03; ctx.fillStyle = '#fff'
-    ctx.font = 'bold 380px Arial'; ctx.textAlign = 'right'
-    ctx.fillText(String(result.overall_score ?? 0), W + 10, 400)
-    ctx.restore()
+    const PAD = 44
+    const MID = W * 0.54
 
-    const PAD = 48
-    const COL_R = W * 0.52
-
-    // ── TOP BAR ──
-    // Tier badge
-    ctx.fillStyle = colors[0] + '20'
-    ctx.beginPath(); (ctx as any).roundRect(PAD, 32, 100, 30, 15); ctx.fill()
-    ctx.strokeStyle = colors[0] + '55'; ctx.lineWidth = 1
-    ctx.beginPath(); (ctx as any).roundRect(PAD, 32, 100, 30, 15); ctx.stroke()
-    ctx.fillStyle = colors[0]; ctx.font = 'bold 12px Arial'; ctx.textAlign = 'center'
-    ctx.fillText(otc.lbl, PAD + 50, 52); ctx.textAlign = 'left'
-
-    // CMV branding top-right
-    ctx.fillStyle = 'rgba(255,255,255,0.2)'; ctx.font = '10px monospace'; ctx.textAlign = 'right'
-    ctx.fillText('CMV ALPHASCANNER', W - PAD, 52); ctx.textAlign = 'left'
-
-    // ── LEFT COLUMN ──
-    const LOGO_Y = 82
-    const LOGO_R = 34
+    // ── LEFT SIDE ──
+    const LOGO_R = 36
+    const LOGO_X = PAD + LOGO_R
+    const LOGO_CY = 44 + LOGO_R
     const pfpImg = await loadImg(logoSources[0] || '', logoSources.slice(1))
     if (pfpImg) {
-      ctx.save(); ctx.beginPath(); ctx.arc(PAD + LOGO_R, LOGO_Y + LOGO_R, LOGO_R, 0, Math.PI * 2); ctx.clip()
-      ctx.drawImage(pfpImg, PAD, LOGO_Y, LOGO_R * 2, LOGO_R * 2); ctx.restore()
-      ctx.strokeStyle = 'rgba(255,255,255,0.15)'; ctx.lineWidth = 2
-      ctx.beginPath(); ctx.arc(PAD + LOGO_R, LOGO_Y + LOGO_R, LOGO_R, 0, Math.PI * 2); ctx.stroke()
+      ctx.fillStyle = '#fff'
+      ctx.beginPath(); ctx.arc(LOGO_X, LOGO_CY, LOGO_R + 3, 0, Math.PI * 2); ctx.fill()
+      ctx.save(); ctx.beginPath(); ctx.arc(LOGO_X, LOGO_CY, LOGO_R, 0, Math.PI * 2); ctx.clip()
+      ctx.drawImage(pfpImg, LOGO_X - LOGO_R, LOGO_CY - LOGO_R, LOGO_R * 2, LOGO_R * 2); ctx.restore()
+      ctx.strokeStyle = '#e2e8e4'; ctx.lineWidth = 2
+      ctx.beginPath(); ctx.arc(LOGO_X, LOGO_CY, LOGO_R + 3, 0, Math.PI * 2); ctx.stroke()
     } else {
-      ctx.fillStyle = colors[0] + '44'
-      ctx.beginPath(); ctx.arc(PAD + LOGO_R, LOGO_Y + LOGO_R, LOGO_R, 0, Math.PI * 2); ctx.fill()
-      ctx.fillStyle = '#fff'; ctx.font = 'bold 26px Arial'; ctx.textAlign = 'center'
-      ctx.fillText((result.project_name||'?').charAt(0).toUpperCase(), PAD + LOGO_R, LOGO_Y + LOGO_R + 9); ctx.textAlign = 'left'
+      ctx.fillStyle = colors[0] + '15'
+      ctx.beginPath(); ctx.arc(LOGO_X, LOGO_CY, LOGO_R, 0, Math.PI * 2); ctx.fill()
+      ctx.strokeStyle = colors[0] + '30'; ctx.lineWidth = 2
+      ctx.beginPath(); ctx.arc(LOGO_X, LOGO_CY, LOGO_R, 0, Math.PI * 2); ctx.stroke()
+      ctx.fillStyle = colors[0]; ctx.font = 'bold 28px Arial'; ctx.textAlign = 'center'
+      ctx.fillText((result.project_name||'?').charAt(0).toUpperCase(), LOGO_X, LOGO_CY + 10); ctx.textAlign = 'left'
     }
 
-    // Project name — next to logo
-    const nameX = PAD + LOGO_R * 2 + 16
-    ctx.fillStyle = '#fff'; ctx.font = 'bold 30px Arial'
-    ctx.fillText((result.project_name||'').slice(0, 20), nameX, LOGO_Y + 24)
+    const nameX = PAD + LOGO_R * 2 + 20
+    ctx.fillStyle = '#0f1a12'; ctx.font = 'bold 28px Arial'
+    ctx.fillText((result.project_name||'').slice(0, 22), nameX, 62)
 
-    // Category line
-    const metaLine = [result.project_category, result.team_location].filter(Boolean).join(' · ')
-    ctx.fillStyle = 'rgba(255,255,255,0.4)'; ctx.font = '13px Arial'
-    ctx.fillText(metaLine.slice(0, 45), nameX, LOGO_Y + 46)
+    const metaLine = [result.project_category, result.team_location].filter(Boolean).join(' \xb7 ')
+    ctx.fillStyle = '#5a6b5e'; ctx.font = '12px Arial'
+    ctx.fillText(metaLine.slice(0, 50), nameX, 82)
 
-    // Token pill
     if (cgData?.token_live && cgData.ticker) {
       const tok = cgData.ticker + '  ' + (cgData.token_price || '')
-      ctx.font = 'bold 11px monospace'
-      const tw = ctx.measureText(tok).width + 18
-      ctx.fillStyle = 'rgba(22,163,74,0.2)'; ctx.strokeStyle = 'rgba(22,163,74,0.4)'; ctx.lineWidth = 1
-      ctx.beginPath(); (ctx as any).roundRect(nameX, LOGO_Y + 54, tw, 20, 10); ctx.fill(); ctx.stroke()
-      ctx.fillStyle = '#4ade80'; ctx.fillText(tok, nameX + 9, LOGO_Y + 68)
+      ctx.font = 'bold 10px monospace'
+      const tw = ctx.measureText(tok).width + 16
+      ctx.fillStyle = '#dcfce7'; ctx.strokeStyle = '#86efac'; ctx.lineWidth = 1
+      ctx.beginPath(); (ctx as any).roundRect(nameX, 90, tw, 20, 10); ctx.fill(); ctx.stroke()
+      ctx.fillStyle = '#15803d'; ctx.fillText(tok, nameX + 8, 104)
     }
 
-    // Divider
-    const DIV_Y = LOGO_Y + 86
-    ctx.strokeStyle = 'rgba(255,255,255,0.06)'; ctx.lineWidth = 1
-    ctx.beginPath(); ctx.moveTo(PAD, DIV_Y); ctx.lineTo(COL_R - 20, DIV_Y); ctx.stroke()
+    const badgeY = 126
+    ctx.fillStyle = colors[0] + '12'
+    ctx.beginPath(); (ctx as any).roundRect(PAD, badgeY, 100, 28, 14); ctx.fill()
+    ctx.strokeStyle = colors[0] + '30'; ctx.lineWidth = 1
+    ctx.beginPath(); (ctx as any).roundRect(PAD, badgeY, 100, 28, 14); ctx.stroke()
+    ctx.fillStyle = colors[0]; ctx.font = 'bold 11px Arial'; ctx.textAlign = 'center'
+    ctx.fillText(otc.lbl, PAD + 50, badgeY + 18); ctx.textAlign = 'left'
+    if (flagCount > 0) {
+      ctx.font = 'bold 10px Arial'
+      const fl = flagCount + ' red flag' + (flagCount > 1 ? 's' : '')
+      const fw = ctx.measureText(fl).width + 20
+      ctx.fillStyle = '#fef2f2'; ctx.strokeStyle = '#fecaca'; ctx.lineWidth = 1
+      ctx.beginPath(); (ctx as any).roundRect(PAD + 110, badgeY, fw, 28, 14); ctx.fill(); ctx.stroke()
+      ctx.fillStyle = '#dc2626'; ctx.fillText(fl, PAD + 120, badgeY + 18)
+    }
 
-    // Description
-    ctx.fillStyle = 'rgba(255,255,255,0.5)'; ctx.font = '13px Arial'
-    wrap(result.description || '', PAD, DIV_Y + 22, COL_R - PAD - 40, 20, 3)
+    ctx.fillStyle = '#2d3b30'; ctx.font = '13px Arial'
+    wrap(result.description || '', PAD, 176, MID - PAD - 30, 19, 3)
 
-    // Highlights
-    let hlY = DIV_Y + 84
+    let hlY = 240
     highlights.forEach((h: string) => {
-      const label = '✓  ' + (h.length > 46 ? h.slice(0,44)+'…' : h)
+      const label = '\u2713  ' + (h.length > 42 ? h.slice(0,40)+'...' : h)
       ctx.font = 'bold 11px Arial'
-      const pw = Math.min(ctx.measureText(label).width + 20, COL_R - PAD - 40)
-      ctx.fillStyle = 'rgba(22,163,74,0.1)'
+      const pw = Math.min(ctx.measureText(label).width + 18, MID - PAD - 30)
+      ctx.fillStyle = '#dcfce7'
       ctx.beginPath(); (ctx as any).roundRect(PAD, hlY, pw, 24, 12); ctx.fill()
-      ctx.fillStyle = '#4ade80'; ctx.fillText(label, PAD + 10, hlY + 16)
+      ctx.fillStyle = '#15803d'; ctx.fillText(label, PAD + 9, hlY + 16)
       hlY += 30
     })
 
-    // Red flags badge
-    if (flagCount > 0) {
-      ctx.font = 'bold 11px Arial'
-      const fl = flagCount + ' red flag' + (flagCount > 1 ? 's' : '') + ' detected'
-      const fw = ctx.measureText(fl).width + 24
-      ctx.fillStyle = 'rgba(220,38,38,0.2)'
-      ctx.beginPath(); (ctx as any).roundRect(PAD, hlY + 4, fw, 24, 12); ctx.fill()
-      ctx.fillStyle = '#f87171'; ctx.fillText(fl, PAD + 12, hlY + 20)
-    }
-
-    // ── VERTICAL DIVIDER ──
-    ctx.strokeStyle = 'rgba(255,255,255,0.05)'; ctx.lineWidth = 1
-    ctx.beginPath(); ctx.moveTo(COL_R - 10, 75); ctx.lineTo(COL_R - 10, H - 44); ctx.stroke()
-
-    // ── RIGHT COLUMN ──
-    // Big score
-    ctx.fillStyle = '#fff'; ctx.font = 'bold 88px Arial'; ctx.textAlign = 'right'
-    ctx.fillText(String(result.overall_score ?? 0), W - PAD, 140)
-    ctx.font = '10px monospace'; ctx.fillStyle = 'rgba(255,255,255,0.25)'; ctx.textAlign = 'right'
-    ctx.fillText('/100  ALPHA SCORE', W - PAD, 158); ctx.textAlign = 'left'
-
-    // User badge
-    const UY = 188
+    const UBY = H - 80
     const uImg = userPhoto ? await loadImg(userPhoto) : null
     if (uImg) {
-      ctx.save(); ctx.beginPath(); ctx.arc(COL_R + 14, UY, 14, 0, Math.PI * 2); ctx.clip()
-      ctx.drawImage(uImg, COL_R, UY - 14, 28, 28); ctx.restore()
-      ctx.strokeStyle = 'rgba(255,255,255,0.2)'; ctx.lineWidth = 1
-      ctx.beginPath(); ctx.arc(COL_R + 14, UY, 14, 0, Math.PI * 2); ctx.stroke()
+      ctx.save(); ctx.beginPath(); ctx.arc(PAD + 16, UBY, 16, 0, Math.PI * 2); ctx.clip()
+      ctx.drawImage(uImg, PAD, UBY - 16, 32, 32); ctx.restore()
+      ctx.strokeStyle = '#e2e8e4'; ctx.lineWidth = 1.5
+      ctx.beginPath(); ctx.arc(PAD + 16, UBY, 16, 0, Math.PI * 2); ctx.stroke()
     } else {
-      ctx.fillStyle = colors[0]; ctx.beginPath(); ctx.arc(COL_R + 14, UY, 14, 0, Math.PI * 2); ctx.fill()
-      ctx.fillStyle = '#fff'; ctx.font = 'bold 11px Arial'; ctx.textAlign = 'center'
-      ctx.fillText((userName||'C').charAt(0).toUpperCase(), COL_R + 14, UY + 4); ctx.textAlign = 'left'
+      ctx.fillStyle = colors[0]; ctx.beginPath(); ctx.arc(PAD + 16, UBY, 16, 0, Math.PI * 2); ctx.fill()
+      ctx.fillStyle = '#fff'; ctx.font = 'bold 12px Arial'; ctx.textAlign = 'center'
+      ctx.fillText((userName||'C').charAt(0).toUpperCase(), PAD + 16, UBY + 4); ctx.textAlign = 'left'
     }
-    ctx.fillStyle = 'rgba(255,255,255,0.3)'; ctx.font = '10px Arial'
-    ctx.fillText('@' + (userName||'cmvng') + ' says', COL_R + 38, UY - 4)
-    ctx.fillStyle = colors[0]; ctx.font = 'bold 17px Arial'
-    ctx.fillText(otc.v, COL_R + 38, UY + 15)
+    ctx.fillStyle = '#8a9b8e'; ctx.font = '10px Arial'
+    ctx.fillText('@' + (userName||'cmvng') + ' says', PAD + 42, UBY - 4)
+    ctx.fillStyle = colors[0]; ctx.font = 'bold 15px Arial'
+    ctx.fillText(otc.v, PAD + 42, UBY + 14)
 
-    // Verdict reasoning box
-    const VBY = UY + 34
-    const VBW = W - COL_R - PAD
-    const VBH = 130
-    ctx.fillStyle = 'rgba(255,255,255,0.03)'
-    ctx.beginPath(); (ctx as any).roundRect(COL_R, VBY, VBW, VBH, 12); ctx.fill()
-    ctx.strokeStyle = 'rgba(255,255,255,0.06)'; ctx.lineWidth = 1
-    ctx.beginPath(); (ctx as any).roundRect(COL_R, VBY, VBW, VBH, 12); ctx.stroke()
-    ctx.fillStyle = 'rgba(255,255,255,0.6)'; ctx.font = '12px Arial'
-    wrap(result.verdict_action || result.verdict_reason || '', COL_R + 14, VBY + 22, VBW - 28, 18, 6)
+    // ── RIGHT SIDE — Score panel ──
+    ctx.fillStyle = colors[0] + '08'
+    ctx.beginPath(); (ctx as any).roundRect(MID, 20, W - MID - PAD, H - 60, 16); ctx.fill()
+    ctx.strokeStyle = colors[0] + '18'; ctx.lineWidth = 1
+    ctx.beginPath(); (ctx as any).roundRect(MID, 20, W - MID - PAD, H - 60, 16); ctx.stroke()
 
-    // Category scores row at bottom of right column
-    const CSY = VBY + VBH + 16
+    const RX = MID + 28
+    const RW = W - MID - PAD - 56
+
+    ctx.fillStyle = colors[0]; ctx.font = 'bold 72px Arial'; ctx.textAlign = 'center'
+    ctx.fillText(String(result.overall_score ?? 0), MID + (W - MID - PAD) / 2, 100)
+    ctx.fillStyle = '#8a9b8e'; ctx.font = '10px monospace'
+    ctx.fillText('ALPHA SCORE  /100', MID + (W - MID - PAD) / 2, 120)
+    ctx.textAlign = 'left'
+
+    ctx.fillStyle = '#fff'
+    ctx.beginPath(); (ctx as any).roundRect(RX, 140, RW, 120, 10); ctx.fill()
+    ctx.strokeStyle = '#e2e8e4'; ctx.lineWidth = 1
+    ctx.beginPath(); (ctx as any).roundRect(RX, 140, RW, 120, 10); ctx.stroke()
+    ctx.fillStyle = colors[0]; ctx.font = 'bold 13px Arial'
+    ctx.fillText(otc.v, RX + 14, 162)
+    ctx.fillStyle = '#2d3b30'; ctx.font = '11px Arial'
+    wrap(result.verdict_action || result.verdict_reason || '', RX + 14, 182, RW - 28, 17, 5)
+
+    const CSY = 280
     const catNames = ['Fund', 'Team', 'Oppt', 'Sent', 'Trac']
-    const catW = Math.floor((VBW - 4 * 8) / 5)
+    const catW = Math.floor((RW - 4 * 6) / 5)
     CATS.forEach((cat, ci) => {
       const cs = catScore(cat)
-      const cx = COL_R + ci * (catW + 8)
-      ctx.fillStyle = 'rgba(255,255,255,0.04)'
-      ctx.beginPath(); (ctx as any).roundRect(cx, CSY, catW, 44, 8); ctx.fill()
-      ctx.fillStyle = 'rgba(255,255,255,0.25)'; ctx.font = '8px monospace'; ctx.textAlign = 'center'
-      ctx.fillText(catNames[ci].toUpperCase(), cx + catW/2, CSY + 14)
+      const cx = RX + ci * (catW + 6)
+      ctx.fillStyle = '#fff'
+      ctx.beginPath(); (ctx as any).roundRect(cx, CSY, catW, 48, 8); ctx.fill()
+      ctx.strokeStyle = '#e2e8e4'; ctx.lineWidth = 1
+      ctx.beginPath(); (ctx as any).roundRect(cx, CSY, catW, 48, 8); ctx.stroke()
+      ctx.fillStyle = '#8a9b8e'; ctx.font = '8px monospace'; ctx.textAlign = 'center'
+      ctx.fillText(catNames[ci].toUpperCase(), cx + catW/2, CSY + 16)
       const cTier = getTier(cs)
-      ctx.fillStyle = T[cTier].solid; ctx.font = 'bold 16px Arial'
-      ctx.fillText(String(cs), cx + catW/2, CSY + 36)
+      ctx.fillStyle = T[cTier].solid; ctx.font = 'bold 18px Arial'
+      ctx.fillText(String(cs), cx + catW/2, CSY + 40)
       ctx.textAlign = 'left'
     })
 
-    // Footer
-    ctx.fillStyle = 'rgba(255,255,255,0.12)'; ctx.font = '9px monospace'; ctx.textAlign = 'center'
-    ctx.fillText('cmv-alphascanner.vercel.app', W / 2, H - 14)
+    const metricsToShow = [
+      { label: 'Funding', key: 'funding' },
+      { label: 'VC Quality', key: 'vc_pedigree' },
+      { label: 'Revenue', key: 'revenue' },
+      { label: 'Token', key: 'token' },
+      { label: 'FUD Risk', key: 'fud' },
+    ]
+    const MBY = 346
+    metricsToShow.forEach((m, mi) => {
+      const d = result.metrics?.[m.key]
+      const sc = typeof d?.score === 'number' ? d.score : 0
+      const y = MBY + mi * 28
+      const barW = RW - 50
+      ctx.fillStyle = '#5a6b5e'; ctx.font = '10px Arial'
+      ctx.fillText(m.label, RX, y + 10)
+      ctx.fillStyle = '#e2e8e4'
+      ctx.beginPath(); (ctx as any).roundRect(RX + 70, y + 2, barW - 70, 8, 4); ctx.fill()
+      const barColor = sc >= 65 ? '#16a34a' : sc >= 40 ? '#ca8a04' : '#dc2626'
+      ctx.fillStyle = barColor
+      ctx.beginPath(); (ctx as any).roundRect(RX + 70, y + 2, (barW - 70) * sc / 100, 8, 4); ctx.fill()
+      ctx.fillStyle = barColor; ctx.font = 'bold 10px monospace'; ctx.textAlign = 'right'
+      ctx.fillText(String(sc), RX + RW, y + 11); ctx.textAlign = 'left'
+    })
+
+    ctx.fillStyle = '#8a9b8e'; ctx.font = '9px monospace'; ctx.textAlign = 'center'
+    ctx.fillText('CMV ALPHASCANNER  \xb7  cmv-alphascanner.vercel.app', W / 2, H - 16)
+    ctx.textAlign = 'left'
     ctx.globalAlpha = 1
 
     const link = document.createElement('a')
