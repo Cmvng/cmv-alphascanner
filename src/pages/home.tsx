@@ -213,6 +213,8 @@ Token: ${cg?.token_live ? 'LIVE — ' + (cg.ticker || '') + ' at ' + (cg.token_p
 
 CryptoNews: sentiment=${enriched.news_sentiment || 'unknown'} | articles=${enriched.news_article_count || 0} | red flags=${JSON.stringify(enriched.news_red_flags || [])}
 
+CryptoRank: ${enriched.best_vc_tier ? `Best VC Tier=${enriched.best_vc_tier} | Tier 1 VCs=${JSON.stringify(enriched.tier1_vcs || [])} | Tier 2 VCs=${JSON.stringify(enriched.tier2_vcs || [])} | Lead Investors=${JSON.stringify(enriched.lead_investors || [])} | Total Investors=${enriched.total_investor_count || 0} | Raised=${enriched.total_raised_cryptorank || 'unknown'} | Valuation=${enriched.last_valuation || 'unknown'} | Funding Rounds=${JSON.stringify((enriched.funding_rounds || []).slice(0,4))} | Token Unlocks=${enriched.has_unlock_data ? 'Next: ' + (enriched.next_unlock_date || 'unknown') + ' (' + (enriched.next_unlock_pct || 'unknown') + ')' : 'No data'} | Vesting Warning=${enriched.vesting_warning || 'none'} | Airdrop=${enriched.airdrop_confirmed ? enriched.airdrop_details || 'Confirmed' : 'none'}` : 'Not found on CryptoRank'}
+
 Auto-detected FUD signals (from tools): ${JSON.stringify((enriched.auto_fud_flags || []).map((f:any) => ({label: f.label, detail: f.detail, severity: f.severity})))}
 
 === INSTRUCTIONS ===
@@ -621,15 +623,20 @@ export default function Home() {
       const verified = xd?.verified || false
       const cmvXScore = xd?.cmv_score || 0
 
-      const hasRaised = enriched.total_raised_rootdata || enriched.total_raised_defillama
+      const hasRaised = enriched.total_raised_rootdata || enriched.total_raised_defillama || enriched.total_raised_cryptorank
       const investors = enriched.confirmed_investors || []
+      // CryptoRank VC tier data (11K+ funds classified)
+      const crTier1 = enriched.tier1_vcs || []
+      const crTier2 = enriched.tier2_vcs || []
+      const crLeads = enriched.lead_investors || []
+      const bestTier = enriched.best_vc_tier || null
       const topVCs = ['paradigm','a16z','andreessen','coinbase ventures','polychain','multicoin','pantera','sequoia','dragonfly','binance labs','binance','animoca','electric capital','framework ventures','jump crypto','delphi digital','galaxy digital','hashkey','okx ventures','circle']
       const tier2VCs = ['blockchain capital','robot ventures','maelstrom','hashed','hack vc','dao5','variant','1kx','placeholder','iosg','spartan','mechanism capital','amber group','wintermute','gsr','cms holdings','alameda','three arrows','digital currency group','dcg','grayscale','bitfinex','huobi','kucoin','gate','bybit','maven 11','nascent','north island','coinfund','distributed global','arrington','galaxy','svn','standard crypto','castle island']
-      const matchedTier1 = investors.filter((v: string) => topVCs.some(vc => v.toLowerCase().includes(vc)))
-      const matchedTier2 = investors.filter((v: string) => tier2VCs.some(vc => v.toLowerCase().includes(vc)))
+      const matchedTier1 = crTier1.length > 0 ? crTier1 : investors.filter((v: string) => topVCs.some(vc => v.toLowerCase().includes(vc)))
+      const matchedTier2 = crTier2.length > 0 ? crTier2 : investors.filter((v: string) => tier2VCs.some(vc => v.toLowerCase().includes(vc)))
       const hasTopVC = matchedTier1.length > 0
       const hasTier2VC = matchedTier2.length > 0
-      const fundingScore = hasTopVC ? 90 : hasTier2VC ? 78 : investors.length > 3 ? 70 : hasRaised ? 60 : investors.length > 0 ? 45 : 25
+      const fundingScore = bestTier === 1 ? 95 : bestTier === 2 ? 80 : hasTopVC ? 90 : hasTier2VC ? 78 : bestTier === 3 ? 65 : investors.length > 3 ? 70 : hasRaised ? 60 : bestTier === 4 ? 50 : investors.length > 0 ? 45 : 25
 
       const tvl = enriched.tvl
       const revenue = enriched.revenue_24h
@@ -693,7 +700,7 @@ export default function Home() {
       const verdict = cappedScore >= 95 ? 'ALPHA PLAY' : cappedScore >= 85 ? 'FARM IT' : cappedScore >= 60 ? 'ENGAGE' : cappedScore >= 35 ? 'OBSERVE' : 'AVOID'
 
       const highlights: string[] = []
-      if (hasRaised) highlights.push(`${enriched.total_raised_rootdata || enriched.total_raised_defillama} raised`)
+      if (hasRaised) highlights.push(`${enriched.total_raised_cryptorank || enriched.total_raised_rootdata || enriched.total_raised_defillama} raised`)
       if (hasTopVC) highlights.push(`Tier 1 VC backed: ${matchedTier1.slice(0,2).join(', ')}`)
       else if (hasTier2VC) highlights.push(`Tier 2 VC backed: ${matchedTier2.slice(0,2).join(', ')}`)
       if (tvl) highlights.push(`${tvl} TVL deployed`)
@@ -702,6 +709,8 @@ export default function Home() {
       if (team.length > 0) highlights.push(`${team.length} verified team members`)
       if (verified) highlights.push('Verified X account')
       if (enriched.chains?.length > 0) highlights.push(`Live on ${enriched.chains.slice(0,2).join(', ')}`)
+      if (enriched.airdrop_confirmed) highlights.push('Airdrop signals detected')
+      if (enriched.vesting_warning) highlights.push(`⚠️ ${enriched.vesting_warning}`)
 
       const parts: string[] = []
       if (enriched.defillama_category) parts.push(`${enriched.defillama_category} project`)
@@ -775,14 +784,14 @@ export default function Home() {
         data_accuracy_note: '',
         metrics: {
           funding: { score: fundingScore, detail: hasRaised ? `${enriched.total_raised_rootdata || enriched.total_raised_defillama} raised from ${investors.length} investors` : 'No confirmed funding data found', signal: fundingScore >= 70 ? 'bullish' : fundingScore <= 30 ? 'bearish' : 'neutral' },
-          vc_pedigree: { score: hasTopVC ? 92 : hasTier2VC ? 72 : investors.length > 2 ? 55 : investors.length > 0 ? 40 : 0, detail: hasTopVC ? `Tier 1 VC backing: ${matchedTier1.slice(0,3).join(', ')}` : hasTier2VC ? `Tier 2 VC backing: ${matchedTier2.slice(0,3).join(', ')}` : investors.length > 0 ? `${investors.length} investors: ${investors.slice(0,3).join(', ')}` : 'No investor data found', signal: hasTopVC ? 'bullish' : hasTier2VC ? 'neutral' : investors.length === 0 ? 'bearish' : 'neutral' },
+          vc_pedigree: { score: bestTier === 1 ? 95 : bestTier === 2 ? 80 : hasTopVC ? 92 : hasTier2VC ? 72 : bestTier === 3 ? 60 : investors.length > 2 ? 55 : bestTier === 4 ? 45 : investors.length > 0 ? 40 : 0, detail: crTier1.length > 0 ? `Tier 1 VC backed: ${crTier1.slice(0,3).join(', ')}${crLeads.length > 0 ? ' (led by ' + crLeads[0] + ')' : ''}` : crTier2.length > 0 ? `Tier 2 VC backed: ${crTier2.slice(0,3).join(', ')}` : hasTopVC ? `Tier 1 VC backing: ${matchedTier1.slice(0,3).join(', ')}` : hasTier2VC ? `Tier 2 VC backing: ${matchedTier2.slice(0,3).join(', ')}` : investors.length > 0 ? `${investors.length} investors: ${investors.slice(0,3).join(', ')}` : 'No investor data found', signal: bestTier === 1 || hasTopVC ? 'bullish' : bestTier === 2 || hasTier2VC ? 'bullish' : bestTier && bestTier <= 3 ? 'neutral' : investors.length === 0 ? 'bearish' : 'neutral' },
           copycat: { score: enriched.defillama_category ? 55 : 45, detail: enriched.defillama_category ? `Operates in the ${enriched.defillama_category} sector${enriched.chains?.length > 0 ? ' across ' + enriched.chains.slice(0,2).join(', ') : ''}` : `Positioned in the ${xd?.category || 'crypto'} space — differentiation unclear without deeper analysis`, signal: 'neutral' },
           niche: { score: enriched.defillama_category ? (tvlNum > 1e8 ? 80 : tvlNum > 1e6 ? 65 : 55) : 40, detail: enriched.defillama_category ? `${enriched.defillama_category}${tvlNum > 1e8 ? ' — significant TVL indicates strong product-market fit' : tvlNum > 1e6 ? ' — meaningful capital deployment shows traction' : tvlNum > 0 ? ' — early capital deployment' : ' — building in an active sector'}` : `${xd?.category || 'Crypto'} project — niche potential unclear at this stage`, signal: tvlNum > 1e7 ? 'bullish' : 'neutral' },
           location: { score: team.length > 0 ? 60 : 25, detail: team.length > 0 ? `${team.length} team members identified: ${team.slice(0,2).map((t: any) => t.name + (t.role ? ' (' + t.role + ')' : '')).join(', ')}` : 'Team data not publicly available — higher risk for anonymous projects', signal: team.length > 2 ? 'bullish' : team.length === 0 ? 'bearish' : 'neutral' },
           founder_cred: { score: teamScore, detail: team.length > 0 ? `${team.length} team member${team.length > 1 ? 's' : ''} found: ${team.slice(0,3).map((t: any) => t.name + (t.role ? ' (' + t.role + ')' : '')).join(', ')}` : verified ? 'Verified X account but no public team profiles found' : 'No team data found — cannot verify founder credibility', signal: teamScore >= 65 ? 'bullish' : teamScore <= 35 ? 'bearish' : 'neutral' },
           founder_activity: { score: Math.min(55, !hasRealXData ? 0 : avgLikes > 100 ? 55 : avgLikes > 20 ? 45 : 30), detail: team.length > 0 ? `Team of ${team.length} — ${team[0].name}${team[0].role ? ' (' + team[0].role + ')' : ''} leads the project` : accountAge > 2 ? `Project account active for ${accountAge.toFixed(1)} years` : 'Limited public activity from founding team', signal: 'neutral' },
           top_voices: { score: Math.min(55, !hasRealXData ? 0 : listed > 500 ? 55 : listed > 100 ? 45 : 30), detail: listed > 500 ? 'Well-recognized project among crypto thought leaders' : listed > 100 ? 'Moderate recognition in the crypto community' : 'Still building recognition — early stage visibility', signal: 'neutral' },
-          token: { score: tokenScore, detail: tokenLive ? `Token live: ${cg?.ticker || ''} at ${cg?.token_price || 'unknown'}${cg?.market_cap_str ? ' · MCap ' + cg.market_cap_str : ''}` : xd?.token_launch_hinted ? 'Token launch hinted in bio/tweets but not yet live on any DEX' : 'No token confirmed — potential early farming opportunity', signal: tokenLive ? (dexDump ? 'bearish' : 'bullish') : 'neutral' },
+          token: { score: tokenScore, detail: tokenLive ? `Token live: ${cg?.ticker || ''} at ${cg?.token_price || 'unknown'}${cg?.market_cap_str ? ' · MCap ' + cg.market_cap_str : ''}${enriched.vesting_warning ? ' ⚠️ ' + enriched.vesting_warning : ''}` : xd?.token_launch_hinted ? 'Token launch hinted in bio/tweets but not yet live on any DEX' : enriched.airdrop_confirmed ? 'No token yet but airdrop signals detected' : 'No token confirmed — potential early farming opportunity', signal: tokenLive ? (dexDump ? 'bearish' : 'bullish') : 'neutral' },
           metrics_clarity: { score: (tokenLive || xd?.token_launch_hinted) ? 55 : 30, detail: tokenLive ? 'Token is live — farming criteria and requirements are clearer' : xd?.token_launch_hinted ? 'Token hinted — watch for announcements on farming requirements' : 'No clear criteria for top % requirements yet — early stage project', signal: 'neutral' },
           user_count: { score: !hasRealXData ? 50 : followers > 200000 ? 30 : followers > 50000 ? 50 : followers > 5000 ? 70 : 85, detail: !hasRealXData ? 'User base size unclear' : followers > 200000 ? 'Very large community — expect heavy dilution for airdrops/rewards' : followers > 50000 ? 'Sizable community — moderate dilution expected' : followers > 5000 ? 'Growing community — reasonable dilution, good timing to farm' : 'Small community — early mover advantage, minimal dilution', signal: followers > 200000 ? 'bearish' : followers < 10000 ? 'bullish' : 'neutral' },
           fud: { score: autoFlags.length > 0 ? Math.max(10, 100 - autoFlags.length * 30) : securityScore, detail: autoFlags.length > 0 ? `${autoFlags.length} warning signal(s): ${autoFlags.slice(0,2).map((f: any) => f.label).join(', ')}` : hacks.length > 0 ? `${hacks.length} known security exploit(s) on record` : 'No FUD signals or security issues detected', signal: autoFlags.length > 0 || hacks.length > 0 ? 'bearish' : 'bullish' },
