@@ -2104,23 +2104,26 @@ export default function Home() {
             )}
 
             {/* ── TOKEN + DEEP INTEL ── */}
+            {(result.token_data?.token_live || cgData?.token_live || xData?.enriched?.tvl || xData?.enriched?.revenue_24h || xData?.enriched?.fees_24h || (xData?.enriched?.chains || []).length > 0 || result.future_seasons || (xData?.enriched?.coinpaprika_contracts || []).length > 0) && (
             <div className="card">
               <div className="card-label">DEEP INTEL</div>
+              {(result.token_data?.token_live || cgData?.token_live) && (
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 8 }}>
                 <div style={{ background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: 8, padding: '10px 12px' }}>
                   <div style={{ fontFamily: 'var(--mono)', fontSize: 7, color: 'var(--text-4)', letterSpacing: 1, marginBottom: 5 }}>TOKEN STATUS</div>
-                  {(result.token_data?.token_live || cgData?.token_live) ? (() => {
+                  {(() => {
                     const td = result.token_data?.token_live ? result.token_data : cgData
                     return <span style={{ background: 'var(--green-light)', color: 'var(--green)', border: '1px solid rgba(22,163,74,0.2)', borderRadius: 20, padding: '3px 10px', fontFamily: 'var(--mono)', fontSize: 10, display: 'inline-flex', alignItems: 'center', gap: 5 }}><span style={{ width: 5, height: 5, borderRadius: '50%', background: 'var(--green)', display: 'inline-block', animation: 'pulse 2s infinite' }} />{td.ticker} {td.token_price}</span>
-                  })() : <span style={{ fontFamily: 'var(--mono)', fontSize: 10, color: 'var(--text-4)' }}>Not yet launched</span>}
+                  })()}
                 </div>
-                {(result.token_data?.token_live || cgData?.token_live) && result.post_tge_outlook && (
+                {result.post_tge_outlook && (
                   <div style={{ background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: 8, padding: '10px 12px' }}>
                     <div style={{ fontFamily: 'var(--mono)', fontSize: 7, color: 'var(--text-4)', letterSpacing: 1, marginBottom: 5 }}>TOKEN OUTLOOK</div>
                     <div style={{ fontSize: 11, fontWeight: 600, color: result.post_tge_outlook?.includes('Poor') ? 'var(--red)' : 'var(--green)' }}>{result.post_tge_outlook}</div>
                   </div>
                 )}
               </div>
+              )}
               {/* TVL + Revenue from enriched data */}
               {(xData?.enriched?.tvl || xData?.enriched?.revenue_24h || xData?.enriched?.fees_24h) && (
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: 8, marginBottom: 8 }}>
@@ -2173,6 +2176,7 @@ export default function Home() {
                 </div>
               )}
             </div>
+            )}
 
             {/* ── RISKS & OPPORTUNITIES ── */}
             {((result.top_risks || []).filter(Boolean).length > 0 || (result.top_opportunities || []).filter(Boolean).length > 0) && (
@@ -2252,7 +2256,7 @@ export default function Home() {
                             <div style={{ width: `${sc}%`, height: '100%', background: col, borderRadius: 3, transition: 'width 1s ease' }} />
                           </div>
                           {/* Detail text */}
-                          {detail && <div style={{ fontSize: 11, color: 'var(--text-3)', lineHeight: 1.6, marginTop: 4 }}>{detail}</div>}
+                          {detail && !/^No |unavailable|unclear|insufficient|not publicly/i.test(detail) && <div style={{ fontSize: 11, color: 'var(--text-3)', lineHeight: 1.6, marginTop: 4 }}>{detail}</div>}
                         </div>
                       </div>
                     </div>
@@ -2288,7 +2292,7 @@ export default function Home() {
                         <span className="breakdown-item-label">{g.label}</span>
                         <span className="breakdown-item-score" style={{ color: 'var(--green)' }}>{g.score}</span>
                       </div>
-                      {g.detail && <div className="breakdown-item-detail">{g.detail}</div>}
+                      {g.detail && !/^No |unavailable|unclear|insufficient|not publicly/i.test(g.detail) && <div className="breakdown-item-detail">{g.detail}</div>}
                     </div>
                   )) : <div style={{ fontSize: 11, color: 'var(--text-4)' }}>No strong positives found</div>}
                 </div>
@@ -2301,7 +2305,7 @@ export default function Home() {
                         <span className="breakdown-item-label">{b.label}</span>
                         <span className="breakdown-item-score" style={{ color: 'var(--red)' }}>{b.score}</span>
                       </div>
-                      {b.detail && <div className="breakdown-item-detail">{b.detail}</div>}
+                      {b.detail && !/^No |unavailable|unclear|insufficient|not publicly/i.test(b.detail) && <div className="breakdown-item-detail">{b.detail}</div>}
                     </div>
                   )) : <div style={{ fontSize: 11, color: 'var(--text-4)' }}>No major concerns</div>}
                 </div>
