@@ -1687,18 +1687,32 @@ export default function Home() {
         }
 
         /* ── ALPHA BREAKDOWN ── */
-        .breakdown-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
-        .breakdown-col-label {
-          font-family: var(--mono); font-size: 9px; letter-spacing: 1px; margin-bottom: 10px; font-weight: 600;
+        .breakdown-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+        .breakdown-col {
+          background: var(--bg-3);
+          border: 1px solid var(--border);
+          border-radius: var(--radius);
+          padding: 16px;
         }
-        .breakdown-item { margin-bottom: 10px; }
-        .breakdown-item-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 3px; }
-        .breakdown-item-label { font-size: 11px; font-weight: 600; color: var(--text-2); text-transform: capitalize; }
-        .breakdown-item-score { font-family: var(--mono); font-size: 11px; font-weight: 700; }
-        .breakdown-item-detail { font-size: 10px; color: var(--text-4); line-height: 1.5; }
-        .conclusion-box { border-radius: 10px; padding: 14px; }
-        .conclusion-label { font-family: var(--mono); font-size: 8px; letter-spacing: 1px; margin-bottom: 5px; font-weight: 600; }
-        .conclusion-text { font-size: 12px; color: var(--text-3); line-height: 1.65; }
+        .breakdown-col-label {
+          font-family: var(--mono); font-size: 9px; letter-spacing: 1.5px; margin-bottom: 14px; font-weight: 700;
+          padding-bottom: 10px; border-bottom: 1px solid var(--border);
+        }
+        .breakdown-item {
+          padding: 10px 0;
+          border-bottom: 1px solid rgba(0,0,0,0.04);
+        }
+        .breakdown-item:last-child { border-bottom: none; padding-bottom: 0; }
+        .breakdown-item:first-of-type { padding-top: 0; }
+        .breakdown-item-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+        .breakdown-item-label { font-size: 13px; font-weight: 600; color: var(--text-1); text-transform: capitalize; }
+        .breakdown-item-score { font-family: var(--mono); font-size: 14px; font-weight: 800; }
+        .breakdown-item-bar { height: 4px; border-radius: 2px; overflow: hidden; margin-bottom: 6px; }
+        .breakdown-item-bar-fill { height: 100%; border-radius: 2px; transition: width 0.8s ease; }
+        .breakdown-item-detail { font-size: 11px; color: var(--text-3); line-height: 1.6; }
+        .conclusion-box { border-radius: var(--radius); padding: 16px 18px; margin-top: 4px; }
+        .conclusion-label { font-family: var(--mono); font-size: 9px; letter-spacing: 1.5px; margin-bottom: 6px; font-weight: 700; }
+        .conclusion-text { font-size: 13px; color: var(--text-2); line-height: 1.7; }
 
         /* ── TEAM CARDS ── */
         .team-card {
@@ -2192,17 +2206,17 @@ export default function Home() {
               <div className="card">
                 <div className="card-label">RISKS & OPPORTUNITIES</div>
                 <div className="breakdown-grid">
-                  <div>
+                  <div className="breakdown-col">
                     <div className="breakdown-col-label" style={{ color: 'var(--green)' }}>OPPORTUNITIES</div>
                     {(result.top_opportunities || []).filter(Boolean).length > 0 ? (result.top_opportunities || []).filter(Boolean).map((o: string, i: number) => (
-                      <div key={i} style={{ fontSize: 12, color: 'var(--text-2)', marginBottom: 8, paddingLeft: 12, borderLeft: '2px solid var(--green)', lineHeight: 1.6 }}>{o}</div>
-                    )) : <div style={{ fontSize: 11, color: 'var(--text-4)' }}>None identified</div>}
+                      <div key={i} style={{ fontSize: 13, color: 'var(--text-2)', marginBottom: 10, paddingLeft: 12, borderLeft: '3px solid var(--green)', lineHeight: 1.6 }}>{o}</div>
+                    )) : <div style={{ fontSize: 12, color: 'var(--text-4)', padding: '8px 0' }}>None identified</div>}
                   </div>
-                  <div>
+                  <div className="breakdown-col">
                     <div className="breakdown-col-label" style={{ color: 'var(--red)' }}>KEY RISKS</div>
                     {(result.top_risks || []).filter(Boolean).length > 0 ? (result.top_risks || []).filter(Boolean).map((r: string, i: number) => (
-                      <div key={i} style={{ fontSize: 12, color: 'var(--text-2)', marginBottom: 8, paddingLeft: 12, borderLeft: '2px solid var(--red)', lineHeight: 1.6 }}>{r}</div>
-                    )) : <div style={{ fontSize: 11, color: 'var(--text-4)' }}>None identified</div>}
+                      <div key={i} style={{ fontSize: 13, color: 'var(--text-2)', marginBottom: 10, paddingLeft: 12, borderLeft: '3px solid var(--red)', lineHeight: 1.6 }}>{r}</div>
+                    )) : <div style={{ fontSize: 12, color: 'var(--text-4)', padding: '8px 0' }}>None identified</div>}
                   </div>
                 </div>
               </div>
@@ -2293,7 +2307,7 @@ export default function Home() {
               <div className="card-label">ALPHA BREAKDOWN</div>
 
               <div className="breakdown-grid">
-                <div>
+                <div className="breakdown-col">
                   <div className="breakdown-col-label" style={{ color: 'var(--green)' }}>WHAT'S WORKING</div>
                   {goodSides.length > 0 ? goodSides.map((g: any, i: number) => (
                     <div key={i} className="breakdown-item">
@@ -2301,12 +2315,15 @@ export default function Home() {
                         <span className="breakdown-item-label">{g.label}</span>
                         <span className="breakdown-item-score" style={{ color: 'var(--green)' }}>{g.score}</span>
                       </div>
+                      <div className="breakdown-item-bar" style={{ background: 'rgba(22,163,74,0.1)' }}>
+                        <div className="breakdown-item-bar-fill" style={{ width: `${g.score}%`, background: 'var(--green)' }} />
+                      </div>
                       {g.detail && !/^No |unavailable|unclear|insufficient|not publicly/i.test(g.detail) && <div className="breakdown-item-detail">{g.detail}</div>}
                     </div>
-                  )) : <div style={{ fontSize: 11, color: 'var(--text-4)' }}>No strong positives found</div>}
+                  )) : <div style={{ fontSize: 12, color: 'var(--text-4)', padding: '12px 0' }}>No strong positives identified</div>}
                 </div>
 
-                <div>
+                <div className="breakdown-col">
                   <div className="breakdown-col-label" style={{ color: 'var(--red)' }}>WATCH OUT</div>
                   {badSides.length > 0 ? badSides.map((b: any, i: number) => (
                     <div key={i} className="breakdown-item">
@@ -2314,14 +2331,17 @@ export default function Home() {
                         <span className="breakdown-item-label">{b.label}</span>
                         <span className="breakdown-item-score" style={{ color: 'var(--red)' }}>{b.score}</span>
                       </div>
+                      <div className="breakdown-item-bar" style={{ background: 'rgba(220,38,38,0.08)' }}>
+                        <div className="breakdown-item-bar-fill" style={{ width: `${b.score}%`, background: 'var(--red)' }} />
+                      </div>
                       {b.detail && !/^No |unavailable|unclear|insufficient|not publicly/i.test(b.detail) && <div className="breakdown-item-detail">{b.detail}</div>}
                     </div>
-                  )) : <div style={{ fontSize: 11, color: 'var(--text-4)' }}>No major concerns</div>}
+                  )) : <div style={{ fontSize: 12, color: 'var(--text-4)', padding: '12px 0' }}>No major concerns identified</div>}
                 </div>
               </div>
 
               {/* CONCLUSION */}
-              <div className="conclusion-box" style={{ background: `linear-gradient(135deg, ${otc.solid}0a, transparent)`, border: `1px solid ${otc.solid}18` }}>
+              <div className="conclusion-box" style={{ background: `linear-gradient(135deg, ${otc.solid}08, ${otc.solid}03)`, border: `1px solid ${otc.solid}20` }}>
                 <div className="conclusion-label" style={{ color: otc.solid }}>CONCLUSION</div>
                 <div className="conclusion-text">{result.verdict_reason || result.score_rationale}</div>
               </div>
