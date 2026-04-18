@@ -1,10 +1,11 @@
 import { useState, useEffect, useRef } from 'react'
 
 const TIER_CONFIG: Record<string, any> = {
-  A: { color: '#37b24d', bg: '#ebfbee', border: '#8ce99a', tc: '#2f9e44', label: 'Tier A', sub: 'Farm It', emoji: '🌾' },
-  B: { color: '#f59f00', bg: '#fff3bf', border: '#ffe066', tc: '#e67700', label: 'Tier B', sub: 'Create Content', emoji: '✍️' },
-  C: { color: '#e8590c', bg: '#fff4e6', border: '#ffc078', tc: '#d9480f', label: 'Tier C', sub: 'Watch', emoji: '👁️' },
-  D: { color: '#868e96', bg: '#f1f3f5', border: '#dee2e6', tc: '#495057', label: 'Tier D', sub: 'Skip', emoji: '🚫' },
+  S: { color: '#7c3aed', bg: '#f5f3ff', border: '#c4b5fd', tc: '#6d28d9', label: 'S · Alpha', sub: 'Rare conviction play' },
+  A: { color: '#37b24d', bg: '#ebfbee', border: '#8ce99a', tc: '#2f9e44', label: 'A · Farm It', sub: 'High conviction play' },
+  B: { color: '#f59f00', bg: '#fff3bf', border: '#ffe066', tc: '#e67700', label: 'B · Watch It', sub: 'Solid but selective' },
+  C: { color: '#e8590c', bg: '#fff4e6', border: '#ffc078', tc: '#d9480f', label: 'C · Observe', sub: 'Too early to call' },
+  D: { color: '#868e96', bg: '#f1f3f5', border: '#dee2e6', tc: '#495057', label: 'D · Avoid', sub: 'Too many red flags' },
 }
 
 const STORAGE_KEY = 'cmv_tierlist_v1'
@@ -46,7 +47,7 @@ export default function TierList() {
     // First time — sort by score into suggested tiers
     const suggested: Record<string, string[]> = { A: [], B: [], C: [], D: [], unranked: [] }
     scans.forEach(s => {
-      if (s.verdict === 'FARM IT') suggested.A.push(s.handle)
+      if (s.verdict === 'FARM IT' || s.verdict === 'S') suggested.A.push(s.handle)
       else if (s.verdict === 'CREATE CONTENT') suggested.B.push(s.handle)
       else if (s.verdict === 'WATCH') suggested.C.push(s.handle)
       else suggested.D.push(s.handle)
@@ -102,7 +103,7 @@ export default function TierList() {
     setDownloading(true)
     const canvas = document.createElement('canvas')
     const W = 1200
-    const activeTiers = ['A','B','C','D'].filter(t => (tiers[t]||[]).length > 0)
+    const activeTiers = ['S','A','B','C','D'].filter(t => (tiers[t]||[]).length > 0)
     const HEADER = 90
     const TIER_H = 160
     const GAP = 10
@@ -120,7 +121,7 @@ export default function TierList() {
     ctx.fillStyle = '#0f172a'
     ctx.font = 'bold 28px Arial, sans-serif'
     ctx.textAlign = 'center'
-    ctx.fillText('CMV AlphaScanner — My Crypto Tier List', W / 2, 46)
+    ctx.fillText('CMV AlphaScanner  ·  Crypto Alpha Tier List', W / 2, 46)
     ctx.font = '14px monospace'
     ctx.fillStyle = '#9ca3af'
     ctx.fillText('cmv-alphascanner.vercel.app  ·  ' + new Date().toLocaleDateString(), W / 2, 68)
@@ -141,8 +142,8 @@ export default function TierList() {
       ctx.font = 'bold 38px Arial'
       ctx.textAlign = 'center'
       ctx.fillText(tier, PAD + 32, yOff + 46)
-      ctx.font = '13px Arial'
-      ctx.fillText(t.sub, PAD + 32, yOff + 66)
+      ctx.font = '11px Arial'
+      ctx.fillText(t.sub, PAD + 32, yOff + 64)
       ctx.textAlign = 'left'
 
       // White project area
@@ -264,7 +265,7 @@ export default function TierList() {
     localStorage.removeItem(STORAGE_KEY)
     const suggested: Record<string, string[]> = { A: [], B: [], C: [], D: [], unranked: [] }
     scans.forEach(s => {
-      if (s.verdict === 'FARM IT') suggested.A.push(s.handle)
+      if (s.verdict === 'FARM IT' || s.verdict === 'S') suggested.A.push(s.handle)
       else if (s.verdict === 'CREATE CONTENT') suggested.B.push(s.handle)
       else if (s.verdict === 'WATCH') suggested.C.push(s.handle)
       else suggested.D.push(s.handle)
