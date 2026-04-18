@@ -2,10 +2,10 @@ import { useState, useEffect, useRef } from 'react'
 
 const TIER_CONFIG: Record<string, any> = {
   S: { color: '#7c3aed', bg: '#f5f3ff', border: '#c4b5fd', tc: '#6d28d9', label: 'S · Alpha', sub: 'Rare conviction play' },
-  A: { color: '#37b24d', bg: '#ebfbee', border: '#8ce99a', tc: '#2f9e44', label: 'A · Farm It', sub: 'High conviction play' },
-  B: { color: '#f59f00', bg: '#fff3bf', border: '#ffe066', tc: '#e67700', label: 'B · Watch It', sub: 'Solid but selective' },
-  C: { color: '#e8590c', bg: '#fff4e6', border: '#ffc078', tc: '#d9480f', label: 'C · Observe', sub: 'Too early to call' },
-  D: { color: '#868e96', bg: '#f1f3f5', border: '#dee2e6', tc: '#495057', label: 'D · Avoid', sub: 'Too many red flags' },
+  A: { color: '#16a34a', bg: '#dcfce7', border: '#86efac', tc: '#15803d', label: 'A · Farm It', sub: 'High conviction play' },
+  B: { color: '#ca8a04', bg: '#fef9c3', border: '#fde047', tc: '#a16207', label: 'B · Watch It', sub: 'Solid but selective' },
+  C: { color: '#ea580c', bg: '#fff7ed', border: '#fdba74', tc: '#c2410c', label: 'C · Observe', sub: 'Too early to call' },
+  D: { color: '#6b7280', bg: '#f3f4f6', border: '#d1d5db', tc: '#4b5563', label: 'D · Avoid', sub: 'Too many red flags' },
 }
 
 const STORAGE_KEY = 'cmv_tierlist_v1'
@@ -15,9 +15,9 @@ function Logo({ scan, size = 48 }: { scan: any, size?: number }) {
   const initial = (scan.project_name || scan.handle || '?').charAt(0).toUpperCase()
   if (!err && scan.profile_image_url) {
     return <img src={scan.profile_image_url} alt={scan.project_name} onError={() => setErr(true)}
-      style={{ width: size, height: size, borderRadius: '50%', objectFit: 'cover', border: '2px solid rgba(255,255,255,0.4)', flexShrink: 0 }} />
+      style={{ width: size, height: size, borderRadius: '50%', objectFit: 'cover', border: '2px solid rgba(0,0,0,0.06)', flexShrink: 0 }} />
   }
-  return <div style={{ width: size, height: size, borderRadius: '50%', background: '#e8ecff', color: '#3b5bdb', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: size * 0.4, fontWeight: 700, flexShrink: 0, border: '2px solid #dbe4ff' }}>{initial}</div>
+  return <div style={{ width: size, height: size, borderRadius: '50%', background: 'var(--bg-3)', color: 'var(--text-3)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: size * 0.4, fontWeight: 700, flexShrink: 0, border: '1px solid var(--border)' }}>{initial}</div>
 }
 
 export default function TierList() {
@@ -37,14 +37,12 @@ export default function TierList() {
     if (saved) {
       try {
         const savedTiers = JSON.parse(saved)
-        // Add any new scans to unranked
         const allRanked = Object.values(savedTiers).flat() as string[]
         const newScans = scans.filter(s => !allRanked.includes(s.handle)).map(s => s.handle)
         setTiers({ ...savedTiers, unranked: [...(savedTiers.unranked || []), ...newScans] })
         return
       } catch {}
     }
-    // First time — sort by score into suggested tiers
     const suggested: Record<string, string[]> = { A: [], B: [], C: [], D: [], unranked: [] }
     scans.forEach(s => {
       if (s.verdict === 'FARM IT' || s.verdict === 'S') suggested.A.push(s.handle)
@@ -113,17 +111,17 @@ export default function TierList() {
     canvas.height = H
     const ctx = canvas.getContext('2d')!
 
-    // Background
-    ctx.fillStyle = '#f6f8fa'
+    // Background — clean light
+    ctx.fillStyle = '#f8faf8'
     ctx.fillRect(0, 0, W, H)
 
     // Header
-    ctx.fillStyle = '#0f172a'
+    ctx.fillStyle = '#0f1a12'
     ctx.font = 'bold 28px Arial, sans-serif'
     ctx.textAlign = 'center'
     ctx.fillText('CMV AlphaScanner  ·  Crypto Alpha Tier List', W / 2, 46)
     ctx.font = '14px monospace'
-    ctx.fillStyle = '#9ca3af'
+    ctx.fillStyle = '#8a9b8e'
     ctx.fillText('cmv-alphascanner.vercel.app  ·  ' + new Date().toLocaleDateString(), W / 2, 68)
     ctx.textAlign = 'left'
 
@@ -155,7 +153,6 @@ export default function TierList() {
       ctx.lineWidth = 1.5
       ctx.stroke()
 
-      // Draw projects
       const CARD_W = 140
       const LOGO_R = 36
       let xPos = PAD + 74 + 16
@@ -167,7 +164,6 @@ export default function TierList() {
         const cx = xPos + LOGO_R
         const cy = yOff + 50
 
-        // Draw logo
         let logoDrawn = false
         if (scan.profile_image_url) {
           try {
@@ -181,7 +177,6 @@ export default function TierList() {
                 ctx.clip()
                 ctx.drawImage(img, cx - LOGO_R, cy - LOGO_R, LOGO_R * 2, LOGO_R * 2)
                 ctx.restore()
-                // Border
                 ctx.strokeStyle = t.border
                 ctx.lineWidth = 2
                 ctx.beginPath()
@@ -210,22 +205,19 @@ export default function TierList() {
           ctx.textAlign = 'left'
         }
 
-        // Project name — always shown
         const name = (scan.project_name || scan.handle || '')
         const shortName = name.length > 11 ? name.slice(0, 10) + '…' : name
-        ctx.fillStyle = '#111'
+        ctx.fillStyle = '#0f1a12'
         ctx.font = 'bold 12px Arial'
         ctx.textAlign = 'center'
         ctx.fillText(shortName, cx, yOff + 102)
 
-        // Score
         ctx.fillStyle = t.color
         ctx.font = 'bold 13px monospace'
         ctx.fillText(String(scan.score), cx, yOff + 118)
 
-        // Ticker if live
         if (scan.ticker && scan.token_price && scan.token_price !== 'Not Launched') {
-          ctx.fillStyle = '#9ca3af'
+          ctx.fillStyle = '#8a9b8e'
           ctx.font = '10px monospace'
           ctx.fillText(scan.ticker, cx, yOff + 133)
         }
@@ -234,9 +226,8 @@ export default function TierList() {
         xPos += CARD_W
       }
 
-      // +N more badge
       if (projects.length > 7) {
-        ctx.fillStyle = '#9ca3af'
+        ctx.fillStyle = '#8a9b8e'
         ctx.font = 'bold 13px Arial'
         ctx.textAlign = 'right'
         ctx.fillText('+' + (projects.length - 7) + ' more', W - PAD * 2 - 10, yOff + TIER_H / 2 + 6)
@@ -247,7 +238,7 @@ export default function TierList() {
     }
 
     // Footer
-    ctx.fillStyle = '#cbd5e1'
+    ctx.fillStyle = '#8a9b8e'
     ctx.font = '12px monospace'
     ctx.textAlign = 'center'
     ctx.fillText('CMV ALPHASCANNER  ·  cmv-alphascanner.vercel.app', W / 2, H - 12)
@@ -276,51 +267,211 @@ export default function TierList() {
   const totalRanked = tiers.A.length + tiers.B.length + tiers.C.length + tiers.D.length
 
   return (
-    <div style={{ minHeight: '100vh', background: '#faf7f0', fontFamily: "'Plus Jakarta Sans',sans-serif" }}>
+    <div className="tl-root">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap');
-        @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-        .proj-card{transition:all 0.15s;cursor:grab;}
-        .proj-card:hover{transform:translateY(-2px);}
-        .proj-card:active{cursor:grabbing;}
-        .tier-drop{transition:background 0.15s;}
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+        :root {
+          --bg: #f8faf8;
+          --bg-2: #ffffff;
+          --bg-3: #f1f5f1;
+          --border: #e2e8e4;
+          --border-2: #d1d9d3;
+          --text-1: #0f1a12;
+          --text-2: #2d3b30;
+          --text-3: #5a6b5e;
+          --text-4: #8a9b8e;
+          --green: #16a34a;
+          --green-light: #dcfce7;
+          --green-dark: #14532d;
+          --font: 'Outfit', sans-serif;
+          --mono: 'JetBrains Mono', monospace;
+          --radius: 12px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        .tl-root {
+          min-height: 100vh;
+          background: var(--bg);
+          font-family: var(--font);
+          color: var(--text-1);
+          -webkit-font-smoothing: antialiased;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+        .tl-nav {
+          background: rgba(248,250,248,0.85);
+          backdrop-filter: blur(20px) saturate(180%);
+          border-bottom: 1px solid var(--border);
+          padding: 0 24px;
+          display: flex; align-items: center; height: 56px;
+          position: sticky; top: 0; z-index: 100;
+        }
+        .tl-nav-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+        .tl-nav-logo {
+          width: 28px; height: 28px; background: var(--green);
+          border-radius: 7px; display: flex; align-items: center; justify-content: center;
+        }
+        .tl-nav-title { font-size: 15px; font-weight: 700; color: var(--text-1); letter-spacing: -0.3px; }
+        .tl-nav-title span { color: var(--green); }
+        .tl-nav-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+        .tl-nav-link {
+          font-family: var(--mono); font-size: 10px; color: var(--text-3);
+          text-decoration: none; padding: 5px 12px;
+          border: 1px solid var(--border); border-radius: 20px;
+          transition: all 0.15s;
+        }
+        .tl-nav-link:hover { border-color: var(--border-2); }
+        .tl-nav-scan {
+          font-family: var(--mono); font-size: 10px; color: var(--green-dark);
+          text-decoration: none; background: var(--green-light);
+          border: 1px solid rgba(22,163,74,0.2); border-radius: 20px; padding: 5px 12px;
+          transition: all 0.15s;
+        }
+        .tl-nav-scan:hover { background: #bbf7d0; }
+
+        .tl-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 24px; flex-wrap: wrap; gap: 12px; }
+        .tl-header h1 { font-size: 26px; font-weight: 800; color: var(--text-1); letter-spacing: -1px; margin-bottom: 4px; }
+        .tl-header p { font-size: 12px; color: var(--text-4); margin: 0; }
+        .tl-header-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+        .tl-btn-reset {
+          padding: 8px 16px; border-radius: 10px;
+          border: 1px solid var(--border); background: var(--bg-2);
+          color: var(--text-3); font-size: 12px; font-weight: 600;
+          cursor: pointer; font-family: var(--font);
+          transition: all 0.15s;
+        }
+        .tl-btn-reset:hover { border-color: var(--border-2); }
+        .tl-btn-download {
+          display: flex; align-items: center; gap: 6px;
+          padding: 8px 18px; border-radius: 10px; border: none;
+          background: var(--green); color: #fff; font-size: 12px;
+          font-weight: 700; cursor: pointer; font-family: var(--font);
+          transition: all 0.15s;
+        }
+        .tl-btn-download:hover { background: #15803d; }
+        .tl-btn-download:disabled { background: var(--bg-3); color: var(--text-4); cursor: not-allowed; }
+
+        .tl-tier-row {
+          display: flex; gap: 0; border-radius: 14px;
+          overflow: hidden; margin-bottom: 8px;
+          transition: border-color 0.15s;
+        }
+        .tl-tier-label {
+          width: 64px; flex-shrink: 0;
+          display: flex; flex-direction: column;
+          align-items: center; justify-content: center;
+          padding: 12px 6px; gap: 2px;
+        }
+        .tl-tier-letter { font-size: 30px; font-weight: 900; color: #fff; line-height: 1; }
+        .tl-tier-sub { font-family: var(--mono); font-size: 8px; color: rgba(255,255,255,0.7); text-align: center; }
+        .tl-drop-zone {
+          flex: 1; background: var(--bg-2); padding: 10px;
+          display: flex; flex-wrap: wrap; gap: 8px;
+          min-height: 90px; align-content: flex-start;
+          transition: background 0.15s;
+        }
+        .tl-drop-empty {
+          display: flex; align-items: center; justify-content: center;
+          width: 100%; color: var(--text-4); font-size: 12px; font-style: italic; height: 70px;
+        }
+
+        .tl-proj-card {
+          border-radius: 12px; padding: 8px 10px;
+          display: flex; align-items: center; gap: 8px;
+          cursor: grab; transition: all 0.15s;
+          animation: fadeIn 0.2s ease; position: relative;
+        }
+        .tl-proj-card:hover { transform: translateY(-2px); }
+        .tl-proj-card:active { cursor: grabbing; }
+        .tl-proj-name {
+          font-size: 12px; font-weight: 700; color: var(--text-1);
+          white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 110px;
+        }
+        .tl-proj-cat { font-family: var(--mono); font-size: 9px; }
+        .tl-proj-ticker { font-family: var(--mono); font-size: 9px; color: var(--green); }
+        .tl-proj-score { font-size: 16px; font-weight: 800; }
+        .tl-proj-remove {
+          background: none; border: none; color: var(--text-4);
+          font-size: 14px; cursor: pointer; padding: 0; line-height: 1;
+          transition: color 0.15s;
+        }
+        .tl-proj-remove:hover { color: var(--text-2); }
+
+        .tl-unranked-header {
+          font-size: 13px; font-weight: 700; color: var(--text-3);
+          margin-bottom: 10px; display: flex; align-items: center; gap: 8px;
+        }
+        .tl-unranked-count {
+          font-family: var(--mono); font-size: 10px;
+          background: var(--bg-3); padding: 2px 8px; border-radius: 20px; color: var(--text-4);
+        }
+        .tl-unranked-pool {
+          display: flex; flex-wrap: wrap; gap: 8px;
+          background: var(--bg-2); border-radius: 14px; padding: 12px;
+          min-height: 80px; transition: border-color 0.15s;
+        }
+        .tl-unranked-card {
+          background: var(--bg-3); border: 1px solid var(--border);
+          border-radius: 10px; padding: 7px 10px;
+          display: flex; align-items: center; gap: 8px;
+          cursor: grab; transition: all 0.15s;
+        }
+        .tl-unranked-card:hover { transform: translateY(-1px); }
+        .tl-unranked-card:active { cursor: grabbing; }
+        .tl-unranked-name {
+          font-size: 12px; font-weight: 700; color: var(--text-1);
+          max-width: 100px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+        }
+        .tl-unranked-pts { font-family: var(--mono); font-size: 9px; color: var(--text-4); }
+        .tl-quick-btns { display: flex; gap: 3px; margin-left: 4px; }
+        .tl-quick-btn {
+          width: 20px; height: 20px; border-radius: 4px; border: none;
+          color: #fff; font-size: 9px; font-weight: 700; cursor: pointer; padding: 0;
+          transition: all 0.1s;
+        }
+        .tl-quick-btn:hover { transform: scale(1.1); }
+
+        @media (max-width: 640px) {
+          .tl-header { flex-direction: column; }
+          .tl-drop-zone { flex-direction: column; }
+        }
       `}</style>
 
       {/* Nav */}
-      <div style={{ background: '#fff', borderBottom: '1px solid #d4e8d0', padding: '0 24px', display: 'flex', alignItems: 'center', height: 58, gap: 10, position: 'sticky', top: 0, zIndex: 100 }}>
-        <a href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 10 }}>
-          <div style={{ width: 34, height: 34, background: 'linear-gradient(135deg,#166534,#16a34a)', borderRadius: 9, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 000-1.41l-2.34-2.34a1 1 0 00-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" fill="#fff" /></svg>
+      <div className="tl-nav">
+        <a href="/" className="tl-nav-brand">
+          <div className="tl-nav-logo">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 000-1.41l-2.34-2.34a1 1 0 00-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" fill="#fff" /></svg>
           </div>
-          <span style={{ fontSize: 16, fontWeight: 800, color: '#1c2b5a' }}>CMV <span style={{ color: '#16a34a' }}>AlphaScanner</span></span>
+          <span className="tl-nav-title">CMV <span>Alpha</span></span>
         </a>
-        <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 8 }}>
-          <a href="/feed" style={{ fontFamily: "'DM Mono',monospace", fontSize: 10, color: '#6b7280', textDecoration: 'none', padding: '5px 12px', border: '1px solid #e5e7eb', borderRadius: 20 }}>Feed</a>
-          <a href="/" style={{ fontFamily: "'DM Mono',monospace", fontSize: 10, color: '#15803d', textDecoration: 'none', background: '#f0fdf4', border: '1px solid #86efac', borderRadius: 20, padding: '5px 12px' }}>← Scan</a>
+        <div className="tl-nav-right">
+          <a href="/feed" className="tl-nav-link">Feed</a>
+          <a href="/" className="tl-nav-scan">Scan</a>
         </div>
       </div>
 
       <div style={{ maxWidth: 1100, margin: '0 auto', padding: '28px 16px 80px' }}>
 
-        {/* Header */}
-        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 24, flexWrap: 'wrap' as const, gap: 12 }}>
+        <div className="tl-header">
           <div>
-            <h1 style={{ fontSize: 26, fontWeight: 900, color: '#14532d', letterSpacing: -1, marginBottom: 4 }}>My Crypto Tier List</h1>
-            <p style={{ fontSize: 12, color: '#6b7280', margin: 0 }}>Drag projects between tiers · {totalRanked} ranked · {tiers.unranked?.length || 0} unranked</p>
+            <h1>My Crypto Tier List</h1>
+            <p>Drag projects between tiers · {totalRanked} ranked · {tiers.unranked?.length || 0} unranked</p>
           </div>
-          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' as const }}>
-            <button onClick={resetTiers} style={{ padding: '8px 16px', borderRadius: 10, border: '1px solid #e5e7eb', background: '#fff', color: '#6b7280', fontSize: 12, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}>↺ Reset</button>
-            <button onClick={downloadTierList} disabled={downloading} style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '8px 18px', borderRadius: 10, border: 'none', background: downloading ? '#e2e8f0' : 'linear-gradient(135deg,#166534,#16a34a)', color: downloading ? '#9ca3af' : '#fff', fontSize: 12, fontWeight: 700, cursor: downloading ? 'not-allowed' : 'pointer', fontFamily: 'inherit' }}>
+          <div className="tl-header-btns">
+            <button onClick={resetTiers} className="tl-btn-reset">Reset</button>
+            <button onClick={downloadTierList} disabled={downloading} className="tl-btn-download">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
               {downloading ? 'Generating...' : 'Download'}
             </button>
           </div>
         </div>
 
-
-
         {loading && (
-          <div style={{ textAlign: 'center' as const, padding: 40, color: '#9ca3af' }}>
+          <div style={{ textAlign: 'center', padding: 40, color: 'var(--text-4)' }}>
             <div style={{ fontSize: 24, marginBottom: 8 }}>⏳</div>
             <div style={{ fontSize: 13 }}>Loading projects from feed...</div>
           </div>
@@ -328,41 +479,36 @@ export default function TierList() {
 
         {!loading && (
           <>
-            {/* Tier rows */}
             {['A','B','C','D'].map(tier => {
               const t = TIER_CONFIG[tier]
               const projects = (tiers[tier] || []).map(h => getScan(h)).filter(Boolean)
               return (
                 <div key={tier} onDragOver={e => onDragOver(e, tier)} onDrop={e => onDrop(e, tier)}
-                  style={{ display: 'flex', gap: 0, borderRadius: 14, overflow: 'hidden', border: `2px solid ${dragOver === tier ? t.color : t.border}`, marginBottom: 8, transition: 'border-color 0.15s' }}>
-                  {/* Tier label */}
-                  <div style={{ background: t.color, width: 72, flexShrink: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '12px 6px', gap: 2 }}>
-                    <span style={{ fontSize: 32, fontWeight: 900, color: '#fff', lineHeight: 1 }}>{tier}</span>
-                    <span style={{ fontSize: 9, color: 'rgba(255,255,255,0.8)', textAlign: 'center', lineHeight: 1.3, fontFamily: "'DM Mono',monospace" }}>{t.emoji}</span>
+                  className="tl-tier-row"
+                  style={{ border: `2px solid ${dragOver === tier ? t.color : t.border}` }}>
+                  <div className="tl-tier-label" style={{ background: t.color }}>
+                    <span className="tl-tier-letter">{tier}</span>
+                    <span className="tl-tier-sub">{t.sub.split(' ').slice(0, 2).join(' ')}</span>
                   </div>
-                  {/* Drop zone */}
-                  <div className="tier-drop" style={{ flex: 1, background: dragOver === tier ? t.bg : '#fff', padding: 10, display: 'flex', flexWrap: 'wrap' as const, gap: 8, minHeight: 90, alignContent: 'flex-start' }}>
+                  <div className="tl-drop-zone" style={{ background: dragOver === tier ? t.bg : 'var(--bg-2)' }}>
                     {projects.length === 0 && (
-                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', color: '#d1d5db', fontSize: 12, fontStyle: 'italic', height: 70 }}>
-                        drag projects here
-                      </div>
+                      <div className="tl-drop-empty">drag projects here</div>
                     )}
                     {projects.map((scan: any) => (
-                      <div key={scan.handle} className="proj-card"
+                      <div key={scan.handle} className="tl-proj-card"
                         draggable onDragStart={() => onDragStart(scan.handle)} onDragEnd={onDragEnd}
-                        style={{ background: t.bg, border: `1.5px solid ${t.border}`, borderRadius: 12, padding: '8px 10px', display: 'flex', alignItems: 'center', gap: 8, opacity: dragItem === scan.handle ? 0.4 : 1, animation: 'fadeIn 0.2s ease', position: 'relative' as const }}>
-                        <Logo scan={scan} size={40} />
+                        style={{ background: t.bg, border: `1.5px solid ${t.border}`, opacity: dragItem === scan.handle ? 0.4 : 1 }}>
+                        <Logo scan={scan} size={38} />
                         <div style={{ minWidth: 0 }}>
-                          <div style={{ fontSize: 12, fontWeight: 700, color: '#1c2b5a', whiteSpace: 'nowrap' as const, overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: 110 }}>{scan.project_name || scan.handle}</div>
-                          <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: t.tc }}>{scan.category || 'Crypto'}</div>
+                          <div className="tl-proj-name">{scan.project_name || scan.handle}</div>
+                          <div className="tl-proj-cat" style={{ color: t.tc }}>{scan.category || 'Crypto'}</div>
                           {scan.ticker && scan.token_price && scan.token_price !== 'Not Launched' && (
-                            <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#16a34a' }}>{scan.ticker} {scan.token_price}</div>
+                            <div className="tl-proj-ticker">{scan.ticker} {scan.token_price}</div>
                           )}
                         </div>
-                        <div style={{ textAlign: 'right' as const, flexShrink: 0 }}>
-                          <div style={{ fontSize: 16, fontWeight: 800, color: t.color }}>{scan.score}</div>
-                          {/* Remove button */}
-                          <button onClick={() => removeFromTier(scan.handle)} style={{ background: 'none', border: 'none', color: '#d1d5db', fontSize: 14, cursor: 'pointer', padding: 0, lineHeight: 1 }} title="Move to unranked">×</button>
+                        <div style={{ textAlign: 'right', flexShrink: 0 }}>
+                          <div className="tl-proj-score" style={{ color: t.color }}>{scan.score}</div>
+                          <button onClick={() => removeFromTier(scan.handle)} className="tl-proj-remove" title="Move to unranked">×</button>
                         </div>
                       </div>
                     ))}
@@ -371,32 +517,31 @@ export default function TierList() {
               )
             })}
 
-            {/* Unranked pool */}
             {(tiers.unranked || []).length > 0 && (
               <div style={{ marginTop: 20 }}>
-                <div style={{ fontSize: 13, fontWeight: 700, color: '#6b7280', marginBottom: 10, display: 'flex', alignItems: 'center', gap: 8 }}>
+                <div className="tl-unranked-header">
                   <span>Unranked projects</span>
-                  <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 10, background: '#f1f3f5', padding: '2px 8px', borderRadius: 20, color: '#868e96' }}>{tiers.unranked.length}</span>
-                  <span style={{ fontSize: 11, color: '#9ca3af', fontWeight: 400 }}>— drag into a tier above</span>
+                  <span className="tl-unranked-count">{tiers.unranked.length}</span>
+                  <span style={{ fontSize: 11, color: 'var(--text-4)', fontWeight: 400 }}>— drag into a tier above</span>
                 </div>
                 <div onDragOver={e => onDragOver(e, 'unranked')} onDrop={e => onDrop(e, 'unranked')}
-                  style={{ display: 'flex', flexWrap: 'wrap' as const, gap: 8, background: '#fff', border: `1.5px dashed ${dragOver === 'unranked' ? '#3b5bdb' : '#d1d5db'}`, borderRadius: 14, padding: 12, minHeight: 80, transition: 'border-color 0.15s' }}>
+                  className="tl-unranked-pool"
+                  style={{ border: `1.5px dashed ${dragOver === 'unranked' ? 'var(--green)' : 'var(--border)'}` }}>
                   {(tiers.unranked || []).map(handle => {
                     const scan = getScan(handle)
                     if (!scan) return null
                     return (
-                      <div key={handle} className="proj-card"
+                      <div key={handle} className="tl-unranked-card"
                         draggable onDragStart={() => onDragStart(handle)} onDragEnd={onDragEnd}
-                        style={{ background: '#f8f9ff', border: '1px solid #dbe4ff', borderRadius: 10, padding: '7px 10px', display: 'flex', alignItems: 'center', gap: 8, opacity: dragItem === handle ? 0.4 : 1 }}>
-                        <Logo scan={scan} size={34} />
+                        style={{ opacity: dragItem === handle ? 0.4 : 1 }}>
+                        <Logo scan={scan} size={32} />
                         <div>
-                          <div style={{ fontSize: 12, fontWeight: 700, color: '#1c2b5a', maxWidth: 100, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' as const }}>{scan.project_name || scan.handle}</div>
-                          <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#9ca3af' }}>{scan.score} pts</div>
+                          <div className="tl-unranked-name">{scan.project_name || scan.handle}</div>
+                          <div className="tl-unranked-pts">{scan.score} pts</div>
                         </div>
-                        {/* Quick assign buttons */}
-                        <div style={{ display: 'flex', gap: 3, marginLeft: 4 }}>
+                        <div className="tl-quick-btns">
                           {['A','B','C','D'].map(t => (
-                            <button key={t} onClick={() => moveTo(handle, t)} style={{ width: 20, height: 20, borderRadius: 4, border: 'none', background: TIER_CONFIG[t].color, color: '#fff', fontSize: 9, fontWeight: 700, cursor: 'pointer', padding: 0 }}>{t}</button>
+                            <button key={t} onClick={() => moveTo(handle, t)} className="tl-quick-btn" style={{ background: TIER_CONFIG[t].color }}>{t}</button>
                           ))}
                         </div>
                       </div>
