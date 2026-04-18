@@ -881,35 +881,27 @@ export default function Home() {
         const url = sources[idx++]
         const img = new Image()
         img.crossOrigin = 'anonymous'
-        const t = setTimeout(() => { img.onload = null; img.onerror = null; tryNext() }, 4000)
+        const t = setTimeout(() => { img.onload = null; img.onerror = null; tryNext() }, 5000)
         img.onload = () => { clearTimeout(t); resolve(img) }
-        img.onerror = () => {
-          clearTimeout(t)
-          // Retry same URL without crossOrigin (works for some CDNs that block CORS but allow canvas taint)
-          const img2 = new Image()
-          const t2 = setTimeout(() => { img2.onload = null; img2.onerror = null; tryNext() }, 3000)
-          img2.onload = () => { clearTimeout(t2); resolve(img2) }
-          img2.onerror = () => { clearTimeout(t2); tryNext() }
-          img2.src = url
-        }
+        img.onerror = () => { clearTimeout(t); tryNext() }
         img.src = url
       }
       tryNext()
     })
 
-    // Build a list of logo source URLs with multiple fallbacks
+    // Build logo source URLs with multiple fallbacks
     const handle = xUrl ? xUrl.replace('https://x.com/','').replace('https://twitter.com/','').replace('http://x.com/','').replace('@','').split('/')[0].trim() : ''
     const logoSources: string[] = []
-    // 1. Direct X profile image (high-res)
+    // 1. Unavatar proxy FIRST — most reliable CORS-safe source
+    if (handle) logoSources.push(`https://unavatar.io/twitter/${handle}`)
+    // 2. Direct X profile image variants
     if (xData?.profile_image_url) {
       logoSources.push(xData.profile_image_url.replace('_normal','_400x400'))
       logoSources.push(xData.profile_image_url.replace('_normal','_200x200'))
-      logoSources.push(xData.profile_image_url) // original size as fallback
+      logoSources.push(xData.profile_image_url)
     }
-    // 2. Unavatar proxy (often bypasses CORS)
-    if (handle) logoSources.push(`https://unavatar.io/twitter/${handle}`)
-    // 3. UI Avatars as absolute last resort (generates letter avatar)
-    logoSources.push(`https://ui-avatars.com/api/?name=${encodeURIComponent((result.project_name||'?').charAt(0))}&background=${colors[0].replace('#','')}&color=fff&size=128&bold=true`)
+    // 3. UI Avatars as last resort (always works, generates letter)
+    logoSources.push(`https://ui-avatars.com/api/?name=${encodeURIComponent((result.project_name||'?').charAt(0))}&background=${colors[0].replace('#','')}&color=fff&size=128&bold=true&format=png`)
 
     const wrap = (text: string, x: number, y: number, maxW: number, lh: number, max: number) => {
       const words = text.split(' '); let line = '', lY = y, n = 0
@@ -928,118 +920,123 @@ export default function Home() {
     bg.addColorStop(0, '#080b12'); bg.addColorStop(0.5, '#0c1018'); bg.addColorStop(1, '#080b12')
     ctx.fillStyle = bg; ctx.fillRect(0, 0, W, H)
 
-    // Accent strip — thin left edge
-    ctx.fillStyle = colors[0]
-    ctx.fillRect(0, 0, 4, H)
+    // Accent strip — left edge
+    const accentGrad = ctx.createLinearGradient(0, 0, 0, H)
+    accentGrad.addColorStop(0, colors[0]); accentGrad.addColorStop(1, colors[0] + '44')
+    ctx.fillStyle = accentGrad
+    ctx.fillRect(0, 0, 5, H)
 
     // Subtle dot grid
-    ctx.save(); ctx.globalAlpha = 0.04; ctx.fillStyle = '#fff'
-    for (let x = 30; x < W; x += 30) {
-      for (let y = 30; y < H; y += 30) {
-        ctx.beginPath(); ctx.arc(x, y, 0.6, 0, Math.PI * 2); ctx.fill()
+    ctx.save(); ctx.globalAlpha = 0.03; ctx.fillStyle = '#fff'
+    for (let x = 30; x < W; x += 28) {
+      for (let y = 30; y < H; y += 28) {
+        ctx.beginPath(); ctx.arc(x, y, 0.5, 0, Math.PI * 2); ctx.fill()
       }
     }
     ctx.restore()
 
     // Large faded score watermark
-    ctx.save(); ctx.globalAlpha = 0.04; ctx.fillStyle = '#fff'
-    ctx.font = 'bold 400px Arial'; ctx.textAlign = 'right'
-    ctx.fillText(String(result.overall_score ?? 0), W - 20, 420)
+    ctx.save(); ctx.globalAlpha = 0.03; ctx.fillStyle = '#fff'
+    ctx.font = 'bold 380px Arial'; ctx.textAlign = 'right'
+    ctx.fillText(String(result.overall_score ?? 0), W + 10, 400)
     ctx.restore()
 
-    const PAD = 52
-    const COL_R = W * 0.55 // right column start
+    const PAD = 48
+    const COL_R = W * 0.52
 
-    // ── TOP BAR: tier badge + branding ──
-    ctx.fillStyle = colors[0] + '18'
-    ctx.beginPath(); (ctx as any).roundRect(PAD, 36, 90, 28, 14); ctx.fill()
-    ctx.strokeStyle = colors[0] + '44'; ctx.lineWidth = 1
-    ctx.beginPath(); (ctx as any).roundRect(PAD, 36, 90, 28, 14); ctx.stroke()
-    ctx.fillStyle = colors[0]; ctx.font = 'bold 11px Arial'; ctx.textAlign = 'center'
-    ctx.fillText(otc.lbl, PAD + 45, 54); ctx.textAlign = 'left'
+    // ── TOP BAR ──
+    // Tier badge
+    ctx.fillStyle = colors[0] + '20'
+    ctx.beginPath(); (ctx as any).roundRect(PAD, 32, 100, 30, 15); ctx.fill()
+    ctx.strokeStyle = colors[0] + '55'; ctx.lineWidth = 1
+    ctx.beginPath(); (ctx as any).roundRect(PAD, 32, 100, 30, 15); ctx.stroke()
+    ctx.fillStyle = colors[0]; ctx.font = 'bold 12px Arial'; ctx.textAlign = 'center'
+    ctx.fillText(otc.lbl, PAD + 50, 52); ctx.textAlign = 'left'
 
     // CMV branding top-right
-    ctx.fillStyle = 'rgba(255,255,255,0.25)'; ctx.font = '10px monospace'; ctx.textAlign = 'right'
-    ctx.fillText('CMV ALPHASCANNER', W - PAD, 54); ctx.textAlign = 'left'
+    ctx.fillStyle = 'rgba(255,255,255,0.2)'; ctx.font = '10px monospace'; ctx.textAlign = 'right'
+    ctx.fillText('CMV ALPHASCANNER', W - PAD, 52); ctx.textAlign = 'left'
 
     // ── LEFT COLUMN ──
-    // Logo
-    const LOGO_Y = 90
+    const LOGO_Y = 82
+    const LOGO_R = 34
     const pfpImg = await loadImg(logoSources[0] || '', logoSources.slice(1))
     if (pfpImg) {
-      ctx.save(); ctx.beginPath(); ctx.arc(PAD + 30, LOGO_Y + 30, 28, 0, Math.PI * 2); ctx.clip()
-      ctx.drawImage(pfpImg, PAD + 2, LOGO_Y + 2, 56, 56); ctx.restore()
-      ctx.strokeStyle = 'rgba(255,255,255,0.12)'; ctx.lineWidth = 1.5
-      ctx.beginPath(); ctx.arc(PAD + 30, LOGO_Y + 30, 28, 0, Math.PI * 2); ctx.stroke()
+      ctx.save(); ctx.beginPath(); ctx.arc(PAD + LOGO_R, LOGO_Y + LOGO_R, LOGO_R, 0, Math.PI * 2); ctx.clip()
+      ctx.drawImage(pfpImg, PAD, LOGO_Y, LOGO_R * 2, LOGO_R * 2); ctx.restore()
+      ctx.strokeStyle = 'rgba(255,255,255,0.15)'; ctx.lineWidth = 2
+      ctx.beginPath(); ctx.arc(PAD + LOGO_R, LOGO_Y + LOGO_R, LOGO_R, 0, Math.PI * 2); ctx.stroke()
     } else {
-      ctx.fillStyle = colors[0] + '33'
-      ctx.beginPath(); ctx.arc(PAD + 30, LOGO_Y + 30, 28, 0, Math.PI * 2); ctx.fill()
-      ctx.fillStyle = '#fff'; ctx.font = 'bold 22px Arial'; ctx.textAlign = 'center'
-      ctx.fillText((result.project_name||'?').charAt(0).toUpperCase(), PAD + 30, LOGO_Y + 38); ctx.textAlign = 'left'
+      ctx.fillStyle = colors[0] + '44'
+      ctx.beginPath(); ctx.arc(PAD + LOGO_R, LOGO_Y + LOGO_R, LOGO_R, 0, Math.PI * 2); ctx.fill()
+      ctx.fillStyle = '#fff'; ctx.font = 'bold 26px Arial'; ctx.textAlign = 'center'
+      ctx.fillText((result.project_name||'?').charAt(0).toUpperCase(), PAD + LOGO_R, LOGO_Y + LOGO_R + 9); ctx.textAlign = 'left'
     }
 
-    // Project name
-    ctx.fillStyle = '#fff'; ctx.font = 'bold 28px Arial'
-    ctx.fillText((result.project_name||'').slice(0, 22), PAD + 70, LOGO_Y + 22)
+    // Project name — next to logo
+    const nameX = PAD + LOGO_R * 2 + 16
+    ctx.fillStyle = '#fff'; ctx.font = 'bold 30px Arial'
+    ctx.fillText((result.project_name||'').slice(0, 20), nameX, LOGO_Y + 24)
 
-    // Category + ticker
+    // Category line
     const metaLine = [result.project_category, result.team_location].filter(Boolean).join(' · ')
-    ctx.fillStyle = 'rgba(255,255,255,0.35)'; ctx.font = '12px Arial'
-    ctx.fillText(metaLine.slice(0, 50), PAD + 70, LOGO_Y + 42)
+    ctx.fillStyle = 'rgba(255,255,255,0.4)'; ctx.font = '13px Arial'
+    ctx.fillText(metaLine.slice(0, 45), nameX, LOGO_Y + 46)
 
+    // Token pill
     if (cgData?.token_live && cgData.ticker) {
       const tok = cgData.ticker + '  ' + (cgData.token_price || '')
-      ctx.font = 'bold 10px monospace'
-      const tw = ctx.measureText(tok).width + 16
-      ctx.fillStyle = 'rgba(22,163,74,0.2)'; ctx.strokeStyle = 'rgba(22,163,74,0.3)'; ctx.lineWidth = 1
-      ctx.beginPath(); (ctx as any).roundRect(PAD + 70, LOGO_Y + 50, tw, 18, 9); ctx.fill(); ctx.stroke()
-      ctx.fillStyle = '#4ade80'; ctx.fillText(tok, PAD + 78, LOGO_Y + 63)
+      ctx.font = 'bold 11px monospace'
+      const tw = ctx.measureText(tok).width + 18
+      ctx.fillStyle = 'rgba(22,163,74,0.2)'; ctx.strokeStyle = 'rgba(22,163,74,0.4)'; ctx.lineWidth = 1
+      ctx.beginPath(); (ctx as any).roundRect(nameX, LOGO_Y + 54, tw, 20, 10); ctx.fill(); ctx.stroke()
+      ctx.fillStyle = '#4ade80'; ctx.fillText(tok, nameX + 9, LOGO_Y + 68)
     }
 
     // Divider
-    const DIV_Y = LOGO_Y + 80
+    const DIV_Y = LOGO_Y + 86
     ctx.strokeStyle = 'rgba(255,255,255,0.06)'; ctx.lineWidth = 1
-    ctx.beginPath(); ctx.moveTo(PAD, DIV_Y); ctx.lineTo(COL_R - 30, DIV_Y); ctx.stroke()
+    ctx.beginPath(); ctx.moveTo(PAD, DIV_Y); ctx.lineTo(COL_R - 20, DIV_Y); ctx.stroke()
 
     // Description
-    ctx.fillStyle = 'rgba(255,255,255,0.55)'; ctx.font = '13px Arial'
-    wrap(result.description || '', PAD, DIV_Y + 24, COL_R - PAD - 50, 20, 3)
+    ctx.fillStyle = 'rgba(255,255,255,0.5)'; ctx.font = '13px Arial'
+    wrap(result.description || '', PAD, DIV_Y + 22, COL_R - PAD - 40, 20, 3)
 
     // Highlights
-    let hlY = DIV_Y + 90
+    let hlY = DIV_Y + 84
     highlights.forEach((h: string) => {
-      const label = '✓  ' + (h.length > 50 ? h.slice(0,48)+'…' : h)
+      const label = '✓  ' + (h.length > 46 ? h.slice(0,44)+'…' : h)
       ctx.font = 'bold 11px Arial'
-      const pw = Math.min(ctx.measureText(label).width + 20, COL_R - PAD - 50)
+      const pw = Math.min(ctx.measureText(label).width + 20, COL_R - PAD - 40)
       ctx.fillStyle = 'rgba(22,163,74,0.1)'
-      ctx.beginPath(); (ctx as any).roundRect(PAD, hlY, pw, 22, 11); ctx.fill()
-      ctx.fillStyle = '#4ade80'; ctx.fillText(label, PAD + 10, hlY + 15)
+      ctx.beginPath(); (ctx as any).roundRect(PAD, hlY, pw, 24, 12); ctx.fill()
+      ctx.fillStyle = '#4ade80'; ctx.fillText(label, PAD + 10, hlY + 16)
       hlY += 30
     })
 
-    // Red flags
+    // Red flags badge
     if (flagCount > 0) {
       ctx.font = 'bold 11px Arial'
       const fl = flagCount + ' red flag' + (flagCount > 1 ? 's' : '') + ' detected'
       const fw = ctx.measureText(fl).width + 24
-      ctx.fillStyle = 'rgba(220,38,38,0.15)'
-      ctx.beginPath(); (ctx as any).roundRect(PAD, hlY + 4, fw, 22, 11); ctx.fill()
-      ctx.fillStyle = '#f87171'; ctx.fillText(fl, PAD + 12, hlY + 18)
+      ctx.fillStyle = 'rgba(220,38,38,0.2)'
+      ctx.beginPath(); (ctx as any).roundRect(PAD, hlY + 4, fw, 24, 12); ctx.fill()
+      ctx.fillStyle = '#f87171'; ctx.fillText(fl, PAD + 12, hlY + 20)
     }
 
     // ── VERTICAL DIVIDER ──
     ctx.strokeStyle = 'rgba(255,255,255,0.05)'; ctx.lineWidth = 1
-    ctx.beginPath(); ctx.moveTo(COL_R - 16, 80); ctx.lineTo(COL_R - 16, H - 50); ctx.stroke()
+    ctx.beginPath(); ctx.moveTo(COL_R - 10, 75); ctx.lineTo(COL_R - 10, H - 44); ctx.stroke()
 
-    // ── RIGHT COLUMN: Score + Verdict ──
+    // ── RIGHT COLUMN ──
     // Big score
-    ctx.fillStyle = '#fff'; ctx.font = 'bold 96px Arial'; ctx.textAlign = 'right'
-    ctx.fillText(String(result.overall_score ?? 0), W - PAD, 150)
+    ctx.fillStyle = '#fff'; ctx.font = 'bold 88px Arial'; ctx.textAlign = 'right'
+    ctx.fillText(String(result.overall_score ?? 0), W - PAD, 140)
     ctx.font = '10px monospace'; ctx.fillStyle = 'rgba(255,255,255,0.25)'; ctx.textAlign = 'right'
-    ctx.fillText('/100  ALPHA SCORE', W - PAD, 168); ctx.textAlign = 'left'
+    ctx.fillText('/100  ALPHA SCORE', W - PAD, 158); ctx.textAlign = 'left'
 
     // User badge
-    const UY = 200
+    const UY = 188
     const uImg = userPhoto ? await loadImg(userPhoto) : null
     if (uImg) {
       ctx.save(); ctx.beginPath(); ctx.arc(COL_R + 14, UY, 14, 0, Math.PI * 2); ctx.clip()
@@ -1053,22 +1050,40 @@ export default function Home() {
     }
     ctx.fillStyle = 'rgba(255,255,255,0.3)'; ctx.font = '10px Arial'
     ctx.fillText('@' + (userName||'cmvng') + ' says', COL_R + 38, UY - 4)
-    ctx.fillStyle = colors[0]; ctx.font = 'bold 16px Arial'
-    ctx.fillText(otc.v, COL_R + 38, UY + 14)
+    ctx.fillStyle = colors[0]; ctx.font = 'bold 17px Arial'
+    ctx.fillText(otc.v, COL_R + 38, UY + 15)
 
     // Verdict reasoning box
-    const VBY = UY + 36
+    const VBY = UY + 34
     const VBW = W - COL_R - PAD
+    const VBH = 130
     ctx.fillStyle = 'rgba(255,255,255,0.03)'
-    ctx.beginPath(); (ctx as any).roundRect(COL_R, VBY, VBW, H - VBY - 50, 12); ctx.fill()
+    ctx.beginPath(); (ctx as any).roundRect(COL_R, VBY, VBW, VBH, 12); ctx.fill()
     ctx.strokeStyle = 'rgba(255,255,255,0.06)'; ctx.lineWidth = 1
-    ctx.beginPath(); (ctx as any).roundRect(COL_R, VBY, VBW, H - VBY - 50, 12); ctx.stroke()
+    ctx.beginPath(); (ctx as any).roundRect(COL_R, VBY, VBW, VBH, 12); ctx.stroke()
     ctx.fillStyle = 'rgba(255,255,255,0.6)'; ctx.font = '12px Arial'
-    wrap(result.verdict_action || result.verdict_reason || '', COL_R + 14, VBY + 22, VBW - 28, 19, 9)
+    wrap(result.verdict_action || result.verdict_reason || '', COL_R + 14, VBY + 22, VBW - 28, 18, 6)
+
+    // Category scores row at bottom of right column
+    const CSY = VBY + VBH + 16
+    const catNames = ['Fund', 'Team', 'Oppt', 'Sent', 'Trac']
+    const catW = Math.floor((VBW - 4 * 8) / 5)
+    CATS.forEach((cat, ci) => {
+      const cs = catScore(cat)
+      const cx = COL_R + ci * (catW + 8)
+      ctx.fillStyle = 'rgba(255,255,255,0.04)'
+      ctx.beginPath(); (ctx as any).roundRect(cx, CSY, catW, 44, 8); ctx.fill()
+      ctx.fillStyle = 'rgba(255,255,255,0.25)'; ctx.font = '8px monospace'; ctx.textAlign = 'center'
+      ctx.fillText(catNames[ci].toUpperCase(), cx + catW/2, CSY + 14)
+      const cTier = getTier(cs)
+      ctx.fillStyle = T[cTier].solid; ctx.font = 'bold 16px Arial'
+      ctx.fillText(String(cs), cx + catW/2, CSY + 36)
+      ctx.textAlign = 'left'
+    })
 
     // Footer
-    ctx.fillStyle = 'rgba(255,255,255,0.15)'; ctx.font = '9px monospace'; ctx.textAlign = 'center'
-    ctx.fillText('cmv-alphascanner.vercel.app', W / 2, H - 16)
+    ctx.fillStyle = 'rgba(255,255,255,0.12)'; ctx.font = '9px monospace'; ctx.textAlign = 'center'
+    ctx.fillText('cmv-alphascanner.vercel.app', W / 2, H - 14)
     ctx.globalAlpha = 1
 
     const link = document.createElement('a')
