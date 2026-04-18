@@ -503,35 +503,41 @@ export default function Home() {
     try { localStorage.removeItem(`cmv_scan_v3_${handle.toLowerCase()}`); localStorage.removeItem(`cmv_scan_v2_${handle.toLowerCase()}`); localStorage.removeItem(`cmv_scan_${handle.toLowerCase()}`) } catch {}
     setLoading(true); setResult(null); setCgData(null); setXData(null); setError(null); setAtab('Fundamentals'); setAsec('metrics'); setSelectedTags([])
 
-    // Check if scan was deleted from Supabase (admin delete) — if so, invalidate cache
-    let cacheInvalid = false
+    // Check cache — serve cached result unless admin deleted from Supabase or cache is stale
     try {
-      const sbUrl = import.meta.env.VITE_SUPABASE_URL
-      const sbKey = import.meta.env.VITE_SUPABASE_ANON_KEY
-      if (sbUrl && sbKey) {
-        const check = await fetch(sbUrl + '/rest/v1/scans?handle=eq.' + handle.toLowerCase() + '&select=id&limit=1', {
-          headers: { 'apikey': sbKey, 'Authorization': 'Bearer ' + sbKey }
-        })
-        if (check.ok) {
-          const rows = await check.json()
-          if (rows.length === 0) cacheInvalid = true // deleted from admin
+      const cached = localStorage.getItem(cacheKey)
+      if (cached) {
+        const { result: cr, cgData: cc, xData: cx, timestamp } = JSON.parse(cached)
+        const hasFullMetrics = cr?.metrics?.vc_pedigree || cr?.metrics?.founder_cred
+        const isExpired = Date.now() - timestamp > 1000 * 60 * 60 * 24 // 24h cache
+
+        if (!isExpired && hasFullMetrics) {
+          // Check if admin deleted this scan from Supabase
+          let adminDeleted = false
+          try {
+            const sbUrl = import.meta.env.VITE_SUPABASE_URL
+            const sbKey = import.meta.env.VITE_SUPABASE_ANON_KEY
+            if (sbUrl && sbKey) {
+              const check = await fetch(sbUrl + '/rest/v1/scans?handle=eq.' + handle.toLowerCase() + '&select=id&limit=1', {
+                headers: { 'apikey': sbKey, 'Authorization': 'Bearer ' + sbKey }
+              })
+              if (check.ok) {
+                const rows = await check.json()
+                if (rows.length === 0) adminDeleted = true
+              }
+            }
+          } catch {}
+
+          if (adminDeleted) {
+            // Admin deleted — clear cache and run fresh
+            try { localStorage.removeItem(cacheKey) } catch {}
+          } else {
+            // Serve cached result
+            setResult(cr); setCgData(cc); setXData(cx); setLoading(false); return
+          }
         }
       }
-    } catch {}
-
-    if (!cacheInvalid) {
-      try {
-        const cached = localStorage.getItem(cacheKey)
-        if (cached) {
-          const { result: cr, cgData: cc, xData: cx, timestamp } = JSON.parse(cached)
-          // 4 hour cache — also invalidate if metrics are incomplete (old xOnlyScan format)
-          const hasFullMetrics = cr?.metrics?.vc_pedigree || cr?.metrics?.founder_cred
-          if (Date.now() - timestamp < 1000 * 60 * 60 * 4 && hasFullMetrics) { setResult(cr); setCgData(cc); setXData(cx); setLoading(false); return }
-        }
-      } catch { }
-    } else {
-      try { localStorage.removeItem(cacheKey) } catch {}
-    }
+    } catch { }
     let xd: any = null
     try {
       xd = await fetchProjectXData(handle)
@@ -625,9 +631,13 @@ export default function Home() {
 
       const hasRaised = enriched.total_raised_rootdata || enriched.total_raised_defillama
       const investors = enriched.confirmed_investors || []
-      const topVCs = ['paradigm','a16z','coinbase','polychain','multicoin','pantera','sequoia','dragonfly','binance','animoca']
-      const hasTopVC = investors.some((v: string) => topVCs.some(vc => v.toLowerCase().includes(vc)))
-      const fundingScore = hasTopVC ? 90 : investors.length > 3 ? 75 : hasRaised ? 60 : investors.length > 0 ? 45 : 25
+      const topVCs = ['paradigm','a16z','andreessen','coinbase ventures','polychain','multicoin','pantera','sequoia','dragonfly','binance labs','binance','animoca','electric capital','framework ventures','jump crypto','delphi digital','galaxy digital','hashkey','okx ventures','circle']
+      const tier2VCs = ['blockchain capital','robot ventures','maelstrom','hashed','hack vc','dao5','variant','1kx','placeholder','iosg','spartan','mechanism capital','amber group','wintermute','gsr','cms holdings','alameda','three arrows','digital currency group','dcg','grayscale','bitfinex','huobi','kucoin','gate','bybit','maven 11','nascent','north island','coinfund','distributed global','arrington','galaxy','svn','standard crypto','castle island']
+      const matchedTier1 = investors.filter((v: string) => topVCs.some(vc => v.toLowerCase().includes(vc)))
+      const matchedTier2 = investors.filter((v: string) => tier2VCs.some(vc => v.toLowerCase().includes(vc)))
+      const hasTopVC = matchedTier1.length > 0
+      const hasTier2VC = matchedTier2.length > 0
+      const fundingScore = hasTopVC ? 90 : hasTier2VC ? 78 : investors.length > 3 ? 70 : hasRaised ? 60 : investors.length > 0 ? 45 : 25
 
       const tvl = enriched.tvl
       const revenue = enriched.revenue_24h
@@ -692,7 +702,8 @@ export default function Home() {
 
       const highlights: string[] = []
       if (hasRaised) highlights.push(`${enriched.total_raised_rootdata || enriched.total_raised_defillama} raised`)
-      if (hasTopVC) highlights.push(`Backed by ${investors.slice(0,2).join(', ')}`)
+      if (hasTopVC) highlights.push(`Tier 1 VC backed: ${matchedTier1.slice(0,2).join(', ')}`)
+      else if (hasTier2VC) highlights.push(`Tier 2 VC backed: ${matchedTier2.slice(0,2).join(', ')}`)
       if (tvl) highlights.push(`${tvl} TVL deployed`)
       if (revenue) highlights.push(`${revenue} daily revenue`)
       if (hasRealXData && followers > 10000) highlights.push(`${(followers/1000).toFixed(0)}K X followers`)
@@ -702,7 +713,8 @@ export default function Home() {
 
       const parts: string[] = []
       if (enriched.defillama_category) parts.push(`${enriched.defillama_category} project`)
-      if (hasRaised && hasTopVC) parts.push(`Backed by top VCs including ${investors[0]}`)
+      if (hasRaised && hasTopVC) parts.push(`Backed by tier 1 VCs including ${matchedTier1[0]}`)
+      else if (hasRaised && hasTier2VC) parts.push(`Backed by tier 2 VCs including ${matchedTier2[0]}`)
       else if (hasRaised) parts.push(`Has raised ${enriched.total_raised_rootdata || enriched.total_raised_defillama}`)
       if (tvl) parts.push(`${tvl} TVL showing real capital deployment`)
       if (revenue) parts.push(`Generating ${revenue} in daily revenue`)
@@ -734,7 +746,17 @@ export default function Home() {
         verdict_reason: verdictReason,
         verdict_action: verdictAction[verdict],
         overall_score: cappedScore,
-        score_rationale: `Tool-native score: Funding ${fundingScore}/100 · Revenue ${revenueScore}/100 · Community ${followerScore}/100 · Team ${teamScore}/100. FUD penalty: -${fudPenalty}pts. Raw: followers=${xd?.followers || 0} tvl=${enriched.tvl || 'none'} investors=${(enriched.confirmed_investors||[]).length} sentiment=${enriched.news_sentiment || 'none'}`,
+        score_rationale: (() => {
+          const pts: string[] = []
+          if (hasRaised) pts.push(`Raised ${enriched.total_raised_rootdata || enriched.total_raised_defillama} from ${investors.length} investor${investors.length > 1 ? 's' : ''}${hasTopVC ? ' including tier 1 VCs' : hasTier2VC ? ' including tier 2 VCs' : ''}`)
+          if (tvl) pts.push(`${tvl} in TVL deployed`)
+          if (enriched.revenue_24h) pts.push(`generating ${enriched.revenue_24h} daily revenue`)
+          if (hasRealXData) pts.push(`${(followers/1000).toFixed(0)}K followers with ${(avgLikes).toFixed(0)} avg likes`)
+          if (team.length > 0) pts.push(`${team.length} identified team members`)
+          if (autoFlags.length > 0) pts.push(`${autoFlags.length} red flag${autoFlags.length > 1 ? 's' : ''} detected (score penalty applied)`)
+          if (hacks.length > 0) pts.push(`${hacks.length} security incident${hacks.length > 1 ? 's' : ''} on record`)
+          return pts.length > 0 ? pts.join('. ') + '.' : verdictReason
+        })(),
         good_highlights: highlights.slice(0, 5),
         red_flags: autoFlags.map((f: any) => ({ type: f.type, label: f.label, detail: f.detail })),
         top_risks: [
@@ -747,7 +769,7 @@ export default function Home() {
         top_opportunities: [
           !tokenLive && xd?.token_launch_hinted ? 'Token not yet launched — early farming opportunity' : null,
           tvlNum > 1e8 ? `High TVL of ${tvl} showing strong ecosystem` : null,
-          hasTopVC ? `VC backing from ${investors[0]} adds credibility` : null,
+          hasTopVC ? `Tier 1 VC backing from ${matchedTier1[0]} adds strong credibility` : hasTier2VC ? `Tier 2 VC backing from ${matchedTier2[0]}` : null,
           enriched.chains?.length > 1 ? `Multi-chain deployment on ${enriched.chains.join(', ')}` : null,
         ].filter(Boolean).slice(0, 3),
         team_members: (enriched.rootdata_team || []).filter((t: any) => t.name && t.name.length > 1).map((t: any) => ({
@@ -760,23 +782,23 @@ export default function Home() {
         sources: [],
         data_accuracy_note: '',
         metrics: {
-          funding: { score: fundingScore, detail: hasRaised ? `${enriched.total_raised_rootdata || enriched.total_raised_defillama} raised from ${investors.length} investors` : 'No confirmed funding found', signal: fundingScore >= 70 ? 'bullish' : fundingScore <= 30 ? 'bearish' : 'neutral' },
-          vc_pedigree: { score: hasTopVC ? 85 : investors.length > 2 ? 60 : investors.length > 0 ? 40 : 0, detail: hasTopVC ? `Top-tier VC backing: ${investors.slice(0,3).join(', ')}` : investors.length > 0 ? `${investors.length} investors found: ${investors.slice(0,3).join(', ')}` : 'No investor data available from RootData', signal: hasTopVC ? 'bullish' : investors.length > 0 ? 'neutral' : 'bearish' },
-          copycat: { score: 50, detail: 'Originality analysis requires AI — data not available in tool-native mode', signal: 'neutral' },
-          niche: { score: enriched.defillama_category ? 60 : 40, detail: enriched.defillama_category ? `Categorized as ${enriched.defillama_category} on DefiLlama` : `Categorized as ${xd?.category || 'Crypto'} based on X bio analysis`, signal: 'neutral' },
-          location: { score: team.length > 0 ? 55 : 30, detail: team.length > 0 ? `${team.length} team members identified via RootData` : 'No team location data available', signal: 'neutral' },
-          founder_cred: { score: teamScore, detail: team.length > 0 ? `${team.length} team member${team.length > 1 ? 's' : ''} found: ${team.slice(0,3).map((t: any) => t.name + (t.role ? ' (' + t.role + ')' : '')).join(', ')}` : verified ? 'Verified X account but no team data on RootData' : 'No team data found — cannot verify founder credibility', signal: teamScore >= 65 ? 'bullish' : teamScore <= 35 ? 'bearish' : 'neutral' },
-          founder_activity: { score: !hasRealXData ? 0 : avgLikes > 100 ? 75 : avgLikes > 20 ? 55 : 30, detail: hasRealXData ? `${(avgLikes).toFixed(0)} avg likes per post, ${tweetCount.toLocaleString()} total tweets` : 'X API data unavailable', signal: avgLikes > 100 ? 'bullish' : avgLikes < 10 ? 'bearish' : 'neutral' },
-          top_voices: { score: !hasRealXData ? 0 : listed > 500 ? 80 : listed > 100 ? 60 : listed > 0 ? 40 : 20, detail: hasRealXData ? `Listed in ${listed.toLocaleString()} X lists — indicates CT attention level` : 'X API data unavailable', signal: listed > 500 ? 'bullish' : listed < 50 ? 'bearish' : 'neutral' },
-          token: { score: tokenScore, detail: tokenLive ? `Token live: ${cg?.ticker || ''} at ${cg?.token_price || 'unknown'}` : xd?.token_launch_hinted ? 'Token launch hinted in bio/tweets but not yet live' : 'No token confirmed on any DEX or exchange', signal: tokenLive ? (dexDump ? 'bearish' : 'bullish') : 'neutral' },
-          metrics_clarity: { score: (tokenLive || xd?.token_launch_hinted) ? 55 : 30, detail: tokenLive ? 'Token is live — farming criteria may be clearer' : 'No clear criteria for top % requirements — early stage', signal: 'neutral' },
-          user_count: { score: !hasRealXData ? 0 : followers > 100000 ? 40 : followers > 10000 ? 65 : 80, detail: hasRealXData ? `${followers.toLocaleString()} followers — ${followers > 100000 ? 'high user count increases dilution risk' : followers > 10000 ? 'moderate user base' : 'low user count — early entry opportunity'}` : 'User count data unavailable', signal: followers > 100000 ? 'bearish' : followers < 10000 ? 'bullish' : 'neutral' },
-          fud: { score: autoFlags.length > 0 ? Math.max(10, 100 - autoFlags.length * 30) : securityScore, detail: autoFlags.length > 0 ? `${autoFlags.length} FUD signal(s) detected: ${autoFlags.slice(0,2).map((f: any) => f.label).join(', ')}` : hacks.length > 0 ? `${hacks.length} known exploit(s) on DefiLlama` : 'No FUD signals or security issues detected', signal: autoFlags.length > 0 || hacks.length > 0 ? 'bearish' : 'bullish' },
-          notable_mentions: { score: !hasRealXData ? 0 : followers > 50000 ? 75 : followers > 10000 ? 55 : 30, detail: hasRealXData ? `${followers.toLocaleString()} followers, ${listed.toLocaleString()} lists — proxy for CT mentions` : 'Cannot determine CT mentions without X data', signal: followers > 50000 ? 'bullish' : followers < 5000 ? 'bearish' : 'neutral' },
-          content_type: { score: 50, detail: 'Organic vs sponsored content analysis requires AI — not available in tool-native mode', signal: 'neutral' },
-          mindshare: { score: !hasRealXData ? 0 : engagementScore, detail: hasRealXData ? `${(avgLikes).toFixed(0)} avg likes, ${followers.toLocaleString()} followers — ${avgLikes > 500 ? 'high engagement indicates strong mindshare' : avgLikes > 50 ? 'moderate engagement' : 'low engagement'}` : 'Mindshare data unavailable', signal: avgLikes > 500 ? 'bullish' : avgLikes < 20 ? 'bearish' : 'neutral' },
-          revenue: { score: revenueScore, detail: enriched.revenue_24h ? `${enriched.revenue_24h} daily revenue from DefiLlama` : enriched.fees_24h ? `${enriched.fees_24h} daily fees from DefiLlama` : tvl ? `${tvl} TVL but no revenue data reported` : 'No revenue data found on DefiLlama', signal: revenueScore >= 65 ? 'bullish' : revenueScore <= 30 ? 'bearish' : 'neutral' },
-          sentiment: { score: sentimentScore, detail: `${sentiment || 'unknown'} news sentiment from ${enriched.news_article_count || 0} articles via CryptoNews API`, signal: sentiment === 'positive' ? 'bullish' : sentiment === 'negative' ? 'bearish' : 'neutral' },
+          funding: { score: fundingScore, detail: hasRaised ? `${enriched.total_raised_rootdata || enriched.total_raised_defillama} raised from ${investors.length} investors` : 'No confirmed funding data found', signal: fundingScore >= 70 ? 'bullish' : fundingScore <= 30 ? 'bearish' : 'neutral' },
+          vc_pedigree: { score: hasTopVC ? 92 : hasTier2VC ? 72 : investors.length > 2 ? 55 : investors.length > 0 ? 40 : 0, detail: hasTopVC ? `Tier 1 VC backing: ${matchedTier1.slice(0,3).join(', ')}` : hasTier2VC ? `Tier 2 VC backing: ${matchedTier2.slice(0,3).join(', ')}` : investors.length > 0 ? `${investors.length} investors: ${investors.slice(0,3).join(', ')}` : 'No investor data found', signal: hasTopVC ? 'bullish' : hasTier2VC ? 'neutral' : investors.length === 0 ? 'bearish' : 'neutral' },
+          copycat: { score: enriched.defillama_category ? 55 : 45, detail: enriched.defillama_category ? `Operates in the ${enriched.defillama_category} sector${enriched.chains?.length > 0 ? ' across ' + enriched.chains.slice(0,2).join(', ') : ''}` : `Positioned in the ${xd?.category || 'crypto'} space — differentiation unclear without deeper analysis`, signal: 'neutral' },
+          niche: { score: enriched.defillama_category ? 60 : 40, detail: enriched.defillama_category ? `${enriched.defillama_category} category${tvlNum > 1e8 ? ' with significant TVL indicating market demand' : tvlNum > 0 ? ' with active capital deployment' : ''}` : `Categorized as ${xd?.category || 'Crypto'} based on project description`, signal: enriched.defillama_category && tvlNum > 1e7 ? 'bullish' : 'neutral' },
+          location: { score: team.length > 0 ? 55 : 30, detail: team.length > 0 ? `${team.length} team members identified — ${team.slice(0,2).map((t: any) => t.name).join(', ')}` : 'No team location data available', signal: 'neutral' },
+          founder_cred: { score: teamScore, detail: team.length > 0 ? `${team.length} team member${team.length > 1 ? 's' : ''} found: ${team.slice(0,3).map((t: any) => t.name + (t.role ? ' (' + t.role + ')' : '')).join(', ')}` : verified ? 'Verified X account but no public team profiles found' : 'No team data found — cannot verify founder credibility', signal: teamScore >= 65 ? 'bullish' : teamScore <= 35 ? 'bearish' : 'neutral' },
+          founder_activity: { score: !hasRealXData ? 0 : avgLikes > 100 ? 75 : avgLikes > 20 ? 55 : 30, detail: hasRealXData ? `${(avgLikes).toFixed(0)} avg likes per post, ${tweetCount.toLocaleString()} total tweets, account is ${accountAge.toFixed(1)} years old` : 'X activity data unavailable', signal: avgLikes > 100 ? 'bullish' : avgLikes < 10 ? 'bearish' : 'neutral' },
+          top_voices: { score: !hasRealXData ? 0 : listed > 500 ? 80 : listed > 100 ? 60 : listed > 0 ? 40 : 20, detail: hasRealXData ? `Listed in ${listed.toLocaleString()} curated lists — ${listed > 500 ? 'high visibility among CT influencers' : listed > 100 ? 'moderate CT attention' : 'limited CT visibility'}` : 'CT visibility data unavailable', signal: listed > 500 ? 'bullish' : listed < 50 ? 'bearish' : 'neutral' },
+          token: { score: tokenScore, detail: tokenLive ? `Token live: ${cg?.ticker || ''} at ${cg?.token_price || 'unknown'}${cg?.market_cap_str ? ' · MCap ' + cg.market_cap_str : ''}` : xd?.token_launch_hinted ? 'Token launch hinted in bio/tweets but not yet live on any DEX' : 'No token confirmed — potential early farming opportunity', signal: tokenLive ? (dexDump ? 'bearish' : 'bullish') : 'neutral' },
+          metrics_clarity: { score: (tokenLive || xd?.token_launch_hinted) ? 55 : 30, detail: tokenLive ? 'Token is live — farming criteria and requirements are clearer' : xd?.token_launch_hinted ? 'Token hinted — watch for announcements on farming requirements' : 'No clear criteria for top % requirements yet — early stage project', signal: 'neutral' },
+          user_count: { score: !hasRealXData ? 0 : followers > 100000 ? 40 : followers > 10000 ? 65 : 80, detail: hasRealXData ? `${followers.toLocaleString()} followers — ${followers > 100000 ? 'high user count increases airdrop dilution risk' : followers > 10000 ? 'moderate user base, manageable dilution' : 'low user count — early entry advantage, less dilution'}` : 'User count data unavailable', signal: followers > 100000 ? 'bearish' : followers < 10000 ? 'bullish' : 'neutral' },
+          fud: { score: autoFlags.length > 0 ? Math.max(10, 100 - autoFlags.length * 30) : securityScore, detail: autoFlags.length > 0 ? `${autoFlags.length} warning signal(s): ${autoFlags.slice(0,2).map((f: any) => f.label).join(', ')}` : hacks.length > 0 ? `${hacks.length} known security exploit(s) on record` : 'No FUD signals or security issues detected', signal: autoFlags.length > 0 || hacks.length > 0 ? 'bearish' : 'bullish' },
+          notable_mentions: { score: !hasRealXData ? 0 : followers > 50000 ? 75 : followers > 10000 ? 55 : 30, detail: hasRealXData ? `${followers.toLocaleString()} followers, ${listed.toLocaleString()} curated lists — ${followers > 50000 ? 'widely discussed in CT' : followers > 10000 ? 'moderate CT presence' : 'limited CT discussion'}` : 'CT mention data unavailable', signal: followers > 50000 ? 'bullish' : followers < 5000 ? 'bearish' : 'neutral' },
+          content_type: { score: hasRealXData ? (avgLikes > 50 && followers < 50000 ? 70 : avgLikes > 20 ? 55 : 40) : 50, detail: hasRealXData ? `${avgLikes > 50 && followers < 50000 ? 'High engagement relative to follower count suggests organic interest' : avgLikes > 20 ? 'Moderate engagement levels' : 'Low engagement — could indicate paid/bot followers'}` : 'Content analysis requires more data', signal: avgLikes > 50 && followers < 50000 ? 'bullish' : avgLikes < 10 ? 'bearish' : 'neutral' },
+          mindshare: { score: !hasRealXData ? 0 : engagementScore, detail: hasRealXData ? `${(avgLikes).toFixed(0)} avg likes, ${followers.toLocaleString()} followers — ${avgLikes > 500 ? 'strong mindshare and engagement' : avgLikes > 50 ? 'growing mindshare' : 'low current mindshare'}` : 'Mindshare data unavailable', signal: avgLikes > 500 ? 'bullish' : avgLikes < 20 ? 'bearish' : 'neutral' },
+          revenue: { score: revenueScore, detail: enriched.revenue_24h ? `${enriched.revenue_24h} daily revenue confirmed` : enriched.fees_24h ? `${enriched.fees_24h} daily fees confirmed` : tvl ? `${tvl} TVL deployed but no revenue data reported yet` : 'No revenue data found — pre-revenue stage', signal: revenueScore >= 65 ? 'bullish' : revenueScore <= 30 ? 'bearish' : 'neutral' },
+          sentiment: { score: sentimentScore, detail: sentiment ? `${sentiment.charAt(0).toUpperCase() + sentiment.slice(1)} sentiment across ${enriched.news_article_count || 0} recent news articles` : `No recent news coverage found — ${followers > 10000 ? 'project may be under the radar' : 'very early stage project'}`, signal: sentiment === 'positive' ? 'bullish' : sentiment === 'negative' ? 'bearish' : 'neutral' },
         },
         post_tge_outlook: tokenLive ? (dexDump ? 'Poor — token declining' : 'Moderate') : 'Token not yet live',
         project_follows: null,
