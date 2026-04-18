@@ -359,6 +359,7 @@ export default function Home() {
   const [showProfileSetup, setShowProfileSetup] = useState(false)
   const [tempName, setTempName] = useState('')
   const [tempPhoto, setTempPhoto] = useState('')
+  const [feedLoading, setFeedLoading] = useState(() => !!new URLSearchParams(window.location.search).get('q'))
   const { name: userName, photo: userPhoto, save: saveProfile } = useProfile()
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const pint = useRef<any>(null)
@@ -414,12 +415,14 @@ export default function Home() {
 
       if (!cr) {
         analyze()
+        setFeedLoading(false)
         return
       }
 
       setResult(cr)
       setCgData(cc)
       setXData(cx)
+      setFeedLoading(false)
       fetchProjectXData(handle).then(freshXd => { if (freshXd) setXData(freshXd) }).catch(() => {})
 
     }
@@ -829,18 +832,43 @@ export default function Home() {
     const ctx = canvas.getContext('2d')!
     ctx.scale(DPR, DPR)
 
-    const loadImg = (src: string): Promise<HTMLImageElement | null> => new Promise(resolve => {
-      const img = new Image(); const t = setTimeout(() => resolve(null), 4000)
-      img.crossOrigin = 'anonymous'
-      img.onload = () => { clearTimeout(t); resolve(img) }
-      img.onerror = () => {
-        const img2 = new Image(); const t2 = setTimeout(() => resolve(null), 3000)
-        img2.onload = () => { clearTimeout(t2); resolve(img2) }
-        img2.onerror = () => { clearTimeout(t2); resolve(null) }
-        img2.src = src
+    const loadImg = (src: string, fallbacks: string[] = []): Promise<HTMLImageElement | null> => new Promise(resolve => {
+      const sources = [src, ...fallbacks].filter(Boolean)
+      let idx = 0
+      const tryNext = () => {
+        if (idx >= sources.length) { resolve(null); return }
+        const url = sources[idx++]
+        const img = new Image()
+        img.crossOrigin = 'anonymous'
+        const t = setTimeout(() => { img.onload = null; img.onerror = null; tryNext() }, 4000)
+        img.onload = () => { clearTimeout(t); resolve(img) }
+        img.onerror = () => {
+          clearTimeout(t)
+          // Retry same URL without crossOrigin (works for some CDNs that block CORS but allow canvas taint)
+          const img2 = new Image()
+          const t2 = setTimeout(() => { img2.onload = null; img2.onerror = null; tryNext() }, 3000)
+          img2.onload = () => { clearTimeout(t2); resolve(img2) }
+          img2.onerror = () => { clearTimeout(t2); tryNext() }
+          img2.src = url
+        }
+        img.src = url
       }
-      img.src = src
+      tryNext()
     })
+
+    // Build a list of logo source URLs with multiple fallbacks
+    const handle = xUrl ? xUrl.replace('https://x.com/','').replace('https://twitter.com/','').replace('http://x.com/','').replace('@','').split('/')[0].trim() : ''
+    const logoSources: string[] = []
+    // 1. Direct X profile image (high-res)
+    if (xData?.profile_image_url) {
+      logoSources.push(xData.profile_image_url.replace('_normal','_400x400'))
+      logoSources.push(xData.profile_image_url.replace('_normal','_200x200'))
+      logoSources.push(xData.profile_image_url) // original size as fallback
+    }
+    // 2. Unavatar proxy (often bypasses CORS)
+    if (handle) logoSources.push(`https://unavatar.io/twitter/${handle}`)
+    // 3. UI Avatars as absolute last resort (generates letter avatar)
+    logoSources.push(`https://ui-avatars.com/api/?name=${encodeURIComponent((result.project_name||'?').charAt(0))}&background=${colors[0].replace('#','')}&color=fff&size=128&bold=true`)
 
     const wrap = (text: string, x: number, y: number, maxW: number, lh: number, max: number) => {
       const words = text.split(' '); let line = '', lY = y, n = 0
@@ -896,9 +924,7 @@ export default function Home() {
     // ── LEFT COLUMN ──
     // Logo
     const LOGO_Y = 90
-    const pfpSrc = xData?.profile_image_url?.replace('_normal','_400x400') ||
-      (xUrl ? `https://unavatar.io/twitter/${xUrl.replace('https://x.com/','').replace('https://twitter.com/','').replace('@','').split('/')[0].trim()}` : null)
-    const pfpImg = pfpSrc ? await loadImg(pfpSrc) : null
+    const pfpImg = await loadImg(logoSources[0] || '', logoSources.slice(1))
     if (pfpImg) {
       ctx.save(); ctx.beginPath(); ctx.arc(PAD + 30, LOGO_Y + 30, 28, 0, Math.PI * 2); ctx.clip()
       ctx.drawImage(pfpImg, PAD + 2, LOGO_Y + 2, 56, 56); ctx.restore()
@@ -1030,7 +1056,7 @@ export default function Home() {
     .map(([k, d]: any) => ({ key: k, label: k.replace(/_/g,' '), score: d.score, detail: d.detail || d.summary || '' })) : []
 
   // Show landing page only when no result, not loading, no error, and NOT coming from feed
-  const showLanding = !result && !loading && !error
+  const showLanding = !result && !loading && !error && !feedLoading
 
   return (
     <div className="app-root">
