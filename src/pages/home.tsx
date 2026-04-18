@@ -359,7 +359,7 @@ export default function Home() {
   const [showProfileSetup, setShowProfileSetup] = useState(false)
   const [tempName, setTempName] = useState('')
   const [tempPhoto, setTempPhoto] = useState('')
-  const [feedLoading, setFeedLoading] = useState(() => !!(new URLSearchParams(window.location.search).get('q') || localStorage.getItem('cmv_last_handle')))
+  const [feedLoading, setFeedLoading] = useState(() => !!new URLSearchParams(window.location.search).get('q'))
   const { name: userName, photo: userPhoto, save: saveProfile } = useProfile()
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const pint = useRef<any>(null)
@@ -374,15 +374,11 @@ export default function Home() {
     const params = new URLSearchParams(window.location.search)
     const q = params.get('q')
 
-    // Determine which handle to load
+    // Determine which handle to load — only from ?q= (feed click)
     let handle = ''
     if (q) {
       handle = q.toLowerCase()
       window.history.replaceState({}, '', '/')
-    } else {
-      // Page refresh — try to restore last scanned handle
-      const lastHandle = localStorage.getItem('cmv_last_handle')
-      if (lastHandle) handle = lastHandle
     }
 
     if (!handle) { setFeedLoading(false); return }
@@ -503,15 +499,14 @@ export default function Home() {
     try { localStorage.removeItem(`cmv_scan_v3_${handle.toLowerCase()}`); localStorage.removeItem(`cmv_scan_v2_${handle.toLowerCase()}`); localStorage.removeItem(`cmv_scan_${handle.toLowerCase()}`) } catch {}
     setLoading(true); setResult(null); setCgData(null); setXData(null); setError(null); setAtab('Fundamentals'); setAsec('metrics'); setSelectedTags([])
 
-    // Check cache — serve cached result unless admin deleted from Supabase or cache is stale
+    // Check cache — serve cached result unless admin deleted from Supabase
     try {
       const cached = localStorage.getItem(cacheKey)
       if (cached) {
-        const { result: cr, cgData: cc, xData: cx, timestamp } = JSON.parse(cached)
+        const { result: cr, cgData: cc, xData: cx } = JSON.parse(cached)
         const hasFullMetrics = cr?.metrics?.vc_pedigree || cr?.metrics?.founder_cred
-        const isExpired = Date.now() - timestamp > 1000 * 60 * 60 * 24 // 24h cache
 
-        if (!isExpired && hasFullMetrics) {
+        if (hasFullMetrics) {
           // Check if admin deleted this scan from Supabase
           let adminDeleted = false
           try {
@@ -529,10 +524,8 @@ export default function Home() {
           } catch {}
 
           if (adminDeleted) {
-            // Admin deleted — clear cache and run fresh
             try { localStorage.removeItem(cacheKey) } catch {}
           } else {
-            // Serve cached result
             setResult(cr); setCgData(cc); setXData(cx); setLoading(false); return
           }
         }
@@ -587,7 +580,6 @@ export default function Home() {
     setCgData(cg)
     const saveResult = (cleaned: any) => {
       try { localStorage.setItem(cacheKey, JSON.stringify({ result: cleaned, cgData: cg, xData: xd, timestamp: Date.now() })) } catch { }
-      try { localStorage.setItem('cmv_last_handle', handle.toLowerCase()) } catch {}
       setResult(cleaned)
       fetch('/api/save-scan', {
         method: 'POST',
@@ -680,7 +672,7 @@ export default function Home() {
       })
       fudPenalty = Math.min(fudPenalty, 300)
 
-      const weights = { funding: 0.20, revenue: 0.18, token: 0.12, follower: 0.15, engagement: 0.12, team: 0.10, sentiment: 0.08, security: 0.05 }
+      const weights = { funding: 0.25, revenue: 0.22, token: 0.14, team: 0.15, sentiment: 0.10, security: 0.08, follower: 0.03, engagement: 0.03 }
       const rawScore = Math.round(
         fundingScore * weights.funding +
         revenueScore * weights.revenue +
@@ -751,7 +743,7 @@ export default function Home() {
           if (hasRaised) pts.push(`Raised ${enriched.total_raised_rootdata || enriched.total_raised_defillama} from ${investors.length} investor${investors.length > 1 ? 's' : ''}${hasTopVC ? ' including tier 1 VCs' : hasTier2VC ? ' including tier 2 VCs' : ''}`)
           if (tvl) pts.push(`${tvl} in TVL deployed`)
           if (enriched.revenue_24h) pts.push(`generating ${enriched.revenue_24h} daily revenue`)
-          if (hasRealXData) pts.push(`${(followers/1000).toFixed(0)}K followers with ${(avgLikes).toFixed(0)} avg likes`)
+          if (hasRealXData && followers > 10000) pts.push(`${(followers/1000).toFixed(0)}K community following`)
           if (team.length > 0) pts.push(`${team.length} identified team members`)
           if (autoFlags.length > 0) pts.push(`${autoFlags.length} red flag${autoFlags.length > 1 ? 's' : ''} detected (score penalty applied)`)
           if (hacks.length > 0) pts.push(`${hacks.length} security incident${hacks.length > 1 ? 's' : ''} on record`)
@@ -785,20 +777,20 @@ export default function Home() {
           funding: { score: fundingScore, detail: hasRaised ? `${enriched.total_raised_rootdata || enriched.total_raised_defillama} raised from ${investors.length} investors` : 'No confirmed funding data found', signal: fundingScore >= 70 ? 'bullish' : fundingScore <= 30 ? 'bearish' : 'neutral' },
           vc_pedigree: { score: hasTopVC ? 92 : hasTier2VC ? 72 : investors.length > 2 ? 55 : investors.length > 0 ? 40 : 0, detail: hasTopVC ? `Tier 1 VC backing: ${matchedTier1.slice(0,3).join(', ')}` : hasTier2VC ? `Tier 2 VC backing: ${matchedTier2.slice(0,3).join(', ')}` : investors.length > 0 ? `${investors.length} investors: ${investors.slice(0,3).join(', ')}` : 'No investor data found', signal: hasTopVC ? 'bullish' : hasTier2VC ? 'neutral' : investors.length === 0 ? 'bearish' : 'neutral' },
           copycat: { score: enriched.defillama_category ? 55 : 45, detail: enriched.defillama_category ? `Operates in the ${enriched.defillama_category} sector${enriched.chains?.length > 0 ? ' across ' + enriched.chains.slice(0,2).join(', ') : ''}` : `Positioned in the ${xd?.category || 'crypto'} space — differentiation unclear without deeper analysis`, signal: 'neutral' },
-          niche: { score: enriched.defillama_category ? 60 : 40, detail: enriched.defillama_category ? `${enriched.defillama_category} category${tvlNum > 1e8 ? ' with significant TVL indicating market demand' : tvlNum > 0 ? ' with active capital deployment' : ''}` : `Categorized as ${xd?.category || 'Crypto'} based on project description`, signal: enriched.defillama_category && tvlNum > 1e7 ? 'bullish' : 'neutral' },
-          location: { score: team.length > 0 ? 55 : 30, detail: team.length > 0 ? `${team.length} team members identified — ${team.slice(0,2).map((t: any) => t.name).join(', ')}` : 'No team location data available', signal: 'neutral' },
+          niche: { score: enriched.defillama_category ? (tvlNum > 1e8 ? 80 : tvlNum > 1e6 ? 65 : 55) : 40, detail: enriched.defillama_category ? `${enriched.defillama_category}${tvlNum > 1e8 ? ' — significant TVL indicates strong product-market fit' : tvlNum > 1e6 ? ' — meaningful capital deployment shows traction' : tvlNum > 0 ? ' — early capital deployment' : ' — building in an active sector'}` : `${xd?.category || 'Crypto'} project — niche potential unclear at this stage`, signal: tvlNum > 1e7 ? 'bullish' : 'neutral' },
+          location: { score: team.length > 0 ? 60 : 25, detail: team.length > 0 ? `${team.length} team members identified: ${team.slice(0,2).map((t: any) => t.name + (t.role ? ' (' + t.role + ')' : '')).join(', ')}` : 'Team data not publicly available — higher risk for anonymous projects', signal: team.length > 2 ? 'bullish' : team.length === 0 ? 'bearish' : 'neutral' },
           founder_cred: { score: teamScore, detail: team.length > 0 ? `${team.length} team member${team.length > 1 ? 's' : ''} found: ${team.slice(0,3).map((t: any) => t.name + (t.role ? ' (' + t.role + ')' : '')).join(', ')}` : verified ? 'Verified X account but no public team profiles found' : 'No team data found — cannot verify founder credibility', signal: teamScore >= 65 ? 'bullish' : teamScore <= 35 ? 'bearish' : 'neutral' },
-          founder_activity: { score: !hasRealXData ? 0 : avgLikes > 100 ? 75 : avgLikes > 20 ? 55 : 30, detail: hasRealXData ? `${(avgLikes).toFixed(0)} avg likes per post, ${tweetCount.toLocaleString()} total tweets, account is ${accountAge.toFixed(1)} years old` : 'X activity data unavailable', signal: avgLikes > 100 ? 'bullish' : avgLikes < 10 ? 'bearish' : 'neutral' },
-          top_voices: { score: !hasRealXData ? 0 : listed > 500 ? 80 : listed > 100 ? 60 : listed > 0 ? 40 : 20, detail: hasRealXData ? `Listed in ${listed.toLocaleString()} curated lists — ${listed > 500 ? 'high visibility among CT influencers' : listed > 100 ? 'moderate CT attention' : 'limited CT visibility'}` : 'CT visibility data unavailable', signal: listed > 500 ? 'bullish' : listed < 50 ? 'bearish' : 'neutral' },
+          founder_activity: { score: Math.min(55, !hasRealXData ? 0 : avgLikes > 100 ? 55 : avgLikes > 20 ? 45 : 30), detail: team.length > 0 ? `Team of ${team.length} — ${team[0].name}${team[0].role ? ' (' + team[0].role + ')' : ''} leads the project` : accountAge > 2 ? `Project account active for ${accountAge.toFixed(1)} years` : 'Limited public activity from founding team', signal: 'neutral' },
+          top_voices: { score: Math.min(55, !hasRealXData ? 0 : listed > 500 ? 55 : listed > 100 ? 45 : 30), detail: listed > 500 ? 'Well-recognized project among crypto thought leaders' : listed > 100 ? 'Moderate recognition in the crypto community' : 'Still building recognition — early stage visibility', signal: 'neutral' },
           token: { score: tokenScore, detail: tokenLive ? `Token live: ${cg?.ticker || ''} at ${cg?.token_price || 'unknown'}${cg?.market_cap_str ? ' · MCap ' + cg.market_cap_str : ''}` : xd?.token_launch_hinted ? 'Token launch hinted in bio/tweets but not yet live on any DEX' : 'No token confirmed — potential early farming opportunity', signal: tokenLive ? (dexDump ? 'bearish' : 'bullish') : 'neutral' },
           metrics_clarity: { score: (tokenLive || xd?.token_launch_hinted) ? 55 : 30, detail: tokenLive ? 'Token is live — farming criteria and requirements are clearer' : xd?.token_launch_hinted ? 'Token hinted — watch for announcements on farming requirements' : 'No clear criteria for top % requirements yet — early stage project', signal: 'neutral' },
-          user_count: { score: !hasRealXData ? 0 : followers > 100000 ? 40 : followers > 10000 ? 65 : 80, detail: hasRealXData ? `${followers.toLocaleString()} followers — ${followers > 100000 ? 'high user count increases airdrop dilution risk' : followers > 10000 ? 'moderate user base, manageable dilution' : 'low user count — early entry advantage, less dilution'}` : 'User count data unavailable', signal: followers > 100000 ? 'bearish' : followers < 10000 ? 'bullish' : 'neutral' },
+          user_count: { score: !hasRealXData ? 50 : followers > 200000 ? 30 : followers > 50000 ? 50 : followers > 5000 ? 70 : 85, detail: !hasRealXData ? 'User base size unclear' : followers > 200000 ? 'Very large community — expect heavy dilution for airdrops/rewards' : followers > 50000 ? 'Sizable community — moderate dilution expected' : followers > 5000 ? 'Growing community — reasonable dilution, good timing to farm' : 'Small community — early mover advantage, minimal dilution', signal: followers > 200000 ? 'bearish' : followers < 10000 ? 'bullish' : 'neutral' },
           fud: { score: autoFlags.length > 0 ? Math.max(10, 100 - autoFlags.length * 30) : securityScore, detail: autoFlags.length > 0 ? `${autoFlags.length} warning signal(s): ${autoFlags.slice(0,2).map((f: any) => f.label).join(', ')}` : hacks.length > 0 ? `${hacks.length} known security exploit(s) on record` : 'No FUD signals or security issues detected', signal: autoFlags.length > 0 || hacks.length > 0 ? 'bearish' : 'bullish' },
-          notable_mentions: { score: !hasRealXData ? 0 : followers > 50000 ? 75 : followers > 10000 ? 55 : 30, detail: hasRealXData ? `${followers.toLocaleString()} followers, ${listed.toLocaleString()} curated lists — ${followers > 50000 ? 'widely discussed in CT' : followers > 10000 ? 'moderate CT presence' : 'limited CT discussion'}` : 'CT mention data unavailable', signal: followers > 50000 ? 'bullish' : followers < 5000 ? 'bearish' : 'neutral' },
-          content_type: { score: hasRealXData ? (avgLikes > 50 && followers < 50000 ? 70 : avgLikes > 20 ? 55 : 40) : 50, detail: hasRealXData ? `${avgLikes > 50 && followers < 50000 ? 'High engagement relative to follower count suggests organic interest' : avgLikes > 20 ? 'Moderate engagement levels' : 'Low engagement — could indicate paid/bot followers'}` : 'Content analysis requires more data', signal: avgLikes > 50 && followers < 50000 ? 'bullish' : avgLikes < 10 ? 'bearish' : 'neutral' },
-          mindshare: { score: !hasRealXData ? 0 : engagementScore, detail: hasRealXData ? `${(avgLikes).toFixed(0)} avg likes, ${followers.toLocaleString()} followers — ${avgLikes > 500 ? 'strong mindshare and engagement' : avgLikes > 50 ? 'growing mindshare' : 'low current mindshare'}` : 'Mindshare data unavailable', signal: avgLikes > 500 ? 'bullish' : avgLikes < 20 ? 'bearish' : 'neutral' },
-          revenue: { score: revenueScore, detail: enriched.revenue_24h ? `${enriched.revenue_24h} daily revenue confirmed` : enriched.fees_24h ? `${enriched.fees_24h} daily fees confirmed` : tvl ? `${tvl} TVL deployed but no revenue data reported yet` : 'No revenue data found — pre-revenue stage', signal: revenueScore >= 65 ? 'bullish' : revenueScore <= 30 ? 'bearish' : 'neutral' },
-          sentiment: { score: sentimentScore, detail: sentiment ? `${sentiment.charAt(0).toUpperCase() + sentiment.slice(1)} sentiment across ${enriched.news_article_count || 0} recent news articles` : `No recent news coverage found — ${followers > 10000 ? 'project may be under the radar' : 'very early stage project'}`, signal: sentiment === 'positive' ? 'bullish' : sentiment === 'negative' ? 'bearish' : 'neutral' },
+          notable_mentions: { score: Math.min(55, !hasRealXData ? 0 : listed > 200 ? 55 : listed > 50 ? 45 : 30), detail: listed > 200 ? 'Project is discussed by notable crypto accounts' : listed > 50 ? 'Some attention from crypto community' : 'Limited discussion among notable accounts', signal: 'neutral' },
+          content_type: { score: hasRealXData ? (avgLikes > 50 && followers < 50000 ? 65 : avgLikes > 20 ? 50 : 35) : 45, detail: hasRealXData ? (avgLikes > 50 && followers < 50000 ? 'Strong organic engagement relative to community size' : avgLikes > 20 ? 'Moderate community engagement' : 'Low engagement — may rely on paid promotion') : 'Engagement data insufficient', signal: avgLikes > 50 && followers < 50000 ? 'bullish' : avgLikes < 10 ? 'bearish' : 'neutral' },
+          mindshare: { score: tvlNum > 1e7 ? 75 : tvlNum > 0 ? 55 : hasRevenue ? 65 : Math.min(50, engagementScore), detail: tvl ? `${tvl} TVL shows real user adoption and capital commitment` : hasRevenue ? 'Revenue-generating protocol — real usage beyond speculation' : 'Early stage — mindshare still developing', signal: tvlNum > 1e7 ? 'bullish' : 'neutral' },
+          revenue: { score: revenueScore, detail: enriched.revenue_24h ? `${enriched.revenue_24h} daily revenue — real economic activity` : enriched.fees_24h ? `${enriched.fees_24h} daily fees — protocol generating real value` : tvl ? `${tvl} TVL deployed but no revenue reported yet` : 'Pre-revenue stage — no fees or revenue data available', signal: revenueScore >= 65 ? 'bullish' : revenueScore <= 30 ? 'bearish' : 'neutral' },
+          sentiment: { score: sentimentScore, detail: sentiment === 'positive' ? `Positive news coverage across ${enriched.news_article_count || 0} articles` : sentiment === 'negative' ? `Negative press detected — ${enriched.news_article_count || 0} articles with concerning tone` : sentiment === 'neutral' ? `Neutral coverage across ${enriched.news_article_count || 0} articles` : 'No recent news coverage found', signal: sentiment === 'positive' ? 'bullish' : sentiment === 'negative' ? 'bearish' : 'neutral' },
         },
         post_tge_outlook: tokenLive ? (dexDump ? 'Poor — token declining' : 'Moderate') : 'Token not yet live',
         project_follows: null,
@@ -1121,17 +1113,27 @@ export default function Home() {
   const fudPen = cmvScore?.fudPenalty ?? 0
   const msg = LOADING_MSGS[msgIdx]
 
+  // Metrics that matter for project evaluation (exclude pure social stats)
+  const FUNDAMENTAL_METRICS = ['funding', 'vc_pedigree', 'copycat', 'niche', 'revenue', 'token', 'fud', 'founder_cred', 'metrics_clarity', 'user_count', 'sentiment', 'content_type']
+  const METRIC_LABELS: Record<string, string> = {
+    funding: 'Funding', vc_pedigree: 'VC Quality', copycat: 'Originality', niche: 'Niche Potential',
+    location: 'Team Location', founder_cred: 'Team Credibility', founder_activity: 'Founder Activity',
+    top_voices: 'CT Attention', token: 'Token Status', metrics_clarity: 'Farming Clarity',
+    user_count: 'Dilution Risk', fud: 'FUD / Red Flags', notable_mentions: 'CT Mentions',
+    content_type: 'Content Quality', mindshare: 'Mindshare', revenue: 'Revenue', sentiment: 'News Sentiment',
+  }
+
   const goodSides = result ? Object.entries(result.metrics || {})
-    .filter(([,d]: any) => d.signal === 'bullish' && d.score >= 70)
+    .filter(([k, d]: any) => FUNDAMENTAL_METRICS.includes(k) && d.signal === 'bullish' && d.score >= 65)
     .sort(([,a]: any, [,b]: any) => b.score - a.score)
-    .slice(0, 4)
-    .map(([k, d]: any) => ({ key: k, label: k.replace(/_/g,' '), score: d.score, detail: d.detail || d.summary || '' })) : []
+    .slice(0, 5)
+    .map(([k, d]: any) => ({ key: k, label: METRIC_LABELS[k] || k.replace(/_/g,' '), score: d.score, detail: d.detail || d.summary || '' })) : []
 
   const badSides = result ? Object.entries(result.metrics || {})
-    .filter(([,d]: any) => d.signal === 'bearish' || d.score < 45)
+    .filter(([k, d]: any) => FUNDAMENTAL_METRICS.includes(k) && (d.signal === 'bearish' || d.score < 40))
     .sort(([,a]: any, [,b]: any) => a.score - b.score)
-    .slice(0, 4)
-    .map(([k, d]: any) => ({ key: k, label: k.replace(/_/g,' '), score: d.score, detail: d.detail || d.summary || '' })) : []
+    .slice(0, 5)
+    .map(([k, d]: any) => ({ key: k, label: METRIC_LABELS[k] || k.replace(/_/g,' '), score: d.score, detail: d.detail || d.summary || '' })) : []
 
   // Show landing page only when no result, not loading, no error, and NOT coming from feed
   const showLanding = !result && !loading && !error && !feedLoading
@@ -1859,7 +1861,7 @@ export default function Home() {
             />
             <div className="search-btns">
               {result && !loading && (
-                <button onClick={() => { setResult(null); setCgData(null); setXData(null); setXUrl(''); setSelectedTags([]); try { localStorage.removeItem('cmv_last_handle') } catch {} }} className="btn-new">
+                <button onClick={() => { setResult(null); setCgData(null); setXData(null); setXUrl(''); setSelectedTags([]) }} className="btn-new">
                   + New Scan
                 </button>
               )}
