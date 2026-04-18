@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react'
 
 const TIER_CONFIG: Record<string, any> = {
-  'FARM IT':        { tier: 'A', color: '#37b24d', bg: '#ebfbee', border: '#8ce99a', tc: '#2f9e44', emoji: '🌾', label: 'Tier A' },
-  'CREATE CONTENT': { tier: 'B', color: '#f59f00', bg: '#fff3bf', border: '#ffe066', tc: '#e67700', emoji: '✍️', label: 'Tier B' },
-  'WATCH':          { tier: 'C', color: '#e8590c', bg: '#fff4e6', border: '#ffc078', tc: '#d9480f', emoji: '👁️', label: 'Tier C' },
-  'SKIP':           { tier: 'D', color: '#868e96', bg: '#f1f3f5', border: '#dee2e6', tc: '#495057', emoji: '🚫', label: 'Tier D' },
+  'FARM IT':        { tier: 'A', color: '#16a34a', bg: '#dcfce7', border: '#86efac', tc: '#15803d', emoji: '🌾', label: 'Tier A' },
+  'CREATE CONTENT': { tier: 'B', color: '#ca8a04', bg: '#fef9c3', border: '#fde047', tc: '#a16207', emoji: '✍️', label: 'Tier B' },
+  'WATCH':          { tier: 'C', color: '#ea580c', bg: '#fff7ed', border: '#fdba74', tc: '#c2410c', emoji: '👁️', label: 'Tier C' },
+  'SKIP':           { tier: 'D', color: '#6b7280', bg: '#f3f4f6', border: '#d1d5db', tc: '#4b5563', emoji: '🚫', label: 'Tier D' },
 }
 
 const TIER_ORDER = ['FARM IT', 'CREATE CONTENT', 'WATCH', 'SKIP']
@@ -34,60 +34,48 @@ async function fetchLivePrice(ticker: string) {
   } catch { return null }
 }
 
-function ProjectLogo({ scan, size = 40, tc }: { scan: any, size?: number, tc: string }) {
-  const [err, setErr] = useState(false)
-  const initial = (scan.project_name || scan.handle || '?').charAt(0).toUpperCase()
-  if (!err && scan.profile_image_url) {
-    return <img src={scan.profile_image_url} alt={scan.project_name} onError={() => setErr(true)}
-      style={{ width: size, height: size, borderRadius: '50%', objectFit: 'cover', border: '2px solid rgba(255,255,255,0.3)', flexShrink: 0 }} />
-  }
-  return <div style={{ width: size, height: size, borderRadius: '50%', background: 'rgba(255,255,255,0.2)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: size * 0.38, fontWeight: 700, flexShrink: 0 }}>{initial}</div>
-}
-
 function GridCard({ scan, livePrice }: { scan: any, livePrice?: string }) {
   const t = TIER_CONFIG[scan.verdict] || TIER_CONFIG['WATCH']
   const displayPrice = livePrice || scan.token_price
   return (
-    <div onClick={() => { window.location.href = `/?q=${scan.handle}` }}
-      style={{ background: '#fff', border: '1.5px solid #e5e7eb', borderRadius: 14, padding: 16, cursor: 'pointer', transition: 'all 0.15s', position: 'relative', overflow: 'hidden' }}
-      onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = t.border; (e.currentTarget as HTMLElement).style.boxShadow = `0 4px 20px ${t.color}20` }}
-      onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = '#e5e7eb'; (e.currentTarget as HTMLElement).style.boxShadow = 'none' }}>
-      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3, background: t.color, borderRadius: '14px 14px 0 0' }} />
-      <div style={{ display: 'flex', alignItems: 'flex-start', gap: 10, marginBottom: 10, marginTop: 4 }}>
-        <div style={{ width: 40, height: 40, borderRadius: 10, background: t.bg, border: `1px solid ${t.border}`, overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+    <div onClick={() => { window.location.href = `/?q=${scan.handle}` }} className="grid-card"
+      onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = t.border }}
+      onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = 'var(--border)' }}>
+      <div className="grid-card-accent" style={{ background: t.color }} />
+      <div className="grid-card-header">
+        <div className="grid-card-logo" style={{ background: t.bg, border: `1px solid ${t.border}` }}>
           {scan.profile_image_url
-            ? <img src={scan.profile_image_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={e => { (e.target as HTMLImageElement).style.display='none' }} />
-            : <span style={{ fontSize: 18, fontWeight: 700, color: t.tc }}>{(scan.project_name||scan.handle||'?').charAt(0).toUpperCase()}</span>}
+            ? <img src={scan.profile_image_url} alt="" onError={e => { (e.target as HTMLImageElement).style.display='none' }} />
+            : <span style={{ fontSize: 16, fontWeight: 700, color: t.tc }}>{(scan.project_name||scan.handle||'?').charAt(0).toUpperCase()}</span>}
         </div>
         <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ fontSize: 14, fontWeight: 800, color: '#1c2b5a', letterSpacing: -0.3, marginBottom: 2, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' as const }}>{scan.project_name || scan.handle}</div>
-          <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#9ca3af' }}>{scan.category || 'Crypto'} · @{scan.handle}</div>
+          <div className="grid-card-name">{scan.project_name || scan.handle}</div>
+          <div className="grid-card-meta">{scan.category || 'Crypto'} · @{scan.handle}</div>
         </div>
-        <div style={{ textAlign: 'right' as const, flexShrink: 0 }}>
-          <div style={{ fontSize: 22, fontWeight: 800, color: t.color, lineHeight: 1 }}>{scan.score}</div>
-          <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#9ca3af' }}>SCORE</div>
+        <div style={{ textAlign: 'right', flexShrink: 0 }}>
+          <div className="grid-card-score" style={{ color: t.color }}>{scan.score}</div>
+          <div className="grid-card-score-label">SCORE</div>
         </div>
       </div>
-      <div style={{ display: 'inline-flex', alignItems: 'center', gap: 5, background: t.bg, border: `1px solid ${t.border}`, borderRadius: 20, padding: '4px 10px', marginBottom: 8 }}>
-        <span style={{ fontSize: 10 }}>{t.emoji}</span>
-        <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, fontWeight: 700, color: t.tc }}>{scan.verdict}</span>
+      <div className="grid-card-verdict" style={{ background: t.bg, border: `1px solid ${t.border}` }}>
+        <span style={{ fontFamily: 'var(--mono)', fontSize: 10, fontWeight: 600, color: t.tc }}>{scan.verdict}</span>
       </div>
       {scan.ticker && (
-        <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 6 }}>
-          <div style={{ width: 6, height: 6, borderRadius: '50%', background: livePrice ? '#16a34a' : '#9ca3af' }} />
-          <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 10, color: '#1c2b5a', fontWeight: 600 }}>{scan.ticker}</span>
-          <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 10, color: livePrice ? '#16a34a' : '#6b7280' }}>{displayPrice || 'fetching...'}</span>
-          {livePrice && <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#16a34a', background: '#dcfce7', padding: '1px 5px', borderRadius: 4 }}>LIVE</span>}
+        <div className="grid-card-ticker">
+          <div className="ticker-dot" style={{ background: livePrice ? '#16a34a' : '#9ca3af' }} />
+          <span className="ticker-symbol">{scan.ticker}</span>
+          <span className="ticker-price" style={{ color: livePrice ? '#16a34a' : '#6b7280' }}>{displayPrice || 'fetching...'}</span>
+          {livePrice && <span className="ticker-live">LIVE</span>}
         </div>
       )}
       {(scan.good_highlights || []).filter((h: string) => h).slice(0, 2).map((h: string, i: number) => (
-        <div key={i} style={{ fontSize: 10, color: '#4b5563', marginBottom: 3, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' as const }}>✓ {h}</div>
+        <div key={i} className="grid-card-hl">✓ {h}</div>
       ))}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 8, paddingTop: 6, borderTop: '1px solid #f3f4f6' }}>
+      <div className="grid-card-footer">
         {scan.red_flag_count > 0
-          ? <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#c92a2a', background: '#fff5f5', border: '1px solid #fca5a5', padding: '2px 7px', borderRadius: 20 }}>🚨 {scan.red_flag_count} flag{scan.red_flag_count > 1 ? 's' : ''}</span>
-          : <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#15803d' }}>✓ clean</span>}
-        <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#9ca3af' }}>{timeAgo(scan.scanned_at)}</span>
+          ? <span className="grid-card-flags">{scan.red_flag_count} flag{scan.red_flag_count > 1 ? 's' : ''}</span>
+          : <span className="grid-card-clean">✓ clean</span>}
+        <span className="grid-card-time">{timeAgo(scan.scanned_at)}</span>
       </div>
     </div>
   )
@@ -97,26 +85,25 @@ function TierCard({ scan, livePrice }: { scan: any, livePrice?: string }) {
   const t = TIER_CONFIG[scan.verdict] || TIER_CONFIG['WATCH']
   const displayPrice = livePrice || scan.token_price
   return (
-    <div onClick={() => { window.location.href = `/?q=${scan.handle}` }}
-      style={{ display: 'flex', alignItems: 'center', gap: 10, background: '#fff', border: `1px solid ${t.border}`, borderRadius: 12, padding: '10px 12px', cursor: 'pointer', transition: 'all 0.15s', minWidth: 0 }}
+    <div onClick={() => { window.location.href = `/?q=${scan.handle}` }} className="tier-card"
+      style={{ border: `1px solid ${t.border}` }}
       onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = t.bg }}
-      onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = '#fff' }}>
-      {/* Project logo */}
-      <div style={{ width: 44, height: 44, borderRadius: '50%', overflow: 'hidden', flexShrink: 0, border: `2px solid ${t.border}`, background: t.bg, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'var(--bg-2)' }}>
+      <div className="tier-card-logo" style={{ border: `2px solid ${t.border}`, background: t.bg }}>
         {scan.profile_image_url
-          ? <img src={scan.profile_image_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={e => { (e.target as HTMLImageElement).style.display='none' }} />
-          : <span style={{ fontSize: 18, fontWeight: 700, color: t.tc }}>{(scan.project_name||scan.handle||'?').charAt(0).toUpperCase()}</span>}
+          ? <img src={scan.profile_image_url} alt="" onError={e => { (e.target as HTMLImageElement).style.display='none' }} />
+          : <span style={{ fontSize: 16, fontWeight: 700, color: t.tc }}>{(scan.project_name||scan.handle||'?').charAt(0).toUpperCase()}</span>}
       </div>
       <div style={{ flex: 1, minWidth: 0 }}>
-        <div style={{ fontSize: 13, fontWeight: 700, color: '#1c2b5a', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' as const }}>{scan.project_name || scan.handle}</div>
-        <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#9ca3af', marginTop: 1 }}>
+        <div className="tier-card-name">{scan.project_name || scan.handle}</div>
+        <div className="tier-card-meta">
           {scan.category || 'Crypto'}
           {scan.ticker && <span style={{ color: t.color, marginLeft: 6 }}>{scan.ticker} {displayPrice || ''}</span>}
         </div>
       </div>
-      <div style={{ textAlign: 'right' as const, flexShrink: 0 }}>
+      <div style={{ textAlign: 'right', flexShrink: 0 }}>
         <div style={{ fontSize: 18, fontWeight: 800, color: t.color }}>{scan.score}</div>
-        {scan.red_flag_count > 0 && <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#c92a2a' }}>🚨 {scan.red_flag_count}</div>}
+        {scan.red_flag_count > 0 && <div style={{ fontFamily: 'var(--mono)', fontSize: 8, color: '#dc2626' }}>{scan.red_flag_count} flags</div>}
       </div>
     </div>
   )
@@ -162,23 +149,254 @@ export default function Feed() {
     .sort((a, b) => sortBy === 'score' ? (b.score - a.score) : sortBy === 'recent' ? (new Date(b.scanned_at).getTime() - new Date(a.scanned_at).getTime()) : 0)
 
   return (
-    <div style={{ minHeight: '100vh', background: '#faf7f0', fontFamily: "'Plus Jakarta Sans',sans-serif" }}>
-      <style>{`@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap');`}</style>
+    <div className="feed-root">
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+        :root {
+          --bg: #f8faf8;
+          --bg-2: #ffffff;
+          --bg-3: #f1f5f1;
+          --border: #e2e8e4;
+          --border-2: #d1d9d3;
+          --text-1: #0f1a12;
+          --text-2: #2d3b30;
+          --text-3: #5a6b5e;
+          --text-4: #8a9b8e;
+          --green: #16a34a;
+          --green-light: #dcfce7;
+          --green-dark: #14532d;
+          --font: 'Outfit', sans-serif;
+          --mono: 'JetBrains Mono', monospace;
+          --radius: 12px;
+          --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        .feed-root {
+          min-height: 100vh;
+          background: var(--bg);
+          font-family: var(--font);
+          color: var(--text-1);
+          -webkit-font-smoothing: antialiased;
+        }
+
+        @keyframes shimmer { 0% { background-position: -700px 0; } 100% { background-position: 700px 0; } }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .feed-nav {
+          background: rgba(248,250,248,0.85);
+          backdrop-filter: blur(20px) saturate(180%);
+          border-bottom: 1px solid var(--border);
+          padding: 0 24px;
+          display: flex; align-items: center; height: 56px;
+          position: sticky; top: 0; z-index: 100;
+        }
+        .feed-nav-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+        .feed-nav-logo {
+          width: 28px; height: 28px; background: var(--green);
+          border-radius: 7px; display: flex; align-items: center; justify-content: center;
+        }
+        .feed-nav-title { font-size: 15px; font-weight: 700; color: var(--text-1); letter-spacing: -0.3px; }
+        .feed-nav-title span { color: var(--green); }
+        .feed-nav-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+        .feed-nav-badge {
+          font-family: var(--mono); font-size: 9px; color: var(--green-dark);
+          background: var(--green-light); border-radius: 20px; padding: 3px 10px;
+          border: 1px solid rgba(22,163,74,0.2);
+        }
+        .feed-nav-scan {
+          display: flex; align-items: center; gap: 6px;
+          background: var(--green); color: #fff; text-decoration: none;
+          border-radius: 20px; padding: 7px 14px; font-size: 12px;
+          font-weight: 600; font-family: var(--font); white-space: nowrap;
+          transition: all 0.15s;
+        }
+        .feed-nav-scan:hover { background: #15803d; }
+
+        .feed-header h1 {
+          font-size: 26px; font-weight: 800; color: var(--text-1);
+          letter-spacing: -1px; margin-bottom: 4px;
+        }
+        .feed-header p {
+          font-size: 13px; color: var(--text-4); margin: 0;
+        }
+
+        .feed-controls {
+          display: flex; gap: 8px; flex-wrap: wrap;
+          margin-bottom: 16px; align-items: center;
+        }
+        .toggle-group {
+          display: flex; background: var(--bg-3);
+          border-radius: 10px; padding: 3px; gap: 2px;
+          border: 1px solid var(--border);
+        }
+        .toggle-btn {
+          padding: 6px 14px; border-radius: 8px; border: none;
+          background: transparent; color: var(--text-4);
+          font-size: 12px; font-weight: 500; cursor: pointer;
+          font-family: var(--font); transition: all 0.15s;
+        }
+        .toggle-btn.active {
+          background: var(--bg-2); color: var(--text-1);
+          font-weight: 700; box-shadow: var(--shadow-sm);
+        }
+        .filter-btn {
+          padding: 6px 14px; border-radius: 20px;
+          border: 1.5px solid var(--border);
+          background: var(--bg-2); color: var(--text-4);
+          font-size: 11px; font-weight: 500; cursor: pointer;
+          font-family: var(--font); transition: all 0.15s;
+        }
+        .filter-btn.active {
+          font-weight: 700;
+        }
+        .refresh-btn {
+          margin-left: auto; padding: 6px 14px; border-radius: 20px;
+          border: 1px solid rgba(22,163,74,0.2); background: var(--green-light);
+          color: var(--green-dark); font-size: 11px; font-weight: 600;
+          cursor: pointer; font-family: var(--font); transition: all 0.15s;
+        }
+        .refresh-btn:hover { background: #bbf7d0; }
+
+        .grid-view {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr));
+          gap: 10px;
+        }
+
+        .grid-card {
+          background: var(--bg-2);
+          border: 1.5px solid var(--border);
+          border-radius: var(--radius);
+          padding: 16px;
+          cursor: pointer;
+          transition: all 0.15s;
+          position: relative;
+          overflow: hidden;
+        }
+        .grid-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.06); }
+        .grid-card-accent {
+          position: absolute; top: 0; left: 0; right: 0;
+          height: 3px; border-radius: 12px 12px 0 0;
+        }
+        .grid-card-header {
+          display: flex; align-items: flex-start; gap: 10px;
+          margin-bottom: 10px; margin-top: 4px;
+        }
+        .grid-card-logo {
+          width: 40px; height: 40px; border-radius: 10px;
+          overflow: hidden; display: flex; align-items: center;
+          justify-content: center; flex-shrink: 0;
+        }
+        .grid-card-logo img { width: 100%; height: 100%; object-fit: cover; }
+        .grid-card-name {
+          font-size: 14px; font-weight: 700; color: var(--text-1);
+          letter-spacing: -0.3px; margin-bottom: 2px;
+          overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+        }
+        .grid-card-meta { font-family: var(--mono); font-size: 9px; color: var(--text-4); }
+        .grid-card-score { font-size: 22px; font-weight: 800; line-height: 1; }
+        .grid-card-score-label { font-family: var(--mono); font-size: 8px; color: var(--text-4); }
+        .grid-card-verdict {
+          display: inline-flex; align-items: center; gap: 5px;
+          border-radius: 20px; padding: 4px 10px; margin-bottom: 8px;
+        }
+        .grid-card-ticker {
+          display: flex; align-items: center; gap: 6px; margin-bottom: 6px;
+        }
+        .ticker-dot { width: 6px; height: 6px; border-radius: 50%; }
+        .ticker-symbol { font-family: var(--mono); font-size: 10px; color: var(--text-1); font-weight: 600; }
+        .ticker-price { font-family: var(--mono); font-size: 10px; }
+        .ticker-live {
+          font-family: var(--mono); font-size: 8px; color: #16a34a;
+          background: #dcfce7; padding: 1px 5px; border-radius: 4px;
+        }
+        .grid-card-hl {
+          font-size: 10px; color: var(--text-3); margin-bottom: 3px;
+          overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+        }
+        .grid-card-footer {
+          display: flex; align-items: center; justify-content: space-between;
+          margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--bg-3);
+        }
+        .grid-card-flags {
+          font-family: var(--mono); font-size: 9px; color: #dc2626;
+          background: #fef2f2; border: 1px solid #fecaca; padding: 2px 7px; border-radius: 20px;
+        }
+        .grid-card-clean { font-family: var(--mono); font-size: 9px; color: var(--green); }
+        .grid-card-time { font-family: var(--mono); font-size: 9px; color: var(--text-4); }
+
+        .tier-row {
+          display: flex; gap: 0; border-radius: 14px;
+          overflow: hidden; border: 1.5px solid var(--border);
+          margin-bottom: 8px;
+        }
+        .tier-label {
+          width: 64px; flex-shrink: 0;
+          display: flex; flex-direction: column;
+          align-items: center; justify-content: center;
+          padding: 12px 6px; gap: 2px;
+        }
+        .tier-label-letter { font-size: 28px; font-weight: 900; color: #fff; line-height: 1; }
+        .tier-label-sub { font-size: 9px; color: rgba(255,255,255,0.7); text-align: center; }
+        .tier-projects {
+          flex: 1; background: var(--bg-2); padding: 10px;
+          display: grid; grid-template-columns: repeat(auto-fill, minmax(min(220px, 100%), 1fr));
+          gap: 8px; min-height: 80px; align-content: start;
+        }
+        .tier-empty {
+          display: flex; align-items: center; justify-content: center;
+          color: var(--text-4); font-size: 12px; font-style: italic;
+          grid-column: 1 / -1; padding: 16px;
+        }
+
+        .tier-card {
+          display: flex; align-items: center; gap: 10px;
+          background: var(--bg-2); border-radius: 12px;
+          padding: 10px 12px; cursor: pointer;
+          transition: all 0.15s; min-width: 0;
+        }
+        .tier-card-logo {
+          width: 40px; height: 40px; border-radius: 50%;
+          overflow: hidden; flex-shrink: 0;
+          display: flex; align-items: center; justify-content: center;
+        }
+        .tier-card-logo img { width: 100%; height: 100%; object-fit: cover; }
+        .tier-card-name {
+          font-size: 13px; font-weight: 700; color: var(--text-1);
+          overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+        }
+        .tier-card-meta { font-family: var(--mono); font-size: 9px; color: var(--text-4); margin-top: 1px; }
+
+        .feed-footer {
+          text-align: center; font-family: var(--mono);
+          font-size: 9px; color: var(--text-4); letter-spacing: 1px;
+          padding-top: 40px;
+        }
+
+        @media (max-width: 640px) {
+          .grid-view { grid-template-columns: 1fr !important; }
+          .tier-projects { grid-template-columns: 1fr !important; }
+          .feed-controls { flex-direction: column; align-items: stretch; }
+          .refresh-btn { margin-left: 0; }
+        }
+      `}</style>
 
       {/* Nav */}
-      <div style={{ background: '#fff', borderBottom: '1px solid #d4e8d0', padding: '0 24px', display: 'flex', alignItems: 'center', height: 58, gap: 10, position: 'sticky', top: 0, zIndex: 100 }}>
-        <a href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 10 }}>
-          <div style={{ width: 34, height: 34, background: 'linear-gradient(135deg,#166534,#16a34a)', borderRadius: 9, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 000-1.41l-2.34-2.34a1 1 0 00-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" fill="#fff" /></svg>
+      <div className="feed-nav">
+        <a href="/" className="feed-nav-brand">
+          <div className="feed-nav-logo">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 000-1.41l-2.34-2.34a1 1 0 00-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" fill="#fff" /></svg>
           </div>
           <div>
-            <span style={{ fontSize: 16, fontWeight: 800, color: '#1c2b5a' }}>CMV <span style={{ color: '#16a34a' }}>AlphaScanner</span></span>
-            <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#16a34a' }}>tap to scan a project</div>
+            <span className="feed-nav-title">CMV <span>Alpha</span></span>
           </div>
         </a>
-        <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 8 }}>
-          <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#15803d', background: '#dcfce7', borderRadius: 20, padding: '3px 10px', border: '1px solid #86efac' }}>🔴 LIVE</span>
-          <a href="/" style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'linear-gradient(135deg,#166534,#16a34a)', color: '#fff', textDecoration: 'none', borderRadius: 20, padding: '7px 14px', fontSize: 12, fontWeight: 700, fontFamily: 'inherit', whiteSpace: 'nowrap' as const }}>
+        <div className="feed-nav-right">
+          <span className="feed-nav-badge">LIVE</span>
+          <a href="/" className="feed-nav-scan">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
             Scan Project
           </a>
@@ -188,68 +406,67 @@ export default function Feed() {
       <div style={{ maxWidth: 960, margin: '0 auto', padding: '32px 16px 60px' }}>
 
         {/* Header */}
-        <div style={{ marginBottom: 24 }}>
-          <h1 style={{ fontSize: 28, fontWeight: 900, color: '#14532d', letterSpacing: -1, marginBottom: 6 }}>Community Alpha Feed</h1>
-          <p style={{ fontSize: 13, color: '#6b7280' }}>{scans.length} projects scanned · prices update every 60s</p>
+        <div className="feed-header" style={{ marginBottom: 24 }}>
+          <h1>Community Alpha Feed</h1>
+          <p>{scans.length} projects scanned · prices update every 60s</p>
         </div>
 
         {/* Controls */}
-        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' as const, marginBottom: 16, alignItems: 'center' }}>
-          {/* View toggle */}
-          <div style={{ display: 'flex', background: '#f0f4ff', borderRadius: 10, padding: 3, gap: 2 }}>
+        <div className="feed-controls">
+          <div className="toggle-group">
             {(['grid', 'tier'] as const).map(v => (
-              <button key={v} onClick={() => setViewMode(v)} style={{ padding: '6px 14px', borderRadius: 8, border: 'none', background: viewMode === v ? '#fff' : 'transparent', color: viewMode === v ? '#14532d' : '#6b7280', fontSize: 12, fontWeight: viewMode === v ? 700 : 500, cursor: 'pointer', fontFamily: 'inherit', boxShadow: viewMode === v ? '0 1px 4px rgba(0,0,0,0.1)' : 'none', transition: 'all 0.15s' }}>
-                {v === 'grid' ? '⊞ Grid' : '≡ Tier List'}
+              <button key={v} onClick={() => setViewMode(v)} className={`toggle-btn ${viewMode === v ? 'active' : ''}`}>
+                {v === 'grid' ? 'Grid' : 'Tier List'}
               </button>
             ))}
           </div>
 
-          {/* Sort */}
-          <div style={{ display: 'flex', background: '#f0f4ff', borderRadius: 10, padding: 3, gap: 2 }}>
+          <div className="toggle-group">
             {(['recent', 'score'] as const).map(s => (
-              <button key={s} onClick={() => setSortBy(s)} style={{ padding: '6px 14px', borderRadius: 8, border: 'none', background: sortBy === s ? '#fff' : 'transparent', color: sortBy === s ? '#14532d' : '#6b7280', fontSize: 12, fontWeight: sortBy === s ? 700 : 500, cursor: 'pointer', fontFamily: 'inherit', boxShadow: sortBy === s ? '0 1px 4px rgba(0,0,0,0.1)' : 'none', transition: 'all 0.15s' }}>
-                {s === 'recent' ? '🕐 Recent' : '🏆 Score'}
+              <button key={s} onClick={() => setSortBy(s)} className={`toggle-btn ${sortBy === s ? 'active' : ''}`}>
+                {s === 'recent' ? 'Recent' : 'Top Score'}
               </button>
             ))}
           </div>
 
-          {/* Filter — hide in tier mode */}
           {viewMode === 'grid' && (
-            <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' as const }}>
+            <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
               {['All', 'FARM IT', 'CREATE CONTENT', 'WATCH', 'SKIP'].map(v => {
                 const t = TIER_CONFIG[v]
                 const active = filter === v
                 return (
-                  <button key={v} onClick={() => setFilter(v)} style={{ padding: '6px 14px', borderRadius: 20, border: `1.5px solid ${active && t ? t.border : '#d4e8d0'}`, background: active && t ? t.bg : '#fff', color: active && t ? t.tc : '#6b7280', fontSize: 11, fontWeight: active ? 700 : 500, cursor: 'pointer', fontFamily: 'inherit', transition: 'all 0.15s' }}>
-                    {t ? `${t.emoji} ${v}` : '🌐 All'}
+                  <button key={v} onClick={() => setFilter(v)}
+                    className={`filter-btn ${active ? 'active' : ''}`}
+                    style={active && t ? { borderColor: t.border, background: t.bg, color: t.tc } : {}}>
+                    {t ? v : 'All'}
                   </button>
                 )
               })}
             </div>
           )}
 
-          <button onClick={loadScans} style={{ marginLeft: 'auto', padding: '6px 14px', borderRadius: 20, border: '1px solid #86efac', background: '#f0fdf4', color: '#15803d', fontSize: 11, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}>↺ Refresh</button>
+          <button onClick={loadScans} className="refresh-btn">Refresh</button>
         </div>
 
         {/* Loading */}
         {loading && (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(min(260px,100%),1fr))', gap: 12 }}>
-            {[1,2,3,4,5,6].map(i => <div key={i} style={{ height: 160, background: 'linear-gradient(90deg,#f0fdf4 25%,#dcfce7 50%,#f0fdf4 75%)', backgroundSize: '400px 100%', animation: 'shimmer 1.5s infinite', borderRadius: 14 }} />)}
+          <div className="grid-view">
+            {[1,2,3,4,5,6].map(i => <div key={i} style={{ height: 160, background: 'linear-gradient(90deg, var(--bg-3) 25%, var(--border) 50%, var(--bg-3) 75%)', backgroundSize: '400px 100%', animation: 'shimmer 1.5s infinite', borderRadius: 'var(--radius)' }} />)}
           </div>
         )}
 
         {/* Empty */}
         {!loading && sorted.length === 0 && (
-          <div style={{ textAlign: 'center' as const, padding: '60px 24px', color: '#9ca3af' }}>
+          <div style={{ textAlign: 'center', padding: '60px 24px', color: 'var(--text-4)' }}>
             <div style={{ fontSize: 40, marginBottom: 12 }}>🔭</div>
-            <div style={{ fontSize: 15, fontWeight: 700, marginBottom: 6, color: '#6b7280' }}>No scans yet</div>
-            <a href="/" style={{ display: 'inline-block', marginTop: 16, padding: '10px 24px', background: 'linear-gradient(135deg,#166534,#16a34a)', color: '#fff', borderRadius: 20, fontSize: 13, fontWeight: 700, textDecoration: 'none' }}>Scan a project →</a>
+            <div style={{ fontSize: 15, fontWeight: 700, marginBottom: 6, color: 'var(--text-3)' }}>No scans yet</div>
+            <a href="/" style={{ display: 'inline-block', marginTop: 16, padding: '10px 24px', background: 'var(--green)', color: '#fff', borderRadius: 20, fontSize: 13, fontWeight: 700, textDecoration: 'none' }}>Scan a project</a>
           </div>
         )}
 
         {/* Grid view */}
         {!loading && sorted.length > 0 && viewMode === 'grid' && (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(min(260px,100%),1fr))', gap: 12 }}>
+          <div className="grid-view">
             {sorted.map((scan: any) => <GridCard key={scan.id} scan={scan} livePrice={scan.ticker ? prices[scan.ticker] : undefined} />)}
           </div>
         )}
@@ -263,16 +480,14 @@ export default function Feed() {
                 .filter(s => s.verdict === verdict)
                 .sort((a, b) => sortBy === 'score' ? b.score - a.score : sortBy === 'recent' ? new Date(b.scanned_at).getTime() - new Date(a.scanned_at).getTime() : 0)
               return (
-                <div key={verdict} style={{ display: 'flex', gap: 0, borderRadius: 16, overflow: 'hidden', border: `1.5px solid ${t.border}` }}>
-                  {/* Tier label */}
-                  <div style={{ background: t.color, width: 70, flexShrink: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '12px 8px', gap: 4 }}>
-                    <span style={{ fontSize: 28, fontWeight: 900, color: '#fff', lineHeight: 1 }}>{t.tier}</span>
-                    <span style={{ fontSize: 10, color: 'rgba(255,255,255,0.8)', textAlign: 'center', lineHeight: 1.3 }}>{t.emoji}</span>
+                <div key={verdict} className="tier-row" style={{ borderColor: t.border }}>
+                  <div className="tier-label" style={{ background: t.color }}>
+                    <span className="tier-label-letter">{t.tier}</span>
+                    <span className="tier-label-sub">{verdict.toLowerCase()}</span>
                   </div>
-                  {/* Projects */}
-                  <div style={{ flex: 1, background: '#fff', padding: 10, display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(min(220px,100%),1fr))', gap: 8, minHeight: 80, alignContent: 'start' }}>
+                  <div className="tier-projects">
                     {tierProjects.length === 0
-                      ? <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#9ca3af', fontSize: 12, fontStyle: 'italic', gridColumn: '1/-1', padding: 16 }}>No projects in this tier yet</div>
+                      ? <div className="tier-empty">No projects in this tier yet</div>
                       : tierProjects.map((scan: any) => <TierCard key={scan.id} scan={scan} livePrice={scan.ticker ? prices[scan.ticker] : undefined} />)}
                   </div>
                 </div>
@@ -281,7 +496,7 @@ export default function Feed() {
           </div>
         )}
 
-        <div style={{ textAlign: 'center' as const, fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#adb5bd', letterSpacing: 1, paddingTop: 40 }}>CMV ALPHASCANNER · COMMUNITY FEED · PRICES UPDATE EVERY 60S</div>
+        <div className="feed-footer">CMV ALPHASCANNER · COMMUNITY FEED · PRICES UPDATE EVERY 60S</div>
       </div>
     </div>
   )
