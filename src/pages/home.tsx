@@ -1941,7 +1941,7 @@ export default function Home() {
 
               {goodHighlights.length > 0 && (
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginBottom: 14 }}>
-                  {goodHighlights.slice(0,3).map((h: string, i: number) => <div key={i} className="verdict-highlight">✓ {h}</div>)}
+                  {goodHighlights.slice(0,4).map((h: string, i: number) => <div key={i} className="verdict-highlight">✓ {h}</div>)}
                 </div>
               )}
 
@@ -1960,7 +1960,7 @@ export default function Home() {
               </div>
             </div>
 
-            {/* ── SCORE + OVERVIEW ── */}
+            {/* ── PROJECT OVERVIEW ── */}
             <div className="overview-grid">
               <div className="score-tower">
                 <div className="score-tower-label">ALPHA SCORE</div>
@@ -1990,64 +1990,212 @@ export default function Home() {
               </div>
             </div>
 
-            {/* WHY THIS SCORE */}
-            {result.score_rationale && (
-              <div className="card" style={{ borderLeft: '3px solid var(--green)', borderRadius: 0 }}>
-                <div className="card-label">WHY THIS SCORE</div>
-                <div style={{ fontSize: 12, color: 'var(--text-3)', lineHeight: 1.7 }}>{result.score_rationale}</div>
+            {/* ── VERDICT REASONING ── */}
+            {result.verdict_reason && (
+              <div className="card" style={{ borderLeft: '3px solid ' + otc.solid, borderRadius: 0 }}>
+                <div className="card-label">VERDICT REASONING</div>
+                <div style={{ fontSize: 13, color: 'var(--text-2)', lineHeight: 1.7 }}>{result.verdict_reason}</div>
               </div>
             )}
 
-            {/* TOKEN + DEEP INTEL */}
-            {(result.token_data?.token_live || cgData?.token_live || result.post_tge_outlook || result.future_seasons) && (
+            {/* ── HOW TO PLAY ── */}
+            {result.project_category && HOW_TO_PLAY[result.project_category] && (
+              <div className="card" style={{ borderLeft: '3px solid var(--green)', borderRadius: 0 }}>
+                <div className="card-label">HOW TO PLAY — {result.project_category.toUpperCase()}</div>
+                <div style={{ fontSize: 13, color: 'var(--text-2)', lineHeight: 1.7 }}>{HOW_TO_PLAY[result.project_category]}</div>
+              </div>
+            )}
+
+            {/* ── INVESTORS ── */}
+            {(xData?.enriched?.confirmed_investors || []).length > 0 && (
               <div className="card">
-                <div className="card-label">DEEP INTEL</div>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 8 }}>
-                  <div style={{ background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: 8, padding: '10px 12px' }}>
-                    <div style={{ fontFamily: 'var(--mono)', fontSize: 7, color: 'var(--text-4)', letterSpacing: 1, marginBottom: 5 }}>TOKEN STATUS</div>
-                    {(result.token_data?.token_live || cgData?.token_live) ? (() => {
-                      const td = result.token_data?.token_live ? result.token_data : cgData
-                      return <span style={{ background: 'var(--green-light)', color: 'var(--green)', border: '1px solid rgba(22,163,74,0.2)', borderRadius: 20, padding: '3px 10px', fontFamily: 'var(--mono)', fontSize: 10, display: 'inline-flex', alignItems: 'center', gap: 5 }}><span style={{ width: 5, height: 5, borderRadius: '50%', background: 'var(--green)', display: 'inline-block', animation: 'pulse 2s infinite' }} />{td.ticker} {td.token_price}</span>
-                    })() : <span style={{ fontFamily: 'var(--mono)', fontSize: 10, color: 'var(--text-4)' }}>Not yet launched</span>}
+                <div className="card-label">INVESTORS & BACKERS</div>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+                  {(xData.enriched.confirmed_investors || []).map((inv: string, i: number) => (
+                    <span key={i} style={{ fontSize: 11, fontWeight: 600, color: 'var(--text-2)', background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: 20, padding: '4px 12px' }}>{inv}</span>
+                  ))}
+                </div>
+                {(xData.enriched.total_raised_rootdata || xData.enriched.total_raised_defillama) && (
+                  <div style={{ fontFamily: 'var(--mono)', fontSize: 11, color: 'var(--green)', marginTop: 10, fontWeight: 600 }}>
+                    Total raised: {xData.enriched.total_raised_rootdata || xData.enriched.total_raised_defillama}
                   </div>
-                  {(result.token_data?.token_live || cgData?.token_live) && result.post_tge_outlook && (
+                )}
+              </div>
+            )}
+
+            {/* ── TOKEN + DEEP INTEL ── */}
+            <div className="card">
+              <div className="card-label">DEEP INTEL</div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 8 }}>
+                <div style={{ background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: 8, padding: '10px 12px' }}>
+                  <div style={{ fontFamily: 'var(--mono)', fontSize: 7, color: 'var(--text-4)', letterSpacing: 1, marginBottom: 5 }}>TOKEN STATUS</div>
+                  {(result.token_data?.token_live || cgData?.token_live) ? (() => {
+                    const td = result.token_data?.token_live ? result.token_data : cgData
+                    return <span style={{ background: 'var(--green-light)', color: 'var(--green)', border: '1px solid rgba(22,163,74,0.2)', borderRadius: 20, padding: '3px 10px', fontFamily: 'var(--mono)', fontSize: 10, display: 'inline-flex', alignItems: 'center', gap: 5 }}><span style={{ width: 5, height: 5, borderRadius: '50%', background: 'var(--green)', display: 'inline-block', animation: 'pulse 2s infinite' }} />{td.ticker} {td.token_price}</span>
+                  })() : <span style={{ fontFamily: 'var(--mono)', fontSize: 10, color: 'var(--text-4)' }}>Not yet launched</span>}
+                </div>
+                {(result.token_data?.token_live || cgData?.token_live) && result.post_tge_outlook && (
+                  <div style={{ background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: 8, padding: '10px 12px' }}>
+                    <div style={{ fontFamily: 'var(--mono)', fontSize: 7, color: 'var(--text-4)', letterSpacing: 1, marginBottom: 5 }}>TOKEN OUTLOOK</div>
+                    <div style={{ fontSize: 11, fontWeight: 600, color: result.post_tge_outlook?.includes('Poor') ? 'var(--red)' : 'var(--green)' }}>{result.post_tge_outlook}</div>
+                  </div>
+                )}
+              </div>
+              {/* TVL + Revenue from enriched data */}
+              {(xData?.enriched?.tvl || xData?.enriched?.revenue_24h || xData?.enriched?.fees_24h) && (
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: 8, marginBottom: 8 }}>
+                  {xData.enriched.tvl && (
                     <div style={{ background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: 8, padding: '10px 12px' }}>
-                      <div style={{ fontFamily: 'var(--mono)', fontSize: 7, color: 'var(--text-4)', letterSpacing: 1, marginBottom: 5 }}>TOKEN OUTLOOK</div>
-                      <div style={{ fontSize: 11, fontWeight: 600, color: result.post_tge_outlook?.includes('Poor') ? 'var(--red)' : 'var(--green)' }}>{result.post_tge_outlook}</div>
+                      <div style={{ fontFamily: 'var(--mono)', fontSize: 7, color: 'var(--text-4)', letterSpacing: 1, marginBottom: 5 }}>TVL</div>
+                      <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--text-1)' }}>{xData.enriched.tvl}</div>
+                    </div>
+                  )}
+                  {xData.enriched.revenue_24h && (
+                    <div style={{ background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: 8, padding: '10px 12px' }}>
+                      <div style={{ fontFamily: 'var(--mono)', fontSize: 7, color: 'var(--text-4)', letterSpacing: 1, marginBottom: 5 }}>REVENUE / DAY</div>
+                      <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--text-1)' }}>{xData.enriched.revenue_24h}</div>
+                    </div>
+                  )}
+                  {xData.enriched.fees_24h && (
+                    <div style={{ background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: 8, padding: '10px 12px' }}>
+                      <div style={{ fontFamily: 'var(--mono)', fontSize: 7, color: 'var(--text-4)', letterSpacing: 1, marginBottom: 5 }}>FEES / DAY</div>
+                      <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--text-1)' }}>{xData.enriched.fees_24h}</div>
                     </div>
                   )}
                 </div>
-                {result.future_seasons && (
-                  <div style={{ background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: 8, padding: '10px 12px', marginBottom: 8 }}>
-                    <div style={{ fontFamily: 'var(--mono)', fontSize: 7, color: 'var(--text-4)', letterSpacing: 1, marginBottom: 4 }}>RECENT COVERAGE</div>
-                    <div style={{ fontSize: 11, color: 'var(--text-3)', lineHeight: 1.5 }}>{result.future_seasons}</div>
-                  </div>
-                )}
-                {(xData?.enriched?.coinpaprika_contracts || []).length > 0 && (
-                  <div style={{ background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: 8, padding: '10px 12px' }}>
-                    <div style={{ fontFamily: 'var(--mono)', fontSize: 7, color: 'var(--text-4)', letterSpacing: 1, marginBottom: 6 }}>CONTRACT ADDRESSES</div>
-                    {(xData?.enriched?.coinpaprika_contracts || []).map((c: any, i: number) => (
-                      <div key={i} style={{ marginBottom: 3, display: 'flex', alignItems: 'center', gap: 6 }}>
-                        <span style={{ fontFamily: 'var(--mono)', fontSize: 8, color: 'var(--green)', background: 'var(--green-light)', padding: '1px 5px', borderRadius: 3 }}>{c.chain}</span>
-                        <span style={{ fontFamily: 'var(--mono)', fontSize: 9, color: 'var(--text-4)' }}>{c.address.slice(0,8)}...{c.address.slice(-6)}</span>
-                      </div>
+              )}
+              {/* Chains */}
+              {(xData?.enriched?.chains || []).length > 0 && (
+                <div style={{ background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: 8, padding: '10px 12px', marginBottom: 8 }}>
+                  <div style={{ fontFamily: 'var(--mono)', fontSize: 7, color: 'var(--text-4)', letterSpacing: 1, marginBottom: 5 }}>CHAINS</div>
+                  <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+                    {xData.enriched.chains.map((c: string, i: number) => (
+                      <span key={i} style={{ fontFamily: 'var(--mono)', fontSize: 10, color: 'var(--green)', background: 'var(--green-light)', padding: '2px 8px', borderRadius: 4, fontWeight: 600 }}>{c}</span>
                     ))}
                   </div>
-                )}
+                </div>
+              )}
+              {result.future_seasons && (
+                <div style={{ background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: 8, padding: '10px 12px', marginBottom: 8 }}>
+                  <div style={{ fontFamily: 'var(--mono)', fontSize: 7, color: 'var(--text-4)', letterSpacing: 1, marginBottom: 4 }}>RECENT COVERAGE</div>
+                  <div style={{ fontSize: 11, color: 'var(--text-3)', lineHeight: 1.5 }}>{result.future_seasons}</div>
+                </div>
+              )}
+              {(xData?.enriched?.coinpaprika_contracts || []).length > 0 && (
+                <div style={{ background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: 8, padding: '10px 12px' }}>
+                  <div style={{ fontFamily: 'var(--mono)', fontSize: 7, color: 'var(--text-4)', letterSpacing: 1, marginBottom: 6 }}>CONTRACT ADDRESSES</div>
+                  {(xData.enriched.coinpaprika_contracts || []).map((c: any, i: number) => (
+                    <div key={i} style={{ marginBottom: 3, display: 'flex', alignItems: 'center', gap: 6 }}>
+                      <span style={{ fontFamily: 'var(--mono)', fontSize: 8, color: 'var(--green)', background: 'var(--green-light)', padding: '1px 5px', borderRadius: 3 }}>{c.chain}</span>
+                      <span style={{ fontFamily: 'var(--mono)', fontSize: 9, color: 'var(--text-4)' }}>{c.address.slice(0,8)}...{c.address.slice(-6)}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* ── RISKS & OPPORTUNITIES ── */}
+            {((result.top_risks || []).filter(Boolean).length > 0 || (result.top_opportunities || []).filter(Boolean).length > 0) && (
+              <div className="card">
+                <div className="card-label">RISKS & OPPORTUNITIES</div>
+                <div className="breakdown-grid">
+                  <div>
+                    <div className="breakdown-col-label" style={{ color: 'var(--green)' }}>OPPORTUNITIES</div>
+                    {(result.top_opportunities || []).filter(Boolean).length > 0 ? (result.top_opportunities || []).filter(Boolean).map((o: string, i: number) => (
+                      <div key={i} style={{ fontSize: 12, color: 'var(--text-2)', marginBottom: 8, paddingLeft: 12, borderLeft: '2px solid var(--green)', lineHeight: 1.6 }}>{o}</div>
+                    )) : <div style={{ fontSize: 11, color: 'var(--text-4)' }}>None identified</div>}
+                  </div>
+                  <div>
+                    <div className="breakdown-col-label" style={{ color: 'var(--red)' }}>KEY RISKS</div>
+                    {(result.top_risks || []).filter(Boolean).length > 0 ? (result.top_risks || []).filter(Boolean).map((r: string, i: number) => (
+                      <div key={i} style={{ fontSize: 12, color: 'var(--text-2)', marginBottom: 8, paddingLeft: 12, borderLeft: '2px solid var(--red)', lineHeight: 1.6 }}>{r}</div>
+                    )) : <div style={{ fontSize: 11, color: 'var(--text-4)' }}>None identified</div>}
+                  </div>
+                </div>
               </div>
             )}
 
-            {/* TEAM */}
+            {/* ── TEAM ── */}
             {result.team_members?.filter((m: any) => m.name?.length > 1).length > 0 && (
               <div className="card">
-                <div className="card-label">TEAM</div>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 8 }}>
+                <div className="card-label">TEAM ({result.team_members.filter((m: any) => m.name?.length > 1).length} members)</div>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: 8 }}>
                   {result.team_members.filter((m: any) => m.name?.length > 1).map((m: any, i: number) => <TeamCardEnriched key={i} member={m} />)}
                 </div>
               </div>
             )}
 
-            {/* ── ALPHA BREAKDOWN ── */}
+            {/* ── FULL 17 METRICS BREAKDOWN ── */}
+            <div className="card">
+              <div className="card-label">DETAILED METRICS — 17 POINT ANALYSIS</div>
+
+              {/* Category tabs */}
+              <div style={{ display: 'flex', gap: 4, marginBottom: 16, flexWrap: 'wrap' }}>
+                {CATS.map(cat => {
+                  const cs = catScore(cat)
+                  const active = atab === cat
+                  return (
+                    <button key={cat} onClick={() => setAtab(cat)}
+                      style={{ padding: '6px 14px', borderRadius: 8, border: active ? '1.5px solid var(--green)' : '1px solid var(--border)', background: active ? 'var(--green-light)' : 'var(--bg-2)', color: active ? 'var(--green-dark)' : 'var(--text-3)', fontSize: 11, fontWeight: active ? 700 : 500, cursor: 'pointer', fontFamily: 'var(--font)', transition: 'all 0.15s', display: 'flex', alignItems: 'center', gap: 6 }}>
+                      {cat}
+                      <span style={{ fontFamily: 'var(--mono)', fontSize: 10, fontWeight: 700, color: active ? 'var(--green)' : 'var(--text-4)' }}>{cs}</span>
+                    </button>
+                  )
+                })}
+              </div>
+
+              {/* Metric rows for active category */}
+              <div>
+                {METRICS.filter(m => m.cat === atab).map(metric => {
+                  const data = result.metrics?.[metric.id]
+                  const sc = typeof data?.score === 'number' ? data.score : 0
+                  const tier = getTier(sc)
+                  const col = T[tier].solid
+                  const sig = data?.signal ?? 'neutral'
+                  const sigBg = sig === 'bullish' ? 'var(--green-light)' : sig === 'bearish' ? 'var(--red-light)' : 'var(--bg-3)'
+                  const sigTc = sig === 'bullish' ? 'var(--green)' : sig === 'bearish' ? 'var(--red)' : 'var(--text-4)'
+                  const detail = data?.detail || data?.summary || data?.why_this_score || ''
+                  return (
+                    <div key={metric.id} style={{ border: '1px solid var(--border)', borderRadius: 10, padding: '11px 13px', marginBottom: 4, background: 'var(--bg-2)', transition: 'all 0.15s' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
+                        <span style={{ fontSize: 14, width: 20, textAlign: 'center' }}>{metric.icon}</span>
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 5, gap: 8 }}>
+                            <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--text-1)' }}>{metric.label}</span>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexShrink: 0 }}>
+                              <span style={{ fontFamily: 'var(--mono)', fontSize: 9, padding: '2px 6px', borderRadius: 20, background: sigBg, color: sigTc, fontWeight: 600 }}>{sig}</span>
+                              <span style={{ fontSize: 15, fontWeight: 800, color: col, minWidth: 22, textAlign: 'right', fontFamily: 'var(--mono)' }}>{sc}</span>
+                            </div>
+                          </div>
+                          {/* Score bar */}
+                          <div style={{ background: 'var(--bg-3)', borderRadius: 3, height: 4, overflow: 'hidden', marginBottom: detail ? 6 : 0 }}>
+                            <div style={{ width: `${sc}%`, height: '100%', background: col, borderRadius: 3, transition: 'width 1s ease' }} />
+                          </div>
+                          {/* Detail text */}
+                          {detail && <div style={{ fontSize: 11, color: 'var(--text-3)', lineHeight: 1.6, marginTop: 4 }}>{detail}</div>}
+                        </div>
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+
+              {/* Category score summary */}
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 6, marginTop: 12 }}>
+                {CATS.map(cat => {
+                  const cs = catScore(cat)
+                  const tier = getTier(cs)
+                  return (
+                    <div key={cat} style={{ background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: 8, padding: '8px 6px', textAlign: 'center' }}>
+                      <div style={{ fontFamily: 'var(--mono)', fontSize: 7, color: 'var(--text-4)', letterSpacing: 0.5, marginBottom: 4 }}>{cat.slice(0, 5).toUpperCase()}</div>
+                      <div style={{ fontSize: 18, fontWeight: 800, color: T[tier].solid }}>{cs}</div>
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+
+            {/* ── WHAT'S WORKING vs WATCH OUT ── */}
             <div className="card">
               <div className="card-label">ALPHA BREAKDOWN</div>
 
@@ -2079,9 +2227,10 @@ export default function Home() {
                 </div>
               </div>
 
+              {/* CONCLUSION */}
               <div className="conclusion-box" style={{ background: `linear-gradient(135deg, ${otc.solid}0a, transparent)`, border: `1px solid ${otc.solid}18` }}>
                 <div className="conclusion-label" style={{ color: otc.solid }}>CONCLUSION</div>
-                <div className="conclusion-text">{result.score_rationale || result.verdict_reason}</div>
+                <div className="conclusion-text">{result.verdict_reason || result.score_rationale}</div>
               </div>
             </div>
 
