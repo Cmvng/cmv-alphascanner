@@ -42,10 +42,11 @@ const LOADING_MSGS = [
 ]
 
 const T: Record<string, any> = {
-  A: { bg: '#ebfbee', border: '#8ce99a', tc: '#2f9e44', solid: '#37b24d', lbl: 'Tier A', v: 'FARM IT', sub: 'High conviction play. Go hard.', target: 'Top 30-50%', vbg: 'linear-gradient(135deg,#37b24d,#2f9e44)', emoji: '🌾', range: '850-1000' },
-  B: { bg: '#fff3bf', border: '#ffe066', tc: '#e67700', solid: '#f59f00', lbl: 'Tier B', v: 'CREATE CONTENT', sub: 'Might cook or not. Keep expectations low.', target: 'Top 20%', vbg: 'linear-gradient(135deg,#f59f00,#e67700)', emoji: '✍️', range: '600-799' },
-  C: { bg: '#fff4e6', border: '#ffc078', tc: '#d9480f', solid: '#e8590c', lbl: 'Tier C', v: 'WATCH', sub: 'Too early to call. Monitor closely.', target: 'Top 10%', vbg: 'linear-gradient(135deg,#e8590c,#d9480f)', emoji: '👁️', range: '350-599' },
-  D: { bg: '#f1f3f5', border: '#dee2e6', tc: '#495057', solid: '#868e96', lbl: 'Tier D', v: 'SKIP', sub: 'Not worth your time right now.', target: '', vbg: 'linear-gradient(135deg,#868e96,#495057)', emoji: '🚫', range: '0-349' },
+  S: { bg: '#f5f3ff', border: '#c4b5fd', tc: '#6d28d9', solid: '#7c3aed', lbl: 'S · Alpha', v: 'ALPHA PLAY', sub: 'Rare conviction. Go all in.', target: 'Top 5%', vbg: 'linear-gradient(135deg,#7c3aed,#6d28d9)', emoji: '⚡', range: '950-1000' },
+  A: { bg: '#ebfbee', border: '#8ce99a', tc: '#2f9e44', solid: '#37b24d', lbl: 'A · Farm It', v: 'FARM IT', sub: 'High conviction play. Go hard.', target: 'Top 30%', vbg: 'linear-gradient(135deg,#37b24d,#2f9e44)', emoji: '🌾', range: '850-949' },
+  B: { bg: '#fff3bf', border: '#ffe066', tc: '#e67700', solid: '#f59f00', lbl: 'B · Watch It', v: 'ENGAGE', sub: 'Solid project, be selective.', target: 'Top 20%', vbg: 'linear-gradient(135deg,#f59f00,#e67700)', emoji: '✍️', range: '600-849' },
+  C: { bg: '#fff4e6', border: '#ffc078', tc: '#d9480f', solid: '#e8590c', lbl: 'C · Observe', v: 'OBSERVE', sub: 'Too many uncertainties. Watch only.', target: 'Top 10%', vbg: 'linear-gradient(135deg,#e8590c,#d9480f)', emoji: '👁️', range: '350-599' },
+  D: { bg: '#f1f3f5', border: '#dee2e6', tc: '#495057', solid: '#868e96', lbl: 'D · Avoid', v: 'AVOID', sub: 'Too many red flags. Not worth your time.', target: '', vbg: 'linear-gradient(135deg,#868e96,#495057)', emoji: '🚫', range: '0-349' },
 }
 
 const HOW_TO_PLAY: Record<string, string> = {
@@ -83,7 +84,7 @@ const BAD_TAGS = [
   { id: 'notoken', label: 'No token clarity whatsoever ❓' },
 ]
 
-function getTier(s: number) { return s >= 85 ? 'A' : s >= 60 ? 'B' : s >= 35 ? 'C' : 'D' }
+function getTier(s: number) { return s >= 95 ? 'S' : s >= 85 ? 'A' : s >= 60 ? 'B' : s >= 35 ? 'C' : 'D' }
 
 function computeCombinedScore(alphaScore: number, xScore: number) {
   // 70% Claude alpha analysis + 30% X social score
@@ -276,6 +277,19 @@ Auto-detected FUD signals (from tools): ${JSON.stringify((enriched.auto_fud_flag
 
 === INSTRUCTIONS ===
 DO NOT search for: TVL, revenue, token price, investors, funding — all provided above.
+VERDICT GUIDE — pick the verdict that matches the category AND quality:
+- ALPHA PLAY (score 95+): Exceptional fundamentals, no red flags, top-tier everything
+- FARM IT (score 85-94): Strong conviction, go hard
+- ENGAGE (score 60-84): Solid but selective. Tailor action to category:
+  * DeFi/Lending: Deposit and farm yield
+  * Perp DEX: Test trading features and liquidity
+  * Prediction Market: Explore predictions, farm points
+  * L1/L2: Bridge, transact, run node if possible
+  * AI/Infrastructure: Build something public, document it
+  * Gaming/NFT: Engage community, hold floor assets
+  * RWA: Long term, create educational content
+- OBSERVE (score 35-59): Too many uncertainties. Watch only, do not commit
+- AVOID (score 0-34): Too many red flags. Not worth time
 For RED FLAGS — this is critical:
 ALWAYS convert ALL auto_fud_flags listed above into red_flags entries. Every single one.
 ALSO add flags for:
@@ -309,7 +323,7 @@ Return this exact JSON:
   "description": "2-3 sentence description of what the project builds",
   "team_location": "string or empty",
   "founded": "year or empty",
-  "verdict": "FARM IT|CREATE CONTENT|WATCH|SKIP",
+  "verdict": "ALPHA PLAY|FARM IT|ENGAGE|OBSERVE|AVOID",
   "verdict_reason": "2-3 sentences with specific data points from tool data",
   "verdict_action": "specific actionable advice for CT farmers",
   "overall_score": number (0-100),
@@ -517,11 +531,26 @@ export default function Home() {
     }
 
     // If X API completely failed AND we have no data at all — show retry
-    // But if we have partial data, continue — tools can still score the project
     if (!xd && !handle) {
       setError('Unable to reach X API. Please try again.')
       setLoading(false)
       return
+    }
+
+    // Non-crypto detection — check bio for crypto signals
+    if (xd && !xd.partial && xd.followers > 0) {
+      const bio = (xd.description || '').toLowerCase()
+      const cryptoSignals = ['crypto','web3','defi','blockchain','token','nft','dao','airdrop','chain','protocol','dex','yield','stake','wallet','btc','eth','sol','base','layer']
+      const hasCryptoSignal = cryptoSignals.some(s => bio.includes(s)) || 
+                              xd.confirmed_ticker || 
+                              xd.token_launch_hinted ||
+                              (xd.enriched?.total_raised_rootdata) ||
+                              (xd.enriched?.tvl)
+      if (!hasCryptoSignal && xd.followers > 5000) {
+        setError('not_crypto')
+        setLoading(false)
+        return
+      }
     }
 
     // If null, create a minimal stub so tool-native scoring can still run
@@ -672,7 +701,7 @@ export default function Home() {
       const cappedScore = hasHack ? Math.min(finalScore, 35) : hasDump ? Math.min(finalScore, 45) : finalScore
 
       // ── VERDICT ──
-      const verdict = cappedScore >= 85 ? 'FARM IT' : cappedScore >= 60 ? 'CREATE CONTENT' : cappedScore >= 35 ? 'WATCH' : 'SKIP'
+      const verdict = cappedScore >= 95 ? 'ALPHA PLAY' : cappedScore >= 85 ? 'FARM IT' : cappedScore >= 60 ? 'ENGAGE' : cappedScore >= 35 ? 'OBSERVE' : 'AVOID'
 
       // ── GENERATE HIGHLIGHTS FROM TOOLS ──
       const highlights: string[] = []
@@ -702,10 +731,11 @@ export default function Home() {
 
       const categoryLabel = enriched.defillama_category || xd?.category || 'Crypto'
       const verdictAction: Record<string, string> = {
-        'FARM IT': 'Strong fundamentals confirmed by multiple data sources. Actively farm this project.',
-        'CREATE CONTENT': 'Solid metrics but monitor closely. Create content and track progress.',
-        'WATCH': 'Insufficient data or mixed signals. Watch for more clarity before committing.',
-        'SKIP': 'Multiple red flags or weak fundamentals detected across data sources. Skip for now.'
+        'ALPHA PLAY': 'Exceptional fundamentals across all metrics. Rare conviction play — go all in.',
+        'FARM IT': 'Strong fundamentals confirmed. Actively farm and create content around this project.',
+        'ENGAGE': 'Solid project. Engage selectively based on the category — explore features, create content.',
+        'OBSERVE': 'Too many uncertainties. Observe only — do not commit time or capital yet.',
+        'AVOID': 'Too many red flags detected. Not worth your time right now.'
       }
 
       // ── BUILD FULL RESULT ──
@@ -847,177 +877,180 @@ export default function Home() {
     const ot = getTier(result.overall_score ?? 0)
     const otc = T[ot]
     const colors = otc.vbg.match(/#[0-9a-fA-F]{6}/g) || ['#37b24d','#2f9e44']
-    const highlights = (result.good_highlights || []).filter((h: string) => h && h.length > 5).slice(0, 4)
+    const highlights = (result.good_highlights || []).filter((h: string) => h && h.length > 5).slice(0, 3)
     const flagCount = (result.red_flags || []).filter((f: any) => f.label).length
 
-    const W = 1200, H = 630
+    // Twitter: 1200x628 at 2x = 2400x1256 for crisp display
+    const W = 1200, H = 628, DPR = 2
     const canvas = document.createElement('canvas')
-    canvas.width = W; canvas.height = H
+    canvas.width = W * DPR; canvas.height = H * DPR
     const ctx = canvas.getContext('2d')!
+    ctx.scale(DPR, DPR)
 
-    // Helper: load image with timeout + CORS fallback
-    const loadImg = (src: string, timeout = 4000): Promise<HTMLImageElement | null> =>
-      new Promise(resolve => {
-        const img = new Image()
-        const done = (result: HTMLImageElement | null) => { clearTimeout(timer); resolve(result) }
-        const timer = setTimeout(() => done(null), timeout)
-        img.crossOrigin = 'anonymous'
-        img.onload = () => done(img)
-        img.onerror = () => {
-          // Retry without CORS
-          const img2 = new Image()
-          const t2 = setTimeout(() => done(null), 2000)
-          img2.onload = () => { clearTimeout(t2); done(img2) }
-          img2.onerror = () => { clearTimeout(t2); done(null) }
-          img2.src = src
-        }
-        img.src = src
-      })
+    const loadImg = (src: string): Promise<HTMLImageElement | null> => new Promise(resolve => {
+      const img = new Image(); const t = setTimeout(() => resolve(null), 4000)
+      img.crossOrigin = 'anonymous'
+      img.onload = () => { clearTimeout(t); resolve(img) }
+      img.onerror = () => {
+        const img2 = new Image(); const t2 = setTimeout(() => resolve(null), 3000)
+        img2.onload = () => { clearTimeout(t2); resolve(img2) }
+        img2.onerror = () => { clearTimeout(t2); resolve(null) }
+        img2.src = src
+      }
+      img.src = src
+    })
 
-    // Word wrap helper
-    const wrap = (text: string, x: number, y: number, maxW: number, lineH: number, maxLines: number) => {
+    const wrap = (text: string, x: number, y: number, maxW: number, lh: number, max: number) => {
       const words = text.split(' '); let line = '', lY = y, n = 0
       for (const w of words) {
         const t = line + w + ' '
         if (ctx.measureText(t).width > maxW && line) {
-          ctx.fillText(line.trim(), x, lY); line = w + ' '; lY += lineH; n++
-          if (n >= maxLines - 1) { line = line.trim() + '…'; break }
+          ctx.fillText(line.trim(), x, lY); line = w + ' '; lY += lh; n++
+          if (n >= max - 1) { line = line.trim() + '…'; break }
         } else line = t
       }
       if (line.trim()) ctx.fillText(line.trim(), x, lY)
     }
 
-    // ── BACKGROUND ──
-    const grad = ctx.createLinearGradient(0, 0, W, H)
-    grad.addColorStop(0, colors[0]); grad.addColorStop(1, colors[1] || colors[0])
-    ctx.fillStyle = grad; ctx.fillRect(0, 0, W, H)
-    ctx.save(); ctx.globalAlpha = 0.06; ctx.fillStyle = '#fff'
-    ctx.beginPath(); ctx.arc(W + 100, -100, 400, 0, Math.PI * 2); ctx.fill()
-    ctx.beginPath(); ctx.arc(-80, H + 80, 300, 0, Math.PI * 2); ctx.fill()
+    // ── BACKGROUND: dark gradient matching theme ──
+    const bg = ctx.createLinearGradient(0, 0, W, H)
+    bg.addColorStop(0, '#0a0a0f'); bg.addColorStop(1, '#0f1420')
+    ctx.fillStyle = bg; ctx.fillRect(0, 0, W, H)
+
+    // Colored accent panel (left 45%)
+    const accentGrad = ctx.createLinearGradient(0, 0, W * 0.45, H)
+    accentGrad.addColorStop(0, colors[0] + 'cc'); accentGrad.addColorStop(1, colors[0] + '33')
+    ctx.fillStyle = accentGrad; ctx.fillRect(0, 0, W * 0.45, H)
+
+    // Subtle grid overlay
+    ctx.save(); ctx.globalAlpha = 0.03; ctx.strokeStyle = '#fff'; ctx.lineWidth = 0.5
+    for (let x = 0; x < W; x += 40) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke() }
+    for (let y = 0; y < H; y += 40) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke() }
     ctx.restore()
 
-    const PAD = 48, LW = 600
+    // Decorative circles
+    ctx.save(); ctx.globalAlpha = 0.08; ctx.fillStyle = '#fff'
+    ctx.beginPath(); ctx.arc(W * 0.42, -40, 200, 0, Math.PI * 2); ctx.fill()
+    ctx.beginPath(); ctx.arc(20, H + 20, 150, 0, Math.PI * 2); ctx.fill()
+    ctx.restore()
 
-    // ── PROJECT LOGO ──
-    const pfpSrc = xData?.profile_image_url?.replace('_normal', '_400x400') ||
+    const PAD = 44
+
+    // ── LEFT: Project info ──
+    // Logo
+    const pfpSrc = xData?.profile_image_url?.replace('_normal','_400x400') ||
       (xUrl ? `https://unavatar.io/twitter/${xUrl.replace(/https?:\/\/[tx]\.(?:com|co)\//,'').replace('@','').split('/')[0].trim()}` : null)
     const pfpImg = pfpSrc ? await loadImg(pfpSrc) : null
     if (pfpImg) {
-      ctx.save()
-      ctx.beginPath(); ctx.arc(PAD + 50, 88, 46, 0, Math.PI * 2); ctx.clip()
-      ctx.drawImage(pfpImg, PAD + 4, 42, 92, 92)
-      ctx.restore()
-      ctx.strokeStyle = 'rgba(255,255,255,0.7)'; ctx.lineWidth = 3
-      ctx.beginPath(); ctx.arc(PAD + 50, 88, 46, 0, Math.PI * 2); ctx.stroke()
+      ctx.save(); ctx.beginPath(); ctx.arc(PAD + 42, 74, 38, 0, Math.PI * 2); ctx.clip()
+      ctx.drawImage(pfpImg, PAD + 4, 36, 76, 76); ctx.restore()
+      ctx.strokeStyle = 'rgba(255,255,255,0.5)'; ctx.lineWidth = 2
+      ctx.beginPath(); ctx.arc(PAD + 42, 74, 38, 0, Math.PI * 2); ctx.stroke()
     } else {
-      ctx.fillStyle = 'rgba(255,255,255,0.2)'
-      ctx.beginPath(); ctx.arc(PAD + 50, 88, 46, 0, Math.PI * 2); ctx.fill()
-      ctx.strokeStyle = 'rgba(255,255,255,0.5)'; ctx.lineWidth = 3
-      ctx.beginPath(); ctx.arc(PAD + 50, 88, 46, 0, Math.PI * 2); ctx.stroke()
-      ctx.fillStyle = '#fff'; ctx.font = 'bold 34px Arial'; ctx.textAlign = 'center'
-      ctx.fillText((result.project_name||'?').charAt(0).toUpperCase(), PAD + 50, 100)
-      ctx.textAlign = 'left'
+      ctx.fillStyle = 'rgba(255,255,255,0.1)'
+      ctx.beginPath(); ctx.arc(PAD + 42, 74, 38, 0, Math.PI * 2); ctx.fill()
+      ctx.fillStyle = '#fff'; ctx.font = 'bold 28px Arial'; ctx.textAlign = 'center'
+      ctx.fillText((result.project_name||'?').charAt(0).toUpperCase(), PAD + 42, 84); ctx.textAlign = 'left'
     }
 
-    // ── PROJECT NAME ──
-    const NX = PAD + 114
-    ctx.fillStyle = '#fff'; ctx.font = 'bold 42px Arial'
-    ctx.fillText((result.project_name||'').slice(0, 22), NX, 76)
+    // Project name
+    ctx.fillStyle = '#fff'; ctx.font = 'bold 36px Arial'
+    ctx.fillText((result.project_name||'').slice(0, 20), PAD + 96, 64)
 
-    // Category + location
-    const meta = [result.project_category || 'Crypto', result.team_location].filter(Boolean).join(' · ')
-    ctx.fillStyle = 'rgba(255,255,255,0.65)'; ctx.font = '15px Arial'
-    ctx.fillText(meta.slice(0, 50), NX, 102)
+    // Category + location line
+    const meta = [result.project_category, result.team_location].filter(Boolean).join(' · ')
+    ctx.fillStyle = 'rgba(255,255,255,0.5)'; ctx.font = '13px Arial'
+    ctx.fillText(meta.slice(0,48), PAD + 96, 85)
 
     // Token pill
     if (cgData?.token_live && cgData.ticker) {
-      const tok = cgData.ticker + (cgData.token_price ? '  ' + cgData.token_price : '') + (cgData.market_cap_str ? '  ·  mcap ' + cgData.market_cap_str : '')
-      ctx.font = 'bold 12px monospace'
-      const tw = ctx.measureText(tok).width + 22
-      ctx.fillStyle = 'rgba(0,0,0,0.25)'
-      ctx.beginPath(); (ctx as any).roundRect(NX, 112, tw, 24, 12); ctx.fill()
-      ctx.fillStyle = '#fff'; ctx.fillText(tok, NX + 11, 129)
+      const tok = cgData.ticker + (cgData.token_price ? '  ' + cgData.token_price : '')
+      ctx.font = 'bold 11px monospace'
+      const tw = ctx.measureText(tok).width + 18
+      ctx.fillStyle = 'rgba(22,163,74,0.3)'; ctx.strokeStyle = 'rgba(22,163,74,0.5)'; ctx.lineWidth = 1
+      ctx.beginPath(); (ctx as any).roundRect(PAD + 96, 93, tw, 20, 10); ctx.fill(); ctx.stroke()
+      ctx.fillStyle = '#fff'; ctx.fillText(tok, PAD + 105, 107)
     }
 
-    // ── DIVIDER ──
-    ctx.strokeStyle = 'rgba(255,255,255,0.15)'; ctx.lineWidth = 1
-    ctx.beginPath(); ctx.moveTo(PAD, 152); ctx.lineTo(LW, 152); ctx.stroke()
+    // Divider
+    ctx.strokeStyle = 'rgba(255,255,255,0.1)'; ctx.lineWidth = 1
+    ctx.beginPath(); ctx.moveTo(PAD, 128); ctx.lineTo(W * 0.44, 128); ctx.stroke()
 
-    // ── DESCRIPTION ──
-    ctx.fillStyle = 'rgba(255,255,255,0.85)'; ctx.font = '17px Arial'
-    wrap(result.description || '', PAD, 184, LW - PAD - 10, 26, 3)
+    // Description
+    ctx.fillStyle = 'rgba(255,255,255,0.75)'; ctx.font = '14px Arial'
+    wrap(result.description || '', PAD, 152, W * 0.44 - PAD - 10, 22, 3)
 
-    // ── HIGHLIGHTS — stacked, not side by side ──
-    let hlY = 262
-    ctx.font = 'bold 13px Arial'
+    // Highlights
+    let hlY = 218
+    ctx.font = 'bold 11px Arial'
     highlights.forEach((h: string) => {
-      const label = '✓  ' + (h.length > 68 ? h.slice(0, 66) + '…' : h)
-      const pw = Math.min(ctx.measureText(label).width + 24, LW - PAD - 10)
-      ctx.fillStyle = 'rgba(255,255,255,0.14)'
-      ctx.beginPath(); (ctx as any).roundRect(PAD, hlY, pw, 28, 14); ctx.fill()
-      ctx.fillStyle = '#fff'; ctx.fillText(label, PAD + 12, hlY + 19)
-      hlY += 36
+      const label = '✓  ' + (h.length > 56 ? h.slice(0,54)+'…' : h)
+      const pw = Math.min(ctx.measureText(label).width + 20, W * 0.44 - PAD - 10)
+      ctx.fillStyle = 'rgba(255,255,255,0.08)'
+      ctx.beginPath(); (ctx as any).roundRect(PAD, hlY, pw, 24, 12); ctx.fill()
+      ctx.fillStyle = 'rgba(255,255,255,0.9)'; ctx.fillText(label, PAD + 10, hlY + 16)
+      hlY += 32
     })
 
     // Red flag pill
     if (flagCount > 0) {
-      ctx.font = 'bold 13px Arial'
-      const fl = '🚨  ' + flagCount + ' red flag' + (flagCount > 1 ? 's' : '') + ' detected'
-      const fw = ctx.measureText(fl).width + 24
-      ctx.fillStyle = 'rgba(180,20,20,0.9)'
-      ctx.beginPath(); (ctx as any).roundRect(PAD, hlY + 4, fw, 28, 14); ctx.fill()
-      ctx.fillStyle = '#fff'; ctx.fillText(fl, PAD + 12, hlY + 23)
+      ctx.font = 'bold 11px Arial'
+      const fl = '🚨  ' + flagCount + ' red flag' + (flagCount > 1 ? 's' : '')
+      const fw = ctx.measureText(fl).width + 18
+      ctx.fillStyle = 'rgba(220,38,38,0.8)'
+      ctx.beginPath(); (ctx as any).roundRect(PAD, hlY + 4, fw, 24, 12); ctx.fill()
+      ctx.fillStyle = '#fff'; ctx.fillText(fl, PAD + 9, hlY + 19)
     }
 
-    // ── VERTICAL DIVIDER ──
-    ctx.strokeStyle = 'rgba(255,255,255,0.15)'; ctx.lineWidth = 1
-    ctx.beginPath(); ctx.moveTo(LW + 20, 40); ctx.lineTo(LW + 20, H - 40); ctx.stroke()
+    // ── DIVIDER LINE ──
+    ctx.strokeStyle = 'rgba(255,255,255,0.08)'; ctx.lineWidth = 1
+    ctx.beginPath(); ctx.moveTo(W * 0.46, 30); ctx.lineTo(W * 0.46, H - 30); ctx.stroke()
 
-    // ── RIGHT SIDE ──
-    const RX = LW + 46
+    // ── RIGHT: Score + verdict ──
+    const RX = W * 0.48
+
+    // Tier badge
+    ctx.fillStyle = colors[0] + '33'; ctx.strokeStyle = colors[0] + '66'; ctx.lineWidth = 1
+    ctx.beginPath(); (ctx as any).roundRect(RX, 28, 80, 26, 13); ctx.fill(); ctx.stroke()
+    ctx.fillStyle = '#fff'; ctx.font = 'bold 11px monospace'; ctx.textAlign = 'center'
+    ctx.fillText(otc.lbl, RX + 40, 45); ctx.textAlign = 'left'
 
     // Big score
-    ctx.fillStyle = '#fff'; ctx.font = 'bold 120px Arial'; ctx.textAlign = 'right'
-    ctx.fillText(String(result.overall_score ?? 0), W - PAD, 128)
-    ctx.font = 'bold 13px monospace'; ctx.globalAlpha = 0.6
-    ctx.fillText('ALPHA SCORE', W - PAD, 154)
-    ctx.globalAlpha = 1; ctx.font = 'bold 15px Arial'
-    ctx.fillText(ot + '  ·  ' + otc.lbl, W - PAD, 178)
-    ctx.textAlign = 'left'
+    ctx.fillStyle = '#fff'; ctx.font = 'bold 110px Arial'; ctx.textAlign = 'right'
+    ctx.fillText(String(result.overall_score ?? 0), W - PAD, 118)
+    ctx.font = '11px monospace'; ctx.fillStyle = 'rgba(255,255,255,0.35)'
+    ctx.fillText('ALPHA SCORE', W - PAD, 136); ctx.textAlign = 'left'
 
-    // ── USER BADGE ──
-    const UY = 224
-    const userImg = userPhoto ? await loadImg(userPhoto, 3000) : null
-    if (userImg) {
-      ctx.save(); ctx.beginPath(); ctx.arc(RX + 22, UY, 20, 0, Math.PI * 2); ctx.clip()
-      ctx.drawImage(userImg, RX + 2, UY - 20, 40, 40); ctx.restore()
-      ctx.strokeStyle = 'rgba(255,255,255,0.8)'; ctx.lineWidth = 2
-      ctx.beginPath(); ctx.arc(RX + 22, UY, 20, 0, Math.PI * 2); ctx.stroke()
+    // User badge
+    const UY = 168
+    const uImg = userPhoto ? await loadImg(userPhoto) : null
+    if (uImg) {
+      ctx.save(); ctx.beginPath(); ctx.arc(RX + 18, UY, 16, 0, Math.PI * 2); ctx.clip()
+      ctx.drawImage(uImg, RX + 2, UY - 16, 32, 32); ctx.restore()
+      ctx.strokeStyle = 'rgba(255,255,255,0.5)'; ctx.lineWidth = 1.5
+      ctx.beginPath(); ctx.arc(RX + 18, UY, 16, 0, Math.PI * 2); ctx.stroke()
     } else {
-      ctx.fillStyle = 'rgba(255,255,255,0.25)'
-      ctx.beginPath(); ctx.arc(RX + 22, UY, 20, 0, Math.PI * 2); ctx.fill()
-      ctx.fillStyle = '#fff'; ctx.font = 'bold 14px Arial'; ctx.textAlign = 'center'
-      ctx.fillText((userName||'C').charAt(0).toUpperCase(), RX + 22, UY + 5); ctx.textAlign = 'left'
+      ctx.fillStyle = colors[0]; ctx.beginPath(); ctx.arc(RX + 18, UY, 16, 0, Math.PI * 2); ctx.fill()
+      ctx.fillStyle = '#fff'; ctx.font = 'bold 12px Arial'; ctx.textAlign = 'center'
+      ctx.fillText((userName||'C').charAt(0).toUpperCase(), RX + 18, UY + 4); ctx.textAlign = 'left'
     }
-    ctx.fillStyle = 'rgba(255,255,255,0.6)'; ctx.font = '12px Arial'
-    ctx.fillText('@' + (userName||'cmvng') + ' says', RX + 52, UY - 8)
-    ctx.fillStyle = '#fff'; ctx.font = 'bold 20px Arial'
-    ctx.fillText(otc.v.toLowerCase() + '  ' + otc.emoji, RX + 52, UY + 14)
+    ctx.fillStyle = 'rgba(255,255,255,0.4)'; ctx.font = '10px Arial'
+    ctx.fillText('@' + (userName||'cmvng') + ' says', RX + 44, UY - 5)
+    ctx.fillStyle = '#fff'; ctx.font = 'bold 17px Arial'
+    ctx.fillText(otc.v, RX + 44, UY + 12)
 
-    // ── VERDICT BOX ──
-    const VBY = UY + 44, RW = W - RX - PAD
-    ctx.fillStyle = 'rgba(0,0,0,0.2)'
-    ctx.beginPath(); (ctx as any).roundRect(RX, VBY, RW, 210, 16); ctx.fill()
-    ctx.strokeStyle = 'rgba(255,255,255,0.1)'; ctx.lineWidth = 1
-    ctx.beginPath(); (ctx as any).roundRect(RX, VBY, RW, 210, 16); ctx.stroke()
-    ctx.fillStyle = '#fff'; ctx.font = 'bold 22px Arial'
-    ctx.fillText(otc.emoji + '  ' + otc.v, RX + 18, VBY + 34)
-    ctx.font = '14px Arial'; ctx.fillStyle = 'rgba(255,255,255,0.85)'
-    wrap(result.verdict_action || result.verdict_reason || '', RX + 18, VBY + 66, RW - 36, 23, 6)
+    // Verdict box
+    const VBY = UY + 32, RW = W - RX - PAD
+    ctx.fillStyle = colors[0] + '22'
+    ctx.beginPath(); (ctx as any).roundRect(RX, VBY, RW, H - VBY - 36, 14); ctx.fill()
+    ctx.strokeStyle = colors[0] + '44'; ctx.lineWidth = 1
+    ctx.beginPath(); (ctx as any).roundRect(RX, VBY, RW, H - VBY - 36, 14); ctx.stroke()
+    ctx.fillStyle = '#fff'; ctx.font = 'bold 13px Arial'
+    wrap(result.verdict_action || result.verdict_reason || '', RX + 16, VBY + 28, RW - 32, 21, 8)
 
-    // ── FOOTER ──
-    ctx.globalAlpha = 0.3; ctx.fillStyle = '#fff'; ctx.font = '12px monospace'; ctx.textAlign = 'center'
-    ctx.fillText('CMV ALPHASCANNER  ·  cmv-alphascanner.vercel.app', W / 2, H - 16)
+    // Footer
+    ctx.fillStyle = 'rgba(255,255,255,0.2)'; ctx.font = '10px monospace'; ctx.textAlign = 'center'
+    ctx.fillText('CMV ALPHASCANNER  ·  cmv-alphascanner.vercel.app', W / 2, H - 14)
     ctx.globalAlpha = 1
 
     const link = document.createElement('a')
@@ -1025,324 +1058,340 @@ export default function Home() {
     link.href = canvas.toDataURL('image/png', 1.0); link.click()
   }
 
-
-
-
-
   const ot = result ? getTier(result.overall_score ?? 0) : 'C'
   const otc = T[ot]
   const redFlags = result?.red_flags?.filter((f: any) => f.label) || []
   const goodHighlights = result?.good_highlights?.filter((h: string) => h && h.length > 5) || []
   const cmvScore = result ? computeCMVAlphaScore(result.metrics, redFlags) : null
   const fudPen = cmvScore?.fudPenalty ?? 0
-  const isGoodScore = result && result.overall_score >= 60
-  const availableTags = isGoodScore ? GOOD_TAGS : BAD_TAGS
-  const groups = result ? [
-    { label: 'Team Intentions', score: Math.round(((result.metrics?.founder_cred?.score ?? 0) + (result.metrics?.founder_activity?.score ?? 0)) / 2) },
-    { label: 'Funding', score: result.metrics?.funding?.score ?? 0 },
-    { label: 'Narrative', score: result.metrics?.niche?.score ?? 0 },
-    { label: 'Revenue', score: result.metrics?.revenue?.score ?? 0 },
-    { label: 'Community', score: result.metrics?.sentiment?.score ?? 0 },
-    { label: 'CT Buzz', score: Math.round(((result.metrics?.notable_mentions?.score ?? 0) + (result.metrics?.top_voices?.score ?? 0)) / 2) },
-  ].map(g => ({ ...g, tier: getTier(g.score), cfg: T[getTier(g.score)] })) : []
   const msg = LOADING_MSGS[msgIdx]
 
+  // ── Good vs Bad vs Conclusion for bottom section ──
+  const goodSides = result ? Object.entries(result.metrics || {})
+    .filter(([,d]: any) => d.signal === 'bullish' && d.score >= 70)
+    .sort(([,a]: any, [,b]: any) => b.score - a.score)
+    .slice(0, 4)
+    .map(([k, d]: any) => ({ key: k, label: k.replace(/_/g,' '), score: d.score, detail: d.detail || d.summary || '' })) : []
+
+  const badSides = result ? Object.entries(result.metrics || {})
+    .filter(([,d]: any) => d.signal === 'bearish' || d.score < 45)
+    .sort(([,a]: any, [,b]: any) => a.score - b.score)
+    .slice(0, 4)
+    .map(([k, d]: any) => ({ key: k, label: k.replace(/_/g,' '), score: d.score, detail: d.detail || d.summary || '' })) : []
+
   return (
-    <div style={{ minHeight: '100vh', background: '#f6f8fa', fontFamily: "'Inter',sans-serif" }}>
+    <div style={{ minHeight: '100vh', background: '#0a0a0f', fontFamily: "'Inter',sans-serif", color: '#fff' }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&family=Inter:wght@300;400;500;600&display=swap');
-        *{box-sizing:border-box;}
+        *{box-sizing:border-box;margin:0;padding:0;}
         @keyframes spin{to{transform:rotate(360deg)}}
-        @keyframes shimmer{0%{background-position:-700px 0}100%{background-position:700px 0}}
-        @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
-        @keyframes ring{0%,100%{transform:scale(1);opacity:0.3}50%{transform:scale(1.15);opacity:0.08}}
-        @keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
         @keyframes scan{0%{transform:translateX(-100%)}100%{transform:translateX(500%)}}
-        @keyframes thinkDot{0%,100%{opacity:0.15;transform:scale(0.7)}50%{opacity:1;transform:scale(1.1)}}
-        @keyframes pop{0%{transform:scale(0.85);opacity:0}60%{transform:scale(1.03)}100%{transform:scale(1);opacity:1}}
-        .tag-btn{transition:all 0.2s;cursor:pointer;}
-        .tag-btn:hover{transform:translateY(-2px);}
-        .metric-row{transition:all 0.2s;cursor:pointer;}
-        .metric-row:hover{background:#f0fdf4!important;}
-        .nav-link{transition:opacity 0.15s;}
-        .nav-link:hover{opacity:0.7;}
+        @keyframes pulse{0%,100%{opacity:0.4}50%{opacity:1}}
+        @keyframes shimmer{0%{background-position:-700px 0}100%{background-position:700px 0}}
+        @keyframes pop{0%{transform:scale(0.9);opacity:0}60%{transform:scale(1.02)}100%{transform:scale(1);opacity:1}}
+        @keyframes glow{0%,100%{box-shadow:0 0 20px rgba(22,163,74,0.15)}50%{box-shadow:0 0 40px rgba(22,163,74,0.3)}}
+        .nav-link{transition:color 0.2s;opacity:0.6;} .nav-link:hover{opacity:1;}
+        .scan-btn:hover{transform:translateY(-1px);box-shadow:0 8px 32px rgba(22,163,74,0.4);}
+        .scan-btn{transition:all 0.2s;}
+        .metric-card:hover{background:#1a1a2e!important;border-color:#2d2d4e!important;}
+        .metric-card{transition:all 0.15s;}
         input:focus{outline:none;}
+        ::-webkit-scrollbar{width:4px;} ::-webkit-scrollbar-track{background:#0a0a0f;} ::-webkit-scrollbar-thumb{background:#2d2d4e;border-radius:2px;}
         @media(max-width:640px){
-          .grid-score{grid-template-columns:1fr!important;}
-          .grid-3{grid-template-columns:1fr 1fr!important;}
-          .grid-2{grid-template-columns:1fr!important;}
-          .grid-tier{grid-template-columns:1fr 1fr!important;}
-          .search-btns{flex-wrap:wrap!important;}
-          .hero-title{font-size:36px!important;}
+          .hero-grid{grid-template-columns:1fr!important;}
+          .result-grid{grid-template-columns:1fr!important;}
+          .metrics-grid{grid-template-columns:1fr!important;}
         }
       `}</style>
 
-      {/* Nav */}
-      <div style={{ background: 'rgba(255,255,255,0.92)', backdropFilter: 'blur(12px)', borderBottom: '1px solid rgba(0,0,0,0.06)', padding: '0 28px', display: 'flex', alignItems: 'center', height: 60, gap: 12, position: 'sticky', top: 0, zIndex: 100 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexShrink: 0 }}>
-          <div style={{ width: 32, height: 32, background: '#16a34a', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 000-1.41l-2.34-2.34a1 1 0 00-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" fill="#fff" /></svg>
+      {/* ── NAV ── */}
+      <nav style={{ background: 'rgba(10,10,15,0.8)', backdropFilter: 'blur(20px)', borderBottom: '1px solid rgba(255,255,255,0.06)', padding: '0 24px', display: 'flex', alignItems: 'center', height: 58, position: 'sticky', top: 0, zIndex: 100 }}>
+        <a href="/" style={{ display: 'flex', alignItems: 'center', gap: 9, textDecoration: 'none' }}>
+          <div style={{ width: 30, height: 30, background: 'linear-gradient(135deg,#16a34a,#14532d)', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 000-1.41l-2.34-2.34a1 1 0 00-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" fill="#fff"/></svg>
           </div>
-          <span style={{ fontSize: 15, fontWeight: 700, color: '#111', letterSpacing: -0.3, fontFamily: "'Syne',sans-serif" }}>CMV <span style={{ color: '#16a34a' }}>Alpha</span></span>
-        </div>
-        <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 6 }}>
-          <a href="/tierlist" className="nav-link" style={{ fontFamily: "'DM Mono',monospace", fontSize: 10, color: '#6b7280', textDecoration: 'none', padding: '5px 12px', borderRadius: 8, border: '1px solid #e5e7eb', background: '#fff' }}>Tiers</a>
-          <a href="/feed" className="nav-link" style={{ fontFamily: "'DM Mono',monospace", fontSize: 10, color: '#6b7280', textDecoration: 'none', padding: '5px 12px', borderRadius: 8, border: '1px solid #e5e7eb', background: '#fff' }}>Feed</a>
-          <button onClick={() => setShowProfileSetup(true)} style={{ display: 'flex', alignItems: 'center', gap: 7, background: '#f9fafb', border: '1px solid #e5e7eb', borderRadius: 20, padding: '5px 12px 5px 6px', cursor: 'pointer', fontFamily: 'inherit' }}>
-            {userPhoto ? <img src={userPhoto} alt="" style={{ width: 22, height: 22, borderRadius: '50%', objectFit: 'cover' }} /> : <div style={{ width: 22, height: 22, borderRadius: '50%', background: '#dcfce7', color: '#16a34a', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 9, fontWeight: 700 }}>{userName ? userName.charAt(0).toUpperCase() : '?'}</div>}
-            <span style={{ fontSize: 12, fontWeight: 500, color: '#374151' }}>{userName || 'Profile'}</span>
+          <span style={{ fontSize: 14, fontWeight: 700, color: '#fff', fontFamily: "'Syne',sans-serif", letterSpacing: -0.3 }}>CMV <span style={{ color: '#16a34a' }}>Alpha</span></span>
+        </a>
+        <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 4 }}>
+          {[{href:'/',label:'Home'},{href:'/tierlist',label:'Tiers'},{href:'/feed',label:'Feed'}].map(({href,label}) => (
+            <a key={label} href={href} className="nav-link" style={{ fontFamily: "'DM Mono',monospace", fontSize: 10, color: '#fff', textDecoration: 'none', padding: '5px 10px', borderRadius: 6 }}>{label}</a>
+          ))}
+          <div style={{ width: 1, height: 16, background: 'rgba(255,255,255,0.1)', margin: '0 6px' }} />
+          <button onClick={() => setShowProfileSetup(true)} style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 20, padding: '4px 10px 4px 5px', cursor: 'pointer' }}>
+            {userPhoto ? <img src={userPhoto} alt="" style={{ width: 20, height: 20, borderRadius: '50%', objectFit: 'cover' }} /> : <div style={{ width: 20, height: 20, borderRadius: '50%', background: '#16a34a', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 8, fontWeight: 700 }}>{userName?.charAt(0).toUpperCase() || '?'}</div>}
+            <span style={{ fontSize: 11, color: '#fff', fontFamily: "'DM Mono',monospace" }}>{userName || 'Profile'}</span>
           </button>
         </div>
-      </div>
+      </nav>
 
-      {/* Profile Setup Modal */}
+      {/* ── PROFILE MODAL ── */}
       {showProfileSetup && (
-        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.4)', zIndex: 200, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 16 }}>
-          <div style={{ background: '#fff', borderRadius: 20, padding: 24, width: '100%', maxWidth: 400, animation: 'fadeIn 0.3s ease' }}>
-            <div style={{ fontSize: 16, fontWeight: 700, color: '#111', marginBottom: 4, fontFamily: "'Syne',sans-serif" }}>Your Alpha Profile</div>
-            <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#9ca3af', marginBottom: 20 }}>Shows on every verdict card you generate</div>
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.7)', zIndex: 200, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 16 }}>
+          <div style={{ background: '#111117', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 20, padding: 28, width: '100%', maxWidth: 380, animation: 'fadeUp 0.3s ease' }}>
+            <div style={{ fontSize: 16, fontWeight: 700, color: '#fff', marginBottom: 4, fontFamily: "'Syne',sans-serif" }}>Your Alpha Profile</div>
+            <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#6b7280', marginBottom: 20 }}>Appears on every verdict card you share</div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 20 }}>
-              <div onClick={() => fileRef.current?.click()} style={{ width: 72, height: 72, borderRadius: '50%', background: '#f8f9ff', border: '2px dashed #c5d0ff', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', overflow: 'hidden', flexShrink: 0 }}>
-                {tempPhoto ? <img src={tempPhoto} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <div style={{ textAlign: 'center' as const }}><svg width="20" height="20" viewBox="0 0 24 24" fill="none" style={{ display: 'block', margin: '0 auto 4px' }}><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12" stroke="#adb5bd" strokeWidth="2" strokeLinecap="round" /></svg><span style={{ fontSize: 9, color: '#adb5bd', fontFamily: "'DM Mono',monospace" }}>upload</span></div>}
+              <div onClick={() => fileRef.current?.click()} style={{ width: 64, height: 64, borderRadius: '50%', background: 'rgba(255,255,255,0.05)', border: '2px dashed rgba(255,255,255,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', overflow: 'hidden', flexShrink: 0 }}>
+                {tempPhoto ? <img src={tempPhoto} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12" stroke="#6b7280" strokeWidth="2" strokeLinecap="round"/></svg>}
               </div>
               <input ref={fileRef} type="file" accept="image/*" style={{ display: 'none' }} onChange={handlePhotoUpload} />
               <div style={{ flex: 1 }}>
-                <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#9ca3af', letterSpacing: 1, marginBottom: 6 }}>YOUR NAME OR HANDLE</div>
-                <input style={{ width: '100%', border: '1px solid #e5e7eb', borderRadius: 10, padding: '10px 14px', fontSize: 14, color: '#111', fontFamily: 'inherit' }} placeholder="e.g. Charles or @Cmv_ng" maxLength={20} value={tempName} onChange={e => setTempName(e.target.value)} />
+                <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#6b7280', letterSpacing: 1, marginBottom: 6 }}>YOUR HANDLE</div>
+                <input style={{ width: '100%', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, padding: '9px 12px', fontSize: 13, color: '#fff', fontFamily: 'inherit' }} placeholder="e.g. @cmvng" maxLength={20} value={tempName} onChange={e => setTempName(e.target.value)} />
               </div>
             </div>
             <div style={{ display: 'flex', gap: 8 }}>
-              <button onClick={() => setShowProfileSetup(false)} style={{ flex: 1, background: '#f8f9ff', border: '1px solid #e5e7eb', borderRadius: 10, padding: '11px', fontSize: 13, fontWeight: 600, color: '#6b7280', cursor: 'pointer', fontFamily: 'inherit' }}>Cancel</button>
-              <button onClick={() => { saveProfile(tempName, tempPhoto); setShowProfileSetup(false) }} style={{ flex: 2, background: '#14532d', color: '#fff', border: 'none', borderRadius: 10, padding: '11px', fontSize: 13, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit' }}>Save Profile</button>
+              <button onClick={() => setShowProfileSetup(false)} style={{ flex: 1, background: 'none', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, padding: 10, fontSize: 13, color: '#6b7280', cursor: 'pointer', fontFamily: 'inherit' }}>Cancel</button>
+              <button onClick={() => { saveProfile(tempName, tempPhoto); setShowProfileSetup(false) }} style={{ flex: 2, background: '#16a34a', border: 'none', borderRadius: 10, padding: 10, fontSize: 13, fontWeight: 700, color: '#fff', cursor: 'pointer', fontFamily: 'inherit' }}>Save</button>
             </div>
           </div>
         </div>
       )}
 
-      <div style={{ maxWidth: 880, margin: '0 auto', padding: '28px 20px 80px' }}>
+      <div style={{ maxWidth: 860, margin: '0 auto', padding: '32px 20px 80px' }}>
 
-        {/* Hero */}
+        {/* ── HERO ── */}
         {!result && !loading && (
-          <div style={{ position: 'relative', textAlign: 'center', padding: '48px 24px 52px' }}>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 7, background: '#dcfce7', border: '1px solid #86efac', borderRadius: 20, padding: '6px 16px', marginBottom: 22 }}>
-              <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#16a34a' }} />
-              <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 10, color: '#15803d', letterSpacing: '0.5px' }}>CRYPTO ALPHA INTELLIGENCE</span>
+          <div style={{ textAlign: 'center', padding: '52px 0 44px', animation: 'fadeUp 0.6s ease' }}>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: 'rgba(22,163,74,0.12)', border: '1px solid rgba(22,163,74,0.25)', borderRadius: 20, padding: '5px 14px', marginBottom: 24 }}>
+              <div style={{ width: 5, height: 5, borderRadius: '50%', background: '#16a34a', animation: 'pulse 2s infinite' }} />
+              <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 10, color: '#16a34a', letterSpacing: 1 }}>CRYPTO ALPHA INTELLIGENCE</span>
             </div>
-            <h1 className="hero-title" style={{ fontSize: 'clamp(40px,6vw,72px)', fontWeight: 800, color: '#0f172a', lineHeight: 1.0, letterSpacing: -2.5, marginBottom: 16, fontFamily: "'Syne',sans-serif" }}>Know before<br /><span style={{ color: '#16a34a' }}>you farm.</span></h1>
-            <p style={{ fontSize: 16, color: '#6b7280', lineHeight: 1.7, maxWidth: 420, margin: '0 auto 36px', fontWeight: 400 }}>Paste any crypto project's X handle. Get 17 metrics, red flag detection, a score out of 1000, and a shareable verdict card.</p>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, flexWrap: 'wrap' as const }}>
-              {['17 metrics','1000pt score','Red flag detection','Tool-native scoring','Shareable cards'].map(t => <span key={t} style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#15803d', background: '#f0fdf4', border: '1px solid #86efac', borderRadius: 20, padding: '5px 12px' }}>{t}</span>)}
+            <h1 style={{ fontSize: 'clamp(38px,5.5vw,68px)', fontWeight: 800, color: '#fff', lineHeight: 1.0, letterSpacing: -2, marginBottom: 18, fontFamily: "'Syne',sans-serif" }}>
+              Know before<br /><span style={{ color: '#16a34a' }}>you farm.</span>
+            </h1>
+            <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.5)', lineHeight: 1.7, maxWidth: 400, margin: '0 auto 36px' }}>
+              Paste any crypto project's X handle. Get instant red flag detection, a verified alpha score, and a shareable verdict card.
+            </p>
+            <div style={{ display: 'flex', justifyContent: 'center', gap: 8, flexWrap: 'wrap' as const }}>
+              {['Red flag detection','17 metrics','AI-powered','Shareable cards','Token data'].map(t => (
+                <span key={t} style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: 'rgba(255,255,255,0.4)', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 20, padding: '4px 12px' }}>{t}</span>
+              ))}
             </div>
           </div>
         )}
 
-        {/* Search */}
-        <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 16, padding: 16, marginBottom: 16, boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}>
-          {!result && !loading && (
-            <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#9ca3af', letterSpacing: '1.5px', marginBottom: 8 }}>PASTE X URL OR HANDLE</div>
-          )}
+        {/* ── SEARCH BOX ── */}
+        <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 16, padding: 16, marginBottom: 16, backdropFilter: 'blur(10px)' }}>
           <div style={{ display: 'flex', gap: 8 }}>
-            <input style={{ flex: 1, background: '#f9fafb', border: '1.5px solid #e5e7eb', borderRadius: 10, padding: '13px 16px', fontSize: 14, color: '#111', fontFamily: "'DM Mono',monospace", outline: 'none', transition: 'all 0.2s' }} placeholder="@projecthandle or https://x.com/handle" value={xUrl} onChange={e => setXUrl(e.target.value)} onKeyDown={e => e.key === 'Enter' && !loading && analyze()} disabled={loading} onFocus={e => { e.target.style.borderColor = '#16a34a'; e.target.style.background = '#fff' }} onBlur={e => { e.target.style.borderColor = '#e5e7eb'; e.target.style.background = '#f9fafb' }} />
-            <div className="search-btns" style={{ display: 'flex', gap: 8, flexShrink: 0 }}>
+            <input
+              style={{ flex: 1, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, padding: '13px 16px', fontSize: 14, color: '#fff', fontFamily: "'DM Mono',monospace", transition: 'border-color 0.2s' }}
+              placeholder="@handle or https://x.com/handle"
+              value={xUrl} onChange={e => setXUrl(e.target.value)}
+              onKeyDown={e => e.key === 'Enter' && !loading && analyze()}
+              disabled={loading}
+              onFocus={e => e.target.style.borderColor = 'rgba(22,163,74,0.5)'}
+              onBlur={e => e.target.style.borderColor = 'rgba(255,255,255,0.1)'}
+            />
+            <div style={{ display: 'flex', gap: 8, flexShrink: 0 }}>
               {result && !loading && (
-                <button onClick={() => { setResult(null); setCgData(null); setXData(null); setXUrl(''); setSelectedTags([]) }} style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 10, padding: '13px 16px', fontSize: 13, fontWeight: 600, cursor: 'pointer', color: '#374151', fontFamily: 'inherit', whiteSpace: 'nowrap' as const }}>+ New Scan</button>
+                <button onClick={() => { setResult(null); setCgData(null); setXData(null); setXUrl(''); setSelectedTags([]) }}
+                  style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, padding: '13px 16px', fontSize: 13, fontWeight: 600, cursor: 'pointer', color: 'rgba(255,255,255,0.7)', fontFamily: 'inherit', whiteSpace: 'nowrap' as const }}>
+                  + New Scan
+                </button>
               )}
-              <button onClick={analyze} disabled={loading || !xUrl.trim()} style={{ background: loading || !xUrl.trim() ? '#f3f4f6' : '#16a34a', color: loading || !xUrl.trim() ? '#9ca3af' : '#fff', border: 'none', borderRadius: 10, padding: '13px 24px', fontSize: 14, fontWeight: 600, cursor: loading || !xUrl.trim() ? 'not-allowed' : 'pointer', whiteSpace: 'nowrap' as const, fontFamily: "'Syne',sans-serif", transition: 'all 0.2s' }}>{loading ? 'Scanning...' : 'Analyze →'}</button>
+              <button className="scan-btn" onClick={analyze} disabled={loading || !xUrl.trim()}
+                style={{ background: loading || !xUrl.trim() ? 'rgba(255,255,255,0.06)' : '#16a34a', color: loading || !xUrl.trim() ? 'rgba(255,255,255,0.3)' : '#fff', border: 'none', borderRadius: 10, padding: '13px 24px', fontSize: 14, fontWeight: 600, cursor: loading || !xUrl.trim() ? 'not-allowed' : 'pointer', whiteSpace: 'nowrap' as const, fontFamily: "'Syne',sans-serif" }}>
+                {loading ? 'Scanning...' : 'Analyze →'}
+              </button>
             </div>
           </div>
-          <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#9ca3af', marginTop: 10, display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' as const }}>
+          <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: 'rgba(255,255,255,0.25)', marginTop: 10, display: 'flex', gap: 8, alignItems: 'center' }}>
             <span>try:</span>
-            {['eigenlayer','KaitoAI','hyperliquid'].map(ex => <button key={ex} onClick={() => setXUrl('https://x.com/' + ex)} style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#16a34a', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>@{ex}</button>)}
+            {['eigenlayer','KaitoAI','hyperliquid'].map(ex => (
+              <button key={ex} onClick={() => setXUrl('https://x.com/' + ex)} style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#16a34a', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>@{ex}</button>
+            ))}
           </div>
         </div>
 
-        {/* Loading */}
+        {/* ── LOADING ── */}
         {loading && (
-          <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 16, padding: 28, marginBottom: 16, overflow: 'hidden', position: 'relative' }}>
-            <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3, background: 'linear-gradient(90deg,transparent,#16a34a,transparent)', animation: 'scan 2s linear infinite', borderRadius: '16px 16px 0 0' }} />
-            <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 20 }}>
-              <div style={{ width: 52, height: 52, borderRadius: '50%', border: '2px solid #16a34a', background: '#f0fdf4', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                <span style={{ fontSize: 22 }}>🔍</span>
+          <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 16, padding: 28, marginBottom: 16, position: 'relative', overflow: 'hidden' }}>
+            <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: 'rgba(22,163,74,0.15)' }}>
+              <div style={{ height: '100%', background: 'linear-gradient(90deg,transparent,#16a34a,transparent)', animation: 'scan 2s linear infinite' }} />
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 24 }}>
+              <div style={{ width: 48, height: 48, borderRadius: '50%', border: '1.5px solid rgba(22,163,74,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                <span style={{ fontSize: 20, animation: 'spin 3s linear infinite' }}>⚡</span>
               </div>
               <div style={{ flex: 1 }}>
-                <div style={{ fontSize: 15, fontWeight: 600, color: '#111', marginBottom: 4, fontFamily: "'Syne',sans-serif" }}>{msg.text} {msg.emoji}</div>
-                <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 10, color: '#6b7280' }}>scanning @{xUrl.replace('https://x.com/','').replace('@','').split('/')[0].replace(/[^a-zA-Z0-9_]/g,'')}...</div>
+                <div style={{ fontSize: 15, fontWeight: 600, color: '#fff', marginBottom: 4, fontFamily: "'Syne',sans-serif" }}>{msg.text}</div>
+                <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 10, color: 'rgba(255,255,255,0.35)' }}>{phase}</div>
               </div>
-              <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 28, fontWeight: 800, color: '#16a34a' }}>{elapsed}<span style={{ fontSize: 13, color: '#9ca3af' }}>s</span></div>
+              <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 24, fontWeight: 800, color: '#16a34a' }}>{elapsed}<span style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)' }}>s</span></div>
             </div>
-            <div style={{ background: '#f0fdf4', borderRadius: 8, padding: '8px 12px', marginBottom: 16, border: '1px solid #86efac' }}>
-              <div style={{ fontSize: 12, fontWeight: 600, color: '#15803d' }}>{phase}</div>
+            <div style={{ background: 'rgba(22,163,74,0.06)', borderRadius: 8, padding: '8px 12px', border: '1px solid rgba(22,163,74,0.1)', marginBottom: 12 }}>
+              <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 10, color: 'rgba(22,163,74,0.8)' }}>est. 15-30s · AI analysis running</div>
             </div>
-            {[100,80].map((w,i) => <div key={i} style={{ height: 36, background: 'linear-gradient(90deg,#f0fdf4 25%,#dcfce7 50%,#f0fdf4 75%)', backgroundSize: '700px 100%', animation: 'shimmer 1.5s infinite', borderRadius: 8, marginBottom: 8, width: w + '%' }} />)}
+            {['100%','78%'].map((w,i) => <div key={i} style={{ height: 32, background: 'linear-gradient(90deg,rgba(255,255,255,0.03) 25%,rgba(255,255,255,0.06) 50%,rgba(255,255,255,0.03) 75%)', backgroundSize: '700px 100%', animation: 'shimmer 1.8s infinite', borderRadius: 8, marginBottom: 8, width: w }} />)}
           </div>
         )}
 
-        {/* Error */}
-        {error && (
-          <div style={{ background: error.startsWith('rate_limit') ? '#fffbeb' : '#fef2f2', border: `1px solid ${error.startsWith('rate_limit') ? '#fcd34d' : '#fca5a5'}`, borderRadius: 12, padding: '16px 18px', marginBottom: 14 }}>
+        {/* ── ERROR ── */}
+        {error && !loading && (
+          <div style={{ background: error.startsWith('rate_limit') ? 'rgba(245,158,11,0.08)' : 'rgba(220,38,38,0.08)', border: `1px solid ${error.startsWith('rate_limit') ? 'rgba(245,158,11,0.2)' : 'rgba(220,38,38,0.2)'}`, borderRadius: 12, padding: '18px 20px', marginBottom: 14 }}>
             {error.startsWith('rate_limit') ? (
-              <><div style={{ fontSize: 13, fontWeight: 600, color: '#92400e', marginBottom: 4 }}>⏳ High demand — retrying in {error.split(':')[1] || '65'}s</div><div style={{ height: 3, background: '#fde68a', borderRadius: 3 }}><div style={{ height: '100%', background: '#f59f00', borderRadius: 3, width: '60%' }} /></div></>
+              <><div style={{ fontSize: 13, fontWeight: 600, color: '#f59f00', marginBottom: 4 }}>⏳ High demand — retrying in {error.split(':')[1] || '65'}s</div><div style={{ height: 2, background: 'rgba(245,158,11,0.2)', borderRadius: 2 }}><div style={{ height: '100%', background: '#f59f00', borderRadius: 2, width: '60%' }} /></div></>
+            ) : error === 'not_crypto' ? (
+              <div style={{ textAlign: 'center' as const }}>
+                <div style={{ fontSize: 28, marginBottom: 10 }}>🤔</div>
+                <div style={{ fontSize: 14, fontWeight: 700, color: '#fff', marginBottom: 6 }}>This doesn't look like a crypto project</div>
+                <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', marginBottom: 14, lineHeight: 1.6 }}>The X account you entered doesn't appear to be a Web3 or crypto project. Please paste the X link of a crypto project to scan.</div>
+                <button onClick={() => { setError(null); setXUrl('') }} style={{ fontSize: 12, padding: '8px 18px', borderRadius: 8, border: '1px solid rgba(255,255,255,0.15)', background: 'none', color: 'rgba(255,255,255,0.6)', cursor: 'pointer', fontFamily: 'inherit' }}>Try another project</button>
+              </div>
             ) : (
-              <><div style={{ fontSize: 13, fontWeight: 600, color: '#dc2626', marginBottom: 6 }}>⚠️ Scan failed</div><div style={{ fontSize: 12, color: '#7f1d1d', marginBottom: 10 }}>{error}</div><button onClick={analyze} style={{ fontSize: 12, padding: '6px 14px', borderRadius: 8, border: '1px solid #fca5a5', background: '#fff', color: '#dc2626', cursor: 'pointer', fontFamily: 'inherit' }}>Try again</button></>
+              <><div style={{ fontSize: 13, fontWeight: 600, color: '#ef4444', marginBottom: 6 }}>⚠️ Scan failed</div><div style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', marginBottom: 10 }}>{error}</div><button onClick={analyze} style={{ fontSize: 12, padding: '6px 14px', borderRadius: 8, border: '1px solid rgba(220,38,38,0.3)', background: 'none', color: '#ef4444', cursor: 'pointer', fontFamily: 'inherit' }}>Try again</button></>
             )}
           </div>
         )}
 
-        {/* Results */}
+        {/* ── RESULTS ── */}
         {result && !loading && (
-          <div style={{ animation: 'fadeIn 0.5s ease' }}>
+          <div style={{ animation: 'fadeUp 0.4s ease' }}>
 
+            {/* Red flags */}
             {redFlags.length > 0 && (
-              <div style={{ background: '#fff5f5', border: '1.5px solid #fca5a5', borderRadius: 14, padding: '16px 18px', marginBottom: 12, animation: 'pop 0.4s ease' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
-                  <div style={{ width: 36, height: 36, background: '#dc2626', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" stroke="#fff" strokeWidth="2" strokeLinecap="round" /></svg>
+              <div style={{ background: 'rgba(220,38,38,0.08)', border: '1.5px solid rgba(220,38,38,0.25)', borderRadius: 14, padding: '16px 18px', marginBottom: 12, animation: 'pop 0.4s ease' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
+                  <div style={{ width: 34, height: 34, background: '#dc2626', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" stroke="#fff" strokeWidth="2" strokeLinecap="round"/></svg>
                   </div>
                   <div style={{ flex: 1 }}>
-                    <div style={{ fontSize: 14, fontWeight: 700, color: '#dc2626', fontFamily: "'Syne',sans-serif" }}>🚨 {redFlags.length} Red Flag{redFlags.length > 1 ? 's' : ''} Detected</div>
-                    <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#c92a2a' }}>Score penalised · Proceed with extreme caution</div>
+                    <div style={{ fontSize: 14, fontWeight: 700, color: '#ef4444', fontFamily: "'Syne',sans-serif" }}>🚨 {redFlags.length} Red Flag{redFlags.length > 1 ? 's' : ''} Detected</div>
+                    <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: 'rgba(239,68,68,0.7)' }}>Score penalised · Proceed with extreme caution</div>
                   </div>
-                  <div style={{ background: '#dc2626', borderRadius: 8, padding: '6px 12px', textAlign: 'center' as const, flexShrink: 0 }}>
-                    <div style={{ fontSize: 16, fontWeight: 800, color: '#fff' }}>-{fudPen}</div>
-                    <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: 'rgba(255,255,255,0.8)' }}>PENALTY</div>
+                  <div style={{ background: '#dc2626', borderRadius: 8, padding: '5px 10px', textAlign: 'center' as const }}>
+                    <div style={{ fontSize: 15, fontWeight: 800, color: '#fff' }}>-{fudPen}</div>
+                    <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 7, color: 'rgba(255,255,255,0.7)' }}>PENALTY</div>
                   </div>
                 </div>
                 {redFlags.map((f: any, i: number) => (
-                  <div key={i} style={{ background: '#fff', border: '1px solid #fca5a5', borderLeft: '3px solid #dc2626', borderRadius: 8, padding: '10px 14px', marginBottom: 8 }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 4 }}>
-                      <span style={{ fontSize: 12 }}>{f.type === 'dump' ? '📉' : f.type === 'exploit' ? '⚡' : f.type === 'shill' ? '🤥' : f.type === 'anon' ? '👻' : '⚠️'}</span>
-                      <span style={{ fontSize: 13, fontWeight: 600, color: '#dc2626', fontFamily: "'Syne',sans-serif" }}>{f.label}</span>
+                  <div key={i} style={{ background: 'rgba(220,38,38,0.06)', border: '1px solid rgba(220,38,38,0.15)', borderLeft: '3px solid #dc2626', borderRadius: 8, padding: '10px 14px', marginBottom: 8 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 3 }}>
+                      <span style={{ fontSize: 11 }}>{f.type === 'dump' ? '📉' : f.type === 'exploit' ? '⚡' : f.type === 'shill' ? '🤥' : '⚠️'}</span>
+                      <span style={{ fontSize: 12, fontWeight: 600, color: '#ef4444', fontFamily: "'Syne',sans-serif" }}>{f.label}</span>
                     </div>
-                    <div style={{ fontSize: 12, color: '#4b5563', lineHeight: 1.6 }}>{f.detail}</div>
+                    <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.5)', lineHeight: 1.6 }}>{f.detail}</div>
                   </div>
                 ))}
               </div>
             )}
 
             {redFlags.length === 0 && (
-              <div style={{ background: '#f0fdf4', border: '1px solid #86efac', borderRadius: 10, padding: '10px 14px', marginBottom: 12, display: 'flex', alignItems: 'center', gap: 8 }}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M22 11.08V12a10 10 0 11-5.93-9.14M22 4L12 14.01l-3-3" stroke="#16a34a" strokeWidth="2" strokeLinecap="round"/></svg>
-                <span style={{ fontSize: 12, fontWeight: 600, color: '#15803d' }}>No red flags detected</span>
+              <div style={{ background: 'rgba(22,163,74,0.06)', border: '1px solid rgba(22,163,74,0.15)', borderRadius: 10, padding: '10px 14px', marginBottom: 12, display: 'flex', alignItems: 'center', gap: 8 }}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M22 11.08V12a10 10 0 11-5.93-9.14M22 4L12 14.01l-3-3" stroke="#16a34a" strokeWidth="2" strokeLinecap="round"/></svg>
+                <span style={{ fontSize: 12, fontWeight: 600, color: '#16a34a' }}>No red flags detected</span>
               </div>
             )}
 
-            {/* Verdict Card */}
-            <div style={{ background: otc.vbg, borderRadius: 18, padding: 22, marginBottom: 12, position: 'relative', overflow: 'hidden' }}>
-              <div style={{ position: 'absolute', top: -50, right: -50, width: 200, height: 200, borderRadius: '50%', background: 'rgba(255,255,255,0.05)', pointerEvents: 'none' }} />
-              <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(255,255,255,0.2)', border: '1px solid rgba(255,255,255,0.3)', borderRadius: 20, padding: '5px 14px 5px 6px', marginBottom: 14 }}>
-                {userPhoto ? <img src={userPhoto} alt="" style={{ width: 28, height: 28, borderRadius: '50%', objectFit: 'cover', border: '1.5px solid rgba(255,255,255,0.5)' }} /> : <div style={{ width: 28, height: 28, borderRadius: '50%', background: 'rgba(255,255,255,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 700, color: '#fff' }}>{userName ? userName.charAt(0).toUpperCase() : 'C'}</div>}
-                <span style={{ fontSize: 13, fontWeight: 700, color: '#fff' }}>{userName || 'CMV'} says {otc.v.toLowerCase()} {otc.emoji}</span>
+            {/* ── VERDICT CARD ── */}
+            <div style={{ background: otc.vbg, borderRadius: 20, padding: 24, marginBottom: 12, position: 'relative', overflow: 'hidden' }}>
+              <div style={{ position: 'absolute', top: -60, right: -60, width: 220, height: 220, borderRadius: '50%', background: 'rgba(255,255,255,0.06)', pointerEvents: 'none' }} />
+              <div style={{ position: 'absolute', bottom: -40, left: -40, width: 160, height: 160, borderRadius: '50%', background: 'rgba(0,0,0,0.1)', pointerEvents: 'none' }} />
+
+              {/* User badge */}
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: 7, background: 'rgba(0,0,0,0.2)', borderRadius: 20, padding: '4px 12px 4px 5px', marginBottom: 16 }}>
+                {userPhoto ? <img src={userPhoto} alt="" style={{ width: 24, height: 24, borderRadius: '50%', objectFit: 'cover' }} /> : <div style={{ width: 24, height: 24, borderRadius: '50%', background: 'rgba(255,255,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 10, fontWeight: 700, color: '#fff' }}>{userName?.charAt(0)?.toUpperCase() || 'C'}</div>}
+                <span style={{ fontSize: 12, fontWeight: 600, color: 'rgba(255,255,255,0.9)' }}>{userName || 'cmvng'} says {otc.v.toLowerCase()} {otc.emoji}</span>
               </div>
-              <div style={{ display: 'flex', alignItems: 'flex-start', gap: 16, marginBottom: 14 }}>
-                <div style={{ width: 54, height: 54, borderRadius: 14, overflow: 'hidden', background: 'rgba(255,255,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, border: '2px solid rgba(255,255,255,0.3)' }}>
+
+              <div style={{ display: 'flex', alignItems: 'flex-start', gap: 14, marginBottom: 16 }}>
+                <div style={{ width: 52, height: 52, borderRadius: 13, overflow: 'hidden', background: 'rgba(255,255,255,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, border: '1.5px solid rgba(255,255,255,0.25)' }}>
                   {(() => {
-                    const imgUrl = xData?.profile_image_url || (xUrl ? `https://unavatar.io/twitter/${xUrl.replace('https://x.com/','').replace('https://twitter.com/','').replace('@','').split('/')[0].trim()}` : null)
-                    return imgUrl ? <img src={imgUrl} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' as const }} onError={(e) => { (e.target as HTMLImageElement).style.display='none' }} /> : <span style={{ fontSize: 24, fontWeight: 800, color: '#fff' }}>{(result.project_name||'?').charAt(0).toUpperCase()}</span>
+                    const imgUrl = xData?.profile_image_url || (xUrl ? `https://unavatar.io/twitter/${xUrl.replace('https://x.com/','').replace('@','').split('/')[0].trim()}` : null)
+                    return imgUrl ? <img src={imgUrl} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' as const }} onError={(e) => { (e.target as HTMLImageElement).style.display='none' }} /> : <span style={{ fontSize: 22, fontWeight: 800, color: '#fff' }}>{(result.project_name||'?').charAt(0).toUpperCase()}</span>
                   })()}
                 </div>
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' as const, marginBottom: 2 }}>
-                    <span style={{ fontSize: 20, fontWeight: 800, color: '#fff', fontFamily: "'Syne',sans-serif" }}>{result.project_name || ''}</span>
-                    {cgData?.token_live && cgData.ticker && <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 10, color: 'rgba(255,255,255,0.85)', background: 'rgba(255,255,255,0.15)', padding: '2px 8px', borderRadius: 5 }}>{cgData.ticker} {cgData.token_price}</span>}
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' as const, marginBottom: 3 }}>
+                    <span style={{ fontSize: 22, fontWeight: 800, color: '#fff', fontFamily: "'Syne',sans-serif" }}>{result.project_name}</span>
+                    {cgData?.token_live && cgData.ticker && <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 10, color: 'rgba(255,255,255,0.8)', background: 'rgba(0,0,0,0.2)', padding: '2px 8px', borderRadius: 5 }}>{cgData.ticker} {cgData.token_price}</span>}
                   </div>
-                  <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: 'rgba(255,255,255,0.65)' }}>{result.project_category || 'Crypto'}</div>
+                  <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: 'rgba(255,255,255,0.5)' }}>{result.project_category}{result.team_location ? ' · ' + result.team_location : ''}</div>
                 </div>
                 <div style={{ textAlign: 'right' as const, flexShrink: 0 }}>
-                  <div style={{ fontSize: 48, fontWeight: 800, color: '#fff', lineHeight: 1, fontFamily: "'Syne',sans-serif" }}>{result.overall_score ?? 0}</div>
-                  <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: 'rgba(255,255,255,0.65)' }}>ALPHA SCORE</div>
-                  <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#fff', background: 'rgba(255,255,255,0.2)', borderRadius: 20, padding: '2px 8px', display: 'inline-block', marginTop: 3 }}>{ot} · {otc.lbl}</div>
+                  <div style={{ fontSize: 52, fontWeight: 800, color: '#fff', lineHeight: 1, fontFamily: "'Syne',sans-serif" }}>{result.overall_score ?? 0}</div>
+                  <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 7, color: 'rgba(255,255,255,0.5)' }}>ALPHA SCORE</div>
+                  <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#fff', background: 'rgba(0,0,0,0.2)', borderRadius: 20, padding: '2px 8px', display: 'inline-block', marginTop: 3 }}>{otc.lbl}</div>
                 </div>
               </div>
+
               {goodHighlights.length > 0 && (
-                <div style={{ display: 'flex', flexWrap: 'wrap' as const, gap: 6, marginBottom: 12 }}>
-                  {goodHighlights.slice(0, 3).map((h: string, i: number) => <div key={i} style={{ background: 'rgba(255,255,255,0.15)', border: '1px solid rgba(255,255,255,0.25)', borderRadius: 20, padding: '4px 12px', fontSize: 11, fontWeight: 600, color: '#fff' }}>✓ {h}</div>)}
+                <div style={{ display: 'flex', flexWrap: 'wrap' as const, gap: 5, marginBottom: 14 }}>
+                  {goodHighlights.slice(0,3).map((h: string, i: number) => <div key={i} style={{ background: 'rgba(0,0,0,0.15)', border: '1px solid rgba(255,255,255,0.15)', borderRadius: 20, padding: '3px 10px', fontSize: 11, color: 'rgba(255,255,255,0.9)' }}>✓ {h}</div>)}
                 </div>
               )}
-              <div style={{ background: 'rgba(0,0,0,0.15)', borderRadius: 12, padding: '14px 16px', marginBottom: 14, border: '1px solid rgba(255,255,255,0.12)' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
-                  <span style={{ fontSize: 22 }}>{otc.emoji}</span>
-                  <span style={{ fontSize: 22, fontWeight: 800, color: '#fff', fontFamily: "'Syne',sans-serif" }}>{otc.v}</span>
-                </div>
-                <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.92)', lineHeight: 1.65 }}>{result.verdict_action || result.verdict_reason}</div>
+
+              <div style={{ background: 'rgba(0,0,0,0.2)', borderRadius: 12, padding: '14px 16px', marginBottom: 16 }}>
+                <div style={{ fontSize: 13, fontWeight: 700, color: '#fff', fontFamily: "'Syne',sans-serif", marginBottom: 6 }}>{otc.v}</div>
+                <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.85)', lineHeight: 1.65 }}>{result.verdict_action || result.verdict_reason}</div>
               </div>
 
-              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8 }}>
-                <button onClick={downloadCard} style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'rgba(255,255,255,0.2)', border: '1px solid rgba(255,255,255,0.35)', borderRadius: 20, padding: '8px 16px', fontFamily: 'inherit', fontSize: 13, fontWeight: 600, color: '#fff', cursor: 'pointer' }}>
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>Download
+              <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end' }}>
+                <button onClick={downloadCard} style={{ display: 'flex', alignItems: 'center', gap: 5, background: 'rgba(255,255,255,0.12)', border: '1px solid rgba(255,255,255,0.2)', borderRadius: 20, padding: '7px 14px', fontSize: 12, fontWeight: 600, color: '#fff', cursor: 'pointer', fontFamily: 'inherit' }}>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>Download
                 </button>
-                <button onClick={shareResult} style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'rgba(255,255,255,0.2)', border: '1px solid rgba(255,255,255,0.35)', borderRadius: 20, padding: '8px 18px', fontFamily: 'inherit', fontSize: 13, fontWeight: 600, color: '#fff', cursor: 'pointer' }}>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13" /></svg>Share to X
+                <button onClick={shareResult} style={{ display: 'flex', alignItems: 'center', gap: 5, background: 'rgba(255,255,255,0.12)', border: '1px solid rgba(255,255,255,0.2)', borderRadius: 20, padding: '7px 16px', fontSize: 12, fontWeight: 600, color: '#fff', cursor: 'pointer', fontFamily: 'inherit' }}>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13"/></svg>Share to X
                 </button>
               </div>
             </div>
 
-            {/* Score Section */}
-            <div className="grid-score" style={{ display: 'grid', gridTemplateColumns: '150px 1fr', gap: 10, marginBottom: 10 }}>
-              <div style={{ background: '#fff', border: '1px solid #f1f5f9', borderRadius: 14, padding: 16, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
-                <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#9ca3af', letterSpacing: 1 }}>ALPHA SCORE</div>
-                <div style={{ fontSize: 56, fontWeight: 800, color: otc.solid, lineHeight: 1, fontFamily: "'Syne',sans-serif" }}>{result.overall_score ?? 0}</div>
-                <div style={{ background: otc.bg, border: `1px solid ${otc.border}`, borderRadius: 20, padding: '4px 12px', fontFamily: "'DM Mono',monospace", fontSize: 9, color: otc.tc }}>{ot} · {otc.lbl}</div>
-                {(xData?.cmv_score && xData.cmv_score > 0) ? <div style={{ background: '#f8faff', border: '1px solid #e5e7eb', borderRadius: 8, padding: '8px 10px', width: '100%', textAlign: 'center' as const }}><div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#9ca3af' }}>CMV X SCORE</div><div style={{ fontSize: 18, fontWeight: 700, color: '#111', fontFamily: "'Syne',sans-serif" }}>{xData.cmv_score}<span style={{ fontSize: 10, color: '#9ca3af' }}>/1000</span></div></div> : null}
+            {/* ── SCORE + OVERVIEW ── */}
+            <div className="result-grid" style={{ display: 'grid', gridTemplateColumns: '140px 1fr', gap: 10, marginBottom: 10 }}>
+              <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 14, padding: 16, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
+                <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 7, color: 'rgba(255,255,255,0.3)', letterSpacing: 1 }}>ALPHA SCORE</div>
+                <div style={{ fontSize: 52, fontWeight: 800, color: otc.solid, lineHeight: 1, fontFamily: "'Syne',sans-serif" }}>{result.overall_score ?? 0}</div>
+                <div style={{ background: `rgba(${otc.solid === '#7c3aed' ? '124,58,237' : otc.solid === '#37b24d' ? '55,178,77' : otc.solid === '#f59f00' ? '245,159,0' : otc.solid === '#e8590c' ? '232,89,12' : '134,142,150'},0.15)\`, border: `1px solid ${otc.solid}30`, borderRadius: 20, padding: '3px 10px', fontFamily: "'DM Mono',monospace", fontSize: 8, color: otc.solid }}>{otc.lbl}</div>
+                {xData?.cmv_score > 0 && <div style={{ background: 'rgba(255,255,255,0.04)', borderRadius: 8, padding: '6px 8px', width: '100%', textAlign: 'center' as const, marginTop: 4 }}><div style={{ fontFamily: "'DM Mono',monospace", fontSize: 7, color: 'rgba(255,255,255,0.3)' }}>CMV X</div><div style={{ fontSize: 16, fontWeight: 700, color: '#fff', fontFamily: "'Syne',sans-serif" }}>{xData.cmv_score}<span style={{ fontSize: 9, color: 'rgba(255,255,255,0.3)' }}>/1k</span></div></div>}
               </div>
-              <div style={{ background: '#fff', border: '1px solid #f1f5f9', borderRadius: 14, padding: 16 }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6, flexWrap: 'wrap' as const }}>
-                  <span style={{ fontSize: 18, fontWeight: 700, color: '#111', fontFamily: "'Syne',sans-serif" }}>{result.project_name || ''}</span>
-                  {cgData?.token_live && cgData.ticker && <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#3b5bdb', background: '#eff6ff', border: '1px solid #bfdbfe', padding: '2px 7px', borderRadius: 4 }}>{cgData.ticker} {cgData.token_price}</span>}
-                  {!cgData?.token_live && <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#9ca3af', background: '#f1f5f9', padding: '2px 7px', borderRadius: 4 }}>No Token</span>}
+              <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 14, padding: 16 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8, flexWrap: 'wrap' as const }}>
+                  <span style={{ fontSize: 16, fontWeight: 700, color: '#fff', fontFamily: "'Syne',sans-serif" }}>{result.project_name}</span>
+                  {cgData?.token_live && cgData.ticker ? <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#60a5fa', background: 'rgba(59,130,246,0.1)', border: '1px solid rgba(59,130,246,0.2)', padding: '2px 7px', borderRadius: 4 }}>{cgData.ticker} {cgData.token_price}</span> : <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: 'rgba(255,255,255,0.25)', background: 'rgba(255,255,255,0.04)', padding: '2px 7px', borderRadius: 4 }}>No Token</span>}
                 </div>
-                {result.team_location && <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#9ca3af', marginBottom: 6 }}>📍 {result.team_location}{result.founded ? ` · Est. ${result.founded}` : ''}</div>}
-                <div style={{ fontSize: 12, color: '#6b7280', lineHeight: 1.6, marginBottom: 8 }}>{result.description || ''}</div>
-                {goodHighlights.length > 0 && <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap' as const }}>{goodHighlights.map((h: string, i: number) => <span key={i} style={{ fontSize: 10, background: '#f0fdf4', color: '#16a34a', border: '1px solid #86efac', borderRadius: 20, padding: '2px 8px' }}>✓ {h}</span>)}</div>}
+                {result.team_location && <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: 'rgba(255,255,255,0.3)', marginBottom: 8 }}>📍 {result.team_location}{result.founded ? ' · Est. ' + result.founded : ''}</div>}
+                <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.5)', lineHeight: 1.65, marginBottom: 10 }}>{result.description}</div>
+                {goodHighlights.length > 0 && <div style={{ display: 'flex', flexWrap: 'wrap' as const, gap: 4 }}>{goodHighlights.map((h: string, i: number) => <span key={i} style={{ fontSize: 10, background: 'rgba(22,163,74,0.08)', color: '#16a34a', border: '1px solid rgba(22,163,74,0.15)', borderRadius: 20, padding: '2px 8px' }}>✓ {h}</span>)}</div>}
               </div>
             </div>
 
+            {/* WHY THIS SCORE */}
             {result.score_rationale && (
-              <div style={{ background: '#fff', border: '1px solid #f1f5f9', borderLeft: '3px solid #16a34a', borderRadius: 0, padding: '12px 14px', marginBottom: 10 }}>
-                <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#16a34a', letterSpacing: 1, marginBottom: 4 }}>WHY THIS SCORE</div>
-                <div style={{ fontSize: 12, color: '#6b7280', lineHeight: 1.7 }}>{result.score_rationale}</div>
+              <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', borderLeft: '3px solid #16a34a', borderRadius: 0, padding: '12px 14px', marginBottom: 10 }}>
+                <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 7, color: '#16a34a', letterSpacing: 1, marginBottom: 4 }}>WHY THIS SCORE</div>
+                <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.5)', lineHeight: 1.7 }}>{result.score_rationale}</div>
               </div>
             )}
 
-            {(result.token_data?.token_live || result.post_tge_outlook || result.future_seasons) && (
-              <div style={{ background: '#fff', border: '1px solid #f1f5f9', borderRadius: 14, padding: 16, marginBottom: 10 }}>
-                <div style={{ fontSize: 13, fontWeight: 600, color: '#111', marginBottom: 12, fontFamily: "'Syne',sans-serif", display: 'flex', alignItems: 'center', gap: 6 }}>
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke="#3b5bdb" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                  Deep Intel
-                </div>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 10 }}>
-                  <div style={{ background: '#f8faff', border: '1px solid #e5e7eb', borderRadius: 8, padding: '10px 12px' }}>
-                    <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#9ca3af', letterSpacing: 1, marginBottom: 4 }}>TOKEN STATUS</div>
+            {/* TOKEN + CONTRACTS */}
+            {(result.token_data?.token_live || cgData?.token_live || result.post_tge_outlook || result.future_seasons) && (
+              <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 14, padding: 16, marginBottom: 10 }}>
+                <div style={{ fontSize: 12, fontWeight: 600, color: 'rgba(255,255,255,0.5)', marginBottom: 12, fontFamily: "'DM Mono',monospace", letterSpacing: 1 }}>DEEP INTEL</div>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 8 }}>
+                  <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 8, padding: '10px 12px' }}>
+                    <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 7, color: 'rgba(255,255,255,0.3)', letterSpacing: 1, marginBottom: 5 }}>TOKEN STATUS</div>
                     {(result.token_data?.token_live || cgData?.token_live) ? (() => {
-                        const td = result.token_data?.token_live ? result.token_data : cgData
-                        return (
-                          <span style={{ background: '#dcfce7', color: '#16a34a', border: '1px solid #86efac', borderRadius: 20, padding: '3px 10px', fontFamily: "'DM Mono',monospace", fontSize: 10, display: 'inline-flex', alignItems: 'center', gap: 5 }}>
-                            <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#16a34a', display: 'inline-block' }} />{td.ticker} {td.token_price}
-                          </span>
-                        )
-                      })() : (
-                      <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 11, color: '#9ca3af' }}>Not yet launched</span>
-                    )}
+                      const td = result.token_data?.token_live ? result.token_data : cgData
+                      return <span style={{ background: 'rgba(22,163,74,0.12)', color: '#16a34a', border: '1px solid rgba(22,163,74,0.2)', borderRadius: 20, padding: '3px 10px', fontFamily: "'DM Mono',monospace", fontSize: 10, display: 'inline-flex', alignItems: 'center', gap: 5 }}><span style={{ width: 5, height: 5, borderRadius: '50%', background: '#16a34a', display: 'inline-block', animation: 'pulse 2s infinite' }} />{td.ticker} {td.token_price}</span>
+                    })() : <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 10, color: 'rgba(255,255,255,0.3)' }}>Not yet launched</span>}
                   </div>
                   {(result.token_data?.token_live || cgData?.token_live) && result.post_tge_outlook && (
-                    <div style={{ background: '#f8faff', border: '1px solid #e5e7eb', borderRadius: 8, padding: '10px 12px' }}>
-                      <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#9ca3af', letterSpacing: 1, marginBottom: 4 }}>TOKEN OUTLOOK</div>
-                      <div style={{ fontSize: 12, fontWeight: 600, color: result.post_tge_outlook?.includes('Poor') ? '#e8590c' : result.post_tge_outlook?.includes('High') ? '#16a34a' : '#f59f00' }}>{result.post_tge_outlook}</div>
+                    <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 8, padding: '10px 12px' }}>
+                      <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 7, color: 'rgba(255,255,255,0.3)', letterSpacing: 1, marginBottom: 5 }}>TOKEN OUTLOOK</div>
+                      <div style={{ fontSize: 11, fontWeight: 600, color: result.post_tge_outlook?.includes('Poor') ? '#ef4444' : '#16a34a' }}>{result.post_tge_outlook}</div>
                     </div>
                   )}
                 </div>
-                {result.future_seasons && (
-                  <div style={{ background: '#f8faff', border: '1px solid #e5e7eb', borderRadius: 8, padding: '10px 12px' }}>
-                    <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#9ca3af', letterSpacing: 1, marginBottom: 4 }}>RECENT COVERAGE</div>
-                    <div style={{ fontSize: 12, color: '#374151', lineHeight: 1.5 }}>{result.future_seasons}</div>
-                  </div>
-                )}
+                {result.future_seasons && <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 8, padding: '10px 12px', marginBottom: 8 }}><div style={{ fontFamily: "'DM Mono',monospace", fontSize: 7, color: 'rgba(255,255,255,0.3)', letterSpacing: 1, marginBottom: 4 }}>RECENT COVERAGE</div><div style={{ fontSize: 11, color: 'rgba(255,255,255,0.5)', lineHeight: 1.5 }}>{result.future_seasons}</div></div>}
                 {(xData?.enriched?.coinpaprika_contracts || []).length > 0 && (
-                  <div style={{ background: '#f8faff', border: '1px solid #e5e7eb', borderRadius: 8, padding: '10px 12px', marginTop: 8 }}>
-                    <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#9ca3af', letterSpacing: 1, marginBottom: 6 }}>CONTRACT ADDRESSES</div>
+                  <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 8, padding: '10px 12px' }}>
+                    <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 7, color: 'rgba(255,255,255,0.3)', letterSpacing: 1, marginBottom: 6 }}>CONTRACT ADDRESSES</div>
                     {(xData?.enriched?.coinpaprika_contracts || []).map((c: any, i: number) => (
-                      <div key={i} style={{ marginBottom: 4 }}>
-                        <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#16a34a', background: '#f0fdf4', padding: '2px 6px', borderRadius: 4, marginRight: 6 }}>{c.chain}</span>
-                        <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: '#6b7280' }}>{c.address.slice(0,8)}...{c.address.slice(-6)}</span>
+                      <div key={i} style={{ marginBottom: 3, display: 'flex', alignItems: 'center', gap: 6 }}>
+                        <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#16a34a', background: 'rgba(22,163,74,0.08)', padding: '1px 5px', borderRadius: 3 }}>{c.chain}</span>
+                        <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 9, color: 'rgba(255,255,255,0.3)' }}>{c.address.slice(0,8)}...{c.address.slice(-6)}</span>
                       </div>
                     ))}
                   </div>
@@ -1350,97 +1399,65 @@ export default function Home() {
               </div>
             )}
 
-            {(result.top_risks?.length > 0 || result.top_opportunities?.length > 0) && (
-              <div className="grid-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 10 }}>
-                <div style={{ background: '#fff', border: '1px solid #f1f5f9', borderRadius: 14, padding: 14 }}>
-                  <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#dc2626', letterSpacing: 1, marginBottom: 8 }}>TOP RISKS</div>
-                  {(result.top_risks || []).filter((x: string) => x).map((x: string, i: number) => <div key={i} style={{ display: 'flex', gap: 8, marginBottom: 6 }}><span style={{ color: '#fca5a5', flexShrink: 0 }}>•</span><span style={{ fontSize: 11, color: '#6b7280', lineHeight: 1.5 }}>{x}</span></div>)}
-                </div>
-                <div style={{ background: '#fff', border: '1px solid #f1f5f9', borderRadius: 14, padding: 14 }}>
-                  <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#16a34a', letterSpacing: 1, marginBottom: 8 }}>OPPORTUNITIES</div>
-                  {(result.top_opportunities || []).filter((x: string) => x).map((x: string, i: number) => <div key={i} style={{ display: 'flex', gap: 8, marginBottom: 6 }}><span style={{ color: '#86efac', flexShrink: 0 }}>•</span><span style={{ fontSize: 11, color: '#6b7280', lineHeight: 1.5 }}>{x}</span></div>)}
-                </div>
-              </div>
-            )}
-
+            {/* TEAM */}
             {result.team_members?.filter((m: any) => m.name?.length > 1).length > 0 && (
-              <div style={{ background: '#fff', border: '1px solid #f1f5f9', borderRadius: 14, padding: 14, marginBottom: 10 }}>
-                <div style={{ fontFamily: "'Syne',sans-serif", fontSize: 13, fontWeight: 600, color: '#111', marginBottom: 10 }}>👥 Team</div>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(220px,1fr))', gap: 8 }}>
+              <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 14, padding: 14, marginBottom: 10 }}>
+                <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 7, color: 'rgba(255,255,255,0.3)', letterSpacing: 1, marginBottom: 10 }}>TEAM</div>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(200px,1fr))', gap: 8 }}>
                   {result.team_members.filter((m: any) => m.name?.length > 1).map((m: any, i: number) => <TeamCardEnriched key={i} member={m} />)}
                 </div>
               </div>
             )}
 
-            <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap' as const, marginBottom: 10 }}>
-              {[{ id: 'metrics', l: '📊 Metrics' }, { id: 'mindshare', l: '🧠 Mindshare' }, { id: 'risks', l: '⚠️ Risks' }].map(sec => (
-                <button key={sec.id} onClick={() => setAsec(sec.id)} style={{ padding: '7px 16px', borderRadius: 8, border: `1px solid ${asec === sec.id ? '#16a34a' : '#e5e7eb'}`, background: asec === sec.id ? '#16a34a' : '#fff', color: asec === sec.id ? '#fff' : '#6b7280', fontSize: 12, fontWeight: 500, cursor: 'pointer', fontFamily: 'inherit', transition: 'all 0.15s' }}>{sec.l}</button>
-              ))}
-            </div>
+            {/* ── GOOD vs BAD vs CONCLUSION ── */}
+            <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 14, padding: 16, marginBottom: 10 }}>
+              <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 7, color: 'rgba(255,255,255,0.3)', letterSpacing: 1, marginBottom: 14 }}>ALPHA BREAKDOWN</div>
 
-            {asec === 'metrics' && result.metrics && (
-              <div style={{ background: '#fff', border: '1px solid #f1f5f9', borderRadius: 14, padding: 14, marginBottom: 10 }}>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 8 }}>
-                {Object.entries(result.metrics).map(([key, data]: [string, any]) => {
-                  const score = data.score || 0
-                  const color = score >= 70 ? '#16a34a' : score >= 50 ? '#f59f00' : '#dc2626'
-                  const bg = score >= 70 ? '#f0fdf4' : score >= 50 ? '#fffbeb' : '#fef2f2'
-                  return (
-                  <div key={key} className="metric-row" style={{ border: '1px solid #f1f5f9', borderRadius: 10, padding: '12px 14px', background: '#fafafa' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
-                      <span style={{ fontSize: 12, fontWeight: 600, color: '#374151', textTransform: 'capitalize' as const, fontFamily: "'Syne',sans-serif" }}>{key.replace(/_/g,' ')}</span>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                        <div style={{ width: 60, height: 3, background: '#e5e7eb', borderRadius: 2, overflow: 'hidden' }}>
-                          <div style={{ width: score + '%', height: '100%', background: color, borderRadius: 2 }} />
-                        </div>
-                        <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 12, fontWeight: 700, color, minWidth: 28, textAlign: 'right' as const }}>{score}</span>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 12 }}>
+                {/* Good sides */}
+                <div>
+                  <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#16a34a', letterSpacing: 1, marginBottom: 8 }}>WHAT'S WORKING ✓</div>
+                  {goodSides.length > 0 ? goodSides.map((g: any, i: number) => (
+                    <div key={i} style={{ marginBottom: 8 }}>
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 3 }}>
+                        <span style={{ fontSize: 11, fontWeight: 600, color: 'rgba(255,255,255,0.7)', textTransform: 'capitalize' as const }}>{g.label}</span>
+                        <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 10, color: '#16a34a', fontWeight: 700 }}>{g.score}</span>
                       </div>
+                      {g.detail && <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.35)', lineHeight: 1.5 }}>{g.detail}</div>}
                     </div>
-                    {(data.detail || data.why_this_score || data.summary) && (
-                      <div style={{ fontSize: 11, color: '#6b7280', lineHeight: 1.5, background: bg, padding: '4px 8px', borderRadius: 6 }}>
-                        {data.detail || data.why_this_score || data.summary}
+                  )) : <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.25)' }}>No strong positives found</div>}
+                </div>
+
+                {/* Bad sides */}
+                <div>
+                  <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#ef4444', letterSpacing: 1, marginBottom: 8 }}>WATCH OUT ✗</div>
+                  {badSides.length > 0 ? badSides.map((b: any, i: number) => (
+                    <div key={i} style={{ marginBottom: 8 }}>
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 3 }}>
+                        <span style={{ fontSize: 11, fontWeight: 600, color: 'rgba(255,255,255,0.7)', textTransform: 'capitalize' as const }}>{b.label}</span>
+                        <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 10, color: '#ef4444', fontWeight: 700 }}>{b.score}</span>
                       </div>
-                    )}
-                    {data.signal && (
-                      <span style={{ fontSize: 9, fontFamily: "'DM Mono',monospace", padding: '1px 6px', borderRadius: 10, marginTop: 4, display: 'inline-block',
-                        background: data.signal === 'bullish' ? '#dcfce7' : data.signal === 'bearish' ? '#fee2e2' : '#f3f4f6',
-                        color: data.signal === 'bullish' ? '#16a34a' : data.signal === 'bearish' ? '#dc2626' : '#6b7280'
-                      }}>{data.signal}</span>
-                    )}
-                  </div>
-                )})}
+                      {b.detail && <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.35)', lineHeight: 1.5 }}>{b.detail}</div>}
+                    </div>
+                  )) : <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.25)' }}>No major concerns</div>}
                 </div>
               </div>
-            )}
 
-            {asec === 'mindshare' && (
-              <div style={{ background: '#fff', border: '1px solid #f1f5f9', borderRadius: 14, padding: 14, marginBottom: 10 }}>
-                <div style={{ fontFamily: "'Syne',sans-serif", fontSize: 13, fontWeight: 600, color: '#111', marginBottom: 8 }}>Mindshare</div>
-                <canvas ref={canvasRef} style={{ width: '100%', height: 110 }} />
+              {/* Conclusion */}
+              <div style={{ background: `linear-gradient(135deg,${otc.solid}15,transparent)`, border: `1px solid ${otc.solid}25`, borderRadius: 10, padding: '12px 14px' }}>
+                <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 7, color: otc.solid, letterSpacing: 1, marginBottom: 5 }}>CONCLUSION</div>
+                <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.7)', lineHeight: 1.65 }}>{result.score_rationale || result.verdict_reason}</div>
               </div>
-            )}
-
-            {asec === 'risks' && (
-              <div className="grid-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 10 }}>
-                <div style={{ background: '#fff', border: '1px solid #f1f5f9', borderRadius: 14, padding: 14 }}>
-                  <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#dc2626', letterSpacing: 1, marginBottom: 8 }}>TOP RISKS</div>
-                  {(result.top_risks || []).filter((x: string) => x).map((x: string, i: number) => <div key={i} style={{ display: 'flex', gap: 8, marginBottom: 6 }}><span style={{ color: '#fca5a5' }}>•</span><span style={{ fontSize: 11, color: '#6b7280', lineHeight: 1.5 }}>{x}</span></div>)}
-                </div>
-                <div style={{ background: '#fff', border: '1px solid #f1f5f9', borderRadius: 14, padding: 14 }}>
-                  <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 8, color: '#16a34a', letterSpacing: 1, marginBottom: 8 }}>OPPORTUNITIES</div>
-                  {(result.top_opportunities || []).filter((x: string) => x).map((x: string, i: number) => <div key={i} style={{ display: 'flex', gap: 8, marginBottom: 6 }}><span style={{ color: '#86efac' }}>•</span><span style={{ fontSize: 11, color: '#6b7280', lineHeight: 1.5 }}>{x}</span></div>)}
-                </div>
-              </div>
-            )}
+            </div>
 
           </div>
         )}
 
         {!loading && !result && !error && (
-          <div style={{ border: '1.5px dashed #86efac', borderRadius: 14, padding: '48px 24px', textAlign: 'center' as const, background: 'rgba(255,255,255,0.7)' }}>
-            <div style={{ fontSize: 32, marginBottom: 10 }}>🔭</div>
-            <div style={{ fontSize: 14, fontWeight: 600, color: '#6b7280', marginBottom: 4, fontFamily: "'Syne',sans-serif" }}>No project scanned yet</div>
-            <div style={{ fontSize: 12, color: '#9ca3af' }}>Paste any crypto project X URL or handle above.</div>
+          <div style={{ border: '1px dashed rgba(255,255,255,0.08)', borderRadius: 14, padding: '48px 24px', textAlign: 'center' as const }}>
+            <div style={{ fontSize: 28, marginBottom: 10, opacity: 0.4 }}>🔭</div>
+            <div style={{ fontSize: 14, fontWeight: 600, color: 'rgba(255,255,255,0.3)', marginBottom: 4, fontFamily: "'Syne',sans-serif" }}>No project scanned yet</div>
+            <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.2)' }}>Paste any crypto project X URL or handle above.</div>
           </div>
         )}
       </div>
