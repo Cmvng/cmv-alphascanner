@@ -939,7 +939,7 @@ export default function Home() {
     // ── LEFT: Project info ──
     // Logo
     const pfpSrc = xData?.profile_image_url?.replace('_normal','_400x400') ||
-      (xUrl ? `https://unavatar.io/twitter/${xUrl.replace(/https?:\/\/[tx]\.(?:com|co)\//,'').replace('@','').split('/')[0].trim()}` : null)
+      (xUrl ? `https://unavatar.io/twitter/${xUrl.replace('https://x.com/','').replace('https://twitter.com/','').replace('@','').split('/')[0].trim()}` : null)
     const pfpImg = pfpSrc ? await loadImg(pfpSrc) : null
     if (pfpImg) {
       ctx.save(); ctx.beginPath(); ctx.arc(PAD + 42, 74, 38, 0, Math.PI * 2); ctx.clip()
@@ -1343,7 +1343,7 @@ export default function Home() {
               <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 14, padding: 16, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
                 <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 7, color: 'rgba(255,255,255,0.3)', letterSpacing: 1 }}>ALPHA SCORE</div>
                 <div style={{ fontSize: 52, fontWeight: 800, color: otc.solid, lineHeight: 1, fontFamily: "'Syne',sans-serif" }}>{result.overall_score ?? 0}</div>
-                <div style={{ background: `rgba(${otc.solid === '#7c3aed' ? '124,58,237' : otc.solid === '#37b24d' ? '55,178,77' : otc.solid === '#f59f00' ? '245,159,0' : otc.solid === '#e8590c' ? '232,89,12' : '134,142,150'},0.15)\`, border: `1px solid ${otc.solid}30`, borderRadius: 20, padding: '3px 10px', fontFamily: "'DM Mono',monospace", fontSize: 8, color: otc.solid }}>{otc.lbl}</div>
+                <div style={{ background: 'rgba(0,0,0,0.2)', border: `1px solid ${otc.solid}30`, borderRadius: 20, padding: '3px 10px', fontFamily: "'DM Mono',monospace", fontSize: 8, color: otc.solid }}>{otc.lbl}</div>
                 {xData?.cmv_score > 0 && <div style={{ background: 'rgba(255,255,255,0.04)', borderRadius: 8, padding: '6px 8px', width: '100%', textAlign: 'center' as const, marginTop: 4 }}><div style={{ fontFamily: "'DM Mono',monospace", fontSize: 7, color: 'rgba(255,255,255,0.3)' }}>CMV X</div><div style={{ fontSize: 16, fontWeight: 700, color: '#fff', fontFamily: "'Syne',sans-serif" }}>{xData.cmv_score}<span style={{ fontSize: 9, color: 'rgba(255,255,255,0.3)' }}>/1k</span></div></div>}
               </div>
               <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 14, padding: 16 }}>
