@@ -766,6 +766,162 @@ async function fetchVerifiedRedFlags(projectName: string, handle: string, ticker
 }
 
 
+// ─── CryptoRank Enrichment (server-side, direct API) ─────────────────────────
+// Provides: VC tier classifications, funding rounds, token unlock schedules, airdrop signals
+async function fetchCryptoRankData(projectName: string, ticker: string | null, apiKey: string) {
+  try {
+    const BASE = 'https://api.cryptorank.io/v2'
+    const searchQuery = ticker || projectName
+    
+    // Step 1: Search for project
+    const searchR = await fetch(`${BASE}/currencies?api_key=${apiKey}&search=${encodeURIComponent(searchQuery)}&limit=5`)
+    if (!searchR.ok) return null
+    const searchData = await searchR.json()
+    const coins = searchData?.data || []
+    if (!Array.isArray(coins) || coins.length === 0) return null
+
+    const tickerUpper = (ticker || '').toUpperCase()
+    const nameLC = projectName.toLowerCase()
+    const match = coins.find((c: any) => c.symbol?.toUpperCase() === tickerUpper) ||
+                  coins.find((c: any) => c.name?.toLowerCase() === nameLC) ||
+                  coins.find((c: any) => c.key?.toLowerCase() === nameLC.replace(/\s+/g, '-')) ||
+                  coins[0]
+    if (!match?.key) return null
+    const key = match.key
+
+    // Steps 2-4 in parallel: overview + funding + unlocks
+    const [_ov, _fund, _unlock] = await Promise.allSettled([
+      withTimeout(fetch(`${BASE}/currencies/${key}?api_key=${apiKey}`).then(r => r.ok ? r.json() : null), 3000),
+      withTimeout(fetch(`${BASE}/currencies/${key}/funding-rounds?api_key=${apiKey}`).then(r => r.ok ? r.json() : null), 3000),
+      withTimeout(fetch(`${BASE}/currencies/${key}/vesting?api_key=${apiKey}`).then(r => r.ok ? r.json() : null), 3000),
+    ])
+
+    const ovData = _ov.status === 'fulfilled' ? _ov.value : null
+    const fundData = _fund.status === 'fulfilled' ? _fund.value : null
+    const unlockData = _unlock.status === 'fulfilled' ? _unlock.value : null
+
+    const fmtRaise = (v: any) => {
+      const n = parseFloat(v)
+      if (isNaN(n)) return v ? String(v) : null
+      if (n >= 1e9) return `$${(n/1e9).toFixed(2)}B`
+      if (n >= 1e6) return `$${(n/1e6).toFixed(1)}M`
+      if (n >= 1e3) return `$${(n/1e3).toFixed(0)}K`
+      return `$${n.toFixed(0)}`
+    }
+
+    // ── Parse overview ──
+    const ov = ovData?.data || ovData || {}
+    const description = ov.description || ov.fundrasingDescription || null
+    const category = ov.category?.name || ov.category || null
+    const tags = (ov.tags || []).map((t: any) => t.name || t).filter(Boolean)
+    const allTagText = [...tags, category || ''].join(' ').toLowerCase()
+    const hasAirdropSignal = allTagText.includes('airdrop') || allTagText.includes('drop')
+
+    // ── Parse funding rounds ──
+    const fd = fundData?.data || fundData || {}
+    const totalRaised = fmtRaise(fd.totalRaise)
+    const lastValuation = fmtRaise(fd.lastValuation)
+    const rounds = (fd.fundingRounds || []).map((r: any) => ({
+      stage: r.stage || 'Unknown',
+      raise: fmtRaise(r.raise) || 'Undisclosed',
+      date: r.announcementDate ? new Date(r.announcementDate).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }) : 'Unknown',
+      valuation: fmtRaise(r.valuation),
+      investors: (r.funds || []).map((f: any) => ({ name: f.name, tier: f.tier || null, isLead: f.isLead || false })),
+    }))
+
+    // Aggregate investors across all rounds
+    const investorMap = new Map<string, { tier: number | null; isLead: boolean }>()
+    for (const round of rounds) {
+      for (const inv of round.investors) {
+        if (!inv.name) continue
+        const existing = investorMap.get(inv.name)
+        if (!existing || (inv.tier && (!existing.tier || inv.tier < existing.tier))) {
+          investorMap.set(inv.name, { tier: inv.tier, isLead: inv.isLead || existing?.isLead || false })
+        }
+      }
+    }
+
+    const tier1: string[] = [], tier2: string[] = [], tier3: string[] = [], leads: string[] = []
+    for (const [name, info] of investorMap) {
+      if (info.tier === 1) tier1.push(name)
+      else if (info.tier === 2) tier2.push(name)
+      else if (info.tier === 3) tier3.push(name)
+      if (info.isLead) leads.push(name)
+    }
+    const tiers = [...investorMap.values()].map(v => v.tier).filter(Boolean) as number[]
+    const bestTier = tiers.length > 0 ? Math.min(...tiers) : null
+
+    // ── Parse token unlocks ──
+    const ul = unlockData?.data || unlockData || {}
+    let vestingWarning: string | null = null
+    let nextUnlockDate: string | null = null
+    let nextUnlockPct: string | null = null
+    const hasUnlockData = !!(ul.unlockSchedule || ul.vestingSchedule || ul.allocations)
+    const crRedFlags: Array<{ label: string; detail: string; severity: 'high' | 'medium' | 'low' }> = []
+
+    if (hasUnlockData) {
+      const now = Date.now()
+      const upcoming = (ul.unlockSchedule || ul.vestingSchedule || [])
+        .filter((u: any) => (u.date || u.timestamp) > now)
+        .sort((a: any, b: any) => (a.date || a.timestamp) - (b.date || b.timestamp))
+
+      if (upcoming.length > 0) {
+        const next = upcoming[0]
+        const unlockDate = new Date(next.date || next.timestamp)
+        const daysUntil = Math.ceil((unlockDate.getTime() - now) / (1000 * 60 * 60 * 24))
+        nextUnlockDate = unlockDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+        nextUnlockPct = next.percentage ? `${next.percentage.toFixed(1)}%` : null
+
+        if (daysUntil <= 30 && (next.percentage > 3 || (next.tokensAmount && next.tokensAmount > 1e7))) {
+          const pctStr = next.percentage ? `${next.percentage.toFixed(1)}% of supply` : `${fmtRaise(next.tokensAmount)} tokens`
+          vestingWarning = `Large token unlock in ${daysUntil} days — ${pctStr}`
+          crRedFlags.push({
+            label: 'Upcoming token unlock',
+            detail: `${pctStr} unlocking on ${nextUnlockDate} — potential sell pressure`,
+            severity: daysUntil <= 7 ? 'high' : 'medium'
+          })
+        }
+      }
+    }
+
+    // Red flag: no top-tier backing despite having funding
+    if (rounds.length > 0 && tier1.length === 0 && tier2.length === 0) {
+      crRedFlags.push({
+        label: 'No top-tier VC backing',
+        detail: `${investorMap.size} investors found but none are tier 1 or tier 2 — lower institutional confidence`,
+        severity: 'medium'
+      })
+    }
+
+    return {
+      found: true,
+      description,
+      category,
+      tags,
+      total_raised: totalRaised,
+      last_valuation: lastValuation,
+      funding_rounds: rounds.map(r => ({ stage: r.stage, raise: r.raise, date: r.date })),
+      tier1_investors: tier1,
+      tier2_investors: tier2,
+      tier3_investors: tier3,
+      lead_investors: leads,
+      total_investor_count: investorMap.size,
+      best_vc_tier: bestTier,
+      has_unlock_data: hasUnlockData,
+      next_unlock_date: nextUnlockDate,
+      next_unlock_pct: nextUnlockPct,
+      vesting_warning: vestingWarning,
+      has_airdrop_signal: hasAirdropSignal,
+      airdrop_details: hasAirdropSignal ? 'Project tagged with airdrop-related categories on CryptoRank' : null,
+      cr_red_flags: crRedFlags,
+    }
+  } catch (e) {
+    console.warn('CryptoRank enrichment failed:', e)
+    return null
+  }
+}
+
+
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   res.setHeader('Access-Control-Allow-Origin', '*')
   res.setHeader('Access-Control-Allow-Methods', 'GET')
@@ -850,7 +1006,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     // and will match wrong projects on DexScreener/GeckoTerminal
     const confirmedTicker = tokenData_cg?.ticker || null
 
-    const [_dl, _dlh, _dex, _gecko, _news, _rd, _cp, _fud] = await Promise.allSettled([
+    const [_dl, _dlh, _dex, _gecko, _news, _rd, _cp, _fud, _cr] = await Promise.allSettled([
       withTimeout(fetchDefiLlama(projectName, clean), 4000),
       withTimeout(fetchDefiLlamaHacks(projectName), 3000),
       confirmedTicker ? withTimeout(fetchDexScreener(confirmedTicker, projectName), 3000) : Promise.resolve(null),
@@ -859,6 +1015,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       process.env.ROOTDATA_API_KEY ? withTimeout(fetchRootData(projectName, process.env.ROOTDATA_API_KEY), 4000) : Promise.resolve(null),
       withTimeout(fetchCoinPaprika(projectName, clean, confirmedTicker), 4000),
       withTimeout(fetchVerifiedRedFlags(projectName, clean, confirmedTicker), 5000),
+      process.env.CRYPTORANK_API_KEY ? withTimeout(fetchCryptoRankData(projectName, confirmedTicker, process.env.CRYPTORANK_API_KEY), 5000) : Promise.resolve(null),
     ])
 
     const dlData   = _dl.status   === 'fulfilled' ? _dl.value   : null
@@ -869,6 +1026,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const rdData   = _rd.status   === 'fulfilled' ? _rd.value   : null
     const cpData   = _cp.status   === 'fulfilled' ? _cp.value   : null
     const verifiedFudFindings = _fud.status === 'fulfilled' ? (_fud.value || []) : []
+    const crData   = _cr.status   === 'fulfilled' ? _cr.value   : null
 
     let tokenData: any = null
     // If CoinGecko found a token, try DexScreener with that ticker for better price data
@@ -907,7 +1065,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       }
     }
 
-    const allInvestors = [...new Set([...(dlData?.investors || []), ...(rdData?.investors || [])])]
+    const allInvestors = [...new Set([
+      ...(dlData?.investors || []),
+      ...(rdData?.investors || []),
+      ...(crData?.tier1_investors || []),
+      ...(crData?.tier2_investors || []),
+      ...(crData?.lead_investors || []),
+    ])]
 
     // Merge team: RootData (has X handles) + CoinPaprika (has roles)
     // RootData takes priority as it has social links
@@ -926,6 +1090,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         severity: 'high' as const
       })
     })
+    // Add CryptoRank red flags (token unlocks, no top-tier VC, etc)
+    if (crData?.cr_red_flags) {
+      for (const flag of crData.cr_red_flags) {
+        autoFudFlags.push({
+          type: flag.label.includes('unlock') ? 'dump' : 'suspicious',
+          label: flag.label,
+          detail: flag.detail,
+          severity: flag.severity
+        })
+      }
+    }
 
     const enriched = {
       tvl: dlData?.tvl || null,
@@ -954,6 +1129,25 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       coinpaprika_github: cpData?.github || null,
       coinpaprika_started: cpData?.started_at || null,
       coinpaprika_description: cpData?.description || null,
+      // CryptoRank enrichment
+      total_raised_cryptorank: crData?.total_raised || null,
+      cryptorank_category: crData?.category || null,
+      cryptorank_description: crData?.description || null,
+      best_vc_tier: crData?.best_vc_tier || null,
+      tier1_vcs: crData?.tier1_investors || [],
+      tier2_vcs: crData?.tier2_investors || [],
+      lead_investors: crData?.lead_investors || [],
+      total_investor_count: crData?.total_investor_count || allInvestors.length,
+      funding_rounds: crData?.funding_rounds || [],
+      last_valuation: crData?.last_valuation || null,
+      has_unlock_data: crData?.has_unlock_data || false,
+      next_unlock_date: crData?.next_unlock_date || null,
+      next_unlock_pct: crData?.next_unlock_pct || null,
+      vesting_warning: crData?.vesting_warning || null,
+      airdrop_confirmed: crData?.has_airdrop_signal || false,
+      airdrop_details: crData?.airdrop_details || null,
+      // Use best description available
+      project_description: crData?.description || cpData?.description || null,
     }
 
     const result = {
