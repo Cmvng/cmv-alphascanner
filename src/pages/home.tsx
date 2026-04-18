@@ -359,7 +359,7 @@ export default function Home() {
   const [showProfileSetup, setShowProfileSetup] = useState(false)
   const [tempName, setTempName] = useState('')
   const [tempPhoto, setTempPhoto] = useState('')
-  const [feedLoading, setFeedLoading] = useState(() => !!new URLSearchParams(window.location.search).get('q'))
+  const [feedLoading, setFeedLoading] = useState(() => !!(new URLSearchParams(window.location.search).get('q') || localStorage.getItem('cmv_last_handle')))
   const { name: userName, photo: userPhoto, save: saveProfile } = useProfile()
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const pint = useRef<any>(null)
@@ -369,17 +369,28 @@ export default function Home() {
 
   useEffect(() => { setTempName(userName); setTempPhoto(userPhoto) }, [userName, userPhoto])
 
-  // Coming from feed — load cached result and refresh X + CoinGecko only (no Claude, no credits)
+  // Coming from feed OR page refresh — restore last scan
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
     const q = params.get('q')
-    if (!q) return
-    window.history.replaceState({}, '', '/')
-    const handle = q.toLowerCase()
+
+    // Determine which handle to load
+    let handle = ''
+    if (q) {
+      handle = q.toLowerCase()
+      window.history.replaceState({}, '', '/')
+    } else {
+      // Page refresh — try to restore last scanned handle
+      const lastHandle = localStorage.getItem('cmv_last_handle')
+      if (lastHandle) handle = lastHandle
+    }
+
+    if (!handle) { setFeedLoading(false); return }
+
     setXUrl('https://x.com/' + handle)
     const cacheKey = 'cmv_scan_v4_' + handle
 
-    async function loadFromFeed() {
+    async function loadFromCache() {
       let cr: any = null, cc: any = null, cx: any = null
 
       try {
@@ -414,7 +425,8 @@ export default function Home() {
       }
 
       if (!cr) {
-        analyze()
+        // Only auto-analyze if coming from feed (?q=), not on page refresh
+        if (q) analyze()
         setFeedLoading(false)
         return
       }
@@ -424,10 +436,9 @@ export default function Home() {
       setXData(cx)
       setFeedLoading(false)
       fetchProjectXData(handle).then(freshXd => { if (freshXd) setXData(freshXd) }).catch(() => {})
-
     }
 
-    loadFromFeed()
+    loadFromCache()
   }, [])
 
   useEffect(() => {
@@ -491,13 +502,36 @@ export default function Home() {
     const cacheKey = `cmv_scan_v4_${handle.toLowerCase()}`
     try { localStorage.removeItem(`cmv_scan_v3_${handle.toLowerCase()}`); localStorage.removeItem(`cmv_scan_v2_${handle.toLowerCase()}`); localStorage.removeItem(`cmv_scan_${handle.toLowerCase()}`) } catch {}
     setLoading(true); setResult(null); setCgData(null); setXData(null); setError(null); setAtab('Fundamentals'); setAsec('metrics'); setSelectedTags([])
+
+    // Check if scan was deleted from Supabase (admin delete) — if so, invalidate cache
+    let cacheInvalid = false
     try {
-      const cached = localStorage.getItem(cacheKey)
-      if (cached) {
-        const { result: cr, cgData: cc, xData: cx, timestamp } = JSON.parse(cached)
-        if (Date.now() - timestamp < 1000 * 60 * 60 * 24) { setResult(cr); setCgData(cc); setXData(cx); setLoading(false); return }
+      const sbUrl = import.meta.env.VITE_SUPABASE_URL
+      const sbKey = import.meta.env.VITE_SUPABASE_ANON_KEY
+      if (sbUrl && sbKey) {
+        const check = await fetch(sbUrl + '/rest/v1/scans?handle=eq.' + handle.toLowerCase() + '&select=id&limit=1', {
+          headers: { 'apikey': sbKey, 'Authorization': 'Bearer ' + sbKey }
+        })
+        if (check.ok) {
+          const rows = await check.json()
+          if (rows.length === 0) cacheInvalid = true // deleted from admin
+        }
       }
-    } catch { }
+    } catch {}
+
+    if (!cacheInvalid) {
+      try {
+        const cached = localStorage.getItem(cacheKey)
+        if (cached) {
+          const { result: cr, cgData: cc, xData: cx, timestamp } = JSON.parse(cached)
+          // 4 hour cache — also invalidate if metrics are incomplete (old xOnlyScan format)
+          const hasFullMetrics = cr?.metrics?.vc_pedigree || cr?.metrics?.founder_cred
+          if (Date.now() - timestamp < 1000 * 60 * 60 * 4 && hasFullMetrics) { setResult(cr); setCgData(cc); setXData(cx); setLoading(false); return }
+        }
+      } catch { }
+    } else {
+      try { localStorage.removeItem(cacheKey) } catch {}
+    }
     let xd: any = null
     try {
       xd = await fetchProjectXData(handle)
@@ -547,6 +581,7 @@ export default function Home() {
     setCgData(cg)
     const saveResult = (cleaned: any) => {
       try { localStorage.setItem(cacheKey, JSON.stringify({ result: cleaned, cgData: cg, xData: xd, timestamp: Date.now() })) } catch { }
+      try { localStorage.setItem('cmv_last_handle', handle.toLowerCase()) } catch {}
       setResult(cleaned)
       fetch('/api/save-scan', {
         method: 'POST',
@@ -722,20 +757,26 @@ export default function Home() {
           background: enriched.coinpaprika_description ? `${enriched.coinpaprika_description.slice(0, 100)}` : '',
           confirmed: !!(t.x_handle),
         })),
-        sources: [
-          tvl ? { name: 'DefiLlama', used_for: 'TVL and revenue data' } : null,
-          investors.length > 0 ? { name: 'RootData', used_for: 'Funding and investor data' } : null,
-          tokenLive ? { name: 'DexScreener', used_for: 'Token price and liquidity' } : null,
-          sentiment ? { name: 'CryptoNews', used_for: 'News sentiment analysis' } : null,
-        ].filter(Boolean),
-        data_accuracy_note: 'Analysis powered by DefiLlama, RootData, DexScreener, CryptoNews and X API. Claude AI analysis unavailable — using tool-native scoring.',
+        sources: [],
+        data_accuracy_note: '',
         metrics: {
-          funding: { score: fundingScore, summary: hasRaised ? `${enriched.total_raised_rootdata || enriched.total_raised_defillama} raised from ${investors.length} investors` : 'No confirmed funding found' },
-          revenue: { score: revenueScore, summary: enriched.revenue_24h ? `${enriched.revenue_24h} daily revenue` : enriched.fees_24h ? `${enriched.fees_24h} daily fees` : tvl ? `${tvl} TVL (no revenue data)` : 'No revenue data found' },
-          community: { score: followerScore, summary: hasRealXData ? `${followers.toLocaleString()} followers, ${(avgLikes).toFixed(0)} avg likes, account ${accountAge.toFixed(1)}y old` : 'X API unavailable — community data not retrieved' },
-          team: { score: teamScore, summary: team.length > 0 ? `${team.length} team member${team.length > 1 ? 's' : ''} found via RootData: ${team.slice(0,3).map((t: any) => t.name + (t.role ? ' (' + t.role + ')' : '')).join(', ')}` : verified ? 'Verified X account — no team data on RootData' : 'No team data found' },
-          sentiment: { score: sentimentScore, summary: `${sentiment || 'neutral'} news sentiment from ${enriched.news_article_count || 0} articles` },
-          security: { score: securityScore, summary: hacks.length > 0 ? `${hacks.length} known exploit(s) on DefiLlama` : 'No known security incidents' },
+          funding: { score: fundingScore, detail: hasRaised ? `${enriched.total_raised_rootdata || enriched.total_raised_defillama} raised from ${investors.length} investors` : 'No confirmed funding found', signal: fundingScore >= 70 ? 'bullish' : fundingScore <= 30 ? 'bearish' : 'neutral' },
+          vc_pedigree: { score: hasTopVC ? 85 : investors.length > 2 ? 60 : investors.length > 0 ? 40 : 0, detail: hasTopVC ? `Top-tier VC backing: ${investors.slice(0,3).join(', ')}` : investors.length > 0 ? `${investors.length} investors found: ${investors.slice(0,3).join(', ')}` : 'No investor data available from RootData', signal: hasTopVC ? 'bullish' : investors.length > 0 ? 'neutral' : 'bearish' },
+          copycat: { score: 50, detail: 'Originality analysis requires AI — data not available in tool-native mode', signal: 'neutral' },
+          niche: { score: enriched.defillama_category ? 60 : 40, detail: enriched.defillama_category ? `Categorized as ${enriched.defillama_category} on DefiLlama` : `Categorized as ${xd?.category || 'Crypto'} based on X bio analysis`, signal: 'neutral' },
+          location: { score: team.length > 0 ? 55 : 30, detail: team.length > 0 ? `${team.length} team members identified via RootData` : 'No team location data available', signal: 'neutral' },
+          founder_cred: { score: teamScore, detail: team.length > 0 ? `${team.length} team member${team.length > 1 ? 's' : ''} found: ${team.slice(0,3).map((t: any) => t.name + (t.role ? ' (' + t.role + ')' : '')).join(', ')}` : verified ? 'Verified X account but no team data on RootData' : 'No team data found — cannot verify founder credibility', signal: teamScore >= 65 ? 'bullish' : teamScore <= 35 ? 'bearish' : 'neutral' },
+          founder_activity: { score: !hasRealXData ? 0 : avgLikes > 100 ? 75 : avgLikes > 20 ? 55 : 30, detail: hasRealXData ? `${(avgLikes).toFixed(0)} avg likes per post, ${tweetCount.toLocaleString()} total tweets` : 'X API data unavailable', signal: avgLikes > 100 ? 'bullish' : avgLikes < 10 ? 'bearish' : 'neutral' },
+          top_voices: { score: !hasRealXData ? 0 : listed > 500 ? 80 : listed > 100 ? 60 : listed > 0 ? 40 : 20, detail: hasRealXData ? `Listed in ${listed.toLocaleString()} X lists — indicates CT attention level` : 'X API data unavailable', signal: listed > 500 ? 'bullish' : listed < 50 ? 'bearish' : 'neutral' },
+          token: { score: tokenScore, detail: tokenLive ? `Token live: ${cg?.ticker || ''} at ${cg?.token_price || 'unknown'}` : xd?.token_launch_hinted ? 'Token launch hinted in bio/tweets but not yet live' : 'No token confirmed on any DEX or exchange', signal: tokenLive ? (dexDump ? 'bearish' : 'bullish') : 'neutral' },
+          metrics_clarity: { score: (tokenLive || xd?.token_launch_hinted) ? 55 : 30, detail: tokenLive ? 'Token is live — farming criteria may be clearer' : 'No clear criteria for top % requirements — early stage', signal: 'neutral' },
+          user_count: { score: !hasRealXData ? 0 : followers > 100000 ? 40 : followers > 10000 ? 65 : 80, detail: hasRealXData ? `${followers.toLocaleString()} followers — ${followers > 100000 ? 'high user count increases dilution risk' : followers > 10000 ? 'moderate user base' : 'low user count — early entry opportunity'}` : 'User count data unavailable', signal: followers > 100000 ? 'bearish' : followers < 10000 ? 'bullish' : 'neutral' },
+          fud: { score: autoFlags.length > 0 ? Math.max(10, 100 - autoFlags.length * 30) : securityScore, detail: autoFlags.length > 0 ? `${autoFlags.length} FUD signal(s) detected: ${autoFlags.slice(0,2).map((f: any) => f.label).join(', ')}` : hacks.length > 0 ? `${hacks.length} known exploit(s) on DefiLlama` : 'No FUD signals or security issues detected', signal: autoFlags.length > 0 || hacks.length > 0 ? 'bearish' : 'bullish' },
+          notable_mentions: { score: !hasRealXData ? 0 : followers > 50000 ? 75 : followers > 10000 ? 55 : 30, detail: hasRealXData ? `${followers.toLocaleString()} followers, ${listed.toLocaleString()} lists — proxy for CT mentions` : 'Cannot determine CT mentions without X data', signal: followers > 50000 ? 'bullish' : followers < 5000 ? 'bearish' : 'neutral' },
+          content_type: { score: 50, detail: 'Organic vs sponsored content analysis requires AI — not available in tool-native mode', signal: 'neutral' },
+          mindshare: { score: !hasRealXData ? 0 : engagementScore, detail: hasRealXData ? `${(avgLikes).toFixed(0)} avg likes, ${followers.toLocaleString()} followers — ${avgLikes > 500 ? 'high engagement indicates strong mindshare' : avgLikes > 50 ? 'moderate engagement' : 'low engagement'}` : 'Mindshare data unavailable', signal: avgLikes > 500 ? 'bullish' : avgLikes < 20 ? 'bearish' : 'neutral' },
+          revenue: { score: revenueScore, detail: enriched.revenue_24h ? `${enriched.revenue_24h} daily revenue from DefiLlama` : enriched.fees_24h ? `${enriched.fees_24h} daily fees from DefiLlama` : tvl ? `${tvl} TVL but no revenue data reported` : 'No revenue data found on DefiLlama', signal: revenueScore >= 65 ? 'bullish' : revenueScore <= 30 ? 'bearish' : 'neutral' },
+          sentiment: { score: sentimentScore, detail: `${sentiment || 'unknown'} news sentiment from ${enriched.news_article_count || 0} articles via CryptoNews API`, signal: sentiment === 'positive' ? 'bullish' : sentiment === 'negative' ? 'bearish' : 'neutral' },
         },
         post_tge_outlook: tokenLive ? (dexDump ? 'Poor — token declining' : 'Moderate') : 'Token not yet live',
         project_follows: null,
@@ -1781,7 +1822,7 @@ export default function Home() {
             />
             <div className="search-btns">
               {result && !loading && (
-                <button onClick={() => { setResult(null); setCgData(null); setXData(null); setXUrl(''); setSelectedTags([]) }} className="btn-new">
+                <button onClick={() => { setResult(null); setCgData(null); setXData(null); setXUrl(''); setSelectedTags([]); try { localStorage.removeItem('cmv_last_handle') } catch {} }} className="btn-new">
                   + New Scan
                 </button>
               )}
@@ -1811,8 +1852,8 @@ export default function Home() {
                 </div>
                 <div className="how-card">
                   <div className="how-num">02</div>
-                  <div className="how-title">AI scans everything</div>
-                  <div className="how-desc">We pull data from X, DefiLlama, RootData, DexScreener, CoinGecko & CryptoNews.</div>
+                  <div className="how-title">AI deep research</div>
+                  <div className="how-desc">Our AI analyzes 17 metrics across fundamentals, team, opportunity, sentiment, and traction.</div>
                 </div>
                 <div className="how-card">
                   <div className="how-num">03</div>
