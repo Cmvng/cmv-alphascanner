@@ -504,7 +504,30 @@ export default function Home() {
     try { localStorage.removeItem(`cmv_scan_v3_${handle.toLowerCase()}`); localStorage.removeItem(`cmv_scan_v2_${handle.toLowerCase()}`); localStorage.removeItem(`cmv_scan_${handle.toLowerCase()}`) } catch {}
     setLoading(true); setResult(null); setCgData(null); setXData(null); setError(null); setAtab('Fundamentals'); setAsec('metrics'); setSelectedTags([])
 
-    // Check cache — serve cached result unless admin deleted from Supabase
+    // Check Supabase first — if scan exists there, load it (prevents rescans)
+    try {
+      const sbUrl = import.meta.env.VITE_SUPABASE_URL
+      const sbKey = import.meta.env.VITE_SUPABASE_ANON_KEY
+      if (sbUrl && sbKey) {
+        const sbCheck = await fetch(sbUrl + '/rest/v1/scans?handle=eq.' + handle.toLowerCase() + '&select=*&limit=1', {
+          headers: { 'apikey': sbKey, 'Authorization': 'Bearer ' + sbKey }
+        })
+        if (sbCheck.ok) {
+          const rows = await sbCheck.json()
+          if (rows.length > 0 && rows[0].result_json) {
+            const saved = typeof rows[0].result_json === 'string' ? JSON.parse(rows[0].result_json) : rows[0].result_json
+            if (saved.result && saved.result.metrics) {
+              setResult(saved.result); setCgData(saved.cgData || null); setXData(saved.xData || null); setLoading(false)
+              // Also update localStorage for faster future loads
+              try { localStorage.setItem(cacheKey, JSON.stringify(saved)) } catch {}
+              return
+            }
+          }
+        }
+      }
+    } catch {}
+
+    // Fallback: check localStorage cache
     try {
       const cached = localStorage.getItem(cacheKey)
       if (cached) {
@@ -512,27 +535,7 @@ export default function Home() {
         const hasFullMetrics = cr?.metrics?.vc_pedigree || cr?.metrics?.founder_cred
 
         if (hasFullMetrics) {
-          // Check if admin deleted this scan from Supabase
-          let adminDeleted = false
-          try {
-            const sbUrl = import.meta.env.VITE_SUPABASE_URL
-            const sbKey = import.meta.env.VITE_SUPABASE_ANON_KEY
-            if (sbUrl && sbKey) {
-              const check = await fetch(sbUrl + '/rest/v1/scans?handle=eq.' + handle.toLowerCase() + '&select=id&limit=1', {
-                headers: { 'apikey': sbKey, 'Authorization': 'Bearer ' + sbKey }
-              })
-              if (check.ok) {
-                const rows = await check.json()
-                if (rows.length === 0) adminDeleted = true
-              }
-            }
-          } catch {}
-
-          if (adminDeleted) {
-            try { localStorage.removeItem(cacheKey) } catch {}
-          } else {
-            setResult(cr); setCgData(cc); setXData(cx); setLoading(false); return
-          }
+          setResult(cr); setCgData(cc); setXData(cx); setLoading(false); return
         }
       }
     } catch { }
