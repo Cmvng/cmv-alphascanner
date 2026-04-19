@@ -1238,7 +1238,7 @@ export default function Home() {
     // Highlights row
     const hlRowY = 348
     let hlX = RX
-    highlights.forEach((h) => {
+    highlights.forEach((h: string) => {
       const label = '\u2713 ' + (h.length > 32 ? h.slice(0,30)+'...' : h)
       ctx.font = 'bold 10px Arial'
       const pw = ctx.measureText(label).width + 18
