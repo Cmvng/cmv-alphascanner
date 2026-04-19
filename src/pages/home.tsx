@@ -509,17 +509,16 @@ export default function Home() {
       const sbUrl = import.meta.env.VITE_SUPABASE_URL
       const sbKey = import.meta.env.VITE_SUPABASE_ANON_KEY
       if (sbUrl && sbKey) {
-        const sbCheck = await fetch(sbUrl + '/rest/v1/scans?handle=eq.' + handle.toLowerCase() + '&select=*&limit=1', {
+        const sbCheck = await fetch(sbUrl + '/rest/v1/scans?handle=eq.' + handle.toLowerCase() + '&select=full_result&limit=1', {
           headers: { 'apikey': sbKey, 'Authorization': 'Bearer ' + sbKey }
         })
         if (sbCheck.ok) {
           const rows = await sbCheck.json()
-          if (rows.length > 0 && rows[0].result_json) {
-            const saved = typeof rows[0].result_json === 'string' ? JSON.parse(rows[0].result_json) : rows[0].result_json
+          if (rows.length > 0 && rows[0].full_result) {
+            const saved = rows[0].full_result
             if (saved.result && saved.result.metrics) {
               setResult(saved.result); setCgData(saved.cgData || null); setXData(saved.xData || null); setLoading(false)
-              // Also update localStorage for faster future loads
-              try { localStorage.setItem(cacheKey, JSON.stringify(saved)) } catch {}
+              try { localStorage.setItem(cacheKey, JSON.stringify({ result: saved.result, cgData: saved.cgData, xData: saved.xData, timestamp: Date.now() })) } catch {}
               return
             }
           }
