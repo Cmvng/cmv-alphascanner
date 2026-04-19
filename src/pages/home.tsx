@@ -504,29 +504,7 @@ export default function Home() {
     try { localStorage.removeItem(`cmv_scan_v3_${handle.toLowerCase()}`); localStorage.removeItem(`cmv_scan_v2_${handle.toLowerCase()}`); localStorage.removeItem(`cmv_scan_${handle.toLowerCase()}`) } catch {}
     setLoading(true); setResult(null); setCgData(null); setXData(null); setError(null); setAtab('Fundamentals'); setAsec('metrics'); setSelectedTags([])
 
-    // Check Supabase first — if scan exists there, load it (prevents rescans)
-    try {
-      const sbUrl = import.meta.env.VITE_SUPABASE_URL
-      const sbKey = import.meta.env.VITE_SUPABASE_ANON_KEY
-      if (sbUrl && sbKey) {
-        const sbCheck = await fetch(sbUrl + '/rest/v1/scans?handle=eq.' + handle.toLowerCase() + '&select=full_result&limit=1', {
-          headers: { 'apikey': sbKey, 'Authorization': 'Bearer ' + sbKey }
-        })
-        if (sbCheck.ok) {
-          const rows = await sbCheck.json()
-          if (rows.length > 0 && rows[0].full_result) {
-            const saved = rows[0].full_result
-            if (saved.result && saved.result.metrics) {
-              setResult(saved.result); setCgData(saved.cgData || null); setXData(saved.xData || null); setLoading(false)
-              try { localStorage.setItem(cacheKey, JSON.stringify({ result: saved.result, cgData: saved.cgData, xData: saved.xData, timestamp: Date.now() })) } catch {}
-              return
-            }
-          }
-        }
-      }
-    } catch {}
-
-    // Fallback: check localStorage cache
+    // Check localStorage cache — if admin deleted from Supabase, cache is cleared
     try {
       const cached = localStorage.getItem(cacheKey)
       if (cached) {
@@ -534,7 +512,28 @@ export default function Home() {
         const hasFullMetrics = cr?.metrics?.vc_pedigree || cr?.metrics?.founder_cred
 
         if (hasFullMetrics) {
-          setResult(cr); setCgData(cc); setXData(cx); setLoading(false); return
+          // Verify scan still exists in Supabase (admin might have deleted it to trigger rescan)
+          let adminDeleted = false
+          try {
+            const sbUrl = import.meta.env.VITE_SUPABASE_URL
+            const sbKey = import.meta.env.VITE_SUPABASE_ANON_KEY
+            if (sbUrl && sbKey) {
+              const check = await fetch(sbUrl + '/rest/v1/scans?handle=eq.' + handle.toLowerCase() + '&select=id&limit=1', {
+                headers: { 'apikey': sbKey, 'Authorization': 'Bearer ' + sbKey }
+              })
+              if (check.ok) {
+                const rows = await check.json()
+                if (rows.length === 0) adminDeleted = true
+              }
+            }
+          } catch {}
+
+          if (adminDeleted) {
+            try { localStorage.removeItem(cacheKey) } catch {}
+            // Fall through to run fresh scan
+          } else {
+            setResult(cr); setCgData(cc); setXData(cx); setLoading(false); return
+          }
         }
       }
     } catch { }
@@ -605,7 +604,14 @@ export default function Home() {
           red_flag_count: (cleaned.red_flags || []).filter((f: any) => f.label).length,
           full_result: { result: cleaned, cgData: cg, xData: xd },
         })
-      }).catch(() => {})
+      }).then(async r => {
+        if (!r.ok) {
+          const errText = await r.text()
+          console.error('[save-scan] FAILED:', r.status, errText)
+        } else {
+          console.log('[save-scan] Saved successfully for @' + handle)
+        }
+      }).catch(e => console.error('[save-scan] Network error:', e))
     }
 
 
