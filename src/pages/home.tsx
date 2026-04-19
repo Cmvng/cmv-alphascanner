@@ -196,6 +196,8 @@ const buildSystemPrompt = (handle: string, xd: any, cg: any) => {
 
 CRITICAL: Return ONLY valid JSON. No markdown, no explanation, no code blocks.
 
+CRITICAL: NEVER mention these names in ANY text you output: DefiLlama, RootData, CryptoRank, DexScreener, CoinGecko, CoinPaprika, CryptoNews, DuckDuckGo, CoinMarketCap, Etherscan. Not in descriptions, not in red flags, not in verdict, not in metrics, not in risks, not anywhere. Just state facts directly. Example: say "No team members identified" NOT "No team members identified on RootData". Say "No category data" NOT "DefiLlama shows no category". Say "No funding data found" NOT "RootData shows no raised capital".
+
 You have pre-fetched data from multiple tools. Web search results may also be provided below. Use all available data to produce a thorough analysis.
 
 === VERIFIED TOOL DATA ===
@@ -243,8 +245,9 @@ ALSO add flags for:
 - Low liquidity if dex_liquidity < $50K → "Low liquidity" flag
 - No team data + anonymous project → "Anonymous team" flag
 Do NOT return empty red_flags if auto_fud_flags has entries.
-Be specific in detail — include numbers and sources.
+Be specific in detail — include numbers and data points.
 Be concise in metrics — 1 sentence with specific data points only.
+ABSOLUTE RULE: NEVER write the names DefiLlama, RootData, CryptoRank, DexScreener, CoinGecko, CoinPaprika, CryptoNews, or any tool/platform name in your output. Say "No team data found" not "No team members identified on RootData". Say "No funding data available" not "RootData shows no raised capital". Say "Not tracked on major platforms" not "Absence from DefiLlama, CryptoRank, RootData". If you write any tool name in your response, the output is INVALID.
 
 RED FLAGS — flag ALL of these when present:
 - Known hacks or exploits (from DefiLlama hacks data)
@@ -263,17 +266,17 @@ Entertainment/events projects without DeFi TVL should NOT be penalized on revenu
 Return this exact JSON:
 {
   "project_name": "string",
-  "project_category": "string (use DefiLlama category if available, else infer from bio: Prediction Market, DeFi, L1/L2, RWA, AI, Gaming, etc)",
-  "description": "2-3 sentence description of what the project builds",
+  "project_category": "string (Prediction Market, DeFi, L1/L2, RWA, AI, Gaming, Perp DEX, Lending, Infrastructure, DEX, Bridge, SocialFi, Restaking, etc)",
+  "description": "2-3 sentence description of what the project builds — NO source names",
   "team_location": "string or empty",
   "founded": "year or empty",
   "verdict": "ALPHA PLAY|FARM IT|ENGAGE|OBSERVE|AVOID",
-  "verdict_reason": "2-3 sentences with specific data points from tool data",
+  "verdict_reason": "2-3 sentences with specific data points — NO source names, just state facts",
   "verdict_action": "specific actionable advice for CT farmers",
   "overall_score": number (0-100),
-  "score_rationale": "explain score using specific tool data",
+  "score_rationale": "explain score with data points — NO source names",
   "good_highlights": ["specific highlight with data", "another", "another"],
-  "red_flags": [{"type": "dump|hack|shill|suspicious|regulatory|tokenomics|team", "label": "short label", "detail": "specific detail with source and date"}],
+  "red_flags": [{"type": "dump|hack|shill|suspicious|regulatory|tokenomics|team", "label": "short label", "detail": "specific detail — NO source names"}],
   "top_risks": ["specific risk", "another"],
   "top_opportunities": ["specific opportunity", "another"],
   "team_members": [{"name": "string", "role": "string", "x_handle": "@handle or empty", "background": "1 sentence", "confirmed": true/false}],
@@ -281,8 +284,6 @@ Return this exact JSON:
   "post_tge_outlook": "string if token live",
   "project_follows": "notable CT accounts that follow this project",
   "mindshare_trend": {"labels": ["8w ago","7w ago","6w ago","5w ago","4w ago","3w ago","2w ago","1w ago"], "values": [0,0,0,0,0,0,0,0], "current_pct": "string", "trend": "rising|falling|stable"},
-  "sources": [{"name": "string", "url": "string", "used_for": "string"}],
-  "data_accuracy_note": "string",
   "metrics": {
     "funding": {"score": 0-100, "detail": "1 sentence with specific numbers", "signal": "bullish|bearish|neutral"},
     "vc_pedigree": {"score": 0-100, "detail": "1 concise sentence with data", "signal": "bullish|bearish|neutral"},
