@@ -7,7 +7,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method === 'OPTIONS') return res.status(200).end()
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' })
 
-  // Try both env var names — ANTHROPIC_API_KEY (server) or VITE_ANTHROPIC_API_KEY (if set that way)
   const ANTHROPIC_KEY = process.env.ANTHROPIC_API_KEY || process.env.VITE_ANTHROPIC_API_KEY
   if (!ANTHROPIC_KEY) return res.status(500).json({ error: 'Anthropic key not configured — add ANTHROPIC_API_KEY to Vercel env vars' })
 
@@ -15,7 +14,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const { system, messages } = req.body
     if (!system || !messages) return res.status(400).json({ error: 'Missing system or messages' })
 
-    // Single call — all tool data is in system prompt, no web search needed
     const r = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
@@ -25,7 +23,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       },
       body: JSON.stringify({
         model: 'claude-haiku-4-5-20251001',
-        max_tokens: 2000,
+        max_tokens: 4096,
         system,
         messages,
       })
