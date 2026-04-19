@@ -938,178 +938,225 @@ export default function Home() {
       if (line.trim()) ctx.fillText(line.trim(), x, lY)
     }
 
-    // ── BACKGROUND: clean light with green accent ──
-    ctx.fillStyle = '#f8faf8'
+    // ── CARD V3: Left Panel with Both PFPs Stacked ──
+    ctx.fillStyle = '#fafdf7'
     ctx.fillRect(0, 0, W, H)
+    ctx.fillStyle = '#16a34a'
+    ctx.fillRect(0, 0, W, 4)
 
-    // Top accent bar
-    const topBar = ctx.createLinearGradient(0, 0, W, 0)
-    topBar.addColorStop(0, colors[0]); topBar.addColorStop(1, colors[0] + 'cc')
-    ctx.fillStyle = topBar
-    ctx.fillRect(0, 0, W, 5)
-
-    // Subtle grid
-    ctx.save(); ctx.globalAlpha = 0.02; ctx.strokeStyle = '#16a34a'
-    for (let x = 0; x < W; x += 40) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.lineWidth = 0.5; ctx.stroke() }
-    for (let y = 0; y < H; y += 40) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.lineWidth = 0.5; ctx.stroke() }
+    // Subtle grid on right side
+    ctx.save(); ctx.globalAlpha = 0.015; ctx.strokeStyle = '#16a34a'; ctx.lineWidth = 0.5
+    for (let gx = 280; gx < W; gx += 40) { ctx.beginPath(); ctx.moveTo(gx, 0); ctx.lineTo(gx, H); ctx.stroke() }
+    for (let gy = 0; gy < H; gy += 40) { ctx.beginPath(); ctx.moveTo(280, gy); ctx.lineTo(W, gy); ctx.stroke() }
     ctx.restore()
 
     const PAD = 44
-    const MID = W * 0.54
+    const LEFT_W = 280
+    const RX = LEFT_W + 30
 
-    // ── LEFT SIDE ──
-    const LOGO_R = 36
-    const LOGO_X = PAD + LOGO_R
-    const LOGO_CY = 44 + LOGO_R
+    // ── LEFT PANEL — green tint background ──
+    ctx.fillStyle = '#16a34a08'
+    ctx.fillRect(0, 4, LEFT_W, H - 4)
+    ctx.strokeStyle = '#e2e8e4'; ctx.lineWidth = 1
+    ctx.beginPath(); ctx.moveTo(LEFT_W, 4); ctx.lineTo(LEFT_W, H); ctx.stroke()
+
+    // ── PROJECT LOGO — large and prominent ──
+    const LOGO_R = 64
+    const LOGO_CX = LEFT_W / 2
+    const LOGO_CY = 110
     const pfpImg = await loadImg(logoSources[0] || '', logoSources.slice(1))
     if (pfpImg) {
       ctx.fillStyle = '#fff'
-      ctx.beginPath(); ctx.arc(LOGO_X, LOGO_CY, LOGO_R + 3, 0, Math.PI * 2); ctx.fill()
-      ctx.save(); ctx.beginPath(); ctx.arc(LOGO_X, LOGO_CY, LOGO_R, 0, Math.PI * 2); ctx.clip()
-      ctx.drawImage(pfpImg, LOGO_X - LOGO_R, LOGO_CY - LOGO_R, LOGO_R * 2, LOGO_R * 2); ctx.restore()
-      ctx.strokeStyle = '#e2e8e4'; ctx.lineWidth = 2
-      ctx.beginPath(); ctx.arc(LOGO_X, LOGO_CY, LOGO_R + 3, 0, Math.PI * 2); ctx.stroke()
+      ctx.beginPath(); ctx.arc(LOGO_CX, LOGO_CY, LOGO_R + 4, 0, Math.PI * 2); ctx.fill()
+      ctx.save(); ctx.beginPath(); ctx.arc(LOGO_CX, LOGO_CY, LOGO_R, 0, Math.PI * 2); ctx.clip()
+      ctx.drawImage(pfpImg, LOGO_CX - LOGO_R, LOGO_CY - LOGO_R, LOGO_R * 2, LOGO_R * 2); ctx.restore()
+      ctx.strokeStyle = '#e2e8e4'; ctx.lineWidth = 2.5
+      ctx.beginPath(); ctx.arc(LOGO_CX, LOGO_CY, LOGO_R + 4, 0, Math.PI * 2); ctx.stroke()
     } else {
-      ctx.fillStyle = colors[0] + '15'
-      ctx.beginPath(); ctx.arc(LOGO_X, LOGO_CY, LOGO_R, 0, Math.PI * 2); ctx.fill()
-      ctx.strokeStyle = colors[0] + '30'; ctx.lineWidth = 2
-      ctx.beginPath(); ctx.arc(LOGO_X, LOGO_CY, LOGO_R, 0, Math.PI * 2); ctx.stroke()
-      ctx.fillStyle = colors[0]; ctx.font = 'bold 28px Arial'; ctx.textAlign = 'center'
-      ctx.fillText((result.project_name||'?').charAt(0).toUpperCase(), LOGO_X, LOGO_CY + 10); ctx.textAlign = 'left'
+      ctx.fillStyle = colors[0] + '12'
+      ctx.beginPath(); ctx.arc(LOGO_CX, LOGO_CY, LOGO_R, 0, Math.PI * 2); ctx.fill()
+      ctx.strokeStyle = colors[0] + '30'; ctx.lineWidth = 2.5
+      ctx.beginPath(); ctx.arc(LOGO_CX, LOGO_CY, LOGO_R, 0, Math.PI * 2); ctx.stroke()
+      ctx.fillStyle = colors[0]; ctx.font = 'bold 48px Arial'; ctx.textAlign = 'center'
+      ctx.fillText((result.project_name||'?').charAt(0).toUpperCase(), LOGO_CX, LOGO_CY + 16); ctx.textAlign = 'left'
     }
 
-    const nameX = PAD + LOGO_R * 2 + 20
-    ctx.fillStyle = '#0f1a12'; ctx.font = 'bold 28px Arial'
-    ctx.fillText((result.project_name||'').slice(0, 22), nameX, 62)
-
-    const metaLine = [result.project_category, result.team_location].filter(Boolean).join(' \xb7 ')
-    ctx.fillStyle = '#5a6b5e'; ctx.font = '12px Arial'
-    ctx.fillText(metaLine.slice(0, 50), nameX, 82)
-
-    if (cgData?.token_live && cgData.ticker) {
-      const tok = cgData.ticker + '  ' + (cgData.token_price || '')
-      ctx.font = 'bold 10px monospace'
-      const tw = ctx.measureText(tok).width + 16
-      ctx.fillStyle = '#dcfce7'; ctx.strokeStyle = '#86efac'; ctx.lineWidth = 1
-      ctx.beginPath(); (ctx as any).roundRect(nameX, 90, tw, 20, 10); ctx.fill(); ctx.stroke()
-      ctx.fillStyle = '#15803d'; ctx.fillText(tok, nameX + 8, 104)
-    }
-
-    const badgeY = 126
-    ctx.fillStyle = colors[0] + '12'
-    ctx.beginPath(); (ctx as any).roundRect(PAD, badgeY, 100, 28, 14); ctx.fill()
-    ctx.strokeStyle = colors[0] + '30'; ctx.lineWidth = 1
-    ctx.beginPath(); (ctx as any).roundRect(PAD, badgeY, 100, 28, 14); ctx.stroke()
-    ctx.fillStyle = colors[0]; ctx.font = 'bold 11px Arial'; ctx.textAlign = 'center'
-    ctx.fillText(otc.lbl, PAD + 50, badgeY + 18); ctx.textAlign = 'left'
-    if (flagCount > 0) {
-      ctx.font = 'bold 10px Arial'
-      const fl = flagCount + ' red flag' + (flagCount > 1 ? 's' : '')
-      const fw = ctx.measureText(fl).width + 20
-      ctx.fillStyle = '#fef2f2'; ctx.strokeStyle = '#fecaca'; ctx.lineWidth = 1
-      ctx.beginPath(); (ctx as any).roundRect(PAD + 110, badgeY, fw, 28, 14); ctx.fill(); ctx.stroke()
-      ctx.fillStyle = '#dc2626'; ctx.fillText(fl, PAD + 120, badgeY + 18)
-    }
-
-    ctx.fillStyle = '#2d3b30'; ctx.font = '13px Arial'
-    wrap(result.description || '', PAD, 176, MID - PAD - 30, 19, 3)
-
-    let hlY = 240
-    highlights.forEach((h: string) => {
-      const label = '\u2713  ' + (h.length > 42 ? h.slice(0,40)+'...' : h)
-      ctx.font = 'bold 11px Arial'
-      const pw = Math.min(ctx.measureText(label).width + 18, MID - PAD - 30)
-      ctx.fillStyle = '#dcfce7'
-      ctx.beginPath(); (ctx as any).roundRect(PAD, hlY, pw, 24, 12); ctx.fill()
-      ctx.fillStyle = '#15803d'; ctx.fillText(label, PAD + 9, hlY + 16)
-      hlY += 30
-    })
-
-    const UBY = H - 80
-    const uImg = userPhoto ? await loadImg(userPhoto) : null
-    if (uImg) {
-      ctx.save(); ctx.beginPath(); ctx.arc(PAD + 16, UBY, 16, 0, Math.PI * 2); ctx.clip()
-      ctx.drawImage(uImg, PAD, UBY - 16, 32, 32); ctx.restore()
-      ctx.strokeStyle = '#e2e8e4'; ctx.lineWidth = 1.5
-      ctx.beginPath(); ctx.arc(PAD + 16, UBY, 16, 0, Math.PI * 2); ctx.stroke()
-    } else {
-      ctx.fillStyle = colors[0]; ctx.beginPath(); ctx.arc(PAD + 16, UBY, 16, 0, Math.PI * 2); ctx.fill()
-      ctx.fillStyle = '#fff'; ctx.font = 'bold 12px Arial'; ctx.textAlign = 'center'
-      ctx.fillText((userName||'C').charAt(0).toUpperCase(), PAD + 16, UBY + 4); ctx.textAlign = 'left'
-    }
-    ctx.fillStyle = '#8a9b8e'; ctx.font = '10px Arial'
-    ctx.fillText('@' + (userName||'cmvng') + ' says', PAD + 42, UBY - 4)
-    ctx.fillStyle = colors[0]; ctx.font = 'bold 15px Arial'
-    ctx.fillText(otc.v, PAD + 42, UBY + 14)
-
-    // ── RIGHT SIDE — Score panel ──
-    ctx.fillStyle = colors[0] + '08'
-    ctx.beginPath(); (ctx as any).roundRect(MID, 20, W - MID - PAD, H - 60, 16); ctx.fill()
-    ctx.strokeStyle = colors[0] + '18'; ctx.lineWidth = 1
-    ctx.beginPath(); (ctx as any).roundRect(MID, 20, W - MID - PAD, H - 60, 16); ctx.stroke()
-
-    const RX = MID + 28
-    const RW = W - MID - PAD - 56
-
-    ctx.fillStyle = colors[0]; ctx.font = 'bold 72px Arial'; ctx.textAlign = 'center'
-    ctx.fillText(String(result.overall_score ?? 0), MID + (W - MID - PAD) / 2, 100)
-    ctx.fillStyle = '#8a9b8e'; ctx.font = '10px monospace'
-    ctx.fillText('ALPHA SCORE  /100', MID + (W - MID - PAD) / 2, 120)
+    // Project name below logo
+    ctx.fillStyle = '#0f1a12'; ctx.font = 'bold 20px Arial'; ctx.textAlign = 'center'
+    const pName = (result.project_name || '').slice(0, 18)
+    ctx.fillText(pName, LOGO_CX, LOGO_CY + LOGO_R + 28)
+    ctx.fillStyle = '#5a6b5e'; ctx.font = '11px Arial'
+    ctx.fillText((result.project_category || 'Crypto').slice(0, 24), LOGO_CX, LOGO_CY + LOGO_R + 46)
     ctx.textAlign = 'left'
 
-    ctx.fillStyle = '#fff'
-    ctx.beginPath(); (ctx as any).roundRect(RX, 140, RW, 120, 10); ctx.fill()
-    ctx.strokeStyle = '#e2e8e4'; ctx.lineWidth = 1
-    ctx.beginPath(); (ctx as any).roundRect(RX, 140, RW, 120, 10); ctx.stroke()
-    ctx.fillStyle = colors[0]; ctx.font = 'bold 13px Arial'
-    ctx.fillText(otc.v, RX + 14, 162)
-    ctx.fillStyle = '#2d3b30'; ctx.font = '11px Arial'
-    wrap(result.verdict_action || result.verdict_reason || '', RX + 14, 182, RW - 28, 17, 5)
+    // Token pill centered in left panel
+    if (cgData?.token_live && cgData.ticker) {
+      const tok = cgData.ticker + '  ' + (cgData.token_price || '')
+      ctx.font = 'bold 9px monospace'; ctx.textAlign = 'center'
+      const tw = ctx.measureText(tok).width + 14
+      ctx.fillStyle = '#dcfce7'; ctx.strokeStyle = '#86efac'; ctx.lineWidth = 1
+      ctx.beginPath(); (ctx as any).roundRect(LOGO_CX - tw/2, LOGO_CY + LOGO_R + 54, tw, 18, 9); ctx.fill(); ctx.stroke()
+      ctx.fillStyle = '#15803d'; ctx.fillText(tok, LOGO_CX, LOGO_CY + LOGO_R + 67)
+      ctx.textAlign = 'left'
+    }
 
-    const CSY = 280
-    const catNames = ['Fund', 'Team', 'Oppt', 'Sent', 'Trac']
-    const catW = Math.floor((RW - 4 * 6) / 5)
+    // ── DIVIDER in left panel ──
+    ctx.strokeStyle = '#e2e8e4'; ctx.lineWidth = 1
+    ctx.beginPath(); ctx.moveTo(50, 280); ctx.lineTo(LEFT_W - 50, 280); ctx.stroke()
+
+    // ── USER PFP — large ──
+    const USER_R = 44
+    const USER_CY = 350
+    const uImg = userPhoto ? await loadImg(userPhoto) : null
+    if (uImg) {
+      ctx.fillStyle = '#fff'
+      ctx.beginPath(); ctx.arc(LOGO_CX, USER_CY, USER_R + 3, 0, Math.PI * 2); ctx.fill()
+      ctx.save(); ctx.beginPath(); ctx.arc(LOGO_CX, USER_CY, USER_R, 0, Math.PI * 2); ctx.clip()
+      ctx.drawImage(uImg, LOGO_CX - USER_R, USER_CY - USER_R, USER_R * 2, USER_R * 2); ctx.restore()
+      ctx.strokeStyle = '#e2e8e4'; ctx.lineWidth = 2
+      ctx.beginPath(); ctx.arc(LOGO_CX, USER_CY, USER_R + 3, 0, Math.PI * 2); ctx.stroke()
+    } else {
+      ctx.fillStyle = colors[0]
+      ctx.beginPath(); ctx.arc(LOGO_CX, USER_CY, USER_R, 0, Math.PI * 2); ctx.fill()
+      ctx.fillStyle = '#fff'; ctx.font = 'bold 28px Arial'; ctx.textAlign = 'center'
+      ctx.fillText((userName||'C').charAt(0).toUpperCase(), LOGO_CX, USER_CY + 10); ctx.textAlign = 'left'
+    }
+
+    // User name + verdict below
+    ctx.fillStyle = '#0f1a12'; ctx.font = 'bold 15px Arial'; ctx.textAlign = 'center'
+    ctx.fillText('@' + (userName || 'cmvng'), LOGO_CX, USER_CY + USER_R + 24)
+    ctx.fillStyle = colors[0]; ctx.font = 'bold 13px Arial'
+    ctx.fillText('says ' + otc.v, LOGO_CX, USER_CY + USER_R + 44)
+    ctx.textAlign = 'left'
+
+    // ── CMV branding bottom of left panel ──
+    ctx.fillStyle = '#8a9b8e'; ctx.font = '10px Arial'; ctx.textAlign = 'center'
+    ctx.fillText('CMV', LOGO_CX, H - 42)
+    ctx.fillStyle = '#16a34a'; ctx.font = 'bold 11px Arial'
+    ctx.fillText('AlphaScanner', LOGO_CX, H - 26)
+    ctx.textAlign = 'left'
+
+    // ── RIGHT SIDE — Score + Data ──
+
+    // Big score
+    const scoreCenter = RX + (W - RX - PAD) / 2
+    ctx.fillStyle = colors[0]; ctx.font = 'bold 82px Arial'; ctx.textAlign = 'center'
+    ctx.fillText(String(result.overall_score ?? 0), scoreCenter, 86)
+    ctx.fillStyle = '#8a9b8e'; ctx.font = '10px monospace'
+    ctx.fillText('/100  ALPHA SCORE', scoreCenter, 106)
+    ctx.textAlign = 'left'
+
+    // Tier badge centered
+    ctx.textAlign = 'center'
+    ctx.fillStyle = colors[0] + '12'
+    const tierW = ctx.measureText(otc.lbl).width + 28
+    ctx.font = 'bold 11px Arial'
+    ctx.beginPath(); (ctx as any).roundRect(scoreCenter - tierW/2, 116, tierW, 26, 13); ctx.fill()
+    ctx.strokeStyle = colors[0] + '35'; ctx.lineWidth = 1
+    ctx.beginPath(); (ctx as any).roundRect(scoreCenter - tierW/2, 116, tierW, 26, 13); ctx.stroke()
+    ctx.fillStyle = colors[0]
+    ctx.fillText(otc.lbl, scoreCenter, 133)
+    ctx.textAlign = 'left'
+
+    // Category scores row
+    const catY = 160
+    const catLabels = ['Fund', 'Team', 'Oppt', 'Sent', 'Trac']
+    const rightW = W - RX - PAD
+    const catW = Math.floor((rightW - 4 * 10) / 5)
     CATS.forEach((cat, ci) => {
       const cs = catScore(cat)
-      const cx = RX + ci * (catW + 6)
+      const cx = RX + ci * (catW + 10)
       ctx.fillStyle = '#fff'
-      ctx.beginPath(); (ctx as any).roundRect(cx, CSY, catW, 48, 8); ctx.fill()
+      ctx.beginPath(); (ctx as any).roundRect(cx, catY, catW, 48, 8); ctx.fill()
       ctx.strokeStyle = '#e2e8e4'; ctx.lineWidth = 1
-      ctx.beginPath(); (ctx as any).roundRect(cx, CSY, catW, 48, 8); ctx.stroke()
+      ctx.beginPath(); (ctx as any).roundRect(cx, catY, catW, 48, 8); ctx.stroke()
       ctx.fillStyle = '#8a9b8e'; ctx.font = '8px monospace'; ctx.textAlign = 'center'
-      ctx.fillText(catNames[ci].toUpperCase(), cx + catW/2, CSY + 16)
+      ctx.fillText(catLabels[ci].toUpperCase(), cx + catW/2, catY + 16)
       const cTier = getTier(cs)
-      ctx.fillStyle = T[cTier].solid; ctx.font = 'bold 18px Arial'
-      ctx.fillText(String(cs), cx + catW/2, CSY + 40)
+      ctx.fillStyle = T[cTier].solid; ctx.font = 'bold 20px Arial'
+      ctx.fillText(String(cs), cx + catW/2, catY + 42)
       ctx.textAlign = 'left'
     })
 
+    // Verdict bar
+    const vdY = 226
+    ctx.fillStyle = '#fff'
+    ctx.beginPath(); (ctx as any).roundRect(RX, vdY, rightW, 52, 10); ctx.fill()
+    ctx.strokeStyle = '#e2e8e4'; ctx.lineWidth = 1
+    ctx.beginPath(); (ctx as any).roundRect(RX, vdY, rightW, 52, 10); ctx.stroke()
+    ctx.fillStyle = '#2d3b30'; ctx.font = '12px Arial'
+    wrap(result.verdict_action || result.verdict_reason || '', RX + 16, vdY + 32, rightW - 32, 18, 2)
+
+    // Description
+    ctx.fillStyle = '#5a6b5e'; ctx.font = '12px Arial'
+    wrap(result.description || '', RX, 302, rightW, 18, 2)
+
+    // Highlights row
+    const hlRowY = 348
+    let hlX = RX
+    highlights.forEach((h) => {
+      const label = '\u2713 ' + (h.length > 32 ? h.slice(0,30)+'...' : h)
+      ctx.font = 'bold 10px Arial'
+      const pw = ctx.measureText(label).width + 18
+      if (hlX + pw > W - PAD) return
+      ctx.fillStyle = '#dcfce7'
+      ctx.beginPath(); (ctx as any).roundRect(hlX, hlRowY, pw, 24, 12); ctx.fill()
+      ctx.fillStyle = '#15803d'; ctx.fillText(label, hlX + 9, hlRowY + 16)
+      hlX += pw + 8
+    })
+    if (flagCount > 0) {
+      ctx.font = 'bold 10px Arial'
+      const fl = flagCount + ' red flag' + (flagCount > 1 ? 's' : '')
+      const fw = ctx.measureText(fl).width + 18
+      if (hlX + fw <= W - PAD) {
+        ctx.fillStyle = '#fef2f2'; ctx.strokeStyle = '#fecaca'; ctx.lineWidth = 1
+        ctx.beginPath(); (ctx as any).roundRect(hlX, hlRowY, fw, 24, 12); ctx.fill(); ctx.stroke()
+        ctx.fillStyle = '#dc2626'; ctx.fillText(fl, hlX + 9, hlRowY + 16)
+      }
+    } else {
+      ctx.font = 'bold 10px Arial'
+      ctx.fillStyle = '#f0fdf4'
+      if (hlX + 110 <= W - PAD) {
+        ctx.beginPath(); (ctx as any).roundRect(hlX, hlRowY, 110, 24, 12); ctx.fill()
+        ctx.fillStyle = '#16a34a'; ctx.fillText('\u2713 No red flags', hlX + 9, hlRowY + 16)
+      }
+    }
+
+    // Metric bars — 2 rows of 3
     const metricsToShow = [
       { label: 'Funding', key: 'funding' },
       { label: 'VC Quality', key: 'vc_pedigree' },
       { label: 'Revenue', key: 'revenue' },
       { label: 'Token', key: 'token' },
       { label: 'FUD Risk', key: 'fud' },
+      { label: 'Dilution', key: 'user_count' },
     ]
-    const MBY = 346
+    const mbY = 394
+    const mColW = (rightW - 20) / 3
     metricsToShow.forEach((m, mi) => {
       const d = result.metrics?.[m.key]
       const sc = typeof d?.score === 'number' ? d.score : 0
-      const y = MBY + mi * 28
-      const barW = RW - 50
-      ctx.fillStyle = '#5a6b5e'; ctx.font = '10px Arial'
-      ctx.fillText(m.label, RX, y + 10)
+      const row = Math.floor(mi / 3)
+      const col = mi % 3
+      const mx = RX + col * (mColW + 10)
+      const my = mbY + row * 34
+      ctx.fillStyle = '#5a6b5e'; ctx.font = '9px Arial'
+      ctx.fillText(m.label, mx, my + 10)
+      // bar
+      const barX = mx + 65
+      const barW = mColW - 90
       ctx.fillStyle = '#e2e8e4'
-      ctx.beginPath(); (ctx as any).roundRect(RX + 70, y + 2, barW - 70, 8, 4); ctx.fill()
+      ctx.beginPath(); (ctx as any).roundRect(barX, my + 4, barW, 7, 3.5); ctx.fill()
       const barColor = sc >= 65 ? '#16a34a' : sc >= 40 ? '#ca8a04' : '#dc2626'
       ctx.fillStyle = barColor
-      ctx.beginPath(); (ctx as any).roundRect(RX + 70, y + 2, (barW - 70) * sc / 100, 8, 4); ctx.fill()
+      ctx.beginPath(); (ctx as any).roundRect(barX, my + 4, Math.max(4, barW * sc / 100), 7, 3.5); ctx.fill()
       ctx.fillStyle = barColor; ctx.font = 'bold 10px monospace'; ctx.textAlign = 'right'
-      ctx.fillText(String(sc), RX + RW, y + 11); ctx.textAlign = 'left'
+      ctx.fillText(String(sc), mx + mColW - 4, my + 12); ctx.textAlign = 'left'
     })
 
-    ctx.fillStyle = '#8a9b8e'; ctx.font = '9px monospace'; ctx.textAlign = 'center'
-    ctx.fillText('CMV ALPHASCANNER  \xb7  cmv-alphascanner.vercel.app', W / 2, H - 16)
+    // Footer
+    ctx.fillStyle = '#c8d0ca'; ctx.font = '8px monospace'; ctx.textAlign = 'center'
+    ctx.fillText('cmv-alphascanner.vercel.app', RX + rightW / 2, H - 14)
     ctx.textAlign = 'left'
     ctx.globalAlpha = 1
 
@@ -2322,7 +2369,7 @@ export default function Home() {
                       <div className="breakdown-item-bar" style={{ background: 'rgba(22,163,74,0.1)' }}>
                         <div className="breakdown-item-bar-fill" style={{ width: `${g.score}%`, background: 'var(--green)' }} />
                       </div>
-                      {g.detail && !/^No |unavailable|unclear|insufficient|not publicly/i.test(g.detail) && <div className="breakdown-item-detail">{g.detail}</div>}
+                      {g.detail && <div className="breakdown-item-detail">{g.detail}</div>}
                     </div>
                   )) : <div style={{ fontSize: 12, color: 'var(--text-4)', padding: '12px 0' }}>No strong positives identified</div>}
                 </div>
@@ -2338,7 +2385,7 @@ export default function Home() {
                       <div className="breakdown-item-bar" style={{ background: 'rgba(220,38,38,0.08)' }}>
                         <div className="breakdown-item-bar-fill" style={{ width: `${b.score}%`, background: 'var(--red)' }} />
                       </div>
-                      {b.detail && !/^No |unavailable|unclear|insufficient|not publicly/i.test(b.detail) && <div className="breakdown-item-detail">{b.detail}</div>}
+                      {b.detail && <div className="breakdown-item-detail">{b.detail}</div>}
                     </div>
                   )) : <div style={{ fontSize: 12, color: 'var(--text-4)', padding: '12px 0' }}>No major concerns identified</div>}
                 </div>
