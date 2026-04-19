@@ -677,7 +677,17 @@ export default function Home() {
         else if (f.severity === 'medium') fudPenalty += 50
         else fudPenalty += 25
       })
-      fudPenalty = Math.min(fudPenalty, 300)
+      // Additional penalties from local detection
+      if (hacks.length > 0) fudPenalty += 120
+      if (dexDump) fudPenalty += 80
+      if (cg?.price_change_24h && cg.price_change_24h > 100) fudPenalty += 40
+      if (tokenLive && dexLiq && dexLiq.includes('K') && !dexLiq.includes('00K') && parseFloat(dexLiq) < 50) fudPenalty += 60
+      if (team.length === 0 && !verified) fudPenalty += 30
+      if (hasRealXData && following > followers * 2 && followers < 10000) fudPenalty += 40
+      if (hasRealXData && followers > 5000 && avgLikes < 5) fudPenalty += 50
+      if (sentiment === 'negative') fudPenalty += 40
+      if (enriched.vesting_warning) fudPenalty += 30
+      fudPenalty = Math.min(fudPenalty, 400)
 
       const weights = { funding: 0.25, revenue: 0.22, token: 0.14, team: 0.15, sentiment: 0.10, security: 0.08, follower: 0.03, engagement: 0.03 }
       const rawScore = Math.round(
@@ -695,7 +705,9 @@ export default function Home() {
 
       const hasHack = hacks.length > 0
       const hasDump = enriched.dex_dump_detected
-      const cappedScore = hasHack ? Math.min(finalScore, 35) : hasDump ? Math.min(finalScore, 45) : finalScore
+      const hasFollowFarm = hasRealXData && following > followers * 2 && followers < 10000
+      const hasBotFollowers = hasRealXData && followers > 5000 && avgLikes < 5
+      const cappedScore = hasHack ? Math.min(finalScore, 30) : hasDump ? Math.min(finalScore, 40) : (hasFollowFarm && hasBotFollowers) ? Math.min(finalScore, 45) : finalScore
 
       const verdict = cappedScore >= 95 ? 'ALPHA PLAY' : cappedScore >= 85 ? 'FARM IT' : cappedScore >= 60 ? 'ENGAGE' : cappedScore >= 35 ? 'OBSERVE' : 'AVOID'
 
@@ -759,14 +771,146 @@ export default function Home() {
           return pts.length > 0 ? pts.join('. ') + '.' : verdictReason
         })(),
         good_highlights: highlights.slice(0, 5),
-        red_flags: autoFlags.map((f: any) => ({ type: f.type, label: f.label, detail: f.detail })),
+        red_flags: (() => {
+          const flags: { type: string; label: string; detail: string }[] = []
+
+          // Start with backend auto-detected flags
+          autoFlags.forEach((f: any) => {
+            if (f.label) flags.push({ type: f.type || 'suspicious', label: f.label, detail: f.detail || '' })
+          })
+
+          // ── SECURITY: Hacks & Exploits ──
+          if (hacks.length > 0) {
+            hacks.forEach((h: any) => {
+              const hackDetail = typeof h === 'string' ? h : `${h.name || 'Unknown'} — ${h.amount || 'undisclosed amount'}${h.date ? ' (' + h.date + ')' : ''}`
+              if (!flags.some(f => f.label.toLowerCase().includes('hack') || f.label.toLowerCase().includes('exploit'))) {
+                flags.push({ type: 'exploit', label: 'Security exploit on record', detail: hackDetail })
+              }
+            })
+          }
+
+          // ── TOKEN: Dump detected ──
+          if (dexDump) {
+            if (!flags.some(f => f.label.toLowerCase().includes('dump'))) {
+              flags.push({ type: 'dump', label: 'Token price dump detected', detail: 'Significant price decline detected on DEX — potential sell-off or rug pull in progress' })
+            }
+          }
+
+          // ── TOKEN: Extreme pump (manipulation risk) ──
+          if (cg?.price_change_24h && cg.price_change_24h > 100) {
+            flags.push({ type: 'suspicious', label: 'Extreme price pump', detail: `Token up ${cg.price_change_24h.toFixed(0)}% in 24h — could indicate manipulation or unsustainable speculation` })
+          }
+
+          // ── LIQUIDITY: Low liquidity rug risk ──
+          if (tokenLive && dexLiq) {
+            const liqStr = dexLiq.replace(/[^0-9.KMB]/g, '')
+            const isLowLiq = dexLiq.includes('K') && !dexLiq.includes('00K') && parseFloat(liqStr) < 50
+            if (isLowLiq) {
+              flags.push({ type: 'suspicious', label: 'Very low DEX liquidity', detail: `Only ${dexLiq} liquidity on DEX — high rug pull risk, large trades will cause massive slippage` })
+            }
+          }
+
+          // ── TEAM: Anonymous / no team data ──
+          if (team.length === 0 && !verified) {
+            flags.push({ type: 'team', label: 'Anonymous team', detail: 'No team members found publicly — anonymous teams carry higher risk of rug pulls and abandonment' })
+          } else if (team.length === 0 && verified) {
+            flags.push({ type: 'team', label: 'Unverified team', detail: 'Verified X account but no individual team members identified — limited accountability' })
+          }
+
+          // ── SOCIAL: Follow farming (following >> followers) ──
+          if (hasRealXData && following > 0 && followers > 0) {
+            const ratio = following / followers
+            if (ratio > 2 && followers < 10000) {
+              flags.push({ type: 'shill', label: 'Follow farming detected', detail: `Following ${following.toLocaleString()} accounts but only ${followers.toLocaleString()} followers — aggressive follow-for-follow tactic indicates inorganic growth` })
+            }
+          }
+
+          // ── SOCIAL: Suspicious engagement ratio ──
+          if (hasRealXData && followers > 5000 && avgLikes < 5) {
+            flags.push({ type: 'shill', label: 'Suspiciously low engagement', detail: `${followers.toLocaleString()} followers but only ${avgLikes.toFixed(0)} avg likes per post — likely bot/purchased followers` })
+          }
+
+          // ── SOCIAL: Very new account with high followers ──
+          if (hasRealXData && accountAge < 0.5 && followers > 20000) {
+            flags.push({ type: 'suspicious', label: 'New account with high follower count', detail: `Account is only ${(accountAge * 12).toFixed(0)} months old but has ${(followers/1000).toFixed(0)}K followers — could indicate purchased followers or rebranded project` })
+          }
+
+          // ── FUNDING: No funding for older project ──
+          if (!hasRaised && accountAge > 2 && !tokenLive) {
+            flags.push({ type: 'suspicious', label: 'No funding after years of operation', detail: `Project has been active for ${accountAge.toFixed(1)} years with no confirmed funding — raises questions about sustainability and legitimacy` })
+          }
+
+          // ── NEWS: Negative sentiment ──
+          if (sentiment === 'negative') {
+            const newsFlags = enriched.news_red_flags || []
+            flags.push({ type: 'suspicious', label: 'Negative news coverage', detail: newsFlags.length > 0 ? `Negative press detected: ${newsFlags.slice(0, 2).join(', ')}` : `Negative sentiment across ${enriched.news_article_count || 0} recent articles — investigate before committing` })
+          }
+
+          // ── NEWS: Specific red flag keywords from news ──
+          const newsRedFlags = enriched.news_red_flags || []
+          newsRedFlags.forEach((nf: string) => {
+            const lower = nf.toLowerCase()
+            if (lower.includes('scam') || lower.includes('fraud')) {
+              if (!flags.some(f => f.label.toLowerCase().includes('scam'))) {
+                flags.push({ type: 'suspicious', label: 'Scam allegations in news', detail: nf })
+              }
+            }
+            if (lower.includes('sec') || lower.includes('investigation') || lower.includes('lawsuit')) {
+              if (!flags.some(f => f.label.toLowerCase().includes('regulatory'))) {
+                flags.push({ type: 'regulatory', label: 'Regulatory concerns', detail: nf })
+              }
+            }
+          })
+
+          // ── TOKEN UNLOCKS: Vesting warning from CryptoRank ──
+          if (enriched.vesting_warning) {
+            if (!flags.some(f => f.label.toLowerCase().includes('unlock') || f.label.toLowerCase().includes('vesting'))) {
+              flags.push({ type: 'tokenomics', label: 'Upcoming token unlock', detail: enriched.vesting_warning })
+            }
+          }
+
+          // ── REVENUE: No revenue for DeFi/DEX project with TVL ──
+          if (tvlNum > 1e6 && !hasRevenue && enriched.defillama_category) {
+            const cat = enriched.defillama_category.toLowerCase()
+            if (cat.includes('dex') || cat.includes('lending') || cat.includes('defi')) {
+              flags.push({ type: 'suspicious', label: 'DeFi protocol with no reported revenue', detail: `${tvl} TVL but no fees or revenue reported — unusual for a ${enriched.defillama_category} protocol, could indicate unsustainable tokenomics` })
+            }
+          }
+
+          // ── DILUTION: Very high follower count ──
+          if (hasRealXData && followers > 500000 && !tokenLive) {
+            flags.push({ type: 'tokenomics', label: 'Extreme dilution risk', detail: `${(followers/1000).toFixed(0)}K followers with no token yet — when token launches, airdrop will be heavily diluted across massive user base` })
+          }
+
+          // ── COPYCAT: Check for common copycat signals ──
+          const bio = (xd?.description || '').toLowerCase()
+          const copycatPhrases = ['next binance', 'next coinbase', 'the next', 'killer of', 'better than', '100x guaranteed', 'guaranteed returns']
+          const foundCopycat = copycatPhrases.filter(p => bio.includes(p))
+          if (foundCopycat.length > 0) {
+            flags.push({ type: 'shill', label: 'Copycat/hype language in bio', detail: `Project bio contains promotional language ("${foundCopycat[0]}") — common in low-quality or scam projects` })
+          }
+
+          // Deduplicate by label similarity
+          const seen = new Set<string>()
+          return flags.filter(f => {
+            const key = f.label.toLowerCase().slice(0, 20)
+            if (seen.has(key)) return false
+            seen.add(key)
+            return true
+          })
+        })(),
         top_risks: [
-          hacks.length > 0 ? `Security: ${hacks.length} known exploit(s)` : null,
-          dexDump ? 'Token showing significant price dump' : null,
-          dexLiq && dexLiq.includes('K') && !dexLiq.includes('00K') ? 'Low DEX liquidity — rug risk' : null,
-          sentiment === 'negative' ? 'Negative news coverage detected' : null,
-          (hasRealXData && followers < 1000) ? 'Very low social presence' : null,
-        ].filter(Boolean).slice(0, 4),
+          hacks.length > 0 ? `${hacks.length} known security exploit(s) — protocol security compromised` : null,
+          dexDump ? 'Token showing significant price dump — potential sell-off' : null,
+          tokenLive && dexLiq && dexLiq.includes('K') && !dexLiq.includes('00K') ? `Low DEX liquidity (${dexLiq}) — rug pull risk` : null,
+          sentiment === 'negative' ? 'Negative news coverage — investigate before committing' : null,
+          team.length === 0 && !verified ? 'Anonymous team — no public accountability' : null,
+          hasRealXData && following > followers * 2 && followers < 10000 ? 'Follow farming — inorganic growth pattern' : null,
+          hasRealXData && followers > 5000 && avgLikes < 5 ? 'Likely bot followers — very low engagement ratio' : null,
+          enriched.vesting_warning ? `Token unlock risk — ${enriched.vesting_warning}` : null,
+          !hasRaised && accountAge > 2 && !tokenLive ? 'No funding after years — sustainability concerns' : null,
+          tvlNum > 1e6 && !hasRevenue ? 'TVL deployed but no revenue reported' : null,
+        ].filter(Boolean).slice(0, 5),
         top_opportunities: [
           !tokenLive && xd?.token_launch_hinted ? 'Token not yet launched — early farming opportunity' : null,
           tvlNum > 1e8 ? `High TVL of ${tvl} showing strong ecosystem` : null,
