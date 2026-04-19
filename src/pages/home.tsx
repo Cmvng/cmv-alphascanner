@@ -196,7 +196,7 @@ const buildSystemPrompt = (handle: string, xd: any, cg: any) => {
 
 CRITICAL: Return ONLY valid JSON. No markdown, no explanation, no code blocks.
 
-You have pre-fetched data from multiple tools. Use it directly — do NOT search for data already provided below.
+You have pre-fetched data from multiple tools. Web search results may also be provided below. Use all available data to produce a thorough analysis.
 
 === VERIFIED TOOL DATA ===
 X Profile: ${xd?.followers || 0} followers, ${xd?.tweet_count || 0} tweets, ${xd?.account_age_years || 0}y old account, verified: ${xd?.verified || false}
@@ -218,7 +218,9 @@ CryptoRank: ${enriched.best_vc_tier ? `Best VC Tier=${enriched.best_vc_tier} | T
 Auto-detected FUD signals (from tools): ${JSON.stringify((enriched.auto_fud_flags || []).map((f:any) => ({label: f.label, detail: f.detail, severity: f.severity})))}
 
 === INSTRUCTIONS ===
-DO NOT search for: TVL, revenue, token price, investors, funding — all provided above.
+Use the pre-fetched tool data AND web search results (if provided above) to analyze this project.
+If web search results contain shutdown notices, scam reports, hack reports, or regulatory actions — these MUST be your top-priority red flags.
+DO NOT re-search for TVL, revenue, token price, investors, or funding — already provided above.
 VERDICT GUIDE — pick the verdict that matches the category AND quality:
 - ALPHA PLAY (score 95+): Exceptional fundamentals, no red flags, top-tier everything
 - FARM IT (score 85-94): Strong conviction, go hard
@@ -712,14 +714,14 @@ export default function Home() {
       const verdict = cappedScore >= 95 ? 'ALPHA PLAY' : cappedScore >= 85 ? 'FARM IT' : cappedScore >= 60 ? 'ENGAGE' : cappedScore >= 35 ? 'OBSERVE' : 'AVOID'
 
       const highlights: string[] = []
+      // Only show follower count if engagement ratio is healthy (not flagged)
+      const isSuspiciousFollowers = hasRealXData && ((followers > 5000 && avgLikes < 5) || (following > followers * 2 && followers < 10000) || (listed < 500 && followers > 100000))
       if (hasRaised) highlights.push(`${enriched.total_raised_cryptorank || enriched.total_raised_rootdata || enriched.total_raised_defillama} raised`)
       if (hasTopVC) highlights.push(`Tier 1 VC backed: ${matchedTier1.slice(0,2).join(', ')}`)
       else if (hasTier2VC) highlights.push(`Tier 2 VC backed: ${matchedTier2.slice(0,2).join(', ')}`)
       if (tvl) highlights.push(`${tvl} TVL deployed`)
       if (revenue) highlights.push(`${revenue} daily revenue`)
-      if (hasRealXData && followers > 10000) highlights.push(`${(followers/1000).toFixed(0)}K X followers`)
       if (team.length > 0) highlights.push(`${team.length} verified team members`)
-      if (verified) highlights.push('Verified X account')
       if (enriched.chains?.length > 0) highlights.push(`Live on ${enriched.chains.slice(0,2).join(', ')}`)
       if (enriched.airdrop_confirmed) highlights.push('Airdrop signals detected')
       if (enriched.vesting_warning) highlights.push(`⚠️ ${enriched.vesting_warning}`)
@@ -728,24 +730,29 @@ export default function Home() {
       if (enriched.defillama_category) parts.push(`${enriched.defillama_category} project`)
       if (hasRaised && hasTopVC) parts.push(`Backed by tier 1 VCs including ${matchedTier1[0]}`)
       else if (hasRaised && hasTier2VC) parts.push(`Backed by tier 2 VCs including ${matchedTier2[0]}`)
-      else if (hasRaised) parts.push(`Has raised ${enriched.total_raised_rootdata || enriched.total_raised_defillama}`)
+      else if (hasRaised) parts.push(`Has raised ${enriched.total_raised_cryptorank || enriched.total_raised_rootdata || enriched.total_raised_defillama}`)
       if (tvl) parts.push(`${tvl} TVL showing real capital deployment`)
       if (revenue) parts.push(`Generating ${revenue} in daily revenue`)
-      if (hasRealXData && followers > 10000) parts.push(`Strong X presence with ${(followers/1000).toFixed(0)}K followers`)
-      if (hacks.length > 0) parts.push(`WARNING: ${hacks.length} known security exploit(s) on record`)
-      if (dexDump) parts.push(`Token showing significant price decline`)
-      if (autoFlags.length > 0) parts.push(`${autoFlags.length} automated red flag(s) detected`)
-      if (sentiment === 'negative') parts.push('Negative news sentiment detected')
+      // Red flag context — this is critical for honest conclusions
+      if (hacks.length > 0) parts.push(`⚠️ ${hacks.length} known security exploit(s) — protocol has been compromised before`)
+      if (dexDump) parts.push(`⚠️ Token showing significant price decline`)
+      if (team.length === 0 && !verified) parts.push(`⚠️ Anonymous team with no public profiles — higher risk`)
+      else if (team.length === 0 && verified) parts.push(`⚠️ No individual team members identified publicly`)
+      if (isSuspiciousFollowers) parts.push(`⚠️ Follower credibility concerns — low engagement ratio despite ${(followers/1000).toFixed(0)}K followers`)
+      if (sentiment === 'negative') parts.push(`⚠️ Negative news coverage detected`)
+      if (enriched.vesting_warning) parts.push(`⚠️ ${enriched.vesting_warning}`)
+      if (!hasRaised && !tvl && !hasRevenue && team.length === 0) parts.push('Very limited verifiable data available — high uncertainty')
+      if (autoFlags.length > 0 && !hacks.length && !dexDump) parts.push(`${autoFlags.length} additional warning signal(s) detected`)
 
-      const verdictReason = parts.length > 0 ? parts.join('. ') + '.' : `Based on available data: ${followers.toLocaleString()} followers, ${accountAge.toFixed(1)} year old account.`
+      const verdictReason = parts.length > 0 ? parts.join('. ') + '.' : `Limited data available for this project. Proceed with caution.`
 
       const categoryLabel = enriched.defillama_category || xd?.category || 'Crypto'
       const verdictAction: Record<string, string> = {
         'ALPHA PLAY': 'Exceptional fundamentals across all metrics. Rare conviction play — go all in.',
         'FARM IT': 'Strong fundamentals confirmed. Actively farm and create content around this project.',
         'ENGAGE': 'Solid project. Engage selectively based on the category — explore features, create content.',
-        'OBSERVE': 'Too many uncertainties. Observe only — do not commit time or capital yet.',
-        'AVOID': 'Too many red flags detected. Not worth your time right now.'
+        'OBSERVE': team.length === 0 ? 'Anonymous team and limited verifiable data. Do not commit time or capital until team is doxxed and more information surfaces.' : isSuspiciousFollowers ? 'Follower credibility is questionable. Wait for more organic traction before engaging.' : !hasRaised && !tvl ? 'No funding or TVL data available. Wait for concrete progress before committing.' : 'Too many uncertainties. Observe only — do not commit time or capital yet.',
+        'AVOID': hacks.length > 0 ? 'Security has been compromised before. Do not interact with this protocol until fully audited and verified.' : dexDump ? 'Token is dumping. Stay away until price stabilizes and fundamentals improve.' : isSuspiciousFollowers && team.length === 0 ? 'Anonymous team with suspicious follower metrics. High probability of rug pull — avoid entirely.' : 'Too many red flags detected. Not worth your time right now.'
       }
 
       const cleaned = {
@@ -760,15 +767,43 @@ export default function Home() {
         verdict_action: verdictAction[verdict],
         overall_score: cappedScore,
         score_rationale: (() => {
-          const pts: string[] = []
-          if (hasRaised) pts.push(`Raised ${enriched.total_raised_rootdata || enriched.total_raised_defillama} from ${investors.length} investor${investors.length > 1 ? 's' : ''}${hasTopVC ? ' including tier 1 VCs' : hasTier2VC ? ' including tier 2 VCs' : ''}`)
-          if (tvl) pts.push(`${tvl} in TVL deployed`)
-          if (enriched.revenue_24h) pts.push(`generating ${enriched.revenue_24h} daily revenue`)
-          if (hasRealXData && followers > 10000) pts.push(`${(followers/1000).toFixed(0)}K community following`)
-          if (team.length > 0) pts.push(`${team.length} identified team members`)
-          if (autoFlags.length > 0) pts.push(`${autoFlags.length} red flag${autoFlags.length > 1 ? 's' : ''} detected (score penalty applied)`)
-          if (hacks.length > 0) pts.push(`${hacks.length} security incident${hacks.length > 1 ? 's' : ''} on record`)
-          return pts.length > 0 ? pts.join('. ') + '.' : verdictReason
+          const good: string[] = []
+          const bad: string[] = []
+
+          // Positives
+          if (hasRaised) good.push(`raised ${enriched.total_raised_cryptorank || enriched.total_raised_rootdata || enriched.total_raised_defillama} from ${investors.length} investor${investors.length > 1 ? 's' : ''}`)
+          if (hasTopVC) good.push(`backed by tier 1 VCs`)
+          else if (hasTier2VC) good.push(`backed by tier 2 VCs`)
+          if (tvl) good.push(`${tvl} TVL deployed`)
+          if (enriched.revenue_24h) good.push(`generating ${enriched.revenue_24h} daily revenue`)
+          if (team.length > 0) good.push(`${team.length} identified team members`)
+
+          // Negatives — be specific about what's wrong
+          if (hacks.length > 0) bad.push(`${hacks.length} security exploit(s) on record`)
+          if (dexDump) bad.push(`token price dumping`)
+          if (team.length === 0) bad.push(`no publicly identified team members`)
+          if (isSuspiciousFollowers) bad.push(`follower credibility is questionable (${(followers/1000).toFixed(0)}K followers but very low engagement)`)
+          if (!hasRaised && accountAge > 1) bad.push(`no confirmed funding despite ${accountAge.toFixed(1)} years of activity`)
+          if (!hasRevenue && !tvl) bad.push(`no revenue or TVL data available`)
+          if (sentiment === 'negative') bad.push(`negative news sentiment`)
+          if (enriched.vesting_warning) bad.push(`upcoming token unlock pressure`)
+          if (tokenLive && dexLiq && dexLiq.includes('K') && !dexLiq.includes('00K')) bad.push(`low DEX liquidity (${dexLiq})`)
+
+          let conclusion = ''
+          if (good.length > 0 && bad.length > 0) {
+            conclusion = `On the positive side, this project has ${good.join(', ')}. However, there are concerns: ${bad.join(', ')}. `
+          } else if (good.length > 0) {
+            conclusion = `This project has ${good.join(', ')}. `
+          } else if (bad.length > 0) {
+            conclusion = `Significant concerns detected: ${bad.join(', ')}. `
+          }
+
+          if (cappedScore >= 85) conclusion += 'Overall strong fundamentals — high conviction play.'
+          else if (cappedScore >= 60) conclusion += 'Decent fundamentals but proceed selectively.'
+          else if (cappedScore >= 35) conclusion += 'Too many unknowns to commit — observe and wait for more clarity.'
+          else conclusion += 'Multiple red flags present — avoid or exercise extreme caution.'
+
+          return conclusion || verdictReason
         })(),
         good_highlights: highlights.slice(0, 5),
         red_flags: (() => {
@@ -954,14 +989,44 @@ export default function Home() {
       saveResult(cleaned)
     }
 
+    // Step 1: Free web search for red flags BEFORE Claude
+    let webSearchData: any = null
     try {
-      const systemPrompt = buildSystemPrompt(handle, xd, cg)
+      const searchName = xd?.name || handle
+      const wsRes = await fetch(`/api/websearch?query=${encodeURIComponent(searchName)}`)
+      if (wsRes.ok) webSearchData = await wsRes.json()
+    } catch {}
+
+    // Step 2: Build system prompt with web search results included
+    let systemPrompt = buildSystemPrompt(handle, xd, cg)
+
+    // Inject web search findings into the prompt
+    if (webSearchData?.results?.length > 0) {
+      const webBlock = `\n\n=== WEB SEARCH RESULTS (CRITICAL — check for red flags) ===\n${webSearchData.results.slice(0, 6).map((r: any, i: number) => `[${i+1}] ${r.title}: ${r.snippet}`).join('\n')}\n${webSearchData.has_red_flags ? '\n⚠️ RED FLAG KEYWORDS DETECTED IN SEARCH: ' + webSearchData.flag_summary : '\nNo obvious red flag keywords found in search results.'}\n\nIMPORTANT: If the web search results mention shutdown, scam, hack, exploit, rug pull, SEC investigation, team departed, or any critical negative event — this MUST be your #1 red flag. Do NOT ignore web search findings.\n`
+      systemPrompt = systemPrompt.replace('=== INSTRUCTIONS ===', webBlock + '\n=== INSTRUCTIONS ===')
+    }
+
+    // Also add web search flags to xOnlyScan's auto_fud_flags for fallback
+    if (webSearchData?.has_red_flags && webSearchData.detected_flags?.length > 0) {
+      if (!xd.enriched) xd.enriched = {}
+      if (!xd.enriched.auto_fud_flags) xd.enriched.auto_fud_flags = []
+      webSearchData.detected_flags.slice(0, 3).forEach((f: any) => {
+        xd.enriched.auto_fud_flags.push({
+          type: f.keyword.includes('scam') || f.keyword.includes('fraud') ? 'suspicious' : f.keyword.includes('hack') ? 'exploit' : f.keyword.includes('shut') ? 'suspicious' : 'suspicious',
+          label: `Web search: ${f.keyword} detected`,
+          detail: f.context.slice(0, 200),
+          severity: (f.keyword.includes('scam') || f.keyword.includes('hack') || f.keyword.includes('shut') || f.keyword.includes('rug')) ? 'high' : 'medium'
+        })
+      })
+    }
+
+    try {
       const r = await fetch('/api/claude', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           system: systemPrompt,
-          messages: [{ role: 'user', content: `Analyze @${handle}. Use the tool data in the system prompt. Return JSON only.` }]
+          messages: [{ role: 'user', content: `Analyze the crypto project @${handle}. Web search results are included in the system prompt — use them to identify red flags and recent news. Use the pre-fetched tool data for financial metrics. Return JSON only.` }]
         })
       })
       if (!r.ok) {
