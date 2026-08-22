@@ -10,6 +10,7 @@ import { existsSync } from 'node:fs'
 import { hasDatabase, migrate } from './db.js'
 import { radarRouter } from './routes/radar.js'
 import { targetRouter } from './routes/target.js'
+import { performanceRouter } from './routes/performance.js'
 import { startScheduler } from './scheduler.js'
 import { ingestOnchain } from './jobs/ingest-onchain.js'
 import { computeHeatForAll } from './jobs/compute-heat.js'
@@ -17,6 +18,7 @@ import { enrichTargets } from './jobs/enrich-targets.js'
 import { runAlphaScans } from './jobs/run-alpha-scans.js'
 import { assessRisk } from './jobs/assess-risk.js'
 import { dispatchAlerts } from './jobs/dispatch-alerts.js'
+import { trackOutcomes } from './jobs/track-outcomes.js'
 import { GoPlusProvider } from './providers/goplus.js'
 import { GeckoTerminalProvider } from './providers/geckoterminal.js'
 import { DexScreenerProvider } from './providers/dexscreener.js'
@@ -40,6 +42,7 @@ app.get('/healthz', (_req, res) => {
 // ── engine routes ───────────────────────────────────────────────────────────
 app.use('/api', radarRouter)
 app.use('/api', targetRouter)
+app.use('/api', performanceRouter)
 
 /**
  * Run the existing Vercel-style handlers unchanged.
@@ -148,6 +151,16 @@ async function main() {
         run: async () => {
           const r = await runAlphaScans()
           return { targetsSeen: r.scanned }
+        },
+      },
+      {
+        // The feedback loop: snapshot each detection immutably, then measure forward at fixed
+        // horizons. This is what lets the engine prove -- or disprove -- its own usefulness.
+        name: 'track-outcomes',
+        everyMs: 20 * 60_000,
+        run: async () => {
+          const r = await trackOutcomes(dex)
+          return { targetsSeen: r.snapshotted + r.measured }
         },
       },
       {

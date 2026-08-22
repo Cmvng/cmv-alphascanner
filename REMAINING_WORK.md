@@ -31,16 +31,16 @@
 | 10 | Alerts deliverable | ✅ Telegram, graded by band, deduped per rule |
 | 11 | Provider failure doesn't kill pipeline | ✅ allSettled + breaker |
 | 12 | API costs observable | ❌ no cost table/dashboard |
-| 13 | Historical outcomes measurable | ❌ |
+| 13 | Historical outcomes measurable | ✅ immutable detection snapshot + 5 forward horizons |
 | 14 | Trust scores can evolve | ❌ |
-| 15 | Can prove discoveries were useful | ❌ |
+| 15 | Can prove discoveries were useful | 🟡 `/api/performance` built; needs live data to say anything |
 
-**9 of 15.**
+**10.5 of 15.**
 
-## Schema: 10 of 24 tables (§37)
+## Schema: 11 of 24 tables (§37)
 
 Built: `signal_sources` · `signal_config` · `targets` · `signal_events` · `heat_history` ·
-`cron_runs` · `risk_assessments` · `alert_rules` · `alert_deliveries`
+`cron_runs` · `risk_assessments` · `alert_rules` · `alert_deliveries` · `signal_outcomes`
 
 Missing: `signal_entities` · `canonical_entities` · `entity_aliases` · `target_aliases` ·
 `target_signals` · `alpha_scores` · `wallet_profiles` · `wallet_events` ·
@@ -52,8 +52,7 @@ Missing: `signal_entities` · `canonical_entities` · `entity_aliases` · `targe
 §5 entity resolution · §6 signal network · §10 smart money · §11 wallet clustering ·
 §12 mint radar · §13 social velocity · §17 explicit cross-source score · §20 Heat×Alpha grid UI ·
 §22 scam/LARP · §27 watchlist ·
-§28 backtest · §29 signal performance · §30 trust engine · §44 cost control · §50 no-look-ahead
-backtesting · §51 evaluation metrics
+§30 trust engine · §44 cost control · §50 historical replay
 
 ## Original audit: 12 of 26 issues fixed
 
@@ -72,11 +71,16 @@ orphan `cryptorank.ts` · `api/` untypechecked · missing `.env.example` · **ve
 
 ## The honest summary
 
-Discovery, judgement, risk and alerting now run end to end: something is found, scored, assessed,
-optionally scanned, and pushed to a phone. **What still does not exist is the learning half** —
-outcomes, backtesting, signal performance and trust evolution (§28-§30, §50-§51). Without those
-the engine cannot yet answer its own most important question: *were the discoveries any good?*
+The full loop now runs: **discover → normalize → score heat → assess risk → scan → rank → alert →
+record outcome → measure forward.** Nine of the twelve steps in §59 execute. What closes the loop
+but does not yet exist is **trust evolution** (§30) — outcomes are recorded but nothing feeds them
+back into source weighting yet.
 
-Also absent: wallet intelligence (§10-§11), social convergence (§13), and the mint radar (§12) —
-three of the four signal families, so today convergence is measured across two on-chain providers
-rather than across genuinely different kinds of evidence.
+**The real limitation is signal diversity, not plumbing.** Convergence is currently measured
+across two on-chain providers. Wallet intelligence (§10-§11), social convergence (§13) and the
+mint radar (§12) are three of the four signal families and none exist, so "k independent entities"
+today means "two APIs agreed" rather than genuinely different kinds of evidence. That is the
+single highest-value thing left to build.
+
+**And nothing has seen live data.** Every number above describes code that typechecks and passes
+tests, not a system observed working.
