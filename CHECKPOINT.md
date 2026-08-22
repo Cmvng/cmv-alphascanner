@@ -315,6 +315,24 @@ Four background agents dispatched to close research gaps. Findings folded into
 - Wrote `RISK_ENGINE_RESEARCH.md` and `WALLET_MINT_RESEARCH.md`.
 - **No application code touched.**
 
+### 2026-08-22 · Session 3d — deployment decided (Blocker 1 closed)
+- **Correction:** this session was never connected to Vercel — no CLI, no token, no MCP tooling.
+  It *is* authenticated to **Railway** as `cmvng`.
+- **Decision: hybrid.** Vercel keeps the SPA + scan API unchanged on Hobby; a new Railway worker
+  runs the always-on discovery half; Supabase stays the shared state layer.
+- **The real driver was WebSockets, not cron.** Mint detection (`Transfer` from `0x0`), the
+  OpenSea Stream API and Helius LaserStream all need persistent connections. Vercel's own docs
+  say serverless is the wrong environment for that, and its June-2026 WebSocket beta pins
+  connections to a function's max duration. Polling was already ruled out — a 4,444-piece mint
+  can finish in under two minutes.
+- **Cheaper too:** ~$5/mo (Railway Hobby, $5 usage included) vs $20/mo for Vercel Pro, which still
+  could not hold a WebSocket.
+- Created Railway project **`cmv-alpha-engine`** (`512878a1-8f45-40aa-99e0-6adfd532622d`),
+  environment `production`. No services deployed yet — nothing to deploy until Phase 1 code exists.
+- Phase 1 plan reworked: `worker/` tree added, `api/cron/*` dropped, no `crons` key in
+  `vercel.json`.
+- **No application code touched.**
+
 ---
 
 ## 10. Planning documents

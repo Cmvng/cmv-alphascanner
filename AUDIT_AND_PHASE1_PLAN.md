@@ -8,23 +8,64 @@ Supersedes cost/mechanism claims in `ALPHA_ENGINE_SPEC.md` where they conflict.
 
 # ⛔ THREE BLOCKERS FOUND BEFORE ANY CODE
 
-## BLOCKER 1 — Vercel Hobby cannot run this architecture
+## ✅ BLOCKER 1 — RESOLVED: hybrid Vercel + Railway
 
-Vercel's **Hobby plan allows cron jobs to run once per day**. Per-project *count* limits were
-lifted to 100 on all plans in Jan 2026, but the **cadence** cap remains: any cron expression
-firing more than once a day **fails at deploy time** on Hobby. Pro allows per-minute cadence.
+**Decided 2026-08-22, delegated by the owner. Railway project `cmv-alpha-engine` created**
+(`512878a1-8f45-40aa-99e0-6adfd532622d`, workspace "Cmv Ceo's Projects", env `production`).
 
-The entire discovery loop assumes 10-minute ingestion. **On Hobby it cannot deploy at all.**
+### First, a correction
 
-**Options:**
-| Option | Cost | Notes |
+The session was **not** connected to Vercel. No Vercel CLI, no `VERCEL_*` token, no Vercel MCP
+tooling. It **is** authenticated to **Railway** as `cmvng`. So the choice was not "Vercel or
+Railway" — Railway was the only platform actually reachable from here.
+
+### The decision is not about cron limits — it is about WebSockets
+
+Hobby's once-per-day cron cadence was the *presenting* problem. The real one is deeper, and the
+research in `WALLET_MINT_RESEARCH.md` made it unavoidable. The correct architecture needs
+**persistent WebSocket connections**:
+
+| Signal | Mechanism |
+|---|---|
+| Mint detection, any EVM chain | RPC log subscription — `Transfer` where `from == 0x0` |
+| Marketplace events | OpenSea **Stream API** (WebSocket, free, doesn't consume REST limit) |
+| Solana realtime | Helius LaserStream / `transactionSubscribe` |
+
+Vercel's own guidance is explicit:
+
+> *"If your project involves background jobs, long-running processes, WebSocket connections, queue
+> processing, file handling, or anything that needs persistent state between requests, Vercel
+> serverless functions are not the right environment."*
+
+That is a verbatim description of the Alpha Engine. Vercel added native WebSocket support in
+public beta (June 2026), but connections are **pinned to a function's max duration** with no
+cross-instance broadcast — useless for holding an indefinite log subscription. Forcing it onto
+Vercel means falling back to polling, which the research already ruled out: *a 4,444-piece free
+mint can complete in under two minutes.*
+
+### The split
+
+| Runs where | What | Why |
 |---|---|---|
-| Vercel Pro | $20/mo | Simplest. Per-minute cadence, 100 crons. |
-| GitHub Actions scheduler | $0 | Workflow on `schedule:` curls the cron endpoints with `CRON_SECRET`. Min 5-min cadence, best-effort timing. Keeps Hobby. |
-| External cron (cron-job.org etc.) | $0 | Same pattern, third-party dependency. |
+| **Vercel** *(unchanged, stays Hobby)* | The Vite SPA, `/api/xproject`, `/api/claude`, `/api/save-scan`, `/api/xuser`, `/api/websearch` | It works, it is deployed, it is request/response — exactly what serverless is good at. **Zero migration risk.** |
+| **Railway** *(new)* | `alpha-engine` worker: WebSocket subscriptions, in-process scheduler, webhook receiver | Long-lived process. No platform cron cap, no function timeout, holds connections indefinitely. |
+| **Supabase** *(shared)* | `targets`, `signal_events`, `heat_history`, … | Already the natural seam between the two halves. |
 
-**Decision needed: which Vercel plan is this project on?** If Hobby and you want to stay there,
-I build for the GitHub Actions path — it works, it is free, and it is ~15 lines of YAML.
+### Why not migrate everything to Railway
+
+The frontend and scan API work today on a live domain with analytics attached. Moving them buys
+nothing and risks a working product. Supabase already sits between the two halves, so the split
+costs no extra plumbing.
+
+### Cost — the hybrid is *cheaper* than the Vercel-only fix
+
+| Option | Monthly | Verdict |
+|---|---|---|
+| Vercel Pro (to unlock cron) | **$20** | Still cannot hold WebSockets. Wrong architecture, higher price. |
+| **Vercel Hobby + Railway Hobby** | **~$5** | Railway Hobby is $5/mo *including* $5 of usage; a small Node worker fits inside it. |
+
+**Blocker 1 is closed. No Vercel Pro upgrade needed, no `crons` key in `vercel.json`, and the
+scheduler moves in-process where it has no cadence limit at all.**
 
 ## BLOCKER 2 — The X API almost certainly cannot do follow-convergence
 
@@ -246,7 +287,7 @@ dependencies** without your approval (per `CLAUDE.md`).
 | `api/cryptorank.ts` | **Delete** (orphan, leaks key) |
 | `src/pages/admin.tsx` | Remove client-side password; route privileged ops server-side |
 | `src/App.tsx` | Add `/radar` (new home) and `/scan`; keep `/feed`, `/tierlist`, `/admin` |
-| `vercel.json` | Add `crons`; `maxDuration` for new functions |
+| `vercel.json` | `maxDuration` for `api/radar.ts`. **No `crons` key** — scheduling moved to Railway |
 | `tsconfig.json` | Reference new `tsconfig.api.json` |
 | `package.json` | Build runs both tsconfigs; **vitest as devDependency — needs approval** |
 | `src/pages/home.tsx` | Extract shared verdict constants only; scoring untouched |
@@ -264,11 +305,16 @@ src/lib/heat.test.ts                        unit tests per §49
 src/lib/dedupe.ts                           deterministic idempotency keys (§39)
 src/lib/ratelimit.ts                        token bucket + circuit breaker (§40)
 src/lib/verdicts.ts                         shared verdict constants (fixes the drift bug)
-api/_lib/supabase-admin.ts                  server-side client (service-role key)
-api/_lib/cron-auth.ts                       CRON_SECRET verification
-api/cron/ingest-onchain.ts                  DexScreener + GeckoTerminal → signal_events
-api/cron/compute-heat.ts                    recompute heat → targets + heat_history
-api/radar.ts                                ranked read endpoint
+api/radar.ts                                ranked read endpoint (Vercel — reads only)
+
+worker/                                     ← NEW, deploys to Railway
+  src/index.ts                              worker entrypoint + graceful shutdown
+  src/scheduler.ts                          in-process schedule (no platform cron cap)
+  src/jobs/ingest-onchain.ts                GeckoTerminal + DexScreener → signal_events
+  src/jobs/compute-heat.ts                  recompute heat → targets + heat_history
+  src/subscriptions/                        WebSocket holders (Phase 4 mint logs, OpenSea Stream)
+  src/lib/supabase-admin.ts                 service-role client
+  Dockerfile / railway.json                 build + deploy config
 src/pages/radar.tsx                         the radar UI
 .env.example                                all 12 env vars documented
 tsconfig.api.json                           typechecks api/**
@@ -477,9 +523,11 @@ alert engine can escalate by severity instead of firing binary.
 write time so `signal_events` never fills with dust. This is what makes a 10-minute cadence
 affordable, and it is the highest-value cost lever the research surfaced.
 
-### Step 5 — Cron jobs (§38, §39)
-`ingest-onchain` (10 min) and `compute-heat` (10 min), separately deployable and observable,
-`CRON_SECRET`-guarded, advisory-locked through `cron_runs.lock_key` for idempotency.
+### Step 5 — Scheduler + subscriptions on the Railway worker (§38, §39)
+`ingest-onchain` and `compute-heat` run as **in-process scheduled jobs on the Railway worker**, not
+Vercel crons — no cadence cap, so 10 minutes (or 1) is free. Each job stays independently
+observable and advisory-locked through `cron_runs.lock_key` for idempotency, exactly as if it were
+a separate cron. The worker also holds the WebSocket subscriptions that Vercel could not.
 
 ### Step 6 — `/radar` + `api/radar.ts`
 Ranked feed (§52 — not `ORDER BY heat DESC`), filters, per-card heat sparkline from
@@ -497,11 +545,12 @@ learning. Those are Phases 2–7 and each needs its own plan.
 
 # DECISIONS I NEED FROM YOU
 
-1. **Vercel plan** — Pro, or shall I build the free GitHub Actions scheduler? *(blocks everything)*
+1. ~~**Vercel plan**~~ — ✅ **RESOLVED.** Hybrid Vercel + Railway; project created; no Pro needed.
 2. **vitest as a devDependency?** §49 mandates unit tests; there is no test runner today and
    `CLAUDE.md` says no new deps without asking. Build-time only, ships nothing to users.
 3. **Supabase service-role key** — does one exist, and can you add it to Vercel env?
 4. **Chains for Phase 1** — Solana / Base / Ethereum / Hyperliquid / Robinhood Chain?
 5. **Admin auth** — Supabase Auth, or a simple server-side password check for now?
 
-Answer 1, 3 and 4 and I can start Step 1 immediately. 2 and 5 can follow.
+**Now only 3 and 4 block me** — the Supabase service-role key and the chain list. Both are inputs
+only you have. 2 and 5 can follow.

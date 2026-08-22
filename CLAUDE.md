@@ -97,7 +97,7 @@ api/cryptorank.ts          44 L — ORPHAN, no client calls it
    `CHAIN_TOKENS` blocklist so a project isn't matched to the L1 it deploys on. Don't simplify
    this without understanding why each branch exists.
 
-10. **Vercel Hobby caps cron jobs at ONCE PER DAY.** Per-project count limits were lifted to
+10. **~~Vercel Hobby caps cron jobs at ONCE PER DAY~~ — RESOLVED, see trap 20.** Kept for context: Per-project count limits were lifted to
     100 on all plans in Jan 2026, but the *cadence* cap remains — any expression firing more than
     daily **fails at deploy time** on Hobby. Pro allows per-minute. The discovery loop needs
     10-minute ingestion, so it needs Pro or an external scheduler (GitHub Actions works and is
@@ -162,6 +162,22 @@ api/cryptorank.ts          44 L — ORPHAN, no client calls it
 
 19. **Score polarity differs between sources.** RugCheck: higher = *riskier*. Solsniffer: higher =
     *safer*. Our alpha score: higher = *better*. Normalise at the adapter boundary.
+
+20. **Deployment is hybrid — know which half you are editing.**
+    - **Vercel** (unchanged, Hobby): the Vite SPA + `api/*` request/response routes — the scan
+      pipeline. `cmv-alphascanner.vercel.app`.
+    - **Railway** (`cmv-alpha-engine`, project `512878a1-8f45-40aa-99e0-6adfd532622d`): the
+      always-on `worker/` — WebSocket subscriptions, in-process scheduler, webhook receiver.
+    - **Supabase**: the shared state layer both halves write to.
+
+    **Why:** Vercel serverless cannot hold persistent WebSocket connections (its own docs say so),
+    and the discovery engine needs them for RPC `Transfer`-from-`0x0` log subscriptions, the
+    OpenSea Stream API and Helius LaserStream. Vercel's June-2026 WebSocket beta pins connections
+    to a function's max duration — no good for indefinite subscriptions. **Never put a long-lived
+    connection, a queue, or a scheduler in `api/`** — it belongs in `worker/`.
+
+    **Do not add a `crons` key to `vercel.json`** — scheduling is in-process on the worker, where
+    there is no cadence cap. (Vercel Hobby caps cron at once per day; that is now moot.)
 
 ## Environment variables
 
