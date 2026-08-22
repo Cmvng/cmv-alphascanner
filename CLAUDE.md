@@ -9,47 +9,65 @@ where the others conflict)**. Update this file when the facts below stop being t
 
 ## What it is
 
-Paste a crypto project's X handle → get a 0-100 alpha score, S/A/B/C/D tier, 17 metric
-breakdowns, red flags, and a shareable PNG verdict card. Scans persist to Supabase and feed a
-public feed + a drag-and-drop tier list.
+Two halves of one question. **Judgement**: paste a crypto project's X handle → 0-100 alpha score,
+S/A/B/C/D tier, 17 metric breakdowns, red flags, shareable PNG verdict card. **Discovery**: an
+always-on engine that watches chains for things that just started moving and scores them as Heat
+(0-100, decaying). `/grid` plots the two against each other — that pairing is the product thesis.
 
-Owner: `Cmvng` · deployed on Vercel · `cmv-alphascanner.vercel.app`
+Owner: `Cmvng` · scanner on Vercel (`cmv-alphascanner.vercel.app`) · engine on Railway.
 
 ## Stack
 
-Vite 5 · React 18 · TypeScript · Vercel serverless functions · Supabase REST.
-**No** router, UI kit, state library, CSS framework, test runner, or linter. Styling is inline
-`<style>` blocks per page. Routing is `window.location.pathname` in `src/App.tsx`.
+Vite 5 · React 18 · TypeScript · Express + `pg` on Railway (run directly via `tsx`) ·
+Railway Postgres for the engine · Supabase REST for the legacy `scans` table.
+**No** router, UI kit, state library, CSS framework, or linter. Styling is inline `<style>` blocks
+per page. Routing is `window.location.pathname` in `src/App.tsx`. Tests are vitest, on pure
+functions only (`cd server && npm test`).
 
 ## Layout
 
 ```
 src/App.tsx              pathname router
-src/pages/home.tsx       2632 L — scan pipeline, prompt, canvas card, all UI
-src/pages/feed.tsx        503 L — public scan feed (grid + tier views)
-src/pages/tierlist.tsx    559 L — drag-drop tier board, localStorage-backed
-src/pages/admin.tsx       280 L — fake-404 gated admin
-src/lib/xapi.ts            18 L — thin /api/xproject wrapper
-src/lib/enrichment-engine.ts  384 L — UNUSED, never imported
-api/xproject.ts          1000 L — X profile + 11 enrichment sources
-api/claude.ts              37 L — Anthropic passthrough (claude-haiku-4-5, max_tokens 4096)
-api/websearch.ts          106 L — DuckDuckGo HTML scrape → red-flag keywords
-api/save-scan.ts           86 L — Supabase upsert on `handle`
-api/xuser.ts               40 L — single X user lookup (team cards)
-api/cryptorank.ts          44 L — ORPHAN, no client calls it
+src/pages/radar.tsx      the front door — what just started moving
+src/pages/grid.tsx       Heat × Alpha quadrant plot
+src/pages/target.tsx     evidence view: heat components, risk checks, signal timeline
+src/pages/home.tsx      ~2400 L — the scanner: scan pipeline, canvas card, all UI
+src/pages/feed.tsx       public scan feed (grid + tier views)
+src/pages/tierlist.tsx   drag-drop tier board, localStorage-backed
+src/pages/admin.tsx      fake-404 gated admin
+src/lib/verdicts.ts      the ONE verdict vocabulary — see trap 2
+src/lib/session.ts       admin token in sessionStorage, shared across pages
+src/lib/xapi.ts          thin /api/xproject wrapper
+
+api/xproject.ts          X profile + 11 enrichment sources
+api/claude.ts            Anthropic call — builds the system prompt server-side
+api/admin.ts             login + delete, HMAC session token
+api/websearch.ts         DuckDuckGo HTML scrape -> red-flag keywords
+api/save-scan.ts         Supabase upsert on `handle`
+api/xuser.ts             single X user lookup (team cards)
+api/_lib/                untrusted.ts · prompt.ts · guard.ts · admin-auth.ts
+
+server/src/index.ts      Express: SPA + api/* adapter + engine routes + scheduler
+server/src/lib/          heat.ts (pure, tested) · net · meter · health · dedupe · admin
+server/src/providers/    geckoterminal · dexscreener · goplus · mintlogs · provenance
+server/src/jobs/         one file per scheduled job (11 of them)
+server/src/routes/       radar · target · performance · costs · watchlist
+db/migrations/           0001..0009, applied in filename order at boot
 ```
 
 ## Conventions to follow
 
 - Match the existing style: inline styles + a per-page `<style>` block, CSS custom properties
   (`--green`, `--text-1`, `--mono`…). Don't introduce Tailwind or a CSS-in-JS library.
-- No new runtime dependencies without asking. Current deps are React + ReactDOM only.
+- No new runtime dependencies without asking. Frontend deps are React + ReactDOM only; the
+  server adds express, pg and tsx and nothing else.
 - All third-party API calls go through `api/*` serverless functions, never straight from the
   browser — **except** the existing Supabase reads and `feed.tsx`'s CoinGecko price poll, which
   predate that rule.
 - Every enrichment source is optional and wrapped: `withTimeout(...)` inside `Promise.allSettled`,
   returning `null` on any failure. Never let one source break a scan.
-- `npm run build` (= `tsc && vite build`) must stay clean. Note it typechecks `src` only.
+- `npm run build` (= `tsc && tsc -p tsconfig.api.json && vite build`) must stay clean, and so
+  must `cd server && npx tsc --noEmit` — the server is a separate compilation unit.
 
 ## Non-obvious things that will bite you
 
@@ -181,6 +199,39 @@ api/cryptorank.ts          44 L — ORPHAN, no client calls it
     Supabase**, so no Supabase service-role key is required. Supabase keeps only the existing
     `scans` table, read from the frontend with the anon key that is public by design.
 
+22. **`risk_assessments` is keyed on `(target_id, source)`, not `target_id`.** Two independent
+    risk sources write there (contract analysis, domain provenance). `targets.risk_level` is
+    **derived** by `recomputeRiskLevel()` in `server/src/jobs/risk-rollup.ts` from *every* source —
+    never write it directly from a job, or a clean result from one source will overwrite a
+    critical finding from another purely on which job ran last. A row whose `checked_count` is 0
+    carries no information and must not produce a `low`.
+
+23. **The engine has TWO auth surfaces that must stay one implementation.** `api/_lib/admin-auth.ts`
+    is the only verifier; `server/src/lib/admin.ts` reaches it through a dynamic absolute import
+    because the server's `tsconfig` sets `rootDir: src`. Under `tsx` both resolve to the same file
+    URL and therefore the same module instance — which matters, because with `ADMIN_SECRET` unset
+    the module mints an *ephemeral* secret and two instances would sign with different keys. Never
+    reimplement token verification; the more permissive copy would be the bug.
+
+24. **Charts obey the checked/unchecked rule too.** `/grid` excludes targets with a null
+    `alpha_score` rather than plotting them at 0 — an unjudged target at the bottom of the axis
+    reads as "scored badly", which is a claim the viewer cannot detect as false. Same reasoning:
+    unknown liquidity renders as a hollow dot, not a small one. If you add a visualisation, decide
+    what "unknown" looks like *before* you decide what the axes are.
+
+25. **Feedback and trust measure different things and must not be averaged.** `target_feedback`
+    records whether *surfacing* a target was worth the operator's attention; `signal_entities.
+    trust_weight` records what the market did after that source's signals. `/api/feedback/summary`
+    reports the first beside the second deliberately. Folding one into the other would make both
+    unreadable, and the feedback question would quietly become a price prediction.
+
+26. **`extractWebsite` filters social and aggregator hosts, and that filter is load-bearing.**
+    A token's "website" in DexScreener metadata is very often a Telegram invite. Running a domain
+    age check on `t.me` would report Telegram's 2013 registration as the project's history — a
+    confidently wrong answer, worse than no answer. `registrableDomain()` also mis-splits
+    multi-part suffixes (`project.co.uk` → `co.uk`); that is asserted in tests and fails safe,
+    because RDAP has no registration for `co.uk` so the check reports itself unrun.
+
 ## Environment variables
 
 Server: `X_API_BEARER_TOKEN` (required, no fallback) · `ANTHROPIC_API_KEY` (optional — absence
@@ -225,6 +276,16 @@ before it is widened. Read that spec before starting any discovery/radar work.
 
 ## Current state
 
-Build passes. All four pages render. The scan pipeline works end-to-end including graceful
-degradation. Blocking issues are the four P0 security items and the verdict-vocabulary drift.
-Full list, with file:line references and a suggested order of work, in `CHECKPOINT.md`.
+Build passes; 34 tests pass; both typechecks are clean. All seven pages render. The full engine
+loop is written — discover → normalize → heat → risk → provenance → scan → rank → alert → outcome
+→ trust — with cost metering and an owner-scoped watchlist/feedback channel.
+
+**Nothing has been observed against live data.** The sandbox egress proxy blocks every provider
+domain and the Railway domain, so every claim above describes code that compiles and passes
+tests, not a system seen working.
+
+Two signal families are still missing and both are blocked on an external decision, not on work:
+wallet intelligence needs an Alchemy or Helius key; social convergence needs the X API cost
+question answered. Four Railway dashboard actions remain 2FA-gated.
+
+Honest scoreboard in `REMAINING_WORK.md`; per-session detail in `CHECKPOINT.md`.

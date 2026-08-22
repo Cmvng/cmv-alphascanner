@@ -366,6 +366,65 @@ Four background agents dispatched to close research gaps. Findings folded into
   deleting a service and renaming one are all gated behind the dashboard/2FA. Four clicks needed.
 - **Vercel untouched** — the old deployment still serves; no cutover until Railway is verified.
 
+### 2026-08-22 · Session 5 — cost, grid, provenance, watchlist, README
+
+Five things that were named in earlier plans and never built.
+
+- **Cost observability (§44)** — `provider_calls` table, a buffered in-memory meter (metering
+  must never add a round-trip to the path it observes), and `/api/costs`. The useful number is
+  not spend but efficiency: cost per qualified signal and cost per scan. Free providers report
+  $0 and are still counted — rate-limit pressure is a cost in availability. Errors are counted
+  separately: a provider burning its limit on failures costs availability and produces nothing.
+
+- **Heat × Alpha grid (§20)** — `/grid`, the two-axis view the whole product rests on, backed by
+  the existing `/api/radar` so it adds no endpoint and no spend. The load-bearing decision is
+  what is *not* drawn: a target with no alpha score has not been judged, and plotting it at y=0
+  would read as "scored badly" — a different claim the reader cannot detect as false. Those are
+  excluded and listed underneath with the reason. Same rule downstream: unknown liquidity renders
+  hollow rather than small; absent risk reads "not assessed". Quadrant labels describe evidence
+  shape ("MOVING, WEAK READ"), never an action. Axis splits reuse the scores that feed them
+  (heat 65 = the engine's hot band; alpha 60 = `getTier()`'s C/B boundary) so the quadrant story
+  cannot drift from the numbers.
+
+- **Provenance (§22)** — the spec called this scam/LARP detection; that name cannot survive
+  contact with the data, because nothing free tells you intent and a confident wrong answer gets
+  acted on. What is knowable for free is how old the public surface is: RDAP for registration,
+  crt.sh for the first public certificate. The check that earns its place is `certificate_gap` —
+  a long-registered domain whose public presence started last week, which is the shape of a
+  dropped domain bought for its age and is invisible in a registration date alone. Deliberately
+  not checked: WHOIS privacy, which post-GDPR is the norm rather than a signal.
+
+- **Watchlist + operator feedback (§27)** — owner-scoped rather than per-user, gated by the
+  existing admin token, because inventing accounts for a single-operator tool is the wrong trade
+  and an unauthenticated write route is against the standing rule. Feedback asks whether
+  *surfacing* this was worth attention — never whether the token was a good buy, which is a price
+  prediction. Append-only, so a judgement that changed after the fact survives. Scores are
+  snapshotted server-side at the moment of judgement, not read from the request body: a stale tab
+  would otherwise record scores that were never current.
+  `/feedback/summary` reports per-source verdicts but does **not** fold them into trust weights —
+  feedback measures whether a signal was worth attention, derived trust measures what the market
+  did afterwards, and averaging them silently would make both unreadable.
+
+- **README** — the repo had none. Documents the two-halves model, the job schedule, and the six
+  rules that are not style preferences.
+
+Structural fixes made along the way:
+- `risk_assessments` is keyed on `(target_id, source)`. One row per target assumed a single risk
+  source; folding a second in would make one source's timeout look like the other's silence,
+  which is exactly what the checked/unchecked rule exists to prevent. `targets.risk_level` is now
+  *derived* by `recomputeRiskLevel` from every source, so a clean provenance result cannot
+  overwrite a critical contract finding purely on which job ran last.
+- `recordSourceHealth` moved out of the ingest job into `lib/health.ts`, with a `check-sources`
+  probe job. Health recording lived inside discovery, which meant the risk sources never reported
+  it at all — both could be down for a week and `/radar/status` would show every row green.
+- `server/src/lib/admin.ts` reuses `api/_lib/admin-auth.ts` through a dynamic import rather than
+  reimplementing verification. Two verifiers would eventually disagree and the more permissive
+  one would be the bug. Fails closed.
+
+**Still nothing has seen live data.** The sandbox egress proxy blocks every provider domain and
+the Railway domain. Everything above typechecks and 34 tests pass; none of it has been observed
+working against a real API.
+
 ---
 
 ## 10. Planning documents
@@ -379,5 +438,7 @@ Four background agents dispatched to close research gaps. Findings folded into
 | `AUDIT_AND_PHASE1_PLAN.md` | **Current** — blockers, research matrix, schema, Phase 1 file plan |
 | `RISK_ENGINE_RESEARCH.md` | Risk + scam detection sources, neutral wording, the checked/unchecked rule |
 | `WALLET_MINT_RESEARCH.md` | Wallet intelligence + mint radar sources, dead providers, the two exotic chains |
+| `REMAINING_WORK.md` | Honest scoreboard — what is built, what is blocked, and on what |
+| `README.md` | Entry point for a human: the two-halves model, job schedule, and the six rules |
 
 Where these conflict, `AUDIT_AND_PHASE1_PLAN.md` wins — it is the most recently verified.
