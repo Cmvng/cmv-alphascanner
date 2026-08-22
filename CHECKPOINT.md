@@ -115,6 +115,7 @@ sanity re-check that rejects a DEX price more than 10× off the CoinGecko price.
 | 2 | **Admin password is a client-side string constant.** `const ADMIN_PASSWORD = 'Damilola'` ships in the JS bundle. The fake-404 + `cmvadm` key sequence is obfuscation, not access control. | `src/pages/admin.tsx:3` |
 | 3 | **Client-side Supabase DELETE with the anon key.** For admin delete to work, RLS must permit anon deletes — which means anyone with the public anon key can wipe the `scans` table. | `src/pages/admin.tsx:95` |
 | 4 | **`/api/save-scan` is unauthenticated.** Anyone can POST arbitrary rows into the public feed. | `api/save-scan.ts` |
+| 4b | **Prompt injection is already live — found 2026-08-22.** `buildSystemPrompt` interpolates the target's X bio and recent tweets directly into the Claude system prompt. A project whose bio reads "ignore previous instructions and…" is injecting into your LLM today. Low impact now (the model only returns JSON to the scanner), but it is a prerequisite fix before the discovery engine starts ingesting far more untrusted text. | `home.tsx:191-260` |
 | 5 | **`VITE_ANTHROPIC_API_KEY` accepted as a fallback.** Harmless as read (server-side `process.env`), but the `VITE_` prefix means that if it's ever set for the frontend build, Vite inlines it into the public bundle. Rename it away. | `api/claude.ts:11` |
 
 ### 🔴 P0 — Correctness
@@ -243,3 +244,50 @@ live, unmetered spend path against your API key.
   re-scanned?
 - Is the X API tier paid? The code comments about "saving credits" (pinned tweet disabled,
   5 tweets instead of 20) suggest a tight budget that constrains what enrichment is possible.
+
+---
+
+## 9. Work log
+
+Every session's changes, so the next one can pick up cold.
+
+### 2026-08-22 · Session 1 — audit
+- Full read of all 20 source files. Verified `npm install` + `npm run build` pass clean.
+- Catalogued 26 issues with `file:line` refs, graded P0→P2. Wrote this file and `CLAUDE.md`.
+- Committed `package-lock.json` (generated from the existing `package.json`; no version changes).
+- **No application code touched.**
+
+### 2026-08-22 · Session 2 — Alpha Engine direction
+- Researched the 11 reference tools the owner uses. Identified the shared primitive:
+  convergence (k trusted entities touching one target inside a window w).
+- Wrote `ALPHA_ENGINE_SPEC.md` — the first-pass direction document.
+- **No application code touched.**
+
+### 2026-08-22 · Session 3 — master spec audit + Phase 1 plan
+Responding to the owner's Master Build Spec (§56 deliverables A–M, §61 items 1–21).
+- Re-researched all 15 reference tools with explicit verification levels, **not** reusing
+  session 2's claims. 6 now VERIFIED, 3 STRONGLY INFERRED, 6 UNKNOWN.
+- **Found 3 blockers that change the plan** — see `AUDIT_AND_PHASE1_PLAN.md`:
+  1. Vercel **Hobby caps crons at once per day**; a 10-minute loop fails at deploy time.
+  2. `GET /2/users/:id/following` is reported at **100 req/24h**, and rate limits do not lift
+     with spend — the native X API likely cannot do follow-convergence at useful resolution.
+  3. Whether the following endpoint returns newest-first swings social cost by **20×**.
+- **Found a new P0**: prompt injection via X bio → system prompt (item 4b above).
+- Corrected a session-2 attribution: **leak.me** is the clearest verified example of KOL
+  follow-tracking (15m/30m/1h/2h timeframes); session 2 credited purealpha first.
+- Wrote `AUDIT_AND_PHASE1_PLAN.md` — full audit, research matrix, provider matrix, schema,
+  exact file plan, cost model, and the decisions needed before implementation.
+- **No application code touched. Phase 1 awaits owner approval per §61.**
+
+---
+
+## 10. Planning documents
+
+| Doc | Purpose |
+|---|---|
+| `CHECKPOINT.md` | This file — state of the codebase, issue list, work log |
+| `CLAUDE.md` | Persistent memory: conventions and traps |
+| `ALPHA_ENGINE_SPEC.md` | Product direction — the convergence thesis and Heat × Alpha model |
+| `AUDIT_AND_PHASE1_PLAN.md` | **Current** — blockers, research matrix, schema, Phase 1 file plan |
+
+Where these conflict, `AUDIT_AND_PHASE1_PLAN.md` wins — it is the most recently verified.
