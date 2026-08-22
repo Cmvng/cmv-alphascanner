@@ -12,6 +12,8 @@ import { radarRouter } from './routes/radar.js'
 import { startScheduler } from './scheduler.js'
 import { ingestOnchain } from './jobs/ingest-onchain.js'
 import { computeHeatForAll } from './jobs/compute-heat.js'
+import { enrichTargets } from './jobs/enrich-targets.js'
+import { runAlphaScans } from './jobs/run-alpha-scans.js'
 import { GeckoTerminalProvider } from './providers/geckoterminal.js'
 import { DexScreenerProvider } from './providers/dexscreener.js'
 
@@ -86,7 +88,9 @@ async function main() {
     console.warn('[server] DATABASE_URL not set — engine routes will report unavailable')
   }
 
-  const providers = [new GeckoTerminalProvider(), new DexScreenerProvider()]
+  const gecko = new GeckoTerminalProvider()
+  const dex = new DexScreenerProvider()
+  const providers = [gecko, dex]
 
   const server = app.listen(PORT, () => {
     console.log(`[server] listening on :${PORT} | chains=${CHAINS.join(',')} | db=${hasDatabase}`)
@@ -104,11 +108,31 @@ async function main() {
         },
       },
       {
+        // Fills in market cap (which drives the obscurity bonus) and the X handle (the only
+        // join to the scanner). Runs between ingest and heat so scores use the best data.
+        name: 'enrich-targets',
+        everyMs: 10 * 60_000,
+        run: async () => {
+          const r = await enrichTargets(dex)
+          return { targetsSeen: r.considered }
+        },
+      },
+      {
         name: 'compute-heat',
         everyMs: 10 * 60_000,
         run: async () => {
           const r = await computeHeatForAll()
           return { targetsSeen: r.targetsScored }
+        },
+      },
+      {
+        // The only automatic spender. Gated by a heat threshold, a per-run cap and a 24h
+        // cooldown, so a target hovering at the threshold cannot bill us every cycle.
+        name: 'run-alpha-scans',
+        everyMs: 15 * 60_000,
+        run: async () => {
+          const r = await runAlphaScans()
+          return { targetsSeen: r.scanned }
         },
       },
     ])

@@ -155,5 +155,6 @@ insert into signal_config (key, value, unit, description) values
   ('band.warm',                40,  'heat',   'Lower bound of the warm band'),
   ('band.hot',                 65,  'heat',   'Lower bound of the hot band'),
   ('band.critical',            85,  'heat',   'Lower bound of the critical band'),
-  ('autoscan.min_heat',        70,  'heat',   'Heat at which the alpha scanner runs automatically')
+  ('autoscan.min_heat',        70,  'heat',   'Heat at which the alpha scanner runs automatically'),
+  ('autoscan.max_per_run',      3,  'count',  'Hard ceiling on automatic scans per run — bounds LLM spend')
 on conflict (key) do nothing;

@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { fetchProjectXData } from '../lib/xapi'
+import { verdictStyle } from '../lib/verdicts'
 
 const METRICS = [
   { id: 'funding', label: 'Funding Quality', icon: '💰', cat: 'Fundamentals', weight: 200 },
@@ -207,7 +208,8 @@ function FeaturedProjects() {
     })()
   }, [])
   if (feats.length === 0) return null
-  const VERDICT_COLOR: Record<string, string> = { 'FARM IT': '#16a34a', 'CREATE CONTENT': '#ca8a04', 'WATCH': '#ea580c', 'SKIP': '#6b7280' }
+  // Shared vocabulary — previously this map only knew the retired names, so most
+  // recently-scanned cards rendered with the neutral fallback colour.
   return (
     <div className="featured-section" style={{ animationDelay: '0.5s' }}>
       <div className="section-label">Recently Scanned</div>
@@ -225,7 +227,7 @@ function FeaturedProjects() {
                 <div className="feat-meta">{s.category || 'Crypto'}</div>
               </div>
               <div className="feat-score-wrap">
-                <div className="feat-score" style={{ color: VERDICT_COLOR[s.verdict] || '#6b7280' }}>{s.score}</div>
+                <div className="feat-score" style={{ color: verdictStyle(s.verdict).color }}>{s.score}</div>
               </div>
             </div>
           </a>

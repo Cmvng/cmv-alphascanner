@@ -1,3 +1,4 @@
+import { VERDICT_ORDER, verdictStyle, VERDICTS } from '../lib/verdicts'
 import { useState, useEffect } from 'react'
 
 // The password lives in the ADMIN_PASSWORD env var and is checked server-side by /api/admin.
@@ -48,10 +49,11 @@ export default function Admin() {
         setScans(data)
         setStats({
           total: data.length,
-          farmIt: data.filter((s: any) => s.verdict === 'FARM IT').length,
-          create: data.filter((s: any) => s.verdict === 'CREATE CONTENT').length,
-          watch: data.filter((s: any) => s.verdict === 'WATCH').length,
-          skip: data.filter((s: any) => s.verdict === 'SKIP').length,
+          // Counted through the shared vocabulary; these read 0/0/0 before because they
+          // matched verdict names the app had stopped emitting.
+          byVerdict: Object.fromEntries(
+            VERDICT_ORDER.map(v => [v, data.filter((s: any) => verdictStyle(s.verdict).verdict === v).length]),
+          ),
           withToken: data.filter((s: any) => s.ticker).length,
           withFlags: data.filter((s: any) => s.red_flag_count > 0).length,
           avgScore: Math.round(data.reduce((s: number, d: any) => s + (d.score || 0), 0) / data.length),
@@ -132,7 +134,9 @@ export default function Admin() {
     }
   }
 
-  const VERDICT_COLORS: Record<string, string> = { 'FARM IT': '#37b24d', 'CREATE CONTENT': '#f59f00', 'WATCH': '#e8590c', 'SKIP': '#868e96' }
+  const VERDICT_COLORS: Record<string, string> = Object.fromEntries(
+    VERDICT_ORDER.map(v => [v, VERDICTS[v].color]),
+  )
 
   // Fake 404 page — only reveals login on secret key sequence
   const [keySeq, setKeySeq] = useState('')
@@ -196,10 +200,7 @@ export default function Admin() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(130px,1fr))', gap: 10, marginBottom: 24 }}>
             {[
               { label: 'Total Scans', value: stats.total, color: '#94a3b8' },
-              { label: 'Farm It', value: stats.farmIt, color: '#37b24d' },
-              { label: 'Create Content', value: stats.create, color: '#f59f00' },
-              { label: 'Watch', value: stats.watch, color: '#e8590c' },
-              { label: 'Skip', value: stats.skip, color: '#868e96' },
+              ...VERDICT_ORDER.map(v => ({ label: v, value: stats.byVerdict?.[v] ?? 0, color: VERDICTS[v].color })),
               { label: 'With Token', value: stats.withToken, color: '#3b5bdb' },
               { label: 'With Flags', value: stats.withFlags, color: '#e03131' },
               { label: 'Avg Score', value: stats.avgScore, color: '#16a34a' },

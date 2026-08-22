@@ -1,3 +1,4 @@
+import { verdictStyle } from '../lib/verdicts'
 import { useState, useEffect, useRef } from 'react'
 
 const TIER_CONFIG: Record<string, any> = {
@@ -45,10 +46,11 @@ export default function TierList() {
     }
     const suggested: Record<string, string[]> = { A: [], B: [], C: [], D: [], unranked: [] }
     scans.forEach(s => {
-      if (s.verdict === 'FARM IT' || s.verdict === 'S') suggested.A.push(s.handle)
-      else if (s.verdict === 'CREATE CONTENT') suggested.B.push(s.handle)
-      else if (s.verdict === 'WATCH') suggested.C.push(s.handle)
-      else suggested.D.push(s.handle)
+      // Resolve through the shared vocabulary so legacy rows land in the right tier
+      // instead of all falling through to D.
+      const tier = verdictStyle(s.verdict).tier
+      const bucket = tier === 'S' || tier === 'A' ? 'A' : tier === 'B' ? 'B' : tier === 'C' ? 'C' : 'D'
+      suggested[bucket].push(s.handle)
     })
     setTiers(suggested)
   }, [scans])
@@ -256,10 +258,11 @@ export default function TierList() {
     localStorage.removeItem(STORAGE_KEY)
     const suggested: Record<string, string[]> = { A: [], B: [], C: [], D: [], unranked: [] }
     scans.forEach(s => {
-      if (s.verdict === 'FARM IT' || s.verdict === 'S') suggested.A.push(s.handle)
-      else if (s.verdict === 'CREATE CONTENT') suggested.B.push(s.handle)
-      else if (s.verdict === 'WATCH') suggested.C.push(s.handle)
-      else suggested.D.push(s.handle)
+      // Resolve through the shared vocabulary so legacy rows land in the right tier
+      // instead of all falling through to D.
+      const tier = verdictStyle(s.verdict).tier
+      const bucket = tier === 'S' || tier === 'A' ? 'A' : tier === 'B' ? 'B' : tier === 'C' ? 'C' : 'D'
+      suggested[bucket].push(s.handle)
     })
     setTiers(suggested)
   }

@@ -1,13 +1,10 @@
+import { VERDICT_ORDER, verdictStyle, VERDICTS } from '../lib/verdicts'
+
 import { useState, useEffect } from 'react'
 
-const TIER_CONFIG: Record<string, any> = {
-  'FARM IT':        { tier: 'A', color: '#16a34a', bg: '#dcfce7', border: '#86efac', tc: '#15803d', emoji: '🌾', label: 'Tier A' },
-  'CREATE CONTENT': { tier: 'B', color: '#ca8a04', bg: '#fef9c3', border: '#fde047', tc: '#a16207', emoji: '✍️', label: 'Tier B' },
-  'WATCH':          { tier: 'C', color: '#ea580c', bg: '#fff7ed', border: '#fdba74', tc: '#c2410c', emoji: '👁️', label: 'Tier C' },
-  'SKIP':           { tier: 'D', color: '#6b7280', bg: '#f3f4f6', border: '#d1d5db', tc: '#4b5563', emoji: '🚫', label: 'Tier D' },
-}
-
-const TIER_ORDER = ['FARM IT', 'CREATE CONTENT', 'WATCH', 'SKIP']
+// Verdict vocabulary now lives in one place — see src/lib/verdicts.ts. This page used to
+// carry its own map that only knew the OLD names, so most scans never rendered at all.
+const TIER_ORDER = VERDICT_ORDER
 
 function timeAgo(ts: string) {
   const diff = Date.now() - new Date(ts).getTime()
@@ -35,7 +32,7 @@ async function fetchLivePrice(ticker: string) {
 }
 
 function GridCard({ scan, livePrice }: { scan: any, livePrice?: string }) {
-  const t = TIER_CONFIG[scan.verdict] || TIER_CONFIG['WATCH']
+  const t = verdictStyle(scan.verdict)
   const displayPrice = livePrice || scan.token_price
   return (
     <div onClick={() => { window.location.href = `/?q=${scan.handle}` }} className="grid-card"
@@ -82,7 +79,7 @@ function GridCard({ scan, livePrice }: { scan: any, livePrice?: string }) {
 }
 
 function TierCard({ scan, livePrice }: { scan: any, livePrice?: string }) {
-  const t = TIER_CONFIG[scan.verdict] || TIER_CONFIG['WATCH']
+  const t = verdictStyle(scan.verdict)
   const displayPrice = livePrice || scan.token_price
   return (
     <div onClick={() => { window.location.href = `/?q=${scan.handle}` }} className="tier-card"
@@ -145,7 +142,7 @@ export default function Feed() {
   }
 
   const sorted = [...scans]
-    .filter(s => filter === 'All' || s.verdict === filter)
+    .filter(s => filter === 'All' || verdictStyle(s.verdict).verdict === filter)
     .sort((a, b) => sortBy === 'score' ? (b.score - a.score) : sortBy === 'recent' ? (new Date(b.scanned_at).getTime() - new Date(a.scanned_at).getTime()) : 0)
 
   return (
@@ -431,8 +428,8 @@ export default function Feed() {
 
           {viewMode === 'grid' && (
             <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
-              {['All', 'FARM IT', 'CREATE CONTENT', 'WATCH', 'SKIP'].map(v => {
-                const t = TIER_CONFIG[v]
+              {(['All', ...VERDICT_ORDER] as string[]).map(v => {
+                const t = v === 'All' ? null : VERDICTS[v as keyof typeof VERDICTS]
                 const active = filter === v
                 return (
                   <button key={v} onClick={() => setFilter(v)}
@@ -475,9 +472,9 @@ export default function Feed() {
         {!loading && scans.length > 0 && viewMode === 'tier' && (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
             {TIER_ORDER.map(verdict => {
-              const t = TIER_CONFIG[verdict]
+              const t = VERDICTS[verdict]
               const tierProjects = scans
-                .filter(s => s.verdict === verdict)
+                .filter(s => verdictStyle(s.verdict).verdict === verdict)
                 .sort((a, b) => sortBy === 'score' ? b.score - a.score : sortBy === 'recent' ? new Date(b.scanned_at).getTime() - new Date(a.scanned_at).getTime() : 0)
               return (
                 <div key={verdict} className="tier-row" style={{ borderColor: t.border }}>

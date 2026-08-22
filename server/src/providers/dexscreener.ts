@@ -29,6 +29,29 @@ function num(v: unknown): number | null {
   return Number.isFinite(n) ? n : null
 }
 
+
+/**
+ * Pull the project's X handle out of a pair's socials.
+ *
+ * This is the join between the two halves of the product: discovery finds contract addresses,
+ * but the scanner is keyed on X handles. Without this, a discovered token can never be judged
+ * and alpha_score stays null forever.
+ */
+function extractXHandle(pair: any): string | null {
+  const socials: any[] = pair?.info?.socials ?? []
+  const websites: any[] = pair?.info?.websites ?? []
+  const candidates = [
+    ...socials.map((x) => (typeof x?.url === 'string' ? x.url : typeof x?.handle === 'string' ? x.handle : '')),
+    ...websites.map((w) => (typeof w?.url === 'string' ? w.url : '')),
+  ]
+  for (const raw of candidates) {
+    const m = raw.match(/(?:twitter\.com|x\.com)\/(?:#!\/)?@?([A-Za-z0-9_]{1,15})/i)
+    // Reject X's own non-profile paths, which would otherwise look like handles.
+    if (m && !/^(i|home|search|intent|share|hashtag|status)$/i.test(m[1])) return m[1]
+  }
+  return null
+}
+
 export class DexScreenerProvider implements DiscoveryProvider {
   readonly id = 'dexscreener'
   readonly displayName = 'DexScreener'
@@ -123,6 +146,7 @@ export class DexScreenerProvider implements DiscoveryProvider {
     return {
       name: best?.baseToken?.name ?? null,
       symbol: best?.baseToken?.symbol ?? null,
+      xHandle: extractXHandle(best),
       liquidityUsd: num(best?.liquidity?.usd),
       marketCapUsd: num(best?.marketCap) ?? num(best?.fdv),
       volume24hUsd: num(best?.volume?.h24),
