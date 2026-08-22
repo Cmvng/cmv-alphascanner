@@ -30,12 +30,13 @@
 | 9 | Every score explainable | 🟡 heat fully; alpha shows its score but not its reasoning |
 | 10 | Alerts deliverable | ✅ Telegram, graded by band, deduped per rule |
 | 11 | Provider failure doesn't kill pipeline | ✅ allSettled + breaker |
-| 12 | API costs observable | ❌ no cost table/dashboard |
+| 12 | API costs observable | ❌ **the last unbuilt condition** — no per-provider cost table |
 | 13 | Historical outcomes measurable | ✅ immutable detection snapshot + 5 forward horizons |
 | 14 | Trust scores can evolve | ✅ derived from outcomes, blended, sample-gated |
 | 15 | Can prove discoveries were useful | 🟡 `/api/performance` built; needs live data to say anything |
 
-**11.5 of 15.**
+**13 of 15** (11 complete, 2 partial). The two gaps are cost observability (§44) and
+proving usefulness (§51), and the second only needs live data to start filling in.
 
 ## Schema: 13 of 24 tables (§37)
 
