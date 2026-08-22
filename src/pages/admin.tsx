@@ -1,10 +1,33 @@
 import { useState, useEffect } from 'react'
 
-const ADMIN_PASSWORD = 'Damilola'
+// The password lives in the ADMIN_PASSWORD env var and is checked server-side by /api/admin.
+// It used to be a constant here, which shipped it in the public JS bundle.
 
 export default function Admin() {
   const [pass, setPass] = useState('')
   const [auth, setAuth] = useState(false)
+  const [token, setToken] = useState('')
+  const [loginErr, setLoginErr] = useState('')
+
+  // Session-only: the token is never persisted, so closing the tab ends the session.
+  async function attemptLogin() {
+    setLoginErr('')
+    try {
+      const r = await fetch('/api/admin', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'login', password: pass }),
+      })
+      if (!r.ok) {
+        setPass(''); setLoginErr(r.status === 429 ? 'Too many attempts. Wait a minute.' : 'Invalid credentials')
+        return
+      }
+      const { token: t } = await r.json()
+      setToken(t); setAuth(true); setPass('')
+    } catch {
+      setLoginErr('Could not reach the server')
+    }
+  }
   const [scans, setScans] = useState<any[]>([])
   const [loading, setLoading] = useState(false)
   const [rescanning, setRescanning] = useState(false)
@@ -92,10 +115,16 @@ export default function Admin() {
   async function deleteProject(handle: string, id: string) {
     if (!confirm(`Delete @${handle} from the feed?`)) return
     try {
-      await fetch(`${import.meta.env.VITE_SUPABASE_URL}/rest/v1/scans?id=eq.${id}`, {
-        method: 'DELETE',
-        headers: { 'apikey': import.meta.env.VITE_SUPABASE_ANON_KEY, 'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`, 'Prefer': 'return=minimal' }
+      const r = await fetch('/api/admin', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ action: 'delete', id }),
       })
+      if (!r.ok) {
+        if (r.status === 401) { setAuth(false); setToken('') }
+        setRescanLog(prev => [`✗ Failed to delete @${handle}`, ...prev.slice(0, 19)])
+        return
+      }
       setScans(prev => prev.filter(s => s.id !== id))
       setRescanLog(prev => [`🗑 @${handle} deleted`, ...prev.slice(0, 19)])
     } catch {
@@ -133,13 +162,14 @@ export default function Admin() {
           <div style={{ fontSize: 20, fontWeight: 800, color: '#f1f5f9', marginBottom: 4 }}>Admin Access</div>
           <div style={{ fontSize: 12, color: '#64748b', marginBottom: 24 }}>Enter your password</div>
           <input type="password" placeholder="Password" value={pass} onChange={e => setPass(e.target.value)}
-            onKeyDown={e => { if (e.key === 'Enter') { if (pass === ADMIN_PASSWORD) { setAuth(true) } else { setPass(''); setShowLogin(false); setKeySeq('') } } }}
+            onKeyDown={e => { if (e.key === 'Enter') attemptLogin() }}
             autoFocus
             style={{ width: '100%', background: '#0f172a', border: '1px solid #334155', borderRadius: 8, padding: '12px 14px', fontSize: 14, color: '#f1f5f9', fontFamily: 'inherit', outline: 'none', boxSizing: 'border-box' as const, marginBottom: 12 }} />
-          <button onClick={() => { if (pass === ADMIN_PASSWORD) setAuth(true); else { setPass(''); setShowLogin(false); setKeySeq('') } }}
+          <button onClick={attemptLogin}
             style={{ width: '100%', background: '#16a34a', border: 'none', borderRadius: 8, padding: '12px', fontSize: 14, fontWeight: 700, color: '#fff', cursor: 'pointer', fontFamily: 'inherit' }}>
             Enter
           </button>
+          {loginErr && <div style={{ fontSize: 11, color: '#ef4444', marginTop: 10 }}>{loginErr}</div>}
         </div>
       )}
     </div>
@@ -155,7 +185,7 @@ export default function Admin() {
         <div style={{ marginLeft: 'auto', display: 'flex', gap: 8 }}>
           <a href="/" style={{ fontFamily: "'DM Mono',monospace", fontSize: 10, color: '#64748b', textDecoration: 'none', padding: '5px 12px', border: '1px solid #334155', borderRadius: 20 }}>← App</a>
           <a href="/feed" style={{ fontFamily: "'DM Mono',monospace", fontSize: 10, color: '#64748b', textDecoration: 'none', padding: '5px 12px', border: '1px solid #334155', borderRadius: 20 }}>Feed</a>
-          <button onClick={() => setAuth(false)} style={{ fontFamily: "'DM Mono',monospace", fontSize: 10, color: '#ef4444', background: 'none', border: '1px solid #334155', borderRadius: 20, padding: '5px 12px', cursor: 'pointer' }}>Logout</button>
+          <button onClick={() => { setAuth(false); setToken('') }} style={{ fontFamily: "'DM Mono',monospace", fontSize: 10, color: '#ef4444', background: 'none', border: '1px solid #334155', borderRadius: 20, padding: '5px 12px', cursor: 'pointer' }}>Logout</button>
         </div>
       </div>
 

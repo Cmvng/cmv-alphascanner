@@ -1,11 +1,11 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
+import { guard } from './_lib/guard'
+
+// Previously unauthenticated with CORS `*` — anyone could write rows into the public feed.
+// Now origin-allowlisted and rate limited. A scan takes ~20s, so 4/min per IP is generous.
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  res.setHeader('Access-Control-Allow-Origin', '*')
-  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS')
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type')
-  if (req.method === 'OPTIONS') return res.status(200).end()
-  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' })
+  if (!guard(req as any, res as any, { route: 'save-scan', limit: { perMinute: 4, burst: 8 } })) return
 
   const SUPABASE_URL = process.env.SUPABASE_URL
   const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY
@@ -17,7 +17,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     const { handle, project_name, verdict, score, ticker, token_price, market_cap_str, category, profile_image_url, good_highlights, red_flag_count, full_result } = req.body
 
-    if (!handle) return res.status(400).json({ error: 'Handle required' })
+    if (typeof handle !== 'string' || !/^[a-zA-Z0-9_]{1,15}$/.test(handle)) {
+      return res.status(400).json({ error: 'Valid X handle required' })
+    }
 
     // Upsert — if same handle scanned again, update instead of insert
     const r = await fetch(`${SUPABASE_URL}/rest/v1/scans`, {

@@ -16,7 +16,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       `https://api.twitter.com/2/users/by/username/${clean}?user.fields=public_metrics,verified,created_at,profile_image_url,description`,
       { headers: { Authorization: `Bearer ${process.env.X_API_BEARER_TOKEN}` } }
     )
-    const data = await r.json()
+    const data = (await r.json()) as any
     const u = data.data
     if (!u) return res.status(404).json({ error: 'User not found' })
 

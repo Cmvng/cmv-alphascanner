@@ -6,6 +6,13 @@ const CACHE_TTL = 1000 * 60 * 120 // 2 hours — saves X API credits on repeat s
 // Top-level constant — used in multiple functions
 const CHAIN_TOKENS = ['SUI','ETH','BTC','SOL','BNB','MATIC','AVAX','OP','ARB','BASE','NEAR','APT','SEI','INJ','DOT','ATOM','ADA','TRX','XRP','LTC','BCH','FTM','ONE','ALGO','VET','XLM','EOS','HBAR','EGLD','FLOW','CHZ','MANA','SAND','AXS','THETA','XTZ','NEO','WAVES','ZIL','ICX','IOTA','ONT']
 
+// `Response.json()` resolves to `unknown` under strict mode. These handlers were written against
+// loosely-typed JSON from a dozen third-party APIs; this helper keeps that intent explicit
+// instead of scattering casts at every call site.
+async function json(r: Response): Promise<any> {
+  return json(r)
+}
+
 async function xFetch(url: string, token: string) {
   const r = await fetch(url, { headers: { Authorization: `Bearer ${token}` } })
   return r.json()
@@ -26,7 +33,7 @@ async function getCoingeckoToken(ticker: string, handle: string, projectName?: s
       if (!term || term.length < 2) continue
       try {
         const r = await fetch(`https://api.coingecko.com/api/v3/search?query=${encodeURIComponent(term)}`)
-        const d = await r.json()
+        const d = await json(r)
         if (!d.coins?.length) continue
 
         const handleLower = handle.toLowerCase().replace(/[^a-z0-9]/g, '')
@@ -75,7 +82,7 @@ async function getCoingeckoToken(ticker: string, handle: string, projectName?: s
         if (!match) continue
 
         const pr = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${match.id}&vs_currencies=usd&include_market_cap=true&include_24hr_vol=true&include_24hr_change=true`)
-        const pd = await pr.json()
+        const pd = await json(pr)
         const price = pd[match.id]?.usd
         const mcap = pd[match.id]?.usd_market_cap
         const vol = pd[match.id]?.usd_24h_vol
@@ -217,7 +224,7 @@ async function fetchDefiLlama(projectName: string, handle: string) {
     for (const s of slugsToTry) {
       try {
         const r = await fetch(`https://api.llama.fi/protocol/${s}`)
-        if (r.ok) { data = await r.json(); break }
+        if (r.ok) { data = await json(r); break }
       } catch { continue }
     }
     if (!data) return null
@@ -247,7 +254,7 @@ async function fetchDefiLlamaHacks(projectName: string) {
   try {
     const r = await fetch('https://api.llama.fi/hacks')
     if (!r.ok) return []
-    const hacks = await r.json()
+    const hacks = await json(r)
     const nameLower = projectName.toLowerCase()
     return hacks.filter((h: any) =>
       h.name?.toLowerCase().includes(nameLower) || nameLower.includes(h.name?.toLowerCase() || '')
@@ -269,7 +276,7 @@ async function fetchRootData(projectName: string, apiKey?: string) {
       body: JSON.stringify({ query: projectName })
     })
     if (!searchRes.ok) return null
-    const searchData = await searchRes.json()
+    const searchData = await json(searchRes)
     const project = searchData.data?.find((d: any) => d.type === 1)
     if (!project) return null
 
@@ -279,7 +286,7 @@ async function fetchRootData(projectName: string, apiKey?: string) {
       body: JSON.stringify({ project_id: project.id, include_team: 1, include_investors: 1 })
     })
     if (!detailRes.ok) return null
-    const detail = await detailRes.json()
+    const detail = await json(detailRes)
     const d = detail.data
 
     const totalRaised = d.total_funding ? `$${(d.total_funding/1e6).toFixed(1)}M` : null
@@ -298,7 +305,7 @@ async function fetchDexScreener(ticker: string, projectName: string) {
     const query = ticker || projectName
     const r = await fetch(`https://api.dexscreener.com/latest/dex/search?q=${encodeURIComponent(query)}`)
     if (!r.ok) return null
-    const data = await r.json()
+    const data = await json(r)
     const pairs = data.pairs || []
     if (pairs.length === 0) return null
 
@@ -338,7 +345,7 @@ async function fetchGeckoTerminal(ticker: string, projectName: string) {
       headers: { 'Accept': 'application/json;version=20230302' }
     })
     if (!r.ok) return null
-    const data = await r.json()
+    const data = await json(r)
     const pools = data.data || []
     if (pools.length === 0) return null
 
@@ -362,7 +369,7 @@ async function fetchCryptoNewsSentiment(projectName: string, ticker?: string) {
     const query = ticker && ticker.length > 2 ? ticker : projectName
     const r = await fetch(`https://cryptocurrency.cv/api/news?q=${encodeURIComponent(query)}&limit=10`)
     if (!r.ok) return null
-    const data = await r.json()
+    const data = await json(r)
     const articles = data.articles || []
     if (articles.length === 0) return null
 
@@ -384,7 +391,7 @@ async function fetchCryptoNewsSentiment(projectName: string, ticker?: string) {
     })
     const sentiment = negCount > posCount + 2 ? 'negative' : posCount > negCount ? 'positive' : 'neutral'
     const recentHeadlines = titles.slice(0, 5)
-    const redFlagHeadlines = titles.filter(t => negWords.some(w => t.toLowerCase().includes(w))).slice(0, 3)
+    const redFlagHeadlines = titles.filter((t: string) => negWords.some(w => t.toLowerCase().includes(w))).slice(0, 3)
 
     return { sentiment, article_count: relevantArticles.length, recent_headlines: recentHeadlines, red_flag_headlines: redFlagHeadlines, negative_signals: negCount, positive_signals: posCount }
   } catch { return null }
@@ -469,7 +476,7 @@ async function fetchCoinPaprika(projectName: string, handle: string, ticker?: st
   try {
     const searchR = await fetch(`https://api.coinpaprika.com/v1/search?q=${encodeURIComponent(projectName)}&c=currencies&limit=10`)
     if (!searchR.ok) return null
-    const searchData = await searchR.json()
+    const searchData = await json(searchR)
     const currencies = searchData.currencies || []
     if (currencies.length === 0) return null
 
@@ -496,13 +503,13 @@ async function fetchCoinPaprika(projectName: string, handle: string, ticker?: st
 
     const coinR = await fetch(`https://api.coinpaprika.com/v1/coins/${match.id}`)
     if (!coinR.ok) return null
-    const coin = await coinR.json()
+    const coin = await json(coinR)
 
     let price = null
     try {
       const tickerR = await fetch(`https://api.coinpaprika.com/v1/tickers/${match.id}?quotes=USD`)
       if (tickerR.ok) {
-        const tickerData = await tickerR.json()
+        const tickerData = await json(tickerR)
         const usd = tickerData.quotes?.USD
         if (usd?.price) {
           const p = usd.price
@@ -564,7 +571,7 @@ async function fetchVerifiedRedFlags(projectName: string, handle: string, ticker
           { headers: { 'User-Agent': 'CMVAlphaScanner/1.0' } }
         )
         if (!r.ok) continue
-        const d = await r.json()
+        const d = await json(r)
         if (d.Abstract && d.Abstract.length > 20) results.push(d.Abstract)
         if (d.RelatedTopics) {
           d.RelatedTopics.slice(0, 3).forEach((t: any) => {
@@ -593,7 +600,7 @@ async function fetchCryptoRankData(projectName: string, ticker: string | null, a
     
     const searchR = await fetch(`${BASE}/currencies?api_key=${apiKey}&search=${encodeURIComponent(searchQuery)}&limit=5`)
     if (!searchR.ok) return null
-    const searchData = await searchR.json()
+    const searchData = await json(searchR)
     const coins = searchData?.data || []
     if (!Array.isArray(coins) || coins.length === 0) return null
 
@@ -607,9 +614,9 @@ async function fetchCryptoRankData(projectName: string, ticker: string | null, a
     const key = match.key
 
     const [_ov, _fund, _unlock] = await Promise.allSettled([
-      withTimeout(fetch(`${BASE}/currencies/${key}?api_key=${apiKey}`).then(r => r.ok ? r.json() : null), 3000),
-      withTimeout(fetch(`${BASE}/currencies/${key}/funding-rounds?api_key=${apiKey}`).then(r => r.ok ? r.json() : null), 3000),
-      withTimeout(fetch(`${BASE}/currencies/${key}/vesting?api_key=${apiKey}`).then(r => r.ok ? r.json() : null), 3000),
+      withTimeout(fetch(`${BASE}/currencies/${key}?api_key=${apiKey}`).then(r => r.ok ? json(r) : null), 3000),
+      withTimeout(fetch(`${BASE}/currencies/${key}/funding-rounds?api_key=${apiKey}`).then(r => r.ok ? json(r) : null), 3000),
+      withTimeout(fetch(`${BASE}/currencies/${key}/vesting?api_key=${apiKey}`).then(r => r.ok ? json(r) : null), 3000),
     ])
 
     const ovData = _ov.status === 'fulfilled' ? _ov.value : null
@@ -707,7 +714,7 @@ async function fetchCryptoRankData(projectName: string, ticker: string | null, a
     return {
       found: true, description, category, tags, total_raised: totalRaised,
       last_valuation: lastValuation,
-      funding_rounds: rounds.map(r => ({ stage: r.stage, raise: r.raise, date: r.date })),
+      funding_rounds: rounds.map((r: any) => ({ stage: r.stage, raise: r.raise, date: r.date })),
       tier1_investors: tier1, tier2_investors: tier2, tier3_investors: tier3,
       lead_investors: leads, total_investor_count: investorMap.size, best_vc_tier: bestTier,
       has_unlock_data: hasUnlockData, next_unlock_date: nextUnlockDate, next_unlock_pct: nextUnlockPct,
@@ -743,7 +750,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   try {
     // 1. Project profile
-    const userData = await xFetch(
+    const userData: any = await xFetch(
       `https://api.twitter.com/2/users/by/username/${clean}?user.fields=public_metrics,verified,created_at,profile_image_url,description,pinned_tweet_id,id`,
       TOKEN
     )
@@ -776,7 +783,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     // 3. Recent tweets — reduced to 5 to save credits (was 20)
     let recentTweets: any[] = []
     if (u?.id) try {
-      const td = await xFetch(
+      const td: any = await xFetch(
         `https://api.twitter.com/2/users/${u?.id}/tweets?max_results=5&tweet.fields=text,public_metrics,created_at&exclude=retweets`,
         TOKEN
       )

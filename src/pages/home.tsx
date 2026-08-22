@@ -190,121 +190,9 @@ function useProfile() {
   return { name, photo, save }
 }
 
-const buildSystemPrompt = (handle: string, xd: any, cg: any) => {
-  const enriched = xd?.enriched || {}
-  return `You are CMV AlphaScanner, a sharp crypto/Web3 alpha analyst. Today: ${new Date().toDateString()}.
-
-CRITICAL: Return ONLY valid JSON. No markdown, no explanation, no code blocks.
-
-CRITICAL: NEVER mention these names in ANY text you output: DefiLlama, RootData, CryptoRank, DexScreener, CoinGecko, CoinPaprika, CryptoNews, DuckDuckGo, CoinMarketCap, Etherscan. Not in descriptions, not in red flags, not in verdict, not in metrics, not in risks, not anywhere. Just state facts directly. Example: say "No team members identified" NOT "No team members identified on RootData". Say "No category data" NOT "DefiLlama shows no category". Say "No funding data found" NOT "RootData shows no raised capital".
-
-You have pre-fetched data from multiple tools. Web search results may also be provided below. Use all available data to produce a thorough analysis.
-
-=== VERIFIED TOOL DATA ===
-X Profile: ${xd?.followers || 0} followers, ${xd?.tweet_count || 0} tweets, ${xd?.account_age_years || 0}y old account, verified: ${xd?.verified || false}
-Bio: ${xd?.description || 'none'}
-Avg likes: ${xd?.avg_likes || 0} | Category: ${xd?.category || 'unknown'}
-Confirmed ticker: ${xd?.confirmed_ticker || 'none'} | Token hinted: ${xd?.token_launch_hinted || false}
-
-DefiLlama: TVL=${enriched.tvl || 'none'} | Revenue/day=${enriched.revenue_24h || 'none'} | Fees/day=${enriched.fees_24h || 'none'} | Raised=${enriched.total_raised_defillama || 'none'} | Category=${enriched.defillama_category || 'none'} | Chains=${JSON.stringify(enriched.chains || [])}
-Hacks: ${JSON.stringify(enriched.known_hacks || [])}
-
-RootData: Raised=${enriched.total_raised_rootdata || 'none'} | Investors=${JSON.stringify(enriched.confirmed_investors || [])} | Team=${JSON.stringify((enriched.rootdata_team || []).map((t:any) => ({name:t.name, role:t.role, x:t.x_handle})))}
-
-Token: ${cg?.token_live ? 'LIVE — ' + (cg.ticker || '') + ' at ' + (cg.token_price || '') + ' | mcap=' + (cg.market_cap_str || 'unknown') + ' | vol24h=' + (cg.volume_24h || 'unknown') + ' | change24h=' + (cg.price_change_24h || 0) + '%' : 'NOT YET LAUNCHED — no confirmed token on any DEX'}
-
-CryptoNews: sentiment=${enriched.news_sentiment || 'unknown'} | articles=${enriched.news_article_count || 0} | red flags=${JSON.stringify(enriched.news_red_flags || [])}
-
-CryptoRank: ${enriched.best_vc_tier ? `Best VC Tier=${enriched.best_vc_tier} | Tier 1 VCs=${JSON.stringify(enriched.tier1_vcs || [])} | Tier 2 VCs=${JSON.stringify(enriched.tier2_vcs || [])} | Lead Investors=${JSON.stringify(enriched.lead_investors || [])} | Total Investors=${enriched.total_investor_count || 0} | Raised=${enriched.total_raised_cryptorank || 'unknown'} | Valuation=${enriched.last_valuation || 'unknown'} | Funding Rounds=${JSON.stringify((enriched.funding_rounds || []).slice(0,4))} | Token Unlocks=${enriched.has_unlock_data ? 'Next: ' + (enriched.next_unlock_date || 'unknown') + ' (' + (enriched.next_unlock_pct || 'unknown') + ')' : 'No data'} | Vesting Warning=${enriched.vesting_warning || 'none'} | Airdrop=${enriched.airdrop_confirmed ? enriched.airdrop_details || 'Confirmed' : 'none'}` : 'Not found on CryptoRank'}
-
-Auto-detected FUD signals (from tools): ${JSON.stringify((enriched.auto_fud_flags || []).map((f:any) => ({label: f.label, detail: f.detail, severity: f.severity})))}
-
-=== INSTRUCTIONS ===
-Use the pre-fetched tool data AND web search results (if provided above) to analyze this project.
-If web search results contain shutdown notices, scam reports, hack reports, or regulatory actions — these MUST be your top-priority red flags.
-DO NOT re-search for TVL, revenue, token price, investors, or funding — already provided above.
-VERDICT GUIDE — pick the verdict that matches the category AND quality:
-- ALPHA PLAY (score 95+): Exceptional fundamentals, no red flags, top-tier everything
-- FARM IT (score 85-94): Strong conviction, go hard
-- ENGAGE (score 60-84): Solid but selective. Tailor action to category:
-  * DeFi/Lending: Deposit and farm yield
-  * Perp DEX: Test trading features and liquidity
-  * Prediction Market: Explore predictions, farm points
-  * L1/L2: Bridge, transact, run node if possible
-  * AI/Infrastructure: Build something public, document it
-  * Gaming/NFT: Engage community, hold floor assets
-  * RWA: Long term, create educational content
-- OBSERVE (score 35-59): Too many uncertainties. Watch only, do not commit
-- AVOID (score 0-34): Too many red flags. Not worth time
-For RED FLAGS — this is critical:
-ALWAYS convert ALL auto_fud_flags listed above into red_flags entries. Every single one.
-ALSO add flags for:
-- Any hacks listed above → "Security exploit" flag
-- Token dump detected → "Token dump" flag  
-- Negative news red flags listed above → flag each one
-- Low liquidity if dex_liquidity < $50K → "Low liquidity" flag
-- No team data + anonymous project → "Anonymous team" flag
-Do NOT return empty red_flags if auto_fud_flags has entries.
-Be specific in detail — include numbers and data points.
-Be concise in metrics — 1 sentence with specific data points only.
-ABSOLUTE RULE: NEVER write the names DefiLlama, RootData, CryptoRank, DexScreener, CoinGecko, CoinPaprika, CryptoNews, or any tool/platform name in your output. Say "No team data found" not "No team members identified on RootData". Say "No funding data available" not "RootData shows no raised capital". Say "Not tracked on major platforms" not "Absence from DefiLlama, CryptoRank, RootData". If you write any tool name in your response, the output is INVALID.
-
-RED FLAGS — flag ALL of these when present:
-- Known hacks or exploits (from DefiLlama hacks data)
-- Token dump >30% in 24h (from DexScreener)
-- Token pump >100% in 24h → flag as "Extreme Volatility" (speculation/manipulation risk)
-- Liquidity <$50K → "Low liquidity / rug risk"
-- No team data for non-anonymous project → "Unverified team"
-- Negative news: scam/fraud/SEC/investigation
-- Large upcoming token unlocks found in search → "Token unlock risk"
-- Follow farming: following >> followers
-DO NOT flag: no TVL for non-DeFi, low mindshare, early stage, no revenue pre-launch.
-
-Score strictly. Tier A (85+) = only the best CT projects with strong fundamentals. Most projects are B or C.
-Entertainment/events projects without DeFi TVL should NOT be penalized on revenue — use event revenue if mentioned.
-
-Return this exact JSON:
-{
-  "project_name": "string",
-  "project_category": "string (Prediction Market, DeFi, L1/L2, RWA, AI, Gaming, Perp DEX, Lending, Infrastructure, DEX, Bridge, SocialFi, Restaking, etc)",
-  "description": "2-3 sentence description of what the project builds — NO source names",
-  "team_location": "string or empty",
-  "founded": "year or empty",
-  "verdict": "ALPHA PLAY|FARM IT|ENGAGE|OBSERVE|AVOID",
-  "verdict_reason": "2-3 sentences with specific data points — NO source names, just state facts",
-  "verdict_action": "specific actionable advice for CT farmers",
-  "overall_score": number (0-100),
-  "score_rationale": "explain score with data points — NO source names",
-  "good_highlights": ["specific highlight with data", "another", "another"],
-  "red_flags": [{"type": "dump|hack|shill|suspicious|regulatory|tokenomics|team", "label": "short label", "detail": "specific detail — NO source names"}],
-  "top_risks": ["specific risk", "another"],
-  "top_opportunities": ["specific opportunity", "another"],
-  "team_members": [{"name": "string", "role": "string", "x_handle": "@handle or empty", "background": "1 sentence", "confirmed": true/false}],
-  "future_seasons": "token/season/airdrop info if any",
-  "post_tge_outlook": "string if token live",
-  "project_follows": "notable CT accounts that follow this project",
-  "mindshare_trend": {"labels": ["8w ago","7w ago","6w ago","5w ago","4w ago","3w ago","2w ago","1w ago"], "values": [0,0,0,0,0,0,0,0], "current_pct": "string", "trend": "rising|falling|stable"},
-  "metrics": {
-    "funding": {"score": 0-100, "detail": "1 sentence with specific numbers", "signal": "bullish|bearish|neutral"},
-    "vc_pedigree": {"score": 0-100, "detail": "1 concise sentence with data", "signal": "bullish|bearish|neutral"},
-    "copycat": {"score": 0-100, "detail": "1 concise sentence with data", "signal": "bullish|bearish|neutral"},
-    "niche": {"score": 0-100, "detail": "1 concise sentence with data", "signal": "bullish|bearish|neutral"},
-    "location": {"score": 0-100, "detail": "1 sentence: team location if known, why it matters", "signal": "bullish|bearish|neutral"},
-    "founder_cred": {"score": 0-100, "detail": "1 concise sentence with data", "signal": "bullish|bearish|neutral"},
-    "founder_activity": {"score": 0-100, "detail": "1 concise sentence with data", "signal": "bullish|bearish|neutral"},
-    "top_voices": {"score": 0-100, "detail": "1 concise sentence with data", "signal": "bullish|bearish|neutral"},
-    "token": {"score": 0-100, "detail": "state if live or not, include price/mcap/volume if live", "signal": "bullish|bearish|neutral"},
-    "metrics_clarity": {"score": 0-100, "detail": "1 concise sentence with data", "signal": "bullish|bearish|neutral"},
-    "user_count": {"score": 0-100, "detail": "1 concise sentence with data", "signal": "bullish|bearish|neutral"},
-    "fud": {"score": 0-100, "detail": "1 concise sentence with data", "signal": "bullish|bearish|neutral"},
-    "notable_mentions": {"score": 0-100, "detail": "1 concise sentence with data", "signal": "bullish|bearish|neutral"},
-    "content_type": {"score": 0-100, "detail": "1 concise sentence with data", "signal": "bullish|bearish|neutral"},
-    "mindshare": {"score": 0-100, "detail": "1 concise sentence with data", "signal": "bullish|bearish|neutral"},
-    "revenue": {"score": 0-100, "detail": "1 concise sentence with data", "signal": "bullish|bearish|neutral"},
-    "sentiment": {"score": 0-100, "detail": "1 concise sentence with data", "signal": "bullish|bearish|neutral"}
-  }
-}`
-}
+// The system prompt now lives SERVER-SIDE in api/_lib/prompt.ts. It used to be built here and
+// POSTed as a caller-controlled `system` field, which made /api/claude an open proxy to the
+// Anthropic key. The client now sends structured scan input only.
 
 /* ─── FEATURED PROJECTS MINI COMPONENT ─── */
 function FeaturedProjects() {
@@ -998,7 +886,8 @@ export default function Home() {
       saveResult(cleaned)
     }
 
-    // Step 1: Free web search for red flags BEFORE Claude
+    // Fetch web-search context. The server folds it into the prompt behind an untrusted
+    // boundary — the client no longer assembles any prompt text.
     let webSearchData: any = null
     try {
       const searchName = xd?.name || handle
@@ -1006,25 +895,17 @@ export default function Home() {
       if (wsRes.ok) webSearchData = await wsRes.json()
     } catch {}
 
-    // Step 2: Build system prompt with web search results included
-    let systemPrompt = buildSystemPrompt(handle, xd, cg)
-
-    // Inject web search findings into the prompt
-    if (webSearchData?.results?.length > 0) {
-      const webBlock = `\n\n=== WEB SEARCH RESULTS (CRITICAL — check for red flags) ===\n${webSearchData.results.slice(0, 6).map((r: any, i: number) => `[${i+1}] ${r.title}: ${r.snippet}`).join('\n')}\n${webSearchData.has_red_flags ? '\n⚠️ RED FLAG KEYWORDS DETECTED IN SEARCH: ' + webSearchData.flag_summary : '\nNo obvious red flag keywords found in search results.'}\n\nIMPORTANT: If the web search results mention shutdown, scam, hack, exploit, rug pull, SEC investigation, team departed, or any critical negative event — this MUST be your #1 red flag. Do NOT ignore web search findings.\n`
-      systemPrompt = systemPrompt.replace('=== INSTRUCTIONS ===', webBlock + '\n=== INSTRUCTIONS ===')
-    }
-
-    // Also add web search flags to xOnlyScan's auto_fud_flags for fallback
+    // Feed the same findings to the deterministic fallback so both paths see them.
     if (webSearchData?.has_red_flags && webSearchData.detected_flags?.length > 0) {
       if (!xd.enriched) xd.enriched = {}
       if (!xd.enriched.auto_fud_flags) xd.enriched.auto_fud_flags = []
       webSearchData.detected_flags.slice(0, 3).forEach((f: any) => {
+        const kw = String(f.keyword || '')
         xd.enriched.auto_fud_flags.push({
-          type: f.keyword.includes('scam') || f.keyword.includes('fraud') ? 'suspicious' : f.keyword.includes('hack') ? 'exploit' : f.keyword.includes('shut') ? 'suspicious' : 'suspicious',
-          label: `Web search: ${f.keyword} detected`,
-          detail: f.context.slice(0, 200),
-          severity: (f.keyword.includes('scam') || f.keyword.includes('hack') || f.keyword.includes('shut') || f.keyword.includes('rug')) ? 'high' : 'medium'
+          type: kw.includes('hack') ? 'exploit' : 'suspicious',
+          label: `Web search: ${kw} detected`,
+          detail: String(f.context || '').slice(0, 200),
+          severity: /scam|hack|shut|rug/.test(kw) ? 'high' : 'medium',
         })
       })
     }
@@ -1033,10 +914,7 @@ export default function Home() {
       const r = await fetch('/api/claude', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          system: systemPrompt,
-          messages: [{ role: 'user', content: `Analyze the crypto project @${handle}. Web search results are included in the system prompt — use them to identify red flags and recent news. Use the pre-fetched tool data for financial metrics. Return JSON only.` }]
-        })
+        body: JSON.stringify({ handle, xd, cg, web: webSearchData })
       })
       if (!r.ok) {
         const errText = await r.text()
