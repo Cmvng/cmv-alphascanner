@@ -87,45 +87,10 @@ const BAD_TAGS = [
 
 function getTier(s: number) { return s >= 95 ? 'S' : s >= 85 ? 'A' : s >= 60 ? 'B' : s >= 35 ? 'C' : 'D' }
 
-function computeCombinedScore(alphaScore: number, xScore: number) {
-  const combined = Math.round((alphaScore * 0.5) + (xScore * 0.5))
-  return Math.min(1000, Math.max(0, combined))
-}
-
-function computeCMVAlphaScore(metrics: any, redFlags: any[]) {
-  if (!metrics) return { total: 0, categories: {}, fudPenalty: 0 }
-  const cats: Record<string, { score: number; max: number; metrics: string[] }> = {
-    Fundamentals: { score: 0, max: 200, metrics: ['funding', 'vc_pedigree', 'copycat', 'niche', 'location'] },
-    Team: { score: 0, max: 200, metrics: ['founder_cred', 'founder_activity', 'top_voices'] },
-    Opportunity: { score: 0, max: 200, metrics: ['token', 'metrics_clarity', 'user_count'] },
-    Sentiment: { score: 0, max: 200, metrics: ['fud', 'notable_mentions', 'content_type'] },
-    Traction: { score: 0, max: 200, metrics: ['mindshare', 'revenue', 'sentiment'] },
-  }
-  for (const [cat, data] of Object.entries(cats)) {
-    const scores = data.metrics.map((m: string) => metrics[m]?.score ?? 0)
-    const avg = scores.reduce((a: number, b: number) => a + b, 0) / scores.length
-    cats[cat].score = Math.round((avg / 100) * 200)
-  }
-  let fudPenalty = 0
-  for (const flag of redFlags) {
-    if (!flag?.label) continue
-    if (flag.type === 'rug') fudPenalty += 150
-    else if (flag.type === 'scam') fudPenalty += 150
-    else if (flag.type === 'exploit') fudPenalty += 100
-    else if (flag.type === 'dump') fudPenalty += 80
-    else if (flag.type === 'shill') fudPenalty += 60
-    else if (flag.type === 'anon') fudPenalty += 40
-    else fudPenalty += 30
-  }
-  fudPenalty = Math.min(300, fudPenalty)
-  const rawTotal = Object.values(cats).reduce((a: number, c: any) => a + c.score, 0)
-  const total = Math.max(0, Math.min(1000, rawTotal - fudPenalty))
-  return { total, categories: cats, fudPenalty }
-}
-
-function tsq(tier: string, sz = 20) {
-  return `<div style="width:${sz}px;height:${sz}px;background:${T[tier].solid};border-radius:${sz > 20 ? 6 : 4}px;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:${sz > 20 ? 12 : 9}px;font-weight:500;color:#fff;flex-shrink:0">${tier}</div>`
-}
+// computeCMVAlphaScore() lived here and produced a 0-1000 score whose only rendered output was
+// a "penalty" that was never subtracted from the 0-100 score shown next to it. Removed rather
+// than left as a fourth, silently-unused scale. Real scoring lives in xOnlyScan() and the LLM
+// path; heat scoring lives in server/src/lib/heat.ts.
 
 function xjson(text: string) {
   const c = text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim()
@@ -317,7 +282,7 @@ export default function Home() {
 
       if (!cr) {
         // Only auto-analyze if coming from feed (?q=), not on page refresh
-        if (q) analyze()
+        if (q) analyze(handle)
         setFeedLoading(false)
         return
       }
@@ -381,8 +346,10 @@ export default function Home() {
     reader.readAsDataURL(file)
   }
 
-  async function analyze() {
-    const url = xUrl.trim()
+  async function analyze(handleOverride?: string) {
+    // The handle is passed explicitly when we already know it (deep link from the feed).
+    // Reading it from `xUrl` there silently no-ops, because setXUrl has not landed yet.
+    const url = (handleOverride ?? xUrl).trim()
     if (!url) return
     const rawHandle = url.replace('https://x.com/', '').replace('https://twitter.com/', '').replace('http://x.com/', '').replace('@', '').split('/')[0].trim()
     const handle = rawHandle.replace(/[^a-zA-Z0-9_]/g, '')
@@ -1267,8 +1234,8 @@ export default function Home() {
   const otc = T[ot]
   const redFlags = result?.red_flags?.filter((f: any) => f.label) || []
   const goodHighlights = result?.good_highlights?.filter((h: string) => h && h.length > 5) || []
-  const cmvScore = result ? computeCMVAlphaScore(result.metrics, redFlags) : null
-  const fudPen = cmvScore?.fudPenalty ?? 0
+  const highFlagCount = redFlags.filter((f: any) =>
+    f.severity === 'high' || ['exploit', 'rug', 'scam', 'dump'].includes(f.type)).length
   const msg = LOADING_MSGS[msgIdx]
 
   // Metrics that matter for project evaluation (exclude pure social stats)
@@ -2037,7 +2004,7 @@ export default function Home() {
                   + New Scan
                 </button>
               )}
-              <button className="btn-scan" onClick={analyze} disabled={loading || !xUrl.trim()}>
+              <button className="btn-scan" onClick={() => analyze()} disabled={loading || !xUrl.trim()}>
                 {loading ? 'Scanning...' : 'Analyze'}
               </button>
             </div>
@@ -2116,7 +2083,7 @@ export default function Home() {
               <>
                 <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--red)', marginBottom: 6 }}>Scan failed</div>
                 <div style={{ fontSize: 12, color: 'var(--text-3)', marginBottom: 10 }}>{error}</div>
-                <button onClick={analyze} style={{ fontSize: 12, padding: '6px 14px', borderRadius: 8, border: '1px solid rgba(220,38,38,0.2)', background: 'none', color: 'var(--red)', cursor: 'pointer', fontFamily: 'var(--font)' }}>Try again</button>
+                <button onClick={() => analyze()} style={{ fontSize: 12, padding: '6px 14px', borderRadius: 8, border: '1px solid rgba(220,38,38,0.2)', background: 'none', color: 'var(--red)', cursor: 'pointer', fontFamily: 'var(--font)' }}>Try again</button>
               </>
             )}
           </div>
@@ -2135,11 +2102,14 @@ export default function Home() {
                   </div>
                   <div style={{ flex: 1 }}>
                     <div className="flag-title">{redFlags.length} Red Flag{redFlags.length > 1 ? 's' : ''} Detected</div>
-                    <div className="flag-sub">Score penalised · Proceed with extreme caution</div>
+                    <div className="flag-sub">Review each before committing time or capital</div>
                   </div>
                   <div className="flag-penalty">
-                    <div className="flag-penalty-num">-{fudPen}</div>
-                    <div className="flag-penalty-label">PENALTY</div>
+                    {/* This used to show a "-N PENALTY" from a 0-1000 scale that was never
+                        actually subtracted from the 0-100 score beside it. Showing the real
+                        severity mix is honest; inventing a penalty number was not. */}
+                    <div className="flag-penalty-num">{highFlagCount || redFlags.length}</div>
+                    <div className="flag-penalty-label">{highFlagCount ? 'HIGH' : 'FLAGS'}</div>
                   </div>
                 </div>
                 {redFlags.map((f: any, i: number) => (

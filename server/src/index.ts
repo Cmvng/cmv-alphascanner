@@ -16,6 +16,7 @@ import { computeHeatForAll } from './jobs/compute-heat.js'
 import { enrichTargets } from './jobs/enrich-targets.js'
 import { runAlphaScans } from './jobs/run-alpha-scans.js'
 import { assessRisk } from './jobs/assess-risk.js'
+import { dispatchAlerts } from './jobs/dispatch-alerts.js'
 import { GoPlusProvider } from './providers/goplus.js'
 import { GeckoTerminalProvider } from './providers/geckoterminal.js'
 import { DexScreenerProvider } from './providers/dexscreener.js'
@@ -147,6 +148,16 @@ async function main() {
         run: async () => {
           const r = await runAlphaScans()
           return { targetsSeen: r.scanned }
+        },
+      },
+      {
+        // A radar you have to visit is still pull-based. This is the step that makes
+        // "never miss alpha" literal rather than aspirational.
+        name: 'dispatch-alerts',
+        everyMs: 5 * 60_000,
+        run: async () => {
+          const r = await dispatchAlerts()
+          return { targetsSeen: r.sent }
         },
       },
     ])
