@@ -163,21 +163,23 @@ api/cryptorank.ts          44 L — ORPHAN, no client calls it
 19. **Score polarity differs between sources.** RugCheck: higher = *riskier*. Solsniffer: higher =
     *safer*. Our alpha score: higher = *better*. Normalise at the adapter boundary.
 
-20. **Deployment is hybrid — know which half you are editing.**
-    - **Vercel** (unchanged, Hobby): the Vite SPA + `api/*` request/response routes — the scan
-      pipeline. `cmv-alphascanner.vercel.app`.
-    - **Railway** (`cmv-alpha-engine`, project `512878a1-8f45-40aa-99e0-6adfd532622d`): the
-      always-on `worker/` — WebSocket subscriptions, in-process scheduler, webhook receiver.
-    - **Supabase**: the shared state layer both halves write to.
+20. **Deployment is all-Railway. Vercel is being retired for this project.**
+    Project `cmv-alpha-engine` (`512878a1-8f45-40aa-99e0-6adfd532622d`), env `production`.
+    Services: `web` (static SPA) · `api` (ported handlers) · `worker` (always-on) ·
+    **`Postgres`** (`573e9a60-fbc4-4ac2-a18c-580c3c9cf7cb`, managed template, persistent volume).
 
-    **Why:** Vercel serverless cannot hold persistent WebSocket connections (its own docs say so),
-    and the discovery engine needs them for RPC `Transfer`-from-`0x0` log subscriptions, the
-    OpenSea Stream API and Helius LaserStream. Vercel's June-2026 WebSocket beta pins connections
-    to a function's max duration — no good for indefinite subscriptions. **Never put a long-lived
-    connection, a queue, or a scheduler in `api/`** — it belongs in `worker/`.
+    **Why not Vercel:** serverless cannot hold persistent WebSocket connections — its own docs say
+    so — and the engine needs them for RPC `Transfer`-from-`0x0` log subscriptions, the OpenSea
+    Stream API and Helius LaserStream. The June-2026 WebSocket beta pins connections to a
+    function's max duration. **Never put a long-lived connection, a queue, or a scheduler in
+    `api/`** — it belongs in `worker/`, where there is also no cron cadence cap.
 
-    **Do not add a `crons` key to `vercel.json`** — scheduling is in-process on the worker, where
-    there is no cadence cap. (Vercel Hobby caps cron at once per day; that is now moot.)
+21. **Never paste a database credential — use Railway reference variables.**
+    `DATABASE_URL=${{Postgres.DATABASE_URL}}`. Railway's managed Postgres exposes `DATABASE_URL`,
+    `PGHOST`, `PGPORT`, `PGUSER`, `PGPASSWORD`, `PGDATABASE` automatically, and rotation
+    propagates to every consumer. **The Alpha Engine's tables live in Railway Postgres, not
+    Supabase**, so no Supabase service-role key is required. Supabase keeps only the existing
+    `scans` table, read from the frontend with the anon key that is public by design.
 
 ## Environment variables
 

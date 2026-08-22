@@ -8,10 +8,75 @@ Supersedes cost/mechanism claims in `ALPHA_ENGINE_SPEC.md` where they conflict.
 
 # ⛔ THREE BLOCKERS FOUND BEFORE ANY CODE
 
-## ✅ BLOCKER 1 — RESOLVED: hybrid Vercel + Railway
+## ✅ BLOCKER 1 — RESOLVED: all-Railway, and Phase 1 needs **zero secrets**
 
-**Decided 2026-08-22, delegated by the owner. Railway project `cmv-alpha-engine` created**
-(`512878a1-8f45-40aa-99e0-6adfd532622d`, workspace "Cmv Ceo's Projects", env `production`).
+**Updated 2026-08-22 after the owner confirmed they no longer use Vercel for this project.**
+The earlier hybrid split is superseded — everything moves to Railway.
+
+### Provisioned so far
+
+| Resource | ID |
+|---|---|
+| Project `cmv-alpha-engine` | `512878a1-8f45-40aa-99e0-6adfd532622d` |
+| Environment `production` | `43dbefc1-db4f-4f05-84c0-1e0f5a085f0a` |
+| **Postgres** (managed template, `postgres-ssl:18`) | `573e9a60-fbc4-4ac2-a18c-580c3c9cf7cb` |
+| Persistent volume at `/var/lib/postgresql/data` | `dc65671a-12c4-422a-ad4e-76653585d00d` |
+
+### 🔑 Why no Supabase service-role key is needed
+
+Railway's managed Postgres **auto-exposes** `DATABASE_URL`, `PGHOST`, `PGPORT`, `PGUSER`,
+`PGPASSWORD`, `PGDATABASE`. Services consume it as a **reference variable**:
+
+```
+DATABASE_URL=${{Postgres.DATABASE_URL}}
+```
+
+Nothing is pasted, nothing is fetched, and a credential rotation propagates to every consumer
+automatically. **The Alpha Engine owns its own database outright**, so:
+
+- Phase 1 writes go to Railway Postgres → **no Supabase write access needed**
+- Phase 1 reads come from Railway Postgres → **no Supabase read access needed**
+- The existing `scans` table stays in Supabase, read by the frontend with the **anon key that is
+  public by design and already in the build**
+
+**Net: Phase 1 requires no new credential from the owner at all.** That also sidesteps security
+issue #4 entirely — there is no anon-key write path to abuse, because the engine's data never
+touches Supabase.
+
+### Data topology
+
+| Store | Holds | Written by | Read by |
+|---|---|---|---|
+| **Railway Postgres** *(new)* | `targets`, `signal_events`, `heat_history`, `signal_sources`, `signal_config`, `cron_runs` | worker only, over private networking | `api/radar` |
+| **Supabase** *(existing, unchanged)* | `scans` | the scan pipeline | feed · tierlist · admin · FeaturedProjects |
+
+**End state (not Phase 1):** fold `scans` into Railway Postgres and retire Supabase. That kills
+the anon-key-delete hole permanently and leaves one database. It needs a data export only the
+owner can run, so it is a deliberate follow-up, not a Phase 1 risk.
+
+### Services to create (once Phase 1 code exists)
+
+| Service | Type | Role |
+|---|---|---|
+| `web` | Static (Caddy) | the Vite SPA from `dist/` |
+| `api` | Node | the ported `api/*` handlers + `api/radar` |
+| `worker` | Node, always-on | subscriptions, in-process scheduler, webhook receiver |
+| `Postgres` | ✅ created | engine state |
+
+### Migration off Vercel
+
+- Delete `vercel.json`; drop `@vercel/node`.
+- The `api/*` handlers use `VercelRequest`/`VercelResponse`, which are structurally
+  `IncomingMessage`/`ServerResponse` — **a ~30-line adapter lets every existing handler run
+  unchanged under a Node server.** No rewrite of scan logic.
+- ⚠️ **Open question:** is `cmv-alphascanner.vercel.app` still serving today? That decides whether
+  this is a live migration (needs a DNS/domain cutover plan) or a fresh deploy.
+
+---
+
+## Superseded: the original hybrid reasoning
+
+*Kept because the WebSocket argument is the load-bearing one and still applies.*
 
 ### First, a correction
 

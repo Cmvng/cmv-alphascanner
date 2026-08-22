@@ -333,6 +333,23 @@ Four background agents dispatched to close research gaps. Findings folded into
   `vercel.json`.
 - **No application code touched.**
 
+### 2026-08-22 · Session 3e — all-Railway; Phase 1 needs no secrets
+- Owner confirmed they **no longer use Vercel** for this project. The hybrid split is superseded:
+  everything moves to Railway.
+- **Provisioned Railway Postgres** (managed template `postgres-ssl:18`, service
+  `573e9a60-fbc4-4ac2-a18c-580c3c9cf7cb`, persistent volume `dc65671a-12c4-422a-ad4e-76653585d00d`
+  at `/var/lib/postgresql/data`). A first attempt using the bare `postgres:16` image was wrong —
+  no credentials, no volume — and was removed.
+- **Blocker 3 (Supabase service-role key) is dissolved, not answered.** The engine owns its own
+  Postgres, referenced as `${{Postgres.DATABASE_URL}}`; nothing is pasted or fetched. Phase 1
+  needs **no new credential from the owner**, and there is no anon-key write path to abuse.
+- Supabase keeps only the existing `scans` table, read by the frontend with the public anon key.
+  Folding `scans` into Railway Postgres and retiring Supabase is the documented end state, not a
+  Phase 1 task.
+- **Only one input still blocks Phase 1: the chain list.** Plus one open question — whether
+  `cmv-alphascanner.vercel.app` is still serving, which decides migration vs fresh deploy.
+- **No application code touched.**
+
 ---
 
 ## 10. Planning documents
