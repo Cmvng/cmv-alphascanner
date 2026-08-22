@@ -335,14 +335,72 @@ create table cron_runs (                 -- §38 observability + locking
 RLS: `anon` gets `SELECT` on `targets`/`heat_history` only. All writes require the service-role
 key, server-side. This also fixes vulnerability #4.
 
-## 18. Provider integrations — Phase 1 *(deliverable D)*
-| Provider | Purpose | Auth | Rate limit | Cost | Fallback |
-|---|---|---|---|---|---|
-| DexScreener | `token-profiles/latest`, `token-boosts/latest`, `token-boosts/top`, `search`, `pairs` | **none** | **60/min** (profile/boost) · **300/min** (pairs/search) | **$0** | GeckoTerminal |
-| GeckoTerminal | `/networks/{n}/new_pools`, `/search/pools` | **none** | **30/min** | **$0** | DexScreener |
+## 18. Provider integrations *(deliverable D)*
 
-Both verified current. Deliberately **two independent providers** so §17 cross-source
-confirmation has something to confirm against on day one, and §31 has a real failover path.
+### ⚠️ Correction to the earlier plan
+
+**DexScreener has no true new-pairs endpoint.** Its `token-profiles` and `token-boosts` feeds are
+**promotion** signals, not **creation** signals — a token appears there because someone paid to
+boost it, not because it was just deployed. My earlier plan treated it as a co-primary discovery
+source. That was wrong.
+
+**GeckoTerminal is the only free provider with a purpose-built new-pool feed.** Roles corrected:
+
+| Provider | Role | Key endpoints | Auth | Rate limit | Cost |
+|---|---|---|---|---|---|
+| **GeckoTerminal** | **PRIMARY discovery** | `/networks/new_pools` (global sweep) · `/networks/{n}/new_pools` | none | **30/min** | $0 |
+| **DexScreener** | **Enrichment + failover** | `/token-pairs/v1/{chain}/{token}` · `/latest/dex/search` · `/tokens/v1/…` | none | **60/min** (profile/boost) · **300/min** (pairs) | $0 |
+
+One global GeckoTerminal call per minute plus a few per-chain calls stays well inside 30/min and
+surfaces pools within a minute or two of creation — the right resolution for a convergence engine.
+DexScreener then enriches every candidate with liquidity, volume and socials on a separate 300/min
+budget. **Different vendors, independent buckets** — a genuine failover pair, not a shared failure
+mode.
+
+**Two build-time caveats:**
+- GeckoTerminal is officially **Beta and subject to change**. Pin `Accept: application/json;version=…`
+  — but the long-quoted `20230302` token **could not be re-verified**; confirm the current value
+  before shipping.
+- Solana public RPC: docs now show `https://api.mainnet.solana.com`, while the ecosystem still
+  widely uses `api.mainnet-beta.solana.com`. **Verify which host answers before hard-coding.**
+  Base public RPC is **HTTP only — no `eth_subscribe`/log subscriptions**, so Base needs polling
+  or a provider.
+
+### Later-phase providers (verified, informs Phases 2 and 4)
+
+| Provider | Role | Free tier | Verification |
+|---|---|---|---|
+| **Alchemy** | **Push infra for EVM** — Address Activity webhooks (**up to 100k addresses each**), NFT Activity webhooks (mints = transfer from `0x0`), Custom webhooks on contract creation | **30M CU/mo, 500 CU/s, 5 apps, 5 webhooks**. PAYG $0.45/1M CU | ✅ **VERIFIED** from Alchemy's official docs source repo |
+| **Helius** | **Push infra for Solana** — parsed swaps/mints, DAS | **1M credits/mo, 10 RPC req/s, 2 DAS req/s, 1 webhook (up to 100k addresses)** | 🟡 inferred |
+| **Birdeye** | Solana wallet PnL / smart-money depth | 30k CU/mo (burns in days); wallet APIs capped 5 rps everywhere | 🟡 inferred |
+| **OpenSea v2** | EVM NFT marketplace context | Self-serve key, **600 reads/hour**, and **keys expire** | 🟡 inferred |
+| **Magic Eden** | Solana NFT only | 120 QPM Solana | 🟡 inferred |
+
+### 🔴 Magic Eden contracted hard in 2026 — do not build on it
+
+Magic Eden **shut its Bitcoin Ordinals and EVM marketplaces in early March 2026**; the Bitcoin API
+and backend were fully shut down on **27 March 2026**, and the multi-chain wallet closed in April.
+The company stated it would provide **no migration tooling, no alternative-infrastructure
+recommendations, and no developer support**. Solana survives. Treat the whole surface as
+strategically unstable.
+
+**Consequence for Phase 4:** the mint radar's primary becomes **Alchemy**, not Magic Eden — its
+NFT Activity webhook is push-based, multi-chain EVM, and free. OpenSea's `event_type=mint` is a
+poll-only supplement at 600 reads/hour with expiring keys. Magic Eden is Solana-only context.
+
+**Consequence for Phase 2:** wallet convergence should be **push, not polled**. One Alchemy Address
+Activity webhook carries up to 100,000 tracked addresses on the free tier; Helius does the same for
+Solana. That is faster *and* cheaper than any cron sweep, and it means Phase 2 may not need paid
+data at all.
+
+### 🟠 A live risk to the existing scanner
+
+DefiLlama's official SDK now marks **`getRaises()` and `getHacks()` as Pro-locked** ($300/mo),
+while third-party code still calls them keylessly. `api/xproject.ts` calls `api.llama.fi/hacks`
+**keylessly today** — so the hack-detection red flag may already be silently returning nothing.
+Also, CoinGecko keyless is **~10–30/min, dynamic and explicitly not guaranteed**; a free Demo key
+lifts that to a reliable 30/min and 10k/month. Both are cheap fixes worth folding into Phase 1.
+*(Probe both from real egress — this sandbox cannot reach them.)*
 
 ## 19. Testing strategy *(deliverable K)*
 Needs **vitest** (devDependency — approval required). Every §49 case:

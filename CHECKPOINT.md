@@ -136,6 +136,8 @@ sanity re-check that rejects a DEX price more than 10× off the CoinGecko price.
 | 12 | **DuckDuckGo HTML scraping from serverless IPs.** `websearch.ts` regex-parses DDG's HTML — blocked and rate-limited from datacenter ranges, and the markup changes without notice. It already has a fallback regex, which is a tell that the first one broke once. | `api/websearch.ts:37-63` |
 | 13 | **`withTimeout` doesn't abort the underlying fetch.** `Promise.race` against a `setTimeout` that is never cleared; no `AbortController`. Timers stay pending. | `api/xproject.ts:14-18` |
 | 14 | **Unthrottled CoinGecko polling from the browser.** `feed.tsx` fires one search + one price request per unique ticker every 60 s, from every open tab. Public CoinGecko will 429. | `src/pages/feed.tsx:23,122-136` |
+| 14b | **DefiLlama `/hacks` and `/raises` may now be Pro-locked ($300/mo)** — DefiLlama's own SDK marks both as Pro, while `api/xproject.ts` still calls `api.llama.fi/hacks` keylessly. If they have moved behind the key, the hack-detection red flag is silently returning nothing and no error is surfaced. **Probe both from real egress.** | `api/xproject.ts:245` |
+| 14c | **CoinGecko keyless is ~10–30 req/min, dynamic, and explicitly "not guaranteed"** — documented as unsuitable for production. The scanner and `feed.tsx`'s price poll both use it keylessly. A free Demo key raises this to a reliable 30/min and 10k/month at zero cost. | `xproject.ts:19` · `feed.tsx:23` |
 | 15 | **`cryptocurrency.cv` news API is unverified.** Obscure endpoint, no key, no docs. Needs a live check — sentiment scoring silently no-ops if it's dead. | `api/xproject.ts:361` |
 | 16 | **Admin "Rescan all" is a 50-minute foreground loop.** 30 s `setTimeout` between projects, in the browser tab, no resume. And it only refreshes `xproject` — it never re-runs Claude or rewrites Supabase, so the log message "refreshed" overstates what happened. | `src/pages/admin.tsx:48-70` |
 
@@ -278,6 +280,22 @@ Responding to the owner's Master Build Spec (§56 deliverables A–M, §61 items
 - Wrote `AUDIT_AND_PHASE1_PLAN.md` — full audit, research matrix, provider matrix, schema,
   exact file plan, cost model, and the decisions needed before implementation.
 - **No application code touched. Phase 1 awaits owner approval per §61.**
+
+### 2026-08-22 · Session 3b — parallel research agents
+Four background agents dispatched to close research gaps. Findings folded into
+`AUDIT_AND_PHASE1_PLAN.md`:
+- **985monitor.xyz established** — a working wallet-graph implementation of our convergence
+  primitive. Three design lessons adopted: thresholds become config not constants; alerts grade
+  into tiers rather than firing binary; entities are qualified by a liquidity/mcap floor *before*
+  convergence is computed (the best cost lever found).
+- **Corrected a Phase 1 error**: DexScreener has **no true new-pairs endpoint** — its profile and
+  boost feeds are *promotion* signals, not *creation* signals. GeckoTerminal is the only free
+  purpose-built new-pool feed. Roles swapped: GeckoTerminal primary, DexScreener enrichment.
+- **Magic Eden shut EVM + Bitcoin in March 2026** with no migration support. Phase 4's mint
+  primary becomes Alchemy (verified free tier: 30M CU/mo, NFT Activity webhooks).
+- **Phase 2 should be push, not polled** — one Alchemy webhook carries 100k addresses free;
+  Helius does the same for Solana. May remove the need for paid data entirely.
+- Found two live risks to the *existing* scanner (items 14b, 14c above).
 
 ---
 

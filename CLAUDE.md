@@ -119,6 +119,22 @@ api/cryptorank.ts          44 L — ORPHAN, no client calls it
     functions in code — never an LLM call. LLMs are for summarising, classifying and explaining
     only. This keeps cost bounded and results reproducible.
 
+14. **Provider facts that are easy to get wrong** (verified Aug 2026):
+    - **DexScreener has no new-pairs endpoint.** `token-profiles` / `token-boosts` are *promotion*
+      feeds, not *creation* feeds. **GeckoTerminal `/networks/new_pools` is the only free
+      purpose-built new-pool source.** Don't swap these roles.
+    - GeckoTerminal is officially **Beta**; pin the `Accept: …;version=` header, and re-verify the
+      version token — the long-quoted `20230302` is unconfirmed.
+    - **Magic Eden shut its EVM and Bitcoin marketplaces in March 2026**, no migration support.
+      Solana only. Use **Alchemy** for EVM NFT/mint work (free: 30M CU/mo, 5 webhooks, NFT
+      Activity webhook fires on mints as transfers from `0x0`).
+    - **Prefer webhooks over cron polling** where they exist: one Alchemy Address Activity webhook
+      tracks up to **100,000 addresses** free; Helius does the same for Solana on 1 webhook.
+    - **DefiLlama `/hacks` and `/raises` may be Pro-locked now** ($300/mo) though `xproject.ts`
+      still calls them keylessly — verify before trusting the hack red flag.
+    - **CoinGecko keyless is ~10–30/min and not guaranteed.** A free Demo key gives a reliable
+      30/min + 10k/month. Get one.
+
 ## Environment variables
 
 Server: `X_API_BEARER_TOKEN` (required, no fallback) · `ANTHROPIC_API_KEY` (optional — absence
