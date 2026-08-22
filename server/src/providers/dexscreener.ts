@@ -1,0 +1,139 @@
+// server/src/providers/dexscreener.ts
+//
+// ENRICHMENT + FAILOVER — not primary discovery.
+//
+// DexScreener has no true new-pairs endpoint. `token-profiles/latest` and `token-boosts/latest`
+// are PROMOTION feeds: a token appears because someone paid to boost it. That is still a signal
+// (someone is spending money on attention) but it is weak evidence of anything real, so boosted
+// events carry low confidence and a short half-life.
+//
+// Its value here is a second, independent 300/min budget for enriching whatever GeckoTerminal
+// surfaces — different vendor, different bucket, so the pair is a genuine failover rather than a
+// shared failure mode.
+
+import { RateLimiter, fetchWithTimeout, CircuitBreaker } from '../lib/net.js'
+import type { Discovery, DiscoveryProvider, HealthStatus } from './types.js'
+
+const BASE = 'https://api.dexscreener.com'
+
+/** DexScreener chain ids for the chains we watch. */
+const CHAIN_IDS: Record<string, string> = {
+  solana: 'solana',
+  base: 'base',
+  eth: 'ethereum',
+  ethereum: 'ethereum',
+}
+
+function num(v: unknown): number | null {
+  const n = typeof v === 'string' ? parseFloat(v) : typeof v === 'number' ? v : NaN
+  return Number.isFinite(n) ? n : null
+}
+
+export class DexScreenerProvider implements DiscoveryProvider {
+  readonly id = 'dexscreener'
+  readonly displayName = 'DexScreener'
+  // Two independent buckets upstream: 60/min for profile+boost, 300/min for pairs. The lower
+  // one governs discovery here.
+  readonly rateLimitPerMin = 60
+
+  private limiter = new RateLimiter(this.rateLimitPerMin)
+  private pairLimiter = new RateLimiter(300)
+  private breaker = new CircuitBreaker()
+  private lastError: string | undefined
+
+  private async get(path: string, limiter = this.limiter): Promise<any | null> {
+    if (this.breaker.isOpen) return null
+    await limiter.take()
+    try {
+      const r = await fetchWithTimeout(`${BASE}${path}`, { timeoutMs: 8000 })
+      if (!r.ok) {
+        this.lastError = `HTTP ${r.status}`
+        this.breaker.recordFailure()
+        return null
+      }
+      this.breaker.recordSuccess()
+      this.lastError = undefined
+      return await r.json()
+    } catch (e: any) {
+      this.lastError = e?.name === 'AbortError' ? 'timeout' : String(e?.message || e)
+      this.breaker.recordFailure()
+      return null
+    }
+  }
+
+  async discover({ chains }: { chains: string[]; maxAgeHours: number }): Promise<Discovery[]> {
+    const wanted = new Set(chains.map((c) => CHAIN_IDS[c.toLowerCase()]).filter(Boolean))
+    const body = await this.get('/token-boosts/latest/v1')
+    const items: any[] = Array.isArray(body) ? body : Array.isArray(body?.data) ? body.data : []
+    const out: Discovery[] = []
+
+    for (const it of items.slice(0, 60)) {
+      const chainId = typeof it?.chainId === 'string' ? it.chainId : null
+      const address = typeof it?.tokenAddress === 'string' ? it.tokenAddress : null
+      if (!chainId || !address || !wanted.has(chainId)) continue
+
+      const chain = Object.keys(CHAIN_IDS).find((k) => CHAIN_IDS[k] === chainId) ?? chainId
+
+      out.push({
+        target: {
+          kind: 'token',
+          chain,
+          contractAddress: address,
+          xHandle: null,
+          name: typeof it?.description === 'string' ? it.description.slice(0, 120) : null,
+          symbol: null,
+          audienceSize: null,
+          liquidityUsd: null,
+          marketCapUsd: null,
+          volume24hUsd: null,
+          poolCreatedAt: null,
+        },
+        events: [
+          {
+            eventType: 'boosted',
+            occurredAt: new Date(),
+            // Paid promotion. Someone spending money is information, but it is the weakest
+            // evidence we ingest — hence low confidence and a 6h half-life.
+            confidence: 0.25,
+            rawReference: typeof it?.url === 'string' ? it.url : null,
+            raw: it,
+          },
+        ],
+      })
+    }
+
+    return out
+  }
+
+  /**
+   * Fill in liquidity / volume / market cap for a target another provider found.
+   * Uses the 300/min pairs budget, separate from the discovery bucket above.
+   */
+  async enrich(chain: string, address: string): Promise<Partial<Discovery['target']> | null> {
+    const chainId = CHAIN_IDS[chain.toLowerCase()]
+    if (!chainId) return null
+
+    const body = await this.get(`/token-pairs/v1/${chainId}/${address}`, this.pairLimiter)
+    const pairs: any[] = Array.isArray(body) ? body : Array.isArray(body?.pairs) ? body.pairs : []
+    if (pairs.length === 0) return null
+
+    // Deepest pool is the most representative price and the hardest to manipulate.
+    const best = pairs.reduce((a, b) => ((b?.liquidity?.usd ?? 0) > (a?.liquidity?.usd ?? 0) ? b : a))
+
+    return {
+      name: best?.baseToken?.name ?? null,
+      symbol: best?.baseToken?.symbol ?? null,
+      liquidityUsd: num(best?.liquidity?.usd),
+      marketCapUsd: num(best?.marketCap) ?? num(best?.fdv),
+      volume24hUsd: num(best?.volume?.h24),
+      poolCreatedAt: best?.pairCreatedAt ? new Date(best.pairCreatedAt) : null,
+    }
+  }
+
+  async healthCheck(): Promise<HealthStatus> {
+    const started = Date.now()
+    const body = await this.get('/token-boosts/latest/v1')
+    const latencyMs = Date.now() - started
+    return body ? { ok: true, latencyMs } : { ok: false, latencyMs, error: this.lastError || 'unknown' }
+  }
+}
