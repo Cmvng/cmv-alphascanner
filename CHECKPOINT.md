@@ -350,6 +350,22 @@ Four background agents dispatched to close research gaps. Findings folded into
   `cmv-alphascanner.vercel.app` is still serving, which decides migration vs fresh deploy.
 - **No application code touched.**
 
+### 2026-08-22 · Session 4 — Phase 1 built and deployed
+- **P0 security closed.** `/api/claude` no longer accepts a caller-supplied system prompt (built
+  server-side now); untrusted bios/tweets/search snippets go through explicit data boundaries;
+  admin auth moved server-side with an HMAC session token; `api/cryptorank.ts` deleted. Verified
+  the admin password no longer appears in the built bundle.
+- **Engine built**: schema, pure heat engine (23 passing tests), provider adapters behind a
+  `DiscoveryProvider` interface, ingest + heat jobs, advisory-locked scheduler, `/api/radar`,
+  and the `/radar` UI, which is now the front door with the scanner at `/scan`.
+- **A test caught a real design flaw**: with a linear repeat factor one source repeating 20 times
+  outscored three independent sources. Repeats are now weighted geometrically and capped.
+- **Deployed to Railway.** `cmv-alphascanner` is live and healthy, serving the SPA and API.
+- **Blocked on the database** — see `DEPLOYMENT_STATE.md`. The managed Postgres was created but
+  never deployed, and giving a service its first deployment, committing staged template changes,
+  deleting a service and renaming one are all gated behind the dashboard/2FA. Four clicks needed.
+- **Vercel untouched** — the old deployment still serves; no cutover until Railway is verified.
+
 ---
 
 ## 10. Planning documents
@@ -359,6 +375,7 @@ Four background agents dispatched to close research gaps. Findings folded into
 | `CHECKPOINT.md` | This file — state of the codebase, issue list, work log |
 | `CLAUDE.md` | Persistent memory: conventions and traps |
 | `ALPHA_ENGINE_SPEC.md` | Product direction — the convergence thesis and Heat × Alpha model |
+| `DEPLOYMENT_STATE.md` | **Live Railway state + the 4 dashboard actions still needed** |
 | `AUDIT_AND_PHASE1_PLAN.md` | **Current** — blockers, research matrix, schema, Phase 1 file plan |
 | `RISK_ENGINE_RESEARCH.md` | Risk + scam detection sources, neutral wording, the checked/unchecked rule |
 | `WALLET_MINT_RESEARCH.md` | Wallet intelligence + mint radar sources, dead providers, the two exotic chains |
