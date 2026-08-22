@@ -1,6 +1,7 @@
 # Deployment State — Railway
 
-**Last verified:** 2026-08-22 by direct Railway API query (not assumed).
+**Last verified:** 2026-08-22, re-checked after the session-5 work. Verified by direct Railway
+API query and by Railway's own agent — not assumed.
 
 ## Live now
 
@@ -24,6 +25,20 @@ That is why `DATABASE_URL` resolves to nothing. **It is not a syntax problem** �
 `${{Postgres-NLnO.DATABASE_URL}}` is listed as valid by Railway; there is simply no running
 service behind it to resolve against.
 
+**Re-confirmed independently.** Railway's own agent was asked to deploy it and could not:
+its deploy endpoint returns *"Service Instance not found"* for that service by both ID and name,
+while the environment search shows the service fully configured — image
+`ghcr.io/railwayapp-templates/postgres-ssl:18`, every connection variable set, and volume
+`dc65671a-…` mounted at `/var/lib/postgresql/data`. The configuration is staged; no service
+instance was ever created for it. Committing that is a dashboard action.
+
+The app service confirms the downstream effect on every boot:
+
+```
+[server] DATABASE_URL not set — engine routes will report unavailable
+[server] listening on :8080 | chains=solana,base,eth | db=false
+```
+
 ## Why this can't be fixed from here
 
 Four operations are gated behind the Railway dashboard and unavailable to an API/MCP token:
@@ -40,7 +55,15 @@ Four operations are gated behind the Railway dashboard and unavailable to an API
 In the Railway dashboard, project **`cmv-alpha-engine`** → environment **`production`**:
 
 1. **Delete the broken `Postgres`** (`ab87d783-…`). It is a bare `postgres:16` image with no
-   credentials and no volume — created by mistake, superseded. *This also frees the name.*
+   credentials and no volume, and its logs show it crash-looping on
+   `Error: Database is uninitialized and superuser password is not specified.` Created by
+   mistake, superseded. *This also frees the name.*
+
+   > **Do not "fix" it by setting `POSTGRES_PASSWORD`.** It has no volume, so it would lose every
+   > row on each redeploy while looking perfectly healthy — and outcome tracking measures forward
+   > over seven days. A database that silently resets under a system built to record history is
+   > worse than no database. It would also force `DATABASE_URL` to be composed by hand from a
+   > pasted credential, against the reference-variable rule.
 2. **Delete the empty `app` service** (`56d05f8e-…`). Never deployed, no source. Leftover.
 3. **Deploy `Postgres-NLnO`** — click into it and apply/deploy the staged template. It already has
    the volume (`dc65671a-…` at `/var/lib/postgresql/data`) and all connection variables.
@@ -66,8 +89,14 @@ curl https://cmv-alphascanner-production.up.railway.app/healthz
 # expect: {"ok":true,"database":true,...}
 
 curl https://cmv-alphascanner-production.up.railway.app/api/radar/status
-# expect: provider health for geckoterminal + dexscreener, and the last cron run
+# expect: health rows for geckoterminal, dexscreener, mintlogs, goplus and provenance,
+#         plus the last run of each of the 11 scheduled jobs
 ```
+
+This is also the **first real verification the engine has ever had.** Everything built so far
+typechecks and passes 34 tests, but no provider has been called for real: this sandbox's egress
+proxy blocks every provider domain and the Railway domain. The boot logs above and one populated
+`/api/radar/status` response are what turn "written" into "observed working".
 
 ## Note on the old Vercel deployment
 
