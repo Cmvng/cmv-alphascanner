@@ -25,7 +25,7 @@ export async function enrichTargets(
        from targets
       where contract_address is not null
         and chain is not null
-        and (market_cap_usd is null or x_handle is null)
+        and (market_cap_usd is null or x_handle is null or website is null)
         and first_seen_at > now() - interval '7 days'
       order by heat desc, last_event_at desc nulls last
       limit $1`,
@@ -48,7 +48,8 @@ export async function enrichTargets(
            liquidity_usd  = coalesce($5, liquidity_usd),
            market_cap_usd = coalesce($6, market_cap_usd),
            volume_24h_usd = coalesce($7, volume_24h_usd),
-           pool_created_at= coalesce($8, pool_created_at),
+           website        = coalesce($8, website),
+           pool_created_at= coalesce($9, pool_created_at),
            updated_at     = now()
          where id = $1`,
         [
@@ -59,6 +60,7 @@ export async function enrichTargets(
           info.liquidityUsd ?? null,
           info.marketCapUsd ?? null,
           info.volume24hUsd ?? null,
+          info.website ?? null,
           info.poolCreatedAt ?? null,
         ],
       )

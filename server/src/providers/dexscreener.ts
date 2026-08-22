@@ -53,6 +53,24 @@ function extractXHandle(pair: any): string | null {
   return null
 }
 
+/**
+ * Pull the project's own website out of a pair's metadata.
+ *
+ * Filtered against the social and aggregator hosts, because a "website" entry pointing at a
+ * Telegram invite or a DexScreener page tells you nothing about how long the PROJECT has
+ * existed — which is the only thing provenance checks are for.
+ */
+function extractWebsite(pair: any): string | null {
+  const websites: any[] = pair?.info?.websites ?? []
+  for (const w of websites) {
+    const url = typeof w?.url === 'string' ? w.url : ''
+    if (!/^https?:\/\//i.test(url)) continue
+    if (/(?:x\.com|twitter\.com|t\.me|telegram|discord|medium\.com|github\.com|linktr\.ee)/i.test(url)) continue
+    return url
+  }
+  return null
+}
+
 export class DexScreenerProvider implements DiscoveryProvider {
   readonly id = 'dexscreener'
   readonly displayName = 'DexScreener'
@@ -107,6 +125,7 @@ export class DexScreenerProvider implements DiscoveryProvider {
           chain,
           contractAddress: address,
           xHandle: null,
+          website: null,
           name: typeof it?.description === 'string' ? it.description.slice(0, 120) : null,
           symbol: null,
           audienceSize: null,
@@ -151,6 +170,7 @@ export class DexScreenerProvider implements DiscoveryProvider {
       name: best?.baseToken?.name ?? null,
       symbol: best?.baseToken?.symbol ?? null,
       xHandle: extractXHandle(best),
+      website: extractWebsite(best),
       liquidityUsd: num(best?.liquidity?.usd),
       marketCapUsd: num(best?.marketCap) ?? num(best?.fdv),
       volume24hUsd: num(best?.volume?.h24),

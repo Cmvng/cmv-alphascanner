@@ -98,6 +98,7 @@ export class GeckoTerminalProvider implements DiscoveryProvider {
             chain,
             contractAddress: address,
             xHandle: null,
+            website: null,
             name: typeof a.name === 'string' ? a.name : null,
             symbol: null,
             audienceSize: null,

@@ -31,13 +31,44 @@ targetRouter.get('/target/:id', async (req, res) => {
           where target_id = $1 order by computed_at desc limit 96`,
         [id],
       ),
-      query(`select * from risk_assessments where target_id = $1`, [id]),
+      query(`select * from risk_assessments where target_id = $1 order by source`, [id]),
     ])
 
     if (targets.length === 0) return res.status(404).json({ error: 'not_found' })
     const t = targets[0]
 
-    const r = risk[0]
+    // Two independent risk sources now write here (contract checks and domain provenance). They
+    // are merged for display but their availability is tracked separately, so one source timing
+    // out cannot make the other's silence look like coverage.
+    const merged = risk.length
+      ? {
+          checks: risk.flatMap((r: any) =>
+            (r.checks as any[]).map((c) => ({ ...c, source: r.source })),
+          ),
+          summary: risk.reduce(
+            (acc: Record<string, number>, r: any) => {
+              for (const k of ['low', 'medium', 'high', 'critical']) {
+                acc[k] = (acc[k] ?? 0) + Number(r.summary?.[k] ?? 0)
+              }
+              return acc
+            },
+            { low: 0, medium: 0, high: 0, critical: 0 },
+          ),
+          checked_count: risk.reduce((n: number, r: any) => n + Number(r.checked_count), 0),
+          total_count: risk.reduce((n: number, r: any) => n + Number(r.total_count), 0),
+          assessed_at: risk
+            .map((r: any) => r.assessed_at)
+            .sort()
+            .slice(-1)[0],
+          sources: risk.map((r: any) => ({
+            source: r.source,
+            checked_count: Number(r.checked_count),
+            total_count: Number(r.total_count),
+            assessed_at: r.assessed_at,
+          })),
+        }
+      : null
+
     return res.json({
       target: {
         id: t.id,
@@ -45,6 +76,7 @@ targetRouter.get('/target/:id', async (req, res) => {
         chain: t.chain,
         contract_address: t.contract_address,
         x_handle: t.x_handle,
+        website: t.website,
         name: t.name,
         symbol: t.symbol,
         liquidity_usd: t.liquidity_usd === null ? null : Number(t.liquidity_usd),
@@ -65,15 +97,7 @@ targetRouter.get('/target/:id', async (req, res) => {
         status: t.status,
       },
       // Absent => never assessed. Distinct from an assessment that found nothing.
-      risk: r
-        ? {
-            checks: r.checks,
-            summary: r.summary,
-            checked_count: r.checked_count,
-            total_count: r.total_count,
-            assessed_at: r.assessed_at,
-          }
-        : null,
+      risk: merged,
       events: events.map((e: any) => ({
         id: e.id,
         source: e.source,

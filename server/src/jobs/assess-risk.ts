@@ -6,20 +6,13 @@
 // number would hide exactly the thing a user needs to see.
 
 import { query, loadConfig } from '../db.js'
-import type { GoPlusProvider, Severity } from '../providers/goplus.js'
+import { recomputeRiskLevel } from './risk-rollup.js'
+import type { GoPlusProvider } from '../providers/goplus.js'
 
 export interface RiskRunResult {
   considered: number
   assessed: number
   unavailable: number
-}
-
-/** Coarse rollup for list views. NULL/absent means NOT ASSESSED — never conflate with 'low'. */
-function rollup(summary: Record<Severity, number>): string {
-  if (summary.critical > 0) return 'critical'
-  if (summary.high > 0) return 'high'
-  if (summary.medium > 0) return 'medium'
-  return 'low'
 }
 
 export async function assessRisk(goplus: GoPlusProvider): Promise<RiskRunResult> {
@@ -30,7 +23,7 @@ export async function assessRisk(goplus: GoPlusProvider): Promise<RiskRunResult>
   const rows = await query<{ id: string; chain: string; contract_address: string }>(
     `select t.id, t.chain, t.contract_address
        from targets t
-       left join risk_assessments r on r.target_id = t.id
+       left join risk_assessments r on r.target_id = t.id and r.source = 'goplus'
       where t.contract_address is not null
         and t.chain is not null
         and (r.target_id is null or r.assessed_at < now() - ($1 || ' hours')::interval)
@@ -53,18 +46,15 @@ export async function assessRisk(goplus: GoPlusProvider): Promise<RiskRunResult>
       }
 
       await query(
-        `insert into risk_assessments (target_id, checks, summary, checked_count, total_count, assessed_at)
-         values ($1,$2,$3,$4,$5,$6)
-         on conflict (target_id) do update set
+        `insert into risk_assessments (target_id, source, checks, summary, checked_count, total_count, assessed_at)
+         values ($1,'goplus',$2,$3,$4,$5,$6)
+         on conflict (target_id, source) do update set
            checks = excluded.checks, summary = excluded.summary,
            checked_count = excluded.checked_count, total_count = excluded.total_count,
            assessed_at = excluded.assessed_at`,
         [row.id, JSON.stringify(a.checks), JSON.stringify(a.summary), a.checkedCount, a.totalCount, a.assessedAt],
       )
-      await query('update targets set risk_level = $2, updated_at = now() where id = $1', [
-        row.id,
-        rollup(a.summary),
-      ])
+      await recomputeRiskLevel(row.id)
       result.assessed++
     } catch (e: any) {
       console.warn('[risk] failed for', row.id, e?.message)

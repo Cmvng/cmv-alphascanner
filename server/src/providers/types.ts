@@ -9,6 +9,8 @@ export interface DiscoveredTarget {
   chain: string | null
   contractAddress: string | null
   xHandle: string | null
+  /** Project site, used for provenance checks. Distinct from a social link. */
+  website: string | null
   name: string | null
   symbol: string | null
   audienceSize: number | null

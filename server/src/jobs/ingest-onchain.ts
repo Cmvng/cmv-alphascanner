@@ -5,6 +5,7 @@
 // health is recorded either way (§31).
 
 import { query, loadConfig } from '../db.js'
+import { recordSourceHealth } from '../lib/health.js'
 import { dedupeKey, targetKeyOf } from '../lib/dedupe.js'
 import type { Discovery, DiscoveryProvider } from '../providers/types.js'
 
@@ -122,18 +123,4 @@ export async function ingestOnchain(
   }
 
   return result
-}
-
-async function recordSourceHealth(id: string, ok: boolean, latencyMs: number | null, error?: string) {
-  await query(
-    `update signal_sources set
-       status             = $2,
-       last_ok_at         = case when $2 = 'ok' then now() else last_ok_at end,
-       last_error         = $3,
-       consecutive_errors = case when $2 = 'ok' then 0 else consecutive_errors + 1 end,
-       latency_ms         = coalesce($4, latency_ms),
-       updated_at         = now()
-     where id = $1`,
-    [id, ok ? 'ok' : 'degraded', error ?? null, latencyMs],
-  ).catch(() => { /* health recording must never break a run */ })
 }

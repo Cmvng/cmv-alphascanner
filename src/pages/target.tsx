@@ -5,6 +5,8 @@ import { useState, useEffect } from 'react'
 
 interface Check {
   key: string
+  /** Which risk source produced this check — contract analysis or domain provenance. */
+  source?: string
   checked: boolean
   reason?: string
   indicator: {
@@ -17,7 +19,15 @@ interface Check {
 
 interface Payload {
   target: any
-  risk: { checks: Check[]; summary: Record<string, number>; checked_count: number; total_count: number; assessed_at: string } | null
+  risk: {
+    checks: Check[]
+    summary: Record<string, number>
+    checked_count: number
+    total_count: number
+    assessed_at: string
+    // Coverage is tracked per source: one source failing must not read as coverage by the other.
+    sources: Array<{ source: string; checked_count: number; total_count: number; assessed_at: string }>
+  } | null
   events: Array<{ id: string; source: string; event_type: string; occurred_at: string; confidence: number; reference: string | null }>
   heat_history: Array<{ heat: number; at: string }>
 }
@@ -34,6 +44,7 @@ const REASON_TEXT: Record<string, string> = {
   chain_unsupported: 'this chain is not covered by the risk source',
   not_applicable: 'not applicable to this token type',
   no_data: 'the source returned no data for this check',
+  no_domain: 'no project website is known for this target, so there is no domain to check',
 }
 
 const CHECK_LABEL: Record<string, string> = {
@@ -43,6 +54,14 @@ const CHECK_LABEL: Record<string, string> = {
   holder_concentration: 'Holder concentration', mint_authority: 'Mint authority',
   freeze_authority: 'Freeze authority', metadata_mutable: 'Metadata mutability',
   transfer_fee: 'Transfer fee', transferable: 'Transferability',
+  // Provenance — how long the project's public footprint has existed.
+  domain_age: 'Domain age', domain_expiry: 'Domain registration term',
+  certificate_history: 'First public certificate', certificate_gap: 'Registration vs. public presence',
+}
+
+const SOURCE_LABEL: Record<string, string> = {
+  goplus: 'contract analysis',
+  provenance: 'domain provenance',
 }
 
 function usd(n: number | null): string {
@@ -209,6 +228,14 @@ export default function Target() {
                     <div className="banner warn">
                       <strong>{risk.checked_count} of {risk.total_count} checks completed.</strong>{' '}
                       The remainder could not be run, so their outcome is unknown — not clear.
+                      {(risk.sources || []).length > 1 && (
+                        <span>
+                          {' '}Per source:{' '}
+                          {(risk.sources || [])
+                            .map((s) => `${SOURCE_LABEL[s.source] || s.source} ${s.checked_count}/${s.total_count}`)
+                            .join(', ')}.
+                        </span>
+                      )}
                     </div>
                   )}
 
@@ -250,7 +277,12 @@ export default function Target() {
                         </span>
                       ))}
                       <div style={{ fontSize: 11.5, color: 'var(--text-4)', marginTop: 8, lineHeight: 1.5 }}>
-                        These did not run{notChecked[0]?.reason ? ` — ${REASON_TEXT[notChecked[0].reason] || notChecked[0].reason}` : ''}. Their result is unknown, not clear.
+                        These did not run. Their result is unknown, not clear.
+                        {' '}
+                        {[...new Set(notChecked.map((c) => c.reason).filter(Boolean))]
+                          .map((r) => REASON_TEXT[r as string] || r)
+                          .join('; ')}
+                        .
                       </div>
                     </div>
                   )}

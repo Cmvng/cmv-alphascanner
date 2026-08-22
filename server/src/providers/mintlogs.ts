@@ -169,6 +169,7 @@ export class MintLogProvider implements DiscoveryProvider {
             chain: rpc.chain,
             contractAddress: t.contract,
             xHandle: null,
+            website: null,
             name: null,
             symbol: null,
             audienceSize: t.uniqueMinters.size,

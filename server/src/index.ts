@@ -18,11 +18,14 @@ import { computeHeatForAll } from './jobs/compute-heat.js'
 import { enrichTargets } from './jobs/enrich-targets.js'
 import { runAlphaScans } from './jobs/run-alpha-scans.js'
 import { assessRisk } from './jobs/assess-risk.js'
+import { assessProvenance } from './jobs/assess-provenance.js'
+import { checkAllSources } from './lib/health.js'
 import { dispatchAlerts } from './jobs/dispatch-alerts.js'
 import { trackOutcomes } from './jobs/track-outcomes.js'
 import { updateTrust } from './jobs/update-trust.js'
 import { flushMeter } from './lib/meter.js'
 import { GoPlusProvider } from './providers/goplus.js'
+import { ProvenanceProvider } from './providers/provenance.js'
 import { MintLogProvider } from './providers/mintlogs.js'
 import { GeckoTerminalProvider } from './providers/geckoterminal.js'
 import { DexScreenerProvider } from './providers/dexscreener.js'
@@ -104,6 +107,8 @@ async function main() {
   const gecko = new GeckoTerminalProvider()
   const dex = new DexScreenerProvider()
   const goplus = new GoPlusProvider()
+  // Domain provenance — free, keyless, and independent of anything onchain.
+  const provenance = new ProvenanceProvider()
   // First non-price signal family: raw Transfer-from-zero logs. Free, keyless, and the only
   // coverage that exists for Stable and Robinhood Chain.
   const mintlogs = new MintLogProvider()
@@ -152,6 +157,16 @@ async function main() {
         },
       },
       {
+        // Provenance changes on a scale of months, so it runs on a long cycle and re-checks
+        // weekly. Spending rate limit to re-read a registration date would buy nothing.
+        name: 'assess-provenance',
+        everyMs: 45 * 60_000,
+        run: async () => {
+          const r = await assessProvenance(provenance)
+          return { targetsSeen: r.assessed }
+        },
+      },
+      {
         // The only automatic spender. Gated by a heat threshold, a per-run cap and a 24h
         // cooldown, so a target hovering at the threshold cannot bill us every cycle.
         name: 'run-alpha-scans',
@@ -169,6 +184,16 @@ async function main() {
         run: async () => {
           const r = await trackOutcomes(dex)
           return { targetsSeen: r.snapshotted + r.measured }
+        },
+      },
+      {
+        // Probes every provider, INCLUDING the risk sources, which run outside the discovery
+        // pass and therefore never reported health at all before (§31).
+        name: 'check-sources',
+        everyMs: 15 * 60_000,
+        run: async () => {
+          const r = await checkAllSources([...providers, goplus, provenance])
+          return { targetsSeen: r.ok + r.down }
         },
       },
       {

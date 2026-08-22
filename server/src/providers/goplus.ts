@@ -44,7 +44,7 @@ export interface RiskCheck {
   key: string
   /** false => we could not run this check. Must render differently from "no issue found". */
   checked: boolean
-  reason?: 'source_unavailable' | 'chain_unsupported' | 'not_applicable' | 'no_data'
+  reason?: 'source_unavailable' | 'chain_unsupported' | 'not_applicable' | 'no_data' | 'no_domain'
   /** Present only when checked === true. */
   indicator: RiskIndicator | null
 }
