@@ -19,6 +19,13 @@ export interface HeatEvent {
 }
 
 export interface HeatConfig {
+  /**
+   * Per-entity trust, keyed by source/entity identifier. Learned from recorded outcomes rather
+   * than asserted — see server/src/jobs/update-trust.ts. A missing entry means "unknown", which
+   * uses `defaultTrust` rather than silently counting as fully trusted.
+   */
+  trustWeights?: Record<string, number>
+  defaultTrust: number
   /** halflife.<eventType> in hours; falls back to `defaultHalfLifeHours`. */
   halfLifeHours: Record<string, number>
   defaultHalfLifeHours: number
@@ -43,11 +50,14 @@ export const DEFAULT_HEAT_CONFIG: HeatConfig = {
     funding: 24,
   },
   defaultHalfLifeHours: 6,
+  defaultTrust: 0.5,
   repeatSourceFactor: 0.25,
   obscurityReferenceMcap: 50_000_000,
   obscurityMaxMultiplier: 3.0,
   obscurityMinMultiplier: 0.4,
-  saturationK: 3,
+  // Every contribution is now multiplied by trust (<= 1), so the same evidence yields a
+  // smaller raw score than before. K is reduced to keep the 0-100 band calibrated.
+  saturationK: 1.5,
   bands: { warm: 40, hot: 65, critical: 85 },
 }
 
@@ -63,6 +73,8 @@ export interface HeatComponents {
   freshnessHours: number | null
   /** convergence × obscurity, before saturation. */
   rawScore: number
+  /** Mean trust of the entities that contributed, so a score can be traced to who produced it. */
+  meanTrust: number | null
 }
 
 export interface HeatResult {
@@ -103,8 +115,9 @@ export function convergenceScore(events: HeatEvent[], now: Date, cfg: HeatConfig
   convergence: number
   distinctSources: number
   freshnessHours: number | null
+  meanTrust: number | null
 } {
-  if (events.length === 0) return { convergence: 0, distinctSources: 0, freshnessHours: null }
+  if (events.length === 0) return { convergence: 0, distinctSources: 0, freshnessHours: null, meanTrust: null }
 
   const bySource = new Map<string, number[]>()
   let newestMs = -Infinity
@@ -115,8 +128,11 @@ export function convergenceScore(events: HeatEvent[], now: Date, cfg: HeatConfig
     newestMs = Math.max(newestMs, e.occurredAt.getTime())
 
     const halfLife = cfg.halfLifeHours[e.eventType] ?? cfg.defaultHalfLifeHours
+    // An unknown entity gets defaultTrust, not 1. Treating unknown as fully trusted would let
+    // any new source inflate scores before it has earned anything.
+    const trust = cfg.trustWeights?.[e.source] ?? cfg.defaultTrust
     const contribution =
-      Math.max(0, Math.min(1, e.confidence)) * (e.weight ?? 1) * decay(ageHours, halfLife)
+      Math.max(0, Math.min(1, e.confidence)) * (e.weight ?? 1) * trust * decay(ageHours, halfLife)
 
     const list = bySource.get(e.source) ?? []
     list.push(contribution)
@@ -135,8 +151,10 @@ export function convergenceScore(events: HeatEvent[], now: Date, cfg: HeatConfig
     }
   }
 
+  const trusts = [...bySource.keys()].map((k) => cfg.trustWeights?.[k] ?? cfg.defaultTrust)
   return {
     convergence,
+    meanTrust: trusts.length ? trusts.reduce((a, b) => a + b, 0) / trusts.length : null,
     distinctSources: bySource.size,
     freshnessHours: newestMs === -Infinity ? null : (now.getTime() - newestMs) / 3_600_000,
   }
@@ -165,7 +183,7 @@ export function computeHeat(
   now: Date,
   cfg: HeatConfig = DEFAULT_HEAT_CONFIG,
 ): HeatResult {
-  const { convergence, distinctSources, freshnessHours } = convergenceScore(events, now, cfg)
+  const { convergence, distinctSources, freshnessHours, meanTrust } = convergenceScore(events, now, cfg)
   const obscurity = obscurityMultiplier(target.marketCapUsd, cfg)
   const rawScore = convergence * obscurity
   const heat = Math.round(100 * saturate(rawScore, cfg.saturationK))
@@ -180,6 +198,7 @@ export function computeHeat(
       obscurity: Number(obscurity.toFixed(4)),
       freshnessHours: freshnessHours === null ? null : Number(freshnessHours.toFixed(2)),
       rawScore: Number(rawScore.toFixed(4)),
+      meanTrust: meanTrust === null ? null : Number(meanTrust.toFixed(3)),
     },
   }
 }

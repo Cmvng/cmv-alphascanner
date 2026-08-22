@@ -19,6 +19,7 @@ import { runAlphaScans } from './jobs/run-alpha-scans.js'
 import { assessRisk } from './jobs/assess-risk.js'
 import { dispatchAlerts } from './jobs/dispatch-alerts.js'
 import { trackOutcomes } from './jobs/track-outcomes.js'
+import { updateTrust } from './jobs/update-trust.js'
 import { GoPlusProvider } from './providers/goplus.js'
 import { GeckoTerminalProvider } from './providers/geckoterminal.js'
 import { DexScreenerProvider } from './providers/dexscreener.js'
@@ -161,6 +162,16 @@ async function main() {
         run: async () => {
           const r = await trackOutcomes(dex)
           return { targetsSeen: r.snapshotted + r.measured }
+        },
+      },
+      {
+        // Closes the loop: outcomes feed back into how much each entity's signals are worth.
+        // Hourly, because trust should move on evidence rather than on every tick.
+        name: 'update-trust',
+        everyMs: 60 * 60_000,
+        run: async () => {
+          const r = await updateTrust()
+          return { targetsSeen: r.updated }
         },
       },
       {

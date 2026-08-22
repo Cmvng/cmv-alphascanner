@@ -32,19 +32,21 @@
 | 11 | Provider failure doesn't kill pipeline | ✅ allSettled + breaker |
 | 12 | API costs observable | ❌ no cost table/dashboard |
 | 13 | Historical outcomes measurable | ✅ immutable detection snapshot + 5 forward horizons |
-| 14 | Trust scores can evolve | ❌ |
+| 14 | Trust scores can evolve | ✅ derived from outcomes, blended, sample-gated |
 | 15 | Can prove discoveries were useful | 🟡 `/api/performance` built; needs live data to say anything |
 
-**10.5 of 15.**
+**11.5 of 15.**
 
-## Schema: 11 of 24 tables (§37)
+## Schema: 13 of 24 tables (§37)
 
 Built: `signal_sources` · `signal_config` · `targets` · `signal_events` · `heat_history` ·
-`cron_runs` · `risk_assessments` · `alert_rules` · `alert_deliveries` · `signal_outcomes`
+`cron_runs` · `risk_assessments` · `alert_rules` · `alert_deliveries` · `signal_outcomes` ·
+`signal_entities` · `trust_scores`
 
-Missing: `signal_entities` · `canonical_entities` · `entity_aliases` · `target_aliases` ·
+Missing: `canonical_entities` · `entity_aliases` · `target_aliases` ·
 `target_signals` · `alpha_scores` · `wallet_profiles` · `wallet_events` ·
-`social_profiles` · `social_events` · `mint_events` · `source_providers` · `watchlists` · `user_feedback` · `signal_outcomes` · `signal_performance` ·
+`social_profiles` · `social_events` · `mint_events` · `source_providers` · `watchlists` · `user_feedback` · `signal_outcomes` ·
+`signal_entities` · `trust_scores` · `signal_performance` ·
 `trust_scores` · `audit_logs`
 
 ## Whole sections of the spec untouched
@@ -52,7 +54,7 @@ Missing: `signal_entities` · `canonical_entities` · `entity_aliases` · `targe
 §5 entity resolution · §6 signal network · §10 smart money · §11 wallet clustering ·
 §12 mint radar · §13 social velocity · §17 explicit cross-source score · §20 Heat×Alpha grid UI ·
 §22 scam/LARP · §27 watchlist ·
-§30 trust engine · §44 cost control · §50 historical replay
+§44 cost control · §50 historical replay
 
 ## Original audit: 12 of 26 issues fixed
 
@@ -76,11 +78,15 @@ record outcome → measure forward.** Nine of the twelve steps in §59 execute. 
 but does not yet exist is **trust evolution** (§30) — outcomes are recorded but nothing feeds them
 back into source weighting yet.
 
-**The real limitation is signal diversity, not plumbing.** Convergence is currently measured
-across two on-chain providers. Wallet intelligence (§10-§11), social convergence (§13) and the
-mint radar (§12) are three of the four signal families and none exist, so "k independent entities"
-today means "two APIs agreed" rather than genuinely different kinds of evidence. That is the
-single highest-value thing left to build.
+**The real limitation is signal diversity, not plumbing.** The entity model and trust weighting
+now exist — providers are entities, trust is derived from outcomes rather than asserted, and heat
+weights each contribution by it. But there are still only **two entities in the network**, both
+on-chain price APIs. Wallet intelligence (§10-§11), social convergence (§13) and the mint radar
+(§12) are three of the four signal families and none exist, so "k independent entities" today
+means "two APIs agreed" rather than genuinely different kinds of evidence.
+
+**This is the single highest-value thing left.** Everything downstream — convergence, trust,
+outcomes — is built to take more entities and currently has almost none to weigh.
 
 **And nothing has seen live data.** Every number above describes code that typechecks and passes
 tests, not a system observed working.

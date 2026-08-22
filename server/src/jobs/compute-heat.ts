@@ -2,6 +2,7 @@
 // Recompute heat for every target with recent evidence, and append to the time series.
 
 import { query, loadConfig } from '../db.js'
+import { loadTrustWeights } from './update-trust.js'
 import { computeHeat, DEFAULT_HEAT_CONFIG, type HeatConfig, type HeatEvent } from '../lib/heat.js'
 
 export interface HeatRunResult {
@@ -30,7 +31,10 @@ export function configFromDb(cfg: Record<string, number>): HeatConfig {
 
 export async function computeHeatForAll(now = new Date()): Promise<HeatRunResult> {
   const raw = await loadConfig()
-  const cfg = configFromDb(raw)
+  // Trust is learned from recorded outcomes, so it is read fresh on every run rather than
+  // compiled in — an entity that has been earning its weight should affect the next score.
+  const trustWeights = await loadTrustWeights()
+  const cfg = { ...configFromDb(raw), trustWeights }
   const autoScanAt = raw['autoscan.min_heat'] ?? 70
 
   // Only score targets with evidence inside the longest half-life window that still matters.

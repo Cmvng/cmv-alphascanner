@@ -82,7 +82,10 @@ describe('convergenceScore — independence', () => {
       CFG,
     ).convergence
     expect(three).toBeGreaterThan(one)
-    expect(three).toBeCloseTo(3, 6)
+    // Scaled by trust: an unknown source contributes defaultTrust, not 1. Asserting the
+    // invariant rather than a magic number keeps this valid if the default is retuned.
+    expect(three).toBeCloseTo(3 * CFG.defaultTrust, 6)
+    expect(three / one).toBeCloseTo(3, 6)
   })
 
   // §49: "Same KOL reposted 20 times => should NOT equal 20 independent signals"
@@ -112,21 +115,28 @@ describe('convergenceScore — independence', () => {
       NOW,
       CFG,
     )
-    expect(r.convergence).toBeGreaterThan(1)
-    expect(r.convergence).toBeLessThan(1.1)
+    // Expressed relative to a single fresh event from the same source, so the assertion is
+    // about the shape of the weighting rather than the absolute scale.
+    const single = convergenceScore([ev({ source: 'a' })], NOW, CFG).convergence
+    expect(r.convergence).toBeGreaterThan(single)
+    expect(r.convergence).toBeLessThan(single * 1.1)
   })
 
   it('caps any single source no matter how much it repeats', () => {
     // Geometric weighting bounds one source at strongest / (1 - repeatSourceFactor). That is a
     // supremum: by n=200 the series has converged to it exactly in float64, so the bound is
     // inclusive. What matters is that it never grows past it, however many repeats arrive.
-    const ceiling = 1 / (1 - CFG.repeatSourceFactor)
+    const single = convergenceScore([ev({ source: 'a' })], NOW, CFG).convergence
+    const ceiling = single / (1 - CFG.repeatSourceFactor)
     for (const n of [5, 20, 200, 5000]) {
       const r = convergenceScore(Array.from({ length: n }, () => ev({ source: 'a' })), NOW, CFG)
       expect(r.convergence).toBeLessThanOrEqual(ceiling)
     }
-    // And the cap must sit below three genuinely independent sources.
-    expect(ceiling).toBeLessThan(3)
+    // The cap must sit below three genuinely independent sources, whatever the trust scale.
+    const three = convergenceScore(
+      [ev({ source: 'a' }), ev({ source: 'b' }), ev({ source: 'c' })], NOW, CFG,
+    ).convergence
+    expect(ceiling).toBeLessThan(three)
   })
 
   it('ignores events dated in the future', () => {
@@ -212,5 +222,41 @@ describe('explainHeat', () => {
     )
     expect(text).toContain('2 independent sources')
     expect(text).not.toMatch(/will|expect|predict|moon|profit|guarantee/i)
+  })
+})
+
+describe('trust weighting', () => {
+  // §30: trust is learned from outcomes, so it must actually affect the score.
+  it('scores a trusted source above an untrusted one on identical evidence', () => {
+    const cfgHigh = { ...CFG, trustWeights: { a: 1.0 } }
+    const cfgLow = { ...CFG, trustWeights: { a: 0.1 } }
+    const events = [ev({ source: 'a' })]
+    expect(computeHeat(events, { marketCapUsd: 500_000 }, NOW, cfgHigh).heat)
+      .toBeGreaterThan(computeHeat(events, { marketCapUsd: 500_000 }, NOW, cfgLow).heat)
+  })
+
+  it('treats an unknown source as unknown, not as fully trusted', () => {
+    // Otherwise any new provider could inflate scores before earning anything.
+    const cfg = { ...CFG, trustWeights: { known: 1.0 } }
+    const unknown = computeHeat([ev({ source: 'brand_new' })], { marketCapUsd: 500_000 }, NOW, cfg)
+    const known = computeHeat([ev({ source: 'known' })], { marketCapUsd: 500_000 }, NOW, cfg)
+    expect(unknown.heat).toBeLessThan(known.heat)
+    expect(unknown.components.meanTrust).toBe(CFG.defaultTrust)
+  })
+
+  it('reports the mean trust behind a score so it can be traced', () => {
+    const cfg = { ...CFG, trustWeights: { a: 1.0, b: 0.5 } }
+    const r = computeHeat([ev({ source: 'a' }), ev({ source: 'b' })], {}, NOW, cfg)
+    expect(r.components.meanTrust).toBeCloseTo(0.75, 6)
+  })
+
+  it('still ranks more independent sources above fewer, at equal trust', () => {
+    const cfg = { ...CFG, trustWeights: { a: 0.6, b: 0.6, c: 0.6 } }
+    const one = computeHeat([ev({ source: 'a' })], { marketCapUsd: 500_000 }, NOW, cfg)
+    const three = computeHeat(
+      [ev({ source: 'a' }), ev({ source: 'b' }), ev({ source: 'c' })],
+      { marketCapUsd: 500_000 }, NOW, cfg,
+    )
+    expect(three.heat).toBeGreaterThan(one.heat)
   })
 })
