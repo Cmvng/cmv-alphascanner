@@ -12,6 +12,7 @@ import { radarRouter } from './routes/radar.js'
 import { targetRouter } from './routes/target.js'
 import { performanceRouter } from './routes/performance.js'
 import { costsRouter } from './routes/costs.js'
+import { watchlistRouter } from './routes/watchlist.js'
 import { startScheduler } from './scheduler.js'
 import { ingestOnchain } from './jobs/ingest-onchain.js'
 import { computeHeatForAll } from './jobs/compute-heat.js'
@@ -51,6 +52,7 @@ app.use('/api', radarRouter)
 app.use('/api', targetRouter)
 app.use('/api', performanceRouter)
 app.use('/api', costsRouter)
+app.use('/api', watchlistRouter)
 
 /**
  * Run the existing Vercel-style handlers unchanged.

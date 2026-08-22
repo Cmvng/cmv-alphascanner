@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { getAdminToken, authHeader } from '../lib/session'
 
 /* Target detail — the "why am I looking at this?" view (§23).
    Radar rows were previously dead ends; this is where the evidence lives. */
@@ -64,6 +65,16 @@ const SOURCE_LABEL: Record<string, string> = {
   provenance: 'domain provenance',
 }
 
+/* The feedback options are deliberately about whether SURFACING this was worth the operator's
+   attention — never about whether the token was a good buy. The second question is a price
+   prediction, and putting it in the UI would drag it back into a system built to avoid it. */
+const FEEDBACK = [
+  { id: 'useful', label: 'Worth surfacing', hint: 'This was worth my attention.' },
+  { id: 'noise', label: 'Noise', hint: 'Should not have been surfaced.' },
+  { id: 'already_knew', label: 'Already knew', hint: 'Real, but not news to me — surfaced too late.' },
+  { id: 'wrong_risk', label: 'Risk read is wrong', hint: 'The risk section got something wrong.' },
+] as const
+
 function usd(n: number | null): string {
   if (n === null || !Number.isFinite(n)) return '—'
   if (n >= 1e9) return `$${(n / 1e9).toFixed(1)}B`
@@ -85,6 +96,57 @@ export default function Target() {
   const [state, setState] = useState<'loading' | 'ok' | 'notfound' | 'error'>('loading')
 
   const id = window.location.pathname.split('/').filter(Boolean).pop() || ''
+
+  // Watchlist and feedback are owner-scoped: the controls only exist when an admin session is
+  // present in this tab. Without one the page is exactly what it was before.
+  const signedIn = getAdminToken() !== null
+  const [watched, setWatched] = useState<boolean | null>(null)
+  const [saved, setSaved] = useState<string | null>(null)
+  const [busy, setBusy] = useState(false)
+
+  useEffect(() => {
+    if (!signedIn) return
+    fetch('/api/watchlist', { headers: authHeader() })
+      .then(async (r) => {
+        if (!r.ok) return
+        const body = await r.json()
+        setWatched((body.items || []).some((i: any) => i.target_id === id))
+      })
+      .catch(() => { /* leave as unknown rather than claiming it is not watched */ })
+  }, [id, signedIn])
+
+  async function toggleWatch() {
+    setBusy(true)
+    try {
+      const r = watched
+        ? await fetch(`/api/watchlist/${id}`, { method: 'DELETE', headers: authHeader() })
+        : await fetch('/api/watchlist', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', ...authHeader() },
+            body: JSON.stringify({ target_id: id }),
+          })
+      if (r.ok) setWatched(!watched)
+      else setSaved('Could not save — the session may have expired.')
+    } finally {
+      setBusy(false)
+    }
+  }
+
+  async function sendFeedback(verdict: string) {
+    setBusy(true)
+    try {
+      const r = await fetch('/api/feedback', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', ...authHeader() },
+        body: JSON.stringify({ target_id: id, verdict }),
+      })
+      // The scores at the moment of judgement are snapshotted server-side, so the record says
+      // what the engine believed when the call was made rather than what it believes now.
+      setSaved(r.ok ? 'Recorded.' : 'Could not record — the session may have expired.')
+    } finally {
+      setBusy(false)
+    }
+  }
 
   useEffect(() => {
     fetch(`/api/target/${id}`)
@@ -142,6 +204,12 @@ export default function Target() {
         .ev:last-child{border-bottom:0}
         .ev-t{font-family:var(--mono);font-size:10px;color:var(--text-4)}
         .ev-s{font-family:var(--mono);font-size:9px;padding:2px 6px;border-radius:4px;background:var(--bg-3);border:1px solid var(--border);color:var(--text-3)}
+        .ops{display:flex;gap:7px;flex-wrap:wrap;align-items:center;margin-top:14px;padding-top:14px;border-top:1px solid var(--border)}
+        .op{font-family:var(--mono);font-size:10.5px;padding:6px 12px;border-radius:20px;border:1px solid var(--border);background:var(--bg-2);color:var(--text-3);cursor:pointer}
+        .op:hover:not(:disabled){border-color:var(--border-2);color:var(--text-1)}
+        .op:disabled{opacity:.5;cursor:default}
+        .op.on{background:var(--green-light);border-color:var(--green);color:#14532d;font-weight:600}
+        .op-note{font-family:var(--mono);font-size:10px;color:var(--text-4);margin-left:auto}
         .banner{border-radius:10px;padding:14px 16px;font-size:13px;line-height:1.6;margin-bottom:14px}
         .banner.warn{background:#fffbeb;border:1px solid #fde68a;color:#92400e}
         .state{text-align:center;padding:70px 20px}
@@ -198,6 +266,20 @@ export default function Target() {
                 </div>
               </div>
               <div className="why">{t.why}</div>
+
+              {signedIn && (
+                <div className="ops">
+                  <button className={`op ${watched ? 'on' : ''}`} onClick={toggleWatch} disabled={busy || watched === null}>
+                    {watched === null ? 'checking…' : watched ? '★ On watchlist' : '☆ Watch'}
+                  </button>
+                  {FEEDBACK.map((f) => (
+                    <button key={f.id} className="op" title={f.hint} onClick={() => sendFeedback(f.id)} disabled={busy}>
+                      {f.label}
+                    </button>
+                  ))}
+                  {saved && <span className="op-note">{saved}</span>}
+                </div>
+              )}
             </div>
 
             <div className="card">

@@ -1,4 +1,5 @@
 import { VERDICT_ORDER, verdictStyle, VERDICTS } from '../lib/verdicts'
+import { setAdminToken } from '../lib/session'
 import { useState, useEffect } from 'react'
 
 // The password lives in the ADMIN_PASSWORD env var and is checked server-side by /api/admin.
@@ -24,6 +25,8 @@ export default function Admin() {
         return
       }
       const { token: t } = await r.json()
+      // Shared with the other pages for this tab only — see src/lib/session.ts.
+      setAdminToken(t)
       setToken(t); setAuth(true); setPass('')
     } catch {
       setLoginErr('Could not reach the server')
