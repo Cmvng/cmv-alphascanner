@@ -1,7 +1,9 @@
 # CMV AlphaScanner — Project Memory
 
-Persistent context for AI assistants working in this repo. Companion doc: `CHECKPOINT.md`
-(full audit, dated 2026-08-22). Update this file when the facts below stop being true.
+Persistent context for AI assistants working in this repo. Companion docs: `CHECKPOINT.md`
+(full audit, dated 2026-08-22) and `ALPHA_ENGINE_SPEC.md` (the planned pivot from an
+on-demand scanner to an always-on discovery engine). Update this file when the facts below
+stop being true.
 
 ---
 
@@ -126,6 +128,15 @@ There is no `.env.example`. Nothing in the repo documents these except `CHECKPOI
 - Admin deletes hit Supabase directly with the anon key, which implies permissive RLS.
 
 Never add a new unauthenticated `/api/*` route that spends money or writes data.
+
+## Where this is going
+
+`ALPHA_ENGINE_SPEC.md` is the agreed direction: keep the scanner as the *judgement* stage and add
+a discovery half in front of it — a cron-driven signal engine that detects **convergence** (k
+trusted entities touching the same target inside a window w), scores it as **Heat** 0-100 with a
+recency decay and an obscurity bonus, and pairs it with the existing Alpha Score on a two-axis
+grid. Phase 1 is onchain-only and free to run; the social half is metered and must be cost-tested
+before it is widened. Read that spec before starting any discovery/radar work.
 
 ## Current state
 
