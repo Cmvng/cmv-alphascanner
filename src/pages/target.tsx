@@ -134,6 +134,7 @@ export default function Target() {
 
       <nav className="nav">
         <a href="/">← Radar</a>
+        <a href="/grid">Grid</a>
         {t?.x_handle && <a href={`/scan?q=${t.x_handle}`}>Full scan →</a>}
       </nav>
 

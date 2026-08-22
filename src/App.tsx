@@ -1,5 +1,6 @@
 import Radar from './pages/radar'
 import Target from './pages/target'
+import Grid from './pages/grid'
 import Home from './pages/home'
 import Feed from './pages/feed'
 import TierList from './pages/tierlist'
@@ -11,6 +12,7 @@ export default function App() {
   // so it cannot be the entry point for "never miss alpha". /scan keeps it one click away, and
   // legacy /?q= deep links from the feed still land on the scanner.
   if (path.startsWith('/target/')) return <Target />
+  if (path === '/grid') return <Grid />
   if (path === '/scan') return <Home />
   if (path === '/feed') return <Feed />
   if (path === '/tierlist') return <TierList />

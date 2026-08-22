@@ -200,6 +200,7 @@ export default function Radar() {
         </a>
         <div className="nav-links">
           <a href="/" className="nav-link active">Radar</a>
+          <a href="/grid" className="nav-link">Grid</a>
           <a href="/scan" className="nav-link">Scan</a>
           <a href="/tierlist" className="nav-link">Tiers</a>
           <a href="/feed" className="nav-link">Feed</a>
