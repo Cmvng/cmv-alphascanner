@@ -3,7 +3,6 @@
 // Never hammer an API, never bypass a documented limit.
 
 export class RateLimiter {
-  private queue: Array<() => void> = []
   private tokens: number
   private lastRefill = Date.now()
 
