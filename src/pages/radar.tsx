@@ -24,7 +24,7 @@ interface Target {
   signal_count: number
   source_count: number
   alpha_score: number | null
-  risk_level: string | null
+  risk_level: string | null   // null => NOT ASSESSED, which is not the same as low risk
   spark: number[]
 }
 
@@ -151,7 +151,7 @@ export default function Radar() {
         .chip.on { background:var(--green-light); border-color:var(--green); color:#14532d; font-weight:600; }
         .meta { margin-left:auto; font-family:var(--mono); font-size:10px; color:var(--text-4); }
 
-        .row { display:grid; grid-template-columns:56px 1fr auto; gap:14px; align-items:center; background:var(--bg-2); border:1px solid var(--border); border-radius:var(--radius); padding:14px 16px; margin-bottom:8px; transition:all .15s; }
+        .row { text-decoration:none; color:inherit; display:grid; grid-template-columns:56px 1fr auto; gap:14px; align-items:center; background:var(--bg-2); border:1px solid var(--border); border-radius:var(--radius); padding:14px 16px; margin-bottom:8px; transition:all .15s; }
         .row:hover { border-color:var(--green); box-shadow:var(--shadow); }
 
         .heat { text-align:center; }
@@ -172,6 +172,11 @@ export default function Radar() {
         .spark-empty { font-family:var(--mono); font-size:8px; color:var(--text-4); }
         .alpha { font-family:var(--mono); font-size:10px; padding:3px 8px; border-radius:20px; border:1px solid var(--border); color:var(--text-3); white-space:nowrap; }
         .alpha.scored { background:var(--green-light); border-color:rgba(22,163,74,.25); color:#14532d; font-weight:600; }
+        .risk-critical { background:#fef2f2; border-color:#fecaca; color:#b91c1c; font-weight:600; }
+        .risk-high { background:#fff7ed; border-color:#fed7aa; color:#c2410c; font-weight:600; }
+        .risk-medium { background:#fefce8; border-color:#fde68a; color:#a16207; }
+        .risk-low { background:#f7fee7; border-color:#d9f99d; color:#3f6212; }
+        .risk-none { background:#fffbeb; border-color:#fde68a; color:#92400e; }
 
         .state { text-align:center; padding:60px 20px; }
         .state-icon { font-size:32px; margin-bottom:12px; }
@@ -264,7 +269,7 @@ export default function Radar() {
           const band = BAND[t.heat_band || 'cold']
           const isNew = Date.now() - new Date(t.first_seen_at).getTime() < 6 * 3600_000
           return (
-            <div key={t.id} className="row">
+            <a key={t.id} href={`/target/${t.id}`} className="row">
               <div className="heat">
                 <div className="heat-n" style={{ color: band.color }}>{t.heat}</div>
                 <span className="heat-band" style={{ background: band.bg, color: band.color, border: `1px solid ${band.border}` }}>{band.label}</span>
@@ -292,8 +297,12 @@ export default function Radar() {
                 <span className={`alpha ${t.alpha_score !== null ? 'scored' : ''}`}>
                   {t.alpha_score !== null ? `alpha ${t.alpha_score}` : 'not yet scanned'}
                 </span>
+                {/* null risk means NOT ASSESSED — rendered distinctly from a low-risk result. */}
+                <span className={`alpha risk-${t.risk_level || 'none'}`}>
+                  {t.risk_level ? `risk ${t.risk_level}` : 'risk unknown'}
+                </span>
               </div>
-            </div>
+            </a>
           )
         })}
       </div>

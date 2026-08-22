@@ -9,11 +9,14 @@ import { existsSync } from 'node:fs'
 
 import { hasDatabase, migrate } from './db.js'
 import { radarRouter } from './routes/radar.js'
+import { targetRouter } from './routes/target.js'
 import { startScheduler } from './scheduler.js'
 import { ingestOnchain } from './jobs/ingest-onchain.js'
 import { computeHeatForAll } from './jobs/compute-heat.js'
 import { enrichTargets } from './jobs/enrich-targets.js'
 import { runAlphaScans } from './jobs/run-alpha-scans.js'
+import { assessRisk } from './jobs/assess-risk.js'
+import { GoPlusProvider } from './providers/goplus.js'
 import { GeckoTerminalProvider } from './providers/geckoterminal.js'
 import { DexScreenerProvider } from './providers/dexscreener.js'
 
@@ -35,6 +38,7 @@ app.get('/healthz', (_req, res) => {
 
 // ── engine routes ───────────────────────────────────────────────────────────
 app.use('/api', radarRouter)
+app.use('/api', targetRouter)
 
 /**
  * Run the existing Vercel-style handlers unchanged.
@@ -90,6 +94,7 @@ async function main() {
 
   const gecko = new GeckoTerminalProvider()
   const dex = new DexScreenerProvider()
+  const goplus = new GoPlusProvider()
   const providers = [gecko, dex]
 
   const server = app.listen(PORT, () => {
@@ -123,6 +128,15 @@ async function main() {
         run: async () => {
           const r = await computeHeatForAll()
           return { targetsSeen: r.targetsScored }
+        },
+      },
+      {
+        // Risk is assessed independently of heat and alpha (§21). Free, so it runs broadly.
+        name: 'assess-risk',
+        everyMs: 12 * 60_000,
+        run: async () => {
+          const r = await assessRisk(goplus)
+          return { targetsSeen: r.assessed }
         },
       },
       {
