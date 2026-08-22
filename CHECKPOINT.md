@@ -297,6 +297,24 @@ Four background agents dispatched to close research gaps. Findings folded into
   Helius does the same for Solana. May remove the need for paid data entirely.
 - Found two live risks to the *existing* scanner (items 14b, 14c above).
 
+### 2026-08-22 · Session 3c — risk, wallet and mint research
+- **Four named data sources are dead**: Reservoir (2025-10-15), SimpleHash (2025-03-27),
+  **Zapper (2026-08-03 — 19 days ago)**, Sim by Dune (2026-08-01). `ALPHA_ENGINE_SPEC.md` named
+  Reservoir and has been corrected in place.
+- **Mint radar is an RPC-indexing problem, not an API-subscription problem.** A `Transfer`-from-
+  `0x0` log subscription covers any EVM chain for $0 — including **Robinhood Chain** (ID 4663,
+  Arbitrum Orbit L2, mainnet 2026-07-01) and **Stable** (ID 988, public RPC `rpc.stable.xyz`,
+  mainnet 2025-12-08), which most NFT APIs don't cover. That is very likely why J7Tracker and
+  MintGo chose them, and it is a free competitive opening.
+- **Wallet convergence should be webhook-driven, not polled** — you pay per *event*, not per
+  *wallet*. Free capacity: Helius 100k addresses, Alchemy 500k address-slots. The convergence
+  counter then costs nothing; only threshold-crossers get metered enrichment.
+- Wallet stack costs **$39/mo** (Birdeye Lite) or $0 without Solana PnL. Mint stack costs **$0**.
+- **Risk engine is cheaper than assumed**: GoPlus is one free call returning ~15 indicators across
+  EVM + Solana, and `xproject.ts` already produces the `(chain, address)` it needs.
+- Wrote `RISK_ENGINE_RESEARCH.md` and `WALLET_MINT_RESEARCH.md`.
+- **No application code touched.**
+
 ---
 
 ## 10. Planning documents
@@ -307,5 +325,7 @@ Four background agents dispatched to close research gaps. Findings folded into
 | `CLAUDE.md` | Persistent memory: conventions and traps |
 | `ALPHA_ENGINE_SPEC.md` | Product direction — the convergence thesis and Heat × Alpha model |
 | `AUDIT_AND_PHASE1_PLAN.md` | **Current** — blockers, research matrix, schema, Phase 1 file plan |
+| `RISK_ENGINE_RESEARCH.md` | Risk + scam detection sources, neutral wording, the checked/unchecked rule |
+| `WALLET_MINT_RESEARCH.md` | Wallet intelligence + mint radar sources, dead providers, the two exotic chains |
 
 Where these conflict, `AUDIT_AND_PHASE1_PLAN.md` wins — it is the most recently verified.

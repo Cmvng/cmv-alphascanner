@@ -135,6 +135,34 @@ api/cryptorank.ts          44 L — ORPHAN, no client calls it
     - **CoinGecko keyless is ~10–30/min and not guaranteed.** A free Demo key gives a reliable
       30/min + 10k/month. Get one.
 
+15. **Four data sources people still recommend are dead** (verified Aug 2026): **Reservoir**
+    (2025-10-15), **SimpleHash** (2025-03-27), **Zapper** (2026-08-03), **Sim by Dune**
+    (2026-08-01). Never design against them. There is no longer a cheap cross-marketplace NFT
+    aggregator or a cheap unified multichain wallet-activity API.
+
+16. **Mint detection is an RPC problem, not an API problem.** Every ERC-721/1155 mint emits
+    `Transfer` with `from == 0x0`. One log subscription covers **any** EVM chain for $0 —
+    including **Robinhood Chain** (ID 4663) and **Stable** (ID 988, public RPC
+    `https://rpc.stable.xyz`), which most NFT APIs don't cover and where real mint activity is
+    happening. Compute velocity from your own stream; polling is slower than the phenomenon.
+    Distinguish **sold out** (`totalSupply == maxSupply`) from **died** (`≪ maxSupply`) — both
+    look like velocity → 0.
+
+17. **Prefer webhooks over polling for wallet tracking — you pay per event, not per wallet.**
+    Free capacity: Helius 1 webhook × 100k addresses (Solana), Alchemy 5 × 100k (EVM). The
+    convergence counter then costs nothing; meter only the threshold-crossers. **The "already
+    seen" set must live in Supabase, not a module-level `Map`** (see trap 5). Any webhook
+    receiver is a new `/api/*` route that *writes* — it needs signature verification from day one.
+
+18. **Risk output must distinguish "no indicator found" from "not checked."** The
+    `allSettled` + `null` pattern is right for enrichment but **wrong for risk** — a timed-out
+    check would render as a clean bill of health. Carry `checked: boolean` + `reason` per check
+    and render them differently. Never aggregate risk into a verdict word, and never let a
+    clustering result carry an `identity`/`owner` field — only `possible_cluster` + confidence.
+
+19. **Score polarity differs between sources.** RugCheck: higher = *riskier*. Solsniffer: higher =
+    *safer*. Our alpha score: higher = *better*. Normalise at the adapter boundary.
+
 ## Environment variables
 
 Server: `X_API_BEARER_TOKEN` (required, no fallback) · `ANTHROPIC_API_KEY` (optional — absence

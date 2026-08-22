@@ -31,7 +31,13 @@ This spec adds the missing half: a scheduler, an event store, a scoring loop, an
 | `985monitor.xyz` | **Unverified** — no public footprint | Monitor | TBD |
 | `wind.jokkimon.club` | **Unverified** | Monitor | TBD |
 | `j7tracker.io` | **Unverified** | Tracker | TBD |
-| `mintgo.fun` · `guap.wtf` · `alphatrack.xyz` · `waypoint.tools` | Mint discovery, collection dashboards, mint scanning | NFT mint radar (one module) | Magic Eden (120 QPM free) · OpenSea (free tier) · Reservoir |
+| `mintgo.fun` · `guap.wtf` · `alphatrack.xyz` · `waypoint.tools` | Mint discovery, collection dashboards, mint scanning | NFT mint radar (one module) | OpenSea Stream (free) · own RPC log indexing — **NOT Reservoir, see below** |
+
+> ⚠️ **CORRECTION (2026-08-22).** This document originally named **Reservoir** as an NFT rebuild
+> source. **Reservoir shut down on 2025-10-15.** So did **SimpleHash** (2025-03-27), **Zapper**
+> (2026-08-03) and **Sim by Dune** (2026-08-01). Mint radar is now an **RPC-indexing problem, not
+> an API-subscription problem** — see `WALLET_MINT_RESEARCH.md`.
+
 | `app.moni.ai` | Smart followers, mindshare, KOL scoring — 30k scored accounts, data to 2021 | Social graph quality | **Moni API** — real, documented, B2B (`b2b@getmoni.io`) |
 | `alphagate.io` | Emerging-project tracking, account history, scam flags, X extension | Project discovery | **docs.alphagate.io** — public docs exist, verify |
 
