@@ -52,11 +52,13 @@ Missing: `canonical_entities` · `entity_aliases` · `target_aliases` ·
 ## Whole sections of the spec untouched
 
 §5 entity resolution · §6 signal network · §10 smart money · §11 wallet clustering ·
-§12 mint radar · §13 social velocity · §17 explicit cross-source score · §20 Heat×Alpha grid UI ·
+§13 social velocity · §17 explicit cross-source score · §20 Heat×Alpha grid UI ·
 §22 scam/LARP · §27 watchlist ·
 §44 cost control · §50 historical replay
 
 ## Original audit: 12 of 26 issues fixed
+
+**Signal families: 2 of 4** (on-chain price, mint logs · missing wallet, social)
 
 **Fixed:** open Claude proxy · prompt injection · admin password · anon-key deletes ·
 orphan `cryptorank.ts` · `api/` untypechecked · missing `.env.example` · **verdict drift**
@@ -78,15 +80,14 @@ record outcome → measure forward.** Nine of the twelve steps in §59 execute. 
 but does not yet exist is **trust evolution** (§30) — outcomes are recorded but nothing feeds them
 back into source weighting yet.
 
-**The real limitation is signal diversity, not plumbing.** The entity model and trust weighting
-now exist — providers are entities, trust is derived from outcomes rather than asserted, and heat
-weights each contribution by it. But there are still only **two entities in the network**, both
-on-chain price APIs. Wallet intelligence (§10-§11), social convergence (§13) and the mint radar
-(§12) are three of the four signal families and none exist, so "k independent entities" today
-means "two APIs agreed" rather than genuinely different kinds of evidence.
+**Signal diversity is improving but still thin.** The entity model and trust weighting exist,
+trust is derived from outcomes rather than asserted, and mint-log detection adds the first family
+that is not a price API — raw `Transfer`-from-zero logs, free and keyless, covering Stable and
+Robinhood Chain where no NFT API does.
 
-**This is the single highest-value thing left.** Everything downstream — convergence, trust,
-outcomes — is built to take more entities and currently has almost none to weigh.
+Still missing: **wallet intelligence** (§10-§11) and **social convergence** (§13). Those are the
+two families that would make convergence mean what the spec intends. Wallet work needs an Alchemy
+or Helius key (both free tiers); social needs the X API cost question answered first.
 
 **And nothing has seen live data.** Every number above describes code that typechecks and passes
 tests, not a system observed working.

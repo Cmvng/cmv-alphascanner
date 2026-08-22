@@ -21,6 +21,7 @@ import { dispatchAlerts } from './jobs/dispatch-alerts.js'
 import { trackOutcomes } from './jobs/track-outcomes.js'
 import { updateTrust } from './jobs/update-trust.js'
 import { GoPlusProvider } from './providers/goplus.js'
+import { MintLogProvider } from './providers/mintlogs.js'
 import { GeckoTerminalProvider } from './providers/geckoterminal.js'
 import { DexScreenerProvider } from './providers/dexscreener.js'
 
@@ -100,7 +101,10 @@ async function main() {
   const gecko = new GeckoTerminalProvider()
   const dex = new DexScreenerProvider()
   const goplus = new GoPlusProvider()
-  const providers = [gecko, dex]
+  // First non-price signal family: raw Transfer-from-zero logs. Free, keyless, and the only
+  // coverage that exists for Stable and Robinhood Chain.
+  const mintlogs = new MintLogProvider()
+  const providers = [gecko, dex, mintlogs]
 
   const server = app.listen(PORT, () => {
     console.log(`[server] listening on :${PORT} | chains=${CHAINS.join(',')} | db=${hasDatabase}`)
