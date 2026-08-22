@@ -11,6 +11,7 @@ import { hasDatabase, migrate } from './db.js'
 import { radarRouter } from './routes/radar.js'
 import { targetRouter } from './routes/target.js'
 import { performanceRouter } from './routes/performance.js'
+import { costsRouter } from './routes/costs.js'
 import { startScheduler } from './scheduler.js'
 import { ingestOnchain } from './jobs/ingest-onchain.js'
 import { computeHeatForAll } from './jobs/compute-heat.js'
@@ -20,6 +21,7 @@ import { assessRisk } from './jobs/assess-risk.js'
 import { dispatchAlerts } from './jobs/dispatch-alerts.js'
 import { trackOutcomes } from './jobs/track-outcomes.js'
 import { updateTrust } from './jobs/update-trust.js'
+import { flushMeter } from './lib/meter.js'
 import { GoPlusProvider } from './providers/goplus.js'
 import { MintLogProvider } from './providers/mintlogs.js'
 import { GeckoTerminalProvider } from './providers/geckoterminal.js'
@@ -45,6 +47,7 @@ app.get('/healthz', (_req, res) => {
 app.use('/api', radarRouter)
 app.use('/api', targetRouter)
 app.use('/api', performanceRouter)
+app.use('/api', costsRouter)
 
 /**
  * Run the existing Vercel-style handlers unchanged.
@@ -167,6 +170,12 @@ async function main() {
           const r = await trackOutcomes(dex)
           return { targetsSeen: r.snapshotted + r.measured }
         },
+      },
+      {
+        // Metering is buffered in memory so it never adds a round-trip to the path it observes.
+        name: 'flush-meter',
+        everyMs: 5 * 60_000,
+        run: async () => ({ eventsWritten: await flushMeter() }),
       },
       {
         // Closes the loop: outcomes feed back into how much each entity's signals are worth.

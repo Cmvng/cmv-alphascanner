@@ -12,6 +12,7 @@
 // shared failure mode.
 
 import { RateLimiter, fetchWithTimeout, CircuitBreaker } from '../lib/net.js'
+import { meter } from '../lib/meter.js'
 import type { Discovery, DiscoveryProvider, HealthStatus } from './types.js'
 
 const BASE = 'https://api.dexscreener.com'
@@ -72,14 +73,17 @@ export class DexScreenerProvider implements DiscoveryProvider {
       if (!r.ok) {
         this.lastError = `HTTP ${r.status}`
         this.breaker.recordFailure()
+        meter('dexscreener', false)
         return null
       }
       this.breaker.recordSuccess()
       this.lastError = undefined
+      meter('dexscreener', true)
       return await r.json()
     } catch (e: any) {
       this.lastError = e?.name === 'AbortError' ? 'timeout' : String(e?.message || e)
       this.breaker.recordFailure()
+      meter('dexscreener', false)
       return null
     }
   }

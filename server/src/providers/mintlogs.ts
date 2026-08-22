@@ -12,6 +12,7 @@
 // mean "different kinds of evidence agreed" rather than "two price feeds agreed".
 
 import { RateLimiter, fetchWithTimeout, CircuitBreaker } from '../lib/net.js'
+import { meter } from '../lib/meter.js'
 import type { Discovery, DiscoveryProvider, HealthStatus } from './types.js'
 
 /** keccak256("Transfer(address,address,uint256)") */
@@ -79,20 +80,24 @@ export class MintLogProvider implements DiscoveryProvider {
       if (!r.ok) {
         this.lastError = `HTTP ${r.status}`
         this.breaker.recordFailure()
+        meter('mintlogs', false)
         return null
       }
       const body: any = await r.json()
       if (body?.error) {
         this.lastError = String(body.error?.message || 'rpc error')
         this.breaker.recordFailure()
+        meter('mintlogs', false)
         return null
       }
       this.breaker.recordSuccess()
       this.lastError = undefined
+      meter('mintlogs', true)
       return body?.result ?? null
     } catch (e: any) {
       this.lastError = e?.name === 'AbortError' ? 'timeout' : String(e?.message || e)
       this.breaker.recordFailure()
+      meter('mintlogs', false)
       return null
     }
   }

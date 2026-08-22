@@ -8,6 +8,7 @@
 // is gated four ways — a heat threshold, a rising edge, a per-run cap, and a re-scan cooldown.
 
 import { query, loadConfig } from '../db.js'
+import { meter } from '../lib/meter.js'
 
 export interface AlphaScanResult {
   eligible: number
@@ -23,7 +24,7 @@ const SELF = () => `http://127.0.0.1:${process.env.PORT || 3000}`
  * the single implementation. It already degrades to the deterministic scorer when Anthropic is
  * unavailable, and we record which path ran.
  */
-async function scanHandle(handle: string): Promise<{ score: number | null; mode: string } | null> {
+async function scanHandle(handle: string, unitCostUsd: number): Promise<{ score: number | null; mode: string } | null> {
   try {
     const xr = await fetch(`${SELF()}/api/xproject?handle=${encodeURIComponent(handle)}`)
     if (!xr.ok) return null
@@ -36,6 +37,8 @@ async function scanHandle(handle: string): Promise<{ score: number | null; mode:
       headers: { 'Content-Type': 'application/json', Origin: SELF() },
       body: JSON.stringify({ handle, xd, cg, web: null }),
     })
+    // The only automatic spend in the system — metered with its real unit cost.
+    meter('anthropic', cr.ok, unitCostUsd)
     if (!cr.ok) return null
     const body: any = await cr.json()
 
@@ -87,7 +90,7 @@ export async function runAlphaScans(): Promise<AlphaScanResult> {
       continue
     }
 
-    const out = await scanHandle(row.x_handle)
+    const out = await scanHandle(row.x_handle, cfg['cost.per_alpha_scan_usd'] ?? 0.004)
     if (!out || out.score === null) {
       result.failed++
       // Stamp the attempt so a permanently-failing target cannot be retried every cycle.

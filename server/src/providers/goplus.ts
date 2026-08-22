@@ -14,6 +14,7 @@
 //    appear in user-facing strings.
 
 import { RateLimiter, fetchWithTimeout, CircuitBreaker } from '../lib/net.js'
+import { meter } from '../lib/meter.js'
 
 const BASE = 'https://api.gopluslabs.io/api/v1'
 
@@ -96,14 +97,17 @@ export class GoPlusProvider {
       if (!r.ok) {
         this.lastError = `HTTP ${r.status}`
         this.breaker.recordFailure()
+        meter('goplus', false)
         return null
       }
       this.breaker.recordSuccess()
       this.lastError = undefined
+      meter('goplus', true)
       return await r.json()
     } catch (e: any) {
       this.lastError = e?.name === 'AbortError' ? 'timeout' : String(e?.message || e)
       this.breaker.recordFailure()
+      meter('goplus', false)
       return null
     }
   }
