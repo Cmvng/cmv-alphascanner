@@ -87,12 +87,23 @@ that it does not exist. Several domains are blocked by this sandbox's egress pro
 | **Waypoint MintScan** | 🟡 **STRONGLY INFERRED** | View collection details; verify contract, team and mint details before transacting. | Pre-mint verification | Mint risk panel |
 | **app.moni.ai** | ✅ **VERIFIED** | Smart accounts, mindshare, narrative signals, KOL scoring. 20k+ projects, 30k+ scored smart accounts, 300M+ smart mentions since 2021, 100k+ events/day, 2TB+ history. **Documented commercial API** (`b2b@getmoni.io`). | Social graph quality, mindshare | **Buy-vs-build decision** — they have solved Phase 3 |
 | **alphagate.io** | 🟡 **STRONGLY INFERRED** | Emerging-project discovery and tracking; account history, followers/followings, social links, scam spotting. Chrome extension overlaying X / Photon / BullX. `docs.alphagate.io` exists. *(Egress-blocked.)* | Account history, risk flags | Possible provider adapter |
-| `985monitor.xyz` | ⚪ **UNKNOWN** | No public footprint found in search. | — | — |
-| `wind.jokkimon.club` | ⚪ **UNKNOWN** | No public footprint found. | — | — |
-| `guap.wtf` | ⚪ **UNKNOWN** | No results. | — | — |
-| `alphatrack.xyz` | ⚪ **UNKNOWN** | No results. | — | — |
-| **Redacted Systems Bot** | ⚪ **UNKNOWN** | No results. | — | — |
-| **JustLarps** | ⚪ **UNKNOWN** | No results. Name implies LARP/fake-project detection → maps to §22. | — | Scam/LARP layer |
+| **985monitor.xyz** | ✅ **VERIFIED**¹ | **The most instructive tool on the list.** Chrome extension overlaying `gmgn.ai` and `pro.xxyy.io` wallet panels; fires when **N wallets buy the same token within X minutes** — *both N and the window are user-set*. **4-tier graded audio escalation** (not binary). **De-duplicates by contract address.** Plus: "Smart Money Catcher" tracking wallets holding **≥1M** on Pump.fun/Four.meme, classifying **new position / add / reduce**, watchlist gated at **$1M market cap**, refresh **5 min**. FOMO leaderboard ranking KOL wallets by **realized profit over 24h/7d/30d/all-time**, refreshed **hourly**. Chinese-language, HK-hosted. | **Wallet convergence — validates the whole design** |
+| **Redacted Systems** | 🟡 **STRONGLY INFERRED** | Telegram bot `@redactedsystemsbot`; self-describes as *"the fastest social media monitor bot on the market"* with *"custom personalized monitors"*. Independently catalogued as an X social monitor. **X account is protected**, no website resolves — which is why nothing else is public. All feature specifics UNKNOWN. | Social monitor (unspecified) |
+| `wind.jokkimon.club` | ⚪ **UNKNOWN** | **Host is live behind Cloudflare** (apex `jokkimon.club` too) — a deliberately configured property, not a parked name. **Zero index presence.** | — |
+| `guap.wtf` | ⚪ **UNKNOWN** | **Host is live** (`156.67.104.212`, no CDN). Zero index presence. No NFT/mint function established — the domain name is not evidence. | — |
+| `alphatrack.xyz` | ⚪ **UNKNOWN** | **Host is live** (AWS `us-east-1`). Zero index presence. ⚠️ **Do not conflate** with `alphatrace.xyz` (real DEX PnL/wallet tracker), `alphatrack.cc`, or `alphatrack.app` (HR software) — all unrelated. | — |
+| **JustLarps** | ⚪ **UNKNOWN** | `justlarps.com` / `.xyz` **do not resolve**. No X, Telegram, GitHub or listing found. Existence unestablished. ⚠️ Unrelated near-names in this niche: LarpBot, larpscanner.fun, `@LARPbot3000`. Note "LARP wallet" tools *generate* fake screenshots — opposite category. | Scam/LARP layer (§22) |
+
+¹ 985monitor's own pages (`/home/`, `/terminal/`, `/wallet/`, `/fomo/`, `/smartmoney/`) were read via the
+search index rather than loaded directly — the domain is egress-blocked here. Primary-source
+self-description, indirectly retrieved, consistent across six independent queries.
+
+### ⚠️ The competitive set is substantially private
+
+Three of the four undocumented tools are **live hosts with zero search-index presence**, two behind
+Cloudflare. That is the signature of invite-only, word-of-mouth tooling. Any market-sizing or
+feature-gap claim built on these names would rest on a single well-documented example. Treat the
+mechanism findings as drawn from 985monitor plus adjacent tools, and don't over-generalise.
 
 ### What the verified set proves
 
@@ -104,6 +115,35 @@ product behaviour, not inferred.**
 The differentiators none of them appear to have: **independence weighting** (§18 — a repost is
 not a second discovery), **cross-source confirmation** (§17), and **outcome backtesting** (§28).
 Those are where this product can be genuinely better rather than merely equivalent.
+
+### Three design lessons that change Phase 1
+
+985monitor is a working implementation of the exact primitive in §7, and three of its choices are
+better than what I had planned:
+
+1. **Thresholds must be configuration, not constants.** 985monitor lets the user set both `k`
+   (wallet count) and `w` (window). That is a tacit admission that **the correct threshold is
+   regime-dependent** — what signals in a hot market is noise in a dead one. My `heat.ts` design
+   had these as constants. **Changed:** they become per-signal-type config rows, tunable without
+   a deploy.
+2. **Grade the alert, don't gate it.** Their escalation is **4 tiers of increasing urgency**, not
+   a binary fire/don't-fire. Uxento does the same thing (Silver 3+ / Gold 8+). **Changed:** heat
+   bands drive alert *severity*, and the §26 alert engine sends tiered notifications rather than
+   one threshold crossing.
+3. **Qualify entities *before* computing convergence.** They only track wallets holding **≥1M**
+   and only admit tokens above **$1M market cap**. This is a cheap pre-filter that collapses the
+   search space — and it is *why* a 5-minute refresh is affordable at all. **Changed:** Phase 1
+   ingestion applies a configurable liquidity/market-cap floor at write time, so `signal_events`
+   never fills with dust. This is the single most useful cost-control lever found in the research.
+
+A fourth lesson lands on **§30 (trust engine)**: their trusted-entity set is not hand-curated, it
+is **derived hourly from realized PnL over 24h/7d/30d/all-time windows**. The leaderboard *is* the
+signal network. That is the right long-term shape — a curated seed list is a Phase-3 bootstrap,
+not the destination.
+
+Finally, 985monitor **builds none of its own data** — it overlays existing indexers and reads
+Pump.fun / Four.meme / Bonk / BAGS. That directly validates the Phase 1 bet: the discovery half
+can be onchain-only and near-free by riding indexers that already exist.
 
 ---
 
@@ -279,6 +319,13 @@ create table heat_history (              -- §25 time series
   primary key (target_id, computed_at)
 );
 
+create table signal_config (             -- thresholds are DATA, not constants (985monitor lesson)
+  key text primary key,                  -- 'half_life.new_pool' | 'floor.liquidity_usd' | 'k.wallet_buy' …
+  value numeric not null, unit text, description text, updated_at timestamptz default now()
+);
+-- seeded with: per-event half-lives, the k/w convergence params, and the
+-- liquidity + market-cap qualification floors. Tunable without a deploy.
+
 create table cron_runs (                 -- §38 observability + locking
   id uuid primary key default gen_random_uuid(),
   job text not null, started_at timestamptz default now(), finished_at timestamptz,
@@ -363,8 +410,14 @@ heat = 100 * calibrate(
 )
 ```
 Per-type half-lives per §16 (`new_liquidity` 3h · `wallet_purchase` 4h · `social_follow` 6h ·
-`funding` 24h). Every component persisted to `targets.heat_components` so the UI answers "why?".
-Integer 0-100 output — no fake precision (§15).
+`funding` 24h) — **read from `signal_config`, not hard-coded**, per the 985monitor lesson. Every
+component persisted to `targets.heat_components` so the UI answers "why?". Integer 0-100 output —
+no fake precision (§15). Output maps to **four graded bands** rather than one threshold, so the
+alert engine can escalate by severity instead of firing binary.
+
+**Qualification floor.** Ingestion applies a configurable liquidity / market-cap minimum at
+write time so `signal_events` never fills with dust. This is what makes a 10-minute cadence
+affordable, and it is the highest-value cost lever the research surfaced.
 
 ### Step 5 — Cron jobs (§38, §39)
 `ingest-onchain` (10 min) and `compute-heat` (10 min), separately deployable and observable,
