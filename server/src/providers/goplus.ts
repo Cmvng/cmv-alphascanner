@@ -65,6 +65,10 @@ function pct(v: unknown): number | null {
 }
 
 const truthy = (v: unknown) => v === '1' || v === 1 || v === true
+// GoPlus OMITS a field it could not determine (common on unverified/closed-source contracts)
+// and returns '0' when it checked and found nothing. So `truthy(absent)` being false must NOT
+// become clear() — that renders 'could not analyse' as 'checked, clean'. present() gates it.
+const present = (v: unknown) => v !== undefined && v !== null && v !== ''
 
 /** A check we could not run. Rendered distinctly from a passing check. */
 function unchecked(key: string, reason: RiskCheck['reason']): RiskCheck {
@@ -175,16 +179,22 @@ function evmChecks(d: any): RiskCheck[] {
 
   // Ownership
   const owner = typeof d.owner_address === 'string' ? d.owner_address : ''
-  const renounced = !owner || /^0x0{40}$/i.test(owner)
+  const looksRenounced = !owner || /^0x0{40}$/i.test(owner)
+  const hiddenControl = truthy(d.hidden_owner) || truthy(d.can_take_back_ownership)
   out.push(
-    renounced
+    // hidden_owner / can_take_back_ownership exist precisely to warn that a renounced-LOOKING
+    // owner is not really renounced. Reporting clear() on that shape hides the riskiest
+    // ownership configuration GoPlus can describe.
+    looksRenounced && !hiddenControl
       ? clear('ownership')
       : flag('ownership', {
-          indicator: 'Contract ownership retained',
-          severity: truthy(d.can_take_back_ownership) || truthy(d.hidden_owner) ? 'high' : 'medium',
-          observation: 'The contract has an active owner address.',
+          indicator: hiddenControl ? 'Ownership control may be retained despite a renounced owner' : 'Contract ownership retained',
+          severity: hiddenControl ? 'high' : 'medium',
+          observation: hiddenControl
+            ? 'The visible owner is empty or the zero address, but the contract is flagged as having a hidden owner or the ability to reclaim ownership.'
+            : 'The contract has an active owner address.',
           implication:
-            'Privileged functions remain callable by the owner. Retained ownership is also normal for many actively-maintained projects.',
+            'Privileged functions may remain callable. Retained ownership is also normal for many actively-maintained projects.',
         }),
   )
 
@@ -197,7 +207,7 @@ function evmChecks(d: any): RiskCheck[] {
           implication:
             'Contract logic can be changed after deployment. Upgradeability is also a deliberate design choice for many established projects.',
         })
-      : clear('upgradeable'),
+      : present(d.is_proxy) ? clear('upgradeable') : unchecked('upgradeable', 'no_data'),
   )
 
   out.push(
@@ -208,7 +218,7 @@ function evmChecks(d: any): RiskCheck[] {
           observation: 'The contract exposes a mint function.',
           implication: 'Additional supply can be created, which would dilute existing holders.',
         })
-      : clear('mintable'),
+      : present(d.is_mintable) ? clear('mintable') : unchecked('mintable', 'no_data'),
   )
 
   // Honeypot — the one place CRITICAL is defensible, because it is behavioural.
@@ -221,7 +231,7 @@ function evmChecks(d: any): RiskCheck[] {
           implication:
             'Under the conditions analysed, this token may not be sellable. Contract state can change.',
         })
-      : clear('honeypot'),
+      : present(d.is_honeypot) ? clear('honeypot') : unchecked('honeypot', 'no_data'),
   )
 
   out.push(
@@ -232,7 +242,7 @@ function evmChecks(d: any): RiskCheck[] {
           observation: 'The contract restricts buying, or prevents selling the full balance.',
           implication: 'Positions may not be fully exitable under the conditions analysed.',
         })
-      : clear('sellable'),
+      : (present(d.cannot_sell_all) || present(d.cannot_buy)) ? clear('sellable') : unchecked('sellable', 'no_data'),
   )
 
   const buy = pct(d.buy_tax)
@@ -245,7 +255,7 @@ function evmChecks(d: any): RiskCheck[] {
         ? flag('transfer_tax', {
             indicator: 'High transfer tax',
             severity: worst >= 25 ? 'high' : 'medium',
-            observation: `Buy tax ${((buy ?? 0) * 100).toFixed(1)}%, sell tax ${((sell ?? 0) * 100).toFixed(1)}%.`,
+            observation: `Buy tax ${buy === null ? 'unknown' : (buy * 100).toFixed(1) + '%'}, sell tax ${sell === null ? 'unknown' : (sell * 100).toFixed(1) + '%'}.`,
             implication: 'A significant share of each trade is taken by the contract.',
           })
         : clear('transfer_tax'),
@@ -260,7 +270,7 @@ function evmChecks(d: any): RiskCheck[] {
           observation: 'The contract exposes a function that can halt transfers.',
           implication: 'Transfers, including sells, can be disabled by whoever holds that permission.',
         })
-      : clear('transfer_pausable'),
+      : present(d.transfer_pausable) ? clear('transfer_pausable') : unchecked('transfer_pausable', 'no_data'),
   )
 
   out.push(
@@ -271,7 +281,7 @@ function evmChecks(d: any): RiskCheck[] {
           observation: 'The contract can block specific addresses from transferring.',
           implication: 'Individual holders can be prevented from selling.',
         })
-      : clear('blacklist'),
+      : present(d.is_blacklisted) ? clear('blacklist') : unchecked('blacklist', 'no_data'),
   )
 
   // LP lock — report coverage, and state the limitation honestly.
@@ -365,14 +375,21 @@ function solanaChecks(d: any): RiskCheck[] {
   )
 
   const fee = pct(d.transfer_fee?.max_fee ?? d.transfer_fee)
+  // Token-2022 fee configs can carry basis points or an absolute maximumFee in base units, not a
+  // percentage. Rendering the raw number as a percent produced "up to 5000000%" and let a routine
+  // basis-point fee trip the >=10 "high" threshold. Only treat a value in the 0..100 range as a
+  // percentage; otherwise report that a fee is configured without asserting a unit we can't verify.
+  const feePlausiblePct = fee !== null && fee > 0 && fee <= 100
   out.push(
     fee === null
       ? unchecked('transfer_fee', 'no_data')
       : fee > 0
         ? flag('transfer_fee', {
             indicator: 'Transfer fee configured',
-            severity: fee >= 10 ? 'high' : 'medium',
-            observation: `A transfer fee of up to ${fee}% is configured on this mint.`,
+            severity: feePlausiblePct && fee >= 10 ? 'high' : 'medium',
+            observation: feePlausiblePct
+              ? `A transfer fee of up to ${fee}% is configured on this mint.`
+              : 'A transfer fee is configured on this mint (the exact rate is in a unit this check cannot convert reliably).',
             implication: 'A share of each transfer is taken by the fee authority.',
           })
         : clear('transfer_fee'),

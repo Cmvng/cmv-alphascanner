@@ -6,6 +6,19 @@
 import { createHash } from 'node:crypto'
 
 /**
+ * Collapse chain aliases to one canonical id. Providers disagree on spelling — GeckoTerminal
+ * passes the operator's CHAINS string through verbatim, DexScreener reverse-maps its own ids —
+ * so the same token could land under both 'eth' and 'ethereum', which the (kind, chain, address)
+ * unique index treats as two targets: heat, risk and alerts computed twice, convergence between
+ * the two providers never registering. Normalise before the key is built.
+ */
+export function canonicalChain(chain: string | null | undefined): string {
+  const c = (chain ?? '').toLowerCase().trim()
+  const alias: Record<string, string> = { ethereum: 'eth', mainnet: 'eth', 'ethereum-mainnet': 'eth' }
+  return alias[c] ?? c
+}
+
+/**
  * Bucket a timestamp so near-identical observations of the same continuous fact collapse.
  * A new pool reported at 12:00:03 and 12:00:57 by the same source is one observation, not two.
  */
@@ -45,7 +58,7 @@ export function targetKeyOf(t: {
   contractAddress?: string | null
   xHandle?: string | null
 }): string {
-  if (t.contractAddress) return `${(t.chain ?? '').toLowerCase()}:${t.contractAddress.toLowerCase()}`
+  if (t.contractAddress) return `${canonicalChain(t.chain)}:${t.contractAddress.toLowerCase()}`
   if (t.xHandle) return `x:${t.xHandle.toLowerCase()}`
   return 'unknown'
 }

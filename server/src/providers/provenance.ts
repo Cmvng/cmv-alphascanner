@@ -158,7 +158,9 @@ export class ProvenanceProvider {
     await this.limiter.take()
     try {
       const r = await fetchWithTimeout(
-        `https://crt.sh/?q=${encodeURIComponent(domain)}&output=json&exclude=expired`,
+        // No exclude=expired: we want the EARLIEST certificate ever issued (the true first public
+        // presence), and expired certs are exactly the old ones that answer prove the domain is not new.
+        `https://crt.sh/?q=${encodeURIComponent(domain)}&output=json`,
         { headers: { Accept: 'application/json' }, timeoutMs: 15_000 },
       )
       if (!r.ok) {

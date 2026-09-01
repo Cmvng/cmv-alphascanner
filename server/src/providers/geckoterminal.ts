@@ -103,7 +103,11 @@ export class GeckoTerminalProvider implements DiscoveryProvider {
             symbol: null,
             audienceSize: null,
             liquidityUsd: liquidity,
-            marketCapUsd: num(a.fdv_usd) ?? num(a.market_cap_usd),
+            // Prefer the real market cap; fall back to FDV only when it is absent. Preferring
+            // fdv_usd wrote fully-diluted valuation (often ~100x higher on a low-float token)
+            // into the market-cap column, which suppressed the obscurity bonus and mislabelled
+            // /grid — and coalesce made the wrong figure permanent.
+            marketCapUsd: num(a.market_cap_usd) ?? num(a.fdv_usd),
             volume24hUsd: volume,
             poolCreatedAt: createdAt,
           },

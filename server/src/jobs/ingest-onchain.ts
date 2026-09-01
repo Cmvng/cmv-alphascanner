@@ -6,7 +6,7 @@
 
 import { query, loadConfig } from '../db.js'
 import { recordSourceHealth } from '../lib/health.js'
-import { dedupeKey, targetKeyOf } from '../lib/dedupe.js'
+import { dedupeKey, targetKeyOf, canonicalChain } from '../lib/dedupe.js'
 import type { Discovery, DiscoveryProvider } from '../providers/types.js'
 
 export interface IngestResult {
@@ -58,7 +58,7 @@ async function upsertTarget(d: Discovery): Promise<string> {
        updated_at     = now()
      returning id`,
     [
-      t.kind, t.chain, t.contractAddress, t.xHandle, t.name, t.symbol,
+      t.kind, canonicalChain(t.chain), t.contractAddress, t.xHandle, t.name, t.symbol,
       t.audienceSize, t.liquidityUsd, t.marketCapUsd, t.volume24hUsd, t.poolCreatedAt,
     ],
   )

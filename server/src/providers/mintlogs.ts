@@ -15,9 +15,11 @@ import { RateLimiter, fetchWithTimeout, CircuitBreaker } from '../lib/net.js'
 import { meter } from '../lib/meter.js'
 import type { Discovery, DiscoveryProvider, HealthStatus } from './types.js'
 
-/** keccak256("Transfer(address,address,uint256)") */
+/** keccak256("Transfer(address,address,uint256)") — ERC-721 (and ERC-20). */
 const TRANSFER_TOPIC = '0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef'
-/** Zero address, left-padded to 32 bytes — `from == 0x0` is what makes a Transfer a mint. */
+/** keccak256("TransferSingle(address,address,address,uint256,uint256)") — ERC-1155. */
+const TRANSFER_SINGLE_TOPIC = '0xc3d58168c5ae7397731d063d5bbf3d657854427343f4c083240f7aacaa2d0f62'
+/** Zero address, left-padded to 32 bytes — `from == 0x0` is what makes a transfer a mint. */
 const ZERO_TOPIC = '0x0000000000000000000000000000000000000000000000000000000000000000'
 
 export interface ChainRpc {
@@ -102,6 +104,41 @@ export class MintLogProvider implements DiscoveryProvider {
     }
   }
 
+  /**
+   * eth_getLogs across a block range, splitting the window when the node rejects it.
+   *
+   * Public RPCs cap result count and block span (geth: "query returned more than 10000 results").
+   * During exactly the high-activity windows this provider exists to catch, a 15-minute window of
+   * mints on Base exceeds that cap, the single call returns null, and the whole chain was silently
+   * skipped while healthCheck (eth_blockNumber only) still reported green. Halving the range on
+   * failure down to a floor recovers the data instead of going blind.
+   *
+   * Returns null only when even a minimal sub-range fails (a real RPC outage); an empty array
+   * means the range was queried and held no mints.
+   */
+  private async getLogsChunked(
+    url: string,
+    fromBlock: number,
+    toBlock: number,
+    topics: (string | null)[],
+    depth = 0,
+  ): Promise<any[] | null> {
+    const logs = await this.rpc(url, 'eth_getLogs', [
+      { fromBlock: `0x${fromBlock.toString(16)}`, toBlock: `0x${toBlock.toString(16)}`, topics },
+    ])
+    if (Array.isArray(logs)) return logs
+    // Give up splitting once the window is tiny or we have recursed too far — a persistent failure
+    // at that point is an outage, not a range cap.
+    if (depth >= 6 || toBlock - fromBlock <= 4) return null
+    const mid = Math.floor((fromBlock + toBlock) / 2)
+    const [a, b] = await Promise.all([
+      this.getLogsChunked(url, fromBlock, mid, topics, depth + 1),
+      this.getLogsChunked(url, mid + 1, toBlock, topics, depth + 1),
+    ])
+    if (a === null && b === null) return null
+    return [...(a ?? []), ...(b ?? [])]
+  }
+
   async discover({ chains }: { chains: string[]; maxAgeHours: number }): Promise<Discovery[]> {
     const wanted = new Set(chains.map((c) => c.toLowerCase()))
     const out: Discovery[] = []
@@ -122,27 +159,23 @@ export class MintLogProvider implements DiscoveryProvider {
       const lookback = Math.max(20, Math.min(2000, Math.round(rpc.blocksPerMin * 15)))
       const fromBlock = Math.max(0, latest - lookback)
 
-      const logs = await this.rpc(rpc.url, 'eth_getLogs', [
-        {
-          fromBlock: `0x${fromBlock.toString(16)}`,
-          toBlock: `0x${latest.toString(16)}`,
-          topics: [TRANSFER_TOPIC, ZERO_TOPIC],
-        },
-      ])
-      if (!Array.isArray(logs)) continue
+      // ERC-721 Transfer mints: topics = [sig, from, to, tokenId] with from == 0x0. The zero
+      // filter sits at topic position 1 (from).
+      const erc721 = await this.getLogsChunked(rpc.url, fromBlock, latest, [TRANSFER_TOPIC, ZERO_TOPIC])
+      // ERC-1155 TransferSingle mints: topics = [sig, operator, from, to] with from == 0x0. The
+      // zero filter sits at position 2, so this needs its own query — the open-edition format is
+      // the majority mint phenomenon on Base/Zora and was structurally invisible before.
+      const erc1155 = await this.getLogsChunked(rpc.url, fromBlock, latest, [TRANSFER_SINGLE_TOPIC, null, ZERO_TOPIC])
+      if (erc721 === null && erc1155 === null) continue // RPC failed both ways — say nothing
 
       const tallies = new Map<string, MintTally>()
-      for (const log of logs) {
+      const tally = (log: any, minterIdx: number) => {
         const contract = String(log?.address || '').toLowerCase()
-        if (!contract) continue
-        // topics[2] is `to` — the minter. ERC-20 transfers-from-zero also match this filter, so
-        // we rely on topic count: ERC-721 carries an indexed tokenId as a fourth topic.
+        if (!contract) return
         const topics: string[] = Array.isArray(log?.topics) ? log.topics : []
-        if (topics.length < 4) continue // ERC-20 mint, not an NFT — skip
-
-        const minter = topics[2]
+        const minter = topics[minterIdx]
+        if (!minter) return
         const block = parseInt(String(log?.blockNumber || '0x0'), 16)
-
         const t = tallies.get(contract) ?? {
           contract, mints: 0, uniqueMinters: new Set<string>(),
           firstBlock: block, lastBlock: block,
@@ -153,6 +186,16 @@ export class MintLogProvider implements DiscoveryProvider {
         t.lastBlock = Math.max(t.lastBlock, block)
         tallies.set(contract, t)
       }
+
+      for (const log of erc721 ?? []) {
+        // Exactly 4 topics = ERC-721 (indexed tokenId as the 4th). A 3-topic hit is an ERC-20
+        // mint; skip it rather than mis-tallying it as an NFT collection. The minter is `to` = [2].
+        const topics: string[] = Array.isArray(log?.topics) ? log.topics : []
+        if (topics.length !== 4) continue
+        tally(log, 2)
+      }
+      // ERC-1155 TransferSingle: minter is `to` = topics[3].
+      for (const log of erc1155 ?? []) tally(log, 3)
 
       for (const t of tallies.values()) {
         // A handful of mints is background noise on any chain; only sustained velocity is signal.

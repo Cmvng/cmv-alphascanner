@@ -46,7 +46,7 @@ function extractXHandle(pair: any): string | null {
     ...websites.map((w) => (typeof w?.url === 'string' ? w.url : '')),
   ]
   for (const raw of candidates) {
-    const m = raw.match(/(?:twitter\.com|x\.com)\/(?:#!\/)?@?([A-Za-z0-9_]{1,15})/i)
+    const m = raw.match(/(?<![a-z0-9])(?:twitter\.com|x\.com)\/(?:#!\/)?@?([A-Za-z0-9_]{1,15})/i)
     // Reject X's own non-profile paths, which would otherwise look like handles.
     if (m && !/^(i|home|search|intent|share|hashtag|status)$/i.test(m[1])) return m[1]
   }
@@ -126,7 +126,9 @@ export class DexScreenerProvider implements DiscoveryProvider {
           contractAddress: address,
           xHandle: null,
           website: null,
-          name: typeof it?.description === 'string' ? it.description.slice(0, 120) : null,
+          // NOT it.description — that is promoter-authored ad copy. enrich() fills the real name
+          // from the pairs endpoint; storing the blurb here would coalesce as a permanent identity.
+          name: null,
           symbol: null,
           audienceSize: null,
           liquidityUsd: null,
@@ -163,16 +165,24 @@ export class DexScreenerProvider implements DiscoveryProvider {
     const pairs: any[] = Array.isArray(body) ? body : Array.isArray(body?.pairs) ? body.pairs : []
     if (pairs.length === 0) return null
 
-    // Deepest pool is the most representative price and the hardest to manipulate.
-    const best = pairs.reduce((a, b) => ((b?.liquidity?.usd ?? 0) > (a?.liquidity?.usd ?? 0) ? b : a))
+    const addrLower = address.toLowerCase()
+    // Prefer pools where OUR token is the base side, because name/symbol/marketCap/fdv all
+    // describe the baseToken. Picking the deepest pool blindly grabs the partner project's
+    // identity whenever our token is the quote side — a wrong name, handle and market cap that
+    // then coalesce permanently onto the target.
+    const baseSide = pairs.filter((p) => String(p?.baseToken?.address ?? '').toLowerCase() === addrLower)
+    const deepest = (arr: any[]) => arr.reduce((a, b) => ((b?.liquidity?.usd ?? 0) > (a?.liquidity?.usd ?? 0) ? b : a))
+    const best = baseSide.length ? deepest(baseSide) : deepest(pairs)
+    // If our token is only ever the quote side, do not attribute the base token's identity to it.
+    const isBase = String(best?.baseToken?.address ?? '').toLowerCase() === addrLower
 
     return {
-      name: best?.baseToken?.name ?? null,
-      symbol: best?.baseToken?.symbol ?? null,
-      xHandle: extractXHandle(best),
-      website: extractWebsite(best),
+      name: isBase ? (best?.baseToken?.name ?? null) : null,
+      symbol: isBase ? (best?.baseToken?.symbol ?? null) : null,
+      xHandle: isBase ? extractXHandle(best) : null,
+      website: isBase ? extractWebsite(best) : null,
       liquidityUsd: num(best?.liquidity?.usd),
-      marketCapUsd: num(best?.marketCap) ?? num(best?.fdv),
+      marketCapUsd: isBase ? (num(best?.marketCap) ?? num(best?.fdv)) : null,
       volume24hUsd: num(best?.volume?.h24),
       poolCreatedAt: best?.pairCreatedAt ? new Date(best.pairCreatedAt) : null,
     }
