@@ -33,7 +33,9 @@ function qualifies(d: Discovery, cfg: Record<string, number>): boolean {
   // Unknown is not the same as zero. A brand-new pool legitimately has no 24h volume yet, so a
   // missing figure must not disqualify it — only a figure we have and that is genuinely too low.
   if (liq !== null && liq < minLiq) return false
-  if (vol !== null && vol < minVol && (liq === null || liq < minLiq)) return false
+  // Low volume only disqualifies when there is no liquidity figure to judge on instead. The
+  // `liq < minLiq` half of the original condition was dead — that case already returned above.
+  if (liq === null && vol !== null && vol < minVol) return false
   return true
 }
 
@@ -87,7 +89,12 @@ export async function ingestOnchain(
       continue
     }
 
-    await recordSourceHealth(provider.id, true, null)
+    // NOT recorded as healthy here, deliberately. Every provider swallows its own HTTP errors
+    // and returns [] — that is what keeps one dead source from breaking a run — so a resolved
+    // promise says nothing about whether the API answered. Writing 'ok' here marked a provider
+    // green while every one of its calls was failing, and, running every 10 minutes, it
+    // overwrote the honest result from the `check-sources` probe. Health now comes only from
+    // that probe, which actually calls the API and reports the error it got.
 
     for (const d of s.value.discoveries) {
       result.targetsSeen++

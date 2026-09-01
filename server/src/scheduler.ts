@@ -25,21 +25,24 @@ async function runOnce(job: Job): Promise<void> {
   if (!pool) return
   const client = await pool.connect()
   const key = lockKey(job.name)
+  let locked = false
 
   try {
     const got = await client.query('select pg_try_advisory_lock($1) as ok', [key])
-    if (!got.rows[0]?.ok) {
+    locked = Boolean(got.rows[0]?.ok)
+    if (!locked) {
       console.log(`[scheduler] ${job.name} already running elsewhere — skipping this tick`)
       return
     }
 
-    const started = await query<{ id: string }>(
-      'insert into cron_runs (job, lock_key) values ($1,$2) returning id',
-      [job.name, `${job.name}:${Date.now()}`],
-    )
-    const runId = started[0]?.id
-
+    let runId: string | undefined
     try {
+      const started = await query<{ id: string }>(
+        'insert into cron_runs (job, lock_key) values ($1,$2) returning id',
+        [job.name, `${job.name}:${Date.now()}`],
+      )
+      runId = started[0]?.id
+
       const out = await job.run()
       await query(
         `update cron_runs set finished_at = now(), status = 'ok',
@@ -48,16 +51,36 @@ async function runOnce(job: Job): Promise<void> {
       )
       console.log(`[scheduler] ${job.name} ok`, out)
     } catch (e: any) {
-      await query(
-        `update cron_runs set finished_at = now(), status = 'error', errors = $2 where id = $1`,
-        [runId, JSON.stringify({ message: String(e?.message || e) })],
-      ).catch(() => {})
+      // runId is undefined if the run could not even be recorded — still not fatal.
+      if (runId) {
+        await query(
+          `update cron_runs set finished_at = now(), status = 'error', errors = $2 where id = $1`,
+          [runId, JSON.stringify({ message: String(e?.message || e) })],
+        ).catch(() => {})
+      }
       console.error(`[scheduler] ${job.name} failed:`, e?.message || e)
-    } finally {
-      await client.query('select pg_advisory_unlock($1)', [key])
     }
   } finally {
-    client.release()
+    // The unlock MUST live here, not beside the job body.
+    //
+    // Advisory locks are session-scoped and `client.release()` returns the connection to the
+    // pool with its session intact — it does not release them. Previously the unlock sat in the
+    // inner finally, so anything that threw between taking the lock and entering that block (the
+    // `insert into cron_runs`, for instance) skipped it entirely and the lock was held for the
+    // life of the process: one transient database error and that job never ran again.
+    let destroyed = false
+    if (locked) {
+      try {
+        await client.query('select pg_advisory_unlock($1)', [key])
+      } catch (e: any) {
+        // If the unlock itself fails the session is suspect. Destroy the connection instead of
+        // returning a lock-holding session to the pool — a new one starts with no locks held.
+        console.error(`[scheduler] ${job.name} unlock failed:`, e?.message || e)
+        client.release(true)
+        destroyed = true
+      }
+    }
+    if (!destroyed) client.release()
   }
 }
 

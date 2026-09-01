@@ -260,3 +260,30 @@ describe('trust weighting', () => {
     expect(three.heat).toBeGreaterThan(one.heat)
   })
 })
+
+describe('explainHeat honesty', () => {
+  it('does not claim a source reported activity when nothing scored', () => {
+    // Every event dated in the future is rejected by convergenceScore, so eventCount is 3 while
+    // distinctSources is 0. The explanation must not invent a reporter.
+    const future = new Date(Date.now() + 60 * 60_000)
+    const events: HeatEvent[] = [
+      { source: 'a', eventType: 'new_pool', occurredAt: future, confidence: 1 },
+      { source: 'b', eventType: 'new_pool', occurredAt: future, confidence: 1 },
+      { source: 'c', eventType: 'new_pool', occurredAt: future, confidence: 1 },
+    ]
+    const r = computeHeat(events, { marketCapUsd: null }, new Date())
+    expect(r.heat).toBe(0)
+    expect(r.components.distinctSources).toBe(0)
+    expect(explainHeat(r)).not.toMatch(/1 source reported activity/)
+  })
+
+  it('still explains a normal result', () => {
+    const now = new Date()
+    const r = computeHeat(
+      [{ source: 'geckoterminal', eventType: 'new_pool', occurredAt: now, confidence: 0.8 }],
+      { marketCapUsd: 1_000_000 },
+      now,
+    )
+    expect(explainHeat(r)).toMatch(/source reported activity/)
+  })
+})

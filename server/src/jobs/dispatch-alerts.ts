@@ -44,7 +44,9 @@ function buildMessage(t: any): string {
     t.chain ? `Chain: ${escapeMd(t.chain)}` : '',
     '',
     // Never a recommendation — the message reports observations and links to the evidence.
-    `[Open evidence](${process.env.PUBLIC_URL || ''}/target/${t.id})`,
+    // Omitted entirely when PUBLIC_URL is unset: a relative href is not a valid MarkdownV2 link
+    // entity, and Telegram rejects the whole message rather than just dropping the link.
+    process.env.PUBLIC_URL ? `[Open evidence](${process.env.PUBLIC_URL}/target/${t.id})` : '',
   ]
   return lines.filter(Boolean).join('\n')
 }
@@ -76,6 +78,10 @@ export async function dispatchAlerts(): Promise<AlertRunResult> {
   const cfg = await loadConfig()
   const maxPerRun = cfg['alerts.max_per_run'] ?? 5
 
+  const maxAttempts = cfg['alerts.max_attempts'] ?? 3
+  // Configured since 0003 and never actually read — a target could not re-alert at all.
+  const recheckHours = cfg['alerts.recheck_hours'] ?? 12
+
   const rules = await query<any>('select * from alert_rules where enabled = true')
   const result: AlertRunResult = { candidates: 0, sent: 0, failed: 0, skipped: 0 }
   if (rules.length === 0) return result
@@ -94,12 +100,25 @@ export async function dispatchAlerts(): Promise<AlertRunResult> {
           and ($2::int is null or t.alpha_score >= $2)
           and ($3::boolean = false or t.alpha_score is not null)
           and (cardinality($4::text[]) = 0 or t.chain = any($4::text[]))
-          and not exists (select 1 from alert_deliveries d
-                           where d.rule_id = $5 and d.target_id = t.id)
+          -- A row here used to mean "handled", whatever the outcome. It now means one of two
+          -- things, and only the first should suppress a retry: either the message was actually
+          -- delivered and is still inside its cooldown, or it failed enough times that we have
+          -- stopped trying. Anything else is still owed a send.
+          and not exists (
+                select 1 from alert_deliveries d
+                 where d.rule_id = $5 and d.target_id = t.id
+                   and (
+                     (d.delivered_at is not null
+                        and d.delivered_at > now() - ($7 || ' hours')::interval)
+                     or (d.delivered_at is null and d.attempts >= $8)
+                   ))
         group by t.id
         order by t.heat desc
         limit $6`,
-      [rule.min_heat, rule.min_alpha, rule.require_alpha, rule.chains ?? [], rule.id, maxPerRun],
+      [
+        rule.min_heat, rule.min_alpha, rule.require_alpha, rule.chains ?? [], rule.id, maxPerRun,
+        String(recheckHours), maxAttempts,
+      ],
     )
 
     result.candidates += targets.length
@@ -121,10 +140,23 @@ export async function dispatchAlerts(): Promise<AlertRunResult> {
       const out = await sendTelegram(rule.destination, buildMessage({ ...t, why }))
 
       await query(
-        `insert into alert_deliveries (rule_id, target_id, heat_at_send, band_at_send, status, error)
-         values ($1,$2,$3,$4,$5,$6)
-         on conflict (rule_id, target_id) do nothing`,
-        [rule.id, t.id, t.heat, t.heat_band, out.ok ? 'sent' : 'failed', out.error ?? null],
+        `insert into alert_deliveries
+           (rule_id, target_id, heat_at_send, band_at_send, status, error, attempts, delivered_at)
+         values ($1,$2,$3,$4,$5,$6,1,$7)
+         on conflict (rule_id, target_id) do update set
+           attempts     = alert_deliveries.attempts + 1,
+           status       = excluded.status,
+           error        = excluded.error,
+           heat_at_send = excluded.heat_at_send,
+           band_at_send = excluded.band_at_send,
+           sent_at      = now(),
+           -- Never clear a real delivery because a later retry failed.
+           delivered_at = coalesce(excluded.delivered_at, alert_deliveries.delivered_at)`,
+        [
+          rule.id, t.id, t.heat, t.heat_band,
+          out.ok ? 'sent' : 'failed', out.error ?? null,
+          out.ok ? new Date() : null,
+        ],
       )
 
       if (out.ok) result.sent++

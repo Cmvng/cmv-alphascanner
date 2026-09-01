@@ -8,6 +8,8 @@ import { computeHeat, DEFAULT_HEAT_CONFIG, type HeatConfig, type HeatEvent } fro
 export interface HeatRunResult {
   targetsScored: number
   crossedAutoScan: number
+  /** Targets whose evidence aged out entirely and were reset — see the note in the job body. */
+  decayedToZero: number
 }
 
 /** Build the scoring config from database rows, falling back to the compiled defaults. */
@@ -39,13 +41,20 @@ export async function computeHeatForAll(now = new Date()): Promise<HeatRunResult
 
   // Only score targets with evidence inside the longest half-life window that still matters.
   // Anything older has decayed below the noise floor anyway.
+  //
+  // The previous heat and alpha_score come back in the SAME query. They used to be fetched per
+  // target inside the loop, which made this N+1 — three round-trips per target per cycle.
   const rows = await query<{
     target_id: string
     market_cap_usd: string | null
+    prev_heat: string
+    alpha_score: number | null
     events: Array<{ source: string; event_type: string; occurred_at: string; confidence: string; weight: string }>
   }>(
     `select t.id as target_id,
             t.market_cap_usd,
+            t.heat as prev_heat,
+            t.alpha_score,
             json_agg(json_build_object(
               'source',      e.source,
               'event_type',  e.event_type,
@@ -57,6 +66,28 @@ export async function computeHeatForAll(now = new Date()): Promise<HeatRunResult
        join signal_events e on e.target_id = t.id
       where e.occurred_at > now() - interval '7 days'
       group by t.id`,
+  )
+
+  // Heat DECAYS, so a target that stops producing evidence must fall to zero — and the inner
+  // join above can never do that, because a target with no recent events is not in the result at
+  // all. Its `heat` column simply kept whatever it last scored, so a target that spiked to 90 ten
+  // days ago still reads 90 today on /radar and /grid. That is a stale number presented as a
+  // current one, which the viewer has no way to detect.
+  const decayed = await query<{ id: string }>(
+    `update targets
+        set heat = 0,
+            heat_band = 'cold',
+            heat_components = jsonb_build_object(
+              'convergence', 0, 'distinctSources', 0, 'eventCount', 0,
+              'obscurity', 1, 'freshnessHours', null, 'rawScore', 0, 'meanTrust', null
+            ),
+            updated_at = now()
+      where heat > 0
+        and not exists (
+              select 1 from signal_events e
+               where e.target_id = targets.id
+                 and e.occurred_at > now() - interval '7 days')
+      returning id`,
   )
 
   let crossed = 0
@@ -77,12 +108,8 @@ export async function computeHeatForAll(now = new Date()): Promise<HeatRunResult
       cfg,
     )
 
-    const prev = await query<{ heat: string; alpha_score: number | null }>(
-      'select heat, alpha_score from targets where id = $1',
-      [row.target_id],
-    )
-    const previousHeat = prev.length ? Number(prev[0].heat) : 0
-    const alreadyScanned = prev.length ? prev[0].alpha_score !== null : false
+    const previousHeat = Number(row.prev_heat)
+    const alreadyScanned = row.alpha_score !== null
 
     await query(
       `update targets
@@ -101,5 +128,5 @@ export async function computeHeatForAll(now = new Date()): Promise<HeatRunResult
     if (result.heat >= autoScanAt && previousHeat < autoScanAt && !alreadyScanned) crossed++
   }
 
-  return { targetsScored: rows.length, crossedAutoScan: crossed }
+  return { targetsScored: rows.length, crossedAutoScan: crossed, decayedToZero: decayed.length }
 }

@@ -17,8 +17,16 @@ export const pool = connectionString
       max: 8,
       idleTimeoutMillis: 30_000,
       connectionTimeoutMillis: 10_000,
-      // Railway's managed Postgres terminates TLS with its own cert on the private network.
-      ssl: connectionString.includes('railway.internal') ? undefined : { rejectUnauthorized: false },
+      // Railway's private network is already isolated, so the internal host needs no TLS layer.
+      //
+      // Any other host is reached over the public internet, and `rejectUnauthorized: false`
+      // there means an intercepted connection would be accepted without complaint. It is the
+      // default only because Railway's Postgres template presents a self-signed certificate.
+      // Set PGSSL_STRICT=true once a verifiable chain is in place — verification should not
+      // require a redeploy to turn on.
+      ssl: connectionString.includes('railway.internal')
+        ? undefined
+        : { rejectUnauthorized: process.env.PGSSL_STRICT === 'true' },
     })
   : null
 

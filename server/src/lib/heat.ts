@@ -210,6 +210,10 @@ export function computeHeat(
 export function explainHeat(r: HeatResult): string {
   const c = r.components
   if (c.eventCount === 0) return 'No recent signals.'
+  // eventCount counts what was submitted; distinctSources counts what actually scored. They
+  // differ when every event was rejected as future-dated, and the sentence below would then
+  // assert "1 source reported activity" on the strength of zero.
+  if (c.distinctSources === 0) return 'No usable signals — every observation was rejected.'
 
   const parts: string[] = []
   parts.push(

@@ -6,17 +6,20 @@
 
 import { query } from '../db.js'
 
-interface Bucket { calls: number; errors: number; unitCost: number }
+interface Bucket { calls: number; errors: number; maxUnitCost: number; costUsd: number }
 const buffer = new Map<string, Bucket>()
 
 /** Record one outbound call. `unitCostUsd` is 0 for the free providers. */
 export function meter(provider: string, ok: boolean, unitCostUsd = 0): void {
-  const b = buffer.get(provider) ?? { calls: 0, errors: 0, unitCost: unitCostUsd }
+  const b = buffer.get(provider) ?? { calls: 0, errors: 0, maxUnitCost: 0, costUsd: 0 }
   b.calls += 1
   if (!ok) b.errors += 1
-  // Keep the highest unit cost seen this window — a provider whose price varies by endpoint
-  // should not be under-reported.
-  b.unitCost = Math.max(b.unitCost, unitCostUsd)
+  // Cost accumulates PER CALL rather than being reconstructed at flush time as
+  // calls × max-unit-cost. That reconstruction was wrong for any provider whose endpoints are
+  // priced differently: nine free calls and one at $0.004 reported $0.04, a 10x overstatement
+  // of the one number this whole file exists to get right.
+  b.costUsd += unitCostUsd
+  b.maxUnitCost = Math.max(b.maxUnitCost, unitCostUsd)
   buffer.set(provider, b)
 }
 
@@ -37,11 +40,19 @@ export async function flushMeter(): Promise<number> {
            errors        = provider_calls.errors + excluded.errors,
            unit_cost_usd = greatest(provider_calls.unit_cost_usd, excluded.unit_cost_usd),
            est_cost_usd  = provider_calls.est_cost_usd + excluded.est_cost_usd`,
-        [provider, b.calls, b.errors, b.unitCost, b.calls * b.unitCost],
+        [provider, b.calls, b.errors, b.maxUnitCost, b.costUsd],
       )
       flushed += b.calls
     } catch {
-      // Losing a metering row must never break the pipeline it is observing.
+      // Never break the pipeline being observed — but do not silently discard the counts
+      // either. Merge them back so the next flush carries them; the buffer was cleared before
+      // the write, so without this a single failed insert loses the window entirely.
+      const back = buffer.get(provider) ?? { calls: 0, errors: 0, maxUnitCost: 0, costUsd: 0 }
+      back.calls += b.calls
+      back.errors += b.errors
+      back.costUsd += b.costUsd
+      back.maxUnitCost = Math.max(back.maxUnitCost, b.maxUnitCost)
+      buffer.set(provider, back)
     }
   }
   return flushed

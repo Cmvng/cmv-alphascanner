@@ -2,7 +2,7 @@
 // What the engine is spending, and — more usefully — what it is spending PER RESULT (§44).
 
 import { Router } from 'express'
-import { query, hasDatabase } from '../db.js'
+import { query, hasDatabase, loadConfig } from '../db.js'
 
 export const costsRouter = Router()
 
@@ -11,11 +11,17 @@ costsRouter.get('/costs', async (req, res) => {
   const days = Math.min(90, Math.max(1, Number(req.query.days) || 30))
 
   try {
+    // "Qualified" must mean what the heat engine means by it. This was hardcoded to 40, which
+    // silently stopped agreeing with the engine the moment `band.warm` was tuned — and tuning
+    // thresholds without a deploy is the entire reason they live in the database.
+    const cfg = await loadConfig()
+    const warmBand = cfg['band.warm'] ?? 40
+
     const [byProvider, totals, yields] = await Promise.all([
       query(
         `select provider, sum(calls)::int as calls, sum(errors)::int as errors,
                 round(sum(est_cost_usd)::numeric, 4) as cost_usd
-           from provider_calls where day > current_date - $1::int
+           from provider_calls where day >= current_date - ($1::int - 1)
           group by provider order by sum(est_cost_usd) desc, sum(calls) desc`,
         [days],
       ),
@@ -23,15 +29,15 @@ costsRouter.get('/costs', async (req, res) => {
         `select coalesce(round(sum(est_cost_usd)::numeric, 4), 0) as cost_usd,
                 coalesce(sum(calls), 0)::int as calls,
                 coalesce(round(sum(est_cost_usd) filter (where day = current_date)::numeric, 4), 0) as cost_today
-           from provider_calls where day > current_date - $1::int`,
+           from provider_calls where day >= current_date - ($1::int - 1)`,
         [days],
       ),
       query(
         `select count(*)::int as targets,
-                count(*) filter (where heat >= 40)::int as qualified,
+                count(*) filter (where heat >= $2)::int as qualified,
                 count(*) filter (where alpha_score is not null)::int as scanned
            from targets where first_seen_at > now() - ($1::int || ' days')::interval`,
-        [days],
+        [days, warmBand],
       ),
     ])
 
@@ -53,6 +59,7 @@ costsRouter.get('/costs', async (req, res) => {
       })),
       // The number that actually matters: spend per useful result, not spend per call.
       efficiency: {
+        qualified_at_heat: warmBand,
         targets_discovered: y.targets,
         qualified_signals: y.qualified,
         alpha_scans_run: y.scanned,
