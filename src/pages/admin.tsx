@@ -1,6 +1,6 @@
 import { VERDICT_ORDER, verdictStyle, VERDICTS } from '../lib/verdicts'
-import { setAdminToken } from '../lib/session'
-import { useState, useEffect } from 'react'
+import { setAdminToken, clearAdminToken } from '../lib/session'
+import { useState, useEffect, useRef } from 'react'
 
 // The password lives in the ADMIN_PASSWORD env var and is checked server-side by /api/admin.
 // It used to be a constant here, which shipped it in the public JS bundle.
@@ -84,8 +84,9 @@ export default function Admin() {
       const log = `[${i+1}/${scans.length}] Rescanning @${s.handle}...`
       setRescanLog(prev => [log, ...prev.slice(0, 19)])
       try {
-        try { localStorage.removeItem('cmv_scan_v4_' + s.handle); localStorage.removeItem('cmv_scan_v3_' + s.handle); localStorage.removeItem('cmv_scan_' + s.handle) } catch {}
-        await fetch('/api/xproject?handle=' + s.handle)
+        try { localStorage.removeItem('cmv_scan_v4_' + s.handle); localStorage.removeItem('cmv_scan_v3_' + s.handle); localStorage.removeItem('cmv_scan_v2_' + s.handle); localStorage.removeItem('cmv_scan_' + s.handle) } catch {}
+        // nocache=true, or the server's 2h cache returns the OLD result while the log says 'refreshed'.
+        await fetch('/api/xproject?handle=' + s.handle + '&nocache=true')
         setRescanLog(prev => [`✓ @${s.handle} — refreshed`, ...prev.slice(0, 19)])
       } catch {
         setRescanLog(prev => [`✗ @${s.handle} — failed`, ...prev.slice(0, 19)])
@@ -126,7 +127,7 @@ export default function Admin() {
         body: JSON.stringify({ action: 'delete', id }),
       })
       if (!r.ok) {
-        if (r.status === 401) { setAuth(false); setToken('') }
+        if (r.status === 401) { setAuth(false); setToken(''); clearAdminToken() }
         setRescanLog(prev => [`✗ Failed to delete @${handle}`, ...prev.slice(0, 19)])
         return
       }
@@ -145,6 +146,13 @@ export default function Admin() {
   const [keySeq, setKeySeq] = useState('')
   const [showLogin, setShowLogin] = useState(false)
 
+  const gateRef = useRef<HTMLDivElement>(null)
+  // React does not honour autoFocus on a div (it only writes the attribute for form elements and
+  // never calls focus()), so the keyboard gate received no events until the user clicked the page
+  // — and in Safari, which does not focus non-form elements on click, it was effectively
+  // unopenable. Focus it on mount so the documented 'type cmvadm' ritual works as shipped.
+  useEffect(() => { if (!auth) gateRef.current?.focus() }, [auth])
+
   const handleKeyDown = (e: React.KeyboardEvent) => {
     const next = (keySeq + e.key).slice(-6)
     setKeySeq(next)
@@ -152,7 +160,7 @@ export default function Admin() {
   }
 
   if (!auth) return (
-    <div onKeyDown={handleKeyDown} tabIndex={0} style={{ minHeight: '100vh', background: '#faf7f0', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Plus Jakarta Sans',sans-serif", outline: 'none' }} autoFocus>
+    <div ref={gateRef} onKeyDown={handleKeyDown} tabIndex={0} style={{ minHeight: '100vh', background: '#faf7f0', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Plus Jakarta Sans',sans-serif", outline: 'none' }}>
       <style>{`@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap');`}</style>
       {!showLogin ? (
         // Fake 404
@@ -192,7 +200,7 @@ export default function Admin() {
         <div style={{ marginLeft: 'auto', display: 'flex', gap: 8 }}>
           <a href="/" style={{ fontFamily: "'DM Mono',monospace", fontSize: 10, color: '#64748b', textDecoration: 'none', padding: '5px 12px', border: '1px solid #334155', borderRadius: 20 }}>← App</a>
           <a href="/feed" style={{ fontFamily: "'DM Mono',monospace", fontSize: 10, color: '#64748b', textDecoration: 'none', padding: '5px 12px', border: '1px solid #334155', borderRadius: 20 }}>Feed</a>
-          <button onClick={() => { setAuth(false); setToken('') }} style={{ fontFamily: "'DM Mono',monospace", fontSize: 10, color: '#ef4444', background: 'none', border: '1px solid #334155', borderRadius: 20, padding: '5px 12px', cursor: 'pointer' }}>Logout</button>
+          <button onClick={() => { setAuth(false); setToken(''); clearAdminToken() }} style={{ fontFamily: "'DM Mono',monospace", fontSize: 10, color: '#ef4444', background: 'none', border: '1px solid #334155', borderRadius: 20, padding: '5px 12px', cursor: 'pointer' }}>Logout</button>
         </div>
       </div>
 

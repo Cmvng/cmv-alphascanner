@@ -108,11 +108,17 @@ export default function Target() {
     if (!signedIn) return
     fetch('/api/watchlist', { headers: authHeader() })
       .then(async (r) => {
-        if (!r.ok) return
+        if (!r.ok) {
+          // 401 (expired/rotated token) etc. Resolve to a definite state so the button does not
+          // sit disabled on 'checking…' forever with no explanation.
+          setWatched(false)
+          if (r.status === 401) setSaved('Session expired — sign in again to watch targets.')
+          return
+        }
         const body = await r.json()
         setWatched((body.items || []).some((i: any) => i.target_id === id))
       })
-      .catch(() => { /* leave as unknown rather than claiming it is not watched */ })
+      .catch(() => { setWatched(false) })
   }, [id, signedIn])
 
   async function toggleWatch() {
@@ -127,6 +133,8 @@ export default function Target() {
           })
       if (r.ok) setWatched(!watched)
       else setSaved('Could not save — the session may have expired.')
+    } catch {
+      setSaved('Could not save — the network request failed.')
     } finally {
       setBusy(false)
     }
@@ -143,6 +151,8 @@ export default function Target() {
       // The scores at the moment of judgement are snapshotted server-side, so the record says
       // what the engine believed when the call was made rather than what it believes now.
       setSaved(r.ok ? 'Recorded.' : 'Could not record — the session may have expired.')
+    } catch {
+      setSaved('Could not record — the network request failed.')
     } finally {
       setBusy(false)
     }
@@ -306,6 +316,21 @@ export default function Target() {
 
               {risk && (
                 <>
+                  {/* A source that never wrote a row is invisible in the counts above, so its
+                      total absence would read as full coverage by whatever source IS present.
+                      Name the expected-but-missing sources explicitly. */}
+                  {(() => {
+                    const present = new Set((risk.sources || []).map((s) => s.source))
+                    const missing: string[] = []
+                    if (t.contract_address && !present.has('goplus')) missing.push(SOURCE_LABEL['goplus'] || 'contract analysis')
+                    if (t.website && !present.has('provenance')) missing.push(SOURCE_LABEL['provenance'] || 'domain provenance')
+                    return missing.length > 0 ? (
+                      <div className="banner warn">
+                        <strong>Not yet assessed by: {missing.join(', ')}.</strong>{' '}
+                        Those checks have not run, so their result is unknown — not clear.
+                      </div>
+                    ) : null
+                  })()}
                   {risk.checked_count < risk.total_count && (
                     <div className="banner warn">
                       <strong>{risk.checked_count} of {risk.total_count} checks completed.</strong>{' '}
@@ -383,7 +408,7 @@ export default function Target() {
                   <span className="ev-t">{ago(e.occurred_at)}</span>
                   <span>
                     {e.event_type.replace(/_/g, ' ')}
-                    {e.reference && (
+                    {e.reference && /^https?:\/\//i.test(e.reference) && (
                       <a href={e.reference} target="_blank" rel="noopener noreferrer"
                          style={{ marginLeft: 8, fontSize: 11, color: 'var(--green)' }}>source ↗</a>
                     )}

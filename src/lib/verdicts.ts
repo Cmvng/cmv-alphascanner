@@ -10,7 +10,7 @@
 export type Verdict = 'ALPHA PLAY' | 'FARM IT' | 'ENGAGE' | 'OBSERVE' | 'AVOID'
 
 export interface VerdictStyle {
-  verdict: Verdict
+  verdict: Verdict | 'UNKNOWN'
   tier: 'S' | 'A' | 'B' | 'C' | 'D'
   label: string
   emoji: string
@@ -62,7 +62,9 @@ export function resolveVerdict(raw: unknown): VerdictStyle | null {
 
 /** Style for rendering, with a neutral fallback so an unknown verdict is still visible. */
 export const UNKNOWN_STYLE: VerdictStyle = {
-  verdict: 'OBSERVE', tier: 'C', label: 'Unclassified', emoji: '❔',
+  // NOT 'OBSERVE' — a distinct bucket, so an unrecognised or null verdict is never counted or
+  // grouped as a genuine OBSERVE classification.
+  verdict: 'UNKNOWN', tier: 'C', label: 'Unclassified', emoji: '❔',
   color: '#6b7280', bg: '#f3f4f6', border: '#d1d5db', tc: '#4b5563',
 }
 

@@ -231,7 +231,17 @@ export default function Radar() {
               <button key={a.id} className={`chip ${maxAge === a.id ? 'on' : ''}`} onClick={() => setMaxAge(a.id)}>{a.label}</button>
             ))}
           </div>
-          {generatedAt && <div className="meta">updated {ago(generatedAt)} ago</div>}
+          {(() => {
+            // Age of the most recent signal across the returned targets — the real freshness of
+            // the data, not the response time. If the newest evidence is hours old the engine has
+            // likely stopped, so say so rather than implying live.
+            const newest = targets
+              .map((t) => (t.last_event_at ? new Date(t.last_event_at).getTime() : 0))
+              .reduce((a, b) => Math.max(a, b), 0)
+            if (!newest) return generatedAt ? <div className="meta">updated {ago(generatedAt)} ago</div> : null
+            const stale = Date.now() - newest > 3 * 3600_000
+            return <div className="meta" style={stale ? { color: 'var(--amber)' } : undefined}>newest signal {ago(new Date(newest).toISOString())} ago{stale ? ' · engine may be idle' : ''}</div>
+          })()}
         </div>
 
         {loading && [0, 1, 2, 3, 4].map((i) => <div key={i} className="skel" />)}

@@ -21,8 +21,12 @@ async function fetchLivePrice(ticker: string) {
   try {
     const r = await fetch(`https://api.coingecko.com/api/v3/search?query=${encodeURIComponent(ticker)}`)
     const d = await r.json()
-    const match = (d.coins || []).find((c: any) => c.symbol?.toUpperCase() === ticker.toUpperCase())
-    if (!match) return null
+    // Bare-symbol, first-match-wins put Compound's price on any card tickered COMP. Without the
+    // project's CoinGecko id we cannot resolve the collision, so when more than one coin shares
+    // the symbol we show NO live price rather than a confidently wrong one.
+    const matches = (d.coins || []).filter((c: any) => c.symbol?.toUpperCase() === ticker.toUpperCase())
+    if (matches.length !== 1) return null
+    const match = matches[0]
     const pr = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${match.id}&vs_currencies=usd`)
     const pd = await pr.json()
     const price = pd[match.id]?.usd
@@ -452,12 +456,19 @@ export default function Feed() {
           </div>
         )}
 
-        {/* Empty */}
-        {!loading && sorted.length === 0 && (
+        {/* Empty — grid view only (tier view renders from the unfiltered set below). Distinguish
+            "no scans exist" from "no scans match this filter": the empty state used to key on the
+            FILTERED array, so a zero-match filter falsely claimed "No scans yet", and in tier view
+            it rendered on top of the populated tier rows. */}
+        {!loading && viewMode === 'grid' && sorted.length === 0 && (
           <div style={{ textAlign: 'center', padding: '60px 24px', color: 'var(--text-4)' }}>
             <div style={{ fontSize: 40, marginBottom: 12 }}>🔭</div>
-            <div style={{ fontSize: 15, fontWeight: 700, marginBottom: 6, color: 'var(--text-3)' }}>No scans yet</div>
-            <a href="/" style={{ display: 'inline-block', marginTop: 16, padding: '10px 24px', background: 'var(--green)', color: '#fff', borderRadius: 20, fontSize: 13, fontWeight: 700, textDecoration: 'none' }}>Scan a project</a>
+            <div style={{ fontSize: 15, fontWeight: 700, marginBottom: 6, color: 'var(--text-3)' }}>
+              {scans.length === 0 ? 'No scans yet' : 'No scans match this filter'}
+            </div>
+            {scans.length === 0 && (
+              <a href="/" style={{ display: 'inline-block', marginTop: 16, padding: '10px 24px', background: 'var(--green)', color: '#fff', borderRadius: 20, fontSize: 13, fontWeight: 700, textDecoration: 'none' }}>Scan a project</a>
+            )}
           </div>
         )}
 

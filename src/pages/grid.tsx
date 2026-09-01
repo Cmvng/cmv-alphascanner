@@ -35,9 +35,10 @@ interface Target {
   spark: number[]
 }
 
-/* Axis dividers. Heat uses the `hot` band boundary from the heat engine; alpha uses the same 60
-   that getTier() has always used as the C/B boundary in the scanner. Both are read from one
-   place here so the quadrant story cannot drift away from the scores that feed it. */
+/* Axis dividers. HEAT_SPLIT mirrors the heat engine's DEFAULT hot-band boundary (65) and
+   ALPHA_SPLIT the getTier() C/B boundary (60). NOTE: band.hot is DB-configurable, so if an
+   operator retunes it the radar's HOT badge and this divider can disagree until this constant is
+   updated to match. There is no public config endpoint to read it from at request time. */
 const HEAT_SPLIT = 65
 const ALPHA_SPLIT = 60
 

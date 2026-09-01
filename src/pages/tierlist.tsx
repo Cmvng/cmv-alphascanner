@@ -38,9 +38,18 @@ export default function TierList() {
     if (saved) {
       try {
         const savedTiers = JSON.parse(saved)
-        const allRanked = Object.values(savedTiers).flat() as string[]
+        // Prune handles the scan set no longer returns (admin-deleted, or outside the top-100
+        // fetch). Left in, they inflate the "N ranked" count and the shared PNG's tier rows while
+        // getScan() drops their cards — the board silently shows fewer cards than it counts, and
+        // the ghosts persist in localStorage forever.
+        const valid = new Set(scans.map(s => s.handle))
+        const pruned: Record<string, string[]> = {}
+        for (const [tier, handles] of Object.entries(savedTiers)) {
+          pruned[tier] = (handles as string[]).filter(h => valid.has(h))
+        }
+        const allRanked = Object.values(pruned).flat() as string[]
         const newScans = scans.filter(s => !allRanked.includes(s.handle)).map(s => s.handle)
-        setTiers({ ...savedTiers, unranked: [...(savedTiers.unranked || []), ...newScans] })
+        setTiers({ A: [], B: [], C: [], D: [], ...pruned, unranked: [...(pruned.unranked || []), ...newScans] })
         return
       } catch {}
     }
