@@ -17,14 +17,15 @@ export const pool = connectionString
       max: 8,
       idleTimeoutMillis: 30_000,
       connectionTimeoutMillis: 10_000,
-      // Railway's private network is already isolated, so the internal host needs no TLS layer.
+      // No TLS for connections that never leave the machine or the private network: Railway's
+      // internal host, localhost/127.0.0.1, and unix-socket URLs (host=/path). Forcing SSL on
+      // those breaks a local or socket Postgres ("server does not support SSL connections").
       //
-      // Any other host is reached over the public internet, and `rejectUnauthorized: false`
-      // there means an intercepted connection would be accepted without complaint. It is the
-      // default only because Railway's Postgres template presents a self-signed certificate.
-      // Set PGSSL_STRICT=true once a verifiable chain is in place — verification should not
-      // require a redeploy to turn on.
-      ssl: connectionString.includes('railway.internal')
+      // Any OTHER host is reached over the public internet, where `rejectUnauthorized: false`
+      // would accept an intercepted connection without complaint. It is the default only because
+      // Railway's Postgres template presents a self-signed certificate; set PGSSL_STRICT=true once
+      // a verifiable chain is in place — verification should not require a redeploy to turn on.
+      ssl: /railway\.internal|localhost|127\.0\.0\.1|host=%2f|host=\//.test(connectionString)
         ? undefined
         : { rejectUnauthorized: process.env.PGSSL_STRICT === 'true' },
     })
