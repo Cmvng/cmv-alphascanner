@@ -232,6 +232,39 @@ db/migrations/           0001..0009, applied in filename order at boot
     multi-part suffixes (`project.co.uk` → `co.uk`); that is asserted in tests and fails safe,
     because RDAP has no registration for `co.uk` so the check reports itself unrun.
 
+27. **Server-to-server calls must not send an `Origin` header.** `api/_lib/guard.ts` allowlists
+    origins for the spending routes, and a loopback address is not on it. `run-alpha-scans` used
+    to forge `Origin: http://127.0.0.1:3000` and got 403 on every call — silently, because
+    `scanHandle` returns null on any failure and the caller stamps `alpha_scanned_at` anyway.
+    `!origin` already passes the guard. The allowlist derives the deployed origin from
+    `RAILWAY_PUBLIC_DOMAIN` / `PUBLIC_URL`; if you add a domain, add it there, not in a constant.
+
+28. **Advisory locks are session-scoped and `client.release()` does not release them.** In
+    `scheduler.ts` the unlock must stay in the outermost `finally` covering everything after the
+    lock is taken. It previously sat beside the job body, so a throw in between held the lock for
+    the life of the process and that job never ran again.
+
+29. **Heat has to be reset explicitly.** `compute-heat` inner-joins `signal_events` in a 7-day
+    window, so a target with no recent evidence is not in the result and its `heat` column keeps
+    its last value forever. Decay only happens for targets that are still being scored — the ones
+    that stopped are updated by a separate statement in the same job. Don't remove it.
+
+30. **A failed alert must stay retryable.** `alert_deliveries` doubles as the dedupe key, so the
+    dispatcher's `NOT EXISTS` has to test `delivered_at`, not just row existence — otherwise every
+    alert attempted while Telegram is unreachable is recorded as handled and lost. Retries are
+    capped by `alerts.max_attempts`, re-alerting by `alerts.recheck_hours`.
+
+31. **Ingest must not report provider health.** Every provider swallows its own HTTP errors and
+    returns `[]` — that is what stops one dead source breaking a run — so a resolved `discover()`
+    says nothing about whether the API answered. Health comes only from the `check-sources` probe,
+    which actually calls the API. Writing `ok` from ingest marked dead providers green.
+
+32. **No user-facing string may name intent or predict price.** Not "rug pull", not "go all in",
+    not "stay away until price stabilizes". State the observation and its consequence — low
+    liquidity means large trades move the price, an anonymous team means no named recourse. This
+    applies to the shared verdict card most of all, since it travels furthest. Reporting that a
+    *search result* contains the word "scam" is fine; asserting the scam is not.
+
 ## Environment variables
 
 Server: `X_API_BEARER_TOKEN` (required, no fallback) · `ANTHROPIC_API_KEY` (optional — absence
