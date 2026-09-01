@@ -21,6 +21,20 @@ export interface PromptInput {
 const BANNED_SOURCE_NAMES =
   'DefiLlama, RootData, CryptoRank, DexScreener, CoinGecko, CoinPaprika, CryptoNews, DuckDuckGo, CoinMarketCap, Etherscan'
 
+/**
+ * Neutralise a scalar that ORIGINATES from project- or third-party-controlled metadata before it
+ * lands in the block the prompt labels "trusted". Strips newlines and control characters (so it
+ * cannot open a fake section) and clips length. The array fields are JSON.stringify'd, which
+ * already escapes quotes and newlines; this covers the raw scalar interpolations.
+ */
+function clip(v: unknown, max = 80): string {
+  return String(v ?? '')
+    .replace(/[\u0000-\u001F\u007F-\u009F]/g, ' ')
+    .replace(/[\n\r]+/g, ' ')
+    .slice(0, max)
+    .trim()
+}
+
 export function buildSystemPrompt({ handle, xd, cg, web }: PromptInput): string {
   const e = xd?.enriched || {}
 
@@ -47,15 +61,22 @@ CRITICAL: NEVER mention these names in ANY text you output: ${BANNED_SOURCE_NAME
 descriptions, not in red flags, not in the verdict, not in metrics, not anywhere. State facts
 directly. Say "No team members identified", never "No team members identified on RootData".
 
+CRITICAL: NEVER give investment advice and NEVER predict price. Do not write "go all in", "go
+hard", "buy", "sell", "avoid", "ape in", "stay away", "will pump/dump", "likely to correct", or
+any instruction to act or any forecast of future price. State the OBSERVATION and its
+consequence, and let the reader decide. "Low liquidity means large trades move the price" is
+allowed; "this will dump" is not. This applies to every field, especially verdict_action,
+verdict_reason, score_rationale and post_tge_outlook — they travel on a shareable card.
+
 === VERIFIED TOOL DATA (trusted — measured by us, not written by the target) ===
 X profile: ${xd?.followers || 0} followers, ${xd?.following || 0} following, ${xd?.tweet_count || 0} tweets, ${xd?.account_age_years || 0}y old, verified: ${xd?.verified || false}, listed: ${xd?.listed || 0}
-Avg likes: ${xd?.avg_likes || 0} | Category guess: ${xd?.category || 'unknown'}
-Confirmed ticker: ${xd?.confirmed_ticker || 'none'} | Token hinted: ${xd?.token_launch_hinted || false}
+Avg likes: ${xd?.avg_likes || 0} | Category guess: ${clip(xd?.category || 'unknown')}
+Confirmed ticker: ${clip(xd?.confirmed_ticker || 'none', 20)} | Token hinted: ${xd?.token_launch_hinted || false}
 TVL=${e.tvl || 'none'} | Revenue/day=${e.revenue_24h || 'none'} | Fees/day=${e.fees_24h || 'none'} | Raised=${e.total_raised_defillama || 'none'} | Category=${e.defillama_category || 'none'} | Chains=${JSON.stringify(e.chains || [])}
 Known hacks: ${JSON.stringify(e.known_hacks || [])}
 Raised (registry)=${e.total_raised_rootdata || 'none'} | Investors=${JSON.stringify(e.confirmed_investors || [])}
 Team=${JSON.stringify((e.rootdata_team || []).map((t: any) => ({ name: t.name, role: t.role })))}
-Token: ${cg?.token_live ? `LIVE — ${cg.ticker || ''} at ${cg.token_price || ''} | mcap=${cg.market_cap_str || 'unknown'} | vol24h=${cg.volume_24h || 'unknown'} | change24h=${cg.price_change_24h || 0}%` : 'NOT LAUNCHED — no confirmed token on any DEX'}
+Token: ${cg?.token_live ? `LIVE — ${clip(cg.ticker || '', 20)} at ${clip(cg.token_price || '', 24)} | mcap=${clip(cg.market_cap_str || 'unknown', 24)} | vol24h=${clip(cg.volume_24h || 'unknown', 24)} | change24h=${Number(cg.price_change_24h) || 0}%` : 'NOT LAUNCHED — no confirmed token on any DEX'}
 News sentiment=${e.news_sentiment || 'unknown'} | articles=${e.news_article_count || 0}
 Best VC tier=${e.best_vc_tier || 'none'} | Tier1=${JSON.stringify(e.tier1_vcs || [])} | Tier2=${JSON.stringify(e.tier2_vcs || [])} | Leads=${JSON.stringify(e.lead_investors || [])} | Investors=${e.total_investor_count || 0} | Raised=${e.total_raised_cryptorank || 'unknown'} | Valuation=${e.last_valuation || 'unknown'}
 Unlocks: ${e.has_unlock_data ? `next ${e.next_unlock_date || 'unknown'} (${e.next_unlock_pct || 'unknown'})` : 'no data'} | Vesting warning=${e.vesting_warning || 'none'}
@@ -73,7 +94,7 @@ DO NOT re-derive TVL, revenue, token price, investors or funding — they are gi
 
 VERDICT GUIDE:
 - ALPHA PLAY (95+): exceptional fundamentals, no red flags, top-tier everything
-- FARM IT (85-94): strong conviction, go hard
+- FARM IT (85-94): strong across fundamentals, no major gaps
 - ENGAGE (60-84): solid but selective; tailor the action to the category
 - OBSERVE (35-59): too many uncertainties, watch only
 - AVOID (0-34): too many red flags
@@ -96,7 +117,7 @@ Return this exact JSON shape:
   "founded": "year or empty",
   "verdict": "ALPHA PLAY|FARM IT|ENGAGE|OBSERVE|AVOID",
   "verdict_reason": "2-3 sentences with specific data points",
-  "verdict_action": "specific actionable advice",
+  "verdict_action": "what the scores together indicate about the project — an observation, never advice or a price forecast",
   "overall_score": 0,
   "score_rationale": "explain the score with data points",
   "good_highlights": ["specific highlight with data"],
@@ -105,7 +126,7 @@ Return this exact JSON shape:
   "top_opportunities": ["specific opportunity"],
   "team_members": [{"name": "string", "role": "string", "x_handle": "@handle or empty", "background": "1 sentence", "confirmed": true}],
   "future_seasons": "token/season/airdrop info if any",
-  "post_tge_outlook": "string if token live",
+  "post_tge_outlook": "a neutral observation about token status if live — never a prediction of future price",
   "project_follows": "notable CT accounts that follow this project",
   "mindshare_trend": {"labels": ["8w ago","7w ago","6w ago","5w ago","4w ago","3w ago","2w ago","1w ago"], "values": [0,0,0,0,0,0,0,0], "current_pct": "string", "trend": "rising|falling|stable"},
   "metrics": {

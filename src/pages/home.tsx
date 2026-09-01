@@ -50,17 +50,20 @@ const T: Record<string, any> = {
   D: { bg: '#f1f3f5', border: '#dee2e6', tc: '#495057', solid: '#868e96', lbl: 'D · Avoid', v: 'AVOID', sub: 'Multiple red flags raised.', target: '', vbg: 'linear-gradient(135deg,#868e96,#495057)', emoji: '🚫', range: '0-349' },
 }
 
+// How each category typically works — descriptions of the mechanism, not instructions to act.
+// The product does not tell anyone to farm, bet, buy or sell (§54); it describes what a category
+// usually rewards and leaves the decision to the reader.
 const HOW_TO_PLAY: Record<string, string> = {
-  'AI Project': 'Create content, test the product publicly and document your experience. Early users who build in public get rewarded.',
-  'Perp DEX': 'Farm carefully. Use delta neutral strategies or a signal provider. Do not trade with money you cannot afford to lose.',
-  'L1/L2': 'Create content, run a node if possible, and perform a wide variety of onchain tasks. Diversity matters more than volume.',
-  'Testnet': 'Do every single task available. Testnet rewards go to the most active early users. Screenshot everything.',
-  'Prediction Market': 'Farm points aggressively but never bet more than you can lose. Keep farming wallet separate from prediction wallet.',
-  'DeFi/Lending': 'Provide liquidity early, monitor unlock schedules, watch for VC dump windows.',
-  'NFT/Gaming': 'Engage with the community first, create content, hold floor assets carefully.',
-  'RWA': 'Long term hold play. Create educational content. Do not expect a quick airdrop.',
-  'SocialFi': 'Be active early, build followers within the app itself, refer aggressively. First mover advantage is everything.',
-  'Infrastructure': 'Build something on it publicly. Developer allocations are typically the most generous.',
+  'AI Project': 'These projects tend to reward demonstrated use — public testing, documentation and content — over passive holding.',
+  'Perp DEX': 'Rewards here usually track trading volume and fees generated. That ties any participation to market risk, which the project does not remove.',
+  'L1/L2': 'Ecosystem incentives usually favour a breadth of genuine on-chain activity over raw transaction count.',
+  'Testnet': 'Testnet incentives typically go to consistent early participation across the available tasks, not to any single action.',
+  'Prediction Market': 'Value tends to accrue to activity and to correct positions — the latter carries the full risk of the underlying market.',
+  'DeFi/Lending': 'Liquidity provision, timing relative to unlock schedules and protocol fees are the usual mechanics; each carries its own risk.',
+  'NFT/Gaming': 'These reward community participation and content; asset prices are volatile and are not a claim about future value.',
+  'RWA': 'Usually longer-horizon by design, with value tied to the underlying asset rather than to a quick incentive event.',
+  'SocialFi': 'Early in-app activity and referrals are the usual mechanics; network effects favour early participants but do not guarantee an outcome.',
+  'Infrastructure': 'Value often accrues to what is built on the protocol; developer allocations are commonly the most significant.',
 }
 
 const GOOD_TAGS = [
@@ -95,9 +98,21 @@ function getTier(s: number) { return s >= 95 ? 'S' : s >= 85 ? 'A' : s >= 60 ? '
 function xjson(text: string) {
   const c = text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim()
   const cands: string[] = []; let d = 0, s = -1
+  // Track string context: a brace INSIDE a JSON string value (e.g. "formula: (a}b)") must not
+  // move the depth counter, or a valid model response gets truncated mid-string, fails to parse,
+  // and the paid LLM scan is silently discarded in favour of xOnlyScan.
+  let inStr = false, esc = false
   for (let i = 0; i < c.length; i++) {
-    if (c[i] === '{') { if (d === 0) s = i; d++ }
-    else if (c[i] === '}') { d--; if (d === 0 && s !== -1) { cands.push(c.slice(s, i + 1)); s = -1 } }
+    const ch = c[i]
+    if (inStr) {
+      if (esc) esc = false
+      else if (ch === '\\') esc = true
+      else if (ch === '"') inStr = false
+      continue
+    }
+    if (ch === '"') { inStr = true; continue }
+    if (ch === '{') { if (d === 0) s = i; d++ }
+    else if (ch === '}') { d--; if (d === 0 && s !== -1) { cands.push(c.slice(s, i + 1)); s = -1 } }
   }
   for (const x of cands.sort((a, b) => b.length - a.length)) {
     try { const o = JSON.parse(x); if (o?.metrics && o?.verdict) return o } catch { continue }
@@ -314,7 +329,9 @@ export default function Home() {
 
   function drawChart(trend: any) {
     const canvas = canvasRef.current
-    if (!canvas || !trend?.values?.length) return
+    // Need at least two points to draw a line; one point makes (i/(len-1)) a 0/0 = NaN x and a
+    // silently blank chart. Guard the degenerate case rather than rendering nothing.
+    if (!canvas || !Array.isArray(trend?.values) || trend.values.length < 2) return
     const ctx = canvas.getContext('2d')!
     const vals = trend.values, max = Math.max(...vals, 1)
     const w = canvas.offsetWidth || 700, h = 110, pad = 24
@@ -331,7 +348,15 @@ export default function Home() {
   function catScore(cat: string) {
     if (!result) return 0
     const ms = METRICS.filter(m => m.cat === cat)
-    return Math.round(ms.map(m => result.metrics?.[m.id]?.score ?? 0).reduce((a: number, b: number) => a + b, 0) / ms.length)
+    // Average only the metrics that were actually scored. Coalescing a MISSING metric to 0 —
+    // which happens when the LLM omits one of the 17, or an old-shape cached row lacks it —
+    // dragged a category whose present metrics scored 75 down toward 50 and coloured it red,
+    // telling the viewer the team "scored badly" when one metric was simply never evaluated.
+    const present = ms
+      .map(m => result.metrics?.[m.id]?.score)
+      .filter((v: any) => typeof v === 'number' && Number.isFinite(v)) as number[]
+    if (present.length === 0) return 0
+    return Math.round(present.reduce((a, b) => a + b, 0) / present.length)
   }
 
   function toggleTag(id: string) {
@@ -401,8 +426,13 @@ export default function Home() {
       console.warn('X API fetch failed:', xErr)
     }
 
-    if (!xd && !handle) {
-      setError('Unable to reach X API. Please try again.')
+    // A failed X lookup (network error, 500, rate limit) returns null. This guard used to read
+    // `!xd && !handle`, but handle is always set here (analyze returns earlier if it is empty),
+    // so it was dead — and the code below fabricated a zero-follower stub, scored it AVOID via
+    // xOnlyScan, and PUBLISHED that verdict to the public feed. A transient outage became a
+    // permanent "multiple red flags" verdict on an innocent project. Stop instead.
+    if (!xd) {
+      setError('Unable to reach X for this handle. Please try again.')
       setLoading(false)
       return
     }
@@ -422,16 +452,9 @@ export default function Home() {
       }
     }
 
-    if (!xd) {
-      xd = {
-        name: handle, handle, description: '', followers: 0, following: 0,
-        tweet_count: 0, listed: 0, verified: false, account_age_years: 0,
-        avg_likes: 0, avg_retweets: 0, cmv_score: 0,
-        confirmed_ticker: null, token_launch_hinted: false,
-        category: 'Crypto', enriched: {}, profile_image_url: null,
-        error: 'X API unavailable', partial: true
-      }
-    }
+    // (Removed the zero-follower stub that used to be fabricated here when xd was null. The guard
+    // above now returns on a failed lookup, so a transient outage can no longer manufacture and
+    // publish a bogus AVOID verdict.)
     setXData(xd)
     let cg = null
 
@@ -509,7 +532,10 @@ export default function Home() {
       const tvl = enriched.tvl
       const revenue = enriched.revenue_24h
       const fees = enriched.fees_24h
-      const tvlNum = tvl ? (tvl.includes('B') ? parseFloat(tvl)*1e9 : tvl.includes('M') ? parseFloat(tvl)*1e6 : parseFloat(tvl)*1e3) : 0
+      // tvl is a display string like '$1.2B'; parseFloat('$1.2B') is NaN, which silently failed
+      // every 'tvlNum > X' branch below. Strip the currency prefix before parsing.
+      const tvlN = parseFloat(String(tvl).replace(/[^0-9.]/g, ''))
+      const tvlNum = tvl && Number.isFinite(tvlN) ? (tvl.includes('B') ? tvlN*1e9 : tvl.includes('M') ? tvlN*1e6 : tvlN*1e3) : 0
       const hasRevenue = !!(enriched.revenue_24h || enriched.fees_24h)
       const revenueScore = enriched.revenue_24h ? 
         (enriched.revenue_24h.includes('M') ? 95 : enriched.revenue_24h.includes('K') ? 75 : 60) : 
@@ -549,7 +575,7 @@ export default function Home() {
       if (hacks.length > 0) fudPenalty += 120
       if (dexDump) fudPenalty += 80
       if (cg?.price_change_24h && cg.price_change_24h > 100) fudPenalty += 40
-      if (tokenLive && dexLiq && dexLiq.includes('K') && !dexLiq.includes('00K') && parseFloat(dexLiq) < 50) fudPenalty += 60
+      if (tokenLive && dexLiq && dexLiq.includes('K') && !dexLiq.includes('00K') && parseFloat(String(dexLiq).replace(/[^0-9.]/g, '')) < 50) fudPenalty += 60
       if (team.length === 0 && !verified) fudPenalty += 30
       if (hasRealXData && following > followers * 2 && followers < 10000) fudPenalty += 40
       if (hasRealXData && followers > 5000 && avgLikes < 5) fudPenalty += 50
@@ -644,6 +670,7 @@ export default function Home() {
       }
 
       const cleaned = {
+        scan_mode: 'heuristic',
         project_name: xd?.name || handle,
         ticker: cg?.ticker || xd?.confirmed_ticker || null,
         description: xd?.description || '',
@@ -744,18 +771,18 @@ export default function Home() {
           if (hasRealXData && following > 0 && followers > 0) {
             const ratio = following / followers
             if (ratio > 2 && followers < 10000) {
-              flags.push({ type: 'shill', label: 'Follow farming detected', detail: `Following ${following.toLocaleString()} accounts but only ${followers.toLocaleString()} followers — aggressive follow-for-follow tactic indicates inorganic growth` })
+              flags.push({ type: 'shill', label: 'Follow farming detected', detail: `Following ${following.toLocaleString()} accounts but only ${followers.toLocaleString()} followers — following far more accounts than follow back. Reported as an observation about the ratio, not a conclusion about how the audience was built.` })
             }
           }
 
           // ── SOCIAL: Suspicious engagement ratio ──
           if (hasRealXData && followers > 5000 && avgLikes < 5) {
-            flags.push({ type: 'shill', label: 'Suspiciously low engagement', detail: `${followers.toLocaleString()} followers but only ${avgLikes.toFixed(0)} avg likes per post — likely bot/purchased followers` })
+            flags.push({ type: 'shill', label: 'Suspiciously low engagement', detail: `${followers.toLocaleString()} followers but only ${avgLikes.toFixed(0)} avg likes per post — an engagement rate well below the follower count. That can mean inactive or purchased followers, or an audience that has not re-engaged; the data does not distinguish them.` })
           }
 
           // ── SOCIAL: Very new account with high followers ──
           if (hasRealXData && accountAge < 0.5 && followers > 20000) {
-            flags.push({ type: 'suspicious', label: 'New account with high follower count', detail: `Account is only ${(accountAge * 12).toFixed(0)} months old but has ${(followers/1000).toFixed(0)}K followers — could indicate purchased followers or rebranded project` })
+            flags.push({ type: 'suspicious', label: 'New account with high follower count', detail: `Account is only ${(accountAge * 12).toFixed(0)} months old but has ${(followers/1000).toFixed(0)}K followers — a large audience on a young account. Consistent with a rebrand, a migration, or bought followers; not distinguishable from this alone.` })
           }
 
           // ── FUNDING: No funding for older project ──
@@ -828,7 +855,7 @@ export default function Home() {
           tokenLive && dexLiq && dexLiq.includes('K') && !dexLiq.includes('00K') ? `Low DEX liquidity (${dexLiq}) — large trades move the price` : null,
           sentiment === 'negative' ? 'Negative news coverage — investigate before committing' : null,
           team.length === 0 && !verified ? 'Anonymous team — no public accountability' : null,
-          hasRealXData && following > followers * 2 && followers < 10000 ? 'Follow farming — inorganic growth pattern' : null,
+          hasRealXData && following > followers * 2 && followers < 10000 ? 'Follows far more accounts than follow back' : null,
           hasRealXData && followers > 5000 && avgLikes < 5 ? 'Likely bot followers — very low engagement ratio' : null,
           enriched.vesting_warning ? `Token unlock risk — ${enriched.vesting_warning}` : null,
           !hasRaised && accountAge > 2 && !tokenLive ? 'No funding after years — sustainability concerns' : null,
@@ -868,7 +895,8 @@ export default function Home() {
           revenue: { score: revenueScore, detail: enriched.revenue_24h ? `${enriched.revenue_24h} daily revenue — real economic activity` : enriched.fees_24h ? `${enriched.fees_24h} daily fees — protocol generating real value` : tvl ? `${tvl} TVL deployed but no revenue reported yet` : 'Pre-revenue stage — no fees or revenue data available', signal: revenueScore >= 65 ? 'bullish' : revenueScore <= 30 ? 'bearish' : 'neutral' },
           sentiment: { score: sentimentScore, detail: sentiment === 'positive' ? `Positive news coverage across ${enriched.news_article_count || 0} articles` : sentiment === 'negative' ? `Negative press detected — ${enriched.news_article_count || 0} articles with concerning tone` : sentiment === 'neutral' ? `Neutral coverage across ${enriched.news_article_count || 0} articles` : 'No recent news coverage found', signal: sentiment === 'positive' ? 'bullish' : sentiment === 'negative' ? 'bearish' : 'neutral' },
         },
-        post_tge_outlook: tokenLive ? (dexDump ? 'Poor — token declining' : 'Moderate') : 'Token not yet live',
+        // Observation, not a forecast: one day of price movement cannot support a performance verdict.
+        post_tge_outlook: tokenLive ? (dexDump ? 'Token is down sharply over 24h' : 'Token is live and trading') : 'Token not yet live',
         project_follows: null,
         future_seasons: enriched.news_recent?.length > 0 ? `Recent coverage: ${enriched.news_recent.slice(0,2).join('. ')}` : null,
         mindshare_trend: null,
@@ -940,9 +968,14 @@ export default function Home() {
       const parsed = xjson(txt)
       if (!parsed) { xOnlyScan(); return }
       const cleaned = stripCites(parsed)
+      // Record which scorer actually ran, so a silent fall-through to the heuristic is visible in
+      // the persisted row (the server labels it; the client previously discarded the label).
+      cleaned.scan_mode = data.scan_mode || 'llm'
       const autoFlags = (xd?.enriched?.auto_fud_flags || []).map((f: any) => ({ type: f.type, label: f.label, detail: f.detail }))
-      const existingLabels = (cleaned.red_flags || []).map((f: any) => f.label?.toLowerCase())
-      const newFlags = autoFlags.filter((f: any) => !existingLabels.some((l: string) => l.includes(f.label.toLowerCase().slice(0,10))))
+      const existingLabels = (cleaned.red_flags || []).map((f: any) => f.label?.toLowerCase()).filter(Boolean)
+      // f.label can be absent on a model-authored flag; guard both sides so a missing label does
+      // not throw a TypeError that discards the whole (paid) scan.
+      const newFlags = autoFlags.filter((f: any) => f.label && !existingLabels.some((l: string) => l.includes(f.label.toLowerCase().slice(0,10))))
       cleaned.red_flags = [...(cleaned.red_flags || []), ...newFlags]
       saveResult(cleaned)
     } catch (e: any) {
@@ -965,7 +998,7 @@ export default function Home() {
     const otc = T[ot]
     const tagLabels = selectedTags.map(id => { const good = GOOD_TAGS.find(t => t.id === id); const bad = BAD_TAGS.find(t => t.id === id); return good?.label || bad?.label || '' }).filter(Boolean)
     const name = userName || 'CMV AlphaScanner'
-    const text = `${name} says ${otc.v} ${otc.emoji} on ${result.project_name}\n\nAlpha Score: ${result.overall_score}/100 · ${otc.lbl}\n${tagLabels.map(t => `• ${t}`).join('\n')}\n\n${result.verdict_action || result.verdict_reason}\n\n🎯 ${otc.target || 'Skip entirely'}\n\nScanned at cmv-alphascanner.vercel.app`
+    const text = `${name} says ${otc.v} ${otc.emoji} on ${result.project_name}\n\nAlpha Score: ${result.overall_score}/100 · ${otc.lbl}\n${tagLabels.map(t => `• ${t}`).join('\n')}\n\n${result.verdict_action || result.verdict_reason}\n\nScanned at cmv-alphascanner.vercel.app`
     try { if (navigator.share) await navigator.share({ text, title: `${result.project_name} — CMV AlphaScanner` }); else { await navigator.clipboard.writeText(text); alert('Copied! Paste it on X.') } } catch { }
   }
 
@@ -1205,7 +1238,7 @@ export default function Home() {
       ctx.fillStyle = '#f0fdf4'
       if (hlX + 110 <= W - PAD) {
         ctx.beginPath(); (ctx as any).roundRect(hlX, hlRowY, 110, 24, 12); ctx.fill()
-        ctx.fillStyle = '#16a34a'; ctx.fillText('\u2713 No red flags', hlX + 9, hlRowY + 16)
+        ctx.fillStyle = '#16a34a'; ctx.fillText('\u2713 None surfaced', hlX + 9, hlRowY + 16)
       }
     }
 
@@ -2148,7 +2181,7 @@ export default function Home() {
             {redFlags.length === 0 && (
               <div className="clean-badge">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M22 11.08V12a10 10 0 11-5.93-9.14M22 4L12 14.01l-3-3" stroke="#16a34a" strokeWidth="2" strokeLinecap="round"/></svg>
-                <span>No red flags detected</span>
+                <span>No red flags surfaced</span>
               </div>
             )}
 
@@ -2245,7 +2278,7 @@ export default function Home() {
             {/* ── HOW TO PLAY ── */}
             {result.project_category && HOW_TO_PLAY[result.project_category] && (
               <div className="card" style={{ borderLeft: '3px solid var(--green)', borderRadius: 0 }}>
-                <div className="card-label">HOW TO PLAY — {result.project_category.toUpperCase()}</div>
+                <div className="card-label">HOW THIS CATEGORY WORKS — {result.project_category.toUpperCase()}</div>
                 <div style={{ fontSize: 13, color: 'var(--text-2)', lineHeight: 1.7 }}>{HOW_TO_PLAY[result.project_category]}</div>
               </div>
             )}
@@ -2283,7 +2316,7 @@ export default function Home() {
                 {result.post_tge_outlook && (
                   <div style={{ background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: 8, padding: '10px 12px' }}>
                     <div style={{ fontFamily: 'var(--mono)', fontSize: 7, color: 'var(--text-4)', letterSpacing: 1, marginBottom: 5 }}>TOKEN OUTLOOK</div>
-                    <div style={{ fontSize: 11, fontWeight: 600, color: result.post_tge_outlook?.includes('Poor') ? 'var(--red)' : 'var(--green)' }}>{result.post_tge_outlook}</div>
+                    <div style={{ fontSize: 11, fontWeight: 600, color: result.post_tge_outlook?.includes('down sharply') ? 'var(--amber)' : 'var(--text-2)' }}>{result.post_tge_outlook}</div>
                   </div>
                 )}
               </div>
