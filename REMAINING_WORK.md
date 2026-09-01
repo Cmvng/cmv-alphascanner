@@ -93,7 +93,11 @@ rather than on work:
   third-party public-data provider — and the cost swings 20× on whether the endpoint returns
   newest-first, which must be verified before designing anything.
 
-**And nothing has seen live data.** Every claim above describes code that typechecks and passes
-tests, not a system observed working. The sandbox egress proxy blocks every provider domain and
-the Railway domain, so the first real verification has to happen from a machine that can reach
-them. Four Railway dashboard actions are still 2FA-blocked — see `DEPLOYMENT_STATE.md`.
+**The schema and every job query now boot and run against a real PostgreSQL 16** (local cluster,
+Session 6): 10 migrations apply idempotently, 15 tables, /healthz db:true, all read routes and all
+job SQL exercised against seeded data. What is still unseen is the engine against **live provider
+APIs and the Railway database** — the sandbox egress proxy blocks every provider domain and the
+Railway domain, and four Railway dashboard actions remain 2FA-blocked (see `DEPLOYMENT_STATE.md`).
+A full-repo adversarial audit (Session 6) found and fixed ~40 bugs including two criticals (a
+self-recursive `json()` that silently killed all enrichment, and a migration that failed the whole
+chain at boot); details in `CHECKPOINT.md`.

@@ -425,6 +425,49 @@ Structural fixes made along the way:
 the Railway domain. Everything above typechecks and 34 tests pass; none of it has been observed
 working against a real API.
 
+### 2026-08-22 · Session 6 — full-codebase audit (workflow) + first live DB run
+
+Ran a 10-reviewer adversarial audit workflow over the whole repo (one reviewer per zone:
+xproject, api security, home.tsx x2, legacy pages, engine UI, providers, jobs/routes, schema
+drift, and a pure attacker sweep), each finding triaged against the code. 73 findings; the
+verifier panels hit the session limit partway, so I verified each against the source myself and
+fixed the real ones. Also stood up a local PostgreSQL 16 and ran the engine against it — the
+first time any of this executed against a database rather than a typecheck.
+
+**Two criticals:**
+- `api/xproject.ts` `json()` was `return json(r)` — infinite recursion. All 11 enrichment
+  sources threw and every scan ran on X-profile data alone (a live, hacked token read as "not
+  launched, no hacks"). Hidden because the sandbox blocks provider egress. One character.
+- Migration `0005` used a table `unique(kind, lower(identifier), coalesce(chain,''))` — invalid
+  SQL (expressions are forbidden in a table UNIQUE). It failed at boot and, because migrate()
+  aborts the loop, took `0006`–`0010` down with it: the engine ran on a half-built schema while
+  /healthz said ok. Verified on PG16; fixed to a `create unique index`.
+
+**Highlights across ~40 fixed findings** (7 commits, grouped by file):
+- Scanner: wrong-token price matches (blind DexScreener fallback, one-sided CoinGecko guard),
+  keyword false positives ("sec" in "security", $HYPE from a mention), sub-$1000-liquidity blind
+  spot, NaN scores (tvlNum/cmvScore/fudPenalty on '$'-prefixed strings), discarded valid LLM
+  scans (brace counter ignored string context), advice/price wording on the LLM path and share
+  card, published outage stubs, unauthenticated X-token-spending routes, spoofable rate limiter.
+- Providers: GoPlus absent-field-as-clear and hidden-owner blindness, DexScreener wrong-token
+  identity attribution and promoter-blurb-as-name and spacex.com handle capture, GeckoTerminal
+  fdv-as-market-cap, provenance exclude=expired certificate window, mint-log ERC-1155 blindness
+  and getLogs range-cap blindness, chain-alias dual rows.
+- Jobs: run-alpha-scans cooldown no-op (permanent-fail re-scan loop), dispatch-alerts
+  retry-forever, assess-provenance no-domain re-selection loop, update-trust early-source
+  penalty, track-outcomes horizon mislabeling after downtime, target-route weekday-string sort.
+- UI: admin logout not clearing the session, unopenable fake-404 gate, missing-risk-source and
+  missing-metric both reading as clean/zero, unknown-verdict-as-OBSERVE, feed false-empty and
+  wrong-coin live price, tierlist ghost rows, radar staleness, javascript: href guard.
+
+**First live database run.** Local PG16: all 10 migrations apply on an empty DB and re-run
+idempotently (15 tables); the server boots with db:true; /api/radar, /radar/status, /costs and
+/target respond correctly; and every job's SELECT/UPSERT was run against seeded rows and
+executes. `db.ts` now skips SSL for railway.internal / localhost / socket URLs (it was forcing
+SSL and failing a local Postgres on boot).
+
+Everything typechecks (both units), 36 tests pass, build clean.
+
 ---
 
 ## 10. Planning documents

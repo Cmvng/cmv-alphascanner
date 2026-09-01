@@ -265,6 +265,47 @@ db/migrations/           0001..0009, applied in filename order at boot
     applies to the shared verdict card most of all, since it travels furthest. Reporting that a
     *search result* contains the word "scam" is fine; asserting the scam is not.
 
+33. **`api/xproject.ts`'s `json()` helper must call `r.json()`, not itself.** It was
+    `return json(r)` — infinite recursion — so all 11 enrichment sources threw and every scan ran
+    on X data alone, rendering a live, hacked token as "not launched, no hacks". Invisible because
+    the sandbox blocks provider egress, so the line never ran. The whole enrichment layer depends
+    on this one call.
+
+34. **Keyword red-flag scans must match on word boundaries.** `'security'.includes('sec')` is
+    true, so a bare-substring scan turns any "security"/"section" into a lawsuit flag, and
+    KNOWN_TICKERS lets a project *mentioning* "hyperliquid" adopt $HYPE. Use `hasWord()`. Same
+    class: DefiLlama-hacks `nameLower.includes(h.name || '')` matches every project against a
+    nameless hack row (`includes('')` is always true).
+
+35. **A failed X lookup must not fabricate and publish a stub.** `home.tsx` returns on `!xd` now;
+    it used to build a zero-follower stub, score it AVOID via `xOnlyScan`, and POST it to the
+    public feed — a transient outage became a permanent verdict on an innocent project. Relatedly,
+    the shareable card and the LLM prompt are held to §32: the prompt forbids advice/price
+    prediction on every field, not just the deterministic strings.
+
+36. **GoPlus omits a field it could not determine; `truthy(absent)` is false but that is NOT
+    "clear".** The binary EVM checks must emit `unchecked(no_data)` when the field is absent
+    (use `present()`), or "could not analyse" renders as "checked, clean" on exactly the
+    unverified contracts most likely to be dangerous. Ownership must also honour `hidden_owner` /
+    `can_take_back_ownership` even when the owner looks renounced.
+
+37. **Chain aliases must be canonicalised before the target key.** `canonicalChain()` collapses
+    'ethereum' → 'eth'; without it the `(kind, chain, address)` unique index treats the two
+    spellings as different targets and the providers' evidence never converges.
+
+38. **The scanner cache must not store an incomplete result.** `xproject` refuses to cache when
+    the (separately rate-limited) tweets fetch failed, or a token-less answer for a live project
+    sticks for 2h. And a GET route that spends the X bearer token (`xproject`, `xuser`) carries
+    `guardRead`'s per-IP bucket, keyed on the proxy-appended XFF entry (`TRUSTED_PROXY_HOPS` from
+    the right), never the spoofable leftmost one.
+
+39. **The migration chain and every job query are now verified against a real Postgres.** A local
+    PG16 cluster runs the full boot + seeded-data smoke test (see `CHECKPOINT.md`). `db.ts` skips
+    SSL for railway.internal / localhost / socket URLs so a local DB boots; keep that when editing
+    the SSL logic. Migration 0005's identity uniqueness is a `create unique index`, never a table
+    `unique(...)` constraint — PostgreSQL forbids `lower()`/`coalesce()` expressions there and it
+    failed the entire chain at boot, taking 0006–0010 down silently.
+
 ## Environment variables
 
 Server: `X_API_BEARER_TOKEN` (required, no fallback) · `ANTHROPIC_API_KEY` (optional — absence
