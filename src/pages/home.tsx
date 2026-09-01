@@ -43,11 +43,11 @@ const LOADING_MSGS = [
 ]
 
 const T: Record<string, any> = {
-  S: { bg: '#f5f3ff', border: '#c4b5fd', tc: '#6d28d9', solid: '#7c3aed', lbl: 'S · Alpha', v: 'ALPHA PLAY', sub: 'Rare conviction. Go all in.', target: 'Top 5%', vbg: 'linear-gradient(135deg,#7c3aed,#6d28d9)', emoji: '⚡', range: '950-1000' },
-  A: { bg: '#ebfbee', border: '#8ce99a', tc: '#2f9e44', solid: '#37b24d', lbl: 'A · Farm It', v: 'FARM IT', sub: 'High conviction play. Go hard.', target: 'Top 30%', vbg: 'linear-gradient(135deg,#37b24d,#2f9e44)', emoji: '🌾', range: '850-949' },
-  B: { bg: '#fff3bf', border: '#ffe066', tc: '#e67700', solid: '#f59f00', lbl: 'B · Watch It', v: 'ENGAGE', sub: 'Solid project, be selective.', target: 'Top 20%', vbg: 'linear-gradient(135deg,#f59f00,#e67700)', emoji: '✍️', range: '600-849' },
-  C: { bg: '#fff4e6', border: '#ffc078', tc: '#d9480f', solid: '#e8590c', lbl: 'C · Observe', v: 'OBSERVE', sub: 'Too many uncertainties. Watch only.', target: 'Top 10%', vbg: 'linear-gradient(135deg,#e8590c,#d9480f)', emoji: '👁️', range: '350-599' },
-  D: { bg: '#f1f3f5', border: '#dee2e6', tc: '#495057', solid: '#868e96', lbl: 'D · Avoid', v: 'AVOID', sub: 'Too many red flags. Not worth your time.', target: '', vbg: 'linear-gradient(135deg,#868e96,#495057)', emoji: '🚫', range: '0-349' },
+  S: { bg: '#f5f3ff', border: '#c4b5fd', tc: '#6d28d9', solid: '#7c3aed', lbl: 'S · Alpha', v: 'ALPHA PLAY', sub: 'Scores in the top band on every metric group.', target: 'Top 5%', vbg: 'linear-gradient(135deg,#7c3aed,#6d28d9)', emoji: '⚡', range: '950-1000' },
+  A: { bg: '#ebfbee', border: '#8ce99a', tc: '#2f9e44', solid: '#37b24d', lbl: 'A · Farm It', v: 'FARM IT', sub: 'Strong across fundamentals, with no major gaps.', target: 'Top 30%', vbg: 'linear-gradient(135deg,#37b24d,#2f9e44)', emoji: '🌾', range: '850-949' },
+  B: { bg: '#fff3bf', border: '#ffe066', tc: '#e67700', solid: '#f59f00', lbl: 'B · Watch It', v: 'ENGAGE', sub: 'Solid on most metrics, weaker on some.', target: 'Top 20%', vbg: 'linear-gradient(135deg,#f59f00,#e67700)', emoji: '✍️', range: '600-849' },
+  C: { bg: '#fff4e6', border: '#ffc078', tc: '#d9480f', solid: '#e8590c', lbl: 'C · Observe', v: 'OBSERVE', sub: 'Several metrics could not be established.', target: 'Top 10%', vbg: 'linear-gradient(135deg,#e8590c,#d9480f)', emoji: '👁️', range: '350-599' },
+  D: { bg: '#f1f3f5', border: '#dee2e6', tc: '#495057', solid: '#868e96', lbl: 'D · Avoid', v: 'AVOID', sub: 'Multiple red flags raised.', target: '', vbg: 'linear-gradient(135deg,#868e96,#495057)', emoji: '🚫', range: '0-349' },
 }
 
 const HOW_TO_PLAY: Record<string, string> = {
@@ -80,7 +80,7 @@ const BAD_TAGS = [
   { id: 'anonteam', label: 'Anonymous team — no track record ⚠️' },
   { id: 'diluted', label: '2M+ users — heavily diluted 👥' },
   { id: 'noproduct', label: 'No revenue, no product 📉' },
-  { id: 'fud', label: 'Active scam allegations 🚩' },
+  { id: 'fud', label: 'Scam allegations found in search results 🚩' },
   { id: 'vcbag', label: 'VCs holding massive bags 💀' },
   { id: 'notoken', label: 'No token clarity whatsoever ❓' },
 ]
@@ -613,12 +613,34 @@ export default function Home() {
       const verdictReason = parts.length > 0 ? parts.join('. ') + '.' : `Limited data available for this project. Proceed with caution.`
 
       const categoryLabel = enriched.defillama_category || xd?.category || 'Crypto'
+      // This text ships on the shareable verdict card — the most public thing the product says.
+      //
+      // It used to give investment advice: "go all in", "go hard", "stay away until price
+      // stabilizes", "high probability of rug pull". Two problems with that, beyond §53/§54
+      // ruling it out. It predicts price, which nothing here can do. And it asserts intent from
+      // metrics that only support an observation — an anonymous team with bought-looking
+      // followers is a fact about a profile, not a forecast about what its owners will do.
+      //
+      // Each line now states WHAT WAS OBSERVED and WHAT IT IMPLIES, the same shape the risk
+      // engine uses, and leaves the decision to the reader. The score is unchanged.
       const verdictAction: Record<string, string> = {
-        'ALPHA PLAY': 'Exceptional fundamentals across all metrics. Rare conviction play — go all in.',
-        'FARM IT': 'Strong fundamentals confirmed. Actively farm and create content around this project.',
-        'ENGAGE': 'Solid project. Engage selectively based on the category — explore features, create content.',
-        'OBSERVE': team.length === 0 ? 'Anonymous team and limited verifiable data. Do not commit time or capital until team is doxxed and more information surfaces.' : isSuspiciousFollowers ? 'Follower credibility is questionable. Wait for more organic traction before engaging.' : !hasRaised && !tvl ? 'No funding or TVL data available. Wait for concrete progress before committing.' : 'Too many uncertainties. Observe only — do not commit time or capital yet.',
-        'AVOID': hacks.length > 0 ? 'Security has been compromised before. Do not interact with this protocol until fully audited and verified.' : dexDump ? 'Token is dumping. Stay away until price stabilizes and fundamentals improve.' : isSuspiciousFollowers && team.length === 0 ? 'Anonymous team with suspicious follower metrics. High probability of rug pull — avoid entirely.' : 'Too many red flags detected. Not worth your time right now.'
+        'ALPHA PLAY': 'Scores in the top band across every metric group, with no red flags raised.',
+        'FARM IT': 'Strong across fundamentals with no major gaps — the profile of an established, active project.',
+        'ENGAGE': 'Solid on most metrics, weaker on others. Which ones matter depends on what you want from it.',
+        'OBSERVE': team.length === 0
+          ? 'The team is anonymous and little could be independently verified. That is common early and also what an abandoned project looks like — the two are not distinguishable from this data.'
+          : isSuspiciousFollowers
+            ? 'Follower growth does not match the engagement pattern of an audience that size. That can mean bought followers, or a viral spike that has not converted yet.'
+            : !hasRaised && !tvl
+              ? 'No funding or TVL figures were found. Absence of a figure is not a figure of zero — it may simply not be published anywhere we check.'
+              : 'Several metrics could not be established, so the score rests on a narrower base than usual.',
+        'AVOID': hacks.length > 0
+          ? 'A security incident is on record for this protocol. Past compromise does not predict another, but it does mean the contract has been exploitable before.'
+          : dexDump
+            ? 'Price is well below its recent range. Reported as an observation only — it says nothing about where price goes next.'
+            : isSuspiciousFollowers && team.length === 0
+              ? 'Anonymous team and a follower pattern inconsistent with organic growth. Both are observations about the profile, not conclusions about intent.'
+              : 'Multiple red flags were raised. Each is listed individually above — read them rather than the summary.'
       }
 
       const cleaned = {
@@ -693,7 +715,7 @@ export default function Home() {
           // ── TOKEN: Dump detected ──
           if (dexDump) {
             if (!flags.some(f => f.label.toLowerCase().includes('dump'))) {
-              flags.push({ type: 'dump', label: 'Token price dump detected', detail: 'Significant price decline detected on DEX — potential sell-off or rug pull in progress' })
+              flags.push({ type: 'dump', label: 'Token price dump detected', detail: 'Significant price decline on DEX. Reported as an observation — the cause is not determinable from price alone.' })
             }
           }
 
@@ -707,13 +729,13 @@ export default function Home() {
             const liqStr = dexLiq.replace(/[^0-9.KMB]/g, '')
             const isLowLiq = dexLiq.includes('K') && !dexLiq.includes('00K') && parseFloat(liqStr) < 50
             if (isLowLiq) {
-              flags.push({ type: 'suspicious', label: 'Very low DEX liquidity', detail: `Only ${dexLiq} liquidity on DEX — high rug pull risk, large trades will cause massive slippage` })
+              flags.push({ type: 'suspicious', label: 'Very low DEX liquidity', detail: `Only ${dexLiq} liquidity on DEX. A position of any size moves the price against itself, and exiting can cost far more than entering.` })
             }
           }
 
           // ── TEAM: Anonymous / no team data ──
           if (team.length === 0 && !verified) {
-            flags.push({ type: 'team', label: 'Anonymous team', detail: 'No team members found publicly — anonymous teams carry higher risk of rug pulls and abandonment' })
+            flags.push({ type: 'team', label: 'Anonymous team', detail: 'No team members found publicly. Nobody is accountable by name if the project stops being maintained — which is a fact about recourse, not a prediction.' })
           } else if (team.length === 0 && verified) {
             flags.push({ type: 'team', label: 'Unverified team', detail: 'Verified X account but no individual team members identified — limited accountability' })
           }
@@ -788,7 +810,7 @@ export default function Home() {
           const copycatPhrases = ['next binance', 'next coinbase', 'the next', 'killer of', 'better than', '100x guaranteed', 'guaranteed returns']
           const foundCopycat = copycatPhrases.filter(p => bio.includes(p))
           if (foundCopycat.length > 0) {
-            flags.push({ type: 'shill', label: 'Copycat/hype language in bio', detail: `Project bio contains promotional language ("${foundCopycat[0]}") — common in low-quality or scam projects` })
+            flags.push({ type: 'shill', label: 'Copycat/hype language in bio', detail: `Project bio contains promotional language ("${foundCopycat[0]}"). A claim about future performance in a bio is a marketing choice, not evidence about the project either way.` })
           }
 
           // Deduplicate by label similarity
@@ -803,7 +825,7 @@ export default function Home() {
         top_risks: [
           hacks.length > 0 ? `${hacks.length} known security exploit(s) — protocol security compromised` : null,
           dexDump ? 'Token showing significant price dump — potential sell-off' : null,
-          tokenLive && dexLiq && dexLiq.includes('K') && !dexLiq.includes('00K') ? `Low DEX liquidity (${dexLiq}) — rug pull risk` : null,
+          tokenLive && dexLiq && dexLiq.includes('K') && !dexLiq.includes('00K') ? `Low DEX liquidity (${dexLiq}) — large trades move the price` : null,
           sentiment === 'negative' ? 'Negative news coverage — investigate before committing' : null,
           team.length === 0 && !verified ? 'Anonymous team — no public accountability' : null,
           hasRealXData && following > followers * 2 && followers < 10000 ? 'Follow farming — inorganic growth pattern' : null,

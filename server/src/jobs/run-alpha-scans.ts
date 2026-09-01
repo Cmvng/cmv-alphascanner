@@ -32,17 +32,36 @@ async function scanHandle(handle: string, unitCostUsd: number): Promise<{ score:
 
     const cg = xd?.token_data?.token_live ? xd.token_data : { token_live: false }
 
+    // No Origin header. This is a server-to-server call, not a browser one, and the loopback
+    // address it used to send is not — and should not be — in the origin allowlist, so the guard
+    // rejected it with 403. Every automatic alpha scan failed silently: `scanHandle` returns null
+    // on any non-ok response and the caller stamps `alpha_scanned_at` anyway, so each target was
+    // marked attempted and not retried for 24 hours. The join between discovery and judgement —
+    // the entire two-axis premise — would never once have produced a score.
     const cr = await fetch(`${SELF()}/api/claude`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', Origin: SELF() },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ handle, xd, cg, web: null }),
     })
     // The only automatic spend in the system — metered with its real unit cost.
-    meter('anthropic', cr.ok, unitCostUsd)
-    if (!cr.ok) return null
+    //
+    // Metered AFTER the body is read, not on cr.ok: the handler deliberately returns HTTP 200
+    // with an {error} body when Anthropic itself fails, so cr.ok alone would bill us for calls
+    // that were rejected upstream and never charged.
+    if (!cr.ok) {
+      meter('anthropic', false, 0)
+      // Say which status came back. A silent null here is how the 403 above went unnoticed.
+      console.warn(`[alpha-scan] /api/claude returned ${cr.status} for ${handle}`)
+      return null
+    }
     const body: any = await cr.json()
 
-    if (body?.error) return { score: null, mode: 'llm_error' }
+    if (body?.error) {
+      // Upstream refused — a failed call, and not one we were charged for.
+      meter('anthropic', false, 0)
+      return { score: null, mode: 'llm_error' }
+    }
+    meter('anthropic', true, unitCostUsd)
 
     const text = (body.content || [])
       .filter((b: any) => b.type === 'text')

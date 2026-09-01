@@ -55,6 +55,13 @@ export async function trackOutcomes(dex: DexScreenerProvider): Promise<OutcomeRu
   result.snapshotted = await snapshotDetections(minHeat)
 
   // Any snapshot with a horizon that is due and unmeasured.
+  //
+  // The due-ness test has to live in SQL. Selecting the oldest N incomplete rows and filtering
+  // in JS meant that once more than N snapshots were open, the same oldest N were returned every
+  // run — they stay incomplete until 168h have passed — and everything behind them was never
+  // looked at. Newer detections silently missed their 1h and 6h horizons entirely, which is the
+  // measurement this table exists to take. Excluding rows with nothing due means the limit is
+  // always spent on work that needs doing, so the queue drains instead of stalling.
   const due = await query<any>(
     `select o.*, t.chain, t.contract_address
        from signal_outcomes o
@@ -62,6 +69,13 @@ export async function trackOutcomes(dex: DexScreenerProvider): Promise<OutcomeRu
       where o.complete = false
         and t.contract_address is not null
         and t.chain is not null
+        and (
+          (o.detected_at <= now() - interval '1 hour'    and o.measured_1h  is null) or
+          (o.detected_at <= now() - interval '6 hours'   and o.measured_6h  is null) or
+          (o.detected_at <= now() - interval '24 hours'  and o.measured_24h is null) or
+          (o.detected_at <= now() - interval '72 hours'  and o.measured_3d  is null) or
+          (o.detected_at <= now() - interval '168 hours' and o.measured_7d  is null)
+        )
       order by o.detected_at asc
       limit $1`,
     [maxMeasure],
@@ -70,14 +84,7 @@ export async function trackOutcomes(dex: DexScreenerProvider): Promise<OutcomeRu
   for (const o of due) {
     const ageHours = (Date.now() - new Date(o.detected_at).getTime()) / 3_600_000
     const pending = HORIZONS.filter((h) => ageHours >= h.hours && o[`measured_${h.key}`] === null)
-    if (pending.length === 0) {
-      // Nothing due yet; mark complete only once the final horizon has passed.
-      if (ageHours >= 168) {
-        await query('update signal_outcomes set complete = true where id = $1', [o.id])
-        result.completed++
-      }
-      continue
-    }
+    if (pending.length === 0) continue
 
     const info = await dex.enrich(o.chain, o.contract_address)
     // A provider miss must not be recorded as a zero — leave the horizon unmeasured so the
@@ -110,6 +117,20 @@ export async function trackOutcomes(dex: DexScreenerProvider): Promise<OutcomeRu
       result.completed++
     }
   }
+
+  // Close out anything past the last horizon plus a grace period, including rows the query above
+  // can never return — a target with no contract address is unmeasurable and would otherwise sit
+  // in the incomplete set forever, growing it without bound.
+  //
+  // Unmeasured horizons stay NULL. Completing a row records that we stopped trying; it must
+  // never be read as a measurement of zero.
+  const swept = await query<{ id: string }>(
+    `update signal_outcomes set complete = true
+      where complete = false
+        and detected_at <= now() - interval '180 hours'
+      returning id`,
+  )
+  result.completed += swept.length
 
   return result
 }

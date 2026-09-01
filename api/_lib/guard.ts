@@ -11,14 +11,28 @@ type Res = {
   status: (n: number) => { json: (b: any) => any; end: () => any }
 }
 
-/** Origins allowed to call the spending routes. Extend via ALLOWED_ORIGINS (comma-separated). */
+/**
+ * Origins allowed to call the spending routes. Extend via ALLOWED_ORIGINS (comma-separated).
+ *
+ * The list used to name only the Vercel domain, so the moment the SPA is served from Railway
+ * every browser call to /api/claude, /api/save-scan and /api/admin would come back 403 — the
+ * scanner would simply stop working after the cutover, for a reason nothing in the UI explains.
+ * Railway injects RAILWAY_PUBLIC_DOMAIN into every service, so the deployment's own origin is
+ * derived rather than remembered.
+ */
 function allowedOrigins(): string[] {
   const fromEnv = (process.env.ALLOWED_ORIGINS || '')
     .split(',')
     .map((s) => s.trim())
     .filter(Boolean)
+
+  const self: string[] = []
+  if (process.env.RAILWAY_PUBLIC_DOMAIN) self.push(`https://${process.env.RAILWAY_PUBLIC_DOMAIN}`)
+  if (process.env.PUBLIC_URL) self.push(process.env.PUBLIC_URL.replace(/\/+$/, ''))
+
   return [
     'https://cmv-alphascanner.vercel.app',
+    ...self,
     ...fromEnv,
     ...(process.env.NODE_ENV !== 'production' ? ['http://localhost:3000', 'http://localhost:4173'] : []),
   ]
