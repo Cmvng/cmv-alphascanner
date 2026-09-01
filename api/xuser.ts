@@ -1,6 +1,10 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
+import { guardRead } from './_lib/guard'
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
+  // Spends the shared X bearer token on every call, so it carries the per-IP rate limit even
+  // though it is a public read. Without it a curl loop drains the token and DoSes every scan.
+  if (!guardRead(req as any, res as any, { route: 'xuser', limit: { perMinute: 20, burst: 30 } })) return
   res.setHeader('Access-Control-Allow-Origin', '*')
   res.setHeader('Access-Control-Allow-Methods', 'GET')
 

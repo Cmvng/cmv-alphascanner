@@ -1,4 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
+import { guardRead } from './_lib/guard'
 
 const cache = new Map<string, { data: any; time: number }>()
 const CACHE_TTL = 1000 * 60 * 120 // 2 hours — saves X API credits on repeat scans
@@ -10,12 +11,26 @@ const CHAIN_TOKENS = ['SUI','ETH','BTC','SOL','BNB','MATIC','AVAX','OP','ARB','B
 // loosely-typed JSON from a dozen third-party APIs; this helper keeps that intent explicit
 // instead of scattering casts at every call site.
 async function json(r: Response): Promise<any> {
-  return json(r)
+  return r.json()
 }
 
 async function xFetch(url: string, token: string) {
   const r = await fetch(url, { headers: { Authorization: `Bearer ${token}` } })
   return r.json()
+}
+
+function escapeRegex(s: string): string {
+  return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+}
+
+/**
+ * Whole-word containment. `'security'.includes('sec')` is true, so a bare-substring keyword scan
+ * turns any headline mentioning "security", "section" or "prosecutor" into a "sec"/lawsuit red
+ * flag. Matching on a word boundary is what the keyword lists actually intend.
+ */
+function hasWord(haystack: string, word: string): boolean {
+  if (!word) return false
+  return new RegExp(`\\b${escapeRegex(word.toLowerCase())}\\b`).test(haystack.toLowerCase())
 }
 
 // Timeout wrapper — prevents slow APIs from blocking the whole scan
@@ -139,8 +154,11 @@ function extractIntelligence(tweets: any[], bio: string, pinnedTweet: string) {
   const bioTickerMatches = bioAndPinned.match(/\$([A-Z]{2,10})\b/g) || []
   
   const allTextLower = [bio, pinnedTweet, ...tweets.map((t: any) => t.text)].join(' ').toLowerCase()
-  const knownTicker = Object.entries(KNOWN_TICKERS).find(([proj]) => 
-    allTextLower.includes(proj) || allTextLower.includes(proj.replace(/[^a-z]/g, ''))
+  // Whole-word: a project merely MENTIONING "hyperliquid" must not adopt $HYPE as its own
+  // ticker. Substring matching also let "lemonade" match "monad". The word boundary keeps the
+  // known-project shortcut without hijacking the ticker from an unrelated mention.
+  const knownTicker = Object.entries(KNOWN_TICKERS).find(([proj]) =>
+    hasWord(allTextLower, proj)
   )?.[1] || null
 
   const tickers = [...new Set([
@@ -255,10 +273,17 @@ async function fetchDefiLlamaHacks(projectName: string) {
     const r = await fetch('https://api.llama.fi/hacks')
     if (!r.ok) return []
     const hacks = await json(r)
-    const nameLower = projectName.toLowerCase()
-    return hacks.filter((h: any) =>
-      h.name?.toLowerCase().includes(nameLower) || nameLower.includes(h.name?.toLowerCase() || '')
-    ).map((h: any) => ({
+    const nameLower = projectName.toLowerCase().trim()
+    // A project name shorter than this is too generic to match a hack record safely.
+    if (nameLower.length < 5 || !Array.isArray(hacks)) return []
+    return hacks.filter((h: any) => {
+      const hn = (h.name || '').toLowerCase().trim()
+      // The old `nameLower.includes(h.name || '')` matched EVERY project against any hack row
+      // whose name was missing, because includes('') is always true. Require a real, whole-word
+      // match in either direction so an unrelated project is not stamped "exploited".
+      if (hn.length < 5) return false
+      return hasWord(nameLower, hn) || hasWord(hn, nameLower)
+    }).map((h: any) => ({
       date: h.date,
       amount: h.amount ? `$${(h.amount/1e6).toFixed(1)}M` : 'unknown',
       technique: h.technique || 'unknown',
@@ -317,7 +342,10 @@ async function fetchDexScreener(ticker: string, projectName: string) {
       (p.baseToken?.name?.toLowerCase().includes(nameLower) || nameLower.includes(p.baseToken?.name?.toLowerCase() || ''))
     ) || pairs.find((p: any) =>
       tickerUpper && p.baseToken?.symbol?.toUpperCase() === tickerUpper
-    ) || pairs.sort((a: any, b: any) => (b.liquidity?.usd || 0) - (a.liquidity?.usd || 0))[0]
+    // Only fall back to "biggest pool" when we had NO ticker to match against. With a ticker,
+    // adopting the highest-liquidity unrelated pair means displaying a different token's price,
+    // chain and symbol as this project's — a confidently wrong match. Better to report nothing.
+    ) || (tickerUpper ? null : pairs.sort((a: any, b: any) => (b.liquidity?.usd || 0) - (a.liquidity?.usd || 0))[0])
 
     if (!best) return null
 
@@ -325,14 +353,23 @@ async function fetchDexScreener(ticker: string, projectName: string) {
     const priceStr = price > 0 ? (price < 0.01 ? `$${price.toFixed(6)}` : price < 1 ? `$${price.toFixed(4)}` : `$${price.toFixed(2)}`) : null
     const vol24h = best.volume?.h24 || 0
     const volStr = vol24h >= 1e6 ? `$${(vol24h/1e6).toFixed(1)}M` : vol24h >= 1e3 ? `$${(vol24h/1e3).toFixed(0)}K` : null
-    const liq = best.liquidity?.usd || 0
-    const liqStr = liq >= 1e6 ? `$${(liq/1e6).toFixed(1)}M` : liq >= 1e3 ? `$${(liq/1e3).toFixed(0)}K` : null
+    const liqRaw = best.liquidity?.usd
+    const liq = typeof liqRaw === 'number' ? liqRaw : Number(liqRaw)
+    const liqNum = Number.isFinite(liq) ? liq : null
+    const liqStr = liqNum === null ? null
+      : liqNum >= 1e6 ? `$${(liqNum/1e6).toFixed(1)}M`
+      : liqNum >= 1e3 ? `$${(liqNum/1e3).toFixed(0)}K`
+      : `$${Math.round(liqNum).toLocaleString()}`
     const change24h = best.priceChange?.h24 || 0
     const isDown = change24h < -20
 
     return {
       token_live: price > 0, ticker: best.baseToken?.symbol?.toUpperCase(), token_price: priceStr,
-      volume_24h: volStr, liquidity: liqStr, price_change_24h: change24h,
+      volume_24h: volStr, liquidity: liqStr,
+      // Numeric liquidity alongside the display string, so a sub-$1000 pool is still flagged and
+      // "liquidity unknown" (null) stays distinct from "liquidity checked and fine".
+      liquidity_usd: liqNum,
+      price_change_24h: change24h,
       dump_detected: isDown && change24h < -30, dex: best.dexId, chain: best.chainId, pair_url: best.url,
     }
   } catch { return null }
@@ -385,9 +422,9 @@ async function fetchCryptoNewsSentiment(projectName: string, ticker?: string) {
     const posWords = ['launch', 'partnership', 'funding', 'raised', 'growth', 'milestone', 'integration', 'listed', 'airdrop', 'season']
     let negCount = 0, posCount = 0
     titles.forEach((t: string) => {
-      const tl = t.toLowerCase()
-      negWords.forEach(w => { if (tl.includes(w)) negCount++ })
-      posWords.forEach(w => { if (tl.includes(w)) posCount++ })
+      // Whole-word: 'sec' must not fire on "security"/"section". Same for 'sue' vs "issue".
+      negWords.forEach(w => { if (hasWord(t, w)) negCount++ })
+      posWords.forEach(w => { if (hasWord(t, w)) posCount++ })
     })
     const sentiment = negCount > posCount + 2 ? 'negative' : posCount > negCount ? 'positive' : 'neutral'
     const recentHeadlines = titles.slice(0, 5)
@@ -433,16 +470,17 @@ function detectFUDSignals(u: any, intel: any, dexData: any, hacksData: any[], ne
   if (dexData?.token_live && !dexData?.dump_detected) {
     const pumpChange = dexData.price_change_24h || 0
     if (pumpChange > 100) {
-      flags.push({ type: 'suspicious', label: 'Extreme price pump', detail: `Token surged ${pumpChange.toFixed(0)}% in 24h — high speculation risk, likely followed by correction.`, severity: 'medium' })
+      // State the observation, not a price forecast (no "likely followed by correction").
+      flags.push({ type: 'suspicious', label: 'Large 24h price move', detail: `Token is up ${pumpChange.toFixed(0)}% in 24h. Reported as an observation — a move this size can reverse as fast as it came, but the direction is not determinable from price alone.`, severity: 'medium' })
     }
   }
 
-  if (dexData?.token_live && dexData?.liquidity) {
-    const liqNum = parseFloat(dexData.liquidity.replace(/[$KMB]/g, '')) *
-      (dexData.liquidity.includes('B') ? 1e9 : dexData.liquidity.includes('M') ? 1e6 : dexData.liquidity.includes('K') ? 1e3 : 1)
-    if (liqNum < 50000) {
-      flags.push({ type: 'dump', label: 'Extremely low liquidity', detail: `Only ${dexData.liquidity} liquidity on DEX — very easy to rug pull or manipulate price.`, severity: 'high' })
-    }
+  // Prefer the numeric field; the display string is null below $1000, which previously meant the
+  // riskiest micro-liquidity pools produced no flag at all.
+  const liqNum = typeof dexData?.liquidity_usd === 'number' ? dexData.liquidity_usd : null
+  if (dexData?.token_live && liqNum !== null && liqNum < 50000) {
+    const shown = dexData.liquidity || `$${Math.round(liqNum).toLocaleString()}`
+    flags.push({ type: 'dump', label: 'Very low liquidity', detail: `Only ${shown} liquidity on DEX. A trade of any size moves the price against itself, and exiting can cost far more than entering — a fact about the pool, not a prediction.`, severity: 'high' })
   }
 
   if (hacksData && hacksData.length > 0) {
@@ -455,12 +493,9 @@ function detectFUDSignals(u: any, intel: any, dexData: any, hacksData: any[], ne
     flags.push({ type: 'other', label: 'Negative news coverage', detail: `Recent negative coverage detected in crypto news — investigate before engaging.`, severity: 'medium' })
   }
 
-  const pinnedLower = (u?.pinned_tweet_text || '').toLowerCase()
-  const rewardKeywords = ['$5000','$10k','rewards pool','top creators','create a thread','retweet to win','airdrop campaign','task campaign']
-  const hasRewardCampaign = rewardKeywords.some(k => pinnedLower.includes(k))
-  if (hasRewardCampaign) {
-    flags.push({ type: 'shill', label: 'Paid content campaign active', detail: 'Pinned tweet contains a paid content/reward campaign — inflating organic mentions artificially.', severity: 'medium' })
-  }
+  // (Removed a "Paid content campaign" check that read u.pinned_tweet_text — a field nothing ever
+  // populates, since the pinned-tweet fetch was dropped to save X API credits. It could never
+  // fire, so it presented a red-flag check as run while doing nothing.)
 
   const bioLower = (u?.description || '').toLowerCase()
   const bigNames = ['binance','coinbase','a16z','paradigm','sequoia','polychain','multicoin','pantera']
@@ -585,7 +620,7 @@ async function fetchVerifiedRedFlags(projectName: string, handle: string, ticker
       'insider', 'dump', 'exit', 'abandon', 'controversy', 'investigation', 'stolen', 'loss']
 
     const flagged = results.filter(r =>
-      negativeSignals.some(s => r.toLowerCase().includes(s))
+      negativeSignals.some(sig => hasWord(r, sig))
     )
 
     return flagged.slice(0, 3)
@@ -731,6 +766,10 @@ async function fetchCryptoRankData(projectName: string, ticker: string | null, a
 
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
+  // Every cache miss spends X API credits (a user lookup plus a tweets fetch). This is a public
+  // read so it keeps CORS open, but it now carries the same per-IP token bucket as the POST
+  // spend routes — otherwise ?nocache=true in a loop drains the bearer token for everyone.
+  if (!guardRead(req as any, res as any, { route: 'xproject', limit: { perMinute: 15, burst: 20 } })) return
   res.setHeader('Access-Control-Allow-Origin', '*')
   res.setHeader('Access-Control-Allow-Methods', 'GET')
 
@@ -782,13 +821,18 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     // 3. Recent tweets — reduced to 5 to save credits (was 20)
     let recentTweets: any[] = []
+    // The tweets endpoint has its own rate-limit bucket, separate from the user lookup. When it
+    // fails we lose ticker/intel extraction and therefore the whole token cascade — a materially
+    // incomplete result we must NOT cache for 2 hours (see the cache guard below).
+    let tweetsFetchFailed = false
     if (u?.id) try {
       const td: any = await xFetch(
         `https://api.twitter.com/2/users/${u?.id}/tweets?max_results=5&tweet.fields=text,public_metrics,created_at&exclude=retweets`,
         TOKEN
       )
-      recentTweets = td.data || []
-    } catch { }
+      if (td?.errors || td?.status === 429 || td?.title === 'Too Many Requests') tweetsFetchFailed = true
+      recentTweets = td?.data || []
+    } catch { tweetsFetchFailed = true }
 
     // 4. Extract all intelligence from X data
     const intel = extractIntelligence(recentTweets, bio, pinnedTweetText)
@@ -802,8 +846,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const following = metrics?.following_count || 0
     const tweetCount = metrics?.tweet_count || 0
     const listed = metrics?.listed_count || 0
-    const createdYear = new Date(u?.created_at || '').getFullYear()
-    const age = new Date().getFullYear() - createdYear
+    // new Date('').getFullYear() is NaN, which propagates through the whole cmvScore and
+    // serialises as null. When there is no valid created_at, treat the account as age 0 so every
+    // score stays a real number.
+    const createdYear = u?.created_at ? new Date(u.created_at).getFullYear() : NaN
+    const age = Number.isFinite(createdYear) ? new Date().getFullYear() - createdYear : 0
 
     const followerScore = Math.min(100, Math.log10(Math.max(followers, 1)) / 5 * 100)
     const listedScore = Math.min(100, Math.log10(Math.max(listed, 1)) / 4 * 100)
@@ -852,11 +899,20 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const cgPrice = parseFloat((tokenData_cg.token_price || '0').replace('$',''))
         const dexPrice = parseFloat((dexRetry?.token_price || '0').replace('$',''))
         const priceRatio = cgPrice > 0 ? dexPrice / cgPrice : 0
-        if (dexRetry?.token_live && priceRatio > 0.1) tokenData = { ...dexRetry, source: 'dexscreener' }
+        // Accept the DEX price only when it is within 10x of CoinGecko's in BOTH directions.
+        // `> 0.1` alone passed a DEX price 1000x too HIGH — a copycat pair on the same ticker.
+        if (dexRetry?.token_live && priceRatio > 0.1 && priceRatio < 10) tokenData = { ...dexRetry, source: 'dexscreener' }
       } catch {}
     }
-    if (!tokenData && dexData?.token_live) tokenData = { ...dexData, source: 'dexscreener' }
-    else if (!tokenData && geckoData?.token_live) tokenData = { ...geckoData, source: 'geckoterminal' }
+    if (!tokenData && dexData?.token_live) {
+      // Same >10x sanity guard as the retry branch: if CoinGecko also priced this token and the
+      // DEX search matched a different pair on the same symbol, the two prices diverge wildly.
+      const cgPrice = parseFloat((tokenData_cg?.token_price || '0').replace('$',''))
+      const dexPrice = parseFloat((dexData.token_price || '0').replace('$',''))
+      const ratio = cgPrice > 0 && dexPrice > 0 ? dexPrice / cgPrice : 1
+      if (!(cgPrice > 0 && (ratio > 10 || ratio < 0.1))) tokenData = { ...dexData, source: 'dexscreener' }
+    }
+    if (!tokenData && geckoData?.token_live) tokenData = { ...geckoData, source: 'geckoterminal' }
     if (!tokenData && tokenData_cg?.token_live) tokenData = { ...tokenData_cg }
     if (tokenData && !tokenData.market_cap_str && tokenData_cg?.market_cap_str) {
       tokenData.market_cap_str = tokenData_cg.market_cap_str
@@ -985,9 +1041,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       cached: false
     }
 
-    // Only cache if we got real X data (prevents caching failed lookups)
-    if (result.followers > 0 || result.tweet_count > 0) {
+    // Cache only a COMPLETE result: real X data AND a tweets fetch that did not fail. Caching a
+    // tweets-failed result pins a token-less answer for a live project for the full 2h TTL, only
+    // clearable with ?nocache=true.
+    if ((result.followers > 0 || result.tweet_count > 0) && !tweetsFetchFailed) {
       cache.set(clean, { data: result, time: Date.now() })
+    } else if (tweetsFetchFailed) {
+      console.warn(`[xproject] NOT caching @${clean} — tweets fetch failed, result is incomplete`)
     } else {
       console.warn(`[xproject] NOT caching @${clean} — no X data returned (followers=0, tweets=0)`)
     }

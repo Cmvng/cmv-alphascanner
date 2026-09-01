@@ -26,9 +26,15 @@ create table if not exists signal_entities (
   last_evaluated_at timestamptz,
 
   active            boolean not null default true,
-  created_at        timestamptz not null default now(),
-  unique (kind, lower(identifier), coalesce(chain, ''))
+  created_at        timestamptz not null default now()
 );
+-- One row per real-world entity. This MUST be a unique INDEX, not a table constraint:
+-- PostgreSQL forbids expressions like lower()/coalesce() inside a table-level UNIQUE, and the
+-- constraint form failed the whole migration at boot — taking 0006+ down with it, silently,
+-- because migrate() logs the failure and the engine then runs against a half-built schema.
+-- The bare `on conflict do nothing` on the seed inserts matches unique indexes just the same.
+create unique index if not exists signal_entities_identity_uniq
+  on signal_entities (kind, lower(identifier), coalesce(chain, ''));
 create index if not exists signal_entities_active_idx on signal_entities (kind, active);
 
 -- Trust history, so a weight change is auditable rather than silently overwritten.

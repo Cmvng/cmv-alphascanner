@@ -38,10 +38,27 @@ function allowedOrigins(): string[] {
   ]
 }
 
+/**
+ * The client IP for rate-limit keying.
+ *
+ * X-Forwarded-For is `client, proxy1, proxy2, ...` where the LEFTMOST entry is whatever the
+ * original caller claimed — fully spoofable. Taking `.split(',')[0]` meant an attacker could
+ * rotate that value and mint a fresh token bucket per request, removing the only real gate on
+ * the money-spending routes. The trustworthy value is the entry appended by our OWN edge, which
+ * is `TRUSTED_PROXY_HOPS` from the right (1 for a single Railway/Vercel edge). We count from the
+ * right and never past the start of the list.
+ */
 export function clientIp(req: Req): string {
   const fwd = req.headers['x-forwarded-for']
-  const raw = Array.isArray(fwd) ? fwd[0] : fwd
-  if (typeof raw === 'string' && raw.length) return raw.split(',')[0].trim()
+  const raw = Array.isArray(fwd) ? fwd.join(',') : fwd
+  if (typeof raw === 'string' && raw.length) {
+    const chain = raw.split(',').map((s) => s.trim()).filter(Boolean)
+    if (chain.length) {
+      const hops = Math.max(1, Number(process.env.TRUSTED_PROXY_HOPS) || 1)
+      const idx = Math.max(0, chain.length - hops)
+      return chain[idx]
+    }
+  }
   return req.socket?.remoteAddress || req.connection?.remoteAddress || 'unknown'
 }
 
@@ -82,6 +99,21 @@ export interface GuardOptions {
   limit: RateLimit
   /** route name, so different routes get independent buckets */
   route: string
+}
+
+/**
+ * Rate-limit guard for GET read routes that still spend money (an X API lookup per miss).
+ * No origin/method restriction — these are public reads — but the per-IP token bucket applies,
+ * so an anonymous loop can no longer drain the shared bearer token. Returns true to continue.
+ */
+export function guardRead(req: Req, res: Res, { limit, route }: GuardOptions): boolean {
+  if (req.method === 'OPTIONS') { res.status(204).end(); return false }
+  if (!rateLimit(`${route}:${clientIp(req)}`, limit)) {
+    res.setHeader('Retry-After', '60')
+    res.status(429).json({ error: 'Rate limit exceeded. Try again shortly.' })
+    return false
+  }
+  return true
 }
 
 /**
