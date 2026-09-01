@@ -108,8 +108,17 @@ export async function dispatchAlerts(): Promise<AlertRunResult> {
                 select 1 from alert_deliveries d
                  where d.rule_id = $5 and d.target_id = t.id
                    and (
+                     -- Delivered within the re-alert cadence — do not re-alert yet.
                      (d.delivered_at is not null
                         and d.delivered_at > now() - ($7 || ' hours')::interval)
+                     -- Attempted within the cadence — back off between tries. THIS is the fix for
+                     -- the unbounded retry: previously only delivered_at gated the retry, so a
+                     -- target that delivered once and now fails permanently (bot kicked from the
+                     -- chat) came up eligible on EVERY 5-minute run once past its cadence, its
+                     -- attempts counter climbing without bound and its slot starving other alerts.
+                     -- Gating on the last attempt bounds retries to one per cadence.
+                     or (d.sent_at > now() - ($7 || ' hours')::interval)
+                     -- Never delivered and out of retries — give up.
                      or (d.delivered_at is null and d.attempts >= $8)
                    ))
         group by t.id

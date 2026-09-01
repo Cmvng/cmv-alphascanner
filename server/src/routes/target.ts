@@ -56,10 +56,13 @@ targetRouter.get('/target/:id', async (req, res) => {
           ),
           checked_count: risk.reduce((n: number, r: any) => n + Number(r.checked_count), 0),
           total_count: risk.reduce((n: number, r: any) => n + Number(r.total_count), 0),
+          // Most recent assessment time. Default .sort() coerces Dates to strings and orders
+          // them alphabetically by weekday name ("Fri" < "Sun"), so it could report an older
+          // source's timestamp as the latest. Compare by epoch millis.
           assessed_at: risk
             .map((r: any) => r.assessed_at)
-            .sort()
-            .slice(-1)[0],
+            .reduce((latest: any, cur: any) =>
+              !latest || new Date(cur).getTime() > new Date(latest).getTime() ? cur : latest, null),
           sources: risk.map((r: any) => ({
             source: r.source,
             checked_count: Number(r.checked_count),

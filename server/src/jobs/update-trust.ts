@@ -32,7 +32,14 @@ export async function updateTrust(): Promise<TrustRunResult> {
     `select e.id,
             e.trust_weight,
             count(o.id)                                         as signals_total,
-            count(o.mcap_24h)                                   as measured,
+            -- "measured" must be the population the hits filter is drawn from: outcomes that had
+            -- a priced detection AND a 24h reading. Counting count(o.mcap_24h) alone included
+            -- outcomes whose market_cap_at_detect was NULL/0 (a brand-new pool not yet priced),
+            -- which can never satisfy the hits filter — so an entity that surfaces the earliest,
+            -- unpriced targets got a deflated hit rate and was penalised for being early, the
+            -- opposite of the obscurity thesis.
+            count(*) filter (where o.market_cap_at_detect > 0
+                               and o.mcap_24h is not null)       as measured,
             count(*) filter (where o.market_cap_at_detect > 0
                                and o.mcap_24h > o.market_cap_at_detect) as hits,
             count(*) filter (where o.liquidity_collapsed)       as collapses,

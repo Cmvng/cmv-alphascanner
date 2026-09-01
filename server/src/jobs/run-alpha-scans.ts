@@ -91,7 +91,15 @@ export async function runAlphaScans(): Promise<AlphaScanResult> {
        from targets
       where heat >= $1
         and status <> 'muted'
-        and (alpha_score is null or alpha_scanned_at < now() - interval '24 hours')
+        -- Eligible only when NEVER attempted (both null), or the 24h cooldown since the last
+        -- attempt has elapsed. The old alpha_score-is-null clause made the cooldown a no-op:
+        -- a FAILED scan leaves alpha_score null but stamps alpha_scanned_at, so that clause re-selected it on the very next run — a permanently-failing hot target (dead X
+        -- handle, unparseable output) was re-scanned every 15 minutes forever, re-spending
+        -- credits and monopolising the ordered window so cooler targets never got scanned.
+        and (
+          (alpha_score is null and alpha_scanned_at is null)
+          or alpha_scanned_at < now() - interval '24 hours'
+        )
       order by heat desc
       limit $2`,
     [minHeat, maxPerRun * 3], // over-fetch: many will lack a handle

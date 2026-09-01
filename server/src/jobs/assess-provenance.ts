@@ -46,18 +46,17 @@ export async function assessProvenance(prov: ProvenanceProvider): Promise<Proven
     try {
       const a = await prov.assess(row.website, thresholds)
 
-      if (a.domain === null) {
-        // A website that is only a Telegram invite or an aggregator page. Nothing to check, and
-        // recording an assessment would imply we had looked at the project's own domain.
-        result.noDomain++
-        continue
-      }
-      if (a.checkedCount === 0) {
-        // Both sources were unreachable. Writing this row would render as "checked, nothing
-        // found" in every list view — the exact failure the checked/unchecked rule exists for.
+      // Only "sources unreachable" (a real domain, but RDAP and crt.sh both failed) must NOT be
+      // persisted — writing it would render as "checked, nothing found". A no-domain result
+      // (website is a Telegram invite or an aggregator page, or the host has no registrable
+      // domain) IS a definitive answer and MUST be persisted: its four explicit no_domain checks
+      // are what the target UI's "no project website to check" mapping renders, and persisting it
+      // stops the target being re-selected on every 45-minute run forever.
+      if (a.domain !== null && a.checkedCount === 0) {
         result.unavailable++
         continue
       }
+      if (a.domain === null) result.noDomain++
 
       await query(
         `insert into risk_assessments (target_id, source, checks, summary, checked_count, total_count, assessed_at)
@@ -68,8 +67,10 @@ export async function assessProvenance(prov: ProvenanceProvider): Promise<Proven
            assessed_at = excluded.assessed_at`,
         [row.id, JSON.stringify(a.checks), JSON.stringify(a.summary), a.checkedCount, a.totalCount, a.assessedAt],
       )
+      // recomputeRiskLevel ignores checked_count === 0 rows, so a no_domain assessment correctly
+      // leaves risk_level unchanged rather than fabricating a 'low'.
       await recomputeRiskLevel(row.id)
-      result.assessed++
+      if (a.domain !== null) result.assessed++
     } catch (e: any) {
       console.warn('[provenance] failed for', row.id, e?.message)
     }

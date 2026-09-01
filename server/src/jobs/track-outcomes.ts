@@ -17,12 +17,18 @@ export interface OutcomeRunResult {
   completed: number
 }
 
-const HORIZONS: Array<{ key: string; hours: number }> = [
-  { key: '1h', hours: 1 },
-  { key: '6h', hours: 6 },
-  { key: '24h', hours: 24 },
-  { key: '3d', hours: 72 },
-  { key: '7d', hours: 168 },
+// Each horizon carries a window: measure it only while now is between its due time and `until`.
+// A reading taken 30h after detection is NOT a valid "1h" measurement — after downtime, backfil-
+// ling every overdue horizon from one current reading records a much-later value into mcac_1h/6h
+// and update-trust reads those columns as if taken AT the horizon, so a token that pumped at hour
+// 2 and collapsed by hour 30 is scored as a 1h miss it never was. A missed horizon stays NULL
+// (honestly unmeasured) rather than being filled with the wrong number.
+const HORIZONS: Array<{ key: string; hours: number; until: number }> = [
+  { key: '1h', hours: 1, until: 6 },
+  { key: '6h', hours: 6, until: 24 },
+  { key: '24h', hours: 24, until: 72 },
+  { key: '3d', hours: 72, until: 168 },
+  { key: '7d', hours: 168, until: 180 },
 ]
 
 /** Record the state of a target the moment it first becomes interesting. Once, immutably. */
@@ -83,7 +89,9 @@ export async function trackOutcomes(dex: DexScreenerProvider): Promise<OutcomeRu
 
   for (const o of due) {
     const ageHours = (Date.now() - new Date(o.detected_at).getTime()) / 3_600_000
-    const pending = HORIZONS.filter((h) => ageHours >= h.hours && o[`measured_${h.key}`] === null)
+    // Due AND still inside its window. A horizon whose window has fully passed is left unmeasured
+    // rather than backfilled with a stale reading (see the HORIZONS note).
+    const pending = HORIZONS.filter((h) => ageHours >= h.hours && ageHours < h.until && o[`measured_${h.key}`] === null)
     if (pending.length === 0) continue
 
     const info = await dex.enrich(o.chain, o.contract_address)
