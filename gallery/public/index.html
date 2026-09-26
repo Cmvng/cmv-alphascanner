@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CMVNG Art Gallery</title>
+<meta name="description" content="CMVNG Art Gallery: drawings and digital works by CMVNG, including the CMVNG Collection and the World Over Series.">
+<meta name="theme-color" content="#f2efe9" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#121110" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="/icon.png">
+<link rel="apple-touch-icon" href="/icon.png">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://cmvng-art-gallery-production.up.railway.app/">
+<meta property="og:title" content="CMVNG Art Gallery">
+<meta property="og:description" content="Drawings and digital works by CMVNG.">
+<meta property="og:image" content="https://cmvng-art-gallery-production.up.railway.app/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cmvng-art-gallery-production.up.railway.app/og.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/site.css">
+<style>
+/* ---------- Hero ---------- */
+.hero { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: 64px; align-items: center; padding: 72px 0 96px; }
+.hero h1 { margin-top: 18px; line-height: 0.9; font-weight: 400; }
+.hero h1 .name { display: block; font-family: var(--serif); font-size: clamp(4.5rem, 10vw, 9rem); letter-spacing: -0.02em; }
+.hero h1 .kind { display: block; font-family: var(--serif); font-style: italic; font-size: clamp(2.4rem, 5vw, 4.4rem); color: var(--graphite); margin-top: 6px; }
+.statement { margin-top: 28px; font-size: 1.15rem; line-height: 1.55; color: var(--graphite); max-width: 36ch; }
+.hero .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 34px; }
+.feature { margin: 0; }
+.feature button { display: block; width: 100%; text-align: left; }
+.frame {
+  background: var(--mat); padding: clamp(12px, 2vw, 22px); box-shadow: var(--shadow);
+  transition: box-shadow 0.35s, transform 0.35s;
+}
+.feature button:hover .frame { box-shadow: var(--shadow-lift); transform: translateY(-3px); }
+.frame img { width: 100%; height: auto; }
+.label { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; margin-top: 18px; }
+.label .t { font-family: var(--serif); font-size: 1.5rem; line-height: 1.1; }
+.label .s { font-size: 0.82rem; color: var(--soft); text-align: right; }
+
+/* ---------- Works ---------- */
+.works { padding: 24px 0 110px; }
+.works-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 24px; padding-bottom: 28px; border-bottom: 1px solid var(--line); }
+.works-head h2 { font-family: var(--serif); font-weight: 400; font-size: clamp(2.6rem, 5vw, 3.8rem); line-height: 1; }
+.works-head h2 small { font-family: var(--sans); font-size: 0.9rem; color: var(--soft); margin-left: 12px; letter-spacing: 0; vertical-align: middle; }
+.filters { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip {
+  padding: 8px 15px; border-radius: 999px; border: 1px solid var(--line-strong); font-size: 0.88rem; font-weight: 500;
+  color: var(--graphite); transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+.chip span { color: var(--soft); margin-left: 4px; font-variant-numeric: tabular-nums; }
+.chip:hover { border-color: var(--ink); color: var(--ink); }
+.chip[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: var(--wall); }
+.chip[aria-pressed="true"] span { color: color-mix(in srgb, var(--wall) 65%, transparent); }
+
+.grid { display: flex; gap: 36px; margin-top: 44px; align-items: flex-start; }
+.col { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 44px; }
+.card { display: block; width: 100%; text-align: left; }
+.card .frame { padding: clamp(10px, 1.4vw, 16px); }
+.card .frame img { background: color-mix(in srgb, var(--ink) 6%, transparent); opacity: 0; transition: opacity 0.6s; }
+.card .frame img.loaded { opacity: 1; }
+.card:hover .frame { box-shadow: var(--shadow-lift); transform: translateY(-3px); }
+.cap { display: flex; justify-content: space-between; gap: 14px; margin-top: 14px; align-items: baseline; }
+.cap .t { font-family: var(--serif); font-size: 1.35rem; line-height: 1.15; }
+.cap .s { font-size: 0.8rem; color: var(--soft); margin-top: 3px; }
+.cap .badge { flex-shrink: 0; }
+.empty { margin-top: 60px; text-align: center; color: var(--graphite); }
+
+/* ---------- About ---------- */
+.about { border-top: 1px solid var(--line); padding: 96px 0 110px; }
+.about .wrap { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); gap: 64px; }
+.about h2 { font-family: var(--serif); font-weight: 400; font-size: clamp(2.4rem, 4.5vw, 3.4rem); line-height: 1.02; margin-top: 12px; }
+.about p { font-size: 1.12rem; color: var(--graphite); max-width: 58ch; }
+.about p + p { margin-top: 16px; }
+.collections { margin-top: 32px; display: grid; gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+.collections a { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 18px 22px; background: var(--paper); text-decoration: none; transition: background 0.2s; }
+.collections a:hover { background: var(--mat); }
+.collections b { font-family: var(--serif); font-weight: 400; font-size: 1.35rem; }
+.collections span { font-size: 0.85rem; color: var(--soft); white-space: nowrap; }
+
+/* ---------- Viewer ---------- */
+dialog.viewer {
+  width: 100vw; height: 100dvh; max-width: none; max-height: none; border: 0; padding: 0;
+  background: var(--wall); color: var(--ink);
+}
+dialog.viewer::backdrop { background: rgba(0, 0, 0, 0.5); }
+dialog.viewer[open] { display: grid; grid-template-columns: minmax(0, 1fr) 380px; animation: fade 0.25s ease; }
+@keyframes fade { from { opacity: 0; } }
+.stage { position: relative; display: flex; align-items: center; justify-content: center; padding: 56px 72px; min-height: 0; touch-action: pan-y; }
+.stage img { max-width: 100%; max-height: 100%; object-fit: contain; background: var(--mat); padding: clamp(8px, 1.2vw, 16px); box-shadow: var(--shadow-lift); }
+.nav-btn {
+  position: absolute; top: 50%; transform: translateY(-50%); width: 48px; height: 48px; border-radius: 50%;
+  border: 1px solid var(--line-strong); background: var(--paper); display: grid; place-items: center; font-size: 1.2rem;
+  transition: border-color 0.2s;
+}
+.nav-btn:hover { border-color: var(--ink); }
+.nav-btn.prev { left: 14px; }
+.nav-btn.next { right: 14px; }
+.info { border-left: 1px solid var(--line); background: var(--paper); padding: 72px 36px 36px; overflow-y: auto; display: flex; flex-direction: column; }
+.info h2 { font-family: var(--serif); font-weight: 400; font-size: 2.4rem; line-height: 1.05; margin-top: 10px; }
+.info .meta { margin-top: 12px; color: var(--graphite); font-size: 0.95rem; }
+.info .badge { margin-top: 14px; }
+.info .desc { margin-top: 22px; font-size: 1.05rem; line-height: 1.65; white-space: pre-line; }
+.info .links { margin-top: 28px; display: flex; flex-wrap: wrap; gap: 10px; }
+.info .count { margin-top: auto; padding-top: 30px; font-size: 0.85rem; color: var(--soft); font-variant-numeric: tabular-nums; }
+.close-btn { position: absolute; top: 14px; right: 14px; z-index: 2; width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line-strong); background: var(--paper); font-size: 1.3rem; display: grid; place-items: center; }
+.close-btn:hover { border-color: var(--ink); }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 960px) {
+  .hero { grid-template-columns: minmax(0, 1fr); gap: 48px; padding: 48px 0 72px; }
+  .about .wrap { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+  .top nav .hide-sm { display: none; }
+  dialog.viewer[open] { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) auto; }
+  .stage { padding: 64px 16px 16px; }
+  .nav-btn { top: auto; bottom: 12px; transform: none; width: 42px; height: 42px; }
+  .info { border-left: 0; border-top: 1px solid var(--line); padding: 22px 20px 26px; max-height: 42dvh; }
+  .info h2 { font-size: 1.9rem; }
+  .info .count { padding-top: 16px; }
+}
+@media (max-width: 640px) {
+  .grid { gap: 20px; }
+  .col { gap: 36px; }
+  .works-head { gap: 18px; }
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="mark" href="/"><b>CMVNG</b><i>Art Gallery</i></a>
+    <nav aria-label="Main">
+      <a href="#works">Works</a>
+      <a href="#about">About</a>
+      <a class="hide-sm" href="https://opensea.io/collection/cmv-156408845" target="_blank" rel="noopener">OpenSea ↗</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="wrap hero">
+    <div>
+      <span class="eyebrow" data-count-line>Online gallery</span>
+      <h1><span class="name">CMVNG</span><span class="kind">Art Gallery</span></h1>
+      <p class="statement">Drawings and digital works about power, war, love and the everyday struggle for meaning.</p>
+      <div class="actions">
+        <a class="btn" href="#works">View the works</a>
+        <a class="btn btn-line" href="https://opensea.io/collection/cmv-156408845" target="_blank" rel="noopener">Collect on OpenSea ↗</a>
+      </div>
+    </div>
+    <figure class="feature">
+      <button type="button" data-open="the-naira" aria-label="View The Naira">
+        <div class="frame"><img src="/art/the-naira.webp" width="1937" height="1521" alt="The Naira: a charcoal drawing of a human eye with the Naira symbol in the pupil" fetchpriority="high"></div>
+      </button>
+      <figcaption class="label"><span class="t">The Naira</span><span class="s">World Over Series<br>Describing the state of the Naira as a currency</span></figcaption>
+    </figure>
+  </section>
+
+  <section class="works" id="works">
+    <div class="wrap">
+      <div class="works-head">
+        <h2>The works<small data-total></small></h2>
+        <div class="filters" role="group" aria-label="Filter works" data-filters></div>
+      </div>
+      <div class="grid" data-grid aria-live="polite"></div>
+      <p class="empty" data-empty hidden>Loading the gallery…</p>
+    </div>
+  </section>
+
+  <section class="about" id="about">
+    <div class="wrap">
+      <div>
+        <span class="eyebrow">About</span>
+        <h2>Pencil, charcoal, and the questions that won't let go.</h2>
+      </div>
+      <div>
+        <p>CMVNG makes detailed drawings and digital works. The same questions keep coming back: power and who holds it, war and what it leaves behind, the daily struggle for meaning and purpose, and love as the thing worth reaching for.</p>
+        <p>Many of the pieces here are also collectible on OpenSea. New works and works in progress are added straight from the studio.</p>
+        <div class="collections">
+          <a href="https://opensea.io/collection/cmv-156408845" target="_blank" rel="noopener"><b>CMVNG Collection</b><span>OpenSea ↗</span></a>
+          <a href="https://opensea.io/collection/world-over-series" target="_blank" rel="noopener"><b>World Over Series</b><span>OpenSea ↗</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <span>© <span data-year></span> CMVNG Art Gallery. All works by CMVNG.</span>
+    <nav aria-label="Footer">
+      <a href="https://opensea.io/collection/cmv-156408845" target="_blank" rel="noopener">OpenSea</a>
+      <a href="/upload">Artist studio</a>
+    </nav>
+  </div>
+</footer>
+
+<dialog class="viewer" data-viewer aria-label="Artwork viewer">
+  <button class="close-btn" type="button" data-close aria-label="Close">×</button>
+  <div class="stage" data-stage>
+    <img data-v-img alt="">
+    <button class="nav-btn prev" type="button" data-prev aria-label="Previous work">←</button>
+    <button class="nav-btn next" type="button" data-next aria-label="Next work">→</button>
+  </div>
+  <div class="info">
+    <span class="eyebrow" data-v-series></span>
+    <h2 data-v-title></h2>
+    <p class="meta" data-v-meta></p>
+    <span class="badge" data-v-wip hidden>Work in progress</span>
+    <p class="desc" data-v-desc></p>
+    <div class="links" data-v-links></div>
+    <p class="count" data-v-count></p>
+  </div>
+</dialog>
+
+<div class="toast" role="status" aria-live="polite" data-toast></div>
+
+<script src="/gallery.js"></script>
+</body>
+</html>

@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Studio · CMVNG Art Gallery</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#f2efe9" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#121110" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="/icon.png">
+<link rel="apple-touch-icon" href="/icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/site.css">
+<style>
+main { padding: 56px 0 96px; min-height: calc(100dvh - 64px - 120px); }
+h1 { font-family: var(--serif); font-weight: 400; font-size: clamp(2.8rem, 6vw, 4.2rem); line-height: 1; margin-top: 10px; }
+.lead { margin-top: 14px; color: var(--graphite); font-size: 1.08rem; max-width: 52ch; }
+.panel { background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); }
+
+/* Login */
+.login { max-width: 440px; margin: 40px auto 0; padding: 36px; }
+.login h1 { font-size: 2.8rem; }
+.login form { margin-top: 26px; display: grid; gap: 14px; }
+
+/* Fields */
+.field { display: grid; gap: 7px; }
+.field > span { font-size: 0.82rem; font-weight: 600; color: var(--graphite); }
+.field > span em { font-style: normal; font-weight: 400; color: var(--soft); }
+input[type="text"], input[type="password"], textarea {
+  width: 100%; padding: 12px 14px; border-radius: 10px; border: 1px solid var(--line-strong);
+  background: var(--wall); font-size: 1rem; transition: border-color 0.2s, box-shadow 0.2s;
+}
+input:focus, textarea:focus { outline: none; border-color: var(--ink); box-shadow: 0 0 0 3px color-mix(in srgb, var(--ink) 12%, transparent); }
+textarea { min-height: 110px; resize: vertical; line-height: 1.5; }
+.row { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: 14px; }
+.error { color: var(--accent); font-size: 0.9rem; min-height: 1.3em; }
+
+/* Studio layout */
+.studio-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 20px; }
+.studio { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 32px; margin-top: 40px; align-items: start; }
+.upload { padding: 30px; display: grid; gap: 20px; }
+.upload h2, .mine h2 { font-family: var(--serif); font-weight: 400; font-size: 1.9rem; line-height: 1.1; }
+
+.drop {
+  position: relative; display: grid; place-items: center; text-align: center; gap: 6px; min-height: 220px; padding: 26px;
+  border: 1.5px dashed var(--line-strong); border-radius: 12px; background: var(--wall); cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+.drop:hover, .drop.over { border-color: var(--ink); background: color-mix(in srgb, var(--ink) 4%, var(--wall)); }
+.drop input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+.drop .big { font-family: var(--serif); font-size: 1.6rem; line-height: 1.1; }
+.drop .small { font-size: 0.85rem; color: var(--soft); }
+.drop .plus { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line-strong); display: grid; place-items: center; font-size: 1.4rem; margin-bottom: 6px; background: var(--paper); }
+.drop.has-file { min-height: 0; padding: 14px; }
+.preview { display: flex; gap: 16px; align-items: center; text-align: left; width: 100%; }
+.preview img { width: 96px; height: 96px; object-fit: cover; border-radius: 8px; background: var(--mat); box-shadow: var(--shadow); flex-shrink: 0; }
+.preview b { display: block; font-weight: 600; word-break: break-all; }
+.preview span { font-size: 0.85rem; color: var(--soft); }
+
+.status { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.status label {
+  position: relative; display: grid; gap: 2px; padding: 14px 16px; border-radius: 12px; border: 1px solid var(--line-strong);
+  cursor: pointer; transition: border-color 0.2s, background 0.2s;
+}
+.status input { position: absolute; opacity: 0; pointer-events: none; }
+.status b { font-weight: 600; font-size: 0.98rem; }
+.status span { font-size: 0.8rem; color: var(--soft); }
+.status label:has(input:checked) { border-color: var(--ink); background: var(--wall); box-shadow: inset 0 0 0 1px var(--ink); }
+.status label:has(input:focus-visible) { outline: 2px solid var(--accent); outline-offset: 2px; }
+.status .wip b { color: var(--accent); }
+
+.submit-row { display: grid; gap: 12px; }
+.submit-row .btn { width: 100%; padding: 15px; font-size: 1rem; }
+.progress { height: 6px; border-radius: 999px; background: var(--line); overflow: hidden; }
+.progress div { height: 100%; width: 0; background: var(--ink); transition: width 0.2s; }
+.progress-text { font-size: 0.85rem; color: var(--graphite); }
+
+/* My uploads */
+.mine { padding: 30px; }
+.mine .sub { font-size: 0.9rem; color: var(--soft); margin-top: 6px; }
+.list { list-style: none; margin-top: 20px; display: grid; gap: 1px; background: var(--line); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.item { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 14px; padding: 14px 0; background: var(--paper); align-items: center; }
+.item img { width: 64px; height: 64px; object-fit: cover; border-radius: 6px; background: var(--mat); }
+.item .t { font-family: var(--serif); font-size: 1.25rem; line-height: 1.15; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.item .s { font-size: 0.8rem; color: var(--soft); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.item .controls { grid-column: 2; display: flex; flex-wrap: wrap; gap: 8px; margin-top: 2px; }
+.nothing { margin-top: 20px; padding: 28px; text-align: center; color: var(--soft); border: 1px dashed var(--line-strong); border-radius: 12px; }
+
+@media (max-width: 900px) {
+  .studio { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 640px) {
+  main { padding: 32px 0 72px; }
+  .upload, .mine, .login { padding: 22px 18px; }
+  .row { grid-template-columns: minmax(0, 1fr); }
+  .status { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="mark" href="/"><b>CMVNG</b><i>Studio</i></a>
+    <nav aria-label="Main">
+      <a href="/">← Back to gallery</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <!-- Sign in -->
+  <section class="login panel" data-login hidden>
+    <span class="eyebrow">Artist studio</span>
+    <h1>Welcome back</h1>
+    <form data-login-form>
+      <label class="field">
+        <span>Studio password</span>
+        <input type="password" name="password" autocomplete="current-password" required>
+      </label>
+      <button class="btn" type="submit">Enter studio</button>
+      <p class="error" data-login-error role="alert"></p>
+    </form>
+  </section>
+
+  <!-- Studio -->
+  <section data-studio hidden>
+    <div class="studio-head">
+      <div>
+        <span class="eyebrow">Artist studio</span>
+        <h1>Add a new work</h1>
+        <p class="lead">Upload a finished piece or a work in progress. It shows on the gallery as soon as you publish.</p>
+      </div>
+      <button class="btn btn-line btn-sm" type="button" data-logout>Sign out</button>
+    </div>
+
+    <div class="studio">
+      <form class="upload panel" data-upload-form novalidate>
+        <label class="drop" data-drop>
+          <input type="file" name="image" accept="image/*" data-file>
+          <div data-drop-empty>
+            <div class="plus" aria-hidden="true">+</div>
+            <div class="big">Choose an image</div>
+            <div class="small">or drag it here · JPG, PNG, WebP or GIF, up to 30 MB</div>
+          </div>
+          <div class="preview" data-preview hidden>
+            <img alt="" data-preview-img>
+            <div><b data-preview-name></b><span>Tap to choose a different image</span></div>
+          </div>
+        </label>
+
+        <div class="field">
+          <span>Status</span>
+          <div class="status" role="radiogroup" aria-label="Status">
+            <label><input type="radio" name="status" value="finished" checked><b>Finished</b><span>Complete piece</span></label>
+            <label class="wip"><input type="radio" name="status" value="wip"><b>Work in progress</b><span>Shows an "In progress" tag</span></label>
+          </div>
+        </div>
+
+        <label class="field">
+          <span>Title</span>
+          <input type="text" name="title" maxlength="120" required placeholder="e.g. Soulical Realm II">
+        </label>
+
+        <div class="row">
+          <label class="field">
+            <span>Series <em>(optional)</em></span>
+            <input type="text" name="series" maxlength="80" list="series-list" placeholder="New Works">
+            <datalist id="series-list" data-series-list></datalist>
+          </label>
+          <label class="field">
+            <span>Year <em>(optional)</em></span>
+            <input type="text" name="year" maxlength="12" inputmode="numeric" data-year>
+          </label>
+        </div>
+
+        <label class="field">
+          <span>Medium <em>(optional)</em></span>
+          <input type="text" name="medium" maxlength="80" placeholder="e.g. Pencil on paper">
+        </label>
+
+        <label class="field">
+          <span>Description <em>(optional)</em></span>
+          <textarea name="description" maxlength="2000" placeholder="What is this piece about?"></textarea>
+        </label>
+
+        <div class="submit-row">
+          <button class="btn" type="submit" data-submit>Publish to gallery</button>
+          <div class="progress" data-progress hidden><div data-bar></div></div>
+          <p class="progress-text" data-progress-text role="status"></p>
+        </div>
+      </form>
+
+      <section class="mine panel" aria-labelledby="mine-title">
+        <h2 id="mine-title">Your uploads</h2>
+        <p class="sub">Works added from the studio. Your OpenSea pieces are always on the gallery too.</p>
+        <ul class="list" data-list hidden></ul>
+        <p class="nothing" data-nothing>No uploads yet. Your first one will appear here.</p>
+      </section>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <span>CMVNG Art Gallery · Studio</span>
+    <nav aria-label="Footer"><a href="/">View the gallery</a></nav>
+  </div>
+</footer>
+
+<div class="toast" role="status" aria-live="polite" data-toast></div>
+
+<script src="/studio.js"></script>
+</body>
+</html>

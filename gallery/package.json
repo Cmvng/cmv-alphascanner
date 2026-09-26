@@ -1,0 +1,16 @@
+{
+  "name": "cmvng-art-gallery",
+  "version": "1.0.0",
+  "private": true,
+  "description": "CMVNG Art Gallery: portfolio site with a password-protected studio upload page",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "busboy": "^1.6.0"
+  }
+}
