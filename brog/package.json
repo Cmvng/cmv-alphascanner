@@ -1,0 +1,13 @@
+{
+  "name": "a-cat-called-brog",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Landing page for $BROG, a cat called Brog",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

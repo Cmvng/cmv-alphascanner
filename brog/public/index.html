@@ -1,0 +1,636 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A Cat Called Brog ($BROG)</title>
+<meta name="description" content="A cat called Brog. Many eyes, one mission: send Zcash to $10,000.">
+<meta name="theme-color" content="#07040f">
+<link rel="icon" href="/brog.jpg">
+<link rel="apple-touch-icon" href="/brog.jpg">
+
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://brog-production.up.railway.app/">
+<meta property="og:title" content="A Cat Called Brog ($BROG)">
+<meta property="og:description" content="Brog is ready to send Zcash to $10,000.">
+<meta property="og:image" content="https://brog-production.up.railway.app/brog.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="A Cat Called Brog ($BROG)">
+<meta name="twitter:description" content="Brog is ready to send Zcash to $10,000.">
+<meta name="twitter:image" content="https://brog-production.up.railway.app/brog.jpg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<script>document.documentElement.classList.add("js")</script>
+
+<style>
+:root {
+  --bg: #07040f;
+  --surface: rgba(22, 11, 44, 0.62);
+  --surface-strong: rgba(30, 15, 60, 0.85);
+  --line: rgba(167, 139, 250, 0.18);
+  --line-strong: rgba(167, 139, 250, 0.38);
+  --text: #f1edff;
+  --muted: #a99fcc;
+  --violet: #8b5cf6;
+  --violet-soft: #b9a3ff;
+  --indigo: #5b4bff;
+  --gold: #f4b728;
+  --radius: 22px;
+  --display: "Syne", system-ui, sans-serif;
+  --body: "Space Grotesk", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; scroll-padding-top: 88px; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--body);
+  font-size: 17px;
+  line-height: 1.6;
+  overflow-x: clip;
+  -webkit-font-smoothing: antialiased;
+}
+img { display: block; max-width: 100%; height: auto; }
+a { color: inherit; }
+button { font: inherit; color: inherit; cursor: pointer; }
+:focus-visible { outline: 2px solid var(--violet-soft); outline-offset: 3px; border-radius: 8px; }
+
+.wrap { width: 100%; max-width: 1180px; margin: 0 auto; padding: 0 28px; }
+main, header, footer { position: relative; z-index: 1; }
+main { overflow-x: clip; }
+
+/* ---------- Watching eyes background ---------- */
+.sky {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
+  background:
+    radial-gradient(1100px 700px at 78% -8%, rgba(109, 40, 217, 0.38), transparent 62%),
+    radial-gradient(900px 640px at -12% 42%, rgba(67, 56, 202, 0.24), transparent 62%),
+    radial-gradient(800px 500px at 60% 110%, rgba(139, 92, 246, 0.18), transparent 60%);
+}
+.eye {
+  position: absolute;
+  transform: translate(-50%, -50%) rotate(var(--rot));
+  opacity: var(--o);
+  filter: blur(var(--blur)) drop-shadow(0 0 10px rgba(139, 92, 246, 0.55));
+}
+.eye-float { animation: float var(--float) ease-in-out var(--delay) infinite alternate; }
+.eye svg { display: block; width: 100%; height: auto; transform-origin: 50% 50%; animation: blink var(--blink) linear var(--blink-delay) infinite; }
+.eye .iris { transition: transform 0.22s ease-out; }
+@keyframes float { from { translate: 0 -8px; } to { translate: 0 10px; } }
+@keyframes blink { 0%, 94%, 100% { transform: scaleY(1); } 96.5% { transform: scaleY(0.08); } }
+
+/* ---------- Nav ---------- */
+.nav {
+  position: sticky; top: 0; z-index: 10;
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  background: rgba(7, 4, 15, 0.62);
+  border-bottom: 1px solid var(--line);
+}
+.nav .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; height: 68px; }
+.logo { display: flex; align-items: center; gap: 10px; text-decoration: none; font-family: var(--display); font-weight: 800; font-size: 1.15rem; letter-spacing: 0.02em; }
+.logo img { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--line-strong); box-shadow: 0 0 18px rgba(139, 92, 246, 0.5); }
+.nav-links { display: flex; gap: 28px; }
+.nav-links a { text-decoration: none; color: var(--muted); font-weight: 500; font-size: 0.95rem; transition: color 0.2s; }
+.nav-links a:hover { color: var(--text); }
+
+/* ---------- Buttons ---------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 14px 24px; border-radius: 999px; border: 1px solid transparent;
+  font-weight: 700; font-size: 1rem; text-decoration: none; white-space: nowrap;
+  transition: transform 0.2s, box-shadow 0.2s, background 0.2s, border-color 0.2s;
+}
+.btn:hover { transform: translateY(-2px); }
+.btn-primary {
+  background: linear-gradient(135deg, #9b6bff, var(--indigo));
+  box-shadow: 0 12px 34px -12px rgba(139, 92, 246, 0.9), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+.btn-primary:hover { box-shadow: 0 16px 44px -10px rgba(139, 92, 246, 1), inset 0 1px 0 rgba(255, 255, 255, 0.25); }
+.btn-ghost { background: rgba(255, 255, 255, 0.04); border-color: var(--line-strong); }
+.btn-ghost:hover { background: rgba(139, 92, 246, 0.14); }
+.btn-sm { padding: 10px 18px; font-size: 0.9rem; }
+
+/* ---------- Hero ---------- */
+.hero { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); align-items: center; gap: 56px; padding: 64px 0 96px; min-height: calc(100svh - 68px); }
+.kicker {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-family: var(--mono); font-size: 0.8rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--violet-soft);
+  padding: 7px 14px; border: 1px solid var(--line-strong); border-radius: 999px; background: rgba(139, 92, 246, 0.08);
+}
+.pulse { width: 8px; height: 8px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 0 0 rgba(244, 183, 40, 0.7); animation: pulse 1.8s infinite; }
+@keyframes pulse { 70% { box-shadow: 0 0 0 10px rgba(244, 183, 40, 0); } 100% { box-shadow: 0 0 0 0 rgba(244, 183, 40, 0); } }
+h1 { margin-top: 22px; font-family: var(--display); line-height: 0.86; }
+.h1-small { display: block; font-size: clamp(1.1rem, 2.3vw, 1.6rem); font-weight: 700; letter-spacing: 0.34em; text-transform: uppercase; color: var(--violet-soft); margin-bottom: 10px; }
+.h1-big {
+  display: block; font-size: clamp(3.5rem, 7.4vw, 6.75rem); font-weight: 800; letter-spacing: -0.02em;
+  background: linear-gradient(180deg, #ffffff 8%, #cdbcff 48%, #7c5cff 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  filter: drop-shadow(0 0 38px rgba(139, 92, 246, 0.45));
+}
+.lede { margin-top: 26px; font-size: clamp(1.3rem, 2.5vw, 1.8rem); line-height: 1.3; font-weight: 500; max-width: 24ch; }
+.gold { color: var(--gold); font-weight: 700; text-shadow: 0 0 26px rgba(244, 183, 40, 0.45); white-space: nowrap; }
+.cta { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 34px; }
+.ca-line { display: flex; align-items: center; gap: 10px; margin-top: 22px; font-family: var(--mono); font-size: 0.85rem; color: var(--muted); min-width: 0; }
+.ca-line b { color: var(--violet-soft); font-weight: 600; }
+.ca-line code { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+
+.art { position: relative; width: 100%; max-width: 540px; margin-inline: auto; aspect-ratio: 1; }
+.halo {
+  position: absolute; inset: -9%; border-radius: 50%;
+  background: conic-gradient(from 0deg, #8b5cf6, #3b2bd9, #f4b728 22%, #8b5cf6 40%, #1a0c40 60%, #5b4bff 80%, #8b5cf6);
+  filter: blur(34px); opacity: 0.55; animation: spin 14s linear infinite;
+}
+.halo-line { position: absolute; inset: -4%; border-radius: 50%; border: 2px solid rgba(185, 163, 255, 0.45); box-shadow: 0 0 30px rgba(139, 92, 246, 0.6), inset 0 0 30px rgba(139, 92, 246, 0.35); }
+.art img {
+  position: relative; width: 100%; height: 100%; object-fit: cover; border-radius: 32px;
+  border: 1px solid var(--line-strong);
+  box-shadow: 0 40px 90px -30px rgba(0, 0, 0, 0.9), 0 0 60px -10px rgba(139, 92, 246, 0.55);
+  animation: bob 6s ease-in-out infinite;
+}
+.tag {
+  position: absolute; z-index: 2; font-family: var(--mono); font-size: 0.78rem; font-weight: 600;
+  padding: 8px 12px; border-radius: 12px; background: var(--surface-strong); border: 1px solid var(--line-strong);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); white-space: nowrap;
+  box-shadow: 0 14px 30px -14px rgba(0, 0, 0, 0.8);
+}
+.tag-1 { top: 7%; left: -6%; animation: bob 5s ease-in-out -1s infinite; }
+.tag-2 { bottom: 9%; right: -5%; color: var(--gold); animation: bob 5.5s ease-in-out -3s infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes bob { 0%, 100% { translate: 0 0; } 50% { translate: 0 -12px; } }
+
+/* ---------- Marquee ---------- */
+.marquee { position: relative; z-index: 1; overflow: hidden; border-block: 1px solid var(--line); background: rgba(139, 92, 246, 0.09); padding: 16px 0; }
+.track { display: flex; width: max-content; animation: slide 36s linear infinite; }
+.track span { display: inline-flex; align-items: center; gap: 28px; padding-right: 28px; font-family: var(--display); font-weight: 700; font-size: 1.15rem; text-transform: uppercase; letter-spacing: 0.06em; white-space: nowrap; }
+.track i { font-style: normal; color: var(--violet); }
+.track em { font-style: normal; color: var(--gold); }
+@keyframes slide { to { transform: translateX(-50%); } }
+
+/* ---------- Sections ---------- */
+section.block { padding: 120px 0; }
+.eyebrow { font-family: var(--mono); font-size: 0.8rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--violet-soft); }
+h2 { margin-top: 12px; font-family: var(--display); font-weight: 800; font-size: clamp(2.4rem, 5.4vw, 4rem); line-height: 1; letter-spacing: -0.01em; }
+.sub { margin-top: 18px; color: var(--muted); font-size: 1.15rem; max-width: 56ch; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+
+/* Mission meter */
+.meter { margin-top: 48px; padding: 36px; }
+.meter-row { display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; flex-wrap: wrap; }
+.meter-row .right { text-align: right; }
+.label { display: block; font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+.big { display: block; font-family: var(--display); font-weight: 800; font-size: clamp(2.2rem, 6vw, 3.6rem); line-height: 1; font-variant-numeric: tabular-nums; }
+.chip { display: inline-block; margin-left: 10px; vertical-align: middle; font-family: var(--mono); font-size: 0.8rem; font-weight: 600; padding: 4px 9px; border-radius: 999px; background: rgba(255, 255, 255, 0.06); }
+.chip.up { color: #6ee7a8; background: rgba(110, 231, 168, 0.1); }
+.chip.down { color: #fb8a9a; background: rgba(251, 138, 154, 0.1); }
+.bar { position: relative; margin: 44px 0 22px; height: 18px; border-radius: 999px; background: rgba(255, 255, 255, 0.06); border: 1px solid var(--line); }
+.fill { position: absolute; inset: 0 auto 0 0; width: 0; border-radius: inherit; background: linear-gradient(90deg, var(--indigo), var(--violet) 55%, var(--gold)); box-shadow: 0 0 24px rgba(139, 92, 246, 0.7); transition: width 1.8s cubic-bezier(0.2, 0.8, 0.2, 1); }
+.marker { position: absolute; top: 50%; left: 0; width: 58px; transform: translate(-50%, -50%); transition: left 1.8s cubic-bezier(0.2, 0.8, 0.2, 1); filter: drop-shadow(0 0 12px rgba(139, 92, 246, 0.9)); }
+.meter-foot { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; font-family: var(--mono); font-size: 0.95rem; }
+.meter-foot strong { color: var(--gold); }
+.note { margin-top: 18px; font-size: 0.85rem; color: var(--muted); }
+
+/* Lore */
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 48px; }
+.lore { padding: 30px; transition: transform 0.25s, border-color 0.25s; }
+.lore:hover { transform: translateY(-4px); border-color: var(--line-strong); }
+.lore-icon { width: 58px; margin-bottom: 22px; filter: drop-shadow(0 0 10px rgba(139, 92, 246, 0.7)); }
+.lore h3, .step h3 { font-family: var(--display); font-weight: 700; font-size: 1.4rem; line-height: 1.15; }
+.lore p, .step p { margin-top: 10px; color: var(--muted); }
+
+/* Join */
+.steps { list-style: none; }
+.step { padding: 30px; }
+.step-num { display: block; font-family: var(--display); font-weight: 800; font-size: 3.2rem; line-height: 1; color: transparent; -webkit-text-stroke: 1.5px var(--violet); margin-bottom: 18px; }
+.ca-box { margin-top: 20px; padding: 26px 30px; display: grid; grid-template-columns: 1fr auto; gap: 18px 24px; align-items: center; }
+.ca-box code { display: block; font-family: var(--mono); font-size: 1rem; word-break: break-all; margin-top: 4px; }
+.socials { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 12px; padding-top: 18px; border-top: 1px solid var(--line); }
+.socials .soon { opacity: 0.55; pointer-events: none; }
+.socials .soon::after { content: "soon"; font-family: var(--mono); font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--gold); margin-left: 4px; }
+
+/* Final call */
+.final { text-align: center; padding: 40px 0 130px; }
+.final img { width: 132px; height: 132px; border-radius: 50%; margin: 0 auto 28px; border: 1px solid var(--line-strong); box-shadow: 0 0 60px rgba(139, 92, 246, 0.6); }
+.final h2 { max-width: 16ch; margin-inline: auto; }
+.final .cta { justify-content: center; }
+
+/* Footer */
+footer { border-top: 1px solid var(--line); padding: 36px 0 48px; color: var(--muted); font-size: 0.88rem; }
+footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px 40px; }
+footer p { max-width: 70ch; }
+footer strong { color: var(--text); font-family: var(--display); }
+
+/* Toast */
+.toast {
+  position: fixed; left: 50%; bottom: 28px; z-index: 50; transform: translate(-50%, 24px); opacity: 0;
+  padding: 12px 20px; border-radius: 999px; background: var(--surface-strong); border: 1px solid var(--line-strong);
+  font-weight: 600; font-size: 0.95rem; pointer-events: none; transition: opacity 0.25s, transform 0.25s;
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); max-width: calc(100vw - 32px); text-align: center;
+}
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+/* Reveal on scroll (only when JS is running) */
+.js .reveal { opacity: 0; transform: translateY(26px); transition: opacity 0.8s ease, transform 0.8s ease; }
+.js .reveal.in { opacity: 1; transform: none; }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 960px) {
+  .hero { grid-template-columns: minmax(0, 1fr); gap: 40px; padding: 40px 0 72px; min-height: 0; text-align: center; }
+  .art { order: -1; max-width: 400px; }
+  .lede { margin-inline: auto; }
+  .h1-big { font-size: min(calc((100vw - 40px) / 5.2), 9rem); }
+  .cta, .ca-line { justify-content: center; }
+  .grid-3 { grid-template-columns: 1fr; }
+  .nav-links { display: none; }
+  section.block { padding: 84px 0; }
+}
+@media (max-width: 600px) {
+  .wrap { padding: 0 16px; }
+  body { font-size: 16px; }
+  .art { max-width: 300px; }
+  .tag-1 { left: -4%; }
+  .tag-2 { right: -4%; }
+  .meter { padding: 24px 20px; }
+  .meter-row .right { text-align: left; }
+  .ca-box { grid-template-columns: 1fr; padding: 22px 20px; }
+  .ca-box .btn { width: 100%; }
+  .cta .btn { flex: 1 1 100%; }
+  .final .cta .btn { flex: 0 1 auto; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  html { scroll-behavior: auto; }
+  .js .reveal { opacity: 1; transform: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- Shared eye paint (gradients + almond clip) used by every eye on the page -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <radialGradient id="sclera" cx="50%" cy="45%" r="60%">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="0.7" stop-color="#ece6ff"/>
+      <stop offset="1" stop-color="#b9a9ee"/>
+    </radialGradient>
+    <radialGradient id="irisGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#140a4d"/>
+      <stop offset="0.5" stop-color="#3a24e0"/>
+      <stop offset="0.82" stop-color="#7a63ff"/>
+      <stop offset="1" stop-color="#2a168f"/>
+    </radialGradient>
+    <clipPath id="almond"><path d="M3 30 Q50 -8 97 30 Q50 68 3 30Z"/></clipPath>
+  </defs>
+</svg>
+
+<div class="sky" id="sky" aria-hidden="true"></div>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="logo" href="#top"><img src="/brog.jpg" alt="" width="36" height="36"><span data-ticker>$BROG</span></a>
+    <nav class="nav-links" aria-label="Sections">
+      <a href="#mission">Mission</a>
+      <a href="#lore">Lore</a>
+      <a href="#join">Join</a>
+    </nav>
+    <a class="btn btn-primary btn-sm" data-buy href="#join">Buy <span data-ticker>$BROG</span></a>
+  </div>
+</header>
+
+<main id="top">
+  <div class="wrap">
+    <section class="hero">
+      <div class="hero-copy">
+        <span class="kicker"><span class="pulse"></span>All eyes on ZEC</span>
+        <h1><span class="h1-small">A cat called</span><span class="h1-big">BROG</span></h1>
+        <p class="lede">Brog is ready to send <strong>Zcash</strong> to <span class="gold">$10,000</span>.</p>
+        <div class="cta">
+          <a class="btn btn-primary" data-buy href="#join">Buy <span data-ticker>$BROG</span></a>
+          <button class="btn btn-ghost" type="button" data-copy>Copy contract</button>
+        </div>
+        <p class="ca-line"><b>CA</b><code data-ca>Dropping soon</code></p>
+      </div>
+
+      <div class="art">
+        <div class="halo" aria-hidden="true"></div>
+        <div class="halo-line" aria-hidden="true"></div>
+        <img src="/brog.jpg" alt="Brog: a black cat covered in glowing violet eyes, sitting inside a purple halo" width="1536" height="1536" fetchpriority="high">
+        <span class="tag tag-1" aria-hidden="true">eyes open: all of them</span>
+        <span class="tag tag-2" aria-hidden="true">ZEC → $10,000</span>
+      </div>
+    </section>
+  </div>
+
+  <div class="marquee" aria-hidden="true">
+    <div class="track">
+      <span>$BROG <i>◉</i> Brog sees all <i>◉</i> ZEC → <em>$10,000</em> <i>◉</i> Many eyes, one mission <i>◉</i> Shielded &amp; unbothered <i>◉</i> Never blinks at $9,999 <i>◉</i></span>
+      <span>$BROG <i>◉</i> Brog sees all <i>◉</i> ZEC → <em>$10,000</em> <i>◉</i> Many eyes, one mission <i>◉</i> Shielded &amp; unbothered <i>◉</i> Never blinks at $9,999 <i>◉</i></span>
+    </div>
+  </div>
+
+  <section class="block" id="mission">
+    <div class="wrap">
+      <div class="reveal">
+        <span class="eyebrow">01 / The mission</span>
+        <h2>Zcash to <span class="gold">$10,000</span>.</h2>
+        <p class="sub">Brog studied the Zcash chart with every single eye. The vote was unanimous. Here is how far there is left to go, live.</p>
+      </div>
+
+      <div class="meter card reveal">
+        <div class="meter-row">
+          <div>
+            <span class="label">ZEC right now</span>
+            <span class="big"><span data-price>$—</span><span class="chip" data-change hidden></span></span>
+          </div>
+          <div class="right">
+            <span class="label">Brog's target</span>
+            <span class="big gold">$10,000</span>
+          </div>
+        </div>
+        <div class="bar" role="progressbar" aria-label="ZEC progress toward $10,000" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-bar>
+          <div class="fill" data-fill></div>
+          <svg class="marker" data-marker viewBox="0 0 100 60" aria-hidden="true">
+            <path d="M3 30 Q50 -8 97 30 Q50 68 3 30Z" fill="url(#sclera)"/>
+            <g clip-path="url(#almond)"><g transform="translate(13 0)"><circle cx="50" cy="30" r="18" fill="url(#irisGrad)"/><circle cx="50" cy="30" r="8.5" fill="#05030a"/><circle cx="56" cy="24" r="3.4" fill="#fff"/></g></g>
+          </svg>
+        </div>
+        <div class="meter-foot">
+          <span data-pct>Loading the chart…</span>
+          <span data-mult></span>
+        </div>
+        <p class="note" data-note>Live ZEC/USD from CoinGecko, refreshed every minute.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="lore">
+    <div class="wrap">
+      <div class="reveal">
+        <span class="eyebrow">02 / The lore</span>
+        <h2>Who is Brog?</h2>
+        <p class="sub">A cat. A black cat. A black cat with more eyes than anyone is comfortable with, and every one of them is on ZEC.</p>
+      </div>
+      <div class="grid-3">
+        <article class="lore card reveal">
+          <svg class="lore-icon" viewBox="0 0 100 60" aria-hidden="true"><path d="M3 30 Q50 -8 97 30 Q50 68 3 30Z" fill="url(#sclera)"/><g clip-path="url(#almond)"><circle cx="50" cy="30" r="18" fill="url(#irisGrad)"/><circle cx="50" cy="30" r="8.5" fill="#05030a"/><circle cx="56" cy="24" r="3.4" fill="#fff"/></g></svg>
+          <h3>Brog sees everything</h3>
+          <p>Every candle, every wick, every paper hand at 3am. You can't hide a sell from a cat with this many eyes.</p>
+        </article>
+        <article class="lore card reveal">
+          <svg class="lore-icon" viewBox="0 0 100 60" aria-hidden="true"><path d="M3 30 Q50 -8 97 30 Q50 68 3 30Z" fill="url(#sclera)"/><g clip-path="url(#almond)"><g transform="translate(-12 4)"><circle cx="50" cy="30" r="18" fill="url(#irisGrad)"/><circle cx="50" cy="30" r="8.5" fill="#05030a"/><circle cx="56" cy="24" r="3.4" fill="#fff"/></g></g></svg>
+          <h3>Private by nature</h3>
+          <p>Cats never explain themselves. Neither do shielded transactions. Brog respects the privacy and guards it.</p>
+        </article>
+        <article class="lore card reveal">
+          <svg class="lore-icon" viewBox="0 0 100 60" aria-hidden="true"><path d="M3 30 Q50 -8 97 30 Q50 68 3 30Z" fill="url(#sclera)"/><g clip-path="url(#almond)"><g transform="translate(12 -4)"><circle cx="50" cy="30" r="18" fill="url(#irisGrad)"/><circle cx="50" cy="30" r="8.5" fill="#05030a"/><circle cx="56" cy="24" r="3.4" fill="#fff"/></g></g></svg>
+          <h3>One number</h3>
+          <p>Not $1,000. Not $5,000. Brog only blinks at <span class="gold">$10,000</span>, and Brog is very patient.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="join">
+    <div class="wrap">
+      <div class="reveal">
+        <span class="eyebrow">03 / Join the watch</span>
+        <h2>How to get <span data-ticker>$BROG</span></h2>
+      </div>
+      <ol class="steps grid-3">
+        <li class="step card reveal">
+          <span class="step-num">01</span>
+          <h3>Get a wallet</h3>
+          <p>Set up a wallet on the chain <span data-ticker>$BROG</span> lives on, and fund it.</p>
+        </li>
+        <li class="step card reveal">
+          <span class="step-num">02</span>
+          <h3>Copy the real CA</h3>
+          <p>Only trust the contract address posted here and on Brog's official socials. Brog sees the fakes too.</p>
+        </li>
+        <li class="step card reveal">
+          <span class="step-num">03</span>
+          <h3>Keep your eyes open</h3>
+          <p>Swap for <span data-ticker>$BROG</span>, then watch. Brog is already watching.</p>
+        </li>
+      </ol>
+
+      <div class="ca-box card reveal">
+        <div>
+          <span class="label">Contract address</span>
+          <code data-ca>Dropping soon</code>
+        </div>
+        <button class="btn btn-primary" type="button" data-copy>Copy contract</button>
+        <div class="socials">
+          <a class="btn btn-ghost btn-sm" data-social="x" href="#">X / Twitter</a>
+          <a class="btn btn-ghost btn-sm" data-social="telegram" href="#">Telegram</a>
+          <a class="btn btn-ghost btn-sm" data-social="chart" href="#">Chart</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="final">
+    <div class="wrap reveal">
+      <img src="/brog.jpg" alt="" width="132" height="132" loading="lazy">
+      <h2>Brog is ready. <span class="gold">Are you?</span></h2>
+      <div class="cta">
+        <a class="btn btn-primary" data-buy href="#join">Buy <span data-ticker>$BROG</span></a>
+        <a class="btn btn-ghost" href="#mission">Check the mission</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <strong>A Cat Called Brog</strong>
+    <p><span data-ticker>$BROG</span> is a memecoin made for fun and community. It has no intrinsic value and no expectation of financial return. Brog's $10,000 ZEC target is a meme, not a prediction. Nothing on this site is financial advice. Brog is a cat.</p>
+  </div>
+</footer>
+
+<div class="toast" role="status" aria-live="polite" data-toast></div>
+
+<script>
+/* ============================================================
+   EDIT ME: paste your links here and the whole site updates.
+   Leave a field empty ("") to show it as "soon".
+   ============================================================ */
+const CONFIG = {
+  ticker: "$BROG",
+  contractAddress: "",
+  buyLink: "",      // DEX / swap URL
+  x: "",            // https://x.com/...
+  telegram: "",     // https://t.me/...
+  chart: "",        // DexScreener / chart URL
+  target: 10000
+};
+
+(() => {
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ---------- Config wiring ---------- */
+  $$("[data-ticker]").forEach(el => (el.textContent = CONFIG.ticker));
+  if (CONFIG.contractAddress) $$("[data-ca]").forEach(el => (el.textContent = CONFIG.contractAddress));
+  if (CONFIG.buyLink) $$("[data-buy]").forEach(a => { a.href = CONFIG.buyLink; a.target = "_blank"; a.rel = "noopener"; });
+  $$("[data-social]").forEach(a => {
+    const url = CONFIG[a.dataset.social];
+    if (url) { a.href = url; a.target = "_blank"; a.rel = "noopener"; }
+    else { a.classList.add("soon"); a.removeAttribute("href"); a.setAttribute("aria-disabled", "true"); }
+  });
+
+  /* ---------- Toast + copy ---------- */
+  const toast = $("[data-toast]");
+  let toastTimer;
+  const say = msg => {
+    toast.textContent = msg;
+    toast.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove("show"), 2400);
+  };
+  $$("[data-copy]").forEach(btn => btn.addEventListener("click", async () => {
+    if (!CONFIG.contractAddress) return say("The CA drops soon. Keep your eyes open.");
+    try { await navigator.clipboard.writeText(CONFIG.contractAddress); say("Contract copied. Brog saw that."); }
+    catch { say(CONFIG.contractAddress); }
+  }));
+
+  /* ---------- Watching eyes ---------- */
+  const sky = $("#sky");
+  const EYE = '<svg viewBox="0 0 100 60"><path d="M3 30 Q50 -8 97 30 Q50 68 3 30Z" fill="url(#sclera)"/><g clip-path="url(#almond)"><g class="iris"><circle cx="50" cy="30" r="18" fill="url(#irisGrad)"/><circle cx="50" cy="30" r="8.5" fill="#05030a"/><circle cx="56" cy="24" r="3.4" fill="#fff"/></g></g></svg>';
+  let eyes = [];
+
+  function spawnEyes() {
+    sky.textContent = "";
+    const w = innerWidth, h = innerHeight;
+    const n = Math.max(7, Math.min(18, Math.round((w * h) / 75000)));
+    const cols = Math.max(2, Math.round(Math.sqrt(n * (w / h))));
+    const rows = Math.ceil(n / cols);
+    eyes = [];
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        if (eyes.length >= n) break;
+        const size = 26 + Math.random() * 64;
+        const rot = Math.random() * 40 - 20;
+        const x = ((c + 0.5 + (Math.random() - 0.5) * 0.7) / cols) * 100;
+        const y = ((r + 0.5 + (Math.random() - 0.5) * 0.7) / rows) * 100;
+        const el = document.createElement("div");
+        el.className = "eye";
+        el.style.cssText =
+          `left:${x}%;top:${y}%;width:${size}px;--rot:${rot}deg;` +
+          `--o:${(0.22 + (size / 90) * 0.4).toFixed(2)};--blur:${size < 42 ? 1.2 : 0}px;` +
+          `--float:${(5 + Math.random() * 5).toFixed(1)}s;--delay:${(-Math.random() * 8).toFixed(1)}s;` +
+          `--blink:${(4 + Math.random() * 7).toFixed(1)}s;--blink-delay:${(-Math.random() * 9).toFixed(1)}s`;
+        const inner = document.createElement("div");
+        inner.className = "eye-float";
+        inner.innerHTML = EYE;
+        el.appendChild(inner);
+        sky.appendChild(el);
+        eyes.push({ el, iris: $(".iris", el), rad: (-rot * Math.PI) / 180 });
+      }
+    }
+  }
+
+  let look = null, frame = 0, lastPointer = 0;
+  function aim() {
+    frame = 0;
+    if (!look) return;
+    for (const e of eyes) {
+      const b = e.el.getBoundingClientRect();
+      const dx = look.x - (b.left + b.width / 2);
+      const dy = look.y - (b.top + b.height / 2);
+      const dist = Math.hypot(dx, dy) || 1;
+      const k = Math.min(1, dist / 260);
+      // rotate into the eye's own frame so tilted eyes still look the right way
+      const ux = (dx / dist) * Math.cos(e.rad) - (dy / dist) * Math.sin(e.rad);
+      const uy = (dx / dist) * Math.sin(e.rad) + (dy / dist) * Math.cos(e.rad);
+      e.iris.style.transform = `translate(${(ux * 17 * k).toFixed(2)}px, ${(uy * 8 * k).toFixed(2)}px)`;
+    }
+  }
+  const lookAt = (x, y) => { look = { x, y }; if (!frame) frame = requestAnimationFrame(aim); };
+
+  spawnEyes();
+  addEventListener("pointermove", e => { lastPointer = performance.now(); lookAt(e.clientX, e.clientY); }, { passive: true });
+  let resizeTimer;
+  addEventListener("resize", () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(spawnEyes, 250); });
+  if (!reduceMotion) {
+    // No mouse (phones) or idle pointer: the eyes glance around on their own.
+    setInterval(() => {
+      if (performance.now() - lastPointer > 3000) lookAt(Math.random() * innerWidth, Math.random() * innerHeight);
+    }, 2200);
+  }
+
+  /* ---------- Reveal on scroll ---------- */
+  if ("IntersectionObserver" in window && !reduceMotion) {
+    const io = new IntersectionObserver(entries => entries.forEach(en => {
+      if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); }
+    }), { threshold: 0.15 });
+    $$(".reveal").forEach(el => io.observe(el));
+  } else {
+    $$(".reveal").forEach(el => el.classList.add("in"));
+  }
+
+  /* ---------- Live ZEC meter ---------- */
+  const usd = n => n.toLocaleString("en-US", { style: "currency", currency: "USD", maximumFractionDigits: n >= 100 ? 0 : 2 });
+  const priceEl = $("[data-price]"), changeEl = $("[data-change]");
+  let shown = 0, fetched = false;
+
+  function tween(to) {
+    const from = shown, start = performance.now(), dur = reduceMotion ? 0 : 1200;
+    const step = t => {
+      const p = dur ? Math.min(1, (t - start) / dur) : 1;
+      const v = from + (to - from) * (1 - Math.pow(1 - p, 3));
+      priceEl.textContent = usd(v);
+      if (p < 1) requestAnimationFrame(step); else shown = to;
+    };
+    requestAnimationFrame(step);
+  }
+
+  async function loadPrice() {
+    try {
+      // Our server caches CoinGecko for everyone; fall back to CoinGecko directly if it's unreachable.
+      let r = await fetch("/api/zec", { cache: "no-store" }).catch(() => null);
+      if (!r || !r.ok) r = await fetch("https://api.coingecko.com/api/v3/simple/price?ids=zcash&vs_currencies=usd&include_24hr_change=true", { cache: "no-store" });
+      if (!r.ok) throw new Error(r.status);
+      const d = (await r.json()).zcash;
+      if (!d || typeof d.usd !== "number") throw new Error("no price");
+      const price = d.usd, ch = d.usd_24h_change;
+      fetched = true;
+      tween(price);
+
+      if (typeof ch === "number") {
+        changeEl.hidden = false;
+        changeEl.className = "chip " + (ch >= 0 ? "up" : "down");
+        changeEl.textContent = `${ch >= 0 ? "▲" : "▼"} ${Math.abs(ch).toFixed(1)}% 24h`;
+      }
+
+      const pct = Math.min(100, (price / CONFIG.target) * 100);
+      const shownPct = Math.max(pct, 2);
+      $("[data-fill]").style.width = shownPct + "%";
+      $("[data-marker]").style.left = shownPct + "%";
+      $("[data-bar]").setAttribute("aria-valuenow", pct.toFixed(1));
+      if (price >= CONFIG.target) {
+        $("[data-pct]").innerHTML = "<strong>Target hit.</strong> Brog finally blinked.";
+        $("[data-mult]").textContent = "";
+      } else {
+        $("[data-pct]").innerHTML = `<strong>${pct < 10 ? pct.toFixed(1) : pct.toFixed(0)}%</strong> of the way there`;
+        $("[data-mult]").innerHTML = `<strong>${(CONFIG.target / price).toFixed(1)}×</strong> to go`;
+      }
+      $("[data-note]").textContent = `Live ZEC/USD from CoinGecko, last checked ${new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}.`;
+    } catch {
+      if (!fetched) {
+        $("[data-pct]").textContent = "Price feed is napping.";
+        $("[data-note]").textContent = "Couldn't reach CoinGecko just now. Brog is still watching and will try again in a minute.";
+      }
+    }
+  }
+  loadPrice();
+  setInterval(loadPrice, 60000);
+})();
+</script>
+</body>
+</html>
