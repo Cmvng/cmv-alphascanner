@@ -8,6 +8,12 @@
     },
     "api/xproject.ts": {
       "maxDuration": 30
+    },
+    "api/football.ts": {
+      "maxDuration": 30
+    },
+    "api/football-preview.ts": {
+      "maxDuration": 60
     }
   },
   "rewrites": [

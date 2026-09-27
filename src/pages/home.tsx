@@ -2081,7 +2081,7 @@ export default function Home() {
           <span className="nav-title">CMV <span>Alpha</span></span>
         </a>
         <div className="nav-links">
-          {[{href:'/',label:'Home'},{href:'/tierlist',label:'Tiers'},{href:'/feed',label:'Feed'}].map(({href,label}) => (
+          {[{href:'/',label:'Home'},{href:'/tierlist',label:'Tiers'},{href:'/feed',label:'Feed'},{href:'/football',label:'Football'}].map(({href,label}) => (
             <a key={label} href={href} className="nav-link">{label}</a>
           ))}
           <div className="nav-sep" />

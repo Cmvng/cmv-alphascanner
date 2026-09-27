@@ -1,0 +1,261 @@
+{
+  "generatedAt": "2026-09-27T19:04:01.578Z",
+  "seasons": [
+    "2025-26",
+    "2024-25"
+  ],
+  "options": {
+    "xi": 0.002,
+    "xgWeight": 0.5,
+    "priorWeight": 6,
+    "newTeamAttack": 0.8,
+    "newTeamDefence": 1.2,
+    "relegatedAttack": 1.35,
+    "relegatedDefence": 0.75,
+    "maxIter": 300
+  },
+  "naiveLogLoss": 1.0749694403657046,
+  "overall": {
+    "matches": 5832,
+    "model": {
+      "accuracy": 0.5123456790123457,
+      "logLoss": 0.9955626997264325,
+      "brier": 0.5943798757450716,
+      "over25Accuracy": 0.5679012345679012,
+      "over25LogLoss": 0.6816819893376128
+    },
+    "market": {
+      "matches": 5832,
+      "accuracy": 0.5315500685871056,
+      "logLoss": 0.9747282336781667,
+      "brier": 0.5807629691756504,
+      "over25Accuracy": 0.5841906721536351,
+      "over25LogLoss": 0.6710377528105423,
+      "modelLogLossSameMatches": 0.9955626997264325
+    },
+    "valueBets": {
+      "bets": 4309,
+      "profit": -775.0099999999999,
+      "roi": -0.17985843583197955,
+      "edgeThreshold": 0.05
+    }
+  },
+  "leagues": [
+    {
+      "code": "E0",
+      "name": "Premier League",
+      "matches": 760,
+      "model": {
+        "accuracy": 0.5013157894736842,
+        "logLoss": 1.0072873146724004,
+        "brier": 0.6032780977517873,
+        "over25Accuracy": 0.5815789473684211,
+        "over25LogLoss": 0.6872118945662102
+      },
+      "market": {
+        "matches": 760,
+        "accuracy": 0.525,
+        "logLoss": 0.98925014307562,
+        "brier": 0.5914623829020665,
+        "over25Accuracy": 0.5671052631578948,
+        "over25LogLoss": 0.6805881395394459,
+        "modelLogLossSameMatches": 1.0072873146724004
+      },
+      "valueBets": {
+        "bets": 668,
+        "profit": -56.30000000000004,
+        "roi": -0.08428143712574857,
+        "edgeThreshold": 0.05
+      }
+    },
+    {
+      "code": "E1",
+      "name": "Championship",
+      "matches": 1104,
+      "model": {
+        "accuracy": 0.45742753623188404,
+        "logLoss": 1.0463493117622178,
+        "brier": 0.6313470311418365,
+        "over25Accuracy": 0.5480072463768116,
+        "over25LogLoss": 0.6921860617502292
+      },
+      "market": {
+        "matches": 1104,
+        "accuracy": 0.4746376811594203,
+        "logLoss": 1.0344978958658708,
+        "brier": 0.6230322617116442,
+        "over25Accuracy": 0.5552536231884058,
+        "over25LogLoss": 0.6856292780249387,
+        "modelLogLossSameMatches": 1.0463493117622178
+      },
+      "valueBets": {
+        "bets": 740,
+        "profit": -104.28000000000004,
+        "roi": -0.14091891891891897,
+        "edgeThreshold": 0.05
+      }
+    },
+    {
+      "code": "SP1",
+      "name": "La Liga",
+      "matches": 760,
+      "model": {
+        "accuracy": 0.525,
+        "logLoss": 0.9782402689672193,
+        "brier": 0.5806274243147482,
+        "over25Accuracy": 0.5657894736842105,
+        "over25LogLoss": 0.6800313696790261
+      },
+      "market": {
+        "matches": 760,
+        "accuracy": 0.55,
+        "logLoss": 0.9556079819188281,
+        "brier": 0.5655483427358695,
+        "over25Accuracy": 0.5960526315789474,
+        "over25LogLoss": 0.6659341387351424,
+        "modelLogLossSameMatches": 0.9782402689672193
+      },
+      "valueBets": {
+        "bets": 500,
+        "profit": -110.93000000000002,
+        "roi": -0.22186000000000003,
+        "edgeThreshold": 0.05
+      }
+    },
+    {
+      "code": "D1",
+      "name": "Bundesliga",
+      "matches": 612,
+      "model": {
+        "accuracy": 0.5228758169934641,
+        "logLoss": 0.9981436150753765,
+        "brier": 0.5940220114791694,
+        "over25Accuracy": 0.6176470588235294,
+        "over25LogLoss": 0.651297488679363
+      },
+      "market": {
+        "matches": 612,
+        "accuracy": 0.5473856209150327,
+        "logLoss": 0.9690134589741322,
+        "brier": 0.57563676170055,
+        "over25Accuracy": 0.6274509803921569,
+        "over25LogLoss": 0.6375913962823584,
+        "modelLogLossSameMatches": 0.9981436150753765
+      },
+      "valueBets": {
+        "bets": 446,
+        "profit": -121.17000000000004,
+        "roi": -0.2716816143497759,
+        "edgeThreshold": 0.05
+      }
+    },
+    {
+      "code": "I1",
+      "name": "Serie A",
+      "matches": 760,
+      "model": {
+        "accuracy": 0.525,
+        "logLoss": 0.9858338114055417,
+        "brier": 0.5887354682417542,
+        "over25Accuracy": 0.5263157894736842,
+        "over25LogLoss": 0.6992786956474792
+      },
+      "market": {
+        "matches": 760,
+        "accuracy": 0.5407894736842105,
+        "logLoss": 0.965382629663922,
+        "brier": 0.5751399611075237,
+        "over25Accuracy": 0.5671052631578948,
+        "over25LogLoss": 0.6881877800453392,
+        "modelLogLossSameMatches": 0.9858338114055417
+      },
+      "valueBets": {
+        "bets": 613,
+        "profit": -93.41000000000001,
+        "roi": -0.15238172920065254,
+        "edgeThreshold": 0.05
+      }
+    },
+    {
+      "code": "F1",
+      "name": "Ligue 1",
+      "matches": 612,
+      "model": {
+        "accuracy": 0.5408496732026143,
+        "logLoss": 0.9913001420249524,
+        "brier": 0.591026954445438,
+        "over25Accuracy": 0.5588235294117647,
+        "over25LogLoss": 0.683996780979707
+      },
+      "market": {
+        "matches": 612,
+        "accuracy": 0.5441176470588235,
+        "logLoss": 0.9655391201377777,
+        "brier": 0.5733678377999992,
+        "over25Accuracy": 0.5996732026143791,
+        "over25LogLoss": 0.6669543903579742,
+        "modelLogLossSameMatches": 0.9913001420249524
+      },
+      "valueBets": {
+        "bets": 513,
+        "profit": -88.93999999999996,
+        "roi": -0.17337231968810907,
+        "edgeThreshold": 0.05
+      }
+    },
+    {
+      "code": "N1",
+      "name": "Eredivisie",
+      "matches": 612,
+      "model": {
+        "accuracy": 0.5228758169934641,
+        "logLoss": 0.978836220265729,
+        "brier": 0.5822422732572147,
+        "over25Accuracy": 0.5833333333333334,
+        "over25LogLoss": 0.6716176742365204
+      },
+      "market": {
+        "matches": 612,
+        "accuracy": 0.5424836601307189,
+        "logLoss": 0.9586665608719969,
+        "brier": 0.5692645530965896,
+        "over25Accuracy": 0.5898692810457516,
+        "over25LogLoss": 0.6624928111737692,
+        "modelLogLossSameMatches": 0.978836220265729
+      },
+      "valueBets": {
+        "bets": 402,
+        "profit": -75.18000000000002,
+        "roi": -0.18701492537313438,
+        "edgeThreshold": 0.05
+      }
+    },
+    {
+      "code": "P1",
+      "name": "Primeira Liga",
+      "matches": 612,
+      "model": {
+        "accuracy": 0.5441176470588235,
+        "logLoss": 0.9413889186874802,
+        "brier": 0.5565799378285888,
+        "over25Accuracy": 0.5849673202614379,
+        "over25LogLoss": 0.6741979582714667
+      },
+      "market": {
+        "matches": 612,
+        "accuracy": 0.5686274509803921,
+        "logLoss": 0.9151900237984136,
+        "brier": 0.5411221829849314,
+        "over25Accuracy": 0.5996732026143791,
+        "over25LogLoss": 0.6639708909577933,
+        "modelLogLossSameMatches": 0.9413889186874802
+      },
+      "valueBets": {
+        "bets": 427,
+        "profit": -124.80000000000005,
+        "roi": -0.29227166276346617,
+        "edgeThreshold": 0.05
+      }
+    }
+  ]
+}
