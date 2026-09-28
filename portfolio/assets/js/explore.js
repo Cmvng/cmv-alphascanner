@@ -768,10 +768,10 @@ function buildLife() {
 /* ---------- 06 CV & contact ---------- */
 function buildCV() {
   const ps = pose("B", 0, 2.35);
-  const { g, hit, fw, fh } = framed(tex(A("assets/cv-preview.webp")), 2.3, 2.3 * (1274 / 900), { border: 0.05, matW: 0.0, depth: 0.05 });
+  const { g, hit, fw, fh } = framed(tex(A("assets/cv-preview.webp?v=3")), 2.3, 2.3 * (1274 / 900), { border: 0.05, matW: 0.0, depth: 0.05 });
   place(g, ps);
   register({ id: "cv", kind: "cv", label: "My CV", sub: "Two pages · PDF & Word", center: ps.p.clone().addScaledVector(ps.n, 0.05), normal: ps.n.clone(), w: fw, h: fh, obj: g,
-    info: { kicker: "Curriculum vitae", title: "Everything here, on two pages.", body: "<p>Download the designed PDF, grab the Word version to edit, or read it online.</p>",
+    info: { kicker: "Curriculum vitae", title: "Everything here, on two pages.", body: "<p>Download the designed PDF, grab the Word version to edit, or read it online.</p><p>Email <a href=\"mailto:damorazi57@gmail.com\">damorazi57@gmail.com</a> · Phone <a href=\"tel:+2348076356288\">+234 807 635 6288</a> · Telegram <a href=\"https://t.me/Cmvceo\" target=\"_blank\" rel=\"noopener\">@Cmvceo</a></p>",
       actions: [{ label: "Download PDF", href: CV.pdf, download: true, primary: true }, { label: "Word (.docx)", href: CV.docx, download: true }, { label: "View online", href: CV.web, self: true }] } }, hit);
 
   const t = panel(3.9, 2.2, (c, W, H) => {
@@ -781,14 +781,16 @@ function buildCV() {
     font(c, 15 * u, 400, F.serif, "italic"); c.fillStyle = T.accent; c.fillText("something.", 1 * u, 43 * u);
     font(c, 3.8 * u, 500); c.fillStyle = T.ink2; wrap(c, "For art commissions, collaborations, sales and operations roles, or anything markets and product.", 2 * u, 51 * u, 94 * u, 5.4 * u);
   }, { ppm: 240 });
-  place(t, pose("B", -4.55, 2.9), 0.01);
+  place(t, pose("B", -4.55, 3.2), 0.01);
 
   const pills = [
-    { label: "Download CV (PDF)", href: CV.pdf, download: true, primary: true },
-    { label: "Word version (.docx)", href: CV.docx, download: true },
-    { label: "X  ·  @i_am_vickyd", href: "https://x.com/i_am_vickyd" },
-    { label: "Instagram  ·  @cmv.ng", href: "https://www.instagram.com/cmv.ng" },
-    { label: "Telegram  ·  t.me/cmv_ng", href: "https://t.me/cmv_ng" },
+    { label: "Email  ·  damorazi57@gmail.com", href: "mailto:damorazi57@gmail.com", self: true, primary: true, x: 4.55, y: 3.55 },
+    { label: "Phone  ·  +234 807 635 6288", href: "tel:+2348076356288", self: true, x: 4.55, y: 2.95 },
+    { label: "Telegram  ·  @Cmvceo", href: "https://t.me/Cmvceo", x: 4.55, y: 2.35 },
+    { label: "X  ·  @i_am_vickyd", href: "https://x.com/i_am_vickyd", x: 4.55, y: 1.75 },
+    { label: "Instagram  ·  @cmv.ng", href: "https://www.instagram.com/cmv.ng", x: 4.55, y: 1.15 },
+    { label: "Download CV (PDF)", href: CV.pdf, download: true, primary: true, x: -4.55, y: 1.75 },
+    { label: "Word version (.docx)", href: CV.docx, download: true, x: -4.55, y: 1.15 },
   ];
   pills.forEach((pl, i) => {
     const m = panel(2.8, 0.46, (c, W, H) => {
@@ -797,17 +799,10 @@ function buildCV() {
       font(c, H * 0.36, 700); c.fillStyle = pl.primary ? "#fff" : T.ink; c.fillText(pl.label, H * 0.5, H * 0.63);
       c.textAlign = "right"; c.fillStyle = pl.primary ? "#fff" : T.accent; c.fillText(pl.download ? "↓" : "↗", W - H * 0.5, H * 0.63);
     }, { ppm: 320 });
-    const pp = pose("B", 4.55, 3.55 - i * 0.6);
+    const pp = pose("B", pl.x, pl.y);
     place(m, pp, 0.01);
-    register({ id: "pill:" + i, kind: "link", label: pl.label, sub: pl.download ? "Download" : "Opens in a new tab", href: pl.href, download: pl.download, center: pp.p.clone(), normal: pp.n.clone(), w: 2.8, h: 0.46, obj: m }, [m]);
+    register({ id: "pill:" + i, kind: "link", label: pl.label, sub: pl.download ? "Download" : pl.self ? "Tap to contact" : "Opens in a new tab", href: pl.href, download: pl.download, self: pl.self, center: pp.p.clone(), normal: pp.n.clone(), w: 2.8, h: 0.46, obj: m }, [m]);
   });
-  const back = panel(2.4, 0.46, (c, W, H) => {
-    rr(c, 3, 3, W - 6, H - 6, H / 2); c.fillStyle = T.card; c.fill(); c.lineWidth = 3; c.strokeStyle = T.line; c.stroke();
-    font(c, H * 0.36, 700); c.fillStyle = T.ink; c.textAlign = "center"; c.fillText("↩  Back to the lobby", W / 2, H * 0.63);
-  }, { ppm: 320 });
-  const bp = pose("B", -5.3, 1.05);
-  place(back, bp, 0.01);
-  register({ id: "toLobby", kind: "room", label: "Back to the lobby", room: 0, center: bp.p.clone(), normal: bp.n.clone(), w: 2.4, h: 0.46, obj: back }, [back]);
 
   const side = [
     { side: "L", z: -66.2, k: "OpenSea", t: "CMVNG Collection", b: "17 works on Polygon and Ethereum, including Police Brutality 1, Desolation and Soulical Realm I.", href: "https://opensea.io/collection/cmv-156408845" },

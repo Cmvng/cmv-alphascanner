@@ -15,7 +15,7 @@
 <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
 <link rel="preload" href="../assets/fonts/f4.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="../assets/fonts/fonts.css">
-<link rel="stylesheet" href="../assets/css/explore.css">
+<link rel="stylesheet" href="../assets/css/explore.css?v=3">
 <script type="importmap">{ "imports": { "three": "../assets/vendor/three.module.min.js" } }</script>
 </head>
 <body>
@@ -28,10 +28,7 @@
   <div class="where glass" aria-live="polite"><span id="roomNum">01</span><b id="roomName">Lobby</b></div>
   <div class="tools">
     <button class="icon-btn glass" id="helpBtn" aria-label="How to move around">?</button>
-    <button class="icon-btn glass theme-btn" data-theme-btn aria-label="Switch to light mode">
-      <svg class="sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M4.6 4.6l1.6 1.6M17.8 17.8l1.6 1.6M2.5 12h2.2M19.3 12h2.2M4.6 19.4l1.6-1.6M17.8 6.2l1.6-1.6"/></svg>
-      <svg class="moon" viewBox="0 0 24 24"><path d="M20.5 14.6A8.6 8.6 0 0 1 9.4 3.5a8.6 8.6 0 1 0 11.1 11.1z"/></svg>
-    </button>
+    <button class="theme-switch glass" data-theme-btn role="switch" aria-checked="true" aria-label="Dark mode" title="Switch light / dark mode"><span class="knob"></span><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M4.6 4.6l1.6 1.6M17.8 17.8l1.6 1.6M2.5 12h2.2M19.3 12h2.2M4.6 19.4l1.6-1.6M17.8 6.2l1.6-1.6"/></svg><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.6A8.6 8.6 0 0 1 9.4 3.5a8.6 8.6 0 1 0 11.1 11.1z"/></svg></button>
   </div>
 </header>
 
@@ -77,7 +74,7 @@
 </div>
 
 <noscript><div class="gate"><div class="gate-card"><h1>Turn on JavaScript</h1><p>The 3D tour needs JavaScript. <a href="../">Open the classic portfolio</a>.</p></div></div></noscript>
-<script src="../assets/js/theme.js" defer></script>
-<script type="module" src="../assets/js/explore.js"></script>
+<script src="../assets/js/theme.js?v=3" defer></script>
+<script type="module" src="../assets/js/explore.js?v=3"></script>
 </body>
 </html>

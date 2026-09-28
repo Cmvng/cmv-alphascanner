@@ -9,13 +9,18 @@
     root.dataset.theme = t;
     if (meta) meta.content = t === "light" ? "#F5F3EE" : "#07080B";
     document.querySelectorAll("[data-theme-btn]").forEach(b => {
-      b.setAttribute("aria-label", t === "light" ? "Switch to dark mode" : "Switch to light mode");
-      b.setAttribute("aria-pressed", String(t === "light"));
+      if (b.getAttribute("role") === "switch") b.setAttribute("aria-checked", String(t === "dark"));
+      else {
+        b.setAttribute("aria-label", t === "light" ? "Switch to dark mode" : "Switch to light mode");
+        b.setAttribute("aria-pressed", String(t === "light"));
+      }
     });
+    document.querySelectorAll("[data-set-theme]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.setTheme === t)));
     dispatchEvent(new CustomEvent("themechange", { detail: t }));
   }
 
   function set(t, x = innerWidth / 2, y = 0) {
+    if (t === root.dataset.theme) return;
     try { localStorage.setItem("theme", t); } catch {}
     if (!document.startViewTransition || reduce) {
       root.classList.add("theme-fade");
@@ -23,7 +28,7 @@
       setTimeout(() => root.classList.remove("theme-fade"), 500);
       return;
     }
-    // circular wipe from the button
+    // circular wipe from the control that was pressed
     const r = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
     const vt = document.startViewTransition(() => paint(t));
     vt.ready.then(() => root.animate(
@@ -34,10 +39,11 @@
 
   paint(root.dataset.theme === "light" ? "light" : "dark");
   document.addEventListener("click", e => {
-    const b = e.target.closest("[data-theme-btn]");
+    const b = e.target.closest("[data-theme-btn], [data-set-theme]");
     if (!b) return;
     const r = b.getBoundingClientRect();
-    set(root.dataset.theme === "light" ? "dark" : "light", r.left + r.width / 2, r.top + r.height / 2);
+    const next = b.dataset.setTheme || (root.dataset.theme === "light" ? "dark" : "light");
+    set(next, r.left + r.width / 2, r.top + r.height / 2);
   });
   matchMedia("(prefers-color-scheme: light)").addEventListener("change", e => {
     if (!stored()) paint(e.matches ? "light" : "dark");

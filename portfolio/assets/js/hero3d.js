@@ -6,8 +6,8 @@ const hero = canvas.closest(".hero");
 const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 const THEMES = {
-  dark: { bg: 0x07080b, mat: 0xf2efe9, frame: 0x1b1f28, dust: 0x7cc4f8, dustOp: 0.55, ring: 0x4c84f0, ringOp: 0.18, hemi: [0x9fb8ff, 0x07080b, 1.1] },
-  light: { bg: 0xf5f3ee, mat: 0xffffff, frame: 0x1c1f26, dust: 0x2f63e0, dustOp: 0.32, ring: 0x2f63e0, ringOp: 0.2, hemi: [0xffffff, 0xd8d2c6, 1.6] },
+  dark: { fog: [9, 20], bg: 0x07080b, mat: 0xf2efe9, frame: 0x1b1f28, dust: 0x7cc4f8, dustOp: 0.55, ring: 0x4c84f0, ringOp: 0.18, hemi: [0x9fb8ff, 0x07080b, 1.1] },
+  light: { fog: [7.5, 16.5], bg: 0xf5f3ee, mat: 0xffffff, frame: 0x1c1f26, dust: 0x2f63e0, dustOp: 0.32, ring: 0x2f63e0, ringOp: 0.2, hemi: [0xffffff, 0xd8d2c6, 1.6] },
 };
 
 function supportsWebGL() {
@@ -83,7 +83,7 @@ async function start() {
   function applyTheme(name) {
     const t = THEMES[name] || THEMES.dark;
     renderer.setClearColor(t.bg, 1);
-    scene.fog.color.setHex(t.bg);
+    scene.fog.color.setHex(t.bg); scene.fog.near = t.fog[0]; scene.fog.far = t.fog[1];
     matMat.color.setHex(t.mat);
     frameMat.color.setHex(t.frame);
     dustMat.color.setHex(t.dust); dustMat.opacity = t.dustOp;
@@ -93,15 +93,18 @@ async function start() {
   applyTheme(document.documentElement.dataset.theme);
   addEventListener("themechange", e => { applyTheme(e.detail); tick(); });
 
-  let mobile = false;
+  let mobile = false, baseX = 0, baseY = 0;
   function resize() {
     const w = hero.clientWidth, h = hero.clientHeight;
     renderer.setSize(w, h, false);
     camera.aspect = w / h;
     camera.updateProjectionMatrix();
     mobile = w < 900;
-    helix.position.set(mobile ? 0 : 4.8, mobile ? -0.4 : 0, mobile ? -3.5 : -0.5);
-    helix.scale.setScalar(mobile ? 0.9 : 0.88);
+    // keep the spiral clear of the name on wide screens
+    baseX = mobile ? 0 : w >= 1200 ? 6.2 : 5.6;
+    baseY = mobile ? -0.7 : 0;
+    helix.position.set(baseX, baseY, mobile ? -3.5 : -0.5);
+    helix.scale.setScalar(mobile ? 0.9 : 0.84);
   }
   resize();
   addEventListener("resize", resize);
@@ -140,12 +143,12 @@ async function start() {
       spin += spinVel + dt * (reduce ? 0 : 0.16 + scroll * 0.5);
     }
     helix.rotation.y = spin;
-    helix.position.y = (mobile ? -0.4 : 0) + scroll * 3.2;
+    helix.position.y = baseY + scroll * 3.2;
     mouse.x += (mouse.tx - mouse.x) * 0.05;
     mouse.y += (mouse.ty - mouse.y) * 0.05;
     camera.position.x = mouse.x * 1.6;
     camera.position.y = -mouse.y * 1.1;
-    camera.lookAt(helix.position.x * 0.55, helix.position.y * 0.4, 0);
+    camera.lookAt(baseX * 0.36, helix.position.y * 0.4, 0);
     dust.rotation.y += dt * 0.02;
     dust.position.y = Math.sin(clock.elapsedTime * 0.2) * 0.3;
     frames.forEach((f, i) => { f.children[2].position.z = 0.046 + Math.sin(clock.elapsedTime * 1.2 + i) * 0.002; });

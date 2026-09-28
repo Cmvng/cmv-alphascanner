@@ -52,10 +52,13 @@ svg { fill: none; stroke: currentColor; stroke-width: 1.9; stroke-linecap: round
 .where b { font-family: var(--serif); font-weight: 400; font-size: 22px; line-height: 1; }
 .tools { display: flex; gap: 8px; }
 .icon-btn { position: relative; width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center; font-weight: 800; font-size: 16px; overflow: hidden; }
-.theme-btn svg { position: absolute; width: 20px; height: 20px; transition: transform .55s var(--ease), opacity .35s; }
-.theme-btn .moon { transform: translateY(26px) rotate(-60deg); opacity: 0; }
-:root[data-theme="light"] .theme-btn .sun { transform: translateY(-26px) rotate(90deg); opacity: 0; }
-:root[data-theme="light"] .theme-btn .moon { transform: none; opacity: 1; }
+.theme-switch { position: relative; display: inline-flex; align-items: center; justify-content: space-between; flex: none; width: 70px; height: 42px; padding: 0 11px; border-radius: 999px; border: 1px solid var(--line2); background: var(--glass2); cursor: pointer; transition: border-color .25s, background .25s; }
+.theme-switch:hover { border-color: var(--line3, var(--line2)); }
+.theme-switch .knob { position: absolute; left: 5px; top: 6px; width: 28px; height: 28px; border-radius: 50%; background: var(--accent); box-shadow: 0 4px 12px -4px rgba(0, 0, 0, .55); transform: translateX(30px); transition: transform .45s var(--ease); }
+:root[data-theme="light"] .theme-switch .knob { transform: none; }
+.theme-switch svg { position: relative; z-index: 1; width: 16px; height: 16px; fill: none; stroke: var(--muted); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; transition: stroke .3s; }
+:root[data-theme="light"] .theme-switch .sun, :root:not([data-theme="light"]) .theme-switch .moon { stroke: #fff; }
+.tools .theme-switch { border-color: var(--line2); }
 @media (max-width: 560px) { .pill span { display: none; } .pill { padding: 0 12px; } .where b { font-size: 19px; } }
 
 /* ---------- room track ---------- */
@@ -92,6 +95,7 @@ svg { fill: none; stroke: currentColor; stroke-width: 1.9; stroke-linecap: round
 .info .body ul { margin: 4px 0 0 18px; }
 .info .body li { margin: 5px 0; }
 .info .body li::marker { color: var(--accent); }
+.info .body a { color: var(--accent2); text-decoration: underline; text-underline-offset: 3px; font-weight: 600; }
 .info .actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
 .info .actions:empty { display: none; }
 .info .step { display: flex; align-items: center; justify-content: space-between; margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--line); color: var(--muted); font-size: 13px; font-weight: 700; }
