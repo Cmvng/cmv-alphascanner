@@ -1,0 +1,9 @@
+[
+  {
+    "bookmaker": "Bookie A",
+    "note": "1X2 odds from the Belgium vs France bookmaker screenshot on 28 Sep 2026, 19:31 WAT. dc (double chance) is optional.",
+    "home": "Belgium",
+    "away": "France",
+    "odds": { "H": 3.28, "D": 3.78, "A": 2.22 }
+  }
+]
