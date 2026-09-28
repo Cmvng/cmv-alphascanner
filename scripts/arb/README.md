@@ -8,6 +8,7 @@ npm run arb                                        # breakeven sheet for every u
 npm run arb -- --odds scripts/arb/odds.json        # check real bookmaker odds you typed in / exported
 npm run arb -- --sportybet                         # pull SportyBet live (run from a Nigerian / home connection)
 npm run arb -- --match "spain vs croatia" --within 24
+npm run arb -- --match "belgium vs france" --hedge A --at 2.22 --stake 100   # cost of being delta-neutral on a bookmaker bet
 ```
 
 Flags: `--match <text>` · `--within <hours>` · `--include-live` · `--no-fee` · `--fee-scale <0..1>` · `--min-margin <pct>` · `--json`

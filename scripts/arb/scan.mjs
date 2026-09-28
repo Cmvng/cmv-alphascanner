@@ -7,7 +7,7 @@
 //
 // flags: --match "belgium vs france"  --within 48 (hours)  --include-live  --no-fee  --fee-scale 0.5  --min-margin -3  --json
 import { readFileSync } from 'node:fs'
-import { listFootballMatches, fetchMatchBooks, pool } from './limitless.mjs'
+import { listFootballMatches, fetchMatchBooks, pool, noLevels, costToBuy } from './limitless.mjs'
 import { attachQuotes, targets, candidates, normTeam, OUTCOMES } from './arb.mjs'
 
 const argv = process.argv.slice(2)
@@ -48,6 +48,43 @@ const quotes = await loadQuotes()
 const quoteMap = attachQuotes(matches, quotes)
 const bookList = await pool(matches, 6, (m) => fetchMatchBooks(m))
 const mins = (m) => Math.round((m.kickoff - now) / 60000)
+
+// ---- hedge calculator: "I back <outcome> @odds at a bookmaker; what does it cost to be delta-neutral on Limitless?" ----
+//   node scripts/arb/scan.mjs --match "belgium vs france" --hedge A --at 2.22 --stake 100 [--include-live]
+if (opt('hedge')) {
+  if (matches.length !== 1) {
+    console.log(`--hedge needs --match to pick exactly one match (got ${matches.length}).`)
+    process.exit(1)
+  }
+  const [m] = matches
+  const books = bookList[0]
+  const o = opt('hedge').toUpperCase()
+  const odds = Number(opt('at'))
+  const stake = Number(opt('stake', 100))
+  if (!OUTCOMES.includes(o) || !(odds > 1)) {
+    console.log('usage: --hedge H|D|A --at <bookmaker odds> [--stake <USD-equivalent>]')
+    process.exit(1)
+  }
+  const name = { H: m.home, D: 'Draw', A: m.away }[o]
+  const payout = stake * odds // paid by the bookmaker if <name> wins
+  const no = noLevels(books[o])
+  const { cost: h, complete } = costToBuy(no, payout, feeScale) // NO shares pay $1 each if <name> does NOT win
+  const locked = payout - stake - h // identical whether or not <name> wins (payout NO shares = payout)
+  const needOdds = 1 / (1 - h / payout) // bookmaker odds at which locked = 0 at today's Limitless price (c = h/payout, odds = 1/(1-c))
+  const beNo = 1 - 1 / odds // max NO price (maker, fee-free) at which locked >= 0
+  const noBid = books[o].asks[0] ? 1 - books[o].asks[0].price : null // best resting NO bid = 1 - best YES ask
+  console.log(`${m.title} (${wat.format(m.kickoff)} WAT)  —  back ${name} @${odds}, stake $${stake} -> returns $${payout.toFixed(2)} if ${name} wins\n`)
+  console.log('DELTA-NEUTRAL NOW (Limitless market order, fee included)')
+  console.log(`  buy ${payout.toFixed(1)} ${name} NO for $${h.toFixed(2)} (avg ${((h / payout) * 100).toFixed(1)}¢)${complete ? '' : '  ** book too thin for this size **'}`)
+  console.log(`  outlay $${(stake + h).toFixed(2)} -> you get back $${payout.toFixed(2)} either way`)
+  console.log(`  locked result: ${locked >= 0 ? '+' : '-'}$${Math.abs(locked).toFixed(2)}  (${((locked / (stake + h)) * 100).toFixed(2)}% of outlay)\n`)
+  console.log('BREAK-EVEN WITHOUT FEES (resting limit order on Limitless = maker = no fee)')
+  console.log(`  rest a buy of ${name} NO at ${(beNo * 100).toFixed(1)}¢ or lower  (= selling ${name} YES at ${((1 - beNo) * 100).toFixed(1)}¢ or higher)`)
+  console.log(`  today's best NO bid is ${noBid == null ? '—' : (noBid * 100).toFixed(1) + '¢'}, taker price ${no[0] ? (no[0].price * 100).toFixed(1) + '¢' : '—'}`)
+  console.log(`  your order only fills if the market moves toward ${name} by ~${noBid == null ? '?' : Math.max(0, (noBid - beNo) * 100).toFixed(1)}¢, or the bookmaker odds rise\n`)
+  console.log(`BOOKMAKER SIDE: at today's Limitless price the hedge breaks even if the bookmaker offers ${name} at ${needOdds.toFixed(2)} or better (you have ${odds}).`)
+  process.exit(0)
+}
 
 if (flag('json')) {
   const rows = matches.map((m, i) => ({ match: m.title, kickoff: new Date(m.kickoff).toISOString(), targets: targets(bookList[i], feeScale), arbs: candidates(m, bookList[i], quoteMap.get(m.slug) || [], feeScale) }))
