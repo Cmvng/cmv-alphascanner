@@ -221,6 +221,7 @@ section.block { padding: 130px 0; position: relative; }
 .exp h4 { font-size: 21px; font-weight: 700; }
 .exp .when { font-size: 14px; font-weight: 700; color: var(--accent2); letter-spacing: .04em; }
 .exp .org { color: var(--muted); font-weight: 600; margin-top: 2px; }
+.exp .org a { color: var(--accent2); text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
 .exp ul { margin: 14px 0 0 18px; color: #c7cedb; font-size: 16px; }
 .exp li { margin: 6px 0; }
 .exp li::marker { color: var(--accent); }
