@@ -75,7 +75,11 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .nav.solid { background: rgb(var(--bg-rgb) / .72); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-color: var(--line); }
 .nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 70px; gap: 20px; }
 .brand { display: flex; align-items: center; gap: 12px; font-weight: 700; letter-spacing: .01em; }
-.brand .mk { width: 34px; height: 34px; border-radius: 10px; background: linear-gradient(145deg, var(--mk-a), var(--mk-b)); border: 1px solid var(--line2); display: grid; place-items: center; font-family: var(--serif); font-size: 22px; color: var(--accent2); }
+.brand .mk { width: 38px; height: 38px; border-radius: 11px; background: linear-gradient(145deg, var(--mk-a), var(--mk-b)); border: 1px solid var(--line2); display: grid; place-items: center; }
+.brand .mk .logo-mark { width: 24px; height: auto; }
+.foot-brand { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; }
+.foot-logo { color: var(--text); }
+.foot-logo .logo-full { display: block; width: 104px; height: auto; }
 .brand small { display: block; font-size: 11px; font-weight: 600; color: var(--muted); letter-spacing: .16em; text-transform: uppercase; }
 .links { display: flex; align-items: center; gap: 26px; font-size: 15px; color: var(--muted); }
 .links a:hover { color: var(--text); }

@@ -224,6 +224,16 @@ function panel(wm, hm, draw, { ppm = 300, transparent = true } = {}) {
 }
 function paint(p) { p.g.clearRect(0, 0, p.W, p.H); p.g.textBaseline = "alphabetic"; p.g.textAlign = "left"; p.draw(p.g, p.W, p.H); p.t.needsUpdate = true; }
 
+let LOGO = null;
+async function loadLogo() {
+  try {
+    const svg = await (await fetch(A("assets/brand/cmvng-logo.svg"))).text();
+    const vb = svg.match(/viewBox="([^"]+)"/)[1].split(/\s+/).map(Number);
+    const d = [...svg.matchAll(/ d="([^"]+)"/g)].map(m => m[1]);
+    LOGO = { vb, blue: new Path2D(d[0]), white: new Path2D(d[1]) };
+  } catch {}
+}
+
 /* ---------- interactive items ---------- */
 const items = [], clickables = [], solids = [], obstacles = [];
 function register(item, meshes) {
@@ -422,7 +432,12 @@ function buildLobby() {
   // the entrance wall behind you
   const mark = panel(8, 2.4, (g, W, H) => {
     const u = W / 100; g.textAlign = "center";
-    font(g, 14 * u, 400, F.serif); g.fillStyle = T.ink; spaced(g, "CMVNG", W / 2, 17 * u, 1.2 * u, "center");
+    if (LOGO) {
+      const [vx, vy, vw, vh] = LOGO.vb, k = (W * 0.5) / vw;
+      g.save(); g.translate(W / 2 - (vw * k) / 2 - vx * k, 3 * u - vy * k); g.scale(k, k);
+      g.fillStyle = "#2F6BE8"; g.fill(LOGO.blue); g.fillStyle = T.ink; g.fill(LOGO.white, "evenodd");
+      g.restore();
+    } else { font(g, 14 * u, 400, F.serif); g.fillStyle = T.ink; spaced(g, "CMVNG", W / 2, 17 * u, 1.2 * u, "center"); }
     font(g, 1.9 * u, 700); g.fillStyle = T.mute; spaced(g, "THE PORTFOLIO OF VICTOR DAMILOLA BUKOLA-OJUMU", W / 2, 25 * u, 0.5 * u, "center");
   }, { ppm: 180 });
   place(mark, pose("F", 0, 3.05, 0), 0.01);
@@ -768,10 +783,10 @@ function buildLife() {
 /* ---------- 06 CV & contact ---------- */
 function buildCV() {
   const ps = pose("B", 0, 2.35);
-  const { g, hit, fw, fh } = framed(tex(A("assets/cv-preview.webp?v=3")), 2.3, 2.3 * (1274 / 900), { border: 0.05, matW: 0.0, depth: 0.05 });
+  const { g, hit, fw, fh } = framed(tex(A("assets/cv-preview.webp?v=4")), 2.3, 2.3 * (1274 / 900), { border: 0.05, matW: 0.0, depth: 0.05 });
   place(g, ps);
   register({ id: "cv", kind: "cv", label: "My CV", sub: "Two pages · PDF & Word", center: ps.p.clone().addScaledVector(ps.n, 0.05), normal: ps.n.clone(), w: fw, h: fh, obj: g,
-    info: { kicker: "Curriculum vitae", title: "Everything here, on two pages.", body: "<p>Download the designed PDF, grab the Word version to edit, or read it online.</p><p>Email <a href=\"mailto:damorazi57@gmail.com\">damorazi57@gmail.com</a> · Phone <a href=\"tel:+2348076356288\">+234 807 635 6288</a> · Telegram <a href=\"https://t.me/Cmvceo\" target=\"_blank\" rel=\"noopener\">@Cmvceo</a></p>",
+    info: { kicker: "Curriculum vitae", title: "Everything here, on two pages.", body: "<p>Download the designed PDF, grab the Word version to edit, or read it online.</p><p>Email <a href=\"mailto:damorazi57@gmail.com\">damorazi57@gmail.com</a> · Phone <a href=\"tel:+2348076357288\">+234 807 635 7288</a> · Telegram <a href=\"https://t.me/Cmvceo\" target=\"_blank\" rel=\"noopener\">@Cmvceo</a></p>",
       actions: [{ label: "Download PDF", href: CV.pdf, download: true, primary: true }, { label: "Word (.docx)", href: CV.docx, download: true }, { label: "View online", href: CV.web, self: true }] } }, hit);
 
   const t = panel(3.9, 2.2, (c, W, H) => {
@@ -785,7 +800,7 @@ function buildCV() {
 
   const pills = [
     { label: "Email  ·  damorazi57@gmail.com", href: "mailto:damorazi57@gmail.com", self: true, primary: true, x: 4.55, y: 3.55 },
-    { label: "Phone  ·  +234 807 635 6288", href: "tel:+2348076356288", self: true, x: 4.55, y: 2.95 },
+    { label: "Phone  ·  +234 807 635 7288", href: "tel:+2348076357288", self: true, x: 4.55, y: 2.95 },
     { label: "Telegram  ·  @Cmvceo", href: "https://t.me/Cmvceo", x: 4.55, y: 2.35 },
     { label: "X  ·  @i_am_vickyd", href: "https://x.com/i_am_vickyd", x: 4.55, y: 1.75 },
     { label: "Instagram  ·  @cmv.ng", href: "https://www.instagram.com/cmv.ng", x: 4.55, y: 1.15 },
@@ -1252,7 +1267,7 @@ async function init() {
   manager.onLoad = () => { loaded = true; ready(); };
   setTimeout(() => { if (!loaded) ready(); }, 15000);
 
-  const [art] = await Promise.all([fetch(A("assets/art/art.json")).then(r => r.json()), fontsReady()]);
+  const [art] = await Promise.all([fetch(A("assets/art/art.json")).then(r => r.json()), fontsReady(), loadLogo()]);
   makeMaterials();
   buildShell(); buildLobby(); buildArt(art); buildBuilds(); buildJourney(); buildLife(); buildCV();
   buildTrack(); bindInput();
