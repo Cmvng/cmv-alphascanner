@@ -6,6 +6,7 @@
 <title>Victor Damilola Bukola-Ojumu · Artist, Trader, Builder</title>
 <meta name="description" content="Portfolio of Victor Damilola Bukola-Ojumu (CMVNG), a Lagos-based artist, forex and crypto trader, AI product builder, crypto content creator, Limitless ambassador, and operations and sales manager.">
 <meta name="theme-color" content="#07080B">
+<script>(function(){var t;try{t=localStorage.getItem("theme")}catch(e){}if(t!=="light"&&t!=="dark")t=matchMedia("(prefers-color-scheme: light)").matches?"light":"dark";document.documentElement.dataset.theme=t})();</script>
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Victor Damilola Bukola-Ojumu · Artist, Trader, Builder">
@@ -25,6 +26,7 @@
   <div class="wrap">
     <a class="brand" href="#top"><span class="mk">V</span><span>Victor Bukola-Ojumu<small>CMVNG</small></span></a>
     <nav class="links" id="links" aria-label="Main">
+      <a class="tour" href="explore/">3D Tour <i>NEW</i></a>
       <a href="#about">About</a>
       <a href="#work">Work</a>
       <a href="#art">Art</a>
@@ -32,9 +34,15 @@
       <a href="#contact">Contact</a>
       <a class="btn primary sm" href="cv/Victor-Bukola-Ojumu-CV.pdf" download>Download CV</a>
     </nav>
-    <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
-    </button>
+    <div class="nav-tools">
+      <button class="theme-btn" data-theme-btn aria-label="Switch to light mode">
+        <svg class="sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M4.6 4.6l1.6 1.6M17.8 17.8l1.6 1.6M2.5 12h2.2M19.3 12h2.2M4.6 19.4l1.6-1.6M17.8 6.2l1.6-1.6"/></svg>
+        <svg class="moon" viewBox="0 0 24 24"><path d="M20.5 14.6A8.6 8.6 0 0 1 9.4 3.5a8.6 8.6 0 1 0 11.1 11.1z"/></svg>
+      </button>
+      <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
   </div>
 </header>
 
@@ -50,7 +58,8 @@
       <div class="rotator" aria-live="polite">I <b id="verb">draw</b></div>
       <p class="lead">Artist, forex and crypto trader, AI product builder and hands-on operator. I've run inventory and sales for a car dealership, run my own catfish farming business, traded markets since 2019, and been drawing since 2016. Now I build with AI.</p>
       <div class="cta">
-        <a class="btn primary" href="#work">See my work</a>
+        <a class="btn primary" href="explore/"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 7v10l9 5 9-5V7z"/><path d="M3 7l9 5 9-5M12 12v10"/></svg>Walk through in 3D</a>
+        <a class="btn ghost" href="#work">See my work</a>
         <a class="btn ghost" href="cv/Victor-Bukola-Ojumu-CV.pdf" download>Download CV</a>
       </div>
     </div>
@@ -61,6 +70,28 @@
     <span>Artist <i>✦</i> Forex &amp; Crypto Trader <i>✦</i> AI Product Builder <i>✦</i> Inventory &amp; Sales Manager <i>✦</i> Catfish Farmer <i>✦</i> Outdoor Cook <i>✦</i> Content Creator <i>✦</i> Limitless Ambassador <i>✦</i></span>
     <span>Artist <i>✦</i> Forex &amp; Crypto Trader <i>✦</i> AI Product Builder <i>✦</i> Inventory &amp; Sales Manager <i>✦</i> Catfish Farmer <i>✦</i> Outdoor Cook <i>✦</i> Content Creator <i>✦</i> Limitless Ambassador <i>✦</i></span>
   </div></div>
+
+  <!-- 3D TOUR -->
+  <section class="block tour-sec" id="tour">
+    <div class="wrap tour-card">
+      <a class="tour-view reveal" href="explore/" aria-label="Enter the 3D tour">
+        <img class="t-dark" src="assets/tour-dark.webp" alt="The art room of the 3D tour, with framed drawings along the walls" loading="lazy">
+        <img class="t-light" src="assets/tour-light.webp" alt="The art room of the 3D tour, with framed drawings along the walls" loading="lazy">
+        <span class="play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
+        <span class="live" aria-hidden="true">Interactive 3D</span>
+      </a>
+      <div class="tour-copy reveal">
+        <span class="eyebrow">New · 3D tour</span>
+        <h2>Walk through <em>my work.</em></h2>
+        <p>My portfolio as a gallery you can explore in 3D. Drag to look around, tap the floor to walk, and tap any drawing, app or story to open it. Or sit back and take the guided tour.</p>
+        <div class="room-links">
+          <a href="explore/#lobby"><b>01</b>Lobby</a><a href="explore/#art"><b>02</b>Art</a><a href="explore/#builds"><b>03</b>Builds</a>
+          <a href="explore/#journey"><b>04</b>Journey</a><a href="explore/#life"><b>05</b>Life</a><a href="explore/#cv"><b>06</b>CV &amp; Contact</a>
+        </div>
+        <div class="actions"><a class="btn primary" href="explore/">Enter the 3D tour</a></div>
+      </div>
+    </div>
+  </section>
 
   <!-- ABOUT -->
   <section class="block" id="about">
@@ -133,7 +164,7 @@
     <div class="wrap">
       <div class="sh reveal">
         <div><span class="eyebrow">Things I've built with AI</span><h2>Live products, <em>real users.</em></h2></div>
-        <p>I use AI tools like Claude and ChatGPT to design and ship my own products. Here are three flagships, with five more below. Tap through and use them.</p>
+        <p>I use AI tools like Claude and ChatGPT to design and ship my own products. Here are three flagships, with five more below. Tap through and use them, or <a class="inline" href="explore/#builds">see them all in 3D</a>.</p>
       </div>
 
       <div class="product reveal">
@@ -212,7 +243,8 @@
     <div class="carousel reveal" id="carousel"><div class="ring" id="ring"></div></div>
     <div class="wrap">
       <div class="art-actions">
-        <a class="btn primary" href="https://cmvng-art-gallery-production.up.railway.app" target="_blank" rel="noopener">Open the full gallery ↗</a>
+        <a class="btn primary" href="explore/#art">Walk the gallery in 3D</a>
+        <a class="btn ghost" href="https://cmvng-art-gallery-production.up.railway.app" target="_blank" rel="noopener">Open the full gallery ↗</a>
         <a class="btn ghost" href="https://opensea.io/collection/cmv-156408845" target="_blank" rel="noopener">CMVNG on OpenSea ↗</a>
         <a class="btn ghost" href="https://opensea.io/collection/world-over-series" target="_blank" rel="noopener">World Over Series ↗</a>
       </div>
@@ -378,6 +410,7 @@
 </footer>
 
 <script type="module" src="assets/js/hero3d.js"></script>
+<script src="assets/js/theme.js" defer></script>
 <script src="assets/js/main.js" defer></script>
 </body>
 </html>

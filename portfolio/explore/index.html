@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>3D Tour · Victor Bukola-Ojumu</title>
+<meta name="description" content="Walk through Victor Damilola Bukola-Ojumu's portfolio in 3D: art, products built with AI, experience and CV.">
+<meta name="theme-color" content="#07080B">
+<script>(function(){var t;try{t=localStorage.getItem("theme")}catch(e){}if(t!=="light"&&t!=="dark")t=matchMedia("(prefers-color-scheme: light)").matches?"light":"dark";document.documentElement.dataset.theme=t})();</script>
+<meta property="og:type" content="website">
+<meta property="og:title" content="Victor Bukola-Ojumu · 3D Tour">
+<meta property="og:description" content="Walk through my art, the products I've built with AI, my journey and my CV.">
+<meta property="og:image" content="https://victor-bukola-ojumu.vercel.app/assets/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="../assets/fonts/f4.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../assets/fonts/fonts.css">
+<link rel="stylesheet" href="../assets/css/explore.css">
+<script type="importmap">{ "imports": { "three": "../assets/vendor/three.module.min.js" } }</script>
+</head>
+<body>
+<canvas id="world" aria-label="3D gallery of Victor's work"></canvas>
+<div class="vignette" aria-hidden="true"></div>
+<div class="tip glass" id="tip" aria-hidden="true"></div>
+
+<header class="hud-top">
+  <a class="pill glass" href="../"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg><span>Portfolio</span></a>
+  <div class="where glass" aria-live="polite"><span id="roomNum">01</span><b id="roomName">Lobby</b></div>
+  <div class="tools">
+    <button class="icon-btn glass" id="helpBtn" aria-label="How to move around">?</button>
+    <button class="icon-btn glass theme-btn" data-theme-btn aria-label="Switch to light mode">
+      <svg class="sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M4.6 4.6l1.6 1.6M17.8 17.8l1.6 1.6M2.5 12h2.2M19.3 12h2.2M4.6 19.4l1.6-1.6M17.8 6.2l1.6-1.6"/></svg>
+      <svg class="moon" viewBox="0 0 24 24"><path d="M20.5 14.6A8.6 8.6 0 0 1 9.4 3.5a8.6 8.6 0 1 0 11.1 11.1z"/></svg>
+    </button>
+  </div>
+</header>
+
+<aside class="info glass" id="info" hidden>
+  <button class="close" id="infoClose" aria-label="Close">×</button>
+  <span class="kicker" id="infoKicker"></span>
+  <h2 id="infoTitle"></h2>
+  <p class="meta" id="infoMeta"></p>
+  <div class="body" id="infoBody"></div>
+  <div class="actions" id="infoActions"></div>
+  <div class="step">
+    <button id="infoPrev" aria-label="Previous in this room">‹</button>
+    <span id="infoCount"></span>
+    <button id="infoNext" aria-label="Next in this room">›</button>
+  </div>
+</aside>
+
+<div class="toast glass" id="toast"></div>
+
+<nav class="track glass" aria-label="Rooms">
+  <button class="tour-btn" id="tourBtn" aria-pressed="false"><svg viewBox="0 0 24 24"><path class="play" d="M8 5v14l11-7z"/><path class="pause" d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg><span>Tour</span></button>
+  <div class="rooms" id="rooms"><i class="dot" id="dot"></i></div>
+</nav>
+
+<div class="gate" id="gate">
+  <div class="gate-card">
+    <span class="eyebrow">CMVNG · 3D Tour</span>
+    <h1>Step inside my <em>portfolio.</em></h1>
+    <p id="gateMsg">Walk through six rooms: my art, the products I've built with AI, my journey, life beyond the screen, and my CV.</p>
+    <ul class="how">
+      <li><svg viewBox="0 0 24 24"><path d="M9 11V5.5a1.5 1.5 0 0 1 3 0V11m0-1.5a1.5 1.5 0 0 1 3 0V11m0-.5a1.5 1.5 0 0 1 3 0V15a6 6 0 0 1-6 6h-1a6 6 0 0 1-5-2.7L3.6 14a1.6 1.6 0 0 1 2.6-1.8L9 15"/></svg><span><b>Drag</b> to look around</span></li>
+      <li><svg viewBox="0 0 24 24"><ellipse cx="12" cy="17" rx="8" ry="3"/><path d="M12 3v11M8.5 10.5 12 14l3.5-3.5"/></svg><span><b>Tap the floor</b> to walk there</span></li>
+      <li><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="12" rx="2"/><path d="M9 20h6"/><circle cx="12" cy="10" r="2"/></svg><span><b>Tap anything</b> to open it</span></li>
+      <li class="keys"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="12" rx="2"/><path d="M7 11h.01M11 11h.01M15 11h.01M8 15h8"/></svg><span><b>W A S D</b>, arrows or scroll to move</span></li>
+    </ul>
+    <div class="load"><i id="load"></i></div>
+    <div class="gate-actions">
+      <button class="btn primary" id="tourStart" disabled>Loading the gallery…</button>
+      <button class="btn ghost" id="enter" disabled>Explore on my own</button>
+    </div>
+    <a class="skip" href="../">Back to the classic site</a>
+  </div>
+</div>
+
+<noscript><div class="gate"><div class="gate-card"><h1>Turn on JavaScript</h1><p>The 3D tour needs JavaScript. <a href="../">Open the classic portfolio</a>.</p></div></div></noscript>
+<script src="../assets/js/theme.js" defer></script>
+<script type="module" src="../assets/js/explore.js"></script>
+</body>
+</html>
