@@ -1164,16 +1164,8 @@ function keyMove(dt) {
 
 /* ---------- loop ---------- */
 const clock = new THREE.Clock();
-function frame() {
-  requestAnimationFrame(frame);
-  const dt = Math.min(clock.getDelta(), 0.05), t = clock.elapsedTime;
-  let moving = false;
-  if (S.tw) { stepTween(dt); moving = true; }
-  else moving = keyMove(dt);
-  S.bob = moving && !reduce ? S.bob + dt * 9 : S.bob * 0.9;
-  camera.position.set(S.x, EYE + (moving ? Math.sin(S.bob) * 0.018 : 0), S.z);
-  camera.rotation.set(S.pitch, S.yaw, 0, "YXZ");
-
+let manual = false;
+function animateProps(dt, t) {
   if (portrait) { portrait.rotation.y = reduce ? 0.3 : t * 0.45; portrait.position.y = 2.0 + Math.sin(t * 1.3) * 0.04; }
   if (holo && !reduce) {
     holo.children[0].rotation.set(t * 0.3, t * 0.45, 0);
@@ -1207,6 +1199,19 @@ function frame() {
     it.hl += (target - it.hl) * Math.min(1, dt * 10);
     it.obj.position.copy(it.base).addScaledVector(it.normal, it.hl * 0.05);
   }
+}
+function frame() {
+  if (manual) return;
+  requestAnimationFrame(frame);
+  const dt = Math.min(clock.getDelta(), 0.05), t = clock.elapsedTime;
+  let moving = false;
+  if (S.tw) { stepTween(dt); moving = true; }
+  else moving = keyMove(dt);
+  S.bob = moving && !reduce ? S.bob + dt * 9 : S.bob * 0.9;
+  camera.position.set(S.x, EYE + (moving ? Math.sin(S.bob) * 0.018 : 0), S.z);
+  camera.rotation.set(S.pitch, S.yaw, 0, "YXZ");
+
+  animateProps(dt, t);
   if (lastMove && !pointer) { hover(lastMove[0], lastMove[1]); lastMove = null; }
   updateHud();
   renderer.render(scene, camera);
@@ -1275,6 +1280,18 @@ async function init() {
   addEventListener("themechange", applyTheme);
   resize(); addEventListener("resize", resize);
   frame();
-  if (new URLSearchParams(location.search).has("debug")) window.__tour = { S, items, goRoom, focus: id => focus(items.find(i => i.id === id)), enter };
+  if (new URLSearchParams(location.search).has("debug")) window.__tour = {
+    S, items, goRoom, focus: id => focus(items.find(i => i.id === id)), enter,
+    // frame-exact rendering for filming: fixed camera pose and clock
+    renderAt(t, x, y, z, yaw, pitch) {
+      manual = true;
+      S.x = x; S.z = z; S.yaw = yaw; S.pitch = pitch;
+      camera.position.set(x, y, z);
+      camera.rotation.set(pitch, yaw, 0, "YXZ");
+      animateProps(1 / 30, t);
+      renderer.render(scene, camera);
+    },
+    fov(v) { camera.fov = v; camera.updateProjectionMatrix(); },
+  };
 }
 init().catch(err => { console.error(err); fail("Something went wrong loading the 3D tour. The classic portfolio has everything too."); });
