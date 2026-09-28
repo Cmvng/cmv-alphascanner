@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CV · Victor Damilola Bukola-Ojumu</title>
+<meta name="description" content="CV of Victor Damilola Bukola-Ojumu: artist, forex and crypto trader, product builder, and operations and sales manager based in Lagos, Nigeria.">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="fonts-local.css">
+<style>
+:root {
+  --ink: #0E1116;
+  --ink2: #3A4150;
+  --mute: #6B7383;
+  --line: #E3E6EC;
+  --side: #F4F6FA;
+  --accent: #2F63E0;
+  --accent-soft: #E8EEFC;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { background: #D9DDE4; }
+body { font-family: "Inter Tight", system-ui, sans-serif; color: var(--ink); -webkit-font-smoothing: antialiased; font-size: 10pt; line-height: 1.45; }
+a { color: inherit; text-decoration: none; }
+
+/* screen toolbar */
+.bar { position: sticky; top: 0; z-index: 5; display: flex; gap: 10px; justify-content: center; padding: 12px; background: rgba(14,17,22,.92); backdrop-filter: blur(8px); }
+.bar a { font: 600 14px/1 "Inter Tight"; color: #fff; padding: 10px 16px; border-radius: 999px; border: 1px solid rgba(255,255,255,.25); }
+.bar a.primary { background: var(--accent); border-color: var(--accent); }
+
+.page { width: 210mm; height: 297mm; overflow: hidden; margin: 18px auto; break-after: page; background: #fff; box-shadow: 0 20px 60px -20px rgba(0,0,0,.35); display: grid; grid-template-columns: 1fr 64mm; }
+.main { padding: 15mm 11mm 13mm 15mm; }
+.side { background: var(--side); padding: 15mm 10mm 13mm 9mm; border-left: 1px solid var(--line); }
+
+/* header */
+.name { font: 400 29pt/1 "Instrument Serif", Georgia, serif; letter-spacing: -.01em; }
+.name span { color: var(--accent); }
+.title { margin-top: 7px; font: 600 9.2pt/1.3 "Inter Tight"; letter-spacing: .14em; text-transform: uppercase; color: var(--ink2); }
+.rule { height: 3px; width: 44px; background: var(--accent); border-radius: 2px; margin: 12px 0 13px; }
+.summary { color: var(--ink2); font-size: 9.8pt; line-height: 1.55; }
+
+h2 { font: 700 8.4pt/1 "Inter Tight"; letter-spacing: .2em; text-transform: uppercase; color: var(--accent); margin: 17px 0 9px; display: flex; align-items: center; gap: 8px; }
+h2::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+.side h2 { margin-top: 16px; }
+.side h2:first-child { margin-top: 0; }
+.photo { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 10px; margin-bottom: 16px; filter: grayscale(1) contrast(1.05); }
+
+.job { margin-bottom: 11px; break-inside: avoid; }
+.job .top { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+.job .role { font: 700 10.4pt/1.25 "Inter Tight"; }
+.job .when { font: 600 8.4pt/1 "Inter Tight"; color: var(--mute); white-space: nowrap; }
+.job .org { font: 500 9.3pt/1.3 "Inter Tight"; color: var(--accent); margin-top: 2px; }
+.job ul { margin: 5px 0 0 14px; }
+.job li { margin: 2.5px 0; color: var(--ink2); font-size: 9.35pt; line-height: 1.45; padding-left: 2px; }
+.job li::marker { color: var(--accent); }
+
+.edu .deg { font: 700 10.2pt/1.3 "Inter Tight"; }
+.edu .sch { color: var(--ink2); font-size: 9.4pt; margin-top: 2px; }
+
+.contact div { display: flex; flex-direction: column; margin-bottom: 7px; }
+.contact b { font: 700 7.4pt/1.2 "Inter Tight"; letter-spacing: .14em; text-transform: uppercase; color: var(--mute); }
+.contact span { font-size: 9pt; color: var(--ink); word-break: break-word; }
+
+.skills .grp { margin-bottom: 9px; }
+.skills .grp b { display: block; font: 700 8.8pt/1.3 "Inter Tight"; margin-bottom: 3px; }
+.skills .grp span { display: inline-block; font-size: 7.9pt; line-height: 1.15; padding: 2.5px 5px; margin: 0 2px 3px 0; border-radius: 4px; background: #fff; border: 1px solid var(--line); color: var(--ink2); }
+
+.links div { margin-bottom: 7px; }
+.links b { display: block; font: 700 8.8pt/1.3 "Inter Tight"; }
+.links span { font-size: 8.4pt; color: var(--mute); }
+
+.stats { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.stats div { background: #fff; border: 1px solid var(--line); border-radius: 6px; padding: 7px 8px; }
+.stats b { display: block; font: 400 17pt/1 "Instrument Serif"; color: var(--accent); }
+.stats span { font-size: 7.6pt; color: var(--mute); line-height: 1.25; display: block; margin-top: 2px; }
+
+.ref { font-size: 9pt; color: var(--ink2); }
+.running { display: flex; justify-content: space-between; font: 600 8pt/1 "Inter Tight"; letter-spacing: .12em; text-transform: uppercase; color: var(--mute); padding-bottom: 10px; border-bottom: 1px solid var(--line); margin-bottom: 4px; }
+.proj { margin-bottom: 10px; break-inside: avoid; }
+.proj .top { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+.proj b { font: 700 10.2pt/1.3 "Inter Tight"; }
+.proj .url { font: 600 8.4pt/1 "Inter Tight"; color: var(--accent); white-space: nowrap; }
+.proj p { color: var(--ink2); font-size: 9.3pt; margin-top: 3px; line-height: 1.45; }
+.interests span { display: inline-block; font-size: 8.4pt; padding: 3px 7px; margin: 0 3px 4px 0; border-radius: 999px; background: var(--accent-soft); color: #1D4DB8; }
+.side .links span { word-break: break-all; }
+
+@page { size: A4; margin: 0; }
+@media print {
+  html { background: #fff; }
+  .page:last-child { break-after: auto; }
+  .bar { display: none; }
+  .page { margin: 0; box-shadow: none; }
+}
+@media screen and (max-width: 820px) {
+  .page { width: auto; height: auto; overflow: visible; margin: 0; grid-template-columns: 1fr; }
+  .main, .side { padding: 22px 18px; }
+  .side { border-left: 0; border-top: 1px solid var(--line); }
+  body { font-size: 11pt; }
+}
+</style>
+</head>
+<body>
+<nav class="bar">
+  <a href="../">← Portfolio</a>
+  <a class="primary" href="Victor-Bukola-Ojumu-CV.pdf" download>Download PDF</a>
+  <a href="Victor-Bukola-Ojumu-CV.docx" download>Word (.docx)</a>
+</nav>
+
+<article class="page">
+  <section class="main">
+    <h1 class="name">Victor Damilola <span>Bukola-Ojumu</span></h1>
+    <p class="title">Artist · Trader · Product Builder · Operations &amp; Sales</p>
+    <div class="rule"></div>
+    <p class="summary">Multidisciplinary operator, artist and product builder based in Lagos, Nigeria. Managed inventory, sales records and an eight-person team at a car dealership; founded and ran a 10-pond commercial catfish farm; ran outdoor charcoal barbecue cooking for two years; and has traded forex and crypto markets since 2019. A self-taught graphite and charcoal artist with two collections on OpenSea, and the builder of live web products, including an AI football-prediction platform and an automated forex and crypto signal bot. Civil Engineering graduate of the Federal University Oye-Ekiti.</p>
+
+    <h2>Experience</h2>
+
+    <div class="job">
+      <div class="top"><span class="role">Founder &amp; Product Builder</span><span class="when">2026 – Present</span></div>
+      <div class="org">CMVNG · Independent</div>
+      <ul>
+        <li>Designed, built and launched <b>cmvngpicks.com</b>, an AI-powered football prediction platform that ranks fixtures by win probability, publishes daily accumulator slips with one-tap booking codes, and grades every pick in public.</li>
+        <li>Built <b>cmvngsignals.com</b>, an automated forex and crypto signal bot that scans pairs across timeframes, sets entry, stop-loss and take-profit levels, and tracks every result on a live dashboard (currently paper trading).</li>
+        <li>Launched the <b>CMVNG Art Gallery</b>, an online portfolio with a mobile studio for publishing new and in-progress artworks.</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="top"><span class="role">Forex &amp; Crypto Trader</span><span class="when">2019 – Present</span></div>
+      <div class="org">Independent</div>
+      <ul>
+        <li>Trades forex majors and minors and cryptocurrencies, with a primary focus on Bitcoin.</li>
+        <li>Shares market views and trade ideas with followers through a Telegram channel.</li>
+        <li>Turned a manual trading approach into software by building an automated signal bot.</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="top"><span class="role">Inventory Manager &amp; General Manager</span></div>
+      <div class="org">Showboy Motors · Car dealership</div>
+      <ul>
+        <li>Ran inventory control for the dealership, recording every car part received and tracking each vehicle moving out for inspection, repairs and painting.</li>
+        <li>Kept the full sales record for every car sold, tracking each vehicle from import cost to sale price, with profit margins and losses.</li>
+        <li>Managed day-to-day operations and a team of eight, including the secretary, repair manager, assistants and general staff.</li>
+        <li>Closed vehicle sales and handled the buying and selling of cars.</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="top"><span class="role">Founder &amp; Owner</span><span class="when">3 years</span></div>
+      <div class="org">Samalad Catfish Farm</div>
+      <ul>
+        <li>Founded and ran a commercial catfish farm with 10 ponds, planned around a 10-tonne annual production target.</li>
+        <li>Managed the full production cycle: species and fingerling selection, stocking, feeding and feed conversion ratio (FCR), sorting and grading, and grow-out to large market sizes.</li>
+        <li>Sold harvested catfish directly to buyers.</li>
+      </ul>
+    </div>
+
+      </section>
+
+  <aside class="side">
+    <img class="photo" src="portrait.jpg" alt="Victor Damilola Bukola-Ojumu">
+    <h2>Contact</h2>
+    <div class="contact">
+      <div><b>Location</b><span>Lagos, Nigeria</span></div>
+      <div><b>Portfolio</b><span>victor-bukola-ojumu.vercel.app</span></div>
+      <div><b>X</b><span>x.com/i_am_vickyd</span></div>
+      <div><b>Instagram</b><span>instagram.com/cmv.ng</span></div>
+      <div><b>Telegram</b><span>t.me/cmv_ng</span></div>
+    </div>
+
+    <h2>Skills</h2>
+    <div class="skills">
+      <div class="grp"><b>Operations &amp; inventory</b><span>Stock control</span><span>Vehicle &amp; parts tracking</span><span>Record-keeping</span><span>Profit &amp; loss tracking</span><span>Team supervision</span></div>
+      <div class="grp"><b>Sales</b><span>Closing deals</span><span>Car buying &amp; selling</span><span>Negotiation</span></div>
+      <div class="grp"><b>Aquaculture</b><span>Catfish production</span><span>FCR management</span><span>Sorting &amp; grading</span><span>Grow-out</span></div>
+      <div class="grp"><b>Markets</b><span>Forex majors &amp; minors</span><span>Crypto (Bitcoin)</span><span>Signal automation</span></div>
+      <div class="grp"><b>Outdoor cooking</b><span>Charcoal grilling</span><span>Seasoning &amp; marinating</span></div>
+      <div class="grp"><b>Creative &amp; digital</b><span>Graphite &amp; charcoal</span><span>Digital art</span><span>NFT publishing</span><span>Content creation</span><span>Web products</span><span>Automation</span><span>AI tools</span></div>
+    </div>
+
+    </aside>
+</article>
+
+<article class="page">
+  <section class="main">
+    <div class="running"><span>Victor Damilola Bukola-Ojumu</span><span>CV · Page 2</span></div>
+    <h2>Experience (continued)</h2>
+    <div class="job">
+      <div class="top"><span class="role">Visual Artist</span><span class="when">2016 – Present</span></div>
+      <div class="org">Graphite, charcoal &amp; digital</div>
+      <ul>
+        <li>Self-taught artist, drawing since 2015 and practising seriously since 2016.</li>
+        <li>Published two NFT collections on OpenSea: the CMVNG Collection (17 works) and the World Over Series (2 works).</li>
+        <li>Work explores power, war, love and the everyday struggle for meaning, in pieces such as <i>Police Brutality 1</i>, <i>Desolation</i> and <i>The Naira</i>.</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="top"><span class="role">Content Creator</span><span class="when">Present</span></div>
+      <div class="org">X &amp; Instagram</div>
+      <ul>
+        <li>Creates and publishes content on X (@i_am_vickyd) and Instagram (@cmv.ng), sharing artwork, market views and the products he builds.</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="top"><span class="role">Outdoor Cooking &amp; Barbecue</span><span class="when">2018 – 2020</span></div>
+      <div class="org">Independent</div>
+      <ul>
+        <li>Ran outdoor charcoal barbecue cooking for two years, specialising in chicken and goat meat.</li>
+        <li>Handled the full process, from seasoning and marinating the meat to grilling it over charcoal.</li>
+      </ul>
+    </div>
+
+    <h2>Education</h2>
+    <div class="edu">
+      <div class="deg">B.Eng. Civil Engineering</div>
+      <div class="sch">Federal University Oye-Ekiti (FUOYE), Ekiti State, Nigeria</div>
+    </div>
+
+    <h2>Selected projects</h2>
+    <div class="proj"><div class="top"><b>cmvng Picks</b><span class="url">cmvngpicks.com</span></div>
+      <p>AI football predictions: a probability board that ranks the day's games for every market, daily accumulator slips across odds tiers with one-tap booking codes, an AI slip builder, and a public record of every graded pick.</p></div>
+    <div class="proj"><div class="top"><b>cmvng Signals</b><span class="url">cmvngsignals.com</span></div>
+      <p>Automated forex and crypto signal bot: scans pairs across timeframes, sets entry, stop-loss and take-profit levels, executes and tracks every signal, with a live dashboard, per-pair performance and shareable result cards. Running in paper-trading mode.</p></div>
+    <div class="proj"><div class="top"><b>CMVNG Art Gallery</b><span class="url">online gallery</span></div>
+      <p>Online portfolio of 21 drawings and digital works, with a full-screen viewer and a password-protected mobile studio for publishing finished pieces and works in progress.</p></div>
+    <div class="proj"><div class="top"><b>OpenSea collections</b><span class="url">opensea.io</span></div>
+      <p>CMVNG Collection (17 works, Polygon and Ethereum) and World Over Series (2 works, Ethereum), including <i>The Naira</i> and <i>$1/£1</i>.</p></div>
+  </section>
+
+  <aside class="side">
+    <h2>At a glance</h2>
+    <div class="stats">
+      <div><b>2016</b><span>drawing seriously since</span></div>
+      <div><b>2019</b><span>trading markets since</span></div>
+      <div><b>10</b><span>fish ponds run</span></div>
+      <div><b>8</b><span>staff managed</span></div>
+      <div><b>19</b><span>artworks on OpenSea</span></div>
+      <div><b>3</b><span>live web products</span></div>
+    </div>
+
+    <h2>Links</h2>
+    <div class="links">
+      <div><b>Portfolio</b><span>victor-bukola-ojumu.vercel.app</span></div>
+      <div><b>Predictions app</b><span>cmvngpicks.com</span></div>
+      <div><b>Signal bot</b><span>cmvngsignals.com</span></div>
+      <div><b>Art gallery</b><span>cmvng-art-gallery-production.up.railway.app</span></div>
+      <div><b>OpenSea</b><span>opensea.io/collection/cmv-156408845</span></div>
+      <div><b>OpenSea</b><span>opensea.io/collection/world-over-series</span></div>
+      <div><b>X</b><span>x.com/i_am_vickyd</span></div>
+      <div><b>Instagram</b><span>instagram.com/cmv.ng</span></div>
+      <div><b>Telegram</b><span>t.me/cmv_ng</span></div>
+    </div>
+
+    <h2>Interests</h2>
+    <div class="interests"><span>Fine art</span><span>Financial markets</span><span>Bitcoin</span><span>AI &amp; automation</span><span>Agribusiness</span><span>Cars</span><span>Content</span></div>
+
+    <h2>References</h2>
+    <p class="ref">Available on request.</p>
+  </aside>
+</article>
+</body>
+</html>
