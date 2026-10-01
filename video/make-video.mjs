@@ -18,6 +18,7 @@ import { resolveBadge, isCountry } from './lib/badges.mjs'
 import { resolveStadium } from './lib/stadium.mjs'
 import { resolvePlayers } from './lib/players.mjs'
 import { resolvePerson } from './lib/people.mjs'
+import { resolveTeamPhotos } from './lib/teamphotos.mjs'
 import { buildScenes } from './lib/narration.mjs'
 
 const DIR = path.dirname(new URL(import.meta.url).pathname)
@@ -83,6 +84,15 @@ for (const p of picks) {
 for (const x of cfg.analysis?.players || []) x.photo = x.photo === false ? null : await resolvePerson(x.name, { cacheDir: CACHE, outDir: OUT })
 // post-match review: the player in each moment
 for (const b of cfg.review?.beats || []) if (b.player && b.photo !== false) b.photo = await resolvePerson(b.player, { cacheDir: CACHE, outDir: OUT })
+// reaction videos: real photos of the teams (2026 World Cup, Wikimedia) as a beat-cut montage, plus named players
+const SQUADS = JSON.parse(fs.readFileSync(path.join(DIR, 'lib', 'squads.json'), 'utf8')).squads
+for (const b of cfg.review?.beats || []) if (b.teams || b.people) {
+  b.photos = []
+  for (const tm of b.teams || []) b.photos.push(...await resolveTeamPhotos(tm, { names: SQUADS[tm] || [], cacheDir: CACHE, outDir: OUT, count: 7 }))
+  for (const n of b.people || []) { const ph = await resolvePerson(n, { cacheDir: CACHE, outDir: OUT }); if (ph) b.photos.push(ph) }
+  if (b.start_at) b.photos = [...b.photos.slice(b.start_at), ...b.photos.slice(0, b.start_at)]   // vary which photo leads
+  if (!b.photos.length) delete b.photos
+}
 
 // team colours from each crest or flag (the broadcast style's panels, the glows behind the badges)
 const imgs = picks.flatMap(p => [p.bh, p.ba]).filter(b => b.src)
@@ -139,8 +149,8 @@ const est = s => s.split(/\s+/).length / (2.7 * cfg.voice_speed) + 0.2 // second
 
 // ---------------------------------------------------------------- 4. timeline + captions
 const MIN = { hook: 4.2, pick: 7.0, slate: 5.0, cta: 4.4, rhook: 5.4, result: 4.6, rtotal: 6.2, pv_hook: 5.0, pv_form: 6.0, pv_stats: 7.0, pv_model: 7.5, pv_score: 5.5, pv_cta: 4.5, pv_stake: 6.0, pv_players: 8.0, pv_tactics: 8.0, pv_expect: 7.0, pv_round: 6.0,
-  rv_hook: 4.0, rv_moment: 3.6, rv_meme: 3.0, rv_stats: 5.0, rv_read: 5.0, rv_table: 4.8, rv_ratings: 5.0, rv_quote: 4.5, rv_cta: 3.6 }
-const LEAD = { hook: 0.2, rhook: 0.2, rv_hook: 0.75, rv_meme: 0.2, rv_moment: 0.25 }, GAP = 0.12, TAIL = 0.3
+  rv_hook: 4.0, rv_moment: 3.6, rv_meme: 3.0, rv_stats: 5.0, rv_read: 5.0, rv_table: 4.8, rv_ratings: 5.0, rv_quote: 4.5, rv_cta: 3.6, rx_intro: 3.0, rx_take: 4.0, rx_reveal: 3.4, rx_outro: 3.6 }
+const LEAD = { hook: 0.2, rhook: 0.2, rv_hook: 0.75, rv_meme: 0.2, rv_moment: 0.25, rx_intro: 0.6, rx_take: 0.45, rx_reveal: 0.25 }, GAP = 0.12, TAIL = 0.3
 const BEAT = music?.beat || null
 let t = 0
 const captions = []
@@ -191,16 +201,33 @@ if (cfg.mode === 'review') {
     sc.clip = { dir: `clips/s${k}`, n: fs.readdirSync(dir).length, fit }
   }
   console.log(`Reaction clips: ${scenes.filter(s => s.clip).length} screens`)
+  // the presenter: a green-screen clip, keyed to transparent frames, bottom of the screen (the owner's own recording, or a
+  // licensed stand-in). Each screen takes a different stretch of the clip so it never visibly repeats.
+  const pc = cfg.presenter
+  if (pc) {
+    const src = /^\d+$/.test(String(pc.id ?? '')) ? await download(`https://assets.mixkit.co/videos/${pc.id}/${pc.id}-1080.mp4`, path.join(CACHE, 'clips', `${pc.id}.mp4`)) : pc.file
+    const len = Number(String(execSync(`"${FF}" -i "${src}" 2>&1 || true`)).match(/Duration: (\d+):(\d+):([\d.]+)/)?.slice(1).reduce((a, v, i) => a + v * [3600, 60, 1][i], 0) || 10)
+    let off = pc.from || 0
+    for (const [k, sc] of scenes.entries()) {
+      if (!sc.type.startsWith('rx_') || sc.data?.presenter === false) continue
+      if (off + sc.dur > len - 0.2) off = pc.from || 0
+      const dir = path.join(OUT, 'pres', `s${k}`); fs.mkdirSync(dir, { recursive: true })
+      const vf = `${pc.crop ? `crop=${pc.crop},` : ''}scale=1080:-2,fps=${FPS},chromakey=${pc.key || '0x6CF514:0.14:0.06'},despill=type=green`
+      await run(FF, ['-y', '-loglevel', 'error', '-ss', off.toFixed(2), '-i', src, '-t', (sc.dur + 0.1).toFixed(2), '-vf', vf, '-c:v', 'libwebp', '-quality', '75', path.join(dir, '%04d.webp')])
+      sc.pres = { dir: `pres/s${k}`, n: fs.readdirSync(dir).length }
+      off += sc.dur + 0.5
+    }
+  }
 }
 
 // ---------------------------------------------------------------- 5. page
 fs.cpSync(path.join(DIR, 'assets'), path.join(OUT, 'assets'), { recursive: true })
 cfg.when_word ||= cfg.when === 'tonight' ? 'Tonight' : 'Today'
-const DATA = { cfg, picks, recap, beat: BEAT, scenes: scenes.map(({ type, i, start, dur, lines, data, clip }) => ({ type, i, start, dur, lines, data, clip })), captions, duration: DURATION }
+const DATA = { cfg, picks, recap, beat: BEAT, scenes: scenes.map(({ type, i, start, dur, lines, data, clip, pres }) => ({ type, i, start, dur, lines, data, clip, pres })), captions, duration: DURATION }
 const page = fs.readFileSync(path.join(DIR, cfg.mode === 'review' ? 'review.html' : 'scene.html'), 'utf8')
   .replace('<script>\nconst D = window.DATA', `<script>window.DATA=${JSON.stringify(DATA).replace(/</g, '\\u003c')}</script>\n<script>\nconst D = window.DATA`)
 fs.writeFileSync(path.join(OUT, 'index.html'), page)
-const credits = [...(cfg.analysis?.players || []).map(x => x.photo?.credit), ...(cfg.review?.beats || []).map(b => b.photo?.credit), ...new Set(picks.flatMap(p => cfg.style === 'broadcast' ? [] : cfg.style === 'players' && p.players?.length ? p.players.map(x => x.credit) : [p.stadium?.credit]).filter(Boolean)), music?.credit, scenes.some(s => s.clip) ? 'Reaction clips: Mixkit (free licence)' : null].filter(Boolean)
+const credits = [...(cfg.analysis?.players || []).map(x => x.photo?.credit), ...(cfg.review?.beats || []).map(b => b.photo?.credit), ...new Set((cfg.review?.beats || []).flatMap(b => (b.photos || []).map(x => x.credit))), ...new Set(picks.flatMap(p => cfg.style === 'broadcast' ? [] : cfg.style === 'players' && p.players?.length ? p.players.map(x => x.credit) : [p.stadium?.credit]).filter(Boolean)), music?.credit, scenes.some(s => s.clip) ? 'Reaction clips: Mixkit (free licence)' : null, cfg.presenter?.credit || null].filter(Boolean)
 fs.writeFileSync(path.join(OUT, 'credits.txt'), credits.join('\n') + '\n')
 
 const { chromium } = loadPlaywright()
@@ -293,6 +320,7 @@ await run(FF, ['-y', '-loglevel', 'error', '-f', 'concat', '-safe', '0', '-i', p
   '-c:v', 'copy', '-c:a', 'aac', '-b:a', '192k', '-ar', '48000', '-ac', '2', '-t', DURATION.toFixed(2), '-movflags', '+faststart', final])
 for (const f of segs) fs.rmSync(f)
 fs.rmSync(path.join(OUT, 'clips'), { recursive: true, force: true })      // clip frames are only needed while rendering
+fs.rmSync(path.join(OUT, 'pres'), { recursive: true, force: true })
 // cover image for the YouTube / X thumbnail: the opening screen once everything has landed
 const cover = final.replace(/\.mp4$/, '_cover.jpg')
 await run(FF, ['-y', '-loglevel', 'error', '-ss', Math.max(0, scenes[0].start + scenes[0].dur - 0.4).toFixed(2), '-i', final, '-frames:v', '1', '-q:v', '2', cover]).catch(() => {})

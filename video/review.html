@@ -155,6 +155,53 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#03060F}
 .rv_cta .big{margin-top:70px;font-size:112px;line-height:1.02}
 .rv_cta .next{margin-top:44px}
 
+/* reaction to our analysis: fixture card, our take, the result and the running tally */
+#pres{position:absolute;left:0;bottom:0;width:1080px;height:1166px;z-index:19;display:none;pointer-events:none;filter:drop-shadow(0 -10px 40px rgba(0,0,0,.35))}
+.fx{position:absolute;left:60px;right:60px;top:120px;height:126px;border-radius:26px;background:rgba(14,18,30,.92);box-shadow:0 18px 50px rgba(0,0,0,.45);
+  display:flex;align-items:center;justify-content:space-between;padding:0 30px}
+.fx .t{display:flex;align-items:center;gap:16px;width:300px}
+.fx .t.a{flex-direction:row-reverse;text-align:right}
+.fx .badge{width:74px;height:74px}
+.fx .t b{font:800 30px Manrope;line-height:1.05}
+.fx .mid{text-align:center;font:800 34px Manrope}
+.fx .mid{white-space:nowrap}
+.fx .mid span{display:block;margin-top:4px;font:700 16px JBM;letter-spacing:1px;color:rgba(255,255,255,.6);text-transform:uppercase}
+.tk{position:absolute;left:84px;right:84px;top:276px;border-radius:34px;background:#fff;color:#0B1220;padding:28px 36px 36px;box-shadow:0 30px 80px rgba(0,0,0,.5)}
+.tk .hd{display:flex;align-items:center;gap:14px}
+.tk .hd .lg{display:flex;align-items:flex-end;gap:5px;transform:skewX(-11deg);padding-bottom:3px}
+.tk .hd .lg i{display:block;width:9px;border-radius:3px;background:linear-gradient(180deg,#6E9BFF,#1F5FDB)}
+.tk .hd b{font:800 30px Manrope;letter-spacing:-.5px}
+.tk .hd span{font:600 22px Manrope;color:#64748B}
+.tk .crs{display:flex;justify-content:center;gap:26px;margin:22px 0 14px}
+.tk .crs .badge{width:150px;height:150px}
+.tk .tx{text-align:center;font:800 52px/1.14 Manrope;letter-spacing:-1px}
+.tk .tx em{font-style:normal;color:#16A34A}
+.tk .tx small{display:block;margin-bottom:8px;font:700 22px JBM;letter-spacing:4px;color:#1F5FDB;text-transform:uppercase}
+.nop .tk{top:430px}.nop .fx{top:250px}
+.rs{position:absolute;left:90px;right:90px;top:400px;border-radius:30px;background:rgba(14,18,30,.92);box-shadow:0 24px 70px rgba(0,0,0,.5);padding:26px 30px 30px;text-align:center}
+.rs .row{display:flex;align-items:center;justify-content:space-between}
+.rs .badge{width:120px;height:120px}
+.rs .sc{font-size:170px;line-height:1}
+.rs .sc span{color:rgba(255,255,255,.55);margin:0 .06em}
+.rs .ft{display:inline-block;margin-top:10px;padding:8px 18px;border-radius:999px;background:rgba(255,255,255,.12);font:700 20px JBM;letter-spacing:4px}
+.rs .nm{display:flex;justify-content:space-between;margin-top:10px;font:800 26px Manrope;color:rgba(255,255,255,.8)}
+.tal{position:absolute;left:0;right:0;top:120px;text-align:center;white-space:nowrap}
+.tal b{font:400 250px/1 Anton;letter-spacing:4px;background:linear-gradient(180deg,#B7FF5A,#22C55E 55%,#0E8A3A);-webkit-background-clip:text;color:transparent;
+  filter:drop-shadow(0 8px 0 #065F2B) drop-shadow(0 22px 40px rgba(0,0,0,.55))}
+.tal b.no{background:linear-gradient(180deg,#FFB4B4,#EF4444 55%,#991B1B);-webkit-background-clip:text;filter:drop-shadow(0 8px 0 #7F1D1D) drop-shadow(0 22px 40px rgba(0,0,0,.55))}
+.tal .emo{font-size:150px;vertical-align:40px;margin-left:16px}
+.nop .rs{top:330px}.nop .tal{top:780px}
+.rx_intro .big{position:absolute;left:40px;right:40px;top:520px;text-align:center;font-size:170px;line-height:.95;text-shadow:0 18px 60px rgba(0,0,0,.7)}
+.rx_intro .big span{color:#FFD400}
+.rx_intro .crw{position:absolute;left:60px;right:60px;top:300px;display:flex;justify-content:center;flex-wrap:wrap;gap:16px}
+.rx_intro .crw .badge{width:92px;height:92px}
+.rx_outro .tal{top:420px}
+.rx_outro .sub{position:absolute;left:60px;right:60px;top:760px;text-align:center;font-size:96px;line-height:1;text-shadow:0 14px 40px rgba(0,0,0,.6)}
+.rx_outro .fol{position:absolute;left:0;right:0;top:1000px;text-align:center}
+#cap.bold .c{font:400 66px/1.08 Anton;text-transform:uppercase;letter-spacing:1px;-webkit-text-stroke:5px #000;paint-order:stroke fill;text-shadow:0 6px 0 #000}
+#cap.bold .w.now{background:none;box-shadow:none;color:#FFD400;padding:0;margin:0 .13em}
+#cap.bold .w.next{opacity:1}
+
 /* stickers and emoji bursts */
 #fxl{position:absolute;inset:0;z-index:40;pointer-events:none;overflow:hidden}
 .stk{position:absolute;font-size:240px;line-height:1;filter:drop-shadow(0 20px 40px rgba(0,0,0,.55))}
@@ -175,6 +222,7 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#03060F}
     <div class="logo"><span class="bars"><i style="height:20px"></i><i style="height:30px"></i><i style="height:40px"></i></span>cmvng</div>
     <div id="hlabel"></div>
   </div>
+  <img id="pres">
   <div id="scenes"></div>
   <div id="fxl"></div>
   <div id="cap"></div>
@@ -203,6 +251,8 @@ function badge(b) {
   return `<div class="badge ${b.kind}"><img src="${b.src}"></div>`
 }
 const teamBadge = side => side === 'away' ? M.ba : M.bh
+const PRES = !!D.cfg.presenter
+const emph = s => html(s).replace(/\*\*(.+?)\*\*/g, '<em>$1</em>')   // **word** → green
 // two balanced lines, the second in brand blue, sized to fit the width (Anton ≈ 0.46 em per capital)
 function twoLines(h, max = 150, width = 1000) {
   const w = String(h || '').trim().split(/\s+/)
@@ -219,9 +269,13 @@ function barCols() { const h = M.bh.colour || '#3D7BFF', a = M.ba.colour || '#6E
 
 // ---------------------------------------------------------------- backgrounds: one per scene
 function mkBg(sc, k) {
+  if (sc.data?.photos?.length) {          // a montage: real photos of the team(s), cut on the beat
+    sc.bgs = sc.data.photos.map(ph => { const d = document.createElement('div'); d.className = 'bg photo'; d.style.backgroundImage = `url('${ph.src}')`; d.style.backgroundPosition = '50% 30%'; $('#bgs').appendChild(d); return d })
+    return sc.bgs[0]
+  }
   const d = document.createElement('div')
   if (sc.clip && sc.clip.fit === 'cover') { d.className = 'bg clip'; d.innerHTML = '<img>'; sc.img = $('img', d) }
-  else { const src = sc.data.photo_bg || M.stadium?.src; d.className = 'bg photo' + (src ? '' : ' none'); if (src) d.style.backgroundImage = `url('${src}')` }
+  else { const src = sc.data.photo_bg || D.picks[sc.i]?.stadium?.src || M.stadium?.src; d.className = 'bg photo' + (src ? '' : ' none'); if (src) d.style.backgroundImage = `url('${src}')` }
   $('#bgs').appendChild(d); return d
 }
 D.scenes.forEach((sc, k) => { sc.bg = mkBg(sc, k) })
@@ -278,6 +332,19 @@ const built = D.scenes.map((sc, k) => {
   } else if (sc.type === 'rv_quote') {
     el.innerHTML = `<div class="card q"><div class="mk">“</div><p>${html(b.quote)}</p>
       <div class="by">${b.photo ? `<div class="ph" style="background-image:url('${b.photo.src}')"></div>` : badge(teamBadge(b.team))}<div><b class="A">${html(b.who)}</b><span>${html(b.role || 'After the game')}</span></div></div></div>`
+  } else if (sc.type === 'rx_intro') {
+    el.innerHTML = `<div class="crw">${D.picks.map(q => badge(q.bh) + badge(q.ba)).join('')}</div><div class="big A">${html(b.title || 'Our takes')}<br><span>${html(b.title2 || 'vs the results')}</span></div>`
+  } else if (sc.type === 'rx_take' || sc.type === 'rx_reveal') {
+    const q = D.picks[sc.i]
+    const fx = `<div class="fx"><div class="t">${badge(q.bh)}<b>${html(q.home)}</b></div><div class="mid">${sc.type === 'rx_take' ? html(q.kickoff || '') : 'FT'}<span>${html(q.stage || q.competition || '')}</span></div><div class="t a">${badge(q.ba)}<b>${html(q.away)}</b></div></div>`
+    if (sc.type === 'rx_take') el.innerHTML = fx + `<div class="tk"><div class="hd"><span class="lg"><i style="height:16px"></i><i style="height:24px"></i><i style="height:32px"></i></span><b>cmvng</b><span>Match analysis · before kick-off</span></div>
+      <div class="crs">${(b.crests || ['home', 'away']).map(x => badge(x === 'away' ? q.ba : q.bh)).join('')}</div><div class="tx"><small>Our take</small>${emph(b.take || '')}</div></div>`
+    else el.innerHTML = `<div class="rs"><div class="row">${badge(q.bh)}<div class="sc A">${q.score_home}<span>–</span>${q.score_away}</div>${badge(q.ba)}</div>
+      <div class="nm"><span>${html(q.home)}</span><span>${html(q.away)}</span></div><div class="ft">Full time${b.scorers ? ' · ' + html(b.scorers) : ''}</div></div>
+      <div class="tal"><b class="${b.ok === false ? 'no' : ''}">${b.n}/${b.of}</b><span class="emo">${b.ok === false ? '❌' : b.ok === 'half' ? '🤏' : '✅'}</span></div>`
+    if (!PRES) el.classList.add('nop')
+  } else if (sc.type === 'rx_outro') {
+    el.innerHTML = `<div class="tal"><b>${b.n}/${b.of}</b></div><div class="sub A">${html(b.sub || 'on the night')}</div><div class="fol"><span class="chip">${html(b.follow || 'Follow for tomorrow\'s analysis')}</span></div>`
   } else if (sc.type === 'rv_cta') {
     el.innerHTML = `<div class="wrap"><div class="logo"><span class="bars"><i style="height:64px"></i><i style="height:98px"></i><i style="height:132px"></i></span>cmvng</div>
       <div class="big A">${html(b.big || 'Follow for more')}</div>${b.next ? `<div class="next"><span class="chip">${html(b.next)}</span></div>` : ''}</div>`
@@ -359,6 +426,15 @@ function draw(k, lt, sc) {
     rows.forEach((r, j) => slam(r, lt, 0.4 + j * step, 1.25, 0.25))
   } else if (sc.type === 'rv_quote') {
     rise([$('.q', el)], lt, 0.1, 0, 70, 0.5); slam($('.mk', el), lt, 0.3, 2, 0.3); rise([$('.by', el)], lt, 0.6, 0, 20)
+  } else if (sc.type === 'rx_intro') {
+    $$('.crw .badge', el).forEach((x, j) => slam(x, lt, 0.1 + j * 0.06, 1.6, 0.25)); slam($('.big', el), lt, 0.5, 1.8, 0.3); el.style.transform = shake(lt, 0.55, 16)
+  } else if (sc.type === 'rx_take') {
+    const q = P(lt, 0, 0.35, E.outBack); $('.fx', el).style.transform = `translate3d(0,${(1 - q) * -200}px,0)`; $('.fx', el).style.opacity = clamp(q * 2)
+    slam($('.tk', el), lt, 0.25, 1.25, 0.3)
+  } else if (sc.type === 'rx_reveal') {
+    slam($('.rs', el), lt, 0.12, 1.4, 0.28); slam($('.tal', el), lt, tallyAt(sc), 2.2, 0.28); el.style.transform = shake(lt, tallyAt(sc) + 0.03, 20)
+  } else if (sc.type === 'rx_outro') {
+    slam($('.tal', el), lt, 0.2, 2.2, 0.3); rise([$('.sub', el)], lt, 0.6); rise([$('.fol', el)], lt, 0.9); el.style.transform = shake(lt, 0.25, 18)
   } else if (sc.type === 'rv_cta') {
     const lg = $('.logo', el); slam(lg, lt, 0.05, 1.6, 0.4)
     $$('.logo .bars i', el).forEach((x, j) => { x.style.transform = `scaleY(${P(lt, 0.1 + j * 0.08, 0.5 + j * 0.08, E.outBack)})`; x.style.transformOrigin = '50% 100%' })
@@ -377,6 +453,7 @@ function draw(k, lt, sc) {
     n.style.transform = `translate3d(${+n.dataset.x + 60 * +n.dataset.w * u}px,${1900 - u * 1600 * +n.dataset.s}px,0) rotate(${+n.dataset.w * 40 * u}deg)`
   })
 }
+const tallyAt = sc => sc.data?.tally_at ?? Math.min(1.1, Math.max(0.7, (S(sc, 0)[0] || 0.4) + 0.5))
 const stampAt = sc => sc.data?.stamp_at ?? Math.max(1.2, (S(sc, sc.lines.length - 1)[0] || 1.5) - 0.1)
 
 // ---------------------------------------------------------------- sound effects in sync with the drawing above
@@ -395,6 +472,10 @@ window.fxEvents = function () {
     if (sc.type === 'rv_quote') add(T + 0.3, 'impact', 0.45)
     if (sc.type === 'rv_ratings') { const n = (b.rows || []).length, step = Math.max(0.45, (sc.dur - 1.2) / Math.max(1, n)); for (let j = 0; j < n; j++) add(T + 0.4 + j * step, 'pop') }
     if (sc.type === 'rv_cta') add(T + 0.6, 'impact', 0.7)
+    if (sc.type === 'rx_intro') { add(T + 0.5, 'boom'); add(T + 0.1, 'riser', 0.5) }
+    if (sc.type === 'rx_take') add(T + 0.28, 'pop')
+    if (sc.type === 'rx_reveal') { add(T + 0.14, 'impact', 0.6); const at = T + tallyAt(sc); add(at, 'boom', 0.8); add(at + 0.12, b.ok === false ? 'aww' : b.ok === 'half' ? 'groan' : 'ding'); if (b.ok === true) add(at + 0.2, 'crowd', 0.55) }
+    if (sc.type === 'rx_outro') { add(T + 0.22, 'boom'); add(T + 0.3, 'ding') }
     if (b.sticker) add(T + (b.sticker.at ?? 1.0), 'pop')
   })
   return ev
@@ -407,13 +488,13 @@ let seed = 99; const rnd = () => (seed = (seed * 1103515245 + 12345) % 214748364
 const gc = document.createElement('canvas'); gc.width = gc.height = 256
 { const x = gc.getContext('2d'), d = x.createImageData(256, 256); for (let i = 0; i < d.data.length; i += 4) { const v = rnd() * 255; d.data[i] = d.data[i + 1] = d.data[i + 2] = v; d.data[i + 3] = 255 } x.putImageData(d, 0, 0) }
 $('#grain').style.backgroundImage = `url(${gc.toDataURL()})`
-const LABEL = { rv_quote: 'Reaction', rv_hook: 'Full time', rv_moment: 'Key moment', rv_meme: '', rv_stats: 'The numbers', rv_read: 'Our read', rv_table: 'What it means', rv_ratings: 'Ratings', rv_cta: '' }
+const LABEL = { rx_intro: '', rx_take: '', rx_reveal: '', rx_outro: '', rv_quote: 'Reaction', rv_hook: 'Full time', rv_moment: 'Key moment', rv_meme: '', rv_stats: 'The numbers', rv_read: 'Our read', rv_table: 'What it means', rv_ratings: 'Ratings', rv_cta: '' }
 
 window.renderAt = async function (t) {
   let k = D.scenes.findIndex(s => t >= s.start && t < s.start + s.dur); if (k < 0) k = D.scenes.length - 1
   const sc = D.scenes[k], lt = t - sc.start, b = sc.data || {}
   built.forEach((el, j) => { el.style.display = j === k ? 'block' : 'none' })
-  D.scenes.forEach((s2, j) => { if (j !== k) { s2.bg.style.opacity = 0; if (s2.stk) s2.stk.style.opacity = 0; s2.parts.forEach(n => { n.style.opacity = 0 }) } })
+  D.scenes.forEach((s2, j) => { if (j !== k) { s2.bg.style.opacity = 0; (s2.bgs || []).forEach(x => { x.style.opacity = 0 }); if (s2.stk) s2.stk.style.opacity = 0; s2.parts.forEach(n => { n.style.opacity = 0 }) } })
 
   // the clip: show the frame for this moment (frames were cut for exactly this scene, at the video's frame rate)
   let wait = null
@@ -422,12 +503,21 @@ window.renderAt = async function (t) {
     if (sc.img.getAttribute('src') !== src) { sc.img.setAttribute('src', src); wait = sc.img.decode().catch(() => {}) }
   }
   const memeLike = sc.type === 'rv_meme' && b.style !== 'pov'
-  sc.bg.style.opacity = memeLike ? 0 : 1
-  const punch = 1 - P(lt, 0, 0.45, E.outCubic)
-  sc.bg.style.transform = `scale(${1.04 + 0.05 * clamp(lt / Math.max(3, sc.dur)) + 0.08 * punch})`
+  let bgNow = sc.bg, cutAt = 0
+  if (sc.bgs) {                            // montage: a new photo every two beats, each with its own push-in
+    const per = BEAT * 2, j = Math.floor(lt / per) % sc.bgs.length
+    sc.bgs.forEach((x, i) => { x.style.opacity = i === j ? 1 : 0 }); bgNow = sc.bgs[j]; cutAt = Math.floor(lt / per) * per
+    if (sc.type === 'rx_reveal') bgNow.style.filter = 'brightness(.5) saturate(1.1) blur(6px)'
+  } else sc.bg.style.opacity = memeLike ? 0 : 1
+  const punch = 1 - P(lt - cutAt, 0, 0.4, E.outCubic)
+  bgNow.style.transform = `scale(${1.06 + 0.06 * clamp((lt - cutAt) / (BEAT * 2)) + 0.1 * punch}) translate3d(${((Math.floor(lt / (BEAT * 2)) % 2) ? -1 : 1) * 18 * clamp((lt - cutAt) / (BEAT * 2))}px,0,0)`
+  // presenter (keyed green-screen frames, one per video frame)
+  const pr = $('#pres')
+  if (sc.pres) { const f = Math.min(sc.pres.n, Math.max(1, Math.floor(lt * 30) + 1)), src = `${sc.pres.dir}/${String(f).padStart(4, '0')}.webp`; pr.style.display = 'block'; if (pr.getAttribute('src') !== src) { pr.setAttribute('src', src); const w2 = pr.decode().catch(() => {}); wait = wait ? Promise.all([wait, w2]) : w2 } }
+  else pr.style.display = 'none'
   $('#tint').style.opacity = memeLike ? 0 : b.style === 'pov' ? 0.55 : 1
   $('#vig').style.opacity = memeLike ? 0 : 1
-  $('#credit').textContent = memeLike || sc.clip ? (b.credit || '') : (b.photo?.credit || (sc.bg.classList.contains('photo') ? M.stadium?.credit || '' : ''))
+  $('#credit').textContent = sc.bgs ? (b.photos[sc.bgs.indexOf(bgNow)]?.credit || '') : memeLike || sc.clip ? (b.credit || '') : (b.photo?.credit || (sc.bg.classList.contains('photo') ? M.stadium?.credit || '' : ''))
 
   draw(k, lt, sc)
   $('#scenes').style.transform = memeLike ? '' : `scale(${1 + 0.018 * clamp(lt / sc.dur)})`
@@ -454,7 +544,9 @@ window.renderAt = async function (t) {
     const box = $('.c', capEl); box.style.opacity = clamp(q * 2); box.style.transform = `scale(${0.85 + 0.15 * q})`
     $$('.w', capEl).forEach((s, j) => { const w = c.words[j]; s.className = 'w' + (t >= w.t0 && t < w.t1 ? ' now' : t < w.t0 ? ' next' : '') })
   }
-  capEl.style.top = memeLike ? '1500px' : '1474px'
+  capEl.className = D.cfg.caption_style === 'bold' ? 'bold' : ''
+  capEl.style.top = memeLike ? '1500px' : sc.pres ? '1330px' : '1474px'
+  $('#hdr').style.display = sc.type.startsWith('rx_') ? 'none' : ''
   if (wait) await wait
 }
 
