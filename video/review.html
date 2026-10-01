@@ -195,9 +195,11 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#03060F}
 .rx_intro .big span{color:#FFD400}
 .rx_intro .crw{position:absolute;left:60px;right:60px;top:300px;display:flex;justify-content:center;flex-wrap:wrap;gap:16px}
 .rx_intro .crw .badge{width:92px;height:92px}
-.rx_outro .tal{top:420px}
-.rx_outro .sub{position:absolute;left:60px;right:60px;top:760px;text-align:center;font-size:96px;line-height:1;text-shadow:0 14px 40px rgba(0,0,0,.6)}
-.rx_outro .fol{position:absolute;left:0;right:0;top:1000px;text-align:center}
+.rx_outro .tal{top:250px}
+.rx_outro .sub{position:absolute;left:60px;right:60px;top:560px;text-align:center;font-size:96px;line-height:1;text-shadow:0 14px 40px rgba(0,0,0,.6)}
+.rx_outro .fol{position:absolute;left:0;right:0;top:690px;text-align:center}
+.rx_outro .fol .chip{font-size:28px;padding:16px 30px;background:linear-gradient(90deg,#1F5FDB,#3D7BFF)}
+.rx_outro.nop .tal{top:420px}.rx_outro.nop .sub{top:760px}.rx_outro.nop .fol{top:1000px}
 #cap.bold .c{font:400 66px/1.08 Anton;text-transform:uppercase;letter-spacing:1px;-webkit-text-stroke:5px #000;paint-order:stroke fill;text-shadow:0 6px 0 #000}
 #cap.bold .w.now{background:none;box-shadow:none;color:#FFD400;padding:0;margin:0 .13em}
 #cap.bold .w.next{opacity:1}
@@ -344,6 +346,7 @@ const built = D.scenes.map((sc, k) => {
       <div class="tal"><b class="${b.ok === false ? 'no' : ''}">${b.n}/${b.of}</b><span class="emo">${b.ok === false ? '❌' : b.ok === 'half' ? '🤏' : '✅'}</span></div>`
     if (!PRES) el.classList.add('nop')
   } else if (sc.type === 'rx_outro') {
+    if (!PRES) el.classList.add('nop')
     el.innerHTML = `<div class="tal"><b>${b.n}/${b.of}</b></div><div class="sub A">${html(b.sub || 'on the night')}</div><div class="fol"><span class="chip">${html(b.follow || 'Follow for tomorrow\'s analysis')}</span></div>`
   } else if (sc.type === 'rv_cta') {
     el.innerHTML = `<div class="wrap"><div class="logo"><span class="bars"><i style="height:64px"></i><i style="height:98px"></i><i style="height:132px"></i></span>cmvng</div>
