@@ -128,6 +128,12 @@ What the page needs to output, per single:
 - From the match page: `home_win`, `draw`, `away_win`, `xg_home`, `xg_away`, `form_home`, `form_away` (oldest → newest), `scored_*` and `conceded_*`.
 - After settlement: `result` and `score`.
 
+**Ready-made page for the cmvngpicks app:** `app-page/video_brief.py`. Copy it next to `app.py` and add two lines there (see the top of the file). It adds `/admin/video-brief` behind the existing admin lock. The page has Picks and Results tabs, Morning, Evening and All-day filters, `$` / `₦` switches, and a Copy button. It only reads from the database, using your app's own data:
+- The published singles (legs with a booking code) come from the `sportybet_accumulators` rows with `tier = 'singles'`.
+- The stats and final score come from each match's `match_catalogue` row, found with `_fl4_match_ids722` / `_fl4_leg_mid722`.
+
+Tests: `python3 -m unittest video/app-page/test_video_brief.py`. They run fake app data through the page and then through the video tool.
+
 Leave crests out. National teams get flags automatically and clubs get cmvng shields. Don't copy crest image links from your data provider: those images aren't licensed for your videos.
 
 Turning the copied text into a video needs a computer that can run this tool. An ordinary AI chat can't render it, because it has no renderer, voice or encoder. The options:
