@@ -20,7 +20,7 @@ const SAY_NAMES = {
   Ikorodu: 'Eekorodoo', Remo: 'Raymo', Kano: 'Kahno', Lobi: 'Lobee', Leicester: 'Lester',
   Platense: 'Plaht-en-seh', Estudiantes: 'Estoo-dee-antes', CONCACAF: 'Konkakaff',
   Tzolis: 'Tzo-lis', Toumba: 'Toom-ba', Xavi: 'Shah-vee', 'Mörschel': 'Mer-shel', 'Badía': 'Ba-dee-ah', Cozzani: 'Koh-zah-nee', Mainero: 'My-neh-ro',
-  'Højlund': 'Hoy-lund', Damsgaard: 'Dams-gore', 'Gonçalo': 'Gon-sah-lo', 'Leão': 'Lay-ow', 'Jürgen': 'Yurgen', Vitinha: 'Vee-teen-ya', Haaland: 'Hah-land', 'Atlético': 'Atleteeko', Gaich: 'Gaheech',
+  'Højlund': 'Hoy-lund', Damsgaard: 'Dams-gore', 'Gonçalo': 'Gon-sah-lo', 'Leão': 'Lay-ow', 'Jürgen': 'Yurgen', Vitinha: 'Vee-teen-ya', Haaland: 'Hah-land', 'Atlético': 'Atleteeko', Gaich: 'Gaheech', 'Martínez': 'Mar-teen-ez', Veiga: 'Vay-ga',
 }
 const NAME_RE = new RegExp(`\\b(${Object.keys(SAY_NAMES).join('|')})\\b`, 'g')
 const speakNames = t => t.replace(NAME_RE, w => SAY_NAMES[w])

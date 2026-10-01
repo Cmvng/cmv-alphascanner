@@ -1,0 +1,123 @@
+{
+ "mode": "review",
+ "competition": "UEFA Nations League",
+ "date": "2025-03-20",
+ "picks": [
+  {
+   "home": "Denmark",
+   "away": "Portugal",
+   "competition": "UEFA Nations League",
+   "score_home": "1",
+   "score_away": "0",
+   "stadium": "/home/user/cmv-alphascanner/video/.cache/stadiums/denmark.jpg",
+   "stadium_credit": "Parken Stadium, Copenhagen · Photo: Arne Müseler · CC BY-SA 3.0 de"
+  }
+ ],
+ "voice_speed": 1.22,
+ "review": {
+  "beats": [
+   {
+    "type": "hook",
+    "headline": "Parken said no",
+    "clip": {
+     "id": 44602,
+     "from": 3
+    },
+    "burst": {
+     "e": "😂🇩🇰💀",
+     "at": 0.6
+    },
+    "say": [
+     "Denmark one, Portugal nil. Here's how it went."
+    ]
+   },
+   {
+    "type": "meme",
+    "style": "pov",
+    "top": "POV: Eriksen steps up for a penalty in the 24th minute",
+    "clip": {
+     "id": 44604,
+     "from": 2
+    },
+    "hold": 2.8
+   },
+   {
+    "type": "meme",
+    "top": "Diogo Costa:",
+    "bottom": "NOT TODAY",
+    "clip": {
+     "id": 43496
+    },
+    "punch": 0.7,
+    "say": [
+     "Diogo Costa said no."
+    ]
+   },
+   {
+    "type": "meme",
+    "top": "Portugal with 56% of the ball and 2 shots on target:",
+    "clip": {
+     "id": 8744,
+     "from": 3
+    },
+    "punch": 1.0,
+    "sfx": "scratch",
+    "hold": 3.0
+   },
+   {
+    "type": "meme",
+    "top": "Nobody:\nHøjlund, 9 minutes off the bench:",
+    "bottom": "GOAL",
+    "clip": {
+     "id": 2916,
+     "from": 4
+    },
+    "punch": 1.0,
+    "sfx": "crowd",
+    "say": [
+     "Then Højlund, nine minutes off the bench."
+    ]
+   },
+   {
+    "type": "meme",
+    "top": "Roberto Martínez after the game:",
+    "bottom": "WORST MATCH IN A LONG TIME",
+    "clip": {
+     "id": 4701,
+     "from": 2
+    },
+    "punch": 0.9,
+    "sfx": "aww",
+    "say": [
+     "Martínez called it their worst match in a very long time."
+    ]
+   },
+   {
+    "type": "meme",
+    "top": "Denmark fans three days later in Lisbon:",
+    "bottom": "5–2 AET",
+    "clip": {
+     "id": 42242,
+     "from": 2.2
+    },
+    "punch": 0.8,
+    "sticker": {
+     "e": "💀",
+     "at": 1.1,
+     "x": 760,
+     "y": 1150
+    },
+    "say": [
+     "Three days later? Portugal five, Denmark two."
+    ]
+   },
+   {
+    "type": "cta",
+    "big": "Follow for more",
+    "say": [
+     "Follow for more."
+    ]
+   }
+  ]
+ }
+}

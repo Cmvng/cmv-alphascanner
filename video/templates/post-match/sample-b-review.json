@@ -1,0 +1,173 @@
+{
+ "mode": "review",
+ "competition": "UEFA Nations League",
+ "date": "2025-03-20",
+ "picks": [
+  {
+   "home": "Denmark",
+   "away": "Portugal",
+   "competition": "UEFA Nations League",
+   "score_home": "1",
+   "score_away": "0",
+   "stadium": "/home/user/cmv-alphascanner/video/.cache/stadiums/denmark.jpg",
+   "stadium_credit": "Parken Stadium, Copenhagen · Photo: Arne Müseler · CC BY-SA 3.0 de"
+  }
+ ],
+ "voice_speed": 1.12,
+ "music": "/home/user/cmv-alphascanner/video/.cache/music/739.mp3",
+ "music_start": 20.4,
+ "review": {
+  "beats": [
+   {
+    "type": "hook",
+    "headline": "Denmark deserved more",
+    "clip": {
+     "id": 4262
+    },
+    "crowd": "crowd",
+    "say": [
+     "Denmark one, Portugal nil at Parken. A late winner, and on the numbers, it should have been more."
+    ]
+   },
+   {
+    "type": "moment",
+    "min": 8,
+    "icon": "🧤",
+    "team": "home",
+    "player": "Kasper Schmeichel",
+    "title": "Schmeichel",
+    "text": "Keeps out Pedro Neto's long-range shot",
+    "clip": {
+     "id": 43496
+    },
+    "say": [
+     "Early on, Kasper Schmeichel kept out Pedro Neto's long-range shot."
+    ]
+   },
+   {
+    "type": "moment",
+    "min": 24,
+    "icon": "🧤",
+    "team": "away",
+    "player": "Diogo Costa",
+    "title": "Penalty saved",
+    "text": "Veiga handles. Eriksen's kick, saved by Diogo Costa",
+    "clip": {
+     "id": 43494,
+     "speed": 0.7
+    },
+    "sfx": "groan",
+    "say": [
+     "Then the big chance. Renato Veiga handled, but Diogo Costa saved Christian Eriksen's penalty."
+    ]
+   },
+   {
+    "type": "moment",
+    "min": 78,
+    "icon": "⚽",
+    "team": "home",
+    "title": "Højlund",
+    "text": "On at 69 minutes, the winner at 78. Assist: Andreas Skov Olsen",
+    "clip": {
+     "id": 43480,
+     "speed": 0.6
+    },
+    "sfx": "crowd",
+    "say": [
+     "Højlund came on at sixty-nine minutes, and nine minutes later he scored the winner."
+    ]
+   },
+   {
+    "type": "stats",
+    "rows": [
+     [
+      "Shots",
+      "23",
+      "8"
+     ],
+     [
+      "On target",
+      "9",
+      "2"
+     ],
+     [
+      "Possession",
+      "44%",
+      "56%"
+     ],
+     [
+      "xG",
+      "1.29",
+      "0.51"
+     ]
+    ],
+    "hurt": "Possession isn't everything",
+    "hurt_sfx": "scratch",
+    "say": [
+     "Twenty-three shots to eight. Nine on target to two.",
+     "Expected goals: 1.29 to 0.51. Portugal had the ball, Denmark had the chances."
+    ]
+   },
+   {
+    "type": "ratings",
+    "rows": [
+     {
+      "name": "Rasmus Højlund",
+      "team": "home",
+      "score": "8",
+      "emoji": "⚡",
+      "note": "Winner, 9 minutes off the bench"
+     },
+     {
+      "name": "Diogo Costa",
+      "team": "away",
+      "score": "8",
+      "emoji": "🧤",
+      "note": "Saved a penalty, kept it at 1–0"
+     },
+     {
+      "name": "Christian Eriksen",
+      "team": "home",
+      "score": "6",
+      "emoji": "😬",
+      "note": "Penalty saved"
+     }
+    ],
+    "say": [
+     "Our ratings: Højlund and Diogo Costa the standouts. Eriksen, the penalty that got away."
+    ]
+   },
+   {
+    "type": "quote",
+    "quote": "It's the worst match we've played in a very long time. Denmark were simply better than us in every aspect.",
+    "who": "Roberto Martínez",
+    "role": "Portugal coach, after the game",
+    "team": "away",
+    "say": [
+     "Portugal's coach, Roberto Martínez, didn't hide from it."
+    ]
+   },
+   {
+    "type": "table",
+    "title": "What came next",
+    "sub": "The second leg, 23 March 2025",
+    "points": [
+     "Lisbon: Portugal 5–2 Denmark after extra time",
+     "Portugal through 5–3 on aggregate, then Germany in the semi-final"
+    ],
+    "say": [
+     "Three days later in Lisbon, Portugal won five two after extra time.",
+     "They went through five three on aggregate."
+    ]
+   },
+   {
+    "type": "cta",
+    "big": "Follow for more",
+    "next": "Match analysis before every big game",
+    "say": [
+     "That's the review. Follow for more football, by the numbers."
+    ]
+   }
+  ]
+ }
+}

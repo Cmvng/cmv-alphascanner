@@ -1,0 +1,163 @@
+{
+ "mode": "review",
+ "competition": "UEFA Nations League",
+ "date": "2025-03-20",
+ "picks": [
+  {
+   "home": "Denmark",
+   "away": "Portugal",
+   "competition": "UEFA Nations League",
+   "score_home": "1",
+   "score_away": "0",
+   "stadium": "/home/user/cmv-alphascanner/video/.cache/stadiums/denmark.jpg",
+   "stadium_credit": "Parken Stadium, Copenhagen · Photo: Arne Müseler · CC BY-SA 3.0 de"
+  }
+ ],
+ "voice_speed": 1.2,
+ "review": {
+  "beats": [
+   {
+    "type": "hook",
+    "headline": "Højlund breaks Portugal",
+    "clip": {
+     "id": 44602
+    },
+    "crowd": "crowd",
+    "burst": {
+     "e": "🇩🇰🔥⚽",
+     "at": 0.6
+    },
+    "say": [
+     "Denmark one, Portugal nil! Twenty-three shots, and a late winner at Parken."
+    ]
+   },
+   {
+    "type": "moment",
+    "min": 24,
+    "icon": "🧤",
+    "team": "away",
+    "player": "Diogo Costa",
+    "title": "Costa saves it!",
+    "text": "Eriksen's penalty, after Renato Veiga's handball",
+    "clip": {
+     "id": 43496
+    },
+    "sfx": "groan",
+    "say": [
+     "Twenty-four minutes. Eriksen steps up, and Diogo Costa saves the penalty."
+    ]
+   },
+   {
+    "type": "meme",
+    "top": "Denmark fans when Costa saved the penalty:",
+    "bottom": "NOOO",
+    "clip": {
+     "id": 42242,
+     "from": 2.2
+    },
+    "punch": 0.85,
+    "hold": 3.0
+   },
+   {
+    "type": "moment",
+    "min": 78,
+    "icon": "⚽",
+    "team": "home",
+    "title": "Højlund!",
+    "text": "On at 69 minutes. Andreas Skov Olsen sets him up.",
+    "clip": {
+     "id": 43480,
+     "speed": 0.6
+    },
+    "sfx": "crowd",
+    "burst": {
+     "e": "🇩🇰🔥",
+     "at": 1.0
+    },
+    "say": [
+     "Seventy-eight minutes. Højlund, nine minutes off the bench, and Parken goes wild."
+    ]
+   },
+   {
+    "type": "meme",
+    "style": "pov",
+    "top": "POV: you're Portugal. 56% of the ball. 2 shots on target.",
+    "clip": {
+     "id": 4701
+    },
+    "sfx": "aww",
+    "sfx_at": 0.6,
+    "say": [
+     "Portugal had more of the ball, and two shots on target all night."
+    ]
+   },
+   {
+    "type": "stats",
+    "rows": [
+     [
+      "Shots",
+      "23",
+      "8"
+     ],
+     [
+      "On target",
+      "9",
+      "2"
+     ],
+     [
+      "Possession",
+      "44%",
+      "56%"
+     ],
+     [
+      "xG",
+      "1.29",
+      "0.51"
+     ]
+    ],
+    "hurt": "56% of the ball. 2 shots on target 😭",
+    "say": [
+     "Denmark had twenty-three shots to eight.",
+     "Portugal kept the ball, and did nothing with it."
+    ]
+   },
+   {
+    "type": "quote",
+    "quote": "It's the worst match we've played in a very long time.",
+    "who": "Roberto Martínez",
+    "role": "Portugal coach, after the game",
+    "team": "away",
+    "say": [
+     "Even their coach, Roberto Martínez, said it."
+    ]
+   },
+   {
+    "type": "meme",
+    "top": "Denmark fans three days later in Lisbon:",
+    "bottom": "5–2 AET",
+    "clip": {
+     "id": 4508
+    },
+    "punch": 0.9,
+    "sfx": "scratch",
+    "sticker": {
+     "e": "💀",
+     "at": 1.2,
+     "x": 760,
+     "y": 1150
+    },
+    "say": [
+     "Three days later in Lisbon? Portugal won five two, after extra time."
+    ]
+   },
+   {
+    "type": "cta",
+    "big": "Follow for more",
+    "next": "Match analysis before every big game",
+    "say": [
+     "Follow for more."
+    ]
+   }
+  ]
+ }
+}
