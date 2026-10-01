@@ -284,6 +284,22 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#03060F}
 .pv_expect .box .pt{font-size:44px;margin-top:30px}
 .pv_expect .verdict{position:absolute;left:60px;right:60px;top:1150px;text-align:center}
 .pv_expect .verdict .chip{font-size:26px;background:linear-gradient(90deg,rgba(31,95,219,.85),rgba(61,123,255,.6))}
+.pv_round .mu2{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:6px 0 26px;border-bottom:1.5px solid rgba(255,255,255,.1)}
+.pv_round .mu2 .sd{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;text-align:center}
+.pv_round .mu2 .badge{width:150px;height:150px}
+.pv_round .mu2 .sd b{display:block;margin-top:16px;line-height:1}
+.pv_round .mu2 .v{font-size:64px;color:var(--brand3)}
+.pv_round .xgl{display:flex;justify-content:center;align-items:baseline;gap:22px;margin-top:22px}
+.pv_round .xgl b{font-size:76px;line-height:1}
+.pv_round .xgl span{font:700 24px JBM;letter-spacing:5px;color:var(--brand3)}
+.pv_round .tri{display:flex;height:48px;margin-top:22px;border-radius:14px;overflow:hidden;background:rgba(255,255,255,.06)}
+.pv_round .tri i{display:block;height:100%;transform-origin:0 50%}
+.pv_round .lab{display:flex;justify-content:space-between;margin-top:14px}
+.pv_round .lab div{flex:1;text-align:center}.pv_round .lab div:first-child{text-align:left}.pv_round .lab div:last-child{text-align:right}
+.pv_round .lab b{display:block;font-size:60px;line-height:1}
+.pv_round .lab span{display:block;margin-top:4px;font:700 19px JBM;letter-spacing:3px;text-transform:uppercase;color:var(--muted)}
+.pv_round .box .pt{font-size:32px;margin-top:22px}
+.pv_round .cnt{position:absolute;right:66px;top:466px;font:700 24px JBM;letter-spacing:4px;color:var(--brand3)}
 
 /* captions (inside the safe zone: clear of the phone's bottom bar and side buttons) */
 #cap{position:absolute;left:70px;right:150px;top:1474px;height:200px;z-index:55;display:flex;align-items:flex-start;justify-content:center;text-align:center}
@@ -507,6 +523,16 @@ function buildPreview(type, p) {
   if (type === 'pv_expect') return `<div class="t1 A">What to expect</div><div class="t2">The AI Analyst's read</div>
     <div class="card box">${(an.expect || []).map(x => `<div class="pt"><i></i><div>${html(x)}</div></div>`).join('')}</div>
     ${an.verdict ? `<div class="verdict"><span class="chip">${html(an.verdict)}</span></div>` : ''}`
+  if (type === 'pv_round') {
+    const r = p.round || {}, segs = [[p.home_win, p.bh.colour || '#3D7BFF', p.home], [p.draw, '#64748B', 'Draw'], [p.away_win, p.ba.colour || '#6E9BFF', p.away]]
+    const k = D.picks.indexOf(p), n = D.picks.length - 1, fs = nm => nm.length > 11 ? 44 : nm.length > 8 ? 52 : 60
+    return `<div class="t1 A long">${html(r.title || 'Around the league')}</div><div class="t2">${html(r.stage || p.competition || '')}</div><div class="cnt">${k} / ${n}</div>
+      <div class="card box"><div class="mu2"><div class="sd">${badge(p.bh)}<b class="A" style="font-size:${fs(p.home)}px">${html(p.home)}</b></div><div class="v A">vs</div><div class="sd">${badge(p.ba)}<b class="A" style="font-size:${fs(p.away)}px">${html(p.away)}</b></div></div>
+        <div class="xgl"><b class="A" data-n="${p.xg_home}">0.0</b><span>xG</span><b class="A" data-n="${p.xg_away}">0.0</b></div>
+        <div class="tri">${segs.map(([v, c]) => `<i style="width:${v}%;background:${c}"></i>`).join('')}</div>
+        <div class="lab">${segs.map(([v, , nm]) => `<div><b class="A" data-n="${v}">0%</b><span>${html(nm)}</span></div>`).join('')}</div>
+        ${(r.points || []).slice(0, 2).map(x => `<div class="pt"><i></i><div>${html(x)}</div></div>`).join('')}</div>`
+  }
   if (type === 'pv_cta') return `<div class="wrap"><div class="logo"><span class="bars"><i style="height:64px"></i><i style="height:98px"></i><i style="height:132px"></i></span>cmvng</div>
     <div class="big A">${D.cfg.analysis ? 'Follow the<br>AI Analyst' : 'Follow for more<br>match previews'}</div><div class="url">Football, by the numbers</div></div>`
   return ''
@@ -669,6 +695,13 @@ function drawPreview(sc, el, lt) {
       $$('.tcol', el).forEach((c, j) => { const at = j ? S(sc, 1)[0] - 0.2 : 0.3; rise([c], lt, at, 0, 60, 0.5)
         $$('.dot', c).forEach((d, k) => { d.style.opacity = P(lt, at + 0.3 + k * 0.05, at + 0.45 + k * 0.05) })
         $$('.pt', c).forEach((n, k) => rise([n], lt, at + 0.8 + k * 0.25, 0, 20)) })
+    } else if (sc.type === 'pv_round') {
+      rise([$('.cnt', el)], lt, 0.1)
+      rise($$('.mu2 .sd', el), lt, 0.3, 0.12, 40); slam($('.mu2 .v', el), lt, 0.45, 2.2, 0.3)
+      $$('.xgl b', el).forEach(n => { n.textContent = (+n.dataset.n * P(lt, 0.6, 1.5, E.outCubic) + 1e-9).toFixed(1) })
+      $$('.tri i', el).forEach((n, j) => { n.style.transform = `scaleX(${P(lt, 0.8 + j * 0.2, 1.4 + j * 0.2, E.outCubic)})` })
+      $$('.lab b', el).forEach((n, j) => { n.textContent = Math.round(+n.dataset.n * P(lt, 0.8 + j * 0.2, 1.6 + j * 0.2, E.outCubic)) + '%' })
+      const at = Math.max(1.9, (S(sc, 1)[0] || 2.4) - 0.3); $$('.box .pt', el).forEach((n, j) => rise([n], lt, at + j * 0.6, 0, 24))
     } else if (sc.type === 'pv_score') {
       $$('.tile', el).forEach((t, j) => slam(t, lt, 0.35 + j * 0.3, 1.4, 0.3))
       rise([$('.note', el)], lt, 1.4)
@@ -707,6 +740,7 @@ window.fxEvents = function () {
     if (sc.type === 'pv_tactics') { add(T + 0.6, 'tick'); add(T + S(sc, 1)[0] + 0.1, 'tick2') }
     if (sc.type === 'pv_expect' && D.cfg.analysis?.verdict) add(T + S(sc, sc.lines.length - 1)[0] + 0.5, 'impact', 0.6)
     if (sc.type === 'pv_stake') add(T + 0.4, 'impact', 0.4)
+    if (sc.type === 'pv_round') { add(T + 0.5, 'impact', 0.45); add(T + 0.85, 'tick'); add(T + 1.05, 'tick2'); add(T + 1.25, 'tick3') }
     if (sc.type === 'slate') add(T + 0.25, 'impact', 0.45)
     const nx = D.scenes[k + 1]
     if (nx && (nx.type === 'slate' || nx.type === 'rtotal')) add(nx.start, 'riser', 0.8)

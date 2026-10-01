@@ -133,7 +133,7 @@ if (voiceOn) {
 const est = s => s.split(/\s+/).length / (2.7 * cfg.voice_speed) + 0.2 // seconds, when there's no voice
 
 // ---------------------------------------------------------------- 4. timeline + captions
-const MIN = { hook: 4.2, pick: 7.0, slate: 5.0, cta: 4.4, rhook: 5.4, result: 4.6, rtotal: 6.2, pv_hook: 5.0, pv_form: 6.0, pv_stats: 7.0, pv_model: 7.5, pv_score: 5.5, pv_cta: 4.5, pv_stake: 6.0, pv_players: 8.0, pv_tactics: 8.0, pv_expect: 7.0 }
+const MIN = { hook: 4.2, pick: 7.0, slate: 5.0, cta: 4.4, rhook: 5.4, result: 4.6, rtotal: 6.2, pv_hook: 5.0, pv_form: 6.0, pv_stats: 7.0, pv_model: 7.5, pv_score: 5.5, pv_cta: 4.5, pv_stake: 6.0, pv_players: 8.0, pv_tactics: 8.0, pv_expect: 7.0, pv_round: 6.0 }
 const LEAD = { hook: 0.2, rhook: 0.2 }, GAP = 0.12, TAIL = 0.3
 const BEAT = music?.beat || null
 let t = 0

@@ -20,6 +20,7 @@ const SAY_NAMES = {
   Ikorodu: 'Eekorodoo', Remo: 'Raymo', Kano: 'Kahno', Lobi: 'Lobee', Leicester: 'Lester',
   Platense: 'Plaht-en-seh', Estudiantes: 'Estoo-dee-antes', CONCACAF: 'Konkakaff',
   Tzolis: 'Tzo-lis', Toumba: 'Toom-ba', Xavi: 'Shah-vee', 'Mörschel': 'Mer-shel', 'Badía': 'Ba-dee-ah', Cozzani: 'Koh-zah-nee', Mainero: 'My-neh-ro',
+  'Højlund': 'Hoy-lund', Damsgaard: 'Dams-gore', 'Gonçalo': 'Gon-sah-lo', 'Leão': 'Lay-ow', 'Jürgen': 'Yurgen', Vitinha: 'Vee-teen-ya', Haaland: 'Hah-land',
 }
 const NAME_RE = new RegExp(`\\b(${Object.keys(SAY_NAMES).join('|')})\\b`, 'g')
 const speakNames = t => t.replace(NAME_RE, w => SAY_NAMES[w])
@@ -31,9 +32,10 @@ export function speakify(t) {
   return t
     .replace(/\b(over|under)\s+(\d)\.5\b/gi, (_, ou, n) => `${ou} ${n === '0' ? 'half a' : num(+n) + ' and a half'}`)
     .replace(/\b(\d)\.5 goals\b/gi, (_, n) => `${num(+n)} and a half goals`)
-    .replace(/\b(\d+)\.(\d\d?)\b/g, (_, a, b) => `${num(+a)} point ${[...b.replace(/0$/, '')].map(d => DIG[+d]).join(' ')}`)
+    .replace(/\b(\d+)\.(\d\d?)\b/g, (_, a, b) => { const d = b.replace(/0+$/, ''); return d ? `${num(+a)} point ${[...d].map(x => DIG[+x]).join(' ')}` : num(+a) })   // 2.0 → two
     .replace(/(\d)\s?%/g, '$1 percent')
     .replace(/₦\s?([\d,]+)/g, '$1 naira').replace(/\$\s?([\d,]+(?:\.\d+)?)/g, '$1 dollars')
+    .replace(/\b(\d)-(\d)-(\d)(?:-(\d))?\b/g, (...m) => m.slice(1, 5).filter(Boolean).map(d => DIG[+d]).join(' '))   // formations: 4-4-2 → four four two
     .replace(/\bxG\b/g, 'expected goals').replace(/\s*&\s*/g, ' and ').replace(/\b(\d+)\s*[-–]\s*(\d+)\b/g, (_, x, y) => +x === +y ? `${+x === 0 ? 'nil' : num(+x)} all` : `${num(+x)} ${+y === 0 ? 'nil' : num(+y)}`)
 }
 const W = line => L(speakify(line), line)
@@ -43,9 +45,9 @@ const W = line => L(speakify(line), line)
 function applyScript(cfg, scenes) {
   const sc = cfg.script
   if (!sc) return scenes
-  let pi = 0, ri = 0
+  let pi = 0, ri = 0, oi = 0
   for (const s of scenes) {
-    const lines = s.type === 'pick' ? sc.picks?.[pi++] : s.type === 'result' ? sc.results?.[ri++] : sc[s.type]
+    const lines = s.type === 'pick' ? sc.picks?.[pi++] : s.type === 'result' ? sc.results?.[ri++] : s.type === 'pv_round' ? sc.pv_round?.[oi++] : sc[s.type]
     if (Array.isArray(lines) && lines.length) s.say = lines.map(W)
   }
   return scenes
@@ -153,7 +155,7 @@ export function buildScenes(cfg, picks, recap) {
 }
 
 // Match preview: football analysis only. No odds, prices, stakes, picks or betting words (X / YouTube monetisation).
-function buildPreviewScenes(cfg, [p]) {
+function buildPreviewScenes(cfg, [p, ...others]) {
   const H = p.home, A = p.away, f1 = v => (v + 1e-9).toFixed(1)
   const scenes = [{ type: 'pv_hook', i: 0, say: [W(`${H} against ${A}${p.competition ? ` in the ${p.competition}` : ''}.`), W(`Here's what the numbers say.`)] }]
   if (p.record_home && p.record_away) {
@@ -187,6 +189,12 @@ function buildPreviewScenes(cfg, [p]) {
     const [a, b] = p.top_scores, sc = x => `${x[0]}-${x[1]}`
     scenes.push({ type: 'pv_score', i: 0, say: [W(b && Math.abs(a[2] - b[2]) < 1 ? `The most likely scores are ${sc(a)} and ${sc(b)}, each about ${Math.round(a[2])}%.` : `The single most likely score is ${sc(a)}, at ${Math.round(a[2])}%.`)] })
   }
+  // the round-up: tonight's other matches (picks 2, 3, …), one screen each with the app's numbers and a researched note
+  others.forEach((r, j) => {
+    if (r.home_win === undefined) return
+    const fav = r.home_win >= r.away_win ? [r.home, r.home_win] : [r.away, r.away_win]
+    scenes.push({ type: 'pv_round', i: j + 1, say: [W(`${j ? 'And' : 'Elsewhere,'} ${r.home} against ${r.away}. Our model makes ${fav[0]} favourites, at ${Math.round(fav[1])}%.`)] })
+  })
   scenes.push({ type: 'pv_cta', i: 0, say: [W(`That's the preview. Follow for more football, by the numbers.`)] })
   return scenes
 }

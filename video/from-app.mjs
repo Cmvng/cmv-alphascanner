@@ -13,12 +13,12 @@
 
 import fs from 'node:fs'
 import path from 'node:path'
-import { sessions, singles, page, parse } from './lib/cmvng-site.mjs'
+import { SITE, sessions, singles, page, parse } from './lib/cmvng-site.mjs'
 
 const argv = process.argv.slice(2)
 const opt = (n, d) => { const i = argv.indexOf(`--${n}`); return i < 0 ? d : argv[i + 1] }
-const mode = ['results', 'picks', 'preview'].includes(argv[0]) ? argv[0] : null
-if (!mode && !argv.includes('--list')) { console.log('Usage: node video/from-app.mjs picks|results|preview [--date YYYY-MM-DD] [--session morning|midday|evening|latest|all] [--money ngn|usd] [--out file.json]'); process.exit(1) }
+const mode = ['results', 'picks', 'preview', 'matches'].includes(argv[0]) ? argv[0] : null
+if (!mode && !argv.includes('--list')) { console.log('Usage: node video/from-app.mjs picks|results|preview|matches [--date YYYY-MM-DD] [--session morning|midday|evening|latest|all] [--money ngn|usd] [--out file.json]'); process.exit(1) }
 const lagosToday = new Date(Date.now() + 3600e3).toISOString().slice(0, 10)
 const date = opt('date', lagosToday)
 const want = (opt('session', mode === 'results' ? 'all' : 'latest') || 'latest').toLowerCase()   // results: every single published that day
@@ -29,6 +29,17 @@ const RESULT = { won: 'won', lost: 'lost', void: 'void', push: 'void', refund: '
 // A match preview: one match, football numbers only (no odds, picks or stakes), for X / YouTube.
 //   node video/from-app.mjs preview --match 987933       (the number in cmvngpicks.com/m/<number>)
 //   node video/from-app.mjs preview --team Greece         (finds that team in today's singles)
+//   … --with 1010235,1010233                              (adds a round-up of the night's other matches: the app's numbers only)
+//   node video/from-app.mjs matches                       (every match page the app lists today, with its number)
+if (mode === 'matches') {
+  const h = await (await fetch(`${SITE}/catalogue`, { headers: { 'User-Agent': 'Mozilla/5.0 cmvng-video' } })).text()
+  const seen = new Set()
+  for (const [, id, inner] of h.matchAll(/href="\/m\/(\d+)"([\s\S]*?)<\/a>/g)) {
+    const t = inner.replace(/<[^>]+>/g, ' ').replace(/&amp;/g, '&').replace(/\s+/g, ' ').trim().replace(/^>\s*|: full analysis$/g, '')
+    if (!seen.has(id)) { seen.add(id); console.log(`${id}  ${t}`) }
+  }
+  process.exit(0)
+}
 if (mode === 'preview') {
   let mid = opt('match')
   if (!mid && opt('team')) {
@@ -44,6 +55,13 @@ if (mode === 'preview') {
   const year = new Date().getUTCFullYear()
   const mdate = m._month ? `${year}-${String(m._month).padStart(2, '0')}-${String(m._day).padStart(2, '0')}` : date
   const out = { mode: 'preview', competition: m.competition || '', date: mdate, picks: [pk] }
+  for (const id of String(opt('with') || '').split(',').filter(Boolean)) {   // round-up: win chances + xG for each, a "round" note to fill in
+    const o = parse(await page(id.trim()))
+    if (!o.home || o.home_win === undefined) { console.error(`  (round-up match ${id} unreadable: left out)`); continue }
+    out.picks.push({ ...Object.fromEntries(['home', 'away', 'competition', 'kickoff', 'home_win', 'draw', 'away_win', 'xg_home', 'xg_away'].filter(k => o[k] !== undefined).map(k => [k, o[k]])),
+      round: { title: 'Around the league', stage: o.competition || '', points: [] } })
+    console.error(`  + round-up: ${o.home} v ${o.away}  ${o.home_win}/${o.draw}/${o.away_win}`)
+  }
   const slug = `preview-${mdate}-${(m.home + '-' + m.away).toLowerCase().replace(/[^a-z0-9]+/g, '-')}`
   const file = opt('out', path.join(path.dirname(new URL(import.meta.url).pathname), 'out', `${slug}.json`))
   fs.mkdirSync(path.dirname(file), { recursive: true }); fs.writeFileSync(file, JSON.stringify(out, null, 2) + '\n')

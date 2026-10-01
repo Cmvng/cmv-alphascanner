@@ -63,6 +63,15 @@ For the **AI Analyst** version, add an `"analysis"` object built from the resear
 
 The script then also gets `pv_stake`, `pv_players`, `pv_tactics` and `pv_expect` lines.
 
+**Round-up of the night's other matches** (e.g. "Denmark v Portugal, plus the rest of League A"): the main match gets the full analyst treatment, then one "Around the league" screen per other match, with its stadium, crests, the app's win chances and xG, and two researched notes.
+
+```bash
+node video/from-app.mjs matches                                         # every match page the app lists, with its number
+node video/from-app.mjs preview --match 1010232 --with 1010235,1010233  # main match + round-up matches
+```
+
+For each round-up pick, fill in `round: {title: "Around League A", stage: "Group 2 · Allianz Arena, Munich", points: [2 short researched notes]}` and set `stadium` / `stadium_credit` to the real venue. Research them with one short brief each (under 250 words: table, venue, one key player, team news, storyline). Script: `"pv_round": [[1–2 lines for match 2], [for match 3], ...]`, in the same order as the picks. Put the round-up matches from the main match's group first.
+
 **Monetisation check:** every preview render reads all on-screen text and voiceover, and stops with a list if it finds a betting term: odds, bet, stake, tips, picks, bookies, units, booking codes, bookmaker names, naira or ₦, cmvngpicks.com, and so on. Reword and re-run. Never pass `--allow-words` for X or YouTube videos.
 
 Preview rules, which keep it monetisable:
