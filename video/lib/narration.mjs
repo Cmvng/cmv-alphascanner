@@ -33,7 +33,7 @@ export function speakify(t) {
     .replace(/\b(\d+)\.(\d\d?)\b/g, (_, a, b) => `${num(+a)} point ${[...b.replace(/0$/, '')].map(d => DIG[+d]).join(' ')}`)
     .replace(/(\d)\s?%/g, '$1 percent')
     .replace(/₦\s?([\d,]+)/g, '$1 naira').replace(/\$\s?([\d,]+(?:\.\d+)?)/g, '$1 dollars')
-    .replace(/\bxG\b/g, 'expected goals').replace(/\s*&\s*/g, ' and ').replace(/\b(\d+)\s*[-–]\s*(\d+)\b/g, (_, x, y) => `${num(+x)} ${+y === 0 ? 'nil' : num(+y)}`)
+    .replace(/\bxG\b/g, 'expected goals').replace(/\s*&\s*/g, ' and ').replace(/\b(\d+)\s*[-–]\s*(\d+)\b/g, (_, x, y) => +x === +y ? `${+x === 0 ? 'nil' : num(+x)} all` : `${num(+x)} ${+y === 0 ? 'nil' : num(+y)}`)
 }
 const W = line => L(speakify(line), line)
 
@@ -146,7 +146,35 @@ function buildResultScenes(cfg, picks, recap) {
 }
 
 export function buildScenes(cfg, picks, recap) {
-  return applyScript(cfg, cfg.mode === 'results' ? buildResultScenes(cfg, picks, recap) : buildPickScenes(cfg, picks, recap))
+  const build = cfg.mode === 'results' ? buildResultScenes : cfg.mode === 'preview' ? buildPreviewScenes : buildPickScenes
+  return applyScript(cfg, build(cfg, picks, recap))
+}
+
+// Match preview: football analysis only. No odds, prices, stakes, picks or betting words (X / YouTube monetisation).
+function buildPreviewScenes(cfg, [p]) {
+  const H = p.home, A = p.away, f1 = v => (v + 1e-9).toFixed(1)
+  const scenes = [{ type: 'pv_hook', i: 0, say: [W(`${H} against ${A}${p.competition ? ` in the ${p.competition}` : ''}.`), W(`Here's what the numbers say.`)] }]
+  if (p.record_home && p.record_away) {
+    const line = (t, [w, d, l], g) => l === 0 ? `${t} are unbeaten in ${word(g)}: ${word(w)} wins and ${word(d)} draws.` : `${t} have won ${word(w)} of their last ${word(g)}.`
+    scenes.push({ type: 'pv_form', i: 0, say: [W(`Form first. ${line(H, p.record_home, p.games_home || 10)}`), W(line(A, p.record_away, p.games_away || 10))] })
+  }
+  if (p.scored_home !== undefined) {
+    const say = [W(`${H} score ${f1(p.scored_home)} a game and concede ${f1(p.conceded_home)}. ${A} score ${f1(p.scored_away)} and concede ${f1(p.conceded_away)}.`)]
+    if (p.sot_home !== undefined) say.push(W(`Shots on target: ${A} ${f1(p.sot_away)} a game, ${H} ${f1(p.sot_home)}.`))
+    scenes.push({ type: 'pv_stats', i: 0, say })
+  }
+  if (p.home_win !== undefined) {
+    const fav = p.home_win >= p.away_win ? [H, p.home_win, A, p.away_win] : [A, p.away_win, H, p.home_win]
+    scenes.push({ type: 'pv_model', i: 0, say: [
+      W(`Our model expects ${f1(p.xg_home)} goals from ${H} and ${f1(p.xg_away)} from ${A}.`),
+      W(`That makes it ${Math.round(fav[1])}% ${fav[0]}, ${Math.round(p.draw)}% the draw and ${Math.round(fav[3])}% ${fav[2]}.`)] })
+  }
+  if (p.top_scores?.length) {
+    const [a, b] = p.top_scores, sc = x => `${x[0]}-${x[1]}`
+    scenes.push({ type: 'pv_score', i: 0, say: [W(b && Math.abs(a[2] - b[2]) < 1 ? `The most likely scores are ${sc(a)} and ${sc(b)}, each about ${Math.round(a[2])}%.` : `The single most likely score is ${sc(a)}, at ${Math.round(a[2])}%.`)] })
+  }
+  scenes.push({ type: 'pv_cta', i: 0, say: [W(`That's the preview. Follow for more football, by the numbers.`)] })
+  return scenes
 }
 
 function buildPickScenes(cfg, picks, recap) {

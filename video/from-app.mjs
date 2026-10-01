@@ -17,14 +17,40 @@ import { sessions, singles, page, parse } from './lib/cmvng-site.mjs'
 
 const argv = process.argv.slice(2)
 const opt = (n, d) => { const i = argv.indexOf(`--${n}`); return i < 0 ? d : argv[i + 1] }
-const mode = argv[0] === 'results' ? 'results' : argv[0] === 'picks' ? 'picks' : null
-if (!mode && !argv.includes('--list')) { console.log('Usage: node video/from-app.mjs picks|results [--date YYYY-MM-DD] [--session morning|midday|evening|latest|all] [--money ngn|usd] [--out file.json]'); process.exit(1) }
+const mode = ['results', 'picks', 'preview'].includes(argv[0]) ? argv[0] : null
+if (!mode && !argv.includes('--list')) { console.log('Usage: node video/from-app.mjs picks|results|preview [--date YYYY-MM-DD] [--session morning|midday|evening|latest|all] [--money ngn|usd] [--out file.json]'); process.exit(1) }
 const lagosToday = new Date(Date.now() + 3600e3).toISOString().slice(0, 10)
 const date = opt('date', lagosToday)
 const want = (opt('session', mode === 'results' ? 'all' : 'latest') || 'latest').toLowerCase()   // results: every single published that day
 const money = opt('money', mode === 'results' ? 'usd' : 'ngn')
 const MONEY = { ngn: [10000, '₦', 'naira'], usd: [100, '$', 'dollars'] }
 const RESULT = { won: 'won', lost: 'lost', void: 'void', push: 'void', refund: 'void' }
+
+// A match preview: one match, football numbers only (no odds, picks or stakes), for X / YouTube.
+//   node video/from-app.mjs preview --match 987933       (the number in cmvngpicks.com/m/<number>)
+//   node video/from-app.mjs preview --team Greece         (finds that team in today's singles)
+if (mode === 'preview') {
+  let mid = opt('match')
+  if (!mid && opt('team')) {
+    const day = (await sessions()).filter(s => s.date === date)
+    for (const s of day) { const l = (await singles(s.run)).find(l => [l.home, l.away].some(t => t.toLowerCase().includes(opt('team').toLowerCase()))); if (l) { mid = l.mid; break } }
+  }
+  if (!mid) { console.error('Say which match: --match <id from cmvngpicks.com/m/<id>> or --team <name in today\'s singles>'); process.exit(2) }
+  const m = parse(await page(mid))
+  if (!m.home || !m.away) { console.error(`Couldn't read match ${mid}`); process.exit(2) }
+  const keep = ['home', 'away', 'competition', 'kickoff', 'home_win', 'draw', 'away_win', 'xg_home', 'xg_away', 'form_home', 'form_away', 'scored_home', 'scored_away',
+    'conceded_home', 'conceded_away', 'top_scores', 'record_home', 'record_away', 'games_home', 'games_away', 'ppg_home', 'ppg_away', 'clean_home', 'clean_away', 'shots_home', 'shots_away', 'sot_home', 'sot_away']
+  const pk = Object.fromEntries(keep.filter(k => m[k] !== undefined).map(k => [k, m[k]]))
+  const year = new Date().getUTCFullYear()
+  const mdate = m._month ? `${year}-${String(m._month).padStart(2, '0')}-${String(m._day).padStart(2, '0')}` : date
+  const out = { mode: 'preview', competition: m.competition || '', date: mdate, picks: [pk] }
+  const slug = `preview-${mdate}-${(m.home + '-' + m.away).toLowerCase().replace(/[^a-z0-9]+/g, '-')}`
+  const file = opt('out', path.join(path.dirname(new URL(import.meta.url).pathname), 'out', `${slug}.json`))
+  fs.mkdirSync(path.dirname(file), { recursive: true }); fs.writeFileSync(file, JSON.stringify(out, null, 2) + '\n')
+  console.error(`Preview · ${m.home} v ${m.away} · ${m.competition} · ${m.kickoff || ''}  (${Object.keys(pk).length - 2} numbers)`)
+  console.log(file)
+  process.exit(0)
+}
 
 const all = await sessions()
 if (argv.includes('--list') || !mode) { for (const s of all) console.log(`${s.date}  ${s.name.padEnd(8)} ${s.run}`); process.exit(0) }

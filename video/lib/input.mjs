@@ -5,7 +5,7 @@
 import fs from 'node:fs'
 
 export const DEFAULTS = {
-  mode: 'picks',             // 'picks' = before kick-off · 'results' = after the games, with returns
+  mode: 'picks',             // 'picks' = before kick-off · 'results' = after the games, with returns · 'preview' = one match, analysis only (no odds or picks)
   title: '',                 // empty → "5 Picks" or "Results"
   competition: '',
   date: '',                  // YYYY-MM-DD
@@ -75,12 +75,14 @@ export function loadInput(file) {
       if (!p.result) errors.push(`${where}: "result" must be won, lost or void`)
       if (p.score && !/^\d+\s*[-–:]\s*\d+$/.test(String(p.score))) errors.push(`${where}: "score" should look like 2-1`)
     }
-    for (const k of ['home', 'away', 'pick']) if (!p[k]) errors.push(`${where}: "${k}" is missing`)
-    if (!(p.odds > 1)) errors.push(`${where}: "odds" must be a bookmaker price above 1 (e.g. 1.85)`)
-    if (!(p.model > 0 && p.model < 100)) errors.push(`${where}: "model" must be your % chance for the pick, between 0 and 100`)
+    const preview = cfg.mode === 'preview'                 // a match preview: football analysis only, no pick or price
+    for (const k of preview ? ['home', 'away'] : ['home', 'away', 'pick']) if (!p[k]) errors.push(`${where}: "${k}" is missing`)
+    if (!preview && !(p.odds > 1)) errors.push(`${where}: "odds" must be a bookmaker price above 1 (e.g. 1.85)`)
+    if (!preview && !(p.model > 0 && p.model < 100)) errors.push(`${where}: "model" must be your % chance for the pick, between 0 and 100`)
     const x = [p.home_win, p.draw, p.away_win]
     if (x.some(v => v !== undefined) && x.some(v => v === undefined)) errors.push(`${where}: give all three of home_win, draw, away_win (or none)`)
     p.competition ||= cfg.competition
+    if (preview) return p
     // the maths
     p.fair = 100 / p.model                 // odds that would be a fair price if your % is right
     p.market = p.book > 0 && p.book < 100 ? p.book : 100 / p.odds   // the bookmaker's % (your app's figure if given, else 100 ÷ price)
@@ -94,6 +96,7 @@ export function loadInput(file) {
   if (cfg.skip_negative_edge) picks = picks.filter(p => p.signal > 1)
   if (!picks.length) throw new Error('No picks left after removing negative-edge picks.')
 
+  if (cfg.mode === 'preview') { cfg.title ||= 'Preview'; return { cfg, picks, recap: {} } }
   // Split the example stake by Signal bars (3 bars get 3 shares, 1 bar gets 1), rounded down so the total never goes over
   const totalBars = picks.reduce((s, p) => s + p.signal, 0)
   const perBar = cfg.stake_example / totalBars

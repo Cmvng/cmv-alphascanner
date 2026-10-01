@@ -186,6 +186,70 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#03060F}
 .rtotal .strip{display:flex;gap:10px;margin-top:34px}
 .rtotal .strip i{flex:1;height:18px;border-radius:9px}
 
+/* match preview (no odds, no picks) */
+.pv_hook .meta,.pv_form .meta{position:absolute;left:0;right:0;top:300px;text-align:center}
+.pv_hook .mu{position:absolute;left:0;right:0;top:380px;height:420px}
+.pv_hook .side{position:absolute;top:0;width:420px;display:flex;flex-direction:column;align-items:center}
+.pv_hook .side.h{left:60px}.pv_hook .side.a{right:60px}
+.pv_hook .side .badge{width:250px;height:250px}
+.pv_hook .side .nm{margin-top:24px;font-size:64px;line-height:1.02;text-align:center;text-shadow:0 6px 30px rgba(0,0,0,.6)}
+.pv_hook .vs{position:absolute;left:50%;top:80px;transform:translateX(-50%);font-size:100px;color:var(--brand3);text-shadow:0 0 40px rgba(61,123,255,.8)}
+.pv_hook .ttl{position:absolute;left:0;right:0;top:900px;text-align:center;font-size:168px;line-height:.95;text-shadow:0 20px 60px rgba(0,0,0,.6)}
+.pv_hook .ttl span{color:var(--brand2)}
+.pv_hook .sub{position:absolute;left:0;right:0;top:1250px;text-align:center}
+.pv .t1{position:absolute;left:60px;top:290px;font-size:150px;line-height:1}
+.pv .t2{position:absolute;left:66px;top:460px;font:800 34px Manrope;color:var(--muted)}
+.pv .card.box{left:60px;right:60px;top:540px;padding:30px 40px}
+.pv_form .tr{display:flex;align-items:center;gap:26px;padding:28px 0;border-bottom:1.5px solid rgba(255,255,255,.1)}
+.pv_form .tr:last-child{border-bottom:0}
+.pv_form .tr .badge{width:110px;height:110px;flex-shrink:0}
+.pv_form .tr .who{flex:1;min-width:0}
+.pv_form .tr .who b{display:block;font-size:56px;line-height:1}
+.pv_form .tr .who span{display:block;margin-top:10px;font:800 28px Manrope;color:var(--muted)}
+.pv_form .chips5{display:flex;gap:10px}
+.pv_form .chips5 i{width:62px;height:62px;border-radius:14px;display:flex;align-items:center;justify-content:center;font:400 34px Anton;font-style:normal}
+.pv_form .W{background:var(--win);color:#04210F}.pv_form .D{background:#64748B;color:#fff}.pv_form .L{background:var(--loss);color:#fff}
+.pv_form .hl{position:absolute;left:60px;right:60px;top:1010px;text-align:center}
+.pv_form .hl .chip{font-size:26px;background:linear-gradient(90deg,rgba(31,95,219,.85),rgba(61,123,255,.6))}
+.pv_stats .heads{display:flex;justify-content:space-between;align-items:center;padding:8px 0 18px}
+.pv_stats .heads .badge{width:96px;height:96px}
+.pv_stats .row{padding:22px 0;border-top:1.5px solid rgba(255,255,255,.1)}
+.pv_stats .row .k{text-align:center;font:700 22px JBM;letter-spacing:4px;text-transform:uppercase;color:var(--muted)}
+.pv_stats .row .vals{display:flex;align-items:center;gap:20px;margin-top:12px}
+.pv_stats .row .v{width:150px;font-size:72px;line-height:1}
+.pv_stats .row .v.r{text-align:right}
+.pv_stats .row .cmp{flex:1;display:flex;gap:8px;height:22px}
+.pv_stats .row .cmp span{flex:1;position:relative;border-radius:11px;background:rgba(255,255,255,.08);overflow:hidden}
+.pv_stats .row .cmp b{position:absolute;top:0;bottom:0;border-radius:11px}
+.pv_stats .row .cmp span:first-child b{right:0}.pv_stats .row .cmp span:last-child b{left:0}
+.pv_model .xg{display:flex;align-items:center;justify-content:space-between;padding:10px 0 30px;border-bottom:1.5px solid rgba(255,255,255,.1)}
+.pv_model .xg .side{display:flex;align-items:center;gap:22px}
+.pv_model .xg .badge{width:100px;height:100px}
+.pv_model .xg b{font-size:130px;line-height:1}
+.pv_model .xg .mid{text-align:center;font:700 26px JBM;letter-spacing:5px;color:var(--brand3)}
+.pv_model .tri{display:flex;height:64px;margin-top:40px;border-radius:18px;overflow:hidden;background:rgba(255,255,255,.06)}
+.pv_model .tri i{display:block;height:100%;transform-origin:0 50%}
+.pv_model .lab{display:flex;justify-content:space-between;margin-top:22px}
+.pv_model .lab div{text-align:center;flex:1}
+.pv_model .lab div:first-child{text-align:left}.pv_model .lab div:last-child{text-align:right}
+.pv_model .lab b{display:block;font-size:84px;line-height:1}
+.pv_model .lab span{display:block;margin-top:6px;font:700 22px JBM;letter-spacing:3px;text-transform:uppercase;color:var(--muted)}
+.pv_score .tiles{position:absolute;left:60px;right:60px;top:560px;display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.pv_score .tile{position:relative;padding:40px 10px 34px;border-radius:32px;text-align:center;background:var(--glass);box-shadow:inset 0 0 0 1.5px var(--line),0 30px 80px rgba(0,0,0,.45)}
+.pv_score .tile.top{box-shadow:inset 0 0 0 3px var(--brand2),0 30px 80px rgba(31,95,219,.35)}
+.pv_score .tile .sc{font-size:150px;line-height:1}
+.pv_score .tile .sc span{color:rgba(255,255,255,.4)}
+.pv_score .tile .pc{margin-top:16px;font:800 40px Manrope;color:var(--brand3)}
+.pv_score .tile .pair{display:flex;justify-content:center;gap:6px;margin-top:22px}
+.pv_score .tile .pair .badge{width:54px;height:54px}
+.pv_score .note{position:absolute;left:60px;right:60px;top:1010px;text-align:center;font:800 34px Manrope;color:var(--muted)}
+.pv_cta .wrap{position:absolute;left:0;right:0;top:470px;display:flex;flex-direction:column;align-items:center;text-align:center}
+.pv_cta .logo{font-size:170px;letter-spacing:-7px;gap:30px}
+.pv_cta .logo .bars{gap:16px;padding-bottom:22px}
+.pv_cta .logo .bars i{width:34px;border-radius:9px}
+.pv_cta .big{margin-top:70px;font-size:112px;line-height:1.02}
+.pv_cta .url{margin-top:40px;font:800 44px Manrope;color:var(--brand3)}
+
 /* captions (inside the safe zone: clear of the phone's bottom bar and side buttons) */
 #cap{position:absolute;left:70px;right:150px;top:1474px;height:200px;z-index:55;display:flex;align-items:flex-start;justify-content:center;text-align:center}
 #cap .c{font:800 50px/1.22 Manrope;letter-spacing:-1px;text-shadow:0 4px 24px rgba(0,0,0,.85),0 0 2px rgba(0,0,0,.9)}
@@ -271,7 +335,7 @@ function bcFor(p) {
   $('#bgs').appendChild(d); return d
 }
 D.scenes.forEach((sc, k) => {
-  const p = D.picks[sc.i], one = sc.type === 'pick' || sc.type === 'result'
+  const p = D.picks[sc.i], one = sc.type === 'pick' || sc.type === 'result' || sc.type.startsWith('pv_')
   if (STYLE === 'broadcast') { sc.bgs = [bcFor(one ? p : null)]; sc.credits = [''] }
   else if (one && STYLE === 'players' && p.players?.length) { sc.bgs = p.players.map(x => bgFor(x.src)); sc.credits = p.players.map(x => x.credit) }
   else if (sc.type === 'hook' || sc.type === 'rhook') { sc.bgs = (allStadia.length ? allStadia : [null]).map(s => bgFor(s && s.src)); sc.credits = allStadia.length ? allStadia.map(s => s.credit) : [''] }
@@ -342,10 +406,56 @@ const built = D.scenes.map((sc, k) => {
         <div class="ln big"><span class="k">${pos ? 'Profit' : 'Loss'}</span><b class="A" data-n="${r.profit}" style="color:${pos ? 'var(--win2)' : 'var(--loss2)'}">0</b></div>
         <div class="strip">${D.picks.map(q => `<i style="background:${q.result === 'won' ? 'var(--win)' : q.result === 'lost' ? 'var(--loss)' : '#94A3B8'}"></i>`).join('')}</div></div>`
   }
+  if (sc.type.startsWith('pv_')) el.innerHTML = buildPreview(sc.type, p)
+  if (sc.type.startsWith('pv_') && sc.type !== 'pv_hook' && sc.type !== 'pv_cta') el.classList.add('pv')
   $('#scenes').appendChild(el); return el
 })
+function buildPreview(type, p) {
+  const f1 = v => (v + 1e-9).toFixed(1), H = html(p.home), A = html(p.away)
+  if (type === 'pv_hook') return `<div class="meta"><span class="chip">${html([p.competition, p.kickoff ? (isToday(D.cfg.date) ? 'Tonight ' : '') + p.kickoff : dayLong(D.cfg.date)].filter(Boolean).join(' · '))}</span></div>
+    <div class="mu"><div class="side h">${badge(p.bh)}<div class="nm A" style="font-size:${nmFit(p.home, true)}px">${H}</div></div><div class="vs A">vs</div>
+      <div class="side a">${badge(p.ba)}<div class="nm A" style="font-size:${nmFit(p.away, true)}px">${A}</div></div></div>
+    <div class="ttl A">What the<br><span>numbers</span> say</div><div class="sub"><span class="chip">Match preview</span></div>`
+  if (type === 'pv_form') {
+    const row = (b, name, rec, form, ppg) => `<div class="tr">${badge(b)}<div class="who"><b class="A">${html(name)}</b><span>W${rec[0]} D${rec[1]} L${rec[2]}${ppg ? ` · ${ppg.toFixed(1)} pts a game` : ''}</span></div>
+      <div class="chips5">${[...(form || '')].map(c => `<i class="${c}">${c}</i>`).join('')}</div></div>`
+    const unb = [[p.home, p.record_home, p.games_home], [p.away, p.record_away, p.games_away]].find(([, r]) => r && r[2] === 0)
+    return `<div class="t1 A">Form</div><div class="t2">Last ${p.games_home || 10} games · last five, oldest → newest</div>
+      <div class="card box">${row(p.bh, p.home, p.record_home, p.form_home, p.ppg_home)}${row(p.ba, p.away, p.record_away, p.form_away, p.ppg_away)}</div>
+      ${unb ? `<div class="hl"><span class="chip">${html(unb[0])} unbeaten in ${unb[2] || 10}</span></div>` : ''}`
+  }
+  if (type === 'pv_stats') {
+    const rows = [['Goals scored', p.scored_home, p.scored_away, 1], ['Goals conceded', p.conceded_home, p.conceded_away, -1],
+      ['Shots on target', p.sot_home, p.sot_away, 1], ['Clean sheets (last 10)', p.clean_home, p.clean_away, 1]].filter(r => r[1] !== undefined && r[2] !== undefined)
+    return `<div class="t1 A">The numbers</div><div class="t2">Per game, last 10</div>
+      <div class="card box"><div class="heads">${badge(p.bh)}${badge(p.ba)}</div>${rows.map(([k, h, a, dir]) => {
+        const m = Math.max(h, a) || 1, hb = (h - a) * dir > 0, ab = (a - h) * dir > 0
+        return `<div class="row"><div class="k">${k}</div><div class="vals"><div class="v A" style="color:${hb ? '#fff' : 'rgba(255,255,255,.6)'}">${Number.isInteger(h) ? h : f1(h)}</div>
+          <div class="cmp"><span><b data-w="${h / m}" style="background:${hb ? (p.bh.colour || '#3D7BFF') : 'rgba(255,255,255,.35)'}"></b></span><span><b data-w="${a / m}" style="background:${ab ? (p.ba.colour || '#3D7BFF') : 'rgba(255,255,255,.35)'}"></b></span></div>
+          <div class="v r A" style="color:${ab ? '#fff' : 'rgba(255,255,255,.6)'}">${Number.isInteger(a) ? a : f1(a)}</div></div></div>`
+      }).join('')}</div>`
+  }
+  if (type === 'pv_model') {
+    const segs = [[p.home_win, p.bh.colour || '#3D7BFF', p.home], [p.draw, '#64748B', 'Draw'], [p.away_win, p.ba.colour || '#6E9BFF', p.away]]
+    return `<div class="t1 A">Our model</div><div class="t2">Expected goals and win chances</div>
+      <div class="card box"><div class="xg"><div class="side">${badge(p.bh)}<b class="A" data-n="${p.xg_home}">0.0</b></div><div class="mid">xG</div><div class="side"><b class="A" data-n="${p.xg_away}">0.0</b>${badge(p.ba)}</div></div>
+        <div class="tri">${segs.map(([v, c]) => `<i style="width:${v}%;background:${c}"></i>`).join('')}</div>
+        <div class="lab">${segs.map(([v, , n]) => `<div><b class="A" data-n="${v}">0%</b><span>${html(n)}</span></div>`).join('')}</div></div>`
+  }
+  if (type === 'pv_score') {
+    const t = p.top_scores || []
+    return `<div class="t1 A">Likely scores</div><div class="t2">From our model's scoreline grid</div>
+      <div class="tiles">${t.map((x, j) => `<div class="tile${j === 0 ? ' top' : ''}"><div class="sc A">${x[0]}<span>–</span>${x[1]}</div><div class="pc">${Math.round(x[2])}%</div><div class="pair">${badge(p.bh)}${badge(p.ba)}</div></div>`).join('')}</div>
+      <div class="note">No single score is likely on its own: football is a low-scoring game.</div>`
+  }
+  if (type === 'pv_cta') return `<div class="wrap"><div class="logo"><span class="bars"><i style="height:64px"></i><i style="height:98px"></i><i style="height:132px"></i></span>cmvng</div>
+    <div class="big A">Follow for more<br>match previews</div><div class="url">Football, by the numbers</div></div>`
+  return ''
+}
+function isToday(d) { return d === new Date(Date.now() + 3600e3).toISOString().slice(0, 10) }
 function dayLong(d) { return d ? new Date(`${d}T12:00:00Z`).toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', timeZone: 'UTC' }) : '' }
 $('#pips').innerHTML = D.picks.map(() => '<i></i>').join('')
+if (D.cfg.mode === 'preview') $('#foot').textContent = 'Model estimates, not certainties · cmvng'
 
 // ---------------------------------------------------------------- draw helpers
 function rise(nodes, lt, start, step = 0.07, dist = 50, dur = 0.6) {
@@ -441,12 +551,48 @@ function draw(k, lt, sc) {
     $('.pc', el).style.transform += ' ' + shake(lt, b1 + 0.35, 10)
     rise([$('.mny', el)], lt, b1 + 0.3, 0, 60, 0.45)
     count($('.mny b', el), lt, b1 + 0.45, b1 + 1.3, v => money(v, true))
+  } else if (sc.type.startsWith('pv_')) {
+    drawPreview(sc, el, lt)
   } else if (sc.type === 'rtotal') {
     rise([$('.t1', el), $('.t2', el)], lt, 0.05, 0.12, 60)
     rise([$('.card', el)], lt, 0.25, 0, 80, 0.5)
     rise($$('.ln', el), lt, 0.35, 0.12, 30)
     $$('.ln b', el).forEach((n, j) => count(n, lt, 0.5 + j * 0.25, 1.5 + j * 0.25, v => money(v, j === 2)))
     $$('.strip i', el).forEach((n, j) => { n.style.opacity = P(lt, 1.6 + j * 0.08, 1.9 + j * 0.08) })
+  }
+}
+
+function drawPreview(sc, el, lt) {
+  const [b1] = S(sc, 1)
+  if (sc.type === 'pv_hook') {
+    rise([$('.meta', el)], lt, 0.02)
+    const h = $('.side.h', el), a = $('.side.a', el), qi = P(lt, 0, 0.55, E.outBack)
+    h.style.transform = `translate3d(${(1 - qi) * -520}px,0,0)`; a.style.transform = `translate3d(${(1 - qi) * 520}px,0,0)`; h.style.opacity = a.style.opacity = P(lt, 0, 0.2)
+    slam($('.vs', el), lt, 0.3, 2.4, 0.3, 'translateX(-50%)')
+    const at = Math.min(1.1, b1 - 0.1); slam($('.ttl', el), lt, at, 1.6, 0.34); el.style.transform = shake(lt, at + 0.3, 14)
+    rise([$('.sub', el)], lt, at + 0.4)
+  } else if (sc.type === 'pv_cta') {
+    const lg = $('.logo', el); slam(lg, lt, 0.05, 1.6, 0.4)
+    $$('.logo .bars i', el).forEach((b, j) => { b.style.transform = `scaleY(${P(lt, 0.1 + j * 0.08, 0.5 + j * 0.08, E.outBack)})`; b.style.transformOrigin = '50% 100%' })
+    slam($('.big', el), lt, 0.35, 1.5, 0.3); el.style.transform = shake(lt, 0.65, 10); rise([$('.url', el)], lt, 0.7)
+  } else {
+    rise([$('.t1', el), $('.t2', el)], lt, 0.05, 0.12, 60)
+    rise([$('.card', el)], lt, 0.25, 0, 80, 0.5)
+    if (sc.type === 'pv_form') {
+      rise($$('.tr', el), lt, 0.4, Math.max(0.3, b1 - 0.6), 30)
+      $$('.tr', el).forEach((r, k) => $$('.chips5 i', r).forEach((c, j) => { const at = 0.6 + (k ? Math.max(0.3, b1 - 0.6) : 0) + j * 0.09, q = P(lt, at, at + 0.3, E.outBack); c.style.opacity = P(lt, at, at + 0.08); c.style.transform = `scale(${0.3 + 0.7 * q})` }))
+      const hl = $('.hl', el); if (hl) { const q = P(lt, b1 + 0.6, b1 + 1.0, E.outBack); hl.style.opacity = clamp(q * 2); hl.style.transform = `scale(${0.6 + 0.4 * q})` }
+    } else if (sc.type === 'pv_stats') {
+      rise($$('.row', el), lt, 0.45, 0.25, 30)
+      $$('.row', el).forEach((r, j) => $$('.cmp b', r).forEach(b => { b.style.width = `${100 * +b.dataset.w * P(lt, 0.6 + j * 0.25, 1.4 + j * 0.25, E.outCubic)}%` }))
+    } else if (sc.type === 'pv_model') {
+      $$('.xg b', el).forEach(n => { n.textContent = (+n.dataset.n * P(lt, 0.4, 1.4, E.outCubic) + 1e-9).toFixed(1) })
+      $$('.tri i', el).forEach((n, j) => { n.style.transform = `scaleX(${P(lt, b1 + 0.1 + j * 0.25, b1 + 0.7 + j * 0.25, E.outCubic)})` })
+      $$('.lab b', el).forEach((n, j) => { n.textContent = Math.round(+n.dataset.n * P(lt, b1 + 0.1 + j * 0.25, b1 + 0.9 + j * 0.25, E.outCubic)) + '%' })
+    } else if (sc.type === 'pv_score') {
+      $$('.tile', el).forEach((t, j) => slam(t, lt, 0.35 + j * 0.3, 1.4, 0.3))
+      rise([$('.note', el)], lt, 1.4)
+    }
   }
 }
 
@@ -471,7 +617,12 @@ window.fxEvents = function () {
       if (p.result === 'won') add(T + b1 + 1.2, 'cash', 0.7)
     }
     if (sc.type === 'rtotal') add(T + 2.0 + 0.25, D.recap.profit >= 0 ? 'cash' : 'thud')
-    if (sc.type === 'cta') add(T + 0.6, 'impact', 0.7)
+    if (sc.type === 'cta' || sc.type === 'pv_cta') add(T + 0.6, 'impact', 0.7)
+    if (sc.type === 'pv_hook') { add(T + 0.42, 'impact', 0.5); add(T + Math.min(1.1, S(sc, 1)[0] - 0.1) + 0.3, 'impact') }
+    if (sc.type === 'pv_form') for (let j = 0; j < 5; j++) add(T + 0.6 + j * 0.09, j % 2 ? 'tick2' : 'tick', 0.6)
+    if (sc.type === 'pv_stats') add(T + 0.3, 'impact', 0.45)
+    if (sc.type === 'pv_model') { add(T + 0.3, 'impact', 0.45); add(T + S(sc, 1)[0] + 0.1, 'riser', 0.5); add(T + S(sc, 1)[0] + 0.85, 'impact', 0.6) }
+    if (sc.type === 'pv_score') for (let j = 0; j < 3; j++) add(T + 0.6 + j * 0.3, 'impact', 0.45)
     if (sc.type === 'slate') add(T + 0.25, 'impact', 0.45)
     const nx = D.scenes[k + 1]
     if (nx && (nx.type === 'slate' || nx.type === 'rtotal')) add(nx.start, 'riser', 0.8)
@@ -519,9 +670,10 @@ window.renderAt = function (t) {
   $$('#hdr .bars i').forEach((b, j) => { b.style.transform = `scaleY(${1 + 0.22 * bp * (j + 1) / 3})`; b.style.transformOrigin = '50% 100%' })
 
   // header
-  $('#hlabel').textContent = sc.type === 'pick' ? `Pick ${sc.i + 1} / ${N}` : sc.type === 'result' ? `Result ${sc.i + 1} / ${N}` : sc.type === 'slate' ? 'The slate' : sc.type === 'rtotal' ? 'The day' : ''
+  if (sc.type.startsWith('pv_')) $('#hlabel').textContent = ({ pv_hook: 'Match preview', pv_form: 'Form', pv_stats: 'The numbers', pv_model: 'Our model', pv_score: 'Likely scores' })[sc.type] || ''
+  else $('#hlabel').textContent = sc.type === 'pick' ? `Pick ${sc.i + 1} / ${N}` : sc.type === 'result' ? `Result ${sc.i + 1} / ${N}` : sc.type === 'slate' ? 'The slate' : sc.type === 'rtotal' ? 'The day' : ''
   $$('#pips i').forEach((b, j) => { b.className = sc.i === undefined ? (['slate', 'rtotal', 'cta'].includes(sc.type) ? 'done' : '') : j < sc.i ? 'done' : j === sc.i ? 'on' : '' })
-  $('#pips').style.opacity = (sc.type === 'hook' || sc.type === 'rhook' || sc.type === 'cta') ? 0 : 1
+  $('#pips').style.opacity = (sc.type === 'hook' || sc.type === 'rhook' || sc.type === 'cta' || D.cfg.mode === 'preview') ? 0 : 1
   $('#hdr').style.opacity = sc.type === 'cta' ? 1 - P(lt, 0, 0.3) : 1
 
   // cut: flash + light streak across, in time with the whoosh
@@ -544,7 +696,7 @@ window.renderAt = function (t) {
     const box = $('.c', capEl); box.style.opacity = clamp(q * 2); box.style.transform = `scale(${0.85 + 0.15 * q})`
     $$('.w', capEl).forEach((s, j) => { const w = c.words[j]; s.className = 'w' + (t >= w.t0 && t < w.t1 ? ' now' : t < w.t0 ? ' next' : '') })
   }
-  $('#foot').style.opacity = sc.type === 'cta' ? 0 : 1
+  $('#foot').style.opacity = sc.type === 'cta' || sc.type === 'pv_cta' ? 0 : 1
 }
 
 window.ready = (async () => {

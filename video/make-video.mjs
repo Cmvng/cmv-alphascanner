@@ -72,6 +72,7 @@ for (const p of picks) {
   p.stadium = cfg.stadiums === false ? null
     : await resolveStadium(p.home, { national: isCountry(p.home), country: p.country, cacheDir: CACHE, outDir: OUT, own, ownCredit: p.stadium_credit })
   if (cfg.style === 'players') p.players = await resolvePlayers(p.home, { national: isCountry(p.home), country: p.country, cacheDir: CACHE, outDir: OUT })
+  if (cfg.mode === 'preview') { console.log(`  ${p.home} v ${p.away}  ${p.stadium ? '📷 ' + p.stadium.venue : '(no stadium photo)'}`); continue }
   console.log(`  ${(p.home + ' v ' + p.away).padEnd(28)} ${p.pick.padEnd(26)} @${p.odds.toFixed(2)}  model ${p.model}%  book ${p.market.toFixed(0)}%  edge ${(p.edge * 100).toFixed(1).padStart(5)}%  → ${p.signal} bar${p.signal > 1 ? 's' : ' '} (${cfg.currency}${p.stake})  ${p.stadium ? '📷 ' + p.stadium.venue : '(no stadium photo)'}`)
 }
 
@@ -128,7 +129,7 @@ if (voiceOn) {
 const est = s => s.split(/\s+/).length / (2.7 * cfg.voice_speed) + 0.2 // seconds, when there's no voice
 
 // ---------------------------------------------------------------- 4. timeline + captions
-const MIN = { hook: 4.2, pick: 7.0, slate: 5.0, cta: 4.4, rhook: 5.4, result: 4.6, rtotal: 6.2 }
+const MIN = { hook: 4.2, pick: 7.0, slate: 5.0, cta: 4.4, rhook: 5.4, result: 4.6, rtotal: 6.2, pv_hook: 5.0, pv_form: 6.0, pv_stats: 7.0, pv_model: 7.5, pv_score: 5.5, pv_cta: 4.5 }
 const LEAD = { hook: 0.2, rhook: 0.2 }, GAP = 0.12, TAIL = 0.3
 const BEAT = music?.beat || null
 let t = 0

@@ -85,6 +85,24 @@ export function parse({ url, title, L }) {
       p.form_away = letters.slice(10, 15).reverse().join('')
     }
   }
+  // most likely scorelines from the grid → [[home, away, %], ...]
+  const grid = []
+  for (let i = 0; i < L.length - 1; i++) {
+    const s = L[i].match(/^(\d)-(\d)$/), v = L[i + 1].match(/^([\d.]+)%$/)
+    if (s && v) grid.push([+s[1], +s[2], +v[1]])
+  }
+  if (grid.length > 10) p.top_scores = grid.sort((a, b) => b[2] - a[2]).slice(0, 3)
+  // the written read: last-10 record, points a game, shots on target, clean sheets (for match previews)
+  const read = L.slice(L.indexOf('THE READ'), L.indexOf('THE READ') + 14).join(' ')
+  const W = { none: 0, zero: 0, one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8, nine: 9, ten: 10 }
+  const n = w => W[String(w).toLowerCase()] ?? Number(w)
+  for (const [side, team] of [['home', home], ['away', away]]) {
+    const esc = team.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+    const f = read.match(new RegExp(`${esc} have won (\\w+), drawn (\\w+) and lost (\\w+) of their last (\\w+), averaging ([\\d.]+) points a game`))
+    if (f) { p[`record_${side}`] = [n(f[1]), n(f[2]), n(f[3])]; p[`games_${side}`] = n(f[4]); p[`ppg_${side}`] = +f[5] }
+    const k = read.match(new RegExp(`${esc} score [\\d.]+ and concede [\\d.]+ a game over their last \\w+,[^.]*?(\\w+) clean sheets[^.]*\\. They average ([\\d.]+) shots with ([\\d.]+) on target`))
+    if (k) { p[`clean_${side}`] = n(k[1]); p[`shots_${side}`] = +k[2]; p[`sot_${side}`] = +k[3] }
+  }
   for (const [label, key] of [['SCORED A GAME', 'scored'], ['CONCEDED A GAME', 'conceded']]) {
     const i = L.indexOf(label)
     if (i > 0 && isNum(L[i - 1]) && isNum(L[i + 1])) { p[`${key}_home`] = num(L[i - 1]); p[`${key}_away`] = num(L[i + 1]) }
