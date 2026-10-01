@@ -169,7 +169,18 @@ function buildPreviewScenes(cfg, [p]) {
       W(`Our model expects ${f1(p.xg_home)} goals from ${H} and ${f1(p.xg_away)} from ${A}.`),
       W(`That makes it ${Math.round(fav[1])}% ${fav[0]}, ${Math.round(p.draw)}% the draw and ${Math.round(fav[3])}% ${fav[2]}.`)] })
   }
-  if (p.top_scores?.length) {
+  const an = cfg.analysis
+  if (an) {   // the AI Analyst version: researched stakes, players, tactics and a verdict around the app's numbers
+    const at = (type, after, say) => { const k = scenes.findIndex(x => x.type === after); scenes.splice(k < 0 ? scenes.length : k + 1, 0, { type, i: 0, say }) }
+    if (an.stakes?.length || an.table?.length) at('pv_stake', 'pv_hook', (an.stakes || []).slice(0, 2).map(W))
+    if (an.players?.length) {
+      const nm = side => an.players.filter(x => x.team === side).map(x => x.name).join(' and ')
+      at('pv_players', 'pv_form', [W(`Players to watch: ${nm('home')} for ${H}.`), W(`For ${A}, ${nm('away')}.`)])
+    }
+    if (an.tactics) at('pv_tactics', 'pv_players', [W(`${H} set up in a ${an.tactics.home?.formation || ''}.`), W(`${A} in a ${an.tactics.away?.formation || ''}.`)])
+    if (an.expect?.length) scenes.push({ type: 'pv_expect', i: 0, say: an.expect.slice(0, 3).map(W) })
+  }
+  if (p.top_scores?.length && !an?.expect?.length) {
     const [a, b] = p.top_scores, sc = x => `${x[0]}-${x[1]}`
     scenes.push({ type: 'pv_score', i: 0, say: [W(b && Math.abs(a[2] - b[2]) < 1 ? `The most likely scores are ${sc(a)} and ${sc(b)}, each about ${Math.round(a[2])}%.` : `The single most likely score is ${sc(a)}, at ${Math.round(a[2])}%.`)] })
   }

@@ -197,7 +197,8 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#03060F}
 .pv_hook .ttl{position:absolute;left:0;right:0;top:900px;text-align:center;font-size:168px;line-height:.95;text-shadow:0 20px 60px rgba(0,0,0,.6)}
 .pv_hook .ttl span{color:var(--brand2)}
 .pv_hook .sub{position:absolute;left:0;right:0;top:1250px;text-align:center}
-.pv .t1{position:absolute;left:60px;top:290px;font-size:150px;line-height:1}
+.pv .t1{position:absolute;left:60px;top:290px;font-size:150px;line-height:1;white-space:nowrap}
+.pv .t1.long{font-size:124px;top:308px}
 .pv .t2{position:absolute;left:66px;top:460px;font:800 34px Manrope;color:var(--muted)}
 .pv .card.box{left:60px;right:60px;top:540px;padding:30px 40px}
 .pv_form .tr{display:flex;align-items:center;gap:26px;padding:28px 0;border-bottom:1.5px solid rgba(255,255,255,.1)}
@@ -249,6 +250,40 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#03060F}
 .pv_cta .logo .bars i{width:34px;border-radius:9px}
 .pv_cta .big{margin-top:70px;font-size:112px;line-height:1.02}
 .pv_cta .url{margin-top:40px;font:800 44px Manrope;color:var(--brand3)}
+
+/* AI analyst screens */
+.pv_stake .tbl{width:100%;border-collapse:collapse}
+.pv_stake .tbl td{padding:16px 6px;border-bottom:1.5px solid rgba(255,255,255,.1);font:800 34px Manrope}
+.pv_stake .tbl tr.me td{color:#fff}.pv_stake .tbl tr:not(.me) td{color:rgba(255,255,255,.55)}
+.pv_stake .tbl td.n{width:70px;font:400 40px Anton;color:var(--brand3)}
+.pv_stake .tbl td.r{text-align:right;width:120px;font:400 40px Anton}
+.pv_stake .tbl th{padding:0 6px 10px;text-align:right;font:700 18px JBM;letter-spacing:3px;color:var(--muted)}
+.pt{display:flex;gap:18px;align-items:flex-start;margin-top:22px;font:800 36px/1.25 Manrope}
+.pt i{flex-shrink:0;width:14px;height:14px;margin-top:16px;border-radius:4px;background:var(--brand2);transform:skewX(-11deg)}
+.pv_players .grid{position:absolute;left:60px;right:60px;top:540px;display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.pcard{position:relative;border-radius:30px;overflow:hidden;background:var(--glass);box-shadow:inset 0 0 0 1.5px var(--line),0 30px 80px rgba(0,0,0,.45)}
+.pcard .ph{height:250px;background-size:cover;background-position:50% 18%;position:relative}
+.pcard .ph.none{display:flex;align-items:center;justify-content:center;background:linear-gradient(160deg,rgba(31,95,219,.35),rgba(5,10,24,.6))}
+.pcard .ph.none .badge{width:150px;height:150px}
+.pcard .ph:after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 55%,rgba(5,10,24,.85))}
+.pcard .tm{position:absolute;left:16px;top:16px;width:58px;height:58px;z-index:2}
+.pcard .tm .badge{width:100%;height:100%}
+.pcard .inf{padding:16px 22px 22px}
+.pcard .inf b{display:block;font-size:46px;line-height:1}
+.pcard .inf span{display:block;margin-top:6px;font:700 19px JBM;letter-spacing:2px;text-transform:uppercase;color:var(--brand3)}
+.pcard .inf p{margin-top:10px;font:800 25px/1.25 Manrope;color:rgba(255,255,255,.88)}
+.pv_tactics .cols{position:absolute;left:60px;right:60px;top:540px;display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.tcol{border-radius:30px;padding:24px 24px 26px;background:var(--glass);box-shadow:inset 0 0 0 1.5px var(--line),0 30px 80px rgba(0,0,0,.45)}
+.tcol .hd{display:flex;align-items:center;gap:14px}
+.tcol .hd .badge{width:64px;height:64px}
+.tcol .hd b{font-size:40px;line-height:1}
+.tcol .fm{margin-top:8px;font-size:76px;line-height:1;color:var(--brand3)}
+.tcol svg{display:block;width:100%;height:330px;margin-top:10px}
+.tcol .pt{margin-top:14px;font-size:25px;gap:12px}
+.tcol .pt i{width:10px;height:10px;margin-top:11px}
+.pv_expect .box .pt{font-size:44px;margin-top:30px}
+.pv_expect .verdict{position:absolute;left:60px;right:60px;top:1150px;text-align:center}
+.pv_expect .verdict .chip{font-size:26px;background:linear-gradient(90deg,rgba(31,95,219,.85),rgba(61,123,255,.6))}
 
 /* captions (inside the safe zone: clear of the phone's bottom bar and side buttons) */
 #cap{position:absolute;left:70px;right:150px;top:1474px;height:200px;z-index:55;display:flex;align-items:flex-start;justify-content:center;text-align:center}
@@ -415,7 +450,7 @@ function buildPreview(type, p) {
   if (type === 'pv_hook') return `<div class="meta"><span class="chip">${html([p.competition, p.kickoff ? (isToday(D.cfg.date) ? 'Tonight ' : '') + p.kickoff : dayLong(D.cfg.date)].filter(Boolean).join(' · '))}</span></div>
     <div class="mu"><div class="side h">${badge(p.bh)}<div class="nm A" style="font-size:${nmFit(p.home, true)}px">${H}</div></div><div class="vs A">vs</div>
       <div class="side a">${badge(p.ba)}<div class="nm A" style="font-size:${nmFit(p.away, true)}px">${A}</div></div></div>
-    <div class="ttl A">What the<br><span>numbers</span> say</div><div class="sub"><span class="chip">Match preview</span></div>`
+    <div class="ttl A">${D.cfg.analysis ? 'The AI<br><span>Analyst</span>' : 'What the<br><span>numbers</span> say'}</div><div class="sub"><span class="chip">${D.cfg.analysis ? 'Preview · stakes · players · tactics' : 'Match preview'}</span></div>`
   if (type === 'pv_form') {
     const row = (b, name, rec, form, ppg) => `<div class="tr">${badge(b)}<div class="who"><b class="A">${html(name)}</b><span>W${rec[0]} D${rec[1]} L${rec[2]}${ppg ? ` · ${ppg.toFixed(1)} pts a game` : ''}</span></div>
       <div class="chips5">${[...(form || '')].map(c => `<i class="${c}">${c}</i>`).join('')}</div></div>`
@@ -448,9 +483,44 @@ function buildPreview(type, p) {
       <div class="tiles">${t.map((x, j) => `<div class="tile${j === 0 ? ' top' : ''}"><div class="sc A">${x[0]}<span>–</span>${x[1]}</div><div class="pc">${Math.round(x[2])}%</div><div class="pair">${badge(p.bh)}${badge(p.ba)}</div></div>`).join('')}</div>
       <div class="note">No single score is likely on its own: football is a low-scoring game.</div>`
   }
+  const an = D.cfg.analysis || {}
+  if (type === 'pv_stake') {
+    const t = an.table || []
+    return `<div class="t1 A">What's at stake</div><div class="t2">${html(an.stage || p.competition || '')}</div>
+      <div class="card box">${t.length ? `<table class="tbl"><tr><th></th><th style="text-align:left">Team</th><th>P</th><th>Pts</th></tr>${t.map((r, j) => `<tr class="${[p.home, p.away].includes(r[0]) ? 'me' : ''}"><td class="n">${j + 1}</td><td>${html(r[0])}</td><td class="r">${r[1]}</td><td class="r">${r[2]}</td></tr>`).join('')}</table>` : ''}
+        ${(an.stakes || []).map(x => `<div class="pt"><i></i><div>${html(x)}</div></div>`).join('')}</div>`
+  }
+  if (type === 'pv_players') {
+    const pl = (an.players || []).slice(0, 4)
+    return `<div class="t1 A long">Players to watch</div><div class="t2">Two from each side</div>
+      <div class="grid">${pl.map(x => { const tb = x.team === 'away' ? p.ba : p.bh
+        return `<div class="pcard"><div class="ph${x.photo ? '' : ' none'}" ${x.photo ? `style="background-image:url('${x.photo.src}')"` : ''}>${x.photo ? '' : badge(tb)}</div>
+          ${x.photo ? `<div class="tm">${badge(tb)}</div>` : ''}<div class="inf"><b class="A" style="font-size:${x.name.length > 16 ? 36 : 46}px">${html(x.name)}</b><span>${html([x.role, x.club].filter(Boolean).join(' · '))}</span><p>${html(x.fact || '')}</p></div></div>` }).join('')}</div>`
+  }
+  if (type === 'pv_tactics') {
+    const tc = an.tactics || {}
+    const col = (side, b, name) => { const t = tc[side] || {}
+      return `<div class="tcol"><div class="hd">${badge(b)}<b class="A">${html(name)}</b></div><div class="fm A">${html(t.formation || '')}</div>${formationSvg(t.formation, b.colour)}
+        ${(t.points || []).slice(0, 3).map(x => `<div class="pt"><i></i><div>${html(x)}</div></div>`).join('')}</div>` }
+    return `<div class="t1 A">How they play</div><div class="t2">Shape and style</div><div class="cols">${col('home', p.bh, p.home)}${col('away', p.ba, p.away)}</div>`
+  }
+  if (type === 'pv_expect') return `<div class="t1 A">What to expect</div><div class="t2">The AI Analyst's read</div>
+    <div class="card box">${(an.expect || []).map(x => `<div class="pt"><i></i><div>${html(x)}</div></div>`).join('')}</div>
+    ${an.verdict ? `<div class="verdict"><span class="chip">${html(an.verdict)}</span></div>` : ''}`
   if (type === 'pv_cta') return `<div class="wrap"><div class="logo"><span class="bars"><i style="height:64px"></i><i style="height:98px"></i><i style="height:132px"></i></span>cmvng</div>
-    <div class="big A">Follow for more<br>match previews</div><div class="url">Football, by the numbers</div></div>`
+    <div class="big A">${D.cfg.analysis ? 'Follow the<br>AI Analyst' : 'Follow for more<br>match previews'}</div><div class="url">Football, by the numbers</div></div>`
   return ''
+}
+// a formation as dots on a half pitch: "4-2-3-1" → goalkeeper + rows from defence to attack
+function formationSvg(f, colour) {
+  const rows = String(f || '').split('-').map(Number).filter(n => n > 0 && n < 7)
+  if (!rows.length) return ''
+  const W = 400, Hh = 330, all = [1, ...rows], dots = []
+  all.forEach((n, r) => { const y = Hh - 28 - r * ((Hh - 56) / (all.length - 1)); for (let i = 0; i < n; i++) dots.push([W * (i + 1) / (n + 1), y]) })
+  return `<svg viewBox="0 0 ${W} ${Hh}"><rect x="2" y="2" width="${W - 4}" height="${Hh - 4}" rx="14" fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.25)" stroke-width="2"/>
+    <line x1="2" y1="2" x2="${W - 2}" y2="2" stroke="rgba(255,255,255,.25)" stroke-width="2"/><path d="M${W / 2 - 60} 2 A60 60 0 0 0 ${W / 2 + 60} 2" fill="none" stroke="rgba(255,255,255,.25)" stroke-width="2"/>
+    <rect x="${W / 2 - 90}" y="${Hh - 62}" width="180" height="60" fill="none" stroke="rgba(255,255,255,.25)" stroke-width="2"/>
+    ${dots.map(([x, y]) => `<circle class="dot" cx="${x}" cy="${y}" r="17" fill="${colour || '#3D7BFF'}" stroke="#fff" stroke-width="3"/>`).join('')}</svg>`
 }
 function isToday(d) { return d === new Date(Date.now() + 3600e3).toISOString().slice(0, 10) }
 function dayLong(d) { return d ? new Date(`${d}T12:00:00Z`).toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', timeZone: 'UTC' }) : '' }
@@ -589,6 +659,16 @@ function drawPreview(sc, el, lt) {
       $$('.xg b', el).forEach(n => { n.textContent = (+n.dataset.n * P(lt, 0.4, 1.4, E.outCubic) + 1e-9).toFixed(1) })
       $$('.tri i', el).forEach((n, j) => { n.style.transform = `scaleX(${P(lt, b1 + 0.1 + j * 0.25, b1 + 0.7 + j * 0.25, E.outCubic)})` })
       $$('.lab b', el).forEach((n, j) => { n.textContent = Math.round(+n.dataset.n * P(lt, b1 + 0.1 + j * 0.25, b1 + 0.9 + j * 0.25, E.outCubic)) + '%' })
+    } else if (sc.type === 'pv_stake' || sc.type === 'pv_expect') {
+      rise($$('.tbl tr', el), lt, 0.4, 0.08, 20)
+      const pts = $$('.pt', el); pts.forEach((n, j) => rise([n], lt, (sc.lines[Math.min(j, sc.lines.length - 1)] || [0.5])[0] + (j >= sc.lines.length ? 0.6 * (j - sc.lines.length + 1) : 0), 0, 30))
+      const v = $('.verdict', el); if (v) { const at = S(sc, sc.lines.length - 1)[0] + 0.4, q = P(lt, at, at + 0.35, E.outBack); v.style.opacity = clamp(q * 2); v.style.transform = `scale(${0.6 + 0.4 * q})` }
+    } else if (sc.type === 'pv_players') {
+      $$('.pcard', el).forEach((c, j) => { const at = 0.3 + j * Math.max(0.35, (S(sc, 1)[0] - 0.3) / 2) * (j >= 2 ? 1 : 0.5); slam(c, lt, j < 2 ? 0.3 + j * 0.35 : S(sc, 1)[0] - 0.1 + (j - 2) * 0.35, 1.25, 0.3) })
+    } else if (sc.type === 'pv_tactics') {
+      $$('.tcol', el).forEach((c, j) => { const at = j ? S(sc, 1)[0] - 0.2 : 0.3; rise([c], lt, at, 0, 60, 0.5)
+        $$('.dot', c).forEach((d, k) => { d.style.opacity = P(lt, at + 0.3 + k * 0.05, at + 0.45 + k * 0.05) })
+        $$('.pt', c).forEach((n, k) => rise([n], lt, at + 0.8 + k * 0.25, 0, 20)) })
     } else if (sc.type === 'pv_score') {
       $$('.tile', el).forEach((t, j) => slam(t, lt, 0.35 + j * 0.3, 1.4, 0.3))
       rise([$('.note', el)], lt, 1.4)
@@ -623,6 +703,10 @@ window.fxEvents = function () {
     if (sc.type === 'pv_stats') add(T + 0.3, 'impact', 0.45)
     if (sc.type === 'pv_model') { add(T + 0.3, 'impact', 0.45); add(T + S(sc, 1)[0] + 0.1, 'riser', 0.5); add(T + S(sc, 1)[0] + 0.85, 'impact', 0.6) }
     if (sc.type === 'pv_score') for (let j = 0; j < 3; j++) add(T + 0.6 + j * 0.3, 'impact', 0.45)
+    if (sc.type === 'pv_players') { add(T + 0.6, 'impact', 0.45); add(T + S(sc, 1)[0] + 0.2, 'impact', 0.45) }
+    if (sc.type === 'pv_tactics') { add(T + 0.6, 'tick'); add(T + S(sc, 1)[0] + 0.1, 'tick2') }
+    if (sc.type === 'pv_expect' && D.cfg.analysis?.verdict) add(T + S(sc, sc.lines.length - 1)[0] + 0.5, 'impact', 0.6)
+    if (sc.type === 'pv_stake') add(T + 0.4, 'impact', 0.4)
     if (sc.type === 'slate') add(T + 0.25, 'impact', 0.45)
     const nx = D.scenes[k + 1]
     if (nx && (nx.type === 'slate' || nx.type === 'rtotal')) add(nx.start, 'riser', 0.8)
@@ -670,7 +754,7 @@ window.renderAt = function (t) {
   $$('#hdr .bars i').forEach((b, j) => { b.style.transform = `scaleY(${1 + 0.22 * bp * (j + 1) / 3})`; b.style.transformOrigin = '50% 100%' })
 
   // header
-  if (sc.type.startsWith('pv_')) $('#hlabel').textContent = ({ pv_hook: 'Match preview', pv_form: 'Form', pv_stats: 'The numbers', pv_model: 'Our model', pv_score: 'Likely scores' })[sc.type] || ''
+  if (sc.type.startsWith('pv_')) $('#hlabel').textContent = ({ pv_hook: D.cfg.analysis ? 'AI Analyst' : 'Match preview', pv_stake: 'At stake', pv_form: 'Form', pv_players: 'Key players', pv_tactics: 'Tactics', pv_stats: 'The numbers', pv_model: 'Our model', pv_score: 'Likely scores', pv_expect: 'Verdict' })[sc.type] || ''
   else $('#hlabel').textContent = sc.type === 'pick' ? `Pick ${sc.i + 1} / ${N}` : sc.type === 'result' ? `Result ${sc.i + 1} / ${N}` : sc.type === 'slate' ? 'The slate' : sc.type === 'rtotal' ? 'The day' : ''
   $$('#pips i').forEach((b, j) => { b.className = sc.i === undefined ? (['slate', 'rtotal', 'cta'].includes(sc.type) ? 'done' : '') : j < sc.i ? 'done' : j === sc.i ? 'on' : '' })
   $('#pips').style.opacity = (sc.type === 'hook' || sc.type === 'rhook' || sc.type === 'cta' || D.cfg.mode === 'preview') ? 0 : 1

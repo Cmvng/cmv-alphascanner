@@ -17,6 +17,7 @@ import { loadInput } from './lib/input.mjs'
 import { resolveBadge, isCountry } from './lib/badges.mjs'
 import { resolveStadium } from './lib/stadium.mjs'
 import { resolvePlayers } from './lib/players.mjs'
+import { resolvePerson } from './lib/people.mjs'
 import { buildScenes } from './lib/narration.mjs'
 
 const DIR = path.dirname(new URL(import.meta.url).pathname)
@@ -76,6 +77,9 @@ for (const p of picks) {
   console.log(`  ${(p.home + ' v ' + p.away).padEnd(28)} ${p.pick.padEnd(26)} @${p.odds.toFixed(2)}  model ${p.model}%  book ${p.market.toFixed(0)}%  edge ${(p.edge * 100).toFixed(1).padStart(5)}%  → ${p.signal} bar${p.signal > 1 ? 's' : ' '} (${cfg.currency}${p.stake})  ${p.stadium ? '📷 ' + p.stadium.venue : '(no stadium photo)'}`)
 }
 
+// AI Analyst previews: a free photo of each player to watch (else the card shows the crest)
+for (const x of cfg.analysis?.players || []) x.photo = x.photo === false ? null : await resolvePerson(x.name, { cacheDir: CACHE, outDir: OUT })
+
 // team colours from each crest or flag (the broadcast style's panels, the glows behind the badges)
 const imgs = picks.flatMap(p => [p.bh, p.ba]).filter(b => b.src)
 if (imgs.length) {
@@ -129,7 +133,7 @@ if (voiceOn) {
 const est = s => s.split(/\s+/).length / (2.7 * cfg.voice_speed) + 0.2 // seconds, when there's no voice
 
 // ---------------------------------------------------------------- 4. timeline + captions
-const MIN = { hook: 4.2, pick: 7.0, slate: 5.0, cta: 4.4, rhook: 5.4, result: 4.6, rtotal: 6.2, pv_hook: 5.0, pv_form: 6.0, pv_stats: 7.0, pv_model: 7.5, pv_score: 5.5, pv_cta: 4.5 }
+const MIN = { hook: 4.2, pick: 7.0, slate: 5.0, cta: 4.4, rhook: 5.4, result: 4.6, rtotal: 6.2, pv_hook: 5.0, pv_form: 6.0, pv_stats: 7.0, pv_model: 7.5, pv_score: 5.5, pv_cta: 4.5, pv_stake: 6.0, pv_players: 8.0, pv_tactics: 8.0, pv_expect: 7.0 }
 const LEAD = { hook: 0.2, rhook: 0.2 }, GAP = 0.12, TAIL = 0.3
 const BEAT = music?.beat || null
 let t = 0
@@ -169,7 +173,7 @@ const DATA = { cfg, picks, recap, beat: BEAT, scenes: scenes.map(({ type, i, sta
 const page = fs.readFileSync(path.join(DIR, 'scene.html'), 'utf8')
   .replace('<script>\nconst D = window.DATA', `<script>window.DATA=${JSON.stringify(DATA).replace(/</g, '\\u003c')}</script>\n<script>\nconst D = window.DATA`)
 fs.writeFileSync(path.join(OUT, 'index.html'), page)
-const credits = [...new Set(picks.flatMap(p => cfg.style === 'broadcast' ? [] : cfg.style === 'players' && p.players?.length ? p.players.map(x => x.credit) : [p.stadium?.credit]).filter(Boolean)), music?.credit].filter(Boolean)
+const credits = [...(cfg.analysis?.players || []).map(x => x.photo?.credit), ...new Set(picks.flatMap(p => cfg.style === 'broadcast' ? [] : cfg.style === 'players' && p.players?.length ? p.players.map(x => x.credit) : [p.stadium?.credit]).filter(Boolean)), music?.credit].filter(Boolean)
 fs.writeFileSync(path.join(OUT, 'credits.txt'), credits.join('\n') + '\n')
 
 const { chromium } = loadPlaywright()
