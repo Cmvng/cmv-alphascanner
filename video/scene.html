@@ -469,12 +469,22 @@ function barSegs(p) {
   const h = p.bh.colour || '#3D7BFF', a = clash(h, p.ba.colour || '#6E9BFF') ? '#E2E8F0' : (p.ba.colour || '#6E9BFF')
   return [[p.home_win, h, p.home], [p.draw, '#64748B', 'Draw'], [p.away_win, a, p.away]]
 }
+// the opening headline ("Portugal without Ronaldo"): split into two balanced lines, the second in brand blue,
+// sized so the longer line fits the width (Anton is about 0.46 em per capital)
+function headline(h) {
+  if (!h) return ''
+  const w = String(h).trim().split(/\s+/)
+  let best = [w.join(' '), ''], diff = 1e9
+  for (let i = 1; i < w.length; i++) { const a = w.slice(0, i).join(' '), b = w.slice(i).join(' '); if (Math.abs(a.length - b.length) < diff) { diff = Math.abs(a.length - b.length); best = [a, b] } }
+  const size = Math.max(84, Math.min(168, Math.floor(960 / (0.46 * Math.max(best[0].length, best[1].length)))))
+  return `<div class="ttl A" style="font-size:${size}px">${html(best[0])}${best[1] ? `<br><span>${html(best[1])}</span>` : ''}</div>`
+}
 function buildPreview(type, p) {
   const f1 = v => (v + 1e-9).toFixed(1), H = html(p.home), A = html(p.away)
   if (type === 'pv_hook') return `<div class="meta"><span class="chip">${html([p.competition, p.kickoff ? (isToday(D.cfg.date) ? 'Tonight ' : '') + p.kickoff : dayLong(D.cfg.date)].filter(Boolean).join(' · '))}</span></div>
     <div class="mu"><div class="side h">${badge(p.bh)}<div class="nm A" style="font-size:${nmFit(p.home, true)}px">${H}</div></div><div class="vs A">vs</div>
       <div class="side a">${badge(p.ba)}<div class="nm A" style="font-size:${nmFit(p.away, true)}px">${A}</div></div></div>
-    <div class="ttl A">${D.cfg.analysis ? 'Match<br><span>Analysis</span>' : 'What the<br><span>numbers</span> say'}</div><div class="sub"><span class="chip">${D.cfg.analysis ? 'Context · players · tactics · the numbers' : 'Match preview'}</span></div>`
+    ${headline(D.cfg.analysis?.headline) || `<div class="ttl A">${D.cfg.analysis ? 'Match<br><span>Analysis</span>' : 'What the<br><span>numbers</span> say'}</div>`}<div class="sub"><span class="chip">${D.cfg.analysis ? (D.cfg.analysis.headline ? 'Match analysis · players · tactics · the numbers' : 'Context · players · tactics · the numbers') : 'Match preview'}</span></div>`
   if (type === 'pv_form') {
     const row = (b, name, rec, form, ppg) => `<div class="tr">${badge(b)}<div class="who"><b class="A">${html(name)}</b><span>W${rec[0]} D${rec[1]} L${rec[2]}${ppg ? ` · ${ppg.toFixed(1)} pts a game` : ''}</span></div>
       <div class="chips5">${[...(form || '')].map(c => `<i class="${c}">${c}</i>`).join('')}</div></div>`

@@ -62,7 +62,9 @@ function loadPlaywright() {
 
 // ---------------------------------------------------------------- 1. data, badges, stadiums
 const { cfg, picks, recap } = loadInput(input)
-const slug = path.basename(input).replace(/\.(json|csv)$/i, '')
+// --short: the 60-second cut for Shorts / Reels (main match only: no round-up, no tactics screen)
+const SHORT = !!flag('short', false)
+const slug = path.basename(input).replace(/\.(json|csv)$/i, '') + (SHORT ? '_short' : '')
 const OUT = path.join(DIR, 'out', slug), CACHE = path.join(DIR, '.cache')
 fs.rmSync(OUT, { recursive: true, force: true }); fs.mkdirSync(OUT, { recursive: true })
 console.log(`\n${cfg.title} · ${cfg.competition} · ${cfg.date}`)
@@ -106,6 +108,7 @@ if (cfg.music !== false) {
 }
 
 // ---------------------------------------------------------------- 3. voiceover
+if (SHORT) { cfg.skip = [...(cfg.skip || []), ...(cfg.short_skip || ['pv_round', 'pv_tactics'])]; cfg.script = { ...(cfg.script || {}), ...(cfg.script_short || {}) } }
 const scenes = buildScenes(cfg, picks, recap)
 const spoken = x => typeof x === 'string' ? x : x.say, shown = x => typeof x === 'string' ? x : x.show
 const sentences = scenes.flatMap((s, k) => s.say.map((x, j) => ({ id: `s${k}_${j}`, text: spoken(x), k })))

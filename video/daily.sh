@@ -6,6 +6,7 @@
 #   bash video/daily.sh picks --session morning     or midday / evening / all
 #   bash video/daily.sh results --date 2026-09-30 --money ngn
 #   bash video/daily.sh render video/out/picks-2026-10-01.json    re-render a fetched file (e.g. after writing its script)
+#   bash video/daily.sh render video/out/analyst-….json --short   the 60-second cut of a match analysis (no round-up, no tactics)
 #
 # Prints the finished video, a copy small enough to send in chat (under 29 MB), and the caption + credits files.
 set -euo pipefail
@@ -17,7 +18,8 @@ export FFMPEG PLAYWRIGHT_PATH
 
 if [ "$MODE" = render ]; then JSON="${1:?which file?}"; else JSON=$(node video/from-app.mjs "$MODE" "$@"); fi
 SLUG=$(basename "$JSON" .json)
-node video/make-video.mjs "$JSON"
+SHORT=""; if [ "$MODE" = render ] && [ "${2:-}" = "--short" ]; then SHORT="--short"; SLUG="${SLUG}_short"; fi   # the 60-second cut
+node video/make-video.mjs "$JSON" $SHORT
 
 OUT="video/out/$SLUG"
 MP4="$OUT/$SLUG.mp4"

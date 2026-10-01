@@ -190,12 +190,13 @@
       "Denmark direct, hunting set-pieces",
       "The duel: Højlund v Rúben Dias"
     ],
-    "verdict": "Our read: tight, slight Danish edge at home"
+    "verdict": "Our read: tight, slight Danish edge at home",
+    "headline": "Portugal without Ronaldo"
   },
   "script": {
     "pv_hook": [
-      "Denmark against Portugal, tonight in Copenhagen.",
-      "Portugal arrive top of the group, but without Cristiano Ronaldo, who has left the squad. Here's the analysis."
+      "Portugal top the group, and tonight they're without Cristiano Ronaldo.",
+      "It's Denmark, in Copenhagen. Here's the analysis."
     ],
     "pv_stake": [
       "Portugal have won both games and sit top on six points. Denmark and Norway are level on three, fighting for second.",
@@ -234,6 +235,19 @@
     ],
     "pv_cta": [
       "That's the analysis. Follow for more football, by the numbers."
+    ]
+  },
+  "script_short": {
+    "pv_stake": [
+      "Portugal top the group on six points. Denmark and Norway sit on three, chasing second."
+    ],
+    "pv_players": [
+      "Watch Højlund, who scored the only goal when Portugal last came here, and Damsgaard's set-pieces.",
+      "For Portugal, captain Bruno Fernandes and Gonçalo Ramos."
+    ],
+    "pv_expect": [
+      "Expect Portugal on the ball, and Denmark direct, hunting set-pieces.",
+      "Our read: tight, with a slight Danish edge at home."
     ]
   }
 }

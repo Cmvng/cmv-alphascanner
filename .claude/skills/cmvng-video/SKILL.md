@@ -64,6 +64,9 @@ For the **match analysis** version, add an `"analysis"` object built from the re
 - `tactics`: `{home: {formation, points: [3 short notes]}, away: {...}}`
 - `expect`: 2–3 lines
 - `verdict`: a short chip in plain football language, e.g. "Our read: a Dutch win, but Greece score"
+- `headline`: the match's story in 2–5 words, shown big on the opening screen, e.g. "Portugal without Ronaldo". Always write one; never a generic title.
+
+Keep the opening to 6–7 seconds, with the story in the first sentence. Also render the 60-second cut: add `script_short` with tighter lines, then run `bash video/daily.sh render <file> --short` (main match only).
 
 The script then also gets `pv_stake`, `pv_players`, `pv_tactics` and `pv_expect` lines.
 

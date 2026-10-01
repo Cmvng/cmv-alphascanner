@@ -10,6 +10,11 @@
 
 Every new analysis video copies this structure, tone and level of detail. Only the facts change.
 
+## Two cuts from one file
+
+- **Full** (about 2 minutes, for X and YouTube): `bash video/daily.sh render video/out/<file>.json`
+- **Short** (about 60 seconds, for Shorts, Reels and TikTok): `bash video/daily.sh render video/out/<file>.json --short`. The main match only, with no round-up and no tactics screen. Tighter lines go in `script_short`, which overrides `script` screen by screen.
+
 ## Platforms
 
 X and YouTube (Shorts up to 3 minutes; X up to 2:20 without Premium). The video is football analysis only, with no betting content, so it can be monetised. Tips videos go to TikTok and Facebook instead.
@@ -18,7 +23,7 @@ X and YouTube (Shorts up to 3 minutes; X up to 2:20 without Premium). The video 
 
 | # | Screen | What it shows | Voice | Length in the reference |
 |---|---|---|---|---|
-| 1 | `pv_hook` | Both crests, "Match Analysis", competition and kick-off | Match, place, then the night's biggest story ("…without Cristiano Ronaldo, who has left the squad") | 10.9 s |
+| 1 | `pv_hook` | Both crests, the **headline** (`analysis.headline`, e.g. "Portugal without Ronaldo"), competition and kick-off | The story first, then the match: "Portugal top the group, and tonight they're without Cristiano Ronaldo. It's Denmark, in Copenhagen. Here's the analysis." | aim for 6–7 s |
 | 2 | `pv_stake` · What's on the line | The group table, highlighted, and 2 notes | The table, then what a result changes | 12.8 s |
 | 3 | `pv_players` · Players to watch | 4 cards: photo, name, role, club and one fact | Two players a side, with the fact that makes each matter | 15.3 s |
 | 4 | `pv_tactics` · How they play | Formation diagrams and 3 notes a side | Shape, then the one number that explains their style | 14.7 s |
