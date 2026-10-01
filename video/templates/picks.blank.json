@@ -1,0 +1,33 @@
+{
+  "competition": "Premier League",
+  "date": "2026-10-04",
+  "stake_example": 10000,
+  "currency": "₦",
+  "picks": [
+    {
+      "home": "",
+      "away": "",
+      "kickoff": "",
+      "pick": "",
+      "odds": null,
+      "model": null,
+
+      "home_win": null,
+      "draw": null,
+      "away_win": null,
+      "xg_home": null,
+      "xg_away": null,
+      "form_home": "",
+      "form_away": "",
+      "scored_home": null,
+      "scored_away": null,
+      "conceded_home": null,
+      "conceded_away": null,
+      "rating_home": null,
+      "rating_away": null,
+      "note": "",
+      "crest_home": "",
+      "crest_away": ""
+    }
+  ]
+}
