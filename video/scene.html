@@ -450,7 +450,7 @@ function buildPreview(type, p) {
   if (type === 'pv_hook') return `<div class="meta"><span class="chip">${html([p.competition, p.kickoff ? (isToday(D.cfg.date) ? 'Tonight ' : '') + p.kickoff : dayLong(D.cfg.date)].filter(Boolean).join(' · '))}</span></div>
     <div class="mu"><div class="side h">${badge(p.bh)}<div class="nm A" style="font-size:${nmFit(p.home, true)}px">${H}</div></div><div class="vs A">vs</div>
       <div class="side a">${badge(p.ba)}<div class="nm A" style="font-size:${nmFit(p.away, true)}px">${A}</div></div></div>
-    <div class="ttl A">${D.cfg.analysis ? 'The AI<br><span>Analyst</span>' : 'What the<br><span>numbers</span> say'}</div><div class="sub"><span class="chip">${D.cfg.analysis ? 'Preview · stakes · players · tactics' : 'Match preview'}</span></div>`
+    <div class="ttl A">${D.cfg.analysis ? 'The AI<br><span>Analyst</span>' : 'What the<br><span>numbers</span> say'}</div><div class="sub"><span class="chip">${D.cfg.analysis ? 'Preview · context · players · tactics' : 'Match preview'}</span></div>`
   if (type === 'pv_form') {
     const row = (b, name, rec, form, ppg) => `<div class="tr">${badge(b)}<div class="who"><b class="A">${html(name)}</b><span>W${rec[0]} D${rec[1]} L${rec[2]}${ppg ? ` · ${ppg.toFixed(1)} pts a game` : ''}</span></div>
       <div class="chips5">${[...(form || '')].map(c => `<i class="${c}">${c}</i>`).join('')}</div></div>`
@@ -486,7 +486,7 @@ function buildPreview(type, p) {
   const an = D.cfg.analysis || {}
   if (type === 'pv_stake') {
     const t = an.table || []
-    return `<div class="t1 A">What's at stake</div><div class="t2">${html(an.stage || p.competition || '')}</div>
+    return `<div class="t1 A long">What's on the line</div><div class="t2">${html(an.stage || p.competition || '')}</div>
       <div class="card box">${t.length ? `<table class="tbl"><tr><th></th><th style="text-align:left">Team</th><th>P</th><th>Pts</th></tr>${t.map((r, j) => `<tr class="${[p.home, p.away].includes(r[0]) ? 'me' : ''}"><td class="n">${j + 1}</td><td>${html(r[0])}</td><td class="r">${r[1]}</td><td class="r">${r[2]}</td></tr>`).join('')}</table>` : ''}
         ${(an.stakes || []).map(x => `<div class="pt"><i></i><div>${html(x)}</div></div>`).join('')}</div>`
   }
@@ -754,7 +754,7 @@ window.renderAt = function (t) {
   $$('#hdr .bars i').forEach((b, j) => { b.style.transform = `scaleY(${1 + 0.22 * bp * (j + 1) / 3})`; b.style.transformOrigin = '50% 100%' })
 
   // header
-  if (sc.type.startsWith('pv_')) $('#hlabel').textContent = ({ pv_hook: D.cfg.analysis ? 'AI Analyst' : 'Match preview', pv_stake: 'At stake', pv_form: 'Form', pv_players: 'Key players', pv_tactics: 'Tactics', pv_stats: 'The numbers', pv_model: 'Our model', pv_score: 'Likely scores', pv_expect: 'Verdict' })[sc.type] || ''
+  if (sc.type.startsWith('pv_')) $('#hlabel').textContent = ({ pv_hook: D.cfg.analysis ? 'AI Analyst' : 'Match preview', pv_stake: 'Context', pv_form: 'Form', pv_players: 'Key players', pv_tactics: 'Tactics', pv_stats: 'The numbers', pv_model: 'Our model', pv_score: 'Likely scores', pv_expect: 'Verdict' })[sc.type] || ''
   else $('#hlabel').textContent = sc.type === 'pick' ? `Pick ${sc.i + 1} / ${N}` : sc.type === 'result' ? `Result ${sc.i + 1} / ${N}` : sc.type === 'slate' ? 'The slate' : sc.type === 'rtotal' ? 'The day' : ''
   $$('#pips i').forEach((b, j) => { b.className = sc.i === undefined ? (['slate', 'rtotal', 'cta'].includes(sc.type) ? 'done' : '') : j < sc.i ? 'done' : j === sc.i ? 'on' : '' })
   $('#pips').style.opacity = (sc.type === 'hook' || sc.type === 'rhook' || sc.type === 'cta' || D.cfg.mode === 'preview') ? 0 : 1

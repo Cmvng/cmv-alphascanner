@@ -117,6 +117,21 @@ Other options: `--no-voice`, `--fps 30`, `--workers 3`, `--out path.mp4`.
   - Business accounts can only use the platform's commercial music library.
   - The voice and sound effects stay either way, if you post a version made with `"music": false`.
 
+## Match previews and the AI Analyst (for X and YouTube)
+
+Tips videos don't earn on YouTube or X, so previews are football analysis only:
+- **The numbers:** form, goals, shots on target, xG, win chances and likely scores, all from your app.
+- **The AI Analyst version** adds researched context: what's on the line, players to watch (with free, credited photos), how each team plays (formations drawn on a mini pitch) and what to expect.
+
+```bash
+node video/from-app.mjs preview --team Greece      # or --match <id from cmvngpicks.com/m/<id>>
+bash video/daily.sh render video/out/preview-<date>-<home>-<away>.json
+```
+
+**Monetisation check:** every preview render reads all on-screen text and the voiceover, and refuses to render if it finds a betting word (odds, bet, stake, tips, picks, bookies, units, booking codes, bookmaker names, naira or ₦, your site's address…). It lists exactly what to change.
+
+When you post, keep the same rules in the title, description and pinned comment, credit the photos, and add "Narrated with an AI voice".
+
 ## Three looks
 
 Set `"style"` at the top of the file (or tell Claude which look you want):

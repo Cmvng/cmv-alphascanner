@@ -36,11 +36,28 @@ node video/from-app.mjs preview --match 987933         # any match page: cmvngpi
 
 The file gets form, record, points a game, goals scored and conceded, shots on target, clean sheets, xG, win chances and the most likely scores. Write its script with the keys `pv_hook`, `pv_form`, `pv_stats`, `pv_model`, `pv_score` and `pv_cta` (1–2 lines each, under about 25 words a line). Then render it the same way.
 
+For the **AI Analyst** version, add an `"analysis"` object built from the researched facts (each fact from a dated source; leave out anything unconfirmed):
+- `stage`: the stage, e.g. "League A · Group 2 · Matchday 3"
+- `table`: `[[team, played, points], ...]`
+- `stakes`: 1–2 lines
+- `players`: 4 entries, two home then two away, each `{name, team: home|away, role, club, fact}`. Free photos are found automatically, and the card shows the crest when there's none.
+- `tactics`: `{home: {formation, points: [3 short notes]}, away: {...}}`
+- `expect`: 2–3 lines
+- `verdict`: a short chip in plain football language, e.g. "Our read: a Dutch win, but Greece score"
+
+The script then also gets `pv_stake`, `pv_players`, `pv_tactics` and `pv_expect` lines.
+
+**Monetisation check:** every preview render reads all on-screen text and voiceover, and stops with a list if it finds a betting term: odds, bet, stake, tips, picks, bookies, units, booking codes, bookmaker names, naira or ₦, cmvngpicks.com, and so on. Reword and re-run. Never pass `--allow-words` for X or YouTube videos.
+
 Preview rules, which keep it monetisable:
 - **No betting words:** no odds, prices, bookies, stakes, units, bars, picks, tips, "value", "bet", booking codes or website links.
 - **End with "Follow for more…"**.
 - **Real analysis:** the script must explain why ("the gap shows at both ends…"), not just read numbers out. YouTube won't pay for repetitive, templated videos, so vary the hook and the angle each time.
 - **Post caption:** "<Home> vs <Away>: what the numbers say | <competition> preview".
+- **Title, description, tags and pinned comment:** same rules; no betting words and no link to cmvngpicks.com (the site has booking codes).
+- **Credits and disclosure:** put the photo credits from `credits.txt` in the description, and add "Narrated with an AI voice."
+- **Facts:** team news, players and tactics must come from dated sources found today. Leave out what can't be confirmed; a wrong fact costs more trust than a missing one.
+- **Volume:** one or two analyst videos a day, each with its own angle. Mass-posting near-identical videos is what YouTube refuses to pay for.
 
 ## 2. Write the script (the presenter is a football analyst)
 

@@ -188,6 +188,28 @@ async function openPage() {
   return { browser, pg, shot }
 }
 
+// ---------------------------------------------------------------- monetisation check (match previews for X / YouTube)
+// Every word on screen and in the voiceover is read; any betting term stops the render.
+const BANNED = /\b(odds|bets?|betting|bettors?|bookies?|bookmakers?|stakes?|staking|wagers?|tips|tipsters?|picks|value bets?|booking codes?|bet ?slips?|accumulators?|accas?|bankers?|sure (?:win|bet)|guaranteed?|fixed match(?:es)?|sportybet|bet9ja|1xbet|betway|bet365|naira|cmvngpicks(?:\.com)?|payouts?|risk[- ]free|handicap|over\/under)\b|₦/gi
+async function complianceCheck() {
+  const { browser, pg } = await openPage()
+  const seen = new Set()
+  for (const sc of scenes) {
+    await pg.evaluate(x => window.renderAt(x), sc.start + Math.max(0.1, sc.dur - 0.35))
+    for (const line of (await pg.evaluate(() => document.getElementById('stage').innerText)).split('\n')) seen.add(line.trim())
+  }
+  await browser.close()
+  for (const x of sentences) seen.add(x.text)
+  for (const sc of scenes) for (const x of sc.say) seen.add(shown(x))
+  const hits = [...seen].filter(Boolean).flatMap(t => [...t.matchAll(BANNED)].map(m => `"${m[0]}" in: ${t.slice(0, 90)}`))
+  if (hits.length && !flag('allow-words', false)) {
+    console.error(`\n✗ Not monetisation-safe: betting words found in the preview\n  - ${[...new Set(hits)].join('\n  - ')}\nReword the script/analysis (or pass --allow-words to render anyway).`)
+    process.exit(3)
+  }
+  console.log(`Monetisation check: passed (${seen.size} lines of on-screen text and voiceover, no betting terms)`)
+}
+if (cfg.mode === 'preview') await complianceCheck()
+
 // ---------------------------------------------------------------- stills (preview)
 if (stills) {
   const { browser, pg, shot } = await openPage()
