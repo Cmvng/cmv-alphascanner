@@ -36,6 +36,8 @@ node video/from-app.mjs preview --match 987933         # any match page: cmvngpi
 
 The file gets form, record, points a game, goals scored and conceded, shots on target, clean sheets, xG, win chances and the most likely scores. Write its script with the keys `pv_hook`, `pv_form`, `pv_stats`, `pv_model`, `pv_score` and `pv_cta` (1–2 lines each, under about 25 words a line). Then render it the same way.
 
+**The approved template.** Every AI Analyst video follows `video/templates/ai-analyst/`. Read its `README.md` first (screen order, what made it work, the checklist) and copy the shape of `denmark-portugal-2026-10-01.json`. Save a `sources.md` with each new video.
+
 **AI Analyst research.** For each match, run a web-research subagent in the background, one per match, all in parallel. Ask it for a brief of under 500 words with a source URL and date on every fact:
 1. Context: the group or round, the table, what's on the line, the venue, the coaches.
 2. Team news: absentees, call-ups, predicted XIs and formations, labelled as predicted.

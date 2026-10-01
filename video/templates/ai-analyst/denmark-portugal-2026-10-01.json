@@ -1,0 +1,239 @@
+{
+  "mode": "preview",
+  "competition": "UEFA Nations League",
+  "date": "2026-10-01",
+  "picks": [
+    {
+      "home": "Denmark",
+      "away": "Portugal",
+      "competition": "UEFA Nations League",
+      "kickoff": "19:45",
+      "home_win": 44,
+      "draw": 30,
+      "away_win": 26,
+      "xg_home": 1.28,
+      "xg_away": 0.96,
+      "form_home": "LWDLW",
+      "form_away": "DWLWW",
+      "scored_home": 2.5,
+      "scored_away": 2.2,
+      "conceded_home": 1.1,
+      "conceded_away": 0.9,
+      "top_scores": [
+        [
+          1,
+          1,
+          14
+        ],
+        [
+          1,
+          0,
+          13
+        ],
+        [
+          0,
+          0,
+          11
+        ]
+      ],
+      "stadium": "/home/user/cmv-alphascanner/video/.cache/stadiums/denmark.jpg",
+      "stadium_credit": "Parken Stadium, Copenhagen · Photo: Arne Müseler · CC BY-SA 3.0 de"
+    },
+    {
+      "home": "Wales",
+      "away": "Norway",
+      "competition": "UEFA Nations League",
+      "kickoff": "19:45",
+      "home_win": 23,
+      "draw": 21,
+      "away_win": 56,
+      "xg_home": 1.6,
+      "xg_away": 2.37,
+      "stadium": "/home/user/cmv-alphascanner/video/.cache/stadiums/cardiff_city_f_c.jpg",
+      "stadium_credit": "Cardiff City Stadium · Photo: Jon Candy from Cardiff, Wales · CC BY-SA 2.0",
+      "round": {
+        "title": "Around League A",
+        "stage": "Group 4 · Cardiff City Stadium",
+        "points": [
+          "Wales: no points and no goals yet, seven players injured",
+          "Haaland: 65 goals in 57 games for Norway"
+        ]
+      }
+    },
+    {
+      "home": "Germany",
+      "away": "Serbia",
+      "competition": "UEFA Nations League",
+      "kickoff": "19:45",
+      "home_win": 79,
+      "draw": 15,
+      "away_win": 6,
+      "xg_home": 2.49,
+      "xg_away": 0.66,
+      "stadium": "/home/user/cmv-alphascanner/video/.cache/stadiums/fc_bayern_munich.jpg",
+      "stadium_credit": "Allianz Arena · Photo: Richard Bartz, Munich aka Makro Freak · CC BY-SA 2.5",
+      "round": {
+        "title": "Around League A",
+        "stage": "Group 2 · Allianz Arena, Munich",
+        "points": [
+          "Klopp still chasing his first win as Germany coach",
+          "No Kimmich, ter Stegen, Tah or Schlotterbeck"
+        ]
+      }
+    },
+    {
+      "home": "Greece",
+      "away": "Netherlands",
+      "competition": "UEFA Nations League",
+      "kickoff": "19:45",
+      "home_win": 21,
+      "draw": 23,
+      "away_win": 56,
+      "xg_home": 1.15,
+      "xg_away": 1.92,
+      "stadium": "/home/user/cmv-alphascanner/video/.cache/stadiums/paok_fc.jpg",
+      "stadium_credit": "Toumba Stadium, Thessaloniki · Photo: Gparalikidis",
+      "round": {
+        "title": "Around League A",
+        "stage": "Group 2 · Toumba Stadium, Thessaloniki",
+        "points": [
+          "Greece top Group 2 after their first ever win over Germany",
+          "Dutch without Gakpo, Van Hecke, De Jong and Simons"
+        ]
+      }
+    }
+  ],
+  "voice_speed": 1.14,
+  "style": "stadium",
+  "skip": [
+    "pv_form",
+    "pv_stats"
+  ],
+  "analysis": {
+    "stage": "League A · Group 4 · Matchday 3",
+    "table": [
+      [
+        "Portugal",
+        2,
+        6
+      ],
+      [
+        "Norway",
+        2,
+        3
+      ],
+      [
+        "Denmark",
+        2,
+        3
+      ],
+      [
+        "Wales",
+        2,
+        0
+      ]
+    ],
+    "stakes": [
+      "Only the top two reach the March quarter-finals",
+      "Ronaldo has left the squad · Leão wears the No 7"
+    ],
+    "players": [
+      {
+        "name": "Rasmus Højlund",
+        "team": "home",
+        "role": "Striker",
+        "club": "Napoli",
+        "fact": "Scored the only goal when Portugal last came to Copenhagen."
+      },
+      {
+        "name": "Mikkel Damsgaard",
+        "team": "home",
+        "role": "Attacking midfielder",
+        "club": "",
+        "fact": "Free-kick goal v Norway. His set-pieces made both goals v Wales."
+      },
+      {
+        "name": "Bruno Fernandes",
+        "team": "away",
+        "role": "Captain tonight",
+        "club": "Man Utd",
+        "fact": "3 goals and 1 assist in the Premier League this season."
+      },
+      {
+        "name": "Gonçalo Ramos",
+        "team": "away",
+        "role": "Striker",
+        "club": "AC Milan",
+        "fact": "Scored the winner in Oslo: his 12th goal for Portugal."
+      }
+    ],
+    "tactics": {
+      "home": {
+        "formation": "4-3-3",
+        "points": [
+          "Højlund runs the channels",
+          "Damsgaard between the lines",
+          "Set-pieces: both goals v Wales"
+        ]
+      },
+      "away": {
+        "formation": "4-3-3",
+        "points": [
+          "Control the middle third",
+          "Outshot 22 to 12 in Oslo, still won",
+          "Leão, Neto and Ramos up front"
+        ]
+      }
+    },
+    "expect": [
+      "Portugal on the ball through Bruno and Vitinha",
+      "Denmark direct, hunting set-pieces",
+      "The duel: Højlund v Rúben Dias"
+    ],
+    "verdict": "Our read: tight, slight Danish edge at home"
+  },
+  "script": {
+    "pv_hook": [
+      "Denmark against Portugal, tonight in Copenhagen.",
+      "Portugal arrive top of the group, but without Cristiano Ronaldo, who has left the squad. Here's the AI Analyst's preview."
+    ],
+    "pv_stake": [
+      "Portugal have won both games and sit top on six points. Denmark and Norway are level on three, fighting for second.",
+      "Only the top two go through. A Portugal win would leave Denmark six points behind them."
+    ],
+    "pv_players": [
+      "For Denmark, Rasmus Højlund, who scored the only goal the last time Portugal came here, and Mikkel Damsgaard, whose set-pieces made both goals against Wales.",
+      "For Portugal, captain Bruno Fernandes, and Gonçalo Ramos, who scored the winner in Oslo."
+    ],
+    "pv_tactics": [
+      "Denmark go 4-3-3, with Højlund running the channels and Damsgaard between the lines.",
+      "Portugal also go 4-3-3 and like to control midfield. But Norway outshot them 22 shots to 12 in Oslo, and they still won."
+    ],
+    "pv_model": [
+      "That is why our model leans Denmark, even with Portugal top: 1.3 expected goals to 1.0.",
+      "That's 44% Denmark, 30% the draw, and 26% Portugal."
+    ],
+    "pv_expect": [
+      "Expect Portugal on the ball through Bruno and Vitinha, and Denmark to go direct and hunt set-pieces.",
+      "The duel to watch is Højlund against Rúben Dias.",
+      "Denmark won the last meeting in Copenhagen, 1-0. Our read: tight, with a slight Danish edge at home."
+    ],
+    "pv_round": [
+      [
+        "Also in this group, Wales host Norway in Cardiff. Wales are still looking for their first point and their first goal.",
+        "Erling Haaland has 65 goals in 57 games for Norway. Our model makes Norway favourites, at 56%."
+      ],
+      [
+        "In Group 2, Germany host Serbia in Munich. Klopp is still waiting for his first win as Germany coach.",
+        "Serbia have lost both games, and our model has Germany at 79%."
+      ],
+      [
+        "And in Thessaloniki, leaders Greece take on a Dutch side missing four key players.",
+        "Our model still makes the Netherlands favourites, at 56%."
+      ]
+    ],
+    "pv_cta": [
+      "That's the AI Analyst preview. Follow for more football, by the numbers."
+    ]
+  }
+}
