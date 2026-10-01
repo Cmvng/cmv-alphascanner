@@ -36,6 +36,22 @@ node video/from-app.mjs preview --match 987933         # any match page: cmvngpi
 
 The file gets form, record, points a game, goals scored and conceded, shots on target, clean sheets, xG, win chances and the most likely scores. Write its script with the keys `pv_hook`, `pv_form`, `pv_stats`, `pv_model`, `pv_score` and `pv_cta` (1–2 lines each, under about 25 words a line). Then render it the same way.
 
+**AI Analyst research.** For each match, run a web-research subagent in the background, one per match, all in parallel. Ask it for a brief of under 500 words with a source URL and date on every fact:
+1. Context: the group or round, the table, what's on the line, the venue, the coaches.
+2. Team news: absentees, call-ups, predicted XIs and formations, labelled as predicted.
+3. Two key players per side: role, club, and one current stat.
+4. How each side plays, from recent match reports.
+5. The last three head-to-heads.
+6. Storylines.
+
+Tell it to mark anything unconfirmed and never invent facts.
+
+Then check the brief against the app:
+- If the app's form or numbers clash with the confirmed recent results, leave those screens out with `"skip": ["pv_form", "pv_stats"]` rather than show contradictions.
+- Use the actual venue: cup ties are often on neutral ground. Set the pick's `stadium` to the venue's photo, e.g. resolve the host club's stadium with `lib/stadium.mjs`.
+- Use only players in tonight's squad. Injured players are out.
+- Test new names with Kokoro + faster-whisper, and add respellings to `SAY_NAMES` before rendering.
+
 For the **AI Analyst** version, add an `"analysis"` object built from the researched facts (each fact from a dated source; leave out anything unconfirmed):
 - `stage`: the stage, e.g. "League A · Group 2 · Matchday 3"
 - `table`: `[[team, played, points], ...]`
