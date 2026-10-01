@@ -27,7 +27,13 @@ export function spokenPick(p) {
   s = s.replace(/^draw$/i, 'the draw').replace(/\bbtts\b/i, 'both teams to score').replace(/\bdnb\b/i, 'draw no bet')
   return s.replace(/ to Win$/i, ' to win').replace(/ Goals$/i, ' goals')
 }
-const shownPick = p => p.pick
+// what the caption shows: the same short label as the pick card ("Norway or Draw", not "Double Chance: Draw or Norway")
+const shownPick = p => {
+  const s = p.pick.trim()
+  const m = s.match(/^double chance:?\s*draw or (.+)$/i) || s.match(/^double chance:?\s*(.+) or draw$/i)
+  if (m) return `${m[1]} or the draw`
+  return /^draw$/i.test(s) ? 'the draw' : s.replace(/ to Win$/i, ' to win').replace(/^(Over|Under) /, (_, w) => w.toLowerCase() + ' ').replace(/ Goals$/, ' goals')
+}
 
 function context(p) {
   if (p.home_win !== undefined) {
@@ -87,9 +93,9 @@ function buildResultScenes(cfg, picks, recap) {
   const scenes = [{ type: 'rhook', say: [L(lead), back] }]
   picks.forEach((p, i) => {
     const s = spokenPick(p)
-    const verdict = p.result === 'won' ? L(`${Cap(s)}: landed, at ${oddsSay(p.odds)}.`, `${shownPick(p)}: landed, at ${odds(p.odds)}.`)
-      : p.result === 'void' ? L(`${Cap(s)} was void, so the stake comes back.`, `${shownPick(p)} was void, so the stake comes back.`)
-        : L(`${Cap(s)} didn't come in.`, `${shownPick(p)} didn't come in.`)
+    const verdict = p.result === 'won' ? L(`${Cap(s)}: landed, at ${oddsSay(p.odds)}.`, `${Cap(shownPick(p))}: landed, at ${odds(p.odds)}.`)
+      : p.result === 'void' ? L(`${Cap(s)} was void, so the stake comes back.`, `${Cap(shownPick(p))} was void, so the stake comes back.`)
+        : L(`${Cap(s)} didn't come in.`, `${Cap(shownPick(p))} didn't come in.`)
     scenes.push({ type: 'result', i, say: [scoreLine(p) || L(`${p.home} against ${p.away}.`), verdict] })
   })
   const roi = Math.round(recap.profit / recap.total * 100)
