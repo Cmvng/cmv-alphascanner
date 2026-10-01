@@ -1,0 +1,232 @@
+{
+ "mode": "review",
+ "competition": "UEFA Nations League",
+ "date": "2026-10-01",
+ "caption_style": "bold",
+ "voice_speed": 1.18,
+ "picks": [
+  {
+   "home": "Germany",
+   "away": "Serbia",
+   "competition": "UEFA Nations League",
+   "stage": "League A · Group 2",
+   "kickoff": "19:45",
+   "score_home": "2",
+   "score_away": "0",
+   "stadium": "/home/user/cmv-alphascanner/video/.cache/stadiums/fc_bayern_munich.jpg",
+   "stadium_credit": "Allianz Arena · Photo: Richard Bartz, Munich aka Makro Freak · CC BY-SA 2.5"
+  },
+  {
+   "home": "Greece",
+   "away": "Netherlands",
+   "competition": "UEFA Nations League",
+   "stage": "League A · Group 2",
+   "kickoff": "19:45",
+   "score_home": "2",
+   "score_away": "2",
+   "stadium": "/home/user/cmv-alphascanner/video/.cache/stadiums/paok_fc.jpg",
+   "stadium_credit": "Toumba Stadium, Thessaloniki · Photo: Gparalikidis"
+  },
+  {
+   "home": "Malta",
+   "away": "Gibraltar",
+   "competition": "UEFA Nations League",
+   "stage": "League D · Group 1",
+   "kickoff": "19:45",
+   "score_home": "1",
+   "score_away": "1"
+  },
+  {
+   "home": "Denmark",
+   "away": "Portugal",
+   "competition": "UEFA Nations League",
+   "stage": "League A · Group 4",
+   "kickoff": "19:45",
+   "score_home": "2",
+   "score_away": "4",
+   "stadium": "/home/user/cmv-alphascanner/video/.cache/stadiums/denmark.jpg",
+   "stadium_credit": "Parken Stadium, Copenhagen · Photo: Arne Müseler · CC BY-SA 3.0 de"
+  },
+  {
+   "home": "Wales",
+   "away": "Norway",
+   "competition": "UEFA Nations League",
+   "stage": "League A · Group 4",
+   "kickoff": "19:45",
+   "score_home": "2",
+   "score_away": "1",
+   "stadium": "/home/user/cmv-alphascanner/video/.cache/stadiums/cardiff_city_f_c.jpg",
+   "stadium_credit": "Cardiff City Stadium · Photo: Jon Candy from Cardiff, Wales · CC BY-SA 2.0"
+  }
+ ],
+ "review": {
+  "beats": [
+   {
+    "type": "rx_intro",
+    "title": "Our takes",
+    "title2": "vs the results",
+    "teams": [
+     "Germany",
+     "Netherlands",
+     "Portugal",
+     "Norway"
+    ],
+    "start_at": 1,
+    "say": [
+     "Five calls from our analysis tonight. Let's see how they held up. Spoiler: not great."
+    ]
+   },
+   {
+    "type": "rx_take",
+    "match": 0,
+    "teams": [
+     "Germany"
+    ],
+    "take": "**Germany** win (our model: 79%)",
+    "crests": [
+     "home"
+    ],
+    "say": [
+     "Germany at home to Serbia. Our model had Germany at 79%."
+    ]
+   },
+   {
+    "type": "rx_reveal",
+    "match": 0,
+    "n": 1,
+    "of": 1,
+    "ok": true,
+    "scorers": "Bischof 39' · Wirtz 61'",
+    "say": [
+     "Two nil Germany. Tom Bischof's first goal, and Klopp's first win. One from one."
+    ]
+   },
+   {
+    "type": "rx_take",
+    "match": 1,
+    "teams": [
+     "Netherlands"
+    ],
+    "people": [
+     "Vangelis Pavlidis",
+     "Christos Tzolis"
+    ],
+    "take": "**Dutch favourites**, but Greece dangerous",
+    "crests": [
+     "away",
+     "home"
+    ],
+    "start_at": 2,
+    "say": [
+     "Greece against the Netherlands. Our read: Dutch favourites, but Greece dangerous."
+    ]
+   },
+   {
+    "type": "rx_reveal",
+    "match": 1,
+    "n": 1,
+    "of": 2,
+    "ok": "half",
+    "scorers": "Ioannidis, Masouras · Van Dijk, Reijnders",
+    "say": [
+     "Two all! Greece led two nil at half-time, and Reijnders saved the Dutch late. Half right."
+    ]
+   },
+   {
+    "type": "rx_take",
+    "match": 2,
+    "take": "**Malta** edge a tight one",
+    "crests": [
+     "home"
+    ],
+    "say": [
+     "Malta against Gibraltar. We said Malta edge a tight one."
+    ]
+   },
+   {
+    "type": "rx_reveal",
+    "match": 2,
+    "n": 1,
+    "of": 3,
+    "ok": false,
+    "scorers": "Mbong 53' · Scanlon 61'",
+    "say": [
+     "One all. Tight, yes. A Malta edge, no. One from three."
+    ]
+   },
+   {
+    "type": "rx_take",
+    "match": 3,
+    "teams": [
+     "Portugal"
+    ],
+    "people": [
+     "Kasper Schmeichel"
+    ],
+    "take": "Tight, with a **slight Danish edge** at home",
+    "crests": [
+     "home",
+     "away"
+    ],
+    "start_at": 2,
+    "say": [
+     "Denmark against Portugal. Our read: tight, with a slight Danish edge."
+    ]
+   },
+   {
+    "type": "rx_reveal",
+    "match": 3,
+    "n": 1,
+    "of": 4,
+    "ok": false,
+    "scorers": "Damsgaard, Højlund · Cancelo, Ramos, Vitinha, Félix",
+    "say": [
+     "Denmark two, Portugal four! Portugal ran riot, even without Ronaldo. One from four."
+    ]
+   },
+   {
+    "type": "rx_take",
+    "match": 4,
+    "teams": [
+     "Norway"
+    ],
+    "take": "**Norway** win in Cardiff (our model: 56%)",
+    "crests": [
+     "away"
+    ],
+    "start_at": 4,
+    "say": [
+     "And Norway in Cardiff. Our model made Norway favourites."
+    ]
+   },
+   {
+    "type": "rx_reveal",
+    "match": 4,
+    "n": 1,
+    "of": 5,
+    "ok": false,
+    "scorers": "James, N. Williams · Bobb · red card: Heggem",
+    "say": [
+     "Wales two, Norway one! Norway went down to ten men, and Wales came from behind. One from five."
+    ]
+   },
+   {
+    "type": "rx_outro",
+    "n": 1,
+    "of": 5,
+    "ok": false,
+    "sub": "and a half. Not our night",
+    "follow": "Follow for tomorrow's analysis",
+    "say": [
+     "One from five, and a half. Not our night. We'll be back tomorrow."
+    ]
+   }
+  ]
+ },
+ "presenter": {
+  "id": 28293,
+  "crop": "1000:1080:460:0",
+  "from": 0.5,
+  "credit": "Presenter (stand-in): Mixkit stock video"
+ }
+}
