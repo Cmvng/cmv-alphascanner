@@ -14,7 +14,11 @@ const num = n => n < 10 ? DIG[n] : n < 20 ? TEENS[n - 10] : TENS[Math.floor(n / 
 const oddsSay = v => { const [a, b] = v.toFixed(2).split('.'); return `${num(+a)} point ${DIG[+b[0]]}${b[1] !== '0' ? ' ' + DIG[+b[1]] : ''}` }
 const money = v => Math.round(v).toLocaleString('en-US')
 const pct = v => Math.round(v)
-const L = (say, show = say) => ({ say, show })
+// how the voice should say names it gets wrong (captions keep the real spelling). Add to this as you find them;
+// a pick can also carry "say_home" / "say_away".
+const SAY_NAMES = { Ikorodu: 'Eekorodoo', Remo: 'Raymo', Kano: 'Kahno', Lobi: 'Lobee', Leicester: 'Lester' }
+const speakNames = t => t.replace(/\b(Ikorodu|Remo|Kano|Lobi|Leicester)\b/g, w => SAY_NAMES[w])
+const L = (say, show = say) => ({ say: speakNames(say), show })
 const pick = (i, arr) => arr[i % arr.length]
 
 // "Over 1.5 Goals" → "over one and a half goals"; "Double Chance: Draw or Norway" → "Norway or the draw"
@@ -74,11 +78,12 @@ function scoreLine(p) {
   const m = String(p.score || '').match(/(\d+)\s*[-–:]\s*(\d+)/)
   if (!m) return null
   const [h, a] = [+m[1], +m[2]], hi = Math.max(h, a), lo = Math.min(h, a)
-  const sc = (x, y) => [`${num(x)}, ${num(y)}`, `${x}–${y}`]
-  const [say, show] = sc(hi, lo)
-  if (h > a) return L(`${p.home} beat ${p.away}, ${say}.`, `${p.home} beat ${p.away}, ${show}.`)
-  if (h < a) return L(`${p.away} won ${say} at ${p.home}.`, `${p.away} won ${show} at ${p.home}.`)
-  return L(`${p.home} and ${p.away} drew ${num(h)} all.`, `${p.home} and ${p.away} drew ${h}–${a}.`)
+  const g = n => n === 0 ? 'nil' : num(n)              // football says "three nil"
+  const H = p.say_home || p.home, A = p.say_away || p.away
+  if (h > a) return L(`${H} beat ${A} ${g(hi)} ${g(lo)}.`, `${p.home} beat ${p.away} ${hi}–${lo}.`)
+  if (h < a) return L(`${A} beat ${H} ${g(hi)} ${g(lo)}, away from home.`, `${p.away} beat ${p.home} ${hi}–${lo}, away from home.`)
+  if (h === 0) return L(`${H} and ${A} played out a goalless draw.`, `${p.home} and ${p.away} played out a goalless draw.`)
+  return L(`${H} and ${A} drew ${num(h)} all.`, `${p.home} and ${p.away} drew ${h}–${a}.`)
 }
 
 function buildResultScenes(cfg, picks, recap) {
