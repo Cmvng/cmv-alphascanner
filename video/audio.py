@@ -185,9 +185,80 @@ def fx_cash():
     return _stereo(m * 0.25)
 
 
+# ---- reaction sounds for the post-match videos (all synthesised: no licences)
+
+def fx_boom():
+    """The meme "boom": a deep, saturated sub hit with a long tail."""
+    n = int(2.2 * SR); t = np.arange(n) / SR
+    f = 75 * np.exp(-t * 1.4) + 36
+    m = np.sin(2 * np.pi * np.cumsum(f) / SR) * np.exp(-t / 0.75)
+    m += 0.5 * np.sin(2 * np.pi * np.cumsum(2 * f) / SR) * np.exp(-t / 0.35)
+    m += rng.standard_normal(n) * np.exp(-t / 0.004) * 0.5
+    m = np.tanh(2.6 * m) * 0.95
+    tail = np.convolve(m, np.exp(-np.arange(int(0.25 * SR)) / (0.08 * SR)) * 0.0009, mode='full')[:n]
+    return _stereo(m + tail)
+
+
+def _voices(dur, formants, swell, seed=0):
+    """Many voices: two decorrelated noise beds through vowel formants, with a slow, uneven swell."""
+    n = int(dur * SR); t = np.arange(n) / SR
+    out = []
+    for ch in range(2):
+        bed = sum(a * _sweep_noise(dur, f0, f1, 0.35) for f0, f1, a in formants)
+        wob = 1 + 0.25 * np.sin(2 * np.pi * (0.7 + 0.3 * ch) * t + ch) * np.sin(2 * np.pi * 0.31 * t)
+        out.append(bed * swell(t) * wob)
+    return np.stack(out, 1) / (np.abs(np.stack(out, 1)).max() + 1e-9)
+
+
+def fx_crowd(dur=3.2):
+    """Crowd roar: a stadium on its feet after a goal."""
+    sw = lambda t: np.clip(t / 0.35, 0, 1) ** 1.5 * np.clip((dur - t) / 1.4, 0, 1)
+    return _voices(dur, [(700, 900, 1.0), (1500, 1800, 0.7), (2600, 2900, 0.45), (300, 380, 0.6)], sw) * 0.9
+
+
+def fx_groan(dur=2.4):
+    """Crowd "ohhh": a near miss or a goal against, falling away."""
+    sw = lambda t: np.clip(t / 0.25, 0, 1) * np.clip((dur - t) / 1.6, 0, 1) ** 1.3
+    return _voices(dur, [(620, 380, 1.0), (1000, 700, 0.7), (2400, 2100, 0.3)], sw) * 0.85
+
+
+def fx_scratch():
+    """Record scratch: the beat stops, something unexpected happened."""
+    parts = [_sweep_noise(0.11, 900, 4200, 0.25), _sweep_noise(0.09, 4200, 600, 0.25), _sweep_noise(0.16, 700, 2600, 0.3)]
+    m = np.concatenate(parts)
+    t = np.arange(len(m)) / len(m)
+    return _stereo(np.tanh(2 * m * (1 - 0.4 * t)) * 0.8)
+
+
+def fx_aww():
+    """Sad trombone: wah, wah, wah, waaah."""
+    notes = [(293.7, 0.32), (277.2, 0.32), (261.6, 0.32), (246.9, 1.1)]
+    out = []
+    for k, (f, d) in enumerate(notes):
+        n = int(d * SR); t = np.arange(n) / SR
+        vib = 1 + (0.012 * np.sin(2 * np.pi * 5.5 * t) * np.clip((t - 0.2) / 0.2, 0, 1) if k == 3 else 0)
+        ph = 2 * np.pi * np.cumsum(f * vib) / SR
+        m = sum(np.sin(h * ph) / h ** 1.15 for h in range(1, 12))
+        env = np.clip(t / 0.03, 0, 1) * np.clip((d - t) / 0.08, 0, 1) * (1 - 0.35 * np.clip(t / d, 0, 1))
+        wah = 0.55 + 0.45 * np.clip(t / 0.12, 0, 1)
+        out.append(m * env * wah)
+        out.append(np.zeros(int(0.03 * SR)))
+    m = np.concatenate(out)
+    return _stereo(np.tanh(1.4 * m / (np.abs(m).max() + 1e-9)) * 0.7)
+
+
+def fx_pop():
+    """Sticker pop."""
+    n = int(0.12 * SR); t = np.arange(n) / SR
+    m = np.sin(2 * np.pi * np.cumsum(380 + 9000 * t) / SR) * np.exp(-t / 0.035)
+    return _stereo(m * 0.8)
+
+
 FX = {'whoosh': fx_whoosh, 'impact': fx_impact, 'riser': fx_riser, 'ding': fx_ding, 'thud': fx_thud, 'cash': fx_cash,
-      'tick': lambda: fx_tick(1.0), 'tick2': lambda: fx_tick(1.26), 'tick3': lambda: fx_tick(1.5)}
-FX_GAIN = {'whoosh': 0.4, 'impact': 0.42, 'riser': 0.32, 'ding': 0.5, 'thud': 0.5, 'cash': 0.4, 'tick': 0.35, 'tick2': 0.35, 'tick3': 0.4}
+      'tick': lambda: fx_tick(1.0), 'tick2': lambda: fx_tick(1.26), 'tick3': lambda: fx_tick(1.5),
+      'boom': fx_boom, 'crowd': fx_crowd, 'groan': fx_groan, 'scratch': fx_scratch, 'aww': fx_aww, 'pop': fx_pop}
+FX_GAIN = {'whoosh': 0.4, 'impact': 0.42, 'riser': 0.32, 'ding': 0.5, 'thud': 0.5, 'cash': 0.4, 'tick': 0.35, 'tick2': 0.35, 'tick3': 0.4,
+           'boom': 0.62, 'crowd': 0.42, 'groan': 0.42, 'scratch': 0.45, 'aww': 0.4, 'pop': 0.35}
 
 
 # ----------------------------------------------------------------------------- mix

@@ -94,6 +94,20 @@ Preview rules, which keep it monetisable:
 - **Facts:** team news, players and tactics must come from dated sources found today. Leave out what can't be confirmed; a wrong fact costs more trust than a missing one.
 - **Volume:** one or two analyst videos a day, each with its own angle. Mass-posting near-identical videos is what YouTube refuses to pay for.
 
+## Post-match reviews and reactions (after full time)
+
+When the owner asks for "the reaction", "the review", "post-match" or "what happened in <match>", follow `video/templates/post-match/README.md`.
+
+- **Format:** `mode: "review"` with hand-written `review.beats` (hook, moment, meme, stats, read, ratings, quote, table, cta), rendered by `video/review.html`. Each video gets its own structure and jokes.
+- **Facts:** research the match after full time (score, scorers and minutes, key moments, stats, quotes, the table now), with a dated source for every fact.
+- **Media:**
+  - Reaction clips only from `video/lib/clips.json` (Mixkit, free licence; check any new clip's page and add it).
+  - Player photos only from Wikimedia, with credit.
+  - **Never broadcast footage or agency photos**, not even a second.
+  - No famous meme photos; text memes over our clips only.
+- **Voice:** real commentary in every video (YouTube won't pay for mostly non-verbal reactions).
+- **Check:** the betting-word check runs, and "AI Analyst" is banned.
+
 ## 2. Write the script (the presenter is a football analyst)
 
 Open the JSON and add a `"script"` object. The voice reads it word for word, and the captions show it.

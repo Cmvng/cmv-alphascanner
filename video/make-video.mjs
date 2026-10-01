@@ -75,12 +75,14 @@ for (const p of picks) {
   p.stadium = cfg.stadiums === false ? null
     : await resolveStadium(p.home, { national: isCountry(p.home), country: p.country, cacheDir: CACHE, outDir: OUT, own, ownCredit: p.stadium_credit })
   if (cfg.style === 'players') p.players = await resolvePlayers(p.home, { national: isCountry(p.home), country: p.country, cacheDir: CACHE, outDir: OUT })
-  if (cfg.mode === 'preview') { console.log(`  ${p.home} v ${p.away}  ${p.stadium ? '📷 ' + p.stadium.venue : '(no stadium photo)'}`); continue }
+  if (cfg.mode === 'preview' || cfg.mode === 'review') { console.log(`  ${p.home} v ${p.away}  ${p.stadium ? '📷 ' + p.stadium.venue : '(no stadium photo)'}`); continue }
   console.log(`  ${(p.home + ' v ' + p.away).padEnd(28)} ${p.pick.padEnd(26)} @${p.odds.toFixed(2)}  model ${p.model}%  book ${p.market.toFixed(0)}%  edge ${(p.edge * 100).toFixed(1).padStart(5)}%  → ${p.signal} bar${p.signal > 1 ? 's' : ' '} (${cfg.currency}${p.stake})  ${p.stadium ? '📷 ' + p.stadium.venue : '(no stadium photo)'}`)
 }
 
 // match analysis: a free photo of each player to watch (else the card shows the crest)
 for (const x of cfg.analysis?.players || []) x.photo = x.photo === false ? null : await resolvePerson(x.name, { cacheDir: CACHE, outDir: OUT })
+// post-match review: the player in each moment
+for (const b of cfg.review?.beats || []) if (b.player && b.photo !== false) b.photo = await resolvePerson(b.player, { cacheDir: CACHE, outDir: OUT })
 
 // team colours from each crest or flag (the broadcast style's panels, the glows behind the badges)
 const imgs = picks.flatMap(p => [p.bh, p.ba]).filter(b => b.src)
@@ -98,7 +100,7 @@ let music = null
 if (cfg.music !== false) {
   try {
     const track = typeof cfg.music === 'string' && cfg.music !== 'auto' ? { file: cfg.music, start: cfg.music_start ?? 0, credit: '' }
-      : { ...TRACKS[cfg.mode === 'results' ? 'results' : 'picks'] }
+      : { ...TRACKS[cfg.mode === 'results' || cfg.mode === 'review' ? 'results' : 'picks'] }
     if (track.url) track.file = await download(track.url, path.join(CACHE, 'music', path.basename(track.url)))
     const bj = path.join(OUT, 'beats.json')
     await run(PY, [path.join(DIR, 'audio.py'), 'beats', track.file, String(track.start), bj])
@@ -114,7 +116,7 @@ const spoken = x => typeof x === 'string' ? x : x.say, shown = x => typeof x ===
 const sentences = scenes.flatMap((s, k) => s.say.map((x, j) => ({ id: `s${k}_${j}`, text: spoken(x), k })))
 fs.writeFileSync(path.join(OUT, 'script.txt'), scenes.map(s => s.say.map(shown).join(' ')).join('\n\n') + '\n')
 let durs = null
-const voiceOn = !flag('no-voice', false) && !stills
+const voiceOn = !flag('no-voice', false) && !stills && cfg.voice !== false
 if (voiceOn) {
   try {
     let voice = cfg.voice
@@ -136,8 +138,9 @@ if (voiceOn) {
 const est = s => s.split(/\s+/).length / (2.7 * cfg.voice_speed) + 0.2 // seconds, when there's no voice
 
 // ---------------------------------------------------------------- 4. timeline + captions
-const MIN = { hook: 4.2, pick: 7.0, slate: 5.0, cta: 4.4, rhook: 5.4, result: 4.6, rtotal: 6.2, pv_hook: 5.0, pv_form: 6.0, pv_stats: 7.0, pv_model: 7.5, pv_score: 5.5, pv_cta: 4.5, pv_stake: 6.0, pv_players: 8.0, pv_tactics: 8.0, pv_expect: 7.0, pv_round: 6.0 }
-const LEAD = { hook: 0.2, rhook: 0.2 }, GAP = 0.12, TAIL = 0.3
+const MIN = { hook: 4.2, pick: 7.0, slate: 5.0, cta: 4.4, rhook: 5.4, result: 4.6, rtotal: 6.2, pv_hook: 5.0, pv_form: 6.0, pv_stats: 7.0, pv_model: 7.5, pv_score: 5.5, pv_cta: 4.5, pv_stake: 6.0, pv_players: 8.0, pv_tactics: 8.0, pv_expect: 7.0, pv_round: 6.0,
+  rv_hook: 4.0, rv_moment: 3.6, rv_meme: 3.0, rv_stats: 5.0, rv_read: 5.0, rv_table: 4.8, rv_ratings: 5.0, rv_quote: 4.5, rv_cta: 3.6 }
+const LEAD = { hook: 0.2, rhook: 0.2, rv_hook: 0.75, rv_meme: 0.2, rv_moment: 0.25 }, GAP = 0.12, TAIL = 0.3
 const BEAT = music?.beat || null
 let t = 0
 const captions = []
@@ -159,7 +162,7 @@ scenes.forEach((sc, k) => {
     st += d + GAP
     return s
   })
-  let end = Math.max(t + MIN[sc.type], st - GAP + TAIL)
+  let end = Math.max(t + (sc.hold ?? MIN[sc.type] ?? 4), st - GAP + TAIL)
   if (BEAT) end = Math.ceil((end - 0.02) / BEAT) * BEAT          // every cut lands on the beat
   sc.dur = end - t
   sc.lines = sc.sentences.map(s => [s.start - sc.start, s.dur])
@@ -169,14 +172,35 @@ captions.forEach((c, i) => { const n = captions[i + 1]; c.end = n && n.start - c
 const DURATION = t + 0.4
 console.log(`Video length: ${DURATION.toFixed(1)}s, ${captions.length} caption lines`)
 
+// ---------------------------------------------------------------- 4b. reaction clips (post-match videos)
+// Free Mixkit stock video (licence: free for commercial use, no credit needed; never broadcast match footage), cut to
+// each screen's exact length as an image sequence the page shows frame by frame. fit "cover" fills the screen,
+// "panel" is the 16:9 box under a meme caption. speed < 1 is slow motion.
+if (cfg.mode === 'review') {
+  const CLIPS = JSON.parse(fs.readFileSync(path.join(DIR, 'lib', 'clips.json'), 'utf8')).clips
+  for (const [k, sc] of scenes.entries()) {
+    const c = sc.data?.clip
+    if (!c) continue
+    const id = String(c.id ?? c), fit = c.fit || (sc.type === 'rv_meme' && sc.data.style !== 'pov' ? 'panel' : 'cover')
+    if (!CLIPS.some(x => String(x.id) === id)) { console.error(`✗ Clip ${id} isn't in video/lib/clips.json. Only clips whose Mixkit page says "Stock Video Free License" may be used (check it, then add it).`); process.exit(3) }
+    const src = await download(`https://assets.mixkit.co/videos/${id}/${id}-1080.mp4`, path.join(CACHE, 'clips', `${id}.mp4`))
+    const dir = path.join(OUT, 'clips', `s${k}`); fs.mkdirSync(dir, { recursive: true })
+    const [w, h] = fit === 'panel' ? [1080, 640] : [1080, 1920]
+    const vf = `setpts=PTS/${c.speed || 1},fps=${FPS},scale=${w}:${h}:force_original_aspect_ratio=increase,crop=${w}:${h}`
+    await run(FF, ['-y', '-loglevel', 'error', '-stream_loop', '-1', '-ss', String(c.from || 0), '-i', src, '-vf', vf, '-t', (sc.dur + 0.2).toFixed(2), '-q:v', '4', path.join(dir, '%04d.jpg')])
+    sc.clip = { dir: `clips/s${k}`, n: fs.readdirSync(dir).length, fit }
+  }
+  console.log(`Reaction clips: ${scenes.filter(s => s.clip).length} screens`)
+}
+
 // ---------------------------------------------------------------- 5. page
 fs.cpSync(path.join(DIR, 'assets'), path.join(OUT, 'assets'), { recursive: true })
 cfg.when_word ||= cfg.when === 'tonight' ? 'Tonight' : 'Today'
-const DATA = { cfg, picks, recap, beat: BEAT, scenes: scenes.map(({ type, i, start, dur, lines }) => ({ type, i, start, dur, lines })), captions, duration: DURATION }
-const page = fs.readFileSync(path.join(DIR, 'scene.html'), 'utf8')
+const DATA = { cfg, picks, recap, beat: BEAT, scenes: scenes.map(({ type, i, start, dur, lines, data, clip }) => ({ type, i, start, dur, lines, data, clip })), captions, duration: DURATION }
+const page = fs.readFileSync(path.join(DIR, cfg.mode === 'review' ? 'review.html' : 'scene.html'), 'utf8')
   .replace('<script>\nconst D = window.DATA', `<script>window.DATA=${JSON.stringify(DATA).replace(/</g, '\\u003c')}</script>\n<script>\nconst D = window.DATA`)
 fs.writeFileSync(path.join(OUT, 'index.html'), page)
-const credits = [...(cfg.analysis?.players || []).map(x => x.photo?.credit), ...new Set(picks.flatMap(p => cfg.style === 'broadcast' ? [] : cfg.style === 'players' && p.players?.length ? p.players.map(x => x.credit) : [p.stadium?.credit]).filter(Boolean)), music?.credit].filter(Boolean)
+const credits = [...(cfg.analysis?.players || []).map(x => x.photo?.credit), ...(cfg.review?.beats || []).map(b => b.photo?.credit), ...new Set(picks.flatMap(p => cfg.style === 'broadcast' ? [] : cfg.style === 'players' && p.players?.length ? p.players.map(x => x.credit) : [p.stadium?.credit]).filter(Boolean)), music?.credit, scenes.some(s => s.clip) ? 'Reaction clips: Mixkit (free licence)' : null].filter(Boolean)
 fs.writeFileSync(path.join(OUT, 'credits.txt'), credits.join('\n') + '\n')
 
 const { chromium } = loadPlaywright()
@@ -217,7 +241,7 @@ async function complianceCheck() {
   }
   console.log(`Monetisation check: passed (${seen.size} lines of on-screen text and voiceover, no betting terms)`)
 }
-if (cfg.mode === 'preview') await complianceCheck()
+if (cfg.mode === 'preview' || cfg.mode === 'review') await complianceCheck()
 
 // ---------------------------------------------------------------- stills (preview)
 if (stills) {
@@ -268,6 +292,7 @@ await run(FF, ['-y', '-loglevel', 'error', '-f', 'concat', '-safe', '0', '-i', p
   '-filter_complex', '[1:a]loudnorm=I=-14:TP=-1.5:LRA=9[a]', '-map', '0:v', '-map', '[a]',
   '-c:v', 'copy', '-c:a', 'aac', '-b:a', '192k', '-ar', '48000', '-ac', '2', '-t', DURATION.toFixed(2), '-movflags', '+faststart', final])
 for (const f of segs) fs.rmSync(f)
+fs.rmSync(path.join(OUT, 'clips'), { recursive: true, force: true })      // clip frames are only needed while rendering
 // cover image for the YouTube / X thumbnail: the opening screen once everything has landed
 const cover = final.replace(/\.mp4$/, '_cover.jpg')
 await run(FF, ['-y', '-loglevel', 'error', '-ss', Math.max(0, scenes[0].start + scenes[0].dur - 0.4).toFixed(2), '-i', final, '-frames:v', '1', '-q:v', '2', cover]).catch(() => {})

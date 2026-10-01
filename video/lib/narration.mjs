@@ -149,9 +149,15 @@ function buildResultScenes(cfg, picks, recap) {
 }
 
 export function buildScenes(cfg, picks, recap) {
-  const build = cfg.mode === 'results' ? buildResultScenes : cfg.mode === 'preview' ? buildPreviewScenes : buildPickScenes
+  const build = cfg.mode === 'results' ? buildResultScenes : cfg.mode === 'preview' ? buildPreviewScenes : cfg.mode === 'review' ? buildReviewScenes : buildPickScenes
   // cfg.skip: leave screens out, e.g. ["pv_form"] when the app's numbers clash with confirmed recent results
   return applyScript(cfg, build(cfg, picks, recap).filter(s => !(cfg.skip || []).includes(s.type)))
+}
+
+// Post-match review / reaction: every screen is a beat written for this match (cfg.review.beats), so no two videos
+// run the same way. A beat: { type: hook|moment|meme|stats|read|table|ratings|cta, say: [lines], clip, sticker, burst, … }
+function buildReviewScenes(cfg) {
+  return (cfg.review?.beats || []).map(b => ({ type: 'rv_' + b.type, i: 0, say: (b.say || []).map(W), data: b, hold: b.hold }))
 }
 
 // Match preview: football analysis only. No odds, prices, stakes, picks or betting words (X / YouTube monetisation).
