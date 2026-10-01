@@ -231,6 +231,7 @@ function label(p) {
   if (m) return { main: m[1].replace(/[\s,-]+$/, ''), tag: 'Draw no bet' }
   return { main: s, tag: '' }
 }
+const nmFit = (name, big) => { const n = name.length, s = big ? [68, 58, 48, 40] : [54, 46, 38, 32]; return s[n <= 9 ? 0 : n <= 13 ? 1 : n <= 18 ? 2 : 3] }
 const fit = (txt, sizes = [[14, 94], [19, 80], [24, 68], [99, 58]]) => sizes.find(([n]) => txt.length <= n)[1]
 const sigbars = (n, h = [46, 72, 98]) => `<span class="sigbars">${[1, 2, 3].map(j => `<i data-j="${j}" style="height:${h[j - 1]}px${j <= n ? `;background:${SIGCOL[n]}` : ''}"></i>`).join('')}</span>`
 const kickoff = p => p.kickoff || ''
@@ -272,9 +273,9 @@ const built = D.scenes.map((sc, k) => {
     const gl = (b) => `radial-gradient(closest-side,${b.colour || '#1F5FDB'},rgba(0,0,0,0))`
     el.innerHTML = `<div class="meta"><span class="chip">${html([p.competition, kickoff(p)].filter(Boolean).join(' · '))}</span></div>
       <div class="mu"><div class="glowH" style="background:${gl(p.bh)}"></div><div class="glowA" style="background:${gl(p.ba)}"></div>
-        <div class="side h">${badge(p.bh)}<div class="nm A">${html(p.home)}</div></div>
+        <div class="side h">${badge(p.bh)}<div class="nm A" style="font-size:${nmFit(p.home, true)}px">${html(p.home)}</div></div>
         <div class="vs A">vs</div>
-        <div class="side a">${badge(p.ba)}<div class="nm A">${html(p.away)}</div></div></div>
+        <div class="side a">${badge(p.ba)}<div class="nm A" style="font-size:${nmFit(p.away, true)}px">${html(p.away)}</div></div></div>
       <div class="stat">${xg}${fm}</div>
       <div class="card pc"><div class="lbl">The pick${label(p).tag ? ' · ' + html(label(p).tag) : ''}</div><div class="pk A" style="font-size:${fit(label(p).main)}px">${html(label(p).main)}</div>
         <div class="odds A"><span class="at">@</span><span class="o">${p.odds.toFixed(2)}</span></div>
@@ -303,8 +304,8 @@ const built = D.scenes.map((sc, k) => {
     const m = String(p.score || '').match(/(\d+)\s*[-–:]\s*(\d+)/)
     const net = p.ret - p.stake
     el.innerHTML = `<div class="meta"><span class="chip">${html([p.competition, 'Full time'].filter(Boolean).join(' · '))}</span></div>
-      <div class="sb"><div class="side h">${badge(p.bh)}<div class="nm A">${html(p.home)}</div></div>
-        <div class="side a">${badge(p.ba)}<div class="nm A">${html(p.away)}</div></div>
+      <div class="sb"><div class="side h">${badge(p.bh)}<div class="nm A" style="font-size:${nmFit(p.home, false)}px">${html(p.home)}</div></div>
+        <div class="side a">${badge(p.ba)}<div class="nm A" style="font-size:${nmFit(p.away, false)}px">${html(p.away)}</div></div>
         <div class="sc A">${m ? `${m[1]}<span>–</span>${m[2]}` : '<span>v</span>'}</div></div>
       <div class="card pc"><div class="lbl">The pick${label(p).tag ? ' · ' + html(label(p).tag) : ''}</div><div class="pk A" style="font-size:${Math.round(fit(label(p).main) * 0.8)}px">${html(label(p).main)}</div><div class="od">at ${p.odds.toFixed(2)} · ${p.signal} bar${p.signal > 1 ? 's' : ''} · stake ${money(p.stake)}</div>
         <div class="stamp ${p.result} A">${p.result === 'won' ? 'Won ✓' : p.result === 'lost' ? 'Lost ✗' : 'Void'}</div></div>

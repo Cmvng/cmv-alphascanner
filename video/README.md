@@ -115,7 +115,30 @@ Other options: `--no-voice`, `--fps 30`, `--workers 3`, `--out path.mp4`.
   - Business accounts can only use the platform's commercial music library.
   - The voice and sound effects stay either way, if you post a version made with `"music": false`.
 
-## Auto-fill from cmvngpicks.com
+## Straight from your app (no typing)
+
+One command reads the singles your app published on cmvngpicks.com and makes the video:
+
+```bash
+bash video/daily.sh picks                      # today's latest session
+bash video/daily.sh results                    # every single published today, once settled
+bash video/daily.sh picks --session morning    # or midday / evening / all
+bash video/daily.sh results --date 2026-09-30 --money ngn
+```
+
+How it works:
+- **Today's sessions:** read from the public `/codes` page.
+- **Each single:** read from the session's singles slip. That gives the teams, the pick and its price, your app's "Us %" and "Book %", the status, and for results Won/Lost and the "FT" score.
+- **Deeper numbers:** read from each single's match page: home/draw/away %, expected goals, form, and goals scored and conceded.
+- **Accuracy:** nothing is typed or guessed. A single without a price, or not settled yet, is left out and listed.
+- **Setup:** `video/setup.sh` installs anything missing the first time.
+- **Output:** the full video, a copy under 29 MB for sending in chat, the caption (`script.txt`) and the credits (`credits.txt`).
+
+In Claude Code, just ask *"make today's picks video"* or *"make the results video"*. The `cmvng-video` skill in `.claude/skills/` tells Claude to run this, check the frames, and send you the video.
+
+To see the sessions on the site: `node video/from-app.mjs --list`.
+
+## Auto-fill from chosen match pages
 
 You don't have to type the numbers. Point the helper at your match pages:
 
@@ -154,7 +177,9 @@ Templates: `templates/results.blank.json` (empty) and `templates/results.example
 node video/make-video.mjs video/templates/results.example.json
 ```
 
-## Getting it straight from the app (the "video brief" page)
+## Optional: a "video brief" page inside the app
+
+You don't need this: `daily.sh` already reads the public pages. It is only a backup, in case the public pages ever stop showing the singles.
 
 The plan:
 1. After the morning session, an admin page in the app lists the day's singles in exactly the picks format above, with a **Copy** button.

@@ -26,7 +26,7 @@ export const DEFAULTS = {
 }
 
 const NUM = ['odds', 'model', 'home_win', 'draw', 'away_win', 'xg_home', 'xg_away', 'scored_home', 'scored_away',
-  'conceded_home', 'conceded_away', 'rating_home', 'rating_away', 'signal']
+  'conceded_home', 'conceded_away', 'rating_home', 'rating_away', 'signal', 'book']
 
 function parseCsv(text) {
   const rows = []
@@ -82,7 +82,7 @@ export function loadInput(file) {
     p.competition ||= cfg.competition
     // the maths
     p.fair = 100 / p.model                 // odds that would be a fair price if your % is right
-    p.market = 100 / p.odds                // what the bookmaker's price implies (includes their margin)
+    p.market = p.book > 0 && p.book < 100 ? p.book : 100 / p.odds   // the bookmaker's % (your app's figure if given, else 100 ÷ price)
     p.edge = p.odds * p.model / 100 - 1    // expected return per 1 staked, on your numbers
     p.value = p.edge > 0
     if (p.signal !== undefined && ![1, 2, 3].includes(p.signal)) errors.push(`${where}: "signal" must be 1, 2 or 3`)

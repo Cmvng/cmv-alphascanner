@@ -29,7 +29,7 @@ export function spokenPick(p) {
   s = s.replace(/\b(over|under)\s+(\d\.5)\b/gi, (_, ou, n) => `${ou.toLowerCase()} ${halves[n] || n}`)
   s = s.replace(/^double chance:?\s*draw or (.+)$/i, '$1 or the draw').replace(/^double chance:?\s*(.+) or draw$/i, '$1 or the draw')
   s = s.replace(/^draw$/i, 'the draw').replace(/\bbtts\b/i, 'both teams to score').replace(/\bdnb\b/i, 'draw no bet')
-  return s.replace(/ to Win$/i, ' to win').replace(/ Goals$/i, ' goals')
+  return s.replace(/ to Win$/i, ' to win').replace(/ Goals$/i, ' goals').replace(/\s*&\s*/g, ' and ')
 }
 // what the caption shows: the same short label as the pick card ("Norway or Draw", not "Double Chance: Draw or Norway")
 const shownPick = p => {
