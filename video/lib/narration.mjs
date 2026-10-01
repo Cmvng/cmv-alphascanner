@@ -19,6 +19,7 @@ const pct = v => Math.round(v)
 const SAY_NAMES = {
   Ikorodu: 'Eekorodoo', Remo: 'Raymo', Kano: 'Kahno', Lobi: 'Lobee', Leicester: 'Lester',
   Platense: 'Plaht-en-seh', Estudiantes: 'Estoo-dee-antes', CONCACAF: 'Konkakaff',
+  Tzolis: 'Tzo-lis', Toumba: 'Toom-ba', Xavi: 'Shah-vee', 'Mörschel': 'Mer-shel', 'Badía': 'Ba-dee-ah', Cozzani: 'Koh-zah-nee', Mainero: 'My-neh-ro',
 }
 const NAME_RE = new RegExp(`\\b(${Object.keys(SAY_NAMES).join('|')})\\b`, 'g')
 const speakNames = t => t.replace(NAME_RE, w => SAY_NAMES[w])
@@ -147,7 +148,8 @@ function buildResultScenes(cfg, picks, recap) {
 
 export function buildScenes(cfg, picks, recap) {
   const build = cfg.mode === 'results' ? buildResultScenes : cfg.mode === 'preview' ? buildPreviewScenes : buildPickScenes
-  return applyScript(cfg, build(cfg, picks, recap))
+  // cfg.skip: leave screens out, e.g. ["pv_form"] when the app's numbers clash with confirmed recent results
+  return applyScript(cfg, build(cfg, picks, recap).filter(s => !(cfg.skip || []).includes(s.type)))
 }
 
 // Match preview: football analysis only. No odds, prices, stakes, picks or betting words (X / YouTube monetisation).
@@ -171,13 +173,14 @@ function buildPreviewScenes(cfg, [p]) {
   }
   const an = cfg.analysis
   if (an) {   // the AI Analyst version: researched stakes, players, tactics and a verdict around the app's numbers
-    const at = (type, after, say) => { const k = scenes.findIndex(x => x.type === after); scenes.splice(k < 0 ? scenes.length : k + 1, 0, { type, i: 0, say }) }
+    // insert after the first of `after` that exists (so the story runs: context → form → players → tactics → numbers)
+    const at = (type, after, say) => { const k = [].concat(after).map(a => scenes.findIndex(x => x.type === a)).find(i => i >= 0) ?? -1; scenes.splice(k < 0 ? scenes.length : k + 1, 0, { type, i: 0, say }) }
     if (an.stakes?.length || an.table?.length) at('pv_stake', 'pv_hook', (an.stakes || []).slice(0, 2).map(W))
     if (an.players?.length) {
       const nm = side => an.players.filter(x => x.team === side).map(x => x.name).join(' and ')
-      at('pv_players', 'pv_form', [W(`Players to watch: ${nm('home')} for ${H}.`), W(`For ${A}, ${nm('away')}.`)])
+      at('pv_players', ['pv_form', 'pv_stake', 'pv_hook'], [W(`Players to watch: ${nm('home')} for ${H}.`), W(`For ${A}, ${nm('away')}.`)])
     }
-    if (an.tactics) at('pv_tactics', 'pv_players', [W(`${H} set up in a ${an.tactics.home?.formation || ''}.`), W(`${A} in a ${an.tactics.away?.formation || ''}.`)])
+    if (an.tactics) at('pv_tactics', ['pv_players', 'pv_form', 'pv_stake', 'pv_hook'], [W(`${H} set up in a ${an.tactics.home?.formation || ''}.`), W(`${A} in a ${an.tactics.away?.formation || ''}.`)])
     if (an.expect?.length) scenes.push({ type: 'pv_expect', i: 0, say: an.expect.slice(0, 3).map(W) })
   }
   if (p.top_scores?.length && !an?.expect?.length) {
