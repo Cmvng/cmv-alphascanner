@@ -4,6 +4,8 @@ Fill in a short template with your matches and picks. The tool makes a vertical 
 
 **intro board → for each match: matchup card, stats card, pick card → stake-split recap → outro**
 
+After the games, the same file with each pick's result makes a second video: **won/lost board → scoreboard for each pick → money staked, returned and profit → outro**. See [The results video](#the-results-video-after-the-games).
+
 ## What you give it
 
 One row (or block) per match. Only six things are required. Everything else is optional, and a card simply leaves out anything you don't fill in.
@@ -85,6 +87,53 @@ node video/make-video.mjs today.json
 ```
 
 For each match it takes the competition, date and kick-off, **the bet** with its price and %, home/draw/away and expected goals (worked out from the scoreline grid), last-5 form, and goals scored and conceded. If a page has no main bet, it uses the first priced pick and adds a `note_check` line telling you to look at it. **Always check the file before making the video.**
+
+## The results video (after the games)
+
+Same picks, same file, plus the outcome. Add `"mode": "results"` at the top and two fields per pick:
+
+| Field | Required? | What it is | Example |
+|---|---|---|---|
+| `result` | ✅ | `won`, `lost` or `void` | `won` |
+| `score` | | Full-time score, home first | `2-3` |
+
+The video runs **results board → one scoreboard card per pick (WON ✓ / LOST ✗ stamp, stake → returned) → the day's totals → outro**, about 50 seconds for 5 picks.
+
+Money, not units. The tool splits `stake_example` across the picks by units, exactly as the morning video's recap does, then works out:
+- **Returned** per pick: a win pays stake × price, a void gives the stake back, and a loss returns 0.
+- **The day:** staked, returned, profit or loss, and return on stake.
+
+To show it in dollars, set `"stake_example": 100, "currency": "$", "currency_word": "dollars"`. To show naira, set `"stake_example": 10000, "currency": "₦", "currency_word": "naira"`. Amounts under 1,000 show cents (`$17.50`); bigger amounts show whole numbers (`₦2,300`).
+
+Optional for the whole video:
+- `date_label`: what the intro shows instead of the date, e.g. `"Weekend of 19–21 September"`.
+- `day_label`: what the voice says, e.g. `"This weekend"` → *"This weekend's results: two won, three lost."*
+
+A losing day is said plainly: *"That's down 32 dollars on the day. We post every result, good days and bad."* Post the bad days as well as the good ones. Showing only the winners is what makes followers stop trusting a tipster.
+
+Templates: `templates/results.blank.json` (empty) and `templates/results.example.json` (a filled Premier League weekend).
+
+```bash
+node video/make-video.mjs video/templates/results.example.json
+```
+
+## Getting it straight from the app (the "video brief" page)
+
+The plan:
+1. After the morning session, an admin page in the app lists the day's singles in exactly the picks format above, with a **Copy** button.
+2. After the games settle, the same page shows a **Results** tab with the same picks plus `result` and `score`.
+
+What the page needs to output, per single:
+- From the bet: `home`, `away`, `competition`, `kickoff`, `pick`, `odds` and `model`.
+- From the match page: `home_win`, `draw`, `away_win`, `xg_home`, `xg_away`, `form_home`, `form_away` (oldest → newest), `scored_*` and `conceded_*`.
+- After settlement: `result` and `score`.
+
+Leave crests out. National teams get flags automatically and clubs get cmvng shields. Don't copy crest image links from your data provider: those images aren't licensed for your videos.
+
+Turning the copied text into a video needs a computer that can run this tool. An ordinary AI chat can't render it, because it has no renderer, voice or encoder. The options:
+- **Claude Code with this repo:** paste the text and say *"make the video"*. It saves the file and runs `make-video.mjs`.
+- **Your own computer:** save the text as `today.json` and run `node video/make-video.mjs today.json`.
+- **Fully automatic:** a scheduled job on the server runs `make-video.mjs` right after the session and after settlement, then posts the MP4 to Telegram or WhatsApp. This needs a machine with Chromium and ffmpeg. A small VPS is fine, but Vercel functions can't run it.
 
 ## Before you post
 

@@ -116,7 +116,8 @@ function monogram(name) {
 <path d="M100 6 L188 34 V112 C188 168 150 204 100 224 C50 204 12 168 12 112 V34 Z" fill="none" stroke="${c2}" stroke-width="7"/>
 <text x="100" y="${code.length > 3 ? 112 : 118}" text-anchor="middle" font-family="Manrope" font-weight="800" font-size="${code.length > 3 ? 44 : 56}" letter-spacing="-2" fill="${ink}">${code}</text>
 </svg>`
-  return { kind: 'shield', src: 'data:image/svg+xml;base64,' + Buffer.from(svg).toString('base64'), colour: c1 }
+  // drawn inline (not as an image) so the code uses the page's Manrope font
+  return { kind: 'shield', svg, colour: c1 }
 }
 
 async function fetchTo(url, file) {

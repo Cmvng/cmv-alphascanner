@@ -1,0 +1,22 @@
+{
+  "mode": "results",
+  "competition": "Premier League",
+  "date": "2026-10-04",
+  "date_label": "",
+  "stake_example": 100,
+  "currency": "$",
+  "currency_word": "dollars",
+  "picks": [
+    {
+      "home": "",
+      "away": "",
+      "pick": "",
+      "odds": null,
+      "model": null,
+      "result": "",
+      "score": "",
+      "crest_home": "",
+      "crest_away": ""
+    }
+  ]
+}

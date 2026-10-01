@@ -46,17 +46,17 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#050A15}
 .pill.s{background:rgba(245,165,36,.14);color:#FBBF24;box-shadow:inset 0 0 0 1.5px rgba(251,191,36,.35)}
 .pill::before{content:'';width:10px;height:10px;border-radius:50%;background:currentColor}
 .badge{position:relative;flex-shrink:0}
-.badge img{width:100%;height:100%;display:block}
+.badge img,.badge svg{width:100%;height:100%;display:block}
 .badge.flag img{border-radius:50%;object-fit:cover;box-shadow:0 0 0 4px rgba(255,255,255,.14),0 18px 50px rgba(0,0,0,.45)}
-.badge.shield img,.badge.crest img{object-fit:contain;filter:drop-shadow(0 18px 40px rgba(0,0,0,.5))}
+.badge.shield img,.badge.crest img,.badge.shield svg{object-fit:contain;filter:drop-shadow(0 18px 40px rgba(0,0,0,.5))}
 .num{font-variant-numeric:tabular-nums}
 
 /* intro */
-.intro .kick{position:absolute;left:64px;top:300px}
-.intro .big{position:absolute;left:58px;top:330px;font:800 200px/1 Manrope;letter-spacing:-8px}
+.intro .kick,.rintro .kick{position:absolute;left:64px;top:300px}
+.intro .big,.rintro .big{position:absolute;left:58px;top:330px;font:800 200px/1 Manrope;letter-spacing:-8px}
 .intro .big span{display:inline-block}
-.intro .date{position:absolute;left:66px;top:548px;font:600 40px Manrope;color:var(--muted);letter-spacing:-.5px}
-.intro .list{position:absolute;left:64px;right:64px;top:650px}
+.intro .date,.rintro .date{position:absolute;left:66px;top:548px;font:600 40px Manrope;color:var(--muted);letter-spacing:-.5px}
+.intro .list,.rintro .list{position:absolute;left:64px;right:64px;top:650px}
 .row{display:flex;align-items:center;gap:22px;height:132px;padding:0 28px;margin-bottom:16px;border-radius:28px;background:var(--glass);box-shadow:inset 0 0 0 1.5px var(--line)}
 .row .pair{display:flex;width:104px;flex-shrink:0}
 .row .pair .badge{width:58px;height:58px}
@@ -153,6 +153,49 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#050A15}
 .recap .sum .k{font:600 28px Manrope;color:var(--muted);line-height:1.5}
 .recap .sum b{font:800 72px/1 Manrope;color:#4ADE80;letter-spacing:-2px}
 
+/* results */
+.st{display:inline-flex;align-items:center;gap:10px;padding:8px 16px;border-radius:12px;font:800 22px Manrope;letter-spacing:1px;text-transform:uppercase}
+.st.won{background:rgba(34,197,94,.15);color:#4ADE80;box-shadow:inset 0 0 0 1.5px rgba(74,222,128,.4)}
+.st.lost{background:rgba(239,68,68,.14);color:#F87171;box-shadow:inset 0 0 0 1.5px rgba(248,113,113,.4)}
+.st.void{background:rgba(148,163,184,.14);color:#CBD5E1;box-shadow:inset 0 0 0 1.5px rgba(203,213,225,.3)}
+.rintro .chips{position:absolute;left:64px;top:620px;display:flex;gap:14px}
+.rintro .chips .st{font-size:28px;padding:12px 22px}
+.rintro .list{top:730px}
+.result .meta{position:absolute;left:64px;right:64px;top:280px;text-align:center;font:600 30px Manrope;color:var(--muted)}
+.result .board{position:absolute;left:64px;right:64px;top:350px;height:400px}
+.result .tm{position:absolute;top:0;width:280px;display:flex;flex-direction:column;align-items:center}
+.result .tm.h{left:0}.result .tm.a{right:0}
+.result .tm .badge{width:190px;height:190px}
+.result .tm .badge.shield,.result .tm .badge.crest{width:176px;height:203px}
+.result .tm .nm{margin-top:22px;font:800 46px/1.05 Manrope;letter-spacing:-1.5px;text-align:center}
+.result .score{position:absolute;left:50%;top:40px;transform:translateX(-50%);font:800 150px/1 Manrope;letter-spacing:-4px;white-space:nowrap}
+.result .ft{position:absolute;left:50%;top:205px;transform:translateX(-50%)}
+.result .panel{top:800px;padding:40px 44px;min-height:520px}
+.result .pk{font:800 64px/1.05 Manrope;letter-spacing:-2px;max-width:640px}
+.result .od{margin-top:14px;font:600 30px Manrope;color:var(--muted)}
+.result .stamp{position:absolute;right:40px;top:44px;font:800 52px/1 Manrope;letter-spacing:2px;padding:20px 28px;border-radius:20px;transform-origin:50% 50%}
+.result .stamp.won{color:#4ADE80;box-shadow:inset 0 0 0 4px #22C55E;background:rgba(34,197,94,.1)}
+.result .stamp.lost{color:#F87171;box-shadow:inset 0 0 0 4px #EF4444;background:rgba(239,68,68,.1)}
+.result .stamp.void{color:#CBD5E1;box-shadow:inset 0 0 0 4px #94A3B8;background:rgba(148,163,184,.1)}
+.result .money{position:absolute;left:44px;right:44px;bottom:40px;display:flex;align-items:flex-end;justify-content:space-between;border-top:1.5px solid var(--line);padding-top:30px}
+.result .money .k{font:700 19px JBM;letter-spacing:3px;color:rgba(255,255,255,.5);text-transform:uppercase}
+.result .money b{display:block;font:800 64px/1 Manrope;letter-spacing:-2px;margin-top:10px}
+.result .money .arr{font:700 44px JBM;color:rgba(255,255,255,.35);padding-bottom:8px}
+.result .run{position:absolute;left:64px;right:64px;top:1364px;display:flex;align-items:center;justify-content:space-between;padding:26px 44px;border-radius:28px;background:var(--glass);box-shadow:inset 0 0 0 1.5px var(--line)}
+.result .run .k{font:700 19px JBM;letter-spacing:3px;color:rgba(255,255,255,.5);text-transform:uppercase}
+.result .run b{font:800 44px/1 Manrope;letter-spacing:-1px;font-variant-numeric:tabular-nums}
+.totals .t1{position:absolute;left:58px;top:290px;font:800 150px/1 Manrope;letter-spacing:-6px}
+.totals .t2{position:absolute;left:64px;top:452px;font:600 34px Manrope;color:var(--muted)}
+.totals .panel{top:560px;padding:44px}
+.totals .ln{display:flex;justify-content:space-between;align-items:baseline;padding:22px 0;border-top:1.5px solid var(--line)}
+.totals .ln:first-child{border-top:none;padding-top:0}
+.totals .ln .k{font:600 34px Manrope;color:var(--muted)}
+.totals .ln b{font:800 76px/1 Manrope;letter-spacing:-2.5px}
+.totals .big b{font-size:120px;letter-spacing:-4px}
+.totals .rec{display:flex;gap:6px;height:22px;margin-top:30px;border-radius:11px;overflow:hidden}
+.totals .rec i{display:block;height:100%}
+.totals .foot{position:absolute;left:64px;right:64px;top:1330px;font:500 26px/1.45 Manrope;color:rgba(255,255,255,.55)}
+
 /* outro */
 .outro{display:none;flex-direction:column;align-items:center;justify-content:center}
 .outro .logo{font-size:170px;letter-spacing:-7px;gap:30px}
@@ -211,12 +254,17 @@ const E = {
 const clamp = (v, a = 0, b = 1) => Math.max(a, Math.min(b, v))
 const P = (t, a, b, e = E.outExpo) => e(clamp((t - a) / (b - a)))
 const fmt = (v, d) => v.toFixed(d)
-const money = v => D.cfg.currency + Math.round(v).toLocaleString('en-US')
+const DEC = D.cfg.stake_example < 1000 ? 2 : 0
+const money = v => (v < 0 ? '−' : '') + D.cfg.currency + Math.abs(v).toLocaleString('en-US', { minimumFractionDigits: DEC, maximumFractionDigits: DEC })
 const html = (s) => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]))
 
-function badge(b, size) {
+let uid = 0
+function badge(b) {
+  if (b.svg) { const u = `b${uid++}`; return `<div class="badge shield">${b.svg.replace(/id="(\w+)"/g, `id="$1${u}"`).replace(/url\(#(\w+)\)/g, `url(#$1${u})`)}</div>` }
   return `<div class="badge ${b.kind}"><img src="${b.src}"></div>`
 }
+// profit or loss after the first i+1 picks (i = -1 → 0)
+const runTotal = i => D.picks.slice(0, i + 1).reduce((t, q) => t + q.ret - q.stake, 0)
 const unitPill = (p, short) => `<span class="pill ${p.value ? 'v' : 's'}">${p.value ? 'Value' : 'Small stake'} · ${p.units}${short ? 'U' : ' units'}</span>`
 const kick = p => [p.kickoff, p.pick].filter(Boolean).join(' · ')
 const dayLong = d => d ? new Date(`${d}T12:00:00Z`).toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', timeZone: 'UTC' }) : ''
@@ -289,6 +337,36 @@ const built = D.scenes.map((sc, k) => {
         <div class="right"><div class="stk num" data-n="${q.stake}" data-d="0" data-m="1">0</div>${unitPill(q, true)}</div></div>`).join('')}</div>
       <div class="sum" style="top:${540 + N * 144 + 16}px"><div class="k">${D.recap.totalUnits} units in total<br>1 unit ≈ ${money(D.recap.oneUnit)}</div>
         <b class="num" data-n="${D.recap.total}" data-d="0" data-m="1">0</b></div>`
+  } else if (sc.type === 'rintro') {
+    const r = D.recap
+    el.innerHTML = `<div class="kick lbl">${html(D.cfg.competition || 'Results')}</div>
+      <div class="big">${html(D.cfg.title.toUpperCase())}</div>
+      <div class="date">${html(D.cfg.date_label || dayLong(D.cfg.date))}</div>
+      <div class="chips"><span class="st won">${r.won} won</span><span class="st lost">${r.lost} lost</span>${r.void ? `<span class="st void">${r.void} void</span>` : ''}</div>
+      <div class="list">${D.picks.map(q => `<div class="row"><div class="pair">${badge(q.bh)}${badge(q.ba)}</div>
+        <div class="mid"><div class="teams" style="font-size:34px">${html(q.pick)}</div><div class="sub">${html(q.home)}${q.score ? ' ' + html(q.score.replace('-', '–')) + ' ' : ' v '}${html(q.away)} · ${q.odds.toFixed(2)}</div></div>
+        <div class="right"><span class="st ${q.result}">${q.result === 'won' ? '✓ Won' : q.result === 'lost' ? '✗ Lost' : 'Void'}</span></div></div>`).join('')}</div>`
+  } else if (sc.type === 'result') {
+    const sc2 = String(p.score || '').match(/(\d+)\s*[-–:]\s*(\d+)/)
+    el.innerHTML = `<div class="meta">${html([p.competition, dayShort(D.cfg.date)].filter(Boolean).join(' · '))}</div>
+      <div class="board"><div class="tm h">${badge(p.bh)}<div class="nm">${html(p.home)}</div></div>
+        <div class="tm a">${badge(p.ba)}<div class="nm">${html(p.away)}</div></div>
+        ${sc2 ? `<div class="score"><span>${sc2[1]}</span><span style="color:rgba(255,255,255,.35)"> – </span><span>${sc2[2]}</span></div><div class="ft lbl">Full time</div>` : '<div class="score" style="font-size:80px;top:90px;color:rgba(255,255,255,.4)">v</div>'}</div>
+      <div class="panel"><div class="lbl">The pick</div><div class="pk" style="margin-top:18px">${html(p.pick)}</div><div class="od">at ${p.odds.toFixed(2)} · ${p.units} units</div>
+        <div class="stamp ${p.result}">${p.result === 'won' ? 'WON ✓' : p.result === 'lost' ? 'LOST ✗' : 'VOID'}</div>
+        <div class="money"><div><div class="k">Stake</div><b class="num" data-n="${p.stake}" data-d="${DEC}" data-m="1">0</b></div><div class="arr">→</div>
+          <div style="text-align:right"><div class="k">Returned</div><b class="num" data-n="${p.ret}" data-d="${DEC}" data-m="1" style="color:${p.result === 'won' ? '#4ADE80' : p.result === 'lost' ? '#F87171' : '#fff'}">0</b></div></div></div>
+      <div class="run"><span class="k">Day so far · ${sc.i + 1} of ${N}</span><b data-a="${runTotal(sc.i - 1)}" data-n="${runTotal(sc.i)}"></b></div>`
+  } else if (sc.type === 'totals') {
+    const r = D.recap, pos = r.profit >= 0, roi = r.profit / r.total * 100
+    el.innerHTML = `<div class="t1">THE <span style="color:#5B8DFF">DAY</span></div>
+      <div class="t2">${money(D.cfg.stake_example)} split by units across ${N} picks</div>
+      <div class="panel"><div class="ln"><span class="k">Staked</span><b class="num" data-n="${r.total}" data-d="${DEC}" data-m="1">0</b></div>
+        <div class="ln"><span class="k">Returned</span><b class="num" data-n="${r.returned}" data-d="${DEC}" data-m="1">0</b></div>
+        <div class="ln big"><span class="k">${pos ? 'Profit' : 'Loss'}</span><b class="num" data-n="${r.profit}" data-d="${DEC}" data-m="1" style="color:${pos ? '#4ADE80' : '#F87171'}">0</b></div>
+        <div class="ln"><span class="k">Return on stake</span><b class="num" data-n="${roi}" data-d="1" data-s="%" style="color:${pos ? '#4ADE80' : '#F87171'}">0</b></div>
+        <div class="rec">${D.picks.map(q => `<i style="flex:1;background:${q.result === 'won' ? '#22C55E' : q.result === 'lost' ? '#EF4444' : '#64748B'}"></i>`).join('')}</div></div>
+      <div class="foot">${r.won} won · ${r.lost} lost${r.void ? ' · ' + r.void + ' void' : ''}. Value picks staked 7.5 units, small stakes 5. Every result is posted, good days and bad.</div>`
   } else if (sc.type === 'outro') {
     el.innerHTML = `<div class="logo"><div class="bars"><i style="height:58px"></i><i style="height:94px"></i><i style="height:130px"></i></div>
       <div class="word">${[...'cmvng'].map(c => `<span>${c}</span>`).join('')}</div></div>
@@ -305,10 +383,10 @@ $('#prog').innerHTML = D.picks.map(() => '<i><b></b></i>').join('')
 const capEl = $('#cap')
 let capShown = -1
 
-// grain tiles
+// grain tile: one static tile. Grain that changes every frame looks the same on a phone but makes the file ~10× bigger
 const grains = []
 let seed = 99; const rnd = () => (seed = (seed * 1103515245 + 12345) % 2147483648) / 2147483648
-for (let g = 0; g < 6; g++) {
+for (let g = 0; g < 1; g++) {
   const c = document.createElement('canvas'); c.width = c.height = 256
   const x = c.getContext('2d'), d = x.createImageData(256, 256)
   for (let i = 0; i < d.data.length; i += 4) { const v = rnd() * 255; d.data[i] = d.data[i + 1] = d.data[i + 2] = v; d.data[i + 3] = 255 }
@@ -319,7 +397,7 @@ function countUps(el, lt, delay = 0.15, dur = 1.1, stagger = 0.08) {
   $$('.num', el).forEach((n, j) => {
     const v = +n.dataset.n, d = +n.dataset.d, k = P(lt, delay + j * stagger, delay + j * stagger + dur, E.outCubic)
     const val = v * k
-    n.textContent = n.dataset.m ? money(val) : fmt(val, d) + (n.dataset.s || '')
+    n.textContent = n.dataset.m ? money(val) : (n.dataset.s === '%' && v < 0 ? '−' + fmt(-val, d) : fmt(val, d)) + (n.dataset.s || '')
   })
 }
 function rise(nodes, lt, start, step = 0.07, dist = 40, dur = 0.7) {
@@ -380,6 +458,29 @@ function draw(k, lt, dur) {
     $$('.row', el).forEach((r, j) => { const q = P(lt, 0.4 + j * .1, 1.1 + j * .1); r.style.opacity = q; r.style.transform = `translate3d(${(1 - q) * -120}px,0,0)` })
     rise([$('.sum', el)], lt, 0.6 + N * .1, 0, 40)
     countUps(el, lt, 0.7, 1.2, 0.1)
+  } else if (sc.type === 'rintro') {
+    rise([$('.kick', el)], lt, 0.05); rise([$('.big', el)], lt, 0.1, 0, 80, 0.8); rise([$('.date', el)], lt, 0.3)
+    $$('.chips .st', el).forEach((c, j) => { const q = P(lt, 0.45 + j * .1, 1.0 + j * .1, E.outBack); c.style.transform = `scale(${q})` })
+    $$('.row', el).forEach((r, j) => { const q = P(lt, 0.6 + j * .12, 1.35 + j * .12); r.style.opacity = q; r.style.transform = `translate3d(${(1 - q) * 120}px,0,0)` })
+    $$('.row .st', el).forEach((c, j) => { const q = P(lt, 1.1 + j * .12, 1.6 + j * .12, E.outBack); c.style.transform = `scale(${q})` })
+  } else if (sc.type === 'result') {
+    rise([$('.meta', el)], lt, 0.05)
+    $$('.tm', el).forEach((s, j) => { const q = P(lt, 0.05, 0.8, E.outBack); s.style.transform = `translate3d(${(1 - q) * (j ? 200 : -200)}px,0,0)`; s.style.opacity = P(lt, 0.05, 0.4) })
+    const sco = $('.score', el); if (sco) { const q = P(lt, 0.35, 0.9, E.outBack); sco.style.opacity = P(lt, 0.35, 0.6); sco.style.transform = `translateX(-50%) scale(${0.7 + 0.3 * q})` }
+    const ft = $('.ft', el); if (ft) ft.style.opacity = P(lt, 0.8, 1.2)
+    rise([$('.panel', el)], lt, 0.6, 0, 70, 0.8)
+    const stp = $('.stamp', el), q = P(lt, 1.1, 1.55, E.outBack)
+    stp.style.opacity = P(lt, 1.1, 1.25); stp.style.transform = `rotate(${-8 * q}deg) scale(${1.8 - 0.8 * q})`
+    countUps(el, lt, 1.2, 0.8, 0.45)
+    const run = $('.run', el), rb = $('.run b', el), a = +rb.dataset.a, b = +rb.dataset.n, k = P(lt, 2.1, 2.9, E.outCubic), v = a + (b - a) * k
+    rise([run], lt, 0.9, 0, 30)
+    rb.textContent = (v > 0.004 ? '+' : '') + money(v); rb.style.color = v > 0.004 ? '#4ADE80' : v < -0.004 ? '#F87171' : '#fff'
+  } else if (sc.type === 'totals') {
+    rise([$('.t1', el)], lt, 0.05, 0, 60); rise([$('.t2', el)], lt, 0.25)
+    rise([$('.panel', el)], lt, 0.4, 0, 60, 0.8); rise($$('.ln', el), lt, 0.55, 0.15, 30)
+    $$('.rec i', el).forEach((b, j) => { b.style.opacity = P(lt, 1.6 + j * .08, 1.9 + j * .08) })
+    rise([$('.foot', el)], lt, 2.0)
+    countUps(el, lt, 0.7, 1.4, 0.3)
   } else if (sc.type === 'outro') {
     $$('.logo .bars i', el).forEach((b, j) => b.style.transform = `scaleY(${P(lt, 0.1 + j * .1, 0.8 + j * .1)})`)
     $$('.word span', el).forEach((s, j) => s.style.transform = `translate3d(0,${(1 - P(lt, 0.35 + j * .05, 1.1 + j * .05)) * 110}%,0)`)
@@ -388,13 +489,13 @@ function draw(k, lt, dur) {
   }
 }
 
-const WIPE_TYPES = new Set(['match', 'recap', 'outro'])
+const WIPE_TYPES = new Set(['match', 'recap', 'outro', 'result', 'totals'])
 window.renderAt = function (t) {
   // background life
   $('#g1').style.transform = `translate3d(${-460 + 140 * Math.sin(t * .2)}px,${-560 + 110 * Math.cos(t * .17)}px,0)`
   $('#g2').style.transform = `translate3d(${300 + 120 * Math.cos(t * .15)}px,${900 + 100 * Math.sin(t * .19)}px,0)`
   $('#pitch').style.transform = `rotateX(62deg) translate3d(${30 * Math.sin(t * .1)}px,${-((t * 14) % 1020) / 3}px,0)`
-  $('#grain').style.backgroundImage = grains[Math.floor(t * 24) % grains.length]
+  $('#grain').style.backgroundImage = grains[0]
   $('#pitchWrap').style.opacity = 0.55 * (1 - 0.7 * P(t, D.scenes.at(-1).start, D.scenes.at(-1).start + 0.6, E.outCubic))
 
   // active scene
@@ -405,15 +506,15 @@ window.renderAt = function (t) {
 
   // header
   const hdr = $('#hdr'); hdr.style.opacity = sc.type === 'outro' ? 1 - P(t - sc.start, 0, 0.4) : P(t, 0.1, 0.6)
-  $('#hlabel').textContent = sc.type === 'intro' ? (D.cfg.competition || '') : sc.type === 'recap' ? 'The slate' : sc.i !== undefined ? `Pick ${sc.i + 1} / ${N}` : ''
-  $$('#prog b').forEach((b, j) => { const cur = sc.i ?? (sc.type === 'intro' ? -1 : N); b.style.transform = `scaleX(${j < cur ? 1 : j === cur ? ({ match: .33, stats: .66, pick: 1 }[sc.type] || 0) : 0})` })
-  $('#prog').style.opacity = sc.type === 'intro' ? 0 : 1
+  $('#hlabel').textContent = (sc.type === 'intro' || sc.type === 'rintro') ? (D.cfg.competition || '') : sc.type === 'recap' ? 'The slate' : sc.type === 'totals' ? 'The day' : sc.i !== undefined ? `${sc.type === 'result' ? 'Result' : 'Pick'} ${sc.i + 1} / ${N}` : ''
+  $$('#prog b').forEach((b, j) => { const cur = sc.i ?? ((sc.type === 'intro' || sc.type === 'rintro') ? -1 : N); b.style.transform = `scaleX(${j < cur ? 1 : j === cur ? ({ match: .33, stats: .66, pick: 1, result: 1 }[sc.type] || 0) : 0})` })
+  $('#prog').style.opacity = (sc.type === 'intro' || sc.type === 'rintro') ? 0 : 1
 
   // wipe at scene boundaries
   const wipe = $('#wipe'); wipe.style.display = 'none'
   for (let j = 1; j < D.scenes.length; j++) {
     const T = D.scenes[j].start
-    if (!(WIPE_TYPES.has(D.scenes[j].type) || D.scenes[j - 1].type === 'intro') || Math.abs(t - T) > 0.42) continue
+    if (!(WIPE_TYPES.has(D.scenes[j].type) || ['intro', 'rintro'].includes(D.scenes[j - 1].type)) || Math.abs(t - T) > 0.42) continue
     wipe.style.display = 'block'
     $$('#wipe i').forEach((b, n) => {
       const q = E.inOutCubic(clamp((t - (T - 0.42) - n * 0.05) / 0.74))
@@ -436,6 +537,8 @@ window.renderAt = function (t) {
 }
 
 window.ready = (async () => {
+  // load every font weight up front, or text in a weight not yet used stays invisible on the first frames
+  await Promise.all([...document.fonts].map(f => f.load()))
   await document.fonts.ready
   await Promise.all([...document.images].map(i => i.decode().catch(() => {})))
   return true

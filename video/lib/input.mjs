@@ -5,7 +5,8 @@
 import fs from 'node:fs'
 
 export const DEFAULTS = {
-  title: '',                 // empty → "5 Picks" (from the number of picks)
+  mode: 'picks',             // 'picks' = before kick-off · 'results' = after the games, with returns
+  title: '',                 // empty → "5 Picks" or "Results"
   competition: '',
   date: '',                  // YYYY-MM-DD
   stake_example: 10000,      // shown in the recap: how this amount splits across the picks
@@ -62,6 +63,12 @@ export function loadInput(file) {
     for (const k of Object.keys(p)) if (p[k] === '' || p[k] === null) delete p[k]
     for (const k of ['form_home', 'form_away']) if (p[k]) p[k] = String(p[k]).toUpperCase().replace(/[^WDL]/g, '').slice(0, 5)
     const where = `Pick ${i + 1}`
+    if (cfg.mode === 'results') {
+      const r = String(p.result || '').toLowerCase()
+      p.result = /^w/.test(r) ? 'won' : /^l/.test(r) ? 'lost' : /^(v|void|push|ref)/.test(r) ? 'void' : ''
+      if (!p.result) errors.push(`${where}: "result" must be won, lost or void`)
+      if (p.score && !/^\d+\s*[-–:]\s*\d+$/.test(String(p.score))) errors.push(`${where}: "score" should look like 2-1`)
+    }
     for (const k of ['home', 'away', 'pick']) if (!p[k]) errors.push(`${where}: "${k}" is missing`)
     if (!(p.odds > 1)) errors.push(`${where}: "odds" must be a bookmaker price above 1 (e.g. 1.85)`)
     if (!(p.model > 0 && p.model < 100)) errors.push(`${where}: "model" must be your % chance for the pick, between 0 and 100`)
@@ -83,10 +90,18 @@ export function loadInput(file) {
   // Recap: split the example stake by units, rounded down so the total never goes over
   const totalUnits = picks.reduce((s, p) => s + p.units, 0)
   const oneUnit = cfg.stake_example / totalUnits
-  const step = cfg.stake_example >= 5000 ? 10 : 1
-  for (const p of picks) p.stake = Math.floor(p.units * oneUnit / step) * step
+  const step = cfg.stake_example >= 5000 ? 10 : cfg.stake_example >= 500 ? 1 : 0.01
+  for (const p of picks) p.stake = Math.round(Math.floor(p.units * oneUnit / step + 1e-9) * step * 100) / 100
   const recap = { totalUnits, oneUnit, total: picks.reduce((s, p) => s + p.stake, 0) }
+  if (cfg.mode === 'results') {
+    for (const p of picks) p.ret = p.result === 'won' ? p.stake * p.odds : p.result === 'void' ? p.stake : 0
+    recap.returned = picks.reduce((s, p) => s + p.ret, 0)
+    recap.profit = recap.returned - recap.total
+    recap.won = picks.filter(p => p.result === 'won').length
+    recap.lost = picks.filter(p => p.result === 'lost').length
+    recap.void = picks.filter(p => p.result === 'void').length
+  }
 
-  cfg.title ||= `${picks.length} Picks`
+  cfg.title ||= cfg.mode === 'results' ? 'Results' : `${picks.length} Picks`
   return { cfg, picks, recap }
 }

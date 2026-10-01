@@ -35,7 +35,40 @@ function stats(p) {
   return out.length ? out.slice(0, 1) : [`Here's how they compare.`]
 }
 
+function scoreLine(p) {
+  const m = String(p.score || '').match(/(\d+)\s*[-–:]\s*(\d+)/)
+  if (!m) return `${p.home} against ${p.away}.`
+  const [h, a] = [+m[1], +m[2]]
+  if (h > a) return `${p.home} beat ${p.away} ${h}-${a}.`
+  if (h < a) return `${p.away} won ${a}-${h} at ${p.home}.`
+  return `${p.home} and ${p.away} drew ${h}-${a}.`
+}
+
+function buildResultScenes(cfg, picks, recap) {
+  const n = picks.length, cw = cfg.currency_word
+  const rec = [recap.won ? `${word(recap.won)} won` : 'no winners', `${word(recap.lost)} lost`, recap.void ? `${word(recap.void)} void` : ''].filter(Boolean).join(', ')
+  const scenes = [{ type: 'rintro', say: [`${cfg.day_label || weekday(cfg.date)}'s results: ${rec}.`, `Here's how they landed.`] }]
+  picks.forEach((p, i) => {
+    const pk = p.say || (/^draw$/i.test(p.pick) ? 'the draw' : p.pick)
+    scenes.push({
+      type: 'result', i, say: [scoreLine(p),
+        p.result === 'won' ? `Our pick, ${pk}, landed at ${odds(p.odds)}.` : p.result === 'void' ? `Our pick, ${pk}, was void, so the stake comes back.` : `Our pick, ${pk}, lost.`],
+    })
+  })
+  const roi = recap.profit / recap.total * 100
+  scenes.push({
+    type: 'totals', say: [
+      `Staking ${money(cfg.stake_example)} ${cw} split by units, you'd have got back ${money(recap.returned)} ${cw}.`,
+      recap.profit >= 0 ? `That's a profit of ${money(recap.profit)} ${cw}, ${Math.round(roi)} percent on the day.`
+        : `That's down ${money(-recap.profit)} ${cw} on the day. We post every result, good days and bad.`,
+    ],
+  })
+  scenes.push({ type: 'outro', say: [{ say: `Tomorrow's picks on ${cfg.cta.say || cfg.cta.url.replace(/\./g, ' dot ')}.`, show: `Tomorrow's picks on ${cfg.cta.url}.` }, `Only stake what you can afford to lose.`] })
+  return scenes
+}
+
 export function buildScenes(cfg, picks, recap) {
+  if (cfg.mode === 'results') return buildResultScenes(cfg, picks, recap)
   const n = picks.length
   const scenes = [{ type: 'intro', say: [`${word(n)[0].toUpperCase() + word(n).slice(1)} ${cfg.competition || ''} picks for ${weekday(cfg.date)}.`.replace(/\s+/g, ' '), `Here's the board.`] }]
   picks.forEach((p, i) => {

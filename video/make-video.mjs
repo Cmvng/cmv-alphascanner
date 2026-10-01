@@ -85,7 +85,7 @@ if (voiceOn) {
 const est = s => s.split(/\s+/).length / (2.6 * cfg.voice_speed) + 0.25 // seconds, when there's no voice
 
 // ---------------------------------------------------------------- 3. timeline + captions
-const MIN = { intro: 6.0, match: 4.4, stats: 4.4, pick: 6.4, recap: 7.0, outro: 5.0 }
+const MIN = { intro: 6.0, match: 4.4, stats: 4.4, pick: 6.4, recap: 7.0, outro: 5.0, rintro: 6.4, result: 5.2, totals: 7.4 }
 let t = 0
 const captions = []
 scenes.forEach((sc, k) => {
@@ -159,7 +159,7 @@ await Promise.all(Array.from({ length: WORKERS }, async (_, w) => {
   if (a >= b) return
   const { browser, pg, shot } = await openPage()
   const ff = spawn(FF, ['-y', '-loglevel', 'error', '-f', 'image2pipe', '-framerate', String(FPS), '-i', '-',
-    '-c:v', 'libx264', '-preset', 'medium', '-crf', '18', '-pix_fmt', 'yuv420p', '-r', String(FPS), path.join(OUT, `seg_${w}.mp4`)], { stdio: ['pipe', 'inherit', 'inherit'] })
+    '-c:v', 'libx264', '-preset', 'medium', '-crf', '20', '-maxrate', '10M', '-bufsize', '20M', '-pix_fmt', 'yuv420p', '-r', String(FPS), path.join(OUT, `seg_${w}.mp4`)], { stdio: ['pipe', 'inherit', 'inherit'] })
   for (let f = a; f < b; f++) {
     await pg.evaluate(x => window.renderAt(x), f / FPS)
     if (!ff.stdin.write(await shot())) await new Promise(r => ff.stdin.once('drain', r))
@@ -190,7 +190,7 @@ if (durs && musicFile) {
 } else if (durs || musicFile) {
   args.push('-filter_complex', `[1:a]${musicFile && !durs ? 'volume=0.6,' : ''}loudnorm=I=-16:TP=-1.5[a]`, '-map', '0:v', '-map', '[a]')
 }
-args.push('-c:v', 'copy', ...(audioIn.length ? ['-c:a', 'aac', '-b:a', '192k'] : []), '-t', DURATION.toFixed(2), '-movflags', '+faststart', final)
+args.push('-c:v', 'copy', ...(audioIn.length ? ['-c:a', 'aac', '-b:a', '192k', '-ar', '48000', '-ac', '2'] : []), '-t', DURATION.toFixed(2), '-movflags', '+faststart', final)
 await run(FF, args)
 for (const f of segs) fs.rmSync(f)
 console.log(`\nDone in ${((Date.now() - t0) / 1000).toFixed(0)}s → ${final}`)

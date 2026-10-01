@@ -1,0 +1,57 @@
+{
+  "mode": "results",
+  "competition": "Premier League",
+  "date": "2026-09-20",
+  "day_label": "This weekend",
+  "stake_example": 100,
+  "currency": "$",
+  "currency_word": "dollars",
+  "picks": [
+    {
+      "home": "Tottenham",
+      "away": "Aston Villa",
+      "pick": "Aston Villa to Win",
+      "odds": 3.62,
+      "model": 38.5,
+      "result": "won",
+      "score": "2-3"
+    },
+    {
+      "home": "Man City",
+      "away": "Sunderland",
+      "pick": "Draw",
+      "odds": 5.56,
+      "model": 24.1,
+      "result": "lost",
+      "score": "5-3"
+    },
+    {
+      "home": "Brighton",
+      "away": "Arsenal",
+      "pick": "Brighton to Win",
+      "odds": 4.77,
+      "model": 24.1,
+      "result": "won",
+      "score": "3-0"
+    },
+    {
+      "home": "Leeds",
+      "away": "Crystal Palace",
+      "pick": "Crystal Palace to Win",
+      "odds": 4.49,
+      "model": 25.5,
+      "result": "lost",
+      "score": "0-0"
+    },
+    {
+      "home": "Fulham",
+      "away": "Man United",
+      "pick": "Fulham to Win",
+      "odds": 3.36,
+      "model": 34,
+      "result": "lost",
+      "score": "1-1"
+    }
+  ],
+  "date_label": "Weekend of 19–21 September"
+}
