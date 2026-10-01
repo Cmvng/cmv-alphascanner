@@ -1,6 +1,6 @@
 ---
 name: cmvng-video
-description: Make and send the cmvng picks video, results video or match preview video from cmvngpicks.com. Use when the owner asks for "today's picks video", "the singles video", "tonight's singles", "top singles for today", "the results video", "results for today", "a preview of <match>", "a video for X / YouTube", "football talk video", or a video for a named session or date.
+description: Make and send the cmvng picks video, results video or match preview video from cmvngpicks.com. Use when the owner asks for "today's picks video", "the singles video", "tonight's singles", "top singles for today", "the results video", "results for today", "a preview of <match>", "the analysis for <match>", "match analysis", "a video for X / YouTube", "football talk video", or a video for a named session or date.
 ---
 
 # cmvng picks / results video
@@ -36,9 +36,11 @@ node video/from-app.mjs preview --match 987933         # any match page: cmvngpi
 
 The file gets form, record, points a game, goals scored and conceded, shots on target, clean sheets, xG, win chances and the most likely scores. Write its script with the keys `pv_hook`, `pv_form`, `pv_stats`, `pv_model`, `pv_score` and `pv_cta` (1–2 lines each, under about 25 words a line). Then render it the same way.
 
-**The approved template.** Every AI Analyst video follows `video/templates/ai-analyst/`. Read its `README.md` first (screen order, what made it work, the checklist) and copy the shape of `denmark-portugal-2026-10-01.json`. Save a `sources.md` with each new video.
+**The approved template.** Every match analysis video follows `video/templates/match-analysis/`. Read its `README.md` first (screen order, what made it work, the checklist) and copy the shape of `denmark-portugal-2026-10-01.json`. Save a `sources.md` with each new video.
 
-**AI Analyst research.** For each match, run a web-research subagent in the background, one per match, all in parallel. Ask it for a brief of under 500 words with a source URL and date on every fact:
+**House style: never say "AI Analyst"** in the video, the voice, titles or posts. The owner finds it cringe and low effort. It's "the analysis" or "match analysis" ("Here's the analysis.", "That's the analysis. Follow for more football, by the numbers."), and the render stops if the phrase appears.
+
+**Research.** For each match, run a web-research subagent in the background, one per match, all in parallel. Ask it for a brief of under 500 words with a source URL and date on every fact:
 1. Context: the group or round, the table, what's on the line, the venue, the coaches.
 2. Team news: absentees, call-ups, predicted XIs and formations, labelled as predicted.
 3. Two key players per side: role, club, and one current stat.
@@ -54,7 +56,7 @@ Then check the brief against the app:
 - Use only players in tonight's squad. Injured players are out.
 - Test new names with Kokoro + faster-whisper, and add respellings to `SAY_NAMES` before rendering.
 
-For the **AI Analyst** version, add an `"analysis"` object built from the researched facts (each fact from a dated source; leave out anything unconfirmed):
+For the **match analysis** version, add an `"analysis"` object built from the researched facts (each fact from a dated source; leave out anything unconfirmed):
 - `stage`: the stage, e.g. "League A · Group 2 · Matchday 3"
 - `table`: `[[team, played, points], ...]`
 - `stakes`: 1–2 lines
@@ -80,9 +82,12 @@ Preview rules, which keep it monetisable:
 - **No betting words:** no odds, prices, bookies, stakes, units, bars, picks, tips, "value", "bet", booking codes or website links.
 - **End with "Follow for more…"**.
 - **Real analysis:** the script must explain why ("the gap shows at both ends…"), not just read numbers out. YouTube won't pay for repetitive, templated videos, so vary the hook and the angle each time.
-- **Post caption:** "<Home> vs <Away>: what the numbers say | <competition> preview".
+- **Post wording:**
+  - X post opens "<Home> v <Away>: tonight's analysis 📊".
+  - YouTube title: "<Home> vs <Away>: Match Analysis | <the story>", e.g. "Denmark vs Portugal: Match Analysis | Portugal Without Ronaldo".
+  - Never "AI Analyst".
 - **Title, description, tags and pinned comment:** same rules; no betting words and no link to cmvngpicks.com (the site has booking codes).
-- **Credits and disclosure:** put the photo credits from `credits.txt` in the description, and add "Narrated with an AI voice."
+- **Credits and disclosure:** put the photo credits from `credits.txt` in the description, and add "Narrated with an AI voice." at the very end. That line goes only in the description, never in the video, voice or title.
 - **Facts:** team news, players and tactics must come from dated sources found today. Leave out what can't be confirmed; a wrong fact costs more trust than a missing one.
 - **Volume:** one or two analyst videos a day, each with its own angle. Mass-posting near-identical videos is what YouTube refuses to pay for.
 

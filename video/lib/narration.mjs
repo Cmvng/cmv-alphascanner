@@ -174,7 +174,7 @@ function buildPreviewScenes(cfg, [p, ...others]) {
       W(`That makes it ${Math.round(fav[1])}% ${fav[0]}, ${Math.round(p.draw)}% the draw and ${Math.round(fav[3])}% ${fav[2]}.`)] })
   }
   const an = cfg.analysis
-  if (an) {   // the AI Analyst version: researched stakes, players, tactics and a verdict around the app's numbers
+  if (an) {   // the match analysis version: researched stakes, players, tactics and a verdict around the app's numbers
     // insert after the first of `after` that exists (so the story runs: context → form → players → tactics → numbers)
     const at = (type, after, say) => { const k = [].concat(after).map(a => scenes.findIndex(x => x.type === a)).find(i => i >= 0) ?? -1; scenes.splice(k < 0 ? scenes.length : k + 1, 0, { type, i: 0, say }) }
     if (an.stakes?.length || an.table?.length) at('pv_stake', 'pv_hook', (an.stakes || []).slice(0, 2).map(W))

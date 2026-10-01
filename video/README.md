@@ -117,11 +117,11 @@ Other options: `--no-voice`, `--fps 30`, `--workers 3`, `--out path.mp4`.
   - Business accounts can only use the platform's commercial music library.
   - The voice and sound effects stay either way, if you post a version made with `"music": false`.
 
-## Match previews and the AI Analyst (for X and YouTube)
+## Match previews and match analysis (for X and YouTube)
 
 Tips videos don't earn on YouTube or X, so previews are football analysis only:
 - **The numbers:** form, goals, shots on target, xG, win chances and likely scores, all from your app.
-- **The AI Analyst version** adds researched context: what's on the line, players to watch (with free, credited photos), how each team plays (formations drawn on a mini pitch) and what to expect.
+- **The match analysis version** adds researched context: what's on the line, players to watch (with free, credited photos), how each team plays (formations drawn on a mini pitch) and what to expect.
 
 ```bash
 node video/from-app.mjs preview --team Greece      # or --match <id from cmvngpicks.com/m/<id>>

@@ -1,4 +1,4 @@
-# Sources · Denmark v Portugal AI Analyst (1 October 2026)
+# Sources · Denmark v Portugal match analysis (1 October 2026)
 
 Every researched fact in the template video, with where it came from. App numbers (win chances, xG) came from cmvngpicks.com/m/1010232, 1010233, 1010235 and 987933.
 

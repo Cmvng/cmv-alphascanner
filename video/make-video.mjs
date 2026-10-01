@@ -77,7 +77,7 @@ for (const p of picks) {
   console.log(`  ${(p.home + ' v ' + p.away).padEnd(28)} ${p.pick.padEnd(26)} @${p.odds.toFixed(2)}  model ${p.model}%  book ${p.market.toFixed(0)}%  edge ${(p.edge * 100).toFixed(1).padStart(5)}%  → ${p.signal} bar${p.signal > 1 ? 's' : ' '} (${cfg.currency}${p.stake})  ${p.stadium ? '📷 ' + p.stadium.venue : '(no stadium photo)'}`)
 }
 
-// AI Analyst previews: a free photo of each player to watch (else the card shows the crest)
+// match analysis: a free photo of each player to watch (else the card shows the crest)
 for (const x of cfg.analysis?.players || []) x.photo = x.photo === false ? null : await resolvePerson(x.name, { cacheDir: CACHE, outDir: OUT })
 
 // team colours from each crest or flag (the broadcast style's panels, the glows behind the badges)
@@ -202,6 +202,12 @@ async function complianceCheck() {
   for (const x of sentences) seen.add(x.text)
   for (const sc of scenes) for (const x of sc.say) seen.add(shown(x))
   const hits = [...seen].filter(Boolean).flatMap(t => [...t.matchAll(BANNED)].map(m => `"${m[0]}" in: ${t.slice(0, 90)}`))
+  // house style: it's "the analysis", never "the AI Analyst" (the owner finds it cringe and low effort)
+  const style = [...seen].filter(t => /\bA\.?I\.?\s+analysts?\b|\bA\.?I\.?\s+analysts?'s?\b/i.test(t || ''))
+  if (style.length) {
+    console.error(`\n✗ House style: don't call it "AI Analyst". Say "the analysis" instead:\n  - ${style.map(t => t.slice(0, 90)).join('\n  - ')}`)
+    process.exit(3)
+  }
   if (hits.length && !flag('allow-words', false)) {
     console.error(`\n✗ Not monetisation-safe: betting words found in the preview\n  - ${[...new Set(hits)].join('\n  - ')}\nReword the script/analysis (or pass --allow-words to render anyway).`)
     process.exit(3)
