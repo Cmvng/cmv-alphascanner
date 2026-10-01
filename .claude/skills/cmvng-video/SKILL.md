@@ -1,6 +1,6 @@
 ---
 name: cmvng-video
-description: Make and send the cmvng picks video or results video from the singles published on cmvngpicks.com. Use when the owner asks for "today's picks video", "the singles video", "tonight's singles", "top singles for today", "the results video", "results for today", or a video for a named session or date.
+description: Make and send the cmvng picks video, results video or match preview video from cmvngpicks.com. Use when the owner asks for "today's picks video", "the singles video", "tonight's singles", "top singles for today", "the results video", "results for today", "a preview of <match>", "a video for X / YouTube", "football talk video", or a video for a named session or date.
 ---
 
 # cmvng picks / results video
@@ -24,6 +24,23 @@ Options:
 To see which sessions exist: `node video/from-app.mjs --list`.
 
 Read the printed lines: every single with its pick, price, us % and book %, and for results won/lost and the score. Note any `left out:` lines to tell the owner.
+
+## Match previews (for X and YouTube: no betting at all)
+
+Tips videos don't earn on YouTube or X. A preview is football analysis only, so it can be monetised:
+
+```bash
+node video/from-app.mjs preview --team Greece          # a team in today's singles
+node video/from-app.mjs preview --match 987933         # any match page: cmvngpicks.com/m/<number>
+```
+
+The file gets form, record, points a game, goals scored and conceded, shots on target, clean sheets, xG, win chances and the most likely scores. Write its script with the keys `pv_hook`, `pv_form`, `pv_stats`, `pv_model`, `pv_score` and `pv_cta` (1–2 lines each, under about 25 words a line). Then render it the same way.
+
+Preview rules, which keep it monetisable:
+- **No betting words:** no odds, prices, bookies, stakes, units, bars, picks, tips, "value", "bet", booking codes or website links.
+- **End with "Follow for more…"**.
+- **Real analysis:** the script must explain why ("the gap shows at both ends…"), not just read numbers out. YouTube won't pay for repetitive, templated videos, so vary the hook and the angle each time.
+- **Post caption:** "<Home> vs <Away>: what the numbers say | <competition> preview".
 
 ## 2. Write the script (the presenter is a football analyst)
 
