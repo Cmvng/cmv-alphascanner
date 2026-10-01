@@ -347,7 +347,7 @@ const built = D.scenes.map((sc, k) => {
     if (!PRES) el.classList.add('nop')
   } else if (sc.type === 'rx_outro') {
     if (!PRES) el.classList.add('nop')
-    el.innerHTML = `<div class="tal"><b class="${b.ok === false ? 'no' : ''}">${b.n}/${b.of}</b></div><div class="sub A">${html(b.sub || 'on the night')}</div><div class="fol"><span class="chip">${html(b.follow || 'Follow for tomorrow\'s analysis')}</span></div>`
+    el.innerHTML = `<div class="tal"><b class="${b.ok === false ? 'no' : ''}">${b.n}/${b.of}</b></div><div class="sub A" style="font-size:${oneLine(b.sub || 'on the night', 96)}px">${html(b.sub || 'on the night')}</div><div class="fol"><span class="chip">${html(b.follow || 'Follow for tomorrow\'s analysis')}</span></div>`
   } else if (sc.type === 'rv_cta') {
     el.innerHTML = `<div class="wrap"><div class="logo"><span class="bars"><i style="height:64px"></i><i style="height:98px"></i><i style="height:132px"></i></span>cmvng</div>
       <div class="big A">${html(b.big || 'Follow for more')}</div>${b.next ? `<div class="next"><span class="chip">${html(b.next)}</span></div>` : ''}</div>`
