@@ -58,7 +58,7 @@ console.error(`${mode === 'results' ? 'Results' : 'Picks'} · ${date} · ${chose
 const picks = [], left = []
 for (const l of legs) {
   if (!(l.odds > 1) || !(l.model > 0 && l.model < 100)) { left.push(`${l.home} v ${l.away}: no price or % on the slip`); continue }
-  const p = { home: l.home, away: l.away, competition: l.competition || undefined, kickoff: l.kickoff, pick: l.pick, odds: l.odds, model: l.model, book: l.book }
+  const p = { home: l.home, away: l.away, competition: l.competition || undefined, kickoff: l.kickoff, pick: l.pick, odds: l.odds, model: l.model, book: l.book, read: l.read, country: l.country }
   if (mode === 'results') {
     const r = RESULT[l.status]
     if (!r) { left.push(`${l.home} v ${l.away}: not settled yet (${l.status || 'no status'})`); continue }

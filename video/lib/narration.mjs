@@ -19,6 +19,32 @@ const pct = v => Math.round(v)
 const SAY_NAMES = { Ikorodu: 'Eekorodoo', Remo: 'Raymo', Kano: 'Kahno', Lobi: 'Lobee', Leicester: 'Lester' }
 const speakNames = t => t.replace(/\b(Ikorodu|Remo|Kano|Lobi|Leicester)\b/g, w => SAY_NAMES[w])
 const L = (say, show = say) => ({ say: speakNames(say), show })
+
+// A written script uses digits like a person would ("at 1.57", "under 1.5 goals", "68%"); this turns them
+// into what the voice should say ("at one point five seven", "under one and a half goals", "68 percent").
+export function speakify(t) {
+  return t
+    .replace(/\b(over|under)\s+(\d)\.5\b/gi, (_, ou, n) => `${ou} ${n === '0' ? 'half a' : num(+n) + ' and a half'}`)
+    .replace(/\b(\d)\.5 goals\b/gi, (_, n) => `${num(+n)} and a half goals`)
+    .replace(/\b(\d+)\.(\d\d?)\b/g, (_, a, b) => `${num(+a)} point ${[...b.replace(/0$/, '')].map(d => DIG[+d]).join(' ')}`)
+    .replace(/(\d)\s?%/g, '$1 percent')
+    .replace(/₦\s?([\d,]+)/g, '$1 naira').replace(/\$\s?([\d,]+(?:\.\d+)?)/g, '$1 dollars')
+    .replace(/\bxG\b/g, 'expected goals').replace(/\s*&\s*/g, ' and ').replace(/\b(\d+)\s*[-–]\s*(\d+)\b/g, (_, x, y) => `${num(+x)} ${+y === 0 ? 'nil' : num(+y)}`)
+}
+const W = line => L(speakify(line), line)
+
+// cfg.script (written for the day) replaces the template lines, scene by scene. Pick and result lines map to
+// the beats: line 1 = the match, line 2 = the pick (the card slams in), line 3 = the numbers (the bars light).
+function applyScript(cfg, scenes) {
+  const sc = cfg.script
+  if (!sc) return scenes
+  let pi = 0, ri = 0
+  for (const s of scenes) {
+    const lines = s.type === 'pick' ? sc.picks?.[pi++] : s.type === 'result' ? sc.results?.[ri++] : sc[s.type]
+    if (Array.isArray(lines) && lines.length) s.say = lines.map(W)
+  }
+  return scenes
+}
 const pick = (i, arr) => arr[i % arr.length]
 
 // "Over 1.5 Goals" → "over one and a half goals"; "Double Chance: Draw or Norway" → "Norway or the draw"
@@ -116,7 +142,10 @@ function buildResultScenes(cfg, picks, recap) {
 }
 
 export function buildScenes(cfg, picks, recap) {
-  if (cfg.mode === 'results') return buildResultScenes(cfg, picks, recap)
+  return applyScript(cfg, cfg.mode === 'results' ? buildResultScenes(cfg, picks, recap) : buildPickScenes(cfg, picks, recap))
+}
+
+function buildPickScenes(cfg, picks, recap) {
   const n = picks.length
   const best = [...picks].sort((a, b) => (b.signal - a.signal) || (b.model - a.model))[0]
   const comp = cfg.competition ? ` ${cfg.competition}` : ''

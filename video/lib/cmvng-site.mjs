@@ -146,8 +146,10 @@ export async function singles(run) {
       book: Number((val.match(/Book\s*([\d.]+)%/) || [])[1]) || undefined,
       status: g(/class="fl4-mk ([a-z]+)"/) || '',
       competition: league(unesc((meta.match(/·\s*(?:[A-Z]{2,4}\s+)?([^·]+?)\s*·/) || [])[1] || '')),
+      country: (unesc((meta.match(/·\s*(?:[A-Z]{2,4}\s+)?([^·]+?)\s*·/) || [])[1] || '').split(' - ')[0] || '').replace(/^International$/, '') || undefined,
       kickoff: ko ? ko[3] : undefined, day: ko ? isoDay(+ko[1], MONTHS[ko[2].toLowerCase()]) : undefined,
       score: ft ? `${ft[1]}-${ft[2]}` : undefined,
+      read: unesc(g(/class="fl4-note">([\s\S]*?)<\/div>/)) || undefined,   // the app's own analysis line
     }
   }).filter(l => l.home && l.away)
 }

@@ -126,6 +126,43 @@ async function fetchTo(url, file) {
   fs.writeFileSync(file, Buffer.from(await r.arrayBuffer()))
 }
 
+// Club crests: a large transparent PNG from TheSportsDB, checked to be the men's football club.
+// Crests are the clubs' trademarks: the owner chose to show them, as the app does.
+const SDB = 'https://www.thesportsdb.com/api/v1/json/3/searchteams.php?t='
+const CREST_ALIAS = {
+  'tottenham': 'Tottenham Hotspur', 'spurs': 'Tottenham Hotspur', 'man city': 'Manchester City', 'man utd': 'Manchester United',
+  'man united': 'Manchester United', 'wolves': 'Wolverhampton Wanderers', 'newcastle': 'Newcastle United', 'west ham': 'West Ham United',
+  'brighton': 'Brighton and Hove Albion', 'leeds': 'Leeds United', 'nottm forest': 'Nottingham Forest', 'sheff utd': 'Sheffield United',
+  'leicester': 'Leicester City', 'palace': 'Crystal Palace', 'villa': 'Aston Villa', 'inter': 'Inter Milan', 'psg': 'Paris SG',
+  'atletico madrid': 'Atletico Madrid', 'bayern': 'Bayern Munich', 'dortmund': 'Borussia Dortmund', 'gladbach': 'Borussia Monchengladbach',
+  'estudiantes de la plata': 'Estudiantes', 'ca platense': 'Platense', 'new york red bulls': 'New York Red Bulls',
+  'saint louis city sc': 'St. Louis City', 'saint louis city': 'St. Louis City',
+}
+async function clubCrest(name, cacheDir) {
+  const dir = path.join(cacheDir, 'crests'); fs.mkdirSync(dir, { recursive: true })
+  const slug = C(name).replace(/ /g, '_'), meta = path.join(dir, `${slug}.json`)
+  if (fs.existsSync(meta)) { const m = JSON.parse(fs.readFileSync(meta, 'utf8')); return m.file ? path.join(dir, m.file) : null }
+  const strip = s => s.replace(/\b(F\.?C\.?|A\.?F\.?C\.?|C\.?F\.?|S\.?C\.?|CA|AC|CD|SD|FK|SK|IF)\b\.?/gi, '').replace(/\s+/g, ' ').trim()
+  const tries = [...new Set([CREST_ALIAS[C(name)], name, strip(name)].filter(Boolean))]
+  const want = C(strip(CREST_ALIAS[C(name)] || name))
+  for (const q of tries) {
+    try {
+      const r = await fetch(SDB + encodeURIComponent(q), { headers: { 'User-Agent': 'cmvng-video/1.0' } })
+      if (!r.ok) continue
+      const teams = (await r.json())?.teams || []
+      const t = teams.find(t => t.strSport === 'Soccer' && !/women|ladies|femen|u\d\d|youth|reserve|\bii\b|\bb\b/i.test(t.strTeam) && t.strBadge
+        && (C(t.strTeam).includes(want.split(' ')[0]) || want.includes(C(t.strTeam).split(' ')[0])))
+      if (!t) continue
+      const file = `${slug}.png`
+      await fetchTo(t.strBadge, path.join(dir, file))
+      fs.writeFileSync(meta, JSON.stringify({ file, team: t.strTeam, url: t.strBadge }))
+      return path.join(dir, file)
+    } catch {}
+  }
+  fs.writeFileSync(meta, JSON.stringify({ file: null }))
+  return null
+}
+
 export async function resolveBadge(name, crest, cacheDir, outDir) {
   fs.mkdirSync(cacheDir, { recursive: true }); fs.mkdirSync(outDir, { recursive: true })
   if (crest) {
@@ -143,6 +180,13 @@ export async function resolveBadge(name, crest, cacheDir, outDir) {
       return { kind: 'flag', src: `flag_${code}.png`, colour: '#1F5FDB' }
     } catch (e) {
       console.warn(`  ! could not get the flag for ${name} (${e.message}); using a badge instead`)
+    }
+  }
+  if (crest !== false) {
+    const f = await clubCrest(name, cacheDir)
+    if (f) {
+      fs.copyFileSync(f, path.join(outDir, path.basename(f)))
+      return { kind: 'crest', src: path.basename(f), colour: CLUBS[C(name)]?.[1] || '#1F5FDB' }
     }
   }
   return monogram(name)

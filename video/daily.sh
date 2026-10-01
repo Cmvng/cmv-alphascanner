@@ -5,6 +5,7 @@
 #   bash video/daily.sh results                     every single published today, once settled
 #   bash video/daily.sh picks --session morning     or midday / evening / all
 #   bash video/daily.sh results --date 2026-09-30 --money ngn
+#   bash video/daily.sh render video/out/picks-2026-10-01.json    re-render a fetched file (e.g. after writing its script)
 #
 # Prints the finished video, a copy small enough to send in chat (under 29 MB), and the caption + credits files.
 set -euo pipefail
@@ -14,7 +15,7 @@ MODE="${1:?say picks or results}"; shift || true
 eval "$(bash video/setup.sh)"
 export FFMPEG PLAYWRIGHT_PATH
 
-JSON=$(node video/from-app.mjs "$MODE" "$@")
+if [ "$MODE" = render ]; then JSON="${1:?which file?}"; else JSON=$(node video/from-app.mjs "$MODE" "$@"); fi
 SLUG=$(basename "$JSON" .json)
 node video/make-video.mjs "$JSON"
 

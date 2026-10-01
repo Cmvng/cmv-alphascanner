@@ -69,7 +69,7 @@ for (const p of picks) {
   p.ba = await resolveBadge(p.away, p.crest_away, CACHE, OUT)
   const own = typeof p.stadium === 'string' ? p.stadium : null
   p.stadium = cfg.stadiums === false ? null
-    : await resolveStadium(p.home, { national: isCountry(p.home), cacheDir: CACHE, outDir: OUT, own, ownCredit: p.stadium_credit })
+    : await resolveStadium(p.home, { national: isCountry(p.home), country: p.country, cacheDir: CACHE, outDir: OUT, own, ownCredit: p.stadium_credit })
   console.log(`  ${(p.home + ' v ' + p.away).padEnd(28)} ${p.pick.padEnd(26)} @${p.odds.toFixed(2)}  model ${p.model}%  book ${p.market.toFixed(0)}%  edge ${(p.edge * 100).toFixed(1).padStart(5)}%  → ${p.signal} bar${p.signal > 1 ? 's' : ' '} (${cfg.currency}${p.stake})  ${p.stadium ? '📷 ' + p.stadium.venue : '(no stadium photo)'}`)
 }
 

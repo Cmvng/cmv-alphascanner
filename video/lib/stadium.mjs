@@ -43,11 +43,22 @@ const claims = async (id) => (await getJSON(`https://www.wikidata.org/wiki/Speci
 const val = (c) => c?.mainsnak?.datavalue?.value
 const best = (list = []) => (list.find(c => c.rank === 'preferred') || list.find(c => c.rank !== 'deprecated'))
 
-async function findTeam(name, national) {
+// the league's country, as Wikidata descriptions write it ("Argentine football club", "club in Buenos Aires, Argentina")
+const DEMONYM = { argentina: 'argentin', uruguay: 'uruguay', brazil: 'brazil', usa: 'united states|american', england: 'english|england',
+  spain: 'spanish|spain', italy: 'italian|italy', germany: 'german', france: 'french|france', norway: 'norw', nigeria: 'nigeria',
+  netherlands: 'dutch|netherlands', portugal: 'portug', scotland: 'scottish|scotland', mexico: 'mexic', ghana: 'ghana' }
+async function findTeam(name, national, country) {
   const q = national ? `${name} national football team` : (ALIAS[C(name)] || name)
   const res = (await getJSON(`https://www.wikidata.org/w/api.php?action=wbsearchentities&format=json&language=en&type=item&limit=8&search=${encodeURIComponent(q)}`)).search
   const ok = (d = '') => /football|soccer/i.test(d) && !/women|female|youth|under-?\d|u-?\d\d|reserve|season|futsal|beach|olympic|b team|academy/i.test(d)
-  return res.find(r => ok(r.description) && (!national || /national|representing/i.test(r.description))) || null
+  const cands = res.filter(r => ok(r.description) && (!national || /national|representing/i.test(r.description)))
+  if (country && !national) {
+    const re = new RegExp(DEMONYM[C(country)] || C(country), 'i')
+    // many clubs are multi-sport ("Argentine sports club"); a club from another country is the wrong club
+    const club = d => (ok(d) || /sports club|athletic club|\bclub\b/i.test(d)) && !/women|basketball|volleyball|rugby|handball|season|league/i.test(d)
+    return res.find(r => club(r.description || '') && re.test(r.description || '')) || null
+  }
+  return cands[0] || null
 }
 
 async function sparql(q) {
@@ -88,7 +99,7 @@ async function commonsPhoto(file) {
 }
 
 // → { src, credit, venue } or null. src is copied into outDir.
-export async function resolveStadium(team, { national, cacheDir, outDir, own, ownCredit }) {
+export async function resolveStadium(team, { national, country, cacheDir, outDir, own, ownCredit }) {
   fs.mkdirSync(outDir, { recursive: true })
   if (own) {
     const ext = path.extname(own.split('?')[0]) || '.jpg', file = `stadium_${C(team).replace(/ /g, '_')}${ext}`
@@ -102,7 +113,7 @@ export async function resolveStadium(team, { national, cacheDir, outDir, own, ow
   if (!info) {
     info = { none: true }
     try {
-      const t = await findTeam(team, national)
+      const t = await findTeam(team, national, country)
       if (t) {
         const tc = (await claims(t.id)).claims
         const venueId = val(best(tc.P115))?.id
