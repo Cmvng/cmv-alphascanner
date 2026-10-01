@@ -259,6 +259,10 @@ await run(FF, ['-y', '-loglevel', 'error', '-f', 'concat', '-safe', '0', '-i', p
   '-filter_complex', '[1:a]loudnorm=I=-14:TP=-1.5:LRA=9[a]', '-map', '0:v', '-map', '[a]',
   '-c:v', 'copy', '-c:a', 'aac', '-b:a', '192k', '-ar', '48000', '-ac', '2', '-t', DURATION.toFixed(2), '-movflags', '+faststart', final])
 for (const f of segs) fs.rmSync(f)
+// cover image for the YouTube / X thumbnail: the opening screen once everything has landed
+const cover = final.replace(/\.mp4$/, '_cover.jpg')
+await run(FF, ['-y', '-loglevel', 'error', '-ss', Math.max(0, scenes[0].start + scenes[0].dur - 0.4).toFixed(2), '-i', final, '-frames:v', '1', '-q:v', '2', cover]).catch(() => {})
 console.log(`\nDone in ${((Date.now() - t0) / 1000).toFixed(0)}s → ${final}`)
 console.log(`Post caption (the voiceover script): ${path.join(OUT, 'script.txt')}`)
 console.log(`Credits to paste in the post: ${path.join(OUT, 'credits.txt')}`)
+if (fs.existsSync(cover)) console.log(`Cover image (thumbnail): ${cover}`)

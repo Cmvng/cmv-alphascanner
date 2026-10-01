@@ -461,6 +461,14 @@ const built = D.scenes.map((sc, k) => {
   if (sc.type.startsWith('pv_') && sc.type !== 'pv_hook' && sc.type !== 'pv_cta') el.classList.add('pv')
   $('#scenes').appendChild(el); return el
 })
+// win-chance bar colours: when both teams wear the same colour (Denmark and Portugal are both red), the away
+// side's segment turns light, so the bar still reads as three parts
+function rgb(c) { const m = /^#([0-9a-f]{6})$/i.exec(c || ''); return m ? [0, 2, 4].map(i => parseInt(m[1].slice(i, i + 2), 16)) : null }
+function clash(a, b) { const x = rgb(a), y = rgb(b); return !!(x && y) && Math.hypot(x[0] - y[0], x[1] - y[1], x[2] - y[2]) < 110 }
+function barSegs(p) {
+  const h = p.bh.colour || '#3D7BFF', a = clash(h, p.ba.colour || '#6E9BFF') ? '#E2E8F0' : (p.ba.colour || '#6E9BFF')
+  return [[p.home_win, h, p.home], [p.draw, '#64748B', 'Draw'], [p.away_win, a, p.away]]
+}
 function buildPreview(type, p) {
   const f1 = v => (v + 1e-9).toFixed(1), H = html(p.home), A = html(p.away)
   if (type === 'pv_hook') return `<div class="meta"><span class="chip">${html([p.competition, p.kickoff ? (isToday(D.cfg.date) ? 'Tonight ' : '') + p.kickoff : dayLong(D.cfg.date)].filter(Boolean).join(' · '))}</span></div>
@@ -487,7 +495,7 @@ function buildPreview(type, p) {
       }).join('')}</div>`
   }
   if (type === 'pv_model') {
-    const segs = [[p.home_win, p.bh.colour || '#3D7BFF', p.home], [p.draw, '#64748B', 'Draw'], [p.away_win, p.ba.colour || '#6E9BFF', p.away]]
+    const segs = barSegs(p)
     return `<div class="t1 A">Our model</div><div class="t2">Expected goals and win chances</div>
       <div class="card box"><div class="xg"><div class="side">${badge(p.bh)}<b class="A" data-n="${p.xg_home}">0.0</b></div><div class="mid">xG</div><div class="side"><b class="A" data-n="${p.xg_away}">0.0</b>${badge(p.ba)}</div></div>
         <div class="tri">${segs.map(([v, c]) => `<i style="width:${v}%;background:${c}"></i>`).join('')}</div>
@@ -524,7 +532,7 @@ function buildPreview(type, p) {
     <div class="card box">${(an.expect || []).map(x => `<div class="pt"><i></i><div>${html(x)}</div></div>`).join('')}</div>
     ${an.verdict ? `<div class="verdict"><span class="chip">${html(an.verdict)}</span></div>` : ''}`
   if (type === 'pv_round') {
-    const r = p.round || {}, segs = [[p.home_win, p.bh.colour || '#3D7BFF', p.home], [p.draw, '#64748B', 'Draw'], [p.away_win, p.ba.colour || '#6E9BFF', p.away]]
+    const r = p.round || {}, segs = barSegs(p)
     const k = D.picks.indexOf(p), n = D.picks.length - 1, fs = nm => nm.length > 11 ? 44 : nm.length > 8 ? 52 : 60
     return `<div class="t1 A long">${html(r.title || 'Around the league')}</div><div class="t2">${html(r.stage || p.competition || '')}</div><div class="cnt">${k} / ${n}</div>
       <div class="card box"><div class="mu2"><div class="sd">${badge(p.bh)}<b class="A" style="font-size:${fs(p.home)}px">${html(p.home)}</b></div><div class="v A">vs</div><div class="sd">${badge(p.ba)}<b class="A" style="font-size:${fs(p.away)}px">${html(p.away)}</b></div></div>
@@ -684,13 +692,14 @@ function drawPreview(sc, el, lt) {
     } else if (sc.type === 'pv_model') {
       $$('.xg b', el).forEach(n => { n.textContent = (+n.dataset.n * P(lt, 0.4, 1.4, E.outCubic) + 1e-9).toFixed(1) })
       $$('.tri i', el).forEach((n, j) => { n.style.transform = `scaleX(${P(lt, b1 + 0.1 + j * 0.25, b1 + 0.7 + j * 0.25, E.outCubic)})` })
-      $$('.lab b', el).forEach((n, j) => { n.textContent = Math.round(+n.dataset.n * P(lt, b1 + 0.1 + j * 0.25, b1 + 0.9 + j * 0.25, E.outCubic)) + '%' })
+      $$('.lab b', el).forEach((n, j) => { n.textContent = Math.round(+n.dataset.n * P(lt, b1 + 0.1 + j * 0.25, b1 + 0.9 + j * 0.25, E.outCubic)) + '%'; n.style.opacity = P(lt, b1 + 0.1 + j * 0.25, b1 + 0.25 + j * 0.25) })
     } else if (sc.type === 'pv_stake' || sc.type === 'pv_expect') {
       rise($$('.tbl tr', el), lt, 0.4, 0.08, 20)
       const pts = $$('.pt', el); pts.forEach((n, j) => rise([n], lt, (sc.lines[Math.min(j, sc.lines.length - 1)] || [0.5])[0] + (j >= sc.lines.length ? 0.6 * (j - sc.lines.length + 1) : 0), 0, 30))
       const v = $('.verdict', el); if (v) { const at = S(sc, sc.lines.length - 1)[0] + 0.4, q = P(lt, at, at + 0.35, E.outBack); v.style.opacity = clamp(q * 2); v.style.transform = `scale(${0.6 + 0.4 * q})` }
     } else if (sc.type === 'pv_players') {
-      $$('.pcard', el).forEach((c, j) => { const at = 0.3 + j * Math.max(0.35, (S(sc, 1)[0] - 0.3) / 2) * (j >= 2 ? 1 : 0.5); slam(c, lt, j < 2 ? 0.3 + j * 0.35 : S(sc, 1)[0] - 0.1 + (j - 2) * 0.35, 1.25, 0.3) })
+      $$('.pcard', el).forEach((c, j) => { const at = j < 2 ? 0.3 + j * 0.35 : S(sc, 1)[0] - 0.1 + (j - 2) * 0.35; slam(c, lt, at, 1.25, 0.3)
+        if (j >= 2 && lt < at) { c.style.opacity = 0.22 * P(lt, 0.6, 1.0); c.style.transform = 'scale(0.96)'; c.style.filter = 'grayscale(1) blur(1.5px)' } })   // waiting, dimmed
     } else if (sc.type === 'pv_tactics') {
       $$('.tcol', el).forEach((c, j) => { const at = j ? S(sc, 1)[0] - 0.2 : 0.3; rise([c], lt, at, 0, 60, 0.5)
         $$('.dot', c).forEach((d, k) => { d.style.opacity = P(lt, at + 0.3 + k * 0.05, at + 0.45 + k * 0.05) })
