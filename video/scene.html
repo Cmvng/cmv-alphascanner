@@ -22,11 +22,11 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#03060F}
 /* background: the home team's stadium, graded dark with a slow push-in */
 #bgs{position:absolute;inset:-2px;overflow:hidden}
 .bg{position:absolute;inset:0;background-size:cover;background-position:50% 50%;opacity:0;will-change:transform,opacity;
-  filter:brightness(.62) saturate(1.18) contrast(1.08)}
+  filter:brightness(.8) saturate(1.2) contrast(1.06)}
 .bg.none{background:radial-gradient(120% 70% at 50% 0%,#12307A 0%,#08142E 50%,#050A15 100%)}
 #tint{position:absolute;inset:0;pointer-events:none;
-  background:linear-gradient(180deg,rgba(4,8,24,.88) 0%,rgba(4,8,24,.35) 16%,rgba(6,14,40,.28) 40%,rgba(5,10,28,.55) 62%,rgba(3,6,16,.94) 80%,#03060F 100%)}
-#tint2{position:absolute;inset:0;pointer-events:none;mix-blend-mode:soft-light;background:radial-gradient(90% 60% at 50% 30%,rgba(61,123,255,.55),rgba(31,95,219,0) 70%)}
+  background:linear-gradient(180deg,rgba(4,8,24,.82) 0%,rgba(4,8,24,.22) 15%,rgba(6,14,40,.12) 38%,rgba(5,10,28,.42) 60%,rgba(3,6,16,.9) 79%,#03060F 100%)}
+#tint2{position:absolute;inset:0;pointer-events:none;mix-blend-mode:soft-light;background:radial-gradient(90% 60% at 50% 30%,rgba(61,123,255,.35),rgba(31,95,219,0) 70%)}
 #vig{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 90% 70% at 50% 42%,rgba(0,0,0,0) 55%,rgba(0,0,0,.6) 100%)}
 #flash{position:absolute;inset:0;pointer-events:none;background:#fff;opacity:0;z-index:60;mix-blend-mode:overlay}
 #streak{position:absolute;top:-400px;width:260px;height:2800px;z-index:61;pointer-events:none;opacity:0;
@@ -46,6 +46,7 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#03060F}
 #pips i.on{background:var(--brand2);box-shadow:0 0 14px rgba(61,123,255,.9)}
 #pips i.done{background:rgba(255,255,255,.7)}
 
+#scenes{position:absolute;inset:0;z-index:20;transform-origin:50% 45%}
 .scene{position:absolute;inset:0;display:none;z-index:20}
 .badge{position:relative;display:flex;align-items:center;justify-content:center}
 .badge img,.badge svg{width:100%;height:100%;display:block}
@@ -480,6 +481,10 @@ window.renderAt = function (t) {
   $('#credit').textContent = sc.credits[cyc ? bi : 0] || ''
 
   draw(k, lt, sc)
+  // keep things alive between reveals: slow drift of the whole layout, and the logo bars pulse on the beat
+  $('#scenes').style.transform = `scale(${1 + 0.018 * clamp(lt / sc.dur)})`
+  const bp = Math.exp(-((t % BEAT) / BEAT) * 5)
+  $$('#hdr .bars i').forEach((b, j) => { b.style.transform = `scaleY(${1 + 0.22 * bp * (j + 1) / 3})`; b.style.transformOrigin = '50% 100%' })
 
   // header
   $('#hlabel').textContent = sc.type === 'pick' ? `Pick ${sc.i + 1} / ${N}` : sc.type === 'result' ? `Result ${sc.i + 1} / ${N}` : sc.type === 'slate' ? 'The slate' : sc.type === 'rtotal' ? 'The day' : ''

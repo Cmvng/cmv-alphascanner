@@ -187,7 +187,7 @@ def fx_cash():
 
 FX = {'whoosh': fx_whoosh, 'impact': fx_impact, 'riser': fx_riser, 'ding': fx_ding, 'thud': fx_thud, 'cash': fx_cash,
       'tick': lambda: fx_tick(1.0), 'tick2': lambda: fx_tick(1.26), 'tick3': lambda: fx_tick(1.5)}
-FX_GAIN = {'whoosh': 0.32, 'impact': 0.55, 'riser': 0.32, 'ding': 0.5, 'thud': 0.5, 'cash': 0.4, 'tick': 0.35, 'tick2': 0.35, 'tick3': 0.4}
+FX_GAIN = {'whoosh': 0.4, 'impact': 0.42, 'riser': 0.32, 'ding': 0.5, 'thud': 0.5, 'cash': 0.4, 'tick': 0.35, 'tick2': 0.35, 'tick3': 0.4}
 
 
 # ----------------------------------------------------------------------------- mix
@@ -215,10 +215,10 @@ def mix(timeline_file, out_path):
         if len(music) < n:                       # loop if the track is shorter than the video
             music = np.concatenate([music] * (n // max(1, len(music)) + 1))
         music = music[:n]
-        # loudness: music sits ~5 dB under the voice between lines, ~15 dB under while she speaks
+        # loudness: music sits ~2 dB under the voice between lines and ~11 dB under while the voice speaks
         talking = voice[np.abs(voice) > 0.02]
         v_rms = rms(talking) if len(talking) else 0.1
-        base = v_rms / rms(music[int(2 * SR):int(30 * SR)] if len(music) > 30 * SR else music) * 10 ** (-5 / 20)
+        base = v_rms / rms(music[int(2 * SR):int(30 * SR)] if len(music) > 30 * SR else music) * 10 ** (-2 / 20)
         env = np.abs(voice)
         k = int(0.03 * SR); env = np.convolve(env, np.ones(k) / k, 'same')
         active = (env > 0.015).astype(np.float32)
@@ -229,7 +229,7 @@ def mix(timeline_file, out_path):
             tgt = active[i]
             cur += (tgt - cur) * min(1, (a_c if tgt > cur else r_c) * 64)
             g[i:i + 64] = cur
-        duck = 10 ** (-10 * g / 20)
+        duck = 10 ** (-9 * g / 20)
         fade_in = np.clip(np.arange(n) / (0.08 * SR), 0, 1)
         fade_out = np.clip((n - np.arange(n)) / (1.2 * SR), 0, 1)
         out += music * (base * duck * fade_in * fade_out)[:, None]
