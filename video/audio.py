@@ -1,94 +1,253 @@
-"""Voice and music for the picks video.
+"""Voice, music, sound effects and the final mix for the cmvng videos.
 
-  python3 audio.py speak  sentences.json voice.onnx out_dir [speed]  -> one WAV per sentence + durations.json
-  python3 audio.py mix    timeline.json  out.wav               -> voice track placed at each sentence's start time
-  python3 audio.py music  seconds out.wav                      -> soft background bed (generated, royalty-free)
+  python3 audio.py speak  sentences.json voice out_dir speed models_dir -> one WAV per sentence + durations.json
+  python3 audio.py beats  music_file start_seconds out.json            -> tempo + beat grid of the track from `start`
+  python3 audio.py mix    timeline.json out.wav                         -> voice + music (ducked) + sound effects
 
-Voice uses Piper (offline text-to-speech, free). Voices: https://huggingface.co/rhasspy/piper-voices
+Voices: Kokoro (natural, free, offline: af_heart, af_bella, am_michael, bf_emma, ...) or a Piper .onnx file.
+Sound effects are synthesised here (no licences needed).
 """
-import json, os, sys, wave
+import json, os, subprocess, sys, wave
 import numpy as np
 
-SR = 22050
+SR = 48000
+FF = os.environ.get('FFMPEG', 'ffmpeg')
 
 
-def speak(sentences_file, voice_path, out_dir, speed='1.0'):
-    from piper import PiperVoice, SynthesisConfig
-    voice = PiperVoice.load(voice_path)
-    cfg = SynthesisConfig(length_scale=1 / float(speed))
+# ----------------------------------------------------------------------------- files
+def read_any(path, sr=SR, channels=2):
+    """Decode any audio file with ffmpeg → float32 array (n, channels)."""
+    raw = subprocess.run([FF, '-v', 'error', '-i', path, '-f', 'f32le', '-ac', str(channels), '-ar', str(sr), '-'],
+                         capture_output=True, check=True).stdout
+    return np.frombuffer(raw, dtype=np.float32).reshape(-1, channels).copy()
+
+
+def write_wav(path, a, sr=SR):
+    a = np.clip(a, -1, 1)
+    if a.ndim == 1:
+        a = a[:, None]
+    with wave.open(path, 'wb') as w:
+        w.setnchannels(a.shape[1]); w.setsampwidth(2); w.setframerate(sr)
+        w.writeframes((a * 32767).astype('<i2').tobytes())
+
+
+# ----------------------------------------------------------------------------- voice
+def trim(a, sr, thr=0.012, pad=0.04):
+    """Cut leading/trailing silence so lines follow each other like a real read."""
+    idx = np.where(np.abs(a) > thr)[0]
+    if not len(idx):
+        return a
+    p = int(pad * sr)
+    return a[max(0, idx[0] - p): idx[-1] + p]
+
+
+def speak(sentences_file, voice, out_dir, speed='1.0', models_dir='.'):
     os.makedirs(out_dir, exist_ok=True)
     out = {}
-    for s in json.load(open(sentences_file)):
-        path = os.path.join(out_dir, f"{s['id']}.wav")
-        with wave.open(path, 'wb') as w:
-            voice.synthesize_wav(s['text'], w, syn_config=cfg)
-        with wave.open(path) as w:
-            out[s['id']] = w.getnframes() / w.getframerate()
+    items = json.load(open(sentences_file))
+    if voice.endswith('.onnx'):                                   # Piper voice file
+        from piper import PiperVoice, SynthesisConfig
+        pv = PiperVoice.load(voice)
+        cfg = SynthesisConfig(length_scale=1 / float(speed))
+        def say(text):
+            path = os.path.join(out_dir, '_tmp.wav')
+            with wave.open(path, 'wb') as w:
+                pv.synthesize_wav(text, w, syn_config=cfg)
+            a = read_any(path, SR, 1)[:, 0]
+            return a
+    else:                                                         # Kokoro voice name
+        from kokoro_onnx import Kokoro
+        k = Kokoro(os.path.join(models_dir, 'kokoro-v1.0.onnx'), os.path.join(models_dir, 'voices-v1.0.bin'))
+        lang = 'en-gb' if voice[0] == 'b' else 'en-us'
+        def say(text):
+            a, sr = k.create(text, voice=voice, speed=float(speed), lang=lang)
+            a = np.asarray(a, dtype=np.float32)
+            return np.interp(np.arange(int(len(a) * SR / sr)) * sr / SR, np.arange(len(a)), a).astype(np.float32)
+    for s in items:
+        a = trim(say(s['text']), SR)
+        a = a / (np.abs(a).max() + 1e-9) * 0.89
+        write_wav(os.path.join(out_dir, f"{s['id']}.wav"), a)
+        out[s['id']] = len(a) / SR
     json.dump(out, open(os.path.join(out_dir, 'durations.json'), 'w'))
 
 
-def read(path):
-    with wave.open(path) as w:
-        a = np.frombuffer(w.readframes(w.getnframes()), dtype=np.int16).astype(np.float32) / 32768
-        return a, w.getframerate()
+# ----------------------------------------------------------------------------- music analysis
+def onset_env(x, sr, hop=512):
+    n = len(x) // hop
+    fr = x[:n * hop].reshape(n, hop) * np.hanning(hop)
+    S = np.log1p(np.abs(np.fft.rfft(fr, axis=1)))
+    flux = np.maximum(0, np.diff(S, axis=0)).sum(1)
+    return np.concatenate([[0], flux]), sr / hop
 
 
-def write(path, a, sr=SR):
-    a = np.clip(a, -1, 1)
-    with wave.open(path, 'wb') as w:
-        w.setnchannels(1); w.setsampwidth(2); w.setframerate(sr)
-        w.writeframes((a * 32767).astype(np.int16).tobytes())
+def beats(music_file, start, out_json):
+    """Tempo and beat grid from `start` (nudged onto the nearest strong hit). A phase-aware comb over
+    60 s of the track: every candidate tempo is scored at its best-fitting phase."""
+    sr = 22050
+    x = read_any(music_file, sr, 1)[:, 0]
+    env, fps = onset_env(x, sr, hop=256)
+    start = float(start)
+    i0, i1 = int(max(0, start - 0.6) * fps), int((start + 0.6) * fps)
+    start = (i0 + int(np.argmax(env[i0:i1]))) / fps if i1 > i0 else start
+    seg = env[int(start * fps): int((start + 60) * fps)]
+    seg = (seg - seg.mean()) / (seg.std() + 1e-9)
+    best = (-9, 120.0)
+    for bpm in np.arange(80, 175, 0.05):
+        p = 60 / bpm * fps
+        idx = np.arange(0, len(seg) - p, p)
+        sc = max(seg[(idx + ph).astype(int)].mean() for ph in np.arange(0, p, max(1, p / 16)))
+        best = max(best, (sc, bpm))
+    bpm = best[1]
+    if bpm > 140:          # count the slower pulse: a cut on every beat at 140+ is too busy
+        bpm /= 2
+    json.dump({'start': start, 'bpm': bpm, 'beat': 60 / bpm}, open(out_json, 'w'))
+
+
+# ----------------------------------------------------------------------------- sound effects
+rng = np.random.default_rng(7)
+
+
+def _sweep_noise(dur, f0, f1, width=0.5):
+    """Noise through a band-pass whose centre glides f0→f1 (log). Short-time FFT filtering."""
+    n = int(dur * SR); hop = 256; win = 1024
+    x = rng.standard_normal(n + win)
+    out = np.zeros(n + win)
+    w = np.hanning(win)
+    freqs = np.fft.rfftfreq(win, 1 / SR)
+    for k, i in enumerate(range(0, n, hop)):
+        u = i / max(1, n)
+        fc = f0 * (f1 / f0) ** u
+        g = np.exp(-0.5 * (np.log(np.maximum(freqs, 1) / fc) / width) ** 2)
+        out[i:i + win] += np.fft.irfft(np.fft.rfft(x[i:i + win] * w) * g) * w
+    return out[:n] / (np.abs(out).max() + 1e-9)
+
+
+def _stereo(m, pan=0.0):
+    l, r = np.cos((pan + 1) * np.pi / 4), np.sin((pan + 1) * np.pi / 4)
+    return np.stack([m * l * 1.41, m * r * 1.41], 1)
+
+
+def fx_whoosh(dur=0.5):
+    n = int(dur * SR); t = np.arange(n) / n
+    env = np.sin(np.pi * np.clip(t / 0.62, 0, 1) / 2) ** 2 * np.clip((1 - t) / 0.38, 0, 1) ** 1.5
+    up = _sweep_noise(dur * 0.62, 350, 5000); down = _sweep_noise(dur * 0.38 + 0.01, 5000, 900)
+    m = np.concatenate([up, down])[:n] * env
+    pan = np.linspace(-0.7, 0.7, n)
+    return np.stack([m * np.cos((pan + 1) * np.pi / 4), m * np.sin((pan + 1) * np.pi / 4)], 1) * 1.2
+
+
+def fx_impact(dur=1.4):
+    n = int(dur * SR); t = np.arange(n) / SR
+    f = 62 * np.exp(-t * 2.5) + 38
+    boom = np.sin(2 * np.pi * np.cumsum(f) / SR) * np.exp(-t / 0.32)
+    click = rng.standard_normal(n) * np.exp(-t / 0.006) * 0.6
+    body = _sweep_noise(dur, 900, 120, 0.8) * np.exp(-t / 0.18) * 0.35
+    m = np.tanh(1.8 * (boom + click + body)) * 0.9
+    return _stereo(m)
+
+
+def fx_riser(dur=1.6):
+    n = int(dur * SR); t = np.arange(n) / n
+    m = _sweep_noise(dur, 400, 9000, 0.6) * t ** 2.2 * 0.8
+    tone = np.sin(2 * np.pi * np.cumsum(220 * 4 ** t) / SR) * t ** 3 * 0.18
+    return _stereo(m + tone)
+
+
+def fx_tick(pitch=1.0):
+    n = int(0.09 * SR); t = np.arange(n) / SR
+    m = (np.sin(2 * np.pi * 1800 * pitch * t) + 0.4 * np.sin(2 * np.pi * 3600 * pitch * t)) * np.exp(-t / 0.018)
+    return _stereo(m * 0.55)
+
+
+def fx_ding():
+    """Win: bright two-note chime."""
+    out = np.zeros((int(1.6 * SR), 2))
+    for k, (f, delay) in enumerate([(1318.5, 0.0), (1975.5, 0.09)]):
+        n = int(1.4 * SR); t = np.arange(n) / SR
+        m = sum(a * np.sin(2 * np.pi * f * r * t) * np.exp(-t / d) for r, a, d in [(1, 1, 0.5), (2.0, 0.35, 0.25), (2.76, 0.25, 0.15), (5.4, 0.12, 0.06)])
+        i = int(delay * SR); out[i:i + n] += _stereo(m * 0.42, -0.25 + 0.5 * k)
+    return out
+
+
+def fx_thud():
+    """Loss: muffled low hit and a falling tone."""
+    n = int(0.9 * SR); t = np.arange(n) / SR
+    m = np.sin(2 * np.pi * np.cumsum(140 * np.exp(-t * 3) + 45) / SR) * np.exp(-t / 0.22)
+    m += _sweep_noise(0.9, 300, 80, 0.7) * np.exp(-t / 0.1) * 0.3
+    return _stereo(np.tanh(1.5 * m) * 0.8)
+
+
+def fx_cash():
+    """Money total: quick bright shimmer."""
+    n = int(0.8 * SR); t = np.arange(n) / SR
+    m = sum(np.sin(2 * np.pi * f * t) * np.exp(-t / d) for f, d in [(2637, 0.12), (3136, 0.18), (3951, 0.25), (5274, 0.3)])
+    m += _sweep_noise(0.8, 6000, 9000, 0.4) * np.exp(-t / 0.15) * 0.4
+    return _stereo(m * 0.25)
+
+
+FX = {'whoosh': fx_whoosh, 'impact': fx_impact, 'riser': fx_riser, 'ding': fx_ding, 'thud': fx_thud, 'cash': fx_cash,
+      'tick': lambda: fx_tick(1.0), 'tick2': lambda: fx_tick(1.26), 'tick3': lambda: fx_tick(1.5)}
+FX_GAIN = {'whoosh': 0.32, 'impact': 0.55, 'riser': 0.32, 'ding': 0.5, 'thud': 0.5, 'cash': 0.4, 'tick': 0.35, 'tick2': 0.35, 'tick3': 0.4}
+
+
+# ----------------------------------------------------------------------------- mix
+def rms(a):
+    return float(np.sqrt(np.mean(a ** 2)) + 1e-9)
 
 
 def mix(timeline_file, out_path):
     tl = json.load(open(timeline_file))
-    total = np.zeros(int(tl['duration'] * SR) + SR)
-    for s in tl['sentences']:
-        a, sr = read(s['wav'])
-        if sr != SR:  # simple resample
-            a = np.interp(np.linspace(0, len(a), int(len(a) * SR / sr), endpoint=False), np.arange(len(a)), a)
+    n = int((tl['duration'] + 0.5) * SR)
+    voice = np.zeros(n, dtype=np.float32)
+    for s in tl.get('sentences', []):
+        if not s.get('wav'):
+            continue
+        a = read_any(s['wav'], SR, 1)[:, 0]
         i = int(s['start'] * SR)
-        total[i:i + len(a)] += a[:len(total) - i]
-    write(out_path, total * 0.95)
+        voice[i:i + len(a)] += a[:max(0, n - i)]
 
+    out = np.zeros((n, 2), dtype=np.float32)
+    out += voice[:, None]
 
-def music(seconds, out_path):
-    """Calm, low pad: Am9 - Fmaj7 - Cmaj7 - G6 with a soft pulse. Sits under the voice."""
-    seconds = float(seconds)
-    n = int(seconds * SR)
-    t = np.arange(n) / SR
-    bpm = 92
-    bar = 4 * 60 / bpm
-    chords = [[57, 60, 64, 67, 71], [53, 57, 60, 64, 69], [48, 55, 59, 64, 67], [55, 59, 62, 64, 71]]  # midi
-    f = lambda m: 440 * 2 ** ((m - 69) / 12)
-    out = np.zeros(n)
-    seg = 2 * bar
-    for k in range(int(seconds // seg) + 2):
-        notes = chords[k % 4]
-        start = k * seg - 0.6
-        i0, i1 = max(0, int(start * SR)), min(n, int((start + seg + 1.8) * SR))
-        if i0 >= n:
-            break
-        tt = t[i0:i1] - start
-        env = np.minimum(1, tt / 1.4) * np.clip((seg + 1.8 - tt) / 1.8, 0, 1)
-        for j, m in enumerate(notes):
-            for det in (-0.004, 0.004):
-                out[i0:i1] += env * 0.06 * np.sin(2 * np.pi * f(m) * (1 + det) * tt + j)
-        out[i0:i1] += env * 0.05 * np.sin(2 * np.pi * f(notes[0] - 12) * tt)  # bass
-    # soft pulse on each beat
-    beat = 60 / bpm
-    for b in range(int(seconds / beat)):
-        i = int(b * beat * SR)
-        k = np.arange(min(int(0.25 * SR), n - i))
-        out[i:i + len(k)] += 0.10 * np.sin(2 * np.pi * 55 * k / SR) * np.exp(-k / (0.06 * SR))
-    # gentle tremolo, fades
-    out *= 0.85 + 0.15 * np.sin(2 * np.pi * 0.25 * t)
-    fade = int(1.5 * SR)
-    out[:fade] *= np.linspace(0, 1, fade)
-    out[-fade:] *= np.linspace(1, 0, fade)
-    write(out_path, out / (np.abs(out).max() + 1e-9) * 0.5)
+    m = tl.get('music')
+    if m:
+        music = read_any(m['file'], SR, 2)[int(m['start'] * SR):]
+        if len(music) < n:                       # loop if the track is shorter than the video
+            music = np.concatenate([music] * (n // max(1, len(music)) + 1))
+        music = music[:n]
+        # loudness: music sits ~5 dB under the voice between lines, ~15 dB under while she speaks
+        talking = voice[np.abs(voice) > 0.02]
+        v_rms = rms(talking) if len(talking) else 0.1
+        base = v_rms / rms(music[int(2 * SR):int(30 * SR)] if len(music) > 30 * SR else music) * 10 ** (-5 / 20)
+        env = np.abs(voice)
+        k = int(0.03 * SR); env = np.convolve(env, np.ones(k) / k, 'same')
+        active = (env > 0.015).astype(np.float32)
+        # attack 40 ms, release 350 ms
+        g = np.empty_like(active); cur = 0.0
+        a_c, r_c = 1 / (0.04 * SR), 1 / (0.35 * SR)
+        for i in range(0, n, 64):
+            tgt = active[i]
+            cur += (tgt - cur) * min(1, (a_c if tgt > cur else r_c) * 64)
+            g[i:i + 64] = cur
+        duck = 10 ** (-10 * g / 20)
+        fade_in = np.clip(np.arange(n) / (0.08 * SR), 0, 1)
+        fade_out = np.clip((n - np.arange(n)) / (1.2 * SR), 0, 1)
+        out += music * (base * duck * fade_in * fade_out)[:, None]
+
+    for e in tl.get('fx', []):
+        if e['type'] not in FX:
+            continue
+        a = FX[e['type']]() * FX_GAIN[e['type']] * e.get('gain', 1.0)
+        i = int(e['t'] * SR) - (int(0.62 * 0.5 * SR) if e['type'] == 'whoosh' else len(a) if e['type'] == 'riser' else 0)
+        i = max(0, i)
+        out[i:i + len(a)] += a[:max(0, n - i)]
+
+    peak = np.abs(out).max()
+    if peak > 0.98:
+        out = np.tanh(out / peak * 1.2) / np.tanh(1.2) * 0.98   # gentle limiter
+    write_wav(out_path, out)
 
 
 if __name__ == '__main__':
     cmd, *args = sys.argv[1:]
-    {'speak': speak, 'mix': mix, 'music': music}[cmd](*args)
+    {'speak': speak, 'mix': mix, 'beats': beats}[cmd](*args)

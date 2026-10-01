@@ -1,10 +1,22 @@
 # cmvng picks videos
 
-Fill in a short template with your matches and picks. The tool makes a vertical (9:16) video in the cmvng style, with a voiceover, word-by-word captions and soft music:
+Fill in a short template with your matches and picks. The tool makes a vertical (9:16) video, about a minute long, in the cmvng style.
 
-**intro board → for each match: matchup card, stats card, pick card → stake-split recap → outro**
+- **Opening (first 3 seconds):** a big "5 PICKS TODAY" that slams in, with the stadiums cutting on the beat.
+- **For each match:**
+  - The home team's real stadium behind it.
+  - The teams slide in, then the pick card slams in with the price.
+  - The bookies' % is shown against our model's %.
+  - The **cmvng Signal** lights up 1, 2 or 3 bars of the logo.
+- **The slate:** how a stake splits by bars.
+- **Call to action:** results tonight.
 
-After the games, the same file with each pick's result makes a second video: **won/lost board → scoreboard for each pick → money staked, returned and profit → outro**. See [The results video](#the-results-video-after-the-games).
+Sound:
+- A natural presenter voice (Kokoro) reads it like a person would. Captions highlight each word as it's spoken.
+- A beat-driven music track sits under the voice, and every cut lands on the beat.
+- Sound effects fire on every reveal: a whoosh on each cut, an impact when the pick lands, ticks as the bars light, and a ding or thud on results.
+
+After the games, the same file with each pick's result makes a second video: **won/lost board → scoreboard for each pick (WON ✓ / LOST ✗) → money staked, returned and profit → next picks**. See [The results video](#the-results-video-after-the-games).
 
 ## What you give it
 
@@ -25,7 +37,8 @@ One row (or block) per match. Only six things are required. Everything else is o
 | `rating_home`, `rating_away` | | A team rating such as Elo | `1884`, `1697` |
 | `note` | | One line shown under a value pick | `Kosovo have scored in 9 of 10` |
 | `say` | | How the voice should say the pick, if different | `Germany to win` |
-| `units` | | Override the units for this pick | `7.5` |
+| `signal` | | Override the cmvng Signal for this pick (1, 2 or 3 bars) | `3` |
+| `stadium`, `stadium_credit` | | Your own background photo (file or URL) and its credit line, instead of the automatic stadium | `photos/enyimba.jpg` |
 | `crest_home`, `crest_away` | | Your own crest image (file or URL). **Only use crests you have permission to use** | `crests/enyimba.png` |
 
 For the whole video (top of the file):
@@ -35,13 +48,16 @@ For the whole video (top of the file):
 | `competition` | | Shown on the intro and every match card |
 | `date` | | `YYYY-MM-DD` |
 | `title` | `"5 Picks"` | Worked out from the number of picks |
-| `stake_example` | `10000` | The amount the recap splits across the picks |
+| `stake_example` | `10000` | The amount the slate splits across the picks by Signal bars |
 | `currency`, `currency_word` | `₦`, `naira` | The symbol on screen and the word in the voiceover |
-| `units` | `{ "value": 7.5, "small": 5 }` | Units for picks with a positive or negative edge |
-| `skip_negative_edge` | `false` | Set to `true` to drop picks where your % is below the bookmaker's |
-| `cta` | `cmvngpicks.com` | `{ "url", "line", "say" }` for the outro |
-| `voice` | `en_US-ryan-high` | Any [Piper voice](https://huggingface.co/rhasspy/piper-voices), e.g. `en_GB-alan-medium` |
-| `music` | `true` | `true` = built-in soft bed, `false` = none, or a path to your own track |
+| `signal` | `{ "strong": 0.05, "good": 0 }` | Edge needed for 3 bars (5%+) and 2 bars (any edge). Anything else is 1 bar |
+| `skip_negative_edge` | `false` | Set to `true` to drop 1-bar picks (your % below the bookmaker's) |
+| `results_when` / `next_when` | `tonight` / `tomorrow morning` | When the next video comes out (said at the end) |
+| `stadiums` | `true` | `false` = no stadium photos (plain cmvng background) |
+| `cta` | `cmvngpicks.com` | `{ "url", "say" }` for the last card |
+| `voice` | `af_heart` | Kokoro voice: `af_heart`, `af_bella` (female, the most natural) · `am_michael`, `am_fenrir` (male) · `bf_emma`, `bm_george` (British). Or a Piper `.onnx` file |
+| `voice_speed` | `1.12` | 1 = the voice's normal pace |
+| `music` | `auto` | `auto` = the built-in track, `false` = none, or a path to your own track (plus `music_start`: the second where its beat drops) |
 
 Templates to copy:
 - `templates/picks.blank.json`: empty, ready to fill in.
@@ -53,29 +69,51 @@ Templates to copy:
 - **Fair odds** = 100 ÷ your %.
 - **Bookmaker %** = 100 ÷ the price. This still includes the bookmaker's margin.
 - **Edge** = price × your % − 1. A positive edge means value at this price, on your numbers.
-- **Units:** a positive edge gets 7.5 ("Value") and anything else gets 5 ("Small stake"). A negative-edge pick also shows *"Thin price… keep the stake small"*.
-- **Stake split** for the recap: amount ÷ total units = one unit, then units × one unit for each pick. Stakes are rounded down so the total never goes over the amount.
+- **The cmvng Signal** replaces "units". It is the three bars of the cmvng logo:
+  - **3 bars, Strong:** your % beats the price by 5% or more.
+  - **2 bars, Good:** any edge.
+  - **1 bar, Light stake:** your % is below the bookmaker's, so the voice says *"thin price: one bar, keep it light"*.
+- **Stake split:** amount ÷ total bars = one bar. Each pick gets bars × one bar, rounded down so the total never goes over.
 - **Pictures:**
   - National teams get their flag automatically. Flags are public domain, from flagcdn.com.
   - Clubs get a cmvng-style shield in the club's colours with a 3-letter code. Club crests and league logos are trademarks, so they're only used if you add your own via `crest_home` / `crest_away`.
-- **Voiceover script:** built from the numbers using fixed sentence patterns, so it never invents a stat or says "sure" or "banker". It's saved as `script.txt`, which also works as the post caption.
+- **Stadium photos:**
+  - The home team's ground comes from Wikidata and Wikimedia Commons.
+  - National teams with no fixed home use the stadium where they play most often, or the country's biggest stadium.
+  - Each photo has a licence (mostly CC BY or CC BY-SA), and the licence requires credit. The credit is printed small at the bottom of the frame and saved in `credits.txt` for the post caption.
+  - If a team has no usable photo, the plain cmvng background is used.
+- **Voiceover script:**
+  - It's built from the numbers using varied presenter lines, so it never invents a stat or says "sure", "banker" or "guaranteed".
+  - The voice says prices the way punters do ("one point two eight").
+  - It's saved as `script.txt`.
 
 ## Making a video
 
 ```bash
 # Once: install the tools
 npm i -D playwright && npx playwright install chromium     # the renderer
-pip install piper-tts numpy                                 # voice + music (optional; without them you get captions only)
+pip install kokoro-onnx numpy                               # the voice (the model, ~350 MB, downloads on first run)
 # ffmpeg must be installed (https://ffmpeg.org)
 
 # Every time
 node video/make-video.mjs my-picks.json            # or my-picks.csv
-node video/make-video.mjs my-picks.json --stills   # quick preview pictures of each scene first
+node video/make-video.mjs my-picks.json --stills   # quick preview pictures of each scene first (no voice)
 ```
 
-The video lands in `video/out/<file name>/<file name>.mp4`, together with `script.txt`. A 5-pick video runs about 2 minutes and takes about 5–10 minutes to render on a 4-core machine.
+The video lands in `video/out/<file name>/<file name>.mp4`, together with:
+- `script.txt`: what the voice says, which also works as the post caption.
+- `credits.txt`: photo and music credits to paste into the post.
+
+A 5-pick video runs about a minute and takes about 5 minutes to render on a 4-core machine.
 
 Other options: `--no-voice`, `--fps 30`, `--workers 3`, `--out path.mp4`.
+
+**Music:**
+- The built-in tracks are from Mixkit and free to use in videos under the Mixkit Stock Music Free License, including commercial use. Check mixkit.co/license before you post.
+  - Picks video: "Never Going Broke". Results video: "K.O.".
+- On TikTok and Instagram you can mute the built-in track and add a trending sound in the app instead.
+  - Business accounts can only use the platform's commercial music library.
+  - The voice and sound effects stay either way, if you post a version made with `"music": false`.
 
 ## Auto-fill from cmvngpicks.com
 
@@ -97,9 +135,9 @@ Same picks, same file, plus the outcome. Add `"mode": "results"` at the top and 
 | `result` | ✅ | `won`, `lost` or `void` | `won` |
 | `score` | | Full-time score, home first | `2-3` |
 
-The video runs **results board → one scoreboard card per pick (WON ✓ / LOST ✗ stamp, stake → returned) → the day's totals → outro**, about 50 seconds for 5 picks.
+The video runs **"2/5 WON" and the money back → one scoreboard per pick (WON ✓ with a ding / LOST ✗ with a thud, then the profit or loss) → the day's staked, returned and profit → next picks**, about 45 seconds for 5 picks.
 
-Money, not units. The tool splits `stake_example` across the picks by units, exactly as the morning video's recap does, then works out:
+Money, not bars. The tool splits `stake_example` across the picks by Signal bars, exactly as the morning video's slate does, then works out:
 - **Returned** per pick: a win pays stake × price, a void gives the stake back, and a loss returns 0.
 - **The day:** staked, returned, profit or loss, and return on stake.
 
@@ -107,9 +145,8 @@ To show it in dollars, set `"stake_example": 100, "currency": "$", "currency_wor
 
 Optional for the whole video:
 - `date_label`: what the intro shows instead of the date, e.g. `"Weekend of 19–21 September"`.
-- `day_label`: what the voice says, e.g. `"This weekend"` → *"This weekend's results: two won, three lost."*
 
-A losing day is said plainly: *"That's down 32 dollars on the day. We post every result, good days and bad."* Post the bad days as well as the good ones. Showing only the winners is what makes followers stop trusting a tipster.
+A losing day is said plainly: *"That's 32 dollars down. We post every result, wins and losses."* Post the bad days as well as the good ones. Showing only the winners is what makes followers stop trusting a tipster.
 
 Templates: `templates/results.blank.json` (empty) and `templates/results.example.json` (a filled Premier League weekend).
 
@@ -143,6 +180,10 @@ Turning the copied text into a video needs a computer that can run this tool. An
 
 ## Before you post
 
-- Your percentages should be honest. The video shows your model's % next to the bookmaker's. If your numbers run high, every pick looks like "value" when it isn't.
-- Units are a staking guide for **single bets**, not accumulators.
-- The outro always carries "18+ · Only stake what you can afford to lose".
+- Your percentages should be honest. The video shows your model's % next to the bookmaker's. If your numbers run high, every pick gets 3 bars when it shouldn't.
+- The Signal is a staking guide for **single bets**, not accumulators.
+- Every frame carries "18+ · Predictions, not guarantees · Bet responsibly".
+- Platform rules, in short:
+  - Keep bookmaker names, booking codes and links **out of the video**. TikTok and YouTube treat those as promoting gambling.
+  - Put the website in your bio.
+  - Never say "sure", "banker", "guaranteed" or "fixed".

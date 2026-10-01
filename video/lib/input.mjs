@@ -1,6 +1,6 @@
 // Reads a picks file (JSON or CSV), checks it, and works out everything the video
-// needs that you don't have to type: fair odds, bookmaker %, edge, units and the
-// stake split for the recap.
+// needs that you don't have to type: fair odds, bookmaker %, edge, the cmvng Signal
+// (1, 2 or 3 bars of the logo) and how a stake splits across the picks by bars.
 
 import fs from 'node:fs'
 
@@ -9,19 +9,24 @@ export const DEFAULTS = {
   title: '',                 // empty → "5 Picks" or "Results"
   competition: '',
   date: '',                  // YYYY-MM-DD
-  stake_example: 10000,      // shown in the recap: how this amount splits across the picks
+  stake_example: 10000,      // how this amount splits across the picks by Signal bars
   currency: '₦',
   currency_word: 'naira',    // what the voiceover says
-  units: { value: 7.5, small: 5 },
-  skip_negative_edge: false, // true → leave out picks where your % is below the bookmaker's
-  cta: { url: 'cmvngpicks.com', line: 'Full analysis on the app', say: 'C M V N G picks dot com' },
-  voice: 'en_US-ryan-high',
-  voice_speed: 1.12,         // 1 = the voice's normal pace; higher is faster
-  music: true,               // true = built-in soft bed, false = none, or a path to your own track
+  // cmvng Signal: 3 bars when our % beats the bookmaker's price by 5%+, 2 bars for any edge, 1 bar otherwise
+  signal: { strong: 0.05, good: 0 },
+  skip_negative_edge: false, // true → leave out 1-bar picks (our % below the bookmaker's)
+  results_when: 'tonight',   // picks video: when the results video comes out
+  next_when: 'tomorrow morning', // results video: when the next picks come out
+  cta: { url: 'cmvngpicks.com', say: 'C M V N G picks dot com' },
+  voice: 'af_heart',         // Kokoro voice (natural): af_heart, af_bella (female) · am_michael, am_fenrir (male) · bf_emma, bm_george (British)
+  voice_speed: 1.18,         // 1 = the voice's normal pace; higher is faster
+  music: 'auto',             // 'auto' = built-in track, false = none, or a path to your own track
+  music_start: null,         // seconds into your own track to start from (the drop)
+  stadiums: true,            // home team's stadium photo behind each match
 }
 
 const NUM = ['odds', 'model', 'home_win', 'draw', 'away_win', 'xg_home', 'xg_away', 'scored_home', 'scored_away',
-  'conceded_home', 'conceded_away', 'rating_home', 'rating_away', 'units']
+  'conceded_home', 'conceded_away', 'rating_home', 'rating_away', 'signal']
 
 function parseCsv(text) {
   const rows = []
@@ -53,7 +58,7 @@ function fromCsv(text) {
 export function loadInput(file) {
   const text = fs.readFileSync(file, 'utf8')
   const raw = file.toLowerCase().endsWith('.csv') ? fromCsv(text) : JSON.parse(text)
-  const cfg = { ...DEFAULTS, ...raw, units: { ...DEFAULTS.units, ...(raw.units || {}) }, cta: { ...DEFAULTS.cta, ...(raw.cta || {}) } }
+  const cfg = { ...DEFAULTS, ...raw, signal: { ...DEFAULTS.signal, ...(typeof raw.signal === 'object' ? raw.signal : {}) }, cta: { ...DEFAULTS.cta, ...(raw.cta || {}) } }
   if (!Array.isArray(raw.picks) || !raw.picks.length) throw new Error('The file needs a "picks" list with at least one match.')
 
   const errors = []
@@ -80,19 +85,20 @@ export function loadInput(file) {
     p.market = 100 / p.odds                // what the bookmaker's price implies (includes their margin)
     p.edge = p.odds * p.model / 100 - 1    // expected return per 1 staked, on your numbers
     p.value = p.edge > 0
-    p.units ??= p.value ? cfg.units.value : cfg.units.small
+    if (p.signal !== undefined && ![1, 2, 3].includes(p.signal)) errors.push(`${where}: "signal" must be 1, 2 or 3`)
+    p.signal ??= p.edge >= cfg.signal.strong ? 3 : p.edge > cfg.signal.good ? 2 : 1
     return p
   })
   if (errors.length) throw new Error('Please fix the picks file:\n  - ' + errors.join('\n  - '))
-  if (cfg.skip_negative_edge) picks = picks.filter(p => p.value)
+  if (cfg.skip_negative_edge) picks = picks.filter(p => p.signal > 1)
   if (!picks.length) throw new Error('No picks left after removing negative-edge picks.')
 
-  // Recap: split the example stake by units, rounded down so the total never goes over
-  const totalUnits = picks.reduce((s, p) => s + p.units, 0)
-  const oneUnit = cfg.stake_example / totalUnits
+  // Split the example stake by Signal bars (3 bars get 3 shares, 1 bar gets 1), rounded down so the total never goes over
+  const totalBars = picks.reduce((s, p) => s + p.signal, 0)
+  const perBar = cfg.stake_example / totalBars
   const step = cfg.stake_example >= 5000 ? 10 : cfg.stake_example >= 500 ? 1 : 0.01
-  for (const p of picks) p.stake = Math.round(Math.floor(p.units * oneUnit / step + 1e-9) * step * 100) / 100
-  const recap = { totalUnits, oneUnit, total: picks.reduce((s, p) => s + p.stake, 0) }
+  for (const p of picks) p.stake = Math.round(Math.floor(p.signal * perBar / step + 1e-9) * step * 100) / 100
+  const recap = { totalBars, perBar, total: picks.reduce((s, p) => s + p.stake, 0) }
   if (cfg.mode === 'results') {
     for (const p of picks) p.ret = p.result === 'won' ? p.stake * p.odds : p.result === 'void' ? p.stake : 0
     recap.returned = picks.reduce((s, p) => s + p.ret, 0)

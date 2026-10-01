@@ -2,525 +2,499 @@
 <html>
 <head>
 <meta charset="utf-8">
-<!-- cmvng "Five picks" video template. Driven entirely by window.DATA (built by make-video.mjs);
-     window.renderAt(t) draws the frame at time t (seconds). -->
+<!-- cmvng picks / results video template (1080×1920). Driven entirely by window.DATA (built by make-video.mjs).
+     window.renderAt(t) draws the frame at time t (seconds); window.fxEvents() lists the sound effects in sync. -->
 <style>
 @font-face{font-family:Manrope;font-weight:400;src:url(assets/fonts/manrope-latin-400-normal.woff2) format('woff2')}
 @font-face{font-family:Manrope;font-weight:600;src:url(assets/fonts/manrope-latin-600-normal.woff2) format('woff2')}
 @font-face{font-family:Manrope;font-weight:800;src:url(assets/fonts/manrope-latin-800-normal.woff2) format('woff2')}
 @font-face{font-family:JBM;font-weight:500;src:url(assets/fonts/jetbrains-mono-latin-500-normal.woff2) format('woff2')}
 @font-face{font-family:JBM;font-weight:700;src:url(assets/fonts/jetbrains-mono-latin-700-normal.woff2) format('woff2')}
-:root{--brand:#1F5FDB;--brand2:#3D7BFF;--brand3:#8FB0FF;--ink:#0F1B2D;--val:#22C55E;--amb:#F5A524;--red:#EF4444;--muted:rgba(255,255,255,.6);--glass:rgba(255,255,255,.045);--line:rgba(255,255,255,.09)}
+@font-face{font-family:Anton;font-weight:400;src:url(assets/fonts/anton-latin-400-normal.woff2) format('woff2')}
+:root{--brand:#1F5FDB;--brand2:#3D7BFF;--brand3:#9DB8FF;--win:#22C55E;--win2:#4ADE80;--loss:#EF4444;--loss2:#F87171;--amb:#F5A524;
+  --muted:rgba(255,255,255,.66);--glass:rgba(8,14,32,.62);--line:rgba(255,255,255,.14)}
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{width:1080px;height:1920px;overflow:hidden;background:#050A15}
-#stage{position:relative;width:1080px;height:1920px;overflow:hidden;font-family:Manrope,sans-serif;color:#fff;
-  background:radial-gradient(120% 70% at 50% 0%,#0E2558 0%,#08142E 45%,#050A15 100%)}
-.abs{position:absolute}
-.glow{position:absolute;border-radius:50%;pointer-events:none}
-#g1{width:1500px;height:1500px;background:radial-gradient(closest-side,rgba(31,95,219,.38),rgba(31,95,219,0))}
-#g2{width:1200px;height:1200px;background:radial-gradient(closest-side,rgba(99,102,241,.22),rgba(99,102,241,0))}
-#pitchWrap{position:absolute;left:-200px;right:-200px;top:820px;height:1400px;perspective:900px;perspective-origin:50% 0%;opacity:.55;
-  -webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 25%,#000 70%,transparent 100%)}
-#pitch{position:absolute;left:50%;top:0;width:1300px;height:1950px;margin-left:-650px;transform-origin:50% 0;transform:rotateX(62deg)}
-#pitch svg{width:100%;height:100%}
-#grain{position:absolute;inset:0;opacity:.06;pointer-events:none;background-size:256px 256px}
-#vig{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 85% 75% at 50% 45%,rgba(0,0,0,0) 60%,rgba(0,0,0,.55) 100%)}
+html,body{width:1080px;height:1920px;overflow:hidden;background:#03060F}
+#stage{position:relative;width:1080px;height:1920px;overflow:hidden;font-family:Manrope,sans-serif;color:#fff;background:#050A18}
+.A{font-family:Anton,Manrope,sans-serif;font-weight:400;text-transform:uppercase;letter-spacing:.5px}
+.lbl{font:700 22px JBM;letter-spacing:5px;text-transform:uppercase;color:var(--brand3)}
 
-/* header */
-#hdr{position:absolute;left:64px;right:64px;top:70px;height:60px;display:flex;align-items:center;justify-content:space-between;z-index:30}
-.logo{display:flex;align-items:flex-end;gap:12px;font:800 40px/1 Manrope;letter-spacing:-1.5px}
-.bars{display:flex;align-items:flex-end;gap:5px;transform:skewX(-11deg);padding-bottom:4px}
-.bars i{display:block;width:9px;border-radius:3px;background:linear-gradient(180deg,#5B8DFF,#1F5FDB);transform-origin:50% 100%}
-#hlabel{text-align:right;font:700 20px JBM;letter-spacing:4px;color:var(--brand3);text-transform:uppercase}
-#prog{display:flex;gap:6px;justify-content:flex-end;margin-top:10px}
-#prog i{display:block;width:34px;height:5px;border-radius:3px;background:rgba(255,255,255,.14);overflow:hidden;position:relative}
-#prog i b{position:absolute;inset:0;background:var(--brand2);transform-origin:0 50%}
+/* background: the home team's stadium, graded dark with a slow push-in */
+#bgs{position:absolute;inset:-2px;overflow:hidden}
+.bg{position:absolute;inset:0;background-size:cover;background-position:50% 50%;opacity:0;will-change:transform,opacity;
+  filter:brightness(.62) saturate(1.18) contrast(1.08)}
+.bg.none{background:radial-gradient(120% 70% at 50% 0%,#12307A 0%,#08142E 50%,#050A15 100%)}
+#tint{position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(180deg,rgba(4,8,24,.88) 0%,rgba(4,8,24,.35) 16%,rgba(6,14,40,.28) 40%,rgba(5,10,28,.55) 62%,rgba(3,6,16,.94) 80%,#03060F 100%)}
+#tint2{position:absolute;inset:0;pointer-events:none;mix-blend-mode:soft-light;background:radial-gradient(90% 60% at 50% 30%,rgba(61,123,255,.55),rgba(31,95,219,0) 70%)}
+#vig{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 90% 70% at 50% 42%,rgba(0,0,0,0) 55%,rgba(0,0,0,.6) 100%)}
+#flash{position:absolute;inset:0;pointer-events:none;background:#fff;opacity:0;z-index:60;mix-blend-mode:overlay}
+#streak{position:absolute;top:-400px;width:260px;height:2800px;z-index:61;pointer-events:none;opacity:0;
+  background:linear-gradient(90deg,rgba(157,184,255,0),rgba(255,255,255,.9) 50%,rgba(157,184,255,0));transform-origin:50% 50%}
+#credit{position:absolute;left:60px;right:60px;top:1838px;font:500 15px JBM;color:rgba(255,255,255,.42);letter-spacing:.5px;z-index:45;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#foot{position:absolute;left:60px;right:60px;top:1866px;font:700 16px JBM;letter-spacing:3px;color:rgba(255,255,255,.55);z-index:45;text-transform:uppercase}
 
-/* scenes */
-.scene{position:absolute;inset:0;display:none;z-index:10}
-.panel{position:absolute;left:64px;right:64px;border-radius:32px;background:var(--glass);box-shadow:inset 0 0 0 1.5px var(--line);backdrop-filter:blur(2px)}
-.lbl{font:700 19px JBM;letter-spacing:4px;text-transform:uppercase;color:var(--brand3)}
-.mono{font-family:JBM}
-.pill{display:inline-flex;align-items:center;gap:10px;padding:10px 18px;border-radius:999px;font:700 19px JBM;letter-spacing:2px;text-transform:uppercase;white-space:nowrap}
-.pill.v{background:rgba(34,197,94,.14);color:#4ADE80;box-shadow:inset 0 0 0 1.5px rgba(74,222,128,.35)}
-.pill.s{background:rgba(245,165,36,.14);color:#FBBF24;box-shadow:inset 0 0 0 1.5px rgba(251,191,36,.35)}
-.pill::before{content:'';width:10px;height:10px;border-radius:50%;background:currentColor}
-.badge{position:relative;flex-shrink:0}
+/* header (kept below the phone's top bar) */
+#hdr{position:absolute;left:60px;right:60px;top:150px;height:64px;display:flex;align-items:center;justify-content:space-between;z-index:50}
+.logo{display:flex;align-items:flex-end;gap:12px;font:800 42px/1 Manrope;letter-spacing:-1.5px;text-shadow:0 4px 24px rgba(0,0,0,.5)}
+.bars{display:flex;align-items:flex-end;gap:6px;transform:skewX(-11deg);padding-bottom:4px}
+.bars i{display:block;width:10px;border-radius:3px;background:linear-gradient(180deg,#6E9BFF,#1F5FDB)}
+#hright{text-align:right}
+#hlabel{font:700 21px JBM;letter-spacing:5px;color:#fff;text-transform:uppercase;text-shadow:0 2px 12px rgba(0,0,0,.6)}
+#pips{display:flex;gap:7px;justify-content:flex-end;margin-top:10px}
+#pips i{display:block;width:38px;height:7px;border-radius:4px;background:rgba(255,255,255,.22)}
+#pips i.on{background:var(--brand2);box-shadow:0 0 14px rgba(61,123,255,.9)}
+#pips i.done{background:rgba(255,255,255,.7)}
+
+.scene{position:absolute;inset:0;display:none;z-index:20}
+.badge{position:relative;display:flex;align-items:center;justify-content:center}
 .badge img,.badge svg{width:100%;height:100%;display:block}
-.badge.flag img{border-radius:50%;object-fit:cover;box-shadow:0 0 0 4px rgba(255,255,255,.14),0 18px 50px rgba(0,0,0,.45)}
-.badge.shield img,.badge.crest img,.badge.shield svg{object-fit:contain;filter:drop-shadow(0 18px 40px rgba(0,0,0,.5))}
-.num{font-variant-numeric:tabular-nums}
+.badge.flag img{border-radius:50%;object-fit:cover;box-shadow:0 0 0 5px rgba(255,255,255,.9),0 22px 60px rgba(0,0,0,.6)}
+.badge.shield img,.badge.crest img,.badge.shield svg{object-fit:contain;filter:drop-shadow(0 20px 40px rgba(0,0,0,.6))}
+.chip{display:inline-flex;align-items:center;gap:12px;padding:12px 22px;border-radius:999px;background:rgba(8,14,32,.7);box-shadow:inset 0 0 0 1.5px var(--line);font:700 22px JBM;letter-spacing:4px;text-transform:uppercase}
+.card{position:absolute;border-radius:36px;background:var(--glass);box-shadow:inset 0 0 0 1.5px var(--line),0 30px 80px rgba(0,0,0,.45);backdrop-filter:blur(14px)}
 
-/* intro */
-.intro .kick,.rintro .kick{position:absolute;left:64px;top:300px}
-.intro .big,.rintro .big{position:absolute;left:58px;top:330px;font:800 200px/1 Manrope;letter-spacing:-8px}
-.intro .big span{display:inline-block}
-.intro .date,.rintro .date{position:absolute;left:66px;top:548px;font:600 40px Manrope;color:var(--muted);letter-spacing:-.5px}
-.intro .list,.rintro .list{position:absolute;left:64px;right:64px;top:650px}
-.row{display:flex;align-items:center;gap:22px;height:132px;padding:0 28px;margin-bottom:16px;border-radius:28px;background:var(--glass);box-shadow:inset 0 0 0 1.5px var(--line)}
-.row .pair{display:flex;width:104px;flex-shrink:0}
-.row .pair .badge{width:58px;height:58px}
-.row .pair .badge+.badge{margin-left:-12px}
-.row .mid{flex:1;min-width:0}
-.row .teams{font:800 38px Manrope;letter-spacing:-1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.row .sub{font:500 24px Manrope;color:var(--muted);margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.row .right{text-align:right;display:flex;flex-direction:column;align-items:flex-end;gap:8px}
-.row .odd{font:800 50px/1 Manrope;letter-spacing:-1px}
-.row .pill{padding:6px 12px;font-size:15px;letter-spacing:1.5px}
-
-/* match */
-.match .vs{position:absolute;left:0;right:0;top:330px;height:300px}
-.match .side{position:absolute;top:0;width:420px;display:flex;flex-direction:column;align-items:center}
-.match .side.h{left:60px}.match .side.a{right:60px}
-.match .side .badge{width:270px;height:270px}
-.match .side .badge.shield,.match .side .badge.crest{width:250px;height:288px}
-.match .spot{position:absolute;width:640px;height:640px;border-radius:50%;top:-180px;left:50%;margin-left:-320px;pointer-events:none}
-.match .vsx{position:absolute;left:50%;top:110px;width:120px;margin-left:-60px;text-align:center;font:700 40px JBM;color:rgba(255,255,255,.55);letter-spacing:4px}
-.match .name{position:absolute;top:690px;width:460px;text-align:center;font:800 70px/1.05 Manrope;letter-spacing:-2px}
-.match .name.h{left:40px}.match .name.a{right:40px}
-.match .ha{position:absolute;top:780px;width:460px;text-align:center}
-.match .ha.h{left:40px}.match .ha.a{right:40px}
-.match .meta{position:absolute;left:64px;right:64px;top:860px;text-align:center;font:600 30px Manrope;color:var(--muted)}
-.match .panel{top:970px;height:380px;padding:44px 44px}
-.cols{display:flex;justify-content:space-between;margin-top:30px}
-.cols div{text-align:center;flex:1}
-.cols div:first-child{text-align:left}.cols div:last-child{text-align:right}
-.cols b{display:block;font:800 92px/1 Manrope;letter-spacing:-3px}
-.cols span{font:500 24px Manrope;color:var(--muted)}
-.segbar{display:flex;gap:6px;height:16px;margin-top:34px;border-radius:9px;overflow:hidden}
-.segbar i{display:block;height:100%;border-radius:3px}
-
-/* stats */
-.stats .top{position:absolute;left:64px;right:64px;top:290px;height:220px}
-.stats .tm{position:absolute;top:0;display:flex;flex-direction:column;align-items:center;width:240px}
-.stats .tm.h{left:0}.stats .tm.a{right:0}
-.stats .tm .badge{width:120px;height:120px}
-.stats .tm .badge.shield,.stats .tm .badge.crest{width:112px;height:129px}
-.stats .tm .nm{margin-top:14px;font:800 40px Manrope;letter-spacing:-1px;text-align:center}
-.stats .xg{position:absolute;top:575px;font:800 142px/1 Manrope;letter-spacing:-6px}
-.stats .xg.h{left:64px}.stats .xg.a{right:64px;text-align:right}
-.stats .ring{position:absolute;left:50%;top:535px;width:220px;height:220px;margin-left:-110px}
-.stats .ring .t{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
-.stats .form{position:absolute;top:790px;display:flex;gap:10px}
-.stats .form.h{left:66px}.stats .form.a{right:66px}
-.dot{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;font:800 21px Manrope;color:#fff}
-.dot.W{background:#16A34A}.dot.D{background:#64748B}.dot.L{background:#DC2626}
-.stats .panel{top:900px;padding:34px 44px}
-.srow{position:relative;height:124px;border-top:1.5px solid var(--line)}
-.srow:first-child{border-top:none}
-.srow .l,.srow .r{position:absolute;top:30px;font:800 60px/1 Manrope;letter-spacing:-1.5px}
-.srow .l{left:0}.srow .r{right:0}
-.srow .c{position:absolute;left:0;right:0;top:26px;text-align:center}
-.srow .tr{position:absolute;left:170px;right:170px;top:76px;height:10px}
-.srow .tr i{position:absolute;top:0;height:10px;border-radius:5px}
-.srow .tr i.hb{right:50%;background:linear-gradient(270deg,#3D7BFF,#1F5FDB);transform-origin:100% 50%}
-.srow .tr i.ab{left:50%;background:linear-gradient(90deg,#A78BFA,#6366F1);transform-origin:0 50%}
-.srow .tr:after{content:'';position:absolute;left:50%;top:-6px;width:2px;height:22px;background:rgba(255,255,255,.3)}
+/* hook */
+.hook .meta,.rhook .meta{position:absolute;left:60px;top:300px}
+.hook .n{position:absolute;left:44px;top:330px;font-size:560px;line-height:1;color:#fff;text-shadow:0 30px 90px rgba(31,95,219,.55)}
+.hook .w1,.hook .w2{position:absolute;left:400px;font-size:196px;line-height:1}
+.hook .w1{top:400px}
+.hook .w2{top:610px;color:transparent;-webkit-text-stroke:4px #fff}
+.hook .date{position:absolute;left:66px;top:930px;font:800 40px Manrope;color:var(--muted)}
+.hook .pairs{position:absolute;left:60px;right:60px;top:1010px;display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+.hook .pair{display:flex;justify-content:center;padding:16px 0;border-radius:24px;background:rgba(8,14,32,.6);box-shadow:inset 0 0 0 1.5px var(--line)}
+.hook .pair .badge{width:66px;height:66px;margin:0 -6px}
+.hook .tease{position:absolute;left:60px;top:1180px}
+.tease .chip{font-size:26px;padding:16px 26px;background:linear-gradient(90deg,rgba(31,95,219,.85),rgba(61,123,255,.6))}
 
 /* pick */
-.pick .ml{position:absolute;left:64px;top:290px;display:flex;align-items:center;gap:14px;font:600 30px Manrope;color:var(--muted)}
-.pick .ml .badge{width:46px;height:46px}
-.pick .ml .badge.shield,.pick .ml .badge.crest{width:42px;height:48px}
-.pick .ttl{position:absolute;left:62px;right:64px;top:365px;font:800 96px/1.02 Manrope;letter-spacing:-3.5px}
-.pick .p1{top:650px;height:340px;padding:40px 44px}
-.pick .price{position:absolute;left:44px;top:40px}
-.pick .price b{display:block;font:800 190px/0.95 Manrope;letter-spacing:-7px;margin-top:16px}
-.pick .uline{height:8px;width:230px;border-radius:4px;background:linear-gradient(90deg,#3D7BFF,#1F5FDB);margin-top:12px;transform-origin:0 50%}
-.pick .fair{position:absolute;right:44px;top:40px;text-align:right;display:flex;flex-direction:column;align-items:flex-end}
-.pick .fair b{display:block;font:800 82px/1 Manrope;letter-spacing:-2.5px;margin-top:14px;color:rgba(255,255,255,.9)}
-.pick .p2{top:1020px;height:340px;padding:38px 44px}
-.pick .edge{position:absolute;right:44px;top:30px;font:700 24px JBM;letter-spacing:1.5px;padding:8px 16px;border-radius:12px}
-.pick .edge.pos{color:#4ADE80;background:rgba(34,197,94,.12)}
-.pick .edge.neg{color:#FBBF24;background:rgba(245,165,36,.12)}
-.lrow{position:relative;height:104px;margin-top:22px}
-.lrow .who{font:600 28px Manrope;color:var(--muted)}
-.lrow .v{position:absolute;right:0;top:-6px;font:800 64px/1 Manrope;letter-spacing:-2px}
-.lrow .trk{position:absolute;left:0;right:150px;top:58px;height:16px;border-radius:8px;background:rgba(255,255,255,.08)}
-.lrow .trk i{position:absolute;left:0;top:0;bottom:0;border-radius:8px;transform-origin:0 50%}
-.lrow .trk:after{content:'';position:absolute;left:50%;top:-8px;width:2px;height:32px;background:rgba(255,255,255,.35)}
-.lrow .half{position:absolute;top:84px;font:500 18px JBM;color:rgba(255,255,255,.45);transform:translateX(-50%)}
-.pick .note{position:absolute;left:64px;right:64px;top:1390px;padding:26px 32px;border-radius:24px;font:600 30px/1.35 Manrope}
-.pick .note.s{background:rgba(245,165,36,.1);color:#FCD34D;box-shadow:inset 0 0 0 1.5px rgba(251,191,36,.28)}
-.pick .note.v{background:rgba(255,255,255,.04);color:rgba(255,255,255,.75);box-shadow:inset 0 0 0 1.5px var(--line)}
+.pick .meta{position:absolute;left:0;right:0;top:300px;text-align:center}
+.pick .mu{position:absolute;left:0;right:0;top:360px;height:460px;transform-origin:50% 0}
+.pick .side{position:absolute;top:0;width:420px;display:flex;flex-direction:column;align-items:center}
+.pick .side.h{left:60px}.pick .side.a{right:60px}
+.pick .side .badge{width:230px;height:230px}
+.pick .side .badge.shield,.pick .side .badge.crest{width:214px;height:246px}
+.pick .side .nm{margin-top:26px;font-size:68px;line-height:1.02;text-align:center;text-shadow:0 6px 30px rgba(0,0,0,.6);max-width:420px}
+.pick .vs{position:absolute;left:50%;top:70px;transform:translateX(-50%);font-size:96px;color:var(--brand3);text-shadow:0 0 40px rgba(61,123,255,.8)}
+.pick .glowH,.pick .glowA{position:absolute;top:-80px;width:520px;height:520px;border-radius:50%;opacity:.55;filter:blur(30px)}
+.pick .glowH{left:-90px}.pick .glowA{right:-90px}
+.pick .stat{position:absolute;left:0;right:0;top:770px;display:flex;justify-content:center;gap:14px}
+.pick .stat .chip{font-size:24px;letter-spacing:3px}
+.pick .stat b{color:#fff}
+.pick .pc{left:60px;right:60px;top:600px;height:470px;padding:44px 52px;transform-origin:50% 50%}
+.pick .pc .lbl{color:var(--brand3)}
+.pick .pc .pk{margin-top:16px;font-size:94px;line-height:1;max-width:960px;text-shadow:0 6px 30px rgba(0,0,0,.4)}
+.pick .pc .odds{position:absolute;left:52px;bottom:34px;display:flex;align-items:baseline;gap:18px}
+.pick .pc .odds .at{font-size:70px;color:var(--brand3)}
+.pick .pc .odds .o{font-size:210px;line-height:.9;background:linear-gradient(180deg,#fff 30%,#9DB8FF);-webkit-background-clip:text;color:transparent;filter:drop-shadow(0 10px 40px rgba(61,123,255,.6))}
+.pick .pc .ko{position:absolute;right:52px;bottom:52px;text-align:right}
+.pick .pc .ko .lbl{color:var(--muted);letter-spacing:4px}
+.pick .pc .ko b{display:block;margin-top:8px;font:800 52px Manrope}
+.pick .probs{left:60px;right:60px;top:1100px;height:156px;padding:28px 40px}
+.pick .row{display:flex;align-items:center;gap:22px;height:50px}
+.pick .row .k{width:230px;font:700 20px JBM;letter-spacing:3px;text-transform:uppercase;color:var(--muted)}
+.pick .row .tr{flex:1;height:18px;border-radius:9px;background:rgba(255,255,255,.1);overflow:hidden}
+.pick .row .tr b{display:block;height:100%;border-radius:9px;transform-origin:0 50%}
+.pick .row .v{width:120px;text-align:right;font-size:54px}
+.pick .sig{left:60px;right:60px;top:1278px;height:150px;padding:26px 40px;display:flex;align-items:center;gap:34px}
+.sigbars{display:flex;align-items:flex-end;gap:14px;transform:skewX(-11deg)}
+.sigbars i{display:block;width:30px;border-radius:8px;background:rgba(255,255,255,.14)}
+.pick .sig .t .lbl{color:var(--muted)}
+.pick .sig .t b{display:block;margin-top:6px;font-size:66px;line-height:1}
 
-/* recap */
-.recap .t1{position:absolute;left:58px;top:290px;font:800 150px/1 Manrope;letter-spacing:-6px}
-.recap .t2{position:absolute;left:64px;top:452px;font:600 36px Manrope;color:var(--muted)}
-.recap .list{position:absolute;left:64px;right:64px;top:540px}
-.recap .row{height:128px}
-.recap .row .stk{font:800 46px/1 Manrope;letter-spacing:-1px}
-.recap .sum{position:absolute;left:64px;right:64px;padding:30px 36px;border-radius:28px;background:rgba(34,197,94,.08);box-shadow:inset 0 0 0 1.5px rgba(74,222,128,.25);display:flex;justify-content:space-between;align-items:center}
-.recap .sum .k{font:600 28px Manrope;color:var(--muted);line-height:1.5}
-.recap .sum b{font:800 72px/1 Manrope;color:#4ADE80;letter-spacing:-2px}
+/* slate */
+.slate .t1{position:absolute;left:60px;top:290px;font-size:170px;line-height:1}
+.slate .t2{position:absolute;left:66px;top:480px;font:800 36px Manrope;color:var(--muted)}
+.slate .tk{left:60px;right:60px;top:560px;padding:20px 30px}
+.slate .r{display:flex;align-items:center;gap:20px;height:146px;border-bottom:1.5px dashed rgba(255,255,255,.14)}
+.slate .r:last-child{border-bottom:0}
+.slate .r .pair{display:flex;width:104px;flex-shrink:0}
+.slate .r .pair .badge{width:58px;height:58px;margin-right:-12px}
+.slate .r .mid{flex:1;min-width:0}
+.slate .r .mid .pk{font:800 34px/1.1 Manrope;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.slate .r .mid .sub{margin-top:6px;font:600 23px Manrope;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.slate .r .od{font-size:50px;width:120px;text-align:right}
+.slate .r .sb{width:76px;display:flex;justify-content:center}
+.slate .r .sb .sigbars{gap:6px}.slate .r .sb .sigbars i{width:12px;border-radius:4px}
+.slate .r .stk{width:170px;text-align:right;font:800 36px Manrope}
+.slate .tot{position:absolute;left:60px;right:60px;top:1330px;display:flex;justify-content:space-between;align-items:baseline}
+.slate .tot .k{font:700 22px JBM;letter-spacing:4px;color:var(--muted);text-transform:uppercase}
+.slate .tot b{font-size:70px}
+
+/* call to action */
+.cta .wrap{position:absolute;left:0;right:0;top:470px;display:flex;flex-direction:column;align-items:center;text-align:center}
+.cta .logo{font-size:170px;letter-spacing:-7px;gap:30px}
+.cta .logo .bars{gap:16px;padding-bottom:22px}
+.cta .logo .bars i{width:34px;border-radius:9px}
+.cta .big{margin-top:70px;font-size:128px;line-height:1.02}
+.cta .url{margin-top:40px;font:800 46px Manrope;color:var(--brand3)}
+.cta .dis{margin-top:56px;font:700 22px JBM;letter-spacing:4px;color:var(--muted);text-transform:uppercase}
 
 /* results */
-.st{display:inline-flex;align-items:center;gap:10px;padding:8px 16px;border-radius:12px;font:800 22px Manrope;letter-spacing:1px;text-transform:uppercase}
-.st.won{background:rgba(34,197,94,.15);color:#4ADE80;box-shadow:inset 0 0 0 1.5px rgba(74,222,128,.4)}
-.st.lost{background:rgba(239,68,68,.14);color:#F87171;box-shadow:inset 0 0 0 1.5px rgba(248,113,113,.4)}
-.st.void{background:rgba(148,163,184,.14);color:#CBD5E1;box-shadow:inset 0 0 0 1.5px rgba(203,213,225,.3)}
-.rintro .chips{position:absolute;left:64px;top:620px;display:flex;gap:14px}
-.rintro .chips .st{font-size:28px;padding:12px 22px}
-.rintro .list{top:730px}
-.result .meta{position:absolute;left:64px;right:64px;top:280px;text-align:center;font:600 30px Manrope;color:var(--muted)}
-.result .board{position:absolute;left:64px;right:64px;top:350px;height:400px}
-.result .tm{position:absolute;top:0;width:280px;display:flex;flex-direction:column;align-items:center}
-.result .tm.h{left:0}.result .tm.a{right:0}
-.result .tm .badge{width:190px;height:190px}
-.result .tm .badge.shield,.result .tm .badge.crest{width:176px;height:203px}
-.result .tm .nm{margin-top:22px;font:800 46px/1.05 Manrope;letter-spacing:-1.5px;text-align:center}
-.result .score{position:absolute;left:50%;top:40px;transform:translateX(-50%);font:800 150px/1 Manrope;letter-spacing:-4px;white-space:nowrap}
-.result .ft{position:absolute;left:50%;top:205px;transform:translateX(-50%)}
-.result .panel{top:800px;padding:40px 44px;min-height:520px}
-.result .pk{font:800 64px/1.05 Manrope;letter-spacing:-2px;max-width:640px}
-.result .od{margin-top:14px;font:600 30px Manrope;color:var(--muted)}
-.result .stamp{position:absolute;right:40px;top:44px;font:800 52px/1 Manrope;letter-spacing:2px;padding:20px 28px;border-radius:20px;transform-origin:50% 50%}
-.result .stamp.won{color:#4ADE80;box-shadow:inset 0 0 0 4px #22C55E;background:rgba(34,197,94,.1)}
-.result .stamp.lost{color:#F87171;box-shadow:inset 0 0 0 4px #EF4444;background:rgba(239,68,68,.1)}
-.result .stamp.void{color:#CBD5E1;box-shadow:inset 0 0 0 4px #94A3B8;background:rgba(148,163,184,.1)}
-.result .money{position:absolute;left:44px;right:44px;bottom:40px;display:flex;align-items:flex-end;justify-content:space-between;border-top:1.5px solid var(--line);padding-top:30px}
-.result .money .k{font:700 19px JBM;letter-spacing:3px;color:rgba(255,255,255,.5);text-transform:uppercase}
-.result .money b{display:block;font:800 64px/1 Manrope;letter-spacing:-2px;margin-top:10px}
-.result .money .arr{font:700 44px JBM;color:rgba(255,255,255,.35);padding-bottom:8px}
-.result .run{position:absolute;left:64px;right:64px;top:1364px;display:flex;align-items:center;justify-content:space-between;padding:26px 44px;border-radius:28px;background:var(--glass);box-shadow:inset 0 0 0 1.5px var(--line)}
-.result .run .k{font:700 19px JBM;letter-spacing:3px;color:rgba(255,255,255,.5);text-transform:uppercase}
-.result .run b{font:800 44px/1 Manrope;letter-spacing:-1px;font-variant-numeric:tabular-nums}
-.totals .t1{position:absolute;left:58px;top:290px;font:800 150px/1 Manrope;letter-spacing:-6px}
-.totals .t2{position:absolute;left:64px;top:452px;font:600 34px Manrope;color:var(--muted)}
-.totals .panel{top:560px;padding:44px}
-.totals .ln{display:flex;justify-content:space-between;align-items:baseline;padding:22px 0;border-top:1.5px solid var(--line)}
-.totals .ln:first-child{border-top:none;padding-top:0}
-.totals .ln .k{font:600 34px Manrope;color:var(--muted)}
-.totals .ln b{font:800 76px/1 Manrope;letter-spacing:-2.5px}
-.totals .big b{font-size:120px;letter-spacing:-4px}
-.totals .rec{display:flex;gap:6px;height:22px;margin-top:30px;border-radius:11px;overflow:hidden}
-.totals .rec i{display:block;height:100%}
-.totals .foot{position:absolute;left:64px;right:64px;top:1330px;font:500 26px/1.45 Manrope;color:rgba(255,255,255,.55)}
+.rhook .score{position:absolute;left:44px;top:330px;font-size:520px;line-height:1;text-shadow:0 30px 90px rgba(0,0,0,.6)}
+.rhook .score span{color:rgba(255,255,255,.4)}
+.rhook .wonw{position:absolute;left:66px;top:870px;font-size:120px;color:var(--win2)}
+.rhook .money{position:absolute;left:60px;right:60px;top:1030px;display:flex;align-items:baseline;gap:22px;font-size:110px}
+.rhook .money .arr{font-size:70px;color:var(--muted)}
+.rhook .dots{position:absolute;left:60px;right:60px;top:1200px;display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+.rhook .dot{display:flex;flex-direction:column;align-items:center;gap:12px;padding:18px 0;border-radius:24px;background:rgba(8,14,32,.6);box-shadow:inset 0 0 0 2px var(--line)}
+.rhook .dot.won{box-shadow:inset 0 0 0 3px var(--win)}.rhook .dot.lost{box-shadow:inset 0 0 0 3px var(--loss)}
+.rhook .dot .pair{display:flex}.rhook .dot .pair .badge{width:52px;height:52px;margin:0 -5px}
+.rhook .dot b{font:800 24px Manrope}
+.rhook .dot.won b{color:var(--win2)}.rhook .dot.lost b{color:var(--loss2)}
+.result .meta{position:absolute;left:0;right:0;top:300px;text-align:center}
+.result .sb{position:absolute;left:0;right:0;top:370px;height:420px}
+.result .side{position:absolute;top:0;width:330px;display:flex;flex-direction:column;align-items:center}
+.result .side.h{left:40px}.result .side.a{right:40px}
+.result .side .badge{width:200px;height:200px}
+.result .side .badge.shield,.result .side .badge.crest{width:186px;height:214px}
+.result .side .nm{margin-top:22px;font-size:54px;line-height:1.02;text-align:center;text-shadow:0 6px 30px rgba(0,0,0,.6)}
+.result .sc{position:absolute;left:50%;top:10px;transform:translateX(-50%);font-size:230px;line-height:1;white-space:nowrap;text-shadow:0 20px 70px rgba(0,0,0,.6)}
+.result .sc span{color:rgba(255,255,255,.35)}
+.result .ft{position:absolute;left:50%;top:260px;transform:translateX(-50%)}
+.result .pc{left:60px;right:60px;top:860px;height:330px;padding:40px 48px}
+.result .pc .pk{margin-top:14px;font-size:76px;line-height:1;max-width:620px}
+.result .pc .od{margin-top:14px;font:800 34px Manrope;color:var(--muted)}
+.stamp{position:absolute;font-size:96px;line-height:1;padding:18px 30px 14px;border-radius:24px;transform-origin:50% 50%}
+.stamp.won{color:var(--win2);box-shadow:inset 0 0 0 7px var(--win);background:rgba(34,197,94,.14)}
+.stamp.lost{color:var(--loss2);box-shadow:inset 0 0 0 7px var(--loss);background:rgba(239,68,68,.14)}
+.stamp.void{color:#CBD5E1;box-shadow:inset 0 0 0 7px #94A3B8;background:rgba(148,163,184,.14)}
+.result .pc .stamp{right:40px;top:44px}
+.result .mny{position:absolute;left:60px;right:60px;top:1220px;display:flex;justify-content:space-between;align-items:center;padding:28px 44px}
+.result .mny .k{font:700 20px JBM;letter-spacing:4px;color:var(--muted);text-transform:uppercase}
+.result .mny b{font-size:84px;line-height:1}
+.rtotal .t1{position:absolute;left:60px;top:290px;font-size:170px;line-height:1}
+.rtotal .t2{position:absolute;left:66px;top:480px;font:800 36px Manrope;color:var(--muted)}
+.rtotal .card{left:60px;right:60px;top:570px;padding:20px 48px 40px}
+.rtotal .ln{display:flex;justify-content:space-between;align-items:baseline;padding:26px 0;border-bottom:1.5px solid rgba(255,255,255,.1)}
+.rtotal .ln .k{font:800 36px Manrope;color:var(--muted)}
+.rtotal .ln b{font-size:96px;line-height:1}
+.rtotal .ln.big b{font-size:150px}
+.rtotal .strip{display:flex;gap:10px;margin-top:34px}
+.rtotal .strip i{flex:1;height:18px;border-radius:9px}
 
-/* outro */
-.outro{display:none;flex-direction:column;align-items:center;justify-content:center}
-.outro .logo{font-size:170px;letter-spacing:-7px;gap:30px}
-.outro .logo .bars{gap:16px;padding-bottom:22px}
-.outro .logo .bars i{width:34px;border-radius:9px}
-.outro .word{display:flex;overflow:hidden;padding:0 10px 24px 0}
-.outro .word span{display:inline-block}
-.outro .url{margin-top:26px;font:600 50px Manrope;letter-spacing:-.5px}
-.outro .cta{margin-top:40px;padding:26px 44px;border-radius:999px;background:var(--brand);font:800 34px Manrope;box-shadow:0 20px 70px rgba(31,95,219,.55)}
-.outro .resp{margin-top:56px;font:500 24px JBM;letter-spacing:2px;color:rgba(255,255,255,.55)}
-
-/* captions */
-#cap{position:absolute;left:70px;right:70px;top:1600px;height:200px;z-index:40;display:flex;align-items:flex-start;justify-content:center;text-align:center}
-#cap .c{font:800 50px/1.25 Manrope;letter-spacing:-1px;text-shadow:0 4px 24px rgba(0,0,0,.6)}
-#cap .w{display:inline-block;margin:0 .14em;transition:none}
-#cap .w.now{color:#6E9BFF}
-#cap .w.next{opacity:.55}
-#capbg{position:absolute;left:0;right:0;top:1500px;height:420px;z-index:35;background:linear-gradient(180deg,rgba(5,10,21,0),rgba(5,10,21,.85) 45%,rgba(5,10,21,.95))}
-#foot{position:absolute;left:64px;right:64px;bottom:58px;display:flex;justify-content:space-between;z-index:41;font:500 20px JBM;letter-spacing:2px;color:rgba(255,255,255,.42)}
-
-/* wipe */
-#wipe{position:absolute;inset:0;z-index:60;pointer-events:none;display:none}
-#wipe i{position:absolute;top:-300px;height:2520px;width:520px;transform-origin:0 0}
+/* captions (inside the safe zone: clear of the phone's bottom bar and side buttons) */
+#cap{position:absolute;left:70px;right:150px;top:1474px;height:200px;z-index:55;display:flex;align-items:flex-start;justify-content:center;text-align:center}
+#cap .c{font:800 50px/1.22 Manrope;letter-spacing:-1px;text-shadow:0 4px 24px rgba(0,0,0,.85),0 0 2px rgba(0,0,0,.9)}
+#cap .w{display:inline-block;margin:0 .13em}
+#cap .w.now{color:#fff;background:var(--brand2);border-radius:12px;padding:0 .14em;margin:0 -.01em;box-shadow:0 8px 30px rgba(61,123,255,.6)}
+#cap .w.next{opacity:.6}
+#grain{position:absolute;inset:0;opacity:.05;pointer-events:none;background-size:256px 256px;z-index:70}
 </style>
 </head>
 <body>
 <div id="stage">
-  <div id="g1" class="glow"></div><div id="g2" class="glow"></div>
-  <div id="pitchWrap"><div id="pitch"><svg viewBox="0 0 680 1020" fill="none" stroke="#5B8DFF" stroke-width="2.4">
-    <rect x="20" y="20" width="640" height="980" rx="4"/><line x1="20" y1="510" x2="660" y2="510"/><circle cx="340" cy="510" r="88"/>
-    <circle cx="340" cy="510" r="4" fill="#5B8DFF"/><rect x="178" y="20" width="324" height="160"/><rect x="258" y="20" width="164" height="54"/>
-    <rect x="178" y="840" width="324" height="160"/><rect x="258" y="946" width="164" height="54"/><circle cx="340" cy="130" r="4" fill="#5B8DFF"/>
-    <circle cx="340" cy="890" r="4" fill="#5B8DFF"/><path d="M262 180 A88 88 0 0 0 418 180"/><path d="M262 840 A88 88 0 0 1 418 840"/></svg></div></div>
-  <div id="vig"></div>
-
+  <div id="bgs"></div><div id="tint"></div><div id="tint2"></div><div id="vig"></div>
   <div id="hdr">
-    <div class="logo"><div class="bars"><i style="height:16px"></i><i style="height:25px"></i><i style="height:34px"></i></div>cmvng</div>
-    <div><div id="hlabel"></div><div id="prog"></div></div>
+    <div class="logo"><span class="bars"><i style="height:20px"></i><i style="height:30px"></i><i style="height:40px"></i></span>cmvng</div>
+    <div id="hright"><div id="hlabel"></div><div id="pips"></div></div>
   </div>
   <div id="scenes"></div>
-  <div id="capbg"></div><div id="cap"></div>
-  <div id="foot"><span id="furl"></span><span>18+ · BET RESPONSIBLY</span></div>
-  <div id="wipe"><i style="background:#1F5FDB"></i><i style="background:#3D7BFF"></i><i style="background:#0E2558"></i></div>
-  <div id="grain"></div>
+  <div id="cap"></div>
+  <div id="credit"></div>
+  <div id="foot">18+ · Predictions, not guarantees · Bet responsibly</div>
+  <div id="flash"></div><div id="streak"></div><div id="grain"></div>
 </div>
-
 <script>
 const D = window.DATA
 const $ = (s, el = document) => el.querySelector(s)
 const $$ = (s, el = document) => [...el.querySelectorAll(s)]
 const E = {
   outExpo: x => x >= 1 ? 1 : 1 - Math.pow(2, -10 * x), outCubic: x => 1 - Math.pow(1 - x, 3), inCubic: x => x * x * x,
-  inOutCubic: x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2, outBack: x => 1 + 2.2 * Math.pow(x - 1, 3) + 1.2 * Math.pow(x - 1, 2),
+  inOutCubic: x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2, outBack: x => 1 + 2.4 * Math.pow(x - 1, 3) + 1.4 * Math.pow(x - 1, 2),
   inOutSine: x => -(Math.cos(Math.PI * x) - 1) / 2,
 }
 const clamp = (v, a = 0, b = 1) => Math.max(a, Math.min(b, v))
 const P = (t, a, b, e = E.outExpo) => e(clamp((t - a) / (b - a)))
-const fmt = (v, d) => v.toFixed(d)
 const DEC = D.cfg.stake_example < 1000 ? 2 : 0
-const money = v => (v < 0 ? '−' : '') + D.cfg.currency + Math.abs(v).toLocaleString('en-US', { minimumFractionDigits: DEC, maximumFractionDigits: DEC })
+const money = (v, sign) => (v < -1e-9 ? '−' : sign && v > 1e-9 ? '+' : '') + D.cfg.currency + Math.abs(v).toLocaleString('en-US', { minimumFractionDigits: DEC, maximumFractionDigits: DEC })
 const html = (s) => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]))
+const N = D.picks.length
+const RES = D.cfg.mode === 'results'
+const SIGWORD = { 3: 'Strong', 2: 'Good', 1: 'Light stake' }
+const SIGCOL = { 3: '#3D7BFF', 2: '#6E9BFF', 1: '#F5A524' }
 
 let uid = 0
 function badge(b) {
   if (b.svg) { const u = `b${uid++}`; return `<div class="badge shield">${b.svg.replace(/id="(\w+)"/g, `id="$1${u}"`).replace(/url\(#(\w+)\)/g, `url(#$1${u})`)}</div>` }
   return `<div class="badge ${b.kind}"><img src="${b.src}"></div>`
 }
-// profit or loss after the first i+1 picks (i = -1 → 0)
-const runTotal = i => D.picks.slice(0, i + 1).reduce((t, q) => t + q.ret - q.stake, 0)
-const unitPill = (p, short) => `<span class="pill ${p.value ? 'v' : 's'}">${p.value ? 'Value' : 'Small stake'} · ${p.units}${short ? 'U' : ' units'}</span>`
-const kick = p => [p.kickoff, p.pick].filter(Boolean).join(' · ')
-const dayLong = d => d ? new Date(`${d}T12:00:00Z`).toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', timeZone: 'UTC' }) : ''
-const dayShort = d => d ? new Date(`${d}T12:00:00Z`).toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short', timeZone: 'UTC' }) : ''
+// "Double Chance: Draw or Norway" → { main: "Norway or Draw", tag: "Double chance" }
+function label(p) {
+  const s = p.pick.trim()
+  let m = s.match(/^double chance:?\s*draw or (.+)$/i) || s.match(/^double chance:?\s*(.+) or draw$/i)
+  if (m) return { main: `${m[1]} or Draw`, tag: 'Double chance' }
+  m = s.match(/^double chance:?\s*(.+) or (.+)$/i)
+  if (m) return { main: `${m[1]} or ${m[2]}`, tag: 'Double chance' }
+  m = s.match(/^draw no bet:?\s*(.+)$/i) || s.match(/^(.+?)\s*\(?draw no bet\)?$/i)
+  if (m) return { main: m[1].replace(/[\s,-]+$/, ''), tag: 'Draw no bet' }
+  return { main: s, tag: '' }
+}
+const fit = (txt, sizes = [[14, 94], [19, 80], [24, 68], [99, 58]]) => sizes.find(([n]) => txt.length <= n)[1]
+const sigbars = (n, h = [46, 72, 98]) => `<span class="sigbars">${[1, 2, 3].map(j => `<i data-j="${j}" style="height:${h[j - 1]}px${j <= n ? `;background:${SIGCOL[n]}` : ''}"></i>`).join('')}</span>`
+const kickoff = p => p.kickoff || ''
+// scene-relative start/duration of each spoken line
+const S = (sc, j) => sc.lines[j] || sc.lines.at(-1) || [0.4, 2]
 
-// ---------- build every scene once ----------
-const N = D.picks.length
-const root = $('#scenes')
+// ---------------------------------------------------------------- backgrounds
+// each scene gets its stadium; the opening scene cycles through all of them on the beat
+const bgEls = []
+function bgFor(src) {
+  const d = document.createElement('div'); d.className = 'bg' + (src ? '' : ' none')
+  if (src) d.style.backgroundImage = `url("${src}")`
+  $('#bgs').appendChild(d); return d
+}
+const stad = p => p && p.stadium ? p.stadium : null
+const allStadia = D.picks.map(stad).filter(Boolean)
+D.scenes.forEach((sc, k) => {
+  if (sc.type === 'hook' || sc.type === 'rhook') sc.bgs = (allStadia.length ? allStadia : [null]).map(s => bgFor(s && s.src))
+  else if (sc.type === 'pick' || sc.type === 'result') sc.bgs = [bgFor(stad(D.picks[sc.i])?.src)]
+  else sc.bgs = [bgFor((allStadia[0] || {}).src)]
+  sc.credits = sc.type === 'pick' || sc.type === 'result' ? [stad(D.picks[sc.i])?.credit] : (allStadia.length ? allStadia.map(s => s.credit) : [''])
+})
+const BEAT = D.beat || 0.62
+
+// ---------------------------------------------------------------- build
 const built = D.scenes.map((sc, k) => {
   const el = document.createElement('div'); el.className = `scene ${sc.type}`
   const p = D.picks[sc.i]
-  if (sc.type === 'intro') {
-    const tw = D.cfg.title.split(' ')
-    el.innerHTML = `<div class="kick lbl">${html(D.cfg.competition || 'Today')}</div>
-      <div class="big">${tw.map((w, j) => `<span${j ? ' style="color:#5B8DFF"' : ''}>${html(w.toUpperCase())}</span>`).join(' ')}</div>
-      <div class="date">${dayLong(D.cfg.date)}</div>
-      <div class="list">${D.picks.map(q => `<div class="row"><div class="pair">${badge(q.bh)}${badge(q.ba)}</div>
-        <div class="mid"><div class="teams">${html(q.home)} v ${html(q.away)}</div><div class="sub">${html(kick(q))}</div></div>
-        <div class="right"><div class="odd num" data-n="${q.odds}" data-d="2">0</div>${unitPill(q, true)}</div></div>`).join('')}</div>`
-  } else if (sc.type === 'match') {
-    const sim = p.home_win !== undefined
-    el.innerHTML = `<div class="vs"><div class="spot" style="background:radial-gradient(closest-side,rgba(91,141,255,.35),rgba(91,141,255,0))"></div>
-        <div class="side h">${badge(p.bh)}</div><div class="vsx">VS</div><div class="side a">${badge(p.ba)}</div></div>
-      <div class="name h">${html(p.home)}</div><div class="name a">${html(p.away)}</div>
-      <div class="ha h lbl">Home</div><div class="ha a lbl">Away</div>
-      <div class="meta">${html([p.competition, dayShort(D.cfg.date), p.kickoff].filter(Boolean).join(' · '))}</div>
-      ${sim ? `<div class="panel"><div class="lbl">Model simulation</div>
-        <div class="cols"><div><b class="num" data-n="${p.home_win}" data-d="0" data-s="%">0%</b><span>${html(p.home)}</span></div>
-        <div><b class="num" data-n="${p.draw}" data-d="0" data-s="%">0%</b><span>Draw</span></div>
-        <div><b class="num" data-n="${p.away_win}" data-d="0" data-s="%">0%</b><span>${html(p.away)}</span></div></div>
-        <div class="segbar"><i style="background:#3D7BFF"></i><i style="background:#64748B"></i><i style="background:#8B5CF6"></i></div></div>`
-      : `<div class="panel"><div class="lbl">The pick</div><div style="font:800 76px/1.05 Manrope;letter-spacing:-2.5px;margin-top:30px">${html(p.pick)}</div></div>`}`
-  } else if (sc.type === 'stats') {
-    const rows = []
-    if (p.scored_home !== undefined) rows.push(['Goals scored / game', p.scored_home, p.scored_away, 2])
-    if (p.conceded_home !== undefined) rows.push(['Goals conceded / game', p.conceded_home, p.conceded_away, 2])
-    if (p.rating_home !== undefined) rows.push(['Team rating', p.rating_home, p.rating_away, 0])
-    const xg = p.xg_home !== undefined
-    el.innerHTML = `<div class="top"><div class="tm h">${badge(p.bh)}<div class="nm">${html(p.home)}</div></div>
-        <div class="tm a">${badge(p.ba)}<div class="nm">${html(p.away)}</div></div></div>
-      ${xg ? `<div class="xg h num" data-n="${p.xg_home}" data-d="2">0.00</div><div class="xg a num" data-n="${p.xg_away}" data-d="2">0.00</div>
-      <div class="ring"><svg viewBox="0 0 250 250" style="position:absolute;inset:0;width:100%;height:100%"><circle cx="125" cy="125" r="108" stroke="rgba(255,255,255,.1)" stroke-width="10" fill="none"/>
-        <circle class="arc" cx="125" cy="125" r="108" stroke="#3D7BFF" stroke-width="10" fill="none" stroke-linecap="round" transform="rotate(-90 125 125)" stroke-dasharray="0 999"/></svg>
-        <div class="t"><span class="lbl" style="font-size:17px;line-height:1.6">Expected<br>goals</span></div></div>` : ''}
-      ${p.form_home ? `<div class="form h">${[...p.form_home].map(r => `<div class="dot ${r}">${r}</div>`).join('')}</div>` : ''}
-      ${p.form_away ? `<div class="form a">${[...p.form_away].map(r => `<div class="dot ${r}">${r}</div>`).join('')}</div>` : ''}
-      ${rows.length ? `<div class="panel" style="${xg || p.form_home ? '' : 'top:560px'}">${rows.map(([lab, a, b, d]) => {
-        const m = Math.max(a, b, 1e-9)
-        return `<div class="srow"><div class="l num" data-n="${a}" data-d="${d}">0</div><div class="c lbl" style="color:rgba(255,255,255,.55)">${lab}</div><div class="r num" data-n="${b}" data-d="${d}">0</div>
-          <div class="tr"><i class="hb" style="width:${(a / m) * 50}%"></i><i class="ab" style="width:${(b / m) * 50}%"></i></div></div>`
-      }).join('')}</div>` : ''}`
-  } else if (sc.type === 'pick') {
-    el.innerHTML = `<div class="ml">${badge(p.bh)}${badge(p.ba)}<span>${html(p.home)} v ${html(p.away)}${p.kickoff ? ' · ' + html(p.kickoff) : ''}</span></div>
-      <div class="ttl">${html(p.pick)}</div>
-      <div class="panel p1"><div class="price"><div class="lbl">Price</div><b class="num" data-n="${p.odds}" data-d="2">0.00</b><div class="uline"></div></div>
-        <div class="fair">${unitPill(p)}<div class="lbl" style="margin-top:26px;color:rgba(255,255,255,.5)">Fair odds</div><b class="num" data-n="${p.fair}" data-d="2">0.00</b></div></div>
-      <div class="panel p2"><div class="lbl">How likely it lands</div>
-        <div class="edge ${p.value ? 'pos' : 'neg'}">EDGE ${p.edge >= 0 ? '+' : '−'}${Math.abs(p.edge * 100).toFixed(1)}%</div>
-        <div class="lrow"><div class="who">Our model</div><div class="v num" data-n="${p.model}" data-d="0" data-s="%">0%</div>
-          <div class="trk"><i style="width:${p.model}%;background:linear-gradient(90deg,#1F5FDB,#5B8DFF)"></i></div></div>
-        <div class="lrow"><div class="who">Bookmaker</div><div class="v num" data-n="${p.market}" data-d="0" data-s="%" style="color:rgba(255,255,255,.75)">0%</div>
-          <div class="trk"><i style="width:${p.market}%;background:linear-gradient(90deg,#475569,#94A3B8)"></i></div><div class="half" style="left:calc((100% - 150px) / 2)">50%</div></div></div>
-      ${!p.value ? `<div class="note s">Thin price. Our number is below the bookmaker's, so keep the stake small.</div>`
-        : p.note ? `<div class="note v">${html(p.note)}</div>` : ''}`
-  } else if (sc.type === 'recap') {
-    el.innerHTML = `<div class="t1">THE <span style="color:#5B8DFF">SLATE</span></div>
-      <div class="t2">Staking ${money(D.cfg.stake_example)} across all ${N}</div>
-      <div class="list">${D.picks.map(q => `<div class="row"><div class="pair">${badge(q.bh)}${badge(q.ba)}</div>
-        <div class="mid"><div class="teams" style="font-size:34px">${html(q.pick)}</div><div class="sub">${html(q.home)} v ${html(q.away)} · ${q.odds.toFixed(2)}</div></div>
-        <div class="right"><div class="stk num" data-n="${q.stake}" data-d="0" data-m="1">0</div>${unitPill(q, true)}</div></div>`).join('')}</div>
-      <div class="sum" style="top:${540 + N * 144 + 16}px"><div class="k">${D.recap.totalUnits} units in total<br>1 unit ≈ ${money(D.recap.oneUnit)}</div>
-        <b class="num" data-n="${D.recap.total}" data-d="0" data-m="1">0</b></div>`
-  } else if (sc.type === 'rintro') {
-    const r = D.recap
-    el.innerHTML = `<div class="kick lbl">${html(D.cfg.competition || 'Results')}</div>
-      <div class="big">${html(D.cfg.title.toUpperCase())}</div>
+  if (sc.type === 'hook') {
+    const best = [...D.picks].sort((a, b) => (b.signal - a.signal) || (b.model - a.model))[0]
+    el.innerHTML = `<div class="meta"><span class="chip">${html(D.cfg.competition || 'Today')}</span></div>
+      <div class="n A">${N}</div><div class="w1 A">Picks</div><div class="w2 A">${html(D.cfg.when_word || 'Today')}</div>
       <div class="date">${html(D.cfg.date_label || dayLong(D.cfg.date))}</div>
-      <div class="chips"><span class="st won">${r.won} won</span><span class="st lost">${r.lost} lost</span>${r.void ? `<span class="st void">${r.void} void</span>` : ''}</div>
-      <div class="list">${D.picks.map(q => `<div class="row"><div class="pair">${badge(q.bh)}${badge(q.ba)}</div>
-        <div class="mid"><div class="teams" style="font-size:34px">${html(q.pick)}</div><div class="sub">${html(q.home)}${q.score ? ' ' + html(q.score.replace('-', '–')) + ' ' : ' v '}${html(q.away)} · ${q.odds.toFixed(2)}</div></div>
-        <div class="right"><span class="st ${q.result}">${q.result === 'won' ? '✓ Won' : q.result === 'lost' ? '✗ Lost' : 'Void'}</span></div></div>`).join('')}</div>`
-  } else if (sc.type === 'result') {
-    const sc2 = String(p.score || '').match(/(\d+)\s*[-–:]\s*(\d+)/)
-    el.innerHTML = `<div class="meta">${html([p.competition, dayShort(D.cfg.date)].filter(Boolean).join(' · '))}</div>
-      <div class="board"><div class="tm h">${badge(p.bh)}<div class="nm">${html(p.home)}</div></div>
-        <div class="tm a">${badge(p.ba)}<div class="nm">${html(p.away)}</div></div>
-        ${sc2 ? `<div class="score"><span>${sc2[1]}</span><span style="color:rgba(255,255,255,.35)"> – </span><span>${sc2[2]}</span></div><div class="ft lbl">Full time</div>` : '<div class="score" style="font-size:80px;top:90px;color:rgba(255,255,255,.4)">v</div>'}</div>
-      <div class="panel"><div class="lbl">The pick</div><div class="pk" style="margin-top:18px">${html(p.pick)}</div><div class="od">at ${p.odds.toFixed(2)} · ${p.units} units</div>
-        <div class="stamp ${p.result}">${p.result === 'won' ? 'WON ✓' : p.result === 'lost' ? 'LOST ✗' : 'VOID'}</div>
-        <div class="money"><div><div class="k">Stake</div><b class="num" data-n="${p.stake}" data-d="${DEC}" data-m="1">0</b></div><div class="arr">→</div>
-          <div style="text-align:right"><div class="k">Returned</div><b class="num" data-n="${p.ret}" data-d="${DEC}" data-m="1" style="color:${p.result === 'won' ? '#4ADE80' : p.result === 'lost' ? '#F87171' : '#fff'}">0</b></div></div></div>
-      <div class="run"><span class="k">Day so far · ${sc.i + 1} of ${N}</span><b data-a="${runTotal(sc.i - 1)}" data-n="${runTotal(sc.i)}"></b></div>`
-  } else if (sc.type === 'totals') {
-    const r = D.recap, pos = r.profit >= 0, roi = r.profit / r.total * 100
-    el.innerHTML = `<div class="t1">THE <span style="color:#5B8DFF">DAY</span></div>
-      <div class="t2">${money(D.cfg.stake_example)} split by units across ${N} picks</div>
-      <div class="panel"><div class="ln"><span class="k">Staked</span><b class="num" data-n="${r.total}" data-d="${DEC}" data-m="1">0</b></div>
-        <div class="ln"><span class="k">Returned</span><b class="num" data-n="${r.returned}" data-d="${DEC}" data-m="1">0</b></div>
-        <div class="ln big"><span class="k">${pos ? 'Profit' : 'Loss'}</span><b class="num" data-n="${r.profit}" data-d="${DEC}" data-m="1" style="color:${pos ? '#4ADE80' : '#F87171'}">0</b></div>
-        <div class="ln"><span class="k">Return on stake</span><b class="num" data-n="${roi}" data-d="1" data-s="%" style="color:${pos ? '#4ADE80' : '#F87171'}">0</b></div>
-        <div class="rec">${D.picks.map(q => `<i style="flex:1;background:${q.result === 'won' ? '#22C55E' : q.result === 'lost' ? '#EF4444' : '#64748B'}"></i>`).join('')}</div></div>
-      <div class="foot">${r.won} won · ${r.lost} lost${r.void ? ' · ' + r.void + ' void' : ''}. Value picks staked 7.5 units, small stakes 5. Every result is posted, good days and bad.</div>`
-  } else if (sc.type === 'outro') {
-    el.innerHTML = `<div class="logo"><div class="bars"><i style="height:58px"></i><i style="height:94px"></i><i style="height:130px"></i></div>
-      <div class="word">${[...'cmvng'].map(c => `<span>${c}</span>`).join('')}</div></div>
-      <div class="url">${html(D.cfg.cta.url)}</div><div class="cta">${html(D.cfg.cta.line)} →</div>
-      <div class="resp">18+ · ONLY STAKE WHAT YOU CAN AFFORD TO LOSE</div>`
-  }
-  root.appendChild(el)
-  return el
-})
-$('#furl').textContent = D.cfg.cta.url
-$('#prog').innerHTML = D.picks.map(() => '<i><b></b></i>').join('')
-
-// captions
-const capEl = $('#cap')
-let capShown = -1
-
-// grain tile: one static tile. Grain that changes every frame looks the same on a phone but makes the file ~10× bigger
-const grains = []
-let seed = 99; const rnd = () => (seed = (seed * 1103515245 + 12345) % 2147483648) / 2147483648
-for (let g = 0; g < 1; g++) {
-  const c = document.createElement('canvas'); c.width = c.height = 256
-  const x = c.getContext('2d'), d = x.createImageData(256, 256)
-  for (let i = 0; i < d.data.length; i += 4) { const v = rnd() * 255; d.data[i] = d.data[i + 1] = d.data[i + 2] = v; d.data[i + 3] = 255 }
-  x.putImageData(d, 0, 0); grains.push(`url(${c.toDataURL()})`)
-}
-
-function countUps(el, lt, delay = 0.15, dur = 1.1, stagger = 0.08) {
-  $$('.num', el).forEach((n, j) => {
-    const v = +n.dataset.n, d = +n.dataset.d, k = P(lt, delay + j * stagger, delay + j * stagger + dur, E.outCubic)
-    const val = v * k
-    n.textContent = n.dataset.m ? money(val) : (n.dataset.s === '%' && v < 0 ? '−' + fmt(-val, d) : fmt(val, d)) + (n.dataset.s || '')
-  })
-}
-function rise(nodes, lt, start, step = 0.07, dist = 40, dur = 0.7) {
-  nodes.forEach((n, j) => {
-    const k = P(lt, start + j * step, start + j * step + dur)
-    n.style.opacity = k; n.style.transform = `translate3d(0,${(1 - k) * dist}px,0)`
-  })
-}
-
-// ---------- per-scene animation ----------
-function draw(k, lt, dur) {
-  const sc = D.scenes[k], el = built[k], p = D.picks[sc.i]
-  const out = sc.type === 'outro' ? 0 : P(lt, dur - 0.28, dur, E.inCubic) // soft exit
-  el.style.opacity = 1 - out
-  if (sc.type === 'intro') {
-    rise([$('.kick', el)], lt, 0.05)
-    $$('.big span', el).forEach((s, j) => { const q = P(lt, 0.1 + j * .1, 0.9 + j * .1); s.style.opacity = q; s.style.transform = `translate3d(0,${(1 - q) * 80}px,0)` })
-    rise([$('.date', el)], lt, 0.35)
-    $$('.row', el).forEach((r, j) => { const q = P(lt, 0.55 + j * .12, 1.3 + j * .12); r.style.opacity = q; r.style.transform = `translate3d(${(1 - q) * 120}px,0,0)` })
-    countUps(el, lt, 0.8, 1.0, 0.12)
-  } else if (sc.type === 'match') {
-    const sides = $$('.side', el)
-    sides.forEach((s, j) => { const q = P(lt, 0.05, 0.85, E.outBack); s.style.transform = `translate3d(${(1 - q) * (j ? 260 : -260)}px,0,0) scale(${0.6 + 0.4 * q})`; s.style.opacity = P(lt, 0.05, 0.4) })
-    const spot = $('.spot', el); spot.style.opacity = 0.6 + 0.4 * Math.sin(lt * 2.2); spot.style.transform = `scale(${0.8 + 0.25 * P(lt, 0, 1.2)})`
-    $('.vsx', el).style.opacity = P(lt, 0.4, 0.8)
-    rise($$('.name, .ha', el), lt, 0.35, 0.06)
-    rise([$('.meta', el)], lt, 0.55)
-    rise([$('.panel', el)], lt, 0.7, 0, 60, 0.8)
-    countUps(el, lt, 0.95, 1.1, 0.1)
-    if (p.home_win !== undefined) {
-      const segs = $$('.segbar i', el), q = P(lt, 0.95, 2.0, E.outCubic), tot = p.home_win + p.draw + p.away_win
-      ;[p.home_win, p.draw, p.away_win].forEach((v, j) => segs[j].style.width = `${(v / tot) * 100 * q}%`)
-    }
-  } else if (sc.type === 'stats') {
-    rise($$('.tm', el), lt, 0.05, 0.08, 50)
-    rise($$('.xg', el), lt, 0.25, 0.08, 50)
-    const arc = $('.arc', el)
-    if (arc) { const share = p.xg_home / (p.xg_home + p.xg_away), C = 2 * Math.PI * 108, q = P(lt, 0.4, 1.6, E.outCubic); arc.setAttribute('stroke-dasharray', `${C * share * q} ${C}`); $('.ring', el).style.opacity = P(lt, 0.3, 0.7) }
-    $$('.form .dot', el).forEach((d, j) => { const q = P(lt, 0.6 + (j % 5) * 0.07, 1.1 + (j % 5) * 0.07, E.outBack); d.style.transform = `scale(${q})` })
-    rise($$('.panel', el), lt, 0.75, 0, 60, 0.8)
-    $$('.srow', el).forEach((r, j) => {
-      const q = P(lt, 1.0 + j * .15, 1.9 + j * .15, E.outCubic)
-      $$('.tr i', r).forEach(i => i.style.transform = `scaleX(${q})`)
-    })
-    countUps(el, lt, 0.3, 1.2, 0.06)
+      <div class="pairs">${D.picks.map(q => `<div class="pair">${badge(q.bh)}${badge(q.ba)}</div>`).join('')}</div>
+      <div class="tease"><span class="chip">Top signal ${sigbars(best.signal, [18, 26, 34])} ${Math.round(best.model)}%</span></div>`
   } else if (sc.type === 'pick') {
-    rise([$('.ml', el)], lt, 0.05)
-    rise([$('.ttl', el)], lt, 0.12, 0, 60, 0.8)
-    rise($$('.panel', el), lt, 0.35, 0.18, 70, 0.8)
-    $('.uline', el).style.transform = `scaleX(${P(lt, 0.7, 1.5)})`
-    $$('.trk i', el).forEach((b, j) => b.style.transform = `scaleX(${P(lt, 0.9 + j * .15, 2.0 + j * .15, E.outCubic)})`)
-    const ed = $('.edge', el); ed.style.opacity = P(lt, 1.6, 2.0); ed.style.transform = `scale(${0.8 + 0.2 * P(lt, 1.6, 2.1, E.outBack)})`
-    const note = $('.note', el); if (note) rise([note], lt, 2.0, 0, 30)
-    countUps(el, lt, 0.5, 1.2, 0.15)
-  } else if (sc.type === 'recap') {
-    rise([$('.t1', el)], lt, 0.05, 0, 60)
-    rise([$('.t2', el)], lt, 0.25)
-    $$('.row', el).forEach((r, j) => { const q = P(lt, 0.4 + j * .1, 1.1 + j * .1); r.style.opacity = q; r.style.transform = `translate3d(${(1 - q) * -120}px,0,0)` })
-    rise([$('.sum', el)], lt, 0.6 + N * .1, 0, 40)
-    countUps(el, lt, 0.7, 1.2, 0.1)
-  } else if (sc.type === 'rintro') {
-    rise([$('.kick', el)], lt, 0.05); rise([$('.big', el)], lt, 0.1, 0, 80, 0.8); rise([$('.date', el)], lt, 0.3)
-    $$('.chips .st', el).forEach((c, j) => { const q = P(lt, 0.45 + j * .1, 1.0 + j * .1, E.outBack); c.style.transform = `scale(${q})` })
-    $$('.row', el).forEach((r, j) => { const q = P(lt, 0.6 + j * .12, 1.35 + j * .12); r.style.opacity = q; r.style.transform = `translate3d(${(1 - q) * 120}px,0,0)` })
-    $$('.row .st', el).forEach((c, j) => { const q = P(lt, 1.1 + j * .12, 1.6 + j * .12, E.outBack); c.style.transform = `scale(${q})` })
+    const xg = p.xg_home !== undefined ? `<span class="chip">xG <b>${p.xg_home.toFixed(1)}</b> – <b>${p.xg_away.toFixed(1)}</b></span>` : ''
+    const fm = p.form_home ? `<span class="chip">Form <b>${p.form_home}</b> · <b>${p.form_away || '—'}</b></span>` : ''
+    const gl = (b) => `radial-gradient(closest-side,${b.colour || '#1F5FDB'},rgba(0,0,0,0))`
+    el.innerHTML = `<div class="meta"><span class="chip">${html([p.competition, kickoff(p)].filter(Boolean).join(' · '))}</span></div>
+      <div class="mu"><div class="glowH" style="background:${gl(p.bh)}"></div><div class="glowA" style="background:${gl(p.ba)}"></div>
+        <div class="side h">${badge(p.bh)}<div class="nm A">${html(p.home)}</div></div>
+        <div class="vs A">vs</div>
+        <div class="side a">${badge(p.ba)}<div class="nm A">${html(p.away)}</div></div></div>
+      <div class="stat">${xg}${fm}</div>
+      <div class="card pc"><div class="lbl">The pick${label(p).tag ? ' · ' + html(label(p).tag) : ''}</div><div class="pk A" style="font-size:${fit(label(p).main)}px">${html(label(p).main)}</div>
+        <div class="odds A"><span class="at">@</span><span class="o">${p.odds.toFixed(2)}</span></div>
+        ${kickoff(p) ? `<div class="ko"><div class="lbl">Kick-off</div><b>${html(kickoff(p))}</b></div>` : ''}</div>
+      <div class="card probs">
+        <div class="row"><div class="k">Bookies</div><div class="tr"><b style="background:rgba(255,255,255,.55)"></b></div><div class="v A" data-n="${p.market}">0%</div></div>
+        <div class="row"><div class="k">Our model</div><div class="tr"><b style="background:linear-gradient(90deg,#1F5FDB,#6E9BFF)"></b></div><div class="v A" data-n="${p.model}">0%</div></div></div>
+      <div class="card sig">${sigbars(p.signal)}<div class="t"><div class="lbl">cmvng signal</div><b class="A" style="color:${SIGCOL[p.signal]}">${p.signal} bar${p.signal > 1 ? 's' : ''} · ${SIGWORD[p.signal]}</b></div></div>`
+  } else if (sc.type === 'slate') {
+    el.innerHTML = `<div class="t1 A">The slate</div><div class="t2">${money(D.cfg.stake_example)} split by signal bars</div>
+      <div class="card tk">${D.picks.map(q => `<div class="r"><div class="pair">${badge(q.bh)}${badge(q.ba)}</div>
+        <div class="mid"><div class="pk">${html(label(q).main)}</div><div class="sub">${label(q).tag ? html(label(q).tag) + ' · ' : ''}${html(q.home)} v ${html(q.away)}</div></div>
+        <div class="od A">${q.odds.toFixed(2)}</div><div class="sb">${sigbars(q.signal, [20, 30, 40])}</div><div class="stk" data-n="${q.stake}">0</div></div>`).join('')}</div>
+      <div class="tot" style="top:${560 + N * 148 + 70}px"><span class="k">${D.recap.totalBars} bars · 1 bar ≈ ${money(D.recap.perBar)}</span><b class="A">${money(D.recap.total)}</b></div>`
+  } else if (sc.type === 'cta') {
+    el.innerHTML = `<div class="wrap"><div class="logo"><span class="bars"><i style="height:64px"></i><i style="height:98px"></i><i style="height:132px"></i></span>cmvng</div>
+      <div class="big A">${RES ? 'Next picks<br>' + html(D.cfg.next_when) : 'Results<br>' + html(D.cfg.results_when)}</div>
+      <div class="url">${html(D.cfg.cta.url)}</div><div class="dis">18+ · Predictions, not guarantees</div></div>`
+  } else if (sc.type === 'rhook') {
+    const r = D.recap
+    el.innerHTML = `<div class="meta"><span class="chip">${html([D.cfg.competition, D.cfg.date_label || dayLong(D.cfg.date)].filter(Boolean).join(' · '))}</span></div>
+      <div class="score A">${r.won}<span>/${N}</span></div><div class="wonw A">Won</div>
+      <div class="money A"><span class="a">${money(D.cfg.stake_example)}</span><span class="arr">→</span><span class="b" style="color:${r.profit >= 0 ? 'var(--win2)' : 'var(--loss2)'}">${money(0)}</span></div>
+      <div class="dots">${D.picks.map(q => `<div class="dot ${q.result}"><div class="pair">${badge(q.bh)}${badge(q.ba)}</div><b>${q.result === 'won' ? '✓ Won' : q.result === 'lost' ? '✗ Lost' : 'Void'}</b></div>`).join('')}</div>`
   } else if (sc.type === 'result') {
+    const m = String(p.score || '').match(/(\d+)\s*[-–:]\s*(\d+)/)
+    const net = p.ret - p.stake
+    el.innerHTML = `<div class="meta"><span class="chip">${html([p.competition, 'Full time'].filter(Boolean).join(' · '))}</span></div>
+      <div class="sb"><div class="side h">${badge(p.bh)}<div class="nm A">${html(p.home)}</div></div>
+        <div class="side a">${badge(p.ba)}<div class="nm A">${html(p.away)}</div></div>
+        <div class="sc A">${m ? `${m[1]}<span>–</span>${m[2]}` : '<span>v</span>'}</div></div>
+      <div class="card pc"><div class="lbl">The pick${label(p).tag ? ' · ' + html(label(p).tag) : ''}</div><div class="pk A" style="font-size:${Math.round(fit(label(p).main) * 0.8)}px">${html(label(p).main)}</div><div class="od">at ${p.odds.toFixed(2)} · ${p.signal} bar${p.signal > 1 ? 's' : ''} · stake ${money(p.stake)}</div>
+        <div class="stamp ${p.result} A">${p.result === 'won' ? 'Won ✓' : p.result === 'lost' ? 'Lost ✗' : 'Void'}</div></div>
+      <div class="card mny"><span class="k">${p.result === 'won' ? 'Profit' : p.result === 'lost' ? 'Lost' : 'Stake back'}</span><b class="A" style="color:${net > 0 ? 'var(--win2)' : net < 0 ? 'var(--loss2)' : '#fff'}" data-n="${net}">${money(0)}</b></div>`
+  } else if (sc.type === 'rtotal') {
+    const r = D.recap, pos = r.profit >= 0
+    el.innerHTML = `<div class="t1 A">The day</div><div class="t2">${money(D.cfg.stake_example)} split by signal bars · ${r.won} won · ${r.lost} lost${r.void ? ` · ${r.void} void` : ''}</div>
+      <div class="card"><div class="ln"><span class="k">Staked</span><b class="A" data-n="${r.total}">0</b></div>
+        <div class="ln"><span class="k">Returned</span><b class="A" data-n="${r.returned}">0</b></div>
+        <div class="ln big"><span class="k">${pos ? 'Profit' : 'Loss'}</span><b class="A" data-n="${r.profit}" style="color:${pos ? 'var(--win2)' : 'var(--loss2)'}">0</b></div>
+        <div class="strip">${D.picks.map(q => `<i style="background:${q.result === 'won' ? 'var(--win)' : q.result === 'lost' ? 'var(--loss)' : '#94A3B8'}"></i>`).join('')}</div></div>`
+  }
+  $('#scenes').appendChild(el); return el
+})
+function dayLong(d) { return d ? new Date(`${d}T12:00:00Z`).toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', timeZone: 'UTC' }) : '' }
+$('#pips').innerHTML = D.picks.map(() => '<i></i>').join('')
+
+// ---------------------------------------------------------------- draw helpers
+function rise(nodes, lt, start, step = 0.07, dist = 50, dur = 0.6) {
+  nodes.forEach((n, j) => { if (!n) return; const q = P(lt, start + j * step, start + j * step + dur); n.style.opacity = q; n.style.transform = `translate3d(0,${(1 - q) * dist}px,0)` })
+}
+// slam: big → normal with a little blur, used for numbers and stamps
+function slam(n, lt, at, from = 1.7, dur = 0.32, extra = '') {
+  if (!n) return; const q = P(lt, at, at + dur, E.outCubic)
+  n.style.opacity = P(lt, at, at + 0.08); n.style.transform = `${extra} scale(${from - (from - 1) * q})`; n.style.filter = `blur(${(1 - q) * 10}px)`
+}
+const shake = (lt, at, amp = 14) => { const d = lt - at; if (d < 0 || d > 0.28) return ''; const a = amp * (1 - d / 0.28); return `translate3d(${a * Math.sin(d * 95)}px,${a * Math.cos(d * 77)}px,0)` }
+function count(n, lt, a, b, fmt) { if (!n) return; const v = +n.dataset.n * P(lt, a, b, E.outCubic); n.textContent = fmt(v) }
+
+// ---------------------------------------------------------------- draw each scene
+function draw(k, lt, sc) {
+  const el = built[k], p = D.picks[sc.i]
+  if (sc.type === 'hook') {
     rise([$('.meta', el)], lt, 0.05)
-    $$('.tm', el).forEach((s, j) => { const q = P(lt, 0.05, 0.8, E.outBack); s.style.transform = `translate3d(${(1 - q) * (j ? 200 : -200)}px,0,0)`; s.style.opacity = P(lt, 0.05, 0.4) })
-    const sco = $('.score', el); if (sco) { const q = P(lt, 0.35, 0.9, E.outBack); sco.style.opacity = P(lt, 0.35, 0.6); sco.style.transform = `translateX(-50%) scale(${0.7 + 0.3 * q})` }
-    const ft = $('.ft', el); if (ft) ft.style.opacity = P(lt, 0.8, 1.2)
-    rise([$('.panel', el)], lt, 0.6, 0, 70, 0.8)
-    const stp = $('.stamp', el), q = P(lt, 1.1, 1.55, E.outBack)
-    stp.style.opacity = P(lt, 1.1, 1.25); stp.style.transform = `rotate(${-8 * q}deg) scale(${1.8 - 0.8 * q})`
-    countUps(el, lt, 1.2, 0.8, 0.45)
-    const run = $('.run', el), rb = $('.run b', el), a = +rb.dataset.a, b = +rb.dataset.n, k = P(lt, 2.1, 2.9, E.outCubic), v = a + (b - a) * k
-    rise([run], lt, 0.9, 0, 30)
-    rb.textContent = (v > 0.004 ? '+' : '') + money(v); rb.style.color = v > 0.004 ? '#4ADE80' : v < -0.004 ? '#F87171' : '#fff'
-  } else if (sc.type === 'totals') {
-    rise([$('.t1', el)], lt, 0.05, 0, 60); rise([$('.t2', el)], lt, 0.25)
-    rise([$('.panel', el)], lt, 0.4, 0, 60, 0.8); rise($$('.ln', el), lt, 0.55, 0.15, 30)
-    $$('.rec i', el).forEach((b, j) => { b.style.opacity = P(lt, 1.6 + j * .08, 1.9 + j * .08) })
-    rise([$('.foot', el)], lt, 2.0)
-    countUps(el, lt, 0.7, 1.4, 0.3)
-  } else if (sc.type === 'outro') {
-    $$('.logo .bars i', el).forEach((b, j) => b.style.transform = `scaleY(${P(lt, 0.1 + j * .1, 0.8 + j * .1)})`)
-    $$('.word span', el).forEach((s, j) => s.style.transform = `translate3d(0,${(1 - P(lt, 0.35 + j * .05, 1.1 + j * .05)) * 110}%,0)`)
-    rise([$('.url', el)], lt, 0.9); rise([$('.cta', el)], lt, 1.1); rise([$('.resp', el)], lt, 1.4)
-    $('.cta', el).style.transform += ` scale(${1 + 0.015 * Math.sin(Math.max(0, lt - 1.8) * 3)})`
+    slam($('.n', el), lt, 0.05, 2.2, 0.36)
+    const w1 = $('.w1', el), w2 = $('.w2', el), q1 = P(lt, 0.25, 0.7), q2 = P(lt, 0.4, 0.85)
+    w1.style.opacity = q1; w1.style.transform = `translate3d(${(1 - q1) * 300}px,0,0)`
+    w2.style.opacity = q2; w2.style.transform = `translate3d(${(1 - q2) * 300}px,0,0)`
+    rise([$('.date', el)], lt, 0.6)
+    $$('.pair', el).forEach((n, j) => { const at = 0.8 + j * BEAT / 2, q = P(lt, at, at + 0.35, E.outBack); n.style.opacity = P(lt, at, at + 0.12); n.style.transform = `scale(${0.4 + 0.6 * q})` })
+    const tz = $('.tease', el), q = P(lt, S(sc, 0)[0] + S(sc, 0)[1] * 0.75, S(sc, 0)[0] + S(sc, 0)[1] * 0.75 + 0.4, E.outBack)
+    tz.style.opacity = clamp(q * 3); tz.style.transform = `scale(${0.6 + 0.4 * q})`
+    el.style.transform = shake(lt, 0.36, 16)
+  } else if (sc.type === 'pick') {
+    const [b1] = S(sc, 1), [b2, d2] = S(sc, 2)
+    rise([$('.meta', el)], lt, 0.02)
+    const mu = $('.mu', el), h = $('.side.h', mu), a = $('.side.a', mu), vs = $('.vs', mu)
+    const qi = P(lt, 0.0, 0.55, E.outBack)
+    h.style.transform = `translate3d(${(1 - qi) * -520}px,0,0)`; a.style.transform = `translate3d(${(1 - qi) * 520}px,0,0)`
+    h.style.opacity = a.style.opacity = P(lt, 0, 0.2)
+    slam(vs, lt, 0.32, 2.4, 0.3, 'translateX(-50%)')
+    $$('.glowH,.glowA', mu).forEach(g => { g.style.opacity = 0.55 * P(lt, 0.1, 0.8) })
+    // the matchup moves up and shrinks when the pick lands
+    const up = P(lt, b1 - 0.25, b1 + 0.2, E.inOutCubic)
+    mu.style.transform = `translate3d(0,${-70 * up}px,0) scale(${1 - 0.42 * up})`
+    $('.meta', el).style.opacity = P(lt, 0.02, 0.6) * (1 - up)
+    rise([$('.stat', el)], lt, 0.55)
+    $('.stat', el).style.opacity = P(lt, 0.55, 1.0) * (1 - up)
+    const pc = $('.pc', el); slam(pc, lt, b1 - 0.1, 1.35, 0.28)
+    pc.style.transform += ' ' + shake(lt, b1 + 0.18, 12)
+    slam($('.o', pc), lt, b1 + 0.18, 1.8, 0.26)
+    rise([$('.probs', el)], lt, b2 - 0.2, 0, 60, 0.45)
+    const rows = $$('.row', el)
+    rows.forEach((r, j) => {
+      const q = P(lt, b2 + 0.1 + j * 0.45, b2 + 0.9 + j * 0.45, E.outCubic)
+      $('.tr b', r).style.transform = `scaleX(${q * +$('.v', r).dataset.n / 100})`
+      $('.v', r).textContent = Math.round(q * +$('.v', r).dataset.n) + '%'
+    })
+    const sg = $('.sig', el), lightAt = b2 + Math.max(1.2, d2 * 0.62)
+    rise([sg], lt, b2 + 0.5, 0, 60, 0.45)
+    $$('.sigbars i', sg).forEach(i => {
+      const j = +i.dataset.j, on = j <= p.signal, at = lightAt + (j - 1) * 0.16
+      const q = P(lt, at, at + 0.2)
+      i.style.background = on && q > 0.5 ? SIGCOL[p.signal] : 'rgba(255,255,255,.14)'
+      i.style.boxShadow = on ? `0 0 ${34 * q}px ${SIGCOL[p.signal]}` : 'none'
+      i.style.transform = on ? `scaleY(${0.85 + 0.15 * P(lt, at, at + 0.25, E.outBack)})` : ''
+    })
+    const tb = $('.sig .t b', el); tb.style.opacity = P(lt, lightAt + 0.35, lightAt + 0.6)
+  } else if (sc.type === 'slate') {
+    rise([$('.t1', el), $('.t2', el)], lt, 0.05, 0.12, 60)
+    rise([$('.tk', el)], lt, 0.2, 0, 80, 0.5)
+    $$('.r', el).forEach((r, j) => { const q = P(lt, 0.35 + j * 0.12, 0.85 + j * 0.12); r.style.opacity = q; r.style.transform = `translate3d(${(1 - q) * -140}px,0,0)` })
+    $$('.stk', el).forEach((n, j) => count(n, lt, 0.7 + j * 0.12, 1.5 + j * 0.12, v => money(v)))
+    rise([$('.tot', el)], lt, 0.9 + N * 0.12)
+  } else if (sc.type === 'cta') {
+    const lg = $('.logo', el); slam(lg, lt, 0.05, 1.6, 0.4)
+    $$('.logo .bars i', el).forEach((b, j) => { b.style.transform = `scaleY(${P(lt, 0.1 + j * 0.08, 0.5 + j * 0.08, E.outBack)})`; b.style.transformOrigin = '50% 100%' })
+    slam($('.big', el), lt, 0.35, 1.5, 0.3); el.style.transform = shake(lt, 0.65, 10)
+    rise([$('.url', el), $('.dis', el)], lt, 0.7, 0.15)
+  } else if (sc.type === 'rhook') {
+    rise([$('.meta', el)], lt, 0.05)
+    slam($('.score', el), lt, 0.05, 2.2, 0.36); el.style.transform = shake(lt, 0.36, 16)
+    slam($('.wonw', el), lt, 0.45, 1.6, 0.3)
+    const [m0] = S(sc, 1)
+    rise([$('.money', el)], lt, Math.min(1.0, m0 - 0.3), 0, 60)
+    const b = $('.money .b', el), v = D.recap.returned * P(lt, m0 + 0.2, m0 + 1.6, E.outCubic); b.textContent = money(v)
+    $$('.dot', el).forEach((n, j) => { const at = 0.8 + j * BEAT / 2, q = P(lt, at, at + 0.35, E.outBack); n.style.opacity = P(lt, at, at + 0.12); n.style.transform = `scale(${0.4 + 0.6 * q})` })
+  } else if (sc.type === 'result') {
+    const [b1] = S(sc, 1)
+    rise([$('.meta', el)], lt, 0.02)
+    const h = $('.side.h', el), a = $('.side.a', el), qi = P(lt, 0, 0.5, E.outBack)
+    h.style.transform = `translate3d(${(1 - qi) * -420}px,0,0)`; a.style.transform = `translate3d(${(1 - qi) * 420}px,0,0)`
+    h.style.opacity = a.style.opacity = P(lt, 0, 0.2)
+    slam($('.sc', el), lt, 0.3, 2.0, 0.3, 'translateX(-50%)')
+    $('.sb', el).style.transform = shake(lt, 0.6, 12)
+    rise([$('.pc', el)], lt, 0.55, 0, 80, 0.5)
+    const st = $('.stamp', el), q = P(lt, b1 + 0.05, b1 + 0.35, E.outCubic)
+    st.style.opacity = P(lt, b1 + 0.05, b1 + 0.12); st.style.transform = `rotate(${-6 - 4 * (1 - q)}deg) scale(${2.2 - 1.2 * q})`
+    $('.pc', el).style.transform += ' ' + shake(lt, b1 + 0.35, 10)
+    rise([$('.mny', el)], lt, b1 + 0.3, 0, 60, 0.45)
+    count($('.mny b', el), lt, b1 + 0.45, b1 + 1.3, v => money(v, true))
+  } else if (sc.type === 'rtotal') {
+    rise([$('.t1', el), $('.t2', el)], lt, 0.05, 0.12, 60)
+    rise([$('.card', el)], lt, 0.25, 0, 80, 0.5)
+    rise($$('.ln', el), lt, 0.35, 0.12, 30)
+    $$('.ln b', el).forEach((n, j) => count(n, lt, 0.5 + j * 0.25, 1.5 + j * 0.25, v => money(v, j === 2)))
+    $$('.strip i', el).forEach((n, j) => { n.style.opacity = P(lt, 1.6 + j * 0.08, 1.9 + j * 0.08) })
   }
 }
 
-const WIPE_TYPES = new Set(['match', 'recap', 'outro', 'result', 'totals'])
-window.renderAt = function (t) {
-  // background life
-  $('#g1').style.transform = `translate3d(${-460 + 140 * Math.sin(t * .2)}px,${-560 + 110 * Math.cos(t * .17)}px,0)`
-  $('#g2').style.transform = `translate3d(${300 + 120 * Math.cos(t * .15)}px,${900 + 100 * Math.sin(t * .19)}px,0)`
-  $('#pitch').style.transform = `rotateX(62deg) translate3d(${30 * Math.sin(t * .1)}px,${-((t * 14) % 1020) / 3}px,0)`
-  $('#grain').style.backgroundImage = grains[0]
-  $('#pitchWrap').style.opacity = 0.55 * (1 - 0.7 * P(t, D.scenes.at(-1).start, D.scenes.at(-1).start + 0.6, E.outCubic))
+// ---------------------------------------------------------------- sound effects in sync with the drawing above
+window.fxEvents = function () {
+  const ev = [], add = (t, type, gain) => ev.push({ t: +t.toFixed(3), type, ...(gain ? { gain } : {}) })
+  D.scenes.forEach((sc, k) => {
+    const T = sc.start, p = D.picks[sc.i]
+    if (k > 0) add(T, 'whoosh')
+    if (sc.type === 'hook' || sc.type === 'rhook') { add(T + 0.25, 'impact'); if (sc.type === 'rhook') add(T + 0.6, 'impact', 0.6) }
+    if (sc.type === 'pick') {
+      const [b1] = S(sc, 1), [b2, d2] = S(sc, 2)
+      add(T + 0.42, 'impact', 0.5)                         // "vs"
+      add(T + b1 + 0.2, 'impact')                          // the pick card slams
+      const lightAt = b2 + Math.max(1.2, d2 * 0.62)
+      for (let j = 1; j <= p.signal; j++) add(T + lightAt + (j - 1) * 0.16, ['tick', 'tick2', 'tick3'][j - 1])
+    }
+    if (sc.type === 'result') {
+      const [b1] = S(sc, 1)
+      add(T + 0.5, 'impact', 0.55)                         // the score
+      add(T + b1 + 0.22, p.result === 'won' ? 'ding' : p.result === 'lost' ? 'thud' : 'tick')
+      if (p.result === 'won') add(T + b1 + 1.2, 'cash', 0.7)
+    }
+    if (sc.type === 'rtotal') add(T + 2.0 + 0.25, D.recap.profit >= 0 ? 'cash' : 'thud')
+    if (sc.type === 'cta') add(T + 0.6, 'impact', 0.7)
+    if (sc.type === 'slate') add(T + 0.25, 'impact', 0.45)
+    const nx = D.scenes[k + 1]
+    if (nx && (nx.type === 'slate' || nx.type === 'rtotal')) add(nx.start, 'riser', 0.8)
+  })
+  return ev
+}
 
-  // active scene
+// ---------------------------------------------------------------- frame
+let capShown = -1
+const capEl = $('#cap')
+let seed = 99; const rnd = () => (seed = (seed * 1103515245 + 12345) % 2147483648) / 2147483648
+const gc = document.createElement('canvas'); gc.width = gc.height = 256
+{ const x = gc.getContext('2d'), d = x.createImageData(256, 256); for (let i = 0; i < d.data.length; i += 4) { const v = rnd() * 255; d.data[i] = d.data[i + 1] = d.data[i + 2] = v; d.data[i + 3] = 255 } x.putImageData(d, 0, 0) }
+$('#grain').style.backgroundImage = `url(${gc.toDataURL()})`
+
+window.renderAt = function (t) {
   let k = D.scenes.findIndex(s => t >= s.start && t < s.start + s.dur); if (k < 0) k = D.scenes.length - 1
-  built.forEach((el, j) => { el.style.display = j === k ? (D.scenes[j].type === 'outro' ? 'flex' : 'block') : 'none' })
-  const sc = D.scenes[k]
-  draw(k, t - sc.start, sc.dur)
+  const sc = D.scenes[k], lt = t - sc.start
+  built.forEach((el, j) => { el.style.display = j === k ? 'block' : 'none' })
+
+  // background: current scene's stadium (hook: one stadium per beat), slow push-in, punch-in at the cut
+  D.scenes.forEach((s2, j) => s2.bgs.forEach(b => { if (j !== k) b.style.opacity = 0 }))
+  const nb = sc.bgs.length, cyc = (sc.type === 'hook' || sc.type === 'rhook') && nb > 1
+  const bi = cyc ? Math.min(nb - 1, Math.floor(lt / BEAT)) % nb : 0
+  sc.bgs.forEach((b, j) => {
+    if (j !== bi) { b.style.opacity = 0; return }
+    const st = cyc ? bi * BEAT : 0, l2 = lt - st, punch = 1 - P(l2, 0, 0.45, E.outCubic)
+    const s = 1.1 + 0.08 * clamp(lt / Math.max(4, sc.dur)) + 0.12 * punch
+    b.style.opacity = 1
+    b.style.transform = `scale(${s}) translate3d(${(k % 2 ? -1 : 1) * 14 * clamp(lt / sc.dur)}px,${-10 * clamp(lt / sc.dur)}px,0)`
+  })
+  $('#credit').textContent = sc.credits[cyc ? bi : 0] || ''
+
+  draw(k, lt, sc)
 
   // header
-  const hdr = $('#hdr'); hdr.style.opacity = sc.type === 'outro' ? 1 - P(t - sc.start, 0, 0.4) : P(t, 0.1, 0.6)
-  $('#hlabel').textContent = (sc.type === 'intro' || sc.type === 'rintro') ? (D.cfg.competition || '') : sc.type === 'recap' ? 'The slate' : sc.type === 'totals' ? 'The day' : sc.i !== undefined ? `${sc.type === 'result' ? 'Result' : 'Pick'} ${sc.i + 1} / ${N}` : ''
-  $$('#prog b').forEach((b, j) => { const cur = sc.i ?? ((sc.type === 'intro' || sc.type === 'rintro') ? -1 : N); b.style.transform = `scaleX(${j < cur ? 1 : j === cur ? ({ match: .33, stats: .66, pick: 1, result: 1 }[sc.type] || 0) : 0})` })
-  $('#prog').style.opacity = (sc.type === 'intro' || sc.type === 'rintro') ? 0 : 1
+  $('#hlabel').textContent = sc.type === 'pick' ? `Pick ${sc.i + 1} / ${N}` : sc.type === 'result' ? `Result ${sc.i + 1} / ${N}` : sc.type === 'slate' ? 'The slate' : sc.type === 'rtotal' ? 'The day' : ''
+  $$('#pips i').forEach((b, j) => { b.className = sc.i === undefined ? (['slate', 'rtotal', 'cta'].includes(sc.type) ? 'done' : '') : j < sc.i ? 'done' : j === sc.i ? 'on' : '' })
+  $('#pips').style.opacity = (sc.type === 'hook' || sc.type === 'rhook' || sc.type === 'cta') ? 0 : 1
+  $('#hdr').style.opacity = sc.type === 'cta' ? 1 - P(lt, 0, 0.3) : 1
 
-  // wipe at scene boundaries
-  const wipe = $('#wipe'); wipe.style.display = 'none'
+  // cut: flash + light streak across, in time with the whoosh
+  let fl = 0, sx = -2000
   for (let j = 1; j < D.scenes.length; j++) {
-    const T = D.scenes[j].start
-    if (!(WIPE_TYPES.has(D.scenes[j].type) || ['intro', 'rintro'].includes(D.scenes[j - 1].type)) || Math.abs(t - T) > 0.42) continue
-    wipe.style.display = 'block'
-    $$('#wipe i').forEach((b, n) => {
-      const q = E.inOutCubic(clamp((t - (T - 0.42) - n * 0.05) / 0.74))
-      b.style.transform = `translate3d(${-1700 + q * 3500 + n * 360}px,0,0) skewX(-14deg)`
-    })
+    const d = t - D.scenes[j].start
+    if (d > -0.22 && d < 0.3) { fl = Math.max(fl, d < 0 ? 0 : 0.5 * (1 - d / 0.3)); sx = -400 + (d + 0.22) / 0.52 * 1900 }
   }
+  $('#flash').style.opacity = fl
+  const sk = $('#streak'); sk.style.opacity = sx > -1000 ? 0.55 : 0; sk.style.transform = `translate3d(${sx}px,0,0) rotate(18deg)`
 
   // captions
   const ci = D.captions.findIndex(c => t >= c.start && t < c.end)
@@ -529,18 +503,21 @@ window.renderAt = function (t) {
     capEl.innerHTML = ci < 0 ? '' : `<div class="c">${D.captions[ci].words.map(w => `<span class="w">${html(w.w)}</span>`).join(' ')}</div>`
   }
   if (ci >= 0) {
-    const c = D.captions[ci], q = P(t, c.start, c.start + 0.18, E.outCubic)
-    const box = $('.c', capEl); box.style.opacity = q; box.style.transform = `translate3d(0,${(1 - q) * 16}px,0)`
+    const c = D.captions[ci], q = P(t, c.start, c.start + 0.16, E.outBack)
+    const box = $('.c', capEl); box.style.opacity = clamp(q * 2); box.style.transform = `scale(${0.85 + 0.15 * q})`
     $$('.w', capEl).forEach((s, j) => { const w = c.words[j]; s.className = 'w' + (t >= w.t0 && t < w.t1 ? ' now' : t < w.t0 ? ' next' : '') })
   }
-  $('#foot').style.opacity = sc.type === 'outro' ? 0 : 1
+  $('#foot').style.opacity = sc.type === 'cta' ? 0 : 1
 }
 
 window.ready = (async () => {
-  // load every font weight up front, or text in a weight not yet used stays invisible on the first frames
+  // load every font up front, or text in a font not yet used stays invisible on the first frames
   await Promise.all([...document.fonts].map(f => f.load()))
   await document.fonts.ready
   await Promise.all([...document.images].map(i => i.decode().catch(() => {})))
+  // decode the stadium photos too (CSS backgrounds), so no frame shows a half-loaded picture
+  const urls = [...new Set(D.picks.map(p => p.stadium && p.stadium.src).filter(Boolean))]
+  await Promise.all(urls.map(u => new Promise(r => { const im = new Image(); im.onload = im.onerror = () => im.decode ? im.decode().then(r, r) : r(); im.src = u })))
   return true
 })()
 </script>

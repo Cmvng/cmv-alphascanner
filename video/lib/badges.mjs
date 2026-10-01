@@ -147,3 +147,5 @@ export async function resolveBadge(name, crest, cacheDir, outDir) {
   }
   return monogram(name)
 }
+
+export const isCountry = (name) => Boolean(COUNTRY[C(name)])

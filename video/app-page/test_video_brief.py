@@ -91,7 +91,7 @@ class Brief(unittest.TestCase):
         self.assertNotIn("note_check", brief)
         r = node_check(brief)
         self.assertEqual((r["n"], r["won"], r["mode"]), (2, 1, "results"))
-        self.assertAlmostEqual(r["ret"], 40 * 1.21, places=2)        # 5u + 7.5u on $100: one unit $8, Germany $40
+        self.assertAlmostEqual(r["ret"], 25 * 1.21, places=2)        # 1 bar + 3 bars on $100: one bar $25, Germany $25
 
     def test_unsettled_game_is_flagged(self):
         brief = vb.build_brief([leg("A", "B", "A to Win", 2.0, 55, "e9", 18)], "2026-10-01", "results")
