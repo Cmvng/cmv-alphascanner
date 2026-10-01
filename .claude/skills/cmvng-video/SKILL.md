@@ -48,6 +48,8 @@ Rules:
 - **Tone:** confident, specific, calm, like a pundit. Vary the openers ("We start in…", "Next…", "And a late one…"), and keep each line under about 25 words.
 - **Never** say "sure", "banker", "guaranteed", "fixed" or "lock". Say losses plainly in results.
 - **Pace:** set `"voice_speed": 1.14` for a measured analyst pace, and `"results_when"` to match the cta ("tonight", "tomorrow").
+- **Look:** set `"style"`. Use the one the owner asks for: `stadium` (home ground photo), `broadcast` (team-colour TV graphics) or `players` (recent photos of the home team's players, which falls back to the stadium). If he doesn't say, rotate day to day.
+- **Names:** if a name the voice will say is Spanish, Portuguese or African, check it in `SAY_NAMES` (`video/lib/narration.mjs`) and add a respelling if needed. Test it with Kokoro and faster-whisper first.
 
 ## 3. Render
 

@@ -16,6 +16,7 @@ import { createRequire } from 'node:module'
 import { loadInput } from './lib/input.mjs'
 import { resolveBadge, isCountry } from './lib/badges.mjs'
 import { resolveStadium } from './lib/stadium.mjs'
+import { resolvePlayers } from './lib/players.mjs'
 import { buildScenes } from './lib/narration.mjs'
 
 const DIR = path.dirname(new URL(import.meta.url).pathname)
@@ -70,8 +71,19 @@ for (const p of picks) {
   const own = typeof p.stadium === 'string' ? p.stadium : null
   p.stadium = cfg.stadiums === false ? null
     : await resolveStadium(p.home, { national: isCountry(p.home), country: p.country, cacheDir: CACHE, outDir: OUT, own, ownCredit: p.stadium_credit })
+  if (cfg.style === 'players') p.players = await resolvePlayers(p.home, { national: isCountry(p.home), country: p.country, cacheDir: CACHE, outDir: OUT })
   console.log(`  ${(p.home + ' v ' + p.away).padEnd(28)} ${p.pick.padEnd(26)} @${p.odds.toFixed(2)}  model ${p.model}%  book ${p.market.toFixed(0)}%  edge ${(p.edge * 100).toFixed(1).padStart(5)}%  → ${p.signal} bar${p.signal > 1 ? 's' : ' '} (${cfg.currency}${p.stake})  ${p.stadium ? '📷 ' + p.stadium.venue : '(no stadium photo)'}`)
 }
+
+// team colours from each crest or flag (the broadcast style's panels, the glows behind the badges)
+const imgs = picks.flatMap(p => [p.bh, p.ba]).filter(b => b.src)
+if (imgs.length) {
+  try {
+    const cols = JSON.parse(execSync(`"${PY}" "${path.join(DIR, 'audio.py')}" colour ${imgs.map(b => JSON.stringify(path.join(OUT, b.src))).join(' ')}`).toString())
+    imgs.forEach((b, i) => { if (cols[i]) b.colour = cols[i] })
+  } catch (e) { console.warn(`  ! team colours: ${e.message.split('\n')[0]}`) }
+}
+if (cfg.style === 'players') console.log(`Players style: ${picks.filter(p => p.players?.length).length}/${picks.length} matches have recent photos (the rest use the stadium)`)
 
 // ---------------------------------------------------------------- 2. music (needed first: cuts land on its beat)
 const stills = flag('stills', false)
@@ -156,7 +168,7 @@ const DATA = { cfg, picks, recap, beat: BEAT, scenes: scenes.map(({ type, i, sta
 const page = fs.readFileSync(path.join(DIR, 'scene.html'), 'utf8')
   .replace('<script>\nconst D = window.DATA', `<script>window.DATA=${JSON.stringify(DATA).replace(/</g, '\\u003c')}</script>\n<script>\nconst D = window.DATA`)
 fs.writeFileSync(path.join(OUT, 'index.html'), page)
-const credits = [...new Set(picks.map(p => p.stadium?.credit).filter(Boolean)), music?.credit].filter(Boolean)
+const credits = [...new Set(picks.flatMap(p => cfg.style === 'broadcast' ? [] : cfg.style === 'players' && p.players?.length ? p.players.map(x => x.credit) : [p.stadium?.credit]).filter(Boolean)), music?.credit].filter(Boolean)
 fs.writeFileSync(path.join(OUT, 'credits.txt'), credits.join('\n') + '\n')
 
 const { chromium } = loadPlaywright()

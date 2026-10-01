@@ -54,6 +54,8 @@ For the whole video (top of the file):
 | `skip_negative_edge` | `false` | Set to `true` to drop 1-bar picks (your % below the bookmaker's) |
 | `results_when` / `next_when` | `tonight` / `tomorrow morning` | When the next video comes out (said at the end) |
 | `stadiums` | `true` | `false` = no stadium photos (plain cmvng background) |
+| `style` | `stadium` | `stadium`, `broadcast` or `players` (see [Three looks](#three-looks)) |
+| `script` | | Your own presenter lines, scene by scene (see the `cmvng-video` skill). Write numbers as digits; the voice reads them properly |
 | `cta` | `cmvngpicks.com` | `{ "url", "say" }` for the last card |
 | `voice` | `af_heart` | Kokoro voice: `af_heart`, `af_bella` (female, the most natural) · `am_michael`, `am_fenrir` (male) · `bf_emma`, `bm_george` (British). Or a Piper `.onnx` file |
 | `voice_speed` | `1.12` | 1 = the voice's normal pace |
@@ -114,6 +116,22 @@ Other options: `--no-voice`, `--fps 30`, `--workers 3`, `--out path.mp4`.
 - On TikTok and Instagram you can mute the built-in track and add a trending sound in the app instead.
   - Business accounts can only use the platform's commercial music library.
   - The voice and sound effects stay either way, if you post a version made with `"music": false`.
+
+## Three looks
+
+Set `"style"` at the top of the file (or tell Claude which look you want):
+
+| Style | Behind each match | Notes |
+|---|---|---|
+| `stadium` (default) | The home team's ground, from Wikimedia (credited) | Works for almost every team |
+| `broadcast` | TV-graphics panels in the two teams' colours, giant crest watermarks, pitch markings | No photos, so nothing needs crediting. Always available |
+| `players` | Recent photos of the home team's own players, a new one on each line | Only where free, credited photos exist (otherwise the stadium is used). Or put your own licensed photos in `video/photos/<team>/` (e.g. `video/photos/germany/1.jpg`) and they're used first |
+
+Rotating the look day to day keeps the feed fresh. It also helps on YouTube, which won't pay for repetitive, templated videos.
+
+Real match footage and agency photos (Getty and the like) are never used. They're copyrighted, and platforms mute or remove videos that use them.
+
+Club crests come from TheSportsDB at full size, and national teams use their flags. Crests are the clubs' trademarks, so show them only if you're comfortable doing so; your app already shows them.
 
 ## Straight from your app (no typing)
 

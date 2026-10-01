@@ -23,6 +23,7 @@ export const DEFAULTS = {
   music: 'auto',             // 'auto' = built-in track, false = none, or a path to your own track
   music_start: null,         // seconds into your own track to start from (the drop)
   stadiums: true,            // home team's stadium photo behind each match
+  style: 'stadium',          // stadium (home ground photo) · players (recent match photos of the home team) · broadcast (team-colour TV graphics)
 }
 
 const NUM = ['odds', 'model', 'home_win', 'draw', 'away_win', 'xg_home', 'xg_away', 'scored_home', 'scored_away',

@@ -248,6 +248,35 @@ def mix(timeline_file, out_path):
     write_wav(out_path, out)
 
 
+# ----------------------------------------------------------------------------- team colour
+def colour(*files):
+    """Main colour of each crest / flag (ignores transparent, near-white and near-black pixels) → JSON list."""
+    import colorsys
+    out = []
+    for f in files:
+        try:
+            a = read_image(f)
+            px = a.reshape(-1, 4).astype(float) / 255
+            px = px[px[:, 3] > 0.5][:, :3]
+            hsv = np.array([colorsys.rgb_to_hsv(*p) for p in px[::max(1, len(px) // 4000)]])
+            keep = (hsv[:, 1] > 0.3) & (hsv[:, 2] > 0.25)
+            if keep.sum() < 20:
+                out.append(None); continue
+            h = hsv[keep]
+            bins = np.histogram(h[:, 0], bins=24, range=(0, 1))[0]
+            b = int(np.argmax(bins)); sel = h[(h[:, 0] >= b / 24) & (h[:, 0] < (b + 1) / 24)]
+            r, g, bl = colorsys.hsv_to_rgb(np.median(sel[:, 0]), min(0.85, np.median(sel[:, 1])), min(0.8, np.median(sel[:, 2])))
+            out.append('#%02x%02x%02x' % (int(r * 255), int(g * 255), int(bl * 255)))
+        except Exception:
+            out.append(None)
+    print(json.dumps(out))
+
+
+def read_image(f):
+    raw = subprocess.run([FF, '-v', 'error', '-i', f, '-vf', 'scale=96:-1', '-f', 'rawvideo', '-pix_fmt', 'rgba', '-'], capture_output=True, check=True).stdout
+    return np.frombuffer(raw, dtype=np.uint8).reshape(-1, 96, 4)
+
+
 if __name__ == '__main__':
     cmd, *args = sys.argv[1:]
-    {'speak': speak, 'mix': mix, 'beats': beats}[cmd](*args)
+    {'speak': speak, 'mix': mix, 'beats': beats, 'colour': colour}[cmd](*args)

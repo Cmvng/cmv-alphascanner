@@ -28,7 +28,7 @@ const ALIAS = {
   'leverkusen': 'Bayer 04 Leverkusen', 'gladbach': 'Borussia Mönchengladbach', 'real': 'Real Madrid CF', 'barca': 'FC Barcelona',
 }
 
-async function getJSON(url) {
+export async function getJSON(url) {
   for (let i = 0; i < 6; i++) {
     const r = await fetch(url, { headers: UA })
     if (r.status === 429) { await sleep(1000 * (+r.headers.get('retry-after') || 5) * 1.5 ** i); continue }
@@ -39,15 +39,15 @@ async function getJSON(url) {
   throw new Error('Wikimedia is rate-limiting this connection; try again in a minute')
 }
 
-const claims = async (id) => (await getJSON(`https://www.wikidata.org/wiki/Special:EntityData/${id}.json`)).entities[id]
-const val = (c) => c?.mainsnak?.datavalue?.value
-const best = (list = []) => (list.find(c => c.rank === 'preferred') || list.find(c => c.rank !== 'deprecated'))
+export const claims = async (id) => (await getJSON(`https://www.wikidata.org/wiki/Special:EntityData/${id}.json`)).entities[id]
+export const val = (c) => c?.mainsnak?.datavalue?.value
+export const best = (list = []) => (list.find(c => c.rank === 'preferred') || list.find(c => c.rank !== 'deprecated'))
 
 // the league's country, as Wikidata descriptions write it ("Argentine football club", "club in Buenos Aires, Argentina")
 const DEMONYM = { argentina: 'argentin', uruguay: 'uruguay', brazil: 'brazil', usa: 'united states|american', england: 'english|england',
   spain: 'spanish|spain', italy: 'italian|italy', germany: 'german', france: 'french|france', norway: 'norw', nigeria: 'nigeria',
   netherlands: 'dutch|netherlands', portugal: 'portug', scotland: 'scottish|scotland', mexico: 'mexic', ghana: 'ghana' }
-async function findTeam(name, national, country) {
+export async function findTeam(name, national, country) {
   const q = national ? `${name} national football team` : (ALIAS[C(name)] || name)
   const res = (await getJSON(`https://www.wikidata.org/w/api.php?action=wbsearchentities&format=json&language=en&type=item&limit=8&search=${encodeURIComponent(q)}`)).search
   const ok = (d = '') => /football|soccer/i.test(d) && !/women|female|youth|under-?\d|u-?\d\d|reserve|season|futsal|beach|olympic|b team|academy/i.test(d)
@@ -85,7 +85,7 @@ async function searchCommons(venue) {
   return p ? p.title.replace(/^File:/, '') : null
 }
 
-async function commonsPhoto(file) {
+export async function commonsPhoto(file) {
   const u = `https://commons.wikimedia.org/w/api.php?action=query&format=json&prop=imageinfo&iiprop=url|extmetadata|size&iiurlwidth=2600&titles=${encodeURIComponent('File:' + file)}`
   const page = Object.values((await getJSON(u)).query.pages)[0]
   const ii = page?.imageinfo?.[0]

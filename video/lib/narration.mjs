@@ -16,8 +16,12 @@ const money = v => Math.round(v).toLocaleString('en-US')
 const pct = v => Math.round(v)
 // how the voice should say names it gets wrong (captions keep the real spelling). Add to this as you find them;
 // a pick can also carry "say_home" / "say_away".
-const SAY_NAMES = { Ikorodu: 'Eekorodoo', Remo: 'Raymo', Kano: 'Kahno', Lobi: 'Lobee', Leicester: 'Lester' }
-const speakNames = t => t.replace(/\b(Ikorodu|Remo|Kano|Lobi|Leicester)\b/g, w => SAY_NAMES[w])
+const SAY_NAMES = {
+  Ikorodu: 'Eekorodoo', Remo: 'Raymo', Kano: 'Kahno', Lobi: 'Lobee', Leicester: 'Lester',
+  Platense: 'Plaht-en-seh', Estudiantes: 'Estoo-dee-antes', CONCACAF: 'Konkakaff',
+}
+const NAME_RE = new RegExp(`\\b(${Object.keys(SAY_NAMES).join('|')})\\b`, 'g')
+const speakNames = t => t.replace(NAME_RE, w => SAY_NAMES[w])
 const L = (say, show = say) => ({ say: speakNames(say), show })
 
 // A written script uses digits like a person would ("at 1.57", "under 1.5 goals", "68%"); this turns them

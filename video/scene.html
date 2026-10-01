@@ -24,6 +24,17 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#03060F}
 .bg{position:absolute;inset:0;background-size:cover;background-position:50% 50%;opacity:0;will-change:transform,opacity;
   filter:brightness(.8) saturate(1.2) contrast(1.06)}
 .bg.none{background:radial-gradient(120% 70% at 50% 0%,#12307A 0%,#08142E 50%,#050A15 100%)}
+.bg.bc{filter:none;background:#050A18}
+.bc .ph,.bc .pa{position:absolute;inset:-4%}
+.bc .ph{clip-path:polygon(0 0,64% 0,36% 100%,0 100%)}
+.bc .pa{clip-path:polygon(64% 0,100% 0,100% 100%,36% 100%)}
+.bc .seam{position:absolute;left:50%;top:-10%;width:14px;height:120%;margin-left:-7px;background:linear-gradient(180deg,rgba(255,255,255,0),rgba(255,255,255,.85),rgba(255,255,255,0));transform:rotate(16.3deg);filter:blur(1px);opacity:.55}
+.bc svg.pitch{position:absolute;left:40px;top:120px;width:1000px;height:1680px;opacity:.13}
+.bc .wm{position:absolute;width:760px;height:760px;opacity:.16;filter:saturate(.8)}
+.bc .wm .badge{width:100%;height:100%}
+.bc .wm.h{left:-230px;top:120px;transform:rotate(-10deg)}
+.bc .wm.a{right:-230px;top:980px;transform:rotate(10deg)}
+.bc .sweep{position:absolute;top:-20%;width:420px;height:140%;background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.10),rgba(255,255,255,0));transform:rotate(16deg)}
 #tint{position:absolute;inset:0;pointer-events:none;
   background:linear-gradient(180deg,rgba(4,8,24,.82) 0%,rgba(4,8,24,.22) 15%,rgba(6,14,40,.12) 38%,rgba(5,10,28,.42) 60%,rgba(3,6,16,.9) 79%,#03060F 100%)}
 #tint2{position:absolute;inset:0;pointer-events:none;mix-blend-mode:soft-light;background:radial-gradient(90% 60% at 50% 30%,rgba(61,123,255,.35),rgba(31,95,219,0) 70%)}
@@ -247,13 +258,25 @@ function bgFor(src) {
   if (src) d.style.backgroundImage = `url("${src}")`
   $('#bgs').appendChild(d); return d
 }
+const STYLE = D.cfg.style || 'stadium'          // stadium · players · broadcast
 const stad = p => p && p.stadium ? p.stadium : null
 const allStadia = D.picks.map(stad).filter(Boolean)
+const PITCH = `<svg class="pitch" viewBox="0 0 100 168" fill="none" stroke="#fff" stroke-width=".5"><rect x="1" y="1" width="98" height="166"/><line x1="1" y1="84" x2="99" y2="84"/><circle cx="50" cy="84" r="13"/><circle cx="50" cy="84" r=".8" fill="#fff"/><rect x="21" y="1" width="58" height="26"/><rect x="36" y="1" width="28" height="9"/><rect x="21" y="141" width="58" height="26"/><rect x="36" y="158" width="28" height="9"/><path d="M38 27 A13 13 0 0 0 62 27"/><path d="M38 141 A13 13 0 0 1 62 141"/></svg>`
+// broadcast style: the two teams' colours split on a diagonal, giant crest watermarks, pitch markings
+function bcFor(p) {
+  const d = document.createElement('div'); d.className = 'bg bc'
+  const h = p ? (p.bh.colour || '#1F5FDB') : '#12307A', a = p ? (p.ba.colour || '#3D7BFF') : '#0B1C4A'
+  d.innerHTML = `<div class="ph" style="background:linear-gradient(165deg,${h},#050A18 120%)"></div><div class="pa" style="background:linear-gradient(195deg,${a},#050A18 120%)"></div>
+    <div class="seam"></div>${PITCH}${p ? `<div class="wm h">${badge(p.bh)}</div><div class="wm a">${badge(p.ba)}</div>` : ''}<div class="sweep"></div>`
+  $('#bgs').appendChild(d); return d
+}
 D.scenes.forEach((sc, k) => {
-  if (sc.type === 'hook' || sc.type === 'rhook') sc.bgs = (allStadia.length ? allStadia : [null]).map(s => bgFor(s && s.src))
-  else if (sc.type === 'pick' || sc.type === 'result') sc.bgs = [bgFor(stad(D.picks[sc.i])?.src)]
-  else sc.bgs = [bgFor((allStadia[0] || {}).src)]
-  sc.credits = sc.type === 'pick' || sc.type === 'result' ? [stad(D.picks[sc.i])?.credit] : (allStadia.length ? allStadia.map(s => s.credit) : [''])
+  const p = D.picks[sc.i], one = sc.type === 'pick' || sc.type === 'result'
+  if (STYLE === 'broadcast') { sc.bgs = [bcFor(one ? p : null)]; sc.credits = [''] }
+  else if (one && STYLE === 'players' && p.players?.length) { sc.bgs = p.players.map(x => bgFor(x.src)); sc.credits = p.players.map(x => x.credit) }
+  else if (sc.type === 'hook' || sc.type === 'rhook') { sc.bgs = (allStadia.length ? allStadia : [null]).map(s => bgFor(s && s.src)); sc.credits = allStadia.length ? allStadia.map(s => s.credit) : [''] }
+  else if (one) { sc.bgs = [bgFor(stad(p)?.src)]; sc.credits = [stad(p)?.credit] }
+  else { sc.bgs = [bgFor((allStadia[0] || {}).src)]; sc.credits = [(allStadia[0] || {}).credit || ''] }
 })
 const BEAT = D.beat || 0.62
 
@@ -472,15 +495,22 @@ window.renderAt = function (t) {
   // background: current scene's stadium (hook: one stadium per beat), slow push-in, punch-in at the cut
   D.scenes.forEach((s2, j) => s2.bgs.forEach(b => { if (j !== k) b.style.opacity = 0 }))
   const nb = sc.bgs.length, cyc = (sc.type === 'hook' || sc.type === 'rhook') && nb > 1
-  const bi = cyc ? Math.min(nb - 1, Math.floor(lt / BEAT)) % nb : 0
+  const perLine = (sc.type === 'pick' || sc.type === 'result') && nb > 1           // players style: a new photo on each line
+  const bi = cyc ? Math.min(nb - 1, Math.floor(lt / BEAT)) % nb : perLine ? Math.min(nb - 1, Math.max(0, sc.lines.filter(l => lt >= l[0] - 0.15).length - 1)) : 0
   sc.bgs.forEach((b, j) => {
     if (j !== bi) { b.style.opacity = 0; return }
-    const st = cyc ? bi * BEAT : 0, l2 = lt - st, punch = 1 - P(l2, 0, 0.45, E.outCubic)
+    const st = cyc ? bi * BEAT : perLine ? Math.max(0, sc.lines[bi][0] - 0.15) : 0, l2 = lt - st, punch = 1 - P(l2, 0, 0.45, E.outCubic)
     const s = 1.1 + 0.08 * clamp(lt / Math.max(4, sc.dur)) + 0.12 * punch
     b.style.opacity = 1
     b.style.transform = `scale(${s}) translate3d(${(k % 2 ? -1 : 1) * 14 * clamp(lt / sc.dur)}px,${-10 * clamp(lt / sc.dur)}px,0)`
   })
-  $('#credit').textContent = sc.credits[cyc ? bi : 0] || ''
+  $('#credit').textContent = sc.credits[cyc || perLine ? bi : 0] || ''
+  if (STYLE === 'broadcast') {           // panels slide in at the cut, then the light sweeps across
+    const b = sc.bgs[0], q = P(lt, 0, 0.6, E.outCubic)
+    $('.ph', b).style.transform = `translate3d(${(1 - q) * -60}px,0,0)`; $('.pa', b).style.transform = `translate3d(${(1 - q) * 60}px,0,0)`
+    $$('.wm', b).forEach((w, j) => { w.style.opacity = 0.16 * P(lt, 0.15, 0.8); w.style.marginTop = `${(j ? 1 : -1) * 30 * clamp(lt / sc.dur)}px` })
+    $('.sweep', b).style.left = `${-500 + ((lt * 260) % 2200)}px`
+  }
 
   draw(k, lt, sc)
   // keep things alive between reveals: slow drift of the whole layout, and the logo bars pulse on the beat
