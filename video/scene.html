@@ -536,7 +536,7 @@ function buildPreview(type, p) {
     const col = (side, b, name) => { const t = tc[side] || {}
       return `<div class="tcol"><div class="hd">${badge(b)}<b class="A">${html(name)}</b></div><div class="fm A">${html(t.formation || '')}</div>${formationSvg(t.formation, b.colour)}
         ${(t.points || []).slice(0, 3).map(x => `<div class="pt"><i></i><div>${html(x)}</div></div>`).join('')}</div>` }
-    return `<div class="t1 A">How they play</div><div class="t2">Shape and style</div><div class="cols">${col('home', p.bh, p.home)}${col('away', p.ba, p.away)}</div>`
+    return `<div class="t1 A">How they play</div><div class="t2">${html(tc.label || 'Shape and style')}</div><div class="cols">${col('home', p.bh, p.home)}${col('away', p.ba, p.away)}</div>`
   }
   if (type === 'pv_expect') return `<div class="t1 A">What to expect</div><div class="t2">Our read</div>
     <div class="card box">${(an.expect || []).map(x => `<div class="pt"><i></i><div>${html(x)}</div></div>`).join('')}</div>

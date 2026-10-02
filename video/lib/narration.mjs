@@ -23,8 +23,11 @@ const SAY_NAMES = {
   'Højlund': 'Hoy-lund', Damsgaard: 'Dams-gore', 'Gonçalo': 'Gon-sah-lo', 'Leão': 'Lay-ow', 'Jürgen': 'Yurgen', Vitinha: 'Vee-teen-ya', Haaland: 'Hah-land', 'Atlético': 'Atleteeko', Gaich: 'Gaheech', 'Martínez': 'Mar-teen-ez', Veiga: 'Vay-ga', Reijnders: 'Rye-nders', 'Türkiye': 'Tur-kee-yeh', Polymarket: 'Polly-market',
   'Džeko': 'Jecko', 'Gyökeres': 'Yerkeress', Sergej: 'Ser-gay', Barbarez: 'Bar-bah-rez', 'Bîrligea': 'Beer-lee-jah', Gheorghe: 'George-eh', Hagi: 'Hah-jee',
   Romelu: 'Ro-meh-loo', Lukaku: 'Loo-kah-koo', 'Barış Alper Yılmaz': 'Bah-rish Al-per Yil-maz', 'Liège': 'Lee-ezh', Sclessin: 'Skleh-san', Zenica: 'Zeh-nitsa',
+  Zinedine: 'Zee-neh-deen', Olise: 'Oh-leese', 'Pio Esposito': 'Pee-yo Esposeeto', Esposito: 'Esposeeto', Meazza: 'Meh-atza', 'Doué': 'Doo-ay', Cherki: 'Sher-kee',
+  'Çalhanoğlu': 'Chal-han-oh-loo', 'Kökçü': 'Kerk-choo',
 }
-const NAME_RE = new RegExp(`\\b(${Object.keys(SAY_NAMES).join('|')})\\b`, 'g')
+// letter-aware edges: \b treats accented letters as non-letters, so "Doué" or "Çalhanoğlu" would never match
+const NAME_RE = new RegExp(`(?<!\\p{L})(${Object.keys(SAY_NAMES).join('|')})(?!\\p{L})`, 'gu')
 const speakNames = t => t.replace(NAME_RE, w => SAY_NAMES[w])
 const L = (say, show = say) => ({ say: speakNames(say), show })
 
