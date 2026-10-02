@@ -21,6 +21,8 @@ const SAY_NAMES = {
   Platense: 'Plaht-en-seh', Estudiantes: 'Estoo-dee-antes', CONCACAF: 'Konkakaff',
   Tzolis: 'Tzo-lis', Toumba: 'Toom-ba', Xavi: 'Shah-vee', 'Mörschel': 'Mer-shel', 'Badía': 'Ba-dee-ah', Cozzani: 'Koh-zah-nee', Mainero: 'My-neh-ro',
   'Højlund': 'Hoy-lund', Damsgaard: 'Dams-gore', 'Gonçalo': 'Gon-sah-lo', 'Leão': 'Lay-ow', 'Jürgen': 'Yurgen', Vitinha: 'Vee-teen-ya', Haaland: 'Hah-land', 'Atlético': 'Atleteeko', Gaich: 'Gaheech', 'Martínez': 'Mar-teen-ez', Veiga: 'Vay-ga', Reijnders: 'Rye-nders', 'Türkiye': 'Tur-kee-yeh', Polymarket: 'Polly-market',
+  'Džeko': 'Jecko', 'Gyökeres': 'Yerkeress', Sergej: 'Ser-gay', Barbarez: 'Bar-bah-rez', 'Bîrligea': 'Beer-lee-jah', Gheorghe: 'George-eh', Hagi: 'Hah-jee',
+  Romelu: 'Ro-meh-loo', Lukaku: 'Loo-kah-koo', 'Barış Alper Yılmaz': 'Bah-rish Al-per Yil-maz', 'Liège': 'Lee-ezh', Sclessin: 'Skleh-san', Zenica: 'Zeh-nitsa',
 }
 const NAME_RE = new RegExp(`\\b(${Object.keys(SAY_NAMES).join('|')})\\b`, 'g')
 const speakNames = t => t.replace(NAME_RE, w => SAY_NAMES[w])
