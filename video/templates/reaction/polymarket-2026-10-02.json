@@ -1,0 +1,212 @@
+{
+ "mode": "review",
+ "competition": "Prediction markets",
+ "date": "2026-10-02",
+ "caption_style": "bold",
+ "voice_speed": 1.16,
+ "picks": [
+  {
+   "home": "Cyprus",
+   "away": "Armenia",
+   "competition": "UEFA Nations League",
+   "stage": "Nations League",
+   "kickoff": "17:00"
+  },
+  {
+   "home": "Hungary",
+   "away": "Georgia",
+   "competition": "UEFA Nations League",
+   "stage": "Nations League",
+   "kickoff": "19:45"
+  },
+  {
+   "home": "Saint Kitts and Nevis",
+   "away": "Cuba",
+   "competition": "CONCACAF Nations League",
+   "stage": "CONCACAF NL",
+   "kickoff": "22:00"
+  },
+  {
+   "home": "Belgium",
+   "away": "Türkiye",
+   "competition": "UEFA Nations League",
+   "stage": "Nations League",
+   "kickoff": "19:45"
+  },
+  {
+   "home": "Poland",
+   "away": "Romania",
+   "competition": "UEFA Nations League",
+   "stage": "Nations League",
+   "kickoff": "19:45"
+  },
+  {
+   "home": "Latvia",
+   "away": "Montenegro",
+   "competition": "UEFA Nations League",
+   "stage": "Nations League",
+   "kickoff": "17:00"
+  }
+ ],
+ "presenter": {
+  "id": 28293,
+  "crop": "1000:1080:460:0",
+  "from": 3.0,
+  "credit": "Presenter (stand-in): Mixkit stock video"
+ },
+ "review": {
+  "beats": [
+   {
+    "type": "pm_hook",
+    "title": "Prediction",
+    "title2": "market plays",
+    "chip": "Polymarket · Prices at 08:51 Lagos",
+    "say": [
+     "Six games today, priced on Polymarket.",
+     "Three plays where our numbers beat the market, and three we're skipping."
+    ]
+   },
+   {
+    "type": "pm_pick",
+    "match": 0,
+    "market": {
+     "yes": 0.44,
+     "no": 0.57,
+     "side": "YES",
+     "price": 0.44,
+     "ours": 0.55,
+     "question": "Will Cyprus beat Armenia?",
+     "team": "home"
+    },
+    "say": [
+     "Cyprus against Armenia. Will Cyprus win? The market says 44 cents.",
+     "Our model says 55%. That's an 11-cent edge. We're on YES."
+    ]
+   },
+   {
+    "type": "pm_pick",
+    "match": 1,
+    "market": {
+     "yes": 0.29,
+     "no": 0.72,
+     "side": "NO",
+     "price": 0.72,
+     "ours": 0.75,
+     "question": "Will Hungary v Georgia end in a draw?",
+     "team": null
+    },
+    "say": [
+     "Hungary against Georgia. Will it end in a draw? NO costs 72 cents.",
+     "We make it 75% that somebody wins. A small edge, so keep it light."
+    ]
+   },
+   {
+    "type": "pm_pick",
+    "match": 2,
+    "market": {
+     "yes": 0.54,
+     "no": 0.48,
+     "side": "NO",
+     "price": 0.48,
+     "ours": 0.64,
+     "question": "Will Cuba win in St Kitts?",
+     "team": "away"
+    },
+    "say": [
+     "Saint Kitts and Nevis against Cuba. The market makes Cuba favourites, at 54 cents.",
+     "Our model has Cuba at 36%, so NO at 48 cents is the play. It's a small market, so prices can jump."
+    ]
+   },
+   {
+    "type": "pm_pass",
+    "match": 3,
+    "market": {
+     "yes": 0.64,
+     "no": 0.37,
+     "side": "YES",
+     "price": 0.64,
+     "ours": 0.51,
+     "question": "Will Belgium beat Türkiye?",
+     "team": "home"
+    },
+    "say": [
+     "Belgium against Türkiye. A Belgium win costs 64 cents.",
+     "Our model has 51%. Too expensive. We pass."
+    ]
+   },
+   {
+    "type": "pm_pass",
+    "match": 4,
+    "market": {
+     "yes": 0.6,
+     "no": 0.41,
+     "side": "YES",
+     "price": 0.6,
+     "ours": 0.46,
+     "question": "Will Poland beat Romania?",
+     "team": "home"
+    },
+    "say": [
+     "Poland against Romania. Poland to win, 60 cents.",
+     "We have 46%. Pass."
+    ]
+   },
+   {
+    "type": "pm_pass",
+    "match": 5,
+    "market": {
+     "yes": 0.56,
+     "no": 0.45,
+     "side": "YES",
+     "price": 0.56,
+     "ours": 0.45,
+     "question": "Will Montenegro win in Latvia?",
+     "team": "away"
+    },
+    "say": [
+     "Latvia against Montenegro. Montenegro to win, 56 cents.",
+     "Our model says 45%. Pass."
+    ]
+   },
+   {
+    "type": "pm_slate",
+    "title": "Today's plays",
+    "rows": [
+     {
+      "match": 0,
+      "label": "Cyprus win",
+      "side": "YES",
+      "price": 0.44,
+      "ours": 0.55
+     },
+     {
+      "match": 1,
+      "label": "Hungary v Georgia: no draw",
+      "side": "NO",
+      "price": 0.72,
+      "ours": 0.75
+     },
+     {
+      "match": 2,
+      "label": "Cuba win (in St Kitts)",
+      "side": "NO",
+      "price": 0.48,
+      "ours": 0.64
+     }
+    ],
+    "say": [
+     "So that's today. Cyprus YES, no draw in Hungary, and Cuba NO."
+    ]
+   },
+   {
+    "type": "pm_outro",
+    "big": "Follow for tomorrow's plays",
+    "warn": "18+ · Prices move: check before you trade · Not financial advice · Only where Polymarket is legal",
+    "follow": "cmvng · football, by the numbers",
+    "say": [
+     "Prices move, so check before you trade. Eighteen plus. Follow for tomorrow's plays."
+    ]
+   }
+  ]
+ }
+}

@@ -20,7 +20,7 @@ const SAY_NAMES = {
   Ikorodu: 'Eekorodoo', Remo: 'Raymo', Kano: 'Kahno', Lobi: 'Lobee', Leicester: 'Lester',
   Platense: 'Plaht-en-seh', Estudiantes: 'Estoo-dee-antes', CONCACAF: 'Konkakaff',
   Tzolis: 'Tzo-lis', Toumba: 'Toom-ba', Xavi: 'Shah-vee', 'Mörschel': 'Mer-shel', 'Badía': 'Ba-dee-ah', Cozzani: 'Koh-zah-nee', Mainero: 'My-neh-ro',
-  'Højlund': 'Hoy-lund', Damsgaard: 'Dams-gore', 'Gonçalo': 'Gon-sah-lo', 'Leão': 'Lay-ow', 'Jürgen': 'Yurgen', Vitinha: 'Vee-teen-ya', Haaland: 'Hah-land', 'Atlético': 'Atleteeko', Gaich: 'Gaheech', 'Martínez': 'Mar-teen-ez', Veiga: 'Vay-ga', Reijnders: 'Rye-nders',
+  'Højlund': 'Hoy-lund', Damsgaard: 'Dams-gore', 'Gonçalo': 'Gon-sah-lo', 'Leão': 'Lay-ow', 'Jürgen': 'Yurgen', Vitinha: 'Vee-teen-ya', Haaland: 'Hah-land', 'Atlético': 'Atleteeko', Gaich: 'Gaheech', 'Martínez': 'Mar-teen-ez', Veiga: 'Vay-ga', Reijnders: 'Rye-nders', 'Türkiye': 'Tur-kee-yeh',
 }
 const NAME_RE = new RegExp(`\\b(${Object.keys(SAY_NAMES).join('|')})\\b`, 'g')
 const speakNames = t => t.replace(NAME_RE, w => SAY_NAMES[w])
@@ -157,7 +157,7 @@ export function buildScenes(cfg, picks, recap) {
 // Post-match review / reaction: every screen is a beat written for this match (cfg.review.beats), so no two videos
 // run the same way. A beat: { type: hook|moment|meme|stats|read|table|ratings|cta, say: [lines], clip, sticker, burst, … }
 function buildReviewScenes(cfg) {
-  return (cfg.review?.beats || []).map(b => ({ type: (b.type.startsWith('rx_') ? '' : 'rv_') + b.type, i: b.match ?? 0, say: (b.say || []).map(W), data: b, hold: b.hold }))
+  return (cfg.review?.beats || []).map(b => ({ type: (/^(rx|pm)_/.test(b.type) ? '' : 'rv_') + b.type, i: b.match ?? 0, say: (b.say || []).map(W), data: b, hold: b.hold }))
 }
 
 // Match preview: football analysis only. No odds, prices, stakes, picks or betting words (X / YouTube monetisation).
