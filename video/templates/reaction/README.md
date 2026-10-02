@@ -28,3 +28,22 @@ Approved by the owner on 1 October 2026: the **presenter** version. Reference fi
 ## Prediction-market plays (Polymarket)
 
 `polymarket-2026-10-02.json` is the reference: the presenter, then one `pm_pick` card per app pick (the app's pick and confidence, the Polymarket question, our side lit green, the price and "$100 → $X"), a `pm_slate` and a `pm_outro`. The rules for converting picks are in `.claude/skills/cmvng-video/SKILL.md` ("Prediction-market plays"). Refresh prices with `python3 video/lib/pm_prices.py <file>` before rendering.
+
+## Presenters and voices
+
+Set `presenter` in the file. Every type sits at the bottom of the screen on the reaction (`rx_`) and Polymarket (`pm_`) screens.
+
+| Type | Setting | Look |
+|---|---|---|
+| Green-screen clip | `{id: 28293, crop, from}` (Mixkit id, or `file`) | Cut out over the background (the approved female presenter) |
+| Several angles | `{clips: [{id}, {id}, ...]}` | Switches angle screen by screen |
+| Studio cam | `{box: true, clips: [{id: 2955}, {id: 2960}, {id: 2956, crop: "1440:810:480:150"}]}` | A framed "cmvng studio · live" panel. Clips 2955, 2960 and 2956 are one male presenter at a studio mic, filmed from three angles (Mixkit free licence) |
+| Owner photo | `{photo: "<cut-out .webp/.png>"}` | A still cut-out with breathing, a small lift on each spoken word, and a punch on every result |
+
+**The owner's photo** is kept in `video/.cache/pundits/`, outside git, because it's personal:
+- `owner_mic.webp` is cut out with rembg (birefnet-portrait), and the phone in the hand is repainted as a cmvng microphone.
+- `owner_front.jpg` is a front-facing photo, for a lip-synced talking version later.
+
+**Voices:** `voice` takes a Kokoro voice, or a blend such as `"am_michael:0.5+am_onyx:0.5"` (American male) or `"bm_george:0.6+bm_fable:0.4"` (British male). The female presenter uses `af_heart`.
+
+**Tips videos:** results of Polymarket plays carry `"tips": true`. `rx_take` takes `tag` and `label` (for example "Polymarket · this morning" and "Our play"). `rx_reveal` takes `stamp` instead of `n`/`of` for a moment outside the count. `rx_outro` takes `warn` for the 18+ line.

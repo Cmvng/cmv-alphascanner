@@ -157,6 +157,10 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#03060F}
 
 /* reaction to our analysis: fixture card, our take, the result and the running tally */
 #pres{position:absolute;left:0;bottom:0;width:1080px;height:1166px;z-index:19;display:none;pointer-events:none;filter:drop-shadow(0 -10px 40px rgba(0,0,0,.35))}
+#pres.box{left:60px;top:870px;bottom:auto;width:960px;height:540px;border-radius:30px;border:5px solid rgba(255,255,255,.92);object-fit:cover;box-shadow:0 30px 80px rgba(0,0,0,.6);filter:none}
+#ptag{position:absolute;left:92px;top:898px;z-index:20;display:none;align-items:center;gap:10px;padding:10px 18px;border-radius:999px;background:rgba(3,6,15,.78);font:700 20px JBM;letter-spacing:3px;color:#fff;text-transform:uppercase}
+#pres.still{left:60px;width:960px;height:1036px}
+#ptag i{width:14px;height:14px;border-radius:50%;background:#EF4444;box-shadow:0 0 12px #EF4444}
 .fx{position:absolute;left:60px;right:60px;top:120px;height:126px;border-radius:26px;background:rgba(14,18,30,.92);box-shadow:0 18px 50px rgba(0,0,0,.45);
   display:flex;align-items:center;justify-content:space-between;padding:0 30px}
 .fx .t{display:flex;align-items:center;gap:16px;width:300px}
@@ -199,6 +203,8 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#03060F}
 .rx_outro .sub{position:absolute;left:60px;right:60px;top:560px;text-align:center;font-size:96px;line-height:1;text-shadow:0 14px 40px rgba(0,0,0,.6)}
 .rx_outro .fol{position:absolute;left:0;right:0;top:690px;text-align:center}
 .rx_outro .fol .chip{font-size:28px;padding:16px 30px;background:linear-gradient(90deg,#1F5FDB,#3D7BFF)}
+.rx_outro .wrn{position:absolute;left:60px;right:60px;top:150px;text-align:center}.rx_outro .wrn .chip{font-size:22px;white-space:normal;line-height:1.4}
+.rx_outro.nop .wrn{top:300px}
 .rx_outro.nop .tal{top:420px}.rx_outro.nop .sub{top:760px}.rx_outro.nop .fol{top:1000px}
 #cap.bold .c{font:400 66px/1.08 Anton;text-transform:uppercase;letter-spacing:1px;-webkit-text-stroke:5px #000;paint-order:stroke fill;text-shadow:0 6px 0 #000}
 #cap.bold .w.now{background:none;box-shadow:none;color:#FFD400;padding:0;margin:0 .13em}
@@ -279,7 +285,7 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#03060F}
     <div class="logo"><span class="bars"><i style="height:20px"></i><i style="height:30px"></i><i style="height:40px"></i></span>cmvng</div>
     <div id="hlabel"></div>
   </div>
-  <img id="pres">
+  <img id="pres"><div id="ptag"><i></i>cmvng studio · live</div>
   <div id="scenes"></div>
   <div id="fxl"></div>
   <div id="cap"></div>
@@ -394,11 +400,11 @@ const built = D.scenes.map((sc, k) => {
   } else if (sc.type === 'rx_take' || sc.type === 'rx_reveal') {
     const q = D.picks[sc.i]
     const fx = `<div class="fx"><div class="t">${badge(q.bh)}<b>${html(q.home)}</b></div><div class="mid">${sc.type === 'rx_take' ? html(q.kickoff || '') : 'FT'}<span>${html(q.stage || q.competition || '')}</span></div><div class="t a">${badge(q.ba)}<b>${html(q.away)}</b></div></div>`
-    if (sc.type === 'rx_take') el.innerHTML = fx + `<div class="tk"><div class="hd"><span class="lg"><i style="height:16px"></i><i style="height:24px"></i><i style="height:32px"></i></span><b>cmvng</b><span>Match analysis · before kick-off</span></div>
-      <div class="crs">${(b.crests || ['home', 'away']).map(x => badge(x === 'away' ? q.ba : q.bh)).join('')}</div><div class="tx"><small>Our take</small>${emph(b.take || '')}</div></div>`
+    if (sc.type === 'rx_take') el.innerHTML = fx + `<div class="tk"><div class="hd"><span class="lg"><i style="height:16px"></i><i style="height:24px"></i><i style="height:32px"></i></span><b>cmvng</b><span>${html(b.tag || 'Match analysis · before kick-off')}</span></div>
+      <div class="crs">${(b.crests || ['home', 'away']).map(x => badge(x === 'away' ? q.ba : q.bh)).join('')}</div><div class="tx"><small>${html(b.label || 'Our take')}</small>${emph(b.take || '')}</div></div>`
     else el.innerHTML = `<div class="rs"><div class="row">${badge(q.bh)}<div class="sc A">${q.score_home}<span>–</span>${q.score_away}</div>${badge(q.ba)}</div>
       <div class="nm"><span>${html(q.home)}</span><span>${html(q.away)}</span></div><div class="ft">Full time${b.scorers ? ' · ' + html(b.scorers) : ''}</div></div>
-      <div class="tal"><b class="${b.ok === false ? 'no' : ''}">${b.n}/${b.of}</b><span class="emo">${b.ok === false ? '❌' : b.ok === 'half' ? '🤏' : '✅'}</span></div>`
+      <div class="tal"><b class="${b.ok === false ? 'no' : ''}">${b.n != null ? `${b.n}/${b.of}` : html(b.stamp || '')}</b><span class="emo">${b.ok === false ? '❌' : b.ok === 'half' ? '🤏' : '✅'}</span></div>`
     if (!PRES) el.classList.add('nop')
   } else if (sc.type === 'pm_hook') {
     el.innerHTML = `<div class="crw">${D.picks.map(q => badge(q.bh) + badge(q.ba)).join('')}</div><div class="on"><span class="chip">${html(b.chip || '')}</span></div>
@@ -432,7 +438,7 @@ const built = D.scenes.map((sc, k) => {
     if (!PRES) el.classList.add('nop')
   } else if (sc.type === 'rx_outro') {
     if (!PRES) el.classList.add('nop')
-    el.innerHTML = `<div class="tal"><b class="${b.ok === false ? 'no' : ''}">${b.n}/${b.of}</b></div><div class="sub A" style="font-size:${oneLine(b.sub || 'on the night', 96)}px">${html(b.sub || 'on the night')}</div><div class="fol"><span class="chip">${html(b.follow || 'Follow for tomorrow\'s analysis')}</span></div>`
+    el.innerHTML = `<div class="tal"><b class="${b.ok === false ? 'no' : ''}">${b.n}/${b.of}</b></div><div class="sub A" style="font-size:${oneLine(b.sub || 'on the night', 96)}px">${html(b.sub || 'on the night')}</div><div class="fol"><span class="chip">${html(b.follow || 'Follow for tomorrow\'s analysis')}</span></div>${b.warn ? `<div class="wrn"><span class="chip">${html(b.warn)}</span></div>` : ''}`
   } else if (sc.type === 'rv_cta') {
     el.innerHTML = `<div class="wrap"><div class="logo"><span class="bars"><i style="height:64px"></i><i style="height:98px"></i><i style="height:132px"></i></span>cmvng</div>
       <div class="big A">${html(b.big || 'Follow for more')}</div>${b.next ? `<div class="next"><span class="chip">${html(b.next)}</span></div>` : ''}</div>`
@@ -621,8 +627,19 @@ window.renderAt = async function (t) {
   bgNow.style.transform = `scale(${1.06 + 0.06 * clamp((lt - cutAt) / (BEAT * 2)) + 0.1 * punch}) translate3d(${((Math.floor(lt / (BEAT * 2)) % 2) ? -1 : 1) * 18 * clamp((lt - cutAt) / (BEAT * 2))}px,0,0)`
   // presenter (keyed green-screen frames, one per video frame)
   const pr = $('#pres')
-  if (sc.pres) { const f = Math.min(sc.pres.n, Math.max(1, Math.floor(lt * 30) + 1)), src = `${sc.pres.dir}/${String(f).padStart(4, '0')}.webp`; pr.style.display = 'block'; if (pr.getAttribute('src') !== src) { pr.setAttribute('src', src); const w2 = pr.decode().catch(() => {}); wait = wait ? Promise.all([wait, w2]) : w2 } }
+  if (sc.pres?.still) {
+    pr.style.display = 'block'
+    if (pr.getAttribute('src') !== sc.pres.still) { pr.setAttribute('src', sc.pres.still); const w2 = pr.decode().catch(() => {}); wait = wait ? Promise.all([wait, w2]) : w2 }
+    // a photo presenter: slow breathing and sway, a small lift on each spoken word, a punch on every result
+    const cw = (D.captions.find(c => t >= c.start && t < c.end)?.words || []).find(w => t >= w.t0 && t < w.t1)
+    const talk = cw ? Math.sin(Math.PI * clamp((t - cw.t0) / Math.max(0.08, cw.t1 - cw.t0))) : 0
+    const hit = sc.type === 'rx_reveal' ? 1 - P(lt, 0, 0.45, E.outCubic) : 0
+    pr.style.transformOrigin = '50% 100%'
+    pr.style.transform = `translateY(${(-7 * talk).toFixed(2)}px) scale(${(1 + 0.007 * Math.sin(t * 1.7) + 0.006 * talk + 0.05 * hit).toFixed(4)}) rotate(${(0.5 * Math.sin(t * 0.8)).toFixed(3)}deg)`
+  } else if (sc.pres) { pr.style.transform = ''; const f = Math.min(sc.pres.n, Math.max(1, Math.floor(lt * 30) + 1)), src = `${sc.pres.dir}/${String(f).padStart(4, '0')}.webp`; pr.style.display = 'block'; if (pr.getAttribute('src') !== src) { pr.setAttribute('src', src); const w2 = pr.decode().catch(() => {}); wait = wait ? Promise.all([wait, w2]) : w2 } }
   else pr.style.display = 'none'
+  const BOX = !!D.cfg.presenter?.box
+  pr.classList.toggle('box', BOX); pr.classList.toggle('still', !!sc.pres?.still); $('#ptag').style.display = sc.pres && BOX ? 'flex' : 'none'
   $('#tint').style.opacity = memeLike ? 0 : b.style === 'pov' ? 0.55 : 1
   $('#vig').style.opacity = memeLike ? 0 : 1
   $('#credit').textContent = sc.bgs ? (b.photos[sc.bgs.indexOf(bgNow)]?.credit || '') : memeLike || sc.clip ? (b.credit || '') : (b.photo?.credit || (sc.bg.classList.contains('photo') ? (D.picks[sc.i] || M).stadium?.credit || '' : ''))
@@ -653,7 +670,7 @@ window.renderAt = async function (t) {
     $$('.w', capEl).forEach((s, j) => { const w = c.words[j]; s.className = 'w' + (t >= w.t0 && t < w.t1 ? ' now' : t < w.t0 ? ' next' : '') })
   }
   capEl.className = D.cfg.caption_style === 'bold' ? 'bold' : ''
-  capEl.style.top = memeLike ? '1500px' : sc.pres ? '1330px' : '1474px'
+  capEl.style.top = memeLike ? '1500px' : sc.pres ? (D.cfg.presenter?.box ? '1450px' : '1330px') : '1474px'
   $('#hdr').style.display = /^(rx|pm)_/.test(sc.type) ? 'none' : ''
   if (wait) await wait
 }

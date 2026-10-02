@@ -59,8 +59,13 @@ def speak(sentences_file, voice, out_dir, speed='1.0', models_dir='.'):
         from kokoro_onnx import Kokoro
         k = Kokoro(os.path.join(models_dir, 'kokoro-v1.0.onnx'), os.path.join(models_dir, 'voices-v1.0.bin'))
         lang = 'en-gb' if voice[0] == 'b' else 'en-us'
+        style = voice
+        if '+' in voice:                                          # a blend: "am_michael:0.6+am_fenrir:0.4"
+            parts = [(v.split(':')[0], float(v.split(':')[1]) if ':' in v else 1.0) for v in voice.split('+')]
+            tot = sum(w for _, w in parts)
+            style = sum(k.get_voice_style(v) * (w / tot) for v, w in parts)
         def say(text):
-            a, sr = k.create(text, voice=voice, speed=float(speed), lang=lang)
+            a, sr = k.create(text, voice=style, speed=float(speed), lang=lang)
             a = np.asarray(a, dtype=np.float32)
             return np.interp(np.arange(int(len(a) * SR / sr)) * sr / SR, np.arange(len(a)), a).astype(np.float32)
     for s in items:

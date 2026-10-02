@@ -226,18 +226,32 @@ if (cfg.mode === 'review') {
   // the presenter: a green-screen clip, keyed to transparent frames, bottom of the screen (the owner's own recording, or a
   // licensed stand-in). Each screen takes a different stretch of the clip so it never visibly repeats.
   const pc = cfg.presenter
-  if (pc) {
-    const src = /^\d+$/.test(String(pc.id ?? '')) ? await download(`https://assets.mixkit.co/videos/${pc.id}/${pc.id}-1080.mp4`, path.join(CACHE, 'clips', `${pc.id}.mp4`)) : pc.file
-    const len = Number(String(execSync(`"${FF}" -i "${src}" 2>&1 || true`)).match(/Duration: (\d+):(\d+):([\d.]+)/)?.slice(1).reduce((a, v, i) => a + v * [3600, 60, 1][i], 0) || 10)
-    let off = pc.from || 0
+  if (pc?.photo) {
+    // a still photo of the presenter (already cut out, transparent background): the page adds breathing and a small
+    // bounce on each spoken word
+    const still = 'pres_photo' + path.extname(pc.photo)
+    fs.copyFileSync(pc.photo, path.join(OUT, still))
+    for (const sc of scenes) if (/^(rx|pm)_/.test(sc.type) && sc.data?.presenter !== false) sc.pres = { still }
+  } else if (pc) {
+    // one clip, or several angles of the same shoot (`clips`), used in turn screen by screen. `box: true` shows an unkeyed
+    // studio clip in a framed "studio cam" panel instead of a green-screen cut-out.
+    const cams = []
+    for (const c of pc.clips || [pc]) {
+      const src = /^\d+$/.test(String(c.id ?? '')) ? await download(`https://assets.mixkit.co/videos/${c.id}/${c.id}-1080.mp4`, path.join(CACHE, 'clips', `${c.id}.mp4`)) : c.file
+      const len = Number(String(execSync(`"${FF}" -i "${src}" 2>&1 || true`)).match(/Duration: (\d+):(\d+):([\d.]+)/)?.slice(1).reduce((a, v, i) => a + v * [3600, 60, 1][i], 0) || 10)
+      cams.push({ ...c, src, len, off: c.from || 0 })
+    }
+    let j = 0
     for (const [k, sc] of scenes.entries()) {
       if (!/^(rx|pm)_/.test(sc.type) || sc.data?.presenter === false) continue
-      if (off + sc.dur > len - 0.2) off = pc.from || 0
+      const c = cams[j++ % cams.length]
+      if (c.off + sc.dur > c.len - 0.2) c.off = c.from || 0
       const dir = path.join(OUT, 'pres', `s${k}`); fs.mkdirSync(dir, { recursive: true })
-      const vf = `${pc.crop ? `crop=${pc.crop},` : ''}scale=1080:-2,fps=${FPS},chromakey=${pc.key || '0x6CF514:0.14:0.06'},despill=type=green`
-      await run(FF, ['-y', '-loglevel', 'error', '-ss', off.toFixed(2), '-i', src, '-t', (sc.dur + 0.1).toFixed(2), '-vf', vf, '-c:v', 'libwebp', '-quality', '75', path.join(dir, '%04d.webp')])
+      const vf = pc.box ? `${c.crop ? `crop=${c.crop},` : ''}scale=960:540,fps=${FPS}`
+        : `${c.crop ? `crop=${c.crop},` : ''}scale=1080:-2,fps=${FPS},chromakey=${c.key || pc.key || '0x6CF514:0.14:0.06'},despill=type=green`
+      await run(FF, ['-y', '-loglevel', 'error', '-ss', c.off.toFixed(2), '-i', c.src, '-t', (sc.dur + 0.1).toFixed(2), '-vf', vf, '-c:v', 'libwebp', '-quality', pc.box ? '82' : '75', path.join(dir, '%04d.webp')])
       sc.pres = { dir: `pres/s${k}`, n: fs.readdirSync(dir).length }
-      off += sc.dur + 0.5
+      c.off += sc.dur + 0.5
     }
   }
 }
