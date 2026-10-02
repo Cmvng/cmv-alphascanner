@@ -13,7 +13,7 @@ export async function page(idOrUrl) {
   const r = await fetch(url, { headers: { 'User-Agent': 'Mozilla/5.0 cmvng-video' } })
   if (!r.ok) throw new Error(`${r.status} for ${url}`)
   const html = await r.text()
-  const title = (html.match(/<title>(.*?)<\/title>/s) || [])[1]?.replace(/\s*-\s*cmvng\s*$/, '').trim()
+  const title = (html.match(/<title>(.*?)<\/title>/s) || [])[1]?.replace(/\s*-\s*cmvng\s*$/, '').replace(/&amp;/g, '&').replace(/&#x27;|&#39;/g, "'").trim()
   const text = html.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>/g, '').replace(/<[^>]+>/g, '\n')
     .replace(/&amp;/g, '&').replace(/&#39;|&rsquo;/g, "'").replace(/&nbsp;/g, ' ').replace(/&middot;/g, '·')
   return { url, title, L: text.split('\n').map(s => s.trim()).filter(Boolean) }
