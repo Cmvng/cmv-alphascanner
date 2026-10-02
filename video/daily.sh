@@ -18,8 +18,10 @@ export FFMPEG PLAYWRIGHT_PATH
 
 if [ "$MODE" = render ]; then JSON="${1:?which file?}"; else JSON=$(node video/from-app.mjs "$MODE" "$@"); fi
 SLUG=$(basename "$JSON" .json)
-SHORT=""; if [ "$MODE" = render ] && [ "${2:-}" = "--short" ]; then SHORT="--short"; SLUG="${SLUG}_short"; fi   # the 60-second cut
-node video/make-video.mjs "$JSON" $SHORT
+# --short makes the 60-second cut; any other option (e.g. --new-music) goes straight to the renderer
+SHORT=""; EXTRA=()
+if [ "$MODE" = render ]; then for a in "${@:2}"; do if [ "$a" = "--short" ]; then SHORT="--short"; SLUG="${SLUG}_short"; else EXTRA+=("$a"); fi; done; fi
+node video/make-video.mjs "$JSON" $SHORT ${EXTRA[@]+"${EXTRA[@]}"}
 
 OUT="video/out/$SLUG"
 MP4="$OUT/$SLUG.mp4"
