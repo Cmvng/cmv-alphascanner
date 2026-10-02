@@ -91,7 +91,7 @@ export async function commonsPhoto(file) {
   const ii = page?.imageinfo?.[0]
   if (!ii) return null
   const m = ii.extmetadata || {}
-  const strip = (h = '') => String(h).replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim()
+  const strip = (h = '') => String(h).replace(/<[^>]+>/g, '').replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#0?39;/g, "'").replace(/\s+/g, ' ').trim()
   return {
     url: ii.thumburl || ii.url, width: Math.min(ii.width, ii.thumbwidth || ii.width), height: Math.min(ii.height, ii.thumbheight || ii.height),
     author: strip(m.Artist?.value).slice(0, 60), licence: strip(m.LicenseShortName?.value), page: ii.descriptionurl,
@@ -151,5 +151,5 @@ export async function resolveStadium(team, { national, country, cacheDir, outDir
   if (info.none) return null
   fs.copyFileSync(path.join(dir, info.file), path.join(outDir, info.file))
   const lic = /public domain|cc0|pd/i.test(info.licence) ? '' : ` · ${info.licence}`
-  return { src: info.file, venue: info.venue, credit: `${info.venue} · Photo: ${info.author || 'Wikimedia Commons'}${lic}` }
+  return { src: info.file, venue: info.venue, credit: `${info.venue} · Photo: ${String(info.author || 'Wikimedia Commons').replace(/&amp;/g, '&').split(/;\s*permission/i)[0]}${lic}` }
 }

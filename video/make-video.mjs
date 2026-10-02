@@ -107,17 +107,26 @@ if (cfg.style === 'players') console.log(`Players style: ${picks.filter(p => p.p
 // ---------------------------------------------------------------- 2. music (needed first: cuts land on its beat)
 // A different track for every video: from lib/music.json (Mixkit free licence), never one of the last six used,
 // matched to the video's mood (analysis → groove first; tips, reactions, results → hype first).
+// A re-render of the same file keeps its track (--new-music picks another).
 function pickTrack() {
   const lib = JSON.parse(fs.readFileSync(path.join(DIR, 'lib', 'music.json'), 'utf8')).tracks
   const hist = path.join(CACHE, 'music', 'history.json')
-  let used = []; try { used = JSON.parse(fs.readFileSync(hist, 'utf8')) } catch {}
+  let h = { used: [], by: {} }
+  try { const j = JSON.parse(fs.readFileSync(hist, 'utf8')); h = Array.isArray(j) ? { used: j, by: {} } : j } catch {}
+  const asTrack = t => ({ url: `https://assets.mixkit.co/music/${t.id}/${t.id}.mp3`, start: t.start, credit: `Music: "${t.name}"${t.artist && t.artist !== 'Mixkit' ? ' by ' + t.artist : ''} (Mixkit)` })
+  const again = !flag('new-music', false) && lib.find(t => t.id === h.by[slug])
+  if (again) return asTrack(again)
   const moods = cfg.music_mood ? [].concat(cfg.music_mood) : cfg.mode === 'preview' ? ['groove', 'cinematic'] : ['hype', 'groove']
-  let pool = lib.filter(t => moods.includes(t.mood) && !used.slice(-6).includes(t.id))
-  if (!pool.length) pool = lib.filter(t => !used.slice(-3).includes(t.id))
+  const recent = [...h.used.slice(-6), h.by[slug]]
+  let pool = lib.filter(t => moods.includes(t.mood) && !recent.includes(t.id))
+  if (!pool.length) pool = lib.filter(t => !h.used.slice(-3).includes(t.id))
   const seed = [...slug].reduce((a, ch) => (a * 31 + ch.charCodeAt(0)) >>> 0, 7)
   const t = pool[seed % pool.length]
-  if (!flag('stills', false)) { fs.mkdirSync(path.dirname(hist), { recursive: true }); fs.writeFileSync(hist, JSON.stringify([...used, t.id].slice(-30))) }
-  return { url: `https://assets.mixkit.co/music/${t.id}/${t.id}.mp3`, start: t.start, credit: `Music: "${t.name}"${t.artist && t.artist !== 'Mixkit' ? ' by ' + t.artist : ''} (Mixkit)` }
+  if (!flag('stills', false)) {
+    fs.mkdirSync(path.dirname(hist), { recursive: true })
+    fs.writeFileSync(hist, JSON.stringify({ used: [...h.used, t.id].slice(-30), by: { ...h.by, [slug]: t.id } }))
+  }
+  return asTrack(t)
 }
 const stills = flag('stills', false)
 let music = null

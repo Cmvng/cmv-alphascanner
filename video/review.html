@@ -625,7 +625,7 @@ window.renderAt = async function (t) {
   else pr.style.display = 'none'
   $('#tint').style.opacity = memeLike ? 0 : b.style === 'pov' ? 0.55 : 1
   $('#vig').style.opacity = memeLike ? 0 : 1
-  $('#credit').textContent = sc.bgs ? (b.photos[sc.bgs.indexOf(bgNow)]?.credit || '') : memeLike || sc.clip ? (b.credit || '') : (b.photo?.credit || (sc.bg.classList.contains('photo') ? M.stadium?.credit || '' : ''))
+  $('#credit').textContent = sc.bgs ? (b.photos[sc.bgs.indexOf(bgNow)]?.credit || '') : memeLike || sc.clip ? (b.credit || '') : (b.photo?.credit || (sc.bg.classList.contains('photo') ? (D.picks[sc.i] || M).stadium?.credit || '' : ''))
 
   draw(k, lt, sc)
   $('#scenes').style.transform = memeLike ? '' : `scale(${1 + 0.018 * clamp(lt / sc.dur)})`
