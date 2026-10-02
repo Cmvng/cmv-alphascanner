@@ -107,6 +107,8 @@ When the owner asks for "the reaction", "the review", "post-match" or "what happ
   - No famous meme photos; text memes over our clips only.
 - **Voice:** real commentary in every video (YouTube won't pay for mostly non-verbal reactions).
 - **Check:** the betting-word check runs, and "AI Analyst" is banned.
+- **Reaction to our analysis** (the approved format, `video/templates/reaction/`): the female presenter (Mixkit 28293) and the `af_heart` voice, unless the owner asks otherwise. Main match last, as the finale.
+- **Names:** transcribe every line. If a name could be misheard as a swear word in auto-captions, say it another way (keep it on screen).
 
 ## Prediction-market plays (Polymarket)
 

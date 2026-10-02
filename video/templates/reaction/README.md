@@ -2,6 +2,8 @@
 
 Approved by the owner on 1 October 2026: the **presenter** version. Reference file: `tonight-2026-10-01-presenter.json`.
 
+Second reference: `analysis-review-2026-10-02.json` (France v Italy plus the round-up). It saves the main match for last as the finale, and uses World Cup photos of France and Belgium plus player photos as the background.
+
 **What it is:** our pre-match analysis takes against the real results, in the style of the example the owner sent, but with no tips and no odds, so it can earn on YouTube and X.
 
 **How each match runs:** fixture card → white "Our take" card → the final score → a big running tally (1/1 ✅, 1/2 🤏, 1/3 ❌), with a boom, then a cheer or a sad trombone. One honest, lively voice line per beat.
@@ -47,3 +49,7 @@ Set `presenter` in the file. Every type sits at the bottom of the screen on the 
 **Voices:** `voice` takes a Kokoro voice, or a blend such as `"am_michael:0.5+am_onyx:0.5"` (American male) or `"bm_george:0.6+bm_fable:0.4"` (British male). The female presenter uses `af_heart`.
 
 **Tips videos:** results of Polymarket plays carry `"tips": true`. `rx_take` takes `tag` and `label` (for example "Polymarket · this morning" and "Our play"). `rx_reveal` takes `stamp` instead of `n`/`of` for a moment outside the count. `rx_outro` takes `warn` for the 18+ line.
+
+## Voice check: names and auto-captions
+
+Transcribe every line before sending. If a name could be misheard as a swear word, say it another way and keep the name on screen only. For example, "Alajbegović levelled" was heard as "…bitch levelled", so the line became "Bosnia levelled with ten minutes left". YouTube's auto-captions can limit ads on a video with swearing.

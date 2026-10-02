@@ -1,0 +1,216 @@
+{
+ "mode": "review",
+ "competition": "UEFA Nations League",
+ "date": "2026-10-02",
+ "caption_style": "bold",
+ "voice_speed": 1.18,
+ "presenter": {
+  "id": 28293,
+  "crop": "1000:1080:460:0",
+  "from": 0.5,
+  "credit": "Presenter (stand-in): Mixkit stock video"
+ },
+ "picks": [
+  {
+   "home": "Poland",
+   "away": "Romania",
+   "competition": "UEFA Nations League",
+   "stage": "League B · Group 4",
+   "kickoff": "19:45",
+   "score_home": "6",
+   "score_away": "0",
+   "stadium": "/home/user/cmv-alphascanner/video/.cache/stadiums/poland.jpg",
+   "stadium_credit": "Kazimierz Górski National Stadium, Warsaw · Photo: XEvansGambitx · CC BY-SA 4.0"
+  },
+  {
+   "home": "Belgium",
+   "away": "Türkiye",
+   "competition": "UEFA Nations League",
+   "stage": "League A · Group 1",
+   "kickoff": "19:45",
+   "score_home": "3",
+   "score_away": "0",
+   "stadium": "/home/user/cmv-alphascanner/video/.cache/stadiums/sclessin.jpg",
+   "stadium_credit": "Stade Maurice Dufrasne (Sclessin), Liège · Photo: Bel Adone · Public domain"
+  },
+  {
+   "home": "Bosnia & Herzegovina",
+   "away": "Sweden",
+   "say_home": "Bosnia",
+   "competition": "UEFA Nations League",
+   "stage": "League B · Group 4",
+   "kickoff": "19:45",
+   "score_home": "1",
+   "score_away": "1",
+   "stadium": "/home/user/cmv-alphascanner/video/.cache/stadiums/bilino_polje.jpg",
+   "stadium_credit": "Bilino Polje, Zenica · Photo: Emin Tarahija · CC0"
+  },
+  {
+   "home": "France",
+   "away": "Italy",
+   "competition": "UEFA Nations League",
+   "stage": "League A · Group 1",
+   "kickoff": "19:45",
+   "score_home": "1",
+   "score_away": "1",
+   "stadium": "/home/user/cmv-alphascanner/video/.cache/stadiums/stade_de_france_night.jpg",
+   "stadium_credit": "Stade de France, Saint-Denis · Photo: Zakarie Faibis · CC BY-SA 4.0"
+  }
+ ],
+ "review": {
+  "beats": [
+   {
+    "type": "rx_intro",
+    "title": "Our analysis",
+    "title2": "vs the results",
+    "say": [
+     "This morning's analysis against tonight's results. Four calls. Let's see how they held up."
+    ]
+   },
+   {
+    "type": "rx_take",
+    "match": 0,
+    "take": "**Poland** at home (our model: 46%)",
+    "crests": [
+     "home"
+    ],
+    "people": [
+     "Robert Lewandowski"
+    ],
+    "say": [
+     "We start in Warsaw. Our model had Poland at 46%, with coach Jan Urban's job on the line."
+    ]
+   },
+   {
+    "type": "rx_reveal",
+    "match": 0,
+    "n": 1,
+    "of": 1,
+    "ok": true,
+    "scorers": "Lewandowski 24' pen, 47', 86' · Zieliński · Bednarek · og",
+    "people": [
+     "Robert Lewandowski"
+    ],
+    "say": [
+     "Six nil Poland! Romania were down to ten after 22 minutes, and Lewandowski scored a hat-trick. One from one."
+    ]
+   },
+   {
+    "type": "rx_take",
+    "match": 1,
+    "take": "**Belgium** at home (our model: 51%)",
+    "crests": [
+     "home"
+    ],
+    "teams": [
+     "Belgium"
+    ],
+    "people": [
+     "Kevin De Bruyne",
+     "Romelu Lukaku"
+    ],
+    "say": [
+     "Next, Liège. Belgium against bottom side Türkiye, and our model made Belgium favourites, at 51%."
+    ]
+   },
+   {
+    "type": "rx_reveal",
+    "match": 1,
+    "n": 2,
+    "of": 2,
+    "ok": true,
+    "scorers": "De Bruyne 10', 59' · Lukaku 76'",
+    "teams": [
+     "Belgium"
+    ],
+    "people": [
+     "Kevin De Bruyne",
+     "Romelu Lukaku"
+    ],
+    "say": [
+     "Three nil! Kevin De Bruyne scored twice, Lukaku added a third, and Türkiye have now lost all three games. Two from two."
+    ]
+   },
+   {
+    "type": "rx_take",
+    "match": 2,
+    "take": "Džeko's farewell: we **leaned Bosnia** (47%)",
+    "crests": [
+     "home"
+    ],
+    "people": [
+     "Edin Džeko",
+     "Viktor Gyökeres"
+    ],
+    "say": [
+     "In Zenica, Edin Džeko's last game for Bosnia. Our model leaned Bosnia, at 47%, against group leaders Sweden."
+    ]
+   },
+   {
+    "type": "rx_reveal",
+    "match": 2,
+    "n": 2,
+    "of": 3,
+    "ok": false,
+    "scorers": "Gyökeres 61' · Alajbegović 80'",
+    "people": [
+     "Edin Džeko",
+     "Viktor Gyökeres"
+    ],
+    "say": [
+     "One all. Gyökeres scored again, Bosnia levelled with ten minutes left, and Džeko got a guard of honour. But a draw is a miss for us. Two from three."
+    ]
+   },
+   {
+    "type": "rx_take",
+    "match": 3,
+    "take": "**Goals**, and an Italian edge",
+    "crests": [
+     "home",
+     "away"
+    ],
+    "teams": [
+     "France"
+    ],
+    "people": [
+     "Michael Olise",
+     "Alessandro Bastoni"
+    ],
+    "start_at": 1,
+    "say": [
+     "And the big one. France against Italy, with no Mbappé. Our model leaned Italy, at 53%, and our read was goals, and an Italian edge."
+    ]
+   },
+   {
+    "type": "rx_reveal",
+    "match": 3,
+    "n": 2,
+    "of": 4,
+    "ok": "half",
+    "scorers": "Olise 55' · Bastoni 68' · red card: Upamecano 85'",
+    "teams": [
+     "France"
+    ],
+    "people": [
+     "Michael Olise",
+     "Alessandro Bastoni"
+    ],
+    "start_at": 3,
+    "say": [
+     "One all! Olise scored, Bastoni levelled, and Upamecano was sent off. Italy didn't lose, but they didn't win either. Half right."
+    ]
+   },
+   {
+    "type": "rx_outro",
+    "n": 2,
+    "of": 4,
+    "ok": true,
+    "sub": "and a half. Not bad",
+    "follow": "Follow for tomorrow's analysis",
+    "say": [
+     "Two from four, and a half. France stay top on seven points, with Belgium one behind. Follow for tomorrow's analysis."
+    ]
+   }
+  ]
+ }
+}
