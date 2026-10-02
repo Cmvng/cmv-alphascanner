@@ -6,25 +6,18 @@
  "voice_speed": 1.16,
  "picks": [
   {
-   "home": "Cyprus",
-   "away": "Armenia",
+   "home": "Latvia",
+   "away": "Montenegro",
    "competition": "UEFA Nations League",
    "stage": "Nations League",
    "kickoff": "17:00"
   },
   {
-   "home": "Hungary",
-   "away": "Georgia",
+   "home": "Cyprus",
+   "away": "Armenia",
    "competition": "UEFA Nations League",
    "stage": "Nations League",
-   "kickoff": "19:45"
-  },
-  {
-   "home": "Saint Kitts and Nevis",
-   "away": "Cuba",
-   "competition": "CONCACAF Nations League",
-   "stage": "CONCACAF NL",
-   "kickoff": "22:00"
+   "kickoff": "17:00"
   },
   {
    "home": "Belgium",
@@ -41,17 +34,24 @@
    "kickoff": "19:45"
   },
   {
-   "home": "Latvia",
-   "away": "Montenegro",
+   "home": "Hungary",
+   "away": "Georgia",
    "competition": "UEFA Nations League",
    "stage": "Nations League",
-   "kickoff": "17:00"
+   "kickoff": "19:45"
+  },
+  {
+   "home": "Saint Kitts and Nevis",
+   "away": "Cuba",
+   "competition": "CONCACAF Nations League",
+   "stage": "CONCACAF NL",
+   "kickoff": "22:00"
   }
  ],
  "presenter": {
   "id": 28293,
   "crop": "1000:1080:460:0",
-  "from": 3.0,
+  "from": 3,
   "credit": "Presenter (stand-in): Mixkit stock video"
  },
  "review": {
@@ -60,112 +60,171 @@
     "type": "pm_hook",
     "title": "Prediction",
     "title2": "market plays",
-    "chip": "Polymarket · Prices at 08:51 Lagos",
+    "chip": "Polymarket · Prices at 09:45 Lagos",
     "say": [
-     "Six games today, priced on Polymarket.",
-     "Three plays where our numbers beat the market, and three we're skipping."
+     "Six plays for today on Polymarket, straight from the cmvng app."
     ]
    },
    {
     "type": "pm_pick",
     "match": 0,
     "market": {
-     "yes": 0.44,
-     "no": 0.57,
-     "side": "YES",
-     "price": 0.44,
-     "ours": 0.55,
-     "question": "Will Cyprus beat Armenia?",
-     "team": "home"
+     "question": "Will Latvia win?",
+     "labels": [
+      "YES",
+      "NO"
+     ],
+     "side": "NO",
+     "yes": 0.19,
+     "no": 0.82,
+     "price": 0.82,
+     "app": "Montenegro (draw no bet)",
+     "conf": 81,
+     "team": "home",
+     "pm": {
+      "slug": "unl-lat-mon-2026-10-02",
+      "q": "Will Latvia win on 2026-10-02?",
+      "idx": 1
+     }
     },
     "say": [
-     "Cyprus against Armenia. Will Cyprus win? The market says 44 cents.",
-     "Our model says 55%. That's an 11-cent edge. We're on YES."
+     "Latvia against Montenegro, at five. The app's call: Montenegro, and Latvia not to win.",
+     "On Polymarket, that's: will Latvia win? We take NO, at 82 cents."
     ]
    },
    {
     "type": "pm_pick",
     "match": 1,
     "market": {
-     "yes": 0.29,
-     "no": 0.72,
-     "side": "NO",
-     "price": 0.72,
-     "ours": 0.75,
-     "question": "Will Hungary v Georgia end in a draw?",
-     "team": null
+     "question": "Total goals: over or under 1.5?",
+     "labels": [
+      "OVER",
+      "UNDER"
+     ],
+     "side": "OVER",
+     "yes": 0.73,
+     "no": 0.28,
+     "price": 0.73,
+     "app": "Over 1.5 goals",
+     "conf": 77,
+     "team": null,
+     "pm": {
+      "slug": "unl-cyp-arm-2026-10-02",
+      "q": "Cyprus vs. Armenia: O/U 1.5",
+      "idx": 0
+     }
     },
     "say": [
-     "Hungary against Georgia. Will it end in a draw? NO costs 72 cents.",
-     "We make it 75% that somebody wins. A small edge, so keep it light."
+     "Cyprus against Armenia, also at five. The app says over 1.5 goals.",
+     "Polymarket has it: over 1.5 goals, at 73 cents."
     ]
    },
    {
     "type": "pm_pick",
     "match": 2,
     "market": {
-     "yes": 0.54,
-     "no": 0.48,
-     "side": "NO",
-     "price": 0.48,
-     "ours": 0.64,
-     "question": "Will Cuba win in St Kitts?",
-     "team": "away"
+     "question": "Türkiye goals: over or under 1.5?",
+     "labels": [
+      "OVER",
+      "UNDER"
+     ],
+     "side": "UNDER",
+     "yes": 0.31,
+     "no": 0.7,
+     "price": 0.7,
+     "app": "Türkiye under 1.5 goals",
+     "conf": 68,
+     "team": "away",
+     "pm": {
+      "slug": "unl-bel-tur-2026-10-02",
+      "q": "Belgium vs. Türkiye: Türkiye O/U 1.5",
+      "idx": 1
+     }
     },
     "say": [
-     "Saint Kitts and Nevis against Cuba. The market makes Cuba favourites, at 54 cents.",
-     "Our model has Cuba at 36%, so NO at 48 cents is the play. It's a small market, so prices can jump."
+     "Belgium against Türkiye, at seven forty-five. The app says Türkiye score one goal or none.",
+     "Polymarket has that exact market: Türkiye under 1.5 goals, at 70 cents."
     ]
    },
    {
-    "type": "pm_pass",
+    "type": "pm_pick",
     "match": 3,
     "market": {
-     "yes": 0.64,
-     "no": 0.37,
-     "side": "YES",
-     "price": 0.64,
-     "ours": 0.51,
-     "question": "Will Belgium beat Türkiye?",
-     "team": "home"
+     "question": "Will Romania win?",
+     "labels": [
+      "YES",
+      "NO"
+     ],
+     "side": "NO",
+     "yes": 0.19,
+     "no": 0.82,
+     "price": 0.82,
+     "app": "Poland or draw",
+     "conf": 65,
+     "team": "away",
+     "pm": {
+      "slug": "unl-pol-rom-2026-10-02",
+      "q": "Will Romania win on 2026-10-02?",
+      "idx": 1
+     }
     },
     "say": [
-     "Belgium against Türkiye. A Belgium win costs 64 cents.",
-     "Our model has 51%. Too expensive. We pass."
+     "Poland against Romania. The app says Poland or the draw.",
+     "On Polymarket that's: will Romania win? NO, at 82 cents."
     ]
    },
    {
-    "type": "pm_pass",
+    "type": "pm_pick",
     "match": 4,
     "market": {
-     "yes": 0.6,
-     "no": 0.41,
-     "side": "YES",
-     "price": 0.6,
-     "ours": 0.46,
-     "question": "Will Poland beat Romania?",
-     "team": "home"
+     "question": "Total goals: over or under 1.5?",
+     "labels": [
+      "OVER",
+      "UNDER"
+     ],
+     "side": "OVER",
+     "yes": 0.7,
+     "no": 0.31,
+     "price": 0.7,
+     "app": "Over 1.5 goals",
+     "conf": 72,
+     "team": null,
+     "pm": {
+      "slug": "unl-hun-geo-2026-10-02",
+      "q": "Hungary vs. Georgia: O/U 1.5",
+      "idx": 0
+     }
     },
     "say": [
-     "Poland against Romania. Poland to win, 60 cents.",
-     "We have 46%. Pass."
+     "Hungary against Georgia. The app wants goals: over 1.5.",
+     "On Polymarket: over 1.5 goals, at 70 cents."
     ]
    },
    {
-    "type": "pm_pass",
+    "type": "pm_pick",
     "match": 5,
     "market": {
-     "yes": 0.56,
-     "no": 0.45,
-     "side": "YES",
-     "price": 0.56,
-     "ours": 0.45,
-     "question": "Will Montenegro win in Latvia?",
-     "team": "away"
+     "question": "Total goals: over or under 1.5?",
+     "labels": [
+      "OVER",
+      "UNDER"
+     ],
+     "side": "OVER",
+     "yes": 0.76,
+     "no": 0.27,
+     "price": 0.76,
+     "app": "Over 1.5 goals",
+     "conf": 89,
+     "team": null,
+     "pm": {
+      "slug": "conl-skn-cub-2026-10-02",
+      "q": "St. Kitts and Nevis vs. Cuba: O/U 1.5",
+      "idx": 0
+     }
     },
     "say": [
-     "Latvia against Montenegro. Montenegro to win, 56 cents.",
-     "Our model says 45%. Pass."
+     "And late on, Saint Kitts and Nevis against Cuba. The app says over 1.5 goals.",
+     "Over 1.5 on Polymarket, at 76 cents. It's a small market, so check the price first."
     ]
    },
    {
@@ -174,28 +233,43 @@
     "rows": [
      {
       "match": 0,
-      "label": "Cyprus win",
-      "side": "YES",
-      "price": 0.44,
-      "ours": 0.55
+      "label": "Latvia win: NO",
+      "side": "NO",
+      "price": 0.82
      },
      {
       "match": 1,
-      "label": "Hungary v Georgia: no draw",
-      "side": "NO",
-      "price": 0.72,
-      "ours": 0.75
+      "label": "Over 1.5 goals",
+      "side": "OVER",
+      "price": 0.73
      },
      {
       "match": 2,
-      "label": "Cuba win (in St Kitts)",
+      "label": "Türkiye under 1.5 goals",
+      "side": "UNDER",
+      "price": 0.7
+     },
+     {
+      "match": 3,
+      "label": "Romania win: NO",
       "side": "NO",
-      "price": 0.48,
-      "ours": 0.64
+      "price": 0.82
+     },
+     {
+      "match": 4,
+      "label": "Over 1.5 goals",
+      "side": "OVER",
+      "price": 0.7
+     },
+     {
+      "match": 5,
+      "label": "Over 1.5 goals",
+      "side": "OVER",
+      "price": 0.76
      }
     ],
     "say": [
-     "So that's today. Cyprus YES, no draw in Hungary, and Cuba NO."
+     "That's six plays for today."
     ]
    },
    {
@@ -208,5 +282,6 @@
     ]
    }
   ]
- }
+ },
+ "tips": true
 }

@@ -24,3 +24,7 @@ Approved by the owner on 1 October 2026: the **presenter** version. Reference fi
    - `beats`: the take text, the tally and `ok` (true / false / "half")
    - `say`: the voice lines
 3. Render: `bash video/daily.sh render <file>`.
+
+## Prediction-market plays (Polymarket)
+
+`polymarket-2026-10-02.json` is the reference: the presenter, then one `pm_pick` card per app pick (the app's pick and confidence, the Polymarket question, our side lit green, the price and "$100 → $X"), a `pm_slate` and a `pm_outro`. The rules for converting picks are in `.claude/skills/cmvng-video/SKILL.md` ("Prediction-market plays"). Refresh prices with `python3 video/lib/pm_prices.py <file>` before rendering.

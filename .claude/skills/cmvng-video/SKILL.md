@@ -108,6 +108,28 @@ When the owner asks for "the reaction", "the review", "post-match" or "what happ
 - **Voice:** real commentary in every video (YouTube won't pay for mostly non-verbal reactions).
 - **Check:** the betting-word check runs, and "AI Analyst" is banned.
 
+## Prediction-market plays (Polymarket)
+
+When the owner asks for "the Polymarket video" or "prediction market plays", copy `video/templates/reaction/polymarket-2026-10-02.json`.
+
+- **Straight conversion only.** Take each of the app's picks and place it as the matching Polymarket market, exactly as you would at a bookmaker. **No edge analysis, no swapping picks, no adding or dropping picks on your own judgement.** The owner was clear on this.
+
+  | App pick | Polymarket market | Side |
+  |---|---|---|
+  | Away draw no bet, or away/draw double chance | Will <home> win? | NO |
+  | Home or draw | Will <away> win? | NO |
+  | Home win / away win | Will <team> win? | YES |
+  | Over / under N.5 goals | <Home> vs. <Away>: O/U N.5 | OVER / UNDER |
+  | Team over / under N.5 | <Home> vs. <Away>: <Team> O/U N.5 | OVER / UNDER |
+  | Both teams to score | <Home> vs. <Away>: Both Teams to Score | YES / NO |
+
+- **Where the markets are:** the match event `unl-<hom>-<awa>-<date>` (win, draw, win) and `<same>-more-markets` (goals, team goals, both to score, halves). Search with `gamma-api.polymarket.com/public-search?q=…`.
+- **Prices:** put `pm: {slug, q, idx}` on each pick's market, then run `python3 video/lib/pm_prices.py <file>` just before rendering. It updates every price, the slate and the "Prices at" chip.
+- **Leave out, and say why:** a match with no live market (dead or old date), or a part of a pick that Polymarket can't combine (say "Poland or draw & over 1.5" becomes "Romania win: NO" only). Warn about a thin market (under about $10,000 liquidity).
+- **Branding:** "Polymarket" in text only, in our own card design. No Polymarket logo, and no "cmvng × Polymarket": that suggests a partnership we don't have.
+- **Compliance:** this is a tips video, so it carries `"tips": true` (the betting-word check is off). Keep "18+ · Not financial advice · Only where Polymarket is legal" on screen. Post it on TikTok, Telegram, Facebook or X, never as a monetised YouTube video.
+- **Write-up:** for each match, list the app's pick and confidence, then the Polymarket market, side and price, as in `video/out/polymarket-2026-10-02-post-kit.md`.
+
 ## 2. Write the script (the presenter is a football analyst)
 
 Open the JSON and add a `"script"` object. The voice reads it word for word, and the captions show it.

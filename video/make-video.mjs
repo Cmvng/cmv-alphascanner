@@ -105,12 +105,25 @@ if (imgs.length) {
 if (cfg.style === 'players') console.log(`Players style: ${picks.filter(p => p.players?.length).length}/${picks.length} matches have recent photos (the rest use the stadium)`)
 
 // ---------------------------------------------------------------- 2. music (needed first: cuts land on its beat)
+// A different track for every video: from lib/music.json (Mixkit free licence), never one of the last six used,
+// matched to the video's mood (analysis → groove first; tips, reactions, results → hype first).
+function pickTrack() {
+  const lib = JSON.parse(fs.readFileSync(path.join(DIR, 'lib', 'music.json'), 'utf8')).tracks
+  const hist = path.join(CACHE, 'music', 'history.json')
+  let used = []; try { used = JSON.parse(fs.readFileSync(hist, 'utf8')) } catch {}
+  const moods = cfg.music_mood ? [].concat(cfg.music_mood) : cfg.mode === 'preview' ? ['groove', 'cinematic'] : ['hype', 'groove']
+  let pool = lib.filter(t => moods.includes(t.mood) && !used.slice(-6).includes(t.id))
+  if (!pool.length) pool = lib.filter(t => !used.slice(-3).includes(t.id))
+  const seed = [...slug].reduce((a, ch) => (a * 31 + ch.charCodeAt(0)) >>> 0, 7)
+  const t = pool[seed % pool.length]
+  if (!flag('stills', false)) { fs.mkdirSync(path.dirname(hist), { recursive: true }); fs.writeFileSync(hist, JSON.stringify([...used, t.id].slice(-30))) }
+  return { url: `https://assets.mixkit.co/music/${t.id}/${t.id}.mp3`, start: t.start, credit: `Music: "${t.name}"${t.artist && t.artist !== 'Mixkit' ? ' by ' + t.artist : ''} (Mixkit)` }
+}
 const stills = flag('stills', false)
 let music = null
 if (cfg.music !== false) {
   try {
-    const track = typeof cfg.music === 'string' && cfg.music !== 'auto' ? { file: cfg.music, start: cfg.music_start ?? 0, credit: '' }
-      : { ...TRACKS[cfg.mode === 'results' || cfg.mode === 'review' ? 'results' : 'picks'] }
+    const track = typeof cfg.music === 'string' && cfg.music !== 'auto' ? { file: cfg.music, start: cfg.music_start ?? 0, credit: '' } : pickTrack()
     if (track.url) track.file = await download(track.url, path.join(CACHE, 'music', path.basename(track.url)))
     const bj = path.join(OUT, 'beats.json')
     await run(PY, [path.join(DIR, 'audio.py'), 'beats', track.file, String(track.start), bj])
@@ -268,7 +281,8 @@ async function complianceCheck() {
   }
   console.log(`Monetisation check: passed (${seen.size} lines of on-screen text and voiceover, no betting terms)`)
 }
-if (cfg.mode === 'preview' || cfg.mode === 'review') await complianceCheck()
+// tips videos ("tips": true) aren't for monetised X / YouTube, so they skip the betting-word check
+if ((cfg.mode === 'preview' || cfg.mode === 'review') && cfg.tips !== true) await complianceCheck()
 
 // ---------------------------------------------------------------- stills (preview)
 if (stills) {

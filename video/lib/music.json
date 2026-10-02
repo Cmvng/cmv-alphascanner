@@ -1,0 +1,235 @@
+{
+ "_about": "Background music for every video, picked automatically per video (never one of the last six used). All Mixkit Stock Music Free License, checked 2026-10-02 on Mixkit's own track data: free for commercial use including monetised YouTube, no credit required (we credit anyway). start = where the track reaches full energy, so videos skip quiet intros. mood: hype (tips, reactions, results), groove (analysis), cinematic.",
+ "tracks": [
+  {
+   "id": 460,
+   "name": "Arab Nights",
+   "artist": "Arulo",
+   "genre": "Trap",
+   "mood": "hype",
+   "start": 16,
+   "bpm": 120.0,
+   "seconds": 105
+  },
+  {
+   "id": 267,
+   "name": "Trap Hamza",
+   "artist": "Arulo",
+   "genre": "Trap",
+   "mood": "hype",
+   "start": 11,
+   "bpm": 110.0,
+   "seconds": 105
+  },
+  {
+   "id": 304,
+   "name": "Torey",
+   "artist": "Arulo",
+   "genre": "Trap",
+   "mood": "hype",
+   "start": 34,
+   "bpm": 112.0,
+   "seconds": 121
+  },
+  {
+   "id": 299,
+   "name": "Lil Sky Beats",
+   "artist": "Arulo",
+   "genre": "Trap",
+   "mood": "groove",
+   "start": 14,
+   "bpm": 93.3,
+   "seconds": 105
+  },
+  {
+   "id": 876,
+   "name": "Like a Loop Machine",
+   "artist": "Michael Ramir C.",
+   "genre": "Hip Hop",
+   "mood": "groove",
+   "start": 0,
+   "bpm": 105.0,
+   "seconds": 129
+  },
+  {
+   "id": 738,
+   "name": "Hip Hop 02",
+   "artist": "Lily J",
+   "genre": "Hip Hop",
+   "mood": "groove",
+   "start": 0,
+   "bpm": 97.0,
+   "seconds": 115
+  },
+  {
+   "id": 257,
+   "name": "Eyes in the Puddle",
+   "artist": "Arulo",
+   "genre": "Hip Hop",
+   "mood": "hype",
+   "start": 14,
+   "bpm": 130.0,
+   "seconds": 119
+  },
+  {
+   "id": 180,
+   "name": "Gear",
+   "artist": "Andrew Ev",
+   "genre": "EDM",
+   "mood": "hype",
+   "start": 0,
+   "bpm": 126.9,
+   "seconds": 246
+  },
+  {
+   "id": 628,
+   "name": "Summer Dream",
+   "artist": "Eugenio Mininni",
+   "genre": "EDM",
+   "mood": "hype",
+   "start": 1,
+   "bpm": 128.0,
+   "seconds": 176
+  },
+  {
+   "id": 629,
+   "name": "Skeeomaver Sound",
+   "artist": "Eugenio Mininni",
+   "genre": "EDM",
+   "mood": "hype",
+   "start": 17,
+   "bpm": 85.3,
+   "seconds": 234
+  },
+  {
+   "id": 610,
+   "name": "Peenzee O'Traak",
+   "artist": "Eugenio Mininni",
+   "genre": "Funk",
+   "mood": "groove",
+   "start": 1,
+   "bpm": 120.0,
+   "seconds": 181
+  },
+  {
+   "id": 635,
+   "name": "Adone",
+   "artist": "Eugenio Mininni",
+   "genre": "Funk",
+   "mood": "groove",
+   "start": 0,
+   "bpm": 115.9,
+   "seconds": 182
+  },
+  {
+   "id": 696,
+   "name": "Pop 04",
+   "artist": "Grigoriy Nuzhny",
+   "genre": "Funk",
+   "mood": "groove",
+   "start": 7,
+   "bpm": 110.0,
+   "seconds": 190
+  },
+  {
+   "id": 435,
+   "name": "Uncontrollable",
+   "artist": "Arulo",
+   "genre": "Reggaeton",
+   "mood": "hype",
+   "start": 17,
+   "bpm": 109.9,
+   "seconds": 180
+  },
+  {
+   "id": 274,
+   "name": "Reggaetton",
+   "artist": "Arulo",
+   "genre": "Reggaeton",
+   "mood": "hype",
+   "start": 21,
+   "bpm": 120.0,
+   "seconds": 108
+  },
+  {
+   "id": 78,
+   "name": "Sports Rock",
+   "artist": "Ahjay Stelino",
+   "genre": "Rock",
+   "mood": "hype",
+   "start": 2,
+   "bpm": 130.0,
+   "seconds": 102
+  },
+  {
+   "id": 623,
+   "name": "Deep Urban",
+   "artist": "Eugenio Mininni",
+   "genre": "House",
+   "mood": "hype",
+   "start": 15,
+   "bpm": 124.0,
+   "seconds": 289
+  },
+  {
+   "id": 181,
+   "name": "Pop",
+   "artist": "Andrew Ev",
+   "genre": "House",
+   "mood": "hype",
+   "start": 0,
+   "bpm": 123.0,
+   "seconds": 265
+  },
+  {
+   "id": 706,
+   "name": "Games Music",
+   "artist": "Grigoriy Nuzhny",
+   "genre": "Trailer Music",
+   "mood": "cinematic",
+   "start": 2,
+   "bpm": 93.3,
+   "seconds": 118
+  },
+  {
+   "id": 201,
+   "name": "Swish Swed",
+   "artist": "Arulo",
+   "genre": "Tech House",
+   "mood": "hype",
+   "start": 0,
+   "bpm": 120.0,
+   "seconds": 144
+  },
+  {
+   "id": 50,
+   "name": "Rought and Ready",
+   "artist": "Ahjay Stelino",
+   "genre": "Metal",
+   "mood": "hype",
+   "start": 1,
+   "bpm": 75.0,
+   "seconds": 110
+  },
+  {
+   "id": 739,
+   "name": "Never Going Broke",
+   "artist": "Mixkit",
+   "genre": "Hip Hop",
+   "mood": "groove",
+   "start": 20.4,
+   "bpm": 0,
+   "seconds": 0
+  },
+  {
+   "id": 1183,
+   "name": "K.O.",
+   "artist": "Mixkit",
+   "genre": "EDM",
+   "mood": "hype",
+   "start": 12.7,
+   "bpm": 0,
+   "seconds": 0
+  }
+ ]
+}

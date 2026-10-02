@@ -210,6 +210,10 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#03060F}
 .mk .hd .lg{display:flex;align-items:flex-end;gap:5px;transform:skewX(-11deg);padding-bottom:3px}
 .mk .hd .lg i{display:block;width:9px;border-radius:3px;background:linear-gradient(180deg,#6E9BFF,#1F5FDB)}
 .mk .q{display:flex;align-items:center;gap:20px;margin:18px 0 18px}
+.mk .app{margin-top:14px;padding:12px 18px;border-radius:16px;background:#EEF2FF;font:800 30px Manrope;color:#1E3A8A}
+.mk .app span{display:block;font:700 16px JBM;letter-spacing:3px;text-transform:uppercase;color:#6366F1;margin-bottom:2px}
+.mk.simple .yn .y.on,.mk.simple .yn .n.on{background:#DCFCE7;color:#15803D;box-shadow:inset 0 0 0 4px #22C55E}
+.mk .edge.conf{background:linear-gradient(90deg,#1F5FDB,#3D7BFF);font-size:34px}
 .mk .q .badge{width:96px;height:96px;flex-shrink:0}
 .mk .q b{font:800 50px/1.08 Manrope;letter-spacing:-1px}
 .mk .yn{display:flex;gap:16px}
@@ -399,6 +403,15 @@ const built = D.scenes.map((sc, k) => {
   } else if (sc.type === 'pm_hook') {
     el.innerHTML = `<div class="crw">${D.picks.map(q => badge(q.bh) + badge(q.ba)).join('')}</div><div class="on"><span class="chip">${html(b.chip || '')}</span></div>
       <div class="big A">${html(b.title || 'Prediction')}<br><span>${html(b.title2 || 'market plays')}</span></div>`
+  } else if (sc.type === 'pm_pick' && b.market?.app) {
+    const q = D.picks[sc.i], mk = b.market, L = mk.labels || ['YES', 'NO'], tb = mk.team === 'away' ? q.ba : mk.team === 'home' ? q.bh : null
+    el.innerHTML = `<div class="fx"><div class="t">${badge(q.bh)}<b>${html(q.home)}</b></div><div class="mid">${html(q.kickoff || '')}<span>${html(q.stage || q.competition || '')}</span></div><div class="t a">${badge(q.ba)}<b>${html(q.away)}</b></div></div>
+      <div class="mk simple"><div class="hd"><span class="lg"><i style="height:14px"></i><i style="height:21px"></i><i style="height:28px"></i></span>cmvng · prediction market · ${html(b.venue || 'Polymarket')}</div>
+        <div class="app"><span>The app's pick</span>${html(mk.app)}</div>
+        <div class="q">${tb ? badge(tb) : badge(q.bh) + badge(q.ba)}<b>${html(mk.question)}</b></div>
+        <div class="yn"><div class="y ${mk.side === L[0] ? 'on' : ''}"><span>${html(L[0])}</span>${Math.round(mk.yes * 100)}¢</div><div class="n ${mk.side === L[1] ? 'on' : ''}"><span>${html(L[1])}</span>${Math.round(mk.no * 100)}¢</div></div>
+        <div class="ft2"><div class="edge conf">${Math.round(mk.conf)}% confidence</div><div class="pay">$100 → $${Math.round(100 / mk.price)}<br>if ${html(mk.side)} lands</div></div></div>`
+    if (!PRES) el.classList.add('nop')
   } else if (sc.type === 'pm_pick' || sc.type === 'pm_pass') {
     const q = D.picks[sc.i], mk = b.market, ours = Math.round(mk.ours * 100), mkt = Math.round(mk.price * 100), ed = ours - mkt
     const tb = mk.team === 'away' ? q.ba : mk.team === 'home' ? q.bh : null
@@ -413,7 +426,7 @@ const built = D.scenes.map((sc, k) => {
     if (!PRES) el.classList.add('nop')
   } else if (sc.type === 'pm_slate') {
     el.innerHTML = `<div class="ttl A">${html(b.title || "Today's plays")}</div><div class="lst" style="top:${PRES ? 300 : 340}px">${(b.rows || []).map(r => { const q = D.picks[r.match]
-      return `<div class="it">${badge(q.bh)}${badge(q.ba)}<div class="w"><b>${html(r.label)}</b><span>${html(q.kickoff || '')} · ${Math.round(r.price * 100)}¢</span></div><div class="sd ${r.side === 'YES' ? 'y' : 'n'}">${html(r.side)}</div><div class="eg">+${Math.round((r.ours - r.price) * 100)}¢</div></div>` }).join('')}</div>`
+      return `<div class="it">${badge(q.bh)}${badge(q.ba)}<div class="w"><b>${html(r.label)}</b><span>${html(q.kickoff || '')} · ${Math.round(r.price * 100)}¢</span></div><div class="sd y">${html(r.side)}</div><div class="eg">${r.ours !== undefined ? '+' + Math.round((r.ours - r.price) * 100) + '¢' : Math.round(r.price * 100) + '¢'}</div></div>` }).join('')}</div>`
   } else if (sc.type === 'pm_outro') {
     el.innerHTML = `<div class="big A">${html(b.big || 'Follow for more')}</div><div class="warn"><span class="chip">${html(b.warn || '18+ · Prices move · Not financial advice')}</span></div><div class="fol"><span class="chip">${html(b.follow || 'Follow for tomorrow\'s plays')}</span></div>`
     if (!PRES) el.classList.add('nop')

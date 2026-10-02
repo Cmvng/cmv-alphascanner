@@ -111,8 +111,11 @@ A 5-pick video runs about a minute and takes about 5 minutes to render on a 4-co
 Other options: `--no-voice`, `--fps 30`, `--workers 3`, `--out path.mp4`.
 
 **Music:**
-- The built-in tracks are from Mixkit and free to use in videos under the Mixkit Stock Music Free License, including commercial use. Check mixkit.co/license before you post.
-  - Picks video: "Never Going Broke". Results video: "K.O.".
+- Every video gets a different track from `video/lib/music.json`: 23 Mixkit tracks, all under the Mixkit Stock Music Free License (commercial use allowed). Check mixkit.co/license before you post.
+  - Styles: trap, hip hop, EDM, funk, reggaeton, rock, house, tech house, metal and trailer.
+  - Each track has a mood: `hype`, `groove` or `cinematic`. Previews draw from groove and cinematic; everything else from hype and groove. Set `"music_mood": "hype"` (or a list) to choose.
+  - The last 6 tracks used are skipped (kept in `.cache/music/history.json`), so back-to-back videos never share a track. The "Music:" line in `credits.txt` names the one used.
+  - To force one track, set `"music"` to an mp3 path. To add a track, check its Mixkit page says "Mixkit Stock Music Free License", then add it to `music.json` with its id, name, mood and `start` (the second where it gets going).
 - On TikTok and Instagram you can mute the built-in track and add a trending sound in the app instead.
   - Business accounts can only use the platform's commercial music library.
   - The voice and sound effects stay either way, if you post a version made with `"music": false`.
