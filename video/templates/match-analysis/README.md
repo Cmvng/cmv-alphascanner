@@ -10,6 +10,19 @@
 
 Every new analysis video copies this structure, tone and level of detail. Only the facts change.
 
+## The cinematic edit (3 Oct 2026)
+
+The owner liked the edit of the Packs explainer and asked for it here too. Reference: `croatia-england-2026-10-03-cinematic.json`.
+
+- **Cold open** (`analysis.cold` + `script.pv_cold`): before the title, a dark screen with one big number per line over a
+  black-and-white photo (a player to watch, by `player`, or the stadium). Example: "41 years old." (Modrić) / "Still scoring
+  for Croatia." / "87 goals for England." (Kane) / "And today, only 100 England fans are allowed in." (stadium, red, with a
+  glitch). Steps: `{ big, label, player?, tone: "hot"|"red", glitch, glitch_at }`, one per line; `pauses` and `tail` set the
+  silences. Facts only from the sources file.
+- **The drop:** the title screen lands on the music's drop, out of a short silence and a reverse swell.
+- **Settings:** `"sound": "cinematic"`, `"voice_fx": "deep"`, `"voice_speed": 1.05`, `"music_drop": "pv_hook"`, and
+  `"music_vibe"` (e.g. `["dark trap", "trap", "hip-hop"]`) to pick from the drop tracks in `lib/music.json`, which rotate.
+
 ## Two cuts from one file
 
 - **Full** (about 2 minutes, for X and YouTube): `bash video/daily.sh render video/out/<file>.json`

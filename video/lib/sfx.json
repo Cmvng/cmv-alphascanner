@@ -60,6 +60,31 @@
    "id": 1143,
    "name": "Cinematic whoosh deep impact",
    "use": "deep whoosh-impact (a big number lands)"
+  },
+  {
+   "id": 3022,
+   "name": "Stadium joy shouting crowd",
+   "use": "a goal-style roar"
+  },
+  {
+   "id": 462,
+   "name": "Huge crowd cheering victory",
+   "use": "we called it: the crowd goes up"
+  },
+  {
+   "id": 2110,
+   "name": "Crowd yelling at stadium",
+   "use": "half right: a short crowd reaction"
+  },
+  {
+   "id": 2111,
+   "name": "Crowd at the stadium",
+   "use": "stadium atmosphere"
+  },
+  {
+   "id": 2097,
+   "name": "Ambient sports crowd sound",
+   "use": "a long stadium bed"
   }
  ]
 }

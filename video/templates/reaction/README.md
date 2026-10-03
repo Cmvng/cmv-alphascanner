@@ -27,6 +27,19 @@ Second reference: `analysis-review-2026-10-02.json` (France v Italy plus the rou
    - `say`: the voice lines
 3. Render: `bash video/daily.sh render <file>`.
 
+## The cinematic edit (3 Oct 2026)
+
+Same edit as the explainer and the analysis, on top of the approved format (the presenter and the female voice stay):
+
+- **Cold open:** a beat `{ "type": "rx_cold", "say": [...], "steps": [{ big, label, tone: "hot"|"green"|"red", glitch }],
+  "people": [player names for the black-and-white photos, one per line], "pauses": [...], "tail": 0.5 }` first. No
+  presenter in it. Example: "This morning, we made four calls." (4) / "Four matches. Ninety minutes each." (90) /
+  "Tonight, the scores came in." (?, glitch).
+- **The drop:** put `"drop": true` on the `rx_intro` beat; its title and the presenter land on the music's drop.
+- **Sound:** `"sound": "cinematic"`: real stadium crowd when we called it, a digital break and a low thud when we missed,
+  recorded hits and whooshes elsewhere. Meme screens keep their comic sounds.
+- **Settings:** `"voice_fx": "deep"`, `"music_drop": "rx_intro"`, optional `"music_vibe"`.
+
 ## Prediction-market plays (Polymarket)
 
 `polymarket-2026-10-02.json` is the reference: the presenter, then one `pm_pick` card per app pick (the app's pick and confidence, the Polymarket question, our side lit green, the price and "$100 → $X"), a `pm_slate` and a `pm_outro`. The rules for converting picks are in `.claude/skills/cmvng-video/SKILL.md` ("Prediction-market plays"). Refresh prices with `python3 video/lib/pm_prices.py <file>` before rendering.

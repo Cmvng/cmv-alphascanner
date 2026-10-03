@@ -29,7 +29,13 @@
    "mood": "hype",
    "start": 34,
    "bpm": 112.0,
-   "seconds": 121
+   "seconds": 121,
+   "drop": 34.285,
+   "loop": [
+    34.285,
+    102.856
+   ],
+   "vibe": "dark trap"
   },
   {
    "id": 299,
@@ -247,7 +253,8 @@
     22.906,
     83.81
    ],
-   "about": "deep tech bass: near-silent pads, then the bass drops at 22.9 s"
+   "about": "deep tech bass: near-silent pads, then the bass drops at 22.9 s",
+   "vibe": "tech bass"
   },
   {
    "id": 370,
@@ -263,7 +270,264 @@
     31.997,
     95.997
    ],
-   "about": "dark trap: quiet tense build, hard drop at 32.0 s, short stop at 47.1 s"
+   "about": "dark trap: quiet tense build, hard drop at 32.0 s, short stop at 47.1 s",
+   "vibe": "dark trap"
+  },
+  {
+   "id": 279,
+   "name": "New House",
+   "artist": "Arulo",
+   "genre": "EDM",
+   "mood": "drop",
+   "start": 14.227,
+   "bpm": 120.0,
+   "seconds": 105,
+   "drop": 14.227,
+   "loop": [
+    14.227,
+    78.227
+   ],
+   "vibe": "house"
+  },
+  {
+   "id": 412,
+   "name": "OVO",
+   "artist": "Arulo",
+   "genre": "Trap",
+   "mood": "drop",
+   "start": 11.032,
+   "bpm": 116.0,
+   "seconds": 100,
+   "drop": 11.032,
+   "loop": [
+    11.032,
+    93.791
+   ],
+   "vibe": "dark trap"
+  },
+  {
+   "id": 318,
+   "name": "Thunder",
+   "artist": "Arulo",
+   "genre": "Hip Hop",
+   "mood": "drop",
+   "start": 20.206,
+   "bpm": 94.9,
+   "seconds": 101,
+   "drop": 20.206,
+   "loop": [
+    20.206,
+    80.901
+   ],
+   "vibe": "hip-hop"
+  },
+  {
+   "id": 190,
+   "name": "Electro Dreams",
+   "artist": "Arulo",
+   "genre": "House",
+   "mood": "drop",
+   "start": 16.023,
+   "bpm": 120.0,
+   "seconds": 116,
+   "drop": 16.023,
+   "loop": [
+    16.023,
+    112.023
+   ],
+   "vibe": "house"
+  },
+  {
+   "id": 445,
+   "name": "21",
+   "artist": "Arulo",
+   "genre": "Hip Hop",
+   "mood": "drop",
+   "start": 14.221,
+   "bpm": 134.9,
+   "seconds": 100,
+   "drop": 14.221,
+   "loop": [
+    14.221,
+    85.385
+   ],
+   "vibe": "hip-hop"
+  },
+  {
+   "id": 364,
+   "name": "Waka Floka Type",
+   "artist": "Arulo",
+   "genre": "Trap",
+   "mood": "drop",
+   "start": 14.767,
+   "bpm": 86.6,
+   "seconds": 103,
+   "drop": 14.767,
+   "loop": [
+    14.767,
+    81.28
+   ],
+   "vibe": "trap"
+  },
+  {
+   "id": 836,
+   "name": "Let's Move",
+   "artist": "Michael Ramir C.",
+   "genre": "EDM",
+   "mood": "drop",
+   "start": 16.029,
+   "bpm": 120.0,
+   "seconds": 101,
+   "drop": 16.029,
+   "loop": [
+    16.029,
+    96.029
+   ],
+   "vibe": "EDM"
+  },
+  {
+   "id": 407,
+   "name": "K. K.",
+   "artist": "Arulo",
+   "genre": "Trap",
+   "mood": "drop",
+   "start": 15.357,
+   "bpm": 83.3,
+   "seconds": 96,
+   "drop": 15.357,
+   "loop": [
+    15.357,
+    84.505
+   ],
+   "vibe": "dark trap"
+  },
+  {
+   "id": 625,
+   "name": "Fragments Of Bangkok",
+   "artist": "Eugenio Mininni",
+   "genre": "Film Score",
+   "mood": "drop",
+   "start": 35.954,
+   "bpm": 74.7,
+   "seconds": 300,
+   "drop": 35.954,
+   "loop": [
+    35.954,
+    241.576
+   ],
+   "vibe": "cinematic"
+  },
+  {
+   "id": 293,
+   "name": "Lord Knows",
+   "artist": "Arulo",
+   "genre": "Trap",
+   "mood": "drop",
+   "start": 11.096,
+   "bpm": 130.0,
+   "seconds": 103,
+   "drop": 11.096,
+   "loop": [
+    11.096,
+    99.711
+   ],
+   "vibe": "trap"
+  },
+  {
+   "id": 303,
+   "name": "Party",
+   "artist": "Arulo",
+   "genre": "Trap",
+   "mood": "drop",
+   "start": 13.976,
+   "bpm": 101.9,
+   "seconds": 97,
+   "drop": 13.976,
+   "loop": [
+    13.976,
+    89.344
+   ],
+   "vibe": "heavy trap"
+  },
+  {
+   "id": 403,
+   "name": "G Eazy NBA type",
+   "artist": "Arulo",
+   "genre": "Hip Hop",
+   "mood": "drop",
+   "start": 14.769,
+   "bpm": 130.0,
+   "seconds": 104,
+   "drop": 14.769,
+   "loop": [
+    14.769,
+    88.615
+   ],
+   "vibe": "hip-hop"
+  },
+  {
+   "id": 363,
+   "name": "UK",
+   "artist": "Arulo",
+   "genre": "Trap",
+   "mood": "drop",
+   "start": 13.714,
+   "bpm": 139.9,
+   "seconds": 103,
+   "drop": 13.714,
+   "loop": [
+    13.714,
+    82.334
+   ],
+   "vibe": "trap"
+  },
+  {
+   "id": 431,
+   "name": "Young Trizzy 02",
+   "artist": "Arulo",
+   "genre": "Hip Hop",
+   "mood": "drop",
+   "start": 13.711,
+   "bpm": 140.0,
+   "seconds": 97,
+   "drop": 13.711,
+   "loop": [
+    13.711,
+    82.282
+   ],
+   "vibe": "hip-hop"
+  },
+  {
+   "id": 966,
+   "name": "Lust",
+   "artist": "Michael Ramir C.",
+   "genre": "EDM",
+   "mood": "drop",
+   "start": 10.806,
+   "bpm": 125.0,
+   "seconds": 129,
+   "drop": 10.806,
+   "loop": [
+    10.806,
+    118.326
+   ],
+   "vibe": "EDM"
+  },
+  {
+   "id": 543,
+   "name": "A New Life",
+   "artist": "Eugenio Mininni",
+   "genre": "Film Score",
+   "mood": "drop",
+   "start": 24.642,
+   "bpm": 127.9,
+   "seconds": 99,
+   "drop": 24.642,
+   "loop": [
+    24.642,
+    69.677
+   ],
+   "vibe": "cinematic"
   }
  ]
 }

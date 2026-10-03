@@ -46,6 +46,7 @@ export function speakify(t) {
     .replace(/\bxG\b/g, 'expected goals').replace(/\s*&\s*/g, ' and ').replace(/\b(\d+)\s*[-–]\s*(\d+)\b/g, (_, x, y) => +x === +y ? `${+x === 0 ? 'nil' : num(+x)} all` : `${num(+x)} ${+y === 0 ? 'nil' : num(+y)}`)
 }
 const W = line => L(speakify(line), line)
+const WS = x => typeof x === 'string' ? W(x) : L(speakify(x.say), x.show)      // a line, or { say, show }
 
 // cfg.script (written for the day) replaces the template lines, scene by scene. Pick and result lines map to
 // the beats: line 1 = the match, line 2 = the pick (the card slams in), line 3 = the numbers (the bars light).
@@ -55,7 +56,7 @@ function applyScript(cfg, scenes) {
   let pi = 0, ri = 0, oi = 0
   for (const s of scenes) {
     const lines = s.type === 'pick' ? sc.picks?.[pi++] : s.type === 'result' ? sc.results?.[ri++] : s.type === 'pv_round' ? sc.pv_round?.[oi++] : sc[s.type]
-    if (Array.isArray(lines) && lines.length) s.say = lines.map(W)
+    if (Array.isArray(lines) && lines.length) s.say = lines.map(WS)
   }
   return scenes
 }
@@ -164,7 +165,7 @@ export function buildScenes(cfg, picks, recap) {
 // Post-match review / reaction: every screen is a beat written for this match (cfg.review.beats), so no two videos
 // run the same way. A beat: { type: hook|moment|meme|stats|read|table|ratings|cta, say: [lines], clip, sticker, burst, … }
 function buildReviewScenes(cfg) {
-  return (cfg.review?.beats || []).map(b => ({ type: (/^(rx|pm)_/.test(b.type) ? '' : 'rv_') + b.type, i: b.match ?? 0, say: (b.say || []).map(W), data: b, hold: b.hold }))
+  return (cfg.review?.beats || []).map(b => ({ type: (/^(rx|pm)_/.test(b.type) ? '' : 'rv_') + b.type, i: b.match ?? 0, say: (b.say || []).map(WS), data: b, hold: b.hold }))
 }
 
 // Motion-graphics explainer (any topic, e.g. how a product works): every screen is a beat in cfg.explainer.beats,
@@ -217,6 +218,9 @@ function buildPreviewScenes(cfg, [p, ...others]) {
     scenes.push({ type: 'pv_round', i: j + 1, say: [W(`${j ? 'And' : 'Elsewhere,'} ${r.home} against ${r.away}. Our model makes ${fav[0]} favourites, at ${Math.round(fav[1])}%.`)] })
   })
   scenes.push({ type: 'pv_cta', i: 0, say: [W(`That's the preview. Follow for more football, by the numbers.`)] })
+  // cinematic opening (analysis.cold): a dark teaser of big numbers before the title, which lands on the music's drop
+  const cold = an?.cold
+  if (cold) { scenes[0].data = { ...(scenes[0].data || {}), drop: true }; scenes.unshift({ type: 'pv_cold', i: 0, say: (cold.say || []).map(WS), data: cold }) }
   return scenes
 }
 

@@ -113,8 +113,11 @@ function pickTrack() {
   const all = JSON.parse(fs.readFileSync(path.join(DIR, 'lib', 'music.json'), 'utf8')).tracks
   // a track asked for by id (music_track): e.g. a "drop" track whose drop lands on a chosen cut
   const want = cfg.music_track && all.find(t => t.id === +cfg.music_track)
-  // retired tracks (the old defaults the owner found repetitive) never come back in rotation; "drop" tracks only by id
-  const lib = all.filter(t => !t.retired && t.mood !== 'drop')
+  // retired tracks (the old defaults the owner found repetitive) never come back in rotation; "drop" tracks only by id,
+  // or in rotation for a video that opens on a drop (music_drop), optionally narrowed by music_vibe ("dark trap", ...)
+  const vibes = cfg.music_vibe ? [].concat(cfg.music_vibe) : null
+  const lib = cfg.music_drop ? all.filter(t => !t.retired && t.drop != null && (!vibes || vibes.includes(t.vibe)))
+    : all.filter(t => !t.retired && t.mood !== 'drop')
   const hist = path.join(CACHE, 'music', 'history.json')
   let h = { used: [], by: {} }
   try { const j = JSON.parse(fs.readFileSync(hist, 'utf8')); h = Array.isArray(j) ? { used: j, by: {} } : j } catch {}
@@ -124,7 +127,7 @@ function pickTrack() {
   if (again) return asTrack(again)
   const moods = cfg.music_mood ? [].concat(cfg.music_mood) : cfg.mode === 'preview' ? ['groove', 'cinematic'] : ['hype', 'groove']
   const recent = [...h.used.slice(-6), h.by[slug]]
-  let pool = lib.filter(t => moods.includes(t.mood) && !recent.includes(t.id))
+  let pool = lib.filter(t => (cfg.music_drop || moods.includes(t.mood)) && !recent.includes(t.id))
   if (!pool.length) pool = lib.filter(t => !h.used.slice(-3).includes(t.id))
   const seed = [...slug].reduce((a, ch) => (a * 31 + ch.charCodeAt(0)) >>> 0, 7)
   const t = pool[seed % pool.length]
@@ -178,7 +181,7 @@ const est = s => s.split(/\s+/).length / (2.7 * cfg.voice_speed) + 0.2 // second
 // ---------------------------------------------------------------- 4. timeline + captions
 const MIN = { hook: 4.2, pick: 7.0, slate: 5.0, cta: 4.4, rhook: 5.4, result: 4.6, rtotal: 6.2, pv_hook: 5.0, pv_form: 6.0, pv_stats: 7.0, pv_model: 7.5, pv_score: 5.5, pv_cta: 4.5, pv_stake: 6.0, pv_players: 8.0, pv_tactics: 8.0, pv_expect: 7.0, pv_round: 6.0,
   rv_hook: 4.0, rv_moment: 3.6, rv_meme: 3.0, rv_stats: 5.0, rv_read: 5.0, rv_table: 4.8, rv_ratings: 5.0, rv_quote: 4.5, rv_cta: 3.6, rx_intro: 3.0, rx_take: 4.0, rx_reveal: 3.4, rx_outro: 3.6, pm_hook: 3.4, pm_pick: 5.0, pm_tip: 5.0, pm_pass: 4.4, pm_slate: 4.6, pm_outro: 3.8 }
-const LEAD = { hook: 0.2, rhook: 0.2, rv_hook: 0.75, rv_meme: 0.2, rv_moment: 0.25, rx_intro: 0.6, rx_take: 0.45, rx_reveal: 0.25, pm_hook: 0.6, pm_pick: 0.45, pm_tip: 0.45, pm_pass: 0.45, ex_cold: 0.35, ex_hook: 0.06 }, GAP = 0.12, TAIL = 0.3
+const LEAD = { hook: 0.2, rhook: 0.2, rv_hook: 0.75, rv_meme: 0.2, rv_moment: 0.25, rx_intro: 0.6, rx_take: 0.45, rx_reveal: 0.25, pm_hook: 0.6, pm_pick: 0.45, pm_tip: 0.45, pm_pass: 0.45, ex_cold: 0.35, ex_hook: 0.06, pv_cold: 0.35, rx_cold: 0.35 }, GAP = 0.12, TAIL = 0.3
 const BEAT = music?.beat || null
 let t = 0
 const captions = []
@@ -213,7 +216,6 @@ const DURATION = t + 0.4
 if (music?.drop != null && cfg.music_drop) {
   const k = scenes.findIndex(s => s.type === cfg.music_drop || s.type === 'ex_' + cfg.music_drop)
   if (k > 0) {
-    music.drop = music.start                       // the beat analysis nudged the start onto the drop's hit
     music.start = music.drop - scenes[k].start
     const last = scenes[k - 1].sentences.at(-1)
     music.cuts = last ? [[last.start + last.dur + 0.03, scenes[k].start]] : []
@@ -249,7 +251,7 @@ if (cfg.mode === 'review') {
     // bounce on each spoken word
     const still = 'pres_photo' + path.extname(pc.photo)
     fs.copyFileSync(pc.photo, path.join(OUT, still))
-    for (const sc of scenes) if (/^(rx|pm)_/.test(sc.type) && sc.data?.presenter !== false) sc.pres = { still }
+    for (const sc of scenes) if (/^(rx|pm)_/.test(sc.type) && !/_cold$/.test(sc.type) && sc.data?.presenter !== false) sc.pres = { still }
   } else if (pc) {
     // one clip, or several angles of the same shoot (`clips`), used in turn screen by screen. `box: true` shows an unkeyed
     // studio clip in a framed "studio cam" panel instead of a green-screen cut-out.
@@ -261,7 +263,7 @@ if (cfg.mode === 'review') {
     }
     let j = 0
     for (const [k, sc] of scenes.entries()) {
-      if (!/^(rx|pm)_/.test(sc.type) || sc.data?.presenter === false) continue
+      if (!/^(rx|pm)_/.test(sc.type) || /_cold$/.test(sc.type) || sc.data?.presenter === false) continue     // no presenter in a cold open
       const c = cams[j++ % cams.length]
       if (c.off + sc.dur > c.len - 0.2) c.off = c.from || 0
       const dir = path.join(OUT, 'pres', `s${k}`); fs.mkdirSync(dir, { recursive: true })

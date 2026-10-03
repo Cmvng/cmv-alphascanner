@@ -201,6 +201,14 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#03060F}
 .tal b.no{background:linear-gradient(180deg,#FFB4B4,#EF4444 55%,#991B1B);-webkit-background-clip:text;filter:drop-shadow(0 8px 0 #7F1D1D) drop-shadow(0 22px 40px rgba(0,0,0,.55))}
 .tal .emo{font-size:150px;vertical-align:40px;margin-left:16px}
 .nop .rs{top:330px}.nop .tal{top:780px}
+/* cold open (rx_cold): one big number over dark black-and-white photos, before the title lands on the drop */
+.bg.cold{filter:grayscale(1) brightness(.5) contrast(1.2) !important}
+.rx_cold .dark{position:absolute;inset:0;background:#000;opacity:.35}
+.rx_cold .bigc{position:absolute;left:0;right:0;top:600px;text-align:center;font-size:340px;line-height:1;color:#fff;text-shadow:0 24px 80px rgba(0,0,0,.8)}
+.rx_cold .bigc.hot{color:#FFD400;text-shadow:0 0 80px rgba(255,212,0,.45),0 24px 80px rgba(0,0,0,.8)}
+.rx_cold .bigc.green{color:var(--win2);text-shadow:0 0 70px rgba(34,197,94,.45),0 24px 80px rgba(0,0,0,.8)}
+.rx_cold .bigc.red{color:var(--loss2);text-shadow:0 0 70px rgba(239,68,68,.45),0 24px 80px rgba(0,0,0,.8)}
+.rx_cold .labc{position:absolute;left:60px;right:60px;top:960px;text-align:center;font:700 38px JBM;letter-spacing:7px;text-transform:uppercase;color:rgba(255,255,255,.88);text-shadow:0 4px 20px rgba(0,0,0,.8)}
 .rx_intro .big{position:absolute;left:40px;right:40px;top:520px;text-align:center;font-size:170px;line-height:.95;text-shadow:0 18px 60px rgba(0,0,0,.7)}
 .rx_intro .big span{color:#FFD400}
 .rx_intro .crw{position:absolute;left:60px;right:60px;top:300px;display:flex;justify-content:center;flex-wrap:wrap;gap:16px}
@@ -340,6 +348,10 @@ function barCols() { const h = M.bh.colour || '#3D7BFF', a = M.ba.colour || '#6E
 
 // ---------------------------------------------------------------- backgrounds: one per scene
 function mkBg(sc, k) {
+  if (sc.type === 'rx_cold' && sc.data?.photos?.length) {   // cold open: a photo per line, black and white
+    sc.bgs = sc.data.photos.map(ph => { const d = document.createElement('div'); d.className = 'bg photo cold'; d.style.backgroundImage = `url('${ph.src}')`; d.style.backgroundPosition = '50% 25%'; $('#bgs').appendChild(d); return d })
+    sc.perLine = true; return sc.bgs[0]
+  }
   if (sc.data?.photos?.length) {          // a montage: real photos of the team(s), cut on the beat
     sc.bgs = sc.data.photos.map(ph => { const d = document.createElement('div'); d.className = 'bg photo'; d.style.backgroundImage = `url('${ph.src}')`; d.style.backgroundPosition = '50% 30%'; $('#bgs').appendChild(d); return d })
     return sc.bgs[0]
@@ -403,6 +415,8 @@ const built = D.scenes.map((sc, k) => {
   } else if (sc.type === 'rv_quote') {
     el.innerHTML = `<div class="card q"><div class="mk">“</div><p>${html(b.quote)}</p>
       <div class="by">${b.photo ? `<div class="ph" style="background-image:url('${b.photo.src}')"></div>` : badge(teamBadge(b.team))}<div><b class="A">${html(b.who)}</b><span>${html(b.role || 'After the game')}</span></div></div></div>`
+  } else if (sc.type === 'rx_cold') {
+    el.innerHTML = `<div class="dark"></div><div class="bigc A"></div><div class="labc"></div>`
   } else if (sc.type === 'rx_intro') {
     el.innerHTML = `<div class="crw">${D.picks.map(q => badge(q.bh) + badge(q.ba)).join('')}</div><div class="big A">${html(b.title || 'Our takes')}<br><span>${html(b.title2 || 'vs the results')}</span></div>`
   } else if (sc.type === 'rx_take' || sc.type === 'rx_reveal') {
@@ -490,6 +504,13 @@ function slam(n, lt, at, from = 1.7, dur = 0.32, extra = '') {
   n.style.opacity = P(lt, at, at + 0.08); n.style.transform = `${extra} scale(${from - (from - 1) * q})`; n.style.filter = `blur(${(1 - q) * 10}px)`
 }
 const shake = (lt, at, amp = 14) => { const d = lt - at; if (d < 0 || d > 0.3) return ''; const a = amp * (1 - d / 0.3); return `translate3d(${a * Math.sin(d * 95)}px,${a * Math.cos(d * 77)}px,0)` }
+function glitch(n, lt, at, dur = 0.38) {     // a digital break on a number: jitter and a colour split
+  const d = lt - at
+  if (d < 0 || d > dur) { n.style.textShadow = ''; return '' }
+  const r = Math.sin(lt * 997) * Math.cos(lt * 331), a = 18 * (1 - d / dur)
+  n.style.textShadow = `${-7 * (1 - d / dur)}px 0 #ff2a55, ${7 * (1 - d / dur)}px 0 #00e5ff`
+  return ` translate3d(${r * a}px,${Math.sin(lt * 613) * a * 0.3}px,0) skewX(${r * 8}deg)`
+}
 // when a meme "hits": the time of its punch (default: just after the text lands)
 const punchAt = sc => sc.data?.punch ?? 0.9
 
@@ -537,6 +558,20 @@ function draw(k, lt, sc) {
     rows.forEach((r, j) => slam(r, lt, 0.4 + j * step, 1.25, 0.25))
   } else if (sc.type === 'rv_quote') {
     rise([$('.q', el)], lt, 0.1, 0, 70, 0.5); slam($('.mk', el), lt, 0.3, 2, 0.3); rise([$('.by', el)], lt, 0.6, 0, 20)
+  } else if (sc.type === 'rx_cold') {
+    // one step per line: { big, label, tone: hot|green|red, glitch } — the number slams in as each line starts
+    const steps = b.steps || [], n = sc.lines.filter(l => lt >= l[0] - 0.08).length, j = Math.max(0, Math.min(steps.length - 1, n - 1)), st = steps[j] || {}
+    const at = n ? S(sc, j)[0] - 0.08 : 99, big = $('.bigc', el), lab = $('.labc', el), changed = j === 0 || st.big !== (steps[j - 1] || {}).big
+    big.textContent = n ? (st.big ?? '') : ''; lab.textContent = n ? (st.label ?? '') : ''
+    big.className = 'bigc A' + (st.tone ? ' ' + st.tone : '')
+    if (changed) slam(big, lt, at, 1.9, 0.28); else { big.style.opacity = n ? 1 : 0; big.style.transform = '' }
+    big.style.transform += st.glitch ? glitch(big, lt, at + (st.glitch_at || 0)) : (big.style.textShadow = '', '')
+    rise([lab], lt, at + 0.15, 0, 30)
+    const end = S(sc, sc.lines.length - 1)[0] + S(sc, sc.lines.length - 1)[1]
+    $('.dark', el).style.opacity = 0.35 + 0.55 * P(lt, end, sc.dur, E.inOutSine)
+    el.style.transform = `scale(${1 + 0.06 * P(lt, end, sc.dur, E.inOutSine)})` + ' ' + shake(lt, at + 0.02, changed && n ? 12 : 0)
+  } else if (sc.type === 'rx_intro' && b.drop) {
+    $$('.crw .badge', el).forEach((x, j) => slam(x, lt, j * 0.03, 1.6, 0.22)); slam($('.big', el), lt, 0, 2.0, 0.3); el.style.transform = shake(lt, 0.04, 24)
   } else if (sc.type === 'rx_intro') {
     $$('.crw .badge', el).forEach((x, j) => slam(x, lt, 0.1 + j * 0.06, 1.6, 0.25)); slam($('.big', el), lt, 0.5, 1.8, 0.3); el.style.transform = shake(lt, 0.55, 16)
   } else if (sc.type === 'rx_take') {
@@ -583,7 +618,52 @@ const tallyAt = sc => sc.data?.tally_at ?? Math.min(1.1, Math.max(0.7, (S(sc, 0)
 const stampAt = sc => sc.data?.stamp_at ?? Math.max(1.2, (S(sc, sc.lines.length - 1)[0] || 1.5) - 0.1)
 
 // ---------------------------------------------------------------- sound effects in sync with the drawing above
+// "cinematic" sound (cfg.sound): recorded Mixkit effects (lib/sfx.json) — real stadium crowds when we called it, a digital
+// break and a low thud when we missed. Meme screens keep their own comic sounds (b.sfx). db is the level against the voice.
+function fxCinematic() {
+  const ev = [], add = (t, sfx, db, o = {}) => ev.push({ t: +Math.max(0, t).toFixed(3), sfx, db, ...o }), syn = (t, type, gain) => ev.push({ t: +t.toFixed(3), type, ...(gain ? { gain } : {}) })
+  D.scenes.forEach((sc, k) => {
+    const T = sc.start, b = sc.data || {}, at = j => T + S(sc, j)[0], next = D.scenes[k + 1], drop = /_intro$|_hook$/.test(sc.type) && b.drop
+    if (k > 0 && !drop && !b.hard_cut) add(T, k % 2 ? '1492' : '2636', k % 2 ? -12 : -14, { align: 'peak' })
+    if (sc.type === 'rx_cold') {
+      const steps = b.steps || []
+      add(T, '497', -13, { align: 'start', max: Math.max(1, sc.dur - 0.2) })
+      sc.lines.forEach((_, j) => {
+        const st = steps[j] || {}, changed = j === 0 || st.big !== (steps[j - 1] || {}).big
+        if (j === 0) { add(at(0) - 0.08, '2909', -1); add(at(0) - 0.08, '2299', -4) }
+        else if (changed) { add(at(j) - 0.08, '2299', -6); add(at(j) - 0.08, '3124', -10) }
+        if (st.glitch) add(at(j) - 0.08 + (st.glitch_at || 0), '2951', -9)
+      })
+      if (next?.data?.drop) add(next.start, '2908', -6, { reverse: true, max: 2.6, align: 'end' })
+    }
+    if (drop) { add(T, '2908', 0); add(T, '2299', -2) }
+    if ((sc.type === 'rx_intro' || sc.type === 'pm_hook') && !drop) { add(T + 0.5, '2909', -4); add(T + 0.5, '2299', -6) }
+    if (sc.type === 'rv_hook' && !drop) { add(T + 0.4, '2909', -3); add(T + 0.5, '3022', -8, { max: 3.5 }) }
+    if (sc.type === 'rx_take' || sc.type === 'pm_pick' || sc.type === 'pm_tip' || sc.type === 'pm_pass') add(T + 0.25, '3124', -10)
+    if (sc.type === 'rx_reveal') {
+      add(T + 0.14, '2299', -8); const t = T + tallyAt(sc)
+      if (b.ok === true) { add(t, '2568', -9); add(t, '462', -9, { max: 3.2 }) }               // called it: the crowd goes up
+      else if (b.ok === 'half') { add(t, '2573', -9); add(t, '2110', -13, { max: 2.2 }) }
+      else { add(t, '2951', -9); add(t, '2299', -6) }                                          // missed: a digital break, a thud
+    }
+    if (sc.type === 'rx_outro' || sc.type === 'pm_outro') { add(T + 0.2, '2908', -4); add(T + 0.2, '2299', -5) }
+    if (sc.type === 'pm_slate') (b.rows || []).forEach((_, j) => add(T + 0.3 + j * 0.35, '2577', -14))
+    if (sc.type === 'rv_moment') { add(T + 0.08, '3124', -11); add(T + Math.max(0.5, Math.min(1.2, S(sc, 0)[0] || 0.5)), '2299', -8); if (b.sfx) syn(T + (b.sfx_at ?? 1.0), b.sfx) }
+    if (sc.type === 'rv_meme' && b.style !== 'pov') syn(T + punchAt(sc), b.sfx || 'boom')
+    if (sc.type === 'rv_meme' && b.style === 'pov' && b.sfx) syn(T + (b.sfx_at ?? 0.3), b.sfx)
+    if (sc.type === 'rv_stats') add(T + 0.3, '3120', -12)
+    if (sc.type === 'rv_read') { const v = b.verdict || 'half', t = T + stampAt(sc); add(t, '2909', -6); if (v === 'called') add(t, '462', -10, { max: 3 }); else if (v === 'missed') add(t, '2951', -9) }
+    if (sc.type === 'rv_table') add(T + 0.4, '3124', -11)
+    if (sc.type === 'rv_quote') add(T + 0.3, '2573', -12)
+    if (sc.type === 'rv_ratings') { const n = (b.rows || []).length, step = Math.max(0.45, (sc.dur - 1.2) / Math.max(1, n)); for (let j = 0; j < n; j++) add(T + 0.4 + j * step, '2577', -13) }
+    if (sc.type === 'rv_cta') { add(T + 0.35, '2908', -4); add(T + 0.35, '2299', -5) }
+    if (b.sticker) add(T + (b.sticker.at ?? 1.0), '3005', -9)
+  })
+  return ev
+}
+
 window.fxEvents = function () {
+  if (D.cfg.sound === 'cinematic') return fxCinematic()
   const ev = [], add = (t, type, gain) => ev.push({ t: +t.toFixed(3), type, ...(gain ? { gain } : {}) })
   D.scenes.forEach((sc, k) => {
     const T = sc.start, b = sc.data || {}
@@ -636,8 +716,9 @@ window.renderAt = async function (t) {
   const memeLike = sc.type === 'rv_meme' && b.style !== 'pov'
   let bgNow = sc.bg, cutAt = 0
   if (sc.bgs) {                            // montage: a new photo every two beats, each with its own push-in
-    const per = BEAT * 2, j = Math.floor(lt / per) % sc.bgs.length
-    sc.bgs.forEach((x, i) => { x.style.opacity = i === j ? 1 : 0 }); bgNow = sc.bgs[j]; cutAt = Math.floor(lt / per) * per
+    const per = BEAT * 2, nl = sc.lines.filter(l => lt >= l[0] - 0.08).length
+    const j = sc.perLine ? Math.max(0, Math.min(sc.bgs.length - 1, nl - 1)) : Math.floor(lt / per) % sc.bgs.length
+    sc.bgs.forEach((x, i) => { x.style.opacity = i === j ? 1 : 0 }); bgNow = sc.bgs[j]; cutAt = sc.perLine ? (nl ? sc.lines[j][0] - 0.08 : 0) : Math.floor(lt / per) * per
     if (sc.type === 'rx_reveal') bgNow.style.filter = 'brightness(.5) saturate(1.1) blur(6px)'
   } else sc.bg.style.opacity = memeLike ? 0 : 1
   const punch = 1 - P(lt - cutAt, 0, 0.4, E.outCubic)

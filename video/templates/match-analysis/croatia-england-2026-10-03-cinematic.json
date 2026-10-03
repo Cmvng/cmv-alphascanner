@@ -1,0 +1,265 @@
+{
+ "mode": "preview",
+ "competition": "UEFA Nations League",
+ "date": "2026-10-03",
+ "picks": [
+  {
+   "home": "Croatia",
+   "away": "England",
+   "competition": "UEFA Nations League",
+   "kickoff": "17:00",
+   "stadium": "/home/user/cmv-alphascanner/video/.cache/stadiums/rijeka_rujevica.jpg",
+   "stadium_credit": "Stadion Rujevica, Rijeka · Photo: Драган Јањушевић · CC BY-SA 4.0"
+  },
+  {
+   "home": "Spain",
+   "away": "Czechia",
+   "competition": "UEFA Nations League",
+   "kickoff": "19:45",
+   "stadium": "/home/user/cmv-alphascanner/video/.cache/stadiums/oviedo_tartiere.jpg",
+   "stadium_credit": "Estadio Carlos Tartiere, Oviedo · Photo: Celticgubrath · CC BY-SA 3.0",
+   "round": {
+    "title": "Also in Group 3",
+    "stage": "League A · Carlos Tartiere, Oviedo",
+    "points": [
+     "World champions, unbeaten in 40 games",
+     "Czechia: no points, and Šulc suspended"
+    ],
+    "read": "Our read: a big Spain win"
+   }
+  },
+  {
+   "home": "Switzerland",
+   "away": "Slovenia",
+   "competition": "UEFA Nations League",
+   "kickoff": "19:45",
+   "stadium": "/home/user/cmv-alphascanner/video/.cache/stadiums/lucerne_arena.jpg",
+   "stadium_credit": "Stadion Allmend (thermoplan arena), Lucerne · Photo: Bebu · CC0",
+   "round": {
+    "title": "Around League B",
+    "stage": "Group 1 · Lucerne",
+    "points": [
+     "No Xhaka or Embolo for Switzerland",
+     "Slovenia: no Šeško, but yet to concede"
+    ],
+    "read": "Our read: Switzerland, by two or more"
+   }
+  },
+  {
+   "home": "North Macedonia",
+   "away": "Scotland",
+   "competition": "UEFA Nations League",
+   "kickoff": "19:45",
+   "round": {
+    "title": "Around League B",
+    "stage": "Group 1 · Toše Proeski Arena, Skopje",
+    "points": [
+     "Robertson set for his 100th Scotland cap",
+     "North Macedonia: six games without a goal"
+    ],
+    "read": "Our read: Scotland unbeaten, few goals"
+   }
+  }
+ ],
+ "voice_speed": 1.05,
+ "style": "stadium",
+ "skip": [
+  "pv_form",
+  "pv_stats",
+  "pv_score"
+ ],
+ "analysis": {
+  "stage": "League A · Group 3 · Matchday 3",
+  "table": [
+   [
+    "Spain",
+    2,
+    6
+   ],
+   [
+    "England",
+    2,
+    3
+   ],
+   [
+    "Croatia",
+    2,
+    3
+   ],
+   [
+    "Czechia",
+    2,
+    0
+   ]
+  ],
+  "stakes": [
+   "Only the top two reach the March quarter-finals",
+   "Almost behind closed doors after a UEFA sanction"
+  ],
+  "players": [
+   {
+    "name": "Luka Modrić",
+    "team": "home",
+    "role": "Captain",
+    "club": "AC Milan",
+    "fact": "Became Croatia's oldest scorer, at 41, against Czechia."
+   },
+   {
+    "name": "Joško Gvardiol",
+    "team": "home",
+    "role": "Defender",
+    "club": "Man City",
+    "fact": "Played every minute of Croatia's September games."
+   },
+   {
+    "name": "Harry Kane",
+    "team": "away",
+    "role": "Captain",
+    "club": "Bayern Munich",
+    "fact": "His goal in Prague was his 87th for England."
+   },
+   {
+    "name": "Anthony Gordon",
+    "team": "away",
+    "role": "Winger",
+    "club": "Barcelona",
+    "fact": "Has scored in three England games in a row."
+   }
+  ],
+  "tactics": {
+   "label": "Expected shape",
+   "home": {
+    "formation": "4-2-3-1",
+    "points": [
+     "Modrić and Kovačić in midfield",
+     "Budimir up front",
+     "Only 5 shots against Spain"
+    ]
+   },
+   "away": {
+    "formation": "4-2-3-1",
+    "points": [
+     "Kane leads the line",
+     "Saka, Bellingham and Gordon behind",
+     "22 shots v Czechia, a first clean sheet in 7"
+    ]
+   }
+  },
+  "expect": [
+   "England on the ball, Croatia compact",
+   "Modrić pulling the strings",
+   "The duel: Bellingham v Modrić"
+  ],
+  "verdict": "Our read: England unbeaten, in a tight game",
+  "headline": "Behind closed doors in Rijeka",
+  "cold": {
+   "steps": [
+    {
+     "big": "41",
+     "label": "years old",
+     "player": "Luka Modrić"
+    },
+    {
+     "big": "41",
+     "label": "Croatia's oldest scorer",
+     "player": "Luka Modrić"
+    },
+    {
+     "big": "87",
+     "label": "England goals",
+     "player": "Harry Kane",
+     "tone": "hot"
+    },
+    {
+     "big": "100",
+     "label": "England fans allowed in",
+     "tone": "red",
+     "glitch": true,
+     "glitch_at": 1.6
+    }
+   ],
+   "pauses": [
+    0.3,
+    0.55,
+    0.45
+   ],
+   "tail": 0.5
+  }
+ },
+ "script": {
+  "pv_hook": [
+   "Croatia against England, in Rijeka.",
+   "Second place is on the line. Here's the analysis."
+  ],
+  "pv_stake": [
+   "Spain lead the group on six points. England and Croatia have three each, so this is a straight fight for second.",
+   "Only the top two go through. And after a UEFA sanction, only about 6,000 children and 100 England fans are allowed in."
+  ],
+  "pv_players": [
+   "For Croatia, captain Luka Modrić, who became their oldest scorer at 41 against Czechia, and Joško Gvardiol.",
+   "For England, captain Harry Kane, with 87 goals for his country, and Anthony Gordon, who has scored in three England games in a row."
+  ],
+  "pv_tactics": [
+   "Croatia are expected in a 4-2-3-1, with Modrić and Kovačić in midfield. Against Spain, they managed only five shots.",
+   "England also go 4-2-3-1, with Kane up front. Against Czechia, they had 22 shots and kept their first clean sheet in seven games."
+  ],
+  "pv_expect": [
+   "Expect England on the ball, and Croatia compact, with Modrić pulling the strings.",
+   "The duel to watch: Bellingham against Modrić.",
+   "England won 4-2 when these two met at the World Cup in June. Our read: England unbeaten, in a tight game."
+  ],
+  "pv_round": [
+   [
+    "Also in this group, world champions Spain host Czechia in Oviedo. Spain are unbeaten in 40 games.",
+    "Czechia have lost both games so far. Our read: a big Spain win."
+   ],
+   [
+    "In League B, leaders Switzerland host Slovenia in Lucerne, without Xhaka and Embolo.",
+    "Slovenia are yet to concede, but they're missing Šeško. Our read: Switzerland, by two or more."
+   ],
+   [
+    "And in Skopje, North Macedonia host Scotland. Andy Robertson is set for his 100th cap.",
+    "Neither side has won yet. Our read: Scotland avoid defeat, in a low-scoring game."
+   ]
+  ],
+  "pv_cta": [
+   "That's the analysis. Follow for more football, by the numbers."
+  ],
+  "pv_cold": [
+   {
+    "say": "Forty-one years old.",
+    "show": "41 years old."
+   },
+   "Still scoring for Croatia.",
+   {
+    "say": "Eighty-seven goals for England.",
+    "show": "87 goals for England."
+   },
+   {
+    "say": "And today, only a hundred England fans are allowed in.",
+    "show": "And today, only 100 England fans are allowed in."
+   }
+  ]
+ },
+ "script_short": {
+  "pv_stake": [
+   "Spain lead on six points. England and Croatia have three each: a straight fight for second."
+  ],
+  "pv_players": [
+   "Watch Modrić, Croatia's oldest scorer at 41, and Harry Kane, with 87 England goals.",
+   "Anthony Gordon has scored in three England games in a row."
+  ],
+  "pv_expect": [
+   "Expect England on the ball, and Croatia compact around Modrić.",
+   "England won 4-2 at the World Cup in June. Our read: England unbeaten, in a tight game."
+  ]
+ },
+ "voice_fx": "deep",
+ "sound": "cinematic",
+ "music_drop": "pv_hook",
+ "music_vibe": [
+  "dark trap",
+  "trap",
+  "hip-hop"
+ ]
+}

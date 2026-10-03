@@ -141,6 +141,10 @@ When the owner asks for an explainer ("explain Packs", "a video on how X works")
   track (`music_track` 720 or 370) with `music_drop: "hook"`, and a cold open before the drop. The owner called the plain
   voice and soundtrack "basic"; this is the fix.
 - **Two versions** when the owner can't choose: render once per `music_track` (each has its own beat grid).
+- **The same edit for analysis and post-match videos** (owner, 3 Oct): a cold open (`analysis.cold` / an `rx_cold` beat),
+  the title on the drop, `sound: "cinematic"`, `voice_fx: "deep"`. See the "cinematic edit" sections in
+  `video/templates/match-analysis/README.md` and `video/templates/reaction/README.md`. Drop tracks rotate (19 in
+  `lib/music.json`), so the soundtrack changes from video to video.
 - **Facts** come only from the product's docs and app, listed in a sources file. Our own redrawn screens, no logo.
 
 ## 2. Write the script (the presenter is a football analyst)
