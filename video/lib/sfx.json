@@ -1,0 +1,65 @@
+{
+ "_about": "Recorded sound effects for the explainer sound design. Mixkit Sound Effects Free License (checked 2026-10-03 at mixkit.co/license/modal/sfxFree/): commercial use in videos allowed, no credit needed, but the files may not be passed on by themselves, so they are not in git: audio.py downloads them into video/.cache/sfx on first use. In a timeline fx entry: {\"t\": seconds, \"sfx\": \"id\", \"db\": level vs the voice, \"align\": \"onset|peak|end|start\", \"reverse\": bool, \"max\": seconds, \"pan\": -1..1}.",
+ "effects": [
+  {
+   "id": 2909,
+   "name": "Cool impact movie trailer",
+   "use": "hit on the first words of the hook"
+  },
+  {
+   "id": 2908,
+   "name": "Movie trailer epic impact",
+   "use": "the drop (also reversed as the swell into it)"
+  },
+  {
+   "id": 2299,
+   "name": "Short bass hit",
+   "use": "sub under a hit"
+  },
+  {
+   "id": 497,
+   "name": "Cinematic heartbeat ambience",
+   "use": "heartbeat under a cold open"
+  },
+  {
+   "id": 2297,
+   "name": "Bass rumble hum",
+   "use": "low rumble under a cold open"
+  },
+  {
+   "id": 3124,
+   "name": "Modern technology select",
+   "use": "UI tick (a card or ticket appears)"
+  },
+  {
+   "id": 2573,
+   "name": "Interface option select",
+   "use": "UI select (a number appears)"
+  },
+  {
+   "id": 2951,
+   "name": "Digital glitch break",
+   "use": "digital break (\"or nothing\")"
+  },
+  {
+   "id": 1492,
+   "name": "Cinematic whoosh fast transition",
+   "use": "scene change whoosh"
+  },
+  {
+   "id": 2636,
+   "name": "Futuristic metal transition sweep",
+   "use": "metal sweep (a value changes)"
+  },
+  {
+   "id": 3115,
+   "name": "Fast transitions swoosh",
+   "use": "fast swoosh (an item flies in)"
+  },
+  {
+   "id": 1143,
+   "name": "Cinematic whoosh deep impact",
+   "use": "deep whoosh-impact (a big number lands)"
+  }
+ ]
+}

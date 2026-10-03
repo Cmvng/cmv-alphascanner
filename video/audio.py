@@ -5,7 +5,7 @@
   python3 audio.py mix    timeline.json out.wav                         -> voice + music (ducked) + sound effects
 
 Voices: Kokoro (natural, free, offline: af_heart, af_bella, am_michael, bf_emma, ...) or a Piper .onnx file.
-Sound effects are synthesised here (no licences needed).
+Sound effects are synthesised here (no licences needed), or recorded Mixkit effects by id (free licence; see lib/sfx.json).
 """
 import json, os, subprocess, sys, wave
 import numpy as np
@@ -266,6 +266,74 @@ FX_GAIN = {'whoosh': 0.4, 'impact': 0.42, 'riser': 0.32, 'ding': 0.5, 'thud': 0.
            'boom': 0.62, 'crowd': 0.42, 'groan': 0.42, 'scratch': 0.45, 'aww': 0.4, 'pop': 0.35}
 
 
+# ---- recorded sound effects (Mixkit Sound Effects Free License: commercial use allowed, no credit needed;
+#      the files can't be passed on by themselves, so they live in the git-ignored cache and download on first use)
+SFX_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), '.cache', 'sfx')
+_sfx_cache = {}
+
+
+def sfx_sample(ref, reverse=False, rate=1.0, maxlen=None):
+    """A recorded effect by Mixkit id ('788') or path → stereo array (peak 1.0)."""
+    key = (str(ref), reverse, rate, maxlen)
+    if key in _sfx_cache:
+        return _sfx_cache[key]
+    path = str(ref)
+    if path.isdigit():
+        path = os.path.join(SFX_DIR, f'{ref}.mp3')
+        if not os.path.exists(path):
+            os.makedirs(SFX_DIR, exist_ok=True)
+            subprocess.run(['curl', '-sS', '-f', '-o', path, f'https://assets.mixkit.co/active_storage/sfx/{ref}/{ref}-preview.mp3'], check=True)
+    a = read_any(path, int(SR / rate), 2) if rate != 1.0 else read_any(path, SR, 2)   # rate < 1: lower and longer
+    a = a[max(0, np.argmax(np.abs(a).max(1) > 0.002) - 48):]
+    if maxlen and len(a) > maxlen * SR:
+        a = a[:int(maxlen * SR)]
+        f = int(0.15 * SR); a[-f:] *= np.linspace(1, 0, f)[:, None]
+    if reverse:
+        a = a[::-1].copy()
+    a /= np.abs(a).max() + 1e-9
+    _sfx_cache[key] = a
+    return a
+
+
+def _anchor(a, align):
+    """Sample index of the moment that should land on the cue: onset, peak, end or start."""
+    if align == 'start':
+        return 0
+    if align == 'end':
+        return len(a)
+    hop = 240; m = np.abs(a).max(1); n = len(m) // hop
+    e = np.sqrt((m[:n * hop].reshape(n, hop) ** 2).mean(1))
+    if align == 'peak':
+        return int(np.argmax(e) * hop)
+    db = 20 * np.log10(e + 1e-9)
+    return int(np.argmax(db > db.max() - 12) * hop)      # onset: where it first gets within 12 dB of its peak
+
+
+def _loud_rms(a, win=0.3):
+    m = a.mean(1) if a.ndim == 2 else a
+    k = int(win * SR)
+    if len(m) <= k:
+        return rms(m)
+    c = np.convolve(m ** 2, np.ones(k) / k, 'valid')
+    return float(np.sqrt(c.max()) + 1e-9)
+
+
+def peak_limit(x, ceiling=0.95, release=0.15):
+    """Look-ahead peak limiter: turns down only the loud moments instead of the whole mix."""
+    blk = 64; n = len(x) // blk + 1
+    pk = np.zeros(n * blk); pk[:len(x)] = np.abs(x).max(1)
+    pk = pk.reshape(n, blk).max(1)
+    need = np.minimum(1.0, ceiling / np.maximum(pk, 1e-9))
+    look = 3                                               # ~4 ms look-ahead so the gain is down before the hit
+    need = np.minimum.reduce([np.roll(need, -k) for k in range(look + 1)])
+    g = np.empty(n); cur = 1.0; r = 1 - np.exp(-blk / (release * SR))
+    for i in range(n):
+        cur = need[i] if need[i] < cur else cur + (need[i] - cur) * r
+        g[i] = cur
+    gs = np.interp(np.arange(len(x)), np.arange(n) * blk + blk / 2, g)
+    return x * gs[:, None]
+
+
 # ----------------------------------------------------------------------------- mix
 def rms(a):
     return float(np.sqrt(np.mean(a ** 2)) + 1e-9)
@@ -294,7 +362,25 @@ def mix(timeline_file, out_path):
         # loudness: music sits ~2 dB under the voice between lines and ~11 dB under while the voice speaks
         talking = voice[np.abs(voice) > 0.02]
         v_rms = rms(talking) if len(talking) else 0.1
-        base = v_rms / rms(music[int(2 * SR):int(30 * SR)] if len(music) > 30 * SR else music) * 10 ** (-2 / 20)
+        if m.get('ref') == 'loud':                     # level from the track's loud part (tracks with a quiet intro and a drop)
+            k = int(0.4 * SR); seg = music.mean(1)
+            st = np.sqrt(np.convolve(seg ** 2, np.ones(k) / k, 'valid')[::k // 4])
+            m_rms = float(np.percentile(st, 80)) + 1e-9
+        else:
+            m_rms = rms(music[int(2 * SR):int(30 * SR)] if len(music) > 30 * SR else music)
+        base = v_rms / m_rms * 10 ** ((-2 + m.get('level', 0)) / 20)
+        if m.get('muffle'):                            # cold open: the track sounds far away until the drop
+            from scipy.signal import butter, sosfiltfilt
+            mu = m['muffle']; cut = int(mu['until'] * SR)
+            sos = butter(4, mu.get('hz', 650), 'low', fs=SR, output='sos')
+            low = sosfiltfilt(sos, music[:cut + int(0.1 * SR)], axis=0).astype(np.float32) * 10 ** (mu.get('db', 2) / 20)
+            x = np.clip((np.arange(len(low)) - (cut - int(0.06 * SR))) / (0.06 * SR), 0, 1)[:, None]
+            music[:len(low)] = low * (1 - x) + music[:len(low)] * x
+        for c0, c1 in m.get('cuts', []):               # music drops out (e.g. the beat stops before the drop)
+            i0, i1 = int(c0 * SR), int(c1 * SR); fo, fi = int(0.03 * SR), int(0.004 * SR)
+            music[max(0, i0 - fo):i0] *= np.linspace(1, 0, min(fo, i0))[:, None]
+            music[i0:i1] = 0
+            music[i1:i1 + fi] *= np.linspace(0, 1, len(music[i1:i1 + fi]))[:, None]
         env = np.abs(voice)
         k = int(0.03 * SR); env = np.convolve(env, np.ones(k) / k, 'same')
         active = (env > 0.015).astype(np.float32)
@@ -305,12 +391,24 @@ def mix(timeline_file, out_path):
             tgt = active[i]
             cur += (tgt - cur) * min(1, (a_c if tgt > cur else r_c) * 64)
             g[i:i + 64] = cur
-        duck = 10 ** (-9 * g / 20)
+        duck = 10 ** (-m.get('duck', 9) * g / 20)
         fade_in = np.clip(np.arange(n) / (0.08 * SR), 0, 1)
         fade_out = np.clip((n - np.arange(n)) / (1.2 * SR), 0, 1)
         out += music * (base * duck * fade_in * fade_out)[:, None]
 
+    talking = voice[np.abs(voice) > 0.02]
+    v_ref = rms(talking) if len(talking) else 0.1
     for e in tl.get('fx', []):
+        if e.get('sfx'):                               # recorded effect: its onset/peak/end lands on the cue, level vs the voice
+            a = sfx_sample(e['sfx'], e.get('reverse', False), e.get('rate', 1.0), e.get('max'))
+            a = a * (v_ref / _loud_rms(a) * 10 ** (e.get('db', -6) / 20))
+            if e.get('pan'):
+                a = a * np.array([min(1, 1 - e['pan']), min(1, 1 + e['pan'])], dtype=np.float32)
+            i = int(e['t'] * SR) - _anchor(a, e.get('align', 'onset'))
+            if i < 0:
+                a, i = a[-i:], 0
+            out[i:i + len(a)] += a[:max(0, n - i)]
+            continue
         if e['type'] not in FX:
             continue
         a = FX[e['type']]() * FX_GAIN[e['type']] * e.get('gain', 1.0)
@@ -319,7 +417,9 @@ def mix(timeline_file, out_path):
         out[i:i + len(a)] += a[:max(0, n - i)]
 
     peak = np.abs(out).max()
-    if peak > 0.98:
+    if tl.get('limiter') == 'peak':
+        out = peak_limit(out)
+    elif peak > 0.98:
         out = np.tanh(out / peak * 1.2) / np.tanh(1.2) * 0.98   # gentle limiter
     write_wav(out_path, out)
 
