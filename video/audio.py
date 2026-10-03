@@ -41,7 +41,24 @@ def trim(a, sr, thr=0.012, pad=0.04):
     return a[max(0, idx[0] - p): idx[-1] + p]
 
 
-def speak(sentences_file, voice, out_dir, speed='1.0', models_dir='.'):
+# Voice colour, applied to every line after it is spoken (ffmpeg filters at 48 kHz). "deep" is the explainer voice the
+# owner picked (3 Oct): a touch lower, warmer, more present, with a small room. Line lengths don't change.
+VOICE_FX = {
+    'broadcast': 'highpass=f=70,equalizer=f=160:t=q:w=1:g=3,equalizer=f=3500:t=q:w=1.2:g=3.5,equalizer=f=7500:t=q:w=2:g=-2,'
+                 'acompressor=threshold=-20dB:ratio=3:attack=5:release=90:makeup=4,aecho=0.8:0.5:28:0.06',
+    'deep': 'asetrate=48000*0.955,aresample=48000,atempo=1/0.955,highpass=f=60,equalizer=f=140:t=q:w=1:g=4,'
+            'equalizer=f=3200:t=q:w=1.2:g=3,equalizer=f=7500:t=q:w=2:g=-2.5,'
+            'acompressor=threshold=-21dB:ratio=3.5:attack=5:release=100:makeup=5,aecho=0.8:0.5:32:0.07',
+}
+
+
+def voice_fx(a, chain):
+    raw = subprocess.run([FF, '-v', 'error', '-f', 'f32le', '-ar', str(SR), '-ac', '1', '-i', '-', '-af', VOICE_FX[chain],
+                          '-f', 'f32le', '-ar', str(SR), '-ac', '1', '-'], input=a.astype(np.float32).tobytes(), capture_output=True, check=True).stdout
+    return np.frombuffer(raw, dtype=np.float32).copy()
+
+
+def speak(sentences_file, voice, out_dir, speed='1.0', models_dir='.', fx=None):
     os.makedirs(out_dir, exist_ok=True)
     out = {}
     items = json.load(open(sentences_file))
@@ -70,6 +87,8 @@ def speak(sentences_file, voice, out_dir, speed='1.0', models_dir='.'):
             return np.interp(np.arange(int(len(a) * SR / sr)) * sr / SR, np.arange(len(a)), a).astype(np.float32)
     for s in items:
         a = trim(say(s['text']), SR)
+        if fx:
+            a = voice_fx(a, fx)
         a = a / (np.abs(a).max() + 1e-9) * 0.89
         write_wav(os.path.join(out_dir, f"{s['id']}.wav"), a)
         out[s['id']] = len(a) / SR
@@ -285,11 +304,14 @@ def sfx_sample(ref, reverse=False, rate=1.0, maxlen=None):
             subprocess.run(['curl', '-sS', '-f', '-o', path, f'https://assets.mixkit.co/active_storage/sfx/{ref}/{ref}-preview.mp3'], check=True)
     a = read_any(path, int(SR / rate), 2) if rate != 1.0 else read_any(path, SR, 2)   # rate < 1: lower and longer
     a = a[max(0, np.argmax(np.abs(a).max(1) > 0.002) - 48):]
+    if reverse:                                  # a reverse swell: the tail played backwards, ending on the hit itself
+        a = a[_anchor(a, 'peak'):]
     if maxlen and len(a) > maxlen * SR:
         a = a[:int(maxlen * SR)]
         f = int(0.15 * SR); a[-f:] *= np.linspace(1, 0, f)[:, None]
     if reverse:
         a = a[::-1].copy()
+        f = int(0.4 * SR); a[:f] *= np.linspace(0, 1, f)[:, None] ** 2
     a /= np.abs(a).max() + 1e-9
     _sfx_cache[key] = a
     return a
@@ -314,8 +336,8 @@ def _loud_rms(a, win=0.3):
     k = int(win * SR)
     if len(m) <= k:
         return rms(m)
-    c = np.convolve(m ** 2, np.ones(k) / k, 'valid')
-    return float(np.sqrt(c.max()) + 1e-9)
+    c = np.cumsum(np.concatenate([[0.0], m.astype(np.float64) ** 2]))
+    return float(np.sqrt((c[k:] - c[:-k]).max() / k) + 1e-9)
 
 
 def peak_limit(x, ceiling=0.95, release=0.15):
@@ -355,7 +377,17 @@ def mix(timeline_file, out_path):
 
     m = tl.get('music')
     if m:
-        music = read_any(m['file'], SR, 2)[int(m['start'] * SR):]
+        full = read_any(m['file'], SR, 2)
+        st = int(m['start'] * SR)
+        music = np.concatenate([np.zeros((-st, 2), np.float32), full]) if st < 0 else full[st:]
+        if m.get('loop'):                        # past the loop end, go back to the loop start (whole bars: no seam)
+            a, b = int(m['loop'][0] * SR), int(m['loop'][1] * SR)
+            music = music[:max(0, b - st)]
+            x = int(0.008 * SR)
+            ramp = np.linspace(0, 1, x)[:, None]
+            while len(music) < n:                # 8 ms crossfade at the seam
+                seg = full[a:b]
+                music = np.concatenate([music[:-x], music[-x:] * (1 - ramp) + seg[:x] * ramp, seg[x:]])
         if len(music) < n:                       # loop if the track is shorter than the video
             music = np.concatenate([music] * (n // max(1, len(music)) + 1))
         music = music[:n]
@@ -363,8 +395,8 @@ def mix(timeline_file, out_path):
         talking = voice[np.abs(voice) > 0.02]
         v_rms = rms(talking) if len(talking) else 0.1
         if m.get('ref') == 'loud':                     # level from the track's loud part (tracks with a quiet intro and a drop)
-            k = int(0.4 * SR); seg = music.mean(1)
-            st = np.sqrt(np.convolve(seg ** 2, np.ones(k) / k, 'valid')[::k // 4])
+            k = int(0.4 * SR); c = np.cumsum(np.concatenate([[0.0], music.mean(1).astype(np.float64) ** 2]))
+            st = np.sqrt(np.maximum(0, (c[k:] - c[:-k])[::k // 4] / k))
             m_rms = float(np.percentile(st, 80)) + 1e-9
         else:
             m_rms = rms(music[int(2 * SR):int(30 * SR)] if len(music) > 30 * SR else music)

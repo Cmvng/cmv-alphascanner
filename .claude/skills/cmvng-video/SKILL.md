@@ -132,6 +132,17 @@ When the owner asks for "the Polymarket video" or "prediction market plays", cop
 - **Compliance:** this is a tips video, so it carries `"tips": true` (the betting-word check is off). Keep "18+ · Not financial advice · Only where Polymarket is legal" on screen. Post it on TikTok, Telegram, Facebook or X, never as a monetised YouTube video.
 - **Write-up:** for each match, list the app's pick and confidence, then the Polymarket market, side and price, as in `video/out/polymarket-2026-10-02-post-kit.md`.
 
+## Explainers (motion graphics)
+
+When the owner asks for an explainer ("explain Packs", "a video on how X works"), copy
+`video/templates/explainer/limitless-packs-2026-10-03.json` and read `video/templates/explainer/README.md`.
+
+- **Sound:** keep the approved settings: `af_heart` with `voice_fx: "deep"` at speed 1.0, `sound: "cinematic"`, a drop
+  track (`music_track` 720 or 370) with `music_drop: "hook"`, and a cold open before the drop. The owner called the plain
+  voice and soundtrack "basic"; this is the fix.
+- **Two versions** when the owner can't choose: render once per `music_track` (each has its own beat grid).
+- **Facts** come only from the product's docs and app, listed in a sources file. Our own redrawn screens, no logo.
+
 ## 2. Write the script (the presenter is a football analyst)
 
 Open the JSON and add a `"script"` object. The voice reads it word for word, and the captions show it.
@@ -155,7 +166,7 @@ Rules:
 - **Tone:** confident, specific, calm, like a pundit. Vary the openers ("We start in…", "Next…", "And a late one…"), and keep each line under about 25 words.
 - **Never** say "sure", "banker", "guaranteed", "fixed" or "lock". Say losses plainly in results.
 - **Pace:** set `"voice_speed": 1.14` for a measured analyst pace, and `"results_when"` to match the cta ("tonight", "tomorrow").
-- **Look:** set `"style"`. Use the one the owner asks for: `stadium` (home ground photo), `broadcast` (team-colour TV graphics) or `players` (recent photos of the home team's players, which falls back to the stadium). If he doesn't say, rotate day to day.
+- **Look:** set `"style"`. Use the one the owner asks for: `stadium` (home ground photo), `broadcast` (team-colour TV graphics) or `players` (recent photos of the home team's players, which falls back to the stadium). If the owner doesn't say, rotate day to day.
 - **Names:** if a name the voice will say is Spanish, Portuguese or African, check it in `SAY_NAMES` (`video/lib/narration.mjs`) and add a respelling if needed. Test it with Kokoro and faster-whisper first.
 
 ## 3. Render
@@ -182,6 +193,6 @@ Run it in the background. It takes about 5–8 minutes; the first run in a new s
 
 ## Rules
 
-- **Read-only:** only the public pages of cmvngpicks.com are read. Never change the app, its database, its Railway settings or its environment variables. The owner deploys the app himself.
+- **Read-only:** only the public pages of cmvngpicks.com are read. Never change the app, its database, its Railway settings or its environment variables. The owner deploys the app.
 - **On screen:** keep "18+ · Predictions, not guarantees" visible; the template already does this.
 - **The owner:** plain English, short sentences, no jargon.

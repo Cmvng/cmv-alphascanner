@@ -1,0 +1,391 @@
+{
+ "mode": "explainer",
+ "competition": "Explainer",
+ "date": "2026-10-03",
+ "picks": [],
+ "voice_speed": 1.0,
+ "caption_style": "bold",
+ "explainer": {
+  "foot": "Independent guide · not affiliated with Limitless · not financial advice",
+  "chapters": {
+   "ex_stack": "What is a Pack",
+   "ex_rule": "The rule",
+   "ex_start": "Get started",
+   "ex_buy": "Buy a Pack",
+   "ex_track": "Track & claim",
+   "ex_custom": "Build your own",
+   "ex_pvp": "PvP",
+   "ex_numbers": "The numbers",
+   "ex_smart": "Smart use"
+  },
+  "beats": [
+   {
+    "type": "cold",
+    "from": "$10",
+    "ticket": "1 ticket",
+    "legs": [
+     {
+      "flag": "🇦🇱",
+      "team": "Albania"
+     },
+     {
+      "flag": "🇭🇷",
+      "team": "Croatia"
+     },
+     {
+      "flag": "🇨🇭",
+      "team": "Switzerland"
+     }
+    ],
+    "say": [
+     {
+      "say": "Ten dollars.",
+      "show": "$10."
+     },
+     "One ticket.",
+     {
+      "say": "A hundred and seventy-two dollars back, if every leg lands.",
+      "show": "$172 back, if every leg lands."
+     },
+     "Or nothing at all."
+    ],
+    "pauses": [
+     0.3,
+     0.55,
+     0.35
+    ],
+    "tail": 0.5
+   },
+   {
+    "type": "hook",
+    "title": "Packs",
+    "title2": "on Limitless",
+    "chip": "Here's how it works",
+    "tickets": [
+     {
+      "hd": "Pack · 2 legs",
+      "rows": [
+       [
+        "Estonia YES",
+        "2.95x"
+       ],
+       [
+        "Scotland YES",
+        "1.64x"
+       ]
+      ]
+     },
+     {
+      "hd": "Pack · 3 legs",
+      "rows": [
+       [
+        "Albania YES",
+        "3.23x"
+       ],
+       [
+        "Croatia YES",
+        "4.65x"
+       ],
+       [
+        "Switzerland YES",
+        "1.27x"
+       ]
+      ]
+     },
+     {
+      "hd": "Custom Pack",
+      "rows": [
+       [
+        "Finland",
+        "2.38x"
+       ],
+       [
+        "Iceland",
+        "1.46x"
+       ]
+      ]
+     }
+    ],
+    "say": [
+     "This is a Pack, on Limitless. And here is exactly how it works."
+    ],
+    "drop": true
+   },
+   {
+    "type": "stack",
+    "title": "One ticket.",
+    "sub": "Many predictions. That's a Pack.",
+    "league": "UEFA Nations League",
+    "name": "Example Pack from the app, 3 Oct",
+    "legs": [
+     {
+      "flag": "🇦🇱",
+      "team": "Albania",
+      "side": "YES",
+      "pct": 31,
+      "match": "Finland v Albania",
+      "x": "3.23"
+     },
+     {
+      "flag": "🇭🇷",
+      "team": "Croatia",
+      "side": "YES",
+      "pct": 22,
+      "match": "Croatia v England",
+      "x": "4.65"
+     },
+     {
+      "flag": "🇨🇭",
+      "team": "Switzerland",
+      "side": "YES",
+      "pct": 79,
+      "match": "Switzerland v Slovenia",
+      "x": "1.27"
+     }
+    ],
+    "result": 17.2,
+    "note": "after the 10% fee · multipliers move",
+    "say": [
+     "A Pack bundles predictions from different matches into one single ticket.",
+     "The multipliers stack.",
+     "Albania,",
+     "Croatia,",
+     "Switzerland.",
+     {
+      "say": "Seventeen point two times.",
+      "show": "17.2 times."
+     }
+    ],
+    "pauses": [
+     0.3,
+     0.2,
+     0.05,
+     0.05,
+     0.3
+    ],
+    "cue": {
+     "legs": [
+      2,
+      3,
+      4
+     ],
+     "eq": 1,
+     "result": 5
+    }
+   },
+   {
+    "type": "rule",
+    "title": "All or nothing",
+    "sub": "Every leg has to win",
+    "note": "You can never lose more than you put in",
+    "say": [
+     "The catch: every leg has to win. One miss, and the whole Pack loses.",
+     "The good news: you can never lose more than you put in."
+    ]
+   },
+   {
+    "type": "start",
+    "balance": 50,
+    "say": [
+     "To start, sign in with email, Google or X. Limitless sets up a wallet for you, and covers the gas.",
+     "Then add USDC on the Base network."
+    ]
+   },
+   {
+    "type": "buy",
+    "amount": 10,
+    "pack": {
+     "league": "Nations League",
+     "name": "Example Pack",
+     "legs": [
+      {
+       "flag": "🇦🇱",
+       "team": "Albania",
+       "side": "YES",
+       "pct": 31,
+       "match": "Finland v Albania",
+       "x": "3.23"
+      },
+      {
+       "flag": "🇭🇷",
+       "team": "Croatia",
+       "side": "YES",
+       "pct": 22,
+       "match": "Croatia v England",
+       "x": "4.65"
+      },
+      {
+       "flag": "🇨🇭",
+       "team": "Switzerland",
+       "side": "YES",
+       "pct": 79,
+       "match": "Switzerland v Slovenia",
+       "x": "1.27"
+      }
+     ],
+     "x": "17.20"
+    },
+    "say": [
+     "Open Packs, and choose one made by Limitless.",
+     "Enter your amount, and check what it returns. Ten dollars on a 17.2 times Pack returns 172 dollars.",
+     "Then hit Buy."
+    ]
+   },
+   {
+    "type": "track",
+    "title": "Track it. Claim it.",
+    "sub": "Pending, then active, then won",
+    "win": 172,
+    "say": [
+     "Your Pack goes from pending, to active, with a live count of legs won.",
+     "If every leg wins, press Claim, and the winnings go to your wallet."
+    ]
+   },
+   {
+    "type": "custom",
+    "share": "Share this pack",
+    "matches": [
+     {
+      "h": "Finland",
+      "a": "Albania",
+      "f1": "🇫🇮",
+      "f2": "🇦🇱",
+      "o": [
+       "42%",
+       "Draw 34%",
+       "31%"
+      ],
+      "pick": 0,
+      "legname": "Finland",
+      "lx": "2.38"
+     },
+     {
+      "h": "Iceland",
+      "a": "Bulgaria",
+      "f1": "🇮🇸",
+      "f2": "🇧🇬",
+      "o": [
+       "69%",
+       "Draw 22%",
+       "13%"
+      ],
+      "pick": 0,
+      "legname": "Iceland",
+      "lx": "1.46"
+     },
+     {
+      "h": "Estonia",
+      "a": "Luxembourg",
+      "f1": "🇪🇪",
+      "f2": "🇱🇺",
+      "o": [
+       "34%",
+       "Draw 35%",
+       "39%"
+      ],
+      "pick": 2,
+      "legname": "Luxembourg",
+      "lx": "2.57"
+     }
+    ],
+    "say": [
+     "Want your own? Under Create Your Own Pack, tap outcomes from two to five different matches.",
+     "Buy it, then share it with your followers."
+    ]
+   },
+   {
+    "type": "pvp",
+    "title": "PvP: fan vs fan",
+    "sub": "Challenge someone on a match moment",
+    "amount": 10,
+    "moments": [
+     "Next goal",
+     "A card",
+     "A draw"
+    ],
+    "stamp": "It's a match!",
+    "say": [
+     "There's also PvP. Challenge another fan on a match moment, like the next goal, or a card.",
+     "They put in the same amount, and the winner takes both. It starts from one dollar."
+    ]
+   },
+   {
+    "type": "numbers",
+    "title": "The numbers",
+    "sub": "In the app on 3 October",
+    "fine": "Limits can change: check the app before you buy",
+    "tiles": [
+     {
+      "v": "$5–$70",
+      "k": "per Pack",
+      "s": "Custom Packs: $5–$50"
+     },
+     {
+      "v": "20x",
+      "k": "max multiplier",
+      "s": "after the fee"
+     },
+     {
+      "v": "$1,400",
+      "k": "biggest win",
+      "s": "per Pack"
+     },
+     {
+      "v": "10%",
+      "k": "fee",
+      "s": "already in the multiplier"
+     }
+    ],
+    "say": [
+     "The numbers. Right now, the app takes 5 to 70 dollars per Pack.",
+     "Multipliers stop at 20 times, the biggest win is 1,400 dollars, and a 10% fee is already built into the multiplier you see."
+    ]
+   },
+   {
+    "type": "smart",
+    "title": "Use it smartly",
+    "sub": "Four things to remember",
+    "items": [
+     [
+      "Fewer legs win more often",
+      "Every extra leg is another way to lose"
+     ],
+     [
+      "Check the multiplier before you buy",
+      "It moves until you confirm"
+     ],
+     [
+      "The fee is already in the number",
+      "What you see is after the 10%"
+     ],
+     [
+      "There is no cash-out",
+      "Only use money you can afford to lose"
+     ]
+    ],
+    "say": [
+     "Use it smartly. Fewer legs win more often.",
+     "Check the multiplier before you buy, because it moves. And there's no cash-out, so only use money you can afford to lose."
+    ]
+   },
+   {
+    "type": "outro",
+    "title": "That's <em>Packs</em>",
+    "chips": [
+     "18+ · Not available in the USA, Ontario or Alberta",
+     "Not financial advice · Independent guide, not affiliated with Limitless"
+    ],
+    "follow": "Follow for more explainers",
+    "say": [
+     "That's Packs on Limitless. You must be 18 or over, and it's not available in the USA, Ontario or Alberta.",
+     "Not financial advice. Follow for more explainers."
+    ]
+   }
+  ]
+ },
+ "voice": "af_heart",
+ "voice_fx": "deep",
+ "sound": "cinematic",
+ "music_track": 720,
+ "music_drop": "hook"
+}

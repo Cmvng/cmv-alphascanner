@@ -37,6 +37,21 @@ html,body{margin:0;background:#000}
 .card{background:#fff;color:var(--ink);border-radius:34px;box-shadow:0 30px 80px rgba(0,0,0,.55)}
 .x{font-family:Anton;letter-spacing:1px}
 
+/* cold open (before the drop): dark, one number, one ticket */
+.ex_cold .dim{position:absolute;inset:0;background:#000;opacity:.55}
+.ex_cold .amt2{position:absolute;left:0;right:0;top:420px;text-align:center}
+.ex_cold .amt2 .v{display:inline-block;font:400 300px Anton;line-height:1;color:#fff;text-shadow:0 20px 60px rgba(0,0,0,.7)}
+.ex_cold .amt2 .v.up{color:var(--lime);text-shadow:0 0 70px rgba(195,255,0,.45),0 20px 60px rgba(0,0,0,.7)}
+.ex_cold .amt2 .v.zero{color:var(--no);text-shadow:0 0 60px rgba(255,55,86,.4)}
+.ex_cold .amt2 .lb{font:700 34px JBM;letter-spacing:6px;text-transform:uppercase;color:rgba(255,255,255,.8);margin-top:18px;min-height:44px}
+.ex_cold .ct{position:absolute;left:190px;right:190px;top:900px;padding:26px 30px 18px}
+.ex_cold .ct .hd{font:700 19px JBM;letter-spacing:3px;color:var(--muted);text-transform:uppercase;margin-bottom:6px;display:flex;justify-content:space-between}
+.ex_cold .ct .rw{display:flex;align-items:center;gap:16px;padding:14px 0;border-top:2px solid #EEF0F3;font:800 30px Manrope}
+.ex_cold .ct .rw .f{font-size:38px}
+.ex_cold .ct .rw .ck{margin-left:auto;width:50px;height:50px;border-radius:50%;border:4px solid #CBD5E1;display:flex;align-items:center;justify-content:center;font:800 28px Manrope;color:#fff}
+.ex_cold .ct .rw .ck.ok{background:var(--yes);border-color:var(--yes)}
+.ex_cold .ct .rw .ck.no{background:var(--no);border-color:var(--no)}
+
 /* hook */
 .ex_hook .stack{position:absolute;left:0;right:0;top:470px;height:560px}
 .ex_hook .tix{position:absolute;left:50%;top:0;width:470px;margin-left:-235px;border-radius:30px;background:#fff;color:var(--ink);box-shadow:0 30px 80px rgba(0,0,0,.6);padding:26px 30px}
@@ -236,12 +251,24 @@ function tapAt(n, lt, at) {     // a finger tap: a ring that appears, presses an
   n.style.transform = `scale(${d < 0 ? 1.15 : 0.82 + 0.5 * clamp(d / 0.5)})`
 }
 const money = v => '$' + Math.round(v).toLocaleString('en-US')
+const has = (sc, j) => sc.lines.length > j                                  // the beat has a spoken line j
+function glitch(n, lt, at, dur = 0.38) {     // a digital break: jitter + colour split for a moment
+  if (!n) return; const d = lt - at
+  if (d < 0 || d > dur) { n.style.textShadow = ''; return '' }
+  const r = Math.sin(lt * 997) * Math.cos(lt * 331), a = 18 * (1 - d / dur)
+  n.style.textShadow = `${-7 * (1 - d / dur)}px 0 #ff2a55, ${7 * (1 - d / dur)}px 0 #00e5ff`
+  return `translate3d(${r * a}px,${Math.sin(lt * 613) * a * 0.3}px,0) skewX(${r * 8}deg)`
+}
 
 // ---------------------------------------------------------------- build each screen
 const built = D.scenes.map(sc => {
   const el = document.createElement('div'), b = sc.data || {}
   el.className = `scene ${sc.type}`
-  if (sc.type === 'ex_hook') {
+  if (sc.type === 'ex_cold') {
+    const legs = b.legs || []
+    el.innerHTML = `<div class="dim"></div><div class="amt2"><div class="v">${html(b.from || '$10')}</div><div class="lb"></div></div>
+      <div class="card ct"><div class="hd"><span>${html(b.ticket || '1 ticket')}</span><span>${legs.length} legs</span></div>${legs.map(l => `<div class="rw"><span class="f">${l.flag || ''}</span>${html(l.team)}<span class="ck"></span></div>`).join('')}</div>`
+  } else if (sc.type === 'ex_hook') {
     el.innerHTML = `<div class="stack">${(b.tickets || []).map((t, j) => `<div class="tix" data-j="${j}"><div class="hd">${html(t.hd || 'Pack')}</div>${(t.rows || []).map(r => `<div class="r"><span>${html(r[0])}</span><em>${html(r[1])}</em></div>`).join('')}</div>`).join('')}</div>
       <div class="big"><div class="p A">${html(b.title || 'Packs')}</div><div class="o A">${html(b.title2 || '')}</div><div class="c"><span class="chip">${html(b.chip || '')}</span></div></div>`
   } else if (sc.type === 'ex_stack') {
@@ -309,11 +336,45 @@ const built = D.scenes.map(sc => {
 // ---------------------------------------------------------------- per-frame animation
 function draw(k, lt, sc) {
   const el = built[k], b = sc.data || {}
-  if (sc.type === 'ex_hook') {
-    $$('.tix', el).forEach((n, j) => { const at = 0.05 + j * 0.16, q = P(lt, at, at + 0.5, E.outBack), ang = (j - 1) * 11, dx = (j - 1) * 210
+  if (sc.type === 'ex_cold') {
+    // lines: "Ten dollars." / "One ticket." / "$172 back, if every leg lands." / "Or nothing at all." → silence → the drop
+    const v = $('.amt2 .v', el), lb = $('.amt2 .lb', el), ct = $('.ct', el), cks = $$('.ck', el)
+    const tUp = L(sc, 2, 0), tNo = L(sc, 3, 0.25), checks = [0.45, 0.53, 0.61].map(f => L(sc, 2, f))
+    slam(v, lt, L(sc, 0, 0) - 0.03, 1.9, 0.28)
+    pop(ct, lt, L(sc, 1, 0) - 0.05, 0.7)
+    const n = lt < tUp ? 10 : 10 + 162 * P(lt, tUp, tUp + 0.9, E.outCubic)
+    v.textContent = lt >= tNo ? '$0' : money(n); v.className = 'v' + (lt >= tNo ? ' zero' : lt >= tUp ? ' up' : '')
+    lb.textContent = lt >= tNo ? 'or nothing' : lt >= checks[0] - 0.4 ? 'if every leg lands' : lt >= tUp + 0.3 ? 'back' : ''
+    cks.forEach((c, j) => { const lost = lt >= tNo && j === cks.length - 1
+      c.className = 'ck' + (lost ? ' no' : lt >= checks[j] ? ' ok' : ''); c.textContent = lost ? '✕' : lt >= checks[j] ? '✓' : '' })
+    ct.style.filter = lt >= tNo ? `grayscale(${0.85 * P(lt, tNo, tNo + 0.4)})` : ''
+    const gl = glitch(v, lt, tNo) || ''
+    v.style.transform = (v.style.transform || '') + ' ' + gl
+    if (lt >= tNo) ct.style.transform = `rotate(${-4 * P(lt, tNo, tNo + 0.5, E.outCubic)}deg) translate3d(0,${30 * P(lt, tNo, tNo + 0.5, E.outCubic)}px,0)`
+    // the silence before the drop: a slow push in, and the room gets darker
+    const end = L(sc, 3, 1)
+    el.style.transform = `scale(${1 + 0.05 * P(lt, end, sc.dur, E.inOutSine)})` + ' ' + shake(lt, L(sc, 0, 0), 12)
+    $('.dim', el).style.opacity = 0.55 + 0.35 * P(lt, end, sc.dur, E.inOutSine)
+  } else if (sc.type === 'ex_hook') {
+    const d0 = b.drop ? 0 : 0.55       // on a drop the title lands on the cut
+    $$('.tix', el).forEach((n, j) => { const at = b.drop ? j * 0.1 : 0.05 + j * 0.16, q = P(lt, at, at + 0.5, E.outBack), ang = (j - 1) * 11, dx = (j - 1) * 210
       n.style.opacity = clamp((lt - at) / 0.15); n.style.transform = `translate3d(${dx * q}px,${(1 - q) * 500 + Math.abs(j - 1) * 40}px,0) rotate(${ang * q}deg) scale(${0.9 + 0.02 * Math.sin(lt * 2 + j)})` })
-    slam($('.big .p', el), lt, 0.55, 2.2, 0.32); rise([$('.big .o', el), $('.big .c', el)], lt, 0.85, 0.15)
-    el.style.transform = shake(lt, 0.6, 18)
+    slam($('.big .p', el), lt, d0, 2.2, 0.32)
+    if (b.drop) rise([$('.big .o', el)], lt, L(sc, 0, 0.5)), rise([$('.big .c', el)], lt, has(sc, 1) ? L(sc, 1, 0) : L(sc, 0, 0.75))
+    else rise([$('.big .o', el), $('.big .c', el)], lt, 0.85, 0.15)
+    el.style.transform = shake(lt, d0 + 0.03, b.drop ? 26 : 18)
+  } else if (sc.type === 'ex_stack' && b.cue) {
+    // one line per moment: cue.legs = the lines where each leg flies in, cue.eq = "the multipliers stack", cue.result
+    const c = b.cue, legs = $$('.tkt .lg', el), xs = (b.legs || []).map(l => l.x)
+    rise([$('.t1', el), $('.t2', el)], lt, 0.05, 0.1)
+    pop($('.tkt', el), lt, 0.25, 0.85)
+    legs.forEach((n, j) => { const at = L(sc, c.legs[j], 0) - 0.05, q = P(lt, at, at + 0.45, E.outBack); n.style.opacity = clamp((lt - at) / 0.1); n.style.transform = `translate3d(${(1 - q) * (j % 2 ? 600 : -600)}px,0,0)` })
+    const got = c.legs.filter(j => lt >= L(sc, j, 0) - 0.05).length, eq = $('.mult .eq', el)
+    eq.textContent = got ? xs.slice(0, got).join(' × ') : '×'
+    rise([eq], lt, L(sc, c.eq, 0) - 0.1)
+    const tr = L(sc, c.result, 0) - 0.08, r = $('.mult .res', el), q = P(lt, tr, tr + 0.6, E.outCubic)
+    r.textContent = (+r.dataset.n * q).toFixed(2) + 'x'; r.style.opacity = clamp((lt - tr) / 0.12); r.style.transform = `scale(${1 + 0.16 * (1 - P(lt, tr + 0.6, tr + 0.95))})`
+    rise([$('.mult .note', el)], lt, L(sc, c.result, 0.85))
   } else if (sc.type === 'ex_stack') {
     rise([$('.t1', el), $('.t2', el)], lt, 0.05, 0.1)
     pop($('.tkt', el), lt, 0.25, 0.85)
@@ -398,7 +459,62 @@ function draw(k, lt, sc) {
   }
 }
 
+// "cinematic" sound (cfg.sound): recorded Mixkit effects (lib/sfx.json), placed on the moments the screens move.
+// db = level against the voice; align = which part of the effect lands on the moment.
+function fxCinematic() {
+  const ev = [], add = (t, sfx, db, o = {}) => ev.push({ t: +Math.max(0, t).toFixed(3), sfx, db, ...o })
+  D.scenes.forEach((sc, k) => {
+    const T = sc.start, b = sc.data || {}, at = (j, f = 0) => T + L(sc, j, f), next = D.scenes[k + 1]
+    const drop = sc.type === 'ex_hook' && b.drop
+    if (k > 0 && !drop) add(T, k % 2 ? '1492' : '2636', k % 2 ? -12 : -14, { align: 'peak' })
+    if (sc.type === 'ex_cold') {
+      add(T, '497', -13, { align: 'start', max: Math.max(1, sc.dur - 0.2) })                // heartbeat under the cold open
+      add(at(0) - 0.03, '2909', -1); add(at(0) - 0.03, '2299', -4)                        // "Ten dollars."
+      add(at(1) - 0.05, '3124', -9)                                                        // "One ticket."
+      add(at(2), '2573', -11);                                                              // $10 → $172
+      [0.45, 0.53, 0.61].forEach(f => add(at(2, f), '2577', -15))                           // the legs tick
+      add(at(3, 0.25), '2951', -8)                                                          // "or nothing"
+      if (next?.data?.drop) add(next.start, '2908', -6, { reverse: true, max: 2.6, align: 'end' })   // swell into the drop
+    }
+    if (drop) { add(T, '2908', 0); add(T, '2299', -2) }
+    if (sc.type === 'ex_hook' && !drop) { add(T + 0.55, '2909', -2); add(T + 0.55, '2299', -5) }
+    if (sc.type === 'ex_stack') {
+      add(T + 0.25, '3124', -10)
+      if (b.cue) {
+        b.cue.legs.forEach((j, n) => add(at(j) - 0.05, '3115', -9, { pan: [-0.4, 0, 0.4][n % 3] }))
+        add(at(b.cue.result) + 0.5, '1143', -3, { align: 'peak' }); add(at(b.cue.result) + 0.5, '2573', -10)
+      } else {
+        const a0 = Math.max(0.6, L(sc, 0, 0.35)); (b.legs || []).forEach((_, j) => add(T + a0 + j * 0.45, '3115', -9, { pan: [-0.4, 0, 0.4][j % 3] }))
+        add(at(1, 0.75), '1143', -3, { align: 'peak' })
+      }
+    }
+    if (sc.type === 'ex_rule') {
+      const t1 = Math.max(1.4, L(sc, 0, 0.45))
+      ;[0, 1, 2].forEach(i => add(T + 0.6 + i * 0.22, '2577', -15))
+      add(T + 1.4, '2568', -11); add(T + 1.4, '2299', -10)                                   // WON
+      ;[0, 1, 2].forEach(i => add(T + t1 + 0.2 + i * 0.22, '2577', -15))
+      add(T + t1 + 1.0, '2951', -13); add(T + t1 + 1.0, '2299', -8)                          // LOST (under "One miss": low, so the words stay clear)
+    }
+    if (sc.type === 'ex_start') { add(at(0, 0.3), '2577', -12); add(at(1), '3120', -10); add(at(1) + 1.6, '2573', -12) }
+    if (sc.type === 'ex_buy') { add(at(0, 0.7), '2577', -12); add(at(1, 0.1), '2577', -12); add(at(1, 0.1) + 1.0, '2573', -11); add(at(2, 0.1), '2577', -15); add(at(2, 0.1) + 0.45, '2568', -11) }
+    if (sc.type === 'ex_track') {
+      add(at(0, 0.35), '3124', -10); add(at(0, 0.35) + 0.6, '3124', -10); add(at(1, 0.05) - 0.3, '3124', -9)
+      add(at(1, 0.05) + 0.3, '2568', -7); add(at(1, 0.5), '2577', -11); add(at(1, 0.5) + 0.1, '3005', -9)
+    }
+    if (sc.type === 'ex_custom') {
+      const ms = b.matches || [], t0 = L(sc, 0, 0.45), step = Math.min(0.55, (L(sc, 0, 1) - t0) / Math.max(1, ms.length))
+      ms.forEach((_, j) => add(T + t0 + j * step, '2577', -12)); add(at(1, 0.3), '3005', -9)
+    }
+    if (sc.type === 'ex_pvp') { add(T + 0.7, '2909', -5); add(at(1, 0.2), '2908', -4); add(at(1, 0.2), '2299', -4) }
+    if (sc.type === 'ex_numbers') [L(sc, 0, 0.45), L(sc, 1, 0.12), L(sc, 1, 0.38), L(sc, 1, 0.62)].forEach((m, j) => add(T + m, j % 2 ? '3124' : '2573', -11))
+    if (sc.type === 'ex_smart') [L(sc, 0, 0.3), L(sc, 1, 0.02), L(sc, 1, 0.3), L(sc, 1, 0.6)].forEach(m => add(T + m, '3115', -12))
+    if (sc.type === 'ex_outro') { add(T + 0.1, '2908', -3); add(T + 0.1, '2299', -4) }
+  })
+  return ev
+}
+
 window.fxEvents = function () {
+  if (D.cfg.sound === 'cinematic') return fxCinematic()
   const ev = [], add = (t, type, gain) => ev.push({ t: +t.toFixed(3), type, ...(gain ? { gain } : {}) })
   D.scenes.forEach((sc, k) => {
     const T = sc.start, b = sc.data || {}

@@ -170,7 +170,8 @@ function buildReviewScenes(cfg) {
 // Motion-graphics explainer (any topic, e.g. how a product works): every screen is a beat in cfg.explainer.beats,
 // drawn by explainer.html. A beat: { type: hook|stack|rule|start|buy|track|custom|pvp|numbers|smart|outro, say: [lines], … }
 function buildExplainerScenes(cfg) {
-  return (cfg.explainer?.beats || []).map(b => ({ type: 'ex_' + b.type.replace(/^ex_/, ''), i: 0, say: (b.say || []).map(W), data: b, hold: b.hold }))
+  // a line is a string, or { say, show } when the voice should say it differently from the captions ("$172" on screen)
+  return (cfg.explainer?.beats || []).map(b => ({ type: 'ex_' + b.type.replace(/^ex_/, ''), i: 0, say: (b.say || []).map(x => typeof x === 'string' ? W(x) : L(speakify(x.say), x.show)), data: b, hold: b.hold }))
 }
 
 // Match preview: football analysis only. No odds, prices, stakes, picks or betting words (X / YouTube monetisation).

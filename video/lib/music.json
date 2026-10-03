@@ -1,5 +1,5 @@
 {
- "_about": "Background music for every video, picked automatically per video (never one of the last six used). All Mixkit Stock Music Free License, checked 2026-10-02 on Mixkit's own track data: free for commercial use including monetised YouTube, no credit required (we credit anyway). start = where the track reaches full energy, so videos skip quiet intros. mood: hype (tips, reactions, results), groove (analysis), cinematic.",
+ "_about": "Background music for every video, picked automatically per video (never one of the last six used). All Mixkit Stock Music Free License, checked 2026-10-02 on Mixkit's own track data: free for commercial use including monetised YouTube, no credit required (we credit anyway). start = where the track reaches full energy, so videos skip quiet intros. mood: hype (tips, reactions, results), groove (analysis), cinematic. mood \"drop\": tracks with a quiet build and a hard drop, only used when a video asks for one by id (music_track); drop = the drop in track seconds, loop = whole bars after it that repeat cleanly.",
  "tracks": [
   {
    "id": 460,
@@ -232,6 +232,38 @@
    "bpm": 0,
    "seconds": 0,
    "retired": true
+  },
+  {
+   "id": 720,
+   "name": "New Bass 01",
+   "artist": "Lily J",
+   "genre": "Underscore",
+   "mood": "drop",
+   "start": 22.906,
+   "bpm": 126.1,
+   "seconds": 96,
+   "drop": 22.906,
+   "loop": [
+    22.906,
+    83.81
+   ],
+   "about": "deep tech bass: near-silent pads, then the bass drops at 22.9 s"
+  },
+  {
+   "id": 370,
+   "name": "Sparta",
+   "artist": "Arulo",
+   "genre": "Trap",
+   "mood": "drop",
+   "start": 31.997,
+   "bpm": 120.0,
+   "seconds": 104,
+   "drop": 31.997,
+   "loop": [
+    31.997,
+    95.997
+   ],
+   "about": "dark trap: quiet tense build, hard drop at 32.0 s, short stop at 47.1 s"
   }
  ]
 }

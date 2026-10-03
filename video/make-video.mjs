@@ -110,11 +110,16 @@ if (cfg.style === 'players') console.log(`Players style: ${picks.filter(p => p.p
 // A re-render of the same file keeps its track (--new-music picks another).
 function pickTrack() {
   // retired tracks (the old defaults the owner found repetitive) never come back in rotation
-  const lib = JSON.parse(fs.readFileSync(path.join(DIR, 'lib', 'music.json'), 'utf8')).tracks.filter(t => !t.retired)
+  const all = JSON.parse(fs.readFileSync(path.join(DIR, 'lib', 'music.json'), 'utf8')).tracks
+  // a track asked for by id (music_track): e.g. a "drop" track whose drop lands on a chosen cut
+  const want = cfg.music_track && all.find(t => t.id === +cfg.music_track)
+  // retired tracks (the old defaults the owner found repetitive) never come back in rotation; "drop" tracks only by id
+  const lib = all.filter(t => !t.retired && t.mood !== 'drop')
   const hist = path.join(CACHE, 'music', 'history.json')
   let h = { used: [], by: {} }
   try { const j = JSON.parse(fs.readFileSync(hist, 'utf8')); h = Array.isArray(j) ? { used: j, by: {} } : j } catch {}
-  const asTrack = t => ({ url: `https://assets.mixkit.co/music/${t.id}/${t.id}.mp3`, start: t.start, credit: `Music: "${t.name}"${t.artist && t.artist !== 'Mixkit' ? ' by ' + t.artist : ''} (Mixkit)` })
+  const asTrack = t => ({ url: `https://assets.mixkit.co/music/${t.id}/${t.id}.mp3`, start: t.start, drop: t.drop, loop: t.loop, credit: `Music: "${t.name}"${t.artist && t.artist !== 'Mixkit' ? ' by ' + t.artist : ''} (Mixkit)` })
+  if (want) return asTrack(want)
   const again = !flag('new-music', false) && lib.find(t => t.id === h.by[slug])
   if (again) return asTrack(again)
   const moods = cfg.music_mood ? [].concat(cfg.music_mood) : cfg.mode === 'preview' ? ['groove', 'cinematic'] : ['hype', 'groove']
@@ -162,7 +167,7 @@ if (voiceOn) {
     }
     fs.writeFileSync(path.join(OUT, 'sentences.json'), JSON.stringify(sentences))
     console.log(`Recording the voiceover (${voice})…`)
-    await run(PY, [path.join(DIR, 'audio.py'), 'speak', path.join(OUT, 'sentences.json'), voice, path.join(OUT, 'voice'), String(cfg.voice_speed), models])
+    await run(PY, [path.join(DIR, 'audio.py'), 'speak', path.join(OUT, 'sentences.json'), voice, path.join(OUT, 'voice'), String(cfg.voice_speed), models, ...(cfg.voice_fx ? [cfg.voice_fx] : [])])
     durs = JSON.parse(fs.readFileSync(path.join(OUT, 'voice', 'durations.json'), 'utf8'))
   } catch (e) {
     console.warn(`  ! Voice unavailable (${e.message}). Making the video with captions only.`)
@@ -173,7 +178,7 @@ const est = s => s.split(/\s+/).length / (2.7 * cfg.voice_speed) + 0.2 // second
 // ---------------------------------------------------------------- 4. timeline + captions
 const MIN = { hook: 4.2, pick: 7.0, slate: 5.0, cta: 4.4, rhook: 5.4, result: 4.6, rtotal: 6.2, pv_hook: 5.0, pv_form: 6.0, pv_stats: 7.0, pv_model: 7.5, pv_score: 5.5, pv_cta: 4.5, pv_stake: 6.0, pv_players: 8.0, pv_tactics: 8.0, pv_expect: 7.0, pv_round: 6.0,
   rv_hook: 4.0, rv_moment: 3.6, rv_meme: 3.0, rv_stats: 5.0, rv_read: 5.0, rv_table: 4.8, rv_ratings: 5.0, rv_quote: 4.5, rv_cta: 3.6, rx_intro: 3.0, rx_take: 4.0, rx_reveal: 3.4, rx_outro: 3.6, pm_hook: 3.4, pm_pick: 5.0, pm_tip: 5.0, pm_pass: 4.4, pm_slate: 4.6, pm_outro: 3.8 }
-const LEAD = { hook: 0.2, rhook: 0.2, rv_hook: 0.75, rv_meme: 0.2, rv_moment: 0.25, rx_intro: 0.6, rx_take: 0.45, rx_reveal: 0.25, pm_hook: 0.6, pm_pick: 0.45, pm_tip: 0.45, pm_pass: 0.45 }, GAP = 0.12, TAIL = 0.3
+const LEAD = { hook: 0.2, rhook: 0.2, rv_hook: 0.75, rv_meme: 0.2, rv_moment: 0.25, rx_intro: 0.6, rx_take: 0.45, rx_reveal: 0.25, pm_hook: 0.6, pm_pick: 0.45, pm_tip: 0.45, pm_pass: 0.45, ex_cold: 0.35, ex_hook: 0.06 }, GAP = 0.12, TAIL = 0.3
 const BEAT = music?.beat || null
 let t = 0
 const captions = []
@@ -192,10 +197,10 @@ scenes.forEach((sc, k) => {
       const end = i === timed.length - 1, brk = /[,.;:?!]$/.test(w.w) && chunk.length >= 2
       if (end || chunk.length >= 5 || brk) { captions.push({ start: chunk[0].t0, end: chunk.at(-1).t1, words: chunk }); chunk = [] }
     })
-    st += d + GAP
+    st += d + GAP + (sc.data?.pauses?.[j] ?? 0)          // a beat can hold a dramatic pause after a line
     return s
   })
-  let end = Math.max(t + (sc.hold ?? MIN[sc.type] ?? 4), st - GAP + TAIL)
+  let end = Math.max(t + (sc.hold ?? MIN[sc.type] ?? 4), st - GAP - (sc.data?.pauses?.[sc.say.length - 1] ?? 0) + (sc.data?.tail ?? TAIL))
   if (BEAT) end = Math.ceil((end - 0.02) / BEAT) * BEAT          // every cut lands on the beat
   sc.dur = end - t
   sc.lines = sc.sentences.map(s => [s.start - sc.start, s.dur])
@@ -203,6 +208,18 @@ scenes.forEach((sc, k) => {
 })
 captions.forEach((c, i) => { const n = captions[i + 1]; c.end = n && n.start - c.end < 0.5 ? n.start : c.end + 0.3 })
 const DURATION = t + 0.4
+// a "drop" track: its drop lands on the cut into the scene `music_drop` names (cuts are on the beat, so the grid stays
+// in phase), and the music stops just after the last line before it, so the drop hits out of silence
+if (music?.drop != null && cfg.music_drop) {
+  const k = scenes.findIndex(s => s.type === cfg.music_drop || s.type === 'ex_' + cfg.music_drop)
+  if (k > 0) {
+    music.drop = music.start                       // the beat analysis nudged the start onto the drop's hit
+    music.start = music.drop - scenes[k].start
+    const last = scenes[k - 1].sentences.at(-1)
+    music.cuts = last ? [[last.start + last.dur + 0.03, scenes[k].start]] : []
+    console.log(`Music drop at ${scenes[k].start.toFixed(2)}s (start of "${scenes[k].type}"), track from ${music.start.toFixed(2)}s`)
+  }
+}
 console.log(`Video length: ${DURATION.toFixed(1)}s, ${captions.length} caption lines`)
 
 // ---------------------------------------------------------------- 4b. reaction clips (post-match videos)
@@ -350,7 +367,8 @@ fs.writeFileSync(path.join(OUT, 'segments.txt'), segs.map(f => `file '${f}'`).jo
 const final = flag('out', null) || path.join(OUT, `${slug}.mp4`)
 fs.writeFileSync(path.join(OUT, 'timeline.json'), JSON.stringify({
   duration: DURATION, sentences: durs ? scenes.flatMap(s => s.sentences) : [], fx,
-  music: music ? { file: music.file, start: music.start } : null,
+  music: music ? { file: music.file, start: music.start, ...(music.drop != null ? { ref: 'loud', duck: 8, cuts: music.cuts || [], loop: music.loop } : {}) } : null,
+  ...(cfg.sound === 'cinematic' ? { limiter: 'peak' } : {}),
 }))
 await run(PY, [path.join(DIR, 'audio.py'), 'mix', path.join(OUT, 'timeline.json'), path.join(OUT, 'mix.wav')])
 await run(FF, ['-y', '-loglevel', 'error', '-f', 'concat', '-safe', '0', '-i', path.join(OUT, 'segments.txt'), '-i', path.join(OUT, 'mix.wav'),
