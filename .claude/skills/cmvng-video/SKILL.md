@@ -38,6 +38,11 @@ The file gets form, record, points a game, goals scored and conceded, shots on t
 
 **The approved template.** Every match analysis video follows `video/templates/match-analysis/`. Read its `README.md` first (screen order, what made it work, the checklist) and copy the shape of `denmark-portugal-2026-10-01.json`. Save a `sources.md` with each new video.
 
+**House colour: shades of blue** (the owner, 3 Oct: "my color is any shade of blue"). Accents, highlights, the
+current caption word, rings, chips and glows are blue (sky `#4FB3FF`, `#3D7BFF`, `#6E9BFF`, deep `#1F5FDB`, navy
+backgrounds). Never yellow or lime as an accent. Green and red appear only where they mean something: up/down
+candles and price moves, won/lost, correct/missed.
+
 **House style: never say "AI Analyst"** in the video, the voice, titles or posts. The owner finds it cringe and low effort. It's "the analysis" or "match analysis" ("Here's the analysis.", "That's the analysis. Follow for more football, by the numbers."), and the render stops if the phrase appears.
 
 **Research.** For each match, run a web-research subagent in the background, one per match, all in parallel. Ask it for a brief of under 500 words with a source URL and date on every fact:

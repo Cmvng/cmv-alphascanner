@@ -9,13 +9,13 @@
 @font-face{font-family:Manrope;font-weight:800;src:url(assets/fonts/manrope-latin-800-normal.woff2) format('woff2')}
 @font-face{font-family:JBM;font-weight:700;src:url(assets/fonts/jetbrains-mono-latin-700-normal.woff2) format('woff2')}
 @font-face{font-family:Anton;font-weight:400;src:url(assets/fonts/anton-latin-400-normal.woff2) format('woff2')}
-:root{--acc:#C3FF00;--acc2:#3DDC97;--red:#FF4D6A;--ink:#0B1220}
+:root{--acc:#4FB3FF;--acc2:#3DDC97;--red:#FF4D6A;--ink:#0B1220}
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{width:1080px;height:1920px;overflow:hidden;background:#000}
 #stage{position:relative;width:1080px;height:1920px;overflow:hidden;background:radial-gradient(120% 70% at 50% 0%,#0E1B33 0%,#060B16 55%,#020409 100%);font-family:Manrope;color:#fff}
-#grid{position:absolute;inset:-200px;background-image:linear-gradient(rgba(195,255,0,.05) 2px,transparent 2px),linear-gradient(90deg,rgba(195,255,0,.05) 2px,transparent 2px);background-size:110px 110px}
+#grid{position:absolute;inset:-200px;background-image:linear-gradient(rgba(79,179,255,.05) 2px,transparent 2px),linear-gradient(90deg,rgba(79,179,255,.05) 2px,transparent 2px);background-size:110px 110px}
 .A{font-family:Anton;font-weight:400;text-transform:uppercase;letter-spacing:1px;line-height:.95}
-.chip{display:inline-flex;align-items:center;gap:10px;padding:12px 22px;border-radius:999px;background:rgba(195,255,0,.12);border:2px solid rgba(195,255,0,.5);color:var(--acc);font:700 24px JBM;letter-spacing:2px;text-transform:uppercase;white-space:nowrap}
+.chip{display:inline-flex;align-items:center;gap:10px;padding:12px 22px;border-radius:999px;background:rgba(79,179,255,.12);border:2px solid rgba(79,179,255,.5);color:var(--acc);font:700 24px JBM;letter-spacing:2px;text-transform:uppercase;white-space:nowrap}
 .chip.w{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.25);color:#fff}
 #hdr{position:absolute;left:24px;right:24px;top:70px;display:flex;justify-content:space-between;align-items:center;z-index:40}
 #prog{position:absolute;left:24px;right:24px;top:40px;height:6px;border-radius:3px;background:rgba(255,255,255,.1);z-index:40;overflow:hidden}
@@ -25,19 +25,19 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#000}
 .lay img{position:absolute;left:0;top:0}
 .lay .mask{position:absolute;border-radius:6px}
 #chartbox{left:24px;top:150px;width:1032px;height:850px;border-radius:30px;box-shadow:0 0 0 2px rgba(255,255,255,.12),0 30px 80px rgba(0,0,0,.6);z-index:10}
-#facebox{left:240px;top:1190px;width:600px;height:562px;border-radius:44px;box-shadow:0 0 0 4px var(--acc),0 0 60px rgba(195,255,0,.25),0 30px 80px rgba(0,0,0,.6);z-index:10}
+#facebox{left:240px;top:1190px;width:600px;height:562px;border-radius:44px;box-shadow:0 0 0 4px var(--acc),0 0 60px rgba(79,179,255,.25),0 30px 80px rgba(0,0,0,.6);z-index:10}
 #cold{position:absolute;inset:0;z-index:30;overflow:hidden;background:#000}
 #cold .lay{filter:grayscale(1) brightness(.33) contrast(1.25) blur(1.2px)}
 #cold .dark{position:absolute;inset:0;background:#000;opacity:0}
 #cold .floor{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 45%,rgba(0,0,0,.92) 70%,#000 100%)}
 #scrim{position:absolute;left:24px;top:150px;width:1032px;height:850px;border-radius:30px;background:#000;opacity:0;z-index:12;pointer-events:none}
 #cold .bigc{position:absolute;left:0;right:0;top:640px;text-align:center;font-size:300px;color:#fff;text-shadow:0 24px 80px rgba(0,0,0,.8)}
-#cold .bigc.hot{color:var(--acc);text-shadow:0 0 80px rgba(195,255,0,.5),0 24px 80px rgba(0,0,0,.8)}
+#cold .bigc.hot{color:var(--acc);text-shadow:0 0 80px rgba(79,179,255,.5),0 24px 80px rgba(0,0,0,.8)}
 #cold .bigc.red{color:var(--red);text-shadow:0 0 70px rgba(255,77,106,.5),0 24px 80px rgba(0,0,0,.8)}
 #cold .labc{position:absolute;left:60px;right:60px;top:980px;text-align:center;font:700 36px JBM;letter-spacing:7px;text-transform:uppercase;color:rgba(255,255,255,.9)}
 #title{position:absolute;left:0;right:0;top:330px;text-align:center;z-index:35;pointer-events:none}
 #title .top{display:inline-block}
-#title .big{font-size:250px;color:var(--acc);text-shadow:0 0 90px rgba(195,255,0,.55),0 20px 60px rgba(0,0,0,.8);margin-top:20px}
+#title .big{font-size:250px;color:var(--acc);text-shadow:0 0 90px rgba(79,179,255,.55),0 20px 60px rgba(0,0,0,.8);margin-top:20px}
 #title .sub{margin-top:24px}
 #cap{position:absolute;left:40px;right:40px;top:1025px;height:160px;z-index:36;display:flex;align-items:flex-start;justify-content:center;text-align:center}
 #cap .c{font:400 66px/1.08 Anton;text-transform:uppercase;letter-spacing:1px;-webkit-text-stroke:6px #000;paint-order:stroke fill;text-shadow:0 6px 0 #000}
@@ -46,12 +46,12 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#000}
 #call{position:absolute;left:52px;top:190px;z-index:20}
 #call .k{display:inline-flex;align-items:center;gap:14px;padding:14px 26px;border-radius:18px;background:var(--acc);color:var(--ink);font:400 48px Anton;text-transform:uppercase;letter-spacing:1px;box-shadow:0 14px 40px rgba(0,0,0,.5)}
 #call .k i{width:16px;height:16px;border-radius:50%;background:var(--ink)}
-#prod,#end{position:absolute;inset:0;z-index:45;background:radial-gradient(110% 70% at 50% 20%,#0F2B1B 0%,#05110A 60%,#010402 100%);overflow:hidden}
+#prod,#end{position:absolute;inset:0;z-index:45;background:radial-gradient(110% 70% at 50% 20%,#102A52 0%,#060F20 60%,#020409 100%);overflow:hidden}
 #prod .kick{position:absolute;left:0;right:0;top:170px;text-align:center}
 #prod .brand{position:absolute;left:0;right:0;top:250px;text-align:center;font-size:118px;color:#fff}
 #prod .brand b{color:var(--acc);font-weight:400}
 #prod .line{position:absolute;left:0;right:0;top:390px;text-align:center;font:800 38px Manrope;color:rgba(255,255,255,.85)}
-#prod .phone{position:absolute;left:270px;top:480px;width:540px;height:1090px;border-radius:78px;background:#0A0A0A;box-shadow:0 0 0 4px #2B2F2B,0 50px 120px rgba(0,0,0,.7),0 0 120px rgba(195,255,0,.15)}
+#prod .phone{position:absolute;left:270px;top:480px;width:540px;height:1090px;border-radius:78px;background:#0A0A0A;box-shadow:0 0 0 4px #2B2F2B,0 50px 120px rgba(0,0,0,.7),0 0 120px rgba(79,179,255,.15)}
 #prod .scr{position:absolute;inset:14px;border-radius:66px;overflow:hidden;background:#fff}
 #prod .scr .pg{position:absolute;left:0;top:58px;width:100%}
 #prod .scr .hd{position:absolute;left:0;top:58px;width:100%;z-index:2}
@@ -92,7 +92,7 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#000}
 #coin{position:absolute;inset:0;z-index:45;background:radial-gradient(110% 70% at 50% 15%,#13233F 0%,#070D1A 60%,#020409 100%);overflow:hidden;display:none}
 #coin .kick{position:absolute;left:0;right:0;top:150px;text-align:center}
 #coin .nm{position:absolute;left:0;right:0;top:225px;text-align:center;font-size:70px;color:#fff}
-#coin .px{position:absolute;left:0;right:0;top:300px;text-align:center;font-size:210px;color:var(--acc);text-shadow:0 0 70px rgba(195,255,0,.45)}
+#coin .px{position:absolute;left:0;right:0;top:300px;text-align:center;font-size:210px;color:var(--acc);text-shadow:0 0 70px rgba(79,179,255,.45)}
 #coin .chg{position:absolute;left:0;right:0;top:530px;text-align:center}
 #coin .chg span{display:inline-block;padding:10px 22px;border-radius:999px;font:800 30px Manrope}
 #coin .chg .dn{background:rgba(255,77,106,.16);color:#FF6B82;border:2px solid rgba(255,77,106,.5)}
@@ -163,15 +163,15 @@ function coinChart(c) {          // 4-hour candles with the owner's zone and lev
   const cs = c.candles, lo = Math.min(...cs.map(k => k.l), c.zone[0]), hi = Math.max(...cs.map(k => k.h), c.zone[1])
   const span = hi - lo, y = v => pad[0] + (hi + span * 0.06 - v) / (span * 1.12) * (H - pad[0] - pad[2]), cw = (W - pad[1] - pad[3]) / cs.length
   const f = v => '$' + Math.round(v).toLocaleString('en-US'), R = W - pad[1]
-  let g = `<g class="zone" opacity="0"><rect x="${pad[3]}" y="${y(c.zone[1])}" width="${R - pad[3]}" height="${y(c.zone[0]) - y(c.zone[1])}" fill="rgba(195,255,0,.12)" stroke="rgba(195,255,0,.55)" stroke-dasharray="6 6"/></g>`
-  const zlab = `<g class="zone" opacity="0"><rect x="${pad[3]}" y="${y(c.zone[1]) - 44}" width="${30 + 13.2 * (`${f(c.zone[0])}–${f(c.zone[1])} · ${c.zone_label || ''}`).length}" height="36" rx="8" fill="rgba(195,255,0,.9)"/>
+  let g = `<g class="zone" opacity="0"><rect x="${pad[3]}" y="${y(c.zone[1])}" width="${R - pad[3]}" height="${y(c.zone[0]) - y(c.zone[1])}" fill="rgba(79,179,255,.12)" stroke="rgba(79,179,255,.55)" stroke-dasharray="6 6"/></g>`
+  const zlab = `<g class="zone" opacity="0"><rect x="${pad[3]}" y="${y(c.zone[1]) - 44}" width="${30 + 13.2 * (`${f(c.zone[0])}–${f(c.zone[1])} · ${c.zone_label || ''}`).length}" height="36" rx="8" fill="rgba(79,179,255,.9)"/>
     <text x="${pad[3] + 14}" y="${y(c.zone[1]) - 19}" fill="#0B1220" font-family="JBM" font-weight="700" font-size="20" letter-spacing="1">${f(c.zone[0])}–${f(c.zone[1])} · ${(c.zone_label || '').toUpperCase()}</text></g>`
   c.levels.forEach((l, j) => {
     const pct = ((l.p / c.price - 1) * 100), lab = (l.label || '').toUpperCase()
     if (l.p > hi || l.p < lo) {                        // off the chart: an arrow at the top or bottom edge
       const up = l.p > hi, yy = up ? 44 : H - 20
-      g += `<g class="lvl" data-j="${j}" opacity="0"><text x="${W / 2}" y="${yy}" text-anchor="middle" fill="${up ? '#C3FF00' : '#FF6B82'}" font-family="Anton" font-size="38">${up ? '▲' : '▼'} ${f(l.p)} ${lab} · ${pct > 0 ? '+' : ''}${pct.toFixed(1)}%</text></g>`
-    } else g += `<g class="lvl" data-j="${j}" opacity="0"><line x1="${pad[3]}" x2="${R}" y1="${y(l.p)}" y2="${y(l.p)}" stroke="${l.p > c.price ? '#C3FF00' : '#FF6B82'}" stroke-width="3" stroke-dasharray="14 10"/>
+      g += `<g class="lvl" data-j="${j}" opacity="0"><text x="${W / 2}" y="${yy}" text-anchor="middle" fill="${up ? '#4FB3FF' : '#FF6B82'}" font-family="Anton" font-size="38">${up ? '▲' : '▼'} ${f(l.p)} ${lab} · ${pct > 0 ? '+' : ''}${pct.toFixed(1)}%</text></g>`
+    } else g += `<g class="lvl" data-j="${j}" opacity="0"><line x1="${pad[3]}" x2="${R}" y1="${y(l.p)}" y2="${y(l.p)}" stroke="${l.p > c.price ? '#4FB3FF' : '#FF6B82'}" stroke-width="3" stroke-dasharray="14 10"/>
       <text x="${R + 14}" y="${y(l.p) + 10}" fill="#fff" font-family="Anton" font-size="30">${f(l.p)}</text><text x="${R + 14}" y="${y(l.p) + 34}" fill="rgba(255,255,255,.65)" font-family="JBM" font-weight="700" font-size="14">${lab}</text></g>`
   })
   g += '<g class="cdl">' + cs.map((k, i) => { const x = pad[3] + i * cw + cw / 2, up = k.c >= k.o, col = up ? '#3DDC97' : '#FF5470'

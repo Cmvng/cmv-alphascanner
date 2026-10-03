@@ -40,7 +40,7 @@ cleaned voice, face-cam patch).
 ## Layout (vertical)
 
 Header chips (pair · handle) and a progress bar; the chart in a rounded panel on top, zoomed and following each
-clip; captions in the middle; the face-cam below in a lime-ringed card; "Not financial advice · handle" at the
+clip; captions in the middle; the face-cam below in a blue-ringed card; "Not financial advice · handle" at the
 bottom. Jump cuts alternate a small punch-in so they look intentional. Frames are lightly sharpened (`"sharpen": false`
 turns it off). If the face-cam sits on top of the chart in the recording, `"mask": { "rect": [x, y, w, h], "color":
 "#DBD8DC" }` paints over it with the chart's background so zoomed shots stay clean (the face has its own card).

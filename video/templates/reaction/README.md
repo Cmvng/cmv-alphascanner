@@ -12,7 +12,7 @@ Second reference: `analysis-review-2026-10-02.json` (France v Italy plus the rou
 
 **Presenter:** a green-screen clip keyed to the bottom of the screen (`presenter: {id, crop, from}`). Today's is a Mixkit stock clip (28293), with one outfit and one microphone. For different outfits and microphones, she needs new recordings: an AI presenter service, or a real presenter filmed in batches (see the owner's choice).
 
-**Captions:** `caption_style: "bold"`: Anton capitals with the current word in yellow.
+**Captions:** `caption_style: "bold"`: Anton capitals with the current word in blue.
 
 **Before posting:**
 - YouTube: set "Altered or synthetic content" to Yes (a real person with an AI voice).
