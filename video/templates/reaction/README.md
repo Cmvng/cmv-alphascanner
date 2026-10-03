@@ -27,7 +27,7 @@ Second reference: `analysis-review-2026-10-02.json` (France v Italy plus the rou
    - `say`: the voice lines
 3. Render: `bash video/daily.sh render <file>`.
 
-## The cinematic edit (3 Oct 2026)
+## The cinematic edit (approved by the owner, 3 Oct 2026: the default for every post-match video)
 
 Same edit as the explainer and the analysis, on top of the approved format (the presenter and the female voice stay):
 

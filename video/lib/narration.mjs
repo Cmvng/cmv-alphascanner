@@ -159,7 +159,11 @@ function buildResultScenes(cfg, picks, recap) {
 export function buildScenes(cfg, picks, recap) {
   const build = cfg.mode === 'results' ? buildResultScenes : cfg.mode === 'preview' ? buildPreviewScenes : cfg.mode === 'review' ? buildReviewScenes : cfg.mode === 'explainer' ? buildExplainerScenes : buildPickScenes
   // cfg.skip: leave screens out, e.g. ["pv_form"] when the app's numbers clash with confirmed recent results
-  return applyScript(cfg, build(cfg, picks, recap).filter(s => !(cfg.skip || []).includes(s.type)))
+  const scenes = applyScript(cfg, build(cfg, picks, recap).filter(s => !(cfg.skip || []).includes(s.type)))
+  // after a cold open, the next screen lands on the music's drop
+  const c = scenes.findIndex(s => /_cold$/.test(s.type))
+  if (c >= 0 && scenes[c + 1]) scenes[c + 1].data = { ...(scenes[c + 1].data || {}), drop: true }
+  return scenes
 }
 
 // Post-match review / reaction: every screen is a beat written for this match (cfg.review.beats), so no two videos

@@ -63,6 +63,13 @@ function loadPlaywright() {
 
 // ---------------------------------------------------------------- 1. data, badges, stadiums
 const { cfg, picks, recap } = loadInput(input)
+// the approved edit (owner, 3 Oct 2026) is the default for analysis, post-match and explainer videos (not tips videos):
+// recorded cinematic sound and voice A; with a cold open, the music's drop lands on the cut right after it
+if (['preview', 'review', 'explainer'].includes(cfg.mode) && cfg.tips !== true) {
+  cfg.sound ??= 'cinematic'; cfg.voice_fx ??= 'deep'
+  const cold = cfg.mode === 'preview' ? !!cfg.analysis?.cold : (cfg.mode === 'review' ? cfg.review?.beats : cfg.explainer?.beats || []).some(b => /(^|_)cold$/.test(b.type || ''))
+  if (cold) cfg.music_drop ??= 'after_cold'
+}
 // --short: the 60-second cut for Shorts / Reels (main match only: no round-up, no tactics screen)
 const SHORT = !!flag('short', false)
 const slug = path.basename(input).replace(/\.(json|csv)$/i, '') + (SHORT ? '_short' : '')
@@ -214,7 +221,7 @@ const DURATION = t + 0.4
 // a "drop" track: its drop lands on the cut into the scene `music_drop` names (cuts are on the beat, so the grid stays
 // in phase), and the music stops just after the last line before it, so the drop hits out of silence
 if (music?.drop != null && cfg.music_drop) {
-  const k = scenes.findIndex(s => s.type === cfg.music_drop || s.type === 'ex_' + cfg.music_drop)
+  const k = cfg.music_drop === 'after_cold' ? scenes.findIndex(s => /_cold$/.test(s.type)) + 1 : scenes.findIndex(s => s.type === cfg.music_drop || s.type === 'ex_' + cfg.music_drop)
   if (k > 0) {
     music.start = music.drop - scenes[k].start
     const last = scenes[k - 1].sentences.at(-1)

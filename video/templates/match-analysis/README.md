@@ -10,9 +10,9 @@
 
 Every new analysis video copies this structure, tone and level of detail. Only the facts change.
 
-## The cinematic edit (3 Oct 2026)
+## The cinematic edit (approved by the owner, 3 Oct 2026: the default for every analysis)
 
-The owner liked the edit of the Packs explainer and asked for it here too. Reference: `croatia-england-2026-10-03-cinematic.json`.
+The owner liked the edit of the Packs explainer, asked for it here too, then approved the result ("the dark opening, the cold open, the punchline"). Reference: `croatia-england-2026-10-03-cinematic.json`.
 
 - **Cold open** (`analysis.cold` + `script.pv_cold`): before the title, a dark screen with one big number per line over a
   black-and-white photo (a player to watch, by `player`, or the stadium). Example: "41 years old." (Modrić) / "Still scoring

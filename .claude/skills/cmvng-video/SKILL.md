@@ -145,6 +145,19 @@ When the owner asks for an explainer ("explain Packs", "a video on how X works")
   the title on the drop, `sound: "cinematic"`, `voice_fx: "deep"`. See the "cinematic edit" sections in
   `video/templates/match-analysis/README.md` and `video/templates/reaction/README.md`. Drop tracks rotate (19 in
   `lib/music.json`), so the soundtrack changes from video to video.
+
+## The cold open (approved house style, 3 Oct: "the dark opening… the aura that keeps people excited")
+
+Every analysis, post-match review and explainer opens cold. The renderer already defaults to the cinematic sound and
+voice A for these modes, and when a cold open exists the music's drop lands on the next screen. Your job is the writing:
+
+- **3–4 short lines, about 8 seconds.** One striking number per line, big on screen over a dark black-and-white photo.
+- **Build, then a punchline.** The last line is the twist (red, with a glitch): the stake, the surprise, the doubt.
+  Analysis: "41 years old." → "Still scoring for Croatia." → "87 goals for England." → "And today, only 100 England fans
+  are allowed in." Post-match: "This morning, we made four calls." → "Ninety minutes each." → "Tonight, the scores came in."
+- **Never give the answer away.** No verdict, no score, no tally in the cold open: the payoff comes after the drop.
+- **Facts only from the sources file**, and numbers the viewer can feel (ages, goals, fans, minutes, money).
+- Then silence (`tail` about 0.5 s) and the title slams in on the drop. Don't add a line that repeats the cold open in the title screen.
 - **Facts** come only from the product's docs and app, listed in a sources file. Our own redrawn screens, no logo.
 
 ## 2. Write the script (the presenter is a football analyst)
