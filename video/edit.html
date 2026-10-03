@@ -112,12 +112,21 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#000}
 #stage.wide #coin .pts div{font-size:32px}
 #stage.wide #coin .src{left:120px;right:auto;top:900px;text-align:left}
 /* phone layout (a phone screen recording, no face-cam): the screen in a tall panel, captions below it */
-#stage.phone #chartbox,#stage.phone #scrim{left:0;top:0;width:1080px;height:1920px;border-radius:0;box-shadow:none}
+/* phone: the whole width of the screen, never cropped at the sides (the owner's logos and prices must show); labels sit
+   in their own band above it so nothing covers the app; numbers get a highlight box and a pop-up close-up instead */
+#stage.phone #chartbox,#stage.phone #scrim{left:0;top:110px;width:1080px;height:1810px;border-radius:0;box-shadow:none}
 #stage.phone #facebox{display:none}
-#stage.phone #cap{top:1560px}
-#stage.phone #call{left:40px;top:150px}
-#shade{position:absolute;inset:0;z-index:15;pointer-events:none;display:none;background:linear-gradient(180deg,rgba(2,4,9,.7) 0,rgba(2,4,9,0) 250px,rgba(2,4,9,0) 1300px,rgba(2,4,9,.78) 1580px,rgba(2,4,9,.9) 100%)}
+#stage.phone #prog{top:16px}
+#stage.phone #hdr{top:40px}
+#stage.phone #cap{top:1610px}
+#stage.phone #call{left:0;right:0;top:1480px;text-align:center}
+#topband{display:none;position:absolute;left:0;right:0;top:0;height:110px;background:#04070E;border-bottom:2px solid rgba(79,179,255,.25);z-index:14}
+#stage.phone #topband{display:block}
+#shade{position:absolute;inset:0;z-index:15;pointer-events:none;display:none;background:linear-gradient(180deg,rgba(2,4,9,0) 0,rgba(2,4,9,0) 1450px,rgba(2,4,9,.82) 1600px,rgba(2,4,9,.92) 100%)}
 #stage.phone #shade{display:block}
+#spot{position:absolute;z-index:13;display:none;border:4px solid var(--acc);border-radius:14px;box-shadow:0 0 0 3000px rgba(2,4,9,.5),0 0 36px rgba(79,179,255,.7);pointer-events:none}
+#lens{position:absolute;left:40px;width:1000px;z-index:21;display:none;border-radius:26px;overflow:hidden;background:#000;box-shadow:0 0 0 5px var(--acc),0 30px 80px rgba(0,0,0,.75),0 0 70px rgba(79,179,255,.4)}
+#lens img{position:absolute;left:0;top:0;transform-origin:0 0}
 /* chapter card: slams in over the screen at the start of a new topic while the voice carries on */
 #chap{position:absolute;z-index:22;display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;overflow:hidden;border-radius:30px}
 #chap .bg{position:absolute;inset:0;background:radial-gradient(90% 60% at 50% 50%,rgba(16,42,82,.92) 0%,rgba(4,9,20,.95) 100%)}
@@ -158,7 +167,10 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#000}
   <div id="prog"><i></i></div>
   <div id="hdr"><span class="chip w" id="pair"></span><span class="chip" id="hand"></span></div>
   <div class="box" id="chartbox"><div class="lay" id="chartlay"><img id="chart"><div class="mask"></div></div></div><div id="scrim"></div>
+  <div id="topband"></div>
+  <div id="spot"></div>
   <div id="shade"></div>
+  <div id="lens"><img id="lensimg"></div>
   <div id="call"></div>
   <div id="chap"><div class="bg"></div><span class="n"></span><div class="t A"></div><div class="s"></div></div>
   <div class="box" id="facebox"><img id="face"></div>
@@ -317,7 +329,7 @@ window.renderAt = async function (t) {
   const seg = SEG.find(s => t >= s.start - 1e-6 && t < s.end) || SEG.find(s => s.start > t) || SEG.at(-1)
   const fr = frameAt(t), src = `${fr.p.dir}/${String(fr.f).padStart(5, '0')}.jpg`
   let wait = null
-  if (src !== lastSrc) { lastSrc = src; for (const im of [$('#chart'), $('#face'), $('#coldimg')]) im.src = src; wait = Promise.all(['#chart', '#face', '#coldimg'].map(q => $(q).decode().catch(() => {}))) }
+  if (src !== lastSrc) { lastSrc = src; for (const im of [$('#chart'), $('#face'), $('#coldimg'), $('#lensimg')]) im.src = src; wait = Promise.all(['#chart', '#face', '#coldimg', '#lensimg'].map(q => $(q).decode().catch(() => {}))) }
   const drop = D.drop, cold = t < drop, lt = t - seg.start
   // ---- cold open: the chart in the dark, one big number per line
   const co = $('#cold'); co.style.display = cold ? 'block' : 'none'
@@ -342,14 +354,28 @@ window.renderAt = async function (t) {
   // zoom: ease to the clip's framing at each new clip, then a slow push; jump cuts inside a clip alternate a punch-in
   const cs2 = fr.s, prev = speak[speak.indexOf(cs2) - 1], q = P(t, cs2.start - 0.05, cs2.start + 0.4, E.inOutCubic)
   const aspect = cb.clientWidth / cb.clientHeight
-  const srcT = fr.p.src + (fr.f - 1) / FPS, PUSH = cs2.zk ? 0.03 : 0.06
-  const rA = prev && prev.kind === 'clip' ? cropFor(lastZoom(prev), prev.zk ? 0.03 : 0.06, aspect) : cropFor(zoomAt(cs2, srcT), 0, aspect)
+  const srcT = fr.p.src + (fr.f - 1) / FPS, PUSH = D.layout === 'phone' ? 0 : cs2.zk ? 0.03 : 0.06
+  const rA = prev && prev.kind === 'clip' ? cropFor(lastZoom(prev), D.layout === 'phone' ? 0 : prev.zk ? 0.03 : 0.06, aspect) : cropFor(zoomAt(cs2, srcT), 0, aspect)
   const rB = cropFor(zoomAt(cs2, srcT), PUSH * clamp((t - cs2.start) / Math.max(2, cs2.end - cs2.start)), aspect)
-  const punch = fr.j % 2 ? (D.layout === 'phone' ? 1.04 : 1.07) : 1
+  const punch = fr.j % 2 && D.layout !== 'phone' ? 1.07 : 1
   const r = lerp(rA, rB, q), rc = [r[0] + r[2] * (1 - 1 / punch) / 2, r[1] + r[3] * (1 - 1 / punch) / 2, r[2] / punch, r[3] / punch]
   place($('#chartlay'), cb, rc)
   if (FACE) { const fz = fr.j % 2 ? 1.08 : 1, fw = FACE[2] / fz, fh = FACE[3] / fz
     place($('#face'), fb, [FACE[0] + (FACE[2] - fw) / 2, FACE[1] + (FACE[3] - fh) * 0.35, fw, fh]) }
+  // ---- highlight: a box around what the owner is talking about ("marks": source seconds + region), with a close-up
+  const spot = $('#spot'), lens = $('#lens'), mk = (cs2.marks || []).find(m => srcT >= m.t[0] - 0.15 && srcT <= m.t[1] + 0.15)
+  let spotBox = null
+  if (mk && t >= drop) {
+    const a = P(srcT, mk.t[0] - 0.15, mk.t[0] + 0.12) * (1 - P(srcT, mk.t[1] - 0.1, mk.t[1] + 0.15)), sc = cb.clientWidth / rc[2], [x0, y0, x1, y1] = mk.r
+    const bx = [(x0 * FW - rc[0]) * sc - 8, cb.offsetTop + (y0 * FH - rc[1]) * sc - 8, (x1 - x0) * FW * sc + 16, (y1 - y0) * FH * sc + 16]
+    Object.assign(spot.style, { display: 'block', left: bx[0] + 'px', top: bx[1] + 'px', width: bx[2] + 'px', height: bx[3] + 'px', opacity: a }); spotBox = bx
+    if (mk.lens) {
+      const [lx0, ly0, lx1, ly1] = mk.lr || mk.r, rw = (lx1 - lx0) * FW, rh = (ly1 - ly0) * FH, ls = 1000 / rw, lh = Math.min(400, rh * ls), lt = bx[1] + bx[3] / 2 < 900 ? 1040 : 150
+      const q = P(srcT, mk.t[0] + 0.05, mk.t[0] + 0.45, E.outBack)
+      Object.assign(lens.style, { display: 'block', top: lt + 'px', height: lh + 'px', opacity: a, transform: `scale(${0.8 + 0.2 * q})` })
+      $('#lensimg').style.transform = `scale(${ls}) translate(${-lx0 * FW}px,${-(ly0 * FH + (rh - lh / ls) / 2)}px)`
+    } else lens.style.display = 'none'
+  } else { spot.style.display = 'none'; lens.style.display = 'none' }
   // ---- title on the drop
   const ti = $('#title'), tS = SEG.find(s => s.kind === 'title')
   ti.style.display = t >= drop && t < tS.end + 0.35 ? 'block' : 'none'
@@ -363,7 +389,8 @@ window.renderAt = async function (t) {
   // ---- callout chip for the clip
   const call = $('#call'), cl = seg.kind === 'clip' && seg.call ? seg : null
   if (cl) { if (call.dataset.id !== cl.id) { call.dataset.id = cl.id; call.innerHTML = `<div class="k"><i></i>${html(cl.call)}</div>` }
-    const k = $('.k', call), at = callAt(cl); k.style.transform = slam(k, t, at, 1.6, 0.25); k.style.transformOrigin = '0 50%'; call.style.display = t >= at - 0.05 ? 'block' : 'none' }
+    const k = $('.k', call), at = callAt(cl); k.style.transform = slam(k, t, at, 1.6, 0.25); k.style.transformOrigin = D.layout === 'phone' ? '50% 50%' : '0 50%'; call.style.display = t >= at - 0.05 ? 'block' : 'none'
+    if (D.layout === 'phone') call.style.top = (spotBox && spotBox[1] + spotBox[3] > 1440 ? Math.max(130, spotBox[1] - 100) : 1480) + 'px' }
   else call.style.display = 'none'
   // ---- chapter card at the start of a new topic; the header chip names the topic until the next one
   const chEl = $('#chap'), chS = CHAP.find(s => t >= s.start - 0.05 && t < s.start + chapDur(s))

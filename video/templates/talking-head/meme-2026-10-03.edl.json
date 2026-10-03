@@ -34,9 +34,9 @@
    "zk": [
     [
      104.4,
-     0.32,
-     0.32,
-     0.55
+     0.5,
+     0.375,
+     1.0
     ]
    ],
    "cap": "Like minus $141,000, like"
@@ -55,9 +55,9 @@
    "zk": [
     [
      132.2,
-     0.7,
-     0.65,
-     0.55
+     0.5,
+     0.5,
+     1.0
     ]
    ],
    "cap": "But now it's currently down to 500K."
@@ -77,9 +77,9 @@
    "zk": [
     [
      305.4,
-     0.72,
-     0.64,
-     0.5
+     0.5,
+     0.5,
+     1.0
     ]
    ],
    "cap": "But he actually, like, made 11,000% off this trade."
@@ -101,9 +101,9 @@
    "zk": [
     [
      393.8,
-     0.54,
      0.5,
-     0.86
+     0.5,
+     1.0
     ]
    ],
    "cap": "Most of the time, you might actually be exit liquidity."
@@ -129,27 +129,27 @@
    "zk": [
     [
      0.5,
-     0.42,
-     0.2,
-     0.7
+     0.5,
+     0.375,
+     1.0
     ],
     [
      2.3,
-     0.42,
-     0.2,
-     0.7
+     0.5,
+     0.375,
+     1.0
     ],
     [
-     3.2,
-     0.54,
-     0.47,
-     0.86
+     2.8,
+     0.5,
+     0.5,
+     1.0
     ],
     [
      16.1,
-     0.54,
-     0.52,
-     0.8
+     0.5,
+     0.5,
+     1.0
     ]
    ],
    "cap": "The part of memecoin trading you don't get to hear about more often. Like the part of memecoin trading whereby you buy a token, and you think it's actually going to be the next runner… and after a while, it dumps. Like"
@@ -167,21 +167,15 @@
    "zk": [
     [
      16.2,
-     0.54,
-     0.47,
-     0.86
-    ],
-    [
-     21.3,
-     0.54,
      0.5,
-     0.84
+     0.5,
+     1.0
     ],
     [
      29.3,
-     0.54,
-     0.45,
-     0.86
+     0.5,
+     0.5,
+     1.0
     ]
    ],
    "cap": "Now, if you actually see the tokens, like the most held tokens, like the most held memecoins over the past two months that have been trending, like everything is tanking, and it's",
@@ -203,62 +197,59 @@
    "zk": [
     [
      29.4,
-     0.54,
-     0.45,
-     0.86
-    ],
-    [
-     30.6,
      0.5,
-     0.28,
-     0.9
-    ],
-    [
-     32.4,
      0.5,
-     0.26,
-     0.9
+     1.0
     ],
     [
-     33.6,
-     0.7,
-     0.24,
-     0.58
-    ],
-    [
-     39.4,
-     0.7,
-     0.24,
-     0.58
-    ],
-    [
-     40.2,
-     0.72,
-     0.13,
-     0.5
-    ],
-    [
-     43.2,
-     0.72,
-     0.13,
-     0.5
-    ],
-    [
-     44.2,
-     0.42,
-     0.2,
-     0.6
+     30.8,
+     0.5,
+     0.375,
+     1.0
     ],
     [
      47.3,
-     0.45,
-     0.22,
-     0.62
+     0.5,
+     0.375,
+     1.0
     ]
    ],
    "cap": "Let's first start with Ansem. Let's start with Ansem token. Like, if you actually look at the chart right now, like, it's currently in a down, like in a down spiral. Like, it's currently in a down spiral. Like, it's currently trading at 128 million market cap. But I think the all-time market cap was like 400 million. Yeah.",
    "call": "ANSEM · $128M now · ATH $400M+",
-   "call_t": 39.8
+   "call_t": 39.8,
+   "marks": [
+    {
+     "t": [
+      39.7,
+      43.3
+     ],
+     "r": [
+      0.0,
+      0.0,
+      1.0,
+      0.125
+     ],
+     "lens": true,
+     "lr": [
+      0.6,
+      0.07,
+      0.99,
+      0.125
+     ]
+    },
+    {
+     "t": [
+      43.6,
+      47.3
+     ],
+     "r": [
+      0.0,
+      0.13,
+      1.0,
+      0.42
+     ]
+    }
+   ]
   },
   {
    "id": "underwater",
@@ -274,32 +265,14 @@
     [
      54.2,
      0.5,
-     0.35,
-     0.9
-    ],
-    [
-     56.5,
-     0.54,
-     0.55,
-     0.86
-    ],
-    [
-     60.0,
-     0.54,
-     0.5,
-     0.86
-    ],
-    [
-     63.2,
-     0.72,
-     0.5,
-     0.56
+     0.45,
+     1.0
     ],
     [
      70.1,
-     0.72,
-     0.42,
-     0.56
+     0.5,
+     0.45,
+     1.0
     ]
    ],
    "cap": "So, like, basically, like a lot of top traders are currently underwater, currently on Ansem. You can see some of them: like minus 20%, minus 20%, minus 31%, minus 31%.",
@@ -319,39 +292,39 @@
    "zk": [
     [
      70.6,
-     0.54,
-     0.44,
-     0.86
+     0.5,
+     0.45,
+     1.0
     ],
     [
-     76.6,
-     0.54,
-     0.56,
-     0.82
+     75.5,
+     0.5,
+     0.45,
+     1.0
     ],
     [
-     82.6,
-     0.54,
-     0.44,
-     0.86
+     76.5,
+     0.5,
+     0.5,
+     1.0
     ],
     [
      84.8,
-     0.54,
-     0.56,
-     0.84
+     0.5,
+     0.5,
+     1.0
     ],
     [
-     85.6,
+     85.4,
      0.5,
-     0.3,
-     0.9
+     0.375,
+     1.0
     ],
     [
      89.3,
      0.5,
-     0.25,
-     0.9
+     0.375,
+     1.0
     ]
    ],
    "cap": "But on the positive side, like, the good thing about all of this is that for top creators, for top creators, like on an app like Fomo, they make money off creator fees. Like they make money off creator… Okay, like now let me give you an example. Like now look at this token, ZCAT.",
@@ -374,39 +347,42 @@
     [
      89.6,
      0.5,
-     0.25,
-     0.9
-    ],
-    [
-     92.0,
-     0.42,
-     0.2,
-     0.62
-    ],
-    [
-     96.5,
-     0.42,
-     0.2,
-     0.62
-    ],
-    [
-     97.6,
-     0.72,
-     0.12,
-     0.5
+     0.375,
+     1.0
     ],
     [
      100.3,
-     0.72,
-     0.12,
-     0.5
+     0.5,
+     0.375,
+     1.0
     ]
    ],
    "cap": "Like a few weeks ago, it was currently trading at 120 million market cap, and it was like, it was going to be like the talk and every single thing. And currently, it's currently trading at 38 million market cap.",
    "chapter": "The pain of losses",
    "chapter_sub": "Real bags, real drawdowns",
    "call": "ZCAT · $120M → $38M",
-   "call_t": 97.6
+   "call_t": 97.6,
+   "marks": [
+    {
+     "t": [
+      97.6,
+      100.3
+     ],
+     "r": [
+      0.0,
+      0.0,
+      1.0,
+      0.125
+     ],
+     "lens": true,
+     "lr": [
+      0.6,
+      0.07,
+      0.99,
+      0.125
+     ]
+    }
+   ]
   },
   {
    "id": "user",
@@ -422,31 +398,34 @@
     [
      100.7,
      0.5,
-     0.25,
-     0.9
+     0.375,
+     1.0
     ],
     [
-     101.7,
+     107.6,
      0.5,
-     0.25,
-     0.86
-    ],
-    [
-     103.2,
-     0.3,
-     0.32,
-     0.6
-    ],
-    [
-     107.5,
-     0.3,
-     0.32,
-     0.56
+     0.375,
+     1.0
     ]
    ],
    "cap": "This user, this user basically, like, is currently down, like minus $141,000, like",
    "call": "−$141K in 24 hours",
-   "call_t": 104.5
+   "call_t": 104.5,
+   "marks": [
+    {
+     "t": [
+      104.4,
+      107.6
+     ],
+     "r": [
+      0.0,
+      0.3,
+      0.6,
+      0.365
+     ],
+     "lens": true
+    }
+   ]
   },
   {
    "id": "bag",
@@ -461,32 +440,41 @@
    "zk": [
     [
      125.1,
-     0.53,
-     0.45,
-     0.9
-    ],
-    [
-     127.2,
-     0.53,
-     0.62,
-     0.88
-    ],
-    [
-     130.5,
-     0.53,
-     0.66,
-     0.88
+     0.5,
+     0.5,
+     1.0
     ],
     [
      134.1,
-     0.53,
-     0.66,
-     0.86
+     0.5,
+     0.5,
+     1.0
     ]
    ],
    "cap": "But his position on ZCAT was like, at all-time, it was like, what about 1.3 or 1.4 million. But now it's currently down to 500K.",
    "call": "His ZCAT bag · $1.4M → ~$500K",
-   "call_t": 127.3
+   "call_t": 127.3,
+   "marks": [
+    {
+     "t": [
+      127.3,
+      134.1
+     ],
+     "r": [
+      0.0,
+      0.635,
+      1.0,
+      0.69
+     ],
+     "lens": true,
+     "lr": [
+      0.55,
+      0.635,
+      0.99,
+      0.69
+     ]
+    }
+   ]
   },
   {
    "id": "stonk",
@@ -501,74 +489,53 @@
    "zk": [
     [
      150.7,
-     0.54,
-     0.4,
-     0.86
+     0.5,
+     0.5,
+     1.0
     ],
     [
      152.6,
-     0.54,
-     0.4,
-     0.86
-    ],
-    [
-     153.4,
      0.5,
-     0.28,
-     0.9
+     0.5,
+     1.0
     ],
     [
-     156.0,
-     0.54,
-     0.45,
-     0.88
-    ],
-    [
-     157.6,
-     0.54,
-     0.66,
-     0.86
-    ],
-    [
-     160.2,
-     0.54,
-     0.66,
-     0.86
-    ],
-    [
-     161.9,
-     0.54,
-     0.56,
-     0.86
-    ],
-    [
-     164.2,
-     0.54,
-     0.6,
-     0.86
-    ],
-    [
-     166.6,
-     0.54,
-     0.6,
-     0.86
-    ],
-    [
-     168.4,
-     0.7,
-     0.52,
-     0.58
+     153.3,
+     0.5,
+     0.375,
+     1.0
     ],
     [
      170.9,
-     0.7,
      0.5,
-     0.55
+     0.375,
+     1.0
     ]
    ],
    "cap": "Another token again is STONK. Like it's basically STONK, like its top holders. Where like, especially, like for example, especially for example, pointfarmcap was at a point trading at… all these were worth 13 million at the point. Now they are worth 9.5 million.",
    "call": "STONK holder · $13M → $9.5M",
-   "call_t": 164.4
+   "call_t": 164.4,
+   "marks": [
+    {
+     "t": [
+      168.6,
+      170.9
+     ],
+     "r": [
+      0.0,
+      0.475,
+      1.0,
+      0.535
+     ],
+     "lens": true,
+     "lr": [
+      0.58,
+      0.475,
+      0.99,
+      0.51
+     ]
+    }
+   ]
   },
   {
    "id": "stonk2",
@@ -583,27 +550,15 @@
    "zk": [
     [
      171.8,
-     0.54,
-     0.74,
-     0.86
-    ],
-    [
-     174.5,
-     0.54,
-     0.72,
-     0.86
-    ],
-    [
-     176.0,
-     0.7,
-     0.69,
-     0.56
+     0.5,
+     0.5,
+     1.0
     ],
     [
      179.3,
-     0.7,
-     0.72,
-     0.55
+     0.5,
+     0.5,
+     1.0
     ]
    ],
    "cap": "Like also, this was his position: it was worth at one time 7.5 million, and that was worth 4.9 million.",
@@ -623,15 +578,15 @@
    "zk": [
     [
      179.8,
-     0.52,
      0.5,
-     0.88
+     0.45,
+     1.0
     ],
     [
      185.0,
-     0.52,
-     0.55,
-     0.8
+     0.5,
+     0.45,
+     1.0
     ]
    ],
    "cap": "So these are actually like the sides of memecoin trading that don't get talked about."
@@ -695,39 +650,53 @@
     [
      185.8,
      0.5,
-     0.3,
-     0.9
+     0.375,
+     1.0
     ],
     [
-     187.6,
-     0.54,
-     0.45,
-     0.86
-    ],
-    [
-     190.4,
+     187.4,
      0.5,
-     0.3,
-     0.9
+     0.5,
+     1.0
     ],
     [
-     192.4,
-     0.54,
-     0.6,
-     0.86
+     189.8,
+     0.5,
+     0.5,
+     1.0
+    ],
+    [
+     190.6,
+     0.5,
+     0.375,
+     1.0
     ],
     [
      196.4,
-     0.54,
-     0.62,
-     0.82
+     0.5,
+     0.375,
+     1.0
     ]
    ],
    "cap": "And the plus side of it is that all this is also very underestimated. Like if you actually hold all of this, you might really be one of the biggest winners.",
    "chapter": "The holding culture",
    "chapter_sub": "The plus side",
    "call": "Hold → biggest winner?",
-   "call_t": 193.8
+   "call_t": 193.8,
+   "marks": [
+    {
+     "t": [
+      193.6,
+      196.4
+     ],
+     "r": [
+      0.0,
+      0.56,
+      1.0,
+      0.61
+     ]
+    }
+   ]
   },
   {
    "id": "goal",
@@ -743,20 +712,20 @@
     [
      222.6,
      0.5,
-     0.3,
-     0.9
+     0.375,
+     1.0
     ],
     [
-     224.8,
-     0.54,
-     0.45,
-     0.86
+     224.6,
+     0.5,
+     0.5,
+     1.0
     ],
     [
      227.8,
-     0.54,
-     0.4,
-     0.86
+     0.5,
+     0.5,
+     1.0
     ]
    ],
    "cap": "Like the goal about memecoin trading is basically to actually like enter in early. Like that's actually like the goal.",
@@ -790,68 +759,97 @@
    "zk": [
     [
      228.0,
-     0.54,
-     0.4,
-     0.86
+     0.5,
+     0.5,
+     1.0
     ],
     [
-     229.6,
+     229.4,
      0.5,
-     0.22,
-     0.9
+     0.375,
+     1.0
     ],
     [
      231.9,
      0.5,
-     0.22,
-     0.9
+     0.375,
+     1.0
     ],
     [
      288.1,
      0.5,
-     0.55,
-     0.9
-    ],
-    [
-     290.2,
-     0.32,
-     0.67,
-     0.6
-    ],
-    [
-     293.8,
-     0.32,
-     0.67,
-     0.6
-    ],
-    [
-     294.8,
-     0.7,
-     0.67,
-     0.6
-    ],
-    [
-     297.0,
-     0.7,
-     0.67,
-     0.6
-    ],
-    [
-     305.4,
-     0.72,
-     0.64,
-     0.52
+     0.5,
+     1.0
     ],
     [
      309.7,
-     0.72,
-     0.64,
-     0.5
+     0.5,
+     0.5,
+     1.0
     ]
    ],
    "cap": "Okay, like let me give you an example right now. Let me give you an example right now. Let's look at Frank. He bought the memecoin at 24K market cap, and it actually rallied to 2.7 million market cap. But he actually, like, made 11,000% off this trade.",
    "call": "$24K → $2.79M MC · +11,529%",
-   "call_t": 290.7
+   "call_t": 290.7,
+   "marks": [
+    {
+     "t": [
+      290.0,
+      294.5
+     ],
+     "r": [
+      0.0,
+      0.635,
+      1.0,
+      0.715
+     ],
+     "lens": true,
+     "lr": [
+      0.0,
+      0.683,
+      0.5,
+      0.717
+     ]
+    },
+    {
+     "t": [
+      294.6,
+      297.0
+     ],
+     "r": [
+      0.0,
+      0.635,
+      1.0,
+      0.715
+     ],
+     "lens": true,
+     "lr": [
+      0.5,
+      0.683,
+      1.0,
+      0.717
+     ]
+    },
+    {
+     "t": [
+      305.4,
+      309.7
+     ],
+     "r": [
+      0.0,
+      0.635,
+      1.0,
+      0.715
+     ],
+     "lens": true,
+     "lr": [
+      0.55,
+      0.635,
+      0.99,
+      0.67
+     ]
+    }
+   ]
   },
   {
    "id": "edge",
@@ -865,46 +863,16 @@
    ],
    "zk": [
     [
-     309.9,
-     0.72,
-     0.62,
-     0.56
-    ],
-    [
-     312.6,
-     0.52,
-     0.55,
-     0.88
-    ],
-    [
-     316.8,
+     309.7,
      0.5,
-     0.4,
-     0.9
-    ],
-    [
-     318.5,
-     0.54,
-     0.44,
-     0.86
-    ],
-    [
-     324.5,
-     0.54,
-     0.56,
-     0.82
-    ],
-    [
-     330.5,
-     0.54,
-     0.44,
-     0.86
+     0.5,
+     1.0
     ],
     [
      331.5,
-     0.54,
-     0.56,
-     0.84
+     0.5,
+     0.5,
+     1.0
     ]
    ],
    "cap": "So like the edge in memecoin trading is like, for example, like if you know, like you cannot, like you don't have the liquidity enough, you can actually ape into like shitters, like below 100K market cap. And if you actually try more times than not, you can actually be looking, and you might actually catch a runner. You never know.",
@@ -924,45 +892,27 @@
    "zk": [
     [
      331.8,
-     0.54,
-     0.44,
-     0.86
-    ],
-    [
-     337.8,
-     0.54,
-     0.56,
-     0.82
-    ],
-    [
-     343.8,
-     0.54,
-     0.44,
-     0.86
-    ],
-    [
-     344.6,
-     0.54,
-     0.56,
-     0.84
-    ],
-    [
-     345.2,
      0.5,
-     0.25,
-     0.9
+     0.5,
+     1.0
     ],
     [
-     347.5,
-     0.54,
-     0.6,
-     0.86
+     344.4,
+     0.5,
+     0.5,
+     1.0
+    ],
+    [
+     345.0,
+     0.5,
+     0.375,
+     1.0
     ],
     [
      351.4,
-     0.54,
-     0.62,
-     0.82
+     0.5,
+     0.375,
+     1.0
     ]
    ],
    "cap": "But this actually is the other part about memecoin that you don't get to know. Like you're buying a token and it's dumping, like it's dumping, and you're like hoping that, okay, like you are doing the right thing. And so that's what it is anyways."
@@ -1013,26 +963,26 @@
     [
      352.2,
      0.5,
-     0.3,
-     0.9
+     0.375,
+     1.0
     ],
     [
-     353.6,
-     0.42,
-     0.2,
-     0.7
+     355.4,
+     0.5,
+     0.375,
+     1.0
     ],
     [
-     355.0,
-     0.54,
-     0.45,
-     0.86
+     356.0,
+     0.5,
+     0.5,
+     1.0
     ],
     [
      361.9,
-     0.54,
-     0.55,
-     0.82
+     0.5,
+     0.5,
+     1.0
     ]
    ],
    "cap": "But overall, if you actually, if you actually stay, and you actually like buy the right token, the right token might actually like cover for all your losses.",
@@ -1052,21 +1002,15 @@
    "zk": [
     [
      362.7,
-     0.54,
-     0.44,
-     0.86
-    ],
-    [
-     368.7,
-     0.54,
-     0.56,
-     0.82
+     0.5,
+     0.5,
+     1.0
     ],
     [
      373.5,
-     0.54,
-     0.44,
-     0.84
+     0.5,
+     0.5,
+     1.0
     ]
    ],
    "cap": "The only thing to just do is for you to actually have your game right, and have the strategy right, that will help you to actually stay in the game.",
@@ -1086,33 +1030,15 @@
    "zk": [
     [
      374.4,
-     0.54,
-     0.44,
-     0.86
-    ],
-    [
-     379.4,
-     0.54,
-     0.56,
-     0.82
-    ],
-    [
-     384.4,
-     0.54,
-     0.44,
-     0.86
-    ],
-    [
-     389.4,
-     0.54,
-     0.56,
-     0.82
+     0.5,
+     0.5,
+     1.0
     ],
     [
      392.1,
-     0.54,
-     0.44,
-     0.84
+     0.5,
+     0.5,
+     1.0
     ]
    ],
    "cap": "Every, every, like, memecoin is a strategy. You have to actually know it, or else you will just make more losses than profit, and you'll get fatigued, and you'll blame the system. And those who win, win, and those who lose, lose."
@@ -1130,39 +1056,15 @@
    "zk": [
     [
      392.5,
-     0.54,
-     0.44,
-     0.86
-    ],
-    [
-     397.5,
-     0.54,
-     0.56,
-     0.82
-    ],
-    [
-     402.5,
-     0.54,
-     0.44,
-     0.86
-    ],
-    [
-     407.5,
-     0.54,
-     0.56,
-     0.82
-    ],
-    [
-     412.5,
-     0.54,
-     0.44,
-     0.86
+     0.5,
+     0.5,
+     1.0
     ],
     [
      413.2,
-     0.54,
-     0.56,
-     0.84
+     0.5,
+     0.5,
+     1.0
     ]
    ],
    "cap": "And you also have to know that most of the time, you might actually be exit liquidity. You never know, you can also be exit liquidity by top, top KOLs looking to actually farm you off creator fees. That is another aspect that you need to actually know of also. You might actually be getting farmed by top creators, and you might not actually be aware of that.",
@@ -1182,39 +1084,27 @@
    "zk": [
     [
      413.9,
-     0.54,
-     0.44,
-     0.86
-    ],
-    [
-     416.8,
-     0.54,
-     0.56,
-     0.84
-    ],
-    [
-     417.6,
      0.5,
-     0.3,
-     0.9
-    ],
-    [
-     421.4,
-     0.52,
-     0.55,
-     0.86
-    ],
-    [
-     423.4,
      0.5,
-     0.3,
-     0.9
+     1.0
+    ],
+    [
+     416.9,
+     0.5,
+     0.5,
+     1.0
+    ],
+    [
+     417.5,
+     0.5,
+     0.375,
+     1.0
     ],
     [
      427.1,
      0.5,
-     0.3,
-     0.86
+     0.375,
+     1.0
     ]
    ],
    "cap": "So memecoin trading is actually very fun if you actually know how to play your cards right. But if you don't, it might actually be a very, very bad experience."

@@ -54,7 +54,8 @@ with `duck` 10 keeps the voice well on top), ducked under the voice.
 ## Phone screen recordings (no face-cam)
 
 `"layout": "phone"` with `"chart": [0, 0, width, height]` (the whole screen) and no `face`: the screen fills the frame
-(full bleed), zoomed in on what the owner is talking about, captions over a dark fade at the bottom. Reference: the
+at full width under a slim label band, with highlight boxes and close-ups on what the owner is talking about,
+captions over a dark fade at the bottom. Reference: the
 memecoin video of 3 Oct 2026, `meme-2026-10-03.edl.json` (a 7.5-minute Fomo app recording, 5:24 edit).
 
 **The owner's feedback on the first cut (3 Oct): "words were getting cut out" and "it's getting zoomed out".** So:
@@ -65,9 +66,15 @@ memecoin video of 3 Oct 2026, `meme-2026-10-03.edl.json` (a 7.5-minute Fomo app 
   starts, an exact repeat). Keep pauses natural: `"timing": { "gap_min": 0.7, "gap_keep": 0.4 }`.
 - **Check every edge before rendering:** each piece must start and end below about -45 dB in the cleaned voice, and a
   transcript of each clip's audio must contain its first and last words.
-- **Zoom in and follow the scroll.** `"zk": [[source seconds, x, y, width], …]` keyframes per clip; width 0.86 for
-  lists (whole rows, names to values), 0.5–0.6 on the number being said (a market cap, a PnL, a % change). Choose them
-  from gridded filmstrips: `python3 video/lib/zoom_strip.py <start> <end> <frames> strip.png raw.mp4`.
+- **Never crop the sides of a phone screen.** The owner's second note (3 Oct): token logos and names were cut off, and
+  our labels covered the app's header. The screen always shows its full width (`"zk": [[source seconds, 0.5, y, 1]]`,
+  only the height moves: 0.375 shows a token page's or profile's top with its name, logo and price; 0.5 for lists),
+  with no push or punch-in. Labels live in the band above the screen. Choose heights from gridded filmstrips:
+  `python3 video/lib/zoom_strip.py <start> <end> <frames> strip.png raw.mp4`.
+- **Point at numbers without cropping:** `"marks": [{ "t": [from, to], "r": [x0, y0, x1, y1], "lens": true, "lr": […] }]`
+  (source seconds, fractions of the screen) draws a box around the row being talked about, dims the rest, and pops up a
+  magnified close-up of `lr` (the number itself; keep it narrow, half the width or less, or it isn't magnified).
+  Check every mark on a still: rows move when the owner scrolls.
 - **Captions timed to the words:** `"caption_words": "words_big.json"` (faster-whisper `distil-large-v3`, word
   timings, with a prompt naming the coins); each clip's `cap` is the owner's words, lightly cleaned, aligned word by word.
 - **Callouts when the owner says it:** `"call_t": <source seconds>` places a clip's callout at that moment.

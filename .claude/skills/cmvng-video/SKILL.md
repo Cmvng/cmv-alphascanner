@@ -177,8 +177,8 @@ the showcase is the coin itself (live price, 24h change, 4-hour candles with the
 site. Reference: `eth-2026-10-02.edl.json`.
 Phone screen recordings (no face-cam) use `"layout": "phone"` (reference `meme-2026-10-03.edl.json`). The owner's
 rules from that video: never clip or drop words inside a sentence (cut only at real silences, whole phrases, via
-`video/lib/phrases.py`), keep pauses natural, show the screen full-frame and zoomed in on what they are talking about
-(zoom keyframes that follow the scroll), and check every cut edge and every number on screen before sending.
+`video/lib/phrases.py`), keep pauses natural, show the screen at its full width, never cropped at the sides (logos, names and prices
+must show), labels in their own band, and highlight boxes with close-ups for the numbers they talk about, and check every cut edge and every number on screen before sending.
 
 ## 2. Write the script (the presenter is a football analyst)
 
