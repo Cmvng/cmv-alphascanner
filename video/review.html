@@ -6,12 +6,18 @@
      window.renderAt(t) draws the frame at time t (async: background clips are image sequences, one frame per video frame),
      window.fxEvents() lists the sound effects. Every screen is a "beat" written per match in cfg.review.beats. -->
 <style>
-@font-face{font-family:Manrope;font-weight:400;src:url(assets/fonts/manrope-latin-400-normal.woff2) format('woff2')}
-@font-face{font-family:Manrope;font-weight:600;src:url(assets/fonts/manrope-latin-600-normal.woff2) format('woff2')}
-@font-face{font-family:Manrope;font-weight:800;src:url(assets/fonts/manrope-latin-800-normal.woff2) format('woff2')}
-@font-face{font-family:JBM;font-weight:500;src:url(assets/fonts/jetbrains-mono-latin-500-normal.woff2) format('woff2')}
-@font-face{font-family:JBM;font-weight:700;src:url(assets/fonts/jetbrains-mono-latin-700-normal.woff2) format('woff2')}
-@font-face{font-family:Anton;font-weight:400;src:url(assets/fonts/anton-latin-400-normal.woff2) format('woff2')}
+@font-face{font-family:Manrope;font-weight:400;src:url(assets/fonts/manrope-latin-400-normal.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:Manrope;font-weight:400;src:url(assets/fonts/manrope-latin-ext-400-normal.woff2) format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:Manrope;font-weight:600;src:url(assets/fonts/manrope-latin-600-normal.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:Manrope;font-weight:600;src:url(assets/fonts/manrope-latin-ext-600-normal.woff2) format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:Manrope;font-weight:800;src:url(assets/fonts/manrope-latin-800-normal.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:Manrope;font-weight:800;src:url(assets/fonts/manrope-latin-ext-800-normal.woff2) format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:JBM;font-weight:500;src:url(assets/fonts/jetbrains-mono-latin-500-normal.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:JBM;font-weight:500;src:url(assets/fonts/jetbrains-mono-latin-ext-500-normal.woff2) format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:JBM;font-weight:700;src:url(assets/fonts/jetbrains-mono-latin-700-normal.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:JBM;font-weight:700;src:url(assets/fonts/jetbrains-mono-latin-ext-700-normal.woff2) format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:Anton;font-weight:400;src:url(assets/fonts/anton-latin-400-normal.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:Anton;font-weight:400;src:url(assets/fonts/anton-latin-ext-400-normal.woff2) format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
 :root{--brand:#1F5FDB;--brand2:#3D7BFF;--brand3:#9DB8FF;--win:#22C55E;--win2:#4ADE80;--loss:#EF4444;--loss2:#F87171;--amb:#F5A524;
   --muted:rgba(255,255,255,.66);--glass:rgba(8,14,32,.66);--line:rgba(255,255,255,.14)}
 *{box-sizing:border-box;margin:0;padding:0}
@@ -219,6 +225,8 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#03060F}
 .mk .app{margin-top:14px;padding:12px 18px;border-radius:16px;background:#EEF2FF;font:800 30px Manrope;color:#1E3A8A}
 .mk .app span{display:block;font:700 16px JBM;letter-spacing:3px;text-transform:uppercase;color:#6366F1;margin-bottom:2px}
 .mk.simple .yn .y.on,.mk.simple .yn .n.on{background:#DCFCE7;color:#15803D;box-shadow:inset 0 0 0 4px #22C55E}
+.mk.tip .yn .on::after{display:none}.mk.tip .yn .y.on{background:#DCFCE7;color:#15803D;box-shadow:inset 0 0 0 4px #22C55E}.mk.tip .yn div{font-size:52px}
+.mk .bk{margin-top:16px;font:700 24px Manrope;color:#475569}.mk .bk span{margin-right:10px;padding:3px 10px;border-radius:8px;background:#F1F5F9;font:700 16px JBM;letter-spacing:2px;text-transform:uppercase;color:#64748B}
 .mk .edge.conf{background:linear-gradient(90deg,#1F5FDB,#3D7BFF);font-size:34px}
 .mk .q .badge{width:96px;height:96px;flex-shrink:0}
 .mk .q b{font:800 50px/1.08 Manrope;letter-spacing:-1px}
@@ -409,6 +417,15 @@ const built = D.scenes.map((sc, k) => {
   } else if (sc.type === 'pm_hook') {
     el.innerHTML = `<div class="crw">${D.picks.map(q => badge(q.bh) + badge(q.ba)).join('')}</div><div class="on"><span class="chip">${html(b.chip || '')}</span></div>
       <div class="big A">${html(b.title || 'Prediction')}<br><span>${html(b.title2 || 'market plays')}</span></div>`
+  } else if (sc.type === 'pm_tip') {
+    const q = D.picks[sc.i], t = b.tip
+    el.innerHTML = `<div class="fx"><div class="t">${badge(q.bh)}<b>${html(q.home)}</b></div><div class="mid">${html(q.kickoff || '')}<span>${html(q.stage || q.competition || '')}</span></div><div class="t a">${badge(q.ba)}<b>${html(q.away)}</b></div></div>
+      <div class="mk simple tip"><div class="hd"><span class="lg"><i style="height:14px"></i><i style="height:21px"></i><i style="height:28px"></i></span>cmvng · ${html(b.venue || "today's singles")}</div>
+        <div class="app"><span>The app's pick</span>${html(t.pick)}</div>
+        <div class="yn"><div class="y on"><span>Odds</span>${(+t.odds).toFixed(2)}</div><div class="n"><span>$100 returns</span>$${Math.round(100 * t.odds)}</div></div>
+        ${t.backup ? `<div class="bk"><span>Backup</span>${html(t.backup)}</div>` : ''}
+        <div class="ft2"><div class="edge conf">${Math.round(t.conf)}% confidence</div><div class="pay">if it wins<br>${html(q.kickoff || '')} Lagos</div></div></div>`
+    if (!PRES) el.classList.add('nop')
   } else if (sc.type === 'pm_pick' && b.market?.app) {
     const q = D.picks[sc.i], mk = b.market, L = mk.labels || ['YES', 'NO'], tb = mk.team === 'away' ? q.ba : mk.team === 'home' ? q.bh : null
     el.innerHTML = `<div class="fx"><div class="t">${badge(q.bh)}<b>${html(q.home)}</b></div><div class="mid">${html(q.kickoff || '')}<span>${html(q.stage || q.competition || '')}</span></div><div class="t a">${badge(q.ba)}<b>${html(q.away)}</b></div></div>
@@ -432,7 +449,7 @@ const built = D.scenes.map((sc, k) => {
     if (!PRES) el.classList.add('nop')
   } else if (sc.type === 'pm_slate') {
     el.innerHTML = `<div class="ttl A">${html(b.title || "Today's plays")}</div><div class="lst" style="top:${PRES ? 300 : 340}px">${(b.rows || []).map(r => { const q = D.picks[r.match]
-      return `<div class="it">${badge(q.bh)}${badge(q.ba)}<div class="w"><b>${html(r.label)}</b><span>${html(q.kickoff || '')} · ${Math.round(r.price * 100)}¢</span></div><div class="sd y">${html(r.side)}</div><div class="eg">${r.ours !== undefined ? '+' + Math.round((r.ours - r.price) * 100) + '¢' : Math.round(r.price * 100) + '¢'}</div></div>` }).join('')}</div>`
+      return `<div class="it">${badge(q.bh)}${badge(q.ba)}<div class="w"><b>${html(r.label)}</b><span>${html(q.kickoff || '')} · ${r.odds ? 'odds ' + (+r.odds).toFixed(2) : Math.round(r.price * 100) + '¢'}</span></div><div class="sd y">${html(r.side)}</div><div class="eg">${r.odds ? (+r.odds).toFixed(2) : r.ours !== undefined ? '+' + Math.round((r.ours - r.price) * 100) + '¢' : Math.round(r.price * 100) + '¢'}</div></div>` }).join('')}</div>`
   } else if (sc.type === 'pm_outro') {
     el.innerHTML = `<div class="big A">${html(b.big || 'Follow for more')}</div><div class="warn"><span class="chip">${html(b.warn || '18+ · Prices move · Not financial advice')}</span></div><div class="fol"><span class="chip">${html(b.follow || 'Follow for tomorrow\'s plays')}</span></div>`
     if (!PRES) el.classList.add('nop')
@@ -529,7 +546,7 @@ function draw(k, lt, sc) {
     slam($('.rs', el), lt, 0.12, 1.4, 0.28); slam($('.tal', el), lt, tallyAt(sc), 2.2, 0.28); el.style.transform = shake(lt, tallyAt(sc) + 0.03, 20)
   } else if (sc.type === 'pm_hook') {
     $$('.crw .badge', el).forEach((x, j) => slam(x, lt, 0.05 + j * 0.04, 1.6, 0.22)); rise([$('.on', el)], lt, 0.3); slam($('.big', el), lt, 0.5, 1.8, 0.3); el.style.transform = shake(lt, 0.55, 16)
-  } else if (sc.type === 'pm_pick' || sc.type === 'pm_pass') {
+  } else if (sc.type === 'pm_pick' || sc.type === 'pm_pass' || sc.type === 'pm_tip') {
     const q = P(lt, 0, 0.35, E.outBack); $('.fx', el).style.transform = `translate3d(0,${(1 - q) * -200}px,0)`; $('.fx', el).style.opacity = clamp(q * 2)
     slam($('.mk', el), lt, 0.2, 1.2, 0.3)
     const at = (S(sc, 1)[0] || 1.4) - 0.1
@@ -584,7 +601,7 @@ window.fxEvents = function () {
     if (sc.type === 'rx_intro') { add(T + 0.5, 'boom'); add(T + 0.1, 'riser', 0.5) }
     if (sc.type === 'rx_take') add(T + 0.28, 'pop')
     if (sc.type === 'pm_hook') { add(T + 0.5, 'boom'); add(T + 0.1, 'riser', 0.5) }
-    if (sc.type === 'pm_pick') { add(T + 0.22, 'pop'); add(T + edgeAt(sc), 'boom', 0.7); add(T + edgeAt(sc) + 0.1, 'cash', 0.8) }
+    if (sc.type === 'pm_pick' || sc.type === 'pm_tip') { add(T + 0.22, 'pop'); add(T + edgeAt(sc), 'boom', 0.7); add(T + edgeAt(sc) + 0.1, 'cash', 0.8) }
     if (sc.type === 'pm_pass') { add(T + 0.22, 'pop'); add(T + edgeAt(sc) + 0.2, 'boom', 0.8); add(T + edgeAt(sc) + 0.3, 'scratch', 0.8) }
     if (sc.type === 'pm_slate') (sc.data.rows || []).forEach((r, j) => add(T + 0.3 + j * 0.35, 'tick' + (j ? j + 1 : '')))
     if (sc.type === 'pm_outro') add(T + 0.15, 'impact', 0.6)
@@ -602,7 +619,7 @@ let seed = 99; const rnd = () => (seed = (seed * 1103515245 + 12345) % 214748364
 const gc = document.createElement('canvas'); gc.width = gc.height = 256
 { const x = gc.getContext('2d'), d = x.createImageData(256, 256); for (let i = 0; i < d.data.length; i += 4) { const v = rnd() * 255; d.data[i] = d.data[i + 1] = d.data[i + 2] = v; d.data[i + 3] = 255 } x.putImageData(d, 0, 0) }
 $('#grain').style.backgroundImage = `url(${gc.toDataURL()})`
-const LABEL = { pm_hook: '', pm_pick: '', pm_pass: '', pm_slate: '', pm_outro: '', rx_intro: '', rx_take: '', rx_reveal: '', rx_outro: '', rv_quote: 'Reaction', rv_hook: 'Full time', rv_moment: 'Key moment', rv_meme: '', rv_stats: 'The numbers', rv_read: 'Our read', rv_table: 'What it means', rv_ratings: 'Ratings', rv_cta: '' }
+const LABEL = { pm_hook: '', pm_pick: '', pm_tip: '', pm_pass: '', pm_slate: '', pm_outro: '', rx_intro: '', rx_take: '', rx_reveal: '', rx_outro: '', rv_quote: 'Reaction', rv_hook: 'Full time', rv_moment: 'Key moment', rv_meme: '', rv_stats: 'The numbers', rv_read: 'Our read', rv_table: 'What it means', rv_ratings: 'Ratings', rv_cta: '' }
 
 window.renderAt = async function (t) {
   let k = D.scenes.findIndex(s => t >= s.start && t < s.start + s.dur); if (k < 0) k = D.scenes.length - 1

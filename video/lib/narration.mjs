@@ -25,7 +25,8 @@ const SAY_NAMES = {
   Romelu: 'Ro-meh-loo', Lukaku: 'Loo-kah-koo', 'Barış Alper Yılmaz': 'Bah-rish Al-per Yil-maz', 'Liège': 'Lee-ezh', Sclessin: 'Skleh-san', Zenica: 'Zeh-nitsa',
   Zinedine: 'Zee-neh-deen', Olise: 'Oh-leese', 'Pio Esposito': 'Pee-yo Esposeeto', Esposito: 'Esposeeto', Meazza: 'Meh-atza', 'Doué': 'Doo-ay', Cherki: 'Sher-kee',
   'Çalhanoğlu': 'Chal-han-oh-loo', 'Kökçü': 'Kerk-choo',
-  'Alajbegović': 'Ala-ee-beh-go-vitch', 'Adžić': 'Ad-jitch', Kakoullis: 'Ka-koo-lis', Konomis: 'Ko-no-mis', 'De Bruyne': 'De Broyne', 'Zieliński': 'Jeh-lin-ski', 'Drăgușin': 'Dra-goo-sheen', Kerkez: 'Ker-kez', Upamecano: 'Oo-pa-meh-cano',
+  Rijeka: 'Ree-yeh-ka', 'Modrić': 'Mod-ritch', 'Kovačić': 'Ko-va-chitch', Xhaka: 'Jah-ka', Gvardiol: 'Gvar-dee-ol', 'Šulc': 'Shults', Oviedo: 'Oh-vee-ay-doh',
+  Rivne: 'Reev-neh', Kudrivka: 'Koo-driv-ka', 'Lanús': 'Lah-noos', Czechia: 'Check-ee-a', Justicia: 'Hoos-tee-see-a',   'Alajbegović': 'Ala-ee-beh-go-vitch', 'Adžić': 'Ad-jitch', Kakoullis: 'Ka-koo-lis', Konomis: 'Ko-no-mis', 'De Bruyne': 'De Broyne', 'Zieliński': 'Jeh-lin-ski', 'Drăgușin': 'Dra-goo-sheen', Kerkez: 'Ker-kez', Upamecano: 'Oo-pa-meh-cano',
 }
 // letter-aware edges: \b treats accented letters as non-letters, so "Doué" or "Çalhanoğlu" would never match
 const NAME_RE = new RegExp(`(?<!\\p{L})(${Object.keys(SAY_NAMES).join('|')})(?!\\p{L})`, 'gu')
@@ -203,7 +204,8 @@ function buildPreviewScenes(cfg, [p, ...others]) {
   }
   // the round-up: tonight's other matches (picks 2, 3, …), one screen each with the app's numbers and a researched note
   others.forEach((r, j) => {
-    if (r.home_win === undefined) return
+    // without the app's numbers, a round-up screen still runs when it carries a researched note and our read (the script's lines)
+    if (r.home_win === undefined) { if (r.round?.read) scenes.push({ type: 'pv_round', i: j + 1, say: [W(`${j ? 'And' : 'Elsewhere,'} ${r.home} against ${r.away}. ${r.round.read}.`)] }); return }
     const fav = r.home_win >= r.away_win ? [r.home, r.home_win] : [r.away, r.away_win]
     scenes.push({ type: 'pv_round', i: j + 1, say: [W(`${j ? 'And' : 'Elsewhere,'} ${r.home} against ${r.away}. Our model makes ${fav[0]} favourites, at ${Math.round(fav[1])}%.`)] })
   })

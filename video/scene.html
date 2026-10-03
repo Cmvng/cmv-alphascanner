@@ -5,12 +5,18 @@
 <!-- cmvng picks / results video template (1080×1920). Driven entirely by window.DATA (built by make-video.mjs).
      window.renderAt(t) draws the frame at time t (seconds); window.fxEvents() lists the sound effects in sync. -->
 <style>
-@font-face{font-family:Manrope;font-weight:400;src:url(assets/fonts/manrope-latin-400-normal.woff2) format('woff2')}
-@font-face{font-family:Manrope;font-weight:600;src:url(assets/fonts/manrope-latin-600-normal.woff2) format('woff2')}
-@font-face{font-family:Manrope;font-weight:800;src:url(assets/fonts/manrope-latin-800-normal.woff2) format('woff2')}
-@font-face{font-family:JBM;font-weight:500;src:url(assets/fonts/jetbrains-mono-latin-500-normal.woff2) format('woff2')}
-@font-face{font-family:JBM;font-weight:700;src:url(assets/fonts/jetbrains-mono-latin-700-normal.woff2) format('woff2')}
-@font-face{font-family:Anton;font-weight:400;src:url(assets/fonts/anton-latin-400-normal.woff2) format('woff2')}
+@font-face{font-family:Manrope;font-weight:400;src:url(assets/fonts/manrope-latin-400-normal.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:Manrope;font-weight:400;src:url(assets/fonts/manrope-latin-ext-400-normal.woff2) format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:Manrope;font-weight:600;src:url(assets/fonts/manrope-latin-600-normal.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:Manrope;font-weight:600;src:url(assets/fonts/manrope-latin-ext-600-normal.woff2) format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:Manrope;font-weight:800;src:url(assets/fonts/manrope-latin-800-normal.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:Manrope;font-weight:800;src:url(assets/fonts/manrope-latin-ext-800-normal.woff2) format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:JBM;font-weight:500;src:url(assets/fonts/jetbrains-mono-latin-500-normal.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:JBM;font-weight:500;src:url(assets/fonts/jetbrains-mono-latin-ext-500-normal.woff2) format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:JBM;font-weight:700;src:url(assets/fonts/jetbrains-mono-latin-700-normal.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:JBM;font-weight:700;src:url(assets/fonts/jetbrains-mono-latin-ext-700-normal.woff2) format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:Anton;font-weight:400;src:url(assets/fonts/anton-latin-400-normal.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:Anton;font-weight:400;src:url(assets/fonts/anton-latin-ext-400-normal.woff2) format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
 :root{--brand:#1F5FDB;--brand2:#3D7BFF;--brand3:#9DB8FF;--win:#22C55E;--win2:#4ADE80;--loss:#EF4444;--loss2:#F87171;--amb:#F5A524;
   --muted:rgba(255,255,255,.66);--glass:rgba(8,14,32,.62);--line:rgba(255,255,255,.14)}
 *{box-sizing:border-box;margin:0;padding:0}
@@ -299,6 +305,7 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#03060F}
 .pv_round .lab b{display:block;font-size:60px;line-height:1}
 .pv_round .lab span{display:block;margin-top:4px;font:700 19px JBM;letter-spacing:3px;text-transform:uppercase;color:var(--muted)}
 .pv_round .box .pt{font-size:32px;margin-top:22px}
+.pv_round .rd{margin-top:26px;text-align:center}.pv_round .rd .chip{font-size:30px;padding:14px 26px;white-space:normal;line-height:1.3}
 .pv_round .cnt{position:absolute;right:66px;top:466px;font:700 24px JBM;letter-spacing:4px;color:var(--brand3)}
 
 /* captions (inside the safe zone: clear of the phone's bottom bar and side buttons) */
@@ -546,9 +553,9 @@ function buildPreview(type, p) {
     const k = D.picks.indexOf(p), n = D.picks.length - 1, fs = nm => nm.length > 11 ? 44 : nm.length > 8 ? 52 : 60
     return `<div class="t1 A long">${html(r.title || 'Around the league')}</div><div class="t2">${html(r.stage || p.competition || '')}</div><div class="cnt">${k} / ${n}</div>
       <div class="card box"><div class="mu2"><div class="sd">${badge(p.bh)}<b class="A" style="font-size:${fs(p.home)}px">${html(p.home)}</b></div><div class="v A">vs</div><div class="sd">${badge(p.ba)}<b class="A" style="font-size:${fs(p.away)}px">${html(p.away)}</b></div></div>
-        <div class="xgl"><b class="A" data-n="${p.xg_home}">0.0</b><span>xG</span><b class="A" data-n="${p.xg_away}">0.0</b></div>
+        ${p.home_win != null ? `<div class="xgl"><b class="A" data-n="${p.xg_home}">0.0</b><span>xG</span><b class="A" data-n="${p.xg_away}">0.0</b></div>
         <div class="tri">${segs.map(([v, c]) => `<i style="width:${v}%;background:${c}"></i>`).join('')}</div>
-        <div class="lab">${segs.map(([v, , nm]) => `<div><b class="A" data-n="${v}">0%</b><span>${html(nm)}</span></div>`).join('')}</div>
+        <div class="lab">${segs.map(([v, , nm]) => `<div><b class="A" data-n="${v}">0%</b><span>${html(nm)}</span></div>`).join('')}</div>` : r.read ? `<div class="rd"><span class="chip">${html(r.read)}</span></div>` : ''}
         ${(r.points || []).slice(0, 2).map(x => `<div class="pt"><i></i><div>${html(x)}</div></div>`).join('')}</div>`
   }
   if (type === 'pv_cta') return `<div class="wrap"><div class="logo"><span class="bars"><i style="height:64px"></i><i style="height:98px"></i><i style="height:132px"></i></span>cmvng</div>
@@ -720,6 +727,7 @@ function drawPreview(sc, el, lt) {
       $$('.xgl b', el).forEach(n => { n.textContent = (+n.dataset.n * P(lt, 0.6, 1.5, E.outCubic) + 1e-9).toFixed(1) })
       $$('.tri i', el).forEach((n, j) => { n.style.transform = `scaleX(${P(lt, 0.8 + j * 0.2, 1.4 + j * 0.2, E.outCubic)})` })
       $$('.lab b', el).forEach((n, j) => { n.textContent = Math.round(+n.dataset.n * P(lt, 0.8 + j * 0.2, 1.6 + j * 0.2, E.outCubic)) + '%' })
+      const rd = $('.rd', el); if (rd) slam(rd, lt, (S(sc, 1)[0] || 1.4) - 0.1, 1.6, 0.25)
       const at = Math.max(1.9, (S(sc, 1)[0] || 2.4) - 0.3); $$('.box .pt', el).forEach((n, j) => rise([n], lt, at + j * 0.6, 0, 24))
     } else if (sc.type === 'pv_score') {
       $$('.tile', el).forEach((t, j) => slam(t, lt, 0.35 + j * 0.3, 1.4, 0.3))
@@ -842,7 +850,8 @@ window.ready = (async () => {
   await document.fonts.ready
   await Promise.all([...document.images].map(i => i.decode().catch(() => {})))
   // decode the stadium photos too (CSS backgrounds), so no frame shows a half-loaded picture
-  const urls = [...new Set(D.picks.map(p => p.stadium && p.stadium.src).filter(Boolean))]
+  // …and the player photos (analysis cards and the players style), which are CSS backgrounds as well
+  const urls = [...new Set([...D.picks.flatMap(p => [p.stadium?.src, ...(p.players || []).map(x => x.src)]), ...(D.cfg.analysis?.players || []).map(x => x.photo?.src)].filter(Boolean))]
   await Promise.all(urls.map(u => new Promise(r => { const im = new Image(); im.onload = im.onerror = () => im.decode ? im.decode().then(r, r) : r(); im.src = u })))
   return true
 })()
