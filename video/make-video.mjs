@@ -109,7 +109,8 @@ if (cfg.style === 'players') console.log(`Players style: ${picks.filter(p => p.p
 // matched to the video's mood (analysis → groove first; tips, reactions, results → hype first).
 // A re-render of the same file keeps its track (--new-music picks another).
 function pickTrack() {
-  const lib = JSON.parse(fs.readFileSync(path.join(DIR, 'lib', 'music.json'), 'utf8')).tracks
+  // retired tracks (the old defaults the owner found repetitive) never come back in rotation
+  const lib = JSON.parse(fs.readFileSync(path.join(DIR, 'lib', 'music.json'), 'utf8')).tracks.filter(t => !t.retired)
   const hist = path.join(CACHE, 'music', 'history.json')
   let h = { used: [], by: {} }
   try { const j = JSON.parse(fs.readFileSync(hist, 'utf8')); h = Array.isArray(j) ? { used: j, by: {} } : j } catch {}
