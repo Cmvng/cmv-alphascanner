@@ -175,6 +175,10 @@ at stills, then render `--fmt vertical` and `--fmt wide`. Always clean the voice
 keep the music under it (`level` -6, `duck` 10): the owner wants their voice clear and forward. On a crypto video
 the showcase is the coin itself (live price, 24h change, 4-hour candles with the levels they talked about), not the
 site. Reference: `eth-2026-10-02.edl.json`.
+Phone screen recordings (no face-cam) use `"layout": "phone"` (reference `meme-2026-10-03.edl.json`). The owner's
+rules from that video: never clip or drop words inside a sentence (cut only at real silences, whole phrases, via
+`video/lib/phrases.py`), keep pauses natural, show the screen full-frame and zoomed in on what they are talking about
+(zoom keyframes that follow the scroll), and check every cut edge and every number on screen before sending.
 
 ## 2. Write the script (the presenter is a football analyst)
 

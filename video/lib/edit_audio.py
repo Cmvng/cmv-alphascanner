@@ -42,12 +42,15 @@ def pieces_for(words, rng, e, k, floor, gap_keep=0.2, gap_min=0.38):
     A range is [first, last] word index, optionally with { "pre"/"post": seconds to widen } or { "start"/"end": source
     seconds } to fix a cut by hand: whisper's word edges can be a syllable off ("resistance", "3,000" ending early), so
     every cut is checked by transcribing the edited voice."""
-    a, b = rng[0], rng[1]; opt = rng[2] if len(rng) > 2 else {}
-    s = words[a]['s']; t_end = words[b]['e']
-    if b + 1 < len(words): t_end = min(t_end, words[b + 1]['s'])
-    if a > 0: s = max(s, words[a - 1]['e'] - 0.02)
-    s = snap(e, k, s, -0.05, 0.02); t_end = snap(e, k, t_end, 0.0, 0.12)
-    s = opt.get('start', s - opt.get('pre', 0)); t_end = opt.get('end', t_end + opt.get('post', 0))   # by-hand fixes, in source seconds
+    if isinstance(rng, dict):                            # { "t": [start, end] } in source seconds: a phrase cut at its silences
+        s, t_end = rng['t']
+    else:
+        a, b = rng[0], rng[1]; opt = rng[2] if len(rng) > 2 else {}
+        s = words[a]['s']; t_end = words[b]['e']
+        if b + 1 < len(words): t_end = min(t_end, words[b + 1]['s'])
+        if a > 0: s = max(s, words[a - 1]['e'] - 0.02)
+        s = snap(e, k, s, -0.05, 0.02); t_end = snap(e, k, t_end, 0.0, 0.12)
+        s = opt.get('start', s - opt.get('pre', 0)); t_end = opt.get('end', t_end + opt.get('post', 0))   # by-hand fixes, in source seconds
     # pauses inside: frames below the floor for longer than gap_min
     i0, i1 = int(s * SR / k), int(t_end * SR / k)
     quiet = e[i0:i1] < floor
@@ -85,7 +88,7 @@ def plan(edl_path, out_dir):
     def place(kind, item, gap_after):
         nonlocal t
         ps = []
-        for rng in item['w']: ps += pieces_for(words, rng, e, k, floor)
+        for rng in item['w']: ps += pieces_for(words, rng, e, k, floor, T.get('gap_keep', 0.2), T.get('gap_min', 0.38))
         seg = {'kind': kind, 'start': round(t, 3), 'pieces': []}
         for a, b in ps:
             seg['pieces'].append({'src': a, 'dur': round(b - a, 3), 'out': round(t, 3)}); t += b - a
@@ -104,6 +107,34 @@ def plan(edl_path, out_dir):
             segs.append({**ins, 'kind2': ins.get('kind'), 'kind': 'insert', 'start': round(t + 0.1, 3), 'end': round(t + 0.1 + d, 3)}); t += 0.1 + d + 0.25
             continue
         place('clip', c, T.get('clip_gap', 0.2))
+    # captions timed to the spoken words: each clip's caption text is aligned to the word timings that fall in its pieces
+    if E.get('caption_words'):
+        import difflib, re
+        CW = json.load(open(os.path.join(base, E['caption_words'])))
+        norm = lambda w: re.sub(r"[^a-z0-9%$]", '', w.lower())
+        for sg in segs:
+            if not sg.get('pieces') or not sg.get('cap'): continue
+            ws = []
+            for p_ in sg['pieces']:
+                a_, b_ = p_['src'], p_['src'] + p_['dur']
+                for w in CW:
+                    m_ = (w['s'] + w['e']) / 2
+                    if a_ <= m_ < b_: ws.append({'n': norm(w['w']), 't0': round(p_['out'] + max(0, w['s'] - a_), 3), 't1': round(p_['out'] + min(p_['dur'], w['e'] - a_), 3)})
+            toks = sg['cap'].split(); tn = [norm(x) for x in toks]
+            sm = difflib.SequenceMatcher(None, tn, [w['n'] for w in ws], autojunk=False)
+            tm = [None] * len(toks)
+            for op, i1, i2, j1, j2 in sm.get_opcodes():
+                if op == 'equal':
+                    for k_ in range(i2 - i1): tm[i1 + k_] = (ws[j1 + k_]['t0'], ws[j1 + k_]['t1'])
+                elif op == 'replace' and j2 > j1:          # spread the caption words over the heard words they replace
+                    a0, b0 = ws[j1]['t0'], ws[j2 - 1]['t1']
+                    for k_ in range(i2 - i1): tm[i1 + k_] = (a0 + (b0 - a0) * k_ / (i2 - i1), a0 + (b0 - a0) * (k_ + 1) / (i2 - i1))
+            t_lo, t_hi = sg['pieces'][0]['out'], sg['end']       # words with no match sit between their neighbours
+            for i_ in range(len(toks)):
+                if tm[i_] is None:
+                    prv = next((tm[j][1] for j in range(i_ - 1, -1, -1) if tm[j]), t_lo); nxt = next((tm[j][0] for j in range(i_ + 1, len(toks)) if tm[j]), t_hi)
+                    tm[i_] = (prv, max(prv + 0.05, min(nxt, prv + 0.3)))
+            sg['words'] = [{'w': toks[i_], 't0': round(tm[i_][0], 3), 't1': round(tm[i_][1], 3)} for i_ in range(len(toks))]
     segs.append({'kind': 'end', 'start': round(t + 0.2, 3), 'end': round(t + 0.2 + T.get('end', 3.8), 3), **E.get('end', {})})
     dur = round(t + 0.2 + T.get('end', 3.8), 3)
     # the voice on the new timeline: pieces with 12 ms fades, then the clean-up chain

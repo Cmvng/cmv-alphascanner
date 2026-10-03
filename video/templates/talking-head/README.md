@@ -53,21 +53,29 @@ with `duck` 10 keeps the voice well on top), ducked under the voice.
 
 ## Phone screen recordings (no face-cam)
 
-`"layout": "phone"` with `"chart": [0, 0, width, height]` (the whole screen) and no `face`: the screen sits in a tall
-panel with the captions below it. Reference: the memecoin video of 3 Oct 2026, `meme-2026-10-03.edl.json` (a 7.5-minute
-Fomo app recording cut to 3:30).
+`"layout": "phone"` with `"chart": [0, 0, width, height]` (the whole screen) and no `face`: the screen fills the frame
+(full bleed), zoomed in on what the owner is talking about, captions over a dark fade at the bottom. Reference: the
+memecoin video of 3 Oct 2026, `meme-2026-10-03.edl.json` (a 7.5-minute Fomo app recording, 5:24 edit).
 
-- **Chapters:** `"chapter": "Creator fees", "chapter_sub": "The good side of all this"` on a clip slams a numbered
-  card over the screen as that topic starts (the voice carries on); the header chip then names the topic. Use the
-  owner's own list of topics, in their order.
-- **Inserts:** `{ "id": "BOARD", "insert": { "kind": "board", ... } }` in the clip list places a full-screen graphic
-  between clips. `board`: rows of `{ name, what, from, to, a, b }` (the % change is worked out from a → b);
-  `compare`: two columns of `{ name, tag, rows }` with a tagline (`foot`). Only figures the owner said or showed on
-  screen; the source line says so.
-- **Text sizes:** a cold-open line or the title can take `"size"` (px) and a line break (`\n`) for long words
-  ("EXIT\nLIQUIDITY").
-- **Long rambles:** cut hard. Search-and-scroll moments ("where is he… let me see") go; keep the result. Check the
-  numbers on screen before putting them in a callout (the 11,000% was +11,528.99% on the trade card).
+**The owner's feedback on the first cut (3 Oct): "words were getting cut out" and "it's getting zoomed out".** So:
+
+- **Cut only at real silences.** `python3 video/lib/phrases.py <out>/src_df3.wav words.json phrases.json` splits the
+  cleaned voice into phrases; clips take whole phrases as `{ "t": [start, end] }` ranges. Never cut inside a phrase,
+  never drop words from the middle of a sentence; drop only whole phrases (searching, scrolling, "let me see", false
+  starts, an exact repeat). Keep pauses natural: `"timing": { "gap_min": 0.7, "gap_keep": 0.4 }`.
+- **Check every edge before rendering:** each piece must start and end below about -45 dB in the cleaned voice, and a
+  transcript of each clip's audio must contain its first and last words.
+- **Zoom in and follow the scroll.** `"zk": [[source seconds, x, y, width], …]` keyframes per clip; width 0.86 for
+  lists (whole rows, names to values), 0.5–0.6 on the number being said (a market cap, a PnL, a % change). Choose them
+  from gridded filmstrips: `python3 video/lib/zoom_strip.py <start> <end> <frames> strip.png raw.mp4`.
+- **Captions timed to the words:** `"caption_words": "words_big.json"` (faster-whisper `distil-large-v3`, word
+  timings, with a prompt naming the coins); each clip's `cap` is the owner's words, lightly cleaned, aligned word by word.
+- **Callouts when the owner says it:** `"call_t": <source seconds>` places a clip's callout at that moment.
+- **Check numbers against the screen.** The STONK holder was "13 million" (chart: all-time high about $300M, now
+  $191M), not 30 as one transcript heard; the 11,000% trade showed +11,528.99%.
+- **Chapters and inserts** as before: `"chapter"` on a clip; `{ "insert": { "kind": "board" | "compare", … } }` between
+  clips (figures only from what the owner said or showed).
+- **Text sizes:** a cold-open line or the title can take `"size"` (px) and `\n` line breaks.
 
 ## Rules
 
