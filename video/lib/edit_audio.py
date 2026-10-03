@@ -99,6 +99,10 @@ def plan(edl_path, out_dir):
             pr = E.get('product', {})        # its own kind ("coin": the coin itself, live) is kept as kind2
             segs.append({**pr, 'kind2': pr.get('kind'), 'kind': 'product', 'start': round(t + 0.1, 3), 'end': round(t + 0.1 + T.get('product', 8.5), 3)}); t += 0.1 + T.get('product', 8.5) + 0.25
             continue
+        if c.get('insert'):                 # a full-screen graphic between clips (a numbers board, a comparison card)
+            ins = c['insert']; d = ins.get('dur', 7.5)
+            segs.append({**ins, 'kind2': ins.get('kind'), 'kind': 'insert', 'start': round(t + 0.1, 3), 'end': round(t + 0.1 + d, 3)}); t += 0.1 + d + 0.25
+            continue
         place('clip', c, T.get('clip_gap', 0.2))
     segs.append({'kind': 'end', 'start': round(t + 0.2, 3), 'end': round(t + 0.2 + T.get('end', 3.8), 3), **E.get('end', {})})
     dur = round(t + 0.2 + T.get('end', 3.8), 3)

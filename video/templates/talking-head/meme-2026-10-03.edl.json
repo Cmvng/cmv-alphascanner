@@ -1,0 +1,520 @@
+{
+ "source": "raw.mp4",
+ "words": "words.json",
+ "layout": "phone",
+ "chart": [
+  0,
+  0,
+  1080,
+  2410
+ ],
+ "pair": "Memecoins · Fomo",
+ "handle": "@i_am_vickyd",
+ "voice": {
+  "enhance": "df3"
+ },
+ "music": {
+  "id": 370,
+  "level": -6,
+  "duck": 10
+ },
+ "cold": [
+  {
+   "w": [
+    [
+     286,
+     294,
+     {
+      "end": 107.0
+     }
+    ]
+   ],
+   "big": "−$141K",
+   "label": "down in 24 hours",
+   "cap": "It's currently down minus $141,000.",
+   "z": [
+    0.42,
+    0.25,
+    0.75
+   ]
+  },
+  {
+   "w": [
+    [
+     355,
+     366
+    ]
+   ],
+   "big": "$1.4M",
+   "label": "now down to $500K",
+   "cap": "1.4 million. Now it's down to 500K.",
+   "z": [
+    0.5,
+    0.6,
+    0.8
+   ]
+  },
+  {
+   "w": [
+    [
+     773,
+     780
+    ]
+   ],
+   "big": "11,000%",
+   "tone": "hot",
+   "label": "one runner",
+   "cap": "But it actually made 11,000%.",
+   "z": [
+    0.5,
+    0.62,
+    0.8
+   ]
+  },
+  {
+   "w": [
+    [
+     1000,
+     1009
+    ]
+   ],
+   "big": "EXIT\nLIQUIDITY",
+   "size": 210,
+   "tone": "red",
+   "glitch": true,
+   "label": "might be you",
+   "cap": "Most of the time, you might actually be exit liquidity.",
+   "z": [
+    0.5,
+    0.45,
+    1
+   ]
+  }
+ ],
+ "title": {
+  "top": "Memecoin trading",
+  "big": "THE OTHER\nSIDE",
+  "size": 200,
+  "sub": "The part you don't get to hear about"
+ },
+ "clips": [
+  {
+   "id": "hook",
+   "w": [
+    [
+     0,
+     42,
+     {
+      "end": 15.54
+     }
+    ]
+   ],
+   "cap": "The part of memecoin trading you don't get to hear about often. The part where you buy a token, you think it's going to be the next runner… and after a while it dumps.",
+   "z": [
+    0.5,
+    0.42,
+    1
+   ]
+  },
+  {
+   "id": "mostheld",
+   "chapter": "Trading on Fomo",
+   "chapter_sub": "The most held memecoins, two months on",
+   "w": [
+    [
+     57,
+     75
+    ]
+   ],
+   "call": "Most held · last 2 months",
+   "cap": "Look at the most held memecoins over the past two months: everything is tanking.",
+   "z": [
+    0.5,
+    0.47,
+    0.92
+   ]
+  },
+  {
+   "id": "ansem",
+   "w": [
+    [
+     83,
+     87
+    ],
+    [
+     110,
+     135
+    ]
+   ],
+   "call": "ANSEM · $400M+ → $128M",
+   "cap": "Let's start with Ansem token. It's currently in the down spiral, at 128 million market cap. The all-time high was 400 million.",
+   "z": [
+    0.5,
+    0.3,
+    1
+   ]
+  },
+  {
+   "id": "underwater",
+   "w": [
+    [
+     154,
+     170,
+     {
+      "start": 54.18
+     }
+    ]
+   ],
+   "call": "Top holders: −20% · −31%",
+   "cap": "So a lot of top holders are currently underwater on Ansem.",
+   "z": [
+    0.5,
+    0.45,
+    1
+   ]
+  },
+  {
+   "id": "fees",
+   "chapter": "Creator fees",
+   "chapter_sub": "The good side of all this",
+   "w": [
+    [
+     186,
+     190
+    ],
+    [
+     201,
+     218
+    ]
+   ],
+   "call": "Creators earn the fees",
+   "cap": "But on the positive side: for top creators, on an app like Fomo, they make money off creator fees.",
+   "z": [
+    0.5,
+    0.45,
+    0.92
+   ]
+  },
+  {
+   "id": "zcat",
+   "chapter": "The pain of losses",
+   "chapter_sub": "Real bags, real drawdowns",
+   "w": [
+    [
+     236,
+     253
+    ],
+    [
+     272,
+     279
+    ]
+   ],
+   "call": "ZCAT · $120M → $38M",
+   "cap": "Look at this token, ZCAT. A few weeks ago it was trading at 120 million market cap. Now it's trading at 38 million market cap.",
+   "z": [
+    0.5,
+    0.3,
+    1
+   ]
+  },
+  {
+   "id": "user",
+   "w": [
+    [
+     282,
+     294,
+     {
+      "end": 107.0
+     }
+    ]
+   ],
+   "call": "−$141K in 24 hours",
+   "cap": "This user is currently down minus $141,000.",
+   "z": [
+    0.45,
+    0.27,
+    0.82
+   ]
+  },
+  {
+   "id": "bag",
+   "w": [
+    [
+     338,
+     366
+    ]
+   ],
+   "call": "His ZCAT bag · $1.4M → ~$500K",
+   "cap": "His position on ZCAT, at its all-time high, was about 1.3 or 1.4 million. Now it's down to 500K.",
+   "z": [
+    0.5,
+    0.6,
+    1
+   ]
+  },
+  {
+   "id": "stonk",
+   "w": [
+    [
+     396,
+     400
+    ],
+    [
+     426,
+     442
+    ]
+   ],
+   "call": "STONK holder · $30M → $9.5M",
+   "cap": "Another token is STONK. Its top holders: at one point these were worth 30 million. Now they're worth 9.5 million.",
+   "z": [
+    0.5,
+    0.6,
+    1
+   ]
+  },
+  {
+   "id": "side",
+   "w": [
+    [
+     465,
+     479
+    ]
+   ],
+   "cap": "So this is the side of memecoin trading that doesn't get talked about.",
+   "z": [
+    0.5,
+    0.62,
+    0.9
+   ]
+  },
+  {
+   "id": "BOARD",
+   "insert": {
+    "kind": "board",
+    "dur": 7.2,
+    "kicker": "In numbers",
+    "title": "The other side",
+    "rows": [
+     {
+      "name": "ANSEM",
+      "what": "market cap · all-time high → now",
+      "from": "$400M+",
+      "to": "$128M",
+      "a": 400,
+      "b": 128
+     },
+     {
+      "name": "ZCAT",
+      "what": "market cap · weeks ago → now",
+      "from": "$120M",
+      "to": "$38M",
+      "a": 120,
+      "b": 38
+     },
+     {
+      "name": "STONK",
+      "what": "a top holder's bag",
+      "from": "$30M",
+      "to": "$9.5M",
+      "a": 30,
+      "b": 9.5
+     },
+     {
+      "name": "ZCAT",
+      "what": "one holder's bag · peak → now",
+      "from": "$1.4M",
+      "to": "$500K",
+      "a": 1400,
+      "b": 500
+     }
+    ],
+    "foot": "The part you don't hear about",
+    "source": "Figures as said in the video · Fomo app · 3 Oct 2026"
+   }
+  },
+  {
+   "id": "hold",
+   "chapter": "The holding culture",
+   "chapter_sub": "The plus side",
+   "w": [
+    [
+     480,
+     511
+    ]
+   ],
+   "call": "Hold → biggest winner?",
+   "cap": "And the plus side of it: all of this is also very underestimated. If you actually hold all of this, it might really be one of the biggest winners.",
+   "z": [
+    0.5,
+    0.42,
+    1
+   ]
+  },
+  {
+   "id": "frank",
+   "chapter": "Low cap or high cap?",
+   "chapter_sub": "Size it to your capital",
+   "w": [
+    [
+     727,
+     746
+    ],
+    [
+     773,
+     780
+    ]
+   ],
+   "call": "$24K → $2.79M MC · +11,529%",
+   "cap": "He bought the memecoin at 24K market cap, and it actually rallied to 2.7 million market cap. It actually made 11,000%.",
+   "z": [
+    0.5,
+    0.56,
+    1
+   ]
+  },
+  {
+   "id": "edge",
+   "w": [
+    [
+     784,
+     792
+    ],
+    [
+     803,
+     845
+    ]
+   ],
+   "call": "Small capital → under $100K MC",
+   "cap": "So the edge in memecoin trading: you don't have enough liquidity? You can go for shitters below 100K market cap. If you try more times than not, you might actually catch a runner. You never know.",
+   "z": [
+    0.5,
+    0.45,
+    1
+   ]
+  },
+  {
+   "id": "COMPARE",
+   "insert": {
+    "kind": "compare",
+    "dur": 8.2,
+    "kicker": "The edge",
+    "title": "Low cap or high cap?",
+    "title_size": 104,
+    "cols": [
+     {
+      "name": "LOW CAPS",
+      "tag": "Under $100K MC",
+      "rows": [
+       "Small capital, more shots",
+       "Try more times than not",
+       "One runner: 24K → 2.79M"
+      ]
+     },
+     {
+      "name": "HIGH CAPS",
+      "tag": "$100M+ MC",
+      "rows": [
+       "More capital and cash flow",
+       "Big names still bleed",
+       "$30M bag → $9.5M"
+      ]
+     }
+    ],
+    "foot": "Size it to your cash flow and capital",
+    "source": ""
+   }
+  },
+  {
+   "id": "stay",
+   "chapter": "Stay in the game",
+   "chapter_sub": "Game right. Strategy right.",
+   "w": [
+    [
+     894,
+     919
+    ]
+   ],
+   "cap": "But overall, if you stay and you buy the right token, the right token might really cover up for all your losses.",
+   "z": [
+    0.5,
+    0.4,
+    1
+   ]
+  },
+  {
+   "id": "strategy",
+   "w": [
+    [
+     920,
+     949
+    ]
+   ],
+   "call": "Game right · strategy right",
+   "cap": "The only thing is to have your game right and your strategy right. That helps you to actually stay in the game.",
+   "z": [
+    0.5,
+    0.55,
+    0.9
+   ]
+  },
+  {
+   "id": "exit",
+   "w": [
+    [
+     993,
+     1030
+    ]
+   ],
+   "call": "Exit liquidity?",
+   "cap": "And you also have to know: most of the time, you might actually be exit liquidity. You can also be exit liquidity for top KOLs looking to farm you off fees.",
+   "z": [
+    0.5,
+    0.45,
+    1
+   ]
+  },
+  {
+   "id": "farmed",
+   "w": [
+    [
+     1043,
+     1051
+    ]
+   ],
+   "cap": "You might actually be getting farmed by top creators.",
+   "z": [
+    0.5,
+    0.5,
+    0.86
+   ]
+  },
+  {
+   "id": "fun",
+   "w": [
+    [
+     1060,
+     1089
+    ]
+   ],
+   "cap": "So memecoins are actually very fun if you know how to play your cards right. But if you don't, it might be a very, very bad experience.",
+   "z": [
+    0.5,
+    0.35,
+    1
+   ]
+  }
+ ],
+ "end": {
+  "follow": "@i_am_vickyd",
+  "line": "Follow for more on memecoins",
+  "site": "Memecoins · the other side"
+ },
+ "timing": {
+  "lead": 0.35,
+  "cold_gap": 0.45,
+  "silence": 0.75,
+  "title": 1.6,
+  "clip_gap": 0.2,
+  "end": 3.8
+ }
+}

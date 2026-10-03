@@ -51,6 +51,24 @@ and street noise; about 18 dB lower noise floor), then a presence and level chai
 Without it: a gentle clean-up only. **Music:** a drop track (`music.id`, default 720), `level` -3 dB by default (-6
 with `duck` 10 keeps the voice well on top), ducked under the voice.
 
+## Phone screen recordings (no face-cam)
+
+`"layout": "phone"` with `"chart": [0, 0, width, height]` (the whole screen) and no `face`: the screen sits in a tall
+panel with the captions below it. Reference: the memecoin video of 3 Oct 2026, `meme-2026-10-03.edl.json` (a 7.5-minute
+Fomo app recording cut to 3:30).
+
+- **Chapters:** `"chapter": "Creator fees", "chapter_sub": "The good side of all this"` on a clip slams a numbered
+  card over the screen as that topic starts (the voice carries on); the header chip then names the topic. Use the
+  owner's own list of topics, in their order.
+- **Inserts:** `{ "id": "BOARD", "insert": { "kind": "board", ... } }` in the clip list places a full-screen graphic
+  between clips. `board`: rows of `{ name, what, from, to, a, b }` (the % change is worked out from a → b);
+  `compare`: two columns of `{ name, tag, rows }` with a tagline (`foot`). Only figures the owner said or showed on
+  screen; the source line says so.
+- **Text sizes:** a cold-open line or the title can take `"size"` (px) and a line break (`\n`) for long words
+  ("EXIT\nLIQUIDITY").
+- **Long rambles:** cut hard. Search-and-scroll moments ("where is he… let me see") go; keep the result. Check the
+  numbers on screen before putting them in a callout (the 11,000% was +11,528.99% on the trade card).
+
 ## Rules
 
 - Crypto content: "Not financial advice" stays on screen; no "guaranteed" or "sure" anywhere we add.

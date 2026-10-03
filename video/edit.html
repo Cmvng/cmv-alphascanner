@@ -111,6 +111,43 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#000}
 #stage.wide #coin .pts{left:120px;right:auto;top:610px;align-items:flex-start}
 #stage.wide #coin .pts div{font-size:32px}
 #stage.wide #coin .src{left:120px;right:auto;top:900px;text-align:left}
+/* phone layout (a phone screen recording, no face-cam): the screen in a tall panel, captions below it */
+#stage.phone #chartbox,#stage.phone #scrim{left:40px;top:140px;width:1000px;height:1330px;border-radius:36px}
+#stage.phone #facebox{display:none}
+#stage.phone #cap{top:1515px}
+#stage.phone #call{left:72px;top:176px}
+/* chapter card: slams in over the screen at the start of a new topic while the voice carries on */
+#chap{position:absolute;z-index:22;display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;overflow:hidden;border-radius:30px}
+#chap .bg{position:absolute;inset:0;background:radial-gradient(90% 60% at 50% 50%,rgba(16,42,82,.92) 0%,rgba(4,9,20,.95) 100%)}
+#chap .n{position:relative;font:400 60px Anton;color:var(--ink);background:var(--acc);border-radius:16px;padding:4px 26px;box-shadow:0 0 50px rgba(79,179,255,.45)}
+#chap .t{position:relative;align-self:stretch;margin-top:26px;padding:0 40px;font-size:124px;color:#fff;text-shadow:0 0 60px rgba(79,179,255,.35),0 18px 50px rgba(0,0,0,.8)}
+#chap .s{position:relative;align-self:stretch;margin-top:22px;padding:0 60px;font:800 38px/1.25 Manrope;color:rgba(255,255,255,.85)}
+/* inserts: full-screen graphics between clips — a numbers board, a two-column comparison */
+#ins{position:absolute;inset:0;z-index:45;background:radial-gradient(110% 70% at 50% 15%,#13233F 0%,#070D1A 60%,#020409 100%);overflow:hidden;display:none}
+#ins .kick{position:absolute;left:0;right:0;top:170px;text-align:center}
+#ins .ttl{position:absolute;left:40px;right:40px;top:250px;text-align:center;font-size:118px;color:#fff;text-shadow:0 0 60px rgba(79,179,255,.3),0 18px 50px rgba(0,0,0,.7)}
+#ins .body{position:absolute;left:44px;right:44px;top:560px}
+#ins .row{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:24px 30px;margin-bottom:22px;border-radius:26px;background:rgba(255,255,255,.05);border:2px solid rgba(255,255,255,.1)}
+#ins .row .nm{font:400 56px Anton;letter-spacing:1px;color:#fff;line-height:1}
+#ins .row .wh{font:700 21px JBM;letter-spacing:2px;color:rgba(255,255,255,.55);text-transform:uppercase;margin-top:10px}
+#ins .row .vals{text-align:right;flex-shrink:0}
+#ins .row .ft{font:800 32px Manrope;color:rgba(255,255,255,.8)}
+#ins .row .ft b{color:#fff}
+#ins .row .pc{font:400 76px Anton;color:#FF6B82;line-height:1;margin-top:4px;text-shadow:0 0 40px rgba(255,77,106,.35)}
+#ins .cmp{display:flex;gap:22px;align-items:stretch}
+#ins .col{flex:1;padding:34px 26px 30px;border-radius:30px;background:rgba(255,255,255,.05);border:2px solid rgba(255,255,255,.14)}
+#ins .col.a{border-color:rgba(79,179,255,.7);box-shadow:0 0 70px rgba(79,179,255,.18);background:rgba(79,179,255,.07)}
+#ins .col h3{font:400 76px Anton;letter-spacing:1px;color:#fff;line-height:1}
+#ins .col.a h3{color:var(--acc)}
+#ins .col .tg{display:inline-block;margin-top:14px;padding:8px 16px;border-radius:999px;font:700 21px JBM;letter-spacing:1px;background:rgba(255,255,255,.08);color:rgba(255,255,255,.85);text-transform:uppercase}
+#ins .col.a .tg{background:rgba(79,179,255,.16);color:var(--acc)}
+#ins .col .li{position:relative;font:800 31px/1.28 Manrope;margin-top:26px;padding-left:44px}
+#ins .col .li i{position:absolute;left:0;top:5px;width:28px;height:28px;border-radius:8px;background:rgba(255,255,255,.2)}
+#ins .col.a .li i{background:var(--acc)}
+#ins.cmpm .kick{top:290px}#ins.cmpm .ttl{top:370px}#ins.cmpm .body{top:640px}
+#ins.cmpm .col{padding:42px 28px 38px}#ins.cmpm .col h3{font-size:88px}#ins.cmpm .col .tg{font-size:23px}#ins.cmpm .col .li{font-size:35px;margin-top:34px;padding-left:48px}#ins.cmpm .col .li i{width:30px;height:30px;top:7px}
+#ins .foot2{position:absolute;left:40px;right:40px;top:1420px;text-align:center;font-size:84px;color:var(--acc);text-shadow:0 0 60px rgba(79,179,255,.4)}
+#ins .src{position:absolute;left:0;right:0;top:1660px;text-align:center;font:700 20px JBM;letter-spacing:1px;color:rgba(255,255,255,.45)}
 #foot{position:absolute;left:24px;right:24px;bottom:42px;text-align:center;font:700 19px JBM;letter-spacing:1px;color:rgba(255,255,255,.5);z-index:50}
 #flash{position:absolute;inset:0;background:var(--acc);opacity:0;z-index:60;mix-blend-mode:overlay;pointer-events:none}
 </style></head>
@@ -120,6 +157,7 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#000}
   <div id="hdr"><span class="chip w" id="pair"></span><span class="chip" id="hand"></span></div>
   <div class="box" id="chartbox"><div class="lay" id="chartlay"><img id="chart"><div class="mask"></div></div></div><div id="scrim"></div>
   <div id="call"></div>
+  <div id="chap"><div class="bg"></div><span class="n"></span><div class="t A"></div><div class="s"></div></div>
   <div class="box" id="facebox"><img id="face"></div>
   <div id="cap"></div>
   <div id="title"><span class="chip top"></span><div class="big A"></div><div class="sub"><span class="chip w"></span></div></div>
@@ -127,6 +165,7 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#000}
   <div id="prod"><div class="kick"><span class="chip w"></span></div><div class="brand A"></div><div class="line"></div>
     <div class="phone"><div class="isl"></div><div class="scr"><div class="sb"><b>9:41</b><span>5G <i></i></span></div><img class="pg"><img class="hd"><img class="nav"></div></div><div class="pts"></div></div>
   <div id="coin"><div class="kick"><span class="chip w"></span></div><div class="nm A"></div><div class="px A"></div><div class="chg"><span></span></div><div class="cc"><svg></svg></div><div class="pts"></div><div class="src"></div></div>
+  <div id="ins"><div class="kick"><span class="chip w"></span></div><div class="ttl A"></div><div class="body"></div><div class="foot2 A"></div><div class="src"></div></div>
   <div id="end"><div class="f1"></div><div class="f2 A"></div><div class="f3"><span class="chip"></span></div><div class="f4"><span class="chip w">Not financial advice</span></div></div>
   <div id="foot"></div>
   <div id="flash"></div>
@@ -149,10 +188,13 @@ function glitch(n, t, at, dur = 0.38) {
   return ` translate3d(${r * a}px,${Math.sin(t * 613) * a * 0.3}px,0) skewX(${r * 8}deg)`
 }
 if (D.fmt === 'wide') { $('#stage').classList.add('wide'); document.documentElement.style.cssText = document.body.style.cssText = 'width:1920px;height:1080px' }
+if (D.layout === 'phone') $('#stage').classList.add('phone')
 const FPS = D.fps, FW = D.frameW, FH = D.frameH, [cx0, cy0, cw0, ch0] = D.chart, FACE = D.face
 const SEG = D.segments, speak = SEG.filter(s => s.pieces?.length)
 for (const el of $$('.lay')) { el.style.width = FW + 'px'; el.style.height = FH + 'px' }
 if (D.mask) for (const m of $$('.lay .mask')) Object.assign(m.style, { left: D.mask.rect[0] + 'px', top: D.mask.rect[1] + 'px', width: D.mask.rect[2] + 'px', height: D.mask.rect[3] + 'px', background: D.mask.color })
+const CHAP = SEG.filter(s => s.kind === 'clip' && s.chapter), chapDur = s => s.chapter_dur || 1.8
+{ const cb = $('#chartbox'), c = $('#chap'); Object.assign(c.style, { left: cb.offsetLeft + 'px', top: cb.offsetTop + 'px', width: cb.offsetWidth + 'px', height: cb.offsetHeight + 'px' }) }
 const COIN = SEG.find(s => s.kind === 'product' && s.kind2 === 'coin')
 function coinChart(c) {          // 4-hour candles with the owner's zone and levels, drawn once; revealed in renderAt
   const cn = $('#coin'); cn.style.visibility = 'hidden'; cn.style.display = 'block'      // measure while laid out
@@ -185,8 +227,26 @@ function coinChart(c) {          // 4-hour candles with the owner's zone and lev
   $('#coin .src').textContent = `${c.coin} · Coinbase · ${c.asof}`
 }
 if (COIN) coinChart(COIN)
+const INS = SEG.filter(s => s.kind === 'insert')
+const pct = r => Math.round((r.b / r.a - 1) * 100)
+function insBuild(s) {
+  const el = $('#ins'); el.dataset.id = s.start; el.classList.toggle('cmpm', s.kind2 === 'compare' && D.fmt !== 'wide')
+  $('.kick .chip', el).textContent = s.kicker || ''; $('.ttl', el).textContent = s.title || ''; $('.foot2', el).textContent = s.foot || ''; $('.src', el).textContent = s.source || ''
+  const ttlSize = s.title_size; $('.ttl', el).style.fontSize = ttlSize ? ttlSize + 'px' : ''
+  if (s.kind2 === 'board') $('.body', el).innerHTML = s.rows.map(r => `<div class="row"><div><div class="nm">${html(r.name)}</div><div class="wh">${html(r.what || '')}</div></div>
+    <div class="vals"><div class="ft">${html(r.from)} → <b>${html(r.to)}</b></div><div class="pc">${pct(r)}%</div></div></div>`).join('')
+  else $('.body', el).innerHTML = `<div class="cmp">${s.cols.map((c, j) => `<div class="col ${j ? 'b' : 'a'}"><h3>${html(c.name)}</h3><span class="tg">${html(c.tag || '')}</span>
+    ${c.rows.map(x => `<div class="li"><i></i>${html(x)}</div>`).join('')}</div>`).join('')}</div>`
+  const b = $('.body', el); el.style.display = 'block'; $('.foot2', el).style.top = Math.min(1420, b.offsetTop + b.offsetHeight + 120) + 'px'    // the tagline sits under the graphic
+}
+// when each piece of an insert lands (seconds into it): shared by the picture and the sound
+function insTimes(s) {
+  if (s.kind2 === 'board') { const rows = s.rows.map((_, j) => 1.1 + j * 0.75); return { rows, foot: rows.at(-1) + 0.9 } }
+  const a = s.cols[0].rows.map((_, j) => 1.7 + j * 0.45), b = s.cols[1].rows.map((_, j) => a.at(-1) + 0.7 + j * 0.45)
+  return { cols: [0.9, 1.15], li: [a, b], foot: b.at(-1) + 0.8 }
+}
 $('#pair').textContent = D.pair || ''; $('#hand').textContent = D.handle || ''; $('#foot').textContent = `Not financial advice · ${D.handle || ''}`
-{ const t = SEG.find(s => s.kind === 'title') || {}; $('#title .top').textContent = t.top || ''; $('#title .big').textContent = t.big || ''; $('#title .sub .chip').textContent = t.sub || '' }
+{ const t = SEG.find(s => s.kind === 'title') || {}; $('#title .top').textContent = t.top || ''; $('#title .big').innerHTML = html(t.big || '').replace(/\n/g, '<br>'); $('#title .big').style.fontSize = t.size ? t.size + 'px' : ''; $('#title .sub .chip').textContent = t.sub || '' }
 { const p = SEG.find(s => s.kind === 'product'); if (p) { $('#prod .kick .chip').textContent = p.kicker || ''; $('#prod .brand').innerHTML = html(p.brand || '').replace(/^(\w+)/, '<b>$1</b>'); $('#prod .line').textContent = p.line || ''
   $('#prod .pg').src = p.shot; $('#prod .nav').src = p.bar; if (p.head) $('#prod .hd').src = p.head; else $('#prod .hd').remove(); $('#prod .pts').innerHTML = (p.points || []).map((x, j) => `<div><i>${j + 1}</i>${html(x)}</div>`).join('') } }
 { const e = SEG.find(s => s.kind === 'end'); if (e) { $('#end .f1').textContent = e.line || ''; $('#end .f2').textContent = e.follow || ''; $('#end .f3 .chip').textContent = e.site || '' } }
@@ -218,7 +278,7 @@ function frameAt(t) {
   if (nx && best.s.kind === 'cold' && nx.kind === 'clip') return { p: nx.pieces[0], j: 0, s: nx, f: 1 }
   return best
 }
-const zoomOf = s => s?.z || [0.6, 0.35, 0.6]
+const zoomOf = s => s?.z || (D.layout === 'phone' ? [0.5, 0.35, 1] : [0.6, 0.35, 0.6])
 function cropFor(z, push, aspect) {          // z = [centre x, centre y, width] as fractions of the frame → crop rect in px
   let w = Math.min(1, z[2] * (D.fmt === 'wide' ? 1.55 : 1)) * FW * (1 - push), h = w / aspect      // widescreen shows more of the chart
   if (h > ch0) { h = ch0; w = h * aspect }
@@ -226,6 +286,7 @@ function cropFor(z, push, aspect) {          // z = [centre x, centre y, width] 
   x = Math.max(cx0, Math.min(cx0 + cw0 - w, x)); y = Math.max(cy0, Math.min(cy0 + ch0 - h, y))
   return [x, y, w, h]
 }
+const callAt = s => s.start + (s.chapter ? chapDur(s) + 0.15 : 0.25)      // a clip's callout lands after its chapter card
 const lerp = (a, b, q) => a.map((v, i) => v + (b[i] - v) * q)
 function place(img, box, rect, extra = '') {
   const [x, y, w] = rect, s = box.clientWidth / w
@@ -246,7 +307,8 @@ window.renderAt = async function (t) {
     const r = cropFor(zoomOf(st), 0.08 * clamp((t - st.start) / 4), co.clientWidth / co.clientHeight)
     place($('#coldlay'), co, r)
     const big = $('.bigc', co), lab = $('.labc', co), changed = j === 0 || st.big !== cs[j - 1].big, at = st.start - 0.08
-    big.textContent = on ? st.big : ''; lab.textContent = on ? st.label : ''; big.className = 'bigc A' + (st.tone ? ' ' + st.tone : '')
+    big.innerHTML = on ? html(st.big).replace(/\n/g, '<br>') : ''; lab.textContent = on ? st.label : ''; big.className = 'bigc A' + (st.tone ? ' ' + st.tone : '')
+    big.style.fontSize = st.size ? st.size + 'px' : ''; lab.style.top = st.size ? big.offsetTop + big.offsetHeight + 30 + 'px' : ''
     big.style.transform = (changed ? slam(big, t, at) : (big.style.opacity = on ? 1 : 0, '')) + (st.glitch ? glitch(big, t, at + (st.glitch_at || 0)) : (big.style.textShadow = '', ''))
     lab.style.opacity = P(t, at + 0.15, at + 0.5); lab.style.transform = `translate3d(0,${(1 - P(t, at + 0.15, at + 0.6, E.outCubic)) * 30}px,0)`
     const end = cs.at(-1).end
@@ -266,8 +328,8 @@ window.renderAt = async function (t) {
   const punch = fr.j % 2 ? 1.07 : 1
   const r = lerp(rA, rB, q), rc = [r[0] + r[2] * (1 - 1 / punch) / 2, r[1] + r[3] * (1 - 1 / punch) / 2, r[2] / punch, r[3] / punch]
   place($('#chartlay'), cb, rc)
-  const fz = fr.j % 2 ? 1.08 : 1, fw = FACE[2] / fz, fh = FACE[3] / fz
-  place($('#face'), fb, [FACE[0] + (FACE[2] - fw) / 2, FACE[1] + (FACE[3] - fh) * 0.35, fw, fh])
+  if (FACE) { const fz = fr.j % 2 ? 1.08 : 1, fw = FACE[2] / fz, fh = FACE[3] / fz
+    place($('#face'), fb, [FACE[0] + (FACE[2] - fw) / 2, FACE[1] + (FACE[3] - fh) * 0.35, fw, fh]) }
   // ---- title on the drop
   const ti = $('#title'), tS = SEG.find(s => s.kind === 'title')
   ti.style.display = t >= drop && t < tS.end + 0.35 ? 'block' : 'none'
@@ -281,8 +343,18 @@ window.renderAt = async function (t) {
   // ---- callout chip for the clip
   const call = $('#call'), cl = seg.kind === 'clip' && seg.call ? seg : null
   if (cl) { if (call.dataset.id !== cl.id) { call.dataset.id = cl.id; call.innerHTML = `<div class="k"><i></i>${html(cl.call)}</div>` }
-    const k = $('.k', call); k.style.transform = slam(k, t, cl.start + 0.25, 1.6, 0.25); k.style.transformOrigin = '0 50%'; call.style.display = 'block' }
+    const k = $('.k', call), at = callAt(cl); k.style.transform = slam(k, t, at, 1.6, 0.25); k.style.transformOrigin = '0 50%'; call.style.display = t >= at - 0.05 ? 'block' : 'none' }
   else call.style.display = 'none'
+  // ---- chapter card at the start of a new topic; the header chip names the topic until the next one
+  const chEl = $('#chap'), chS = CHAP.find(s => t >= s.start - 0.05 && t < s.start + chapDur(s))
+  if (chS) {
+    const l = t - chS.start, L = chapDur(chS), n = CHAP.indexOf(chS) + 1
+    if (chEl.dataset.n !== String(n)) { chEl.dataset.n = n; $('.n', chEl).textContent = String(n).padStart(2, '0'); $('.t', chEl).textContent = chS.chapter; $('.s', chEl).textContent = chS.chapter_sub || '' }
+    chEl.style.display = 'flex'; chEl.style.opacity = P(l, -0.05, 0.06) * (1 - P(l, L - 0.22, L))
+    const nn = $('.n', chEl), tt = $('.t', chEl); nn.style.transform = slam(nn, l, 0.02, 1.8, 0.22); tt.style.transform = slam(tt, l, 0.12, 1.7, 0.28) + shake(l, 0.16, 14) + glitch(tt, l, 0.12, 0.3)
+    $('.s', chEl).style.opacity = P(l, 0.45, 0.75)
+  } else chEl.style.display = 'none'
+  if (CHAP.length) { const cur = CHAP.filter(s => t >= s.start).at(-1); $('#pair').textContent = cur ? `${String(CHAP.indexOf(cur) + 1).padStart(2, '0')} · ${cur.chapter}` : (D.pair || '') }
   // ---- captions
   const ci = caps.findIndex(c => t >= c.start && t < c.end), capEl = $('#cap')
   if (capEl.dataset.i !== String(ci)) { capEl.dataset.i = ci; capEl.innerHTML = ci < 0 ? '' : `<div class="c">${caps[ci].words.map(w => `<span class="w">${html(w.w)}</span>`).join(' ')}</div>` }
@@ -319,6 +391,24 @@ window.renderAt = async function (t) {
     $$('.pts div', cn).forEach((d, j) => { const a = 4.0 + j * 1.2; d.style.opacity = P(l, a, a + 0.25); d.style.transform = `translate3d(${(1 - P(l, a, a + 0.4, E.outBack)) * 300}px,0,0)` })
     $('.src', cn).style.opacity = 0.9 * P(l, 3.0, 3.4)
   }
+  // ---- inserts
+  const ie = $('#ins'), is = INS.find(s => t >= s.start - 0.2 && t < s.end + 0.2)
+  ie.style.display = is ? 'block' : 'none'
+  if (is) {
+    if (ie.dataset.id !== String(is.start)) insBuild(is)
+    const l = t - is.start, L = is.end - is.start, T = insTimes(is)
+    ie.style.opacity = P(l, -0.2, 0.05) * (1 - P(l, L, L + 0.2))
+    $('.kick', ie).style.opacity = P(l, 0.1, 0.35)
+    const tt = $('.ttl', ie); tt.style.transform = slam(tt, l, 0.35, 1.7, 0.3) + shake(l, 0.4, 14)
+    if (is.kind2 === 'board') $$('.row', ie).forEach((r, j) => { const a = T.rows[j]; r.style.opacity = P(l, a, a + 0.2); r.style.transform = `translate3d(${(1 - P(l, a, a + 0.4, E.outBack)) * 260}px,0,0)`
+      const pc = $('.pc', r), v = Math.round(pct(is.rows[j]) * P(l, a + 0.15, a + 0.65, E.outCubic)); pc.textContent = `${v}%`; pc.style.transform = shake(l, a + 0.66, 8) })
+    else {
+      $$('.col', ie).forEach((c, j) => { const a = T.cols[j]; c.style.opacity = P(l, a, a + 0.2); c.style.transform = `translate3d(${(1 - P(l, a, a + 0.5, E.outBack)) * (j ? 500 : -500)}px,0,0)`
+        $$('.li', c).forEach((d, k) => { const b = T.li[j][k]; d.style.opacity = P(l, b, b + 0.2); d.style.transform = `translate3d(0,${(1 - P(l, b, b + 0.35, E.outCubic)) * 24}px,0)` }) })
+    }
+    const fo = $('.foot2', ie); fo.style.transform = slam(fo, l, T.foot, 1.8, 0.3) + shake(l, T.foot + 0.05, 12)
+    $('.src', ie).style.opacity = 0.9 * P(l, 1.5, 1.9)
+  }
   // ---- end card
   const en = $('#end'), es = SEG.find(s => s.kind === 'end')
   en.style.display = es && t >= es.start - 0.15 ? 'block' : 'none'
@@ -349,12 +439,17 @@ window.fxEvents = function () {
   add(D.drop, '2908', 0); add(D.drop, '2299', -2)
   SEG.filter(s => s.kind === 'clip').forEach((s, j) => {
     if (j > 0) add(s.start, j % 2 ? '1492' : '2636', j % 2 ? -14 : -16, { align: 'peak' })
-    if (s.call) { add(s.start + 0.25, '3124', -11); add(s.start + 0.25, '2299', -10) }
+    if (s.chapter) { add(s.start, '2908', -8); add(s.start + 0.02, '2299', -8); add(s.start + 0.12, '2951', -14) }
+    if (s.call) { add(callAt(s), '3124', -11); add(callAt(s), '2299', -10) }
   })
   if (COIN) { const c = COIN.start; add(c, '1492', -10, { align: 'peak' }); add(c + 0.5, '2909', -5); add(c + 0.5, '2299', -7); add(c + 1.0, '3120', -11); add(c + 2.4, '3124', -11)
     COIN.levels.forEach((_, j) => add(c + 2.8 + j * 0.4, '2577', -14)); (COIN.points || []).forEach((_, j) => add(c + 4.0 + j * 1.2, '2573', -11)) }
   const p = SEG.find(s => s.kind === 'product' && !COIN)
   if (p) { add(p.start, '1492', -10, { align: 'peak' }); add(p.start + 0.5, '2909', -4); add(p.start + 0.7, '3120', -10); (p.points || []).forEach((_, j) => add(p.start + 2.0 + j * 1.3, '2573', -11)) }
+  for (const s of INS) { const T = insTimes(s), a = s.start; add(a, '1492', -10, { align: 'peak' }); add(a + 0.35, '2909', -6); add(a + 0.35, '2299', -8)
+    if (T.rows) T.rows.forEach(x => { add(a + x, '2577', -12); add(a + x + 0.66, '3124', -15) })
+    else { T.cols.forEach(x => add(a + x, '3120', -12)); T.li.flat().forEach(x => add(a + x, '2573', -13)) }
+    add(a + T.foot, '2299', -7); add(a + T.foot, '3124', -10) }
   const e = SEG.find(s => s.kind === 'end')
   if (e) { add(e.start + 0.15, '2908', -4); add(e.start + 0.15, '2299', -5) }
   return ev
