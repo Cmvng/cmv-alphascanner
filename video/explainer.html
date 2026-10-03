@@ -1,0 +1,461 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<!-- Motion-graphics explainer (mode "explainer"): every screen is a beat in cfg.explainer.beats, drawn here with
+     animated cards, a phone mockup and counters, timed to the voice. Same contract as scene.html / review.html:
+     window.DATA in, window.ready, window.renderAt(t), window.fxEvents(). -->
+<style>
+@font-face{font-family:Manrope;font-weight:400;src:url(assets/fonts/manrope-latin-400-normal.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:Manrope;font-weight:400;src:url(assets/fonts/manrope-latin-ext-400-normal.woff2) format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:Manrope;font-weight:600;src:url(assets/fonts/manrope-latin-600-normal.woff2) format('woff2')}
+@font-face{font-family:Manrope;font-weight:800;src:url(assets/fonts/manrope-latin-800-normal.woff2) format('woff2')}
+@font-face{font-family:JBM;font-weight:500;src:url(assets/fonts/jetbrains-mono-latin-500-normal.woff2) format('woff2')}
+@font-face{font-family:JBM;font-weight:700;src:url(assets/fonts/jetbrains-mono-latin-700-normal.woff2) format('woff2')}
+@font-face{font-family:Anton;font-weight:400;src:url(assets/fonts/anton-latin-400-normal.woff2) format('woff2')}
+:root{--lime:#C3FF00;--lime2:#97EE2B;--deep:#052F1B;--yes:#0FC591;--no:#FF3756;--ink:#0B1220;--muted:#64748B}
+*{box-sizing:border-box}
+html,body{margin:0;background:#000}
+#stage{position:relative;width:1080px;height:1920px;overflow:hidden;background:radial-gradient(120% 80% at 50% 0%,#0B2A18 0%,#04120A 55%,#010503 100%);font-family:Manrope;color:#fff}
+#grid{position:absolute;left:-240px;top:-240px;width:1560px;height:2400px;background-image:linear-gradient(rgba(195,255,0,.07) 2px,transparent 2px),linear-gradient(90deg,rgba(195,255,0,.07) 2px,transparent 2px);background-size:120px 120px;transform-origin:50% 50%}
+.blob{position:absolute;width:880px;height:880px;border-radius:50%;filter:blur(140px);opacity:.22;background:var(--lime)}
+#b2{background:#0FC591;opacity:.16}
+#vig{position:absolute;inset:0;background:radial-gradient(90% 70% at 50% 45%,transparent 55%,rgba(0,0,0,.65) 100%)}
+#hdr{position:absolute;left:56px;right:56px;top:58px;display:flex;justify-content:space-between;align-items:center;z-index:40}
+.logo{display:flex;align-items:center;gap:12px;font:800 38px Manrope;letter-spacing:-1px}
+.logo .bars{display:flex;align-items:flex-end;gap:5px;transform:skewX(-11deg)}
+.logo .bars i{display:block;width:10px;border-radius:3px;background:linear-gradient(180deg,#6E9BFF,#1F5FDB)}
+.logo span.x{font:700 20px JBM;letter-spacing:3px;color:var(--lime);text-transform:uppercase;margin-left:6px}
+#chap{font:700 20px JBM;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.7)}
+#chap b{color:var(--lime);margin-right:10px}
+#prog{position:absolute;left:56px;right:56px;top:128px;height:6px;border-radius:3px;background:rgba(255,255,255,.1);z-index:40;overflow:hidden}
+#prog i{display:block;height:100%;width:0;background:var(--lime);border-radius:3px;box-shadow:0 0 18px var(--lime)}
+.scene{position:absolute;inset:0;display:none;z-index:20}
+.A{font-family:Anton;font-weight:400;text-transform:uppercase;letter-spacing:1px;line-height:.95}
+.lime{color:var(--lime)}
+.t1{position:absolute;left:60px;right:60px;top:190px;font-size:104px;text-shadow:0 14px 40px rgba(0,0,0,.6)}
+.t2{position:absolute;left:62px;right:60px;top:300px;font:600 32px Manrope;color:rgba(255,255,255,.75)}
+.chip{display:inline-flex;align-items:center;gap:10px;padding:12px 22px;border-radius:999px;background:rgba(195,255,0,.12);border:2px solid rgba(195,255,0,.45);color:var(--lime);font:700 24px JBM;letter-spacing:2px;text-transform:uppercase}
+.card{background:#fff;color:var(--ink);border-radius:34px;box-shadow:0 30px 80px rgba(0,0,0,.55)}
+.x{font-family:Anton;letter-spacing:1px}
+
+/* hook */
+.ex_hook .stack{position:absolute;left:0;right:0;top:470px;height:560px}
+.ex_hook .tix{position:absolute;left:50%;top:0;width:470px;margin-left:-235px;border-radius:30px;background:#fff;color:var(--ink);box-shadow:0 30px 80px rgba(0,0,0,.6);padding:26px 30px}
+.ex_hook .tix .r{display:flex;justify-content:space-between;align-items:center;gap:12px;font:800 26px Manrope;margin:8px 0;white-space:nowrap}
+.ex_hook .tix .r em{font-style:normal;font-family:Anton;font-size:36px;color:var(--yes)}
+.ex_hook .tix[data-j="1"]{z-index:3}
+.ex_hook .tix .hd{font:700 17px JBM;letter-spacing:3px;color:var(--muted);text-transform:uppercase;margin-bottom:10px}
+.ex_hook .big{position:absolute;left:0;right:0;top:960px;text-align:center}
+.ex_hook .big .p{font-size:300px;color:var(--lime);text-shadow:0 0 60px rgba(195,255,0,.35),0 20px 50px rgba(0,0,0,.6);line-height:.85}
+.ex_hook .big .o{font-size:96px;margin-top:6px}
+.ex_hook .big .c{margin-top:26px}
+
+/* ticket build */
+.tkt{position:absolute;left:110px;right:110px;top:430px;padding:30px 34px 34px}
+.tkt .hd{display:flex;justify-content:space-between;align-items:center;font:700 19px JBM;letter-spacing:3px;color:var(--muted);text-transform:uppercase}
+.tkt .ttl{font:800 34px Manrope;margin:10px 0 14px}
+.lg{display:flex;align-items:center;gap:18px;padding:18px 0;border-top:2px solid #EEF0F3}
+.lg .fl{width:64px;height:64px;border-radius:50%;background:#F1F5F9;display:flex;align-items:center;justify-content:center;font-size:42px;flex-shrink:0;overflow:hidden}
+.lg .w{flex:1}
+.lg .w b{display:block;font:800 32px Manrope}
+.lg .w span{display:block;font:600 22px Manrope;color:var(--muted)}
+.lg .w b i{font-style:normal;color:var(--yes)}
+.lg .m{font-family:Anton;font-size:52px;color:var(--ink)}
+.lg .st{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font:800 32px Manrope;color:#fff;opacity:0}
+.lg .st.ok{background:var(--yes)}.lg .st.no{background:var(--no)}
+.mult{position:absolute;left:60px;right:60px;top:1100px;text-align:center}
+.mult .eq{font:700 40px JBM;color:rgba(255,255,255,.8)}
+.mult .res{font-size:230px;color:var(--lime);text-shadow:0 0 60px rgba(195,255,0,.4)}
+.mult .note{font:600 26px Manrope;color:rgba(255,255,255,.65)}
+
+/* rule */
+.rule{position:absolute;left:80px;right:80px;padding:22px 30px}
+.rule .row{display:flex;align-items:center;gap:16px}
+.rule .row .ic{width:86px;height:86px;border-radius:24px;display:flex;align-items:center;justify-content:center;font-size:48px;background:#F1F5F9}
+.rule .row .ic.ok{background:#DCFCE7}.rule .row .ic.no{background:#FFE4E6}
+.rule .row .stp{margin-left:auto;font-size:84px;padding:0 22px;border-radius:18px;border:7px solid currentColor;transform:rotate(-6deg)}
+.rule .row .stp.won{color:#16A34A}.rule .row .stp.lost{color:#E11D48}
+.ex_rule .sub{position:absolute;left:60px;right:60px;top:1130px;text-align:center}
+.ex_rule .sub .chip{font-size:28px;white-space:normal;line-height:1.35;text-align:center}
+
+/* phone */
+.phone{position:absolute;left:210px;top:330px;width:660px;height:1220px;border-radius:86px;background:#0A0A0A;box-shadow:0 0 0 4px #2B2F2B,0 50px 120px rgba(0,0,0,.7),0 0 140px rgba(195,255,0,.12)}
+.phone .scr{position:absolute;inset:16px;border-radius:72px;background:#F5F6F2;overflow:hidden;color:var(--ink)}
+.phone .isl{position:absolute;left:50%;top:30px;width:170px;height:44px;margin-left:-85px;border-radius:24px;background:#000;z-index:5}
+.app{position:absolute;inset:0;opacity:0}
+.bar{position:absolute;left:0;right:0;top:0;height:150px;padding:86px 34px 0;display:flex;align-items:center;justify-content:space-between;background:#fff;border-bottom:2px solid #ECEEE8}
+.bar .nm{display:flex;align-items:center;gap:12px;font:800 30px Manrope}
+.bar .nm i{width:40px;height:40px;border-radius:11px;background:var(--lime)}
+.bar .btn{padding:10px 18px;border-radius:12px;background:var(--lime);font:800 20px Manrope}
+.pad{position:absolute;left:30px;right:30px;top:180px}
+.ttlp{font:400 54px Anton;text-transform:uppercase;margin-bottom:18px}
+.bt{display:flex;align-items:center;justify-content:center;gap:12px;height:96px;border-radius:22px;background:#fff;border:2px solid #E2E5DE;font:800 28px Manrope;margin-bottom:18px}
+.bt.k{background:var(--ink);color:#fff;border-color:var(--ink)}
+.bt.l{background:var(--lime);border-color:var(--lime)}
+.okc{display:flex;align-items:center;gap:12px;padding:14px 18px;border-radius:16px;background:#ECFDF5;color:#047857;font:700 22px Manrope;margin-top:6px}
+.bal{padding:28px;border-radius:26px;background:#fff;border:2px solid #E2E5DE;text-align:center}
+.bal span{display:block;font:700 18px JBM;letter-spacing:3px;color:var(--muted);text-transform:uppercase}
+.bal b{display:block;font:400 110px Anton;margin:8px 0}
+.bal .net{display:inline-flex;margin-top:12px;letter-spacing:0;text-transform:none;align-items:center;gap:10px;padding:10px 18px;border-radius:999px;background:#EEF2FF;color:#1D4ED8;font:800 22px Manrope}
+.net i{width:22px;height:22px;border-radius:50%;background:#2563EB}
+.pk{padding:22px 24px;border-radius:26px;background:#fff;border:2px solid #E2E5DE}
+.pk .lg{padding:12px 0}.pk .lg .fl{width:50px;height:50px;font-size:32px}.pk .lg .w b{font-size:24px}.pk .lg .w span{font-size:17px}.pk .lg .m{font-size:36px}
+.pk .hd{font:700 15px JBM;letter-spacing:2px;color:var(--muted);text-transform:uppercase}
+.pk .ttl{font:800 24px Manrope;margin:6px 0 6px}
+.pk .buy{margin-top:12px;height:76px;border-radius:18px;border:3px solid var(--ink);display:flex;align-items:center;justify-content:center;font:800 26px Manrope}
+.pk .buy em{font-style:normal;color:var(--yes);margin-left:10px}
+.sheet{position:absolute;left:0;right:0;bottom:0;height:760px;border-radius:44px 44px 0 0;background:#fff;box-shadow:0 -20px 60px rgba(0,0,0,.18);padding:36px 34px;transform:translateY(100%)}
+.sheet .lb{font:700 18px JBM;letter-spacing:3px;color:var(--muted);text-transform:uppercase}
+.amt{margin:12px 0 14px;height:100px;border-radius:20px;border:3px solid var(--ink);display:flex;align-items:center;padding:0 24px;font:400 64px Anton}
+.amt .cur{width:4px;height:58px;background:var(--ink);margin-left:6px}
+.qk{display:flex;gap:12px;margin-bottom:22px}.qk div{flex:1;height:64px;border-radius:14px;background:#F1F5F9;display:flex;align-items:center;justify-content:center;font:800 22px Manrope}
+.tw{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:22px}
+.tw b{font:400 96px Anton;color:#16A34A;line-height:1}
+.tw span{font:700 22px Manrope;color:var(--muted)}
+.tap{position:absolute;width:110px;height:110px;margin:-55px 0 0 -55px;border-radius:50%;background:rgba(255,255,255,.65);box-shadow:0 0 0 6px rgba(11,18,32,.25);z-index:9;opacity:0;pointer-events:none}
+
+/* track */
+.trk{position:absolute;left:80px;right:80px;top:430px;padding:34px}
+.steps{display:flex;justify-content:space-between;align-items:center;margin-bottom:30px}
+.steps div{flex:1;text-align:center;font:800 26px Manrope;color:#94A3B8;position:relative}
+.steps div i{display:block;width:54px;height:54px;margin:0 auto 10px;border-radius:50%;background:#E2E8F0;border:5px solid #E2E8F0}
+.steps div.on{color:var(--ink)}.steps div.on i{background:var(--lime);border-color:var(--ink)}
+.legsw{display:flex;gap:14px;justify-content:center;margin:12px 0 20px}
+.legsw div{width:150px;height:150px;border-radius:30px;background:#F1F5F9;display:flex;align-items:center;justify-content:center;font:400 72px Anton;color:#CBD5E1}
+.legsw div.ok{background:#DCFCE7;color:#16A34A}
+.cnt{text-align:center;font:800 34px Manrope}
+.claim{position:absolute;left:50%;top:1060px;width:560px;margin-left:-280px;height:130px;border-radius:30px;background:var(--lime);color:var(--ink);display:flex;align-items:center;justify-content:center;font:400 72px Anton;text-transform:uppercase;box-shadow:0 0 60px rgba(195,255,0,.45)}
+.coin{position:absolute;width:70px;height:70px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#F7FFD6,#C3FF00 55%,#7FA800);box-shadow:0 6px 16px rgba(0,0,0,.4);font:400 34px Anton;color:#2B3A00;display:flex;align-items:center;justify-content:center;opacity:0}
+
+/* custom builder */
+.mc{padding:16px 18px;border-radius:22px;background:#fff;border:2px solid #E2E5DE;margin-bottom:14px}
+.mc .tm{display:flex;justify-content:space-between;font:800 22px Manrope;margin-bottom:12px}
+.mc .tm span{font-size:28px;margin-right:6px}
+.mc .op{display:flex;gap:10px}.mc .op div{flex:1;height:58px;border-radius:12px;background:#F1F5F9;display:flex;align-items:center;justify-content:center;font:800 20px Manrope}
+.mc .op div.sel{background:var(--ink);color:#fff}
+.side{position:absolute;left:0;right:0;bottom:0;height:420px;border-radius:40px 40px 0 0;background:#fff;box-shadow:0 -18px 50px rgba(0,0,0,.16);padding:28px 30px;transform:translateY(100%)}
+.side .hdx{display:flex;justify-content:space-between;font:800 26px Manrope}
+.side .hdx span{font:700 18px JBM;letter-spacing:2px;color:var(--muted)}
+.side .ln{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:2px solid #F1F5F9;font:800 22px Manrope}
+.side .ln em{font-style:normal;color:var(--yes)}
+.share{position:absolute;left:150px;right:150px;top:1440px;display:flex;justify-content:center;opacity:0;z-index:30}
+.share .chip{font-size:28px;background:var(--lime);color:var(--ink);border-color:var(--lime)}
+
+/* pvp */
+.vs{position:absolute;left:70px;right:70px;top:430px;padding:40px 34px;background:linear-gradient(160deg,#0F3B24,#04150B);border:2px solid rgba(195,255,0,.35);color:#fff}
+.vs .pl{display:flex;justify-content:space-between;align-items:center}
+.vs .av{width:280px;text-align:center}
+.vs .av i{display:flex;width:170px;height:170px;margin:0 auto 14px;border-radius:50%;align-items:center;justify-content:center;font-size:90px;background:rgba(255,255,255,.08);border:4px solid var(--lime)}
+.vs .av b{font:400 42px Anton;text-transform:uppercase;white-space:nowrap}
+.vs .av span{display:block;font:800 30px Manrope;color:var(--lime);margin-top:6px}
+.vs .mid{font:400 110px Anton;color:var(--lime)}
+.vs .mom{display:flex;gap:14px;justify-content:center;margin-top:34px;flex-wrap:wrap}
+.vs .mom div{padding:14px 22px;border-radius:999px;background:rgba(255,255,255,.08);font:800 26px Manrope;border:2px solid rgba(255,255,255,.18)}
+.vs .mom div.sel{background:var(--lime);color:var(--ink);border-color:var(--lime)}
+.vs .pot{text-align:center;margin-top:34px;font:800 34px Manrope}
+.vs .pot b{font-family:Anton;font-weight:400;font-size:64px;color:var(--lime)}
+.match{position:absolute;left:0;right:0;top:1150px;text-align:center}
+.match div{display:inline-block;font:400 128px Anton;text-transform:uppercase;color:var(--ink);background:var(--lime);padding:10px 40px;border-radius:26px;transform:rotate(-4deg);box-shadow:0 0 80px rgba(195,255,0,.5)}
+
+/* numbers */
+.nums{position:absolute;left:60px;right:60px;top:420px;display:grid;grid-template-columns:1fr 1fr;gap:26px}
+.nums .n{padding:34px 30px;border-radius:34px;background:rgba(255,255,255,.06);border:2px solid rgba(195,255,0,.28)}
+.nums .n b{display:block;font:400 112px Anton;color:var(--lime);line-height:1}
+.nums .n span{display:block;font:800 28px Manrope;margin-top:10px}
+.nums .n small{display:block;font:600 21px Manrope;color:rgba(255,255,255,.6);margin-top:6px}
+.ex_numbers .fine{position:absolute;left:60px;right:60px;top:1180px;text-align:center}
+.ex_numbers .fine .chip{font-size:22px}
+
+/* smart */
+.list{position:absolute;left:70px;right:70px;top:420px}
+.list .it{display:flex;align-items:center;gap:22px;padding:28px 30px;border-radius:30px;background:#fff;color:var(--ink);margin-bottom:22px;box-shadow:0 20px 50px rgba(0,0,0,.4)}
+.list .it i{flex-shrink:0;width:72px;height:72px;border-radius:20px;background:var(--lime);display:flex;align-items:center;justify-content:center;font:400 40px Anton;font-style:normal}
+.list .it b{display:block;font:800 34px Manrope;line-height:1.15}
+.list .it span{display:block;font:600 23px Manrope;color:var(--muted);margin-top:4px}
+
+/* outro */
+.ex_outro .big{position:absolute;left:60px;right:60px;top:430px;text-align:center}
+.ex_outro .big .a{font-size:150px}
+.ex_outro .big .a em{font-style:normal;color:var(--lime)}
+.ex_outro .ws{position:absolute;left:80px;right:80px;top:820px;display:flex;flex-direction:column;gap:18px;align-items:center}
+.ex_outro .ws .chip{font-size:24px;white-space:normal;text-align:center;line-height:1.35}
+.ex_outro .ws .chip.f{background:var(--lime);color:var(--ink);border-color:var(--lime);font-size:30px}
+
+#cap{position:absolute;left:60px;right:60px;top:1600px;height:200px;z-index:55;display:flex;align-items:flex-start;justify-content:center;text-align:center}
+#cap .c{font:400 64px/1.08 Anton;text-transform:uppercase;letter-spacing:1px;-webkit-text-stroke:5px #000;paint-order:stroke fill;text-shadow:0 6px 0 #000}
+#cap .w{display:inline-block;margin:0 .13em}
+#cap .w.now{color:var(--lime)}
+#foot{position:absolute;left:56px;right:56px;bottom:46px;text-align:center;font:500 18px JBM;letter-spacing:1px;color:rgba(255,255,255,.45);z-index:45}
+#flash{position:absolute;inset:0;background:var(--lime);opacity:0;z-index:60;pointer-events:none;mix-blend-mode:overlay}
+#grain{position:absolute;inset:0;opacity:.05;pointer-events:none;background-size:256px 256px;z-index:70}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="grid"></div><div class="blob" id="b1"></div><div class="blob" id="b2"></div><div id="vig"></div>
+  <div id="hdr"><div class="logo"><span class="bars"><i style="height:20px"></i><i style="height:30px"></i><i style="height:40px"></i></span>cmvng<span class="x">explains</span></div><div id="chap"></div></div>
+  <div id="prog"><i></i></div>
+  <div id="scenes"></div>
+  <div id="cap"></div>
+  <div id="foot"></div>
+  <div id="flash"></div><div id="grain"></div>
+</div>
+<script>
+const D = window.DATA
+const $ = (s, el = document) => el.querySelector(s)
+const $$ = (s, el = document) => [...el.querySelectorAll(s)]
+const E = {
+  outExpo: x => x >= 1 ? 1 : 1 - Math.pow(2, -10 * x), outCubic: x => 1 - Math.pow(1 - x, 3),
+  outBack: x => 1 + 2.4 * Math.pow(x - 1, 3) + 1.4 * Math.pow(x - 1, 2), inOutSine: x => -(Math.cos(Math.PI * x) - 1) / 2,
+}
+const clamp = (v, a = 0, b = 1) => Math.max(a, Math.min(b, v))
+const P = (t, a, b, e = E.outExpo) => e(clamp((t - a) / (b - a)))
+const html = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]))
+const S = (sc, j) => sc.lines[j] || sc.lines.at(-1) || [0.4, 2]          // scene-relative [start, dur] of spoken line j
+const L = (sc, j, frac = 0) => { const s = S(sc, j); return s[0] + s[1] * frac }   // a moment inside line j
+const EX = D.cfg.explainer || {}
+$('#foot').textContent = EX.foot || ''
+
+// pieces
+const leg = (l, extra = '') => `<div class="lg">${extra}<div class="fl">${l.flag || ''}</div><div class="w"><b>${html(l.team)} <i>${html(l.side || 'YES')} ${l.pct ?? ''}${l.pct != null ? '%' : ''}</i></b><span>${html(l.match || '')}</span></div><div class="m">${html(l.x)}x</div><div class="st"></div></div>`
+const tap = (x, y) => `<div class="tap" data-x="${x}" data-y="${y}" style="left:${x}px;top:${y}px"></div>`
+const appBar = (btn = 'Sign up') => `<div class="bar"><div class="nm"><i></i>Limitless</div><div class="btn">${html(btn)}</div></div>`
+function rise(nodes, lt, start, step = 0.08, dist = 60, dur = 0.55) {
+  nodes.forEach((n, j) => { if (!n) return; const q = P(lt, start + j * step, start + j * step + dur, E.outCubic); n.style.opacity = q; n.style.transform = `translate3d(0,${(1 - q) * dist}px,0)` })
+}
+function pop(n, lt, at, from = 0.6, dur = 0.35, extra = '') {
+  if (!n) return; const q = P(lt, at, at + dur, E.outBack); n.style.opacity = clamp((lt - at) / 0.12); n.style.transform = `${extra} scale(${from + (1 - from) * q})`
+}
+function slam(n, lt, at, from = 1.8, dur = 0.3, extra = '') {
+  if (!n) return; const q = P(lt, at, at + dur, E.outCubic); n.style.opacity = clamp((lt - at) / 0.1); n.style.transform = `${extra} scale(${from + (1 - from) * q})`
+}
+const shake = (lt, at, amp = 14) => { const d = lt - at; if (d < 0 || d > 0.3) return ''; const a = amp * (1 - d / 0.3); return `translate3d(${a * Math.sin(d * 95)}px,${a * Math.cos(d * 77)}px,0)` }
+function tapAt(n, lt, at) {     // a finger tap: a ring that appears, presses and fades
+  if (!n) return; const d = lt - at
+  if (d < -0.25 || d > 0.5) { n.style.opacity = 0; return }
+  n.style.opacity = d < 0 ? (d + 0.25) / 0.25 : 1 - d / 0.5
+  n.style.transform = `scale(${d < 0 ? 1.15 : 0.82 + 0.5 * clamp(d / 0.5)})`
+}
+const money = v => '$' + Math.round(v).toLocaleString('en-US')
+
+// ---------------------------------------------------------------- build each screen
+const built = D.scenes.map(sc => {
+  const el = document.createElement('div'), b = sc.data || {}
+  el.className = `scene ${sc.type}`
+  if (sc.type === 'ex_hook') {
+    el.innerHTML = `<div class="stack">${(b.tickets || []).map((t, j) => `<div class="tix" data-j="${j}"><div class="hd">${html(t.hd || 'Pack')}</div>${(t.rows || []).map(r => `<div class="r"><span>${html(r[0])}</span><em>${html(r[1])}</em></div>`).join('')}</div>`).join('')}</div>
+      <div class="big"><div class="p A">${html(b.title || 'Packs')}</div><div class="o A">${html(b.title2 || '')}</div><div class="c"><span class="chip">${html(b.chip || '')}</span></div></div>`
+  } else if (sc.type === 'ex_stack') {
+    const legs = b.legs || []
+    el.innerHTML = `<div class="t1 A">${html(b.title || '')}</div><div class="t2">${html(b.sub || '')}</div>
+      <div class="card tkt"><div class="hd"><span>${html(b.league || '')}</span><span>Pack</span></div><div class="ttl">${html(b.name || '')}</div>${legs.map(l => leg(l)).join('')}</div>
+      <div class="mult"><div class="eq">${legs.map(l => l.x).join(' × ')}</div><div class="res A" data-n="${b.result}">0.00x</div><div class="note">${html(b.note || '')}</div></div>`
+  } else if (sc.type === 'ex_rule') {
+    const row = (marks, stamp, top) => `<div class="card rule" style="top:${top}px"><div class="row">${marks.map(m => `<div class="ic ${m ? 'ok' : 'no'}">${m ? '✅' : '❌'}</div>`).join('')}<div class="stp A ${stamp}">${stamp === 'won' ? 'Won' : 'Lost'}</div></div></div>`
+    el.innerHTML = `<div class="t1 A">${html(b.title || '')}</div><div class="t2">${html(b.sub || '')}</div>${row([1, 1, 1], 'won', 470)}${row([1, 1, 0], 'lost', 700)}
+      <div class="sub"><span class="chip">${html(b.note || '')}</span></div>`
+  } else if (sc.type === 'ex_start') {
+    el.innerHTML = `<div class="phone"><div class="isl"></div><div class="scr">
+      <div class="app a1">${appBar('Sign up')}<div class="pad"><div class="ttlp">Sign in</div>
+        <div class="bt">✉️ Continue with email</div><div class="bt">🟢 Continue with Google</div><div class="bt k">𝕏 Continue with X</div>
+        <div class="okc">✓ Wallet created for you · gas covered</div></div></div>
+      <div class="app a2">${appBar('Deposit')}<div class="pad"><div class="ttlp">Add funds</div>
+        <div class="bal"><span>USDC balance</span><b data-n="${b.balance || 50}">$0</b><span class="net"><i></i>Base network</span></div>
+        <div class="bt l" style="margin-top:22px">Deposit USDC</div></div></div>
+      ${tap(320, 700)}</div></div>`
+  } else if (sc.type === 'ex_buy') {
+    const p = b.pack || {}, amt = b.amount || 10
+    el.innerHTML = `<div class="phone"><div class="isl"></div><div class="scr"><div class="app a1" style="opacity:1">${appBar('Packs')}
+      <div class="pad"><div class="ttlp">All Packs</div><div class="pk"><div class="hd">${html(p.league || '')} · Created by Limitless</div><div class="ttl">${html(p.name || '')}</div>
+        ${(p.legs || []).map(l => leg(l)).join('')}<div class="buy">Buy Pack<em>${html(p.x)}x</em></div></div></div>
+      <div class="sheet"><div class="lb">Amount</div><div class="amt"><span class="v">$0</span><span class="cur"></span></div>
+        <div class="qk"><div>+$5</div><div class="q10">+$10</div><div>+$25</div><div>MAX</div></div>
+        <div class="lb">To win</div><div class="tw"><b data-n="${amt * p.x}">$0</b><span>multiplier ${html(p.x)}x</span></div>
+        <div class="bt k buybtn">Buy</div></div>
+      ${tap(320, 900)}${tap(232, 1010)}${tap(314, 1130)}</div></div></div>`
+  } else if (sc.type === 'ex_track') {
+    el.innerHTML = `<div class="t1 A">${html(b.title || '')}</div><div class="t2">${html(b.sub || '')}</div>
+      <div class="card trk"><div class="steps"><div class="s0"><i></i>Pending</div><div class="s1"><i></i>Active</div><div class="s2"><i></i>Won</div></div>
+        <div class="legsw"><div>1</div><div>2</div><div>3</div></div><div class="cnt">0 of 3 legs won</div></div>
+      <div class="claim">Claim ${money(b.win || 172)}</div>${Array.from({ length: 9 }, (_, j) => `<div class="coin" data-j="${j}">$</div>`).join('')}`
+  } else if (sc.type === 'ex_custom') {
+    const ms = b.matches || []
+    el.innerHTML = `<div class="phone"><div class="isl"></div><div class="scr"><div class="app a1" style="opacity:1">${appBar('Packs')}
+      <div class="pad"><div class="ttlp" style="font-size:44px">Create your own Pack</div>${ms.map((m, j) => `<div class="mc"><div class="tm"><div><span>${m.f1}</span>${html(m.h)}</div><div>${html(m.a)}<span style="margin:0 0 0 6px">${m.f2}</span></div></div>
+        <div class="op">${m.o.map((o, k) => `<div class="${k === m.pick ? 'p' : ''}">+ ${html(o)}</div>`).join('')}</div></div>`).join('')}</div>
+      <div class="side"><div class="hdx">Custom Pack<span class="n">0 / 5 outcomes</span></div>${ms.map(m => `<div class="ln"><span>${m.f1} ${html(m.legname)}</span><em>${html(m.lx)}x</em></div>`).join('')}</div>
+      ${ms.map((m, j) => tap(118 + m.pick * 152, 452 + j * 166)).join('')}</div></div></div>
+      <div class="share"><span class="chip">↗ ${html(b.share || 'Share this pack')}</span></div>`
+  } else if (sc.type === 'ex_pvp') {
+    el.innerHTML = `<div class="t1 A">${html(b.title || '')}</div><div class="t2">${html(b.sub || '')}</div>
+      <div class="card vs"><div class="pl"><div class="av a1"><i>🙋</i><b>You</b><span>$${b.amount || 10}</span></div><div class="mid">VS</div><div class="av a2"><i>🧑</i><b>Another fan</b><span>$${b.amount || 10}</span></div></div>
+        <div class="mom">${(b.moments || []).map((m, j) => `<div class="${j === 0 ? 'p' : ''}">${html(m)}</div>`).join('')}</div>
+        <div class="pot">Winner takes <b>$${(b.amount || 10) * 2}</b></div></div>
+      <div class="match"><div>${html(b.stamp || "It's a match!")}</div></div>`
+  } else if (sc.type === 'ex_numbers') {
+    el.innerHTML = `<div class="t1 A">${html(b.title || '')}</div><div class="t2">${html(b.sub || '')}</div>
+      <div class="nums">${(b.tiles || []).map(n => `<div class="n"><b class="A" data-v="${html(n.v)}">${html(n.v)}</b><span>${html(n.k)}</span><small>${html(n.s || '')}</small></div>`).join('')}</div>
+      <div class="fine"><span class="chip">${html(b.fine || '')}</span></div>`
+  } else if (sc.type === 'ex_smart') {
+    el.innerHTML = `<div class="t1 A">${html(b.title || '')}</div><div class="t2">${html(b.sub || '')}</div>
+      <div class="list">${(b.items || []).map((x, j) => `<div class="it"><i>${j + 1}</i><div><b>${html(x[0])}</b><span>${html(x[1] || '')}</span></div></div>`).join('')}</div>`
+  } else if (sc.type === 'ex_outro') {
+    el.innerHTML = `<div class="big"><div class="a A">${b.title || ''}</div></div>
+      <div class="ws">${(b.chips || []).map(c => `<span class="chip">${html(c)}</span>`).join('')}<span class="chip f">${html(b.follow || 'Follow for more')}</span></div>`
+  }
+  $('#scenes').appendChild(el)
+  return el
+})
+
+// ---------------------------------------------------------------- per-frame animation
+function draw(k, lt, sc) {
+  const el = built[k], b = sc.data || {}
+  if (sc.type === 'ex_hook') {
+    $$('.tix', el).forEach((n, j) => { const at = 0.05 + j * 0.16, q = P(lt, at, at + 0.5, E.outBack), ang = (j - 1) * 11, dx = (j - 1) * 210
+      n.style.opacity = clamp((lt - at) / 0.15); n.style.transform = `translate3d(${dx * q}px,${(1 - q) * 500 + Math.abs(j - 1) * 40}px,0) rotate(${ang * q}deg) scale(${0.9 + 0.02 * Math.sin(lt * 2 + j)})` })
+    slam($('.big .p', el), lt, 0.55, 2.2, 0.32); rise([$('.big .o', el), $('.big .c', el)], lt, 0.85, 0.15)
+    el.style.transform = shake(lt, 0.6, 18)
+  } else if (sc.type === 'ex_stack') {
+    rise([$('.t1', el), $('.t2', el)], lt, 0.05, 0.1)
+    pop($('.tkt', el), lt, 0.25, 0.85)
+    const legs = $$('.tkt .lg', el), a0 = Math.max(0.6, L(sc, 0, 0.35))
+    legs.forEach((n, j) => { const at = a0 + j * 0.45, q = P(lt, at, at + 0.45, E.outBack); n.style.opacity = clamp((lt - at) / 0.1); n.style.transform = `translate3d(${(1 - q) * (j % 2 ? 600 : -600)}px,0,0)` })
+    const at = L(sc, 1, 0.15)
+    rise([$('.mult .eq', el)], lt, at - 0.2)
+    const r = $('.mult .res', el), q = P(lt, at + 0.2, L(sc, 1, 0.75), E.outCubic)
+    r.textContent = (+r.dataset.n * q).toFixed(2) + 'x'; r.style.opacity = clamp((lt - at - 0.2) / 0.15); r.style.transform = `scale(${1 + 0.12 * (1 - P(lt, L(sc, 1, 0.75), L(sc, 1, 0.75) + 0.3))})`
+    rise([$('.mult .note', el)], lt, L(sc, 1, 0.8))
+  } else if (sc.type === 'ex_rule') {
+    rise([$('.t1', el), $('.t2', el)], lt, 0.05, 0.1)
+    const rows = $$('.rule', el), t0 = 0.4, t1 = Math.max(1.4, L(sc, 0, 0.45))
+    rows.forEach((r, j) => { const at = j ? t1 : t0; rise([r], lt, at)
+      $$('.ic', r).forEach((n, i) => pop(n, lt, at + 0.2 + i * 0.22, 0.3))
+      slam($('.stp', r), lt, at + 1.0, 2.4, 0.26, 'rotate(-6deg)') })
+    el.style.transform = shake(lt, t1 + 1.02, 16)
+    rise([$('.sub', el)], lt, L(sc, 1, 0.05))
+  } else if (sc.type === 'ex_start') {
+    rise([$('.phone', el)], lt, 0, 0, 220, 0.6)
+    const sw = L(sc, 1, 0), a1 = $('.a1', el), a2 = $('.a2', el)
+    a1.style.opacity = lt < sw ? 1 : 1 - P(lt, sw, sw + 0.3); a1.style.transform = `translate3d(${-P(lt, sw, sw + 0.4, E.outCubic) * 200}px,0,0)`
+    a2.style.opacity = P(lt, sw, sw + 0.3); a2.style.transform = `translate3d(${(1 - P(lt, sw, sw + 0.4, E.outCubic)) * 200}px,0,0)`
+    rise($$('.a1 .bt', el), lt, 0.5, 0.18, 40); rise([$('.a1 .okc', el)], lt, L(sc, 0, 0.55))
+    tapAt($('.tap', el), lt, L(sc, 0, 0.3))
+    const bv = $('.a2 .bal b', el); bv.textContent = '$' + (+bv.dataset.n * P(lt, sw + 0.5, sw + 1.6, E.outCubic)).toFixed(2)
+  } else if (sc.type === 'ex_buy') {
+    rise([$('.phone', el)], lt, 0, 0, 220, 0.6)
+    rise($$('.pk .lg', el), lt, 0.4, 0.15, 40)
+    const taps = $$('.tap', el), tOpen = L(sc, 0, 0.7), tAmt = L(sc, 1, 0.1), tBuy = L(sc, 2, 0.1)
+    tapAt(taps[0], lt, tOpen); tapAt(taps[1], lt, tAmt); tapAt(taps[2], lt, tBuy)
+    $('.sheet', el).style.transform = `translate3d(0,${(1 - P(lt, tOpen + 0.1, tOpen + 0.55, E.outCubic)) * 100}%,0)`
+    const amt = lt >= tAmt ? (b.amount || 10) : 0
+    $('.amt .v', el).textContent = '$' + amt; $('.amt .cur', el).style.opacity = Math.floor(lt * 2.4) % 2 ? 0.2 : 1
+    $('.q10', el).style.background = lt >= tAmt ? 'var(--lime)' : ''
+    const tw = $('.tw b', el); tw.textContent = '$' + Math.round(+tw.dataset.n * P(lt, tAmt + 0.1, tAmt + 1.0, E.outCubic))
+    const bb = $('.buybtn', el), pr = P(lt, tBuy, tBuy + 0.15) - P(lt, tBuy + 0.2, tBuy + 0.4)
+    bb.style.transform = `scale(${1 - 0.06 * pr})`; bb.style.background = lt >= tBuy + 0.2 ? '#16A34A' : ''; bb.textContent = lt >= tBuy + 0.2 ? '✓ Pack bought' : 'Buy'
+  } else if (sc.type === 'ex_track') {
+    rise([$('.t1', el), $('.t2', el)], lt, 0.05, 0.1); pop($('.trk', el), lt, 0.25, 0.85)
+    const tA = L(sc, 0, 0.35), tW = L(sc, 1, 0.05)
+    $('.s0', el).classList.toggle('on', lt >= 0.4); $('.s1', el).classList.toggle('on', lt >= tA); $('.s2', el).classList.toggle('on', lt >= tW)
+    const legs = $$('.legsw div', el), n = lt < tA ? 0 : lt < tA + 0.6 ? 1 : lt < tW - 0.3 ? 2 : 3
+    legs.forEach((x, j) => { x.classList.toggle('ok', j < n); x.textContent = j < n ? '✓' : j + 1 })
+    $('.cnt', el).textContent = n === 3 ? 'All 3 legs won' : `${n} of 3 legs won`
+    pop($('.claim', el), lt, tW + 0.3, 0.6); const tc = L(sc, 1, 0.5)
+    $('.claim', el).style.transform += ` scale(${1 - 0.05 * (P(lt, tc, tc + 0.12) - P(lt, tc + 0.15, tc + 0.3))})`
+    $$('.coin', el).forEach((c, j) => { const at = tc + 0.1 + j * 0.05, q = clamp((lt - at) / 1.1); const ang = -Math.PI / 2 + (j - 4) * 0.28
+      c.style.opacity = q > 0 && q < 1 ? 1 - q * q : 0; c.style.left = `${510 + Math.cos(ang) * 520 * q}px`; c.style.top = `${1090 + Math.sin(ang) * 520 * q + 700 * q * q}px` })
+  } else if (sc.type === 'ex_custom') {
+    rise([$('.phone', el)], lt, 0, 0, 220, 0.6)
+    rise($$('.mc', el), lt, 0.35, 0.12, 40)
+    const ms = (b.matches || []), taps = $$('.tap', el), t0 = L(sc, 0, 0.45), step = Math.min(0.55, (L(sc, 0, 1) - t0) / Math.max(1, ms.length))
+    let picked = 0
+    $$('.mc', el).forEach((m, j) => { const at = t0 + j * step; tapAt(taps[j], lt, at); const on = lt >= at; if (on) picked++
+      $$('.op div', m).forEach((o, k) => o.classList.toggle('sel', on && k === ms[j].pick)) })
+    $('.side', el).style.transform = `translate3d(0,${(1 - P(lt, t0 + 0.1, t0 + 0.5, E.outCubic)) * 100}%,0)`
+    $('.side .n', el).textContent = `${picked} / 5 outcomes`
+    $$('.side .ln', el).forEach((n, j) => { n.style.opacity = lt >= t0 + j * step ? 1 : 0 })
+    pop($('.share', el), lt, L(sc, 1, 0.3), 0.6)
+  } else if (sc.type === 'ex_pvp') {
+    rise([$('.t1', el), $('.t2', el)], lt, 0.05, 0.1); pop($('.vs', el), lt, 0.25, 0.85)
+    const a1 = $('.av.a1', el), a2 = $('.av.a2', el), q = P(lt, 0.4, 0.9, E.outBack)
+    a1.style.transform = `translate3d(${(1 - q) * -400}px,0,0)`; a2.style.transform = `translate3d(${(1 - P(lt, L(sc, 1, 0.1), L(sc, 1, 0.1) + 0.5, E.outBack)) * 400}px,0,0)`
+    a2.style.opacity = clamp((lt - L(sc, 1, 0.1)) / 0.15)
+    slam($('.mid', el), lt, 0.7, 2.2, 0.25)
+    $$('.mom div', el).forEach((n, j) => { pop(n, lt, L(sc, 0, 0.5) + j * 0.12, 0.5); n.classList.toggle('sel', j === 0 && lt >= L(sc, 0, 0.8)) })
+    rise([$('.pot', el)], lt, L(sc, 1, 0.45))
+    slam($('.match div', el), lt, L(sc, 1, 0.2), 2.6, 0.28, 'rotate(-4deg)'); el.style.transform = shake(lt, L(sc, 1, 0.2) + 0.03, 18)
+  } else if (sc.type === 'ex_numbers') {
+    rise([$('.t1', el), $('.t2', el)], lt, 0.05, 0.1)
+    const tiles = $$('.nums .n', el), marks = [L(sc, 0, 0.45), L(sc, 1, 0.12), L(sc, 1, 0.38), L(sc, 1, 0.62)]
+    tiles.forEach((n, j) => { pop(n, lt, marks[j] ?? marks.at(-1), 0.6); const v = $('b', n), raw = v.dataset.v, m = raw.match(/^(\D*)([\d,]+)(.*)$/)
+      if (m && !raw.includes('–')) { const target = +m[2].replace(/,/g, ''), q = P(lt, marks[j], marks[j] + 0.7, E.outCubic); v.textContent = m[1] + Math.round(target * q).toLocaleString('en-US') + m[3] } })
+    rise([$('.fine', el)], lt, L(sc, 1, 0.85))
+  } else if (sc.type === 'ex_smart') {
+    rise([$('.t1', el), $('.t2', el)], lt, 0.05, 0.1)
+    const its = $$('.it', el), marks = [L(sc, 0, 0.3), L(sc, 1, 0.02), L(sc, 1, 0.3), L(sc, 1, 0.6)]
+    its.forEach((n, j) => { const at = marks[j] ?? marks.at(-1), q = P(lt, at, at + 0.45, E.outBack); n.style.opacity = clamp((lt - at) / 0.12); n.style.transform = `translate3d(${(1 - q) * 700}px,0,0)` })
+  } else if (sc.type === 'ex_outro') {
+    slam($('.big .a', el), lt, 0.1, 1.8, 0.3); rise($$('.ws .chip', el), lt, 0.5, 0.25)
+  }
+}
+
+window.fxEvents = function () {
+  const ev = [], add = (t, type, gain) => ev.push({ t: +t.toFixed(3), type, ...(gain ? { gain } : {}) })
+  D.scenes.forEach((sc, k) => {
+    const T = sc.start, b = sc.data || {}
+    if (k > 0) add(T, 'whoosh', 0.9)
+    if (sc.type === 'ex_hook') { add(T + 0.05, 'riser', 0.5); add(T + 0.55, 'boom'); add(T + 0.6, 'impact', 0.6) }
+    if (sc.type === 'ex_stack') { const a0 = Math.max(0.6, L(sc, 0, 0.35)); (b.legs || []).forEach((_, j) => add(T + a0 + j * 0.45, 'pop')); add(T + L(sc, 1, 0.75), 'boom', 0.7); add(T + L(sc, 1, 0.78), 'cash', 0.7) }
+    if (sc.type === 'ex_rule') { add(T + 1.4, 'boom', 0.6); add(T + 1.45, 'ding', 0.6); const t1 = Math.max(1.4, L(sc, 0, 0.45)); add(T + t1 + 1.0, 'boom', 0.8); add(T + t1 + 1.05, 'aww', 0.8) }
+    if (sc.type === 'ex_start') { add(T + L(sc, 0, 0.3), 'tick'); add(T + L(sc, 1, 0), 'whoosh', 0.5); add(T + L(sc, 1, 0) + 1.6, 'cash', 0.6) }
+    if (sc.type === 'ex_buy') { add(T + L(sc, 0, 0.7), 'tick'); add(T + L(sc, 1, 0.1), 'tick2'); add(T + L(sc, 1, 0.1) + 1.0, 'pop'); add(T + L(sc, 2, 0.1), 'tick3'); add(T + L(sc, 2, 0.1) + 0.2, 'ding', 0.8) }
+    if (sc.type === 'ex_track') { add(T + L(sc, 0, 0.35), 'tick'); add(T + L(sc, 0, 0.35) + 0.6, 'tick2'); add(T + L(sc, 1, 0.05) - 0.3, 'tick3'); add(T + L(sc, 1, 0.05) + 0.3, 'boom', 0.7); add(T + L(sc, 1, 0.5) + 0.1, 'cash') }
+    if (sc.type === 'ex_custom') { const ms = b.matches || [], t0 = L(sc, 0, 0.45), step = Math.min(0.55, (L(sc, 0, 1) - t0) / Math.max(1, ms.length)); ms.forEach((_, j) => add(T + t0 + j * step, 'tick' + (j ? Math.min(3, j + 1) : ''))); add(T + L(sc, 1, 0.3), 'pop') }
+    if (sc.type === 'ex_pvp') { add(T + 0.7, 'impact', 0.6); add(T + L(sc, 1, 0.2), 'boom'); add(T + L(sc, 1, 0.22), 'crowd', 0.6) }
+    if (sc.type === 'ex_numbers') [L(sc, 0, 0.45), L(sc, 1, 0.12), L(sc, 1, 0.38), L(sc, 1, 0.62)].forEach(m => add(T + m, 'pop'))
+    if (sc.type === 'ex_smart') [L(sc, 0, 0.3), L(sc, 1, 0.02), L(sc, 1, 0.3), L(sc, 1, 0.6)].forEach(m => add(T + m, 'tick'))
+    if (sc.type === 'ex_outro') add(T + 0.12, 'impact', 0.7)
+  })
+  return ev
+}
+
+// ---------------------------------------------------------------- frame
+let capShown = -1
+const capEl = $('#cap')
+let seed = 99; const rnd = () => (seed = (seed * 1103515245 + 12345) % 2147483648) / 2147483648
+const gc = document.createElement('canvas'); gc.width = gc.height = 256
+{ const x = gc.getContext('2d'), d = x.createImageData(256, 256); for (let i = 0; i < d.data.length; i += 4) { const v = rnd() * 255; d.data[i] = d.data[i + 1] = d.data[i + 2] = v; d.data[i + 3] = 255 } x.putImageData(d, 0, 0) }
+$('#grain').style.backgroundImage = `url(${gc.toDataURL()})`
+const CH = EX.chapters || {}
+
+window.renderAt = async function (t) {
+  let k = D.scenes.findIndex(s => t >= s.start && t < s.start + s.dur); if (k < 0) k = D.scenes.length - 1
+  const sc = D.scenes[k], lt = t - sc.start
+  built.forEach((el, j) => { el.style.display = j === k ? 'block' : 'none'; if (j !== k) el.style.transform = '' })
+  // the living background: a slow drifting grid and two glows
+  $('#grid').style.transform = `translate3d(0,${(t * 24) % 120}px,0) rotate(${-8 + 2 * Math.sin(t * 0.2)}deg)`
+  $('#b1').style.transform = `translate3d(${-260 + 180 * Math.sin(t * 0.31)}px,${-200 + 220 * Math.cos(t * 0.23)}px,0)`
+  $('#b2').style.transform = `translate3d(${520 + 160 * Math.cos(t * 0.27)}px,${1180 + 200 * Math.sin(t * 0.19)}px,0)`
+  draw(k, lt, sc)
+  // chapter label and progress
+  const ch = CH[sc.type] || ''
+  $('#chap').innerHTML = ch ? `<b>${String(Object.keys(CH).indexOf(sc.type) + 1).padStart(2, '0')}</b>${html(ch)}` : ''
+  $('#prog i').style.width = `${100 * clamp(t / D.duration)}%`
+  $('#flash').style.opacity = k > 0 ? 0.5 * (1 - clamp(lt / 0.18)) : 0
+  // captions (word by word, current word in lime)
+  const ci = D.captions.findIndex(c => t >= c.start && t < c.end)
+  if (ci !== capShown) { capShown = ci; capEl.innerHTML = ci < 0 ? '' : `<div class="c">${D.captions[ci].words.map(w => `<span class="w">${html(w.w)}</span>`).join(' ')}</div>` }
+  if (ci >= 0) {
+    const c = D.captions[ci], q = P(t, c.start, c.start + 0.16, E.outBack), box = $('.c', capEl)
+    box.style.opacity = clamp(q * 2); box.style.transform = `scale(${0.85 + 0.15 * q})`
+    $$('.w', capEl).forEach((s, j) => { const w = c.words[j]; s.className = 'w' + (t >= w.t0 && t < w.t1 ? ' now' : '') })
+  }
+  $('#grain').style.transform = `translate3d(${(Math.floor(t * 24) * 37) % 200 - 100}px,${(Math.floor(t * 24) * 53) % 200 - 100}px,0)`
+}
+
+window.ready = (async () => {
+  await Promise.all([...document.fonts].map(f => f.load()))
+  await document.fonts.ready
+  return true
+})()
+</script>
+</body></html>

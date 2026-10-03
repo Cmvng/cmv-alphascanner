@@ -25,7 +25,7 @@ const SAY_NAMES = {
   Romelu: 'Ro-meh-loo', Lukaku: 'Loo-kah-koo', 'Barış Alper Yılmaz': 'Bah-rish Al-per Yil-maz', 'Liège': 'Lee-ezh', Sclessin: 'Skleh-san', Zenica: 'Zeh-nitsa',
   Zinedine: 'Zee-neh-deen', Olise: 'Oh-leese', 'Pio Esposito': 'Pee-yo Esposeeto', Esposito: 'Esposeeto', Meazza: 'Meh-atza', 'Doué': 'Doo-ay', Cherki: 'Sher-kee',
   'Çalhanoğlu': 'Chal-han-oh-loo', 'Kökçü': 'Kerk-choo',
-  Rijeka: 'Ree-yeh-ka', 'Modrić': 'Mod-ritch', 'Kovačić': 'Ko-va-chitch', Xhaka: 'Jah-ka', Gvardiol: 'Gvar-dee-ol', 'Šulc': 'Shults', Oviedo: 'Oh-vee-ay-doh',
+  USDC: 'U S D C', PvP: 'P V P',   Rijeka: 'Ree-yeh-ka', 'Modrić': 'Mod-ritch', 'Kovačić': 'Ko-va-chitch', Xhaka: 'Jah-ka', Gvardiol: 'Gvar-dee-ol', 'Šulc': 'Shults', Oviedo: 'Oh-vee-ay-doh',
   Rivne: 'Reev-neh', Kudrivka: 'Koo-driv-ka', 'Lanús': 'Lah-noos', Czechia: 'Check-ee-a', Justicia: 'Hoos-tee-see-a',   'Alajbegović': 'Ala-ee-beh-go-vitch', 'Adžić': 'Ad-jitch', Kakoullis: 'Ka-koo-lis', Konomis: 'Ko-no-mis', 'De Bruyne': 'De Broyne', 'Zieliński': 'Jeh-lin-ski', 'Drăgușin': 'Dra-goo-sheen', Kerkez: 'Ker-kez', Upamecano: 'Oo-pa-meh-cano',
 }
 // letter-aware edges: \b treats accented letters as non-letters, so "Doué" or "Çalhanoğlu" would never match
@@ -156,7 +156,7 @@ function buildResultScenes(cfg, picks, recap) {
 }
 
 export function buildScenes(cfg, picks, recap) {
-  const build = cfg.mode === 'results' ? buildResultScenes : cfg.mode === 'preview' ? buildPreviewScenes : cfg.mode === 'review' ? buildReviewScenes : buildPickScenes
+  const build = cfg.mode === 'results' ? buildResultScenes : cfg.mode === 'preview' ? buildPreviewScenes : cfg.mode === 'review' ? buildReviewScenes : cfg.mode === 'explainer' ? buildExplainerScenes : buildPickScenes
   // cfg.skip: leave screens out, e.g. ["pv_form"] when the app's numbers clash with confirmed recent results
   return applyScript(cfg, build(cfg, picks, recap).filter(s => !(cfg.skip || []).includes(s.type)))
 }
@@ -165,6 +165,12 @@ export function buildScenes(cfg, picks, recap) {
 // run the same way. A beat: { type: hook|moment|meme|stats|read|table|ratings|cta, say: [lines], clip, sticker, burst, … }
 function buildReviewScenes(cfg) {
   return (cfg.review?.beats || []).map(b => ({ type: (/^(rx|pm)_/.test(b.type) ? '' : 'rv_') + b.type, i: b.match ?? 0, say: (b.say || []).map(W), data: b, hold: b.hold }))
+}
+
+// Motion-graphics explainer (any topic, e.g. how a product works): every screen is a beat in cfg.explainer.beats,
+// drawn by explainer.html. A beat: { type: hook|stack|rule|start|buy|track|custom|pvp|numbers|smart|outro, say: [lines], … }
+function buildExplainerScenes(cfg) {
+  return (cfg.explainer?.beats || []).map(b => ({ type: 'ex_' + b.type.replace(/^ex_/, ''), i: 0, say: (b.say || []).map(W), data: b, hold: b.hold }))
 }
 
 // Match preview: football analysis only. No odds, prices, stakes, picks or betting words (X / YouTube monetisation).

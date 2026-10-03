@@ -261,7 +261,7 @@ if (cfg.mode === 'review') {
 fs.cpSync(path.join(DIR, 'assets'), path.join(OUT, 'assets'), { recursive: true })
 cfg.when_word ||= cfg.when === 'tonight' ? 'Tonight' : 'Today'
 const DATA = { cfg, picks, recap, beat: BEAT, scenes: scenes.map(({ type, i, start, dur, lines, data, clip, pres }) => ({ type, i, start, dur, lines, data, clip, pres })), captions, duration: DURATION }
-const page = fs.readFileSync(path.join(DIR, cfg.mode === 'review' ? 'review.html' : 'scene.html'), 'utf8')
+const page = fs.readFileSync(path.join(DIR, cfg.mode === 'review' ? 'review.html' : cfg.mode === 'explainer' ? 'explainer.html' : 'scene.html'), 'utf8')
   .replace('<script>\nconst D = window.DATA', `<script>window.DATA=${JSON.stringify(DATA).replace(/</g, '\\u003c')}</script>\n<script>\nconst D = window.DATA`)
 fs.writeFileSync(path.join(OUT, 'index.html'), page)
 const credits = [...(cfg.analysis?.players || []).map(x => x.photo?.credit), ...(cfg.review?.beats || []).map(b => b.photo?.credit), ...new Set((cfg.review?.beats || []).flatMap(b => (b.photos || []).map(x => x.credit))), ...new Set(picks.flatMap(p => cfg.style === 'broadcast' ? [] : cfg.style === 'players' && p.players?.length ? p.players.map(x => x.credit) : [p.stadium?.credit]).filter(Boolean)), music?.credit, scenes.some(s => s.clip) ? 'Reaction clips: Mixkit (free licence)' : null, cfg.presenter?.credit || null].filter(Boolean)
@@ -306,7 +306,7 @@ async function complianceCheck() {
   console.log(`Monetisation check: passed (${seen.size} lines of on-screen text and voiceover, no betting terms)`)
 }
 // tips videos ("tips": true) aren't for monetised X / YouTube, so they skip the betting-word check
-if ((cfg.mode === 'preview' || cfg.mode === 'review') && cfg.tips !== true) await complianceCheck()
+if (['preview', 'review', 'explainer'].includes(cfg.mode) && cfg.tips !== true) await complianceCheck()
 
 // ---------------------------------------------------------------- stills (preview)
 if (stills) {

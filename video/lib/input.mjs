@@ -60,7 +60,8 @@ export function loadInput(file) {
   const text = fs.readFileSync(file, 'utf8')
   const raw = file.toLowerCase().endsWith('.csv') ? fromCsv(text) : JSON.parse(text)
   const cfg = { ...DEFAULTS, ...raw, signal: { ...DEFAULTS.signal, ...(typeof raw.signal === 'object' ? raw.signal : {}) }, cta: { ...DEFAULTS.cta, ...(raw.cta || {}) } }
-  if (!Array.isArray(raw.picks) || !raw.picks.length) throw new Error('The file needs a "picks" list with at least one match.')
+  if (raw.mode === 'explainer') raw.picks ||= []                 // an explainer has no matches
+  else if (!Array.isArray(raw.picks) || !raw.picks.length) throw new Error('The file needs a "picks" list with at least one match.')
 
   const errors = []
   let picks = raw.picks.map((p0, i) => {
@@ -94,7 +95,7 @@ export function loadInput(file) {
   })
   if (errors.length) throw new Error('Please fix the picks file:\n  - ' + errors.join('\n  - '))
   if (cfg.skip_negative_edge) picks = picks.filter(p => p.signal > 1)
-  if (!picks.length) throw new Error('No picks left after removing negative-edge picks.')
+  if (!picks.length && cfg.mode !== 'explainer') throw new Error('No picks left after removing negative-edge picks.')
 
   if (cfg.mode === 'preview' || cfg.mode === 'review') { cfg.title ||= cfg.mode === 'review' ? 'Post-match review' : 'Preview'; return { cfg, picks, recap: {} } }
   // Split the example stake by Signal bars (3 bars get 3 shares, 1 bar gets 1), rounded down so the total never goes over
