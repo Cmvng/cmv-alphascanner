@@ -1,0 +1,292 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<!-- Talking-head edit (edit-video.mjs): the owner's own recording (a chart screen recording with a face-cam) cut into a
+     vertical video: a dark cold open of big numbers, the title on the music's drop, the chart zoomed to what is being
+     pointed at, the face below, captions, callouts, a product segment and an end card. Same contract as the other pages:
+     window.DATA in, window.ready, window.renderAt(t) (async: waits for the frame image), window.fxEvents(). -->
+<style>
+@font-face{font-family:Manrope;font-weight:600;src:url(assets/fonts/manrope-latin-600-normal.woff2) format('woff2')}
+@font-face{font-family:Manrope;font-weight:800;src:url(assets/fonts/manrope-latin-800-normal.woff2) format('woff2')}
+@font-face{font-family:JBM;font-weight:700;src:url(assets/fonts/jetbrains-mono-latin-700-normal.woff2) format('woff2')}
+@font-face{font-family:Anton;font-weight:400;src:url(assets/fonts/anton-latin-400-normal.woff2) format('woff2')}
+:root{--acc:#C3FF00;--acc2:#3DDC97;--red:#FF4D6A;--ink:#0B1220}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1080px;height:1920px;overflow:hidden;background:#000}
+#stage{position:relative;width:1080px;height:1920px;overflow:hidden;background:radial-gradient(120% 70% at 50% 0%,#0E1B33 0%,#060B16 55%,#020409 100%);font-family:Manrope;color:#fff}
+#grid{position:absolute;inset:-200px;background-image:linear-gradient(rgba(195,255,0,.05) 2px,transparent 2px),linear-gradient(90deg,rgba(195,255,0,.05) 2px,transparent 2px);background-size:110px 110px}
+.A{font-family:Anton;font-weight:400;text-transform:uppercase;letter-spacing:1px;line-height:.95}
+.chip{display:inline-flex;align-items:center;gap:10px;padding:12px 22px;border-radius:999px;background:rgba(195,255,0,.12);border:2px solid rgba(195,255,0,.5);color:var(--acc);font:700 24px JBM;letter-spacing:2px;text-transform:uppercase;white-space:nowrap}
+.chip.w{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.25);color:#fff}
+#hdr{position:absolute;left:24px;right:24px;top:70px;display:flex;justify-content:space-between;align-items:center;z-index:40}
+#prog{position:absolute;left:24px;right:24px;top:40px;height:6px;border-radius:3px;background:rgba(255,255,255,.1);z-index:40;overflow:hidden}
+#prog i{display:block;height:100%;width:0;background:var(--acc);box-shadow:0 0 16px var(--acc)}
+.box{position:absolute;overflow:hidden;background:#0A0F1A;will-change:transform,opacity}
+.box img{position:absolute;left:0;top:0;transform-origin:0 0;will-change:transform}
+#chartbox{left:24px;top:160px;width:1032px;height:740px;border-radius:30px;box-shadow:0 0 0 2px rgba(255,255,255,.12),0 30px 80px rgba(0,0,0,.6);z-index:10}
+#facebox{left:220px;top:1150px;width:640px;height:600px;border-radius:44px;box-shadow:0 0 0 4px var(--acc),0 0 60px rgba(195,255,0,.25),0 30px 80px rgba(0,0,0,.6);z-index:10}
+#cold{position:absolute;inset:0;z-index:30;overflow:hidden;background:#000}
+#cold img{position:absolute;left:0;top:0;transform-origin:0 0;filter:grayscale(1) brightness(.33) contrast(1.25) blur(1.2px)}
+#cold .dark{position:absolute;inset:0;background:#000;opacity:0}
+#cold .floor{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 45%,rgba(0,0,0,.92) 70%,#000 100%)}
+#scrim{position:absolute;left:24px;top:160px;width:1032px;height:740px;border-radius:30px;background:#000;opacity:0;z-index:12;pointer-events:none}
+#cold .bigc{position:absolute;left:0;right:0;top:640px;text-align:center;font-size:300px;color:#fff;text-shadow:0 24px 80px rgba(0,0,0,.8)}
+#cold .bigc.hot{color:var(--acc);text-shadow:0 0 80px rgba(195,255,0,.5),0 24px 80px rgba(0,0,0,.8)}
+#cold .bigc.red{color:var(--red);text-shadow:0 0 70px rgba(255,77,106,.5),0 24px 80px rgba(0,0,0,.8)}
+#cold .labc{position:absolute;left:60px;right:60px;top:980px;text-align:center;font:700 36px JBM;letter-spacing:7px;text-transform:uppercase;color:rgba(255,255,255,.9)}
+#title{position:absolute;left:0;right:0;top:330px;text-align:center;z-index:35;pointer-events:none}
+#title .top{display:inline-block}
+#title .big{font-size:250px;color:var(--acc);text-shadow:0 0 90px rgba(195,255,0,.55),0 20px 60px rgba(0,0,0,.8);margin-top:20px}
+#title .sub{margin-top:24px}
+#cap{position:absolute;left:40px;right:40px;top:930px;height:200px;z-index:36;display:flex;align-items:flex-start;justify-content:center;text-align:center}
+#cap .c{font:400 66px/1.08 Anton;text-transform:uppercase;letter-spacing:1px;-webkit-text-stroke:6px #000;paint-order:stroke fill;text-shadow:0 6px 0 #000}
+#cap .w{display:inline-block;margin:0 .12em}
+#cap .w.now{color:var(--acc)}
+#call{position:absolute;left:52px;top:190px;z-index:20}
+#call .k{display:inline-flex;align-items:center;gap:14px;padding:14px 26px;border-radius:18px;background:var(--acc);color:var(--ink);font:400 48px Anton;text-transform:uppercase;letter-spacing:1px;box-shadow:0 14px 40px rgba(0,0,0,.5)}
+#call .k i{width:16px;height:16px;border-radius:50%;background:var(--ink)}
+#prod,#end{position:absolute;inset:0;z-index:45;background:radial-gradient(110% 70% at 50% 20%,#0F2B1B 0%,#05110A 60%,#010402 100%);overflow:hidden}
+#prod .kick{position:absolute;left:0;right:0;top:170px;text-align:center}
+#prod .brand{position:absolute;left:0;right:0;top:250px;text-align:center;font-size:118px;color:#fff}
+#prod .brand b{color:var(--acc);font-weight:400}
+#prod .line{position:absolute;left:0;right:0;top:390px;text-align:center;font:800 38px Manrope;color:rgba(255,255,255,.85)}
+#prod .phone{position:absolute;left:270px;top:480px;width:540px;height:1090px;border-radius:78px;background:#0A0A0A;box-shadow:0 0 0 4px #2B2F2B,0 50px 120px rgba(0,0,0,.7),0 0 120px rgba(195,255,0,.15)}
+#prod .scr{position:absolute;inset:14px;border-radius:66px;overflow:hidden;background:#fff}
+#prod .scr .pg{position:absolute;left:0;top:58px;width:100%}
+#prod .scr .hd{position:absolute;left:0;top:58px;width:100%;z-index:2}
+#prod .scr .sb{position:absolute;left:0;right:0;top:0;height:58px;background:#fff;z-index:2;display:flex;justify-content:space-between;align-items:center;padding:6px 44px 0;font:800 20px Manrope;color:#0B1220}
+#prod .scr .sb span{display:flex;gap:6px;align-items:center}#prod .scr .sb i{display:block;width:26px;height:12px;border-radius:3px;border:2px solid #0B1220}
+#prod .scr .nav{position:absolute;left:0;right:0;bottom:0;width:100%}
+#prod .isl{position:absolute;left:50%;top:26px;width:150px;height:40px;margin-left:-75px;border-radius:22px;background:#000;z-index:3}
+#prod .pts{position:absolute;left:60px;right:60px;top:1610px;display:flex;flex-direction:column;gap:14px;align-items:center}
+#prod .pts div{font:800 30px Manrope;display:flex;align-items:center;gap:14px}
+#prod .pts div i{width:30px;height:30px;border-radius:9px;background:var(--acc);color:var(--ink);font:400 22px Anton;font-style:normal;display:flex;align-items:center;justify-content:center}
+#end .f1{position:absolute;left:0;right:0;top:620px;text-align:center;font:800 40px Manrope;color:rgba(255,255,255,.8)}
+#end .f2{position:absolute;left:0;right:0;top:690px;text-align:center;font-size:150px;color:var(--acc)}
+#end .f3{position:absolute;left:0;right:0;top:900px;text-align:center}
+#end .f4{position:absolute;left:0;right:0;top:1000px;text-align:center}
+#stage.isCold #cap{top:1300px}
+/* widescreen (X, YouTube): chart nearly full frame, face card bottom right, captions bottom left */
+#stage.wide{width:1920px;height:1080px}
+#stage.wide #prog{top:24px;left:40px;right:40px}
+#stage.wide #hdr{top:42px;left:40px;right:40px}
+#stage.wide #chartbox,#stage.wide #scrim{left:40px;top:100px;width:1840px;height:940px}
+#stage.wide #facebox{left:1460px;top:640px;width:400px;height:376px;border-radius:36px}
+#stage.wide #call{left:70px;top:130px}
+#stage.wide #cap{left:70px;right:520px;top:880px;height:140px;justify-content:flex-start;text-align:left}
+#stage.wide.isCold #cap{left:200px;right:200px;top:820px;justify-content:center;text-align:center}
+#stage.wide #title{top:240px}
+#stage.wide #title .big{font-size:230px}
+#stage.wide #cold .bigc{top:250px;font-size:280px}
+#stage.wide #cold .labc{top:570px}
+#stage.wide #cold .floor{background:linear-gradient(180deg,rgba(0,0,0,0) 40%,rgba(0,0,0,.85) 75%,#000 100%)}
+#stage.wide #prod .kick{left:150px;right:auto;top:270px;text-align:left}
+#stage.wide #prod .brand{left:150px;right:auto;top:340px;text-align:left;font-size:120px}
+#stage.wide #prod .line{left:150px;right:auto;top:480px;text-align:left}
+#stage.wide #prod .pts{left:150px;right:auto;top:570px;align-items:flex-start}
+#stage.wide #prod .phone{left:1220px;top:50px;width:480px;height:970px;border-radius:70px}
+#stage.wide #prod .scr{border-radius:58px}
+#stage.wide #end .f1{top:330px}#stage.wide #end .f2{top:400px}#stage.wide #end .f3{top:590px}#stage.wide #end .f4{top:670px}
+#stage.wide #foot{bottom:14px}
+#foot{position:absolute;left:24px;right:24px;bottom:42px;text-align:center;font:700 19px JBM;letter-spacing:1px;color:rgba(255,255,255,.5);z-index:50}
+#flash{position:absolute;inset:0;background:var(--acc);opacity:0;z-index:60;mix-blend-mode:overlay;pointer-events:none}
+</style></head>
+<body><div id="stage">
+  <div id="grid"></div>
+  <div id="prog"><i></i></div>
+  <div id="hdr"><span class="chip w" id="pair"></span><span class="chip" id="hand"></span></div>
+  <div class="box" id="chartbox"><img id="chart"></div><div id="scrim"></div>
+  <div id="call"></div>
+  <div class="box" id="facebox"><img id="face"></div>
+  <div id="cap"></div>
+  <div id="title"><span class="chip top"></span><div class="big A"></div><div class="sub"><span class="chip w"></span></div></div>
+  <div id="cold"><img id="coldimg"><div class="floor"></div><div class="dark"></div><div class="bigc A"></div><div class="labc"></div></div>
+  <div id="prod"><div class="kick"><span class="chip w"></span></div><div class="brand A"></div><div class="line"></div>
+    <div class="phone"><div class="isl"></div><div class="scr"><div class="sb"><b>9:41</b><span>5G <i></i></span></div><img class="pg"><img class="hd"><img class="nav"></div></div><div class="pts"></div></div>
+  <div id="end"><div class="f1"></div><div class="f2 A"></div><div class="f3"><span class="chip"></span></div><div class="f4"><span class="chip w">Not financial advice</span></div></div>
+  <div id="foot"></div>
+  <div id="flash"></div>
+</div>
+<script>
+const D = window.DATA
+const $ = (s, el = document) => el.querySelector(s), $$ = (s, el = document) => [...el.querySelectorAll(s)]
+const clamp = (v, a = 0, b = 1) => Math.max(a, Math.min(b, v))
+const E = { outExpo: x => x >= 1 ? 1 : 1 - Math.pow(2, -10 * x), outCubic: x => 1 - Math.pow(1 - x, 3), inOutSine: x => -(Math.cos(Math.PI * x) - 1) / 2,
+  outBack: x => 1 + 2.4 * Math.pow(x - 1, 3) + 1.4 * Math.pow(x - 1, 2), inOutCubic: x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2 }
+const P = (t, a, b, e = E.outExpo) => e(clamp((t - a) / (b - a)))
+const html = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]))
+const shake = (lt, at, amp = 14) => { const d = lt - at; if (d < 0 || d > 0.3) return ''; const a = amp * (1 - d / 0.3); return ` translate3d(${a * Math.sin(d * 95)}px,${a * Math.cos(d * 77)}px,0)` }
+function slam(n, t, at, from = 1.9, dur = 0.28) { const q = P(t, at, at + dur, E.outCubic); n.style.opacity = clamp((t - at) / 0.08); return `scale(${from + (1 - from) * q})` }
+function glitch(n, t, at, dur = 0.38) {
+  const d = t - at
+  if (d < 0 || d > dur) { n.style.textShadow = ''; return '' }
+  const r = Math.sin(t * 997) * Math.cos(t * 331), a = 18 * (1 - d / dur)
+  n.style.textShadow = `${-7 * (1 - d / dur)}px 0 #ff2a55, ${7 * (1 - d / dur)}px 0 #00e5ff`
+  return ` translate3d(${r * a}px,${Math.sin(t * 613) * a * 0.3}px,0) skewX(${r * 8}deg)`
+}
+if (D.fmt === 'wide') { $('#stage').classList.add('wide'); document.documentElement.style.cssText = document.body.style.cssText = 'width:1920px;height:1080px' }
+const FPS = D.fps, FW = D.frameW, FH = D.frameH, [cx0, cy0, cw0, ch0] = D.chart, FACE = D.face
+const SEG = D.segments, speak = SEG.filter(s => s.pieces?.length)
+$('#pair').textContent = D.pair || ''; $('#hand').textContent = D.handle || ''; $('#foot').textContent = `Not financial advice · ${D.handle || ''}`
+{ const t = SEG.find(s => s.kind === 'title') || {}; $('#title .top').textContent = t.top || ''; $('#title .big').textContent = t.big || ''; $('#title .sub .chip').textContent = t.sub || '' }
+{ const p = SEG.find(s => s.kind === 'product'); if (p) { $('#prod .kick .chip').textContent = p.kicker || ''; $('#prod .brand').innerHTML = html(p.brand || '').replace(/^(\w+)/, '<b>$1</b>'); $('#prod .line').textContent = p.line || ''
+  $('#prod .pg').src = p.shot; $('#prod .nav').src = p.bar; if (p.head) $('#prod .hd').src = p.head; else $('#prod .hd').remove(); $('#prod .pts').innerHTML = (p.points || []).map((x, j) => `<div><i>${j + 1}</i>${html(x)}</div>`).join('') } }
+{ const e = SEG.find(s => s.kind === 'end'); if (e) { $('#end .f1').textContent = e.line || ''; $('#end .f2').textContent = e.follow || ''; $('#end .f3 .chip').textContent = e.site || '' } }
+
+// ---- captions: each line's text in chunks of up to five words, spread over its spoken pieces by length
+const caps = []
+for (const s of SEG) {
+  if (!s.cap || !s.pieces?.length) continue
+  const words = s.cap.split(/\s+/), chunks = []; let cur = []
+  words.forEach((w, i) => { cur.push(w); if (cur.length >= 5 || (/[,.;:?!]$/.test(w) && cur.length >= 2) || i === words.length - 1) { chunks.push(cur); cur = [] } })
+  const total = s.pieces.reduce((a, p) => a + p.dur, 0), wt = w => w.length + 2, all = chunks.flat().reduce((a, w) => a + wt(w), 0)
+  // spoken time → timeline time (pieces are back to back, so this is a straight line per piece)
+  const at = x => { for (const p of s.pieces) { if (x <= p.dur) return p.out + x; x -= p.dur } const l = s.pieces.at(-1); return l.out + l.dur }
+  let acc = 0
+  for (const c of chunks) { const ws = c.map(w => { const t0 = at(acc / all * total); acc += wt(w); return { w, t0, t1: at(acc / all * total) } }); caps.push({ start: ws[0].t0, end: ws.at(-1).t1, words: ws }) }
+}
+caps.forEach((c, i) => { const n = caps[i + 1]; c.end = n && n.start - c.end < 0.6 ? n.start : c.end + 0.25 })
+
+// ---- which source frame shows at time t (holds the nearest piece's frame between pieces)
+function frameAt(t) {
+  let best = null
+  for (const s of speak) for (const [j, p] of s.pieces.entries()) {
+    if (t >= p.out && t < p.out + p.dur) return { p, j, s, f: Math.min(p.n, Math.max(1, Math.floor((t - p.out) * FPS) + 1)) }
+    if (p.out <= t) best = { p, j, s, f: p.n }
+  }
+  if (!best) { const s = speak[0], p = s.pieces[0]; return { p, j: 0, s, f: 1 } }
+  // after the cold open, the title holds the first frame of the first clip
+  const nx = speak.find(s => s.start > t)
+  if (nx && best.s.kind === 'cold' && nx.kind === 'clip') return { p: nx.pieces[0], j: 0, s: nx, f: 1 }
+  return best
+}
+const zoomOf = s => s?.z || [0.6, 0.35, 0.6]
+function cropFor(z, push, aspect) {          // z = [centre x, centre y, width] as fractions of the frame → crop rect in px
+  let w = Math.min(1, z[2] * (D.fmt === 'wide' ? 1.55 : 1)) * FW * (1 - push), h = w / aspect      // widescreen shows more of the chart
+  if (h > ch0) { h = ch0; w = h * aspect }
+  let x = z[0] * FW - w / 2, y = z[1] * FH - h / 2
+  x = Math.max(cx0, Math.min(cx0 + cw0 - w, x)); y = Math.max(cy0, Math.min(cy0 + ch0 - h, y))
+  return [x, y, w, h]
+}
+const lerp = (a, b, q) => a.map((v, i) => v + (b[i] - v) * q)
+function place(img, box, rect, extra = '') {
+  const [x, y, w] = rect, s = box.clientWidth / w
+  img.style.transform = `scale(${s}) translate(${-x}px,${-y}px)` + extra
+}
+
+let lastSrc = ''
+window.renderAt = async function (t) {
+  const seg = SEG.find(s => t >= s.start - 1e-6 && t < s.end) || SEG.find(s => s.start > t) || SEG.at(-1)
+  const fr = frameAt(t), src = `${fr.p.dir}/${String(fr.f).padStart(5, '0')}.jpg`
+  let wait = null
+  if (src !== lastSrc) { lastSrc = src; for (const im of [$('#chart'), $('#face'), $('#coldimg')]) im.src = src; wait = Promise.all(['#chart', '#face', '#coldimg'].map(q => $(q).decode().catch(() => {}))) }
+  const drop = D.drop, cold = t < drop, lt = t - seg.start
+  // ---- cold open: the chart in the dark, one big number per line
+  const co = $('#cold'); co.style.display = cold ? 'block' : 'none'
+  if (cold) {
+    const cs = SEG.filter(s => s.kind === 'cold'), j = Math.max(0, cs.filter(s => t >= s.start - 0.08).length - 1), st = cs[j], on = t >= cs[0].start - 0.08
+    const r = cropFor(zoomOf(st), 0.08 * clamp((t - st.start) / 4), co.clientWidth / co.clientHeight)
+    place($('#coldimg'), co, r)
+    const big = $('.bigc', co), lab = $('.labc', co), changed = j === 0 || st.big !== cs[j - 1].big, at = st.start - 0.08
+    big.textContent = on ? st.big : ''; lab.textContent = on ? st.label : ''; big.className = 'bigc A' + (st.tone ? ' ' + st.tone : '')
+    big.style.transform = (changed ? slam(big, t, at) : (big.style.opacity = on ? 1 : 0, '')) + (st.glitch ? glitch(big, t, at + (st.glitch_at || 0)) : (big.style.textShadow = '', ''))
+    lab.style.opacity = P(t, at + 0.15, at + 0.5); lab.style.transform = `translate3d(0,${(1 - P(t, at + 0.15, at + 0.6, E.outCubic)) * 30}px,0)`
+    const end = cs.at(-1).end
+    $('.dark', co).style.opacity = 0.55 * P(t, end, drop, E.inOutSine)
+    co.style.transform = `scale(${1 + 0.06 * P(t, end, drop, E.inOutSine)})` + (changed ? shake(t, at + 0.02, 12) : '')
+  }
+  // ---- the edit: chart above, face below; both land on the drop
+  const after = t - drop
+  const cb = $('#chartbox'), fb = $('#facebox')
+  cb.style.opacity = P(after, 0, 0.12); cb.style.transform = `translate3d(0,${(1 - P(after, 0, 0.45, E.outBack)) * -120}px,0)`
+  fb.style.opacity = P(after, 0.05, 0.17); fb.style.transform = `translate3d(0,${(1 - P(after, 0.05, 0.5, E.outBack)) * 160}px,0)`
+  // zoom: ease to the clip's framing at each new clip, then a slow push; jump cuts inside a clip alternate a punch-in
+  const cs2 = fr.s, prev = speak[speak.indexOf(cs2) - 1], q = P(t, cs2.start - 0.05, cs2.start + 0.4, E.inOutCubic)
+  const aspect = cb.clientWidth / cb.clientHeight
+  const rA = prev && prev.kind === 'clip' ? cropFor(zoomOf(prev), 0.06, aspect) : cropFor(zoomOf(cs2), 0, aspect)
+  const rB = cropFor(zoomOf(cs2), 0.06 * clamp((t - cs2.start) / Math.max(2, cs2.end - cs2.start)), aspect)
+  const punch = fr.j % 2 ? 1.07 : 1
+  const r = lerp(rA, rB, q), rc = [r[0] + r[2] * (1 - 1 / punch) / 2, r[1] + r[3] * (1 - 1 / punch) / 2, r[2] / punch, r[3] / punch]
+  place($('#chart'), cb, rc)
+  const fz = fr.j % 2 ? 1.08 : 1, fw = FACE[2] / fz, fh = FACE[3] / fz
+  place($('#face'), fb, [FACE[0] + (FACE[2] - fw) / 2, FACE[1] + (FACE[3] - fh) * 0.35, fw, fh])
+  // ---- title on the drop
+  const ti = $('#title'), tS = SEG.find(s => s.kind === 'title')
+  ti.style.display = t >= drop && t < tS.end + 0.35 ? 'block' : 'none'
+  if (ti.style.display === 'block') {
+    const b = $('.big', ti); b.style.transform = slam(b, t, drop, 2.3, 0.3) + shake(t, drop + 0.03, 24)
+    $('.top', ti).style.opacity = P(t, drop + 0.1, drop + 0.3); $('.sub', ti).style.opacity = P(t, drop + 0.35, drop + 0.6)
+    ti.style.opacity = 1 - P(t, tS.end, tS.end + 0.3)
+  }
+  $('#scrim').style.opacity = t >= drop ? 0.62 * (1 - P(t, tS.end - 0.1, tS.end + 0.35)) : 0
+  $('#scrim').style.transform = cb.style.transform
+  // ---- callout chip for the clip
+  const call = $('#call'), cl = seg.kind === 'clip' && seg.call ? seg : null
+  if (cl) { if (call.dataset.id !== cl.id) { call.dataset.id = cl.id; call.innerHTML = `<div class="k"><i></i>${html(cl.call)}</div>` }
+    const k = $('.k', call); k.style.transform = slam(k, t, cl.start + 0.25, 1.6, 0.25); k.style.transformOrigin = '0 50%'; call.style.display = 'block' }
+  else call.style.display = 'none'
+  // ---- captions
+  const ci = caps.findIndex(c => t >= c.start && t < c.end), capEl = $('#cap')
+  if (capEl.dataset.i !== String(ci)) { capEl.dataset.i = ci; capEl.innerHTML = ci < 0 ? '' : `<div class="c">${caps[ci].words.map(w => `<span class="w">${html(w.w)}</span>`).join(' ')}</div>` }
+  if (ci >= 0) { const c = caps[ci], qq = P(t, c.start, c.start + 0.16, E.outBack), bx = $('.c', capEl); bx.style.opacity = clamp(qq * 2); bx.style.transform = `scale(${0.85 + 0.15 * qq})`
+    $$('.w', capEl).forEach((s, j) => { const w = c.words[j]; s.className = 'w' + (t >= w.t0 && t < w.t1 ? ' now' : '') }) }
+  $('#stage').classList.toggle('isCold', cold)
+  // ---- product segment
+  const pr = $('#prod'), ps = SEG.find(s => s.kind === 'product')
+  pr.style.display = ps && t >= ps.start - 0.2 && t < ps.end + 0.2 ? 'block' : 'none'
+  if (pr.style.display === 'block') {
+    const l = t - ps.start
+    pr.style.opacity = P(l, -0.2, 0.05) * (1 - P(l, ps.end - ps.start, ps.end - ps.start + 0.2))
+    const kk = $('.kick', pr); kk.style.opacity = P(l, 0.1, 0.4)
+    const br = $('.brand', pr); br.style.transform = slam(br, l, 0.5, 1.8, 0.3) + shake(l, 0.55, 14)
+    $('.line', pr).style.opacity = P(l, 0.9, 1.2)
+    const ph = $('.phone', pr); ph.style.transform = `translate3d(0,${(1 - P(l, 0.7, 1.4, E.outCubic)) * 900}px,0)`
+    const pg = $('.pg', pr), scrH = $('.scr', pr).clientHeight, maxS = Math.max(0, Math.min(pg.clientHeight - scrH, scrH * 0.95))
+    pg.style.transform = `translate3d(0,${-maxS * P(l, 1.8, 1.8 + 0.6 * (ps.end - ps.start - 1.8), E.inOutSine)}px,0)`
+    $$('.pts div', pr).forEach((d, j) => { const a = 2.0 + j * 1.3; d.style.opacity = P(l, a, a + 0.25); d.style.transform = `translate3d(${(1 - P(l, a, a + 0.4, E.outBack)) * 300}px,0,0)` })
+  }
+  // ---- end card
+  const en = $('#end'), es = SEG.find(s => s.kind === 'end')
+  en.style.display = es && t >= es.start - 0.15 ? 'block' : 'none'
+  if (en.style.display === 'block') { const l = t - es.start; en.style.opacity = P(l, -0.15, 0.1); const f2 = $('.f2', en); f2.style.transform = slam(f2, l, 0.15, 1.8, 0.3); $('.f1', en).style.opacity = P(l, 0.4, 0.7); $('.f3', en).style.opacity = P(l, 0.7, 1.0); $('.f4', en).style.opacity = P(l, 1.0, 1.3) }
+  // ---- header, progress, flash on the drop and at each new clip
+  $('#hdr').style.opacity = cold ? 0 : 1; $('#prog').style.opacity = cold ? 0 : 1
+  $('#prog i').style.width = `${100 * clamp(t / D.duration)}%`
+  let fl = t >= drop && t < drop + 0.3 ? 0.6 * (1 - (t - drop) / 0.3) : 0
+  for (const s of SEG) if (s.kind === 'clip' && t >= s.start && t < s.start + 0.2) fl = Math.max(fl, 0.25 * (1 - (t - s.start) / 0.2))
+  $('#flash').style.opacity = fl
+  $('#grid').style.transform = `translate3d(0,${(t * 20) % 110}px,0)`
+  if (wait) await wait
+}
+
+window.fxEvents = function () {
+  const ev = [], add = (t, sfx, db, o = {}) => ev.push({ t: +Math.max(0, t).toFixed(3), sfx, db, ...o })
+  const cs = SEG.filter(s => s.kind === 'cold')
+  if (cs.length) {
+    add(0, '497', -18, { align: 'start', max: Math.max(1, D.drop - 0.2) })
+    cs.forEach((s, j) => {
+      // a real voice (not a studio one): hits stay under it so every word stays clear
+      if (j === 0) { add(s.start - 0.12, '2909', -10); add(s.start - 0.12, '2299', -11) }
+      else if (s.big !== cs[j - 1].big) { add(s.start - 0.1, '2299', -9); add(s.start - 0.1, '3124', -12) }
+      if (s.glitch) add(s.start - 0.08 + (s.glitch_at || 0), '2951', -9)
+    })
+    add(D.drop, '2908', -6, { reverse: true, max: 2.6, align: 'end' })
+  }
+  add(D.drop, '2908', 0); add(D.drop, '2299', -2)
+  SEG.filter(s => s.kind === 'clip').forEach((s, j) => {
+    if (j > 0) add(s.start, j % 2 ? '1492' : '2636', j % 2 ? -14 : -16, { align: 'peak' })
+    if (s.call) { add(s.start + 0.25, '3124', -11); add(s.start + 0.25, '2299', -10) }
+  })
+  const p = SEG.find(s => s.kind === 'product')
+  if (p) { add(p.start, '1492', -10, { align: 'peak' }); add(p.start + 0.5, '2909', -4); add(p.start + 0.7, '3120', -10); (p.points || []).forEach((_, j) => add(p.start + 2.0 + j * 1.3, '2573', -11)) }
+  const e = SEG.find(s => s.kind === 'end')
+  if (e) { add(e.start + 0.15, '2908', -4); add(e.start + 0.15, '2299', -5) }
+  return ev
+}
+
+window.ready = (async () => {
+  await Promise.all([...document.fonts].map(f => f.load())); await document.fonts.ready
+  await Promise.all([...document.images].filter(i => i.src).map(i => i.decode().catch(() => {})))
+  return true
+})()
+</script>
+</body></html>

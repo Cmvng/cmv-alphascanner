@@ -160,6 +160,14 @@ voice A for these modes, and when a cold open exists the music's drop lands on t
 - Then silence (`tail` about 0.5 s) and the title slams in on the drop. Don't add a line that repeats the cold open in the title screen.
 - **Facts** come only from the product's docs and app, listed in a sources file. Our own redrawn screens, no logo.
 
+## The owner's own recordings (talking head + chart)
+
+When the owner sends a video they filmed (an X post link, or a Drive/Dropbox link to the original), edit it with
+`video/edit-video.mjs`, following `video/templates/talking-head/README.md`: fetch (`video/lib/fetch_x.py`), transcribe
+with word timings, write the edit decision list (cold open from their own strongest lines, clean clips cut only at
+pauses, a zoom and a callout per clip, the cmvngpicks.com segment, the end card), check the cut by transcribing
+`voice.wav`, look at stills, then render `--fmt vertical` and `--fmt wide`. Reference: `eth-2026-09-30.edl.json`.
+
 ## 2. Write the script (the presenter is a football analyst)
 
 Open the JSON and add a `"script"` object. The voice reads it word for word, and the captions show it.

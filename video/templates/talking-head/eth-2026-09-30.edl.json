@@ -1,0 +1,346 @@
+{
+ "source": "raw.mp4",
+ "words": "words.json",
+ "face": [
+  1515,
+  722,
+  300,
+  282
+ ],
+ "chart": [
+  46,
+  80,
+  1814,
+  920
+ ],
+ "cold": [
+  {
+   "w": [
+    [
+     0,
+     12
+    ],
+    [
+     17,
+     18
+    ]
+   ],
+   "big": "$3,000",
+   "label": "ETH's next stop?",
+   "cap": "Why do I think Ethereum is primed to pump to $3,000?",
+   "z": [
+    0.6,
+    0.32,
+    0.6
+   ]
+  },
+  {
+   "w": [
+    [
+     82,
+     89
+    ]
+   ],
+   "big": "70%",
+   "label": "setup formed",
+   "tone": "hot",
+   "cap": "Now that's formed my 70% setup.",
+   "z": [
+    0.62,
+    0.3,
+    0.42
+   ]
+  },
+  {
+   "w": [
+    [
+     136,
+     141,
+     {
+      "end": 67.11
+     }
+    ]
+   ],
+   "big": "?",
+   "label": "sitting on resistance",
+   "tone": "red",
+   "glitch": true,
+   "glitch_at": 0.5,
+   "cap": "It's currently at regional resistance.",
+   "z": [
+    0.6,
+    0.62,
+    0.5
+   ]
+  }
+ ],
+ "title": {
+  "top": "ETH",
+  "big": "$3,000?",
+  "sub": "The 70% setup, explained"
+ },
+ "clips": [
+  {
+   "id": "B1",
+   "w": [
+    [
+     32,
+     36
+    ],
+    [
+     37,
+     42
+    ]
+   ],
+   "cap": "Let's do a common, simple trading setup: breakouts and retests.",
+   "call": "Breakout + retest",
+   "z": [
+    0.78,
+    0.33,
+    0.36
+   ]
+  },
+  {
+   "id": "B2",
+   "w": [
+    [
+     43,
+     48
+    ],
+    [
+     50,
+     58
+    ]
+   ],
+   "cap": "Price was here. It broke, came back to this region, and broke out.",
+   "z": [
+    0.42,
+    0.4,
+    0.36
+   ]
+  },
+  {
+   "id": "B3",
+   "w": [
+    [
+     69,
+     80
+    ],
+    [
+     81,
+     89
+    ]
+   ],
+   "cap": "Price came here, pushed to the upside, retest, pushed again, retest. And now that's formed my 70% setup.",
+   "call": "70% setup ✓",
+   "z": [
+    0.72,
+    0.3,
+    0.36
+   ]
+  },
+  {
+   "id": "B4",
+   "w": [
+    [
+     90,
+     94
+    ],
+    [
+     100,
+     110,
+     {
+      "end": 56.58
+     }
+    ]
+   ],
+   "cap": "So I truly believe it can pump to the region of 3,000.",
+   "call": "Target $3,000",
+   "z": [
+    0.7,
+    0.22,
+    0.396
+   ]
+  },
+  {
+   "id": "B5",
+   "w": [
+    [
+     167,
+     174
+    ],
+    [
+     183,
+     185
+    ],
+    [
+     188,
+     197
+    ],
+    [
+     198,
+     206
+    ]
+   ],
+   "cap": "Look at this region: price pumped, the previous resistance it broke is now support. Then it reached this region, retest, retest.",
+   "call": "Resistance → support",
+   "z": [
+    0.5,
+    0.36,
+    0.446
+   ]
+  },
+  {
+   "id": "B6",
+   "w": [
+    [
+     236,
+     242
+    ],
+    [
+     250,
+     255
+    ],
+    [
+     266,
+     271
+    ]
+   ],
+   "cap": "It came again, retest, and formed the double bottom again. That gives it more confidence.",
+   "call": "Double bottom",
+   "z": [
+    0.42,
+    0.42,
+    0.36
+   ]
+  },
+  {
+   "id": "B7",
+   "w": [
+    [
+     311,
+     318
+    ],
+    [
+     325,
+     327
+    ]
+   ],
+   "cap": "All these rejections, and it's not closing below. That gives me confidence.",
+   "call": "No close below",
+   "z": [
+    0.7,
+    0.3,
+    0.396
+   ]
+  },
+  {
+   "id": "B8",
+   "w": [
+    [
+     409,
+     414
+    ],
+    [
+     418,
+     428
+    ]
+   ],
+   "cap": "First leg, second leg, double bottom. I'll take the entry around this region.",
+   "call": "Entry",
+   "z": [
+    0.5,
+    0.33,
+    0.396
+   ]
+  },
+  {
+   "id": "B9",
+   "w": [
+    [
+     446,
+     457
+    ],
+    [
+     544,
+     547
+    ]
+   ],
+   "cap": "I put my stop loss around this region here. That's a 1 to 4.5 ratio.",
+   "call": "Stop loss · R:R 1 : 4.5",
+   "z": [
+    0.62,
+    0.3,
+    0.324
+   ]
+  },
+  {
+   "id": "PRODUCT"
+  },
+  {
+   "id": "B10",
+   "w": [
+    [
+     548,
+     549
+    ],
+    [
+     551,
+     562
+    ]
+   ],
+   "cap": "So I'm expecting a retest here today, before price continues.",
+   "call": "Watch the retest",
+   "z": [
+    0.6,
+    0.32,
+    0.324
+   ]
+  },
+  {
+   "id": "B11",
+   "w": [
+    [
+     575,
+     586
+    ]
+   ],
+   "cap": "And let's see how it plays out in the coming days.",
+   "z": [
+    0.6,
+    0.3,
+    0.468
+   ]
+  }
+ ],
+ "product": {
+  "kicker": "When I'm not on the charts",
+  "brand": "cmvngpicks.com",
+  "line": "My football predictions app",
+  "points": [
+   "Picks from a real model, every day",
+   "Every pick graded in public, won or lost",
+   "Daily slips · 1-tap booking codes"
+  ],
+  "shot": "site/page_nobar2.png",
+  "bar": "site/navbar2.png",
+  "head": "site/head.png"
+ },
+ "end": {
+  "follow": "@i_am_vickyd",
+  "line": "Follow for the next update",
+  "site": "cmvngpicks.com"
+ },
+ "handle": "@i_am_vickyd",
+ "pair": "ETH/USD · 4H",
+ "timing": {
+  "lead": 0.35,
+  "cold_gap": 0.45,
+  "silence": 0.75,
+  "title": 1.5,
+  "clip_gap": 0.2,
+  "product": 8.5,
+  "end": 3.8
+ },
+ "_note": "Reference edit of the owner's ETH video (30 Sep 2026, x.com/i_am_vickyd/status/2105287808696893675). To re-run: put raw.mp4 (video/lib/fetch_x.py), words.json (faster-whisper small.en word timings) and site/ (Playwright captures of cmvngpicks.com) next to this file."
+}
