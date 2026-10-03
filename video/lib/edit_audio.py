@@ -14,6 +14,11 @@ FF = os.environ.get('FFMPEG', 'ffmpeg')
 # the owner's phone/laptop mic: a gentle clean-up (noise floor, boxiness, presence, even level) — no robot sound
 VOICE = ('highpass=f=75,afftdn=nr=10:nf=-42:tn=1,equalizer=f=280:t=q:w=1.2:g=-2.5,equalizer=f=3200:t=q:w=1.3:g=3,'
          'equalizer=f=9000:t=q:w=1.5:g=1.5,acompressor=threshold=-22dB:ratio=3:attack=6:release=120:makeup=4')
+# after DeepFilterNet3 (voice.enhance = "df3"; the owner asked for a clearer, more present voice, 3 Oct): the room and
+# the echo are already gone, so this cuts the low rumble, lifts presence and keeps the level steady and forward
+VOICE_DF = ('highpass=f=85,highpass=f=85,equalizer=f=250:t=q:w=1.2:g=-2,equalizer=f=3000:t=q:w=1.2:g=3.5,'
+            'equalizer=f=8000:t=q:w=1.5:g=2,deesser=i=0.35,acompressor=threshold=-24dB:ratio=4:attack=5:release=120:makeup=5')
+DF_PY = os.environ.get('DF_PYTHON', '/home/user/.venvs/tts/bin/python')
 
 
 def load(path):
@@ -63,7 +68,17 @@ def pieces_for(words, rng, e, k, floor, gap_keep=0.2, gap_min=0.38):
 def plan(edl_path, out_dir):
     E = json.load(open(edl_path)); base = os.path.dirname(os.path.abspath(edl_path))
     src = os.path.join(base, E['source']); words = json.load(open(os.path.join(base, E['words'])))
-    x = load(src); e, k = energy(x)
+    os.makedirs(out_dir, exist_ok=True)
+    df3 = (E.get('voice') or {}).get('enhance') == 'df3'
+    if df3:                                              # clean the whole recording once, then cut the clean voice
+        raw_wav, clean = os.path.join(out_dir, 'src_raw.wav'), os.path.join(out_dir, 'src_df3.wav')
+        if not os.path.exists(clean):
+            subprocess.run([FF, '-v', 'error', '-y', '-i', src, '-ac', '1', '-ar', str(SR), raw_wav], check=True)
+            subprocess.run([DF_PY, os.path.join(os.path.dirname(os.path.abspath(__file__)), 'df_enhance.py'), raw_wav, clean], check=True)
+        x = load(clean)
+    else:
+        x = load(src)
+    e, k = energy(x)
     floor = np.percentile(e, 20) + 3                     # just above the room noise (soft consonants stay in)
     T = E.get('timing', {})
     t = T.get('lead', 0.35); segs = []
@@ -81,7 +96,8 @@ def plan(edl_path, out_dir):
     drop = round(t, 3); segs.append({'kind': 'title', 'start': drop, 'end': round(drop + T.get('title', 1.5), 3), **E.get('title', {})}); t += T.get('title', 1.5)
     for c in E['clips']:
         if c.get('id') == 'PRODUCT':
-            segs.append({'kind': 'product', 'start': round(t + 0.1, 3), 'end': round(t + 0.1 + T.get('product', 8.5), 3), **E.get('product', {})}); t += 0.1 + T.get('product', 8.5) + 0.25
+            pr = E.get('product', {})        # its own kind ("coin": the coin itself, live) is kept as kind2
+            segs.append({**pr, 'kind2': pr.get('kind'), 'kind': 'product', 'start': round(t + 0.1, 3), 'end': round(t + 0.1 + T.get('product', 8.5), 3)}); t += 0.1 + T.get('product', 8.5) + 0.25
             continue
         place('clip', c, T.get('clip_gap', 0.2))
     segs.append({'kind': 'end', 'start': round(t + 0.2, 3), 'end': round(t + 0.2 + T.get('end', 3.8), 3), **E.get('end', {})})
@@ -94,7 +110,7 @@ def plan(edl_path, out_dir):
             a[:f] *= np.linspace(0, 1, f); a[-f:] *= np.linspace(1, 0, f)
             o = int(p['out'] * SR); v[o:o + len(a)] += a
     os.makedirs(out_dir, exist_ok=True)
-    raw = subprocess.run([FF, '-v', 'error', '-f', 'f32le', '-ar', str(SR), '-ac', '1', '-i', '-', '-af', VOICE, '-f', 'f32le', '-ar', str(SR), '-ac', '1', '-'],
+    raw = subprocess.run([FF, '-v', 'error', '-f', 'f32le', '-ar', str(SR), '-ac', '1', '-i', '-', '-af', VOICE_DF if df3 else VOICE, '-f', 'f32le', '-ar', str(SR), '-ac', '1', '-'],
                          input=v.tobytes(), capture_output=True, check=True).stdout
     v = np.frombuffer(raw, np.float32).copy(); v /= np.abs(v).max() + 1e-9; v *= 0.89
     import wave

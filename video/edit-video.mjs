@@ -39,17 +39,31 @@ for (const s of plan.segments) for (const p of s.pieces || []) {
   const dir = path.join(OUT, 'f', `${p.src.toFixed(3)}_${p.dur.toFixed(3)}`)
   if (!fs.existsSync(dir) || !fs.readdirSync(dir).length) {
     fs.mkdirSync(dir, { recursive: true })
-    await run(FF, ['-y', '-loglevel', 'error', '-ss', p.src.toFixed(3), '-i', src, '-t', p.dur.toFixed(3), '-vf', `fps=${FPS}`, '-q:v', '3', path.join(dir, '%05d.jpg')])
+    await run(FF, ['-y', '-loglevel', 'error', '-ss', p.src.toFixed(3), '-i', src, '-t', p.dur.toFixed(3), '-vf', `fps=${FPS}${EDL.sharpen === false ? '' : ',unsharp=5:5:0.6:3:3:0'}`, '-q:v', '2', path.join(dir, '%05d.jpg')])
   }
   p.dir = path.relative(OUT, dir); p.n = fs.readdirSync(dir).length; k++
 }
 console.log(`Frames ready for ${k} pieces`)
 
+// 2b. a coin segment shows the coin itself, live: price, 24h change and 4-hour candles from Coinbase (public data),
+// with the levels the owner talked about
+const coin = plan.segments.find(s => s.kind === 'product' && s.kind2 === 'coin')
+if (coin) {
+  const get = u => JSON.parse(execSync(`curl -sS -f --max-time 30 "${u}"`).toString())
+  const st = get(`https://api.exchange.coinbase.com/products/${coin.coin}/stats`)
+  const cd = get(`https://api.coinbase.com/api/v3/brokerage/market/products/${coin.coin}/candles?granularity=FOUR_HOUR&limit=${coin.bars || 60}`).candles
+  coin.price = +st.last; coin.open24 = +st.open
+  coin.candles = cd.map(k => ({ t: +k.start, o: +k.open, h: +k.high, l: +k.low, c: +k.close })).sort((a, b) => a.t - b.t)
+  coin.asof = new Date().toUTCString().replace(/:\d\d GMT$/, ' UTC').replace(/^\w+, /, '')
+  const inZone = coin.price >= coin.zone[0] && coin.price <= coin.zone[1]
+  console.log(`${coin.coin}: $${coin.price} (${((coin.price / coin.open24 - 1) * 100).toFixed(1)}% 24h) at ${coin.asof}${inZone ? ', inside the zone' : `, OUTSIDE the zone ${coin.zone.join('–')}: check the points still read true`}`)
+}
+
 // 3. the page
 fs.cpSync(path.join(DIR, 'assets'), path.join(OUT, 'assets'), { recursive: true })
 const prod = plan.segments.find(s => s.kind === 'product')
 if (prod) for (const key of ['shot', 'bar', 'head']) if (prod[key]) { const f = path.resolve(BASE, prod[key]), dst = 'prod_' + key + path.extname(f); fs.copyFileSync(f, path.join(OUT, dst)); prod[key] = dst }
-const DATA = { fmt: FMT, fps: FPS, frameW, frameH, chart: EDL.chart, face: EDL.face, pair: EDL.pair, handle: EDL.handle, duration: plan.duration, drop: plan.drop, segments: plan.segments }
+const DATA = { fmt: FMT, fps: FPS, frameW, frameH, chart: EDL.chart, face: EDL.face, mask: EDL.mask, pair: EDL.pair, handle: EDL.handle, duration: plan.duration, drop: plan.drop, segments: plan.segments }
 const page = fs.readFileSync(path.join(DIR, 'edit.html'), 'utf8').replace('<script>\nconst D = window.DATA', `<script>window.DATA=${JSON.stringify(DATA).replace(/</g, '\\u003c')}</script>\n<script>\nconst D = window.DATA`)
   .replace('.box img{position:absolute;', `.box img,#cold img{width:${frameW}px;height:${frameH}px}\n.box img{position:absolute;`)
 fs.writeFileSync(path.join(OUT, `index${SUF}.html`), page)

@@ -1,0 +1,370 @@
+{
+ "source": "raw.mp4",
+ "words": "words.json",
+ "face": [
+  1110,
+  690,
+  330,
+  310
+ ],
+ "chart": [
+  22,
+  190,
+  1418,
+  715
+ ],
+ "pair": "ETH/USD · 4H",
+ "handle": "@i_am_vickyd",
+ "voice": {
+  "enhance": "df3"
+ },
+ "music": {
+  "id": 720,
+  "level": -6,
+  "duck": 10
+ },
+ "cold": [
+  {
+   "w": [
+    [
+     55,
+     67
+    ]
+   ],
+   "big": "$3,000",
+   "label": "in the coming days?",
+   "cap": "Price is going to rally to $3,000 in the coming days.",
+   "z": [
+    0.32,
+    0.33,
+    0.6
+   ]
+  },
+  {
+   "w": [
+    [
+     151,
+     155
+    ],
+    [
+     159,
+     161
+    ]
+   ],
+   "big": "70%",
+   "label": "setup",
+   "tone": "hot",
+   "cap": "This was a 70%… setup.",
+   "z": [
+    0.7,
+    0.33,
+    0.6
+   ]
+  },
+  {
+   "w": [
+    [
+     491,
+     499
+    ]
+   ],
+   "big": "$2,700",
+   "label": "the tricky zone",
+   "tone": "red",
+   "glitch": true,
+   "glitch_at": 0.6,
+   "cap": "This region is going to be a tricky one.",
+   "z": [
+    0.5,
+    0.33,
+    0.62
+   ]
+  }
+ ],
+ "title": {
+  "top": "ETH",
+  "big": "$3,000?",
+  "sub": "Price just confirmed it. Here's the chart"
+ },
+ "clips": [
+  {
+   "id": "B1",
+   "w": [
+    [
+     1,
+     22
+    ]
+   ],
+   "cap": "A couple of days ago, I posted a video about Ethereum and why I think it goes to $3,000.",
+   "z": [
+    0.62,
+    0.38,
+    0.65
+   ]
+  },
+  {
+   "id": "B3",
+   "w": [
+    [
+     77,
+     84
+    ],
+    [
+     94,
+     98
+    ],
+    [
+     100,
+     108
+    ]
+   ],
+   "cap": "Look at the volume profile: the region from $2,600 to $2,700 was the region of the most activity.",
+   "call": "Volume zone $2,600–$2,700",
+   "z": [
+    0.3,
+    0.32,
+    0.5
+   ]
+  },
+  {
+   "id": "B4",
+   "w": [
+    [
+     131,
+     149
+    ]
+   ],
+   "cap": "It has grabbed liquidity at this point and at this point. All price needed was confirmation.",
+   "call": "Liquidity grabbed ✓",
+   "z": [
+    0.42,
+    0.42,
+    0.6
+   ]
+  },
+  {
+   "id": "B6",
+   "w": [
+    [
+     184,
+     191
+    ],
+    [
+     196,
+     201
+    ],
+    [
+     220,
+     229
+    ],
+    [
+     231,
+     237
+    ],
+    [
+     243,
+     245
+    ]
+   ],
+   "cap": "On the daily timeframe, the candles did not close below $2,650. One, two, three, four, five, six, seven. Indecision candles.",
+   "call": "7 daily closes above $2,650",
+   "z": [
+    0.32,
+    0.3,
+    0.5
+   ]
+  },
+  {
+   "id": "B8",
+   "w": [
+    [
+     318,
+     326
+    ],
+    [
+     344,
+     348
+    ]
+   ],
+   "cap": "And if I check the 4-hour, the buyers are in control.",
+   "call": "4H: buyers in control",
+   "z": [
+    0.55,
+    0.35,
+    0.7
+   ]
+  },
+  {
+   "id": "B9",
+   "w": [
+    [
+     388,
+     397
+    ],
+    [
+     409,
+     414
+    ]
+   ],
+   "cap": "I want price to come to this region, then push up from there.",
+   "call": "Retest first",
+   "z": [
+    0.42,
+    0.34,
+    0.62
+   ]
+  },
+  {
+   "id": "B10",
+   "w": [
+    [
+     432,
+     441
+    ],
+    [
+     443,
+     455
+    ]
+   ],
+   "cap": "In this region, a lot of activity. A lot of institutional activity took part here.",
+   "call": "Institutional zone",
+   "z": [
+    0.45,
+    0.33,
+    0.6
+   ]
+  },
+  {
+   "id": "B11",
+   "w": [
+    [
+     466,
+     471
+    ],
+    [
+     480,
+     488
+    ]
+   ],
+   "cap": "If we can leave this region, then we are expected to rally to $3,000.",
+   "call": "Break out → $3,000",
+   "z": [
+    0.45,
+    0.32,
+    0.62
+   ]
+  },
+  {
+   "id": "B12",
+   "w": [
+    [
+     500,
+     514
+    ],
+    [
+     515,
+     530
+    ]
+   ],
+   "cap": "I expect price to retest the $2,700 region. Once we retest, I expect a bounce and an impulsive move to the upside.",
+   "call": "Retest $2,700 → bounce",
+   "z": [
+    0.55,
+    0.33,
+    0.6
+   ]
+  },
+  {
+   "id": "PRODUCT"
+  },
+  {
+   "id": "B13",
+   "w": [
+    [
+     544,
+     552
+    ],
+    [
+     583,
+     596
+    ]
+   ],
+   "cap": "If we get a strong candle close, we keep on rallying to $3,000 in the coming days.",
+   "call": "Needs a strong close",
+   "z": [
+    0.3,
+    0.3,
+    0.5
+   ]
+  },
+  {
+   "id": "B14",
+   "w": [
+    [
+     609,
+     617
+    ],
+    [
+     628,
+     631
+    ]
+   ],
+   "cap": "We are meant to react, not predict. Let's see what happens.",
+   "call": "React, don't predict",
+   "z": [
+    0.55,
+    0.3,
+    0.65
+   ]
+  }
+ ],
+ "product": {
+  "kind": "coin",
+  "coin": "ETH-USD",
+  "name": "Ethereum",
+  "kicker": "Right now · 4H chart",
+  "zone": [
+   2600,
+   2700
+  ],
+  "zone_label": "most activity",
+  "levels": [
+   {
+    "p": 3000,
+    "label": "target"
+   },
+   {
+    "p": 2650,
+    "label": "daily closes held"
+   }
+  ],
+  "points": [
+   "Back in the $2,600–$2,700 zone",
+   "Watching the retest and the bounce",
+   "Then $3,000?"
+  ]
+ },
+ "end": {
+  "follow": "@i_am_vickyd",
+  "line": "Follow for the next ETH update",
+  "site": "ETH · $3,000?"
+ },
+ "timing": {
+  "lead": 0.35,
+  "cold_gap": 0.45,
+  "silence": 0.75,
+  "title": 1.5,
+  "clip_gap": 0.2,
+  "product": 9.0,
+  "end": 3.8
+ },
+ "mask": {
+  "rect": [
+   1100,
+   640,
+   340,
+   280
+  ],
+  "color": "#DBD8DC"
+ }
+}

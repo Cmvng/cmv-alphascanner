@@ -165,8 +165,11 @@ voice A for these modes, and when a cold open exists the music's drop lands on t
 When the owner sends a video they filmed (an X post link, or a Drive/Dropbox link to the original), edit it with
 `video/edit-video.mjs`, following `video/templates/talking-head/README.md`: fetch (`video/lib/fetch_x.py`), transcribe
 with word timings, write the edit decision list (cold open from their own strongest lines, clean clips cut only at
-pauses, a zoom and a callout per clip, the cmvngpicks.com segment, the end card), check the cut by transcribing
-`voice.wav`, look at stills, then render `--fmt vertical` and `--fmt wide`. Reference: `eth-2026-09-30.edl.json`.
+pauses, a zoom and a callout per clip, the showcase, the end card), check the cut by transcribing `voice.wav`, look
+at stills, then render `--fmt vertical` and `--fmt wide`. Always clean the voice (`"voice": { "enhance": "df3" }`) and
+keep the music under it (`level` -6, `duck` 10): the owner wants their voice clear and forward. On a crypto video
+the showcase is the coin itself (live price, 24h change, 4-hour candles with the levels they talked about), not the
+site. Reference: `eth-2026-10-02.edl.json`.
 
 ## 2. Write the script (the presenter is a football analyst)
 
