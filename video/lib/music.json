@@ -528,6 +528,134 @@
     69.677
    ],
    "vibe": "cinematic"
+  },
+  {
+   "id": 557,
+   "name": "The 3rd Day",
+   "artist": "Eugenio Mininni",
+   "genre": "Electronica",
+   "mood": "drop",
+   "start": 39.532,
+   "bpm": 84.9,
+   "seconds": 184,
+   "drop": 39.532,
+   "loop": [
+    39.532,
+    163.914
+   ],
+   "vibe": "cinematic"
+  },
+  {
+   "id": 558,
+   "name": "Sonor 01",
+   "artist": "Eugenio Mininni",
+   "genre": "Electronica",
+   "mood": "drop",
+   "start": 22.338,
+   "bpm": 84.0,
+   "seconds": 298,
+   "drop": 22.338,
+   "loop": [
+    22.338,
+    273.767
+   ],
+   "vibe": "cinematic"
+  },
+  {
+   "id": 563,
+   "name": "Red Lights Adhafera",
+   "artist": "Eugenio Mininni",
+   "genre": "Ambient",
+   "mood": "drop",
+   "start": 27.585,
+   "bpm": 108.8,
+   "seconds": 298,
+   "drop": 27.585,
+   "loop": [
+    27.585,
+    283.467
+   ],
+   "vibe": "cinematic"
+  },
+  {
+   "id": 606,
+   "name": "Drawing the Sky",
+   "artist": "Eugenio Mininni",
+   "genre": "Orchestral Pop",
+   "mood": "drop",
+   "start": 14.849,
+   "bpm": 100.0,
+   "seconds": 206,
+   "drop": 14.849,
+   "loop": [
+    14.849,
+    178.049
+   ],
+   "vibe": "cinematic"
+  },
+  {
+   "id": 609,
+   "name": "Moon Walk",
+   "artist": "Eugenio Mininni",
+   "genre": "Electronica",
+   "mood": "drop",
+   "start": 74.083,
+   "bpm": 97.9,
+   "seconds": 204,
+   "drop": 74.083,
+   "loop": [
+    74.083,
+    172.142
+   ],
+   "vibe": "cinematic"
+  },
+  {
+   "id": 614,
+   "name": "Silent Descent",
+   "artist": "Eugenio Mininni",
+   "genre": "Film Score",
+   "mood": "drop",
+   "start": 70.287,
+   "bpm": 140.0,
+   "seconds": 160,
+   "drop": 70.287,
+   "loop": [
+    70.287,
+    118.287
+   ],
+   "vibe": "cinematic"
+  },
+  {
+   "id": 653,
+   "name": "Cinematic Jazz",
+   "artist": "Francisco Alvear",
+   "genre": "Electronic",
+   "mood": "drop",
+   "start": 42.713,
+   "bpm": 90.0,
+   "seconds": 144,
+   "drop": 42.713,
+   "loop": [
+    42.713,
+    128.046
+   ],
+   "vibe": "cinematic"
+  },
+  {
+   "id": 893,
+   "name": "Walking Dead",
+   "artist": "Michael Ramir C.",
+   "genre": "Electronica",
+   "mood": "drop",
+   "start": 57.76,
+   "bpm": 133.9,
+   "seconds": 122,
+   "drop": 57.76,
+   "loop": [
+    57.76,
+    107.947
+   ],
+   "vibe": "cinematic"
   }
  ]
 }

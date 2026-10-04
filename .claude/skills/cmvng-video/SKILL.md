@@ -47,7 +47,8 @@ candles and price moves, won/lost, correct/missed.
 slow paced way it was analyzing the game was giving me, okay, what is going on here." The track was "A New Life"
 (Mixkit 543, cinematic: a quiet build, then a hard drop on the title) with the voice at `voice_speed` 1.05. So:
 - **A new soundtrack every video.** The rotation never repeats one of the last six; keep the drop on the title.
-  Lean on the `cinematic` vibe for analysis and reviews, and grow that pool when it runs thin.
+  Lean on the `cinematic` vibe for analysis and reviews (`"music_vibe": ["cinematic"]`; 10 tracks since 4 Oct, mostly
+  Eugenio Mininni film scores, each with a timed build and drop), and grow that pool when it runs thin.
 - **Keep the measured pace** for analysis (1.05) with real pauses; don't rush the numbers.
 - **One new idea per video** (a different cold-open angle, transition, graphic or reveal), so no two look the same.
 - **Subtitles:** every render now writes a `.srt` next to the video (real names and digits); send it with the video.
