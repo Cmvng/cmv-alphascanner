@@ -39,3 +39,4 @@ echo "SEND    $SEND ($(du -h "$SEND" | cut -f1))"
 echo "SCRIPT  $OUT/script.txt"
 echo "CREDITS $OUT/credits.txt"
 if [ -f "${MP4%.mp4}_cover.jpg" ]; then echo "COVER   ${MP4%.mp4}_cover.jpg"; fi
+if [ -f "${MP4%.mp4}.srt" ]; then echo "SUBS    ${MP4%.mp4}.srt"; fi

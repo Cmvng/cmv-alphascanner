@@ -386,10 +386,26 @@ await run(FF, ['-y', '-loglevel', 'error', '-f', 'concat', '-safe', '0', '-i', p
 for (const f of segs) fs.rmSync(f)
 fs.rmSync(path.join(OUT, 'clips'), { recursive: true, force: true })      // clip frames are only needed while rendering
 fs.rmSync(path.join(OUT, 'pres'), { recursive: true, force: true })
+// subtitles (.srt) for YouTube / X: the caption text (real names and digits, not the voice's respellings), timed to the voice
+if (durs) {
+  const ts = t => { const ms = Math.round(t * 1000), h = Math.floor(ms / 3600000), m = Math.floor(ms / 60000) % 60, s = Math.floor(ms / 1000) % 60
+    return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')},${String(ms % 1000).padStart(3, '0')}` }
+  const cards = []
+  scenes.forEach(sc => (sc.sentences || []).forEach((se, j) => {
+    const text = shown(sc.say[j] ?? '').trim(); if (!text || se.start == null) return
+    const chunks = []; let cur = []
+    for (const w of text.split(/\s+/)) { cur.push(w); if (cur.join(' ').length > 42 && (/[,.:;!?]$/.test(w) || cur.length >= 8)) { chunks.push(cur.join(' ')); cur = [] } }
+    if (cur.length) chunks.push(cur.join(' '))
+    const total = chunks.reduce((a, c) => a + c.length, 0); let t = se.start
+    for (const c of chunks) { const d = se.dur * c.length / total; cards.push(`${cards.length + 1}\n${ts(t)} --> ${ts(t + d)}\n${c}\n`); t += d }
+  }))
+  fs.writeFileSync(final.replace(/\.mp4$/, '.srt'), cards.join('\n'))
+}
 // cover image for the YouTube / X thumbnail: the opening screen once everything has landed
 const cover = final.replace(/\.mp4$/, '_cover.jpg')
 await run(FF, ['-y', '-loglevel', 'error', '-ss', Math.max(0, scenes[0].start + scenes[0].dur - 0.4).toFixed(2), '-i', final, '-frames:v', '1', '-q:v', '2', cover]).catch(() => {})
 console.log(`\nDone in ${((Date.now() - t0) / 1000).toFixed(0)}s → ${final}`)
 console.log(`Post caption (the voiceover script): ${path.join(OUT, 'script.txt')}`)
 console.log(`Credits to paste in the post: ${path.join(OUT, 'credits.txt')}`)
+if (fs.existsSync(final.replace(/\.mp4$/, '.srt'))) console.log(`Subtitles: ${final.replace(/\.mp4$/, '.srt')}`)
 if (fs.existsSync(cover)) console.log(`Cover image (thumbnail): ${cover}`)

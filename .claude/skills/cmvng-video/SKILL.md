@@ -43,6 +43,15 @@ current caption word, rings, chips and glows are blue (sky `#4FB3FF`, `#3D7BFF`,
 backgrounds). Never yellow or lime as an accent. Green and red appear only where they mean something: up/down
 candles and price moves, won/lost, correct/missed.
 
+**What the owner loves (4 Oct): the soundtrack and the slow, suspenseful pace.** "The soundtrack was captivating… the
+slow paced way it was analyzing the game was giving me, okay, what is going on here." The track was "A New Life"
+(Mixkit 543, cinematic: a quiet build, then a hard drop on the title) with the voice at `voice_speed` 1.05. So:
+- **A new soundtrack every video.** The rotation never repeats one of the last six; keep the drop on the title.
+  Lean on the `cinematic` vibe for analysis and reviews, and grow that pool when it runs thin.
+- **Keep the measured pace** for analysis (1.05) with real pauses; don't rush the numbers.
+- **One new idea per video** (a different cold-open angle, transition, graphic or reveal), so no two look the same.
+- **Subtitles:** every render now writes a `.srt` next to the video (real names and digits); send it with the video.
+
 **House style: never say "AI Analyst"** in the video, the voice, titles or posts. The owner finds it cringe and low effort. It's "the analysis" or "match analysis" ("Here's the analysis.", "That's the analysis. Follow for more football, by the numbers."), and the render stops if the phrase appears.
 
 **Research.** For each match, run a web-research subagent in the background, one per match, all in parallel. Ask it for a brief of under 500 words with a source URL and date on every fact:
