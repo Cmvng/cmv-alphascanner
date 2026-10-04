@@ -105,6 +105,9 @@ the XO Market video of 4 Oct 2026, `xo-2026-10-04.edl.json` (a 10-minute CapCut 
   put the right number in a callout or on a card.
 - **Cards for things the owner asks on camera** ("what does this CP mean?"): a white list card with the answer from the
   project's own docs, dated (`"source"`).
+- **Never cut the owner's face.** Their note (4 Oct): "make sure no part is cut out, half of my face is cut out". The face-cam
+  card has the camera's own shape (`#stage.wide.screen #facebox` 308×379 for a 299×368 camera) so the whole picture shows,
+  with no punch-in on jump cuts; it sits where the camera sat in the recording, clear of the site's content.
 - Disk: a 10-minute 1440×1080 source makes about 2.5 GB of frames. Clear the `f/` folders of finished edits first.
 
 ## Inspiration the owner likes for crypto videos (4 Oct 2026)

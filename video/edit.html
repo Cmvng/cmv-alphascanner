@@ -76,7 +76,7 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#000}
 /* screen layout (a desktop screen recording with a face-cam corner): the whole screen at full width, the face-cam card over
    the corner it covered in the recording, callouts just above the captions so the site's own header stays clear */
 #stage.wide.screen #chartbox,#stage.wide.screen #scrim{height:928px}
-#stage.wide.screen #facebox{left:1495px;top:700px;width:385px;height:360px;border-radius:30px}
+#stage.wide.screen #facebox{left:1572px;top:681px;width:308px;height:379px;border-radius:12px}   /* the camera's own shape: the whole picture, nothing trimmed */
 #stage.wide.screen #call{top:776px}
 #stage.wide.screen #call .k{font-size:40px;padding:10px 22px}
 #stage.wide #call{left:70px;top:130px}
@@ -361,7 +361,7 @@ function place(img, box, rect, extra = '') {
 // where a 16:9 close-up goes: under the highlighted box, over it, left or right of it; never on the box, the face-cam card,
 // or the strip at the bottom that holds the callout and the captions
 function lensSpot(bx, w, h) {
-  const face = [1479, 684, 1896, 1076], hit = (a, b) => a[0] < b[2] && b[0] < a[2] && a[1] < b[3] && b[1] < a[3]
+  const face = [1556, 665, 1896, 1076], hit = (a, b) => a[0] < b[2] && b[0] < a[2] && a[1] < b[3] && b[1] < a[3]
   const box = [bx[0] - 12, bx[1] - 12, bx[0] + bx[2] + 12, bx[1] + bx[3] + 12], mx = bx[0] + bx[2] / 2 - w / 2, my = bx[1] + bx[3] / 2 - h / 2
   for (let [x, y] of [[mx, box[3] + 12], [mx, box[1] - h - 12], [box[0] - w - 12, my], [box[2] + 12, my]]) {
     x = Math.max(40, Math.min(1880 - w, x)); y = Math.max(110, Math.min(744 - h, y))
@@ -414,7 +414,7 @@ window.renderAt = async function (t) {
       cb.style.transform += ` perspective(2200px) translate3d(0,${-80 * fl}px,0) rotateY(${dir * (11 + sw) * fl}deg) rotateX(${5 * fl}deg) scale(${1 - 0.28 * fl})`
       cb.style.borderRadius = `${36 * fl}px`; cb.style.boxShadow = `0 0 0 2px rgba(255,255,255,${0.14 * fl}),0 ${50 * fl}px ${120 * fl}px rgba(0,0,0,${0.75 * fl}),0 0 ${90 * fl}px rgba(79,179,255,${0.22 * fl})` }
     else { cb.style.borderRadius = ''; cb.style.boxShadow = '' } }
-  if (FACE) { const fz = fr.j % 2 ? 1.08 : 1, fw = FACE[2] / fz, fh = FACE[3] / fz
+  if (FACE) { const fz = fr.j % 2 && !FULL ? 1.08 : 1, fw = FACE[2] / fz, fh = FACE[3] / fz
     place($('#face'), fb, [FACE[0] + (FACE[2] - fw) / 2, FACE[1] + (FACE[3] - fh) * 0.35, fw, fh]) }
   // ---- highlight: a box around what the owner is talking about ("marks": source seconds + region), with a close-up
   const spot = $('#spot'), lens = $('#lens'), mk = (cs2.marks || []).find(m => srcT >= m.t[0] - 0.15 && srcT <= m.t[1] + 0.15)

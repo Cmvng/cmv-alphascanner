@@ -192,7 +192,9 @@ must show), labels in their own band, and highlight boxes with close-ups for the
 Desktop screen recordings with a face-cam corner use `"layout": "screen"` with `--fmt wide` (reference
 `xo-2026-10-04.edl.json`). First check the screen and the voice are in sync: the owner records them on two devices and on
 4 Oct the screen ran 18 s ahead (see the template README for the one-line fix). Take every number from the screen, not
-from the transcript.
+from the transcript. The owner's rule (4 Oct): no part of the recording is ever cut out, their face included. The face-cam card
+keeps the camera's own shape and shows the whole camera picture (no trimming, no punch-in); check it on stills across
+the video before rendering.
 
 ## 2. Write the script (the presenter is a football analyst)
 
