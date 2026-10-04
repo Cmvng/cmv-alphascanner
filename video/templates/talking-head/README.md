@@ -84,6 +84,41 @@ memecoin video of 3 Oct 2026, `meme-2026-10-03.edl.json` (a 7.5-minute Fomo app 
   clips (figures only from what the owner said or showed).
 - **Text sizes:** a cold-open line or the title can take `"size"` (px) and `\n` line breaks.
 
+## Inspiration the owner likes for crypto videos (4 Oct 2026)
+
+Two reference videos the owner sent (Dropbox links in the chat of 4 Oct), on top of our own style:
+
+**"Prism, explained in 180 sec" (3:11, vertical, presenter to camera at TOKEN2049).**
+- Script: hook in one line ("I spent an afternoon clicking through Prism, here's my take"), the market in numbers
+  (grew fourfold in a year, $38B, 5 million holders), the problem (scattered, fake tokens), the answer in one image
+  ("Amazon for tokenized stocks"), proof numbers (2,400 assets, 18 networks, 67 issuers), a walkthrough, a beginner
+  tip, and a closing question as the CTA. About 175 words a minute, no filler.
+- Look: product screenshots float in as tilted cards with soft shadows over the upper half while the presenter stays
+  visible; a number pops out of the screenshot as its own card ("$38.68B", "5,078,791"); full-screen UI shots shown in
+  3D perspective with a slow drift; a logo reveal with a glow early on; small sentence-case captions, two lines.
+
+**"$100,000 campaign ends in 21 days" (0:36, wide, shallow depth-of-field presenter).**
+- Script: number + deadline first ("In 21 days, the $100,000 campaign ends"), a "but", the benefits list, who it's
+  for, and the link in the caption.
+- Look: a giant thin number over the presenter; bright white "breather" screens with one or two words of kinetic text,
+  then the list items one at a time in condensed capitals; a phone mockup sliding in; a bullet list beside the
+  presenter; the current caption word in the accent colour; a small logo in the corner; 60 fps.
+
+**What we take:** floating tilted screen cards (never cropped) between full-screen shots; number pop-out cards;
+white breather cards for lists; a clean caption style (sentence case, current word blue) as an alternative to the
+bold capitals; a logo or coin reveal on the title; a soft music bed throughout; and a tighter script (a hook with a
+number, problem, answer, proof, how-to, CTA). Recording tip for the owner: a few bullet points written down first,
+two to three minutes, face lit from the side with the background a little out of focus.
+
+**How to use them in an EDL** (preview: `node video/edit-video.mjs <edl> --stills …`):
+- `"caption_style": "clean"` at the top level: Manrope sentence case, the current word in blue.
+- `"float": true` (tilts right) or `"float": "left"` on a clip: the full-width screen becomes a tilted card over a
+  blurred copy of itself, sized so the captions sit below it. Vertical cut only (wide keeps the plain screen). It
+  shrinks the screen, and the owner dislikes a "zoomed out" screen, so use it on one or two short summary lines,
+  never where the viewer must read numbers or token names.
+- `{ "id": "LIST", "insert": { "kind": "list", "kicker": "Today", "title": "The other side", "items": [ … ],
+  "foot": "…", "step": 0.75 } }`: the white breather card, items slamming in one at a time (up to five short items).
+
 ## Rules
 
 - Crypto content: "Not financial advice" stays on screen; no "guaranteed" or "sure" anywhere we add.

@@ -157,6 +157,23 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#000}
 #ins .col.a .li i{background:var(--acc)}
 #ins.cmpm .kick{top:290px}#ins.cmpm .ttl{top:370px}#ins.cmpm .body{top:640px}
 #ins.cmpm .col{padding:42px 28px 38px}#ins.cmpm .col h3{font-size:88px}#ins.cmpm .col .tg{font-size:23px}#ins.cmpm .col .li{font-size:35px;margin-top:34px;padding-left:48px}#ins.cmpm .col .li i{width:30px;height:30px;top:7px}
+/* white "breather" list card (owner's reference, 4 Oct): bright screen, kinetic list in condensed capitals */
+#ins.listm{background:#F2F6FB}
+#ins.listm .chip.w{background:rgba(11,18,32,.06);border-color:rgba(11,18,32,.22);color:#0B1220}
+#ins.listm .kick{top:360px}#ins.listm .ttl{top:440px;font-size:96px;color:#0B1220;text-shadow:none}
+#ins.listm .body{top:680px}
+#ins .lst div{font:400 98px/1.05 Anton;text-transform:uppercase;letter-spacing:1px;color:#0B1220;text-align:center;margin:0 0 26px}
+#ins .lst div i{font-style:normal;color:var(--acc)}
+#ins.listm .foot2{color:#1F5FDB;text-shadow:none}
+#ins.listm .src{color:rgba(11,18,32,.5)}
+#foot.dark{color:rgba(11,18,32,.45)}
+#stage.wide #ins.listm .kick{top:80px}#stage.wide #ins.listm .ttl{top:140px;font-size:70px}#stage.wide #ins.listm .body{top:280px}#stage.wide #ins .lst div{font-size:70px;margin-bottom:12px}
+/* floating screen card (owner's reference): the screen tilted in 3D over a blurred copy of itself, never cropped */
+#floatbg{position:absolute;inset:0;z-index:9;display:none;overflow:hidden}
+#floatbg img{position:absolute;left:50%;top:50%;width:140%;height:140%;object-fit:cover;transform:translate(-50%,-50%);filter:blur(34px) brightness(.32) saturate(1.3)}
+/* clean captions (owner's reference): sentence case, current word blue */
+#stage.clean #cap .c{font:800 50px/1.28 Manrope;text-transform:none;letter-spacing:0;-webkit-text-stroke:0;text-shadow:0 3px 18px rgba(0,0,0,.9),0 0 3px rgba(0,0,0,.9)}
+#stage.clean #cap .w{margin:0 .1em}
 #ins .foot2{position:absolute;left:40px;right:40px;top:1420px;text-align:center;font-size:84px;color:var(--acc);text-shadow:0 0 60px rgba(79,179,255,.4)}
 #ins .src{position:absolute;left:0;right:0;top:1660px;text-align:center;font:700 20px JBM;letter-spacing:1px;color:rgba(255,255,255,.45)}
 #foot{position:absolute;left:24px;right:24px;bottom:42px;text-align:center;font:700 19px JBM;letter-spacing:1px;color:rgba(255,255,255,.5);z-index:50}
@@ -166,6 +183,7 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#000}
   <div id="grid"></div>
   <div id="prog"><i></i></div>
   <div id="hdr"><span class="chip w" id="pair"></span><span class="chip" id="hand"></span></div>
+  <div id="floatbg"><img id="fbimg"></div>
   <div class="box" id="chartbox"><div class="lay" id="chartlay"><img id="chart"><div class="mask"></div></div></div><div id="scrim"></div>
   <div id="topband"></div>
   <div id="spot"></div>
@@ -204,6 +222,7 @@ function glitch(n, t, at, dur = 0.38) {
 }
 if (D.fmt === 'wide') { $('#stage').classList.add('wide'); document.documentElement.style.cssText = document.body.style.cssText = 'width:1920px;height:1080px' }
 if (D.layout === 'phone') $('#stage').classList.add('phone')
+if (D.caption_style === 'clean') $('#stage').classList.add('clean')
 const FPS = D.fps, FW = D.frameW, FH = D.frameH, [cx0, cy0, cw0, ch0] = D.chart, FACE = D.face
 const SEG = D.segments, speak = SEG.filter(s => s.pieces?.length)
 for (const el of $$('.lay')) { el.style.width = FW + 'px'; el.style.height = FH + 'px' }
@@ -248,7 +267,9 @@ function insBuild(s) {
   const el = $('#ins'); el.dataset.id = s.start; el.classList.toggle('cmpm', s.kind2 === 'compare' && D.fmt !== 'wide')
   $('.kick .chip', el).textContent = s.kicker || ''; $('.ttl', el).textContent = s.title || ''; $('.foot2', el).textContent = s.foot || ''; $('.src', el).textContent = s.source || ''
   const ttlSize = s.title_size; $('.ttl', el).style.fontSize = ttlSize ? ttlSize + 'px' : ''
-  if (s.kind2 === 'board') $('.body', el).innerHTML = s.rows.map(r => `<div class="row"><div><div class="nm">${html(r.name)}</div><div class="wh">${html(r.what || '')}</div></div>
+  el.classList.toggle('listm', s.kind2 === 'list')
+  if (s.kind2 === 'list') $('.body', el).innerHTML = `<div class="lst">${s.items.map(x => `<div><i>•</i> ${html(x)}</div>`).join('')}</div>`
+  else if (s.kind2 === 'board') $('.body', el).innerHTML = s.rows.map(r => `<div class="row"><div><div class="nm">${html(r.name)}</div><div class="wh">${html(r.what || '')}</div></div>
     <div class="vals"><div class="ft">${html(r.from)} → <b>${html(r.to)}</b></div><div class="pc">${pct(r)}%</div></div></div>`).join('')
   else $('.body', el).innerHTML = `<div class="cmp">${s.cols.map((c, j) => `<div class="col ${j ? 'b' : 'a'}"><h3>${html(c.name)}</h3><span class="tg">${html(c.tag || '')}</span>
     ${c.rows.map(x => `<div class="li"><i></i>${html(x)}</div>`).join('')}</div>`).join('')}</div>`
@@ -256,6 +277,7 @@ function insBuild(s) {
 }
 // when each piece of an insert lands (seconds into it): shared by the picture and the sound
 function insTimes(s) {
+  if (s.kind2 === 'list') { const items = s.items.map((_, j) => 0.9 + j * (s.step || 0.75)); return { items, foot: items.at(-1) + 0.9 } }
   if (s.kind2 === 'board') { const rows = s.rows.map((_, j) => 1.1 + j * 0.75); return { rows, foot: rows.at(-1) + 0.9 } }
   const a = s.cols[0].rows.map((_, j) => 1.7 + j * 0.45), b = s.cols[1].rows.map((_, j) => a.at(-1) + 0.7 + j * 0.45)
   return { cols: [0.9, 1.15], li: [a, b], foot: b.at(-1) + 0.8 }
@@ -329,7 +351,7 @@ window.renderAt = async function (t) {
   const seg = SEG.find(s => t >= s.start - 1e-6 && t < s.end) || SEG.find(s => s.start > t) || SEG.at(-1)
   const fr = frameAt(t), src = `${fr.p.dir}/${String(fr.f).padStart(5, '0')}.jpg`
   let wait = null
-  if (src !== lastSrc) { lastSrc = src; for (const im of [$('#chart'), $('#face'), $('#coldimg'), $('#lensimg')]) im.src = src; wait = Promise.all(['#chart', '#face', '#coldimg', '#lensimg'].map(q => $(q).decode().catch(() => {}))) }
+  if (src !== lastSrc) { lastSrc = src; for (const im of [$('#chart'), $('#face'), $('#coldimg'), $('#lensimg'), $('#fbimg')]) im.src = src; wait = Promise.all(['#chart', '#face', '#coldimg', '#lensimg', '#fbimg'].map(q => $(q).decode().catch(() => {}))) }
   const drop = D.drop, cold = t < drop, lt = t - seg.start
   // ---- cold open: the chart in the dark, one big number per line
   const co = $('#cold'); co.style.display = cold ? 'block' : 'none'
@@ -360,6 +382,12 @@ window.renderAt = async function (t) {
   const punch = fr.j % 2 && D.layout !== 'phone' ? 1.07 : 1
   const r = lerp(rA, rB, q), rc = [r[0] + r[2] * (1 - 1 / punch) / 2, r[1] + r[3] * (1 - 1 / punch) / 2, r[2] / punch, r[3] / punch]
   place($('#chartlay'), cb, rc)
+  { const fl = cs2.float && D.fmt !== 'wide' ? P(t, cs2.start - 0.05, cs2.start + 0.45, E.inOutCubic) * (1 - P(t, cs2.end - 0.3, cs2.end + 0.1, E.inOutCubic)) : 0, fbg = $('#floatbg')
+    fbg.style.display = fl > 0.001 ? 'block' : 'none'; fbg.style.opacity = fl
+    if (fl > 0.001) { const lt = t - cs2.start, sw = Math.sin(lt * 0.6) * 2.5, dir = cs2.float === 'left' ? 1 : -1
+      cb.style.transform += ` perspective(2200px) translate3d(0,${-80 * fl}px,0) rotateY(${dir * (11 + sw) * fl}deg) rotateX(${5 * fl}deg) scale(${1 - 0.28 * fl})`
+      cb.style.borderRadius = `${36 * fl}px`; cb.style.boxShadow = `0 0 0 2px rgba(255,255,255,${0.14 * fl}),0 ${50 * fl}px ${120 * fl}px rgba(0,0,0,${0.75 * fl}),0 0 ${90 * fl}px rgba(79,179,255,${0.22 * fl})` }
+    else { cb.style.borderRadius = ''; cb.style.boxShadow = '' } }
   if (FACE) { const fz = fr.j % 2 ? 1.08 : 1, fw = FACE[2] / fz, fh = FACE[3] / fz
     place($('#face'), fb, [FACE[0] + (FACE[2] - fw) / 2, FACE[1] + (FACE[3] - fh) * 0.35, fw, fh]) }
   // ---- highlight: a box around what the owner is talking about ("marks": source seconds + region), with a close-up
@@ -440,14 +468,16 @@ window.renderAt = async function (t) {
   }
   // ---- inserts
   const ie = $('#ins'), is = INS.find(s => t >= s.start - 0.2 && t < s.end + 0.2)
-  ie.style.display = is ? 'block' : 'none'
+  ie.style.display = is ? 'block' : 'none'; $('#foot').classList.toggle('dark', !!is && is.kind2 === 'list')
   if (is) {
     if (ie.dataset.id !== String(is.start)) insBuild(is)
     const l = t - is.start, L = is.end - is.start, T = insTimes(is)
     ie.style.opacity = P(l, -0.2, 0.05) * (1 - P(l, L, L + 0.2))
     $('.kick', ie).style.opacity = P(l, 0.1, 0.35)
     const tt = $('.ttl', ie); tt.style.transform = slam(tt, l, 0.35, 1.7, 0.3) + shake(l, 0.4, 14)
-    if (is.kind2 === 'board') $$('.row', ie).forEach((r, j) => { const a = T.rows[j]; r.style.opacity = P(l, a, a + 0.2); r.style.transform = `translate3d(${(1 - P(l, a, a + 0.4, E.outBack)) * 260}px,0,0)`
+    if (is.kind2 === 'list') $$('.lst div', ie).forEach((d, j) => { const a = T.items[j], nx = T.items[j + 1] ?? 99
+      d.style.opacity = P(l, a, a + 0.12) * (l >= nx ? 0.32 : 1); d.style.transform = slam(d, l, a, 1.5, 0.22) + (l >= a && l < a + 0.3 ? shake(l, a + 0.02, 8) : '') })
+    else if (is.kind2 === 'board') $$('.row', ie).forEach((r, j) => { const a = T.rows[j]; r.style.opacity = P(l, a, a + 0.2); r.style.transform = `translate3d(${(1 - P(l, a, a + 0.4, E.outBack)) * 260}px,0,0)`
       const pc = $('.pc', r), v = Math.round(pct(is.rows[j]) * P(l, a + 0.15, a + 0.65, E.outCubic)); pc.textContent = `${v}%`; pc.style.transform = shake(l, a + 0.66, 8) })
     else {
       $$('.col', ie).forEach((c, j) => { const a = T.cols[j]; c.style.opacity = P(l, a, a + 0.2); c.style.transform = `translate3d(${(1 - P(l, a, a + 0.5, E.outBack)) * (j ? 500 : -500)}px,0,0)`
@@ -494,7 +524,8 @@ window.fxEvents = function () {
   const p = SEG.find(s => s.kind === 'product' && !COIN)
   if (p) { add(p.start, '1492', -10, { align: 'peak' }); add(p.start + 0.5, '2909', -4); add(p.start + 0.7, '3120', -10); (p.points || []).forEach((_, j) => add(p.start + 2.0 + j * 1.3, '2573', -11)) }
   for (const s of INS) { const T = insTimes(s), a = s.start; add(a, '1492', -10, { align: 'peak' }); add(a + 0.35, '2909', -6); add(a + 0.35, '2299', -8)
-    if (T.rows) T.rows.forEach(x => { add(a + x, '2577', -12); add(a + x + 0.66, '3124', -15) })
+    if (T.items) T.items.forEach(x => { add(a + x, '2573', -11); add(a + x, '2299', -14) })
+    else if (T.rows) T.rows.forEach(x => { add(a + x, '2577', -12); add(a + x + 0.66, '3124', -15) })
     else { T.cols.forEach(x => add(a + x, '3120', -12)); T.li.flat().forEach(x => add(a + x, '2573', -13)) }
     add(a + T.foot, '2299', -7); add(a + T.foot, '3124', -10) }
   const e = SEG.find(s => s.kind === 'end')
