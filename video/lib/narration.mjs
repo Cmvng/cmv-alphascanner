@@ -26,7 +26,7 @@ const SAY_NAMES = {
   Zinedine: 'Zee-neh-deen', Olise: 'Oh-leese', 'Pio Esposito': 'Pee-yo Esposeeto', Esposito: 'Esposeeto', Meazza: 'Meh-atza', 'Doué': 'Doo-ay', Cherki: 'Sher-kee',
   'Çalhanoğlu': 'Chal-han-oh-loo', 'Kökçü': 'Kerk-choo',
   USDC: 'U S D C', PvP: 'P V P',   Rijeka: 'Ree-yeh-ka', 'Modrić': 'Mod-ritch', 'Kovačić': 'Ko-va-chitch', Xhaka: 'Jah-ka', Gvardiol: 'Gvar-dee-ol', 'Šulc': 'Shults', Oviedo: 'Oh-vee-ay-doh',
-  Rivne: 'Reev-neh', Kudrivka: 'Koo-driv-ka', 'Lanús': 'Lah-noos', Czechia: 'Check-ee-a', Justicia: 'Hoos-tee-see-a',   'Alajbegović': 'Ala-ee-beh-go-vitch', 'Adžić': 'Ad-jitch', Kakoullis: 'Ka-koo-lis', Konomis: 'Ko-no-mis', 'De Bruyne': 'De Broyne', 'Zieliński': 'Jeh-lin-ski', 'Drăgușin': 'Dra-goo-sheen', Kerkez: 'Ker-kez', Upamecano: 'Oo-pa-meh-cano',
+  Rivne: 'Reev-neh', Kudrivka: 'Koo-driv-ka', 'Lanús': 'Lah-noos', Czechia: 'Check-ee-a', Justicia: 'Hoos-tee-see-a',   'Alajbegović': 'Ala-ee-beh-go-vitch', 'Adžić': 'Ad-jitch', Kakoullis: 'Ka-koo-lis', Konomis: 'Ko-no-mis', 'De Bruyne': 'De Broyne', 'Zieliński': 'Jeh-lin-ski', 'Drăgușin': 'Dra-goo-sheen', Kerkez: 'Ker-kez', Upamecano: 'Oo-pa-meh-cano', Zirkzee: 'Zirk-zay', Ajer: 'Ah-yer',
 }
 // letter-aware edges: \b treats accented letters as non-letters, so "Doué" or "Çalhanoğlu" would never match
 const NAME_RE = new RegExp(`(?<!\\p{L})(${Object.keys(SAY_NAMES).join('|')})(?!\\p{L})`, 'gu')
