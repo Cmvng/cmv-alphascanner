@@ -40,6 +40,11 @@ Same edit as the explainer and the analysis, on top of the approved format (the 
   recorded hits and whooshes elsewhere. Meme screens keep their comic sounds.
 - **Settings:** `"voice_fx": "deep"`, `"music_drop": "rx_intro"`, optional `"music_vibe"`.
 
+**Mixing in post-match screens (4 Oct 2026):** any `review.beats` screen from `video/templates/post-match/` can sit between the
+reaction screens. Write its type without the prefix (`"table"`, `"quote"`, `"stats"`): the renderer adds `rv_` itself, so
+`"rv_table"` becomes `rv_rv_table` and draws nothing. Example: a `table` beat ("Group 4 now") after the main match's reveal.
+Keep its `title` short (about 12 characters) so it fits the screen.
+
 ## Prediction-market plays (Polymarket)
 
 `polymarket-2026-10-02.json` is the reference: the presenter, then one `pm_pick` card per app pick (the app's pick and confidence, the Polymarket question, our side lit green, the price and "$100 → $X"), a `pm_slate` and a `pm_outro`. The rules for converting picks are in `.claude/skills/cmvng-video/SKILL.md` ("Prediction-market plays"). Refresh prices with `python3 video/lib/pm_prices.py <file>` before rendering.
