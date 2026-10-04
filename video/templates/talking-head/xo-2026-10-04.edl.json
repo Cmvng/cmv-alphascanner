@@ -1,0 +1,922 @@
+{
+ "source": "synced.mp4",
+ "words": "words_big.json",
+ "caption_words": "words_big.json",
+ "layout": "screen",
+ "face": [
+  1141,
+  713,
+  299,
+  367
+ ],
+ "chart": [
+  0,
+  177,
+  1440,
+  726
+ ],
+ "mask": {
+  "rect": [
+   1136,
+   706,
+   304,
+   200
+  ],
+  "color": "#FAFAFA"
+ },
+ "pair": "XO MARKET · BETA",
+ "handle": "@i_am_vickyd",
+ "voice": {
+  "enhance": "df3"
+ },
+ "music": {
+  "id": 563,
+  "level": -8,
+  "duck": 10
+ },
+ "cold": [
+  {
+   "w": [
+    {
+     "t": [
+      34.49,
+      40.68
+     ]
+    }
+   ],
+   "cap": "Basically, I deposit like 10 USDC, and it says you will receive 10 USDCe.",
+   "big": "$10",
+   "label": "my first deposit"
+  },
+  {
+   "w": [
+    {
+     "t": [
+      261.2,
+      264.77
+     ]
+    }
+   ],
+   "cap": "That would be like 3.33 per prediction, and let's see how it goes.",
+   "big": "3 PREDICTIONS",
+   "size": 190,
+   "label": "Nations League · today"
+  },
+  {
+   "w": [
+    {
+     "t": [
+      541.76,
+      544.98
+     ]
+    }
+   ],
+   "cap": "Currently I have like 29.63 conviction points.",
+   "big": "29.63 CP",
+   "tone": "hot",
+   "label": "conviction points so far"
+  }
+ ],
+ "title": {
+  "top": "My first $10 on",
+  "big": "XO MARKET",
+  "size": 200,
+  "sub": "3 Nations League predictions, live"
+ },
+ "clips": [
+  {
+   "id": "ROADMAP",
+   "insert": {
+    "kind": "list",
+    "dur": 7.2,
+    "kicker": "Today",
+    "title": "My first $10 on XO Market",
+    "items": [
+     "The deposit",
+     "Parlays",
+     "3 Nations League predictions",
+     "Points & rewards",
+     "Referrals"
+    ],
+    "foot": "Live, as it happened"
+   }
+  },
+  {
+   "id": "dep1",
+   "w": [
+    {
+     "t": [
+      4.48,
+      10.53
+     ]
+    }
+   ],
+   "cap": "Okay, so basically, I'm making my first deposit on XO Market.",
+   "chapter": "The deposit",
+   "chapter_sub": "$10 in, live"
+  },
+  {
+   "id": "dep2",
+   "w": [
+    {
+     "t": [
+      11.62,
+      31.53
+     ]
+    }
+   ],
+   "cap": "So I want to actually see how this journey actually begins. Like, in the last video I made, I said that in the next video I was going to actually make a deposit and actually execute making predictions in the market, and see how it goes."
+  },
+  {
+   "id": "dep3",
+   "w": [
+    {
+     "t": [
+      32.44,
+      48.83
+     ]
+    }
+   ],
+   "cap": "So basically, I deposit like 10 USDC, and it says you will receive 10 USDCe. Estimated time: about 2 minutes. Okay, so I think it has delivered.",
+   "call": "10 USDC in · 10 USDCe out · ~2 min",
+   "call_t": 38.4,
+   "marks": [
+    {
+     "t": [
+      37.9,
+      44.7
+     ],
+     "r": [
+      0.395,
+      0.354,
+      0.6,
+      0.445
+     ],
+     "lens": true
+    }
+   ]
+  },
+  {
+   "id": "WHATIS",
+   "insert": {
+    "kind": "list",
+    "dur": 7.6,
+    "kicker": "XO Market",
+    "title": "In 10 seconds",
+    "items": [
+     "Anyone can create a market",
+     "A winning share pays $1",
+     "Runs on its own XO chain",
+     "Mainnet beta · $6M seed"
+    ],
+    "foot": "Prediction markets",
+    "source": "docs.xo.market (accessed 4 Oct 2026) · CoinDesk, 30 Apr 2026"
+   }
+  },
+  {
+   "id": "par1",
+   "w": [
+    {
+     "t": [
+      61.67,
+      69.09
+     ]
+    }
+   ],
+   "cap": "Basically, I'm more fond of making predictions with sports. It's more related to me, more relatable to me.",
+   "chapter": "Parlays",
+   "chapter_sub": "10 matches, one prize pool"
+  },
+  {
+   "id": "par2",
+   "w": [
+    {
+     "t": [
+      72.36,
+      83.22
+     ]
+    }
+   ],
+   "cap": "Let me try Parlays. Let me see Parlays. Let's see… entry from 500 CP.",
+   "call": "Parlay #30 · Nations League · $2,000 pool",
+   "call_t": 75.2,
+   "marks": [
+    {
+     "t": [
+      74.6,
+      82.2
+     ],
+     "r": [
+      0.185,
+      0.235,
+      0.81,
+      0.455
+     ],
+     "lens": true,
+     "lr": [
+      0.65,
+      0.25,
+      0.805,
+      0.355
+     ]
+    }
+   ]
+  },
+  {
+   "id": "par3",
+   "w": [
+    {
+     "t": [
+      100.28,
+      113.55
+     ]
+    }
+   ],
+   "cap": "I don't know what this means. Okay, I think this has ended. Can I create a parlay? I don't think I can create a parlay from here. I don't think I can."
+  },
+  {
+   "id": "nl1",
+   "w": [
+    {
+     "t": [
+      114.77,
+      123.88
+     ]
+    }
+   ],
+   "cap": "Let me, basically, try and go to the sports markets. Let me go to the sports market and try and look for opportunities.",
+   "chapter": "Nations League",
+   "chapter_sub": "Looking for opportunities"
+  },
+  {
+   "id": "nl2",
+   "w": [
+    {
+     "t": [
+      124.4,
+      143.32
+     ]
+    }
+   ],
+   "cap": "Like now, Greece. Let's look at this match: Greece versus Germany. The first time they played, Greece won, 1–0. So basically, based on the league table and the importance of this match, I think Germany should win this match. Since I think they should win this match… and it even gives Germany 53.5%.",
+   "call": "Germany 53.5% · Draw 24.5% · Greece 22.5%",
+   "call_t": 140.6,
+   "marks": [
+    {
+     "t": [
+      139.6,
+      142.6
+     ],
+     "r": [
+      0.293,
+      0.49,
+      0.556,
+      0.672
+     ],
+     "lens": true,
+     "lr": [
+      0.3,
+      0.545,
+      0.556,
+      0.58
+     ]
+    }
+   ]
+  },
+  {
+   "id": "nl3",
+   "w": [
+    {
+     "t": [
+      144.2,
+      163.0
+     ]
+    }
+   ],
+   "cap": "Let's look at other options. Let me filter this to football, filter this to Nations League. We have Kosovo versus Austria. This is actually, I think, an early kickoff, about 2pm UTC.",
+   "marks": [
+    {
+     "t": [
+      151.3,
+      155.9
+     ],
+     "r": [
+      0.293,
+      0.31,
+      0.556,
+      0.477
+     ]
+    }
+   ]
+  },
+  {
+   "id": "nl4",
+   "w": [
+    {
+     "t": [
+      164.6,
+      192.63
+     ]
+    }
+   ],
+   "cap": "Like, regardless of what happens, Portugal win the group. Regardless of what happens, they actually win the group. But let's see: if I really put like $10, how much? That's 0.3. That's small. That's quite small. That's quite small. Not something I would want to predict.",
+   "call": "$10 on Portugal to win the group → $10.36",
+   "call_t": 176.8,
+   "marks": [
+    {
+     "t": [
+      176.3,
+      186.3
+     ],
+     "r": [
+      0.652,
+      0.3,
+      0.83,
+      0.525
+     ],
+     "lens": true,
+     "lr": [
+      0.655,
+      0.49,
+      0.83,
+      0.525
+     ]
+    }
+   ]
+  },
+  {
+   "id": "nl5",
+   "w": [
+    {
+     "t": [
+      211.2,
+      218.31
+     ]
+    }
+   ],
+   "cap": "Netherlands versus Serbia, Portugal versus Norway. This is actually a tricky match. It's actually a tricky match.",
+   "marks": [
+    {
+     "t": [
+      211.2,
+      214.1
+     ],
+     "r": [
+      0.293,
+      0.361,
+      0.556,
+      0.528
+     ]
+    }
+   ]
+  },
+  {
+   "id": "pr1",
+   "w": [
+    {
+     "t": [
+      221.55,
+      230.05
+     ]
+    },
+    {
+     "t": [
+      261.2,
+      264.77
+     ]
+    }
+   ],
+   "cap": "Denmark versus Wales. Let me predict singles, and let me split the money. This is ten dollars, and… that would be like 3.33 per prediction, and let's see how it goes.",
+   "chapter": "My 3 predictions",
+   "chapter_sub": "$10 split three ways",
+   "marks": [
+    {
+     "t": [
+      221.5,
+      223.3
+     ],
+     "r": [
+      0.293,
+      0.606,
+      0.556,
+      0.773
+     ]
+    }
+   ]
+  },
+  {
+   "id": "pr2",
+   "w": [
+    {
+     "t": [
+      265.43,
+      284.42
+     ]
+    }
+   ],
+   "cap": "Let's say I go. So I'll predict this one first. Three point three three dollars. What's going on? Okay, I have to enable trading. Have to enable trading. Okay, yeah, have to enable trading. So I'm currently starting to enable trading.",
+   "call": "Denmark · Yes 52¢ · pays $6.40",
+   "call_t": 270.0,
+   "marks": [
+    {
+     "t": [
+      269.6,
+      284.4
+     ],
+     "r": [
+      0.652,
+      0.3,
+      0.83,
+      0.655
+     ],
+     "lens": true,
+     "lr": [
+      0.655,
+      0.49,
+      0.83,
+      0.525
+     ]
+    }
+   ]
+  },
+  {
+   "id": "pr2b",
+   "w": [
+    {
+     "t": [
+      291.26,
+      302.83
+     ]
+    }
+   ],
+   "cap": "And I will get 3.33 CP. What does this CP mean? I'll search it and check what it means. So I made my first prediction on XO Market.",
+   "marks": [
+    {
+     "t": [
+      291.2,
+      293.6
+     ],
+     "r": [
+      0.652,
+      0.53,
+      0.83,
+      0.56
+     ],
+     "lens": true
+    },
+    {
+     "t": [
+      298.4,
+      301.2
+     ],
+     "r": [
+      0.165,
+      0.64,
+      0.635,
+      0.71
+     ],
+     "lens": true,
+     "lr": [
+      0.165,
+      0.655,
+      0.52,
+      0.705
+     ]
+    }
+   ]
+  },
+  {
+   "id": "CP",
+   "insert": {
+    "kind": "list",
+    "dur": 7.4,
+    "kicker": "You asked",
+    "title": "What is CP?",
+    "items": [
+     "Earned by trading",
+     "Earned by adding liquidity",
+     "Earned by referrals",
+     "Spent on Parlay entries"
+    ],
+    "foot": "Conviction Points",
+    "source": "docs.xo.market · Conviction Points (accessed 4 Oct 2026)"
+   }
+  },
+  {
+   "id": "pr3",
+   "w": [
+    {
+     "t": [
+      310.05,
+      322.08
+     ]
+    }
+   ],
+   "cap": "Germany wins this match. 3.33. I'll get 3.3… Okay, predicting Germany wins the match.",
+   "call": "Germany · Yes 57¢ · pays $5.84",
+   "call_t": 314.0,
+   "marks": [
+    {
+     "t": [
+      313.0,
+      317.6
+     ],
+     "r": [
+      0.652,
+      0.3,
+      0.83,
+      0.655
+     ],
+     "lens": true,
+     "lr": [
+      0.655,
+      0.49,
+      0.83,
+      0.525
+     ]
+    },
+    {
+     "t": [
+      319.9,
+      321.3
+     ],
+     "r": [
+      0.65,
+      0.225,
+      0.83,
+      0.49
+     ],
+     "lens": true,
+     "lr": [
+      0.66,
+      0.35,
+      0.82,
+      0.415
+     ]
+    }
+   ]
+  },
+  {
+   "id": "pr4",
+   "w": [
+    {
+     "t": [
+      346.47,
+      360.92
+     ]
+    },
+    {
+     "t": [
+      363.72,
+      367.18
+     ]
+    }
+   ],
+   "cap": "Germany, I predict Germany. Portugal is the last match. So I'm predicting Portugal to win, but they are top of the league. Top of the… sorry, top of the table. Is it a good prediction? My balance is like 3.22, so… putting Portugal to win also.",
+   "call": "Portugal · Yes 63¢ · pays $4.76",
+   "call_t": 358.5,
+   "marks": [
+    {
+     "t": [
+      358.4,
+      361.0
+     ],
+     "r": [
+      0.7,
+      0.37,
+      0.79,
+      0.393
+     ],
+     "lens": true
+    },
+    {
+     "t": [
+      363.7,
+      367.2
+     ],
+     "r": [
+      0.652,
+      0.245,
+      0.83,
+      0.48
+     ],
+     "lens": true,
+     "lr": [
+      0.66,
+      0.36,
+      0.82,
+      0.43
+     ]
+    }
+   ]
+  },
+  {
+   "id": "BOARD",
+   "insert": {
+    "kind": "board",
+    "dur": 8.0,
+    "kicker": "In numbers",
+    "title": "My 3 predictions",
+    "rows": [
+     {
+      "name": "DENMARK",
+      "what": "to beat Wales · Yes at 52¢",
+      "from": "$3.33",
+      "to": "$6.40",
+      "a": 3.33,
+      "b": 6.4
+     },
+     {
+      "name": "GERMANY",
+      "what": "to beat Greece · Yes at 57¢",
+      "from": "$3.33",
+      "to": "$5.84",
+      "a": 3.33,
+      "b": 5.84
+     },
+     {
+      "name": "PORTUGAL",
+      "what": "to beat Norway · Yes at 63¢",
+      "from": "$3.00",
+      "to": "$4.76",
+      "a": 3.0,
+      "b": 4.76
+     }
+    ],
+    "foot": "Stake → payout if it wins",
+    "source": "XO Market order screens · 4 Oct 2026 · stakes before fees"
+   }
+  },
+  {
+   "id": "rw1",
+   "w": [
+    {
+     "t": [
+      373.61,
+      389.72
+     ]
+    }
+   ],
+   "cap": "What is Peck-in now? Let me check what Peck-in is. I think that's like a daily check-in or something like that. That's like a daily check-in. What's this rewards here? Let me see what rewards says.",
+   "chapter": "Points & rewards",
+   "chapter_sub": "Check-ins, CP and USDC rebates",
+   "marks": [
+    {
+     "t": [
+      374.0,
+      382.4
+     ],
+     "r": [
+      0.64,
+      0.33,
+      0.83,
+      0.48
+     ],
+     "lens": true,
+     "lr": [
+      0.64,
+      0.335,
+      0.83,
+      0.385
+     ]
+    }
+   ]
+  },
+  {
+   "id": "rw2",
+   "w": [
+    {
+     "t": [
+      406.48,
+      419.39
+     ]
+    }
+   ],
+   "cap": "I think if you provide liquidity on this market, you get conviction points, and you also get rebates in USDC on XO Market. I think that's what it means.",
+   "call": "Liquidity → CP + USDC rebates",
+   "call_t": 411.9,
+   "marks": [
+    {
+     "t": [
+      406.4,
+      415.6
+     ],
+     "r": [
+      0.17,
+      0.535,
+      0.79,
+      0.7
+     ],
+     "lens": true,
+     "lr": [
+      0.2,
+      0.535,
+      0.62,
+      0.575
+     ]
+    }
+   ]
+  },
+  {
+   "id": "cv1",
+   "w": [
+    {
+     "t": [
+      423.09,
+      433.77
+     ]
+    }
+   ],
+   "cap": "I think we're good… I think we're good, yeah. Let me see what Convictions means. Okay, yeah, like I said in the last video: Convictions, you create your own markets. But basically, I'm not creating Conviction markets today.",
+   "chapter": "Convictions",
+   "chapter_sub": "Create your own markets"
+  },
+  {
+   "id": "vx1",
+   "w": [
+    {
+     "t": [
+      453.17,
+      460.39
+     ]
+    }
+   ],
+   "cap": "Okay, let me see… my own predictions. Okay, I can see it now. How do I get verified?",
+   "chapter": "Verified with X",
+   "chapter_sub": "Link your X account"
+  },
+  {
+   "id": "vx2",
+   "w": [
+    {
+     "t": [
+      513.0,
+      527.65
+     ]
+    }
+   ],
+   "cap": "Okay, it's linked already. It's linked. My account is currently linked. Okay, that's good. It can only verify… okay, that's good. So I'll probably verify my profile on XO Market, which is actually good.",
+   "marks": [
+    {
+     "t": [
+      513.0,
+      527.6
+     ],
+     "r": [
+      0.18,
+      0.24,
+      0.4,
+      0.3
+     ],
+     "lens": true
+    }
+   ]
+  },
+  {
+   "id": "w1",
+   "w": [
+    {
+     "t": [
+      528.31,
+      544.98
+     ]
+    }
+   ],
+   "cap": "So basically, these are actually my predictions for today, and let's see how it goes. Let's see how we go. So the next time I create a video on this will be on Conviction markets. But let's see how these predictions go, if I actually win them. Currently I have like 29.63 conviction points.",
+   "chapter": "Where I stand",
+   "chapter_sub": "3 positions · 29.63 CP",
+   "call": "29.63 CP · 3 markets · $9.66 volume",
+   "call_t": 542.4,
+   "marks": [
+    {
+     "t": [
+      528.4,
+      541.0
+     ],
+     "r": [
+      0.175,
+      0.495,
+      0.82,
+      0.645
+     ]
+    },
+    {
+     "t": [
+      541.7,
+      545.0
+     ],
+     "r": [
+      0.385,
+      0.34,
+      0.46,
+      0.38
+     ],
+     "lens": true
+    }
+   ]
+  },
+  {
+   "id": "w2",
+   "w": [
+    {
+     "t": [
+      558.47,
+      564.16
+     ]
+    }
+   ],
+   "cap": "Anyways, so hope you like this video, and hope you learned a few things. It's basically seamless."
+  },
+  {
+   "id": "rf1",
+   "w": [
+    {
+     "t": [
+      564.68,
+      582.4
+     ]
+    }
+   ],
+   "cap": "Let me check referrals, because in this video I've got to add my referral link. Let me check referrals. Get rewarded when your referrals trade. Earn rewards based on the eligible trading activity generated by users you refer. Your rewards grow as they continue trading.",
+   "chapter": "Referrals",
+   "chapter_sub": "Rewards when your friends trade",
+   "marks": [
+    {
+     "t": [
+      571.2,
+      582.4
+     ],
+     "r": [
+      0.4,
+      0.64,
+      0.6,
+      0.705
+     ],
+     "lens": true
+    }
+   ]
+  },
+  {
+   "id": "rf2",
+   "w": [
+    {
+     "t": [
+      585.71,
+      595.64
+     ]
+    }
+   ],
+   "cap": "So basically, I get like a 10% CP rate and a 5% USDC rate, depending on the tier.",
+   "call": "Bronze tier · 10% CP · 5% USDC",
+   "call_t": 589.0,
+   "marks": [
+    {
+     "t": [
+      588.6,
+      595.7
+     ],
+     "r": [
+      0.505,
+      0.275,
+      0.84,
+      0.37
+     ],
+     "lens": true,
+     "lr": [
+      0.505,
+      0.3,
+      0.72,
+      0.37
+     ]
+    }
+   ]
+  },
+  {
+   "id": "end",
+   "w": [
+    {
+     "t": [
+      597.79,
+      611.7
+     ]
+    }
+   ],
+   "cap": "There are also rewards for referring users. Also kind of cool. The experience is kind of… smooth and enjoyable as of now. So I hope you begin trading on XO Market, and I hope you enjoy the experience. Peace."
+  }
+ ],
+ "end": {
+  "follow": "@i_am_vickyd",
+  "line": "Follow for the results and the Convictions video",
+  "site": "XO Market · my first $10"
+ },
+ "timing": {
+  "lead": 0.35,
+  "cold_gap": 0.5,
+  "silence": 0.75,
+  "title": 1.6,
+  "clip_gap": 0.25,
+  "end": 3.8,
+  "gap_min": 0.7,
+  "gap_keep": 0.4
+ }
+}

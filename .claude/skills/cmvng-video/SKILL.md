@@ -189,6 +189,10 @@ Phone screen recordings (no face-cam) use `"layout": "phone"` (reference `meme-2
 rules from that video: never clip or drop words inside a sentence (cut only at real silences, whole phrases, via
 `video/lib/phrases.py`), keep pauses natural, show the screen at its full width, never cropped at the sides (logos, names and prices
 must show), labels in their own band, and highlight boxes with close-ups for the numbers they talk about, and check every cut edge and every number on screen before sending.
+Desktop screen recordings with a face-cam corner use `"layout": "screen"` with `--fmt wide` (reference
+`xo-2026-10-04.edl.json`). First check the screen and the voice are in sync: the owner records them on two devices and on
+4 Oct the screen ran 18 s ahead (see the template README for the one-line fix). Take every number from the screen, not
+from the transcript.
 
 ## 2. Write the script (the presenter is a football analyst)
 

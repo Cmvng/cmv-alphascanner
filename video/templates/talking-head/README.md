@@ -84,6 +84,29 @@ memecoin video of 3 Oct 2026, `meme-2026-10-03.edl.json` (a 7.5-minute Fomo app 
   clips (figures only from what the owner said or showed).
 - **Text sizes:** a cold-open line or the title can take `"size"` (px) and `\n` line breaks.
 
+## Desktop screen recordings with a face-cam corner (16:9)
+
+`"layout": "screen"` with `--fmt wide`: the whole screen at full width (no push, no punch-in), the face-cam in a card over
+the corner it covered in the recording, callouts just above the captions, so the site's own header stays clear. Reference:
+the XO Market video of 4 Oct 2026, `xo-2026-10-04.edl.json` (a 10-minute CapCut composite, 1440×1080: the browser at
+`"chart": [0, 177, 1440, 726]`, the face-cam at `[1141, 713, 299, 367]`, `"mask"` over the face's corner of the screen).
+
+- **Check the sync before anything else.** The owner records the screen and the camera on two devices and lines them up in
+  CapCut. On 4 Oct the screen ran 18.0 s ahead of the voice: they read out "you will receive 10 USDCe, about 2 minutes"
+  20 s after that box had closed, and the screen went black 18 s before they stopped talking (both devices stopped
+  together, so the gap at the end is the offset). Test it on three or four moments where they read something off the screen.
+  Fix it once in a new source, screen moved, face and voice untouched:
+  `ffmpeg -i src.mp4 -filter_complex "[0:v]split=3[b][s][f];[s]crop=1440:726:0:177,tpad=start_duration=18:start_mode=clone[scr];[f]crop=300:368:1140:712[face];[b][scr]overlay=0:177[b1];[b1][face]overlay=1140:712[v]" -map "[v]" -map 0:a -c:v libx264 -crf 15 -c:a copy synced.mp4`
+- **Marks:** fractions of the whole 1440×1080 frame. Check every mark on frames at its start and end: the owner scrolls
+  mid-sentence. In 16:9 the close-up (680 px wide) sits under the box, over it, or beside it, never on the box, the
+  face-cam card or the callout and caption strip.
+- **Read numbers off the screen, not the transcript.** "I will get pay out of 3.39" was the owner reading the button
+  ("Buy Yes · Pay $3.39", the price with the fee); the payout on the same screen was $6.40. Leave such a line out and
+  put the right number in a callout or on a card.
+- **Cards for things the owner asks on camera** ("what does this CP mean?"): a white list card with the answer from the
+  project's own docs, dated (`"source"`).
+- Disk: a 10-minute 1440×1080 source makes about 2.5 GB of frames. Clear the `f/` folders of finished edits first.
+
 ## Inspiration the owner likes for crypto videos (4 Oct 2026)
 
 Two reference videos the owner sent (Dropbox links in the chat of 4 Oct), on top of our own style:

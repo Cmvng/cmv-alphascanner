@@ -73,6 +73,12 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#000}
 #stage.wide #hdr{top:42px;left:40px;right:40px}
 #stage.wide #chartbox,#stage.wide #scrim{left:40px;top:100px;width:1840px;height:940px}
 #stage.wide #facebox{left:1460px;top:640px;width:400px;height:376px;border-radius:36px}
+/* screen layout (a desktop screen recording with a face-cam corner): the whole screen at full width, the face-cam card over
+   the corner it covered in the recording, callouts just above the captions so the site's own header stays clear */
+#stage.wide.screen #chartbox,#stage.wide.screen #scrim{height:928px}
+#stage.wide.screen #facebox{left:1495px;top:700px;width:385px;height:360px;border-radius:30px}
+#stage.wide.screen #call{top:776px}
+#stage.wide.screen #call .k{font-size:40px;padding:10px 22px}
 #stage.wide #call{left:70px;top:130px}
 #stage.wide #cap{left:70px;right:520px;top:880px;height:140px;justify-content:flex-start;text-align:left}
 #stage.wide.isCold #cap{left:200px;right:200px;top:820px;justify-content:center;text-align:center}
@@ -145,6 +151,7 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#000}
 #ins .row .ft{font:800 32px Manrope;color:rgba(255,255,255,.8)}
 #ins .row .ft b{color:#fff}
 #ins .row .pc{font:400 76px Anton;color:#FF6B82;line-height:1;margin-top:4px;text-shadow:0 0 40px rgba(255,77,106,.35)}
+#ins .row .pc.up{color:var(--acc);text-shadow:0 0 40px rgba(79,179,255,.35)}
 #ins .cmp{display:flex;gap:22px;align-items:stretch}
 #ins .col{flex:1;padding:34px 26px 30px;border-radius:30px;background:rgba(255,255,255,.05);border:2px solid rgba(255,255,255,.14)}
 #ins .col.a{border-color:rgba(79,179,255,.7);box-shadow:0 0 70px rgba(79,179,255,.18);background:rgba(79,179,255,.07)}
@@ -176,6 +183,9 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#000}
 #stage.clean #cap .w{margin:0 .1em}
 #ins .foot2{position:absolute;left:40px;right:40px;top:1420px;text-align:center;font-size:84px;color:var(--acc);text-shadow:0 0 60px rgba(79,179,255,.4)}
 #ins .src{position:absolute;left:0;right:0;top:1660px;text-align:center;font:700 20px JBM;letter-spacing:1px;color:rgba(255,255,255,.45)}
+/* 16:9 cards: everything within 1080px */
+#stage.wide #ins .kick{top:64px}#stage.wide #ins .ttl{top:130px;font-size:100px}#stage.wide #ins .body{top:300px;left:260px;right:260px}
+#stage.wide #ins .foot2{font-size:72px}#stage.wide #ins .row{padding:16px 30px;margin-bottom:14px}#stage.wide #ins .src{top:990px}
 #foot{position:absolute;left:24px;right:24px;bottom:42px;text-align:center;font:700 19px JBM;letter-spacing:1px;color:rgba(255,255,255,.5);z-index:50}
 #flash{position:absolute;inset:0;background:var(--acc);opacity:0;z-index:60;mix-blend-mode:overlay;pointer-events:none}
 </style></head>
@@ -222,6 +232,8 @@ function glitch(n, t, at, dur = 0.38) {
 }
 if (D.fmt === 'wide') { $('#stage').classList.add('wide'); document.documentElement.style.cssText = document.body.style.cssText = 'width:1920px;height:1080px' }
 if (D.layout === 'phone') $('#stage').classList.add('phone')
+if (D.layout === 'screen') $('#stage').classList.add('screen')
+const FULL = D.layout === 'phone' || D.layout === 'screen'     // the recording's whole width always: no push, no punch-in
 if (D.caption_style === 'clean') $('#stage').classList.add('clean')
 const FPS = D.fps, FW = D.frameW, FH = D.frameH, [cx0, cy0, cw0, ch0] = D.chart, FACE = D.face
 const SEG = D.segments, speak = SEG.filter(s => s.pieces?.length)
@@ -270,10 +282,10 @@ function insBuild(s) {
   el.classList.toggle('listm', s.kind2 === 'list')
   if (s.kind2 === 'list') $('.body', el).innerHTML = `<div class="lst">${s.items.map(x => `<div><i>•</i> ${html(x)}</div>`).join('')}</div>`
   else if (s.kind2 === 'board') $('.body', el).innerHTML = s.rows.map(r => `<div class="row"><div><div class="nm">${html(r.name)}</div><div class="wh">${html(r.what || '')}</div></div>
-    <div class="vals"><div class="ft">${html(r.from)} → <b>${html(r.to)}</b></div><div class="pc">${pct(r)}%</div></div></div>`).join('')
+    <div class="vals"><div class="ft">${html(r.from)} → <b>${html(r.to)}</b></div><div class="pc${pct(r) > 0 ? ' up' : ''}">${pct(r) > 0 ? '+' : ''}${pct(r)}%</div></div></div>`).join('')
   else $('.body', el).innerHTML = `<div class="cmp">${s.cols.map((c, j) => `<div class="col ${j ? 'b' : 'a'}"><h3>${html(c.name)}</h3><span class="tg">${html(c.tag || '')}</span>
     ${c.rows.map(x => `<div class="li"><i></i>${html(x)}</div>`).join('')}</div>`).join('')}</div>`
-  const b = $('.body', el); el.style.display = 'block'; $('.foot2', el).style.top = Math.min(1420, b.offsetTop + b.offsetHeight + 120) + 'px'    // the tagline sits under the graphic
+  const b = $('.body', el); el.style.display = 'block'; $('.foot2', el).style.top = Math.min(D.fmt === 'wide' ? 930 : 1420, b.offsetTop + b.offsetHeight + (D.fmt === 'wide' ? 80 : 120)) + 'px'    // the tagline sits under the graphic
 }
 // when each piece of an insert lands (seconds into it): shared by the picture and the sound
 function insTimes(s) {
@@ -321,7 +333,7 @@ function frameAt(t) {
   if (nx && best.s.kind === 'cold' && nx.kind === 'clip') return { p: nx.pieces[0], j: 0, s: nx, f: 1 }
   return best
 }
-const zoomOf = s => s?.z || (D.layout === 'phone' ? [0.5, 0.35, 1] : [0.6, 0.35, 0.6])
+const zoomOf = s => s?.z || (D.layout === 'phone' ? [0.5, 0.35, 1] : D.layout === 'screen' ? [0.5, 0.5, 1] : [0.6, 0.35, 0.6])
 // zoom keyframes { "zk": [[source seconds, x, y, width], …] }: the framing follows what is on screen as the owner scrolls
 function zoomAt(s, src) {
   const k = s?.zk; if (!k?.length) return zoomOf(s)
@@ -344,6 +356,20 @@ const lerp = (a, b, q) => a.map((v, i) => v + (b[i] - v) * q)
 function place(img, box, rect, extra = '') {
   const [x, y, w] = rect, s = box.clientWidth / w
   img.style.transform = `scale(${s}) translate(${-x}px,${-y}px)` + extra
+}
+
+// where a 16:9 close-up goes: under the highlighted box, over it, left or right of it; never on the box, the face-cam card,
+// or the strip at the bottom that holds the callout and the captions
+function lensSpot(bx, w, h) {
+  const face = [1479, 684, 1896, 1076], hit = (a, b) => a[0] < b[2] && b[0] < a[2] && a[1] < b[3] && b[1] < a[3]
+  const box = [bx[0] - 12, bx[1] - 12, bx[0] + bx[2] + 12, bx[1] + bx[3] + 12], mx = bx[0] + bx[2] / 2 - w / 2, my = bx[1] + bx[3] / 2 - h / 2
+  for (let [x, y] of [[mx, box[3] + 12], [mx, box[1] - h - 12], [box[0] - w - 12, my], [box[2] + 12, my]]) {
+    x = Math.max(40, Math.min(1880 - w, x)); y = Math.max(110, Math.min(744 - h, y))
+    if (hit([x, y, x + w, y + h], face)) x = Math.max(40, face[0] - 16 - w)
+    const r = [x, y, x + w, y + h]
+    if (!hit(r, box) && !hit(r, face)) return [x, y]
+  }
+  return [bx[0] + bx[2] / 2 > 960 ? 40 : 1880 - w, 110]
 }
 
 let lastSrc = ''
@@ -376,10 +402,10 @@ window.renderAt = async function (t) {
   // zoom: ease to the clip's framing at each new clip, then a slow push; jump cuts inside a clip alternate a punch-in
   const cs2 = fr.s, prev = speak[speak.indexOf(cs2) - 1], q = P(t, cs2.start - 0.05, cs2.start + 0.4, E.inOutCubic)
   const aspect = cb.clientWidth / cb.clientHeight
-  const srcT = fr.p.src + (fr.f - 1) / FPS, PUSH = D.layout === 'phone' ? 0 : cs2.zk ? 0.03 : 0.06
-  const rA = prev && prev.kind === 'clip' ? cropFor(lastZoom(prev), D.layout === 'phone' ? 0 : prev.zk ? 0.03 : 0.06, aspect) : cropFor(zoomAt(cs2, srcT), 0, aspect)
+  const srcT = fr.p.src + (fr.f - 1) / FPS, PUSH = FULL ? 0 : cs2.zk ? 0.03 : 0.06
+  const rA = prev && prev.kind === 'clip' ? cropFor(lastZoom(prev), FULL ? 0 : prev.zk ? 0.03 : 0.06, aspect) : cropFor(zoomAt(cs2, srcT), 0, aspect)
   const rB = cropFor(zoomAt(cs2, srcT), PUSH * clamp((t - cs2.start) / Math.max(2, cs2.end - cs2.start)), aspect)
-  const punch = fr.j % 2 && D.layout !== 'phone' ? 1.07 : 1
+  const punch = fr.j % 2 && !FULL ? 1.07 : 1
   const r = lerp(rA, rB, q), rc = [r[0] + r[2] * (1 - 1 / punch) / 2, r[1] + r[3] * (1 - 1 / punch) / 2, r[2] / punch, r[3] / punch]
   place($('#chartlay'), cb, rc)
   { const fl = cs2.float && D.fmt !== 'wide' ? P(t, cs2.start - 0.05, cs2.start + 0.45, E.inOutCubic) * (1 - P(t, cs2.end - 0.3, cs2.end + 0.1, E.inOutCubic)) : 0, fbg = $('#floatbg')
@@ -398,9 +424,11 @@ window.renderAt = async function (t) {
     const bx = [(x0 * FW - rc[0]) * sc - 8, cb.offsetTop + (y0 * FH - rc[1]) * sc - 8, (x1 - x0) * FW * sc + 16, (y1 - y0) * FH * sc + 16]
     Object.assign(spot.style, { display: 'block', left: bx[0] + 'px', top: bx[1] + 'px', width: bx[2] + 'px', height: bx[3] + 'px', opacity: a }); spotBox = bx
     if (mk.lens) {
-      const [lx0, ly0, lx1, ly1] = mk.lr || mk.r, rw = (lx1 - lx0) * FW, rh = (ly1 - ly0) * FH, ls = 1000 / rw, lh = Math.min(400, rh * ls), lt = bx[1] + bx[3] / 2 < 900 ? 1040 : 150
+      const WIDE = D.fmt === 'wide', LW = WIDE ? 680 : 1000, [lx0, ly0, lx1, ly1] = mk.lr || mk.r, rw = (lx1 - lx0) * FW, rh = (ly1 - ly0) * FH, ls = LW / rw, lh = Math.min(WIDE ? 240 : 400, rh * ls)
+      // 9:16: under or over the screen; 16:9: beside the box, clear of it, the face-cam, the callout and the captions
+      const [ll, lt] = WIDE ? lensSpot(bx, LW, lh) : [40, bx[1] + bx[3] / 2 < 900 ? 1040 : 150]
       const q = P(srcT, mk.t[0] + 0.05, mk.t[0] + 0.45, E.outBack)
-      Object.assign(lens.style, { display: 'block', top: lt + 'px', height: lh + 'px', opacity: a, transform: `scale(${0.8 + 0.2 * q})` })
+      Object.assign(lens.style, { display: 'block', left: ll + 'px', width: LW + 'px', top: lt + 'px', height: lh + 'px', opacity: a, transform: `scale(${0.8 + 0.2 * q})` })
       $('#lensimg').style.transform = `scale(${ls}) translate(${-lx0 * FW}px,${-(ly0 * FH + (rh - lh / ls) / 2)}px)`
     } else lens.style.display = 'none'
   } else { spot.style.display = 'none'; lens.style.display = 'none' }
@@ -478,7 +506,7 @@ window.renderAt = async function (t) {
     if (is.kind2 === 'list') $$('.lst div', ie).forEach((d, j) => { const a = T.items[j], nx = T.items[j + 1] ?? 99
       d.style.opacity = P(l, a, a + 0.12) * (l >= nx ? 0.32 : 1); d.style.transform = slam(d, l, a, 1.5, 0.22) + (l >= a && l < a + 0.3 ? shake(l, a + 0.02, 8) : '') })
     else if (is.kind2 === 'board') $$('.row', ie).forEach((r, j) => { const a = T.rows[j]; r.style.opacity = P(l, a, a + 0.2); r.style.transform = `translate3d(${(1 - P(l, a, a + 0.4, E.outBack)) * 260}px,0,0)`
-      const pc = $('.pc', r), v = Math.round(pct(is.rows[j]) * P(l, a + 0.15, a + 0.65, E.outCubic)); pc.textContent = `${v}%`; pc.style.transform = shake(l, a + 0.66, 8) })
+      const pc = $('.pc', r), v = Math.round(pct(is.rows[j]) * P(l, a + 0.15, a + 0.65, E.outCubic)); pc.textContent = `${v > 0 ? '+' : ''}${v}%`; pc.style.transform = shake(l, a + 0.66, 8) })
     else {
       $$('.col', ie).forEach((c, j) => { const a = T.cols[j]; c.style.opacity = P(l, a, a + 0.2); c.style.transform = `translate3d(${(1 - P(l, a, a + 0.5, E.outBack)) * (j ? 500 : -500)}px,0,0)`
         $$('.li', c).forEach((d, k) => { const b = T.li[j][k]; d.style.opacity = P(l, b, b + 0.2); d.style.transform = `translate3d(0,${(1 - P(l, b, b + 0.35, E.outCubic)) * 24}px,0)` }) })
