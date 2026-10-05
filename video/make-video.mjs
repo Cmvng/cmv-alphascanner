@@ -93,6 +93,7 @@ for (const x of cfg.analysis?.players || []) x.photo = x.photo === false ? null 
 for (const st of cfg.analysis?.cold?.steps || []) if (st.player && st.photo !== false && !(cfg.analysis.players || []).some(x => x.name === st.player)) st.photo = await resolvePerson(st.player, { cacheDir: CACHE, outDir: OUT })
 // post-match review: the player in each moment
 for (const b of cfg.review?.beats || []) if (b.player && b.photo !== false) b.photo = await resolvePerson(b.player, { cacheDir: CACHE, outDir: OUT })
+for (const b of cfg.review?.beats || []) for (const it of b.items || []) if (it.player && it.photo !== false) it.photo = await resolvePerson(it.player, { cacheDir: CACHE, outDir: OUT })
 // reaction videos: real photos of the teams (2026 World Cup, Wikimedia) as a beat-cut montage, plus named players
 const SQUADS = JSON.parse(fs.readFileSync(path.join(DIR, 'lib', 'squads.json'), 'utf8')).squads
 for (const b of cfg.review?.beats || []) if (b.teams || b.people) {
@@ -310,7 +311,7 @@ const DATA = { cfg, picks, recap, beat: BEAT, scenes: scenes.map(({ type, i, sta
 const page = fs.readFileSync(path.join(DIR, cfg.mode === 'review' ? 'review.html' : cfg.mode === 'explainer' ? 'explainer.html' : 'scene.html'), 'utf8')
   .replace('<script>\nconst D = window.DATA', `<script>window.DATA=${JSON.stringify(DATA).replace(/</g, '\\u003c')}</script>\n<script>\nconst D = window.DATA`)
 fs.writeFileSync(path.join(OUT, 'index.html'), page)
-const credits = [...(cfg.analysis?.players || []).map(x => x.photo?.credit), ...(cfg.analysis?.cold?.steps || []).map(x => x.photo?.credit), ...(cfg.review?.beats || []).map(b => b.photo?.credit), ...new Set((cfg.review?.beats || []).flatMap(b => (b.photos || []).map(x => x.credit))), ...new Set(picks.flatMap(p => cfg.style === 'broadcast' ? [] : cfg.style === 'players' && p.players?.length ? p.players.map(x => x.credit) : [p.stadium?.credit]).filter(Boolean)), music?.credit, scenes.some(s => s.clip) ? 'Reaction clips: Mixkit (free licence)' : null, cfg.presenter?.credit || null].filter(Boolean)
+const credits = [...(cfg.analysis?.players || []).map(x => x.photo?.credit), ...(cfg.analysis?.cold?.steps || []).map(x => x.photo?.credit), ...(cfg.review?.beats || []).map(b => b.photo?.credit), ...(cfg.review?.beats || []).flatMap(b => (b.items || []).map(it => it.photo?.credit)), ...new Set((cfg.review?.beats || []).flatMap(b => (b.photos || []).map(x => x.credit))), ...new Set(picks.flatMap(p => cfg.style === 'broadcast' ? [] : cfg.style === 'players' && p.players?.length ? p.players.map(x => x.credit) : [p.stadium?.credit]).filter(Boolean)), music?.credit, scenes.some(s => s.clip) ? 'Reaction clips: Mixkit (free licence)' : null, cfg.presenter?.credit || null].filter(Boolean)
 fs.writeFileSync(path.join(OUT, 'credits.txt'), credits.join('\n') + '\n')
 
 const { chromium } = loadPlaywright()

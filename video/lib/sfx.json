@@ -85,6 +85,56 @@
    "id": 2097,
    "name": "Ambient sports crowd sound",
    "use": "a long stadium bed"
+  },
+  {
+   "id": 386,
+   "name": "Newspaper falling to the floor",
+   "use": "the paper lands (newspaper post-match)"
+  },
+  {
+   "id": 1097,
+   "name": "Turning the newspaper big page",
+   "use": "page turn between newspaper pages"
+  },
+  {
+   "id": 1105,
+   "name": "Big paper page turn",
+   "use": "the paper folds shut"
+  },
+  {
+   "id": 1372,
+   "name": "Old typewriter typing",
+   "use": "the match report typing out"
+  },
+  {
+   "id": 1368,
+   "name": "Typewriter return bell",
+   "use": "end of the typed report"
+  },
+  {
+   "id": 1365,
+   "name": "Mechanical typewriter hit",
+   "use": "a rubber stamp lands"
+  },
+  {
+   "id": 3102,
+   "name": "Duct tape bandage",
+   "use": "a clipping is taped on"
+  },
+  {
+   "id": 3194,
+   "name": "Writing pencil",
+   "use": "a handwritten note or arrow"
+  },
+  {
+   "id": 2380,
+   "name": "Paper quick movement",
+   "use": "a brief or clipping slides in"
+  },
+  {
+   "id": 1371,
+   "name": "Vintage dot printing",
+   "use": "the printing press (cold open)"
   }
  ]
 }
