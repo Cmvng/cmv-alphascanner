@@ -217,6 +217,31 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#000}
 #stage.duo #cap .c{font-size:54px}
 #stage.duo #spot{box-shadow:0 0 0 3px rgba(79,179,255,.35),0 0 28px rgba(79,179,255,.75);border-width:3px;border-radius:8px}
 #stage.duo #foot{bottom:12px;font-size:16px}
+/* pip (9:16, the duo edit for phones): the phone screen fills the frame at its full width and scrolls to what is being
+   talked about, a lens close-up on each marked number; the owner small in the bottom-right corner, the callout and the
+   captions beside them. Solo clips (no screen yet) show the owner full frame */
+#stage.pip #chartbox{left:0;top:0;width:1080px;height:1600px;border-radius:0;background:#fff;box-shadow:0 2px 0 rgba(79,179,255,.6),0 20px 60px rgba(0,0,0,.6)}
+#stage.pip #scrim{left:0;top:0;width:1080px;height:1920px;border-radius:0}
+#stage.pip #focus,#stage.pip #fview,#stage.pip #hdr{display:none}
+#stage.pip.solo #hdr{display:flex;left:28px;right:28px;top:44px}
+#stage.pip #facebox{z-index:14;box-shadow:0 0 0 3px var(--acc),0 0 40px rgba(79,179,255,.3),0 20px 50px rgba(0,0,0,.7)}
+#stage.pip #prog{left:0;right:0;top:0;height:5px;border-radius:0}
+#stage.pip #spot{box-shadow:0 0 0 3000px rgba(2,4,9,.34),0 0 30px rgba(79,179,255,.75);border-width:4px;border-radius:10px}
+#stage.pip #lens{border-radius:20px}
+#stage.pip #call{left:28px;right:226px;top:1614px;text-align:left}
+#stage.pip #call .k{font-size:32px;padding:9px 18px;gap:12px}
+#stage.pip #cap{left:24px;right:222px;top:1690px;height:210px;justify-content:center;text-align:center}
+#stage.pip #cap .c{font-size:52px}
+#stage.pip.solo #call{right:28px;top:1500px;text-align:center}
+#stage.pip.solo #cap{right:24px;top:1610px}
+#stage.pip #side{z-index:16;left:40px;right:40px;top:1130px;padding:24px 32px 28px;border-radius:30px;background:rgba(4,9,20,.74);box-shadow:0 0 0 2px rgba(79,179,255,.35),0 30px 80px rgba(0,0,0,.5)}
+#stage.pip #side .kick{margin-bottom:14px}
+#stage.pip #side .ttl{font-size:64px;line-height:1}
+#stage.pip #side .items{margin-top:18px;gap:10px}
+#stage.pip #side .it{font-size:40px;gap:16px}
+#stage.pip #side .it i{width:50px;height:50px;border-radius:13px;font-size:30px}
+#stage.pip #foot{right:226px;bottom:10px;font-size:15px}
+#stage.pip.solo #foot{right:24px}
 #foot{position:absolute;left:24px;right:24px;bottom:42px;text-align:center;font:700 19px JBM;letter-spacing:1px;color:rgba(255,255,255,.5);z-index:50}
 #flash{position:absolute;inset:0;background:var(--acc);opacity:0;z-index:60;mix-blend-mode:overlay;pointer-events:none}
 </style></head>
@@ -268,6 +293,8 @@ if (D.layout === 'phone') $('#stage').classList.add('phone')
 if (D.layout === 'screen') $('#stage').classList.add('screen')
 if (D.layout === 'duo') $('#stage').classList.add('duo')
 const DUO = D.layout === 'duo'
+const PIP = DUO && D.fmt !== 'wide'      // the duo edit in 9:16: the screen fills the frame, the owner in a corner
+if (PIP) $('#stage').classList.add('pip')
 const FULL = D.layout === 'phone' || D.layout === 'screen' || DUO     // the recording's whole width always: no push, no punch-in
 if (D.caption_style === 'clean') $('#stage').classList.add('clean')
 const FPS = D.fps, FW = D.frameW, FH = D.frameH, [cx0, cy0, cw0, ch0] = D.chart, FACE = D.face
@@ -276,7 +303,7 @@ const SEG = D.segments, speak = SEG.filter(s => s.pieces?.length)
 for (const el of $$('.lay')) { el.style.width = FW + 'px'; el.style.height = FH + 'px' }
 if (D.mask) for (const m of $$('.lay .mask')) Object.assign(m.style, { left: D.mask.rect[0] + 'px', top: D.mask.rect[1] + 'px', width: D.mask.rect[2] + 'px', height: D.mask.rect[3] + 'px', background: D.mask.color })
 const CHAP = SEG.filter(s => s.kind === 'clip' && s.chapter), chapDur = s => s.chapter_dur || 1.8
-{ const cb = DUO ? $('#focus') : $('#chartbox'), c = $('#chap'); Object.assign(c.style, { left: cb.offsetLeft + 'px', top: cb.offsetTop + 'px', width: cb.offsetWidth + 'px', height: cb.offsetHeight + 'px' }) }
+{ const cb = DUO && !PIP ? $('#focus') : $('#chartbox'), c = $('#chap'); Object.assign(c.style, { left: cb.offsetLeft + 'px', top: cb.offsetTop + 'px', width: cb.offsetWidth + 'px', height: cb.offsetHeight + 'px' }) }
 const COIN = SEG.find(s => s.kind === 'product' && s.kind2 === 'coin')
 function coinChart(c) {          // 4-hour candles with the owner's zone and levels, drawn once; revealed in renderAt
   const cn = $('#coin'); cn.style.visibility = 'hidden'; cn.style.display = 'block'      // measure while laid out
@@ -421,6 +448,22 @@ function focusRect(z) { let w = clamp(z[2], 0.2, 1) * cw0, h = w / FA
   x = Math.max(cx0, Math.min(cx0 + cw0 - w, x)); y = Math.max(cy0, Math.min(cy0 + ch0 - h, y)); return [x, y, w, h] }
 function markRect(m) { const [x0, y0, x1, y1] = m.lr || m.r, rw = (x1 - x0), rh = (y1 - y0) * ch0 / cw0
   return [(x0 + x1) / 2, (y0 + y1) / 2, clamp(Math.max(rw * 1.3, rh * 1.3 * FA), 0.38, 1)] }
+// marks: the close-up goes to a mark's region (lr, else r) and a box lands on r; marks less than 0.9 s apart chain, so the
+// close-up and the box glide from one to the next instead of letting go. "fy": [[source s, dy], …] moves a mark with the
+// page while the owner scrolls (dy in screen heights). → { ma: how much a mark is on (0–1), mk: the mark, a: the one before, q2 }
+function marksAt(cs2, srcT) {
+  const fyAt = (m, t) => { const k = m.fy; if (!k?.length) return 0; if (t <= k[0][0]) return k[0][1]; if (t >= k.at(-1)[0]) return k.at(-1)[1]
+    const j = k.findIndex(r => r[0] > t), a = k[j - 1], b = k[j]; return a[1] + (b[1] - a[1]) * (t - a[0]) / Math.max(0.01, b[0] - a[0]) }
+  const mv = (m, t) => { const d = fyAt(m, t), sh = r => r && [r[0], r[1] + d, r[2], r[3] + d]; return d ? { ...m, r: sh(m.r), lr: sh(m.lr) } : m }
+  const ms = (cs2.marks || []).map(m => mv(m, srcT)), chains = []
+  ms.forEach((m, j) => { const c = chains.at(-1); if (c && m.t[0] - ms[j - 1].t[1] < 0.9) c.push(m); else chains.push([m]) })
+  const ch = chains.find(c => srcT >= c[0].t[0] - 0.4 && srcT <= c.at(-1).t[1] + 0.4)
+  if (!ch) return { ma: 0, mk: null, a: null, q2: 0 }
+  const ma = E.inOutCubic(P(srcT, ch[0].t[0] - 0.4, ch[0].t[0] + 0.1, x => x) * (1 - P(srcT, ch.at(-1).t[1] - 0.1, ch.at(-1).t[1] + 0.4, x => x)))
+  const gl = i => i ? clamp((ch[i].t[0] - ch[i - 1].t[0]) * 0.45, 0.08, 0.45) : 0   // a quick count snaps, a slow one glides
+  const j = Math.max(0, ch.findLastIndex((m, i) => srcT >= m.t[0] - 0.55 * gl(i))), mk = ch[j]
+  return { ma, mk, a: ch[Math.max(0, j - 1)], q2: j ? E.inOutCubic(P(srcT, mk.t[0] - 0.55 * gl(j), mk.t[0] + 0.45 * gl(j), x => x)) : 1 }
+}
 let soloV = 1
 function duoFrame(t, cs2, srcT, drop) {
   const cb = $('#chartbox'), fo = $('#focus'), fv = $('#fview'), side = $('#side'), spot = $('#spot')
@@ -434,21 +477,10 @@ function duoFrame(t, cs2, srcT, drop) {
   cb.style.transform = `translate3d(${(1 - v) * 80}px,0,0)`; fo.style.transform = `translate3d(0,${(1 - v) * 40}px,0)`
   // the close-up: its own keyframes, eased in from the previous clip's last view; a mark takes over while it is on
   const base = prev && prev.kind === 'clip' && !prev.solo ? lerp(focusRect(fkAt(prev, Infinity)), focusRect(fkAt(cs2, srcT)), q) : focusRect(fkAt(cs2, srcT))
-  // marks: the close-up goes to a mark's region (lr, else r) and a box lands on r, on the phone and inside the close-up;
-  // marks less than 0.9 s apart chain, so the close-up and the box glide from one to the next instead of letting go
-  // "fy": [[source s, dy], …] moves a mark with the page while the owner scrolls (dy in screen heights)
-  const fyAt = (m, t) => { const k = m.fy; if (!k?.length) return 0; if (t <= k[0][0]) return k[0][1]; if (t >= k.at(-1)[0]) return k.at(-1)[1]
-    const j = k.findIndex(r => r[0] > t), a = k[j - 1], b = k[j]; return a[1] + (b[1] - a[1]) * (t - a[0]) / Math.max(0.01, b[0] - a[0]) }
-  const mv = (m, t) => { const d = fyAt(m, t), sh = r => r && [r[0], r[1] + d, r[2], r[3] + d]; return d ? { ...m, r: sh(m.r), lr: sh(m.lr) } : m }
-  const ms = (cs2.marks || []).map(m => mv(m, srcT)), chains = []
-  ms.forEach((m, j) => { const c = chains.at(-1); if (c && m.t[0] - ms[j - 1].t[1] < 0.9) c.push(m); else chains.push([m]) })
-  const ch = chains.find(c => srcT >= c[0].t[0] - 0.4 && srcT <= c.at(-1).t[1] + 0.4)
-  let rect = base, ma = 0, box = null, mk = null
-  if (ch) {
-    ma = E.inOutCubic(P(srcT, ch[0].t[0] - 0.4, ch[0].t[0] + 0.1, x => x) * (1 - P(srcT, ch.at(-1).t[1] - 0.1, ch.at(-1).t[1] + 0.4, x => x)))
-    const gl = i => i ? clamp((ch[i].t[0] - ch[i - 1].t[0]) * 0.45, 0.08, 0.45) : 0   // a quick count snaps, a slow one glides
-    const j = Math.max(0, ch.findLastIndex((m, i) => srcT >= m.t[0] - 0.55 * gl(i))); mk = ch[j]
-    const a = ch[Math.max(0, j - 1)], q2 = j ? E.inOutCubic(P(srcT, mk.t[0] - 0.55 * gl(j), mk.t[0] + 0.45 * gl(j), x => x)) : 1
+  // a mark takes the close-up to its region and boxes it on the phone and inside the close-up (marksAt)
+  const { ma, mk, a, q2 } = marksAt(cs2, srcT)
+  let rect = base, box = null
+  if (mk) {
     rect = lerp(base, lerp(focusRect(markRect(a)), focusRect(markRect(mk)), q2), ma)
     if (mk.r && !mk.nobox) box = a.r && !a.nobox ? lerp(a.r, mk.r, q2) : mk.r
     if (box) { box = [box[0], Math.max(0, box[1]), box[2], Math.min(1, box[3])]; if (box[3] - box[1] < 0.012) box = null }   // a box scrolled off the phone goes
@@ -464,6 +496,64 @@ function duoFrame(t, cs2, srcT, drop) {
   if (!full && v > 0.5) Object.assign(fv.style, { display: 'block', left: L + (rect[0] - cx0) * s - 2 + 'px', top: T + (rect[1] - cy0) * s - 2 + 'px', width: rect[2] * s + 4 + 'px', height: rect[3] * s + 4 + 'px', opacity: after * (1 - ma) * v })
   else fv.style.display = 'none'
   // the side panel for solo clips: a kicker, a title and items that land one by one ("side": {kicker, title, items, at})
+  const sd = cs2.solo && cs2.side ? cs2.side : (prev && prev.solo && prev.side && v < 1 ? prev.side : null)
+  side.style.display = sd && v < 0.999 ? 'block' : 'none'
+  if (sd) {
+    if (side.dataset.k !== sd.title) { side.dataset.k = sd.title; $('.kick .chip', side).textContent = sd.kicker || ''; $('.ttl', side).textContent = sd.title || ''
+      $('.items', side).innerHTML = (sd.items || []).map((x, j) => `<div class="it"><i>${j + 1}</i><span>${html(x)}</span></div>`).join('') }
+    side.style.opacity = (1 - v) * after
+    const owner = cs2.solo ? cs2 : prev, base0 = owner.start
+    $$('.it', side).forEach((n, j) => { const at = sd.at ? (srcToOut(owner, sd.at[j]) ?? base0 + 1 + j * 0.8) : base0 + 1 + j * 0.8
+      n.style.transform = slam(n, t, at, 1.5, 0.25); if (t < at) n.style.opacity = 0 })
+    $('.ttl', side).style.transform = slam($('.ttl', side), t, base0 + 0.15, 1.4, 0.3)
+  }
+}
+
+// ---- pip: the screen at its full width in the top 1600 px, scrolled lazily: it follows the close-up keyframes ("fk"), and
+// moves only as far as it must to bring a marked box (and room for its lens) into view
+const PV = [0, 0, 1080, 1600], FCARD = [876, 1588, 180, 320]
+function pipFrame(t, cs2, srcT, drop) {
+  const cb = $('#chartbox'), fb = $('#facebox'), side = $('#side'), spot = $('#spot'), lens = $('#lens'), st = $('#stage')
+  const i = speak.indexOf(cs2), prev = speak[i - 1], q = P(t, cs2.start - 0.05, cs2.start + 0.45, E.inOutCubic)
+  const solo = !!cs2.solo || cs2.kind !== 'clip', prevSolo = prev ? !!prev.solo || prev.kind !== 'clip' : solo
+  const v = solo ? (prevSolo ? 0 : 1 - q) : (prevSolo ? q : 1)     // 1 = the screen + the owner's card, 0 = the owner full frame
+  const after = P(t - drop, 0, 0.3), vv = E.inOutCubic(v)
+  st.classList.toggle('solo', v < 0.5)
+  // the scroll: centre the close-up's keyframe, eased in from the previous clip's last view
+  const s = PV[2] / cw0, VH = PV[3] / s, lo = cy0, hi = cy0 + ch0 - VH, cyOf = r => r[1] + r[3] / 2
+  const baseCy = prev && prev.kind === 'clip' && !prev.solo ? cyOf(focusRect(fkAt(prev, Infinity))) + (cyOf(focusRect(fkAt(cs2, srcT))) - cyOf(focusRect(fkAt(prev, Infinity)))) * q : cyOf(focusRect(fkAt(cs2, srcT)))
+  let top = clamp(baseCy - VH / 2, lo, hi)
+  const { ma, mk, a, q2 } = marksAt(cs2, srcT)
+  let box = null, reg = null
+  if (mk) {
+    if (mk.r && !mk.nobox) box = a.r && !a.nobox ? lerp(a.r, mk.r, q2) : mk.r
+    reg = lerp(a.lr || a.r, mk.lr || mk.r, q2)
+    // bring the mark (plus room for the lens) into the window, moving as little as possible
+    const y0 = cy0 + reg[1] * ch0, y1 = cy0 + reg[3] * ch0, need = Math.min(VH - 40, (y1 - y0) + (box ? 380 / s : 120))
+    const mid = (y0 + y1) / 2, want = clamp(Math.min(Math.max(top, mid + need / 2 - VH + 20), mid - need / 2 - 20), lo, hi)
+    top = top + (want - top) * ma
+  }
+  place($('#chartlay'), cb, [cx0, top, cw0, VH])
+  cb.style.opacity = vv * after; cb.style.transform = `translate3d(0,${(1 - vv) * -60}px,0)`
+  // the owner: full frame on solo clips, shrinking into the corner card when the screen comes in
+  const fr = lerp([0, 0, 1080, 1920], FCARD, vv)
+  Object.assign(fb.style, { left: fr[0] + 'px', top: fr[1] + 'px', width: fr[2] + 'px', height: fr[3] + 'px', borderRadius: 22 * vv + 'px', opacity: Math.max(after, 1 - vv), transform: '' })
+  if (FACE) place($('#face'), fb, FACE)
+  // the box on the screen, and a lens close-up above or below it
+  const yS = y => PV[1] + (cy0 + y * ch0 - top) * s, xS = x => PV[0] + x * cw0 * s
+  if (box && ma > 0.01 && v > 0.5) {
+    const bx = [xS(box[0]) - 6, clamp(yS(box[1]), 0, PV[3]) - 6, (box[2] - box[0]) * cw0 * s + 12, clamp(yS(box[3]), 0, PV[3]) - clamp(yS(box[1]), 0, PV[3]) + 12]
+    Object.assign(spot.style, { display: bx[3] > 24 ? 'block' : 'none', left: bx[0] + 'px', top: bx[1] + 'px', width: bx[2] + 'px', height: bx[3] + 'px', opacity: ma * vv })
+    const rw = (reg[2] - reg[0]) * cw0, rh = (reg[3] - reg[1]) * ch0, m = clamp(980 / (rw * 1.12), 1.35, 2.2), LW = 1000, LH = clamp(rh * 1.35 * m, 120, 300)
+    const below = bx[1] + bx[3] + 22, above = bx[1] - 22 - LH
+    const ly = bx[1] + bx[3] / 2 < PV[3] * 0.55 ? (below + LH <= PV[3] - 12 ? below : above >= 16 ? above : null) : (above >= 16 ? above : below + LH <= PV[3] - 12 ? below : null)
+    if (ly != null && rw < cw0 * 0.75) {
+      const sw = LW / m, sx = clamp(cx0 + (reg[0] + reg[2]) / 2 * cw0 - sw / 2, cx0, cx0 + cw0 - sw), sy = cy0 + (reg[1] + reg[3]) / 2 * ch0 - LH / m / 2
+      Object.assign(lens.style, { display: 'block', left: '40px', top: ly + 'px', width: LW + 'px', height: LH + 'px', opacity: ma * vv, transform: `scale(${0.9 + 0.1 * ma})` })
+      $('#lensimg').style.transform = `scale(${m}) translate(${-sx}px,${-sy}px)`
+    } else lens.style.display = 'none'
+  } else { spot.style.display = 'none'; lens.style.display = 'none' }
+  // the side panel for solo clips, over the owner ("side": {kicker, title, items, at})
   const sd = cs2.solo && cs2.side ? cs2.side : (prev && prev.solo && prev.side && v < 1 ? prev.side : null)
   side.style.display = sd && v < 0.999 ? 'block' : 'none'
   if (sd) {
@@ -539,7 +629,7 @@ window.renderAt = async function (t) {
       $('#lensimg').style.transform = `scale(${ls}) translate(${-lx0 * FW}px,${-(ly0 * FH + (rh - lh / ls) / 2)}px)`
     } else lens.style.display = 'none'
   } else { spot.style.display = 'none'; lens.style.display = 'none' }
-  if (DUO) duoFrame(t, cs2, srcT, drop)
+  if (DUO) (PIP ? pipFrame : duoFrame)(t, cs2, srcT, drop)
   // ---- title on the drop
   const ti = $('#title'), tS = SEG.find(s => s.kind === 'title')
   ti.style.display = t >= drop && t < tS.end + 0.35 ? 'block' : 'none'
@@ -553,7 +643,7 @@ window.renderAt = async function (t) {
   // ---- callout chip for the clip
   const call = $('#call'), cl = seg.kind === 'clip' && seg.call ? seg : null
   if (cl) { if (call.dataset.id !== cl.id) { call.dataset.id = cl.id; call.innerHTML = `<div class="k"><i></i>${html(cl.call)}</div>` }
-    const k = $('.k', call), at = callAt(cl); k.style.transform = slam(k, t, at, 1.6, 0.25); k.style.transformOrigin = D.layout === 'phone' || DUO ? '50% 50%' : '0 50%'; call.style.display = t >= at - 0.05 ? 'block' : 'none'
+    const k = $('.k', call), at = callAt(cl); k.style.transform = slam(k, t, at, 1.6, 0.25); k.style.transformOrigin = PIP && !$('#stage').classList.contains('solo') ? '0 50%' : D.layout === 'phone' || DUO ? '50% 50%' : '0 50%'; call.style.display = t >= at - 0.05 ? 'block' : 'none'
     if (D.layout === 'phone') call.style.top = (spotBox && spotBox[1] + spotBox[3] > 1440 ? Math.max(130, spotBox[1] - 100) : 1480) + 'px' }
   else call.style.display = 'none'
   // ---- chapter card at the start of a new topic; the header chip names the topic until the next one

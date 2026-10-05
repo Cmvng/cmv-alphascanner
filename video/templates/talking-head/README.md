@@ -119,6 +119,14 @@ close-up panel in the middle (640×686) that shows what is being talked about at
 landing one by one. Reference: the owner's 5 Oct 2026 video, `better-combos-2026-10-05.edl.json` (cmvng results, picks and
 analysis, then a combo built on Polymarket).
 
+**The vertical version is the one the owner wants (5 Oct: "put my main video in the small corner… so that what I want to
+show on the screen will actually reflect better").** The same EDL with `--fmt vertical` renders it: the phone screen fills
+the frame at its full width (1:1, never cropped at the sides) in the top 1600 px and scrolls to what is being talked about
+(it follows the `fk` keyframes and moves only as far as it must to bring a marked box into view), a lens close-up opens
+above or below each narrow mark (a number, a tab, a calendar day), and the owner sits small in the bottom-right corner
+(180×320, the whole camera picture), with the callout and the captions beside them. Solo clips show the owner full frame,
+with the `side` panel low on the chest, clear of the face; the owner shrinks into the corner when the screen comes in.
+
 1. **Sync.** The phone's file name carries its END time (Samsung: `Screen_Recording_20261005_091625` ended at 09:16:25).
    Find the offset on three or four taps the owner makes while saying it (5 Oct: screen time = camera time − 55.7 s).
 2. **Private moments.** Make a contact sheet of the top fifth of the screen every second and look at all of it:

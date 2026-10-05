@@ -41,6 +41,7 @@ X and YouTube (Shorts up to 3 minutes; X up to 2:20 without Premium). The video 
 | 3 | `pv_players` · Players to watch | 4 cards: photo, name, role, club and one fact | Two players a side, with the fact that makes each matter | 15.3 s |
 | 4 | `pv_tactics` · How they play | Formation diagrams and 3 notes a side | Shape, then the one number that explains their style | 14.7 s |
 | 5 | `pv_model` · Our model | xG and the win-chance bar from the app | **Why** the model says what it says, then the three percentages | 12.1 s |
+| 5a | `pv_big` · The number (optional, `analysis.big`) | One full-screen stat that explains the model, just before it: `{kick?, num}` or `{kick?, pair: [home, away]}` with both crests, a `label` and an optional `note` chip | The number, then why it matters | first used 5 Oct (France v Belgium: one goal conceded each in three games) |
 | 6 | `pv_expect` · What to expect | 3 points and the verdict chip | How the game will look, the key duel, a history fact, then "Our read: …" | 15.3 s |
 | 7+ | `pv_round` · Around League A | One screen per other match: its stadium, crests, xG, win chances and 2 notes | One storyline, then the model's favourite | 8.9–14.7 s each |
 | last | `pv_cta` | "Follow for more match analysis" | "That's the analysis. Follow for more football, by the numbers." | 5.1 s |

@@ -27,6 +27,7 @@ const SAY_NAMES = {
   'Çalhanoğlu': 'Chal-han-oh-loo', 'Kökçü': 'Kerk-choo',
   USDC: 'U S D C', PvP: 'P V P',   Rijeka: 'Ree-yeh-ka', 'Modrić': 'Mod-ritch', 'Kovačić': 'Ko-va-chitch', Xhaka: 'Jah-ka', Gvardiol: 'Gvar-dee-ol', 'Šulc': 'Shults', Oviedo: 'Oh-vee-ay-doh',
   Rivne: 'Reev-neh', Kudrivka: 'Koo-driv-ka', 'Lanús': 'Lah-noos', Czechia: 'Check-ee-a', Justicia: 'Hoos-tee-see-a',   'Alajbegović': 'Ala-ee-beh-go-vitch', 'Adžić': 'Ad-jitch', Kakoullis: 'Ka-koo-lis', Konomis: 'Ko-no-mis', 'De Bruyne': 'De Broyne', 'Zieliński': 'Jeh-lin-ski', 'Drăgușin': 'Dra-goo-sheen', Kerkez: 'Ker-kez', Upamecano: 'Oo-pa-meh-cano', Zirkzee: 'Zirk-zay', Ajer: 'Ah-yer',
+  Tielemans: 'Tee-luh-mahns', Godts: 'Gots', Sikan: 'See-kan', Trnava: 'Turn-ava',
 }
 // letter-aware edges: \b treats accented letters as non-letters, so "Doué" or "Çalhanoğlu" would never match
 const NAME_RE = new RegExp(`(?<!\\p{L})(${Object.keys(SAY_NAMES).join('|')})(?!\\p{L})`, 'gu')
@@ -208,6 +209,8 @@ function buildPreviewScenes(cfg, [p, ...others]) {
       at('pv_players', ['pv_form', 'pv_stake', 'pv_hook'], [W(`Players to watch: ${nm('home')} for ${H}.`), W(`For ${A}, ${nm('away')}.`)])
     }
     if (an.tactics) at('pv_tactics', ['pv_players', 'pv_form', 'pv_stake', 'pv_hook'], [W(`${H} set up in a ${an.tactics.home?.formation || ''}.`), W(`${A} in a ${an.tactics.away?.formation || ''}.`)])
+    // the number (analysis.big): one full-screen stat that explains the model, just before the model screen
+    if (an.big) at('pv_big', ['pv_tactics', 'pv_players', 'pv_stake', 'pv_hook'], [W(an.big.label || '')])
     if (an.expect?.length) scenes.push({ type: 'pv_expect', i: 0, say: an.expect.slice(0, 3).map(W) })
   }
   if (p.top_scores?.length && !an?.expect?.length) {
