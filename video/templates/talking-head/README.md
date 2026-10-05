@@ -170,6 +170,19 @@ with the `side` panel low on the chest, clear of the face; the owner shrinks int
 
 ## Inspiration the owner likes for crypto videos (4 Oct 2026)
 
+**This is how the owner wants their own Polymarket and crypto recordings edited** (5 Oct, after the 5 Oct edit came out as
+a split screen: "That was the way I expected you to do the video on polymarket today"). Not a split screen, and not the
+screen alone with a face-cam: the look of the two videos below, built from the owner's camera and screen files.
+- The owner is the base shot, full frame, talking to camera (studio set or their own background).
+- Screen moments float in over the upper half while the owner stays visible below: the phone screen as a tilted card with
+  a soft shadow, never cropped, sliding in and out; the number they say pops out of it as its own card ("6/8",
+  "2.4x", "$6 → $14.43").
+- Walkthrough stretches (scrolling, tapping through a page) go full screen with a slow 3D drift, the screen at full
+  width and the owner small in a corner (the 9:16 duo view).
+- Lists (what the video covers, the legs of a combo) are white breather cards, items one at a time.
+- The hook is a giant number over the owner; the title a logo reveal with a glow; captions clean (sentence case, the
+  current word blue); a soft music bed. Every number still comes off the screen and is checked.
+
 Two reference videos the owner sent (Dropbox links in the chat of 4 Oct), on top of our own style:
 
 **"Prism, explained in 180 sec" (3:11, vertical, presenter to camera at TOKEN2049).**
