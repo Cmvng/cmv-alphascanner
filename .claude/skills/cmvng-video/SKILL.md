@@ -17,6 +17,12 @@ the last few videos of the same kind, then pick a different format and say in th
 keeps sending references to learn from; use them, and bring ideas of our own. The renderer stops a video whose run of
 screens is within two changes of one of the last three of its kind (`--allow-same` only for a deliberate re-render).
 
+**And above all, very creative** (the owner, 5 Oct: "most importantly the videos have to be very creative… like very
+creative"). Different is the floor; creative is the bar. Every video starts from one bold concept (not a template filled
+in), has a signature moment people would screenshot or share, pictures that act out the words, a surprise or twist,
+and a payoff at the end. The test: would the owner say "I haven't seen that before"? Write the concept in one line at
+the top of the post kit.
+
 ## 1. Fetch
 
 From the repo root (`cmv-alphascanner`):

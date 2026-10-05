@@ -9,6 +9,15 @@ same look (`video/.cache/variety/history.json`). That is the floor, not the goal
 cold open → hook → stakes → players → tactics → model → verdict → round-up, one screen added each day: that is what the
 owner means by generic.
 
+## Very creative (the owner: "most importantly the videos have to be very creative")
+Different is the floor; creative is the bar. Before building, write the concept in one line, then check:
+- **One bold concept** the whole video hangs on (a front page, a courtroom, a receipt, a heist plan), not a template.
+- **A signature moment** someone would screenshot or share.
+- **Pictures act out the words:** when the voice says "the wall", a wall builds; "falls apart", it falls apart.
+- **A surprise:** a twist, a reveal, a rule broken on purpose (silence, a freeze, a rewind).
+- **Our own animated graphics** over stock; sound design that plays with the picture.
+- **A payoff** at the end that pays back the hook.
+
 ## Every video changes all five
 1. **Format:** the shape of the story (below), not just the order of screens.
 2. **Hook:** a question, a number, a myth, a countdown, a quote, a "what if". Never the same kind twice running.
