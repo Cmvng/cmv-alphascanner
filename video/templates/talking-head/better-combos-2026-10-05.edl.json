@@ -20,12 +20,14 @@
  "pair": "Better combos",
  "handle": "@i_am_vickyd",
  "voice": {
-  "enhance": "df3"
+  "enhance": "df3",
+  "declip": true,
+  "dereverb": true
  },
  "music": {
   "id": 558,
-  "level": -9,
-  "duck": 10
+  "level": -12,
+  "duck": 12
  },
  "cold": [
   {

@@ -133,8 +133,16 @@ analysis, then a combo built on Polymarket).
 4. **The source:** one canvas, phone at the left, the owner at the top right, the camera's sound.
    `"chart": [0, 0, 1078, 2262]` (the phone), `"face": [1080, 0, 648, 1152]` (the owner), `"frame_q": 3` (smaller frames;
    the canvas is big). The 5 Oct build, with the freeze, is in the notes beside the reference EDL's output.
-5. **Sound:** `"voice": {"enhance": "df3"}` after an `adeclip` pass when the camera clipped (`src_df3.wav` in the out
-   folder is what the edit uses). Cut only at silences, every edge below −45 dB, as for the other recordings.
+5. **Sound:** `"voice": {"enhance": "df3", "declip": true, "dereverb": true}`: clipped peaks repaired, the room echo
+   taken out (`video/lib/dereverb.py`, WPE), then DeepFilterNet3, then only a rumble and boom cut. The owner's note
+   (5 Oct): "the audio from the main video is terrible". Measured on that recording (DNSMOS overall / speech-recogniser
+   confidence on the same 60 s): the old post chain (presence and air boosts, 4:1 compressor) 2.87 / −0.308, the new
+   chain 2.96 / −0.272. Boosts lift the phone's hiss and the compressor pumps it; don't add them back. Generative
+   restoration (Resemble Enhance) scored higher on DNSMOS but blurred the owner's consonants ("only market" for
+   "Polymarket"), so it is out. Keep the music about 25 dB under the voice (`level` −12, `duck` 12). Cut only at
+   silences, every edge below −45 dB, as for the other recordings. To redo only the sound of a finished edit, rebuild
+   `voice.wav` on the rendered `plan.json` pieces (a new plan can move cut points by milliseconds), mix, and put the new
+   mix on the old video stream (`-c:v copy`).
 6. **Reading the screen** (`video/lib/screen_read.py`): `scroll` (the page's movement at 10 fps), `ocr` (the text of every
    still stretch, with boxes), `find` (search it), `legs` (a ticket's legs, red = lost, green = won, grey = void). Every
    count the owner gives ("1, 2, 3, 4 lost") gets checked against the red legs before a box goes on them.

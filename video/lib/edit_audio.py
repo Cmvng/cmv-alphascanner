@@ -18,6 +18,12 @@ VOICE = ('highpass=f=75,afftdn=nr=10:nf=-42:tn=1,equalizer=f=280:t=q:w=1.2:g=-2.
 # the echo are already gone, so this cuts the low rumble, lifts presence and keeps the level steady and forward
 VOICE_DF = ('highpass=f=85,highpass=f=85,equalizer=f=250:t=q:w=1.2:g=-2,equalizer=f=3000:t=q:w=1.2:g=3.5,'
             'equalizer=f=8000:t=q:w=1.5:g=2,deesser=i=0.35,acompressor=threshold=-24dB:ratio=4:attack=5:release=120:makeup=5')
+# 5 Oct: measured on the owner's camera audio (DNSMOS overall / speech-recogniser confidence), VOICE_DF made the cleaned
+# voice WORSE (2.57 / -0.284 against 2.91 / -0.271 for the cleaned voice alone): its presence and air boosts lift the
+# hiss and its compressor pumps. The default after cleaning is now only a rumble cut and a gentle boom cut ("post":
+# "light"); "full" keeps the old chain. Generative restoration (Resemble Enhance) scored higher on DNSMOS but blurred the
+# owner's consonants (the recogniser heard "only market" for "Polymarket"), so it is not used.
+VOICE_LIGHT = 'highpass=f=80,lowshelf=f=220:g=-4'
 DF_PY = os.environ.get('DF_PYTHON', '/home/user/.venvs/tts/bin/python')
 
 
@@ -72,11 +78,18 @@ def plan(edl_path, out_dir):
     E = json.load(open(edl_path)); base = os.path.dirname(os.path.abspath(edl_path))
     src = os.path.join(base, E['source']); words = json.load(open(os.path.join(base, E['words'])))
     os.makedirs(out_dir, exist_ok=True)
-    df3 = (E.get('voice') or {}).get('enhance') == 'df3'
+    V = E.get('voice') or {}; df3 = V.get('enhance') == 'df3'
     if df3:                                              # clean the whole recording once, then cut the clean voice
-        raw_wav, clean = os.path.join(out_dir, 'src_raw.wav'), os.path.join(out_dir, 'src_df3.wav')
+        # "declip": repair clipped peaks first; "dereverb": take the room echo out (WPE) before DeepFilterNet3
+        tag = 'src' + ('_declip' if V.get('declip') else '') + ('_wpe' if V.get('dereverb') else '') + '_df3'
+        raw_wav, clean = os.path.join(out_dir, 'src_raw.wav'), os.path.join(out_dir, tag + '.wav')
         if not os.path.exists(clean):
-            subprocess.run([FF, '-v', 'error', '-y', '-i', src, '-ac', '1', '-ar', str(SR), raw_wav], check=True)
+            af = ['-af', 'adeclip'] if V.get('declip') else []
+            subprocess.run([FF, '-v', 'error', '-y', '-i', src] + af + ['-ac', '1', '-ar', str(SR), raw_wav], check=True)
+            if V.get('dereverb'):
+                from dereverb import dereverb
+                import soundfile as sf
+                d, r = sf.read(raw_wav, dtype='float32'); sf.write(raw_wav, dereverb(d, r), r)
             subprocess.run([DF_PY, os.path.join(os.path.dirname(os.path.abspath(__file__)), 'df_enhance.py'), raw_wav, clean], check=True)
         x = load(clean)
     else:
@@ -145,7 +158,7 @@ def plan(edl_path, out_dir):
             a[:f] *= np.linspace(0, 1, f); a[-f:] *= np.linspace(1, 0, f)
             o = int(p['out'] * SR); v[o:o + len(a)] += a
     os.makedirs(out_dir, exist_ok=True)
-    raw = subprocess.run([FF, '-v', 'error', '-f', 'f32le', '-ar', str(SR), '-ac', '1', '-i', '-', '-af', VOICE_DF if df3 else VOICE, '-f', 'f32le', '-ar', str(SR), '-ac', '1', '-'],
+    raw = subprocess.run([FF, '-v', 'error', '-f', 'f32le', '-ar', str(SR), '-ac', '1', '-i', '-', '-af', (VOICE_DF if V.get('post') == 'full' else V.get('post_af', VOICE_LIGHT)) if df3 else VOICE, '-f', 'f32le', '-ar', str(SR), '-ac', '1', '-'],
                          input=v.tobytes(), capture_output=True, check=True).stdout
     v = np.frombuffer(raw, np.float32).copy(); v /= np.abs(v).max() + 1e-9; v *= 0.89
     import wave
