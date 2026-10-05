@@ -125,8 +125,11 @@ analysis, then a combo built on Polymarket).
    incoming calls show the caller's number, the notification shade shows messages. Freeze the last clean frame over
    them when building the source (5 Oct: a call with the number on screen and the shade, 335.3–347.1 s).
 3. **The set.** `python3 video/lib/studio_bg.py cam.mp4 work/ --out-size 648x1152` → `work/presenter.mp4`, the owner in
-   front of a deep-blue studio (about an hour for a 9-minute recording; check `plate.png` and a few frames of the
-   composite for ears, hair and a pale rim before going on).
+   front of a deep-blue studio (about 45 minutes for a 9-minute recording). Look at `plate.png` (the empty room) first,
+   then at a dozen frames of the composite across the video, close up on the head: ears, hair, a pale rim, and anything
+   behind the head. 5 Oct: a grey strip beside the head at some moments was the owner's own shadow on the wall (it moves
+   with them, so no plate holds it); grey, not-near-black pixels now leave the outline. A plate built from the finished
+   matte also hid the wall behind the ears from itself, so the plate comes from the model's own mask, one frame a second.
 4. **The source:** one canvas, phone at the left, the owner at the top right, the camera's sound.
    `"chart": [0, 0, 1078, 2262]` (the phone), `"face": [1080, 0, 648, 1152]` (the owner), `"frame_q": 3` (smaller frames;
    the canvas is big). The 5 Oct build, with the freeze, is in the notes beside the reference EDL's output.
@@ -183,6 +186,50 @@ two to three minutes, face lit from the side with the background a little out of
   never where the viewer must read numbers or token names.
 - `{ "id": "LIST", "insert": { "kind": "list", "kicker": "Today", "title": "The other side", "items": [ … ],
   "foot": "…", "step": 0.75 } }`: the white breather card, items slamming in one at a time (up to five short items).
+
+## More inspiration from TikTok (5 Oct 2026)
+
+Four videos the owner sent for "different styles on these crypto contents". Two are pure UI motion graphics, two are
+voiced stories where every phrase gets its own visual.
+
+**Apple-style motion graphics (0:37, 16:9).** Hook as a question in kinetic type ("Is it possible to learn Apple-style
+motion graphics in 20 minutes?"), then "most people don't realize how simple it is: you just need two components".
+Words fade in one by one from a blur, with a little scale; small UI widgets (a timer, a note, chat bubbles, a search pill,
+a "Pay" button) morph from one shape into the next with a springy overshoot; a cursor taps; light grey background,
+60 fps; ends on the logo.
+
+**Airline booking ad (0:13, 16:9).** A whole user journey in UI pieces: a photo card that morphs into the logo, the words
+"Let's book your next flight" scattered around it, a search bar typing the route, a tap on "Search flights", result
+cards fanning out, a plane crossing a soft map through clouds, a boarding pass card, a "You have arrived" pill, then a
+brand-colour end card with the tagline.
+
+**A designer's story (1:39, vertical, voice-over).** A personal arc: what everybody told them, why it failed for them
+(small jobs, lost clients, a deliberate joke number "$2 trillion in lost revenue"), the moment they understood, the
+simple fix, the result, and a reverse-psychology CTA ("unless you have the same problem, don't use the link in my bio.
+Don't."). Visuals change every one to three seconds and illustrate the exact words: one big word on white
+("Everybody", "because", "Sooo…", "Don't"), chat bubbles with a typing indicator, 3D keyboard keys typing, a phone with
+the chat, ransom-note paper letters on a green cutting mat, a doodle of a cat signing, "$300" huge in the accent colour on
+black, a glowing "$2,000,000", a detective board with red string between photos ("High earners"), a cursor clicking
+buttons, an invoice card arriving in a chat and a "Paid it" bubble. One accent colour (magenta), black and white grounds.
+
+**Design tips (1:35, vertical, voice-over).** Hook "Everyone tells you X, but hardly anybody tells you Y. So here's
+exactly how I do it", then a numbered list of four ("Number one, typography…"), each with a numbered colour tile
+("02 Brand Photography"), examples stacked as cards, a wall of one repeated word when they say "most designers overlook
+this", handwritten notes with arrows ("Example", "Design Motif") over the work, and a cliffhanger last line ("However,
+colour alone won't do it").
+
+**What we take for the owner's crypto and prediction videos** (in blue, never their magenta; at the owner's slower,
+suspenseful pace, not one cut a second):
+- Scripts: the story arc (what everyone says → why it failed for me → what I do instead → result → a soft CTA), the
+  "everyone tells you X, nobody tells you Y" hook with a numbered list of three or four, and a cliffhanger last line
+  that sets up the next video.
+- Kinetic word beats: one or two of the owner's own words, big, on a white or black breather screen, timed to the word
+  (we have word timestamps), for the beats that matter ("CANCEL", "$14").
+- Our own redrawn UI, animated: a combo slip that builds leg by leg, a search pill that types, a button a cursor taps,
+  a card that morphs into the next, a big glowing payout number.
+- Handwritten notes with a drawn arrow beside the highlight boxes ("lost", "the risky leg"), and numbered chapter tiles
+  ("01 Results", "02 Picks").
+- A wall of one repeated word for emphasis, chat bubbles with a typing indicator for a question the owner was asked.
 
 ## Rules
 
