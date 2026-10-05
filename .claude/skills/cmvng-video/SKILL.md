@@ -7,6 +7,16 @@ description: Make and send the cmvng picks video, results video or match preview
 
 The owner asks in plain words; you fetch the real singles from the live site, write the presenter's script like a football analyst, render, check, and send the video. Picks, prices and percentages always come from the app. Never type or guess them.
 
+## Never generic (the owner's fundamental rule, 5 Oct)
+
+"When making me analysis videos, post-match analysis videos or crypto videos, it's important not to keep on making
+generic videos. The social media algo doesn't like it." Every video must look and run differently from the last ones:
+change the format (the shape of the story), the hook, the main visual device, the look and the sound, not one detail.
+Before writing any video, read `video/templates/IDEAS.md` (the idea bank: the owner's references and our own ideas) and
+the last few videos of the same kind, then pick a different format and say in the post kit what is new. The owner
+keeps sending references to learn from; use them, and bring ideas of our own. The renderer stops a video whose run of
+screens is within two changes of one of the last three of its kind (`--allow-same` only for a deliberate re-render).
+
 ## 1. Fetch
 
 From the repo root (`cmv-alphascanner`):

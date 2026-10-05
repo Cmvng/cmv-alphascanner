@@ -162,6 +162,24 @@ if (cfg.music !== false) {
 // ---------------------------------------------------------------- 3. voiceover
 if (SHORT) { cfg.skip = [...(cfg.skip || []), ...(cfg.short_skip || ['pv_round', 'pv_tactics'])]; cfg.script = { ...(cfg.script || {}), ...(cfg.script_short || {}) } }
 const scenes = buildScenes(cfg, picks, recap)
+// never the same video twice (the owner, 5 Oct: "the social media algo doesn't like it", "not generic"): a new video
+// whose run of screens is within two changes of one of the last three of its kind, in the same look, stops here.
+// Adding one screen to yesterday's video is not different enough: change the order and the format, not one detail
+{
+  const base = x => x.replace(/_short$/, ''), runOf = sc => sc.filter((t, i) => t !== sc[i - 1])     // pv_round ×3 counts once
+  const types = runOf(scenes.map(s => s.type)), sig = [cfg.mode, cfg.style || '', types.join('>')].join(' | ')
+  const dist = (a, b) => { const d = Array.from({ length: a.length + 1 }, (_, i) => [i, ...Array(b.length).fill(0)]); for (let j = 1; j <= b.length; j++) d[0][j] = j
+    for (let i = 1; i <= a.length; i++) for (let j = 1; j <= b.length; j++) d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1)); return d[a.length][b.length] }
+  const vh = path.join(CACHE, 'variety', 'history.json')
+  let vlog = []; try { vlog = JSON.parse(fs.readFileSync(vh, 'utf8')) } catch {}
+  const near = vlog.filter(v => base(v.slug) !== base(slug) && v.mode === cfg.mode && !!v.short === SHORT).slice(-3)
+    .map(v => ({ ...v, d: v.style === (cfg.style || '') ? dist(v.types || [], types) : 99 })).find(v => v.d <= 2)
+  if (near && !flag('allow-same', false)) {
+    console.error(`\n✋ Too close to ${near.slug} (${near.date}): ${near.d === 0 ? 'the same' : 'only ' + near.d + ' screen change' + (near.d > 1 ? 's' : '') + ' from'} its run of screens, in the same look.\n   this: ${sig}\n   that: ${near.sig}\n   Make it different: another order and format of screens, new screens, another style. See "Never generic" in the skill.`)
+    process.exit(1)
+  }
+  if (!flag('stills', false)) { fs.mkdirSync(path.dirname(vh), { recursive: true }); fs.writeFileSync(vh, JSON.stringify([...vlog.filter(v => v.slug !== slug), { slug, mode: cfg.mode, short: SHORT, style: cfg.style || '', date: cfg.date || '', types, sig }].slice(-60), null, 1)) }
+}
 const spoken = x => typeof x === 'string' ? x : x.say, shown = x => typeof x === 'string' ? x : x.show
 const sentences = scenes.flatMap((s, k) => s.say.map((x, j) => ({ id: `s${k}_${j}`, text: spoken(x), k })))
 fs.writeFileSync(path.join(OUT, 'script.txt'), scenes.map(s => s.say.map(shown).join(' ')).join('\n\n') + '\n')
