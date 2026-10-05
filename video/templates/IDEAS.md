@@ -55,6 +55,31 @@ Different is the floor; creative is the bar. Before building, write the concept 
 - **The live chart:** the price line draws itself while the owner talks, the levels they name snapping on.
 - **Before / after:** the same screen yesterday and today, wiped across.
 
+## References from the owner, 5 Oct (batch 2: six TikTok football edits)
+Four of the six are built on match footage, which we never use (copyright; see the skill). We take the techniques.
+- **Collage poster (lorentso.tv, made for the Bundesliga, 0:12).** Players cut out and set on torn paper, black and
+  white with a halftone, borders in the club's own pattern, a white outline round a celebrating group, fans' faces cut
+  out screaming, a photo tearing into the next. → A matchday-collage look for analysis: Wikimedia photos cut out (we
+  already cut out people), torn-paper and halftone textures, each team's colours as the pattern, in our blue for the
+  type.
+- **Poetic documentary (gridfron, Messi, 1:45).** A written story, not a list: "A rare diagnosis told him he would never
+  be enough. Messi replied: watch closely." Metaphors ("he read weight distribution like scripture", "hunted the blind
+  side the way wolves hunt"), "The question was never X. The question was Y", a numbers passage, then one closing line.
+  On screen: one big word per beat (NARROW, THRONE, EXPECTATIONS), dark grade, slow pictures. → A "one player's night"
+  format with this kind of writing and a one-word caption mode.
+- **The moment, built up (motionkick18, Ronaldo's bicycle kick, 0:25).** No voice: extreme close-ups first (the
+  eyes, the hair, the boot, the 2017 badge), the player waiting, then the moment, then the ovation. → Cold opens built
+  from close crops of a photo (badge, boots, eyes) before the reveal; silence before the payoff.
+- **Theme edit on the beat (joof_editz, masked celebrations, 0:20).** One theme ties every shot together; it opens on a
+  small glowing icon pulsing in the dark, then cuts land on the beat, with rounded-corner frames, an object flying
+  across as the transition, falling particles and black-and-white flash frames. → Countdown or "five numbers" formats
+  cut to the music's beat grid (we already have it), opening on one small glowing icon.
+- **Nostalgia montage (tonnin, legends, 0:44).** Iconic faces and celebrations, warm film grade with grain and vignette,
+  an emotional song. → A film-grade look for history and rivalry segments.
+- **Call-out, then the answer (absxlutelmessi, 0:46).** Someone's bold claim ("You will not defeat Jude Bellingham")
+  with big centred captions, then the answer in pictures. → "Myth v numbers": a sourced quote card first, then our
+  numbers reply.
+
 ## Picks and results videos
 - Rotate the stadium, broadcast and players styles; a "slot machine" reveal of each pick; a results "scratch card";
   a weekly recap as a calendar that fills with ticks and crosses.
