@@ -39,7 +39,7 @@ for (const s of plan.segments) for (const p of s.pieces || []) {
   const dir = path.join(OUT, 'f', `${p.src.toFixed(3)}_${p.dur.toFixed(3)}`)
   if (!fs.existsSync(dir) || !fs.readdirSync(dir).length) {
     fs.mkdirSync(dir, { recursive: true })
-    await run(FF, ['-y', '-loglevel', 'error', '-ss', p.src.toFixed(3), '-i', src, '-t', p.dur.toFixed(3), '-vf', `fps=${FPS}${EDL.sharpen === false ? '' : ',unsharp=5:5:0.6:3:3:0'}`, '-q:v', '2', path.join(dir, '%05d.jpg')])
+    await run(FF, ['-y', '-loglevel', 'error', '-ss', p.src.toFixed(3), '-i', src, '-t', p.dur.toFixed(3), '-vf', `fps=${FPS}${EDL.sharpen === false ? '' : ',unsharp=5:5:0.6:3:3:0'}`, '-q:v', String(EDL.frame_q || 2), path.join(dir, '%05d.jpg')])
   }
   p.dir = path.relative(OUT, dir); p.n = fs.readdirSync(dir).length; k++
 }

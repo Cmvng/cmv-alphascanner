@@ -186,6 +186,37 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#000}
 /* 16:9 cards: everything within 1080px */
 #stage.wide #ins .kick{top:64px}#stage.wide #ins .ttl{top:130px;font-size:100px}#stage.wide #ins .body{top:300px;left:260px;right:260px}
 #stage.wide #ins .foot2{font-size:72px}#stage.wide #ins .row{padding:16px 30px;margin-bottom:14px}#stage.wide #ins .src{top:990px}
+/* duo (16:9, the owner's camera and phone recorded separately): the owner on the studio set in a card on the left, the
+   phone screen on the right (always whole, in a phone frame), a live close-up of what is being talked about in between,
+   captions under it. "solo" clips (no screen yet) show a side panel instead of the phone and the close-up */
+#stage.duo{background:radial-gradient(70% 90% at 50% 35%,#0F1B33 0%,#070C18 58%,#03050B 100%)}
+#stage.duo #grid{opacity:.5}
+#stage.duo #facebox{left:60px;top:40px;width:562px;height:1000px;border-radius:30px;box-shadow:0 0 0 2px rgba(79,179,255,.6),0 0 50px rgba(79,179,255,.18),0 30px 80px rgba(0,0,0,.6)}
+#stage.duo #chartbox{left:1356px;top:40px;width:477px;height:1000px;border-radius:32px;background:#fff;box-shadow:0 0 0 10px #0B0F18,0 0 0 12px rgba(255,255,255,.16),0 30px 80px rgba(0,0,0,.7),0 0 70px rgba(79,179,255,.12)}
+#stage.duo #scrim{left:0;top:0;width:1920px;height:1080px;border-radius:0}
+#focus{display:none;position:absolute;left:668px;top:104px;width:640px;height:686px;border-radius:24px;overflow:hidden;background:#fff;z-index:11;box-shadow:0 0 0 3px var(--acc),0 0 60px rgba(79,179,255,.25),0 30px 80px rgba(0,0,0,.6)}
+#stage.duo #focus{display:block}
+#focus img{position:absolute;left:0;top:0;transform-origin:0 0}
+#fspot{position:absolute;display:none;border:5px solid var(--acc);border-radius:14px;box-shadow:0 0 0 2000px rgba(4,8,16,.28),0 0 30px rgba(79,179,255,.65);pointer-events:none}
+#fview{position:absolute;display:none;z-index:12;border:3px solid var(--acc);border-radius:8px;box-shadow:0 0 0 2000px rgba(4,8,16,.0),0 0 16px rgba(79,179,255,.6);pointer-events:none}
+#side{display:none;position:absolute;left:668px;right:60px;top:110px;z-index:11}
+#side .kick{margin-bottom:22px}
+#side .ttl{font-size:96px;color:#fff;text-shadow:0 0 60px rgba(79,179,255,.3)}
+#side .items{margin-top:40px;display:flex;flex-direction:column;gap:20px}
+#side .it{display:flex;align-items:center;gap:22px;font:400 58px/1 Anton;text-transform:uppercase;letter-spacing:1px;color:#fff}
+#side .it i{font-style:normal;flex-shrink:0;width:72px;height:72px;border-radius:18px;background:var(--acc);color:var(--ink);display:flex;align-items:center;justify-content:center;font-size:44px}
+#stage.duo #hdr{left:668px;right:612px;top:40px}
+#stage.duo.solo #hdr{right:60px}
+#stage.duo .chip{font-size:18px;padding:9px 16px;gap:8px}
+#stage.duo #prog{left:668px;right:612px;top:20px;height:5px}
+#stage.duo.solo #prog{right:60px}
+#stage.duo #call{left:668px;right:612px;top:806px;text-align:center}
+#stage.duo #call .k{font-size:34px;padding:10px 22px;gap:12px}
+#stage.duo #cap{left:662px;right:606px;top:880px;height:150px;justify-content:center;text-align:center}
+#stage.duo.solo #cap{right:60px;top:860px}
+#stage.duo #cap .c{font-size:54px}
+#stage.duo #spot{box-shadow:0 0 0 3px rgba(79,179,255,.35),0 0 28px rgba(79,179,255,.75);border-width:3px;border-radius:8px}
+#stage.duo #foot{bottom:12px;font-size:16px}
 #foot{position:absolute;left:24px;right:24px;bottom:42px;text-align:center;font:700 19px JBM;letter-spacing:1px;color:rgba(255,255,255,.5);z-index:50}
 #flash{position:absolute;inset:0;background:var(--acc);opacity:0;z-index:60;mix-blend-mode:overlay;pointer-events:none}
 </style></head>
@@ -195,6 +226,8 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#000}
   <div id="hdr"><span class="chip w" id="pair"></span><span class="chip" id="hand"></span></div>
   <div id="floatbg"><img id="fbimg"></div>
   <div class="box" id="chartbox"><div class="lay" id="chartlay"><img id="chart"><div class="mask"></div></div></div><div id="scrim"></div>
+  <div id="focus"><img id="focusimg"><div id="fspot"></div></div><div id="fview"></div>
+  <div id="side"><div class="kick"><span class="chip w"></span></div><div class="ttl A"></div><div class="items"></div></div>
   <div id="topband"></div>
   <div id="spot"></div>
   <div id="shade"></div>
@@ -233,14 +266,16 @@ function glitch(n, t, at, dur = 0.38) {
 if (D.fmt === 'wide') { $('#stage').classList.add('wide'); document.documentElement.style.cssText = document.body.style.cssText = 'width:1920px;height:1080px' }
 if (D.layout === 'phone') $('#stage').classList.add('phone')
 if (D.layout === 'screen') $('#stage').classList.add('screen')
-const FULL = D.layout === 'phone' || D.layout === 'screen'     // the recording's whole width always: no push, no punch-in
+if (D.layout === 'duo') $('#stage').classList.add('duo')
+const DUO = D.layout === 'duo'
+const FULL = D.layout === 'phone' || D.layout === 'screen' || DUO     // the recording's whole width always: no push, no punch-in
 if (D.caption_style === 'clean') $('#stage').classList.add('clean')
 const FPS = D.fps, FW = D.frameW, FH = D.frameH, [cx0, cy0, cw0, ch0] = D.chart, FACE = D.face
 const SEG = D.segments, speak = SEG.filter(s => s.pieces?.length)
 for (const el of $$('.lay')) { el.style.width = FW + 'px'; el.style.height = FH + 'px' }
 if (D.mask) for (const m of $$('.lay .mask')) Object.assign(m.style, { left: D.mask.rect[0] + 'px', top: D.mask.rect[1] + 'px', width: D.mask.rect[2] + 'px', height: D.mask.rect[3] + 'px', background: D.mask.color })
 const CHAP = SEG.filter(s => s.kind === 'clip' && s.chapter), chapDur = s => s.chapter_dur || 1.8
-{ const cb = $('#chartbox'), c = $('#chap'); Object.assign(c.style, { left: cb.offsetLeft + 'px', top: cb.offsetTop + 'px', width: cb.offsetWidth + 'px', height: cb.offsetHeight + 'px' }) }
+{ const cb = DUO ? $('#focus') : $('#chartbox'), c = $('#chap'); Object.assign(c.style, { left: cb.offsetLeft + 'px', top: cb.offsetTop + 'px', width: cb.offsetWidth + 'px', height: cb.offsetHeight + 'px' }) }
 const COIN = SEG.find(s => s.kind === 'product' && s.kind2 === 'coin')
 function coinChart(c) {          // 4-hour candles with the owner's zone and levels, drawn once; revealed in renderAt
   const cn = $('#coin'); cn.style.visibility = 'hidden'; cn.style.display = 'block'      // measure while laid out
@@ -372,19 +407,89 @@ function lensSpot(bx, w, h) {
   return [bx[0] + bx[2] / 2 > 960 ? 40 : 1880 - w, 110]
 }
 
+// ---- duo: the phone (whole), the close-up ("fk": [[source seconds, centre x, centre y, width]] as fractions of the screen;
+// a mark {t, r: [x0, y0, x1, y1] (fractions of the screen), lr?} takes the close-up to its region and boxes it on the phone)
+const FA = 640 / 686
+const fkAt = (s, src) => { const k = s?.fk; if (!k?.length) return [0.5, 0.25, 1]
+  if (src <= k[0][0]) return k[0].slice(1); if (src >= k.at(-1)[0]) return k.at(-1).slice(1)
+  const j = k.findIndex(r => r[0] > src), a = k[j - 1], b = k[j], q = E.inOutSine(clamp((src - a[0]) / Math.max(0.01, b[0] - a[0])))
+  return a.slice(1).map((v, i) => v + (b[i + 1] - v) * q) }
+function focusRect(z) { let w = clamp(z[2], 0.2, 1) * cw0, h = w / FA
+  if (h > ch0) { h = ch0; w = h * FA }
+  let x = cx0 + z[0] * cw0 - w / 2, y = cy0 + z[1] * ch0 - h / 2
+  x = Math.max(cx0, Math.min(cx0 + cw0 - w, x)); y = Math.max(cy0, Math.min(cy0 + ch0 - h, y)); return [x, y, w, h] }
+function markRect(m) { const [x0, y0, x1, y1] = m.lr || m.r, rw = (x1 - x0), rh = (y1 - y0) * ch0 / cw0
+  return [(x0 + x1) / 2, (y0 + y1) / 2, clamp(Math.max(rw * 1.3, rh * 1.3 * FA), 0.38, 1)] }
+let soloV = 1
+function duoFrame(t, cs2, srcT, drop) {
+  const cb = $('#chartbox'), fo = $('#focus'), fv = $('#fview'), side = $('#side'), spot = $('#spot')
+  const i = speak.indexOf(cs2), prev = speak[i - 1], q = P(t, cs2.start - 0.05, cs2.start + 0.45, E.inOutCubic)
+  const solo = !!cs2.solo, prevSolo = prev ? !!prev.solo : solo
+  const v = solo ? (prevSolo ? 0 : 1 - q) : (prevSolo ? q : 1)     // 1 = phone + close-up, 0 = side panel
+  const after = P(t - drop, 0, 0.3)
+  $('#stage').classList.toggle('solo', v < 0.5)
+  place($('#chartlay'), cb, [cx0, cy0, cw0, ch0])
+  cb.style.opacity = v * after; fo.style.opacity = v * after
+  cb.style.transform = `translate3d(${(1 - v) * 80}px,0,0)`; fo.style.transform = `translate3d(0,${(1 - v) * 40}px,0)`
+  // the close-up: its own keyframes, eased in from the previous clip's last view; a mark takes over while it is on
+  const base = prev && prev.kind === 'clip' && !prev.solo ? lerp(focusRect(fkAt(prev, Infinity)), focusRect(fkAt(cs2, srcT)), q) : focusRect(fkAt(cs2, srcT))
+  // marks: the close-up goes to a mark's region (lr, else r) and a box lands on r, on the phone and inside the close-up;
+  // marks less than 0.9 s apart chain, so the close-up and the box glide from one to the next instead of letting go
+  // "fy": [[source s, dy], …] moves a mark with the page while the owner scrolls (dy in screen heights)
+  const fyAt = (m, t) => { const k = m.fy; if (!k?.length) return 0; if (t <= k[0][0]) return k[0][1]; if (t >= k.at(-1)[0]) return k.at(-1)[1]
+    const j = k.findIndex(r => r[0] > t), a = k[j - 1], b = k[j]; return a[1] + (b[1] - a[1]) * (t - a[0]) / Math.max(0.01, b[0] - a[0]) }
+  const mv = (m, t) => { const d = fyAt(m, t), sh = r => r && [r[0], r[1] + d, r[2], r[3] + d]; return d ? { ...m, r: sh(m.r), lr: sh(m.lr) } : m }
+  const ms = (cs2.marks || []).map(m => mv(m, srcT)), chains = []
+  ms.forEach((m, j) => { const c = chains.at(-1); if (c && m.t[0] - ms[j - 1].t[1] < 0.9) c.push(m); else chains.push([m]) })
+  const ch = chains.find(c => srcT >= c[0].t[0] - 0.4 && srcT <= c.at(-1).t[1] + 0.4)
+  let rect = base, ma = 0, box = null, mk = null
+  if (ch) {
+    ma = E.inOutCubic(P(srcT, ch[0].t[0] - 0.4, ch[0].t[0] + 0.1, x => x) * (1 - P(srcT, ch.at(-1).t[1] - 0.1, ch.at(-1).t[1] + 0.4, x => x)))
+    const j = Math.max(0, ch.findLastIndex(m => srcT >= m.t[0] - 0.25)); mk = ch[j]
+    const a = ch[Math.max(0, j - 1)], q2 = j ? E.inOutCubic(P(srcT, mk.t[0] - 0.25, mk.t[0] + 0.2, x => x)) : 1
+    rect = lerp(base, lerp(focusRect(markRect(a)), focusRect(markRect(mk)), q2), ma)
+    if (mk.r && !mk.nobox) box = a.r && !a.nobox ? lerp(a.r, mk.r, q2) : mk.r
+    if (box) { box = [box[0], Math.max(0, box[1]), box[2], Math.min(1, box[3])]; if (box[3] - box[1] < 0.012) box = null }   // a box scrolled off the phone goes
+  }
+  place($('#focusimg'), fo, rect)
+  const s = cb.clientWidth / cw0, L = cb.offsetLeft + (1 - v) * 80, T = cb.offsetTop, fspot = $('#fspot')
+  if (box && ma > 0.01 && v > 0.5) {
+    const [x0, y0, x1, y1] = box, k = fo.clientWidth / rect[2]
+    Object.assign(spot.style, { display: 'block', left: L + x0 * cw0 * s - 5 + 'px', top: T + y0 * ch0 * s - 5 + 'px', width: (x1 - x0) * cw0 * s + 10 + 'px', height: (y1 - y0) * ch0 * s + 10 + 'px', opacity: ma })
+    Object.assign(fspot.style, { display: 'block', left: (cx0 + x0 * cw0 - rect[0]) * k - 8 + 'px', top: (cy0 + y0 * ch0 - rect[1]) * k - 8 + 'px', width: (x1 - x0) * cw0 * k + 16 + 'px', height: (y1 - y0) * ch0 * k + 16 + 'px', opacity: ma })
+  } else { spot.style.display = 'none'; fspot.style.display = 'none' }
+  const full = rect[2] >= cw0 * 0.98 && rect[3] >= ch0 * 0.98
+  if (!full && v > 0.5) Object.assign(fv.style, { display: 'block', left: L + (rect[0] - cx0) * s - 2 + 'px', top: T + (rect[1] - cy0) * s - 2 + 'px', width: rect[2] * s + 4 + 'px', height: rect[3] * s + 4 + 'px', opacity: after * (1 - ma) * v })
+  else fv.style.display = 'none'
+  // the side panel for solo clips: a kicker, a title and items that land one by one ("side": {kicker, title, items, at})
+  const sd = cs2.solo && cs2.side ? cs2.side : (prev && prev.solo && prev.side && v < 1 ? prev.side : null)
+  side.style.display = sd && v < 0.999 ? 'block' : 'none'
+  if (sd) {
+    if (side.dataset.k !== sd.title) { side.dataset.k = sd.title; $('.kick .chip', side).textContent = sd.kicker || ''; $('.ttl', side).textContent = sd.title || ''
+      $('.items', side).innerHTML = (sd.items || []).map((x, j) => `<div class="it"><i>${j + 1}</i><span>${html(x)}</span></div>`).join('') }
+    side.style.opacity = (1 - v) * after
+    const owner = cs2.solo ? cs2 : prev, base0 = owner.start
+    $$('.it', side).forEach((n, j) => { const at = sd.at ? (srcToOut(owner, sd.at[j]) ?? base0 + 1 + j * 0.8) : base0 + 1 + j * 0.8
+      n.style.transform = slam(n, t, at, 1.5, 0.25); if (t < at) n.style.opacity = 0 })
+    $('.ttl', side).style.transform = slam($('.ttl', side), t, base0 + 0.15, 1.4, 0.3)
+  }
+}
+
 let lastSrc = ''
 window.renderAt = async function (t) {
   const seg = SEG.find(s => t >= s.start - 1e-6 && t < s.end) || SEG.find(s => s.start > t) || SEG.at(-1)
   const fr = frameAt(t), src = `${fr.p.dir}/${String(fr.f).padStart(5, '0')}.jpg`
   let wait = null
-  if (src !== lastSrc) { lastSrc = src; for (const im of [$('#chart'), $('#face'), $('#coldimg'), $('#lensimg'), $('#fbimg')]) im.src = src; wait = Promise.all(['#chart', '#face', '#coldimg', '#lensimg', '#fbimg'].map(q => $(q).decode().catch(() => {}))) }
+  if (src !== lastSrc) { lastSrc = src; for (const im of [$('#chart'), $('#face'), $('#coldimg'), $('#lensimg'), $('#fbimg'), $('#focusimg')]) im.src = src; wait = Promise.all(['#chart', '#face', '#coldimg', '#lensimg', '#fbimg', '#focusimg'].map(q => $(q).decode().catch(() => {}))) }
   const drop = D.drop, cold = t < drop, lt = t - seg.start
   // ---- cold open: the chart in the dark, one big number per line
   const co = $('#cold'); co.style.display = cold ? 'block' : 'none'
   if (cold) {
     const cs = SEG.filter(s => s.kind === 'cold'), j = Math.max(0, cs.filter(s => t >= s.start - 0.08).length - 1), st = cs[j], on = t >= cs[0].start - 0.08
     const r = cropFor(zoomAt(st, fr.p.src + (fr.f - 1) / FPS), 0.08 * clamp((t - st.start) / 4), co.clientWidth / co.clientHeight)
-    place($('#coldlay'), co, r)
+    if (DUO) { const sc = co.clientHeight / ch0, k = 1 + 0.05 * clamp((t - st.start) / 4)
+      $('#coldlay').style.transform = `translate(${co.clientWidth / 2}px,${co.clientHeight / 2}px) scale(${sc * k}) translate(${-(cx0 + cw0 / 2)}px,${-(cy0 + ch0 / 2)}px)` }
+    else place($('#coldlay'), co, r)
     const big = $('.bigc', co), lab = $('.labc', co), changed = j === 0 || st.big !== cs[j - 1].big, at = st.start - 0.08
     big.innerHTML = on ? html(st.big).replace(/\n/g, '<br>') : ''; lab.textContent = on ? st.label : ''; big.className = 'bigc A' + (st.tone ? ' ' + st.tone : '')
     big.style.fontSize = st.size ? st.size + 'px' : ''; lab.style.top = st.size ? big.offsetTop + big.offsetHeight + 30 + 'px' : ''
@@ -419,7 +524,7 @@ window.renderAt = async function (t) {
   // ---- highlight: a box around what the owner is talking about ("marks": source seconds + region), with a close-up
   const spot = $('#spot'), lens = $('#lens'), mk = (cs2.marks || []).find(m => srcT >= m.t[0] - 0.15 && srcT <= m.t[1] + 0.15)
   let spotBox = null
-  if (mk && t >= drop) {
+  if (mk && t >= drop && !DUO) {
     const a = P(srcT, mk.t[0] - 0.15, mk.t[0] + 0.12) * (1 - P(srcT, mk.t[1] - 0.1, mk.t[1] + 0.15)), sc = cb.clientWidth / rc[2], [x0, y0, x1, y1] = mk.r
     const bx = [(x0 * FW - rc[0]) * sc - 8, cb.offsetTop + (y0 * FH - rc[1]) * sc - 8, (x1 - x0) * FW * sc + 16, (y1 - y0) * FH * sc + 16]
     Object.assign(spot.style, { display: 'block', left: bx[0] + 'px', top: bx[1] + 'px', width: bx[2] + 'px', height: bx[3] + 'px', opacity: a }); spotBox = bx
@@ -432,6 +537,7 @@ window.renderAt = async function (t) {
       $('#lensimg').style.transform = `scale(${ls}) translate(${-lx0 * FW}px,${-(ly0 * FH + (rh - lh / ls) / 2)}px)`
     } else lens.style.display = 'none'
   } else { spot.style.display = 'none'; lens.style.display = 'none' }
+  if (DUO) duoFrame(t, cs2, srcT, drop)
   // ---- title on the drop
   const ti = $('#title'), tS = SEG.find(s => s.kind === 'title')
   ti.style.display = t >= drop && t < tS.end + 0.35 ? 'block' : 'none'
@@ -445,7 +551,7 @@ window.renderAt = async function (t) {
   // ---- callout chip for the clip
   const call = $('#call'), cl = seg.kind === 'clip' && seg.call ? seg : null
   if (cl) { if (call.dataset.id !== cl.id) { call.dataset.id = cl.id; call.innerHTML = `<div class="k"><i></i>${html(cl.call)}</div>` }
-    const k = $('.k', call), at = callAt(cl); k.style.transform = slam(k, t, at, 1.6, 0.25); k.style.transformOrigin = D.layout === 'phone' ? '50% 50%' : '0 50%'; call.style.display = t >= at - 0.05 ? 'block' : 'none'
+    const k = $('.k', call), at = callAt(cl); k.style.transform = slam(k, t, at, 1.6, 0.25); k.style.transformOrigin = D.layout === 'phone' || DUO ? '50% 50%' : '0 50%'; call.style.display = t >= at - 0.05 ? 'block' : 'none'
     if (D.layout === 'phone') call.style.top = (spotBox && spotBox[1] + spotBox[3] > 1440 ? Math.max(130, spotBox[1] - 100) : 1480) + 'px' }
   else call.style.display = 'none'
   // ---- chapter card at the start of a new topic; the header chip names the topic until the next one

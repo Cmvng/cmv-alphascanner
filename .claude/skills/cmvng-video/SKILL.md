@@ -195,6 +195,13 @@ Desktop screen recordings with a face-cam corner use `"layout": "screen"` with `
 from the transcript. The owner's rule (4 Oct): no part of the recording is ever cut out, their face included. The face-cam card
 keeps the camera's own shape and shows the whole camera picture (no trimming, no punch-in); check it on stills across
 the video before rendering.
+A camera file plus a separate phone screen recording uses `"layout": "duo"` with `--fmt wide` (reference
+`better-combos-2026-10-05.edl.json`, steps in the template README): the owner on a studio set
+(`video/lib/studio_bg.py`), the whole phone beside them, a close-up panel between that follows what they talk about.
+Look through the whole phone recording for private moments (incoming calls show the number, the notification shade)
+and freeze over them; read the screen with `video/lib/screen_read.py` and check every count and number against it;
+captions the transcript can't settle are re-transcribed on their own, and lines still unclear are left out at silences.
+Subtitles: `python3 video/lib/edit_srt.py <out>/plan.json <name>.srt`.
 
 ## 2. Write the script (the presenter is a football analyst)
 

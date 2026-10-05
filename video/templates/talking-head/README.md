@@ -110,6 +110,45 @@ the XO Market video of 4 Oct 2026, `xo-2026-10-04.edl.json` (a 10-minute CapCut 
   with no punch-in on jump cuts; it sits where the camera sat in the recording, clear of the site's content.
 - Disk: a 10-minute 1440×1080 source makes about 2.5 GB of frames. Clear the `f/` folders of finished edits first.
 
+## Camera and phone screen as two files: the owner on a studio set (16:9 "duo")
+
+`"layout": "duo"` with `--fmt wide`: the owner at the left in the camera's own shape (562×1000 for a 1080×1920
+camera, nothing cropped, no punch-in), the whole phone screen at the right (477×1000, with a bezel, never cropped), and a
+close-up panel in the middle (640×686) that shows what is being talked about at a readable size. Clips marked
+`"solo": true` (the intro, the outro) hide the phone and show a `"side"` panel instead: `{kicker, title, items}`, the items
+landing one by one. Reference: the owner's 5 Oct 2026 video, `better-combos-2026-10-05.edl.json` (cmvng results, picks and
+analysis, then a combo built on Polymarket).
+
+1. **Sync.** The phone's file name carries its END time (Samsung: `Screen_Recording_20261005_091625` ended at 09:16:25).
+   Find the offset on three or four taps the owner makes while saying it (5 Oct: screen time = camera time − 55.7 s).
+2. **Private moments.** Make a contact sheet of the top fifth of the screen every second and look at all of it:
+   incoming calls show the caller's number, the notification shade shows messages. Freeze the last clean frame over
+   them when building the source (5 Oct: a call with the number on screen and the shade, 335.3–347.1 s).
+3. **The set.** `python3 video/lib/studio_bg.py cam.mp4 work/ --out-size 648x1152` → `work/presenter.mp4`, the owner in
+   front of a deep-blue studio (about an hour for a 9-minute recording; check `plate.png` and a few frames of the
+   composite for ears, hair and a pale rim before going on).
+4. **The source:** one canvas, phone at the left, the owner at the top right, the camera's sound.
+   `"chart": [0, 0, 1078, 2262]` (the phone), `"face": [1080, 0, 648, 1152]` (the owner), `"frame_q": 3` (smaller frames;
+   the canvas is big). The 5 Oct build, with the freeze, is in the notes beside the reference EDL's output.
+5. **Sound:** `"voice": {"enhance": "df3"}` after an `adeclip` pass when the camera clipped (`src_df3.wav` in the out
+   folder is what the edit uses). Cut only at silences, every edge below −45 dB, as for the other recordings.
+6. **Reading the screen** (`video/lib/screen_read.py`): `scroll` (the page's movement at 10 fps), `ocr` (the text of every
+   still stretch, with boxes), `find` (search it), `legs` (a ticket's legs, red = lost, green = won, grey = void). Every
+   count the owner gives ("1, 2, 3, 4 lost") gets checked against the red legs before a box goes on them.
+7. **Close-ups and boxes.** Per clip: `"fk": [[source s, cx, cy, w], …]` (the close-up's centre and width as fractions
+   of the screen; it eases between keyframes and from the previous clip) and `"marks"`: `{t, r, lr?, fy?, nobox?}`. A mark
+   takes the close-up to `lr` (else `r`) and draws the box on the phone and inside the close-up. Marks less than 0.9 s
+   apart chain: the close-up and the box glide from one to the next, so a count lands a box on each leg as the owner says
+   the number. `"fy": [[source s, dy], …]` moves a mark with the page while the owner scrolls (dy = S(t) − S(ref) from the
+   scroll track, for a box measured at time ref). A box scrolled off the phone disappears on its own.
+8. **Captions:** where the first transcript reads oddly, transcribe the span again on its own with
+   `distil-large-v3` and `small.en` and compare; a line still unclear after that is left out at its silences rather
+   than guessed (5 Oct: an aside about yesterday's combo, a sign-off). A number the owner misspeaks is left out too,
+   and the screen's number goes in the callout.
+9. **Callouts** say what the screen says: "Fri 2 Oct · 6 of 8 tickets won" is the calendar's own 6/8. If the owner names
+   the wrong day ("Tuesday" for the Thursday they opened), the caption keeps their words and the callout says the day
+   on screen; tell the owner in the notes.
+
 ## Inspiration the owner likes for crypto videos (4 Oct 2026)
 
 Two reference videos the owner sent (Dropbox links in the chat of 4 Oct), on top of our own style:
