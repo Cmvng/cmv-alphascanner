@@ -28,11 +28,10 @@
     "type": "kh_cold",
     "id": "#2048",
     "tagline": "On-chain",
-    "seed": 7,
     "tags": [
      [
       "Trait",
-      "Golden halo"
+      "Cat ears"
      ],
      [
       "Rarity",
@@ -54,7 +53,8 @@
      0.45,
      0.6
     ],
-    "tail": 0.7
+    "tail": 0.7,
+    "art": "red"
    },
    {
     "type": "kh_seal",
@@ -116,27 +116,39 @@
     "tiles": [
      [
       "Class",
-      "cls"
+      "",
+      "#FFD207",
+      "#0B0B10"
      ],
      [
       "Secrecy",
-      ""
+      "",
+      "#9B6BF2",
+      "#FFFFFF"
      ],
      [
       "Intuition",
-      ""
+      "",
+      "#3CCB8A",
+      "#0B0B10"
      ],
      [
       "Will",
-      ""
+      "",
+      "#FF7A6B",
+      "#0B0B10"
      ],
      [
       "Energy",
-      ""
+      "",
+      "#FFB547",
+      "#0B0B10"
      ],
      [
       "Element",
-      ""
+      "",
+      "#4F8DF5",
+      "#FFFFFF"
      ],
      [
       "Reserved",
@@ -151,41 +163,49 @@
      [
       "Class",
       0,
-      0
+      0,
+      "#FFD207"
      ],
      [
       "4 stats",
       1,
-      4
+      4,
+      "#9B6BF2"
      ],
      [
       "Element",
       5,
-      5
+      5,
+      "#4F8DF5"
      ],
      [
       "Reserved",
       6,
-      7
+      7,
+      "#BDB6A6"
      ]
     ],
     "odds_title": "Class chances",
     "odds": [
      [
       "Common",
-      50.0
+      50.0,
+      "#BDB6A6"
      ],
      [
       "Rare",
-      30.1
+      30.1,
+      "#4F8DF5"
      ],
      [
       "Ultra Rare",
-      14.8
+      14.8,
+      "#9B6BF2"
      ],
      [
       "Legendary",
-      5.1
+      5.1,
+      "#FFD207"
      ]
     ],
     "one": "About 1 in 20 is Legendary",
@@ -202,7 +222,6 @@
      "The public",
      "The holder"
     ],
-    "seed": 7,
     "sealed": "Sealed",
     "published": "Published",
     "only": "Only you",
@@ -249,23 +268,28 @@
      ],
      [
       "Class",
-      "Rare"
+      "Rare",
+      "cls"
      ],
      [
       "Secrecy",
-      62
+      62,
+      "#9B6BF2"
      ],
      [
       "Intuition",
-      81
+      81,
+      "#3CCB8A"
      ],
      [
       "Will",
-      37
+      37,
+      "#FF7A6B"
      ],
      [
       "Energy",
-      70
+      70,
+      "#FFB547"
      ],
      [
       "Element",
@@ -277,7 +301,7 @@
      ]
     ],
     "forever": "Encrypted for good",
-    "note": "Illustration · not a real Fungo Labs NFT",
+    "note": "Art: Fungo Labs' teaser · stats are an illustration",
     "say": [
      {
       "say": "So who sees what? The public sees a sealed mark, and: revealed, no.",
@@ -285,7 +309,8 @@
      },
      "The holder sees all of it: the art, the class, every stat.",
      "The art goes public only if the holder publishes it. The essence never does."
-    ]
+    ],
+    "art": "king"
    },
    {
     "type": "kh_sale",
@@ -295,7 +320,6 @@
      "Seller",
      "Buyer"
     ],
-    "seed": 7,
     "blocks": 96,
     "blocks_label": "blocks · about 19 min",
     "wake": "Wake",
@@ -310,7 +334,8 @@
       "say": "The new holder wakes it after ninety-six blocks, about nineteen minutes, with one small transaction.",
       "show": "The new holder wakes it after 96 blocks, about 19 minutes, with one small transaction."
      }
-    ]
+    ],
+    "art": "green"
    },
    {
     "type": "kh_duel",
@@ -348,19 +373,19 @@
       "n": 2500,
       "k": "Sale",
       "s": "paid in cZAMA",
-      "c": "#5B9BFF"
+      "c": "#FFD207"
      },
      {
       "n": 500,
       "k": "Free mint",
       "s": "gas only · 1 per account",
-      "c": "#1F5FDB"
+      "c": "#7EE2A8"
      },
      {
       "n": 232,
       "k": "Team",
       "s": "",
-      "c": "#0A2A4F"
+      "c": "#F4F1EA"
      }
     ],
     "say": [
@@ -368,7 +393,7 @@
      "2,500 NFTs go to the sale, paid in cZAMA, Zama's confidential token. 232 go to the team.",
      "And 500 free mints: gas only, one per account."
     ],
-    "dim": "#B8D4FF"
+    "dim": "#3A3A48"
    },
    {
     "type": "kh_apply",
@@ -422,6 +447,29 @@
     ],
     "tail": 1.6
    }
-  ]
+  ],
+  "brand": {
+   "name": "Fungo Labs",
+   "primary": "#FFD207",
+   "primary2": "#FFE25C",
+   "ink": "#0B0B10",
+   "cream": "#F4F1EA",
+   "ok": "#7EE2A8",
+   "warn": "#FFB547",
+   "bad": "#FF7A6B",
+   "source": "fungolabs.org stylesheet and favicon.svg; art sampled from their teaser videos (6 Oct)",
+   "art": {
+    "red": "../brand/fungo-red.png",
+    "green": "../brand/fungo-green.png",
+    "king": "../brand/fungo-king.png",
+    "robot": "../brand/fungo-robot.png"
+   },
+   "art_bg": {
+    "red": "#2D3659",
+    "green": "#2D3659",
+    "king": "#225A4F",
+    "robot": "#61262E"
+   }
+  }
  }
 }

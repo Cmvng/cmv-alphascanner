@@ -31,13 +31,20 @@ videos day by day. When a rule here and a new instruction from the owner disagre
   - deep `#1F5FDB`;
   - navy backgrounds `#050A18` to `#0D2D6E`.
 
-  **Light, too (the owner, 6 Oct):** "Use a different creative style… my style is light or shades of blue." Don't make
-  every video dark. The light palette: a sky-blue page (`#F5FAFF` to `#C9E0FF`), white frosted-glass cards, navy type
-  (`#0A2A4F`) and deep-blue accents (`#1F5FDB`). A dark cold open is still fine in deep royal blue (`#1F5FDB` to
-  `#072A6B`), never black, and the drop can flood the screen with light. Reference: the Fungo Labs explainer
-  (`explainer.theme: "sky"` in `video/explainer.html`).
+  **Blue is the background, not a filter (the owner, 6 Oct, twice).** First: "my style is light or shades of blue."
+  Then, on a video where everything had been turned blue: "the logo, the colour of the projects… the colour of the images
+  should also remain there. Just that the background should reflect light or blue… if the colour of the thing you're
+  talking about is yellow, blue, red, you should make it so everything blends… not that everything now reflects blue…
+  so monotonous… not even unique." So:
+  - **Blue (light sky blue `#F5FAFF` to `#C9E0FF`, or deep royal blue for a cold open, never black) is the page** and
+    our own frame: the cmvng header, the captions, our chips.
+  - **The subject keeps its own colours, logo and images**: a project's brand colours (from its own site or stylesheet),
+    its logo and its art; a team's kit colours, crest and flag. They sit on the blue page and blend with it.
+  - **Use colour to mean things:** a different colour per stat, class or category, so the screen is never one colour.
+  - Reference: the Fungo Labs explainer (yellow `#FFD207`, ink `#0B0B10` and cream from their stylesheet, their mark,
+    their creatures, on `explainer.theme: "sky"`; palette in `explainer.brand`).
 
-  **Never yellow or lime** as an accent. Green and red only where they mean something: won or lost, up or down,
+  **Never yellow or lime as OUR accent** (a subject's own yellow is fine: it's their colour, not ours). Green and red only where they mean something: won or lost, up or down,
   correct or missed, danger.
 - **Logo mark:** three rising blue bars, skewed, next to "cmvng".
 - **Type:**
@@ -284,7 +291,8 @@ either pre analysis or post analysis."*
     to the environment; never ask them to paste it in chat. Show a still and the cost before generating.
   - Without a service, a 2D cartoon presenter drawn and animated in code (mouth to the voice, blinks, gestures).
 - **Rules:**
-  - no product logo unless the owner is partnered;
+  - the product's own logo, colours and art stay (the owner, 6 Oct), credited in the description and never edited into
+    something that looks official: no "<product> × cmvng", no fake announcements;
   - footer: "Independent guide · not affiliated with <product> · not financial advice";
   - say "amount" and "multiplier", never "stake" or "odds".
 
@@ -662,3 +670,6 @@ The owner sends references to learn from. Take the techniques, never the footage
     go viral based on how unique it will be."
   - On the first, dark draft of it: "Use a different creative style… my style is light or shades of blue color palette."
     So it was rebuilt in the light sky-blue style.
+  - On that rebuild, where everything had been turned blue: "the logo, the colour of the projects… the colour of the images
+    should also remain there. Just that the background should reflect light or blue… everything blends… not that
+    everything now reflects blue… so monotonous." Blue is the page; the subject keeps its colours (section 1).

@@ -58,9 +58,13 @@ The file gets form, record, points a game, goals scored and conceded, shots on t
 current caption word, rings, chips and glows are blue (sky `#4FB3FF`, `#3D7BFF`, `#6E9BFF`, deep `#1F5FDB`, navy
 backgrounds). Never yellow or lime as an accent. Green and red appear only where they mean something: up/down
 candles and price moves, won/lost, correct/missed.
-**Light, not only dark** (the owner, 6 Oct: "my style is light or shades of blue color palette"). Vary it: a light
-sky-blue page with white frosted glass and navy type is as much the house style as navy. Never a black screen; a dark
-cold open goes deep royal blue. Reference: `explainer.theme: "sky"` (Fungo Labs explainer, 6 Oct).
+**Blue is the background, not a filter** (the owner, 6 Oct: "my style is light or shades of blue", then "the logo,
+the colour of the projects… the colour of the images should also remain there. Just that the background should reflect
+light or blue… everything blends… not that everything now reflects blue… so monotonous"). The page is light sky blue
+(or deep royal blue for a cold open, never black) and our frame (header, captions) is blue. The subject keeps its own
+colours, logo and art: a project's brand colours from its own stylesheet, a team's kit, crest and flag. Use colour to
+mean things (a colour per stat or class). Reference: the Fungo Labs explainer (`explainer.theme: "sky"` +
+`explainer.brand`).
 
 **What the owner loves (4 Oct): the soundtrack and the slow, suspenseful pace.** "The soundtrack was captivating… the
 slow paced way it was analyzing the game was giving me, okay, what is going on here." The track was "A New Life"
@@ -208,7 +212,8 @@ voice A for these modes, and when a cold open exists the music's drop lands on t
 - **Never give the answer away.** No verdict, no score, no tally in the cold open: the payoff comes after the drop.
 - **Facts only from the sources file**, and numbers the viewer can feel (ages, goals, fans, minutes, money).
 - Then silence (`tail` about 0.5 s) and the title slams in on the drop. Don't add a line that repeats the cold open in the title screen.
-- **Facts** come only from the product's docs and app, listed in a sources file. Our own redrawn screens, no logo.
+- **Facts** come only from the product's docs and app, listed in a sources file. The product's own logo, colours and
+  art stay (credited, with the "not affiliated" footer).
 
 ## The owner's own recordings (talking head + chart)
 
