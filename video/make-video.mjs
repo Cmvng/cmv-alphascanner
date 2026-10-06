@@ -132,7 +132,11 @@ function pickTrack() {
   let h = { used: [], by: {} }
   try { const j = JSON.parse(fs.readFileSync(hist, 'utf8')); h = Array.isArray(j) ? { used: j, by: {} } : j } catch {}
   const asTrack = t => ({ url: `https://assets.mixkit.co/music/${t.id}/${t.id}.mp3`, start: t.start, drop: t.drop, loop: t.loop, credit: `Music: "${t.name}"${t.artist && t.artist !== 'Mixkit' ? ' by ' + t.artist : ''} (Mixkit)` })
-  if (want) return asTrack(want)
+  // a track chosen by id still counts in the rotation, so the next videos don't repeat it
+  if (want) {
+    if (!flag('stills', false) && h.by[slug] !== want.id) { fs.mkdirSync(path.dirname(hist), { recursive: true }); fs.writeFileSync(hist, JSON.stringify({ used: [...h.used, want.id].slice(-30), by: { ...h.by, [slug]: want.id } })) }
+    return asTrack(want)
+  }
   const again = !flag('new-music', false) && lib.find(t => t.id === h.by[slug])
   if (again) return asTrack(again)
   const moods = cfg.music_mood ? [].concat(cfg.music_mood) : cfg.mode === 'preview' ? ['groove', 'cinematic'] : ['hype', 'groove']
@@ -225,13 +229,13 @@ const est = s => s.split(/\s+/).length / (2.7 * cfg.voice_speed) + 0.2 // second
 // ---------------------------------------------------------------- 4. timeline + captions
 const MIN = { hook: 4.2, pick: 7.0, slate: 5.0, cta: 4.4, rhook: 5.4, result: 4.6, rtotal: 6.2, pv_hook: 5.0, pv_form: 6.0, pv_stats: 7.0, pv_model: 7.5, pv_score: 5.5, pv_cta: 4.5, pv_stake: 6.0, pv_players: 8.0, pv_tactics: 8.0, pv_expect: 7.0, pv_round: 6.0,
   rv_hook: 4.0, rv_moment: 3.6, rv_meme: 3.0, rv_stats: 5.0, rv_read: 5.0, rv_table: 4.8, rv_ratings: 5.0, rv_quote: 4.5, rv_cta: 3.6, rx_intro: 3.0, rx_take: 4.0, rx_reveal: 3.4, rx_outro: 3.6, pm_hook: 3.4, pm_pick: 5.0, pm_tip: 5.0, pm_pass: 4.4, pm_slate: 4.6, pm_outro: 3.8 }
-const LEAD = { hook: 0.2, rhook: 0.2, rv_hook: 0.75, rv_meme: 0.2, rv_moment: 0.25, rx_intro: 0.6, rx_take: 0.45, rx_reveal: 0.25, pm_hook: 0.6, pm_pick: 0.45, pm_tip: 0.45, pm_pass: 0.45, ex_cold: 0.35, ex_hook: 0.06, pv_cold: 0.35, rx_cold: 0.35, np_cold: 0.35, np_front: 0.8, np_timeline: 0.55, np_bench: 0.55 }, GAP = 0.12, TAIL = 0.3
+const LEAD = { hook: 0.2, rhook: 0.2, rv_hook: 0.75, rv_meme: 0.2, rv_moment: 0.25, rx_intro: 0.6, rx_take: 0.45, rx_reveal: 0.25, pm_hook: 0.6, pm_pick: 0.45, pm_tip: 0.45, pm_pass: 0.45, ex_cold: 0.35, ex_hook: 0.06, pv_cold: 0.35, rx_cold: 0.35, np_cold: 0.35, np_front: 0.8, np_timeline: 0.55, np_bench: 0.55, bp_cold: 0.35, bp_title: 0.9 }, GAP = 0.12, TAIL = 0.3
 const BEAT = music?.beat || null
 let t = 0
 const captions = []
 scenes.forEach((sc, k) => {
   sc.start = t
-  let st = t + (LEAD[sc.type] ?? (/^np_/.test(sc.type) ? 0.5 : 0.32))      // newspaper pages: the voice waits for the page to land
+  let st = t + (LEAD[sc.type] ?? (/^(np|bp)_/.test(sc.type) ? 0.5 : 0.32))      // newspaper and blueprint pages: the voice waits for the page to land
   sc.sentences = sc.say.map((x, j) => {
     const id = `s${k}_${j}`, text = shown(x), d = durs?.[id] ?? est(spoken(x))
     const s = { id, text, start: st, dur: d, wav: durs ? path.join(OUT, 'voice', `${id}.wav`) : null }

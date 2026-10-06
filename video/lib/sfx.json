@@ -135,6 +135,36 @@
    "id": 1371,
    "name": "Vintage dot printing",
    "use": "the printing press (cold open)"
+  },
+  {
+   "id": 2853,
+   "name": "Safe lock",
+   "use": "the vault clunks shut (blueprint heist analysis)"
+  },
+  {
+   "id": 2857,
+   "name": "Gear fast lock tap",
+   "use": "a safe dial ticking"
+  },
+  {
+   "id": 2849,
+   "name": "Shut and lock",
+   "use": "the vault door shuts at the end"
+  },
+  {
+   "id": 3117,
+   "name": "Mechanical technology movements",
+   "use": "the vault mechanism turns"
+  },
+  {
+   "id": 2847,
+   "name": "Data scaner",
+   "use": "a laser grid or scan sweeps across"
+  },
+  {
+   "id": 994,
+   "name": "Security facility breach alarm",
+   "use": "the alarm goes off (keep it low)"
   }
  ]
 }
