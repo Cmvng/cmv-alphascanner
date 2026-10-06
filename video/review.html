@@ -548,6 +548,27 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#03060F}
 .bp_verdict .q span{color:var(--sky)}
 .bp_verdict .fol{position:absolute;left:0;right:0;top:1210px;text-align:center}
 .bp_verdict .fol .chipb{position:relative;display:inline-block;background:var(--ln);color:#0D2D6E;border-color:var(--ln)}
+/* the round-up: the board of the night's other jobs, then one job card per match */
+.bp_board .jc{position:absolute;width:470px;height:226px;border:3px solid var(--ln);background:rgba(10,36,96,.66);padding:18px 22px}
+.bp_board .jc .tm{font:400 50px/1 Anton;color:var(--sky)}
+.bp_board .jc .tm small{font:700 16px JBM;letter-spacing:3px;color:var(--ln2);margin-left:10px;vertical-align:middle}
+.bp_board .jc .cr{position:absolute;right:16px;top:16px;display:flex;gap:8px}.bp_board .jc .cr .badge{width:54px;height:54px}
+.bp_board .jc .tt{margin-top:12px;font:800 30px/1.18 Manrope;color:var(--ln)}
+.bp_board .jc .cp{position:absolute;left:22px;bottom:14px;font:700 15px JBM;letter-spacing:2px;text-transform:uppercase;color:var(--sky)}
+.bp_board .jc .no{position:absolute;right:18px;bottom:12px;font:700 15px JBM;letter-spacing:2px;color:var(--ln2)}
+.bp_job .jk{position:absolute;left:50px;right:50px;top:232px;font:700 24px JBM;letter-spacing:4px;text-transform:uppercase;color:var(--sky);white-space:nowrap}
+.bp_job .side{position:absolute;top:300px;width:420px;display:flex;flex-direction:column;align-items:center;text-align:center}
+.bp_job .side .badge{width:170px;height:170px}
+.bp_job .side b{margin-top:18px;font:400 54px/1.02 Anton;text-transform:uppercase;color:var(--ln)}
+.bp_job .vv{position:absolute;left:0;right:0;top:370px;text-align:center;font:700 30px JBM;color:var(--sky)}
+.bp_job .tri2{position:absolute;left:60px;right:60px;top:690px}
+.bp_job .xgl{position:absolute;left:60px;top:790px}
+.bp_job .rd2{position:absolute;left:60px;right:60px;top:1250px;padding:16px 26px;border:3px solid var(--ln);background:var(--ln);color:#0D2D6E;font:400 46px/1.1 Anton;text-transform:uppercase;letter-spacing:1px}
+.bp_job .rd2 small{display:block;font:700 18px JBM;letter-spacing:4px;color:#1F5FDB;margin-bottom:6px}
+.bp_end .bigl{position:absolute;left:0;right:0;top:300px;text-align:center;font:400 150px/1 Anton;text-transform:uppercase;color:var(--ln)}
+.bp_end .bigl span{color:var(--sky)}
+.bp_end .fol{position:absolute;left:0;right:0;top:1180px;text-align:center}
+.bp_end .fol .chipb{position:relative;display:inline-block;background:var(--ln);color:#0D2D6E;border-color:var(--ln)}
 #cap.bpc .c{background:rgba(5,14,44,.82);padding:10px 24px 12px;border:2px solid rgba(234,242,255,.45);border-radius:6px}
 
 /* stickers and emoji bursts */
@@ -985,6 +1006,25 @@ const built = D.scenes.map((sc, k) => {
       el.innerHTML = bpPage(`${bpHead(sc, b, 'The prize', 'The prize', '')}<table><tr><th></th><th style="text-align:left">Team</th><th>P</th><th>Pts</th></tr>${t.map((r, j) => { const pk = D.picks.find(x => x.home === r[0] || x.away === r[0]), bd = pk ? (pk.home === r[0] ? pk.bh : pk.ba) : null
           return `<tr class="${me.includes(r[0]) ? 'me' : ''} ${j === (b.cut ?? 2) - 1 ? 'cut' : ''}"><td class="n">${j + 1}</td><td class="t">${bd ? badge(bd) : ''}${html(r[0])}</td><td class="r">${r[1]}</td><td class="r">${r[2]}</td></tr>` }).join('')}</table>
         <div class="sc" style="top:960px">${(b.rows || []).map(r => `<div class="r"><i>${html(r[0])}</i><span>${html(r[1])}</span></div>`).join('')}</div>`)
+    } else if (sc.type === 'bp_board') {
+      const its = b.items || []
+      el.innerHTML = bpPage(`${bpHead(sc, b, 'The board', 'The board', '')}${its.map((it, j) => { const qq = D.picks[it.match], x = j % 2 ? 550 : 60, y = 400 + Math.floor(j / 2) * 250
+        return `<div class="jc" style="left:${x}px;top:${y}px"><div class="tm">${html(it.time || qq.kickoff || '')}<small>Lagos</small></div><div class="cr">${badge(qq.bh)}${badge(qq.ba)}</div>
+          <div class="tt">${html(it.title || qq.home + ' v ' + qq.away)}</div><div class="cp">${html(it.comp || '')}</div><div class="no">Job ${String(j + 1).padStart(2, '0')}</div></div>` }).join('')}`)
+    } else if (sc.type === 'bp_job') {
+      const m = b.model || [q.home_win, q.draw, q.away_win], hs = b.home_short || q.home, as = b.away_short || q.away
+      const icon = b.icon === 'cup' ? `<path d="M930 250 h70 v40 a35 35 0 0 1 -70 0 Z"/><path d="M930 262 h-16 a14 14 0 0 0 16 24 M1000 262 h16 a14 14 0 0 1 -16 24"/><path d="M965 325 v22 M945 352 h40"/>`
+        : b.icon === 'globe' ? `<circle cx="965" cy="300" r="46"/><ellipse cx="965" cy="300" rx="20" ry="46" class="th"/><path d="M919 300 h92 M926 278 h78 M926 322 h78" class="th"/>`
+        : `<path d="M965 252 l42 14 v36 c0 26 -20 42 -42 52 c-22 -10 -42 -26 -42 -52 v-36 Z"/><path d="M965 276 l8 16 l18 2 l-13 12 l4 18 l-17 -9 l-17 9 l4 -18 l-13 -12 l18 -2 Z" class="th"/>`
+      el.innerHTML = bpPage(`${bpTB(sc, b.label || 'Job ' + String(b.no || '').padStart(2, '0'))}<div class="jk">${html(b.kicker || '')}</div><svg class="dw jic">${icon}</svg>
+        <div class="side" style="left:60px">${badge(q.bh)}<b>${html(hs)}</b></div><div class="vv">v</div><div class="side" style="right:60px">${badge(q.ba)}<b>${html(as)}</b></div>
+        <div class="tri2"><div style="display:flex;height:30px">${m.map((v, j) => `<i style="display:block;width:${v}%;background:${['#EAF2FF', 'rgba(234,242,255,.4)', '#8EC5FF'][j]};transform-origin:0 50%"></i>`).join('')}</div>
+          <div class="lab" style="position:relative;margin-top:12px;display:flex;justify-content:space-between"><span>${html(hs)} ${Math.round(m[0])}%</span><span>Draw ${Math.round(m[1])}%</span><span>${html(as)} ${Math.round(m[2])}%</span></div></div>
+        <div class="lab sk xgl">Expected goals · ${(+q.xg_home).toFixed(2)} – ${(+q.xg_away).toFixed(2)}</div>${spec(b.rows, 860)}
+        ${b.read ? `<div class="rd2"><small>Our read</small>${html(b.read)}</div>` : ''}`)
+    } else if (sc.type === 'bp_end') {
+      el.innerHTML = bpPage(`${bpTB(sc, b.label || 'End of drawings')}<div class="bigl">${html(b.l1 || '')}<br><span>${html(b.l2 || '')}</span></div>${vaultSvg(540, 860, 200)}
+        <div class="fol"><span class="chipb">${html(b.follow || 'Follow for the post-match')}</span><div class="lab sk" style="position:relative;margin-top:22px">Football, by the numbers</div></div>`)
     } else if (sc.type === 'bp_verdict') {
       el.innerHTML = bpPage(`${bpTB(sc, b.label || 'The verdict')}<div class="card2"><div class="k">${html(b.kicker || 'Our read')}</div><div class="v">${html(b.read || '')}</div></div>${vaultSvg(540, 735, 200)}
         <div class="q">${html(b.q1 || '')} <span>${html(b.q2 || '')}</span></div><div class="fol"><span class="chipb">${html(b.follow || 'Follow for the post-match')}</span><div class="lab sk" style="position:relative;margin-top:22px">Football, by the numbers</div></div>`)
@@ -1282,6 +1322,21 @@ function draw(k, lt, sc) {
     } else if (sc.type === 'bp_stakes') {
       rise($$('tr', el), lt, 0.6, 0.12, 18)
       $$('.sc .r', el).forEach((r, j) => { const rr = b.rows[j]; slam(r, lt, (rr[2] != null ? L0(rr[2]) + (rr[3] || 0) * LD(rr[2]) : L0(Math.min(j + 1, last))) - 0.1, 1.12, 0.26) })
+    } else if (sc.type === 'bp_board') {
+      const its = b.items || [], ta = j => its[j]?.line != null ? L0(its[j].line) + (its[j].at || 0) * LD(its[j].line) : 0.7 + j * Math.max(0.25, (L0(last) + LD(last) - 1.2) / Math.max(1, its.length))
+      $$('.jc', el).forEach((n, j) => slam(n, lt, ta(j), 1.18, 0.24))
+    } else if (sc.type === 'bp_job') {
+      rise([$('.jk', el)], lt, 0.4, 0, 18); plot($('.jic', el), lt, 0.6, 1.4)
+      $$('.side', el).forEach((n, j) => slam(n, lt, 0.5 + j * 0.15, 1.3, 0.28)); rise([$('.vv', el)], lt, 0.7, 0, 10)
+      const ma = b.model_at ?? Math.max(1.0, L0(Math.min(1, last)) - 0.1); rise([$('.tri2', el)], lt, ma - 0.2, 0, 14)
+      $$('.tri2 i', el).forEach((x, j) => { x.style.transform = `scaleX(${n1(P(lt, ma + j * 0.15, ma + 0.6 + j * 0.15, E.outCubic))})` }); rise([$('.xgl', el)], lt, ma + 0.4, 0, 12)
+      $$('.spec .r', el).forEach((r, j) => rise([r], lt, (b.rows?.[j]?.[2] != null ? L0(b.rows[j][2]) + (b.rows[j][3] || 0) * LD(b.rows[j][2]) : L0(0) + 0.4 * LD(0) + j * 0.6) - 0.1, 0, 20))
+      const rd = $('.rd2', el); if (rd) { const ra = b.read_at ?? (L0(last) + 0.55 * LD(last)); slam(rd, lt, ra, 1.25, 0.24); el.style.transform = shake(lt, ra + 0.03, 8) }
+    } else if (sc.type === 'bp_end') {
+      slam($('.bigl', el), lt, 0.45, 1.4, 0.3); plot($('.vault', el), lt, 0.7, 1.8)
+      const ca = L0(Math.min(1, last)), cq = P(lt, ca, ca + 0.9, E.outCubic)
+      $('.vault .hdl', el).style.transform = `rotate(${n1(-200 * cq)}deg)`; $('.vault .dial', el).style.transform = `rotate(${n1(420 * cq)}deg)`
+      rise([$('.fol', el)], lt, L0(last) - 0.1, 0, 20)
     } else if (sc.type === 'bp_verdict') {
       slam($('.card2', el), lt, 0.45, 1.25, 0.3); plot($('.vault', el), lt, 0.6, 1.8)
       const ca = b.close_at ?? L0(Math.min(1, last)), cq = P(lt, ca, ca + 0.9, E.outCubic)
@@ -1396,6 +1451,9 @@ function fxCinematic() {
     if (sc.type === 'bp_chances') { const g0 = T + (b.gauge_at ?? Math.max(0.8, (S(sc, 0)[0] ?? 0) - 0.1)); [0, 1, 2].forEach(j => add(g0 + j * 0.45, '3124', -12)); add(g0 + (b.big_at != null ? b.big_at - (b.gauge_at ?? g0 - T) : 1.5), '2909', -9) }
     if (sc.type === 'bp_meanwhile') add(T + 0.6, '3117', -14)
     if (sc.type === 'bp_stakes') (b.rows || []).forEach((r, j) => add((r[2] != null ? LT(r[2], r[3] || 0) : LT(Math.min(j + 1, lastL))) - 0.1, '3124', -11))
+    if (sc.type === 'bp_board') (b.items || []).forEach((it, j) => { const t2 = it.line != null ? LT(it.line, it.at || 0) : T + 0.7 + j * Math.max(0.25, ((S(sc, lastL)[0] ?? 0) + (S(sc, lastL)[1] ?? 1) - 1.2) / Math.max(1, (b.items || []).length)); add(t2, '3124', -13); add(t2, '2299', -14) })
+    if (sc.type === 'bp_job') { add(T + 0.5, '2380', -12); const ra = T + (b.read_at ?? ((S(sc, lastL)[0] ?? 0) + 0.55 * (S(sc, lastL)[1] ?? 1))); if (b.read) { add(ra, '1365', -8); add(ra, '2299', -11) } }
+    if (sc.type === 'bp_end') { add(T + 0.45, '2909', -8); const ca = T + (S(sc, Math.min(1, lastL))[0] ?? 1); add(ca, '3117', -10); add(ca + 0.92, '2849', -4); add(ca + 0.92, '2853', -6); add(ca + 0.92, '2299', -5) }
     if (sc.type === 'bp_verdict') { add(T + 0.45, '1365', -6); const ca = T + (b.close_at ?? (S(sc, Math.min(1, lastL))[0] ?? 1)); add(ca, '3117', -9); add(ca + 0.92, '2849', -4); add(ca + 0.92, '2853', -6); add(ca + 0.92, '2299', -5) }
     if (b.sticker) add(T + (b.sticker.at ?? 1.0), '3005', -9)
   })
