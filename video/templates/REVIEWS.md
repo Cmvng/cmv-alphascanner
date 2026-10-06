@@ -24,6 +24,50 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
+## 6 Oct: post-match, "Under Review" (our ten calls v the final whistle)
+
+- **Before writing:** read the last three entries' "Change next time" lines and applied them:
+  - the whole slate, all ten games (the morning's lesson);
+  - team kits on the blue page;
+  - no "none" or "nil" right after a number in a sentence;
+  - unique class names (`vr-…`);
+  - stills before the first full render;
+  - screens kept under 15 s;
+  - the length checked against X while writing.
+- **What worked:**
+  - The idea pays off the morning: the calls go to a review screen, like a VAR check. Each part of a call is stamped
+    CONFIRMED or OVERTURNED, then CALLED IT, HALF RIGHT or MISSED.
+  - The case strip of all ten games along the bottom fills in as verdicts land, so the whole slate is always on screen.
+  - The replay's scrub bar fills in the colours of whoever was ahead: the Croatia chequers, then Spain's red and
+    yellow.
+  - Honest verdicts: Spain won by one, not two (half right); Jordan v Venezuela was close but not a Jordan win (half
+    right).
+  - Facts from UEFA's own feeds (scores, minutes, cards, team stats, table, fixtures) plus dated reports.
+- **Mistakes, and how they got through:**
+  1. **The first render measured 82% blue.** The light page itself isn't counted (too pale), but the navy text, the
+     navy caption boxes and the deep-blue cold open were, and the team colours only showed on thin bars and flags.
+     The stills looked colourful to me because of the flags. Fixed: names, scores, numbers and the tops of the
+     monitors are in each team's kit colour.
+  2. **Three lines were heard wrong:**
+     - "IK Start won five-one" was heard as "IK Start 151": "won five-one" merges into a number;
+     - "the Faroes, two-all" was heard as "the pharaohs to all";
+     - "six called, two half right" was heard as "to half right".
+     Fixed: "five goals to one", "drew two-two", "and two half right".
+  3. **The phonemizer guessed four words wrong:** "IK" (as "ick"), Niger (as "NYE-jer"), Montserrat's stress, and "St"
+     (as "snt"). Caught on the pronunciation list before recording.
+  4. **The end screen's flags were squashed:** `.vr-nx div` also matched the badge divs. Use `>` for layout rules
+     inside cards.
+  5. **Adding Kane's record and a quote pushed the estimate to 140 s.** Trimmed two lines.
+- **Change next time:**
+  - The colour check counts dark navy text as blue: put the subject's colours on the big type (scores, names,
+    numbers), not only on bars and flags.
+  - Never put a score straight after "won" ("won five-one"); say "five goals to one" or "beat … five-one".
+  - Child selectors (`>`) for layout rules inside cards.
+  - The wow pool is down to one fresh track (A New Life). Grow it before the next analysis.
+- **The owner's reaction:** (waiting)
+
+---
+
 ## 6 Oct: Papertrade explainer, "The House" (2:01, plus a 1:05 cut)
 
 - **Before writing:** read the last entries. I applied their "Change next time" lines:
