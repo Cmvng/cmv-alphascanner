@@ -58,6 +58,9 @@ The file gets form, record, points a game, goals scored and conceded, shots on t
 current caption word, rings, chips and glows are blue (sky `#4FB3FF`, `#3D7BFF`, `#6E9BFF`, deep `#1F5FDB`, navy
 backgrounds). Never yellow or lime as an accent. Green and red appear only where they mean something: up/down
 candles and price moves, won/lost, correct/missed.
+**Light, not only dark** (the owner, 6 Oct: "my style is light or shades of blue color palette"). Vary it: a light
+sky-blue page with white frosted glass and navy type is as much the house style as navy. Never a black screen; a dark
+cold open goes deep royal blue. Reference: `explainer.theme: "sky"` (Fungo Labs explainer, 6 Oct).
 
 **What the owner loves (4 Oct): the soundtrack and the slow, suspenseful pace.** "The soundtrack was captivating… the
 slow paced way it was analyzing the game was giving me, okay, what is going on here." The track was "A New Life"

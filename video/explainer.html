@@ -195,6 +195,218 @@ html,body{margin:0;background:#000}
 .ex_outro .ws .chip{font-size:24px;white-space:normal;text-align:center;line-height:1.35}
 .ex_outro .ws .chip.f{background:var(--acc);color:var(--ink);border-color:var(--acc);font-size:30px}
 
+/* ---------------------------------------------------------------- the keyhole (kh_*), 6 Oct: an encrypted-NFT story in
+   the owner's light style ("my style is light or shades of blue"): sky-blue air, white frosted glass, navy type, blue
+   accents. The cold open sits in deep royal blue (still blue, never black); the drop floods the screen with light. */
+#hexf{position:absolute;left:0;top:0;width:1080px;height:1920px;opacity:0;pointer-events:none;background-repeat:repeat}
+#stage.sky{background:linear-gradient(180deg,#F5FAFF 0%,#E2EFFF 48%,#C9E0FF 100%);color:#0A2A4F}
+#stage.sky #grid{display:none}
+#stage.sky #hexf{opacity:1}
+#stage.sky .blob{opacity:.35;background:#8EC5FF}
+#stage.sky #b2{background:#B7D6FF;opacity:.45}
+#stage.sky #vig{background:radial-gradient(95% 75% at 50% 45%,transparent 60%,rgba(31,95,219,.14) 100%)}
+#stage.sky #grain{opacity:.025}
+#stage.sky #chap{color:rgba(10,42,79,.6)}
+#stage.sky #chap b{color:#1F5FDB}
+#stage.sky .logo span.x{color:#1F5FDB}
+#stage.sky #prog{background:rgba(31,95,219,.12)}
+#stage.sky #prog i{background:#1F5FDB;box-shadow:0 0 14px rgba(31,95,219,.5)}
+#stage.sky #foot{color:rgba(10,42,79,.5)}
+#stage.sky #flash{background:#FFFFFF;mix-blend-mode:normal}
+#stage.sky #cap .c{font:800 50px/1.2 Manrope;text-transform:none;letter-spacing:-.5px;-webkit-text-stroke:0;text-shadow:none;color:#0A2A4F;padding:16px 30px 18px;border-radius:28px;background:rgba(255,255,255,.88);border:2px solid #FFFFFF;box-shadow:0 18px 50px rgba(31,95,219,.22)}
+#stage.sky #cap .w{margin:0 .1em}
+#stage.sky #cap .w.now{color:#1F5FDB}
+#stage.sky.coldcap #cap .c{background:rgba(5,25,60,.55);color:#FFFFFF;border-color:rgba(142,197,255,.35);box-shadow:none}
+#stage.sky.coldcap #cap .w.now{color:#8EC5FF}
+.kh .t1{font-size:100px;color:#0A2A4F;text-shadow:none}
+.kh .t2{top:308px;color:#1F5FDB;font:700 26px JBM;letter-spacing:3px;text-transform:uppercase}
+.glass{background:linear-gradient(160deg,rgba(255,255,255,.92),rgba(236,245,255,.82));border:2px solid #FFFFFF;border-radius:34px;box-shadow:0 30px 80px rgba(31,95,219,.2),0 4px 14px rgba(31,95,219,.08)}
+.kh .lbl{font:700 20px JBM;letter-spacing:4px;text-transform:uppercase;color:#3D7BFF}
+.kh canvas.full{position:absolute;left:0;top:0;width:1080px;height:1920px}
+.kh .chip{background:#FFFFFF;border-color:rgba(31,95,219,.25);color:#1F5FDB;box-shadow:0 10px 30px rgba(31,95,219,.15)}
+.kh .chip.f{background:#1F5FDB;color:#FFFFFF;border-color:#1F5FDB}
+svg.cr{display:block;shape-rendering:crispEdges}
+.nft{position:absolute;padding:24px;color:#0A2A4F}
+.nft .art{position:relative;border-radius:22px;background:radial-gradient(circle at 50% 38%,#4F8DFF,#1F5FDB 55%,#123E9C 100%);overflow:hidden;display:flex;align-items:center;justify-content:center}
+.nft .ct{position:absolute;inset:0;padding:14px 16px;font:500 21px/1.3 JBM;color:rgba(255,255,255,.75);word-break:break-all;opacity:0}
+.nft .nm{display:flex;justify-content:space-between;align-items:center;margin-top:18px;font:800 32px Manrope}
+.nft .nm span{font:700 17px JBM;letter-spacing:3px;color:#3D7BFF;text-transform:uppercase}
+.lockic{position:absolute;left:50%;top:50%;opacity:0}
+svg.mark .rg{transform-origin:100px 100px}
+
+/* cold open: deep royal blue, a card, a crowd of pixel eyes, white price-tag labels */
+.ex_kh_cold .deep{position:absolute;inset:0;background:radial-gradient(110% 75% at 50% 45%,#1F5FDB 0%,#0E3D96 45%,#072A6B 100%)}
+.ex_kh_cold .dark{position:absolute;inset:0;background:#041A45;opacity:0;z-index:8}
+.ex_kh_cold .zw{position:absolute;inset:0;transform-origin:540px 960px}
+.ex_kh_cold .nft{left:300px;top:600px;width:480px}
+.ex_kh_cold .nft .art{height:410px}
+.ex_kh_cold .nft svg.cr{width:300px;height:300px}
+.ex_kh_cold .lockic{width:150px;height:150px;margin:-75px 0 0 -75px}
+.ex_kh_cold .tag{position:absolute;padding:14px 24px 16px;border-radius:18px;background:#FFFFFF;color:#0A2A4F;font:800 34px Manrope;box-shadow:0 18px 40px rgba(4,26,69,.45);white-space:nowrap;opacity:0;z-index:3}
+.ex_kh_cold .tag small{display:block;font:700 16px JBM;letter-spacing:3px;color:#1F5FDB;text-transform:uppercase;margin-bottom:2px}
+.ex_kh_cold svg.wires{position:absolute;left:0;top:0;width:1080px;height:1920px;z-index:2}
+.ex_kh_cold svg.wires line{stroke:#FFFFFF;stroke-width:3;stroke-dasharray:4 8;opacity:.8}
+.ex_kh_cold .scan{position:absolute;left:310px;width:460px;height:5px;background:linear-gradient(90deg,transparent,#FFFFFF,transparent);box-shadow:0 0 30px 6px rgba(142,197,255,.9);opacity:0;z-index:4}
+
+/* the drop: SEALED, in light */
+.ex_kh_seal .nft{left:330px;top:250px;width:420px}
+.ex_kh_seal .nft .art{height:372px;background:radial-gradient(circle at 50% 40%,#2C6BEA,#123E9C 70%,#0B2E78 100%)}
+.ex_kh_seal .nft .ct{opacity:.28;font-size:19px}
+.ex_kh_seal .nft svg.mark{position:relative;width:250px;height:250px}
+.ex_kh_seal .big{position:absolute;left:0;right:0;top:800px;text-align:center}
+.ex_kh_seal .big .a{display:inline-block;font:400 236px Anton;line-height:.92;text-transform:uppercase;background:linear-gradient(100deg,#0A2A4F 0 42%,#3D7BFF 47%,#8EC5FF 50%,#3D7BFF 53%,#0A2A4F 58% 100%);background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 18px 30px rgba(31,95,219,.25))}
+.ex_kh_seal .big .s{font:800 46px Manrope;margin-top:26px;letter-spacing:-.5px;color:#0A2A4F}
+.ex_kh_seal .big .c{margin-top:34px}
+.ex_kh_seal .eyein svg{width:100%;height:100%;filter:drop-shadow(0 0 1.5px #0A2A4F) drop-shadow(0 0 1px #0A2A4F)}
+.ex_kh_seal .eyein{position:absolute;left:540px;top:430px;width:52px;height:29px;margin:-14px 0 0 -26px;opacity:0}
+
+/* FHE: the black box (deep navy on the light page) */
+.ex_kh_fhe .box{position:absolute;left:330px;top:620px;width:420px;height:420px;border-radius:52px;overflow:hidden;box-shadow:0 40px 100px rgba(10,42,79,.4),0 0 0 10px rgba(255,255,255,.7)}
+.ex_kh_fhe .box .ring{position:absolute;left:-50%;top:-50%;width:200%;height:200%;background:conic-gradient(from 0deg,rgba(79,179,255,0) 0 62%,#4FB3FF 82%,#FFFFFF 86%,rgba(79,179,255,0) 90%)}
+.ex_kh_fhe .box .in{position:absolute;inset:5px;border-radius:47px;background:radial-gradient(circle at 50% 42%,#123E9C,#071A42 72%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px}
+.ex_kh_fhe .box .in svg{width:160px;height:160px}
+.ex_kh_fhe .box .in .q{font:700 34px JBM;color:#8EC5FF;letter-spacing:2px;min-height:44px}
+.ex_kh_fhe .box .in .lbl{color:#8EC5FF}
+.ex_kh_fhe .tok{position:absolute;padding:18px 30px;border-radius:999px;font:700 42px JBM;color:#1F5FDB;background:#FFFFFF;border:3px solid #3D7BFF;box-shadow:0 16px 40px rgba(31,95,219,.25);white-space:nowrap;opacity:0;z-index:3}
+.ex_kh_fhe .tok.o{background:#1F5FDB;color:#FFFFFF;border-color:#1F5FDB}
+.ex_kh_fhe .nev{position:absolute;left:60px;right:60px;top:1360px;text-align:center;opacity:0}
+.ex_kh_fhe .nev .chip{font-size:30px;padding:16px 30px}
+
+/* the draw: two 64-bit reels */
+.ex_kh_draw .reel{position:absolute;left:60px;right:60px;height:236px;padding:24px 28px}
+.ex_kh_draw .reel .hd{display:flex;justify-content:space-between;align-items:center}
+.ex_kh_draw .reel .hd b{font:400 58px Anton;letter-spacing:2px;text-transform:uppercase;color:#0A2A4F}
+.ex_kh_draw .reel .slot{position:relative;margin-top:12px;height:104px;border-radius:22px;background:#EAF3FF;border:2px solid rgba(31,95,219,.18);display:flex;align-items:center;justify-content:center;font:700 44px JBM;color:#0A2A4F;overflow:hidden}
+.ex_kh_draw .reel .slot i{font-style:normal;display:inline-block;width:45px;text-align:center}
+.ex_kh_draw .reel .slot i.x{color:#8EC5FF}
+.ex_kh_draw .reel .slot i.lk{color:#1F5FDB}
+.ex_kh_draw .reel .lockic{width:84px;height:84px;margin:0;left:auto;right:26px;top:16px}
+.ex_kh_draw .stamp2{position:absolute;left:0;right:0;top:1000px;text-align:center}
+.ex_kh_draw .stamp2 .a{display:inline-block;font:400 168px Anton;line-height:.9;text-transform:uppercase;color:#0A2A4F;background:#FFFFFF;padding:22px 44px 18px;border:9px solid #1F5FDB;border-radius:30px;box-shadow:0 30px 80px rgba(31,95,219,.3);opacity:0}
+.ex_kh_draw .stamp2 .s{font:800 42px Manrope;margin-top:34px;color:#1F5FDB;opacity:0}
+
+/* the essence: eight bytes and the class chances */
+.ex_kh_bytes .tiles{position:absolute;left:50px;top:430px;width:980px;height:200px}
+.ex_kh_bytes .tl{position:absolute;top:0;width:112px;height:196px;border-radius:20px;background:#FFFFFF;border:2px solid rgba(31,95,219,.2);display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:14px 2px 16px;opacity:0;box-shadow:0 14px 30px rgba(31,95,219,.14)}
+.ex_kh_bytes .tl small{font:700 17px JBM;color:#3D7BFF}
+.ex_kh_bytes .tl b{font:500 32px JBM;color:#1F5FDB}
+.ex_kh_bytes .tl span{font:700 13px JBM;letter-spacing:.5px;text-transform:uppercase;color:#0A2A4F;text-align:center;line-height:1.15}
+.ex_kh_bytes .tl.cls{background:#1F5FDB;border-color:#1F5FDB}
+.ex_kh_bytes .tl.cls small,.ex_kh_bytes .tl.cls b,.ex_kh_bytes .tl.cls span{color:#FFFFFF}
+.ex_kh_bytes .tl.res{background:repeating-linear-gradient(45deg,#E3EEFF 0 10px,#FFFFFF 10px 20px)}
+.ex_kh_bytes .grp{position:absolute;top:648px;height:56px;border-top:3px solid #3D7BFF;text-align:center;font:700 18px JBM;letter-spacing:3px;text-transform:uppercase;color:#1F5FDB;padding-top:12px;opacity:0}
+.ex_kh_bytes .odds{position:absolute;left:80px;right:80px;top:790px;padding:30px 36px 20px;opacity:0}
+.ex_kh_bytes .odds .r{display:flex;align-items:center;gap:18px;margin:18px 0}
+.ex_kh_bytes .odds .r span{width:210px;font:800 31px Manrope;white-space:nowrap;color:#0A2A4F}
+.ex_kh_bytes .odds .r .obar{flex:1;height:30px;border-radius:15px;background:#E3EEFF;overflow:hidden}
+.ex_kh_bytes .odds .r .obar i{display:block;height:100%;width:0;border-radius:15px;background:linear-gradient(90deg,#8EC5FF,#3D7BFF)}
+.ex_kh_bytes .odds .r b{width:140px;text-align:right;font:400 50px Anton;color:#0A2A4F}
+.ex_kh_bytes .odds .r.leg span,.ex_kh_bytes .odds .r.leg b{color:#1F5FDB}
+.ex_kh_bytes .odds .r.leg .obar i{background:linear-gradient(90deg,#3D7BFF,#1F5FDB);box-shadow:0 0 22px rgba(31,95,219,.6)}
+.ex_kh_bytes .one{position:absolute;left:0;right:0;top:1300px;text-align:center;opacity:0}
+.ex_kh_bytes .one .chip{font-size:30px;padding:16px 30px}
+
+/* who's looking: the keyhole wipe. The public's side is deep blue (it sees nothing); the holder's side is light */
+.ex_kh_peek .who{position:absolute;left:170px;right:170px;top:340px;display:flex;justify-content:space-between}
+.ex_kh_peek .who div{font:700 22px JBM;letter-spacing:4px;text-transform:uppercase;color:#1F5FDB}
+.ex_kh_peek .pc{position:absolute;left:170px;top:392px;width:740px;height:1120px;overflow:hidden;padding:0}
+.ex_kh_peek .lay{position:absolute;inset:0;padding:28px 30px;border-radius:32px}
+.ex_kh_peek .lay.pub{background:linear-gradient(160deg,#1A4FB8,#0B2E78);color:#FFFFFF}
+.ex_kh_peek .lay.hold{background:linear-gradient(160deg,#FFFFFF,#E6F1FF);color:#0A2A4F}
+.ex_kh_peek .art{position:relative;height:500px;border-radius:24px;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#0A2A6B}
+.ex_kh_peek .hold .art{background:radial-gradient(circle at 50% 38%,#4F8DFF,#1F5FDB 55%,#123E9C 100%)}
+.ex_kh_peek .art .ct{position:absolute;inset:0;padding:14px 16px;font:500 20px/1.3 JBM;color:rgba(142,197,255,.3);word-break:break-all}
+.ex_kh_peek .art svg.mark{position:relative;width:240px;height:240px}
+.ex_kh_peek .art svg.cr{width:330px;height:330px}
+.ex_kh_peek .art .pubart{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 50% 38%,#4F8DFF,#1F5FDB 55%,#123E9C 100%);opacity:0}
+.ex_kh_peek .badge{position:absolute;right:16px;top:16px;padding:8px 16px;border-radius:999px;font:700 17px JBM;letter-spacing:2px;text-transform:uppercase;background:rgba(4,26,69,.75);border:2px solid rgba(142,197,255,.5);color:#BFDFFF;z-index:2}
+.ex_kh_peek .hold .badge{background:#FFFFFF;color:#1F5FDB;border-color:#FFFFFF}
+.ex_kh_peek .rw{display:flex;justify-content:space-between;align-items:center;height:62px;padding:0 4px;border-top:2px solid rgba(142,197,255,.2);font:800 29px Manrope}
+.ex_kh_peek .hold .rw{border-top-color:rgba(31,95,219,.12)}
+.ex_kh_peek .rw:first-of-type{border-top:0}
+.ex_kh_peek .rw em{font-style:normal;font:500 28px JBM;color:#8EC5FF;letter-spacing:1px}
+.ex_kh_peek .hold .rw em{color:#1F5FDB;font-weight:700}
+.ex_kh_peek .rw .sb{width:300px;height:16px;border-radius:8px;background:#E3EEFF;overflow:hidden}
+.ex_kh_peek .rw .sb i{display:block;height:100%;border-radius:8px;background:linear-gradient(90deg,#8EC5FF,#1F5FDB)}
+.ex_kh_peek .rows{position:relative;margin-top:14px}
+.ex_kh_peek .forever{position:absolute;left:-8px;right:-8px;top:58px;bottom:58px;border-radius:20px;background:rgba(4,26,69,.55);border:3px solid #8EC5FF;display:flex;align-items:center;justify-content:center;opacity:0}
+.ex_kh_peek .forever span{padding:14px 26px;border-radius:999px;background:#FFFFFF;color:#1F5FDB;font:800 28px Manrope;box-shadow:0 0 40px rgba(142,197,255,.7)}
+.ex_kh_peek .knob{position:absolute;top:392px;width:6px;height:1120px;margin-left:-3px;background:#FFFFFF;box-shadow:0 0 0 2px rgba(31,95,219,.35),0 0 24px rgba(31,95,219,.5);z-index:5}
+.ex_kh_peek .knob i{position:absolute;left:50%;top:560px;width:104px;height:104px;margin:-52px 0 0 -52px;border-radius:50%;background:#1F5FDB;border:5px solid #FFFFFF;box-shadow:0 12px 30px rgba(31,95,219,.45);display:flex;align-items:center;justify-content:center}
+.ex_kh_peek .knob i svg{width:60px;height:34px}
+.ex_kh_peek .ill{position:absolute;left:0;right:0;top:1528px;text-align:center;font:600 18px JBM;letter-spacing:2px;color:rgba(10,42,79,.5);text-transform:uppercase}
+
+/* selling: the view moves with the NFT */
+.ex_kh_sale .wl{position:absolute;top:400px;width:440px;height:300px;padding:28px 20px;text-align:center}
+.ex_kh_sale .wl svg.eye{filter:drop-shadow(0 0 1.5px #0A2A4F) drop-shadow(0 0 1px #0A2A4F);display:block;margin:22px auto 10px;width:190px;height:106px;transform-origin:50% 50%}
+.ex_kh_sale .wl .st{font:800 32px Manrope;color:#0A2A4F}
+.ex_kh_sale .wl .st.off{color:rgba(10,42,79,.38)}
+.ex_kh_sale .nft{width:180px;padding:12px;border-radius:24px;z-index:4}
+.ex_kh_sale .nft .art{height:156px;border-radius:16px}
+.ex_kh_sale .nft .art svg.mark{width:130px;height:130px;position:absolute}
+.ex_kh_sale .nft .art svg.cr{width:130px;height:130px;position:absolute;opacity:0}
+.ex_kh_sale .tx{position:absolute;left:60px;top:960px;width:440px;text-align:center;opacity:0}
+.ex_kh_sale .blk{position:absolute;left:150px;right:150px;top:1090px;height:250px;padding:26px 34px;display:flex;align-items:center;gap:34px;opacity:0}
+.ex_kh_sale .blk svg{width:196px;height:196px;flex-shrink:0}
+.ex_kh_sale .blk b{display:block;font:400 92px Anton;line-height:1;color:#0A2A4F}
+.ex_kh_sale .blk span{display:block;font:700 22px JBM;letter-spacing:3px;color:#1F5FDB;text-transform:uppercase;margin-top:8px}
+.ex_kh_sale .wake{position:absolute;left:250px;right:250px;top:1385px;height:118px;border-radius:32px;background:#1F5FDB;color:#FFFFFF;display:flex;align-items:center;justify-content:center;gap:16px;font:400 54px Anton;text-transform:uppercase;box-shadow:0 20px 50px rgba(31,95,219,.4);opacity:0}
+.ex_kh_sale .wake small{font:800 22px Manrope;text-transform:none}
+
+/* hidden, not useless: a sealed duel, then the road */
+.ex_kh_duel .nft{top:410px;width:380px;padding:18px;border-radius:30px;z-index:3}
+.ex_kh_duel .nft .art{height:300px;background:radial-gradient(circle at 50% 40%,#2C6BEA,#123E9C 70%,#0B2E78 100%)}
+.ex_kh_duel .nft .art svg.mark{width:210px;height:210px;position:relative}
+.ex_kh_duel .nft .ct{opacity:.28;font-size:16px}
+.ex_kh_duel .nft .nm{font:700 30px JBM;justify-content:center;margin-top:12px;color:#0A2A4F}
+.ex_kh_duel .vsx{position:absolute;left:0;right:0;top:540px;text-align:center;font:400 96px Anton;color:#1F5FDB;opacity:0;z-index:4;filter:drop-shadow(0 0 12px #FFFFFF) drop-shadow(0 0 4px #FFFFFF)}
+.ex_kh_duel .cmp{position:absolute;left:290px;right:290px;top:830px;text-align:center;opacity:0}
+.ex_kh_duel .cmp .cbar{height:14px;border-radius:7px;background:rgba(31,95,219,.12);overflow:hidden;margin-top:14px}
+.ex_kh_duel .cmp .cbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#8EC5FF,#1F5FDB)}
+.ex_kh_duel .cmp .lbl{font-size:22px}
+.ex_kh_duel .win{position:absolute;padding:10px 22px;border-radius:999px;background:#1F5FDB;color:#FFFFFF;font:400 40px Anton;letter-spacing:2px;opacity:0;z-index:5;box-shadow:0 10px 30px rgba(31,95,219,.4)}
+.ex_kh_duel .poss{position:absolute;left:0;right:0;top:940px;text-align:center;opacity:0}
+.ex_kh_duel .road{position:absolute;left:70px;right:70px;top:1060px;height:400px;padding:34px 30px;opacity:0}
+.ex_kh_duel .road .ln{position:absolute;left:150px;right:150px;top:120px;height:4px;background:rgba(31,95,219,.15)}
+.ex_kh_duel .road .ln i{display:block;height:100%;width:0;background:#1F5FDB}
+.ex_kh_duel .road .st{position:absolute;top:70px;width:300px;margin-left:-150px;text-align:center}
+.ex_kh_duel .road .st i{display:block;width:96px;height:96px;margin:0 auto 18px;border-radius:50%;background:#FFFFFF;border:4px solid rgba(31,95,219,.3);font:400 40px Anton;font-style:normal;line-height:88px;color:#8EC5FF}
+.ex_kh_duel .road .st.on i{background:#1F5FDB;border-color:#1F5FDB;color:#FFFFFF;box-shadow:0 10px 30px rgba(31,95,219,.45)}
+.ex_kh_duel .road .st b{display:block;font:400 46px Anton;text-transform:uppercase;letter-spacing:1px;color:#0A2A4F}
+.ex_kh_duel .road .st span{display:block;font:700 20px JBM;letter-spacing:3px;color:#1F5FDB;text-transform:uppercase;margin-top:6px}
+
+/* the genesis: 3,232 dots */
+.ex_kh_genesis .cnt{position:absolute;left:0;right:0;top:190px;text-align:center}
+.ex_kh_genesis .cnt b{display:block;font:400 210px Anton;line-height:.95;color:#0A2A4F;filter:drop-shadow(0 16px 30px rgba(31,95,219,.25))}
+.ex_kh_genesis .cnt span{display:block;font:700 26px JBM;letter-spacing:5px;color:#1F5FDB;text-transform:uppercase;margin-top:6px}
+.ex_kh_genesis .leg{position:absolute;left:90px;right:90px;top:1330px}
+.ex_kh_genesis .leg .r{display:flex;align-items:center;gap:20px;margin:0 0 14px;opacity:0}
+.ex_kh_genesis .leg .r i{width:30px;height:30px;border-radius:50%;flex-shrink:0;box-shadow:0 0 0 3px #FFFFFF,0 4px 10px rgba(31,95,219,.3)}
+.ex_kh_genesis .leg .r b{font:400 52px Anton;width:170px;color:#0A2A4F}
+.ex_kh_genesis .leg .r span{font:800 30px Manrope;color:#0A2A4F}
+.ex_kh_genesis .leg .r span em{font-style:normal;font:600 24px Manrope;color:rgba(10,42,79,.6);margin-left:10px}
+
+/* the whitelist */
+.ex_kh_apply .stp{position:absolute;left:80px;right:80px;height:128px;padding:0 30px;display:flex;align-items:center;gap:26px;opacity:0}
+.ex_kh_apply .stp i{flex-shrink:0;width:76px;height:76px;border-radius:22px;background:#EAF3FF;border:3px solid rgba(31,95,219,.25);font:400 36px Anton;font-style:normal;color:#8EC5FF;display:flex;align-items:center;justify-content:center}
+.ex_kh_apply .stp.on i{background:#1F5FDB;border-color:#1F5FDB;color:#FFFFFF;box-shadow:0 10px 24px rgba(31,95,219,.45)}
+.ex_kh_apply .stp b{display:block;font:800 36px Manrope;color:#0A2A4F}
+.ex_kh_apply .stp span{display:block;font:600 23px Manrope;color:rgba(10,42,79,.6);margin-top:4px}
+.ex_kh_apply .me{position:absolute;left:80px;right:80px;top:1040px;height:190px;padding:30px 34px;display:flex;align-items:center;gap:26px;opacity:0}
+.ex_kh_apply .me .av{flex-shrink:0;width:110px;height:110px;border-radius:50%;background:#0A2A4F;color:#FFFFFF;display:flex;align-items:center;justify-content:center;font:800 52px Manrope}
+.ex_kh_apply .me b{display:block;font:800 36px Manrope;color:#0A2A4F}
+.ex_kh_apply .me span{display:block;font:700 21px JBM;letter-spacing:2px;color:#1F5FDB;text-transform:uppercase;margin-top:8px}
+.ex_kh_apply .me .sl{margin-left:auto;font:400 60px Anton;color:#1F5FDB;border:6px solid #1F5FDB;border-radius:16px;padding:4px 18px 0;transform:rotate(-7deg);opacity:0}
+.ex_kh_apply .warn{position:absolute;left:60px;right:60px;top:1290px;display:flex;flex-direction:column;align-items:center;gap:16px}
+.ex_kh_apply .warn .chip{font-size:26px;opacity:0}
+
+/* the end: seen by all, known by one */
+.ex_kh_end .big{position:absolute;left:0;right:0;top:1030px;text-align:center}
+.ex_kh_end .big .a{font:400 150px Anton;line-height:1;text-transform:uppercase;opacity:0;color:#0A2A4F}
+.ex_kh_end .big .b{color:#1F5FDB}
+.ex_kh_end .ws{position:absolute;left:80px;right:80px;top:1360px;display:flex;flex-direction:column;align-items:center;gap:16px}
+.ex_kh_end .ws .chip{font-size:28px;opacity:0}
+
 #cap{position:absolute;left:60px;right:60px;top:1600px;height:200px;z-index:55;display:flex;align-items:flex-start;justify-content:center;text-align:center}
 #cap .c{font:400 64px/1.08 Anton;text-transform:uppercase;letter-spacing:1px;-webkit-text-stroke:5px #000;paint-order:stroke fill;text-shadow:0 6px 0 #000}
 #cap .w{display:inline-block;margin:0 .13em}
@@ -206,7 +418,7 @@ html,body{margin:0;background:#000}
 </head>
 <body>
 <div id="stage">
-  <div id="grid"></div><div class="blob" id="b1"></div><div class="blob" id="b2"></div><div id="vig"></div>
+  <div id="grid"></div><div id="hexf"></div><div class="blob" id="b1"></div><div class="blob" id="b2"></div><div id="vig"></div>
   <div id="hdr"><div class="logo"><span class="bars"><i style="height:20px"></i><i style="height:30px"></i><i style="height:40px"></i></span>cmvng<span class="x">explains</span></div><div id="chap"></div></div>
   <div id="prog"><i></i></div>
   <div id="scenes"></div>
@@ -229,6 +441,7 @@ const S = (sc, j) => sc.lines[j] || sc.lines.at(-1) || [0.4, 2]          // scen
 const L = (sc, j, frac = 0) => { const s = S(sc, j); return s[0] + s[1] * frac }   // a moment inside line j
 const EX = D.cfg.explainer || {}
 $('#foot').textContent = EX.foot || ''
+if (EX.theme) $('#stage').classList.add(EX.theme)
 
 // pieces
 const leg = (l, extra = '') => `<div class="lg">${extra}<div class="fl">${l.flag || ''}</div><div class="w"><b>${html(l.team)} <i>${html(l.side || 'YES')} ${l.pct ?? ''}${l.pct != null ? '%' : ''}</i></b><span>${html(l.match || '')}</span></div><div class="m">${html(l.x)}x</div><div class="st"></div></div>`
@@ -260,11 +473,419 @@ function glitch(n, lt, at, dur = 0.38) {     // a digital break: jitter + colour
   return `translate3d(${r * a}px,${Math.sin(lt * 613) * a * 0.3}px,0) skewX(${r * 8}deg)`
 }
 
+// ---------------------------------------------------------------- the keyhole (kh_*), 6 Oct: an encrypted-NFT story
+// (first used for Fungo Labs). Pixel eyes, our own keyhole mark and pixel creatures, ciphertext that never resolves.
+// Every moment is cued to the spoken word (measured word timings), so the screen moves exactly with the voice.
+const hsh = (a, b = 0) => { const x = Math.sin(a * 127.1 + b * 311.7) * 43758.5453; return x - Math.floor(x) }
+const HEXC = '0123456789abcdef'
+const hexs = (n, seed, t = 0, rate = 14) => Array.from({ length: n }, (_, i) => HEXC[Math.floor(hsh(i + seed * 101, Math.floor(t * rate) + seed) * 16)]).join('')
+function WT(sc, j, re, frac = 0) {        // when a word is spoken in line j (scene time), else a fraction of the line
+  if (!has(sc, j)) return L(sc, j, frac)
+  const s = S(sc, j), a = sc.start + s[0] - 0.05, b = sc.start + s[0] + s[1] + 0.05
+  for (const c of D.captions) for (const w of c.words) if (w.t0 >= a && w.t0 <= b && re.test(w.w)) return w.t0 - sc.start
+  return L(sc, j, frac)
+}
+function keyholeD(cx, cy, s) {           // a keyhole: a round head and a flared foot
+  const r = 60 * s, nx = 25 * s, ty = cy + Math.sqrt(r * r - nx * nx), bx = 52 * s, by = cy + 150 * s
+  return `M ${cx - nx} ${ty} A ${r} ${r} 0 1 1 ${cx + nx} ${ty} L ${cx + bx} ${by} L ${cx - bx} ${by} Z`
+}
+const markSvg = () => `<svg class="mark" viewBox="0 0 200 200"><defs><radialGradient id="khg" cx="50%" cy="30%" r="75%"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".5" stop-color="#8EC5FF"/><stop offset="1" stop-color="#3D7BFF"/></radialGradient></defs>
+  <circle class="rg" cx="100" cy="100" r="88" fill="none" stroke="#4FB3FF" stroke-width="5" stroke-dasharray="3 9" stroke-linecap="round"/>
+  <circle cx="100" cy="100" r="72" fill="rgba(31,95,219,.16)" stroke="rgba(142,197,255,.55)" stroke-width="2.5"/>
+  <path d="${keyholeD(100, 80, 0.4)}" fill="url(#khg)"/></svg>`
+const lockSvg = (c = '#EAF2FF') => `<svg viewBox="0 0 100 100" style="width:100%;height:100%"><path d="M30 46 V33 a20 20 0 0 1 40 0 V46" fill="none" stroke="${c}" stroke-width="9" stroke-linecap="round"/><rect x="17" y="44" width="66" height="48" rx="11" fill="${c}"/><circle cx="50" cy="63" r="7" fill="#03101F"/><rect x="47" y="64" width="6" height="15" rx="3" fill="#03101F"/></svg>`
+const eyeSlashSvg = () => `<svg viewBox="0 0 160 160"><path d="M14 80 Q80 18 146 80 Q80 142 14 80 Z" fill="none" stroke="#8EC5FF" stroke-width="7"/><circle cx="80" cy="80" r="22" fill="#4FB3FF"/><circle cx="80" cy="80" r="9" fill="#02060D"/><line x1="30" y1="134" x2="130" y2="26" stroke="#EAF2FF" stroke-width="9" stroke-linecap="round"/></svg>`
+const EYE = ['..xxxxx..', '.xxxxxxx.', 'xxxxxxxxx', '.xxxxxxx.', '..xxxxx..']
+const eyeSvg = (cls = 'eye') => `<svg class="${cls}" viewBox="0 0 9 5" shape-rendering="crispEdges">${EYE.flatMap((r, y) => [...r].map((ch, x) => ch === 'x' ? `<rect x="${x}" y="${y}" width="1.02" height="1.02" fill="#EAF2FF"/>` : '')).join('')}<rect x="3" y="1" width="3" height="3" fill="#3D7BFF"/><rect x="4" y="2" width="1" height="1" fill="#02060D"/><rect x="3.25" y="1.2" width=".55" height=".55" fill="#fff"/></svg>`
+function creatureSvg(seed) {            // a mirrored 10×10 pixel creature in our blues
+  const N = 10, px = [], pal = ['#EAF2FF', '#8EC5FF', '#4FB3FF', '#1F5FDB']
+  const eY = 3 + Math.floor(hsh(seed, 4) * 2), eX = 2 + Math.floor(hsh(seed, 6) * 2)
+  for (let y = 0; y < N; y++) for (let x = 0; x < 5; x++) {
+    const ex = (4.5 - x) / 4.5, ey = (y - 5) / 4.4, r = hsh(seed * 7 + x * 3 + 1, y * 5 + 2)
+    let c = -1
+    if (ex * ex * 0.65 + ey * ey < 0.72) c = r < 0.12 ? -1 : r < 0.32 ? 1 : r < 0.78 ? 2 : 3
+    else if (y >= 7 && r > 0.66) c = 3
+    else if (y <= 2 && r > 0.78) c = 1
+    if (y === eY && x === eX) c = -1
+    if (c >= 0) px.push([x, y, pal[c]], [N - 1 - x, y, pal[c]])
+  }
+  const eyes = [eX, N - 1 - eX].map(x => `<rect x="${x}" y="${eY}" width="1" height="1" fill="#FFFFFF"/><rect x="${x + 0.3}" y="${eY + 0.25}" width=".45" height=".6" fill="#02060D"/>`).join('')
+  return `<svg class="cr" viewBox="-1 -1 12 12">${px.map(([x, y, f]) => `<rect x="${x}" y="${y}" width="1.02" height="1.02" fill="${f}"/>`).join('')}${eyes}</svg>`
+}
+function eyeField(seed, avoid) {         // a crowd of pixel eyes, staggered rows, clear of the areas in `avoid`
+  const out = []; let i = 0
+  for (let row = 0; row < 12; row++) for (let col = 0; col < 8; col++) {
+    i++
+    const p = 6 + Math.round(hsh(i, seed + 2) * 6)
+    const cx = 75 + col * 133 + (row % 2 ? 66 : 0) + (hsh(i, seed) - 0.5) * 50, cy = 228 + row * 113 + (hsh(i, seed + 1) - 0.5) * 40
+    if (cx - 4.5 * p < 20 || cx + 4.5 * p > 1060) continue
+    if (avoid.some(r => cx + 4.5 * p > r[0] && cx - 4.5 * p < r[2] && cy + 2.5 * p > r[1] && cy - 2.5 * p < r[3])) continue
+    out.push({ cx, cy, p, d: hsh(i, seed + 3), e: hsh(i, seed + 4) })
+  }
+  return out
+}
+function drawEye(g, cx, cy, p, open, lx, ly, hot = 0, ol = null) {     // ol: an outline colour, for eyes on the light page
+  if (open <= 0.05) { g.fillStyle = ol || 'rgba(191,223,255,.45)'; g.fillRect(cx - 3.5 * p, cy - 1.5, 7 * p, ol ? 4 : 3); return }
+  g.save(); g.translate(cx, cy); g.scale(1, open)
+  g.beginPath(); EYE.forEach((r, y) => [...r].forEach((ch, x) => { if (ch === 'x') g.rect((x - 4.5) * p, (y - 2.5) * p, p + 0.6, p + 0.6) }))
+  if (ol) { g.lineWidth = Math.max(3, p * 0.5); g.strokeStyle = ol; g.stroke() }
+  g.fillStyle = ol ? '#FFFFFF' : '#EAF2FF'; g.fill(); g.clip()
+  const ix = Math.round(lx * 4) / 2, iy = Math.round(ly * 1.6) / 2, pp = hot ? 1.5 : 1
+  g.fillStyle = hot ? '#4FB3FF' : '#3D7BFF'; g.fillRect((ix - 1.5) * p, (iy - 1.5) * p, 3 * p, 3 * p)
+  g.fillStyle = '#02060D'; g.fillRect((ix - pp / 2) * p, (iy - pp / 2) * p, pp * p, pp * p)
+  g.fillStyle = '#FFFFFF'; g.fillRect((ix - 1.3) * p, (iy - 1.35) * p, 0.55 * p, 0.55 * p)
+  g.restore()
+}
+const nftCard = (cls, seed, id, tag = '') => `<div class="glass nft ${cls}"><div class="art"><div class="ct"></div>${seed == null ? markSvg() : creatureSvg(seed)}<div class="lockic">${lockSvg()}</div></div>${id ? `<div class="nm">${html(id)}<span>${html(tag)}</span></div>` : ''}</div>`
+const ring = (q, r = 84) => { const c = 2 * Math.PI * r; return `<svg viewBox="0 0 196 196"><circle cx="98" cy="98" r="${r}" fill="none" stroke="rgba(31,95,219,.12)" stroke-width="14"/><circle cx="98" cy="98" r="${r}" fill="none" stroke="#1F5FDB" stroke-width="14" stroke-linecap="round" stroke-dasharray="${c}" stroke-dashoffset="${c * (1 - q)}" transform="rotate(-90 98 98)"/></svg>` }
+
+function buildKH(el, sc, b) {
+  el.classList.add('kh')
+  const T = (t, s) => `<div class="t1 A">${html(t || '')}</div><div class="t2">${html(s || '')}</div>`
+  const ty = sc.type.slice(6)
+  if (ty === 'cold') {
+    // the push-in scales the canvas inside its own drawing and the cards in .zw: scaling the whole scene with a
+    // full-screen canvas in it crashes Chromium's compositor (6 Oct)
+    el.innerHTML = `<div class="deep"></div><canvas class="full" width="1080" height="1920"></canvas><div class="zw"><svg class="wires">${(b.tags || []).map(() => '<line/>').join('')}</svg>
+      ${nftCard('', b.seed ?? 7, b.id || '#2048', b.tagline || 'On-chain')}<div class="scan"></div>
+      ${(b.tags || []).map(x => `<div class="tag"><small>${html(x[0])}</small><span>${html(x[1])}</span></div>`).join('')}</div><div class="dark"></div>`
+    el._eyes = eyeField(b.eyes ?? 3, [[270, 560, 810, 1240]])
+  } else if (ty === 'seal') {
+    el.innerHTML = `${nftCard('', null, b.id || '#2048', 'Sealed')}<div class="eyein">${eyeSvg('')}</div>
+      <div class="big"><div class="a A">${html(b.title || 'Sealed.')}</div><div class="s">${html(b.sub || '')}</div><div class="c"><span class="chip">${html(b.chip || '')}</span></div></div>`
+  } else if (ty === 'fhe') {
+    el.innerHTML = `${T(b.title, b.sub)}<div class="box"><div class="ring"></div><div class="in">${eyeSlashSvg()}<div class="q"></div><div class="lbl">${html(b.box || 'Smart contract')}</div></div></div>
+      <div class="tok ta">${html(b.a || 'enc(7)')}</div><div class="tok tb">${html(b.b || 'enc(5)')}</div><div class="tok o">${html(b.out || 'enc(12)')}</div>
+      <div class="nev"><span class="chip">${html(b.never || '')}</span></div>`
+  } else if (ty === 'draw') {
+    el.innerHTML = `${T(b.title, b.sub)}${(b.reels || [['Look', '64-bit'], ['Essence', '64-bit']]).map((r, j) => `<div class="glass reel" style="top:${430 + j * 270}px"><div class="hd"><b>${html(r[0])}</b><span class="lbl">${html(r[1])}</span></div>
+      <div class="slot"><i class="x">0</i><i class="x">x</i>${'<i></i>'.repeat(16)}</div><div class="lockic">${lockSvg('#1F5FDB')}</div></div>`).join('')}
+      <div class="stamp2"><div class="a">${(b.stamp || ['Nobody', 'chooses.']).map(html).join('<br>')}</div><div class="s">${html(b.note || '')}</div></div>`
+  } else if (ty === 'bytes') {
+    const tiles = b.tiles || [], groups = b.groups || []
+    el.innerHTML = `${T(b.title, b.sub)}<div class="tiles">${tiles.map((x, i) => `<div class="tl ${x[1] || ''}" style="left:${i * 124}px"><small>B${i}</small><b></b><span>${html(x[0])}</span></div>`).join('')}</div>
+      ${groups.map(g => `<div class="grp" style="left:${50 + g[1] * 124}px;width:${(g[2] - g[1] + 1) * 124 - 12}px">${html(g[0])}</div>`).join('')}
+      <div class="glass odds"><div class="lbl">${html(b.odds_title || 'Class chances')}</div>${(b.odds || []).map((o, j) => `<div class="r${j === b.odds.length - 1 ? ' leg' : ''}"><span>${html(o[0])}</span><div class="obar"><i></i></div><b>${o[1].toFixed(1)}%</b></div>`).join('')}</div>
+      <div class="one"><span class="chip f">${html(b.one || '')}</span></div>`
+  } else if (ty === 'peek') {
+    const pub = b.pub_rows || [], hold = b.hold_rows || []
+    const row = r => `<div class="rw"><span>${html(r[0])}</span>${typeof r[1] === 'number' ? `<div class="sb"><i style="width:${r[1]}%"></i></div>` : `<em>${html(r[1])}</em>`}</div>`
+    el.innerHTML = `${T(b.title, '')}<div class="who"><div>◀ ${html((b.sides || [])[0] || 'The public')}</div><div>${html((b.sides || [])[1] || 'The holder')} ▶</div></div>
+      <div class="pc glass"><div class="lay pub"><div class="art"><div class="ct"></div>${markSvg()}<div class="pubart">${creatureSvg(b.seed ?? 7)}</div><div class="badge">${html(b.sealed || 'Sealed')}</div></div><div class="rows">${pub.map(row).join('')}<div class="forever"><span>${html(b.forever || '')}</span></div></div></div>
+        <div class="lay hold"><div class="art">${creatureSvg(b.seed ?? 7)}<div class="badge">${html(b.only || 'Only you')}</div></div><div class="rows">${hold.map(row).join('')}</div></div></div>
+      <div class="knob"><i>${eyeSvg('')}</i></div><div class="ill">${html(b.note || '')}</div>`
+  } else if (ty === 'sale') {
+    el.innerHTML = `${T(b.title, b.sub)}${['seller', 'buyer'].map((w, j) => `<div class="glass wl ${w}" style="left:${60 + j * 520}px"><div class="lbl">${html((b.who || ['Seller', 'Buyer'])[j])}</div>${eyeSvg('eye')}<div class="st"></div></div>`).join('')}
+      <div class="glass nft"><div class="art">${markSvg()}${creatureSvg(b.seed ?? 7)}</div></div>
+      <div class="tx"><span class="chip">${html(b.same || 'Same transaction')}</span></div>
+      <div class="glass blk"><div class="rg"></div><div><b>+0</b><span>${html(b.blocks_label || 'blocks')}</span></div></div>
+      <div class="wake">${html(b.wake || 'Wake')}<small>${html(b.wake_sub || '')}</small></div>`
+  } else if (ty === 'duel') {
+    el.innerHTML = `${T(b.title, b.sub)}${nftCard('da', null, b.a || 'enc(#2048)')}${nftCard('db', null, b.b || 'enc(#0777)')}<div class="vsx">VS</div><div class="win">${html(b.win || 'Wins')}</div>
+      <div class="cmp"><div class="lbl">computing</div><div class="cbar"><i></i></div></div><div class="poss"><span class="chip">${html(b.chip || '')}</span></div>
+      <div class="glass road"><div class="ln"><i></i></div>${(b.road || []).map((r, j) => `<div class="st" style="left:${[150, 470, 790][j]}px"><i>${j + 1}</i><b>${html(r[0])}</b><span>${html(r[1])}</span></div>`).join('')}</div>`
+  } else if (ty === 'genesis') {
+    const parts = b.parts || []
+    el.innerHTML = `<div class="cnt"><b>0</b><span>${html(b.label || '')}</span></div><canvas class="full" width="1080" height="1920"></canvas>
+      <div class="leg">${parts.map(x => `<div class="r"><i style="background:${x.c}"></i><b>${x.n.toLocaleString('en-US')}</b><span>${html(x.k)}<em>${html(x.s || '')}</em></span></div>`).join('')}</div>`
+    // the dots: a sunflower, the team at the heart, the free mints around it, the sale outside
+    const N = b.total || 3232, R = 372, ga = Math.PI * (3 - Math.sqrt(5)), dots = []
+    let i = 0
+    parts.slice().reverse().forEach((x, gi) => { for (let n = 0; n < x.n; n++, i++) { const r = R * Math.sqrt((i + 0.5) / N), a = i * ga; dots.push({ x: 540 + r * Math.cos(a), y: 905 + r * Math.sin(a), g: parts.length - 1 - gi, q: i / N }) } })
+    el._dots = dots
+  } else if (ty === 'apply') {
+    el.innerHTML = `${T(b.title, b.sub)}${(b.steps || []).map((s, j) => `<div class="glass stp" style="top:${410 + j * 146}px"><i>${j + 1}</i><div><b>${html(s[0])}</b><span>${html(s[1])}</span></div></div>`).join('')}
+      <div class="glass me"><div class="av">𝕏</div><div><b>${html(b.handle || '')}</b><span>${html(b.status || '')}</span></div><div class="sl">${html(b.stamp || 'Sealed')}</div></div>
+      <div class="warn">${(b.chips || []).map(c => `<span class="chip">${html(c)}</span>`).join('')}</div>`
+  } else if (ty === 'end') {
+    el.innerHTML = `<canvas class="full" width="1080" height="1920"></canvas><div class="big"><div class="a A">${html(b.l1 || '')}</div><div class="a A b">${html(b.l2 || '')}</div></div>
+      <div class="ws">${(b.chips || []).map(c => `<span class="chip">${html(c)}</span>`).join('')}<span class="chip f">${html(b.follow || 'Follow for more')}</span></div>`
+    el._eyes = eyeField(b.eyes ?? 21, [[300, 600, 780, 880], [40, 1000, 1040, 1560]])
+  }
+}
+
+// the canvases are drawn in software (willReadFrequently): a full-screen GPU canvas crashes headless Chromium's compositor
+function drawKH(el, lt, sc, b) {
+  const ty = sc.type.slice(6)
+  const txt = (n, s) => { if (n && n.textContent !== s) n.textContent = s }
+  if (ty === 'cold') {
+    // "Every NFT you own is public." / "Its traits. Its rarity. Its rank." / "Anyone can look." / "Until now." → silence → the drop
+    const g = $('canvas', el).getContext('2d', { willReadFrequently: true }); g.setTransform(1, 0, 0, 1, 0, 0); g.clearRect(0, 0, 1080, 1920)
+    const t0 = L(sc, 0, 0), t1 = L(sc, 0, 1), tAny = WT(sc, 2, /look/i, 0.6), tShut = WT(sc, 3, /now/i, 0.45), end = L(sc, 3, 1)
+    const z = 1 + 0.035 * P(lt, tAny, tAny + 0.5, E.outCubic) + 0.04 * P(lt, end, sc.dur, E.inOutSine)
+    g.setTransform(z, 0, 0, z, 540 * (1 - z), 960 * (1 - z))
+    el._eyes.forEach(e => {
+      const at = t0 + 0.1 + e.d * Math.max(0.8, t1 - t0)
+      let open = P(lt, at, at + 0.25, E.outBack)
+      const bl = (lt * (0.3 + e.e * 0.25) + e.e * 5) % 1; if (bl < 0.05 && lt > at + 0.4 && lt < tAny - 0.3) open *= Math.abs(bl - 0.025) / 0.025
+      const sh = clamp((lt - tShut - e.e * 0.07) / 0.09); open *= 1 - sh
+      const wob = 1 - P(lt, tAny - 0.25, tAny + 0.05)
+      const lx = clamp((540 - e.cx) / 380 + wob * 0.9 * Math.sin(lt * 1.2 + e.d * 9), -1, 1), ly = clamp((900 - e.cy) / 480 + wob * 0.7 * Math.cos(lt * 0.9 + e.e * 7), -1, 1)
+      drawEye(g, e.cx, e.cy, e.p * (1 + 0.14 * P(lt, tAny, tAny + 0.25, E.outBack) * (1 - sh)), open, lx, ly, lt >= tAny && sh < 1)
+    })
+    const card = $('.nft', el), cr = $('svg.cr', el), ct = $('.ct', el), lk = $('.lockic', el)
+    card.style.opacity = P(lt, 0, 0.8, E.inOutSine)
+    // the scan: someone is reading it
+    const tS = L(sc, 1, 0) - 0.1, scan = $('.scan', el), qs = clamp((lt - tS) / 1.4)
+    scan.style.opacity = qs > 0 && qs < 1 ? 1 : 0; scan.style.top = `${630 + 400 * qs}px`
+    const tags = $$('.tag', el), wires = $$('.wires line', el), when = [WT(sc, 1, /trait/i, 0.05), WT(sc, 1, /rarity/i, 0.4), WT(sc, 1, /rank/i, 0.75)]
+    const pos = [[60, 455, 360, 690], [800, 720, 770, 800], [90, 1250, 380, 1120]]      // tag x, y and where its wire meets the card
+    tags.forEach((n, j) => {
+      const at = when[j] - 0.06, p = pos[j]; pop(n, lt, at, 0.5); n.style.left = p[0] + 'px'; n.style.top = p[1] + 'px'
+      if (lt >= tShut) { n.style.opacity = 1 - P(lt, tShut, tShut + 0.35); n.style.filter = `blur(${8 * P(lt, tShut, tShut + 0.35)}px)` }
+      const w = wires[j], q = P(lt, at, at + 0.3), ax = p[0] + (p[0] > 540 ? 0 : n.offsetWidth), ay = p[1] + 40
+      w.setAttribute('x1', p[2]); w.setAttribute('y1', p[3]); w.setAttribute('x2', p[2] + (ax - p[2]) * q); w.setAttribute('y2', p[3] + (ay - p[3]) * q)
+      w.style.opacity = q > 0 ? 0.8 * (1 - P(lt, tShut, tShut + 0.3)) : 0
+    })
+    // "Until now.": everything it showed turns to ciphertext, every eye snaps shut, a lock
+    const qe = P(lt, tShut, tShut + 0.3)
+    cr.style.opacity = 1 - qe; cr.style.filter = `blur(${10 * qe}px)`
+    ct.style.opacity = qe; if (qe > 0) txt(ct, hexs(520, 3, lt, 16))
+    pop(lk, lt, tShut + 0.18, 0.4, 0.35)
+    const gl = glitch($('.nm', el), lt, tShut) || ''
+    card.style.transform = gl + ' ' + shake(lt, tShut + 0.18, 10)
+    $('.zw', el).style.transform = `scale(${z})`
+    $('.dark', el).style.opacity = 0.65 * P(lt, end, sc.dur, E.inOutSine)
+  } else if (ty === 'seal') {
+    const card = $('.nft', el), big = $('.big .a', el)
+    slam(card, lt, 0, 1.25, 0.35)
+    txt($('.ct', el), hexs(460, 9, lt, 6))
+    $('.rg', el).style.transform = `rotate(${lt * 18}deg)`
+    slam(big, lt, 0.02, 2.1, 0.3)
+    big.style.backgroundPosition = `${100 - 100 * P(lt, 0.5, 1.9, E.inOutSine)}% 0`
+    rise([$('.big .s', el)], lt, Math.min(L(sc, 0, 0.25), 1.2)); rise([$('.big .c', el)], lt, L(sc, 0, 0.7))
+    pop($('.eyein', el), lt, WT(sc, 1, /inside|holder/i, 0.6) - 0.05, 0.3)
+    el.style.transform = shake(lt, 0.03, 24)
+  } else if (ty === 'fhe') {
+    rise([$('.t1', el), $('.t2', el)], lt, 0.05, 0.1)
+    const box = $('.box', el); pop(box, lt, 0.3, 0.7)
+    const ta = WT(sc, 1, /seven|^7/i, 0.05), tb = WT(sc, 1, /five|^5/i, 0.2), tin = WT(sc, 1, /comes/i, 0.4), tout = WT(sc, 1, /twelve|^12/i, 0.6)
+    const comp = P(lt, tin, tin + 0.2) * (1 - P(lt, tout, tout + 0.2))
+    $('.ring', box).style.transform = `rotate(${lt * 110 + 520 * clamp((lt - tin) / Math.max(0.3, tout - tin)) }deg)`
+    const sl = $('svg', box), tn = WT(sc, 0, /never/i, 0.85)
+    sl.style.transform = `scale(${1 + 0.18 * (P(lt, tn, tn + 0.15) - P(lt, tn + 0.2, tn + 0.5))})`
+    txt($('.q', box), comp > 0.05 ? `${hexs(4, 1, lt, 20)} + ${hexs(4, 2, lt, 20)}` : '')
+    const tok = (n, at, x0, y0, x1, y1, tIn) => {
+      const q = P(lt, tIn, tIn + 0.45, E.inOutSine), x = x0 + (x1 - x0) * q, y = y0 + (y1 - y0) * q - 80 * Math.sin(Math.PI * q)
+      n.style.left = x + 'px'; n.style.top = y + 'px'
+      const a = clamp((lt - at) / 0.15) * (1 - P(lt, tIn + 0.3, tIn + 0.5))
+      n.style.opacity = a; n.style.transform = `translate(-50%,-50%) scale(${(0.6 + 0.4 * P(lt, at, at + 0.35, E.outBack)) * (1 - 0.6 * q)})`
+    }
+    tok($('.ta', el), ta, 250, 520, 540, 830, tin); tok($('.tb', el), tb, 830, 520, 540, 830, tin + 0.06)
+    const o = $('.tok.o', el), qo = P(lt, tout - 0.1, tout + 0.45, E.outBack)
+    o.style.left = '540px'; o.style.top = `${830 + 400 * qo}px`; o.style.opacity = clamp((lt - tout + 0.1) / 0.12); o.style.transform = `translate(-50%,-50%) scale(${0.5 + 0.5 * qo})`
+    box.style.transform += ` scale(${1 + 0.04 * comp * Math.sin(lt * 40)})`
+    rise([$('.nev', el)], lt, WT(sc, 1, /never/i, 0.75) - 0.1)
+  } else if (ty === 'draw') {
+    rise([$('.t1', el), $('.t2', el)], lt, 0.05, 0.1)
+    const reels = $$('.reel', el), tGo = WT(sc, 0, /draws/i, 0.35) - 0.2, tEnc = WT(sc, 1, /encrypted/i, 0.2)
+    const lockAt = [WT(sc, 0, /look/i, 0.75) - 0.55, WT(sc, 0, /essence/i, 0.95) - 0.55]
+    reels.forEach((r, j) => {
+      pop(r, lt, 0.25 + j * 0.15, 0.85)
+      $$('.slot i', r).slice(2).forEach((c, i) => {
+        const lk = lt >= lockAt[j] + i * 0.035, enc = lt >= tEnc + j * 0.12 + i * 0.012
+        const ch = enc ? hexs(1, 50 + j * 16 + i, lt, 12) : lk ? hexs(1, 7 + j * 16 + i) : lt >= tGo ? hexs(1, 90 + j * 16 + i, lt, 24) : '0'
+        txt(c, ch); c.className = enc ? 'x' : lk ? 'lk' : ''
+      })
+      pop($('.lockic', r), lt, tEnc + j * 0.12 + 0.2, 0.3, 0.3)
+    })
+    const st = $('.stamp2 .a', el), tN = WT(sc, 1, /nobody/i, 0.5)
+    slam(st, lt, tN - 0.04, 2.0, 0.26, 'rotate(-4deg)')
+    rise([$('.stamp2 .s', el)], lt, WT(sc, 1, /even/i, 0.85) - 0.1)
+    el.style.transform = shake(lt, tN + 0.2, 16)
+  } else if (ty === 'bytes') {
+    rise([$('.t1', el), $('.t2', el)], lt, 0.05, 0.1)
+    const tiles = $$('.tl', el), grps = $$('.grp', el), t8 = Math.min(WT(sc, 0, /eight|^8/i, 0.15), 1.2)
+    const gAt = [WT(sc, 0, /class/i, 0.3), WT(sc, 0, /stats/i, 0.45), WT(sc, 0, /element/i, 0.65), WT(sc, 0, /reserve/i, 0.85)]
+    const gOf = i => i === 0 ? 0 : i <= 4 ? 1 : i === 5 ? 2 : 3
+    const sAt = [WT(sc, 1, /secrecy/i, 0.25), WT(sc, 1, /intuition/i, 0.45), WT(sc, 1, /will/i, 0.65), WT(sc, 1, /energy/i, 0.85)]
+    tiles.forEach((n, i) => {
+      const at = t8 + i * 0.05, q = P(lt, at, at + 0.45, E.outBack), on = lt >= gAt[gOf(i)]
+      n.style.opacity = clamp((lt - at) / 0.15) * (on ? 1 : 0.45)
+      const hl = i >= 1 && i <= 4 ? P(lt, sAt[i - 1], sAt[i - 1] + 0.15) - P(lt, sAt[i - 1] + 0.45, sAt[i - 1] + 0.8) : 0
+      n.style.transform = `translate3d(0,${(1 - q) * 80 - 18 * hl}px,0) scale(${1 + 0.08 * hl})`
+      n.style.boxShadow = on ? `0 0 ${30 + 40 * hl}px rgba(79,179,255,${0.25 + 0.5 * hl})` : ''
+      txt($('b', n), hexs(2, i + 3, lt, 7))
+    })
+    grps.forEach((n, j) => rise([n], lt, gAt[j] - 0.05, 0, 20))
+    const od = $('.odds', el), tO = L(sc, 2, 0) - 0.15, tLg = WT(sc, 2, /legendary/i, 0.8)
+    pop(od, lt, tO, 0.85)
+    $$('.odds .r', el).forEach((r, j) => { const pc = (b.odds || [])[j]?.[1] || 0, q = P(lt, tO + 0.25 + j * 0.12, tO + 1.0 + j * 0.12, E.outCubic)
+      $('.obar i', r).style.width = `${pc * 2 * q}%`; txt($('b', r), (pc * q).toFixed(1) + '%')
+      if (j === 3) r.style.transform = `scale(${1 + 0.05 * (P(lt, tLg, tLg + 0.15) - P(lt, tLg + 0.3, tLg + 0.7))})` })
+    pop($('.one', el), lt, tLg + 0.15, 0.6)
+  } else if (ty === 'peek') {
+    // through the keyhole: the scene opens out of a keyhole over the hex field
+    const s = 0.55 + 21.5 * P(lt, 0.05, 1.05, E.inOutSine)
+    el.style.clipPath = s < 21.9 ? `path('${keyholeD(540, 820, s)}')` : ''
+    rise([$('.t1', el)], lt, 0.25); rise([$('.who', el)], lt, 0.45, 0, 30)
+    const tH = WT(sc, 1, /holder/i, 0.05) - 0.1, tBack = L(sc, 1, 0.82), tPub = L(sc, 2, 0) - 0.1
+    let p = 1
+    if (lt >= tH) p = 1 - P(lt, tH, tH + 0.9, E.inOutSine)
+    if (lt >= tBack) p = 0.5 * P(lt, tBack, tBack + 0.7, E.inOutSine)
+    if (lt >= tPub) p = 0.5 + 0.5 * P(lt, tPub, tPub + 0.6, E.inOutSine)
+    $('.lay.hold', el).style.clipPath = `inset(0 0 0 ${p * 740}px)`
+    const kn = $('.knob', el); kn.style.left = `${170 + p * 740}px`; kn.style.opacity = P(lt, 0.6, 1.0) * (1 - P(p, 0.93, 0.99))
+    rise([$('.pc', el)], lt, 0.15, 0, 80)
+    const rev = $$('.lay.pub .rw', el)[0], tR = WT(sc, 0, /revealed/i, 0.8)
+    if (rev) rev.style.background = `rgba(79,179,255,${0.22 * (P(lt, tR, tR + 0.15) - P(lt, tR + 0.6, tR + 1.1))})`
+    const tP = WT(sc, 2, /publish/i, 0.4), qP = P(lt, tP, tP + 0.5, E.inOutSine)
+    $('.pubart', el).style.opacity = qP
+    txt($('.lay.pub .badge', el), lt >= tP + 0.1 ? (b.published || 'Published') : (b.sealed || 'Sealed'))
+    if (rev) txt($('em', rev), lt >= tP + 0.1 ? (b.revealed_yes || 'Yes') : (b.revealed_no || 'No'))
+    txt($('.lay.pub .ct', el), hexs(420, 4, lt, 5))
+    $$('.lay.pub .rw em', el).slice(1, -1).forEach((n, j) => { n.style.opacity = 0.55 + 0.45 * Math.abs(Math.sin(lt * 3 + j)) })
+    const tF = WT(sc, 2, /never/i, 0.8); slam($('.forever', el), lt, tF - 0.05, 1.35, 0.25)
+    rise([$('.ill', el)], lt, 1.0, 0, 10)
+  } else if (ty === 'sale') {
+    rise([$('.t1', el), $('.t2', el)], lt, 0.05, 0.1)
+    const [ws, wb] = $$('.wl', el); rise([ws, wb], lt, 0.2, 0.12)
+    const tSell = WT(sc, 0, /sell/i, 0.1), tEnd = WT(sc, 0, /ends/i, 0.5), tW = WT(sc, 1, /wakes/i, 0.1)
+    const tB0 = WT(sc, 1, /ninety|^96/i, 0.3), tB1 = WT(sc, 1, /minutes/i, 0.6) + 0.2, tTx = WT(sc, 1, /transaction/i, 0.85)
+    const card = $('.nft', el), q = P(lt, tSell, tSell + 0.8, E.inOutSine), cx = 280 + 520 * q
+    card.style.left = `${cx - 102}px`; card.style.top = `${745 - 90 * Math.sin(Math.PI * q)}px`
+    card.style.opacity = P(lt, 0.4, 0.8); card.style.transform = `rotate(${8 * Math.sin(Math.PI * q)}deg)`
+    const eS = $('svg.eye', ws), eB = $('svg.eye', wb), qOpen = P(lt, tTx + 0.1, tTx + 0.4, E.outBack)
+    eS.style.transform = `scaleY(${1 - 0.92 * P(lt, tEnd, tEnd + 0.12)})`; eB.style.transform = `scaleY(${0.08 + 0.92 * qOpen})`
+    eS.style.opacity = lt >= tEnd ? 0.5 : 1; eB.style.opacity = lt >= tTx + 0.1 ? 1 : 0.5
+    const sS = $('.st', ws), sB = $('.st', wb)
+    txt(sS, lt >= tEnd ? (b.ended || 'View ended') : (b.can || 'Can view')); sS.className = 'st' + (lt >= tEnd ? ' off' : '')
+    txt(sB, lt >= tTx + 0.1 ? (b.can || 'Can view') : (b.wait || 'Waiting')); sB.className = 'st' + (lt >= tTx + 0.1 ? '' : ' off')
+    pop($('.tx', el), lt, tEnd + 0.1, 0.6)
+    const blk = $('.blk', el); pop(blk, lt, Math.min(tW, tB0) - 0.2, 0.85)
+    const qb = P(lt, tB0, tB1, E.inOutSine); $('.blk .rg', el).innerHTML = ring(qb); txt($('.blk b', el), '+' + Math.round((b.blocks || 96) * qb))
+    const wk = $('.wake', el); pop(wk, lt, tB1 - 0.1, 0.6); wk.style.transform += ` scale(${1 - 0.07 * (P(lt, tTx - 0.05, tTx + 0.05) - P(lt, tTx + 0.1, tTx + 0.3))})`
+    $('.nft svg.mark', el).style.opacity = 1 - P(lt, tTx + 0.15, tTx + 0.45); $('.nft svg.cr', el).style.opacity = P(lt, tTx + 0.15, tTx + 0.45)
+  } else if (ty === 'duel') {
+    rise([$('.t1', el), $('.t2', el)], lt, 0.05, 0.1)
+    const [ca, cb] = $$('.nft', el), tD = WT(sc, 0, /duel/i, 0.5) - 0.3, tSet = WT(sc, 0, /settle/i, 0.55), tWin = WT(sc, 0, /stat/i, 0.95)
+    const q = P(lt, tD, tD + 0.45, E.outCubic)
+    ca.style.left = `${-60 + 165 * q}px`; cb.style.left = `${760 - 165 * q}px`
+    ;[ca, cb].forEach((c, j) => { c.style.opacity = P(lt, 0.3 + j * 0.15, 0.6 + j * 0.15); c.style.transform = `rotate(${(j ? 4 : -4) * (1 - q)}deg) ` + shake(lt, tD + 0.45, 8) })
+    $$('.nft .ct', el).forEach((n, j) => txt(n, hexs(260, 11 + j, lt, 5)))
+    slam($('.vsx', el), lt, tD + 0.4, 2.2, 0.25)
+    const cmp = $('.cmp', el); rise([cmp], lt, tSet - 0.1, 0, 20); $('.cmp .cbar i', el).style.width = `${100 * P(lt, tSet, tWin - 0.15, E.inOutSine)}%`
+    txt($('.cmp .lbl', el), lt >= tWin - 0.15 ? 'settled' : 'computing' + '.'.repeat(1 + Math.floor(lt * 3) % 3))
+    const w = $('.win', el); pop(w, lt, tWin, 0.4); w.style.left = '230px'; w.style.top = '380px'
+    ca.style.boxShadow = lt >= tWin ? `0 0 ${60 + 20 * Math.sin(lt * 6)}px rgba(79,179,255,.75), 0 30px 90px rgba(0,0,0,.55)` : ''
+    pop($('.poss', el), lt, tWin + 0.25, 0.6)
+    const road = $('.road', el); rise([road], lt, L(sc, 1, 0) - 0.2, 0, 60)
+    const at = [WT(sc, 1, /genesis/i, 0.3), WT(sc, 1, /launchpad/i, 0.55), WT(sc, 1, /game/i, 0.8)]
+    $$('.road .st', el).forEach((n, j) => { n.classList.toggle('on', lt >= at[j]); pop(n, lt, at[j] - 0.1, 0.7) })
+    $('.road .ln i', el).style.width = `${50 * P(lt, at[0], at[1], E.inOutSine) + 50 * P(lt, at[1], at[2], E.inOutSine)}%`
+  } else if (ty === 'genesis') {
+    const g = $('canvas', el).getContext('2d', { willReadFrequently: true }); g.clearRect(0, 0, 1080, 1920)
+    const parts = b.parts || [], tA = Math.max(0.1, L(sc, 0, 0) - 0.2), tC = L(sc, 0, 0.9)
+    const lit = [WT(sc, 1, /2,500|sale/i, 0.1), WT(sc, 2, /500|free/i, 0.2), WT(sc, 1, /232|team/i, 0.8)]   // in parts order: sale, free, team
+    const cols = parts.map(x => x.c)
+    for (const d of el._dots) {
+      const at = tA + d.q * 1.5, q = P(lt, at, at + 0.35, E.outBack); if (q <= 0) continue
+      const on = lt >= lit[d.g], hot = on ? 1 - P(lt, lit[d.g] + 0.6, lit[d.g] + 1.4) : 0
+      g.globalAlpha = (on ? 1 : 0.6) * clamp((lt - at) / 0.1)
+      g.fillStyle = on ? cols[d.g] : (b.dim || '#BFD8FF')
+      const r = 4.2 * q * (1 + 0.6 * hot); g.beginPath(); g.arc(d.x, d.y, r, 0, 6.2832); g.fill()
+      if (d.g === 1 && on) { g.globalAlpha = 0.18 + 0.12 * Math.sin(lt * 4 + d.q * 40); g.beginPath(); g.arc(d.x, d.y, 9, 0, 6.2832); g.fill() }
+    }
+    g.globalAlpha = 1
+    const cnt = $('.cnt b', el); txt(cnt, Math.round((b.total || 3232) * P(lt, tA, tC, E.outCubic)).toLocaleString('en-US'))
+    cnt.style.transform = `scale(${1 + 0.08 * (P(lt, tC, tC + 0.12) - P(lt, tC + 0.2, tC + 0.6))})`
+    rise([$('.cnt', el)], lt, 0.05, 0, 40)
+    $$('.leg .r', el).forEach((r, j) => rise([r], lt, lit[j] - 0.05, 0, 30))
+  } else if (ty === 'apply') {
+    rise([$('.t1', el), $('.t2', el)], lt, 0.05, 0.1)
+    const on = [WT(sc, 0, /connect/i, 0.2), WT(sc, 0, /four|^4/i, 0.45), WT(sc, 0, /three|^3/i, 0.75), WT(sc, 1, /sealed/i, 0.3)]
+    $$('.stp', el).forEach((n, j) => { rise([n], lt, 0.3 + j * 0.1, 0, 50); n.classList.toggle('on', lt >= on[j])
+      n.style.boxShadow = lt >= on[j] ? `0 0 ${40 * (1 - P(lt, on[j], on[j] + 0.8))}px rgba(79,179,255,.7), 0 30px 90px rgba(0,0,0,.55)` : '' })
+    const me = $('.me', el); rise([me], lt, on[3] + 0.15, 0, 40)
+    const tSt = WT(sc, 1, /review/i, 0.6); slam($('.me .sl', el), lt, tSt - 0.05, 2.2, 0.25, 'rotate(-7deg)')
+    me.style.transform += ' ' + shake(lt, tSt + 0.2, 8)
+    const cs = $$('.warn .chip', el), ct = [WT(sc, 2, /wallet/i, 0.2), WT(sc, 2, /never/i, 0.6)]
+    cs.forEach((c, j) => pop(c, lt, ct[j] ?? ct.at(-1), 0.6))
+  } else if (ty === 'end') {
+    const g = $('canvas', el).getContext('2d', { willReadFrequently: true }); g.setTransform(1, 0, 0, 1, 0, 0); g.clearRect(0, 0, 1080, 1920)
+    const tS = WT(sc, 0, /seen/i, 0.05) - 0.05, tK = WT(sc, 0, /known/i, 0.55) - 0.05
+    { const d = lt - tK - 0.03, a = d >= 0 && d <= 0.3 ? 14 * (1 - d / 0.3) : 0; g.setTransform(1, 0, 0, 1, a * Math.sin(d * 95), a * Math.cos(d * 77)) }
+    el._eyes.forEach(e => {
+      const at = tS + e.d * 0.25, open = P(lt, at, at + 0.2, E.outBack) * (1 - clamp((lt - tK - e.e * 0.1) / 0.1))
+      drawEye(g, e.cx, e.cy, e.p, open, clamp((540 - e.cx) / 380, -1, 1), clamp((740 - e.cy) / 480, -1, 1), 0, '#0A2A4F')
+    })
+    // the one: the holder's eye, big and glowing
+    const o = P(lt, tK + 0.05, tK + 0.4, E.outBack)
+    if (o > 0.05) { g.save(); g.shadowColor = 'rgba(31,95,219,.55)'; g.shadowBlur = 70; drawEye(g, 540, 740, 26, o, 0.2 * Math.sin(lt * 0.8), 0, 1, '#1F5FDB'); g.restore() }
+    else drawEye(g, 540, 740, 26, 0, 0, 0, 0, '#0A2A4F')
+    slam($('.big .a', el), lt, tS, 1.8, 0.28); slam($$('.big .a', el)[1], lt, tK, 1.8, 0.28)
+    rise($$('.ws .chip', el), lt, L(sc, 1, 0.05), 0.35)
+    $('.big', el).style.transform = shake(lt, tK + 0.03, 14)
+  }
+}
+
+// sounds for the keyhole beats (recorded Mixkit effects, lib/sfx.json), cued to the same words as the motion
+function fxKH(add, sc, T, next) {
+  const ty = sc.type.slice(6), b = sc.data || {}, w = (j, re, f) => T + WT(sc, j, re, f), at = (j, f = 0) => T + L(sc, j, f)
+  if (ty === 'cold') {
+    add(T, '497', -13, { align: 'start', max: Math.max(1, sc.dur - 0.2) }); add(T, '2297', -17, { align: 'start', max: Math.max(1, sc.dur - 0.4) })
+    add(at(0) + 0.1, '3124', -15)
+    add(at(1) - 0.1, '2847', -15, { max: 1.6 })
+    ;[w(1, /trait/i, 0.05), w(1, /rarity/i, 0.4), w(1, /rank/i, 0.75)].forEach((t, j) => add(t - 0.06, '2573', -10, { pan: [-0.35, 0.35, -0.2][j] }))
+    add(w(2, /look/i, 0.6), '1143', -9, { align: 'peak' })
+    const tS = w(3, /now/i, 0.45); add(tS, '2951', -6); add(tS + 0.18, '2853', -8)
+    if (next?.data?.drop) add(next.start, '2908', -6, { reverse: true, max: 2.6, align: 'end' })
+  }
+  if (ty === 'seal') add(w(1, /inside|holder/i, 0.6), '3124', -12)
+  if (ty === 'fhe') {
+    add(T + 0.3, '3124', -10); add(w(1, /seven|^7/i, 0.05), '3115', -11, { pan: -0.4 }); add(w(1, /five|^5/i, 0.2), '3115', -11, { pan: 0.4 })
+    const tin = w(1, /comes/i, 0.4); add(tin, '2636', -12); add(tin + 0.15, '3117', -14, { max: 1.0 })
+    add(w(1, /twelve|^12/i, 0.6), '2573', -8)
+  }
+  if (ty === 'draw') {
+    add(w(0, /draws/i, 0.35) - 0.2, '2857', -15, { max: 2.2 })
+    ;[w(0, /look/i, 0.75), w(0, /essence/i, 0.95)].forEach(t => add(t, '2573', -10))
+    const tE = w(1, /encrypted/i, 0.2); add(tE + 0.2, '2853', -9); add(tE + 0.32, '2853', -12)
+    const tN = w(1, /nobody/i, 0.5); add(tN - 0.04, '1365', -5); add(tN - 0.04, '2299', -7)
+  }
+  if (ty === 'bytes') {
+    add(T + Math.min(WT(sc, 0, /eight|^8/i, 0.15), 1.2), '3115', -12)
+    ;[w(0, /class/i, 0.3), w(0, /stats/i, 0.45), w(0, /element/i, 0.65), w(0, /reserve/i, 0.85)].forEach(t => add(t, '2573', -12))
+    ;[w(1, /secrecy/i, 0.25), w(1, /intuition/i, 0.45), w(1, /will/i, 0.65), w(1, /energy/i, 0.85)].forEach((t, j) => add(t, '3124', -13, { pan: [-0.3, -0.1, 0.1, 0.3][j] }))
+    add(at(2) - 0.15, '2636', -13); add(w(2, /legendary/i, 0.8), '1143', -9, { align: 'peak' })
+  }
+  if (ty === 'peek') {
+    add(T, '2908', -12, { reverse: true, max: 1.1, align: 'end' })
+    add(T + WT(sc, 1, /holder/i, 0.05) - 0.1, '2847', -13, { max: 1.2 })
+    add(w(2, /publish/i, 0.4), '3124', -10); add(w(2, /never/i, 0.8) - 0.05, '2853', -8)
+  }
+  if (ty === 'sale') {
+    add(w(0, /sell/i, 0.1), '3115', -10); add(w(0, /ends/i, 0.5), '2849', -10)
+    add(w(1, /ninety|^96/i, 0.3), '2857', -15, { max: 1.6 })
+    const tTx = w(1, /transaction/i, 0.85); add(tTx, '2573', -9); add(tTx + 0.15, '1143', -11, { align: 'peak' })
+  }
+  if (ty === 'duel') {
+    const tD = w(0, /duel/i, 0.5) - 0.3; add(tD, '3115', -10, { pan: -0.4 }); add(tD + 0.05, '3115', -10, { pan: 0.4 }); add(tD + 0.4, '2909', -7)
+    add(w(0, /settle/i, 0.55), '3117', -14, { max: 1.2 }); add(w(0, /stat/i, 0.95), '1143', -9, { align: 'peak' })
+    ;[w(1, /genesis/i, 0.3), w(1, /launchpad/i, 0.55), w(1, /game/i, 0.8)].forEach(t => add(t - 0.1, '2573', -11))
+  }
+  if (ty === 'genesis') {
+    add(T + Math.max(0.1, L(sc, 0, 0) - 0.2), '2636', -11); add(at(0, 0.9), '1143', -7, { align: 'peak' })
+    ;[w(1, /2,500|sale/i, 0.1), w(1, /232|team/i, 0.8), w(2, /500|free/i, 0.2)].forEach(t => add(t - 0.05, '3124', -11))
+  }
+  if (ty === 'apply') {
+    ;[w(0, /connect/i, 0.2), w(0, /four|^4/i, 0.45), w(0, /three|^3/i, 0.75), w(1, /sealed/i, 0.3)].forEach(t => add(t, '2573', -11))
+    const tSt = w(1, /review/i, 0.6); add(tSt - 0.05, '1365', -6); add(tSt - 0.05, '2299', -9)
+    ;[w(2, /wallet/i, 0.2), w(2, /never/i, 0.6)].forEach(t => add(t, '3124', -12))
+  }
+  if (ty === 'end') {
+    add(w(0, /seen/i, 0.05) - 0.05, '1143', -7, { align: 'peak' })
+    const tK = w(0, /known/i, 0.55) - 0.05; add(tK, '2908', -4); add(tK, '2299', -5)
+    add(at(1, 0.05), '3124', -12)
+  }
+}
+
 // ---------------------------------------------------------------- build each screen
 const built = D.scenes.map(sc => {
   const el = document.createElement('div'), b = sc.data || {}
   el.className = `scene ${sc.type}`
-  if (sc.type === 'ex_cold') {
+  if (sc.type.startsWith('ex_kh_')) buildKH(el, sc, b)
+  else if (sc.type === 'ex_cold') {
     const legs = b.legs || []
     el.innerHTML = `<div class="dim"></div><div class="amt2"><div class="v">${html(b.from || '$10')}</div><div class="lb"></div></div>
       <div class="card ct"><div class="hd"><span>${html(b.ticket || '1 ticket')}</span><span>${legs.length} legs</span></div>${legs.map(l => `<div class="rw"><span class="f">${l.flag || ''}</span>${html(l.team)}<span class="ck"></span></div>`).join('')}</div>`
@@ -336,6 +957,7 @@ const built = D.scenes.map(sc => {
 // ---------------------------------------------------------------- per-frame animation
 function draw(k, lt, sc) {
   const el = built[k], b = sc.data || {}
+  if (sc.type.startsWith('ex_kh_')) return drawKH(el, lt, sc, b)
   if (sc.type === 'ex_cold') {
     // lines: "Ten dollars." / "One ticket." / "$172 back, if every leg lands." / "Or nothing at all." → silence → the drop
     const v = $('.amt2 .v', el), lb = $('.amt2 .lb', el), ct = $('.ct', el), cks = $$('.ck', el)
@@ -465,7 +1087,8 @@ function fxCinematic() {
   const ev = [], add = (t, sfx, db, o = {}) => ev.push({ t: +Math.max(0, t).toFixed(3), sfx, db, ...o })
   D.scenes.forEach((sc, k) => {
     const T = sc.start, b = sc.data || {}, at = (j, f = 0) => T + L(sc, j, f), next = D.scenes[k + 1]
-    const drop = sc.type === 'ex_hook' && b.drop
+    const drop = (sc.type === 'ex_hook' || sc.type.startsWith('ex_kh_')) && b.drop
+    if (sc.type.startsWith('ex_kh_')) fxKH(add, sc, T, next)
     if (k > 0 && !drop) add(T, k % 2 ? '1492' : '2636', k % 2 ? -12 : -14, { align: 'peak' })
     if (sc.type === 'ex_cold') {
       add(T, '497', -13, { align: 'start', max: Math.max(1, sc.dur - 0.2) })                // heartbeat under the cold open
@@ -548,10 +1171,13 @@ window.renderAt = async function (t) {
   const sc = D.scenes[k], lt = t - sc.start
   built.forEach((el, j) => { el.style.display = j === k ? 'block' : 'none'; if (j !== k) el.style.transform = '' })
   // the living background: a slow drifting grid and two glows
+  if (EX.theme === 'sky') $('#hexf').style.backgroundPosition = `0 ${-(t * 16) % 960}px`
   $('#grid').style.transform = `translate3d(0,${(t * 24) % 120}px,0) rotate(${-8 + 2 * Math.sin(t * 0.2)}deg)`
   $('#b1').style.transform = `translate3d(${-260 + 180 * Math.sin(t * 0.31)}px,${-200 + 220 * Math.cos(t * 0.23)}px,0)`
   $('#b2').style.transform = `translate3d(${520 + 160 * Math.cos(t * 0.27)}px,${1180 + 200 * Math.sin(t * 0.19)}px,0)`
   draw(k, lt, sc)
+  // the sky theme opens in deep blue: no header until the drop, captions in a dark pill
+  if (EX.theme === 'sky') { const cold = /_cold$/.test(sc.type), o = cold ? 0 : P(lt, 0, 0.5); $('#hdr').style.opacity = o; $('#prog').style.opacity = o; $('#stage').classList.toggle('coldcap', cold) }
   // chapter label and progress
   const ch = CH[sc.type] || ''
   $('#chap').innerHTML = ch ? `<b>${String(Object.keys(CH).indexOf(sc.type) + 1).padStart(2, '0')}</b>${html(ch)}` : ''
@@ -571,6 +1197,15 @@ window.renderAt = async function (t) {
 window.ready = (async () => {
   await Promise.all([...document.fonts].map(f => f.load()))
   await document.fonts.ready
+  if (EX.theme === 'sky') {     // the hex field: faint ciphertext drifting up behind everything (drawn once, tiled)
+    const c = document.createElement('canvas'); c.width = 1080; c.height = 960; const x = c.getContext('2d')
+    x.font = '500 22px JBM'; x.textBaseline = 'top'
+    for (let r = 0; r < 30; r++) for (let k = 0; k < 6; k++) {
+      x.fillStyle = `rgba(31,95,219,${0.03 + 0.045 * hsh(r, k + 40)})`
+      x.fillText(hexs(13, r * 7 + k), k * 182 + (r % 2) * 40 - 30, r * 32)
+    }
+    $('#hexf').style.backgroundImage = `url(${c.toDataURL()})`
+  }
   return true
 })()
 </script>

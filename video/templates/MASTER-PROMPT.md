@@ -31,6 +31,12 @@ videos day by day. When a rule here and a new instruction from the owner disagre
   - deep `#1F5FDB`;
   - navy backgrounds `#050A18` to `#0D2D6E`.
 
+  **Light, too (the owner, 6 Oct):** "Use a different creative style… my style is light or shades of blue." Don't make
+  every video dark. The light palette: a sky-blue page (`#F5FAFF` to `#C9E0FF`), white frosted-glass cards, navy type
+  (`#0A2A4F`) and deep-blue accents (`#1F5FDB`). A dark cold open is still fine in deep royal blue (`#1F5FDB` to
+  `#072A6B`), never black, and the drop can flood the screen with light. Reference: the Fungo Labs explainer
+  (`explainer.theme: "sky"` in `video/explainer.html`).
+
   **Never yellow or lime** as an accent. Green and red only where they mean something: won or lost, up or down,
   correct or missed, danger.
 - **Logo mark:** three rising blue bars, skewed, next to "cmvng".
@@ -652,3 +658,7 @@ The owner sends references to learn from. Take the techniques, never the footage
   - "You didn't even give the analysis for England on who might win by the numbers. You only dwelt on Spain."
   - "Does the prompt have all the lessons… from the videos I sent and the creative angles?" This version adds sections
     11–13 to answer that.
+  - A motion graphic on Fungo Labs (encrypted NFTs on Ethereum, built with Zama's FHE): "sleek and captivating… it could
+    go viral based on how unique it will be."
+  - On the first, dark draft of it: "Use a different creative style… my style is light or shades of blue color palette."
+    So it was rebuilt in the light sky-blue style.

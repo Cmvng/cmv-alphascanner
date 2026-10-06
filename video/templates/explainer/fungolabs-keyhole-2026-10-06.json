@@ -1,0 +1,427 @@
+{
+ "mode": "explainer",
+ "title": "Fungo Labs: encrypted NFTs",
+ "competition": "Explainer",
+ "date": "2026-10-06",
+ "picks": [],
+ "voice": "af_heart",
+ "voice_fx": "deep",
+ "voice_speed": 1.0,
+ "sound": "cinematic",
+ "caption_style": "bold",
+ "music_track": 587,
+ "explainer": {
+  "theme": "sky",
+  "foot": "Independent guide · not affiliated with Fungo Labs · not financial advice",
+  "chapters": {
+   "ex_kh_fhe": "How it works",
+   "ex_kh_draw": "The draw",
+   "ex_kh_bytes": "The essence",
+   "ex_kh_peek": "Two layers",
+   "ex_kh_sale": "Selling",
+   "ex_kh_duel": "What's next",
+   "ex_kh_genesis": "The genesis",
+   "ex_kh_apply": "Whitelist"
+  },
+  "beats": [
+   {
+    "type": "kh_cold",
+    "id": "#2048",
+    "tagline": "On-chain",
+    "seed": 7,
+    "tags": [
+     [
+      "Trait",
+      "Golden halo"
+     ],
+     [
+      "Rarity",
+      "0.3%"
+     ],
+     [
+      "Rank",
+      "#4 of 10,000"
+     ]
+    ],
+    "say": [
+     "Every NFT you own is public.",
+     "Its traits. Its rarity. Its rank.",
+     "Anyone can look.",
+     "Until now."
+    ],
+    "pauses": [
+     0.4,
+     0.45,
+     0.6
+    ],
+    "tail": 0.7
+   },
+   {
+    "type": "kh_seal",
+    "drop": true,
+    "id": "#2048",
+    "title": "Sealed.",
+    "sub": "Encrypted NFTs on Ethereum",
+    "chip": "Fungo Labs · built with FHE on Zama",
+    "say": [
+     "This is Fungo Labs: encrypted NFTs on Ethereum, built with Zama.",
+     "Each one is born sealed, and only its holder can look inside."
+    ]
+   },
+   {
+    "type": "kh_fhe",
+    "title": "Compute. Never read.",
+    "sub": "FHE · fully homomorphic encryption",
+    "box": "Smart contract",
+    "a": "enc(7)",
+    "b": "enc(5)",
+    "out": "enc(12)",
+    "never": "It never sees 7, 5 or 12",
+    "say": [
+     "The trick is FHE: fully homomorphic encryption. A smart contract computes on data it can never read.",
+     "Seven plus five, encrypted, comes out as an encrypted twelve. The contract never sees a number."
+    ]
+   },
+   {
+    "type": "kh_draw",
+    "title": "The draw",
+    "sub": "At mint · on-chain FHE randomness",
+    "reels": [
+     [
+      "Look",
+      "64-bit"
+     ],
+     [
+      "Essence",
+      "64-bit"
+     ]
+    ],
+    "stamp": [
+     "Nobody",
+     "chooses."
+    ],
+    "note": "Not even the team.",
+    "say": [
+     {
+      "say": "At mint, the contract draws two random sixty-four-bit values: a look, and an essence.",
+      "show": "At mint, the contract draws two random 64-bit values: a look, and an essence."
+     },
+     "Both are encrypted the instant they exist. Nobody chooses what you get. Not even the team."
+    ]
+   },
+   {
+    "type": "kh_bytes",
+    "title": "The essence",
+    "sub": "One 64-bit number · 8 bytes",
+    "tiles": [
+     [
+      "Class",
+      "cls"
+     ],
+     [
+      "Secrecy",
+      ""
+     ],
+     [
+      "Intuition",
+      ""
+     ],
+     [
+      "Will",
+      ""
+     ],
+     [
+      "Energy",
+      ""
+     ],
+     [
+      "Element",
+      ""
+     ],
+     [
+      "Reserved",
+      "res"
+     ],
+     [
+      "Reserved",
+      "res"
+     ]
+    ],
+    "groups": [
+     [
+      "Class",
+      0,
+      0
+     ],
+     [
+      "4 stats",
+      1,
+      4
+     ],
+     [
+      "Element",
+      5,
+      5
+     ],
+     [
+      "Reserved",
+      6,
+      7
+     ]
+    ],
+    "odds_title": "Class chances",
+    "odds": [
+     [
+      "Common",
+      50.0
+     ],
+     [
+      "Rare",
+      30.1
+     ],
+     [
+      "Ultra Rare",
+      14.8
+     ],
+     [
+      "Legendary",
+      5.1
+     ]
+    ],
+    "one": "About 1 in 20 is Legendary",
+    "say": [
+     "The essence is eight bytes: a class, four stats, an element, and two held in reserve.",
+     "The stats: Secrecy, Intuition, Will and Energy.",
+     "And only about one in twenty is Legendary."
+    ]
+   },
+   {
+    "type": "kh_peek",
+    "title": "Who's looking?",
+    "sides": [
+     "The public",
+     "The holder"
+    ],
+    "seed": 7,
+    "sealed": "Sealed",
+    "published": "Published",
+    "only": "Only you",
+    "revealed_no": "No",
+    "revealed_yes": "Yes",
+    "pub_rows": [
+     [
+      "Revealed",
+      "No"
+     ],
+     [
+      "Class",
+      "▒▒▒▒▒▒"
+     ],
+     [
+      "Secrecy",
+      "▒▒▒"
+     ],
+     [
+      "Intuition",
+      "▒▒▒"
+     ],
+     [
+      "Will",
+      "▒▒▒"
+     ],
+     [
+      "Energy",
+      "▒▒▒"
+     ],
+     [
+      "Element",
+      "▒▒▒▒"
+     ],
+     [
+      "Essence",
+      "Encrypted"
+     ]
+    ],
+    "hold_rows": [
+     [
+      "Viewer",
+      "You"
+     ],
+     [
+      "Class",
+      "Rare"
+     ],
+     [
+      "Secrecy",
+      62
+     ],
+     [
+      "Intuition",
+      81
+     ],
+     [
+      "Will",
+      37
+     ],
+     [
+      "Energy",
+      70
+     ],
+     [
+      "Element",
+      "◆"
+     ],
+     [
+      "Essence",
+      "Yours to see"
+     ]
+    ],
+    "forever": "Encrypted for good",
+    "note": "Illustration · not a real Fungo Labs NFT",
+    "say": [
+     {
+      "say": "So who sees what? The public sees a sealed mark, and: revealed, no.",
+      "show": "So who sees what? The public sees a sealed mark, and \"Revealed: No\"."
+     },
+     "The holder sees all of it: the art, the class, every stat.",
+     "The art goes public only if the holder publishes it. The essence never does."
+    ]
+   },
+   {
+    "type": "kh_sale",
+    "title": "Sold?",
+    "sub": "The view moves with the NFT",
+    "who": [
+     "Seller",
+     "Buyer"
+    ],
+    "seed": 7,
+    "blocks": 96,
+    "blocks_label": "blocks · about 19 min",
+    "wake": "Wake",
+    "wake_sub": "1 small transaction",
+    "same": "Same transaction",
+    "can": "Can view",
+    "ended": "View ended",
+    "wait": "Waiting",
+    "say": [
+     "Sell it, and your view ends inside the same transaction.",
+     {
+      "say": "The new holder wakes it after ninety-six blocks, about nineteen minutes, with one small transaction.",
+      "show": "The new holder wakes it after 96 blocks, about 19 minutes, with one small transaction."
+     }
+    ]
+   },
+   {
+    "type": "kh_duel",
+    "title": "Hidden. Not useless.",
+    "sub": "What FHE makes possible",
+    "a": "enc(#2048)",
+    "b": "enc(#0777)",
+    "win": "Wins",
+    "chip": "No stats revealed",
+    "road": [
+     [
+      "Genesis",
+      "Now"
+     ],
+     [
+      "Launchpad",
+      "Next"
+     ],
+     [
+      "The game",
+      "Then"
+     ]
+    ],
+    "say": [
+     "Hidden doesn't mean useless. With FHE, a contract can settle a duel without either side revealing a stat.",
+     "The road: the genesis now, a launchpad next, then a game built for these traits."
+    ]
+   },
+   {
+    "type": "kh_genesis",
+    "total": 3232,
+    "label": "NFTs · the genesis",
+    "parts": [
+     {
+      "n": 2500,
+      "k": "Sale",
+      "s": "paid in cZAMA",
+      "c": "#5B9BFF"
+     },
+     {
+      "n": 500,
+      "k": "Free mint",
+      "s": "gas only · 1 per account",
+      "c": "#1F5FDB"
+     },
+     {
+      "n": 232,
+      "k": "Team",
+      "s": "",
+      "c": "#0A2A4F"
+     }
+    ],
+    "say": [
+     "The genesis is 3,232 NFTs.",
+     "2,500 NFTs go to the sale, paid in cZAMA, Zama's confidential token. 232 go to the team.",
+     "And 500 free mints: gas only, one per account."
+    ],
+    "dim": "#B8D4FF"
+   },
+   {
+    "type": "kh_apply",
+    "title": "Want in?",
+    "sub": "The whitelist · fungolabs.org/apply",
+    "steps": [
+     [
+      "Connect X",
+      "One account, one application"
+     ],
+     [
+      "Four quick tasks",
+      "Follow, like, reply, repost"
+     ],
+     [
+      "Three questions",
+      "Honest answers"
+     ],
+     [
+      "Sealed for review",
+      "Chosen by hand"
+     ]
+    ],
+    "handle": "@i_am_vickyd",
+    "status": "Applied · in review",
+    "stamp": "Sealed",
+    "chips": [
+     "No wallet needed yet",
+     "Fungo Labs never DMs first"
+    ],
+    "say": [
+     "The whitelist is open. Connect X, do four quick tasks, answer three questions.",
+     "Then it's sealed for review, and chosen by hand.",
+     "No wallet needed yet. And Fungo Labs will never DM you first."
+    ]
+   },
+   {
+    "type": "kh_end",
+    "l1": "Seen by all.",
+    "l2": "Known by one.",
+    "chips": [
+     "fungolabs.org/apply"
+    ],
+    "follow": "Follow for more",
+    "say": [
+     "Seen by all. Known by one.",
+     {
+      "say": "Applications are open at fungo labs dot org. Follow for more.",
+      "show": "Applications are open at fungolabs.org. Follow for more."
+     }
+    ],
+    "tail": 1.6
+   }
+  ]
+ }
+}

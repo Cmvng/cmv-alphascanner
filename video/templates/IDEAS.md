@@ -58,6 +58,12 @@ Different is the floor; creative is the bar. Before building, write the concept 
 - **The live chart:** the price line draws itself while the owner talks, the levels they name snapping on.
 - **Before / after:** the same screen yesterday and today, wiped across.
 
+## Crypto motion design (no presenter)
+- **The Keyhole (used 6 Oct, `explainer/fungolabs-keyhole-2026-10-06.json`):** a privacy product told as who gets to look:
+  a crowd of pixel eyes, a card that turns to ciphertext, a wipe handle between the public's view and the holder's.
+  In the owner's light style (sky blue, white glass, navy type). Next time: a different metaphor (a vault, a metro map, a
+  receipt, a race), and alternate light and dark from video to video.
+
 ## References from the owner, 5 Oct (batch 2: six TikTok football edits)
 Four of the six are built on match footage, which we never use (copyright; see the skill). We take the techniques.
 - **Collage poster (lorentso.tv, made for the Bundesliga, 0:12).** Players cut out and set on torn paper, black and
