@@ -35,7 +35,7 @@ Different is the floor; creative is the bar. Before building, write the concept 
 - **What's on the line, live:** the group table animates for each result (win, draw, loss) so the stakes are seen.
 - **Countdown to kick-off:** five facts, 5 → 1, the last one the twist.
 - **The rivalry strip:** a scrolling timeline of the past meetings, landing on tonight.
-- **The newspaper:** tomorrow's two possible front pages (one per winner); the analysis decides which is likelier.
+- **The newspaper:** tomorrow's two possible front pages (one per winner); the analysis decides which is likelier. (The post-match version was used 5 Oct: `post-match/newspaper-2026-10-05.json`.)
 - **Two voices:** two presenters disagree, each with their numbers; the model settles it.
 
 ## Post-match: formats

@@ -28,6 +28,7 @@ const SAY_NAMES = {
   USDC: 'U S D C', PvP: 'P V P',   Rijeka: 'Ree-yeh-ka', 'Modrić': 'Mod-ritch', 'Kovačić': 'Ko-va-chitch', Xhaka: 'Jah-ka', Gvardiol: 'Gvar-dee-ol', 'Šulc': 'Shults', Oviedo: 'Oh-vee-ay-doh',
   Rivne: 'Reev-neh', Kudrivka: 'Koo-driv-ka', 'Lanús': 'Lah-noos', Czechia: 'Check-ee-a', Justicia: 'Hoos-tee-see-a',   'Alajbegović': 'Ala-ee-beh-go-vitch', 'Adžić': 'Ad-jitch', Kakoullis: 'Ka-koo-lis', Konomis: 'Ko-no-mis', 'De Bruyne': 'De Broyne', 'Zieliński': 'Jeh-lin-ski', 'Drăgușin': 'Dra-goo-sheen', Kerkez: 'Ker-kez', Upamecano: 'Oo-pa-meh-cano', Zirkzee: 'Zirk-zay', Ajer: 'Ah-yer',
   Tielemans: 'Tee-luh-mahns', Godts: 'Gots', Sikan: 'See-kan', Trnava: 'Turn-ava',
+  'Saint-Denis': 'San Deh-nee', 'Lukébakio': 'Loo-keh-bah-kee-oh', Calafiori: 'Kala-fee-oh-ree', Yaremchuk: 'Yah-rem-chook',
 }
 // letter-aware edges: \b treats accented letters as non-letters, so "Doué" or "Çalhanoğlu" would never match
 const NAME_RE = new RegExp(`(?<!\\p{L})(${Object.keys(SAY_NAMES).join('|')})(?!\\p{L})`, 'gu')

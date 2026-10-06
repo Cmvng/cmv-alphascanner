@@ -26,6 +26,16 @@ Extras on any beat:
 - `hold` sets a beat's length when it has no voice.
 - `clip: {id, from, speed}` adds a clip.
 
+## The newspaper (np_*, first used 5 Oct 2026: "The Final Whistle")
+Tomorrow's paper, tonight: a sheet of newsprint over the stadium at night. Reference: `newspaper-2026-10-05.json`.
+`np_cold` (a printing press sets the opening lines in the dark; the next screen lands on the drop), `np_front` (the
+front page spins in: masthead, headline, a halftone photo clipping, the score box, a deck, "Inside"), `np_report` (the
+match report types itself into two columns), `np_moment` (the minute, a torn clipping with tape and a handwritten
+arrow), `np_numbers` (stat bars in ink and blue), `np_called` (our morning read taped in, stamped CALLED IT, HALF RIGHT
+or WRONG), `np_quote`, `np_briefs` (other results, each stamped against our call), `np_table`, `np_back` (folds shut).
+Paper, typewriter, tape and stamp sounds are in `lib/sfx.json`. Listen for numbers that sound like words: "Belgium one"
+is heard as "Belgium won", so say "one-nil to Belgium".
+
 ## Rules that keep it monetised and legal
 
 - **No broadcast footage. Ever.** Not even 2 seconds. A Content ID claim stops the money however short the clip.

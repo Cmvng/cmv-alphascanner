@@ -1,0 +1,261 @@
+{
+ "mode": "review",
+ "competition": "UEFA Nations League",
+ "date": "2026-10-05",
+ "sound": "cinematic",
+ "voice_fx": "deep",
+ "voice_speed": 1.05,
+ "music_vibe": [
+  "cinematic"
+ ],
+ "picks": [
+  {
+   "home": "France",
+   "away": "Belgium",
+   "competition": "UEFA Nations League",
+   "stage": "League A · Group 1",
+   "kickoff": "19:45",
+   "score_home": "4",
+   "score_away": "1",
+   "home_win": 57,
+   "draw": 26,
+   "away_win": 17,
+   "stadium": "/home/user/cmv-alphascanner/video/.cache/stadiums/stade_de_france_night.jpg",
+   "stadium_credit": "Stade de France, Saint-Denis · Photo: Zakarie Faibis · CC BY-SA 4.0"
+  },
+  {
+   "home": "Italy",
+   "away": "Türkiye",
+   "competition": "UEFA Nations League",
+   "stage": "League A · Group 1",
+   "kickoff": "19:45",
+   "score_home": "3",
+   "score_away": "1",
+   "stadium": "/home/user/cmv-alphascanner/video/.cache/stadiums/bologna_fc_1909.jpg",
+   "stadium_credit": "Stadio Renato Dall'Ara, Bologna · Photo: Beric Dondarrion · CC BY-SA 4.0"
+  },
+  {
+   "home": "Romania",
+   "away": "Sweden",
+   "competition": "UEFA Nations League",
+   "stage": "League B · Group 4",
+   "kickoff": "19:45",
+   "score_home": "0",
+   "score_away": "1",
+   "stadium": "/home/user/cmv-alphascanner/video/.cache/stadiums/romania.jpg",
+   "stadium_credit": "National Arena, Bucharest · Photo: Andrei Dan Suciu · CC BY 3.0"
+  },
+  {
+   "home": "Ukraine",
+   "away": "Hungary",
+   "competition": "UEFA Nations League",
+   "stage": "League B · Group 2",
+   "kickoff": "19:45",
+   "score_home": "1",
+   "score_away": "2",
+   "stadium": "/home/user/cmv-alphascanner/video/.cache/stadiums/fc_spartak_trnava.jpg",
+   "stadium_credit": "Štadión Antona Malatinského, Trnava · Photo: Vincenzo.togni · CC BY-SA 4.0"
+  }
+ ],
+ "review": {
+  "edition": "Tuesday 6 October 2026",
+  "headline": "Four in fourteen",
+  "beats": [
+   {
+    "type": "np_cold",
+    "steps": [
+     {
+      "text": "Monday night."
+     },
+     {
+      "text": "77 minutes played."
+     },
+     {
+      "text": "Belgium 1, France 0."
+     },
+     {
+      "text": "Stop the presses.",
+      "tone": "blue"
+     }
+    ],
+    "say": [
+     "Monday night, in Saint-Denis.",
+     {
+      "say": "Seventy-seven minutes played.",
+      "show": "77 minutes played."
+     },
+     {
+      "say": "One-nil to Belgium.",
+      "show": "1–0 to Belgium."
+     },
+     "Stop the presses."
+    ]
+   },
+   {
+    "type": "np_front",
+    "kicker": "Nations League · Full time",
+    "headline": "Four in\nfourteen",
+    "size": 150,
+    "deck": "Belgium led for 42 minutes. Then Zidane's substitutes scored four times in the last fourteen.",
+    "player": "Michael Olise",
+    "note": "All four goals came from the bench.",
+    "inside": "Italy 3–1 · Sweden 1–0 · Hungary 2–1",
+    "say": [
+     "Here's tomorrow's front page, tonight. Four-one to France.",
+     "Belgium led for forty-two minutes. Then Zidane's substitutes scored four times in fourteen minutes."
+    ]
+   },
+   {
+    "type": "np_report",
+    "kicker": "Match report",
+    "title": "The bench strikes back",
+    "byline": "By cmvng · Stade de France, Saint-Denis",
+    "body": [
+     "Dodi Lukébakio put Belgium ahead after 35 minutes with a left-footed shot from 22 metres, and Belgium held on while France pushed.",
+     "Zinédine Zidane had promised changes. On the hour he sent on Michael Olise and Rayan Cherki; on 72 minutes, Désiré Doué.",
+     "Doué levelled on 77. Cherki scored on 81. Olise scored on 88, and again in stoppage time."
+    ],
+    "say": [
+     "Lukébakio put Belgium ahead after thirty-five minutes, from twenty-two metres, and Belgium held on.",
+     "Zidane had promised changes. On the hour, he sent on Olise and Cherki. Then Doué.",
+     "Doué levelled on seventy-seven. Cherki scored on eighty-one. And Olise scored twice at the death."
+    ]
+   },
+   {
+    "type": "np_moment",
+    "min": "77",
+    "title": "Doué, off the bench",
+    "text": "On the pitch for five minutes, Désiré Doué levelled with his left foot from 18 metres.",
+    "player": "Désiré Doué",
+    "note": "on for 5 mins!",
+    "say": [
+     "The turning point: seventy-seven minutes.",
+     "Désiré Doué had been on the pitch for five minutes.",
+     "Left foot, from eighteen metres. One all."
+    ]
+   },
+   {
+    "type": "np_numbers",
+    "title": "The numbers",
+    "rows": [
+     [
+      "Shots",
+      "24",
+      "5"
+     ],
+     [
+      "On target",
+      "9",
+      "2"
+     ],
+     [
+      "Possession %",
+      "61",
+      "39"
+     ],
+     [
+      "Corners",
+      "9",
+      "2"
+     ]
+    ],
+    "note": "Belgium's keeper made five saves. France kept coming.",
+    "say": [
+     "Twenty-four shots to five. Nine on target to two.",
+     "Belgium's keeper made five saves, and France kept coming."
+    ]
+   },
+   {
+    "type": "np_called",
+    "ours": "A narrow France win",
+    "verdict": "half",
+    "stamp": "Half right",
+    "scorers": "Lukébakio 35' · Doué 77' · Cherki 81' · Olise 88', 90+1'",
+    "say": [
+     "This morning, we wrote: a narrow France win, few goals, and one-nil the likeliest score.",
+     "France won it. Narrow, it was not.",
+     "Half right."
+    ]
+   },
+   {
+    "type": "np_briefs",
+    "items": [
+     {
+      "match": 1,
+      "where": "League A · Group 1 · Bologna",
+      "text": "Calafiori and Pio Esposito, both on at 55 minutes, scored after Şimşir's equaliser. Italy go second.",
+      "verdict": "called"
+     },
+     {
+      "match": 2,
+      "where": "League B · Group 4 · Bucharest",
+      "text": "Gyökeres scored after 13 minutes: seven Nations League games in a row with a goal.",
+      "verdict": "called"
+     },
+     {
+      "match": 3,
+      "where": "League B · Group 2 · Trnava",
+      "text": "Yaremchuk headed Ukraine level on 83. Two minutes later, Csinger won it for Hungary.",
+      "verdict": "missed",
+      "stamp": "Wrong"
+     }
+    ],
+    "say": [
+     "In Bologna, Italy beat Türkiye three-one, with two more goals from the bench, from Calafiori and Pio Esposito. Called it.",
+     "In Bucharest, Viktor Gyökeres scored again: seven Nations League games in a row. Sweden win, one-nil. Called it.",
+     "And in Trnava, Hungary won two-one, with the winner on eighty-five minutes. We had a Ukrainian edge. Wrong."
+    ]
+   },
+   {
+    "type": "np_table",
+    "title": "Group 1",
+    "sub": "France three points clear; Italy climb above Belgium.",
+    "table": [
+     [
+      "France",
+      4,
+      10
+     ],
+     [
+      "Italy",
+      4,
+      7
+     ],
+     [
+      "Belgium",
+      4,
+      6
+     ],
+     [
+      "Türkiye",
+      4,
+      0
+     ]
+    ],
+    "highlight": [
+     "France",
+     "Belgium"
+    ],
+    "points": [
+     "Two matchdays left",
+     "Only the top two reach the March quarter-finals"
+    ],
+    "say": [
+     "France go three points clear at the top. Italy climb above Belgium, into second.",
+     "Two matchdays left.",
+     "And only the top two reach the quarter-finals."
+    ]
+   },
+   {
+    "type": "np_back",
+    "kicker": "Next edition",
+    "big": "Who stops France now?",
+    "next": "Group 1 · Matchday 5",
+    "follow": "Follow for the next edition",
+    "say": [
+     "That's tomorrow's paper. Follow for the next edition."
+    ]
+   }
+  ]
+ }
+}
