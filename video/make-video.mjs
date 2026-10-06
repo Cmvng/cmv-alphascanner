@@ -139,6 +139,13 @@ function pickTrack() {
   const recent = [...h.used.slice(-6), h.by[slug]]
   let pool = lib.filter(t => (cfg.music_drop || moods.includes(t.mood)) && !recent.includes(t.id))
   if (!pool.length) pool = lib.filter(t => !h.used.slice(-3).includes(t.id))
+  // analysis and post-match: only the soundtracks that wow (the owner, 4-6 Oct: a quiet build and a hard drop, like
+  // "A New Life"; lib/music.json marks them "wow"). Never one of the last six if possible, else the least recently used
+  const wow = all.filter(t => t.wow && !t.retired)
+  if (['preview', 'review'].includes(cfg.mode) && cfg.tips !== true && cfg.music_wow !== false && wow.length) {
+    const fresh = wow.filter(t => !recent.includes(t.id)), last = id => h.used.lastIndexOf(id)
+    pool = fresh.length ? fresh : [...wow].sort((x, y) => last(x.id) - last(y.id)).slice(0, 1)
+  }
   const seed = [...slug].reduce((a, ch) => (a * 31 + ch.charCodeAt(0)) >>> 0, 7)
   const t = pool[seed % pool.length]
   if (!flag('stills', false)) {
@@ -389,16 +396,29 @@ console.log(`Rendering ${FRAMES} frames with ${WORKERS} workers…`)
 await Promise.all(Array.from({ length: WORKERS }, async (_, w) => {
   const a = w * per, b = Math.min(FRAMES, a + per)
   if (a >= b) return
-  const { browser, pg, shot } = await openPage()
-  if (w === 0) fx = await pg.evaluate(() => window.fxEvents())
+  let p = await openPage(), since = 0
+  if (w === 0) fx = await p.pg.evaluate(() => window.fxEvents())
   const ff = spawn(FF, ['-y', '-loglevel', 'error', '-f', 'image2pipe', '-framerate', String(FPS), '-i', '-',
     '-c:v', 'libx264', '-preset', 'medium', '-crf', '20', '-maxrate', '12M', '-bufsize', '24M', '-pix_fmt', 'yuv420p', '-r', String(FPS), path.join(OUT, `seg_${w}.mp4`)], { stdio: ['pipe', 'inherit', 'inherit'] })
+  // Headless Chromium's compositor can crash after a few hundred frames of heavy filters (6 Oct, the newspaper
+  // review): open a fresh browser every 400 frames, and on a crash relaunch and retry the frame (twice at most).
   for (let f = a; f < b; f++) {
-    await pg.evaluate(x => window.renderAt(x), f / FPS)
-    if (!ff.stdin.write(await shot())) await new Promise(r => ff.stdin.once('drain', r))
+    let png
+    for (let tries = 0; !png; tries++) {
+      try {
+        if (since >= 400) { await p.browser.close().catch(() => {}); p = await openPage(); since = 0 }
+        await p.pg.evaluate(x => window.renderAt(x), f / FPS)
+        png = await p.shot(); since++
+      } catch (e) {
+        if (tries >= 2) throw new Error(`frame ${f} (${(f / FPS).toFixed(2)}s) keeps crashing the browser: ${e.message}`)
+        console.log(`  browser crashed at ${(f / FPS).toFixed(2)}s (${e.message.split('\n')[0]}); relaunching`)
+        await p.browser.close().catch(() => {}); p = await openPage(); since = 0
+      }
+    }
+    if (!ff.stdin.write(png)) await new Promise(r => ff.stdin.once('drain', r))
     if (++done % 300 === 0) console.log(`  ${done}/${FRAMES} frames · ${((Date.now() - t0) / 1000).toFixed(0)}s`)
   }
-  ff.stdin.end(); await new Promise(r => ff.on('close', r)); await browser.close()
+  ff.stdin.end(); await new Promise(r => ff.on('close', r)); await p.browser.close()
 }))
 
 // ---------------------------------------------------------------- 7. sound + final file

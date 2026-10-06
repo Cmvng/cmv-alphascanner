@@ -62,6 +62,13 @@ candles and price moves, won/lost, correct/missed.
 **What the owner loves (4 Oct): the soundtrack and the slow, suspenseful pace.** "The soundtrack was captivating… the
 slow paced way it was analyzing the game was giving me, okay, what is going on here." The track was "A New Life"
 (Mixkit 543, cinematic: a quiet build, then a hard drop on the title) with the voice at `voice_speed` 1.05. So:
+- **The soundtrack must wow (the owner, 6 Oct: "Remember the type of sound tracks I like… sound tracks that keep people
+  wowed, for either pre analysis or post analysis").** That means a cinematic film score with a quiet build and a
+  hard drop, like "A New Life". Never pick a track for a theme or mood instead (a jazz track for the newspaper format
+  was wrong). `lib/music.json` marks the tracks that qualify `"wow": true`, measured: a jump of 12 dB or more at the drop
+  and a hit of 9 dB or more in the first half second. Analysis and post-match videos pick only from these. The pool:
+  A New Life, The Farewell, Fragments Of Bangkok, A Love Theme, Discover (all Eugenio Mininni, Mixkit). Keep growing
+  it with tracks that measure the same, and play new ones to the owner before relying on them.
 - **A new soundtrack every video.** The rotation never repeats one of the last six; keep the drop on the title.
   Lean on the `cinematic` vibe for analysis and reviews (`"music_vibe": ["cinematic"]`; 10 tracks since 4 Oct, mostly
   Eugenio Mininni film scores, each with a timed build and drop), and grow that pool when it runs thin.

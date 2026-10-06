@@ -415,7 +415,12 @@
     35.954,
     241.576
    ],
-   "vibe": "cinematic"
+   "vibe": "cinematic",
+   "impact": {
+    "jump_db": 17.9,
+    "hit_db": 22.8
+   },
+   "wow": true
   },
   {
    "id": 293,
@@ -527,7 +532,12 @@
     24.642,
     69.677
    ],
-   "vibe": "cinematic"
+   "vibe": "cinematic",
+   "impact": {
+    "jump_db": 13.4,
+    "hit_db": 16.4
+   },
+   "wow": true
   },
   {
    "id": 557,
@@ -543,7 +553,12 @@
     39.532,
     163.914
    ],
-   "vibe": "cinematic"
+   "vibe": "cinematic",
+   "impact": {
+    "jump_db": 2.5,
+    "hit_db": 22.8
+   },
+   "wow": false
   },
   {
    "id": 558,
@@ -559,7 +574,12 @@
     22.338,
     273.767
    ],
-   "vibe": "cinematic"
+   "vibe": "cinematic",
+   "impact": {
+    "jump_db": 8.0,
+    "hit_db": 12.0
+   },
+   "wow": false
   },
   {
    "id": 563,
@@ -575,7 +595,12 @@
     27.585,
     283.467
    ],
-   "vibe": "cinematic"
+   "vibe": "cinematic",
+   "impact": {
+    "jump_db": 9.7,
+    "hit_db": -0.1
+   },
+   "wow": false
   },
   {
    "id": 606,
@@ -591,7 +616,12 @@
     14.849,
     178.049
    ],
-   "vibe": "cinematic"
+   "vibe": "cinematic",
+   "impact": {
+    "jump_db": 7.5,
+    "hit_db": 8.7
+   },
+   "wow": false
   },
   {
    "id": 609,
@@ -607,7 +637,12 @@
     74.083,
     172.142
    ],
-   "vibe": "cinematic"
+   "vibe": "cinematic",
+   "impact": {
+    "jump_db": 6.5,
+    "hit_db": 0.9
+   },
+   "wow": false
   },
   {
    "id": 614,
@@ -623,7 +658,12 @@
     70.287,
     118.287
    ],
-   "vibe": "cinematic"
+   "vibe": "cinematic",
+   "impact": {
+    "jump_db": 7.3,
+    "hit_db": 1.7
+   },
+   "wow": false
   },
   {
    "id": 653,
@@ -639,7 +679,12 @@
     42.713,
     128.046
    ],
-   "vibe": "cinematic"
+   "vibe": "cinematic",
+   "impact": {
+    "jump_db": 3.9,
+    "hit_db": 14.8
+   },
+   "wow": false
   },
   {
    "id": 893,
@@ -655,7 +700,76 @@
     57.76,
     107.947
    ],
-   "vibe": "cinematic"
+   "vibe": "cinematic",
+   "impact": {
+    "jump_db": 6.7,
+    "hit_db": -0.6
+   },
+   "wow": false
+  },
+  {
+   "id": 546,
+   "name": "The Farewell",
+   "artist": "Eugenio Mininni",
+   "genre": "Film Score",
+   "mood": "drop",
+   "start": 18.75,
+   "bpm": 129.2,
+   "seconds": 104,
+   "drop": 18.75,
+   "loop": [
+    18.75,
+    93.053
+   ],
+   "vibe": "cinematic",
+   "impact": {
+    "jump_db": 16.4,
+    "hit_db": 14.4
+   },
+   "wow": true
+  },
+  {
+   "id": 542,
+   "name": "A Love Theme",
+   "artist": "Eugenio Mininni",
+   "genre": "Film Score",
+   "mood": "drop",
+   "start": 8.93,
+   "bpm": 129.2,
+   "seconds": 124,
+   "drop": 8.93,
+   "loop": [
+    8.93,
+    112.955
+   ],
+   "vibe": "cinematic",
+   "impact": {
+    "jump_db": 28.5,
+    "hit_db": 19.7
+   },
+   "wow": true
+  },
+  {
+   "id": 587,
+   "name": "Discover",
+   "artist": "Eugenio Mininni",
+   "genre": "Orchestral Pop",
+   "mood": "drop",
+   "start": 29.3,
+   "bpm": 86.1,
+   "seconds": 144,
+   "drop": 29.3,
+   "loop": [
+    29.3,
+    129.648
+   ],
+   "vibe": "cinematic",
+   "impact": {
+    "jump_db": 14.0,
+    "hit_db": 9.6
+   },
+   "wow": true
   }
- ]
+ ],
+ "_wow": "The owner's soundtrack, for every analysis and post-match video (4-6 Oct 2026): cinematic film score with a quiet build and a hard drop that keeps people wowed, like 'A New Life' (543). 'wow' tracks jump at least 12 dB at the drop with a hit of at least 9 dB in the first half second (measured; see impact). Soft-drop tracks (Silent Descent, Moon Walk, Walking Dead, Red Lights, Cinematic Jazz) are not used for these videos."
 }
