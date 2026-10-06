@@ -248,7 +248,7 @@ Rules:
 - **Never** say "sure", "banker", "guaranteed", "fixed" or "lock". Say losses plainly in results.
 - **Pace:** set `"voice_speed": 1.14` for a measured analyst pace, and `"results_when"` to match the cta ("tonight", "tomorrow").
 - **Look:** set `"style"`. Use the one the owner asks for: `stadium` (home ground photo), `broadcast` (team-colour TV graphics) or `players` (recent photos of the home team's players, which falls back to the stadium). If the owner doesn't say, rotate day to day.
-- **Names:** if a name the voice will say is Spanish, Portuguese or African, check it in `SAY_NAMES` (`video/lib/narration.mjs`) and add a respelling if needed. Test it with Kokoro and faster-whisper first.
+- **Names:** check every name the voice says against what the phonemizer does (`k.tokenizer.phonemize(name, 'en-us')`). Wrong ones go in `SAY_IPA` (`video/lib/narration.mjs`) as exact IPA with one stress mark, not as hyphenated respellings (those stress every syllable: "Doo-ay" came out doo-EYE, and the owner heard it). Test with Kokoro and faster-whisper.
 
 ## 3. Render
 

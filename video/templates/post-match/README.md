@@ -33,7 +33,9 @@ front page spins in: masthead, headline, a halftone photo clipping, the score bo
 match report types itself into two columns), `np_moment` (the minute, a torn clipping with tape and a handwritten
 arrow), `np_numbers` (stat bars in ink and blue), `np_called` (our morning read taped in, stamped CALLED IT, HALF RIGHT
 or WRONG), `np_quote`, `np_briefs` (other results, each stamped against our call), `np_table`, `np_back` (folds shut).
-Paper, typewriter, tape and stamp sounds are in `lib/sfx.json`. Listen for numbers that sound like words: "Belgium one"
+`np_timeline` (minute by minute: the line draws down, each event lands as it is spoken and the score box ticks over)
+and `np_bench` (up to three photo clippings pinned up, goal minutes handwritten under them) were added after the owner
+asked for better scenes and sequence; the report and moment pages told the same goals twice. Paper, typewriter, tape and stamp sounds are in `lib/sfx.json`. Listen for numbers that sound like words: "Belgium one"
 is heard as "Belgium won", so say "one-nil to Belgium".
 
 ## Rules that keep it monetised and legal

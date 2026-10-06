@@ -407,6 +407,30 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#03060F}
 .np_table .pts{margin-top:24px}
 .np_table .pts div{display:flex;gap:14px;margin-top:12px;font:600 30px/1.35 Manrope}
 .np_table .pts div i{flex-shrink:0;width:12px;height:12px;margin-top:14px;background:var(--spot)}
+/* how it happened: a timeline that fills minute by minute, with the score box ticking over */
+.np_timeline .hl{font-size:90px;margin-top:18px}
+.np_timeline .sbx{display:flex;align-items:center;justify-content:space-between;margin:22px 0 4px;padding:14px 24px;border:4px solid var(--ink)}
+.np_timeline .sbx .t{display:flex;align-items:center;gap:14px;font:400 40px Anton;text-transform:uppercase}
+.np_timeline .sbx .sc{font:900 104px/1 Playfair;letter-spacing:-2px}
+.np_timeline .sbx .sc i{display:inline-block;font-style:normal;min-width:62px;text-align:center}
+.np_timeline .tl{position:relative;margin-top:18px}
+.np_timeline .tl .ln{position:absolute;left:186px;top:46px;width:4px;height:calc(100% - 92px);background:var(--ink);transform-origin:50% 0}
+.np_timeline .ev{position:relative;display:flex;align-items:center;height:106px}
+.np_timeline .ev .mn{width:160px;text-align:right;font:900 58px/1 Playfair}
+.np_timeline .ev .dot{position:absolute;left:174px;top:41px;width:28px;height:28px;border-radius:50%;background:var(--paper);border:4px solid var(--ink)}
+.np_timeline .ev.goal .dot{background:var(--ink)}.np_timeline .ev.goal.home .dot{background:var(--spot);border-color:var(--spot);box-shadow:0 0 0 6px rgba(31,95,219,.18)}
+.np_timeline .ev .tx{margin-left:76px;font:700 38px/1.15 Manrope}
+.np_timeline .ev .tx em{font:400 32px Anton;font-style:normal;letter-spacing:1px;margin-right:12px;color:var(--ink)}
+.np_timeline .ev.home .tx em{color:var(--spot)}
+.np_timeline .ev.sub .tx{font:italic 700 36px PlayfairI;color:#444}
+/* the bench: the substitutes pinned up, their goal minutes handwritten under them */
+.np_bench .hl{font-size:100px;margin-top:18px}
+.np_bench .bp{position:absolute;width:284px;height:600px;transform:rotate(var(--r,0deg))}
+.np_bench .bp .clip{left:0;top:0}
+.np_bench .bp .nm{position:absolute;left:0;right:0;top:392px;text-align:center;font:400 46px/1 Anton;text-transform:uppercase}
+.np_bench .bp .on{position:absolute;left:0;right:0;top:446px;text-align:center;font:700 20px JBM;letter-spacing:3px;text-transform:uppercase;color:#555}
+.np_bench .bp .gl{position:absolute;left:-30px;right:-30px;top:478px;text-align:center;font:700 74px/1 Hand;color:var(--spot)}
+.np_bench .dk{position:absolute;left:46px;right:46px;top:1150px;padding-top:18px;border-top:2px solid var(--ink);font:italic 700 40px/1.28 PlayfairI;color:#2B2B2B}
 /* back page */
 .np_back .nx{position:absolute;left:46px;right:46px;top:420px;text-align:center}
 .np_back .nx .big{margin-top:22px;font:900 104px/1 Playfair;letter-spacing:-2px}
@@ -679,6 +703,19 @@ const built = D.scenes.map((sc, k) => {
     el.innerHTML = `<div class="sheet">${npRun(b.label || 'Elsewhere tonight')}<div class="hl">${html(b.title || 'Elsewhere')}</div>
       ${(b.items || []).map(it => { const q = D.picks[it.match], [h, a] = scoreOf(q)
         return `<div class="br"><div class="sl">${badge(q.bh)}${html(q.home)} ${h}–${a} ${html(q.away)}${badge(q.ba)}</div><div class="wh">${html(it.where || q.stage || '')}</div><div class="tx">${html(it.text || '')}</div>${it.verdict ? npStamp(it.verdict, it.stamp, 'transform:rotate(-8deg)') : ''}</div>` }).join('')}</div>`
+  } else if (sc.type === 'np_timeline') {
+    el.classList.add('np')
+    const q = D.picks[b.match ?? 0], st = String(b.start || '0–0').split(/[–-]/)
+    el.innerHTML = `<div class="sheet">${npRun(b.label || 'How it happened')}<div class="kick" style="margin-top:22px">${html(b.kicker || '')}</div><div class="hl">${html(b.title || 'How it happened')}</div>
+      <div class="sbx"><div class="t">${badge(q.bh)}${html(q.home)}</div><div class="sc"><i class="h">${st[0]}</i>–<i class="a">${st[1]}</i></div><div class="t">${html(q.away)}${badge(q.ba)}</div></div>
+      <div class="tl"><div class="ln"></div>${(b.items || []).map(it => `<div class="ev ${it.kind || ''} ${it.team || ''}"><b class="mn">${html(it.min)}</b><i class="dot"></i><span class="tx">${it.kind === 'goal' ? '<em>Goal</em>' : ''}${html(it.text)}</span></div>`).join('')}</div></div>`
+  } else if (sc.type === 'np_bench') {
+    el.classList.add('np')
+    const q = D.picks[b.match ?? 0], its = b.items || [], X = [40, 352, 664], R = [-4, 3, -2], Y = [470, 500, 460]
+    el.innerHTML = `<div class="sheet">${npRun(b.label || 'The bench')}<div class="kick" style="margin-top:22px">${html(b.kicker || '')}</div><div class="hl">${String(b.title || '').split('\n').map(html).join('<br>')}</div>
+      ${its.map((it, j) => `<div class="bp" style="left:${X[j]}px;top:${Y[j]}px;--r:${R[j]}deg">${npClip(it.photo, { x: 0, y: 0, w: 284, h: 370, r: 0, seed: 51 + j * 7, crest: q.bh })}${npTape(62, -20, R[j] * 2)}
+        <div class="nm">${html(it.name)}</div><div class="on">${html(it.on || '')}</div><div class="gl">${html(it.goals || '')}</div></div>`).join('')}
+      ${b.deck ? `<div class="dk">${html(b.deck)}</div>` : ''}</div>`
   } else if (sc.type === 'np_table') {
     el.classList.add('np')
     const t = b.table || [], me = b.highlight || [M.home, M.away]
@@ -865,6 +902,21 @@ function draw(k, lt, sc) {
       rise([$('.hl', el)], lt, 0.35, 0, 20)
       $$('.br', el).forEach((n, j) => { const at = Math.max(0.5, (S(sc, j)[0] ?? 99) - 0.15); slam(n, lt, at, 1.12, 0.28)
         const stp = $('.stamp', n); if (stp) { const sa = at + Math.max(0.9, (S(sc, j)[1] ?? 2) - 0.5); slam(stp, lt, sa, 2.2, 0.2, 'rotate(-8deg)') } })
+    } else if (sc.type === 'np_timeline') {
+      rise([$('.kick', el), $('.hl', el), $('.sbx', el)], lt, 0.35, 0.1, 20)
+      const evs = $$('.ev', el), its = b.items || [], tAt = it => (S(sc, it.line ?? 0)[0] ?? 0) + (it.at ?? 0) * (S(sc, it.line ?? 0)[1] ?? 1) - 0.1
+      let last = null
+      evs.forEach((n, j) => { const at = tAt(its[j]); if (its[j].kind === 'goal') slam(n, lt, at, 1.18, 0.26); else rise([n], lt, at, 0, 24, 0.35)
+        if (lt >= at && its[j].score) last = { at, score: its[j].score } })
+      const shown = evs.filter((_, j) => lt >= tAt(its[j])).length
+      $('.tl .ln', el).style.transform = `scaleY(${clamp(shown / Math.max(1, evs.length))})`
+      if (last) { const [h, a] = last.score.split(/[–-]/), hi = $('.sbx .h', el), ai = $('.sbx .a', el); if (hi.textContent !== h || ai.textContent !== a) { hi.textContent = h; ai.textContent = a }
+        slam($('.sbx .sc', el), lt, last.at, 1.35, 0.24); el.style.transform = shake(lt, last.at + 0.02, 10) }
+    } else if (sc.type === 'np_bench') {
+      rise([$('.kick', el), $('.hl', el)], lt, 0.35, 0.1, 20)
+      const its = b.items || [], pa = j => (its[j]?.at ?? (0.55 + j * 0.5)), ga = j => (S(sc, 1)[0] ?? 1.6) + j * Math.max(0.5, ((S(sc, 1)[1] ?? 2) - 0.4) / Math.max(1, its.length))
+      $$('.bp', el).forEach((n, j) => { slam(n, lt, pa(j), 1.25, 0.28, `rotate(${[-4, 3, -2][j]}deg)`); const g = $('.gl', n); g.style.opacity = P(lt, ga(j), ga(j) + 0.3); g.style.transform = `translate3d(0,${(1 - P(lt, ga(j), ga(j) + 0.35, E.outCubic)) * 14}px,0)` })
+      const dk = $('.dk', el); if (dk) rise([dk], lt, Math.max(2, (S(sc, sc.lines.length - 1)[0] ?? 3) - 0.1), 0, 20)
     } else if (sc.type === 'np_table') {
       rise([$('.hl', el), $('.sub', el)], lt, 0.35, 0.1, 20); rise($$('tr', el), lt, 0.6, 0.1, 18); $$('.pts div', el).forEach((n, j) => rise([n], lt, Math.max(1.2, (S(sc, j + 1)[0] ?? 1.5) - 0.1), 0, 18))
     } else if (sc.type === 'np_back') {
@@ -945,6 +997,10 @@ function fxCinematic() {
     if (sc.type === 'np_called') { add(T + 0.6, '2380', -10); add(T + 0.9, '3102', -12); const v = b.verdict || 'half', st = T + stampAt(sc); add(st, '1365', -3); add(st, '2299', -5); if (v === 'called') add(st + 0.1, '462', -12, { max: 2.6 }); else if (v === 'missed') add(st + 0.05, '2951', -10) }
     if (sc.type === 'np_quote') add(T + 0.4, '2573', -12)
     if (sc.type === 'np_briefs') (b.items || []).forEach((it, j) => { const a2 = T + Math.max(0.5, (S(sc, j)[0] ?? 0) - 0.15); add(a2, '2380', -11); if (it.verdict) add(a2 + Math.max(0.9, (S(sc, j)[1] ?? 2) - 0.5), '1365', -6) })
+    if (sc.type === 'np_timeline') (b.items || []).forEach(it => { const t = T + (S(sc, it.line ?? 0)[0] ?? 0) + (it.at ?? 0) * (S(sc, it.line ?? 0)[1] ?? 1) - 0.1
+      if (it.kind === 'goal') { add(t, '1365', -7); add(t, '2299', -9); if (it.team === 'home') add(t + 0.05, '3022', -17, { max: 1.6 }) } else add(t, '3124', -13) })
+    if (sc.type === 'np_bench') (b.items || []).forEach((it, j) => { add(T + (it.at ?? (0.55 + j * 0.5)), '3102', -12); add(T + (it.at ?? (0.55 + j * 0.5)), '2299', -11)
+      add(T + (S(sc, 1)[0] ?? 1.6) + j * Math.max(0.5, ((S(sc, 1)[1] ?? 2) - 0.4) / Math.max(1, (b.items || []).length)), '3194', -12, { max: 0.9 }) })
     if (sc.type === 'np_table') add(T + 0.6, '3124', -12)
     if (sc.type === 'np_back') { add(T + 0.65, '2909', -8); add(T + sc.dur - 0.75, '1105', -6); add(T + sc.dur - 0.15, '386', -6) }
     if (b.sticker) add(T + (b.sticker.at ?? 1.0), '3005', -9)

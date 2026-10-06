@@ -30,9 +30,20 @@ const SAY_NAMES = {
   Tielemans: 'Tee-luh-mahns', Godts: 'Gots', Sikan: 'See-kan', Trnava: 'Turn-ava',
   'Saint-Denis': 'San Deh-nee', 'Lukébakio': 'Loo-keh-bah-kee-oh', Calafiori: 'Kala-fee-oh-ree', Yaremchuk: 'Yah-rem-chook',
 }
+// exact pronunciations (IPA, as the voice's phonemizer writes it): spoken as written, one stress per name. Respellings with
+// hyphens stress every syllable ("Doo-ay" came out doo-EYE), so names the phonemizer gets wrong go here
+const SAY_IPA = {
+  Olise: 'oʊlˈiːz', Cherki: 'ʃɛɹkˈiː', Rayan: 'ɹɑːjˈɑːn', 'Doué': 'dwˈeɪ', 'Désiré': 'dˌeɪziɹˈeɪ', Zidane: 'ziːdˈɑːn',
+  'Zinédine': 'zˌiːnədˈiːn', 'Lukébakio': 'lˌuːkeɪbˈɑːkioʊ', Calafiori: 'kˌɑːləfjˈɔːɹi', Esposito: 'ɛspˈɔːzitoʊ',
+  'Gyökeres': 'jˈøːkɛɹɛʃ', 'Saint-Denis': 'sˈæn dənˈiː', Trnava: 'tˈɜːɹnəvə', 'Türkiye': 'tˈʊɹkiːjɛ', Yaremchuk: 'jˌɑːɹɛmtʃˈuːk',
+  Csinger: 'tʃˈɪŋɡɛɹ', Vandevoordt: 'vˌɑːndəvˈoːɹt',
+}
+const IPA_RE = new RegExp(`(?<!\\p{L})(${Object.keys(SAY_IPA).join('|')})(?!\\p{L})`, 'gu')
 // letter-aware edges: \b treats accented letters as non-letters, so "Doué" or "Çalhanoğlu" would never match
 const NAME_RE = new RegExp(`(?<!\\p{L})(${Object.keys(SAY_NAMES).join('|')})(?!\\p{L})`, 'gu')
-const speakNames = t => t.replace(NAME_RE, w => SAY_NAMES[w])
+const IPA_KEYS = Object.keys(SAY_IPA)
+const speakNames = t => t.replace(IPA_RE, w => `\u0000${IPA_KEYS.indexOf(w)}\u0001`).replace(NAME_RE, w => SAY_NAMES[w])
+  .replace(/\u0000(\d+)\u0001/g, (_, j) => `[${IPA_KEYS[+j]}](/${SAY_IPA[IPA_KEYS[+j]]}/)`)
 const L = (say, show = say) => ({ say: speakNames(say), show })
 
 // A written script uses digits like a person would ("at 1.57", "under 1.5 goals", "68%"); this turns them

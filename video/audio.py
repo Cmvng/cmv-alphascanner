@@ -7,6 +7,7 @@
 Voices: Kokoro (natural, free, offline: af_heart, af_bella, am_michael, bf_emma, ...) or a Piper .onnx file.
 Sound effects are synthesised here (no licences needed), or recorded Mixkit effects by id (free licence; see lib/sfx.json).
 """
+import re
 import json, os, subprocess, sys, wave
 import numpy as np
 
@@ -81,8 +82,19 @@ def speak(sentences_file, voice, out_dir, speed='1.0', models_dir='.', fx=None):
             parts = [(v.split(':')[0], float(v.split(':')[1]) if ':' in v else 1.0) for v in voice.split('+')]
             tot = sum(w for _, w in parts)
             style = sum(k.get_voice_style(v) * (w / tot) for v, w in parts)
+        # a name written [Name](/ipa/) is spoken from its phonemes exactly (the G2P guesses many names wrong:
+        # "Olise" as AH-lize, "Doué" as dow-AY); the rest of the line is phonemized as usual
+        IPA = re.compile(r'\[([^\]]+)\]\(/([^/)]+)/\)')
         def say(text):
-            a, sr = k.create(text, voice=style, speed=float(speed), lang=lang)
+            if IPA.search(text):
+                parts, pos = [], 0
+                for m in IPA.finditer(text):
+                    if text[pos:m.start()].strip(): parts.append(k.tokenizer.phonemize(text[pos:m.start()], lang).strip())
+                    parts.append(m.group(2)); pos = m.end()
+                if text[pos:].strip(): parts.append(k.tokenizer.phonemize(text[pos:], lang).strip())
+                a, sr = k.create(' '.join(x for x in parts if x), voice=style, speed=float(speed), lang=lang, is_phonemes=True)
+            else:
+                a, sr = k.create(text, voice=style, speed=float(speed), lang=lang)
             a = np.asarray(a, dtype=np.float32)
             return np.interp(np.arange(int(len(a) * SR / sr)) * sr / SR, np.arange(len(a)), a).astype(np.float32)
     for s in items:
