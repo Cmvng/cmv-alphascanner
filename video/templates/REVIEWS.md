@@ -24,7 +24,7 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
-## 6 Oct: Papertrade explainer, "The House" (2:01, plus a ~55 s cut)
+## 6 Oct: Papertrade explainer, "The House" (2:01, plus a 1:05 cut)
 
 - **Before writing:** read the last entries. I applied their "Change next time" lines:
   - a light-blue page, with Papertrade in its own cream, ink and red (from their stylesheet and favicon);
@@ -57,6 +57,11 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
      The check now counts cream and ink.
   6. **A `--say-check` run wiped the finished render** (the same trap as `--stills`, fixed this morning only for
      stills). It's fixed for both now.
+  7. **Final reviews are clean.**
+     - Full video: the colour mix is cream 44%, blue 33%, ink 17%, red 4%. The drop rises +8.5 dB. The peak is −2.8 dB.
+     - Short cut: its only flag was a false alarm ("zero dollars" heard as "$0"). The money check now skips lines that
+       say "dollars".
+     - The short cut is 1:05, a bit over TikTok's 60 s sweet spot. Next time, write it to 50–55 s.
 - **Change next time:**
   - **New CSS classes get a unique prefix** for the format (`pt-…`, `kh-…`), never a short generic name: `.vs`, `.bar`
     and `.cnt` were already taken.

@@ -66,6 +66,8 @@ def words(n):
 
 def norm(t):
     t = ''.join(c for c in unicodedata.normalize('NFKD', t) if not unicodedata.combining(c))     # Modrić -> modric
+    t = re.sub(r'(\d)\s*×', r'\1 times', t).replace('×', ' times')
+    t = re.sub(r'(\d)M\b', r'\1 million', t); t = re.sub(r'(\d)K\b', r'\1 thousand', t)
     t = t.lower().replace('’', "'").replace('%', ' percent').replace('-', ' ').replace('&', ' and ')
     t = re.sub(r'\d[\d,]*(\.\d+)?', lambda m: words(int(m.group(0).replace(',', ''))) if '.' not in m.group(0) else m.group(0), t)
     t = re.sub(r"[^a-z0-9.' ]", ' ', t).replace(' and ', ' ')
@@ -90,9 +92,11 @@ for ln in lines:
     h = heard.get(ln['id'])
     if h is None or not ln['text']: continue
     a, b = norm(ln['text']), norm(h)
+    a = [w for w in a if w not in ('a', 'dollar', 'dollars', 'one')]; b = [w for w in b if w not in ('a', 'dollar', 'dollars', 'one')]     # "$1" is heard "a dollar"
+    a = ' '.join(a).replace('paper trade', 'papertrade').split(); b = ' '.join(b).replace('paper trade', 'papertrade').split()
     r = difflib.SequenceMatcher(None, a, b).ratio()
     diff = [f"'{' '.join(a[i1:i2])}' → '{' '.join(b[j1:j2])}'" for op, i1, i2, j1, j2 in difflib.SequenceMatcher(None, a, b).get_opcodes() if op != 'equal']
-    money = '$' in h and '$' not in ln['text']
+    money = '$' in h and '$' not in ln['text'] and 'dollar' not in ln['text'].lower()     # a number heard as money that wasn't
     if r < 0.97 or money:
         mism.append((ln, h, r, diff, money))
 if mism:
