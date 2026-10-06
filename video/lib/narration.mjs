@@ -39,6 +39,7 @@ const SAY_IPA = {
   Csinger: 'tʃˈɪŋɡɛɹ', Vandevoordt: 'vˌɑːndəvˈoːɹt',
   'Modrić': 'mˈɔːdɹɪtʃ', Budimir: 'bˈuːdɪmiːɹ', 'Smolčić': 'smˈɔːltʃɪtʃ', 'Bilić': 'bˈiːlɪtʃ', Poljud: 'pˈɔːljuːd', Lamine: 'lɐmˈiːn',
   Yamal: 'jɐmˈɑːl', 'Krejčí': 'kɹˈeɪtʃiː', Czechia: 'tʃˈɛkiə', Ante: 'ˈɑːnteɪ',
+  Raufoss: 'ɹˈaʊfɔs', 'Trollhättan': 'tɹˈɔlhɛtən', 'Mjällby': 'mjˈɛlbi', 'Hložek': 'hlˈɔʒɛk', Neghiz: 'nɛɡˈiːz', Kazakhstan: 'kˌæzəkstˈæn',
 }
 const IPA_RE = new RegExp(`(?<!\\p{L})(${Object.keys(SAY_IPA).join('|')})(?!\\p{L})`, 'gu')
 // letter-aware edges: \b treats accented letters as non-letters, so "Doué" or "Çalhanoğlu" would never match
