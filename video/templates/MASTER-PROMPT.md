@@ -169,6 +169,9 @@ either pre analysis or post analysis."*
   - history;
   - our model;
   - our read in plain football words ("Our read: a Spain win, by two").
+- **A second big match gets its own by-the-numbers segment**, never a single line (the owner, 6 Oct: "you didn't even give
+  the analysis for England on who might win by the numbers"): the two sides' form side by side, key men and team news,
+  the last three meetings, our model with the likeliest score, and our read.
 - **Highlight all of the day's other matches too** (the owner, 6 Oct: "you didn't highlight the other matches for
   today"):
   - give every match on the day's slate a round-up card: teams and crests, kick-off time (Lagos), competition,
@@ -177,7 +180,8 @@ either pre analysis or post analysis."*
 - **Two lengths:**
   - the main video for X and YouTube, at most 2:20 on X unless the account has Premium;
   - a 60-second cut for Shorts, Reels and TikTok.
-  - When the round-up makes it longer, deliver a full version for YouTube and an X version that fits.
+  - When the round-up makes it longer, deliver the full version for YouTube and cut it at screen boundaries into an X thread
+    of parts, each under 2:20 (on 6 Oct: the main match 2:05, the second match 1:00, the board of eight games 1:54).
 - **A sources file** goes with every video.
 
 ### 5b. Post-match review (after full time, monetised)

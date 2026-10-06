@@ -108,6 +108,15 @@ Keep the opening to 6–7 seconds, with the story in the first sentence. Also re
 
 The script then also gets `pv_stake`, `pv_players`, `pv_tactics` and `pv_expect` lines.
 
+**Cover the whole slate (the owner, 6 Oct).** "You didn't highlight the other matches for today" and "you didn't even give the
+analysis for England on who might win by the numbers… you only dwelt on Spain". So:
+- every match on the day's slate gets a round-up card (`bp_board` + `bp_job`, or `pv_round`): teams, kick-off (Lagos),
+  competition, our model's chances and xG, two researched notes, and our read in football words;
+- a second big match (same group, or a big name) gets its own by-the-numbers segment: form side by side (`bp_vs`), key men and
+  team news, the last three meetings, our model with the likeliest score, and our read. Never one line;
+- over X's 2:20, deliver the full video for YouTube and cut it at drawing boundaries into a thread of parts, each under 2:20
+  (reference: `templates/match-analysis/vault-full-2026-10-06.json`).
+
 **Round-up of the night's other matches** (e.g. "Denmark v Portugal, plus the rest of League A"): the main match gets the full analyst treatment, then one "Around the league" screen per other match, with its stadium, crests, the app's win chances and xG, and two researched notes.
 
 ```bash
