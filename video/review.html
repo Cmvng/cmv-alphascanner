@@ -582,6 +582,199 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#03060F}
 .bp_vs .rw .bar i{display:block;height:100%}
 #cap.bpc .c{background:rgba(5,14,44,.82);padding:10px 24px 12px;border:2px solid rgba(234,242,255,.45);border-radius:6px}
 
+/* under review (vr_*, first used 6 Oct 2026): the post-match as a review room. This morning's calls go to the monitor
+   one by one: the replay scrubs to each moment, the numbers freeze, and every call is CONFIRMED or OVERTURNED. A
+   light-blue room with white monitors; every team keeps its own kit colours (`kit` on the pick), never painted blue.
+   Green, red and amber only mean called / missed / half right. Every class starts vr- (6 Oct: short names collide) */
+.vr{--vr-ink:#0B1F4D;--vr-blue:#1F5FDB;--vr-sky:#4FB3FF;--vr-mute:#5B6B8C;--vr-line:rgba(11,31,77,.12);--vr-ok:#15A34A;--vr-bad:#DC2626;--vr-half:#E08A00;--vr-wait:#8A9AB8;color:var(--vr-ink)}
+.vr .vr-room{position:absolute;inset:0;background:radial-gradient(ellipse 80% 40% at 50% 22%,rgba(255,255,255,.95),rgba(255,255,255,0) 70%),linear-gradient(180deg,#EEF6FF 0%,#DCEBFF 58%,#C6DCFF 100%)}
+.vr .vr-dots{position:absolute;inset:0;background-image:radial-gradient(rgba(31,95,219,.13) 2px,transparent 2.6px);background-size:36px 36px}
+.vr .vr-pg{position:absolute;inset:0}
+.vr .vr-top{position:absolute;left:46px;right:46px;top:96px;height:64px;display:flex;align-items:center;gap:18px;font:700 19px JBM;letter-spacing:3px;text-transform:uppercase;color:var(--vr-mute);white-space:nowrap}
+.vr .vr-rec{display:flex;align-items:center;gap:12px;padding:12px 22px;border-radius:999px;background:var(--vr-ink);color:#fff}
+.vr .vr-rec i{display:block;width:14px;height:14px;border-radius:50%;background:var(--vr-sky)}
+.vr .vr-top .vr-case{margin-left:auto;color:var(--vr-blue)}
+.vr .vr-h{position:absolute;left:46px;right:46px;top:186px;font:400 104px/1 Anton;letter-spacing:1px;text-transform:uppercase;white-space:nowrap}
+.vr .vr-h span{color:var(--vr-blue)}
+.vr .vr-k{position:absolute;left:50px;right:46px;top:300px;font:700 22px JBM;letter-spacing:4px;text-transform:uppercase;color:var(--vr-blue);white-space:nowrap}
+.vr .vr-card{position:absolute;background:#fff;border-radius:28px;box-shadow:0 26px 60px rgba(16,52,130,.18),0 0 0 2px rgba(11,31,77,.05)}
+.vr .badge{width:110px;height:110px}.vr .badge img{filter:none}
+.vr .badge.flag{box-shadow:0 0 0 4px #fff,0 10px 26px rgba(16,52,130,.28)}
+.vr .vr-sw{display:block;border-radius:6px;box-shadow:inset 0 0 0 2px rgba(11,31,77,.16)}
+.vr .vr-ico{display:inline-flex;align-items:center;justify-content:center}.vr .vr-ico svg{width:100%;height:100%}
+.vr .vr-strip{position:absolute;left:46px;right:46px;top:1704px;height:100px;display:flex;gap:8px}
+.vr .vr-slot{flex:1;position:relative;border-radius:18px;background:rgba(255,255,255,.62);box-shadow:0 0 0 2px rgba(11,31,77,.06);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px}
+.vr .vr-slot .vr-fl{display:flex}.vr .vr-slot .badge{width:38px;height:38px;margin:0 -4px}.vr .vr-slot .badge.flag{box-shadow:0 0 0 2px #fff}
+.vr .vr-slot .vr-ico{width:28px;height:28px;border-radius:50%;color:#fff;background:#C3CFE4}
+.vr .vr-slot.cur{background:#fff;box-shadow:0 0 0 4px var(--vr-blue),0 12px 26px rgba(31,95,219,.3)}
+.vr .vr-slot.ok .vr-ico{background:var(--vr-ok)}.vr .vr-slot.bad .vr-ico{background:var(--vr-bad)}.vr .vr-slot.half .vr-ico{background:var(--vr-half)}.vr .vr-slot.wait .vr-ico{background:var(--vr-wait)}
+.vr .vr-chip{display:inline-flex;align-items:center;gap:10px;padding:10px 20px 10px 12px;border-radius:999px;font:700 21px JBM;letter-spacing:3px;text-transform:uppercase;color:#fff;white-space:nowrap}
+.vr .vr-chip .vr-ico{width:30px;height:30px}
+.vr .vr-chip.ok{background:var(--vr-ok)}.vr .vr-chip.bad{background:var(--vr-bad)}.vr .vr-chip.half{background:var(--vr-half)}.vr .vr-chip.wait{background:var(--vr-wait)}
+.vr .vr-stamp{position:absolute;padding:8px 34px 4px;border:9px solid currentColor;border-radius:18px;font:400 104px/1.04 Anton;letter-spacing:4px;text-transform:uppercase;white-space:nowrap;background:rgba(255,255,255,.8);
+  -webkit-mask-image:radial-gradient(circle at 30% 40%,#000 55%,rgba(0,0,0,.8) 72%,#000 88%)}
+.vr .vr-stamp.ok{color:var(--vr-ok)}.vr .vr-stamp.bad{color:var(--vr-bad)}.vr .vr-stamp.half{color:var(--vr-half)}
+.vr .vr-ph{border-radius:50%;background-size:cover;background-position:50% 20%;box-shadow:0 0 0 6px #fff,0 12px 30px rgba(16,52,130,.3);flex-shrink:0}
+/* the cold open: playback in the dark (deep royal blue), the day's clock running, one line at a time */
+.vr_cold .vr-deep{position:absolute;inset:0;background:radial-gradient(ellipse 85% 55% at 50% 45%,#1C44A8 0%,#0B2A6F 55%,#061848 100%)}
+.vr_cold .vr-scan{position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(255,255,255,.04) 0 2px,rgba(0,0,0,0) 2px 6px)}
+.vr_cold .vr-pb{position:absolute;left:56px;top:112px;font:700 24px JBM;letter-spacing:5px;color:var(--vr-sky);text-transform:uppercase}
+.vr_cold .vr-tc{position:absolute;right:56px;top:106px;font:700 36px JBM;letter-spacing:2px;color:#fff}
+.vr_cold .vr-cbig{position:absolute;left:0;right:0;top:640px;text-align:center;font:400 200px/1 Anton;color:#fff;text-transform:uppercase;white-space:nowrap}
+.vr_cold .vr-cbig.red{color:#FF5A6A}.vr_cold .vr-cbig.sky{color:var(--vr-sky)}
+.vr_cold .vr-clab{position:absolute;left:0;right:0;top:900px;text-align:center;font:700 26px JBM;letter-spacing:6px;text-transform:uppercase;color:var(--vr-sky)}
+.vr_cold .vr-scrub{position:absolute;left:90px;right:90px;top:1270px;height:6px;border-radius:3px;background:rgba(255,255,255,.18)}
+.vr_cold .vr-scrub .vr-fillc{position:absolute;left:0;top:0;bottom:0;border-radius:3px;background:var(--vr-sky)}
+.vr_cold .vr-scrub .vr-dot{position:absolute;top:-9px;width:24px;height:24px;margin-left:-12px;border-radius:50%;background:rgba(255,255,255,.25)}
+.vr_cold .vr-scrub .vr-dot.on{background:#fff;box-shadow:0 0 16px rgba(79,179,255,.9)}
+.vr_cold .vr-scrub .vr-hd{position:absolute;top:-15px;width:36px;height:36px;margin-left:-18px;border-radius:50%;background:#fff;box-shadow:0 0 0 6px rgba(79,179,255,.45)}
+/* the title, on the drop: UNDER REVIEW, and a wall of ten monitors, one per match */
+.vr_title .vr-t1{position:absolute;left:0;right:0;top:232px;text-align:center;font:400 240px/1 Anton;letter-spacing:8px;text-transform:uppercase;white-space:nowrap}
+.vr_title .vr-t2{position:absolute;left:0;right:0;top:470px;text-align:center;font:400 240px/1 Anton;letter-spacing:8px;text-transform:uppercase;white-space:nowrap;color:var(--vr-blue)}
+.vr_title .vr-sub{position:absolute;left:0;right:0;top:752px;text-align:center;font:700 26px JBM;letter-spacing:6px;text-transform:uppercase;color:var(--vr-mute)}
+.vr_title .vr-wall{position:absolute;left:46px;right:46px;top:830px;display:grid;grid-template-columns:repeat(5,1fr);gap:16px}
+.vr_title .vr-tv{position:relative;height:250px;background:#fff;border-radius:22px;box-shadow:0 18px 40px rgba(16,52,130,.16);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px}
+.vr_title .vr-tv .vr-fl{display:flex}.vr_title .vr-tv .badge{width:66px;height:66px;margin:0 -6px}
+.vr_title .vr-tv b{font:400 46px/1 Anton;color:#B8C6DE}
+.vr_title .vr-tv small{position:absolute;left:16px;top:14px;font:700 15px JBM;letter-spacing:2px;color:var(--vr-mute)}
+.vr_title .vr-tv i{position:absolute;right:16px;top:16px;width:12px;height:12px;border-radius:50%;background:var(--vr-sky)}
+.vr_title .vr-date{position:absolute;left:0;right:0;top:1380px;text-align:center}
+.vr_title .vr-date span{display:inline-block;padding:14px 28px;border-radius:999px;background:var(--vr-ink);color:#fff;font:700 22px JBM;letter-spacing:4px;text-transform:uppercase}
+/* the replay: a monitor with the scoreboard and the moment, a scrub bar coloured by who led, the log underneath */
+.vr_replay .vr-mon{left:46px;right:46px;top:186px;height:600px;overflow:hidden}
+.vr_replay .vr-lbl{position:absolute;left:30px;top:28px;font:700 19px JBM;letter-spacing:3px;text-transform:uppercase;color:var(--vr-mute);white-space:nowrap}
+.vr_replay .vr-lbl i{display:inline-block;width:0;height:0;border-left:16px solid var(--vr-blue);border-top:10px solid transparent;border-bottom:10px solid transparent;margin-right:12px;vertical-align:-2px}
+.vr_replay .vr-min{position:absolute;right:30px;top:16px;font:400 56px/1 Anton;color:var(--vr-blue)}
+.vr_replay .vr-side{position:absolute;top:98px;width:290px;display:flex;flex-direction:column;align-items:center;text-align:center}
+.vr_replay .vr-side .badge{width:150px;height:150px}
+.vr_replay .vr-side b{margin-top:18px;font:400 48px/1 Anton;text-transform:uppercase;white-space:nowrap}
+.vr_replay .vr-sc{position:absolute;left:290px;right:290px;top:96px;display:flex;justify-content:center;align-items:flex-start;gap:12px;font:400 210px/1 Anton}
+.vr_replay .vr-sc .vr-d{position:relative;width:126px;text-align:center}
+.vr_replay .vr-sc .vr-d .vr-sw{position:absolute;left:14px;right:14px;top:226px;height:18px}
+.vr_replay .vr-sc .vr-dash{color:#B8C6DE;width:60px;text-align:center}
+.vr_replay .vr-now{position:absolute;left:28px;right:28px;bottom:26px;height:124px;border-radius:22px;background:#EEF4FF;display:flex;align-items:center;gap:22px;padding:0 28px 0 0;overflow:hidden}
+.vr_replay .vr-now .vr-edge{align-self:stretch;width:20px}
+.vr_replay .vr-now .vr-ic{font-size:60px;line-height:1}
+.vr_replay .vr-now b{font:400 66px/1 Anton;text-transform:uppercase;white-space:nowrap}
+.vr_replay .vr-now span{margin-left:auto;font:700 22px JBM;letter-spacing:3px;text-transform:uppercase;color:var(--vr-mute);white-space:nowrap}
+.vr_replay .vr-track{position:absolute;left:76px;right:76px;top:876px;height:22px;border-radius:11px;background:rgba(11,31,77,.1)}
+.vr_replay .vr-seg{position:absolute;top:0;bottom:0;border-radius:4px}
+.vr_replay .vr-head{position:absolute;top:-12px;width:46px;height:46px;margin-left:-23px;border-radius:50%;background:#fff;box-shadow:0 0 0 6px var(--vr-blue),0 8px 20px rgba(31,95,219,.4)}
+.vr_replay .vr-mk{position:absolute;top:-66px;width:60px;margin-left:-30px;text-align:center;font-size:42px;line-height:1}
+.vr_replay .vr-tl{position:absolute;top:920px;font:700 18px JBM;letter-spacing:2px;color:var(--vr-mute)}
+.vr_replay .vr-evs{position:absolute;left:46px;right:46px;top:964px}
+.vr_replay .vr-ev{display:flex;align-items:center;gap:20px;height:90px;margin-bottom:10px;padding:0 24px 0 0;border-radius:20px;background:rgba(255,255,255,.9);overflow:hidden;box-shadow:0 8px 20px rgba(16,52,130,.08)}
+.vr_replay .vr-ev .vr-edge{align-self:stretch;width:16px}
+.vr_replay .vr-ev .badge{width:54px;height:54px}
+.vr_replay .vr-ev em{font:400 48px/1 Anton;font-style:normal;width:108px}
+.vr_replay .vr-ev .vr-tx{font:800 34px/1.15 Manrope;white-space:nowrap}
+.vr_replay .vr-ev .vr-ic{margin-left:auto;font-size:42px;line-height:1}
+/* freeze frame: the full-time numbers as split bars in the two kits, the row that hurts outlined */
+.vr_stat .vr-pz{display:inline-block;width:64px;height:76px;margin-right:22px;vertical-align:-4px;background:linear-gradient(90deg,var(--vr-blue) 0 36%,transparent 36% 64%,var(--vr-blue) 64%)}
+.vr_stat .vr-heads{position:absolute;left:46px;right:46px;top:364px;display:flex;justify-content:space-between;align-items:center}
+.vr_stat .vr-heads div{display:flex;align-items:center;gap:18px;font:400 52px Anton;text-transform:uppercase}
+.vr_stat .vr-heads .badge{width:86px;height:86px}
+.vr_stat .vr-rows{position:absolute;left:46px;right:46px;top:478px}
+.vr_stat .vr-rw{position:relative;padding:14px 26px 18px;margin-bottom:12px;border-radius:24px;background:rgba(255,255,255,.78)}
+.vr_stat .vr-rw.hot.lit{background:#fff;box-shadow:0 0 0 5px var(--vr-half),0 18px 40px rgba(224,138,0,.22)}
+.vr_stat .vr-rw .vr-kk{text-align:center;font:700 22px JBM;letter-spacing:4px;text-transform:uppercase;color:var(--vr-mute)}
+.vr_stat .vr-rw .vr-vv{display:flex;align-items:center;gap:22px;margin-top:6px}
+.vr_stat .vr-rw .vr-v{width:150px;font:400 78px/1 Anton}.vr_stat .vr-rw .vr-v.r{text-align:right}
+.vr_stat .vr-rw .vr-bar{flex:1;display:flex;gap:6px;height:34px}
+.vr_stat .vr-rw .vr-bar i{display:block;height:100%;border-radius:8px;box-shadow:inset 0 0 0 2px rgba(11,31,77,.15)}
+.vr_stat .vr-rw .vr-nt{opacity:0;position:absolute;right:24px;top:14px;font:700 18px JBM;letter-spacing:2px;text-transform:uppercase;color:var(--vr-half)}
+.vr_stat .vr-call{left:46px;right:46px;top:1120px;height:300px;display:flex;align-items:center;gap:34px;padding:0 40px}
+.vr_stat .vr-call .vr-ph{width:200px;height:200px}
+.vr_stat .vr-call .vr-cx{flex:1}
+.vr_stat .vr-call .vr-cx small{display:block;font:700 20px JBM;letter-spacing:4px;text-transform:uppercase;color:var(--vr-blue)}
+.vr_stat .vr-call .vr-cx b{display:block;margin-top:10px;font:400 64px/1 Anton;text-transform:uppercase}
+.vr_stat .vr-call .vr-cx p{margin-top:12px;font:700 34px/1.25 Manrope;color:var(--vr-mute)}
+/* the call: what we said at 07:15, the score, each part checked, then the stamp */
+.vr_call .vr-our{left:46px;right:46px;top:350px;height:300px;padding:28px 36px}
+.vr_call .vr-our .vr-lb{font:700 20px JBM;letter-spacing:4px;text-transform:uppercase;color:var(--vr-blue)}
+.vr_call .vr-our .vr-rd{margin-top:12px;font:400 84px/1 Anton;text-transform:uppercase;white-space:nowrap}
+.vr_call .vr-our .vr-tri{display:flex;gap:6px;height:30px;margin-top:28px}
+.vr_call .vr-our .vr-tri i{display:block;height:100%;border-radius:8px;box-shadow:inset 0 0 0 2px rgba(11,31,77,.15);transform-origin:0 50%}
+.vr_call .vr-our .vr-lab{display:flex;justify-content:space-between;margin-top:12px;font:700 19px JBM;letter-spacing:2px;color:var(--vr-mute);text-transform:uppercase}
+.vr_call .vr-res{position:absolute;left:46px;right:46px;top:676px;height:160px;display:flex;align-items:center;justify-content:center;gap:24px}
+.vr_call .vr-res .badge{width:100px;height:100px}
+.vr_call .vr-res b{font:400 54px Anton;text-transform:uppercase}
+.vr_call .vr-res em{font:400 150px/1 Anton;font-style:normal;margin:0 12px}
+.vr_call .vr-res small{position:absolute;left:0;right:0;top:-26px;text-align:center;font:700 19px JBM;letter-spacing:4px;color:var(--vr-mute)}
+.vr_call .vr-checks{position:absolute;left:46px;right:46px;top:866px}
+.vr_call .vr-ck{display:flex;align-items:center;gap:24px;height:110px;margin-bottom:12px;padding:0 24px;border-radius:24px;background:rgba(255,255,255,.88)}
+.vr_call .vr-ck>.vr-ico{width:72px;height:72px;border-radius:50%;flex-shrink:0;color:#fff;background:#C3CFE4;padding:12px}
+.vr_call .vr-ck.ok>.vr-ico{background:var(--vr-ok)}.vr_call .vr-ck.bad>.vr-ico{background:var(--vr-bad)}
+.vr_call .vr-ck .vr-t b{display:block;font:800 40px/1.1 Manrope;white-space:nowrap}
+.vr_call .vr-ck .vr-t span{display:block;margin-top:4px;font:600 26px/1.2 Manrope;color:var(--vr-mute);white-space:nowrap}
+.vr_call .vr-ck .vr-chip{margin-left:auto}
+.vr_call .vr-stamp{left:540px;top:1262px}
+/* in their words */
+.vr_quote .vr-qc{left:46px;right:46px;top:350px;height:800px;padding:150px 60px 40px}
+.vr_quote .vr-qm{position:absolute;left:46px;top:6px;font:400 300px/1 Anton}
+.vr_quote .vr-q{font:800 56px/1.3 Manrope}
+.vr_quote .vr-orig{margin-top:30px;font:italic 700 32px/1.35 PlayfairI;color:var(--vr-mute)}
+.vr_quote .vr-by{position:absolute;left:46px;right:46px;top:1186px;height:240px;display:flex;align-items:center;gap:30px}
+.vr_quote .vr-by .vr-ph{width:190px;height:190px}
+.vr_quote .vr-by b{display:block;font:400 62px/1 Anton;text-transform:uppercase}
+.vr_quote .vr-by span{display:block;margin-top:10px;font:700 22px JBM;letter-spacing:3px;text-transform:uppercase;color:var(--vr-blue)}
+/* the table, with the quarter-final line */
+.vr_table .vr-tb{left:46px;right:46px;top:350px;padding:16px 30px 10px}
+.vr_table .vr-hd{display:flex;justify-content:flex-end;gap:0;height:40px;font:700 18px JBM;letter-spacing:3px;color:var(--vr-mute)}
+.vr_table .vr-hd span{width:110px;text-align:right}
+.vr_table .vr-tr{display:flex;align-items:center;gap:22px;height:116px;border-top:2px solid var(--vr-line)}
+.vr_table .vr-tr.cut{border-bottom:4px dashed var(--vr-blue)}
+.vr_table .vr-tr .vr-n{width:44px;font:400 56px Anton;color:var(--vr-blue)}
+.vr_table .vr-tr .vr-sw{width:14px;height:74px}
+.vr_table .vr-tr .badge{width:70px;height:70px}
+.vr_table .vr-tr .vr-nm{flex:1;font:800 46px Manrope}
+.vr_table .vr-tr .vr-p{width:110px;text-align:right;font:700 32px JBM;color:var(--vr-mute)}
+.vr_table .vr-tr .vr-pts{width:110px;text-align:right;font:400 64px Anton}
+.vr_table .vr-tr.me{background:linear-gradient(90deg,rgba(31,95,219,.08),rgba(31,95,219,0))}
+.vr_table .vr-notes{position:absolute;left:46px;right:46px;top:940px}
+.vr_table .vr-nt{display:flex;align-items:center;gap:20px;margin-bottom:16px;padding:22px 26px;border-radius:22px;background:rgba(255,255,255,.88);font:800 34px/1.25 Manrope}
+.vr_table .vr-nt i{font:700 19px JBM;font-style:normal;letter-spacing:3px;text-transform:uppercase;color:#fff;background:var(--vr-blue);padding:8px 14px;border-radius:10px;flex-shrink:0;white-space:nowrap}
+/* the other games: one small monitor each, the read underneath, a verdict chip */
+.vr_board .vr-bd{left:46px;right:46px;height:250px;overflow:hidden}
+.vr_board .vr-bd .vr-edge{position:absolute;top:0;bottom:0;width:14px}
+.vr_board .vr-bd .vr-cp{position:absolute;left:34px;top:18px;font:700 17px JBM;letter-spacing:3px;text-transform:uppercase;color:var(--vr-mute);white-space:nowrap}
+.vr_board .vr-bd .vr-tm{position:absolute;top:50px;height:100px;display:flex;align-items:center;gap:16px;width:330px}
+.vr_board .vr-bd .vr-tm.h{left:34px}.vr_board .vr-bd .vr-tm.a{right:34px;flex-direction:row-reverse;text-align:right}
+.vr_board .vr-bd .vr-tm .badge{width:80px;height:80px;flex-shrink:0}
+.vr_board .vr-bd .vr-tm b{font:400 40px/1.02 Anton;text-transform:uppercase}
+.vr_board .vr-bd .vr-sc{position:absolute;left:0;right:0;top:46px;display:flex;justify-content:center;gap:8px;font:400 100px/1 Anton}
+.vr_board .vr-bd .vr-sc .vr-d{position:relative;width:64px;text-align:center}
+.vr_board .vr-bd .vr-sc .vr-d .vr-sw{position:absolute;left:8px;right:8px;top:106px;height:10px}
+.vr_board .vr-bd .vr-sc .vr-dash{color:#B8C6DE;width:40px;text-align:center}
+.vr_board .vr-bd .vr-rd{position:absolute;left:34px;right:330px;top:186px;display:flex;align-items:baseline;gap:14px;white-space:nowrap}
+.vr_board .vr-bd .vr-rd small{font:700 17px JBM;letter-spacing:3px;color:var(--vr-blue);text-transform:uppercase}
+.vr_board .vr-bd .vr-rd span{font:800 31px Manrope}
+.vr_board .vr-bd .vr-chip{position:absolute;right:30px;top:176px}
+/* the tally */
+.vr_tally .vr-big{position:absolute;left:0;right:0;top:340px;text-align:center;font:400 330px/1 Anton;white-space:nowrap}
+.vr_tally .vr-big small{font-size:150px;color:var(--vr-mute)}
+.vr_tally .vr-of{position:absolute;left:0;right:0;top:700px;text-align:center;font:700 26px JBM;letter-spacing:6px;text-transform:uppercase;color:var(--vr-blue)}
+.vr_tally .vr-three{position:absolute;left:46px;right:46px;top:800px;display:flex;gap:18px}
+.vr_tally .vr-three>div{position:relative;flex:1;height:270px;border-radius:26px;background:#fff;box-shadow:0 18px 40px rgba(16,52,130,.14);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px}
+.vr_tally .vr-three>div>.vr-ico{width:64px;height:64px;border-radius:50%;color:#fff;padding:10px}
+.vr_tally .vr-three b{font:400 120px/1 Anton}
+.vr_tally .vr-three span{font:700 19px JBM;letter-spacing:3px;text-transform:uppercase;color:var(--vr-mute)}
+.vr_tally .vr-three .ok>.vr-ico{background:var(--vr-ok)}.vr_tally .vr-three .half>.vr-ico{background:var(--vr-half)}.vr_tally .vr-three .bad>.vr-ico{background:var(--vr-bad)}.vr_tally .vr-three .wait>.vr-ico{background:var(--vr-wait)}
+.vr_tally .vr-line{position:absolute;left:46px;right:46px;top:1110px;padding:28px 34px;border-radius:24px;background:rgba(255,255,255,.88);font:800 38px/1.3 Manrope}
+/* the end: the monitor switches off */
+.vr_end .vr-off{left:46px;right:46px;top:330px;height:760px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;overflow:hidden}
+.vr_end .vr-off .vr-e1{font:400 120px/1 Anton;text-transform:uppercase}
+.vr_end .vr-off .vr-e2{margin-top:10px;font:400 120px/1 Anton;text-transform:uppercase;color:var(--vr-blue)}
+.vr_end .vr-off .vr-e3{margin-top:46px;padding:16px 30px;border-radius:999px;background:var(--vr-ink);color:#fff;font:700 24px JBM;letter-spacing:4px;text-transform:uppercase}
+.vr_end .vr-off .vr-e4{margin-top:22px;font:700 22px JBM;letter-spacing:5px;text-transform:uppercase;color:var(--vr-mute)}
+.vr_end .vr-nx{position:absolute;left:46px;right:46px;top:1130px;display:flex;flex-direction:column;gap:14px}
+.vr_end .vr-nx>div{display:flex;align-items:center;gap:18px;padding:18px 26px;border-radius:22px;background:rgba(255,255,255,.88);font:800 34px Manrope}
+.vr_end .vr-nx>div>i{font:700 18px JBM;font-style:normal;letter-spacing:3px;color:var(--vr-blue);text-transform:uppercase;white-space:nowrap}
+.vr_end .vr-nx .badge{width:56px;height:56px}
+.vr_end .vr-beam{position:absolute;left:46px;right:46px;top:700px;height:6px;background:#fff;box-shadow:0 0 30px 10px rgba(79,179,255,.8);opacity:0}
+#cap.vrc{right:70px}
+#cap.vrc .c{color:#fff;background:rgba(11,31,77,.9);padding:10px 26px 12px;border-radius:16px;text-shadow:none}
+#stage.vrl #credit{color:rgba(11,31,77,.5)}#stage.vrl #foot{color:rgba(11,31,77,.55)}
 /* stickers and emoji bursts */
 #fxl{position:absolute;inset:0;z-index:40;pointer-events:none;overflow:hidden}
 .stk{position:absolute;font-size:240px;line-height:1;filter:drop-shadow(0 20px 40px rgba(0,0,0,.55))}
@@ -728,7 +921,57 @@ function plot(root, lt, a0, a1) {
 // handwriting: the note appears left to right, as if written
 function writeOn(n, lt, at, dur = 0.7) { if (!n) return; const q = P(lt, at, at + dur, E.inOutSine); n.style.opacity = lt >= at ? 1 : 0; n.style.clipPath = `inset(-30px ${(1 - q) * 100}% -30px -20px)` }
 
+// ---- under review (vr_*): the review room. Each team in its own kit (pick.kit.{home,away}: {c, bg, ink}), else its crest colour
+const VRN = D.picks.length
+const vrInk = c => { const x = rgb(c); return x && 0.299 * x[0] + 0.587 * x[1] + 0.114 * x[2] > 170 ? '#0B1F4D' : '#FFFFFF' }
+function vrKit(q, side) {
+  const k = q?.kit?.[side] || {}, bd = side === 'away' ? q?.ba : q?.bh, c = k.c || bd?.colour || (side === 'away' ? '#6E9BFF' : '#1F5FDB')
+  return { c, bg: k.bg || c, ink: k.ink || vrInk(c) }
+}
+const vrSw = (kt, st = '') => `<i class="vr-sw" style="background:${kt.bg};${st}"></i>`
+const vrName = (q, side) => side === 'away' ? q.away_short || q.away : q.home_short || q.home
+const VR_ICO = {
+  ok: '<svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  bad: '<svg viewBox="0 0 24 24"><path d="M6.5 6.5l11 11M17.5 6.5l-11 11" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round"/></svg>',
+  half: '<svg viewBox="0 0 24 24"><text x="12" y="18" text-anchor="middle" font-family="Manrope" font-weight="800" font-size="17" fill="currentColor">½</text></svg>',
+  wait: '<svg viewBox="0 0 24 24"><circle cx="6" cy="12" r="2.2" fill="currentColor"/><circle cx="12" cy="12" r="2.2" fill="currentColor"/><circle cx="18" cy="12" r="2.2" fill="currentColor"/></svg>',
+}
+const vrCls = v => ({ called: 'ok', missed: 'bad', half: 'half', later: 'wait' })[v] || 'wait'
+const vrWord = v => ({ called: 'Called it', missed: 'Missed', half: 'Half right', later: 'Later tonight' })[v] || ''
+const vrIco = (v, cls = '') => `<span class="vr-ico ${cls}">${VR_ICO[vrCls(v)]}</span>`
+function vrTop(b) {
+  const rv = D.cfg.review || {}, m = b.cases || (b.match != null ? [b.match] : null), z = x => String(x).padStart(2, '0')
+  const cs = m ? `Case ${m.length > 1 ? z(m[0] + 1) + '–' + z(m.at(-1) + 1) : z(m[0] + 1)} / ${z(VRN)}` : (b.case || '')
+  return `<div class="vr-top"><span class="vr-rec"><i></i>${html(rv.project || 'Under review')}</span><span>${html(b.top || '')}</span><span class="vr-case">${html(cs)}</span></div>`
+}
+const vrHead = (b, title, kick) => `<div class="vr-h">${html(b.title ?? title)}</div>${(b.kicker ?? kick) ? `<div class="vr-k">${html(b.kicker ?? kick)}</div>` : ''}`
+const vrStrip = () => `<div class="vr-strip">${D.picks.map((q, j) => `<div class="vr-slot" data-j="${j}"><div class="vr-fl">${badge(q.bh)}${badge(q.ba)}</div>${vrIco('later')}</div>`).join('')}</div>`
+const vrPage = (inner, strip = true) => `<div class="vr-room"></div><div class="vr-dots"></div><div class="vr-pg">${inner}</div>${strip ? vrStrip() : ''}`
+// when each call's verdict lands (global seconds): on its call screen, or on its line of the board
+const vrT = (sc, line, at) => (S(sc, line)[0] ?? 0) + (at ?? 0) * (S(sc, line)[1] ?? 1)
+const vrStampAt = sc => sc.data?.stamp_at ?? Math.max(1.4, (S(sc, sc.lines.length - 1)[0] ?? 2) - 0.08)
+const vrItemAt = (sc, it, j) => vrT(sc, it.line ?? j, 0) - 0.12
+const vrItemStamp = (sc, it, j) => it.stamp_at != null ? vrT(sc, it.line ?? j, it.stamp_at) : vrT(sc, it.line ?? j, 0.92) - 0.25
+const vrResAt = sc => sc.data?.result_at ? vrT(sc, ...sc.data.result_at) : (S(sc, Math.min(1, sc.lines.length - 1))[0] ?? 1.5) - 0.1
+const vrCheckAt = (sc, c, j) => c.line != null ? vrT(sc, c.line, c.at ?? 0.1) : vrResAt(sc) + 0.6 + j * 0.6
+const vrCountAt = sc => sc.data?.count_at ? vrT(sc, ...sc.data.count_at) : (S(sc, 0)[0] ?? 0.5) + 0.2
+const VRV = {}
+D.scenes.forEach(sc => {
+  const b = sc.data || {}
+  if (sc.type === 'vr_call' && b.match != null) VRV[b.match] = { v: b.verdict || 'half', t: sc.start + vrStampAt(sc) }
+  if (sc.type === 'vr_board') (b.items || []).forEach((it, j) => { VRV[it.match] = { v: it.verdict || 'later', t: sc.start + vrItemStamp(sc, it, j) } })
+})
+// the replay: the score after each event, and the scrub bar's stretches coloured by who was ahead
+function vrStates(q, items, END) {
+  let s = [0, 0]; const pts = [{ min: 0, s: [0, 0] }]
+  items.forEach(it => { if (it.score) s = it.score; else if (it.kind === 'goal' || it.kind === 'og') s = it.team === 'away' ? [s[0], s[1] + 1] : [s[0] + 1, s[1]]; it._s = [...s]; pts.push({ min: it.min, s: [...s] }) })
+  return pts.map((p, j) => ({ a: p.min, b: pts[j + 1]?.min ?? END, s: p.s }))
+}
+
 function mkBg(sc, k) {
+  if (/^vr_/.test(sc.type)) {        // the review room draws its own page; deep royal blue under the cold open
+    const d = document.createElement('div'); d.className = 'bg none'; d.style.background = sc.type === 'vr_cold' ? '#0B2A6F' : '#DCEBFF'; d.style.filter = 'none'; $('#bgs').appendChild(d); return d
+  }
   if (/^bp_/.test(sc.type)) {        // the blueprint covers the whole frame
     const d = document.createElement('div'); d.className = 'bg none'; d.style.background = '#040A1C'; $('#bgs').appendChild(d); return d
   }
@@ -1050,6 +1293,70 @@ const built = D.scenes.map((sc, k) => {
       el.innerHTML = bpPage(`${bpTB(sc, b.label || 'The verdict')}<div class="card2"><div class="k">${html(b.kicker || 'Our read')}</div><div class="v">${html(b.read || '')}</div></div>${vaultSvg(540, 735, 200)}
         <div class="q">${html(b.q1 || '')} <span>${html(b.q2 || '')}</span></div><div class="fol"><span class="chipb">${html(b.follow || 'Follow for the post-match')}</span><div class="lab sk" style="position:relative;margin-top:22px">Football, by the numbers</div></div>`)
     }
+  } else if (/^vr_/.test(sc.type)) {
+    el.classList.add('vr')
+    const q = D.picks[b.match ?? 0] || M, kh = vrKit(q, 'home'), ka = vrKit(q, 'away')
+    if (sc.type === 'vr_cold') {
+      const dots = D.picks.map((_, j) => `<i class="vr-dot" style="left:${n1(100 * (j + 0.5) / VRN)}%"></i>`).join('')
+      el.innerHTML = `<div class="vr-deep"></div><div class="vr-scan"></div><div class="vr-pb">◀◀ ${html(b.tag || 'Playback')}</div><div class="vr-tc"></div>
+        <div class="vr-cbig"></div><div class="vr-clab"></div><div class="vr-scrub"><i class="vr-fillc"></i>${dots}<i class="vr-hd"></i></div>`
+    } else if (sc.type === 'vr_title') {
+      const tvs = D.picks.map((p, j) => `<div class="vr-tv"><small>${String(j + 1).padStart(2, '0')}</small><i></i><div class="vr-fl">${badge(p.bh)}${badge(p.ba)}</div><b>? – ?</b></div>`).join('')
+      el.innerHTML = vrPage(`${vrTop(b)}<div class="vr-t1">${html(b.l1 || 'Under')}</div><div class="vr-t2">${html(b.l2 || 'Review')}</div><div class="vr-sub">${html(b.sub || '')}</div>
+        <div class="vr-wall">${tvs}</div><div class="vr-date"><span>${html(b.date || '')}</span></div>`, false)
+    } else if (sc.type === 'vr_replay') {
+      const its = b.items || [], END = b.end_min ?? 95, xp = m => n1(100 * Math.min(m, END) / END), segs = vrStates(q, its, END)
+      const lead = s => s[0] > s[1] ? kh.bg : s[1] > s[0] ? ka.bg : '#A9BCDD'
+      const ico = it => ({ goal: '⚽', og: '⚽', red: '🟥', yellow: '🟨', sub: '🔁', save: '🧤', miss: '❌' })[it.kind] || '•'
+      const tm = it => it.team === 'away' ? ka : kh, bd = it => it.team === 'away' ? q.ba : q.bh
+      el.innerHTML = vrPage(`${vrTop(b)}<div class="vr-card vr-mon"><div class="vr-lbl"><i></i>${html(b.label || 'Replay')}</div><div class="vr-min">0'</div>
+          <div class="vr-side" style="left:0">${badge(q.bh)}<b>${html(vrName(q, 'home'))}</b></div><div class="vr-side" style="right:0">${badge(q.ba)}<b>${html(vrName(q, 'away'))}</b></div>
+          <div class="vr-sc"><div class="vr-d"><span>0</span>${vrSw(kh)}</div><div class="vr-dash">–</div><div class="vr-d"><span>0</span>${vrSw(ka)}</div></div>
+          <div class="vr-now"><i class="vr-edge"></i><span class="vr-ic emo"></span><b></b><span></span></div></div>
+        <div class="vr-track">${segs.map(g => `<i class="vr-seg" data-a="${g.a}" data-b="${g.b}" style="left:${xp(g.a)}%;width:0;background:${lead(g.s)}"></i>`).join('')}
+          ${its.map(it => `<i class="vr-mk emo" style="left:${xp(it.min)}%">${ico(it)}</i>`).join('')}<i class="vr-head" style="left:0"></i></div>
+        ${[[0, "0'"], [45, 'HT'], [90, "90'"]].map(([m, t]) => `<div class="vr-tl" style="left:${n1(76 + 928 * m / END - 20)}px">${t}</div>`).join('')}
+        <div class="vr-evs">${its.map(it => `<div class="vr-ev"><i class="vr-edge" style="background:${tm(it).bg}"></i>${badge(bd(it))}<em style="color:${tm(it).c === '#FFFFFF' ? '#0B1F4D' : tm(it).c}">${html(it.min_label || it.min + "'")}</em><span class="vr-tx">${html(it.text || '')}</span><span class="vr-ic emo">${ico(it)}</span></div>`).join('')}</div>`)
+      sc.vr = { its, END, ico, tm }
+    } else if (sc.type === 'vr_stat') {
+      const rows = b.rows || [], ph = b.photo
+      el.innerHTML = vrPage(`${vrTop(b)}<div class="vr-h"><i class="vr-pz"></i>${html(b.title ?? 'Freeze frame')}</div>${b.kicker ? `<div class="vr-k">${html(b.kicker)}</div>` : ''}
+        <div class="vr-heads"><div>${badge(q.bh)}${html(vrName(q, 'home'))}</div><div>${html(vrName(q, 'away'))}${badge(q.ba)}</div></div>
+        <div class="vr-rows">${rows.map(r => { const x = parseFloat(r[1]), y = parseFloat(r[2]), t = (x + y) || 1
+          return `<div class="vr-rw ${r[5] ? 'hot' : ''}"><div class="vr-kk">${html(r[0])}</div>${r[6] ? `<div class="vr-nt">${html(r[6])}</div>` : ''}<div class="vr-vv"><div class="vr-v">${html(r[1])}</div><div class="vr-bar"><i data-w="${n1(100 * x / t)}" style="background:${kh.bg}"></i><i data-w="${n1(100 * y / t)}" style="background:${ka.bg}"></i></div><div class="vr-v r">${html(r[2])}</div></div></div>` }).join('')}</div>
+        ${b.callout ? `<div class="vr-card vr-call">${ph ? `<div class="vr-ph" style="background-image:url('${ph.src}')"></div>` : badge(b.callout.team === 'home' ? q.bh : q.ba)}<div class="vr-cx"><small>${html(b.callout.kicker || '')}</small><b>${html(b.callout.name || '')}</b><p>${html(b.callout.text || '')}</p></div></div>` : ''}`)
+    } else if (sc.type === 'vr_call') {
+      const m = b.model || [q.home_win, q.draw, q.away_win], fs = b.score || [q.score_home, q.score_away]
+      el.innerHTML = vrPage(`${vrTop(b)}${vrHead(b, 'The call', '')}
+        <div class="vr-card vr-our"><div class="vr-lb">${html(b.our_label || 'Our call · 07:15')}</div><div class="vr-rd">${html(b.read || '')}</div>
+          <div class="vr-tri">${m.map((v, j) => `<i style="width:${v}%;background:${[kh.bg, '#C9D5EA', ka.bg][j]}"></i>`).join('')}</div>
+          <div class="vr-lab"><span>${html(vrName(q, 'home'))} ${Math.round(m[0])}%</span><span>Draw ${Math.round(m[1])}%</span><span>${html(vrName(q, 'away'))} ${Math.round(m[2])}%</span></div></div>
+        <div class="vr-res"><small>${html(b.ft_label || 'Full time')}</small>${badge(q.bh)}<b>${html(vrName(q, 'home'))}</b><em>${fs[0]}–${fs[1]}</em><b>${html(vrName(q, 'away'))}</b>${badge(q.ba)}</div>
+        <div class="vr-checks">${(b.checks || []).map(c => `<div class="vr-ck"><span class="vr-ico">${VR_ICO[c.ok ? 'ok' : 'bad']}</span><div class="vr-t"><b>${html(c.label)}</b>${c.note ? `<span>${html(c.note)}</span>` : ''}</div><span class="vr-chip ${c.ok ? 'ok' : 'bad'}">${c.ok ? 'Confirmed' : 'Overturned'}</span></div>`).join('')}</div>
+        <div class="vr-stamp ${vrCls(b.verdict)}">${html(b.stamp || vrWord(b.verdict))}</div>`)
+    } else if (sc.type === 'vr_quote') {
+      const kt = b.team === 'away' ? ka : kh, ph = b.photo
+      el.innerHTML = vrPage(`${vrTop(b)}${vrHead(b, 'In their words', '')}<div class="vr-card vr-qc"><div class="vr-qm" style="color:${kt.c === '#FFFFFF' ? '#0B1F4D' : kt.c}">“</div><div class="vr-q">${html(b.quote || '')}</div>${b.original ? `<div class="vr-orig">${html(b.original)}</div>` : ''}</div>
+        <div class="vr-by">${ph ? `<div class="vr-ph" style="background-image:url('${ph.src}')"></div>` : badge(b.team === 'away' ? q.ba : q.bh)}<div><b>${html(b.who || '')}</b><span>${html(b.role || '')}</span></div></div>`)
+    } else if (sc.type === 'vr_table') {
+      const t = b.table || [], me = b.highlight || [], kitOf = name => { const pk = D.picks.find(x => x.home === name || x.away === name); return pk ? [vrKit(pk, pk.home === name ? 'home' : 'away'), pk.home === name ? pk.bh : pk.ba] : [{ bg: '#C9D5EA' }, null] }
+      el.innerHTML = vrPage(`${vrTop(b)}${vrHead(b, 'The table', '')}<div class="vr-card vr-tb"><div class="vr-hd"><span>P</span><span>Pts</span></div>${t.map((r, j) => { const [kt, bd] = kitOf(r[0])
+          return `<div class="vr-tr ${me.includes(r[0]) ? 'me' : ''} ${j === (b.cut ?? 2) - 1 ? 'cut' : ''}"><div class="vr-n">${j + 1}</div>${vrSw(kt)}${bd ? badge(bd) : ''}<div class="vr-nm">${html(r[0])}</div><div class="vr-p">${r[1]}</div><div class="vr-pts">${r[2]}</div></div>` }).join('')}</div>
+        <div class="vr-notes">${(b.rows || []).map(r => `<div class="vr-nt"><i>${html(r[0])}</i><span>${html(r[1])}</span></div>`).join('')}</div>`)
+    } else if (sc.type === 'vr_board') {
+      el.innerHTML = vrPage(`${vrTop({ ...b, cases: (b.items || []).map(it => it.match) })}${vrHead(b, 'The other games', '')}${(b.items || []).map((it, j) => { const qq = D.picks[it.match], h = vrKit(qq, 'home'), a = vrKit(qq, 'away'), s = it.score || ['', '']
+        return `<div class="vr-card vr-bd" style="top:${350 + j * 268}px"><i class="vr-edge" style="left:0;background:${h.bg}"></i><i class="vr-edge" style="right:0;background:${a.bg}"></i><div class="vr-cp">${html(it.comp || '')}</div>
+          <div class="vr-tm h">${badge(qq.bh)}<b>${html(it.home || vrName(qq, 'home'))}</b></div><div class="vr-tm a">${badge(qq.ba)}<b>${html(it.away || vrName(qq, 'away'))}</b></div>
+          <div class="vr-sc"><div class="vr-d"><span>${s[0] === '' ? '' : 0}</span>${s[0] === '' ? '' : vrSw(h)}</div><div class="vr-dash">${s[0] === '' ? 'v' : '–'}</div><div class="vr-d"><span>${s[1] === '' ? '' : 0}</span>${s[1] === '' ? '' : vrSw(a)}</div></div>
+          <div class="vr-rd"><small>Our read</small><span>${html(it.read || '')}</span></div><span class="vr-chip ${vrCls(it.verdict)}">${vrIco(it.verdict)}${html(it.chip || vrWord(it.verdict))}</span></div>` }).join('')}`)
+    } else if (sc.type === 'vr_tally') {
+      const n = b.counts || {}, cells = [['called', 'Called it'], ['half', 'Half right'], ['missed', 'Missed'], ['later', 'Later']].filter(([k]) => n[k] != null)
+      el.innerHTML = vrPage(`${vrTop(b)}${vrHead(b, 'The tally', '')}<div class="vr-big"><span class="vr-n1">0</span><small> / ${html(b.of ?? '')}</small></div><div class="vr-of">${html(b.of_label || '')}</div>
+        <div class="vr-three">${cells.map(([k, l]) => `<div class="${vrCls(k)}">${vrIco(k)}<b data-n="${n[k]}">0</b><span>${html(l)}</span></div>`).join('')}</div>${b.line ? `<div class="vr-line">${html(b.line)}</div>` : ''}`)
+    } else if (sc.type === 'vr_end') {
+      el.innerHTML = vrPage(`${vrTop(b)}<div class="vr-card vr-off"><div class="vr-e1">${html(b.l1 || "That's the")}</div><div class="vr-e2">${html(b.l2 || 'Review')}</div><div class="vr-e3">${html(b.follow || 'Follow for more')}</div><div class="vr-e4">Football, by the numbers</div></div><i class="vr-beam"></i>
+        <div class="vr-nx">${(b.next || []).map(x => { const pk = D.picks[x.match ?? 0]; return `<div><i>${html(x.when || '')}</i>${x.badges ? x.badges.map(([m, sd]) => badge(sd === 'away' ? D.picks[m].ba : D.picks[m].bh)).join('') : x.match != null ? badge(pk.bh) + badge(pk.ba) : ''}<span>${html(x.text || '')}</span></div>` }).join('')}</div>`)
+    }
   } else if (sc.type === 'rv_cta') {
     el.innerHTML = `<div class="wrap"><div class="logo"><span class="bars"><i style="height:64px"></i><i style="height:98px"></i><i style="height:132px"></i></span>cmvng</div>
       <div class="big A">${html(b.big || 'Follow for more')}</div>${b.next ? `<div class="next"><span class="chip">${html(b.next)}</span></div>` : ''}</div>`
@@ -1365,6 +1672,127 @@ function draw(k, lt, sc) {
       slam($('.q', el), lt, ca + 0.95, 1.5, 0.28); rise([$('.fol', el)], lt, b.follow_at ?? L0(last), 0, 20)
       el.style.transform = shake(lt, ca + 0.92, 16)
     }
+  } else if (/^vr_/.test(sc.type)) {
+    const L0 = j => S(sc, j)[0] ?? 99, LD = j => S(sc, j)[1] ?? 1, last = sc.lines.length - 1, T = sc.start + lt, nx = D.scenes[k + 1]
+    // each monitor slides up into place; the next one pushes it out to the left. The case strip stays put
+    const pg = $('.vr-pg', el)
+    if (pg && !['vr_cold', 'vr_title'].includes(sc.type)) {
+      const q = P(lt, 0, 0.5, E.outCubic), ex = nx && /^vr_/.test(nx.type) ? P(lt, sc.dur - 0.25, sc.dur, E.inCubic) : 0
+      pg.style.transform = `translate3d(${n1(-240 * ex)}px,${n1(90 * (1 - q))}px,0)`; pg.style.opacity = n1(Math.min(1, q * 1.5) * (1 - 0.9 * ex))
+    }
+    const cur = b.cases || (b.match != null && sc.type !== 'vr_title' ? [b.match] : (b.items || []).map(it => it.match))
+    $$('.vr-slot', el).forEach(n => {
+      const j = +n.dataset.j, v = VRV[j], on = !!v && T >= v.t, cls = 'vr-slot' + (cur.includes(j) ? ' cur' : '') + (on ? ' ' + vrCls(v.v) : '')
+      if (n.className !== cls) { n.className = cls; $('.vr-ico', n).innerHTML = VR_ICO[on ? vrCls(v.v) : 'wait'] }
+      if (on) { const p2 = 1 + 0.4 * (1 - P(T, v.t, v.t + 0.35, E.outCubic)); $('.vr-ico', n).style.transform = `scale(${n1(p2)})` }
+    })
+    $$('.vr-rec i', el).forEach(n => { n.style.opacity = n1(0.35 + 0.65 * Math.abs(Math.cos(lt * 3))) })
+    if (sc.type !== 'vr_cold') { rise([$('.vr-top', el)], lt, 0.1, 0, 14); rise([$('.vr-h', el), $('.vr-k', el)], lt, 0.25, 0.08, 24) }
+    if (sc.type === 'vr_cold') {
+      // playback in the dark: one line at a time, the day's clock running from this morning's calls to tonight
+      const steps = b.steps || [], n = sc.lines.filter(l => lt >= l[0] - 0.08).length, j = Math.max(0, Math.min(steps.length - 1, n - 1)), st = steps[j] || {}
+      const at = n ? L0(j) - 0.08 : 99, big = $('.vr-cbig', el), lab = $('.vr-clab', el), tx = n ? String(st.big ?? '') : ''
+      if (big.textContent !== tx) big.textContent = tx
+      lab.textContent = n ? (st.label ?? '') : ''; big.className = 'vr-cbig' + (st.tone ? ' ' + st.tone : '')
+      big.style.fontSize = `${Math.min(200, Math.floor(960 / (0.47 * Math.max(1, tx.length))))}px`
+      slam(big, lt, at, 1.6, 0.28)
+      big.style.transform += st.glitch ? glitch(big, lt, at + (st.glitch_at || 0)) : (big.style.textShadow = '', '')
+      rise([lab], lt, at + 0.18, 0, 24)
+      const [c0, c1] = (b.clock || ['07:15', '22:00']).map(x => { const [h, m] = x.split(':').map(Number); return h * 60 + m })
+      const end = L0(last) + LD(last), cm = c0 + (c1 - c0) * P(lt, 0.2, end, E.inOutSine), z = v => String(Math.floor(v)).padStart(2, '0')
+      $('.vr-tc', el).textContent = `${z(cm / 60)}:${z(cm % 60)}:${z((cm * 60) % 60)}`
+      const da = L0(0) + 0.3
+      $$('.vr-dot', el).forEach((d, i) => { const on = lt >= da + i * 0.12; if (d._on !== on) { d._on = on; d.classList.toggle('on', on) } })
+      const hq = P(lt, L0(Math.min(1, last)), end, E.inOutSine); $('.vr-fillc', el).style.width = `${n1(hq * 100)}%`; $('.vr-hd', el).style.left = `${n1(hq * 100)}%`
+      el.style.transform = shake(lt, at + 0.02, n ? 8 : 0)
+    } else if (sc.type === 'vr_title') {
+      // the drop: UNDER REVIEW slams in, then the wall of ten monitors switches on, one per match
+      slam($('.vr-t1', el), lt, 0.04, 1.6, 0.3); slam($('.vr-t2', el), lt, 0.2, 1.6, 0.3); rise([$('.vr-sub', el)], lt, 0.5, 0, 18)
+      $$('.vr-tv', el).forEach((n, i) => { const a = 0.6 + i * 0.09, qv = P(lt, a, a + 0.35, E.outBack); n.style.opacity = n1(P(lt, a, a + 0.12)); n.style.transform = `scale(${n1(0.6 + 0.4 * qv)})` })
+      $$('.vr-tv i', el).forEach((n, i) => { n.style.opacity = n1(0.3 + 0.7 * Math.abs(Math.sin(lt * 2.4 + i))) })
+      rise([$('.vr-date', el)], lt, 1.6, 0, 18)
+      el.style.transform = shake(lt, 0.04, 16)
+    } else if (sc.type === 'vr_replay') {
+      // the playhead scrubs to each moment as it's spoken; the bar behind it fills in the colours of whoever was ahead
+      const { its, END } = sc.vr, ta = (it, j) => vrT(sc, it.line ?? j, it.at ?? 0.15)
+      const lastT = its.length ? ta(its.at(-1), its.length - 1) : 1
+      const keys = [[0.45, 0], ...its.map((it, j) => [ta(it, j), it.min]), [Math.max(lastT + 0.9, sc.dur - 0.3), END]]
+      let m = 0
+      for (let i = 1; i < keys.length; i++) { const [t0, m0] = keys[i - 1], [t1, m1] = keys[i]; if (lt >= t0) m = m0 + (m1 - m0) * P(lt, Math.max(t0, t1 - 0.75), t1, E.inOutSine) }
+      $('.vr-head', el).style.left = `${n1(100 * m / END)}%`
+      $$('.vr-seg', el).forEach(g => { const a = +g.dataset.a, bb = +g.dataset.b; g.style.width = `${n1(100 * clamp(m - a, 0, bb - a) / END)}%` })
+      const mn = $('.vr-min', el), ml = `${Math.min(90, Math.floor(m))}'`; if (mn.textContent !== ml) mn.textContent = ml
+      let k2 = -1; its.forEach((it, j) => { if (lt >= ta(it, j) - 0.02) k2 = j })
+      $$('.vr-mk', el).forEach((n, j) => { const a = ta(its[j], j) - 0.02, qv = P(lt, a, a + 0.35, E.outBack); n.style.opacity = lt >= a ? 1 : 0; n.style.transform = `scale(${n1(Math.max(0.01, qv))})` })
+      const s = k2 >= 0 ? its[k2]._s : [0, 0]
+      $$('.vr-sc .vr-d span', el).forEach((d, i) => {
+        if (d.textContent !== String(s[i])) d.textContent = s[i]
+        let ch = -9; for (let j = 0; j <= k2; j++) if (its[j]._s[i] !== (j ? its[j - 1]._s[i] : 0)) ch = ta(its[j], j)
+        d.style.display = 'inline-block'; d.style.transform = `scale(${n1(1 + 0.35 * (1 - P(lt, ch, ch + 0.45, E.outCubic)))})`
+      })
+      const nw = $('.vr-now', el)
+      if (k2 >= 0) {
+        const it = its[k2], a = ta(it, k2)
+        if (nw._k !== k2) { nw._k = k2; $('.vr-edge', nw).style.background = sc.vr.tm(it).bg; $('.vr-ic', nw).textContent = sc.vr.ico(it); $('b', nw).textContent = it.who || ''; $('span:last-child', nw).textContent = it.tag || '' }
+        nw.style.opacity = 1; nw.style.transform = `translate3d(${n1(70 * (1 - P(lt, a, a + 0.35, E.outCubic)))}px,0,0)`
+      } else nw.style.opacity = 0
+      $$('.vr-ev', el).forEach((n, j) => rise([n], lt, ta(its[j], j) + 0.05, 0, 26))
+      el.style.transform = its.map((it, j) => ['goal', 'og', 'red'].includes(it.kind) ? shake(lt, ta(it, j), 10) : '').find(Boolean) || ''
+    } else if (sc.type === 'vr_stat') {
+      // freeze frame: each number fills as it's said; the one that hurts gets its outline
+      rise([$('.vr-heads', el)], lt, 0.45, 0, 20)
+      const rt = j => { const r = b.rows[j]; return r[3] != null ? vrT(sc, r[3], r[4] || 0) : 0.8 + j * 0.45 }
+      $$('.vr-rw', el).forEach((r, j) => {
+        rise([r], lt, rt(j) - 0.12, 0, 22); $$('.vr-bar i', r).forEach(x => { x.style.width = `${n1(+x.dataset.w * P(lt, rt(j), rt(j) + 0.6, E.outCubic))}%` })
+        const lit = r.classList.contains('hot') && lt >= rt(j) + 0.5; if (r.classList.contains('lit') !== lit) r.classList.toggle('lit', lit)
+        const nt = $('.vr-nt', r); if (nt) nt.style.opacity = lit ? 1 : 0
+      })
+      const cl = $('.vr-call', el); if (cl) slam(cl, lt, b.callout_at ? vrT(sc, ...b.callout_at) : L0(last) - 0.1, 1.15, 0.28)
+    } else if (sc.type === 'vr_call') {
+      // our 07:15 call, the score, each part of the call checked, then the stamp
+      slam($('.vr-our', el), lt, 0.45, 1.12, 0.3)
+      $$('.vr-tri i', el).forEach((x, j) => { x.style.transform = `scaleX(${n1(P(lt, 0.8 + j * 0.15, 1.4 + j * 0.15, E.outCubic))})` })
+      const ra = vrResAt(sc); slam($('.vr-res', el), lt, ra, 1.3, 0.28)
+      const cks = b.checks || []
+      $$('.vr-ck', el).forEach((n, j) => {
+        const a = vrCheckAt(sc, cks[j], j), va = a + (cks[j].verdict_at ?? 0.55), on = lt >= va, ic = $('.vr-ico', n), want = on ? (cks[j].ok ? 'ok' : 'bad') : 'wait'
+        rise([n], lt, a - 0.1, 0, 20); n.classList.toggle(cks[j].ok ? 'ok' : 'bad', on)
+        if (ic.dataset.v !== want) { ic.dataset.v = want; ic.innerHTML = VR_ICO[want] }
+        ic.style.transform = `scale(${n1(on ? 1 + 0.3 * (1 - P(lt, va, va + 0.3, E.outCubic)) : 1)})`; slam($('.vr-chip', n), lt, va, 1.5, 0.22)
+      })
+      const sa = vrStampAt(sc); slam($('.vr-stamp', el), lt, sa, 2.2, 0.22, 'translateX(-50%) rotate(-6deg)')
+      el.style.transform = shake(lt, sa + 0.03, 14)
+    } else if (sc.type === 'vr_quote') {
+      slam($('.vr-qc', el), lt, 0.45, 1.08, 0.3); slam($('.vr-qm', el), lt, 0.7, 1.8, 0.3); rise([$('.vr-q', el)], lt, 0.8, 0, 20); rise([$('.vr-orig', el)], lt, 1.3, 0, 16); rise([$('.vr-by', el)], lt, 1.0, 0, 20)
+    } else if (sc.type === 'vr_table') {
+      slam($('.vr-tb', el), lt, 0.45, 1.06, 0.3); rise($$('.vr-tr', el), lt, 0.7, 0.12, 18)
+      $$('.vr-nt', el).forEach((n, j) => { const r = b.rows[j]; rise([n], lt, (r[2] != null ? vrT(sc, r[2], r[3] || 0) : L0(Math.min(j + 1, last))) - 0.1, 0, 22) })
+    } else if (sc.type === 'vr_board') {
+      // the other games: each monitor slides in on its line, the score counts up, the verdict lands at the end of the line
+      const its = b.items || []
+      $$('.vr-bd', el).forEach((n, j) => {
+        const it = its[j], a = vrItemAt(sc, it, j), sa = vrItemStamp(sc, it, j), q2 = P(lt, a, a + 0.4, E.outCubic)
+        n.style.opacity = n1(P(lt, a, a + 0.15)); n.style.transform = `translate3d(${n1(160 * (1 - q2))}px,0,0)`
+        const s = it.score || ['', '']
+        $$('.vr-sc .vr-d span', n).forEach((d, i) => { if (s[i] === '' || s[i] == null) return; const v = String(Math.round(+s[i] * P(lt, a + 0.3, a + 0.3 + Math.max(0.25, 0.12 * +s[i]), E.outCubic))); if (d.textContent !== v) d.textContent = v })
+        slam($('.vr-chip', n), lt, sa, 1.6, 0.22)
+      })
+      el.style.transform = its.map((it, j) => shake(lt, vrItemStamp(sc, it, j) + 0.03, 8)).find(Boolean) || ''
+    } else if (sc.type === 'vr_tally') {
+      const ca = vrCountAt(sc), N = +(b.big ?? 0), v = String(Math.round(N * P(lt, ca, ca + 1.2, E.outCubic))), ne = $('.vr-n1', el)
+      if (ne.textContent !== v) ne.textContent = v
+      slam($('.vr-big', el), lt, ca - 0.1, 1.3, 0.3); rise([$('.vr-of', el)], lt, ca + 0.3, 0, 14)
+      $$('.vr-three>div', el).forEach((d, j) => { const a = ca + 0.5 + j * 0.25, bb = $('b', d), nv = String(Math.round(+bb.dataset.n * P(lt, a + 0.1, a + 0.7))); slam(d, lt, a, 1.2, 0.26); if (bb.textContent !== nv) bb.textContent = nv })
+      rise([$('.vr-line', el)], lt, b.line_at ? vrT(sc, ...b.line_at) : L0(last) - 0.1, 0, 20)
+    } else if (sc.type === 'vr_end') {
+      const off = $('.vr-off', el); slam(off, lt, 0.4, 1.1, 0.3)
+      rise($$('.vr-off > *', el), lt, 0.6, 0.12, 18); rise($$('.vr-nx > div', el), lt, b.next_at ? vrT(sc, ...b.next_at) : L0(Math.min(1, last)) - 0.1, 0.15, 18)
+      // the monitor switches off: it folds to a line of light, then the line shrinks to nothing
+      const o0 = sc.dur - 0.8, q1 = P(lt, o0, o0 + 0.3, E.inCubic), q2 = P(lt, o0 + 0.3, o0 + 0.6, E.inCubic), bm = $('.vr-beam', el)
+      if (lt > o0) { off.style.transform = `scale(1,${(1 - 0.995 * q1).toFixed(3)})`; off.style.filter = `brightness(${n1(1 + 1.5 * q1)})`; off.style.opacity = q1 >= 1 ? 0 : 1 }
+      bm.style.opacity = lt > o0 + 0.28 ? n1(1 - q2) : 0; bm.style.transform = `scaleX(${n1(1 - q2)})`
+      $$('.vr-nx, .vr-top', el).forEach(x => { if (lt > o0) x.style.opacity = n1(1 - q1) })
+    }
   } else if (sc.type === 'rv_cta') {
     const lg = $('.logo', el); slam(lg, lt, 0.05, 1.6, 0.4)
     $$('.logo .bars i', el).forEach((x, j) => { x.style.transform = `scaleY(${P(lt, 0.1 + j * 0.08, 0.5 + j * 0.08, E.outBack)})`; x.style.transformOrigin = '50% 100%' })
@@ -1393,7 +1821,7 @@ const stampAt = sc => sc.data?.stamp_at ?? Math.max(1.2, (S(sc, sc.lines.length 
 function fxCinematic() {
   const ev = [], add = (t, sfx, db, o = {}) => ev.push({ t: +Math.max(0, t).toFixed(3), sfx, db, ...o }), syn = (t, type, gain) => ev.push({ t: +t.toFixed(3), type, ...(gain ? { gain } : {}) })
   D.scenes.forEach((sc, k) => {
-    const T = sc.start, b = sc.data || {}, at = j => T + S(sc, j)[0], next = D.scenes[k + 1], drop = /_intro$|_hook$|^bp_title$/.test(sc.type) && b.drop
+    const T = sc.start, b = sc.data || {}, at = j => T + S(sc, j)[0], next = D.scenes[k + 1], drop = /_intro$|_hook$|^(bp|vr)_title$/.test(sc.type) && b.drop
     if (k > 0 && !drop && !b.hard_cut) add(T, k % 2 ? '1492' : '2636', k % 2 ? -12 : -14, { align: 'peak' })
     if (sc.type === 'rx_cold') {
       const steps = b.steps || []
@@ -1477,6 +1905,33 @@ function fxCinematic() {
     if (sc.type === 'bp_job') { add(T + 0.5, '2380', -12); const ra = T + (b.read_at ?? ((S(sc, lastL)[0] ?? 0) + 0.55 * (S(sc, lastL)[1] ?? 1))); if (b.read) { add(ra, '1365', -8); add(ra, '2299', -11) } }
     if (sc.type === 'bp_end') { add(T + 0.45, '2909', -8); const ca = T + (S(sc, Math.min(1, lastL))[0] ?? 1); add(ca, '3117', -10); add(ca + 0.92, '2849', -4); add(ca + 0.92, '2853', -6); add(ca + 0.92, '2299', -5) }
     if (sc.type === 'bp_verdict') { add(T + 0.45, '1365', -6); const ca = T + (b.close_at ?? (S(sc, Math.min(1, lastL))[0] ?? 1)); add(ca, '3117', -9); add(ca + 0.92, '2849', -4); add(ca + 0.92, '2853', -6); add(ca + 0.92, '2299', -5) }
+    // the review room: tape and monitor sounds, a crowd for the goals, a stamp for every verdict
+    if (sc.type === 'vr_cold') {
+      add(T, '497', -14, { align: 'start', max: Math.max(1, sc.dur - 0.2) }); add(T, '2297', -15, { align: 'start', max: Math.max(1, sc.dur - 0.2) })
+      const steps = b.steps || []
+      sc.lines.forEach((_, j) => { add(at(j) - 0.08, '2299', j ? -7 : -4); add(at(j) - 0.08, '2636', -14); if (j === 0) add(at(0) - 0.08, '2909', -3); if (steps[j]?.glitch) add(at(j) - 0.08 + (steps[j].glitch_at || 0), '2951', -9) })
+      if (b.whistle) add(T + vrT(sc, b.whistle[0], b.whistle[1]), String(b.whistle_sfx || '615'), b.whistle_db ?? -12)
+      if (next?.data?.drop) add(next.start, '2908', -6, { reverse: true, max: 2.6, align: 'end' })
+    }
+    if (sc.type === 'vr_title') D.picks.forEach((_, i) => add(T + 0.6 + i * 0.09, '3124', -17 - i * 0.2))
+    if (/^vr_/.test(sc.type) && !['vr_cold', 'vr_title'].includes(sc.type)) add(T + 0.3, '2573', -17)
+    if (sc.type === 'vr_replay') (b.items || []).forEach((it, j) => {
+      const t2 = T + vrT(sc, it.line ?? j, it.at ?? 0.15); add(t2 - 0.7, '2636', -18, { max: 0.8 })
+      if (it.kind === 'goal' || it.kind === 'og') { add(t2, '1143', -10); add(t2, '2299', -8); add(t2 + 0.05, '3022', it.team === 'home' && !b.away_crowd ? -13 : -19, { max: 2.2 }) }
+      else if (it.kind === 'red') { add(t2, '2951', -9); add(t2, '2299', -7) } else add(t2, '3124', -12)
+    })
+    if (sc.type === 'vr_stat') { add(T + 0.4, '2847', -17, { max: 1.2 }); (b.rows || []).forEach((r, j) => add(T + (r[3] != null ? vrT(sc, r[3], r[4] || 0) : 0.8 + j * 0.45), '3124', -13)); if (b.callout) add(T + (b.callout_at ? vrT(sc, ...b.callout_at) : (S(sc, lastL)[0] ?? 2) - 0.1), '2299', -10) }
+    if (sc.type === 'vr_call') {
+      add(T + vrResAt(sc), '1143', -11)
+      ;(b.checks || []).forEach((c, j) => { const va = T + vrCheckAt(sc, c, j) + (c.verdict_at ?? 0.55); add(va, c.ok ? '2573' : '2951', c.ok ? -8 : -11) })
+      const sa = T + vrStampAt(sc); add(sa, '1365', -3); add(sa, '2299', -6)
+      if (b.verdict === 'called') add(sa + 0.1, '462', -12, { max: 2.6 }); else if (b.verdict === 'half') add(sa + 0.1, '2110', -16, { max: 1.8 }); else if (b.verdict === 'missed') add(sa + 0.05, '2951', -10)
+    }
+    if (sc.type === 'vr_quote') add(T + 0.7, '2299', -12)
+    if (sc.type === 'vr_table') (b.table || []).forEach((_, j) => add(T + 0.7 + j * 0.12, '3124', -15))
+    if (sc.type === 'vr_board') (b.items || []).forEach((it, j) => { add(T + vrItemAt(sc, it, j), '3115', -14); const sa = T + vrItemStamp(sc, it, j); add(sa, '1365', -6); add(sa, '2299', -10); if (it.verdict === 'called') add(sa + 0.08, '2110', -20, { max: 1.2 }) })
+    if (sc.type === 'vr_tally') { const ca = T + vrCountAt(sc); for (let j = 0; j < 8; j++) add(ca + 1.2 * (1 - Math.pow(1 - j / 8, 1 / 3)), '2857', -15); add(ca + 1.2, '2909', -8); add(ca + 1.25, '462', -16, { max: 2.2 }) }
+    if (sc.type === 'vr_end') { add(T + 0.4, '2909', -8); add(T + sc.dur - 0.8, '2951', -13); add(T + sc.dur - 0.5, '2299', -8) }
     if (b.sticker) add(T + (b.sticker.at ?? 1.0), '3005', -9)
   })
   return ev
@@ -1558,10 +2013,11 @@ window.renderAt = async function (t) {
   else pr.style.display = 'none'
   const BOX = !!D.cfg.presenter?.box
   pr.classList.toggle('box', BOX); pr.classList.toggle('still', !!sc.pres?.still); $('#ptag').style.display = sc.pres && BOX ? 'flex' : 'none'
-  const NPg = /^np_/.test(sc.type), BPg = /^bp_/.test(sc.type)
-  $('#tint').style.opacity = memeLike || NPg || BPg ? 0 : b.style === 'pov' ? 0.55 : 1
-  $('#vig').style.opacity = memeLike ? 0 : 1
-  $('#credit').textContent = BPg ? [b.photo?.credit, ...(b.items || []).map(it => it.photo?.credit)].filter(Boolean).join('  ·  ') : sc.bgs ? (b.photos[sc.bgs.indexOf(bgNow)]?.credit || '') : memeLike || sc.clip ? (b.credit || '') : (b.photo?.credit || (sc.bg.classList.contains('photo') ? (D.picks[sc.i] || M).stadium?.credit || '' : ''))
+  const NPg = /^np_/.test(sc.type), BPg = /^bp_/.test(sc.type), VRg = /^vr_/.test(sc.type)
+  $('#stage').classList.toggle('vrl', VRg && sc.type !== 'vr_cold')
+  $('#tint').style.opacity = memeLike || NPg || BPg || VRg ? 0 : b.style === 'pov' ? 0.55 : 1
+  $('#vig').style.opacity = memeLike || (VRg && sc.type !== 'vr_cold') ? 0 : 1
+  $('#credit').textContent = VRg ? [b.photo?.credit].filter(Boolean).join('  ·  ') : BPg ? [b.photo?.credit, ...(b.items || []).map(it => it.photo?.credit)].filter(Boolean).join('  ·  ') : sc.bgs ? (b.photos[sc.bgs.indexOf(bgNow)]?.credit || '') : memeLike || sc.clip ? (b.credit || '') : (b.photo?.credit || (sc.bg.classList.contains('photo') ? (D.picks[sc.i] || M).stadium?.credit || '' : ''))
 
   draw(k, lt, sc)
   $('#scenes').style.transform = memeLike ? '' : `scale(${1 + 0.018 * clamp(lt / sc.dur)})`
@@ -1573,7 +2029,7 @@ window.renderAt = async function (t) {
 
   // cut flash, in time with the whoosh (memes cut hard: no flash)
   let fl = 0
-  for (let j = 1; j < D.scenes.length; j++) { const d = t - D.scenes[j].start, ty = D.scenes[j].type; if (d >= 0 && d < 0.3 && ty !== 'rv_meme' && !(/^bp_/.test(ty) && ty !== 'bp_title')) fl = Math.max(fl, 0.5 * (1 - d / 0.3)) }
+  for (let j = 1; j < D.scenes.length; j++) { const d = t - D.scenes[j].start, ty = D.scenes[j].type; if (d >= 0 && d < 0.3 && ty !== 'rv_meme' && !(/^(bp|vr)_/.test(ty) && !['bp_title', 'vr_title'].includes(ty))) fl = Math.max(fl, 0.5 * (1 - d / 0.3)) }
   const hk = D.scenes.find(s => s.type === 'rv_hook'); if (hk && t - hk.start > 0.38 && t - hk.start < 0.7) fl = Math.max(fl, 0.7 * (1 - (t - hk.start - 0.38) / 0.32))
   $('#flash').style.opacity = fl
 
@@ -1588,10 +2044,10 @@ window.renderAt = async function (t) {
     const box = $('.c', capEl); box.style.opacity = clamp(q * 2); box.style.transform = `scale(${0.85 + 0.15 * q})`
     $$('.w', capEl).forEach((s, j) => { const w = c.words[j]; s.className = 'w' + (t >= w.t0 && t < w.t1 ? ' now' : t < w.t0 ? ' next' : '') })
   }
-  capEl.className = (D.cfg.caption_style === 'bold' ? 'bold' : '') + (BPg ? ' bpc' : '')
+  capEl.className = (D.cfg.caption_style === 'bold' ? 'bold' : '') + (BPg ? ' bpc' : '') + (VRg ? ' vrc' : '')
   capEl.style.top = memeLike ? '1500px' : sc.pres ? (D.cfg.presenter?.box ? '1450px' : '1330px') : '1474px'
-  $('#hdr').style.display = /^(rx|pm|np|bp)_/.test(sc.type) ? 'none' : ''
-  if (NPg || BPg) capEl.style.top = '1478px'
+  $('#hdr').style.display = /^(rx|pm|np|bp|vr)_/.test(sc.type) ? 'none' : ''
+  if (NPg || BPg || VRg) capEl.style.top = '1478px'
   if (wait) await wait
 }
 

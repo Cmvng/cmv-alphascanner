@@ -39,6 +39,8 @@ const SAY_IPA = {
   Csinger: 'tʃˈɪŋɡɛɹ', Vandevoordt: 'vˌɑːndəvˈoːɹt',
   'Modrić': 'mˈɔːdɹɪtʃ', Budimir: 'bˈuːdɪmiːɹ', 'Smolčić': 'smˈɔːltʃɪtʃ', 'Bilić': 'bˈiːlɪtʃ', Poljud: 'pˈɔːljuːd', Lamine: 'lɐmˈiːn',
   Yamal: 'jɐmˈɑːl', 'Krejčí': 'kɹˈeɪtʃiː', Czechia: 'tʃˈɛkiə', Ante: 'ˈɑːnteɪ',
+  IK: 'ˌaɪkˈeɪ', Niger: 'niːʒˈɛɹ', Montserrat: 'mˌɑːntsəɹˈæt',
+  'Perišić': 'pˈɛɹɪʃɪtʃ', Merino: 'mɛɹˈiːnoʊ', Mikel: 'mˈiːkɛl', Zubimendi: 'zˌuːbiːmˈɛndi', Coufal: 'tsˈoʊfɑːl', 'Simón': 'siːmˈoʊn', Unai: 'uːnˈaɪ',
   Raufoss: 'ɹˈaʊfɔs', 'Trollhättan': 'tɹˈɔlhɛtən', 'Mjällby': 'mjˈɛlbi', 'Hložek': 'hlˈɔʒɛk', Neghiz: 'nɛɡˈiːz', Kazakhstan: 'kˌæzəkstˈæn',
   // crypto words the phonemizer gets wrong (checked 6 Oct: it said "ee-ther-REE-um", dropped the s in "NFTs",
   // "MEM-i-coin", "VY-ta-lik", "duh-fy", and read ERC and FHEVM as words)
@@ -192,7 +194,7 @@ export function buildScenes(cfg, picks, recap) {
 // Post-match review / reaction: every screen is a beat written for this match (cfg.review.beats), so no two videos
 // run the same way. A beat: { type: hook|moment|meme|stats|read|table|ratings|cta, say: [lines], clip, sticker, burst, … }
 function buildReviewScenes(cfg) {
-  return (cfg.review?.beats || []).map(b => ({ type: (/^(rx|pm|np|bp)_/.test(b.type) ? '' : 'rv_') + b.type, i: b.match ?? 0, say: (b.say || []).map(WS), data: b, hold: b.hold }))
+  return (cfg.review?.beats || []).map(b => ({ type: (/^(rx|pm|np|bp|vr)_/.test(b.type) ? '' : 'rv_') + b.type, i: b.match ?? 0, say: (b.say || []).map(WS), data: b, hold: b.hold }))
 }
 
 // Motion-graphics explainer (any topic, e.g. how a product works): every screen is a beat in cfg.explainer.beats,
