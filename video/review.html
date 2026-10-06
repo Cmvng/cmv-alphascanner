@@ -1317,7 +1317,7 @@ const stampAt = sc => sc.data?.stamp_at ?? Math.max(1.2, (S(sc, sc.lines.length 
 function fxCinematic() {
   const ev = [], add = (t, sfx, db, o = {}) => ev.push({ t: +Math.max(0, t).toFixed(3), sfx, db, ...o }), syn = (t, type, gain) => ev.push({ t: +t.toFixed(3), type, ...(gain ? { gain } : {}) })
   D.scenes.forEach((sc, k) => {
-    const T = sc.start, b = sc.data || {}, at = j => T + S(sc, j)[0], next = D.scenes[k + 1], drop = /_intro$|_hook$/.test(sc.type) && b.drop
+    const T = sc.start, b = sc.data || {}, at = j => T + S(sc, j)[0], next = D.scenes[k + 1], drop = /_intro$|_hook$|^bp_title$/.test(sc.type) && b.drop
     if (k > 0 && !drop && !b.hard_cut) add(T, k % 2 ? '1492' : '2636', k % 2 ? -12 : -14, { align: 'peak' })
     if (sc.type === 'rx_cold') {
       const steps = b.steps || []
