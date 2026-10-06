@@ -1,0 +1,314 @@
+{
+ "mode": "explainer",
+ "title": "Papertrade: the house",
+ "competition": "Explainer",
+ "date": "2026-10-06",
+ "picks": [],
+ "voice": "af_heart",
+ "voice_fx": "deep",
+ "voice_speed": 1.0,
+ "sound": "cinematic",
+ "caption_style": "bold",
+ "music_track": 625,
+ "explainer": {
+  "theme": "sky",
+  "foot": "Independent guide · not affiliated with Papertrade · not financial advice",
+  "brand": {
+   "name": "Papertrade",
+   "primary": "#8B2020",
+   "primary2": "#EFE4CA",
+   "ink": "#2A2520",
+   "cream": "#F4ECD8",
+   "ok": "#2F8F5B",
+   "bad": "#C2352F",
+   "source": "papertrade.xyz stylesheet (--cream #f4ecd8, --cream-2 #efe4ca) and favicon.svg (ink #2A2520, red #8B2020)"
+  },
+  "chapters": {
+   "ex_pt_trade": "How it works",
+   "ex_pt_zero": "The house",
+   "ex_pt_queue": "The queue",
+   "ex_pt_paper": "PAPER",
+   "ex_pt_own": "Owning the house",
+   "ex_pt_catch": "The catch",
+   "ex_pt_status": "Before you jump in"
+  },
+  "prices": "Hyperliquid allMids, 6 Oct 2026 14:41 UTC: BTC 86,196.5, ETH 2,712.55",
+  "beats": [
+   {
+    "type": "pt_cold",
+    "board": "Bucket shop",
+    "board2": "Hyperliquid",
+    "old": [
+     [
+      "STEEL",
+      "▲ ⅛",
+      "up"
+     ],
+     [
+      "RAILS",
+      "▼ ¼",
+      "dn"
+     ],
+     [
+      "COPPER",
+      "▲ ½",
+      "up"
+     ],
+     [
+      "SUGAR",
+      "▼ ⅛",
+      "dn"
+     ]
+    ],
+    "now": [
+     [
+      "BTC",
+      "86,196.5"
+     ],
+     [
+      "ETH",
+      "2,712.6"
+     ]
+    ],
+    "vs": [
+     "You",
+     "The house"
+    ],
+    "stamp": "On-chain",
+    "say": [
+     "In the early 1900s, America had bucket shops.",
+     "You could call a stock up or down, without ever owning it.",
+     "And the house took the other side of every trade.",
+     "Now they're back. On-chain."
+    ],
+    "pauses": [
+     0.4,
+     0.45,
+     0.6
+    ],
+    "tail": 0.7
+   },
+   {
+    "type": "pt_title",
+    "drop": true,
+    "tape": [
+     "BTC 86,196.5",
+     "ETH 2,712.6",
+     "1000× LEVERAGE",
+     "0 SLIPPAGE",
+     "ON HYPERLIQUID"
+    ],
+    "lines": [
+     "up to 1000× leverage",
+     "0 slippage · no funding fees",
+     "fully on-chain on Hyperliquid"
+    ],
+    "vs": [
+     "You",
+     "The house"
+    ],
+    "say": [
+     {
+      "say": "This is Papertrade: up to a thousand times leverage on Bitcoin and Ethereum, built on Hyperliquid.",
+      "show": "This is Papertrade: up to 1000× leverage on Bitcoin and Ethereum, built on Hyperliquid."
+     },
+     "And you don't trade against other people. You trade against the house."
+    ]
+   },
+   {
+    "type": "pt_trade",
+    "title": "One click",
+    "sub": "BTC or ETH · up or down · up to 1000×",
+    "head": "Trade ticket",
+    "rows": [
+     [
+      "Market",
+      "BTC"
+     ],
+     [
+      "Direction",
+      "Up ▲"
+     ],
+     [
+      "Margin",
+      "$10"
+     ],
+     [
+      "Leverage",
+      "1000×"
+     ],
+     [
+      "Trades like",
+      "$10,000",
+      1
+     ],
+     [
+      "Price",
+      "Hyperliquid mid"
+     ],
+     [
+      "Slippage",
+      "0"
+     ],
+     [
+      "Funding fees",
+      "0"
+     ]
+    ],
+    "win": "Win: the house pays you",
+    "lose": "Lose: the house keeps it",
+    "say": [
+     {
+      "say": "Pick Bitcoin or Ethereum, up or down. Ten dollars at a thousand times trades like ten thousand.",
+      "show": "Pick Bitcoin or Ethereum, up or down. $10 at 1000× trades like $10,000."
+     },
+     "You get Hyperliquid's live price. No slippage, no funding fees.",
+     "Win, and the house pays you. Lose, and the house keeps it."
+    ]
+   },
+   {
+    "type": "pt_zero",
+    "title": "The house",
+    "sub": "Where does its money come from?",
+    "label": "Balance",
+    "nos": [
+     "Team money",
+     "Investors",
+     "Deposits"
+    ],
+    "src": "Illustration: it only fills from traders' losses",
+    "step": 37,
+    "say": [
+     "Here's the wild part. The house starts with zero dollars.",
+     "No team money. No investors. Nobody can even deposit.",
+     "It only fills up from traders' losses."
+    ]
+   },
+   {
+    "type": "pt_queue",
+    "title": "Win while it's empty?",
+    "sub": "Your profit takes a number",
+    "serving": "Now serving",
+    "me": "You",
+    "other": "Winner",
+    "margin": "Margin back ✓",
+    "note": "Margin: back at once · Profit: waits in line",
+    "say": [
+     "So what if you win while the house is empty?",
+     "Your own money comes back at once. Your profit takes a number and waits in line.",
+     "First in, first paid, as other traders lose."
+    ]
+   },
+   {
+    "type": "pt_paper",
+    "title": "Lose, get PAPER",
+    "sub": "Their token · the only way to get it",
+    "loss": "−$10",
+    "loss_sub": "closed at a loss",
+    "prn": "Minted to you",
+    "per": "100",
+    "tickets": 10,
+    "rule": "$1 lost = 100 PAPER · while the house is under $2M",
+    "crv_title": "PAPER PER $1 LOST",
+    "crv_x": "$2M in the house",
+    "crv_after": "less after",
+    "say": [
+     "And when you lose, you get PAPER, their token. Losing is the only way to get it.",
+     {
+      "say": "While the house has under two million dollars, every dollar lost earns a hundred PAPER.",
+      "show": "While the house has under $2M, every $1 lost earns 100 PAPER."
+     },
+     {
+      "say": "Lose ten dollars, get a thousand PAPER. Early losers get the most.",
+      "show": "Lose $10, get 1,000 PAPER. Early losers get the most."
+     }
+    ]
+   },
+   {
+    "type": "pt_own",
+    "title": "PAPER owns the house",
+    "sub": "Lock it in · earn dollars",
+    "label": "Owned by",
+    "stamp": "Owned by PAPER holders",
+    "wal_lbl": "You, locked in",
+    "wal_sub": "a share of the house's wins",
+    "nos": [
+     "Team tokens",
+     "Investors",
+     "Airdrop"
+    ],
+    "last": "Every PAPER comes from a loss",
+    "say": [
+     "Why would you want it? Because PAPER owns the house.",
+     "Lock your PAPER in, and you earn dollars: a share of everything the house wins.",
+     "No team tokens, no investors, no airdrop. Every PAPER comes from a loss."
+    ]
+   },
+   {
+    "type": "pt_catch",
+    "title": "The catch",
+    "sub": "At 1000× leverage",
+    "entry": "Entry $86,196",
+    "liq": "≈ $86,153 · −0.05%",
+    "stamp": "Liquidated",
+    "gap": "≈ $43",
+    "gap_sub": "0.05% of an $86,196 Bitcoin",
+    "cons": [
+     "Built for most traders to lose",
+     "PAPER can't be sold at launch"
+    ],
+    "say": [
+     {
+      "say": "The catch: at a thousand times, a move of just zero point zero five percent can close your trade.",
+      "show": "The catch: at 1000×, a move of just 0.05% can close your trade."
+     },
+     {
+      "say": "With Bitcoin at eighty-six thousand dollars, that's about forty-three dollars.",
+      "show": "With Bitcoin at $86,000, that's about $43."
+     },
+     "It's built for most traders to lose. And PAPER can't be sold at launch."
+    ],
+    "cues": [
+     "lose",
+     "sold"
+    ]
+   },
+   {
+    "type": "pt_status",
+    "title": "Before you jump in",
+    "sub": "",
+    "btn": "TRADE",
+    "stamp": "Coming soon",
+    "dao": "PaperDAO",
+    "dao_sub": "A separate group raising money to farm PAPER",
+    "stamp2": "Separate project",
+    "say": [
+     "Before you jump in: trading isn't live yet.",
+     {
+      "say": "And Paper DAO, the group raising money to farm PAPER, is a separate project, not Papertrade's team.",
+      "show": "And PaperDAO, the group raising money to farm PAPER, is a separate project, not Papertrade's team."
+     }
+    ]
+   },
+   {
+    "type": "pt_end",
+    "label": "Owned by",
+    "val": "PAPER",
+    "l1": "The house always wins.",
+    "l2": "Here, the losers own it.",
+    "stamp": "Owned by the losers",
+    "chips": [
+     "papertrade.xyz · not live yet",
+     "Not financial advice"
+    ],
+    "follow": "Follow for more",
+    "say": [
+     "The house always wins.",
+     "Here, the losers own it. Follow for more."
+    ],
+    "tail": 1.4
+   }
+  ],
+  "field": "dots"
+ }
+}

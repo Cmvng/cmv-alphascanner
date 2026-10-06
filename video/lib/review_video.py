@@ -155,6 +155,9 @@ def to_hsv(p):                      # vectorised RGB (0..1) -> hue (0..1), satur
 
 hsv = to_hsv(px[np.random.default_rng(1).choice(len(px), min(len(px), 80000), replace=False)]) if len(px) else np.zeros((0, 3))
 col = hsv[(hsv[:, 1] > 0.3) & (hsv[:, 2] > 0.25)]
+# neutrals that belong to a subject: warm paper/cream (low saturation, warm hue, bright) and ink (very dark)
+cream = int((((hsv[:, 0] * 360 > 20) & (hsv[:, 0] * 360 < 65)) & (hsv[:, 1] > 0.06) & (hsv[:, 1] <= 0.3) & (hsv[:, 2] > 0.75)).sum())
+ink = int((hsv[:, 2] < 0.22).sum())
 FAM = [('red', 345, 15), ('orange', 15, 40), ('yellow', 40, 70), ('green', 70, 165), ('cyan', 165, 195), ('blue', 195, 255), ('purple', 255, 290), ('pink', 290, 345)]
 
 
@@ -168,6 +171,8 @@ def family(h):
 if len(col):
     fams = {}
     for h in col[:, 0]: fams[family(h)] = fams.get(family(h), 0) + 1
+    if cream: fams['cream'] = cream
+    if ink: fams['ink'] = ink
     tot = sum(fams.values()); share = {k: v / tot for k, v in sorted(fams.items(), key=lambda x: -x[1])}
     notes.append('Colour mix of the coloured pixels: ' + ', '.join(f'{k} {100 * v:.0f}%' for k, v in share.items() if v >= 0.02))
     if share.get('blue', 0) > 0.8: flags.append(f'{100 * share["blue"]:.0f}% of the colour is blue: monotonous (the owner, 6 Oct: blue is the background, the subject keeps its colours)')

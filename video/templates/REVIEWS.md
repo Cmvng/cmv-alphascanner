@@ -24,6 +24,49 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
+## 6 Oct: Papertrade explainer, "The House" (2:01, plus a ~55 s cut)
+
+- **Before writing:** read the last entries. I applied their "Change next time" lines:
+  - a light-blue page, with Papertrade in its own cream, ink and red (from their stylesheet and favicon);
+  - the pronunciation list read before recording;
+  - a stills check before the first full render;
+  - screens kept under about 15 s, and the length checked against X;
+  - a short cut for TikTok and Reels.
+- **What worked:**
+  - The idea comes from the project's own story: Papertrade's creators compare it to the 1900s bucket shops. So: a
+    chalkboard and ticker tape, the house as a building whose balance starts at $0, a deli-counter queue for winners,
+    a printer that prints PAPER when you lose, and "Here, the losers own it".
+  - Every number is real: Bitcoin and Ethereum are live from Hyperliquid (14:41 UTC). The catch ($43 at 1000×) is
+    worked out from their own liquidation docs.
+  - No betting words ("trade", "lock in", "the house"), so it stays monetisable.
+- **Mistakes, and how they got through (all caught before sending):**
+  1. **The stills check caught four layout bugs:**
+     - a dark box behind "You ⇄ The house": `.vs` clashed with the old PvP screen's class. This is the third class
+       clash today (after `.bar` and `.vs` on Fungo Labs);
+     - the logo overlapping the wordmark;
+     - dark text on the red chip;
+     - the last line running off the screen.
+  2. **The trade screen** had the "Lose" label wrapping and the bottom half empty. It was reorganised.
+  3. **The first script ran 2:27 (estimated).** It was cut to 2:01 before rendering.
+  4. **The review caught a meaning error.**
+     - "While the house holds under two million dollars, every dollar lost earns a hundred" was heard as "while the
+       household's under $2 million, every dollar lost earns **$100**".
+     - Two causes: "house holds" sounds like "household", and a bare number after money talk is heard as dollars.
+     - Fixed: "the house **has**…", "earns a hundred **PAPER**".
+  5. **The review said "86% blue".** The check ignored cream and ink, so a subject in neutral colours looked all-blue.
+     The check now counts cream and ink.
+  6. **A `--say-check` run wiped the finished render** (the same trap as `--stills`, fixed this morning only for
+     stills). It's fixed for both now.
+- **Change next time:**
+  - **New CSS classes get a unique prefix** for the format (`pt-…`, `kh-…`), never a short generic name: `.vs`, `.bar`
+    and `.cnt` were already taken.
+  - **A unit after every number:** "a hundred PAPER", "forty-three dollars".
+  - **Avoid word pairs that merge** ("house holds", "none" after a number).
+  - Lay out every screen for the full 1080×1920: no empty bottom half.
+- **The owner's reaction:** (waiting)
+
+---
+
 ## 6 Oct: Fungo Labs explainer, "The Keyhole" (2:09, three versions)
 
 - **What worked:**
