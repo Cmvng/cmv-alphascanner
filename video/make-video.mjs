@@ -436,7 +436,7 @@ fs.writeFileSync(path.join(OUT, 'timeline.json'), JSON.stringify({
 }))
 await run(PY, [path.join(DIR, 'audio.py'), 'mix', path.join(OUT, 'timeline.json'), path.join(OUT, 'mix.wav')])
 await run(FF, ['-y', '-loglevel', 'error', '-f', 'concat', '-safe', '0', '-i', path.join(OUT, 'segments.txt'), '-i', path.join(OUT, 'mix.wav'),
-  '-filter_complex', '[1:a]loudnorm=I=-14:TP=-1.5:LRA=9[a]', '-map', '0:v', '-map', '[a]',
+  '-filter_complex', '[1:a]loudnorm=I=-14:TP=-1.5:LRA=9,aresample=48000,lowpass=f=16000:poles=2,alimiter=limit=0.56:level=0[a]', '-map', '0:v', '-map', '[a]',      // sharp hits (stamps, drops) made the AAC encoder overshoot to +5 dBTP on 6 Oct: band-limit, then limit at -5 dBFS so the file stays under -1 dBTP
   '-c:v', 'copy', '-c:a', 'aac', '-b:a', '192k', '-ar', '48000', '-ac', '2', '-t', DURATION.toFixed(2), '-movflags', '+faststart', final])
 for (const f of segs) fs.rmSync(f)
 fs.rmSync(path.join(OUT, 'clips'), { recursive: true, force: true })      // clip frames are only needed while rendering
