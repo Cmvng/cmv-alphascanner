@@ -24,7 +24,7 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
-## 6 Oct: post-match, "Under Review" (our ten calls v the final whistle)
+## 6 Oct: post-match, "Under Review" (2:18, our ten calls v the final whistle)
 
 - **Before writing:** read the last three entries' "Change next time" lines and applied them:
   - the whole slate, all ten games (the morning's lesson);
@@ -58,10 +58,22 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
   4. **The end screen's flags were squashed:** `.vr-nx div` also matched the badge divs. Use `>` for layout rules
      inside cards.
   5. **Adding Kane's record and a quote pushed the estimate to 140 s.** Trimmed two lines.
+  6. **The final review** (sent):
+     - the colour mix: blue 76%, red 10%, orange 4%, yellow 2%, green 2%;
+     - true peak −1.3 dB;
+     - the drop rises +9.1 dB;
+     - the length is 137.8 s, under X's 140 s.
+     Two small flags were left as they are:
+     - the second board runs 16.4 s, over the 15 s mark;
+     - "IK Start won at Raufoss" was heard as "IK Start 1 at Raufoss".
+     The other "heard differently" lines are spellings: "2-0" for "two-nil", "halftime", and the names.
+  7. **One game was still being played:** St Vincent v Sint Maarten (kick-off 22:00 Lagos). It's shown as "Still
+     playing"; the tally is out of nine.
 - **Change next time:**
   - The colour check counts dark navy text as blue: put the subject's colours on the big type (scores, names,
     numbers), not only on bars and flags.
-  - Never put a score straight after "won" ("won five-one"); say "five goals to one" or "beat … five-one".
+  - Never put a score or "one" right after "won" ("won five-one", "won at"); say "beat Raufoss, five goals
+    to one".
   - Child selectors (`>`) for layout rules inside cards.
   - The wow pool is down to one fresh track (A New Life). Grow it before the next analysis.
 - **The owner's reaction:** (waiting)

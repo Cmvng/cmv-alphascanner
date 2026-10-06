@@ -1,0 +1,872 @@
+{
+ "mode": "review",
+ "title": "Under review: our 6 Oct calls v the final whistle",
+ "competition": "UEFA Nations League",
+ "date": "2026-10-06",
+ "sound": "cinematic",
+ "voice_fx": "deep",
+ "voice_speed": 1.05,
+ "music_vibe": [
+  "cinematic"
+ ],
+ "music_drop": "after_cold",
+ "music_duck": 10,
+ "stadiums": false,
+ "review": {
+  "project": "Under review",
+  "beats": [
+   {
+    "type": "vr_cold",
+    "tag": "Playback",
+    "clock": [
+     "07:15",
+     "21:50"
+    ],
+    "whistle": [
+     1,
+     0.05
+    ],
+    "steps": [
+     {
+      "big": "10 calls",
+      "label": "This morning · 07:15"
+     },
+     {
+      "big": "Full time",
+      "label": "Ten matches · one day"
+     },
+     {
+      "big": "Replay",
+      "label": "Every call · checked",
+      "tone": "sky"
+     },
+     {
+      "big": "Not all survive",
+      "label": "Tonight",
+      "tone": "red",
+      "glitch": true,
+      "glitch_at": 0.5
+     }
+    ],
+    "say": [
+     "This morning, we made ten calls.",
+     "Tonight, the final whistles came in.",
+     "Now, every call goes to the replay.",
+     "And not every call survives."
+    ],
+    "pauses": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "tail": 0.45
+   },
+   {
+    "type": "vr_title",
+    "l1": "Under",
+    "l2": "Review",
+    "sub": "Our calls · v · the final whistle",
+    "date": "Tuesday · 6 October",
+    "say": [
+     "Under review: this morning's calls, against the final whistle.",
+     "We start with Croatia against Spain."
+    ]
+   },
+   {
+    "type": "vr_replay",
+    "match": 0,
+    "top": "Nations League · Group 3",
+    "label": "Replay · Poljud, Split",
+    "items": [
+     {
+      "min": 17,
+      "kind": "goal",
+      "team": "home",
+      "who": "Perišić",
+      "tag": "Goal · 17'",
+      "text": "Perišić heads in a rebound",
+      "line": 0,
+      "at": 0.62
+     },
+     {
+      "min": 46,
+      "kind": "sub",
+      "team": "away",
+      "who": "Merino on",
+      "tag": "Half-time",
+      "text": "Merino on, for Baena",
+      "line": 1,
+      "at": 0.45
+     },
+     {
+      "min": 61,
+      "kind": "goal",
+      "team": "away",
+      "who": "Merino",
+      "tag": "Goal · 61'",
+      "text": "Merino levels, from Olmo",
+      "line": 2,
+      "at": 0.4
+     },
+     {
+      "min": 79,
+      "kind": "red",
+      "team": "home",
+      "who": "Perišić off",
+      "tag": "Second yellow · 79'",
+      "text": "Perišić sent off: second yellow",
+      "line": 3,
+      "at": 0.45
+     },
+     {
+      "min": 88,
+      "kind": "goal",
+      "team": "away",
+      "who": "Merino",
+      "tag": "Goal · 88'",
+      "text": "Merino again, from Zubimendi",
+      "line": 4,
+      "at": 0.45
+     }
+    ],
+    "say": [
+     "Croatia struck first: Perišić, on seventeen minutes.",
+     "At half-time, Spain sent on Mikel Merino.",
+     "On sixty-one, Merino levelled.",
+     "On seventy-nine, Perišić, the scorer, saw a second yellow.",
+     "And on eighty-eight, Merino won it."
+    ]
+   },
+   {
+    "type": "vr_stat",
+    "match": 0,
+    "top": "Croatia v Spain",
+    "title": "Freeze frame",
+    "kicker": "Full time · UEFA match data",
+    "player": "Unai Simón",
+    "rows": [
+     [
+      "Possession",
+      "31%",
+      "69%",
+      0,
+      0.35
+     ],
+     [
+      "Shots",
+      "9",
+      "12",
+      1,
+      0.05
+     ],
+     [
+      "Shots on target",
+      "5",
+      "3",
+      1,
+      0.45,
+      true,
+      "Croatia had more"
+     ],
+     [
+      "Saves",
+      "1",
+      "4",
+      2,
+      0.3
+     ]
+    ],
+    "callout": {
+     "team": "away",
+     "kicker": "Spain's keeper",
+     "name": "Unai Simón",
+     "text": "4 saves, to keep Spain in it"
+    },
+    "say": [
+     "Spain had sixty-nine per cent of the ball.",
+     "But Croatia had more shots on target: five, to Spain's three.",
+     "Unai Simón made four saves to keep Spain in it."
+    ]
+   },
+   {
+    "type": "vr_call",
+    "match": 0,
+    "top": "Croatia v Spain",
+    "title": "The call",
+    "kicker": "Made this morning · 07:15 Lagos",
+    "read": "A Spain win, by two",
+    "score": [
+     1,
+     2
+    ],
+    "verdict": "half",
+    "checks": [
+     {
+      "label": "A Spain win",
+      "note": "Merino, twice, off the bench",
+      "ok": true,
+      "line": 1
+     },
+     {
+      "label": "By two goals",
+      "note": "They won by one",
+      "ok": false,
+      "line": 2
+     }
+    ],
+    "say": [
+     "Our call this morning: a Spain win, by two goals.",
+     "The Spain win: confirmed.",
+     "By two: overturned. They won by one.",
+     "Half right."
+    ]
+   },
+   {
+    "type": "vr_replay",
+    "match": 1,
+    "top": "Nations League · Group 3",
+    "label": "Replay · Wembley",
+    "away_crowd": false,
+    "items": [
+     {
+      "min": 27,
+      "kind": "og",
+      "team": "home",
+      "who": "Coufal (o.g.)",
+      "tag": "Own goal · 27'",
+      "text": "Coufal turns Kane's cross in",
+      "line": 0,
+      "at": 0.55
+     },
+     {
+      "min": 40,
+      "kind": "goal",
+      "team": "home",
+      "who": "Kane",
+      "tag": "Goal · 40'",
+      "text": "Kane, from Rogers' cross",
+      "line": 1,
+      "at": 0.2
+     },
+     {
+      "min": 57,
+      "kind": "goal",
+      "team": "home",
+      "who": "Kane",
+      "tag": "Header · 57'",
+      "text": "Kane heads in Hall's corner",
+      "line": 2,
+      "at": 0.25
+     },
+     {
+      "min": 82,
+      "kind": "sub",
+      "team": "home",
+      "who": "Kane off",
+      "tag": "82' · cap 125",
+      "text": "Kane off, to a standing ovation",
+      "line": 3,
+      "at": 0.1
+     }
+    ],
+    "say": [
+     "Wembley. Coufal turned the ball into his own net on twenty-seven minutes.",
+     "Harry Kane made it two-nil, five minutes before half-time.",
+     "And three, with a header, on fifty-seven minutes.",
+     "His hundred and twenty-fifth cap: level with Peter Shilton's England record."
+    ]
+   },
+   {
+    "type": "vr_call",
+    "match": 1,
+    "top": "England v Czechia",
+    "title": "The call",
+    "kicker": "Made this morning · 07:15 Lagos",
+    "read": "A big England win",
+    "score": [
+     3,
+     0
+    ],
+    "verdict": "called",
+    "checks": [
+     {
+      "label": "A big England win",
+      "note": "Czechia: no shot on target",
+      "ok": true,
+      "line": 1
+     },
+     {
+      "label": "Likeliest score: 3–0",
+      "note": "It finished 3–0",
+      "ok": true,
+      "line": 2
+     }
+    ],
+    "say": [
+     "Our call: a big England win, most likely three-nil or four-nil.",
+     "The big win: confirmed. Czechia did not have a single shot on target.",
+     "And the score: three-nil, exactly.",
+     "Called it."
+    ]
+   },
+   {
+    "type": "vr_quote",
+    "match": 1,
+    "team": "home",
+    "top": "England v Czechia",
+    "title": "In their words",
+    "kicker": "After the game · ITV, via Sky Sports",
+    "player": "Harry Kane",
+    "quote": "It was a perfect night for me and the team… An extremely proud evening.",
+    "who": "Harry Kane",
+    "role": "England captain · 2 goals",
+    "facts": [
+     [
+      "125 caps",
+      "Level with Peter Shilton’s England record",
+      0,
+      0.55
+     ],
+     [
+      "91 goals",
+      "For England, after tonight",
+      0,
+      0.8
+     ]
+    ],
+    "say": [
+     "Kane, after the game: \"It was a perfect night for me and the team. An extremely proud evening.\""
+    ]
+   },
+   {
+    "type": "vr_table",
+    "cases": [
+     0,
+     1
+    ],
+    "top": "Nations League · League A · Group 3",
+    "title": "The table",
+    "kicker": "After four games · two to play",
+    "table": [
+     [
+      "Spain",
+      4,
+      12
+     ],
+     [
+      "England",
+      4,
+      9
+     ],
+     [
+      "Croatia",
+      4,
+      3
+     ],
+     [
+      "Czechia",
+      4,
+      0
+     ]
+    ],
+    "highlight": [
+     "Spain",
+     "England"
+    ],
+    "cut": 2,
+    "rows": [
+     [
+      "Spain",
+      "Through to the quarter-finals",
+      1,
+      0.1
+     ],
+     [
+      "15 Nov",
+      "Spain v England, in Madrid",
+      2,
+      0.2
+     ],
+     [
+      "12 Nov",
+      "England v Croatia, at Wembley",
+      2,
+      0.75
+     ]
+    ],
+    "say": [
+     "The table after four games: Spain twelve points, England nine.",
+     "Spain are through to the quarter-finals, with two games to spare.",
+     "And on the fifteenth of November, Spain host England in Madrid."
+    ]
+   },
+   {
+    "type": "vr_board",
+    "top": "Our 07:15 reads v full time",
+    "title": "The other games",
+    "kicker": "Board one · four games",
+    "items": [
+     {
+      "match": 2,
+      "comp": "Nations League C · Astana",
+      "score": [
+       2,
+       2
+      ],
+      "read": "Tight. Kazakhstan unbeaten",
+      "verdict": "called"
+     },
+     {
+      "match": 3,
+      "comp": "Norwegian Cup · Raufoss",
+      "score": [
+       1,
+       5
+      ],
+      "read": "IK Start unbeaten",
+      "verdict": "called"
+     },
+     {
+      "match": 4,
+      "comp": "Swedish Cup · Trollhättan",
+      "score": [
+       1,
+       0
+      ],
+      "read": "Upset alert: Trollhättan",
+      "verdict": "called"
+     },
+     {
+      "match": 5,
+      "comp": "Friendly · Tizi Ouzou",
+      "score": [
+       2,
+       1
+      ],
+      "read": "An Algeria win",
+      "verdict": "called"
+     }
+    ],
+    "say": [
+     "Kazakhstan were two goals down to the Faroe Islands, and drew two-two.",
+     "IK Start won at Raufoss: five goals to one.",
+     "Our upset alert: Trollhättan beat Mjällby, the Swedish champions, one-nil.",
+     "And Algeria came from behind to beat Niger, two-one."
+    ]
+   },
+   {
+    "type": "vr_board",
+    "top": "Our 07:15 reads v full time",
+    "title": "The other games",
+    "kicker": "Board two · four games",
+    "items": [
+     {
+      "match": 6,
+      "comp": "Friendly · Amman",
+      "score": [
+       0,
+       0
+      ],
+      "read": "Close. Jordan, just",
+      "verdict": "half"
+     },
+     {
+      "match": 7,
+      "comp": "Nations League C · Chișinău",
+      "score": [
+       0,
+       4
+      ],
+      "read": "A Slovakia win",
+      "verdict": "called"
+     },
+     {
+      "match": 8,
+      "comp": "CONCACAF Nations League C",
+      "score": [
+       4,
+       1
+      ],
+      "read": "A Montserrat win",
+      "verdict": "called"
+     },
+     {
+      "match": 9,
+      "comp": "CONCACAF Nations League B",
+      "score": [
+       "",
+       ""
+      ],
+      "read": "A St Vincent win",
+      "verdict": "later",
+      "chip": "Still playing"
+     }
+    ],
+    "say": [
+     "Jordan and Venezuela finished goalless. Close, yes. A Jordan win, no.",
+     "Slovakia scored four in Moldova, without reply.",
+     "Montserrat beat Turks and Caicos, four goals to one: four wins from four.",
+     {
+      "say": "And Saint Vincent against Sint Maarten is still being played.",
+      "show": "And St Vincent v Sint Maarten is still being played."
+     }
+    ]
+   },
+   {
+    "type": "vr_tally",
+    "top": "Tuesday · 6 October",
+    "title": "The tally",
+    "kicker": "Our calls · finished games",
+    "big": 7,
+    "of": 9,
+    "of_label": "Called it",
+    "counts": {
+     "called": 7,
+     "half": 2,
+     "missed": 0
+    },
+    "line": "No call missed outright. St Vincent v Sint Maarten: still playing.",
+    "say": [
+     "So, the tally.",
+     "Of nine finished games: seven called, and two half right.",
+     "And not one call missed outright."
+    ]
+   },
+   {
+    "type": "vr_end",
+    "top": "Next",
+    "l1": "That's the",
+    "l2": "Review",
+    "follow": "Follow for more",
+    "next": [
+     {
+      "when": "12 Nov",
+      "badges": [
+       [
+        1,
+        "home"
+       ],
+       [
+        0,
+        "home"
+       ]
+      ],
+      "text": "England v Croatia · Wembley"
+     },
+     {
+      "when": "15 Nov",
+      "badges": [
+       [
+        0,
+        "away"
+       ],
+       [
+        1,
+        "home"
+       ]
+      ],
+      "text": "Spain v England · Madrid"
+     }
+    ],
+    "say": [
+     "That's the review.",
+     "Follow for more football, by the numbers."
+    ],
+    "tail": 0.9
+   }
+  ]
+ },
+ "picks": [
+  {
+   "home": "Croatia",
+   "away": "Spain",
+   "competition": "UEFA Nations League",
+   "kickoff": "19:45",
+   "home_win": 7,
+   "draw": 16,
+   "away_win": 77,
+   "xg_home": 0.62,
+   "xg_away": 2.32,
+   "form_home": "WLWLL",
+   "form_away": "WDWWW",
+   "scored_home": 1,
+   "scored_away": 3.33,
+   "conceded_home": 4,
+   "conceded_away": 1.33,
+   "top_scores": [
+    [
+     0,
+     2,
+     14
+    ],
+    [
+     0,
+     3,
+     11
+    ],
+    [
+     0,
+     1,
+     10
+    ]
+   ],
+   "stage": "League A · Group 3 · Matchday 4",
+   "venue": "Stadion Poljud, Split",
+   "home_short": "Croatia",
+   "away_short": "Spain",
+   "kit": {
+    "home": {
+     "c": "#E1251B",
+     "bg": "repeating-conic-gradient(#E1251B 0 25%,#FFFFFF 0 50%) 0 0/22px 22px",
+     "ink": "#FFFFFF"
+    },
+    "away": {
+     "c": "#C60B1E",
+     "bg": "linear-gradient(180deg,#C60B1E 0 28%,#FFC400 28% 72%,#C60B1E 72%)",
+     "ink": "#FFC400"
+    }
+   },
+   "score_home": 1,
+   "score_away": 2
+  },
+  {
+   "home": "England",
+   "away": "Czechia",
+   "competition": "UEFA Nations League",
+   "kickoff": "19:45",
+   "home_win": 94,
+   "draw": 5,
+   "away_win": 1,
+   "xg_home": 3.21,
+   "xg_away": 0.38,
+   "form_home": "LWLWW",
+   "form_away": "DLLLL",
+   "scored_home": 3.67,
+   "scored_away": 0.67,
+   "conceded_home": 1,
+   "conceded_away": 2.33,
+   "top_scores": [
+    [
+     3,
+     0,
+     13
+    ],
+    [
+     4,
+     0,
+     13
+    ],
+    [
+     5,
+     0,
+     11
+    ]
+   ],
+   "stage": "League A · Group 3 · Matchday 4",
+   "venue": "Wembley Stadium, London",
+   "home_short": "England",
+   "away_short": "Czechia",
+   "kit": {
+    "home": {
+     "c": "#1D2B5C",
+     "bg": "linear-gradient(180deg,#FFFFFF 0 36%,#CE1124 36% 64%,#FFFFFF 64%)",
+     "ink": "#FFFFFF"
+    },
+    "away": {
+     "c": "#D7141A",
+     "bg": "#D7141A",
+     "ink": "#FFFFFF"
+    }
+   },
+   "score_home": 3,
+   "score_away": 0
+  },
+  {
+   "home": "Kazakhstan",
+   "away": "Faroe Islands",
+   "competition": "UEFA Nations League",
+   "kickoff": "15:00",
+   "home_win": 44,
+   "draw": 31,
+   "away_win": 25,
+   "xg_home": 1.27,
+   "xg_away": 0.9,
+   "home_short": "Kazakhstan",
+   "away_short": "Faroes",
+   "kit": {
+    "home": {
+     "c": "#00AFCA",
+     "bg": "linear-gradient(180deg,#00AFCA 0 68%,#FEC50C 68%)"
+    },
+    "away": {
+     "c": "#005EB8",
+     "bg": "linear-gradient(180deg,#005EB8 0 25%,#EF3340 25% 75%,#005EB8 75%)"
+    }
+   },
+   "score_home": 2,
+   "score_away": 2
+  },
+  {
+   "home": "Raufoss IL",
+   "away": "IK Start",
+   "competition": "Nm Cup",
+   "kickoff": "16:00",
+   "home_win": 27,
+   "draw": 26,
+   "away_win": 47,
+   "xg_home": 1.18,
+   "xg_away": 1.59,
+   "home_short": "Raufoss",
+   "away_short": "IK Start",
+   "score_home": 1,
+   "score_away": 5
+  },
+  {
+   "home": "FC Trollhattan",
+   "away": "Mjallby AIF",
+   "competition": "Svenska Cup",
+   "kickoff": "16:00",
+   "home_win": 70,
+   "draw": 18,
+   "away_win": 12,
+   "xg_home": 2.3,
+   "xg_away": 0.92,
+   "home_short": "Trollhättan",
+   "away_short": "Mjällby",
+   "score_home": 1,
+   "score_away": 0
+  },
+  {
+   "home": "Algeria",
+   "away": "Niger",
+   "competition": "Int. Friendly Games",
+   "kickoff": "18:00",
+   "home_win": 80,
+   "draw": 15,
+   "away_win": 5,
+   "xg_home": 2.33,
+   "xg_away": 0.52,
+   "home_short": "Algeria",
+   "away_short": "Niger",
+   "kit": {
+    "home": {
+     "c": "#006233",
+     "bg": "linear-gradient(180deg,#FFFFFF 0 50%,#006233 50%)"
+    },
+    "away": {
+     "c": "#E05206",
+     "bg": "linear-gradient(180deg,#E05206 0 33%,#FFFFFF 33% 66%,#0DB02B 66%)"
+    }
+   },
+   "score_home": 2,
+   "score_away": 1
+  },
+  {
+   "home": "Jordan",
+   "away": "Venezuela",
+   "competition": "Int. Friendly Games",
+   "kickoff": "18:00",
+   "home_win": 41,
+   "draw": 29,
+   "away_win": 30,
+   "xg_home": 1.35,
+   "xg_away": 1.14,
+   "home_short": "Jordan",
+   "away_short": "Venezuela",
+   "kit": {
+    "home": {
+     "c": "#CE1126",
+     "bg": "linear-gradient(180deg,#CE1126 0 60%,#FFFFFF 60%)"
+    },
+    "away": {
+     "c": "#7A1F2B"
+    }
+   },
+   "score_home": 0,
+   "score_away": 0
+  },
+  {
+   "home": "Moldova",
+   "away": "Slovakia",
+   "competition": "UEFA Nations League",
+   "kickoff": "19:45",
+   "home_win": 14,
+   "draw": 23,
+   "away_win": 63,
+   "xg_home": 0.77,
+   "xg_away": 1.83,
+   "form_home": "DLLLL",
+   "form_away": "WWLWW",
+   "scored_home": 0.8,
+   "scored_away": 1.4,
+   "conceded_home": 3.1,
+   "conceded_away": 1.4,
+   "top_scores": [
+    [
+     0,
+     2,
+     13
+    ],
+    [
+     0,
+     1,
+     12
+    ],
+    [
+     1,
+     1,
+     11
+    ]
+   ],
+   "home_short": "Moldova",
+   "away_short": "Slovakia",
+   "kit": {
+    "home": {
+     "c": "#0046AE",
+     "bg": "linear-gradient(90deg,#0046AE 0 33%,#FFD200 33% 66%,#CC092F 66%)"
+    },
+    "away": {
+     "c": "#0B4EA2",
+     "bg": "linear-gradient(180deg,#FFFFFF 0 33%,#0B4EA2 33% 66%,#EE1C25 66%)"
+    }
+   },
+   "score_home": 0,
+   "score_away": 4
+  },
+  {
+   "home": "Montserrat",
+   "away": "Turks and Caicos Islands",
+   "competition": "CONCACAF Nations League",
+   "kickoff": "21:00",
+   "home_win": 79,
+   "draw": 16,
+   "away_win": 5,
+   "xg_home": 2.27,
+   "xg_away": 0.47,
+   "home_short": "Montserrat",
+   "away_short": "Turks & Caicos",
+   "score_home": 4,
+   "score_away": 1
+  },
+  {
+   "home": "Saint Vincent and the Grenadines",
+   "away": "Sint Maarten",
+   "competition": "CONCACAF Nations League",
+   "kickoff": "22:00",
+   "home_win": 78,
+   "draw": 15,
+   "away_win": 7,
+   "xg_home": 2.32,
+   "xg_away": 0.57,
+   "home_short": "St Vincent",
+   "away_short": "Sint Maarten",
+   "kit": {
+    "home": {
+     "c": "#009E60",
+     "bg": "linear-gradient(90deg,#0072C6 0 25%,#FCD116 25% 75%,#009E60 75%)"
+    }
+   }
+  }
+ ]
+}
