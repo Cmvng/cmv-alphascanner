@@ -569,6 +569,17 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#03060F}
 .bp_end .bigl span{color:var(--sky)}
 .bp_end .fol{position:absolute;left:0;right:0;top:1180px;text-align:center}
 .bp_end .fol .chipb{position:relative;display:inline-block;background:var(--ln);color:#0D2D6E;border-color:var(--ln)}
+/* side by side: two teams' numbers as split bars */
+.bp_vs .heads{position:absolute;left:60px;right:60px;top:420px;display:flex;justify-content:space-between;align-items:center}
+.bp_vs .heads div{display:flex;align-items:center;gap:18px;font:400 52px Anton;text-transform:uppercase;color:var(--ln)}
+.bp_vs .heads .badge{width:84px;height:84px}
+.bp_vs .rows{position:absolute;left:60px;right:60px;top:560px}
+.bp_vs .rw{padding:22px 0 24px;border-top:2px solid var(--ln2)}
+.bp_vs .rw .k{text-align:center;font:700 22px JBM;letter-spacing:4px;text-transform:uppercase;color:var(--sky)}
+.bp_vs .rw .vv2{display:flex;align-items:center;gap:22px;margin-top:10px}
+.bp_vs .rw .v{width:150px;font:400 84px/1 Anton;color:var(--ln)}.bp_vs .rw .v.r{text-align:right}
+.bp_vs .rw .bar{flex:1;display:flex;height:34px;background:rgba(234,242,255,.12)}
+.bp_vs .rw .bar i{display:block;height:100%}
 #cap.bpc .c{background:rgba(5,14,44,.82);padding:10px 24px 12px;border:2px solid rgba(234,242,255,.45);border-radius:6px}
 
 /* stickers and emoji bursts */
@@ -932,8 +943,8 @@ const built = D.scenes.map((sc, k) => {
         <svg class="dw dim"><line x1="150" y1="900" x2="930" y2="900" class="sk"/><line x1="150" y1="874" x2="150" y2="926" class="sk"/><line x1="930" y1="874" x2="930" y2="926" class="sk"/><path d="M172 888 L150 900 L172 912" class="sk"/><path d="M908 888 L930 900 L908 912" class="sk"/></svg><div class="clab"></div>`
     } else if (sc.type === 'bp_title') {
       el.innerHTML = `<div class="sheet2" style="position:absolute;inset:0">${bpPage(`${bpTB(sc, b.label || 'General arrangement')}<div class="kk">${html(b.kicker || '')}</div>
-        <div class="name">${html(b.name || D.cfg.review?.project || 'The Vault')}</div>${vaultSvg(540, 900, 300)}
-        <div class="vs">${badge(q.bh)}<span>${html(q.home)}</span><i>v</i><span>${html(q.away)}</span>${badge(q.ba)}</div>
+        <div class="name">${html(b.name || D.cfg.review?.project || 'The Vault')}</div>${b.art === 'arch' ? `<svg class="dw vault arch2"><path d="M 250 1110 C 320 470, 760 470, 830 1110" class="sk hv"/><path d="M 400 870 L 400 1000 M 540 720 L 540 990 M 680 870 L 680 1000" class="th"/><ellipse cx="540" cy="1080" rx="400" ry="110" class="hv"/><ellipse cx="540" cy="1080" rx="290" ry="72" class="th"/><rect x="430" y="1052" width="220" height="56" class="th"/></svg>` : vaultSvg(540, 900, 300)}
+        <div class="vs" ${b.art === 'arch' ? 'style="top:1240px"' : ''}>${badge(q.bh)}<span>${html(q.home)}</span><i>v</i><span>${html(q.away)}</span>${badge(q.ba)}</div>
         <div class="at"><span class="hand" style="position:relative">${html(b.note || '')}</span></div>`)}</div><div class="roll"></div>`
     } else if (sc.type === 'bp_target') {
       const N = b.count || 0, ticks = Array.from({ length: N }, (_, j) => { const a = pol(540, 700, 300, j * 360 / N), c = pol(540, 700, j % 5 ? 262 : 248, j * 360 / N); return `<line x1="${n1(a[0])}" y1="${n1(a[1])}" x2="${n1(c[0])}" y2="${n1(c[1])}"/>` }).join('')
@@ -1006,6 +1017,16 @@ const built = D.scenes.map((sc, k) => {
       el.innerHTML = bpPage(`${bpHead(sc, b, 'The prize', 'The prize', '')}<table><tr><th></th><th style="text-align:left">Team</th><th>P</th><th>Pts</th></tr>${t.map((r, j) => { const pk = D.picks.find(x => x.home === r[0] || x.away === r[0]), bd = pk ? (pk.home === r[0] ? pk.bh : pk.ba) : null
           return `<tr class="${me.includes(r[0]) ? 'me' : ''} ${j === (b.cut ?? 2) - 1 ? 'cut' : ''}"><td class="n">${j + 1}</td><td class="t">${bd ? badge(bd) : ''}${html(r[0])}</td><td class="r">${r[1]}</td><td class="r">${r[2]}</td></tr>` }).join('')}</table>
         <div class="sc" style="top:960px">${(b.rows || []).map(r => `<div class="r"><i>${html(r[0])}</i><span>${html(r[1])}</span></div>`).join('')}</div>`)
+    } else if (sc.type === 'bp_vs') {
+      el.innerHTML = bpPage(`${bpHead(sc, b, 'By the numbers', 'By the numbers', '')}<div class="heads"><div>${badge(q.bh)}${html(q.home)}</div><div>${html(q.away)}${badge(q.ba)}</div></div>
+        <div class="rows">${(b.rows || []).map(r => { const x = parseFloat(r[1]), y = parseFloat(r[2]), t = (x + y) || 1
+          return `<div class="rw"><div class="k">${html(r[0])}</div><div class="vv2"><div class="v">${html(r[1])}</div><div class="bar"><i data-w="${100 * x / t}" style="background:#EAF2FF"></i><i data-w="${100 * y / t}" style="background:#8EC5FF"></i></div><div class="v r">${html(r[2])}</div></div></div>` }).join('')}</div>
+        ${b.note ? `<div class="hand" style="left:60px;top:${b.note_y ?? 1290}px">${html(b.note)}</div>` : ''}`)
+    } else if (sc.type === 'bp_vs') {
+      rise([$('.heads', el)], lt, 0.45, 0, 20)
+      const rt = j => { const r = b.rows[j]; return r[3] != null ? L0(r[3]) + (r[4] || 0) * LD(r[3]) : 0.8 + j * 0.5 }
+      $$('.rw', el).forEach((r, j) => { rise([r], lt, rt(j) - 0.1, 0, 20); $$('.bar i', r).forEach(x => { x.style.width = `${n1(+x.dataset.w * P(lt, rt(j), rt(j) + 0.6, E.outCubic))}%` }) })
+      writeOn($('.pg > .hand', el), lt, b.note_at ?? (L0(last) + 0.3), 0.8)
     } else if (sc.type === 'bp_board') {
       const its = b.items || []
       el.innerHTML = bpPage(`${bpHead(sc, b, 'The board', 'The board', '')}${its.map((it, j) => { const qq = D.picks[it.match], x = j % 2 ? 550 : 60, y = 400 + Math.floor(j / 2) * 250
@@ -1255,7 +1276,7 @@ function draw(k, lt, sc) {
       $('.sheet2', el).style.clipPath = `inset(0 0 ${n1((1 - q) * 100)}% 0)`; rl.style.top = `${n1(q * 1960 - 35)}px`; rl.style.opacity = q < 1 ? 1 : 0
       slam($('.name', el), lt, 0.42, 1.5, 0.3); rise([$('.kk', el)], lt, 0.6, 0, 20)
       plot($('.vault', el), lt, 0.6, Math.max(2.4, L0(0) + LD(0)))
-      $('.vault .dial', el).style.transform = `rotate(${n1(-300 * P(lt, 0.8, 4, E.outCubic))}deg)`
+      const dl = $('.vault .dial', el); if (dl) dl.style.transform = `rotate(${n1(-300 * P(lt, 0.8, 4, E.outCubic))}deg)`
       rise([$('.vs', el)], lt, 1.0, 0, 30); writeOn($('.at .hand', el), lt, Math.max(1.8, L0(1) - 0.1), 0.9)
       el.style.transform = shake(lt, 0.45, 18)
     } else if (sc.type === 'bp_target') {
@@ -1451,6 +1472,7 @@ function fxCinematic() {
     if (sc.type === 'bp_chances') { const g0 = T + (b.gauge_at ?? Math.max(0.8, (S(sc, 0)[0] ?? 0) - 0.1)); [0, 1, 2].forEach(j => add(g0 + j * 0.45, '3124', -12)); add(g0 + (b.big_at != null ? b.big_at - (b.gauge_at ?? g0 - T) : 1.5), '2909', -9) }
     if (sc.type === 'bp_meanwhile') add(T + 0.6, '3117', -14)
     if (sc.type === 'bp_stakes') (b.rows || []).forEach((r, j) => add((r[2] != null ? LT(r[2], r[3] || 0) : LT(Math.min(j + 1, lastL))) - 0.1, '3124', -11))
+    if (sc.type === 'bp_vs') (b.rows || []).forEach((r, j) => add(r[3] != null ? LT(r[3], r[4] || 0) : T + 0.8 + j * 0.5, '3124', -12))
     if (sc.type === 'bp_board') (b.items || []).forEach((it, j) => { const t2 = it.line != null ? LT(it.line, it.at || 0) : T + 0.7 + j * Math.max(0.25, ((S(sc, lastL)[0] ?? 0) + (S(sc, lastL)[1] ?? 1) - 1.2) / Math.max(1, (b.items || []).length)); add(t2, '3124', -13); add(t2, '2299', -14) })
     if (sc.type === 'bp_job') { add(T + 0.5, '2380', -12); const ra = T + (b.read_at ?? ((S(sc, lastL)[0] ?? 0) + 0.55 * (S(sc, lastL)[1] ?? 1))); if (b.read) { add(ra, '1365', -8); add(ra, '2299', -11) } }
     if (sc.type === 'bp_end') { add(T + 0.45, '2909', -8); const ca = T + (S(sc, Math.min(1, lastL))[0] ?? 1); add(ca, '3117', -10); add(ca + 0.92, '2849', -4); add(ca + 0.92, '2853', -6); add(ca + 0.92, '2299', -5) }
