@@ -74,7 +74,10 @@ if (['preview', 'review', 'explainer'].includes(cfg.mode) && cfg.tips !== true) 
 const SHORT = !!flag('short', false)
 const slug = path.basename(input).replace(/\.(json|csv)$/i, '') + (SHORT ? '_short' : '')
 const OUT = path.join(DIR, 'out', slug), CACHE = path.join(DIR, '.cache')
-fs.rmSync(OUT, { recursive: true, force: true }); fs.mkdirSync(OUT, { recursive: true })
+// a stills check keeps the finished video, its review and its voice (6 Oct: a stills run wiped the final render)
+if (flag('stills', false)) fs.rmSync(path.join(OUT, 'stills'), { recursive: true, force: true })
+else fs.rmSync(OUT, { recursive: true, force: true })
+fs.mkdirSync(OUT, { recursive: true })
 console.log(`\n${cfg.title} · ${cfg.competition} · ${cfg.date}`)
 for (const p of picks) {
   p.bh = await resolveBadge(p.home, p.crest_home, CACHE, OUT)
@@ -195,6 +198,16 @@ const scenes = buildScenes(cfg, picks, recap)
 const spoken = x => typeof x === 'string' ? x : x.say, shown = x => typeof x === 'string' ? x : x.show
 const sentences = scenes.flatMap((s, k) => s.say.map((x, j) => ({ id: `s${k}_${j}`, text: spoken(x), k })))
 fs.writeFileSync(path.join(OUT, 'script.txt'), scenes.map(s => s.say.map(shown).join(' ')).join('\n\n') + '\n')
+// pronunciation check: every unusual word as the voice will say it, stressed syllable in capitals (speech-to-text can't
+// hear a wrong stress: "Ethereum" came out ee-thur-REE-um on 6 Oct). Read it; fix wrong ones in SAY_IPA. --say-check stops here
+if (!stills && cfg.voice !== false && ['preview', 'review', 'explainer'].includes(cfg.mode)) {
+  fs.writeFileSync(path.join(OUT, 'sentences.json'), JSON.stringify(sentences))
+  try {
+    const rep = execSync(`"${PY}" "${path.join(DIR, 'lib', 'say_check.py')}" "${path.join(OUT, 'sentences.json')}" "${path.join(CACHE, 'kokoro')}" 2>/dev/null`).toString()
+    fs.writeFileSync(path.join(OUT, 'say-check.txt'), rep); console.log(rep)
+  } catch (e) { console.warn(`  ! pronunciation check unavailable (${e.message.split('\n')[0]})`) }
+  if (flag('say-check', false)) process.exit(0)
+}
 let durs = null, wordTimes = null
 const voiceOn = !flag('no-voice', false) && !stills && cfg.voice !== false
 if (voiceOn) {

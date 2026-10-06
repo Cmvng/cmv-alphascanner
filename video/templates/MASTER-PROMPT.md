@@ -417,6 +417,18 @@ Rules:
 
 ## 8. Checks before sending (every time)
 
+0. **Study the video, every time** (the owner, 6 Oct: "study each video after you create them… improvements… where
+   you made some mistakes and what you take from it"):
+   - `daily.sh render` ends with `video/lib/review_video.py`. It writes `review/review.md` and `review/sheet.jpg`: a
+     frame per spoken line, the voice heard back, the pronunciation list, sound, pace, still stretches, colour mix.
+   - Fix what it flags, then write an entry in `video/templates/REVIEWS.md` (what worked, the mistakes and how they got
+     through, what changes next time; the owner's reaction later).
+   - Before starting any video, read the "Change next time" lines of the last three entries and do them.
+   - Pronunciation: speech-to-text can't hear a wrong stress (6 Oct: "Ethereum" sounded wrong and still transcribed as
+     "Ethereum"). Read `say-check.txt` (every unusual word with its stressed syllable in capitals) before the voice is
+     recorded, and fix wrong words with IPA in `SAY_IPA`.
+   - Words that mishear: "none" after numbers was heard as "nine"; "nil" as "now"; "our" as "I'll"; plain numbers
+     after "paid in" as dollars. Say "no points", "seven–nil", "the read is", "2,500 NFTs go to".
 1. **Frames:**
    - pull frames from every screen, mid-animation and at the end, into one contact sheet, and look;
    - nothing overlapping, nothing hidden under the captions, nothing cropped at the edges;

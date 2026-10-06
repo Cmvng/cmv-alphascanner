@@ -210,7 +210,7 @@
     ],
     "one": "About 1 in 20 is Legendary",
     "say": [
-     "The essence is eight bytes: a class, four stats, an element, and two held in reserve.",
+     "The essence is eight bytes: a class, four stats, one element, and two held in reserve.",
      "The stats: Secrecy, Intuition, Will and Energy.",
      "And only about one in twenty is Legendary."
     ]
@@ -393,7 +393,7 @@
      "2,500 NFTs go to the sale, paid in cZAMA, Zama's confidential token. 232 go to the team.",
      "And 500 free mints: gas only, one per account."
     ],
-    "dim": "#3A3A48"
+    "dim": "#7A7A92"
    },
    {
     "type": "kh_apply",

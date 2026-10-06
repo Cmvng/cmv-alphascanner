@@ -40,13 +40,20 @@ const SAY_IPA = {
   'Modrić': 'mˈɔːdɹɪtʃ', Budimir: 'bˈuːdɪmiːɹ', 'Smolčić': 'smˈɔːltʃɪtʃ', 'Bilić': 'bˈiːlɪtʃ', Poljud: 'pˈɔːljuːd', Lamine: 'lɐmˈiːn',
   Yamal: 'jɐmˈɑːl', 'Krejčí': 'kɹˈeɪtʃiː', Czechia: 'tʃˈɛkiə', Ante: 'ˈɑːnteɪ',
   Raufoss: 'ɹˈaʊfɔs', 'Trollhättan': 'tɹˈɔlhɛtən', 'Mjällby': 'mjˈɛlbi', 'Hložek': 'hlˈɔʒɛk', Neghiz: 'nɛɡˈiːz', Kazakhstan: 'kˌæzəkstˈæn',
+  // crypto words the phonemizer gets wrong (checked 6 Oct: it said "ee-ther-REE-um", dropped the s in "NFTs",
+  // "MEM-i-coin", "VY-ta-lik", "duh-fy", and read ERC and FHEVM as words)
+  Ethereum: 'ɪθˈɪɹiəm', NFTs: 'ˌɛnˌɛftˈiːz', homomorphic: 'hˌoʊmoʊmˈɔːɹfɪk', memecoin: 'mˈiːmkɔɪn',
+  memecoins: 'mˈiːmkɔɪnz', Vitalik: 'vɪtˈɑːlɪk', DeFi: 'dˈiːfaɪ', FHEVM: 'ˌɛfˌeɪtʃˌiːvˌiːˈɛm', ERC: 'ˌiːˌɑːɹsˈiː',
+  Binance: 'bˈaɪnæns', Lido: 'lˈiːdoʊ', Aave: 'ˈɑːveɪ', Nakamoto: 'nˌɑːkəmˈoʊtoʊ', Satoshi: 'sətˈoʊʃi',
 }
-const IPA_RE = new RegExp(`(?<!\\p{L})(${Object.keys(SAY_IPA).join('|')})(?!\\p{L})`, 'gu')
+const IPA_RE = new RegExp(`(?<!\\p{L})(${Object.keys(SAY_IPA).join('|')})(['’]s)?(?!\\p{L})`, 'gu')
 // letter-aware edges: \b treats accented letters as non-letters, so "Doué" or "Çalhanoğlu" would never match
 const NAME_RE = new RegExp(`(?<!\\p{L})(${Object.keys(SAY_NAMES).join('|')})(?!\\p{L})`, 'gu')
 const IPA_KEYS = Object.keys(SAY_IPA)
-const speakNames = t => t.replace(IPA_RE, w => `\u0000${IPA_KEYS.indexOf(w)}\u0001`).replace(NAME_RE, w => SAY_NAMES[w])
-  .replace(/\u0000(\d+)\u0001/g, (_, j) => `[${IPA_KEYS[+j]}](/${SAY_IPA[IPA_KEYS[+j]]}/)`)
+// a possessive keeps its sound: "Czechia's" was read "Czechia… es" (6 Oct), so the 's joins the IPA (s, z or ɪz by the last sound)
+const possessive = ipa => /(s|z|ʃ|ʒ|tʃ|dʒ)$/.test(ipa) ? ipa + 'ᵻz' : /(p|t|k|f|θ)$/.test(ipa) ? ipa + 's' : ipa + 'z'
+const speakNames = t => t.replace(IPA_RE, (w, name, s) => `\u0000${IPA_KEYS.indexOf(name)}${s ? 's' : ''}\u0001`).replace(NAME_RE, w => SAY_NAMES[w])
+  .replace(/\u0000(\d+)(s?)\u0001/g, (_, j, s) => `[${IPA_KEYS[+j]}${s ? "'s" : ''}](/${s ? possessive(SAY_IPA[IPA_KEYS[+j]]) : SAY_IPA[IPA_KEYS[+j]]}/)`)
 const L = (say, show = say) => ({ say: speakNames(say), show })
 
 // A written script uses digits like a person would ("at 1.57", "under 1.5 goals", "68%"); this turns them

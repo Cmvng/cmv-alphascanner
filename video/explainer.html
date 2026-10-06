@@ -782,7 +782,7 @@ function drawKH(el, lt, sc, b) {
       const at = tA + d.q * 1.5, q = P(lt, at, at + 0.35, E.outBack); if (q <= 0) continue
       const on = lt >= lit[d.g], hot = on ? 1 - P(lt, lit[d.g] + 0.6, lit[d.g] + 1.4) : 0
       g.globalAlpha = (on ? 1 : 0.6) * clamp((lt - at) / 0.1)
-      g.fillStyle = on ? cols[d.g] : (b.dim || '#3A3A48')
+      g.fillStyle = on ? cols[d.g] : (b.dim || '#7A7A92')     // unlit dots must still show on the ink disc (6 Oct review)
       const r = 4.2 * q * (1 + 0.6 * hot); g.beginPath(); g.arc(d.x, d.y, r, 0, 6.2832); g.fill()
       if (d.g === 1 && on) { g.globalAlpha = 0.18 + 0.12 * Math.sin(lt * 4 + d.q * 40); g.beginPath(); g.arc(d.x, d.y, 9, 0, 6.2832); g.fill() }
     }

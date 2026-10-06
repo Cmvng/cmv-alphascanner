@@ -41,3 +41,6 @@ echo "SCRIPT  $OUT/script.txt"
 echo "CREDITS $OUT/credits.txt"
 if [ -f "${MP4%.mp4}_cover.jpg" ]; then echo "COVER   ${MP4%.mp4}_cover.jpg"; fi
 if [ -f "${MP4%.mp4}.srt" ]; then echo "SUBS    ${MP4%.mp4}.srt"; fi
+# study the video before it goes out (the owner, 6 Oct): frames per line, the voice heard back, pronunciation, sound,
+# pace, still stretches, colour variety. Read review/review.md, then write the lessons in video/templates/REVIEWS.md
+if [ -f "$OUT/index.html" ]; then python3 video/lib/review_video.py "$OUT" 2>/dev/null || echo "  ! review failed"; fi

@@ -286,6 +286,17 @@ Run it in the background. It takes about 5–8 minutes; the first run in a new s
 
 ## 4. Check, then send
 
+- **Study it first (the owner, 6 Oct: "study each video after you create them… where you made mistakes and what you
+  take from it").**
+  - The render ends with `REVIEW video/out/<slug>/review/review.md`. Open `review/sheet.jpg` (a frame per spoken line)
+    and read the review: the voice heard back, the pronunciation list, loudness and the drop, pace, still stretches,
+    colour mix. Fix what it flags.
+  - Then add an entry to `video/templates/REVIEWS.md`: what worked, the mistakes and how they got through, what
+    changes next time. Add the owner's reaction when it comes.
+  - Before starting any video, read the "Change next time" lines of the last three entries.
+- **Pronunciation:** the render prints a pronunciation check before recording the voice (also in `say-check.txt`):
+  every unusual word with its stressed syllable in capitals. Speech-to-text can't hear a wrong stress, so read it by
+  eye; fix wrong ones with IPA in `SAY_IPA`. `node video/make-video.mjs <file> --say-check` prints it alone.
 - **Frames:** pull 4–6 with ffmpeg (opening, a pick card, the slate or totals, the last card), put them in one contact sheet and look. Check for overlapping text, a missing stadium or crest, or a wrong name.
 - **Voice:** transcribe the final audio with faster-whisper (`base.en`) and compare it with the script. Fix any name the voice gets wrong in `SAY_NAMES` in `video/lib/narration.mjs`, then re-render.
 - **Send:** send the `SEND` file with SendUserFile (`display: render`). In a few short, plain-English lines, say which session it covers and list the picks; for results, won/lost and the money. Mention anything left out. Offer the caption from `script.txt` and the credits from `credits.txt`.
