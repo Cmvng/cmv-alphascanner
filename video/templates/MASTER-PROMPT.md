@@ -67,24 +67,21 @@ doesn't like it."* And: *"Most importantly the videos have to be very creative. 
   - **1–5 Oct analysis videos:** stadium-at-night cinematic screens, running cold open, hook, stakes, players, tactics, model, verdict, round-up.
   - **5 Oct post-match: "The Final Whistle".** Tomorrow's newspaper tonight: a printing press, the front page spinning in, a minute-by-minute timeline, stamped briefs.
   - **6 Oct analysis: "The Vault".** A heist plan on blueprint paper: plotter lines drawing themselves, a dial counting Spain's 41-game unbeaten run, Yamal's early goals on a 90-minute clock, a cracking wall, dossiers, a floor plan with the passing as a laser grid, case files stamped FAILED.
-  - **Reaction videos:** a presenter reacting to our morning analysis; reaction clips and text memes.
+  - **6 Oct, full slate:** "Job two" (a second match by the numbers, side-by-side bars) and "The board" (the night's
+    other games pinned up as job cards by kick-off time, then one card each).
+  - **Reaction videos (1–4 Oct):** a female presenter reacting to our morning analysis over World Cup photos of the
+    teams' players, a fixture card, an "Our take" card, the score, and a running tally (1/1 ✅, 1/2 🤏, 1/3 ❌).
+  - **Post-match reviews (1–4 Oct):** score slam, key moments, text memes over licensed reaction clips, stats with
+    "the stat that hurts", our read stamped CALLED IT / HALF RIGHT / MISSED IT, ratings, the table.
+  - **Tips and results (1–3 Oct):** stadium, broadcast-graphics and players styles; pick cards with signal bars; results
+    with WON/LOST stamps and a running total.
+  - **Polymarket plays (2 Oct):** our own market cards (question, YES/NO, price, "$100 → $X").
   - **3 Oct motion-design explainer:** how a Limitless "Pack" works, with a phone mockup, a ticket that builds, and counters.
-- **Ideas waiting to be used:**
-  - *One player's night*, written like a poetic documentary, one big word per beat.
-  - *The duel:* two players' numbers racing.
-  - *Three questions* the match will answer; the post-match video answers them, making a series.
-  - *Myth v numbers.*
-  - *The map:* a top-down pitch with arrows and heat.
-  - *What's on the line, live:* the table animating for each result.
-  - *Countdown 5 → 1.*
-  - *The rivalry strip:* a scrolling timeline of past meetings.
-  - *Two voices* who disagree.
-  - *A prison break* (escaping relegation), *a siege* (a fortress home ground), *a rescue mission* (a coach under pressure).
-  - *A collage poster:* cut-out players, torn paper, halftone.
-  - *A theme edit cut on the beat:* one glowing icon in the dark, then cuts on every beat.
-  - *A nostalgia film grade* for history segments.
-  - *Call-out, then the answer:* a sourced bold claim, then our numbers reply.
-  - **Post-match only:** our call v what happened; the turning point redrawn; minute by minute; what we got wrong; a ratings wall.
+  - **The owner's own recordings (30 Sep–5 Oct):** ETH chart talks with the coin as the showcase, a memecoin phone
+    recording, an XO Market desktop walkthrough, and a camera + phone "duo" edit.
+- **Ideas waiting to be used:** the full bank is in section 11, about fifty concepts by video type, each with its
+  signature moment. What the owner's reference videos taught us is in section 12, and their feedback in order is in
+  section 13. Read both before planning a video.
 - The owner keeps sending reference videos (TikTok, X, crypto creators). Study them, take the *techniques* (never their
   footage), and bring ideas of your own.
 
@@ -186,18 +183,58 @@ either pre analysis or post analysis."*
 
 ### 5b. Post-match review (after full time, monetised)
 
-- Research the match after full time: score, scorers and minutes, key moments, stats, quotes, the table now, every fact sourced.
-- Be honest about our morning call: "Called it", "Half right" or "Wrong", with the why. That honesty builds trust.
-- A new structure and look every time (section 2).
+- **What the owner asked for (1 Oct):**
+  - reactions, favourite moments, photos, funny moments and memes (including crypto-style funny memes) in between;
+  - the emotion of the result: the team won, the favourite lost, the unexpected happened;
+  - "how all these video creators normally do it", so people enjoy watching.
+- **Research** the match after full time: score, scorers and minutes, key moments, stats, quotes, the table now, every fact sourced.
+- **Be honest about our morning call:** "Called it", "Half right" or "Wrong", with the why. That honesty builds trust.
+- **Every screen tells something new.** On 5 Oct the report page and the moment page told the same goals twice; the fix was a
+  minute-by-minute timeline where the score box ticks over, and a "bench" page for the substitutes who decided it.
+- **Media:**
+  - **match highlights are not allowed** (section 6), even a few seconds;
+  - stand-ins that work: real photos of the teams' players from Wikimedia Commons (World Cup 2026 sets are rich), cut on
+    the beat with push-ins; licensed stock reaction clips (Mixkit) under text memes ("POV:", "X fans right now:");
+  - our own redrawn moment: the goal rebuilt on an animated pitch, players as dots, the pass lines and the shot.
+- **The reaction-to-our-analysis format (approved 1 Oct):**
+  - a presenter reacts to each of our morning takes: fixture card, white "Our take" card, the final score, then a big
+    running tally with a boom and a cheer or a sad trombone;
+  - bold captions; the main match last, as the finale;
+  - the presenter is the female stand-in (a licensed green-screen stock clip) with the female voice. The owner wants
+    different outfits and microphones over time, which needs new recordings;
+  - **not** the owner's own photo and **not** the male pundit voices (2 Oct: "I don't like the video with my image there,
+    it's poor, and I don't like the voice").
+- **A new structure and look every time** (section 2). The newspaper ("The Final Whistle") was the 5 Oct look.
+- **Say scores so they can't be misheard:** "One-nil to Belgium", not "Belgium one" (heard as "Belgium won").
 
 ### 5c. Tips, picks and results videos (not monetised)
 
+- **Where it started (1 Oct):** the owner sent a tipster's automated "Five picks" videos. Each ran:
+  - an intro listing all the matches;
+  - per match: a "VS" card with the engine's win/draw/win chances, a stats card (xG, form dots, goals for and against,
+    ratings with bars), and a pick card (the price, our fair price, our chance against the market's, the edge);
+  - an outro.
+
+  Numbers count up, bars grow, a light sweeps the stadium, and blue word-by-word captions run throughout.
+- **The owner's first feedback (1 Oct), which still applies:**
+  - the voice must sound like a **professional football analyst and journalist**, never like it doesn't know what it is
+    saying;
+  - the background is the **home team's real stadium** (or recent photos of its players), never a generic graphic;
+  - say a pick the way a pundit would: "Germany to win, at 1.20. Our model gives them 80%";
+  - **original to cmvng, not copied:** the owner rejected the copied "units". We use **cmvng Signal bars** (1–3);
+  - real crests and flags, shown properly;
+  - a captivating soundtrack, never a boring bed.
 - **Picks:**
   - straight from the app's latest session: each single with its pick, price and the app's percentages;
   - 3 voice lines per pick: the match and 1–2 stats that explain it, then the pick at the price, then the app's
     chance against the bookmaker's;
   - signal bars: 3 when the price × our chance beats the bookmaker by 5% or more, 2 for any edge, 1 otherwise.
-- **Results:** settled singles only, won or lost said plainly.
+- **Results:**
+  - settled singles only, won or lost said plainly, with the score and a WON/LOST stamp;
+  - a running total of what was staked and what came back, by default $100 a pick for results and ₦10,000 for picks;
+  - on a losing day, say it straight: "That's down 32 dollars on the day. We post every result, good days and bad."
+- **Looks:** rotate stadium (the home ground), broadcast (team-colour TV graphics) and players (recent photos of the home
+  side). Reveal ideas are in section 11.
 - **Rules:**
   - never say "sure", "banker", "guaranteed", "fixed" or "lock";
   - "18+ · Predictions, not guarantees" on screen;
@@ -225,7 +262,21 @@ either pre analysis or post analysis."*
   counters, a ticket that builds leg by leg, timed to the voice.
 - **Approved sound:** the narrator voice at 1.0, cinematic sound design, a drop track whose drop lands on the hook,
   and a cold open before it ("$10." / "One ticket." / "$172 back, if every leg lands." / "Or nothing at all.").
-- **Facts:** only from the product's own docs and app, listed in a sources file.
+- **Facts:** only from the product's own docs and app, listed in a sources file. When the docs and the live app
+  disagree (Packs: the docs said a $1 minimum, the app showed $5), use the app and say limits can change.
+- **The 3 Oct lessons:**
+  - the first voice and soundtrack were "basic": the voice must carry presence ("okay, wow, what is this"). Two sound
+    options were made and the owner chose one, and the cold open + drop came from there;
+  - the first version used the product's neon-lime colours; the owner's colour is blue, always;
+  - "how to be profitable" became "use it smartly" plus the real risks: never promise profit;
+  - post explainers of real-money markets on X and TikTok; keep platform links out of YouTube descriptions.
+- **Story ads (reference, 5 Oct):** a 33-second ad where an animated 3D character on a boat tells a fishing story as a
+  metaphor for a campaign ("Boom, 17,000 users… just like boom, I caught a fish"), with typewriter subtitles and a logo
+  end card.
+  - Take: one short story as a metaphor, one big number as the payoff, about 30 seconds, ending on the logo.
+  - A 3D talking character needs a paid AI video service (image → video → lip-sync). The owner would add their own key
+    to the environment; never ask them to paste it in chat. Show a still and the cost before generating.
+  - Without a service, a 2D cartoon presenter drawn and animated in code (mouth to the voice, blinks, gestures).
 - **Rules:**
   - no product logo unless the owner is partnered;
   - footer: "Independent guide · not affiliated with <product> · not financial advice";
@@ -261,15 +312,36 @@ either pre analysis or post analysis."*
   - **check every number on screen** against the recording itself, not the transcript;
   - **hide private content:** incoming calls with numbers, the notification shade, balances they didn't mean to show.
     Freeze over them.
-- **Sync and sound:**
-  - the owner often films camera and screen on two devices: line them up first (once the screen ran 18 s ahead);
-  - clean the voice (noise and room removal) so it is clear and forward;
-  - music low under it (about −6 dB, ducked 10).
+- **Sync:**
+  - the owner often films camera and screen on two devices: line them up first, on three or four moments where they
+    read something off the screen (4 Oct: the screen ran 18 s ahead);
+  - a phone screen recording's file name carries its **end** time, which gives the offset (5 Oct: 55.7 s).
+- **Sound** (3 Oct: "the voice should be more audible"; 5 Oct: "the audio from the main video is terrible"):
+  - repair clipped peaks, take out the room echo, then AI noise removal (DeepFilterNet3), then only a rumble cut;
+  - **don't** add presence or "air" boosts or heavy compression: they lift the phone's hiss and make it pump;
+  - **don't** use generative voice restoration: it blurred the owner's consonants ("only market" for "Polymarket");
+  - music far under the voice: about −12 dB, ducked 12, for camera recordings.
+- **Layout the owner wants** (5 Oct: "put my main video in the small corner… so that what I want to show on the screen
+  will actually reflect better"): in the vertical cut, the screen fills the frame at full width and the owner sits small in
+  a corner; the owner goes full frame only for intro and outro talk. The 16:9 split screen was rejected ("I cannot even
+  see the main things on the screen").
 - **On a crypto video, the showcase is the coin itself:** live price, 24-hour change and 4-hour candles drawn with the
   zones and levels the owner talked about. Restate their call, never add a new one. Check the price is still where the
   owner said; if not, reword the points so they stay true.
+- **The chart must read well** (3 Oct: the chart "was not properly looking well"): zoom on what the owner points at,
+  keep axis labels and prices legible on a phone.
 - **Output:** a vertical cut (the owner prefers it; the screen must be readable on a phone) and a wide cut when asked.
   "Not financial advice" stays on screen. No "guaranteed" or "sure" anywhere we add.
+- **Quality:** the owner wants to download a sharp file (3 Oct: "the quality is poor and I wanted to download it"). Chat
+  delivery caps files at about 29 MB, so send a two-pass encoded copy and offer the full file another way.
+  Originals over 30 MB come in through a Dropbox or Drive link set to "anyone with the link".
+- **Recording tips for the owner:**
+  - write three or four bullet points first, then talk for two or three minutes;
+  - record the screen and the camera as separate files, in 1080p;
+  - light the face from the side, with the background a little out of focus;
+  - a quiet room or a clip-on mic;
+  - say the key line once, clearly ("ETH is primed for $3,000, and here's why");
+  - a 10-second spoken plug for the app beats on-screen text.
 
 ### 5g. Crypto motion design (no presenter)
 
@@ -302,6 +374,7 @@ Rules:
   - transcribe every line afterwards with a speech-to-text check and fix any name that comes out wrong;
   - say scores so they can't be misheard ("One-nil to Belgium", not "Belgium one").
 - **Media:**
+  - national teams get their flags; club crests appear only small, inside our own cards, never as our logo or edited;
   - player and stadium photos only with a free licence (Wikimedia Commons), credited;
   - stock clips only with a free licence (Mixkit);
   - **never broadcast match footage or agency photos**, not even a second;
@@ -340,6 +413,11 @@ Rules:
 5. **Rules:** no betting words in monetised videos; no "AI Analyst"; house colours only; "Not financial advice" or
    "18+" where needed.
 6. **Variety:** compare with the last three videos of the same kind. If the run of screens is nearly the same, rethink.
+7. **Mid-animation too:** check frames in the middle of each screen at the real voice timing, not only the last frame
+   (layout bugs hide there: text under captions, labels off the edge, stamps over crests).
+8. **No repeats inside the video:** every screen tells something new; the same goals or facts are never told twice.
+9. **Facts you "know":** verify them anyway (6 Oct: the last team to beat Spain was Colombia in March 2024, not the
+   obvious guess).
 
 ## 9. What to deliver
 
@@ -382,3 +460,195 @@ Rules:
 - `video/templates/*/README.md` with an example JSON for each format.
 
 **Outputs:** go to `video/out/`. Commit and push code and template changes; videos stay out of git.
+
+## 11. The creative angle bank
+
+Every video starts from one bold concept. These are ready to use. Each has the signature moment people would screenshot.
+Mark one with its date when used, and don't repeat a concept back to back. Always in our blue.
+
+### Pre-match analysis (the main match)
+- **The heist / The Vault** (used 6 Oct): a heist plan on blueprint paper. *A dial counting the unbeaten run; the passing drawn as a red laser grid.*
+- **Tomorrow's two front pages:** one front page per possible winner. *The page flips between them, and the analysis decides which is likelier.*
+- **One player's night:** written like a poetic documentary ("The question was never X. The question was Y."). *One huge word per beat (NARROW, THRONE); the photo revealed only after extreme crops of the badge, boots and eyes.*
+- **The duel:** two players' (or two teams') numbers racing as bars, round by round. *A boxing-round bell between rounds.*
+- **Three questions:** three questions pinned up, answered with numbers, the last left open. *The post-match video answers them, making a series.*
+- **Myth v numbers / call-out, then the answer:** a sourced bold claim on a quote card, then our numbers reply. *A BUSTED or CONFIRMED stamp.*
+- **The map:** a top-down pitch where attack arrows and heat zones grow. *The weak zone pulses red.*
+- **What's on the line, live:** the group table reorders itself for each possible result. *The rows slide as the voice says "win", "draw", "lose".*
+- **Countdown 5 → 1, cut on the beat:** opens on one small glowing icon in the dark, then a number per beat. *Number 1 is the twist.*
+- **The rivalry strip:** a timeline of past meetings scrolls past and lands on tonight. *Stopping on an empty frame marked "Tonight".*
+- **Two voices:** two narrators who disagree, each with their numbers. *The model settles it as a scale tips.*
+- **The courtroom:** "The case against <team>": prosecution, defence, exhibits A to D, the verdict. *The gavel comes down on our read.*
+- **The mission briefing / war room:** a map table, tokens pushed into position, a countdown to kick-off. *The red phone rings at the twist.*
+- **The scan:** a team's "body" scanned like an X-ray. *Injuries and weak zones light up.*
+- **The weather forecast:** pressing as pressure fronts, attacks as storms, the "chance of goals" as rain. *A storm warning on the favourite.*
+- **The chess board:** formations as pieces, the key move played out. *"Check" at the decisive duel.*
+- **The departure board:** a split-flap board flips through stakes and numbers. *Every flap clatters into place.*
+- **Heist cousins:** a prison break (escaping relegation), a siege (a fortress home ground), a rescue mission (a coach under pressure).
+- **The recipe for an upset:** ingredients measured and poured. *The oven timer is the kick-off clock.*
+- **The select screen:** player cards with stat hexagons, in our own design. *"Player selected" as the key man lights up.*
+- **The museum:** the rivalry's history as exhibits behind glass, with plaques. *Tonight's empty plinth.*
+- **The collage poster:** cut-out players on torn paper, halftone, borders in club colours, a white outline round a celebration. *A photo tearing into the next.*
+- **The nostalgia grade:** warm film grain and vignette for the history part. *Then a hard cut back to cold, modern blue.*
+
+### A second big match, and the whole slate
+- **Job two, by the numbers** (used 6 Oct): the sides' numbers as split bars, key men, last three meetings, our model.
+- **The board** (used 6 Oct): the night's other games as job cards in kick-off order, then one card each.
+- **The flight board:** the slate as departures, each game "boarding" at its kick-off time.
+- **The weather map of the night:** each game a city pin with a forecast icon (a sun for a one-sided game, a storm for a tight one).
+- **The speed round:** every game in about 6 seconds on the beat, one number each.
+- **Who needs whom:** a bracket of how tonight's results feed each other's tables.
+
+### Post-match
+- **Our call v what happened:** a scoreboard of our calls, ticked or crossed, with the honest why.
+- **The turning point, redrawn:** the key moment rebuilt on an animated pitch (dots, pass lines, the shot).
+- **Minute by minute:** a timeline that fills in as goals and cards land, with the score box ticking over.
+- **What we got wrong:** an honesty format when the read failed.
+- **The ratings wall:** player cards flip over, the best and worst last.
+- **The newspaper** (used 5 Oct): tomorrow's paper tonight.
+- **The receipt of the night:** every call prints as a receipt line, the tally at the bottom.
+- **The verdict on trial:** our morning read in the dock.
+- **Three questions, answered:** the payoff to the pre-match series.
+- **After the storm:** the weather forecast format, looked back on.
+
+### Tips and results (not monetised)
+- **Slot-machine reveal:** each pick lands as the reels stop.
+- **The scratch card:** each result scratched off to WON or LOST.
+- **The receipt:** the slate prints line by line, the return at the bottom.
+- **The combo slip:** builds leg by leg.
+- **The calendar:** the weekly recap fills with ticks and crosses.
+- **Confidence stamps:** pick files stamped with their signal bars.
+
+### The owner's crypto recordings
+- The crypto-creator style: the owner full frame, tilted floating screen cards, number pop-outs, white list cards, and
+  full-screen walkthroughs with the owner in a corner.
+- Kinetic word beats: the owner's own word huge on white or black ("CANCEL", "$14").
+- Our redrawn UI that builds as they talk (a combo slip, a search pill typing, a cursor tap).
+- Handwritten notes with arrows, numbered chapter tiles, a wall of one repeated word for emphasis, and chat bubbles with
+  a typing indicator for a question the owner was asked.
+- The live chart drawing itself with the owner's levels; a split decision with a pause before the pick; a
+  before/after wipe (yesterday's screen v today's).
+- Story scripts: what everyone says → why it failed for me → what I do instead → result, with a soft (or reverse-psychology)
+  CTA and a cliffhanger last line.
+
+### Crypto motion design and explainers (no presenter)
+- A coin reveal with a glow; a chart that draws itself; an order book as moving bars; supply as a filling vessel.
+- A race between coins; the receipt of a trade.
+- A heist on a protocol (the vault is the TVL).
+- Chains as a metro map, with bridges as the lines.
+- A user journey in UI pieces, like an airline ad: a search pill types, result cards fan out, a pass card, "You have arrived".
+- Apple-style morphing widgets with a springy overshoot, and words fading in from a blur.
+- A story-as-metaphor ad with a character, one big number as the payoff.
+- "Everyone tells you X, nobody tells you Y", then a numbered list on colour tiles.
+
+## 12. What each reference video taught us
+
+The owner sends references to learn from. Take the techniques, never the footage, and always restyle in our blue.
+
+1. **A tipster's automated "Five picks" videos (1 Oct).**
+   - Structure: an intro list; per match a VS card with the engine's chances, a stats card (xG, form dots, goals, ratings)
+     and a pick card (price v fair price, our chance v the market's, the edge); an outro.
+   - Motion: numbers count up, bars grow, a light sweeps a dimmed stadium, blue word-by-word captions.
+   - The owner wanted more than that: an analyst's voice, the home stadium, our own Signal bars, and a captivating soundtrack.
+2. **A "unit guide" video (1 Oct).**
+   - The look: a dark navy screen over a blurred floodlit stadium, the logo top left, a tag top right, condensed headlines.
+   - Taught what units mean. The owner then asked for something original: Signal bars.
+   - Its amber accent is not for us.
+3. **A tipster reacting to his own picks (1 Oct).**
+   - He talks to camera with players of those teams scoring and celebrating behind him (not necessarily that match), a
+     fixture card and a take card, then a quick cut to the result, a big green running tally, and bold captions.
+   - We react to our *analysis* instead (monetisable), with free-licensed photos in place of clips.
+4. **The owner's own ETH videos on X (3 Oct).**
+   - "Edit it well, showcase the product in between, like professional video creators."
+   - The showcase became the coin itself, drawn live.
+5. **Two crypto creators (4 Oct): "Prism, explained in 180 sec" and "$100,000 campaign ends in 21 days".**
+   - Script: a hook in one line, the market in numbers, the problem, the answer in one image ("Amazon for tokenized
+     stocks"), proof numbers, a walkthrough, a beginner tip, a closing question. About 175 words a minute, no filler.
+   - Look: product screens float in as tilted cards over the presenter; a number pops out as its own card; full-screen
+     UI in 3D perspective with a slow drift; a logo reveal with a glow; small sentence-case captions; a giant thin
+     number over the presenter; white "breather" screens with one or two words, then list items one at a time.
+   - This is how the owner expects their own Polymarket and crypto videos to look.
+6. **An animated story ad (5 Oct).**
+   - A 3D character on a boat tells a fishing story as the metaphor ("Boom, 17,000 users… I caught a fish").
+   - Typewriter subtitles and a logo end card, 33 seconds.
+   - Take the story-metaphor shape. The character needs an AI video service or a 2D cartoon (section 5e).
+7. **Four TikTok design references (5 Oct).**
+   - **Apple-style motion graphics:** a hook as a kinetic-type question, words fading from a blur, small UI widgets (a
+     timer, a note, chat bubbles, a search pill, a Pay button) morphing into each other with a springy overshoot, a cursor
+     tap, a light grey ground, 60 fps.
+   - **An airline booking ad:** a whole user journey in UI pieces, through to a brand-colour end card.
+   - **A designer's story (voice-over):** a personal arc and a reverse-psychology CTA. Visuals change every one to three
+     seconds and illustrate the exact words: one big word on white, chat bubbles, 3D keys, ransom-note letters, a
+     detective board with red string, an invoice arriving with "Paid it".
+   - **Design tips:** an "everyone tells you X, hardly anybody tells you Y" hook, a numbered list on colour tiles,
+     handwritten notes with arrows over the work, and a cliffhanger last line.
+8. **Six TikTok football edits (5 Oct).** Four are built on match footage, which we never use.
+   - **A Bundesliga collage:** cut-out players on torn paper, halftone, club-pattern borders, white outlines, a photo
+     tearing into the next.
+   - **A Messi documentary:** a written story, not a list; metaphors; "The question was never X…"; one big word per beat;
+     a dark grade; one closing line.
+   - **Ronaldo's bicycle kick, with no voice:** extreme close-ups first (eyes, hair, boot, badge), the wait, the moment,
+     the ovation.
+   - **Masked celebrations:** one theme ties every shot together; it opens on a small glowing icon pulsing in the dark;
+     cuts land on the beat, with rounded frames, an object flying across as the transition, particles and black-and-white
+     flash frames.
+   - **A legends montage:** a warm film grade, grain, vignette, an emotional song.
+   - **"You will not defeat Jude Bellingham":** a bold claim in big centred captions, then the answer in pictures.
+
+## 13. The owner's feedback, in order (their taste in their own words)
+
+- **1 Oct**
+  - The first tips video "is not even professional"; it sounds like the narrator "does not know what he is saying".
+  - Show the home team's real stadium.
+  - Say picks like a pundit.
+  - "Why is it not using units… it's a copied stuff… supposed to use something original to my app" → Signal bars.
+  - "The soundtrack… is so boring… not captivating at all."
+  - "I'm actually impressed" after the fixes.
+  - Get the data right from the app.
+  - The crests must show properly.
+  - Tips can't be monetised, so make "football talk" for X and YouTube, researched like a real analyst (players, tactics,
+    what to expect, why it matters).
+  - "This is the template now… save it and study it."
+  - Never "AI Analyst" ("cringe… low effort").
+  - Post-match reviews with reactions, moments and memes.
+  - The reaction sample; chose the female presenter, "she can wear different clothes and use different microphones".
+- **2 Oct**
+  - Polymarket: "forget all this edge thing… just pick these markets… like a regular bookmaker."
+  - Tried a male pundit and the owner's own photo: "I don't like the video with my image… and I don't like the voice." Back to
+    the female voice and presenter.
+- **3 Oct**
+  - Motion-design explainers for crypto projects (Packs on Limitless).
+  - "The voice… is just basic… not captivating"; it needs presence.
+  - "Sound A is the better option, but the background sound still needs work."
+  - "I like this now… take some inspiration from this edit style for my analysis and post-match videos."
+  - "I like the dark opening, the cold open, the punchline, the aura that will keep people excited."
+  - Their own videos: "showcase the product in between properly, like professional creators"; the voice more audible; the
+    chart "not properly looking well"; for an ETH talk, make the showcase Ethereum itself.
+  - "My color is any shade of blue."
+  - The memecoin edit: "words were getting cut out", "it's getting zoomed out", token names and logos cut off at the sides.
+    Then: "Now this is better, just that the quality is poor and I wanted to download it."
+- **4 Oct**
+  - "I am liking that with each video you are making improvements and self-learning."
+  - "The thing I like the most is the soundtrack… captivating… and the slow-paced way it was analysing the game… with each
+    video, new soundtracks, new ways you do things, different varieties."
+  - The two crypto creators as the style for their crypto videos.
+  - "Make sure no part is cut out… half of my face is cut out."
+- **5 Oct**
+  - "Can you create videos like this?" (the animated story ad).
+  - The camera-and-phone recording: "the most demanding task ever… take your time… attention to detail".
+  - "Remove the part showing someone calling me."
+  - "Not impressed… the sound is still bad."
+  - "Put my main video in the small corner… I cannot even see the main things on the screen."
+  - "The videos from the two crypto creators… that was the way I expected you to do the video on Polymarket."
+  - "Not generic… the social media algo doesn't like it."
+  - "Most importantly the videos have to be very creative. Like very creative."
+  - Six TikTok edits for inspiration. Match highlights are copyrighted, so we use photos and our own graphics.
+- **6 Oct**
+  - The newspaper post-match: improve "the way it pronounces some names, the flow, the music, the scenes and sequence…
+    spend more time making it perfect".
+  - "Remember the type of sound tracks I like… sound tracks that keep people wowed."
+  - Today's analysis: "clean and comprehensive and detailed, with fresh and creative ideas."
+  - "You didn't highlight the other matches for today."
+  - "You didn't even give the analysis for England on who might win by the numbers. You only dwelt on Spain."
+  - "Does the prompt have all the lessons… from the videos I sent and the creative angles?" This version adds sections
+    11–13 to answer that.
