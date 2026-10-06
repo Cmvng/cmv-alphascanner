@@ -626,7 +626,7 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#03060F}
 .vr_cold .vr-scrub{position:absolute;left:90px;right:90px;top:1270px;height:6px;border-radius:3px;background:rgba(255,255,255,.18)}
 .vr_cold .vr-scrub .vr-fillc{position:absolute;left:0;top:0;bottom:0;border-radius:3px;background:var(--vr-sky)}
 .vr_cold .vr-scrub .vr-dot{position:absolute;top:-9px;width:24px;height:24px;margin-left:-12px;border-radius:50%;background:rgba(255,255,255,.25)}
-.vr_cold .vr-scrub .vr-dot.on{background:#fff;box-shadow:0 0 16px rgba(79,179,255,.9)}
+.vr_cold .vr-scrub .vr-dot.on{background:var(--kc,#fff);box-shadow:0 0 0 4px #fff,0 0 18px rgba(255,255,255,.7)}
 .vr_cold .vr-scrub .vr-hd{position:absolute;top:-15px;width:36px;height:36px;margin-left:-18px;border-radius:50%;background:#fff;box-shadow:0 0 0 6px rgba(79,179,255,.45)}
 /* the title, on the drop: UNDER REVIEW, and a wall of ten monitors, one per match */
 .vr_title .vr-t1{position:absolute;left:0;right:0;top:232px;text-align:center;font:400 240px/1 Anton;letter-spacing:8px;text-transform:uppercase;white-space:nowrap}
@@ -637,11 +637,14 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#03060F}
 .vr_title .vr-tv .vr-fl{display:flex}.vr_title .vr-tv .badge{width:66px;height:66px;margin:0 -6px}
 .vr_title .vr-tv b{font:400 46px/1 Anton;color:#B8C6DE}
 .vr_title .vr-tv small{position:absolute;left:16px;top:14px;font:700 15px JBM;letter-spacing:2px;color:var(--vr-mute)}
+.vr_title .vr-tv .vr-tk{position:absolute;top:0;width:50%;height:12px}
+.vr_title .vr-tv{overflow:hidden}
 .vr_title .vr-tv i{position:absolute;right:16px;top:16px;width:12px;height:12px;border-radius:50%;background:var(--vr-sky)}
 .vr_title .vr-date{position:absolute;left:0;right:0;top:1380px;text-align:center}
 .vr_title .vr-date span{display:inline-block;padding:14px 28px;border-radius:999px;background:var(--vr-ink);color:#fff;font:700 22px JBM;letter-spacing:4px;text-transform:uppercase}
 /* the replay: a monitor with the scoreboard and the moment, a scrub bar coloured by who led, the log underneath */
 .vr_replay .vr-mon{left:46px;right:46px;top:186px;height:600px;overflow:hidden}
+.vr_replay .vr-kb{position:absolute;top:0;width:50%;height:14px}
 .vr_replay .vr-lbl{position:absolute;left:30px;top:28px;font:700 19px JBM;letter-spacing:3px;text-transform:uppercase;color:var(--vr-mute);white-space:nowrap}
 .vr_replay .vr-lbl i{display:inline-block;width:0;height:0;border-left:16px solid var(--vr-blue);border-top:10px solid transparent;border-bottom:10px solid transparent;margin-right:12px;vertical-align:-2px}
 .vr_replay .vr-min{position:absolute;right:30px;top:16px;font:400 56px/1 Anton;color:var(--vr-blue)}
@@ -928,6 +931,7 @@ function vrKit(q, side) {
   const k = q?.kit?.[side] || {}, bd = side === 'away' ? q?.ba : q?.bh, c = k.c || bd?.colour || (side === 'away' ? '#6E9BFF' : '#1F5FDB')
   return { c, bg: k.bg || c, ink: k.ink || vrInk(c) }
 }
+const vrTx = kt => vrInk(kt.c) === '#0B1F4D' ? '#0B1F4D' : kt.c        // a kit colour as text on white
 const vrSw = (kt, st = '') => `<i class="vr-sw" style="background:${kt.bg};${st}"></i>`
 const vrName = (q, side) => side === 'away' ? q.away_short || q.away : q.home_short || q.home
 const VR_ICO = {
@@ -1297,11 +1301,11 @@ const built = D.scenes.map((sc, k) => {
     el.classList.add('vr')
     const q = D.picks[b.match ?? 0] || M, kh = vrKit(q, 'home'), ka = vrKit(q, 'away')
     if (sc.type === 'vr_cold') {
-      const dots = D.picks.map((_, j) => `<i class="vr-dot" style="left:${n1(100 * (j + 0.5) / VRN)}%"></i>`).join('')
+      const dots = D.picks.map((p, j) => `<i class="vr-dot" style="left:${n1(100 * (j + 0.5) / VRN)}%;--kc:${vrKit(p, 'home').c}"></i>`).join('')
       el.innerHTML = `<div class="vr-deep"></div><div class="vr-scan"></div><div class="vr-pb">◀◀ ${html(b.tag || 'Playback')}</div><div class="vr-tc"></div>
         <div class="vr-cbig"></div><div class="vr-clab"></div><div class="vr-scrub"><i class="vr-fillc"></i>${dots}<i class="vr-hd"></i></div>`
     } else if (sc.type === 'vr_title') {
-      const tvs = D.picks.map((p, j) => `<div class="vr-tv"><small>${String(j + 1).padStart(2, '0')}</small><i></i><div class="vr-fl">${badge(p.bh)}${badge(p.ba)}</div><b>? – ?</b></div>`).join('')
+      const tvs = D.picks.map((p, j) => `<div class="vr-tv"><em class="vr-tk" style="left:0;background:${vrKit(p, 'home').bg}"></em><em class="vr-tk" style="right:0;background:${vrKit(p, 'away').bg}"></em><small>${String(j + 1).padStart(2, '0')}</small><i></i><div class="vr-fl">${badge(p.bh)}${badge(p.ba)}</div><b>? – ?</b></div>`).join('')
       el.innerHTML = vrPage(`${vrTop(b)}<div class="vr-t1">${html(b.l1 || 'Under')}</div><div class="vr-t2">${html(b.l2 || 'Review')}</div><div class="vr-sub">${html(b.sub || '')}</div>
         <div class="vr-wall">${tvs}</div><div class="vr-date"><span>${html(b.date || '')}</span></div>`, false)
     } else if (sc.type === 'vr_replay') {
@@ -1309,9 +1313,9 @@ const built = D.scenes.map((sc, k) => {
       const lead = s => s[0] > s[1] ? kh.bg : s[1] > s[0] ? ka.bg : '#A9BCDD'
       const ico = it => ({ goal: '⚽', og: '⚽', red: '🟥', yellow: '🟨', sub: '🔁', save: '🧤', miss: '❌' })[it.kind] || '•'
       const tm = it => it.team === 'away' ? ka : kh, bd = it => it.team === 'away' ? q.ba : q.bh
-      el.innerHTML = vrPage(`${vrTop(b)}<div class="vr-card vr-mon"><div class="vr-lbl"><i></i>${html(b.label || 'Replay')}</div><div class="vr-min">0'</div>
-          <div class="vr-side" style="left:0">${badge(q.bh)}<b>${html(vrName(q, 'home'))}</b></div><div class="vr-side" style="right:0">${badge(q.ba)}<b>${html(vrName(q, 'away'))}</b></div>
-          <div class="vr-sc"><div class="vr-d"><span>0</span>${vrSw(kh)}</div><div class="vr-dash">–</div><div class="vr-d"><span>0</span>${vrSw(ka)}</div></div>
+      el.innerHTML = vrPage(`${vrTop(b)}<div class="vr-card vr-mon"><i class="vr-kb" style="left:0;background:${kh.bg}"></i><i class="vr-kb" style="right:0;background:${ka.bg}"></i><div class="vr-lbl"><i></i>${html(b.label || 'Replay')}</div><div class="vr-min">0'</div>
+          <div class="vr-side" style="left:0">${badge(q.bh)}<b style="color:${vrTx(kh)}">${html(vrName(q, 'home'))}</b></div><div class="vr-side" style="right:0">${badge(q.ba)}<b style="color:${vrTx(ka)}">${html(vrName(q, 'away'))}</b></div>
+          <div class="vr-sc"><div class="vr-d" style="color:${vrTx(kh)}"><span>0</span>${vrSw(kh)}</div><div class="vr-dash">–</div><div class="vr-d" style="color:${vrTx(ka)}"><span>0</span>${vrSw(ka)}</div></div>
           <div class="vr-now"><i class="vr-edge"></i><span class="vr-ic emo"></span><b></b><span></span></div></div>
         <div class="vr-track">${segs.map(g => `<i class="vr-seg" data-a="${g.a}" data-b="${g.b}" style="left:${xp(g.a)}%;width:0;background:${lead(g.s)}"></i>`).join('')}
           ${its.map(it => `<i class="vr-mk emo" style="left:${xp(it.min)}%">${ico(it)}</i>`).join('')}<i class="vr-head" style="left:0"></i></div>
@@ -1321,9 +1325,9 @@ const built = D.scenes.map((sc, k) => {
     } else if (sc.type === 'vr_stat') {
       const rows = b.rows || [], ph = b.photo
       el.innerHTML = vrPage(`${vrTop(b)}<div class="vr-h"><i class="vr-pz"></i>${html(b.title ?? 'Freeze frame')}</div>${b.kicker ? `<div class="vr-k">${html(b.kicker)}</div>` : ''}
-        <div class="vr-heads"><div>${badge(q.bh)}${html(vrName(q, 'home'))}</div><div>${html(vrName(q, 'away'))}${badge(q.ba)}</div></div>
+        <div class="vr-heads"><div style="color:${vrTx(kh)}">${badge(q.bh)}${html(vrName(q, 'home'))}</div><div style="color:${vrTx(ka)}">${html(vrName(q, 'away'))}${badge(q.ba)}</div></div>
         <div class="vr-rows">${rows.map(r => { const x = parseFloat(r[1]), y = parseFloat(r[2]), t = (x + y) || 1
-          return `<div class="vr-rw ${r[5] ? 'hot' : ''}"><div class="vr-kk">${html(r[0])}</div>${r[6] ? `<div class="vr-nt">${html(r[6])}</div>` : ''}<div class="vr-vv"><div class="vr-v">${html(r[1])}</div><div class="vr-bar"><i data-w="${n1(100 * x / t)}" style="background:${kh.bg}"></i><i data-w="${n1(100 * y / t)}" style="background:${ka.bg}"></i></div><div class="vr-v r">${html(r[2])}</div></div></div>` }).join('')}</div>
+          return `<div class="vr-rw ${r[5] ? 'hot' : ''}"><div class="vr-kk">${html(r[0])}</div>${r[6] ? `<div class="vr-nt">${html(r[6])}</div>` : ''}<div class="vr-vv"><div class="vr-v" style="color:${vrTx(kh)}">${html(r[1])}</div><div class="vr-bar"><i data-w="${n1(100 * x / t)}" style="background:${kh.bg}"></i><i data-w="${n1(100 * y / t)}" style="background:${ka.bg}"></i></div><div class="vr-v r" style="color:${vrTx(ka)}">${html(r[2])}</div></div></div>` }).join('')}</div>
         ${b.callout ? `<div class="vr-card vr-call">${ph ? `<div class="vr-ph" style="background-image:url('${ph.src}')"></div>` : badge(b.callout.team === 'home' ? q.bh : q.ba)}<div class="vr-cx"><small>${html(b.callout.kicker || '')}</small><b>${html(b.callout.name || '')}</b><p>${html(b.callout.text || '')}</p></div></div>` : ''}`)
     } else if (sc.type === 'vr_call') {
       const m = b.model || [q.home_win, q.draw, q.away_win], fs = b.score || [q.score_home, q.score_away]
@@ -1331,7 +1335,7 @@ const built = D.scenes.map((sc, k) => {
         <div class="vr-card vr-our"><div class="vr-lb">${html(b.our_label || 'Our call · 07:15')}</div><div class="vr-rd">${html(b.read || '')}</div>
           <div class="vr-tri">${m.map((v, j) => `<i style="width:${v}%;background:${[kh.bg, '#C9D5EA', ka.bg][j]}"></i>`).join('')}</div>
           <div class="vr-lab"><span>${html(vrName(q, 'home'))} ${Math.round(m[0])}%</span><span>Draw ${Math.round(m[1])}%</span><span>${html(vrName(q, 'away'))} ${Math.round(m[2])}%</span></div></div>
-        <div class="vr-res"><small>${html(b.ft_label || 'Full time')}</small>${badge(q.bh)}<b>${html(vrName(q, 'home'))}</b><em>${fs[0]}–${fs[1]}</em><b>${html(vrName(q, 'away'))}</b>${badge(q.ba)}</div>
+        <div class="vr-res"><small>${html(b.ft_label || 'Full time')}</small>${badge(q.bh)}<b style="color:${vrTx(kh)}">${html(vrName(q, 'home'))}</b><em><span style="color:${vrTx(kh)}">${fs[0]}</span>–<span style="color:${vrTx(ka)}">${fs[1]}</span></em><b style="color:${vrTx(ka)}">${html(vrName(q, 'away'))}</b>${badge(q.ba)}</div>
         <div class="vr-checks">${(b.checks || []).map(c => `<div class="vr-ck"><span class="vr-ico">${VR_ICO[c.ok ? 'ok' : 'bad']}</span><div class="vr-t"><b>${html(c.label)}</b>${c.note ? `<span>${html(c.note)}</span>` : ''}</div><span class="vr-chip ${c.ok ? 'ok' : 'bad'}">${c.ok ? 'Confirmed' : 'Overturned'}</span></div>`).join('')}</div>
         <div class="vr-stamp ${vrCls(b.verdict)}">${html(b.stamp || vrWord(b.verdict))}</div>`)
     } else if (sc.type === 'vr_quote') {
@@ -1341,13 +1345,13 @@ const built = D.scenes.map((sc, k) => {
     } else if (sc.type === 'vr_table') {
       const t = b.table || [], me = b.highlight || [], kitOf = name => { const pk = D.picks.find(x => x.home === name || x.away === name); return pk ? [vrKit(pk, pk.home === name ? 'home' : 'away'), pk.home === name ? pk.bh : pk.ba] : [{ bg: '#C9D5EA' }, null] }
       el.innerHTML = vrPage(`${vrTop(b)}${vrHead(b, 'The table', '')}<div class="vr-card vr-tb"><div class="vr-hd"><span>P</span><span>Pts</span></div>${t.map((r, j) => { const [kt, bd] = kitOf(r[0])
-          return `<div class="vr-tr ${me.includes(r[0]) ? 'me' : ''} ${j === (b.cut ?? 2) - 1 ? 'cut' : ''}"><div class="vr-n">${j + 1}</div>${vrSw(kt)}${bd ? badge(bd) : ''}<div class="vr-nm">${html(r[0])}</div><div class="vr-p">${r[1]}</div><div class="vr-pts">${r[2]}</div></div>` }).join('')}</div>
+          return `<div class="vr-tr ${me.includes(r[0]) ? 'me' : ''} ${j === (b.cut ?? 2) - 1 ? 'cut' : ''}"><div class="vr-n">${j + 1}</div>${vrSw(kt)}${bd ? badge(bd) : ''}<div class="vr-nm">${html(r[0])}</div><div class="vr-p">${r[1]}</div><div class="vr-pts" style="color:${vrTx(kt)}">${r[2]}</div></div>` }).join('')}</div>
         <div class="vr-notes">${(b.rows || []).map(r => `<div class="vr-nt"><i>${html(r[0])}</i><span>${html(r[1])}</span></div>`).join('')}</div>`)
     } else if (sc.type === 'vr_board') {
       el.innerHTML = vrPage(`${vrTop({ ...b, cases: (b.items || []).map(it => it.match) })}${vrHead(b, 'The other games', '')}${(b.items || []).map((it, j) => { const qq = D.picks[it.match], h = vrKit(qq, 'home'), a = vrKit(qq, 'away'), s = it.score || ['', '']
         return `<div class="vr-card vr-bd" style="top:${350 + j * 268}px"><i class="vr-edge" style="left:0;background:${h.bg}"></i><i class="vr-edge" style="right:0;background:${a.bg}"></i><div class="vr-cp">${html(it.comp || '')}</div>
-          <div class="vr-tm h">${badge(qq.bh)}<b>${html(it.home || vrName(qq, 'home'))}</b></div><div class="vr-tm a">${badge(qq.ba)}<b>${html(it.away || vrName(qq, 'away'))}</b></div>
-          <div class="vr-sc"><div class="vr-d"><span>${s[0] === '' ? '' : 0}</span>${s[0] === '' ? '' : vrSw(h)}</div><div class="vr-dash">${s[0] === '' ? 'v' : '–'}</div><div class="vr-d"><span>${s[1] === '' ? '' : 0}</span>${s[1] === '' ? '' : vrSw(a)}</div></div>
+          <div class="vr-tm h">${badge(qq.bh)}<b style="color:${vrTx(h)}">${html(it.home || vrName(qq, 'home'))}</b></div><div class="vr-tm a">${badge(qq.ba)}<b style="color:${vrTx(a)}">${html(it.away || vrName(qq, 'away'))}</b></div>
+          <div class="vr-sc"><div class="vr-d" style="color:${vrTx(h)}"><span>${s[0] === '' ? '' : 0}</span>${s[0] === '' ? '' : vrSw(h)}</div><div class="vr-dash">${s[0] === '' ? 'v' : '–'}</div><div class="vr-d" style="color:${vrTx(a)}"><span>${s[1] === '' ? '' : 0}</span>${s[1] === '' ? '' : vrSw(a)}</div></div>
           <div class="vr-rd"><small>Our read</small><span>${html(it.read || '')}</span></div><span class="vr-chip ${vrCls(it.verdict)}">${vrIco(it.verdict)}${html(it.chip || vrWord(it.verdict))}</span></div>` }).join('')}`)
     } else if (sc.type === 'vr_tally') {
       const n = b.counts || {}, cells = [['called', 'Called it'], ['half', 'Half right'], ['missed', 'Missed'], ['later', 'Later']].filter(([k]) => n[k] != null)
