@@ -37,6 +37,9 @@ Different is the floor; creative is the bar. Before building, write the concept 
 - **The rivalry strip:** a scrolling timeline of the past meetings, landing on tonight.
 - **The newspaper:** tomorrow's two possible front pages (one per winner); the analysis decides which is likelier. (The post-match version was used 5 Oct: `post-match/newspaper-2026-10-05.json`.)
 - **Two voices:** two presenters disagree, each with their numbers; the model settles it.
+- **The heist (used 6 Oct, `match-analysis/vault-2026-10-06.json`):** the analysis drawn as a plan to crack a "vault" (a
+  41-game unbeaten run) on blueprint paper. Other plans in the same spirit: a prison break (a team escaping relegation),
+  a siege (a fortress home ground), a rescue mission (a coach under pressure).
 
 ## Post-match: formats
 - **Our call v what happened:** a scoreboard of each call we made, ticked or crossed, with the honest why.

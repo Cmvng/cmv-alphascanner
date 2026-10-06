@@ -23,6 +23,23 @@ The owner liked the edit of the Packs explainer, asked for it here too, then app
 - **Settings:** `"sound": "cinematic"`, `"voice_fx": "deep"`, `"voice_speed": 1.05`, `"music_drop": "pv_hook"`, and
   `"music_vibe"` (e.g. `["dark trap", "trap", "hip-hop"]`) to pick from the drop tracks in `lib/music.json`, which rotate.
 
+## Another format: the blueprint heist ("The Vault", 6 Oct 2026)
+Not every analysis has to run through the screens below. On 6 Oct the analysis was told as a heist plan drawn on a
+blueprint (`mode: "review"` with `bp_*` beats, drawn by `review.html`; copy `vault-2026-10-06.json`). Use it when one
+side is a "vault": a long unbeaten run, a fortress, a defence nobody scores against. Don't use it two days running.
+- **The look:** blueprint paper in our blue, white plotter lines that draw themselves, monospace labels, the architect's
+  handwritten notes, dossier photos in blue duotone, a title block on every drawing (`review.project`, `review.ref`),
+  and the camera panning across one big sheet between drawings. Red only for danger (the alarm, cracks, FAILED).
+- **The drawings:** `bp_cold` (numbers in the dark over a faint vault), `bp_title` (unrolls on the drop), `bp_target` (a
+  dial counting the run), `bp_alarm` (a 90-minute clock, early goals marked in red), `bp_damage` (a wall cracking under
+  the goals conceded), `bp_files` (two dossiers), `bp_plan` (a pitch, expected shapes, the passing as a laser grid,
+  arrows and notes), `bp_history` (case files, stamped), `bp_chances` (a gauge, xG bars, the likeliest score),
+  `bp_meanwhile` (the other match in the group), `bp_stakes` (the table, called "The prize": "stake" is a banned word),
+  `bp_verdict` (our read, the vault shutting, the question).
+- **Sound:** a safe dial ticking as the count climbs, the lock, a low alarm, a laser scan, pen on paper (lib/sfx.json).
+- **Timing:** most drawings take `line`/`at` hints (which spoken line, how far into it) for when a mark, arrow, stamp or
+  note lands. Check every drawing on stills at the real voice timing before the full render.
+
 ## Two cuts from one file
 
 - **Full** (about 2 minutes, for X and YouTube): `bash video/daily.sh render video/out/<file>.json`

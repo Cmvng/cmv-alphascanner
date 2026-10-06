@@ -506,7 +506,7 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#03060F}
 /* the target: a vault dial counting to the run */
 .bp_target .cnt{position:absolute;left:0;right:0;top:575px;text-align:center;font:400 230px/1 Anton;color:var(--ln)}
 /* the alarm: a 90-minute clock, the first six minutes in red */
-.bp_alarm .rd{position:absolute;left:0;right:0;top:1340px;text-align:center}
+.bp_alarm .rd{position:absolute;left:0;right:0;top:1222px;text-align:center}
 .bp_alarm .mkl{font-size:20px;letter-spacing:2px}
 .bp .ring{position:absolute;border-radius:50%;overflow:hidden;box-shadow:0 0 0 10px #F2F7FF,0 20px 44px rgba(0,6,30,.5)}
 .bp .ring .ph{position:absolute;inset:0;background-size:cover;background-position:50% 18%;filter:grayscale(1) contrast(1.3) brightness(1.06)}
@@ -541,12 +541,12 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#03060F}
 .bp_stakes .sc .r{display:flex;align-items:center;gap:20px;margin-top:22px;font:800 38px/1.25 Manrope;color:var(--ln)}
 .bp_stakes .sc .r i{flex-shrink:0;font:700 22px JBM;font-style:normal;letter-spacing:3px;color:var(--sky);border:2px solid var(--sky);padding:6px 12px}
 /* the verdict: the read on a spec card, the vault, the question */
-.bp_verdict .card2{position:absolute;left:90px;right:90px;top:300px;padding:30px 40px 36px;border:3px solid var(--ln);background:rgba(10,36,96,.66)}
+.bp_verdict .card2{position:absolute;left:90px;right:90px;top:262px;padding:30px 40px 36px;border:3px solid var(--ln);background:rgba(10,36,96,.66)}
 .bp_verdict .card2 .k{font:700 22px JBM;letter-spacing:5px;text-transform:uppercase;color:var(--sky)}
 .bp_verdict .card2 .v{margin-top:12px;font:400 84px/1.02 Anton;text-transform:uppercase;color:var(--ln)}
-.bp_verdict .q{position:absolute;left:0;right:0;top:1150px;text-align:center;font:400 150px/1 Anton;color:var(--ln);white-space:nowrap}
+.bp_verdict .q{position:absolute;left:0;right:0;top:1030px;text-align:center;font:400 150px/1 Anton;color:var(--ln);white-space:nowrap}
 .bp_verdict .q span{color:var(--sky)}
-.bp_verdict .fol{position:absolute;left:0;right:0;top:1330px;text-align:center}
+.bp_verdict .fol{position:absolute;left:0;right:0;top:1210px;text-align:center}
 .bp_verdict .fol .chipb{position:relative;display:inline-block;background:var(--ln);color:#0D2D6E;border-color:var(--ln)}
 #cap.bpc .c{background:rgba(5,14,44,.82);padding:10px 24px 12px;border:2px solid rgba(234,242,255,.45);border-radius:6px}
 
@@ -957,7 +957,7 @@ const built = D.scenes.map((sc, k) => {
           return `<svg class="dw arr"><path d="M ${n1(x1)} ${n1(y1)} Q ${n1(cx)} ${n1(cy)} ${n1(x2)} ${n1(y2)}" class="${a.cls || 'sk'} hv"/><path d="M ${n1(hd(0.45)[0])} ${n1(hd(0.45)[1])} L ${n1(x2)} ${n1(y2)} L ${n1(hd(-0.45)[0])} ${n1(hd(-0.45)[1])}" class="${(a.cls || 'sk').replace('dash', '')} hv"/></svg>` }).join('')}
         <div class="lab" style="left:${PX + 14}px;top:${PY + 14}px">${html(b.top?.label || '')}</div>
         <div class="lab" style="left:${PX + 14}px;top:${PY + PH - 44}px">${html(b.bottom?.label || '')}</div>
-        ${(b.notes || []).map(nt => `<div class="hand pn" style="left:${nt.x}px;top:${nt.y}px;${nt.size ? `font-size:${nt.size}px` : ''}">${html(nt.text)}</div>`).join('')}`)
+        ${(b.notes || []).map(nt => `<div class="hand pn" style="left:${nt.x}px;top:${nt.y}px;white-space:pre-line;text-align:center;${nt.size ? `font-size:${nt.size}px` : ''}">${html(nt.text)}</div>`).join('')}`)
     } else if (sc.type === 'bp_history') {
       el.innerHTML = bpPage(`${bpHead(sc, b, 'Previous attempts', 'Previous attempts', '')}${(b.items || []).map((it, j) => {
         return `<div class="cf" style="top:${420 + j * 266}px"><div class="d">${html(it.when)}</div><div class="s">${badge(it.home === q.away ? q.ba : q.bh)}${html(it.score)}${badge(it.home === q.away ? q.bh : q.ba)}</div><div class="n">${html(it.note || '')}</div>
@@ -975,18 +975,18 @@ const built = D.scenes.map((sc, k) => {
         ${b.score ? `<div class="chipb sc2" style="left:60px;top:1350px">${html(b.score)}</div>` : ''}`)
     } else if (sc.type === 'bp_meanwhile') {
       const m = b.model || [q.home_win, q.draw, q.away_win]
-      el.innerHTML = bpPage(`${bpHead(sc, b, 'Meanwhile', 'Meanwhile', '')}<svg class="dw arch"><path d="M 110 800 C 240 330, 840 330, 970 800" class="sk hv"/><ellipse cx="540" cy="770" rx="400" ry="112" class="hv"/><ellipse cx="540" cy="770" rx="290" ry="74" class="th"/><rect x="430" y="742" width="220" height="56" class="th"/><line x1="540" y1="742" x2="540" y2="798" class="th"/></svg>
-        <div class="vs2" style="position:absolute;left:0;right:0;top:920px;display:flex;justify-content:center;align-items:center;gap:30px;font:400 60px Anton;text-transform:uppercase;color:var(--ln)">${badge(q.bh)}<span>${html(q.home)}</span><i style="font:700 24px JBM;font-style:normal;color:var(--sky)">v</i><span>${html(q.away)}</span>${badge(q.ba)}</div>
-        <div class="tri2" style="position:absolute;left:60px;right:60px;top:1078px"><div style="display:flex;height:30px">${m.map((v, j) => `<i style="display:block;width:${v}%;background:${['#EAF2FF', 'rgba(234,242,255,.4)', '#8EC5FF'][j]};transform-origin:0 50%"></i>`).join('')}</div>
+      el.innerHTML = bpPage(`${bpHead(sc, b, 'Meanwhile', 'Meanwhile', '')}<svg class="dw arch"><path d="M 250 800 C 320 170, 760 170, 830 800" class="sk hv"/><path d="M 400 560 L 400 700 M 540 410 L 540 690 M 680 560 L 680 700" class="th"/><ellipse cx="540" cy="770" rx="400" ry="112" class="hv"/><ellipse cx="540" cy="770" rx="290" ry="74" class="th"/><rect x="430" y="742" width="220" height="56" class="th"/><line x1="540" y1="742" x2="540" y2="798" class="th"/></svg>
+        <div class="vs2" style="position:absolute;left:0;right:0;top:862px;display:flex;justify-content:center;align-items:center;gap:30px;font:400 60px Anton;text-transform:uppercase;color:var(--ln)">${badge(q.bh)}<span>${html(q.home)}</span><i style="font:700 24px JBM;font-style:normal;color:var(--sky)">v</i><span>${html(q.away)}</span>${badge(q.ba)}</div>
+        <div class="tri2" style="position:absolute;left:60px;right:60px;top:992px"><div style="display:flex;height:30px">${m.map((v, j) => `<i style="display:block;width:${v}%;background:${['#EAF2FF', 'rgba(234,242,255,.4)', '#8EC5FF'][j]};transform-origin:0 50%"></i>`).join('')}</div>
           <div class="lab" style="position:relative;margin-top:12px;display:flex;justify-content:space-between"><span>${html(q.home)} ${Math.round(m[0])}%</span><span>Draw ${Math.round(m[1])}%</span><span>${html(q.away)} ${Math.round(m[2])}%</span></div></div>
-        ${spec(b.rows, 1190)}`)
+        ${spec(b.rows, 1090)}`)
     } else if (sc.type === 'bp_stakes') {
       const t = b.table || [], me = b.highlight || []
       el.innerHTML = bpPage(`${bpHead(sc, b, 'The prize', 'The prize', '')}<table><tr><th></th><th style="text-align:left">Team</th><th>P</th><th>Pts</th></tr>${t.map((r, j) => { const pk = D.picks.find(x => x.home === r[0] || x.away === r[0]), bd = pk ? (pk.home === r[0] ? pk.bh : pk.ba) : null
           return `<tr class="${me.includes(r[0]) ? 'me' : ''} ${j === (b.cut ?? 2) - 1 ? 'cut' : ''}"><td class="n">${j + 1}</td><td class="t">${bd ? badge(bd) : ''}${html(r[0])}</td><td class="r">${r[1]}</td><td class="r">${r[2]}</td></tr>` }).join('')}</table>
         <div class="sc" style="top:960px">${(b.rows || []).map(r => `<div class="r"><i>${html(r[0])}</i><span>${html(r[1])}</span></div>`).join('')}</div>`)
     } else if (sc.type === 'bp_verdict') {
-      el.innerHTML = bpPage(`${bpTB(sc, b.label || 'The verdict')}<div class="card2"><div class="k">${html(b.kicker || 'Our read')}</div><div class="v">${html(b.read || '')}</div></div>${vaultSvg(540, 830, 210)}
+      el.innerHTML = bpPage(`${bpTB(sc, b.label || 'The verdict')}<div class="card2"><div class="k">${html(b.kicker || 'Our read')}</div><div class="v">${html(b.read || '')}</div></div>${vaultSvg(540, 735, 200)}
         <div class="q">${html(b.q1 || '')} <span>${html(b.q2 || '')}</span></div><div class="fol"><span class="chipb">${html(b.follow || 'Follow for the post-match')}</span><div class="lab sk" style="position:relative;margin-top:22px">Football, by the numbers</div></div>`)
     }
   } else if (sc.type === 'rv_cta') {
