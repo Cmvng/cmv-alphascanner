@@ -60,12 +60,16 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
      the axis (82,759) was below the price at the time. So nothing on screen says Bitcoin stopped out; the tracker says
      "invalidated", the owner's own word. Ethereum's "it took my stop loss" is clear and is shown.
   8. **Still stretches:** the last 3 s of the compare card and of the end card.
+  9. **I sent only the compressed chat copy.** The full file (58 MiB) was over the chat limit, and I forgot the private
+     download page I had made for the 5 Oct video. The owner asked for it. Fixed: one page with both full-quality cuts, and
+     the delivery rule is now in the skill.
 - **Change next time:**
   - The coin's own colour on the big things (Bitcoin orange on the chapter numbers and the tracker's position pill,
     Ethereum's on its chapter), so the subject has its colour and the blue stays the frame.
   - Pick a track whose build is at least as long as the cold open, or shorten the cold open, so the drop hits.
   - Inserts end within a second of their last item landing.
   - Check every edit's true peak in the review; never send over −1 dB.
+  - A file over 30 MiB always goes out twice: the compressed copy in the chat and the full file on a download page.
 - **The owner's reaction:** (waiting)
 
 ---

@@ -248,6 +248,12 @@ Look through the whole phone recording for private moments (incoming calls show 
 and freeze over them; read the screen with `video/lib/screen_read.py` and check every count and number against it;
 captions the transcript can't settle are re-transcribed on their own, and lines still unclear are left out at silences.
 Subtitles: `python3 video/lib/edit_srt.py <out>/plan.json <name>.srt`.
+**Delivery of any file over the 30 MiB chat limit (the owner, 7 Oct: "Why didn't you send me the site to download the
+high quality version").** Send a compressed copy in the chat (two-pass, about 28 MB, as `daily.sh` does) and, every time,
+publish the full-quality file(s) on a private download page: an Artifact with the `downloads` capability that fetches
+the file in base64 parts (11,500,002 bytes each, so each text part stays under 16 MB), plays it, and saves it with one
+tap. Upload at most four parts per publish (64 MB a publish). Reference pages: the 5 Oct edit and "Held Too Long" (7 Oct,
+both cuts on one page). Check one served part against the local file, then give the owner the link with the chat copy.
 
 ## 2. Write the script (the presenter is a football analyst)
 
