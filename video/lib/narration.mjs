@@ -39,7 +39,7 @@ const SAY_IPA = {
   Csinger: 'tʃˈɪŋɡɛɹ', Vandevoordt: 'vˌɑːndəvˈoːɹt',
   'Modrić': 'mˈɔːdɹɪtʃ', Budimir: 'bˈuːdɪmiːɹ', 'Smolčić': 'smˈɔːltʃɪtʃ', 'Bilić': 'bˈiːlɪtʃ', Poljud: 'pˈɔːljuːd', Lamine: 'lɐmˈiːn',
   Yamal: 'jɐmˈɑːl', 'Krejčí': 'kɹˈeɪtʃiː', Czechia: 'tʃˈɛkiə', Ante: 'ˈɑːnteɪ',
-  Ibadan: 'iːbˈɑːdɑːn', Belouizdad: 'bɛluːizdˈæd', Khenchela: 'kɛnʃˈɛlə', Etouga: 'ɛtˈuːɡɑː', Gnistan: 'ɡnˈiːstɑːn', Mirassol: 'mˌiːɹəsˈɔːl',
+  Zamalek: 'zˈæməlɛk', Ibadan: 'iːbˈɑːdɑːn', Belouizdad: 'bɛluːizdˈæd', Khenchela: 'kɛnʃˈɛlə', Etouga: 'ɛtˈuːɡɑː', Gnistan: 'ɡnˈiːstɑːn', Mirassol: 'mˌiːɹəsˈɔːl',
   Paulista: 'paʊlˈiːstə', Universidad: 'uːnˌiːvɛɹsiːdˈɑːd', Antofagasta: 'ˌɑːntoʊfəɡˈɑːstə', Cartagena: 'kˌɑːɹtəhˈeɪnə', Murcia: 'mˈɜːsiə',
   Inter: 'ˈɪntɚ', Internacional: 'ˌɪntɚnˌæsiːoʊnˈɑːl', Alberto: 'ɑːlbˈɛɹtoʊ', Baptista: 'bæptˈiːstə', Musa: 'mˈuːsə', Ahmed: 'ˈɑːmɛd', Alegre: 'ɐlˈɛɡɹɪ',
   IK: 'ˌaɪkˈeɪ', Niger: 'niːʒˈɛɹ', Montserrat: 'mˌɑːntsəɹˈæt',
