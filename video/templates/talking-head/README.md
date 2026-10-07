@@ -110,6 +110,32 @@ the XO Market video of 4 Oct 2026, `xo-2026-10-04.edl.json` (a 10-minute CapCut 
   with no punch-in on jump cuts; it sits where the camera sat in the recording, clear of the site's content.
 - Disk: a 10-minute 1440×1080 source makes about 2.5 GB of frames. Clear the `f/` folders of finished edits first.
 
+### The same recording in 9:16: "desk" (7 Oct 2026)
+
+The `"layout": "screen"` EDL rendered with `--fmt vertical` (the default) gives the desk layout. Reference: the owner's
+7 Oct video, `hold-2026-10-07.edl.json` ("Held too long": a Bitcoin long held after the bias changed, then Ethereum), a
+9-minute CapCut composite (`"chart": [0, 182, 1440, 718]`, `"face": [1054, 637, 386, 443]`) cut to 5:14.
+- **The whole screen on top** at full width (1080×538), never cropped; under it a **close-up** (1032×740) that follows
+  `"fk": [[source s, x, y, width]]` keyframes (fractions of the screen) and jumps to each mark; a thin frame on the
+  top screen shows where the close-up is looking. The owner sits small in the bottom-right corner in the camera's own
+  shape (250×287); captions and the callout beside them.
+- **Marks are written in fractions of the whole frame**, as for the 16:9 version, so one EDL serves both cuts. The owner
+  scrolls and zooms the chart often: make a gridded still at each mark's start and end (frame fractions, every 0.05) and
+  keep marks to stretches where the view holds still.
+- **The tracker**: a clip's `"state": {"pos": "Long BTC", "bias": "bull" | "turn" | "bear", "tone": "out", "at": source s}`
+  sets two pills under the close-up, the owner's position and the market's bias. A long against a bearish market lights
+  "Out of sync" in red. It turns the video's lesson into something the viewer watches happen.
+- **`"mask"` takes a list** (the face-cam's corner was grey chart and a white toolbar strip).
+- **`"theme": "light"`**: light-blue page, white cards, royal-blue cold open and title (the owner's colours).
+- **The bias diagram** (`{ "insert": { "kind": "bias", "hold": …, "hold_to": …, "flip": …, "flip_to": …, "foot": … } }`):
+  market structure drawn live (higher highs and lows, equal highs, the last low broken, a lower high into the gap, the
+  drop), the bias tag flipping from bullish to bearish, the long's stop hit, and the sell with its 1:3. About 11 s.
+- **Sync** was fine here (one device): the sell tool appears at 312 s as the owner says "put a sell at this region".
+- **Read every number on the screen.** "Stop 1,013.12 (1.182%)", "Risk/reward ratio 3.03" came from the position tool's
+  labels; the owner adjusts the tool while talking, so the callout uses the final values. The Bitcoin stop line was
+  ambiguous in every transcript ("it looks like it's a stop loss"), and the stop line on the axis (82,759) was still
+  below the price, so nothing on screen says Bitcoin was stopped out; Ethereum's stop was ("it took my stop loss").
+
 ## Camera and phone screen as two files: the owner on a studio set (16:9 "duo")
 
 `"layout": "duo"` with `--fmt wide`: the owner at the left in the camera's own shape (562×1000 for a 1080×1920

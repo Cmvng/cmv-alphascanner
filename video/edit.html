@@ -242,6 +242,92 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#000}
 #stage.pip #side .it i{width:50px;height:50px;border-radius:13px;font-size:30px}
 #stage.pip #foot{right:226px;bottom:10px;font-size:15px}
 #stage.pip.solo #foot{right:24px}
+/* desk (9:16, a desktop screen recording with a face-cam corner, 7 Oct): the whole screen at full width on top, never
+   cropped; below it a close-up that follows what is being talked about; a slim tracker (the position against the market's
+   bias); captions; the owner small in the bottom-right corner in the camera's own shape */
+#stage.desk #prog{left:0;right:0;top:0;height:6px;border-radius:0}
+#stage.desk #hdr{top:22px}
+#stage.desk .chip{font-size:20px;padding:9px 18px}
+#stage.desk #chartbox{left:0;top:88px;width:1080px;height:538px;border-radius:0}
+#stage.desk #scrim{left:0;top:0;width:1080px;height:1920px;border-radius:0}
+#stage.desk #focus{display:block;left:24px;top:646px;width:1032px;height:740px;border-radius:26px}
+#stage.desk #spot{box-shadow:0 0 0 3px rgba(255,255,255,.9),0 0 26px rgba(31,95,219,.85);border-width:4px;border-radius:8px}
+#stage.desk #track{display:flex}
+#stage.desk #cap{left:30px;right:290px;top:1500px;height:200px;justify-content:center;text-align:center}
+#stage.desk #cap .c{font-size:60px}
+#stage.desk #call{left:30px;right:290px;top:1716px;text-align:center}
+#stage.desk #call .k{font-size:36px;padding:10px 22px;gap:12px}
+#stage.desk #facebox{left:806px;top:1500px;width:250px;height:287px;border-radius:20px;z-index:14}
+#stage.desk #foot{bottom:24px}
+#track{display:none;position:absolute;left:24px;right:24px;top:1404px;height:78px;gap:14px;z-index:16}
+#track .tk{flex:1;display:flex;flex-direction:column;justify-content:center;padding:0 22px;border-radius:18px;background:#fff;box-shadow:0 0 0 2px rgba(31,95,219,.28),0 10px 30px rgba(31,64,140,.14)}
+#track .tk span{font:700 15px JBM;letter-spacing:2px;color:rgba(11,26,58,.55);text-transform:uppercase;white-space:nowrap}
+#track .tk b{display:block;font:400 34px/1.05 Anton;letter-spacing:1px;text-transform:uppercase;color:#0B1A3A;white-space:nowrap;transform-origin:0 50%}
+#track .tk b.bull{color:#0E9F62}#track .tk b.bear,#track .tk b.out{color:#E5364F}#track .tk b.turn{color:#1F5FDB}
+#track.clash .tk{box-shadow:0 0 0 3px #E5364F,0 0 28px rgba(229,54,79,.35)}
+#track .sync{position:absolute;left:50%;top:-20px;transform:translateX(-50%);padding:5px 14px;border-radius:999px;background:#E5364F;color:#fff;font:700 16px JBM;letter-spacing:2px;text-transform:uppercase;white-space:nowrap;opacity:0}
+/* the bias diagram (an insert): market structure drawn live, the bias flipping, and what holding the long costs */
+#ins .bias{position:absolute;left:40px;top:500px;width:1000px;height:700px}
+#ins .outs{position:absolute;left:60px;right:60px;top:1250px;display:flex;flex-direction:column;gap:20px}
+#ins .outs .o{display:flex;align-items:center;gap:18px;font:800 42px Manrope;color:#0B1A3A}
+#ins.biasm .kick{top:250px}#ins.biasm .ttl{top:325px}
+#stage.wide #ins.biasm .kick{top:64px}#stage.wide #ins.biasm .ttl{top:130px}
+#ins .outs .o i{flex-shrink:0;width:30px;height:30px;border-radius:50%}
+#ins .outs .o.hold i{background:#E5364F}#ins .outs .o.flip i{background:#1F5FDB}
+#ins .outs .o b{font-weight:800}
+#ins .outs .o.hold b{color:#E5364F}#ins .outs .o.flip b{color:#1F5FDB}
+#stage.wide #ins .bias{left:200px;top:250px;width:857px;height:600px}
+#stage.wide #ins .outs{left:1150px;right:80px;top:420px}
+#stage.wide #ins .outs .o{font-size:32px}
+/* light theme (the owner, 6 Oct: light backgrounds or shades of blue, never black; the cold open in deep royal blue) */
+#stage.light{background:linear-gradient(180deg,#F5FAFF 0%,#E4EFFD 55%,#D5E6FB 100%);color:#0B1A3A}
+#stage.light #grid{background-image:linear-gradient(rgba(31,95,219,.06) 2px,transparent 2px),linear-gradient(90deg,rgba(31,95,219,.06) 2px,transparent 2px)}
+#stage.light .chip{background:rgba(31,95,219,.08);border-color:rgba(31,95,219,.45);color:#1F5FDB}
+#stage.light .chip.w{background:#fff;border-color:rgba(11,26,58,.18);color:#0B1A3A}
+#stage.light #prog{background:rgba(31,95,219,.14)}#stage.light #prog i{background:#1F5FDB;box-shadow:none}
+#stage.light #chartbox{box-shadow:0 2px 0 rgba(31,95,219,.35),0 18px 50px rgba(31,64,140,.16)}
+#stage.light #focus{box-shadow:0 0 0 3px #1F5FDB,0 24px 60px rgba(31,64,140,.25)}
+#stage.light #fspot{border-color:#1F5FDB;box-shadow:0 0 0 2000px rgba(10,31,77,.22),0 0 26px rgba(31,95,219,.7)}
+#stage.light #fview{border-color:#1F5FDB}
+#stage.light #facebox{box-shadow:0 0 0 4px #1F5FDB,0 18px 44px rgba(31,64,140,.3)}
+#stage.light #cap .c{color:#fff;-webkit-text-stroke:6px #0A1F4D;text-shadow:0 6px 0 #0A1F4D}
+#stage.light #cap .w.now{color:#7CC8FF}
+#stage.light #call .k{background:#1F5FDB;color:#fff;box-shadow:0 12px 30px rgba(31,64,140,.3)}#stage.light #call .k i{background:#fff}
+#stage.light #foot{color:rgba(11,26,58,.5)}
+#stage.light #scrim{background:linear-gradient(180deg,#0B2A8C 0%,#071C66 100%)}
+#stage.light #title .chip{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.55);color:#fff}
+#stage.light #title .big{color:#fff;text-shadow:0 0 80px rgba(79,179,255,.85),0 16px 40px rgba(4,16,60,.6)}
+#stage.light #cold{background:#0A2A8C}
+#stage.light #cold .lay{filter:grayscale(1) contrast(1.2) blur(1px);mix-blend-mode:multiply;opacity:.6}
+#stage.light #cold .floor{background:linear-gradient(180deg,rgba(8,30,110,0) 40%,rgba(8,30,110,.85) 70%,#081E6E 100%)}
+#stage.light #cold .dark{background:#061A5E}
+#stage.light #cold .bigc{text-shadow:0 20px 60px rgba(2,10,50,.7)}
+#stage.light #cold .bigc.hot{color:#8FD0FF;text-shadow:0 0 70px rgba(79,179,255,.6),0 20px 60px rgba(2,10,50,.7)}
+#stage.light #cold .bigc.red{color:#FF6B82;text-shadow:0 0 60px rgba(255,77,106,.45),0 20px 60px rgba(2,10,50,.7)}
+#stage.light #chap .bg{background:linear-gradient(160deg,rgba(31,95,219,.97) 0%,rgba(11,42,134,.97) 100%)}
+#stage.light #chap .n{background:#fff;color:#1F5FDB;box-shadow:0 10px 30px rgba(4,16,60,.35)}
+#stage.light #ins,#stage.light #coin{background:linear-gradient(180deg,#F6FAFF 0%,#E2EEFD 100%)}
+#stage.light #ins .ttl{color:#0B1A3A;text-shadow:none}
+#stage.light #ins .foot2{color:#1F5FDB;text-shadow:none}
+#stage.light #ins .src,#stage.light #coin .src{color:rgba(11,26,58,.5)}
+#stage.light #ins .col{background:#fff;border-color:rgba(11,26,58,.12);box-shadow:0 14px 40px rgba(31,64,140,.12)}
+#stage.light #ins .col h3{color:#0B1A3A}
+#stage.light #ins .col.a{border-color:#1F5FDB;background:#fff;box-shadow:0 0 0 2px #1F5FDB,0 20px 50px rgba(31,95,219,.2)}
+#stage.light #ins .col.a h3{color:#1F5FDB}
+#stage.light #ins .col .tg{background:rgba(11,26,58,.06);color:rgba(11,26,58,.75)}
+#stage.light #ins .col.a .tg{background:rgba(31,95,219,.1);color:#1F5FDB}
+#stage.light #ins .col .li{color:#0B1A3A}
+#stage.light #ins .col .li i{background:rgba(11,26,58,.2)}
+#stage.light #ins .col.a .li i{background:#1F5FDB}
+#ins .col.red h3{color:#E5364F!important}#ins .col.red .li i{background:#E5364F!important}#ins .col.red .tg{color:#E5364F!important;background:rgba(229,54,79,.1)!important}
+#stage.light #coin .nm{color:#0B1A3A}
+#stage.light #coin .px{color:#1F5FDB;text-shadow:none}
+#stage.light #coin .cc{background:#fff;border-color:rgba(11,26,58,.1);box-shadow:0 20px 50px rgba(31,64,140,.12)}
+#stage.light #coin .pts div{color:#0B1A3A}
+#stage.light #coin .pts div i{background:#1F5FDB;color:#fff}
+#stage.light #end{background:linear-gradient(180deg,#1F5FDB 0%,#0B2A86 100%)}
+#stage.light #end .f2{color:#fff;text-shadow:0 0 60px rgba(124,200,255,.6)}
+#stage.light #end .chip{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.55);color:#fff}
 #foot{position:absolute;left:24px;right:24px;bottom:42px;text-align:center;font:700 19px JBM;letter-spacing:1px;color:rgba(255,255,255,.5);z-index:50}
 #flash{position:absolute;inset:0;background:var(--acc);opacity:0;z-index:60;mix-blend-mode:overlay;pointer-events:none}
 </style></head>
@@ -251,7 +337,8 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#000}
   <div id="hdr"><span class="chip w" id="pair"></span><span class="chip" id="hand"></span></div>
   <div id="floatbg"><img id="fbimg"></div>
   <div class="box" id="chartbox"><div class="lay" id="chartlay"><img id="chart"><div class="mask"></div></div></div><div id="scrim"></div>
-  <div id="focus"><img id="focusimg"><div id="fspot"></div></div><div id="fview"></div>
+  <div id="focus"><div class="lay" id="focuslay"><img id="focusimg"><div class="mask"></div></div><div id="fspot"></div></div><div id="fview"></div>
+  <div id="track"><div class="tk tp"><span>My position</span><b></b></div><div class="tk tm"><span>The market</span><b></b></div><div class="sync">Out of sync</div></div>
   <div id="side"><div class="kick"><span class="chip w"></span></div><div class="ttl A"></div><div class="items"></div></div>
   <div id="topband"></div>
   <div id="spot"></div>
@@ -295,17 +382,26 @@ if (D.layout === 'duo') $('#stage').classList.add('duo')
 const DUO = D.layout === 'duo'
 const PIP = DUO && D.fmt !== 'wide'      // the duo edit in 9:16: the screen fills the frame, the owner in a corner
 if (PIP) $('#stage').classList.add('pip')
+const DESK = D.layout === 'screen' && D.fmt !== 'wide'     // the screen layout in 9:16: whole screen on top, a close-up below
+if (DESK) $('#stage').classList.add('desk')
+const FOC = DUO || DESK                                     // a close-up panel ("fk" keyframes, marks) beside the whole screen
+if (D.theme === 'light') $('#stage').classList.add('light')
 const FULL = D.layout === 'phone' || D.layout === 'screen' || DUO     // the recording's whole width always: no push, no punch-in
 if (D.caption_style === 'clean') $('#stage').classList.add('clean')
 const FPS = D.fps, FW = D.frameW, FH = D.frameH, [cx0, cy0, cw0, ch0] = D.chart, FACE = D.face
 if (DUO) $('#coldimg').style.clipPath = `inset(${cy0}px ${FW - cx0 - cw0}px ${FH - cy0 - ch0}px ${cx0}px)`   // duo: the cold open shows the phone alone, never a slice of the owner
 const SEG = D.segments, speak = SEG.filter(s => s.pieces?.length)
+// desk: marks are written in fractions of the whole frame (as for the 16:9 screen layout); the close-up works in fractions of the screen
+if (DESK) for (const s of SEG) for (const m of s.marks || []) for (const k of ['r', 'lr']) if (m[k]) m[k] = [(m[k][0] * FW - cx0) / cw0, (m[k][1] * FH - cy0) / ch0, (m[k][2] * FW - cx0) / cw0, (m[k][3] * FH - cy0) / ch0]
 for (const el of $$('.lay')) { el.style.width = FW + 'px'; el.style.height = FH + 'px' }
-if (D.mask) for (const m of $$('.lay .mask')) Object.assign(m.style, { left: D.mask.rect[0] + 'px', top: D.mask.rect[1] + 'px', width: D.mask.rect[2] + 'px', height: D.mask.rect[3] + 'px', background: D.mask.color })
+// "mask": one { rect, color } or a list: paints over the face-cam's corner of the screen with the screen's own colours
+if (D.mask) for (const lay of $$('.lay')) { const m0 = $('.mask', lay); [].concat(D.mask).forEach((mk, j) => { const m = j ? lay.appendChild(m0.cloneNode()) : m0
+  Object.assign(m.style, { left: mk.rect[0] + 'px', top: mk.rect[1] + 'px', width: mk.rect[2] + 'px', height: mk.rect[3] + 'px', background: mk.color }) }) }
 const CHAP = SEG.filter(s => s.kind === 'clip' && s.chapter), chapDur = s => s.chapter_dur || 1.8
-{ const cb = DUO && !PIP ? $('#focus') : $('#chartbox'), c = $('#chap'); Object.assign(c.style, { left: cb.offsetLeft + 'px', top: cb.offsetTop + 'px', width: cb.offsetWidth + 'px', height: cb.offsetHeight + 'px' }) }
+{ const cb = (DUO && !PIP) || DESK ? $('#focus') : $('#chartbox'), c = $('#chap'); Object.assign(c.style, { left: cb.offsetLeft + 'px', top: cb.offsetTop + 'px', width: cb.offsetWidth + 'px', height: cb.offsetHeight + 'px' }) }
 const COIN = SEG.find(s => s.kind === 'product' && s.kind2 === 'coin')
 function coinChart(c) {          // 4-hour candles with the owner's zone and levels, drawn once; revealed in renderAt
+  const LT = D.theme === 'light', INK = LT ? '#0B1A3A' : '#fff', INK2 = LT ? 'rgba(11,26,58,.6)' : 'rgba(255,255,255,.65)', NB = LT ? '#0B1A3A' : '#fff', NT = LT ? '#fff' : '#0B1220'
   const cn = $('#coin'); cn.style.visibility = 'hidden'; cn.style.display = 'block'      // measure while laid out
   const svg = $('#coin svg'), box = $('#coin .cc'), W = box.clientWidth, H = box.clientHeight, pad = [96, 200, 40, 30]   // top right bottom left
   cn.style.display = 'none'; cn.style.visibility = ''
@@ -323,11 +419,11 @@ function coinChart(c) {          // 4-hour candles with the owner's zone and lev
       const up = l.p > hi, yy = up ? 44 : H - 20
       g += `<g class="lvl" data-j="${j}" opacity="0"><text x="${W / 2}" y="${yy}" text-anchor="middle" fill="${up ? '#4FB3FF' : '#FF6B82'}" font-family="Anton" font-size="38">${up ? '▲' : '▼'} ${f(l.p)} ${lab} · ${pct > 0 ? '+' : ''}${pct.toFixed(1)}%</text></g>`
     } else g += `<g class="lvl" data-j="${j}" opacity="0"><line x1="${pad[3]}" x2="${R}" y1="${y(l.p)}" y2="${y(l.p)}" stroke="${l.p > c.price ? '#4FB3FF' : '#FF6B82'}" stroke-width="3" stroke-dasharray="14 10"/>
-      <text x="${R + 14}" y="${y(l.p) + 10}" fill="#fff" font-family="Anton" font-size="30">${f(l.p)}</text><text x="${R + 14}" y="${y(l.p) + 34}" fill="rgba(255,255,255,.65)" font-family="JBM" font-weight="700" font-size="14">${lab}</text></g>`
+      <text x="${R + 14}" y="${y(l.p) + 10}" fill="${INK}" font-family="Anton" font-size="30">${f(l.p)}</text><text x="${R + 14}" y="${y(l.p) + 34}" fill="${INK2}" font-family="JBM" font-weight="700" font-size="14">${lab}</text></g>`
   })
   g += '<g class="cdl">' + cs.map((k, i) => { const x = pad[3] + i * cw + cw / 2, up = k.c >= k.o, col = up ? '#3DDC97' : '#FF5470'
     return `<line x1="${x}" x2="${x}" y1="${y(k.h)}" y2="${y(k.l)}" stroke="${col}" stroke-width="2"/><rect x="${x - cw * 0.34}" y="${y(Math.max(k.o, k.c))}" width="${cw * 0.68}" height="${Math.max(2, Math.abs(y(k.o) - y(k.c)))}" fill="${col}" rx="2"/>` }).join('') + '</g>' + zlab       // the zone's label sits above the candles' wicks
-  g += `<g class="now" opacity="0"><line x1="${pad[3]}" x2="${R}" y1="${y(c.price)}" y2="${y(c.price)}" stroke="#fff" stroke-width="2" stroke-dasharray="3 6"/><rect x="${R + 6}" y="${y(c.price) - 22}" width="136" height="44" rx="10" fill="#fff"/><text x="${R + 74}" y="${y(c.price) + 10}" text-anchor="middle" fill="#0B1220" font-family="Anton" font-size="28">${f(c.price)}</text></g>`
+  g += `<g class="now" opacity="0"><line x1="${pad[3]}" x2="${R}" y1="${y(c.price)}" y2="${y(c.price)}" stroke="${NB}" stroke-width="2" stroke-dasharray="3 6"/><rect x="${R + 6}" y="${y(c.price) - 22}" width="136" height="44" rx="10" fill="${NB}"/><text x="${R + 74}" y="${y(c.price) + 10}" text-anchor="middle" fill="${NT}" font-family="Anton" font-size="28">${f(c.price)}</text></g>`
   g += `<defs><clipPath id="rev"><rect x="0" y="0" width="0" height="${H}"/></clipPath></defs>`
   svg.innerHTML = g; $('.cdl', svg).setAttribute('clip-path', 'url(#rev)')
   $('#coin .kick .chip').textContent = c.kicker || 'Right now'; $('#coin .nm').textContent = c.name || ''
@@ -343,15 +439,18 @@ function insBuild(s) {
   $('.kick .chip', el).textContent = s.kicker || ''; $('.ttl', el).textContent = s.title || ''; $('.foot2', el).textContent = s.foot || ''; $('.src', el).textContent = s.source || ''
   const ttlSize = s.title_size; $('.ttl', el).style.fontSize = ttlSize ? ttlSize + 'px' : ''
   el.classList.toggle('listm', s.kind2 === 'list')
-  if (s.kind2 === 'list') $('.body', el).innerHTML = `<div class="lst">${s.items.map(x => `<div><i>•</i> ${html(x)}</div>`).join('')}</div>`
+  if (s.kind2 === 'bias') $('.body', el).innerHTML = biasSvg(s)
+  else if (s.kind2 === 'list') $('.body', el).innerHTML = `<div class="lst">${s.items.map(x => `<div><i>•</i> ${html(x)}</div>`).join('')}</div>`
   else if (s.kind2 === 'board') $('.body', el).innerHTML = s.rows.map(r => `<div class="row"><div><div class="nm">${html(r.name)}</div><div class="wh">${html(r.what || '')}</div></div>
     <div class="vals"><div class="ft">${html(r.from)} → <b>${html(r.to)}</b></div><div class="pc${pct(r) > 0 ? ' up' : ''}">${pct(r) > 0 ? '+' : ''}${pct(r)}%</div></div></div>`).join('')
-  else $('.body', el).innerHTML = `<div class="cmp">${s.cols.map((c, j) => `<div class="col ${j ? 'b' : 'a'}"><h3>${html(c.name)}</h3><span class="tg">${html(c.tag || '')}</span>
+  else $('.body', el).innerHTML = `<div class="cmp">${s.cols.map((c, j) => `<div class="col ${j ? 'b' : 'a'}${c.tone ? ' ' + c.tone : ''}"><h3>${html(c.name)}</h3><span class="tg">${html(c.tag || '')}</span>
     ${c.rows.map(x => `<div class="li"><i></i>${html(x)}</div>`).join('')}</div>`).join('')}</div>`
-  const b = $('.body', el); el.style.display = 'block'; $('.foot2', el).style.top = Math.min(D.fmt === 'wide' ? 930 : 1420, b.offsetTop + b.offsetHeight + (D.fmt === 'wide' ? 80 : 120)) + 'px'    // the tagline sits under the graphic
+  el.classList.toggle('biasm', s.kind2 === 'bias'); $('.body', el).style.cssText = s.kind2 === 'bias' ? 'position:absolute;inset:0;top:0;left:0;right:0' : ''
+  const b = s.kind2 === 'bias' ? $('.outs', el) : $('.body', el); el.style.display = 'block'; $('.foot2', el).style.top = (s.kind2 === 'bias' ? (D.fmt === 'wide' ? 900 : b.offsetTop + b.offsetHeight + 90) : Math.min(D.fmt === 'wide' ? 930 : 1420, b.offsetTop + b.offsetHeight + (D.fmt === 'wide' ? 80 : 120))) + 'px'    // the tagline sits under the graphic
 }
 // when each piece of an insert lands (seconds into it): shared by the picture and the sound
 function insTimes(s) {
+  if (s.kind2 === 'bias') return { bias: true, foot: BT.outs.at(-1) + 0.7 }
   if (s.kind2 === 'list') { const items = s.items.map((_, j) => 0.9 + j * (s.step || 0.75)); return { items, foot: items.at(-1) + 0.9 } }
   if (s.kind2 === 'board') { const rows = s.rows.map((_, j) => 1.1 + j * 0.75); return { rows, foot: rows.at(-1) + 0.9 } }
   const a = s.cols[0].rows.map((_, j) => 1.7 + j * 0.45), b = s.cols[1].rows.map((_, j) => a.at(-1) + 0.7 + j * 0.45)
@@ -437,7 +536,7 @@ function lensSpot(bx, w, h) {
 
 // ---- duo: the phone (whole), the close-up ("fk": [[source seconds, centre x, centre y, width]] as fractions of the screen;
 // a mark {t, r: [x0, y0, x1, y1] (fractions of the screen), lr?} takes the close-up to its region and boxes it on the phone)
-const FA = 640 / 686
+const FA = DESK ? 1032 / 740 : 640 / 686
 const fkAt = (s, src) => { const k = s?.fk; if (!k?.length) return [0.5, 0.25, 1]
   if (src <= k[0][0]) return k[0].slice(1); if (src >= k.at(-1)[0]) return k.at(-1).slice(1)
   const j = k.findIndex(r => r[0] > src), a = k[j - 1], b = k[j], q = E.inOutSine(clamp((src - a[0]) / Math.max(0.01, b[0] - a[0])))
@@ -469,7 +568,7 @@ function duoFrame(t, cs2, srcT, drop) {
   const cb = $('#chartbox'), fo = $('#focus'), fv = $('#fview'), side = $('#side'), spot = $('#spot')
   const i = speak.indexOf(cs2), prev = speak[i - 1], q = P(t, cs2.start - 0.05, cs2.start + 0.45, E.inOutCubic)
   const solo = !!cs2.solo || cs2.kind !== 'clip', prevSolo = prev ? !!prev.solo || prev.kind !== 'clip' : solo   // the title shows neither
-  const v = solo ? (prevSolo ? 0 : 1 - q) : (prevSolo ? q : 1)     // 1 = phone + close-up, 0 = side panel
+  const v = DESK ? 1 : solo ? (prevSolo ? 0 : 1 - q) : (prevSolo ? q : 1)     // 1 = phone + close-up, 0 = side panel (desk: always the screen)
   const after = P(t - drop, 0, 0.3)
   $('#stage').classList.toggle('solo', v < 0.5)
   place($('#chartlay'), cb, [cx0, cy0, cw0, ch0])
@@ -485,7 +584,7 @@ function duoFrame(t, cs2, srcT, drop) {
     if (mk.r && !mk.nobox) box = a.r && !a.nobox ? lerp(a.r, mk.r, q2) : mk.r
     if (box) { box = [box[0], Math.max(0, box[1]), box[2], Math.min(1, box[3])]; if (box[3] - box[1] < 0.012) box = null }   // a box scrolled off the phone goes
   }
-  place($('#focusimg'), fo, rect)
+  place($('#focuslay'), fo, rect)
   const s = cb.clientWidth / cw0, L = cb.offsetLeft + (1 - v) * 80, T = cb.offsetTop, fspot = $('#fspot')
   if (box && ma > 0.01 && v > 0.5) {
     const [x0, y0, x1, y1] = box, k = fo.clientWidth / rect[2]
@@ -567,6 +666,71 @@ function pipFrame(t, cs2, srcT, drop) {
   }
 }
 
+// ---- the tracker (desk): the owner's position against the market's bias. A clip's "state": {pos?, bias?: bull | turn | bear,
+// at?: source seconds} changes it from the clip's start (or from "at"); a long against a bearish market flags "out of sync"
+const TRK = []
+{ let pos = '', bias = ''
+  for (const s of SEG) if (s.state) { pos = s.state.pos ?? pos; bias = s.state.bias ?? bias
+    TRK.push({ t: s.state.at != null ? (srcToOut(s, s.state.at) ?? s.start) : s.start, pos, bias, tone: s.state.tone || '', clash: /^long/i.test(pos) && !/stopped|closed/i.test(pos) && bias === 'bear' }) } }
+const BIAS = { bull: 'Bullish ▲', turn: 'Turning', bear: 'Bearish ▼' }
+function trackFrame(t) {
+  const el = $('#track'), j = TRK.findLastIndex(k => t >= k.t)
+  el.style.opacity = j < 0 ? 0 : P(t, TRK[0].t, TRK[0].t + 0.35)
+  if (j < 0) return
+  const k = TRK[j], pv = TRK[j - 1], bp = $('.tp b', el), bm = $('.tm b', el), sy = $('.sync', el)
+  if (el.dataset.j !== String(j)) { el.dataset.j = j; bp.textContent = k.pos; bp.className = k.tone; bm.textContent = BIAS[k.bias] || k.bias; bm.className = k.bias }
+  bp.style.transform = !pv || pv.pos !== k.pos ? slam(bp, t, k.t, 1.5, 0.25) : (bp.style.opacity = 1, '')
+  bm.style.transform = !pv || pv.bias !== k.bias ? slam(bm, t, k.t, 1.5, 0.25) + (k.bias === 'bear' ? glitch(bm, t, k.t + 0.05, 0.3) : '') : (bm.style.opacity = 1, '')
+  el.classList.toggle('clash', k.clash)
+  const ca = TRK.findLastIndex((x, i) => i <= j && x.clash && !(TRK[i - 1]?.clash))      // when this run of "out of sync" began
+  sy.style.opacity = k.clash ? P(t, TRK[ca].t + 0.3, TRK[ca].t + 0.5) * (0.8 + 0.2 * Math.sin(t * 7)) : 0
+  sy.style.transform = `translateX(-50%) ${k.clash ? slam(sy, t, TRK[ca].t + 0.3, 1.6, 0.25) : ''}`; if (!k.clash) sy.style.opacity = 0
+}
+
+// ---- the bias diagram insert: a market-structure line drawn live (higher highs and lows, then equal highs, the break, a lower
+// high into the gap and the drop), the bias tag flipping, the long's stop and the sell the owner says he should have taken
+const BP = [[40, 620], [130, 450, 'H', 'u'], [190, 520, 'HL', 'u'], [290, 340, 'HH', 'u'], [350, 420, 'HL', 'u'], [450, 220, 'HH', 'u'], [515, 320, 'HL', 'u'], [610, 225, 'EQH', 'b'], [690, 420, '', ''], [790, 300, 'LH', 'd'], [960, 620, 'LL', 'd']]
+const BT = { segs: [[1.0, 1.4], [1.4, 1.8], [1.8, 2.25], [2.25, 2.65], [2.65, 3.1], [3.1, 3.5], [3.9, 4.45], [5.0, 5.6], [5.8, 6.3], [7.2, 8.2]],
+  bull: 1.2, long: 2.0, hl: 3.6, eqh: 4.55, brk: 5.3, fvg: 5.7, bear: 6.5, sell: 6.8, stop: 8.0, outs: [8.6, 9.2] }
+function biasSvg(s) {
+  const lab = BP.map(([x, y, l, k], i) => l ? `<g class="lb" data-i="${i}" opacity="0"><text x="${x}" y="${k === 'u' || k === 'b' ? y - 22 : y + 46}" text-anchor="middle" font-family="Anton" font-size="34" fill="${k === 'd' ? '#E5364F' : k === 'b' ? '#1F5FDB' : '#0E9F62'}">${l}</text></g>` : '').join('')
+  const pill = (x, y, txt, col, anchor = 'middle', size = 23) => { const w = txt.length * size * 0.62 + 24, x0 = anchor === 'middle' ? x - w / 2 : anchor === 'end' ? x - w : x
+    return `<rect x="${x0}" y="${y - size - 6}" width="${w}" height="${size + 16}" rx="${(size + 16) / 2}" fill="#fff" stroke="${col}" stroke-width="2"/><text x="${x0 + w / 2}" y="${y}" text-anchor="middle" font-family="JBM" font-weight="700" font-size="${size}" fill="${col}" letter-spacing="1">${txt}</text>` }
+  return `<svg class="bias" viewBox="0 0 1000 700">
+  <rect x="0" y="0" width="1000" height="700" rx="28" fill="#fff" stroke="rgba(31,95,219,.25)" stroke-width="2"/>
+  <g class="stopl" opacity="0"><line x1="190" x2="985" y1="590" y2="590" stroke="#E5364F" stroke-width="3" stroke-dasharray="12 10"/>${pill(300, 652, "THE LONG'S STOP", '#E5364F', 'start')}</g>
+  <g class="hl" opacity="0"><line x1="515" x2="985" y1="320" y2="320" stroke="#0E9F62" stroke-width="3" stroke-dasharray="6 8"/></g>
+  <g class="eqh" opacity="0"><line x1="450" x2="610" y1="220" y2="220" stroke="#1F5FDB" stroke-width="4" stroke-dasharray="10 8"/>${pill(530, 150, 'EQUAL HIGHS', '#1F5FDB')}</g>
+  <g class="fvg" opacity="0"><rect x="748" y="268" width="84" height="64" rx="6" fill="rgba(31,95,219,.14)" stroke="#1F5FDB" stroke-width="2"/>${pill(842, 312, 'FVG', '#1F5FDB', 'start', 21)}</g>
+  <polyline class="ln" points="" fill="none" stroke="#0B1A3A" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/>
+  ${lab}
+  <g class="brk" opacity="0"><g transform="translate(649 320)"><circle r="24" fill="#E5364F"/><path d="M-9 -9 L9 9 M9 -9 L-9 9" stroke="#fff" stroke-width="5" stroke-linecap="round"/></g>${pill(628, 400, 'LAST LOW BROKEN', '#E5364F', 'end')}</g>
+  <g class="long" opacity="0" transform="translate(190 520)"><rect x="-58" y="14" width="116" height="40" rx="20" fill="#1F5FDB"/><text x="0" y="43" text-anchor="middle" font-family="Anton" font-size="26" fill="#fff" letter-spacing="1">LONG</text></g>
+  <g class="sell" opacity="0" transform="translate(790 300)"><rect x="-56" y="-88" width="112" height="40" rx="20" fill="#E5364F"/><text x="0" y="-59" text-anchor="middle" font-family="Anton" font-size="26" fill="#fff" letter-spacing="1">SELL</text>
+    <path d="M0 44 L0 286" stroke="#1F5FDB" stroke-width="4" stroke-dasharray="8 7"/><path d="M-12 274 L0 296 L12 274" fill="none" stroke="#1F5FDB" stroke-width="4"/><text x="-14" y="190" text-anchor="end" font-family="Anton" font-size="40" fill="#1F5FDB">1:3</text></g>
+  <g class="hit" opacity="0" transform="translate(944 590)"><circle r="30" fill="#E5364F"/><circle class="ring" r="30" fill="none" stroke="#E5364F" stroke-width="4"/><path d="M-11 -11 L11 11 M11 -11 L-11 11" stroke="#fff" stroke-width="5" stroke-linecap="round"/></g>
+  <g class="tag" transform="translate(40 40)"><rect class="tb" x="0" y="0" width="300" height="64" rx="32" fill="#0E9F62"/><text class="tt" x="150" y="44" text-anchor="middle" font-family="Anton" font-size="34" fill="#fff" letter-spacing="1">BULLISH ▲</text></g>
+</svg><div class="outs"><div class="o hold"><i></i><span>${html(s.hold || '')} → <b>${html(s.hold_to || '')}</b></span></div><div class="o flip"><i></i><span>${html(s.flip || '')} → <b>${html(s.flip_to || '')}</b></span></div></div>`
+}
+function biasFrame(el, l) {
+  const svg = $('svg.bias', el); if (!svg) return
+  let pts = [BP[0].slice(0, 2)]
+  BT.segs.forEach(([a, b], i) => { const q = E.inOutSine(clamp((l - a) / (b - a))); if (q <= 0) return; const p0 = BP[i], p1 = BP[i + 1]; pts.push([p0[0] + (p1[0] - p0[0]) * q, p0[1] + (p1[1] - p0[1]) * q]) })
+  // keep only the drawn part: every finished segment's end, plus the moving tip
+  const done = BT.segs.filter(([, b]) => l >= b).length, tip = pts.at(-1)
+  pts = [...BP.slice(0, done + 1).map(p => p.slice(0, 2)), ...(done < BT.segs.length && l > BT.segs[done][0] ? [tip] : [])]
+  $('.ln', svg).setAttribute('points', pts.map(p => p.map(v => v.toFixed(1)).join(',')).join(' '))
+  $$('.lb', svg).forEach(g => { const i = +g.dataset.i, at = BT.segs[i - 1][1]; g.setAttribute('opacity', P(l, at - 0.05, at + 0.15)) })
+  const op = (c, at, d = 0.25) => $('.' + c, svg).setAttribute('opacity', P(l, at, at + d))
+  op('long', BT.long); op('stopl', BT.long + 0.2); op('hl', BT.hl); op('eqh', BT.eqh); op('brk', BT.brk, 0.12); op('fvg', BT.fvg); op('sell', BT.sell); op('hit', BT.stop, 0.1)
+  const ring = $('.hit .ring', svg), rq = clamp((l - BT.stop) / 0.6); ring.setAttribute('r', 30 + 40 * rq); ring.setAttribute('opacity', l >= BT.stop ? 1 - rq : 0)
+  const tag = $('.tag', svg), bear = l >= BT.bear, turn = !bear && l >= BT.brk
+  $('.tb', tag).setAttribute('fill', bear ? '#E5364F' : turn ? '#1F5FDB' : '#0E9F62'); $('.tt', tag).textContent = bear ? 'BEARISH ▼' : turn ? 'TURNING' : 'BULLISH ▲'
+  const at = bear ? BT.bear : turn ? BT.brk : BT.bull, k = 1 + 0.35 * (1 - P(l, at, at + 0.25, E.outCubic)), sh = l - at < 0.3 ? 8 * (1 - (l - at) / 0.3) * Math.sin((l - at) * 90) : 0
+  tag.setAttribute('transform', `translate(${40 + sh} 40) translate(150 32) scale(${k}) translate(-150 -32)`); tag.setAttribute('opacity', P(l, BT.bull - 0.1, BT.bull + 0.1))
+  $$('.outs .o', el).forEach((o, j) => { const a = BT.outs[j]; o.style.opacity = P(l, a, a + 0.2); o.style.transform = `translate3d(${(1 - P(l, a, a + 0.4, E.outBack)) * 200}px,0,0)` })
+}
+
 let lastSrc = ''
 window.renderAt = async function (t) {
   const seg = SEG.find(s => t >= s.start - 1e-6 && t < s.end) || SEG.find(s => s.start > t) || SEG.at(-1)
@@ -616,7 +780,7 @@ window.renderAt = async function (t) {
   // ---- highlight: a box around what the owner is talking about ("marks": source seconds + region), with a close-up
   const spot = $('#spot'), lens = $('#lens'), mk = (cs2.marks || []).find(m => srcT >= m.t[0] - 0.15 && srcT <= m.t[1] + 0.15)
   let spotBox = null
-  if (mk && t >= drop && !DUO) {
+  if (mk && t >= drop && !FOC) {
     const a = P(srcT, mk.t[0] - 0.15, mk.t[0] + 0.12) * (1 - P(srcT, mk.t[1] - 0.1, mk.t[1] + 0.15)), sc = cb.clientWidth / rc[2], [x0, y0, x1, y1] = mk.r
     const bx = [(x0 * FW - rc[0]) * sc - 8, cb.offsetTop + (y0 * FH - rc[1]) * sc - 8, (x1 - x0) * FW * sc + 16, (y1 - y0) * FH * sc + 16]
     Object.assign(spot.style, { display: 'block', left: bx[0] + 'px', top: bx[1] + 'px', width: bx[2] + 'px', height: bx[3] + 'px', opacity: a }); spotBox = bx
@@ -629,7 +793,8 @@ window.renderAt = async function (t) {
       $('#lensimg').style.transform = `scale(${ls}) translate(${-lx0 * FW}px,${-(ly0 * FH + (rh - lh / ls) / 2)}px)`
     } else lens.style.display = 'none'
   } else { spot.style.display = 'none'; lens.style.display = 'none' }
-  if (DUO) (PIP ? pipFrame : duoFrame)(t, cs2, srcT, drop)
+  if (FOC) (PIP ? pipFrame : duoFrame)(t, cs2, srcT, drop)
+  if (DESK) trackFrame(t)
   // ---- title on the drop
   const ti = $('#title'), tS = SEG.find(s => s.kind === 'title')
   ti.style.display = t >= drop && t < tS.end + 0.35 ? 'block' : 'none'
@@ -638,12 +803,12 @@ window.renderAt = async function (t) {
     $('.top', ti).style.opacity = P(t, drop + 0.1, drop + 0.3); $('.sub', ti).style.opacity = P(t, drop + 0.35, drop + 0.6)
     ti.style.opacity = 1 - P(t, tS.end, tS.end + 0.3)
   }
-  $('#scrim').style.opacity = t >= drop ? 0.62 * (1 - P(t, tS.end - 0.1, tS.end + 0.35)) : 0
-  $('#scrim').style.transform = cb.style.transform
+  $('#scrim').style.opacity = t >= drop ? (D.theme === 'light' ? 0.86 : 0.62) * (1 - P(t, tS.end - 0.1, tS.end + 0.35)) : 0
+  $('#scrim').style.transform = DESK ? '' : cb.style.transform
   // ---- callout chip for the clip
   const call = $('#call'), cl = seg.kind === 'clip' && seg.call ? seg : null
   if (cl) { if (call.dataset.id !== cl.id) { call.dataset.id = cl.id; call.innerHTML = `<div class="k"><i></i>${html(cl.call)}</div>` }
-    const k = $('.k', call), at = callAt(cl); k.style.transform = slam(k, t, at, 1.6, 0.25); k.style.transformOrigin = PIP && !$('#stage').classList.contains('solo') ? '0 50%' : D.layout === 'phone' || DUO ? '50% 50%' : '0 50%'; call.style.display = t >= at - 0.05 ? 'block' : 'none'
+    const k = $('.k', call), at = callAt(cl); k.style.transform = slam(k, t, at, 1.6, 0.25); k.style.transformOrigin = PIP && !$('#stage').classList.contains('solo') ? '0 50%' : D.layout === 'phone' || DUO || DESK ? '50% 50%' : '0 50%'; call.style.display = t >= at - 0.05 ? 'block' : 'none'
     if (D.layout === 'phone') call.style.top = (spotBox && spotBox[1] + spotBox[3] > 1440 ? Math.max(130, spotBox[1] - 100) : 1480) + 'px' }
   else call.style.display = 'none'
   // ---- chapter card at the start of a new topic; the header chip names the topic until the next one
@@ -701,7 +866,8 @@ window.renderAt = async function (t) {
     ie.style.opacity = P(l, -0.2, 0.05) * (1 - P(l, L, L + 0.2))
     $('.kick', ie).style.opacity = P(l, 0.1, 0.35)
     const tt = $('.ttl', ie); tt.style.transform = slam(tt, l, 0.35, 1.7, 0.3) + shake(l, 0.4, 14)
-    if (is.kind2 === 'list') $$('.lst div', ie).forEach((d, j) => { const a = T.items[j], nx = T.items[j + 1] ?? 99
+    if (is.kind2 === 'bias') biasFrame(ie, l)
+    else if (is.kind2 === 'list') $$('.lst div', ie).forEach((d, j) => { const a = T.items[j], nx = T.items[j + 1] ?? 99
       d.style.opacity = P(l, a, a + 0.12) * (l >= nx ? 0.32 : 1); d.style.transform = slam(d, l, a, 1.5, 0.22) + (l >= a && l < a + 0.3 ? shake(l, a + 0.02, 8) : '') })
     else if (is.kind2 === 'board') $$('.row', ie).forEach((r, j) => { const a = T.rows[j]; r.style.opacity = P(l, a, a + 0.2); r.style.transform = `translate3d(${(1 - P(l, a, a + 0.4, E.outBack)) * 260}px,0,0)`
       const pc = $('.pc', r), v = Math.round(pct(is.rows[j]) * P(l, a + 0.15, a + 0.65, E.outCubic)); pc.textContent = `${v > 0 ? '+' : ''}${v}%`; pc.style.transform = shake(l, a + 0.66, 8) })
@@ -750,10 +916,14 @@ window.fxEvents = function () {
   const p = SEG.find(s => s.kind === 'product' && !COIN)
   if (p) { add(p.start, '1492', -10, { align: 'peak' }); add(p.start + 0.5, '2909', -4); add(p.start + 0.7, '3120', -10); (p.points || []).forEach((_, j) => add(p.start + 2.0 + j * 1.3, '2573', -11)) }
   for (const s of INS) { const T = insTimes(s), a = s.start; add(a, '1492', -10, { align: 'peak' }); add(a + 0.35, '2909', -6); add(a + 0.35, '2299', -8)
-    if (T.items) T.items.forEach(x => { add(a + x, '2573', -11); add(a + x, '2299', -14) })
+    if (T.bias) { BT.segs.forEach(([x]) => add(a + x, '1492', -20, { align: 'peak' })); add(a + BT.bull, '2573', -11); add(a + BT.long, '2573', -12); add(a + BT.eqh, '3124', -11)
+      add(a + BT.brk, '2299', -8); add(a + BT.brk, '2951', -11); add(a + BT.bear, '2908', -8); add(a + BT.bear, '2951', -9); add(a + BT.sell, '3124', -11); add(a + BT.stop, '2299', -7); add(a + BT.stop, '2909', -9)
+      BT.outs.forEach(x => add(a + x, '2573', -11)) }
+    else if (T.items) T.items.forEach(x => { add(a + x, '2573', -11); add(a + x, '2299', -14) })
     else if (T.rows) T.rows.forEach(x => { add(a + x, '2577', -12); add(a + x + 0.66, '3124', -15) })
     else { T.cols.forEach(x => add(a + x, '3120', -12)); T.li.flat().forEach(x => add(a + x, '2573', -13)) }
     add(a + T.foot, '2299', -7); add(a + T.foot, '3124', -10) }
+  if (DESK) TRK.forEach((k, i) => { if (!i) return; add(k.t, '3124', -13); if (k.clash && !TRK[i - 1].clash) { add(k.t + 0.3, '2951', -11); add(k.t + 0.3, '2299', -10) } })
   const e = SEG.find(s => s.kind === 'end')
   if (e) { add(e.start + 0.15, '2908', -4); add(e.start + 0.15, '2299', -5) }
   return ev

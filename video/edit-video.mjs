@@ -63,7 +63,7 @@ if (coin) {
 fs.cpSync(path.join(DIR, 'assets'), path.join(OUT, 'assets'), { recursive: true })
 const prod = plan.segments.find(s => s.kind === 'product')
 if (prod) for (const key of ['shot', 'bar', 'head']) if (prod[key]) { const f = path.resolve(BASE, prod[key]), dst = 'prod_' + key + path.extname(f); fs.copyFileSync(f, path.join(OUT, dst)); prod[key] = dst }
-const DATA = { fmt: FMT, fps: FPS, frameW, frameH, chart: EDL.chart, face: EDL.face, mask: EDL.mask, layout: EDL.layout, caption_style: EDL.caption_style, pair: EDL.pair, handle: EDL.handle, duration: plan.duration, drop: plan.drop, segments: plan.segments }
+const DATA = { fmt: FMT, fps: FPS, frameW, frameH, chart: EDL.chart, face: EDL.face, mask: EDL.mask, layout: EDL.layout, caption_style: EDL.caption_style, theme: EDL.theme, pair: EDL.pair, handle: EDL.handle, duration: plan.duration, drop: plan.drop, segments: plan.segments }
 const page = fs.readFileSync(path.join(DIR, 'edit.html'), 'utf8').replace('<script>\nconst D = window.DATA', `<script>window.DATA=${JSON.stringify(DATA).replace(/</g, '\\u003c')}</script>\n<script>\nconst D = window.DATA`)
   .replace('.box img{position:absolute;', `.box img,#cold img{width:${frameW}px;height:${frameH}px}\n.box img{position:absolute;`)
 fs.writeFileSync(path.join(OUT, `index${SUF}.html`), page)

@@ -1,0 +1,1002 @@
+{
+ "source": "src/raw.mp4",
+ "words": "words_big.json",
+ "caption_words": "words.json",
+ "layout": "screen",
+ "theme": "light",
+ "chart": [
+  0,
+  182,
+  1440,
+  718
+ ],
+ "face": [
+  1054,
+  637,
+  386,
+  443
+ ],
+ "mask": [
+  {
+   "rect": [
+    1050,
+    636,
+    390,
+    246
+   ],
+   "color": "#DAD9DB"
+  },
+  {
+   "rect": [
+    1050,
+    880,
+    390,
+    20
+   ],
+   "color": "#FDFDFD"
+  }
+ ],
+ "pair": "BTC · ETH · 1H",
+ "handle": "@i_am_vickyd",
+ "frame_q": 3,
+ "voice": {
+  "enhance": "df3"
+ },
+ "music": {
+  "id": 542,
+  "level": -10,
+  "duck": 11
+ },
+ "cold": [
+  {
+   "w": [
+    {
+     "t": [
+      24.66,
+      28.18
+     ]
+    }
+   ],
+   "cap": "Since the 26th of September, I've been in this trade.",
+   "big": "26 SEPTEMBER",
+   "size": 170,
+   "label": "long Bitcoin since",
+   "z": [
+    0.45,
+    0.5,
+    1
+   ]
+  },
+  {
+   "w": [
+    {
+     "t": [
+      34.03,
+      38.16
+     ]
+    }
+   ],
+   "cap": "And my thesis is that I expect Bitcoin to go to 90,000.",
+   "big": "$90,000",
+   "tone": "hot",
+   "label": "my target",
+   "z": [
+    0.52,
+    0.5,
+    1
+   ]
+  },
+  {
+   "w": [
+    {
+     "t": [
+      38.81,
+      42.77
+     ]
+    }
+   ],
+   "cap": "But now, it gave me some signs, which I just ignored.",
+   "big": "I IGNORED\nTHE SIGNS",
+   "size": 150,
+   "tone": "red",
+   "glitch": true,
+   "glitch_at": 0.25,
+   "label": "then the market changed bias",
+   "z": [
+    0.6,
+    0.5,
+    1
+   ]
+  }
+ ],
+ "title": {
+  "top": "Bitcoin · Ethereum",
+  "big": "HELD\nTOO LONG",
+  "size": 210,
+  "sub": "When the bias changes and you don't"
+ },
+ "clips": [
+  {
+   "id": "k1",
+   "w": [
+    {
+     "t": [
+      6.46,
+      20.5
+     ]
+    }
+   ],
+   "cap": "And the most important thing to discuss in today's session of looking at the charts: the market can always switch up on you. Do not be so attached to a particular setup that you just ignore all the signs.",
+   "chapter": "The trade",
+   "chapter_sub": "Long Bitcoin since 26 Sep · target $90,000",
+   "state": {
+    "pos": "Long BTC",
+    "bias": "bull"
+   },
+   "call": "Bitcoin · 1-hour chart",
+   "call_t": 9.0,
+   "fk": [
+    [
+     6.5,
+     0.4,
+     0.4234,
+     0.8
+    ],
+    [
+     16,
+     0.48,
+     0.3783,
+     0.55
+    ]
+   ]
+  },
+  {
+   "id": "k2",
+   "w": [
+    {
+     "t": [
+      43.52,
+      54.33
+     ]
+    }
+   ],
+   "cap": "First off, it rallied to 86,800, to this order block supply zone region, and it sold off back to the demand zone.",
+   "chapter": "The signs",
+   "chapter_sub": "Rejected at the supply zone, twice",
+   "call": "Sign 1 · rallied to 86,800, sold off",
+   "call_t": 46.5,
+   "state": {
+    "bias": "turn",
+    "at": 52.4
+   },
+   "fk": [
+    [
+     43.5,
+     0.48,
+     0.3783,
+     0.62
+    ],
+    [
+     49.8,
+     0.53,
+     0.3031,
+     0.42
+    ]
+   ],
+   "marks": [
+    {
+     "t": [
+      49.9,
+      52.2
+     ],
+     "r": [
+      0.535,
+      0.255,
+      0.635,
+      0.335
+     ]
+    },
+    {
+     "t": [
+      52.9,
+      54.3
+     ],
+     "r": [
+      0.4,
+      0.385,
+      0.645,
+      0.435
+     ]
+    }
+   ]
+  },
+  {
+   "id": "k3",
+   "w": [
+    {
+     "t": [
+      54.94,
+      66.76
+     ]
+    }
+   ],
+   "cap": "Then it pushed back again to the order block, again to the fair value gap region and the supply zone. And there were a lot of orders, additional sells in this region, and it sold off.",
+   "call": "Sign 2 · pushed back, sold off again",
+   "call_t": 58.0,
+   "fk": [
+    [
+     55,
+     0.53,
+     0.3031,
+     0.42
+    ],
+    [
+     63.5,
+     0.56,
+     0.3783,
+     0.4
+    ]
+   ],
+   "marks": [
+    {
+     "t": [
+      56.0,
+      61.4
+     ],
+     "r": [
+      0.535,
+      0.255,
+      0.635,
+      0.335
+     ]
+    },
+    {
+     "t": [
+      64.6,
+      66.7
+     ],
+     "r": [
+      0.595,
+      0.32,
+      0.665,
+      0.565
+     ]
+    }
+   ]
+  },
+  {
+   "id": "k4",
+   "w": [
+    {
+     "t": [
+      67.27,
+      80.9
+     ]
+    }
+   ],
+   "cap": "And I ignored the flags. Why is it that I ignored the flags? Here it is: the reason I ignored the flags is because, from every single thing I've seen, I expected price to keep on pushing to the upside.",
+   "call": "Why I held: I expected more upside",
+   "call_t": 75.5,
+   "fk": [
+    [
+     67.3,
+     0.45,
+     0.4234,
+     0.7
+    ]
+   ]
+  },
+  {
+   "id": "k5",
+   "w": [
+    {
+     "t": [
+      99.69,
+      102.71
+     ]
+    }
+   ],
+   "cap": "I saw it, but I just ignored it. Let me show you what I'm talking about.",
+   "fk": [
+    [
+     99.7,
+     0.45,
+     0.4234,
+     0.7
+    ]
+   ]
+  },
+  {
+   "id": "k6",
+   "w": [
+    {
+     "t": [
+      113.64,
+      122.43
+     ]
+    }
+   ],
+   "cap": "It was still maintaining a higher low, and it pushed to this region. Now it failed to push higher than this, and it formed equal highs.",
+   "chapter": "The structure",
+   "chapter_sub": "Equal highs: the push failed",
+   "call": "Equal highs · no new high",
+   "call_t": 121.2,
+   "fk": [
+    [
+     113.6,
+     0.5,
+     0.3482,
+     0.45
+    ],
+    [
+     119.5,
+     0.56,
+     0.2429,
+     0.34
+    ]
+   ],
+   "marks": [
+    {
+     "t": [
+      119.9,
+      122.4
+     ],
+     "r": [
+      0.515,
+      0.265,
+      0.61,
+      0.33
+     ]
+    }
+   ]
+  },
+  {
+   "id": "k8",
+   "w": [
+    {
+     "t": [
+      133.98,
+      146.94
+     ]
+    }
+   ],
+   "cap": "Now it came back up again and formed an equal low. I marked this region: I felt price should have formed a double bottom. I'm in the trade, and I expected it to rally.",
+   "call": "Equal lows · the double bottom I wanted",
+   "call_t": 136.4,
+   "fk": [
+    [
+     134,
+     0.55,
+     0.3181,
+     0.36
+    ]
+   ],
+   "marks": [
+    {
+     "t": [
+      135.8,
+      142.6
+     ],
+     "r": [
+      0.52,
+      0.365,
+      0.6,
+      0.425
+     ]
+    }
+   ]
+  },
+  {
+   "id": "k9",
+   "w": [
+    {
+     "t": [
+      147.26,
+      161.19
+     ]
+    }
+   ],
+   "cap": "But I put this here to see if price would not break below: if price comes to this region and maintains its momentum, and goes up to the upside, then the setup is actually valid.",
+   "call": "Valid only if price holds this zone",
+   "call_t": 157.0,
+   "fk": [
+    [
+     147.3,
+     0.55,
+     0.3482,
+     0.4
+    ]
+   ],
+   "marks": [
+    {
+     "t": [
+      151.8,
+      157.2
+     ],
+     "r": [
+      0.52,
+      0.365,
+      0.6,
+      0.425
+     ]
+    }
+   ]
+  },
+  {
+   "id": "k10",
+   "w": [
+    {
+     "t": [
+      182.59,
+      189.93
+     ]
+    }
+   ],
+   "cap": "I failed to recognize that there was a fair value gap at this region here, that was interfering with what price was doing.",
+   "call": "The fair value gap I missed",
+   "call_t": 184.0,
+   "fk": [
+    [
+     182.6,
+     0.5,
+     0.3482,
+     0.5
+    ]
+   ]
+  },
+  {
+   "id": "k11",
+   "w": [
+    {
+     "t": [
+      244.83,
+      263.42
+     ]
+    }
+   ],
+   "cap": "Then price came back again to test this region. Then it sold off to this region here. It came back, and price could not close above, which means price was weakening already, and sellers were taking control.",
+   "call": "Couldn't close above · sellers in control",
+   "call_t": 258.5,
+   "state": {
+    "bias": "bear",
+    "at": 261.6
+   },
+   "fk": [
+    [
+     244.8,
+     0.5,
+     0.4234,
+     0.55
+    ]
+   ]
+  },
+  {
+   "id": "k13",
+   "w": [
+    {
+     "t": [
+      288.6,
+      298.3
+     ]
+    }
+   ],
+   "cap": "From here, price came back to this fair value gap region and sold down to the downside. It formed a very strong sell candle.",
+   "call": "Lower high into the gap · strong sell candle",
+   "call_t": 296.4,
+   "fk": [
+    [
+     288.6,
+     0.56,
+     0.4084,
+     0.4
+    ]
+   ],
+   "marks": [
+    {
+     "t": [
+      289.5,
+      293.5
+     ],
+     "r": [
+      0.5,
+      0.3,
+      0.627,
+      0.36
+     ]
+    },
+    {
+     "t": [
+      296.3,
+      298.3
+     ],
+     "r": [
+      0.6,
+      0.35,
+      0.648,
+      0.635
+     ]
+    }
+   ]
+  },
+  {
+   "id": "BIAS",
+   "insert": {
+    "kind": "bias",
+    "dur": 10.9,
+    "kicker": "The lesson in one picture",
+    "title": "When the bias changes",
+    "title_size": 92,
+    "hold": "Held the long",
+    "hold_to": "stop loss",
+    "flip": "Closed it, sold the lower high",
+    "flip_to": "1:3",
+    "foot": "The chart changed. The trade didn't."
+   }
+  },
+  {
+   "id": "k14",
+   "w": [
+    {
+     "t": [
+      298.57,
+      311.88
+     ]
+    }
+   ],
+   "cap": "So typically, when I saw this, I'd have seen that price is losing strength, it's losing momentum, and I should close my buy and look to take a sell.",
+   "chapter": "What I should have done",
+   "chapter_sub": "Close the buy. Take the sell.",
+   "call": "Losing momentum → close the buy",
+   "call_t": 306.0,
+   "fk": [
+    [
+     298.6,
+     0.55,
+     0.4234,
+     0.42
+    ]
+   ]
+  },
+  {
+   "id": "k15",
+   "w": [
+    {
+     "t": [
+      351.37,
+      358.92
+     ]
+    },
+    {
+     "t": [
+      362.35,
+      377.27
+     ]
+    }
+   ],
+   "cap": "This strong bearish engulfing candle was my confirmation. So I'd enter, enter a sell. I put my stop loss directly above this, then look to take a one ratio three, a one ratio three like this, while I close my buy setup. That would have been the best-case scenario.",
+   "call": "Sell · stop 1.18% above · target 1:3",
+   "call_t": 368.0,
+   "fk": [
+    [
+     351.4,
+     0.62,
+     0.4685,
+     0.4
+    ],
+    [
+     371.5,
+     0.62,
+     0.4685,
+     0.4
+    ],
+    [
+     372.6,
+     0.55,
+     0.3482,
+     0.55
+    ]
+   ],
+   "marks": [
+    {
+     "t": [
+      352.4,
+      355.6
+     ],
+     "r": [
+      0.598,
+      0.37,
+      0.64,
+      0.47
+     ]
+    },
+    {
+     "t": [
+      362.4,
+      365.6
+     ],
+     "r": [
+      0.61,
+      0.27,
+      0.755,
+      0.312
+     ]
+    },
+    {
+     "t": [
+      367.5,
+      371.3
+     ],
+     "r": [
+      0.61,
+      0.27,
+      0.755,
+      0.74
+     ]
+    }
+   ]
+  },
+  {
+   "id": "k16a",
+   "w": [
+    {
+     "t": [
+      377.79,
+      384.41
+     ]
+    }
+   ],
+   "cap": "But I refused to look at this side, because I was of the mindset that price would keep on going up.",
+   "chapter": "What holding cost",
+   "chapter_sub": "Ten days in, the long is invalidated",
+   "fk": [
+    [
+     377.8,
+     0.5,
+     0.3783,
+     0.62
+    ]
+   ]
+  },
+  {
+   "id": "k16b",
+   "w": [
+    {
+     "t": [
+      390.55,
+      396.29
+     ]
+    }
+   ],
+   "cap": "Now my 10 days' worth of holding a Bitcoin long position… and it looks like it's a stop loss.",
+   "call": "Bitcoin ≈ $83,000 · −3% on the day",
+   "call_t": 392.6,
+   "state": {
+    "pos": "Long BTC · invalidated",
+    "tone": "out",
+    "at": 394.4
+   },
+   "fk": [
+    [
+     390.6,
+     0.5,
+     0.3783,
+     0.62
+    ]
+   ],
+   "marks": [
+    {
+     "t": [
+      392.5,
+      396.2
+     ],
+     "r": [
+      0.862,
+      0.556,
+      0.975,
+      0.592
+     ]
+    }
+   ]
+  },
+  {
+   "id": "k17",
+   "w": [
+    {
+     "t": [
+      396.88,
+      404.66
+     ]
+    }
+   ],
+   "cap": "So this is the downside of trading: sometimes it's good, sometimes it's sad. It is what it is.",
+   "fk": [
+    [
+     396.9,
+     0.5,
+     0.3783,
+     0.62
+    ]
+   ]
+  },
+  {
+   "id": "k23",
+   "w": [
+    {
+     "t": [
+      405.52,
+      421.8
+     ]
+    }
+   ],
+   "cap": "That's why you have to know your risk: know how much you want to lose and how much you want to profit, so that when it goes against you, you still have enough to keep on taking more trades. And the goal is to win more than you lose.",
+   "call": "Know your risk before you enter",
+   "call_t": 409.0,
+   "fk": [
+    [
+     405.5,
+     0.5,
+     0.3783,
+     0.62
+    ]
+   ]
+  },
+  {
+   "id": "k24",
+   "w": [
+    {
+     "t": [
+      427.03,
+      435.71
+     ]
+    }
+   ],
+   "cap": "The downside of sticking to your emotions, and sticking to what you believe is right, but the market is saying something else.",
+   "fk": [
+    [
+     427,
+     0.5,
+     0.3783,
+     0.62
+    ]
+   ]
+  },
+  {
+   "id": "CMP",
+   "insert": {
+    "kind": "compare",
+    "dur": 8.6,
+    "kicker": "Same chart, two choices",
+    "title": "Flip or hold",
+    "cols": [
+     {
+      "name": "Flip",
+      "tag": "What I should have done",
+      "rows": [
+       "Close the buy",
+       "Sell the bearish engulfing",
+       "Stop above it · 1:3 target"
+      ]
+     },
+     {
+      "name": "Hold",
+      "tag": "What I did",
+      "tone": "red",
+      "rows": [
+       "Ignored the signs",
+       "Held for 10 days",
+       "The long: invalidated"
+      ]
+     }
+    ],
+    "foot": "Follow price, not hope"
+   }
+  },
+  {
+   "id": "k18",
+   "w": [
+    {
+     "t": [
+      436.71,
+      443.17
+     ]
+    }
+   ],
+   "cap": "And if you look at the Ethereum trade also, you'll see it took my stop loss already.",
+   "chapter": "Ethereum too",
+   "chapter_sub": "Same signs. Stop loss taken.",
+   "call": "Ethereum ≈ $2,560 · −5% on the day",
+   "call_t": 440.0,
+   "state": {
+    "pos": "Long ETH · stopped out",
+    "tone": "out",
+    "bias": "bear",
+    "at": 441.4
+   },
+   "fk": [
+    [
+     436.7,
+     0.45,
+     0.4234,
+     0.8
+    ]
+   ]
+  },
+  {
+   "id": "k19",
+   "w": [
+    {
+     "t": [
+      448.51,
+      450.51
+     ]
+    },
+    {
+     "t": [
+      456.71,
+      464.4
+     ]
+    }
+   ],
+   "cap": "For Ethereum, it's even more visible. Price came, it tested one, two, three, four; it tested it multiple times, and it showed: bro, I'm not crossing this region.",
+   "call": "Tested 4 times · couldn't break through",
+   "call_t": 458.6,
+   "fk": [
+    [
+     448.5,
+     0.52,
+     0.4234,
+     0.5
+    ],
+    [
+     456.7,
+     0.56,
+     0.3783,
+     0.36
+    ]
+   ],
+   "marks": [
+    {
+     "t": [
+      457.6,
+      464.3
+     ],
+     "r": [
+      0.53,
+      0.355,
+      0.625,
+      0.47
+     ]
+    }
+   ]
+  },
+  {
+   "id": "k20",
+   "w": [
+    {
+     "t": [
+      496.83,
+      515.67
+     ]
+    }
+   ],
+   "cap": "It came back, went back like this; it tested, and it tested again. Once I was seeing these rejections from this region, I should have known: price is telling me another thing. I'd look to sell from this region with a tighter stop loss, and a clean one ratio three.",
+   "call": "Rejections → sell, tight stop",
+   "call_t": 506.0,
+   "fk": [
+    [
+     496.8,
+     0.42,
+     0.3783,
+     0.5
+    ]
+   ]
+  },
+  {
+   "id": "k21",
+   "w": [
+    {
+     "t": [
+      519.63,
+      526.26
+     ]
+    }
+   ],
+   "cap": "But I ignored all the signs, and I was holding on to my long position, which was actually invalidated after this sell.",
+   "chapter": "The rule",
+   "chapter_sub": "The bias changes: close, then follow",
+   "fk": [
+    [
+     519.6,
+     0.45,
+     0.4234,
+     0.8
+    ]
+   ]
+  },
+  {
+   "id": "k22",
+   "w": [
+    {
+     "t": [
+      531.66,
+      539.78
+     ]
+    }
+   ],
+   "cap": "So that's what it is: once you see price changing bias, you just have to stick with what price is doing. Close your trade, and follow what it's doing.",
+   "call": "Bias changed? Close it. Follow it.",
+   "call_t": 537.2,
+   "state": {
+    "pos": "Closed · following price",
+    "tone": "",
+    "at": 537.6
+   },
+   "fk": [
+    [
+     531.7,
+     0.45,
+     0.4234,
+     0.8
+    ]
+   ]
+  },
+  {
+   "id": "RULE",
+   "insert": {
+    "kind": "list",
+    "dur": 6.9,
+    "step": 0.8,
+    "kicker": "The rule",
+    "title": "Next time",
+    "items": [
+     "Know your risk first",
+     "Bias flips? Close it",
+     "Follow what price does",
+     "Win more than you lose"
+    ],
+    "foot": "Stick with what price is doing"
+   }
+  },
+  {
+   "id": "PRODUCT"
+  }
+ ],
+ "product": {
+  "kind": "coin",
+  "coin": "BTC-USD",
+  "name": "Bitcoin",
+  "kicker": "Bitcoin right now · 4H",
+  "zone": [
+   86700,
+   87200
+  ],
+  "zone_label": "supply zone",
+  "levels": [
+   {
+    "p": 90000,
+    "label": "my target"
+   }
+  ],
+  "points": [
+   "Rejected twice at the supply zone",
+   "Lower highs, then the drop",
+   "The $90,000 long: invalidated"
+  ]
+ },
+ "end": {
+  "line": "Follow for the next chart breakdown",
+  "follow": "@i_am_vickyd",
+  "site": "Held too long · BTC & ETH"
+ },
+ "timing": {
+  "lead": 0.35,
+  "cold_gap": 0.5,
+  "silence": 1.0,
+  "title": 1.8,
+  "clip_gap": 0.3,
+  "product": 9.0,
+  "end": 4.0,
+  "gap_min": 0.7,
+  "gap_keep": 0.4
+ }
+}
