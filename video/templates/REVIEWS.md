@@ -24,6 +24,45 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
+## 7 Oct: explainer, "Copy skill. Not luck." (CopyFomo, copying Fomo traders on Telegram; 2:59)
+
+- **Before writing:** read the last three entries' "Change next time" lines and applied them:
+  - the subject's own colours on the big things: Fomo's near-black and blue on every app piece, and CopyFomo's own
+    logo and blue on the bot screens;
+  - a track whose build fits the cold open: "Discover", with the drop at +8.6 dB;
+  - a full-quality download page alongside the chat copy.
+- **What worked:**
+  - **Real evidence first.** The owner's 15-second Fomo recording became the cold open and two screens. Every coin's
+    change was read off the frames and its colour checked by pixel: 21 of 25 red, 4 green.
+  - **The market in one picture,** from CoinGecko's own data: $150.6B at the peak, $33.1B today, −78%.
+  - **The idea the owner asked for** ("the best time to spot real profitable traders"), told as a crowd: nearly all
+    green in the bull run, nearly all red in the bleed, and a few that stay green get circled.
+  - **The bot walkthrough** follows the Fungo Labs clip the owner liked: a Telegram chat redrawn from the docs, with
+    typing, send taps, inline buttons and a status pill that goes from "Copying: on" to "Paused".
+  - **The dozen questions** shown in the docs' own order, with the real options and defaults.
+  - **Balance:** the docs' own warning ("copying another trader does not reduce that risk") is quoted, and the video
+    says plainly that CopyFomo is independent of Fomo.
+- **Mistakes, and how they got through:**
+  1. **Generic class names again** (`.side`, `.tape`, `.big`): two screens rendered empty white boxes. The first stills
+     caught it. Every class in the format now starts with `cf-`. This is the second time; the rule was already in
+     "Change next time", and I didn't check my names against the page.
+  2. **The config's name made its render folder the same folder as the owner's recording**
+     (`video/out/copyfomo-2026-10-07`), and a full render clears its folder first. Caught before the first full render,
+     by noticing stills land next to `src/`. The config is now `explainer-copyfomo-…`.
+  3. **The render was killed at the 30-minute background limit** while making the chat copy (the video itself had
+     finished). Long renders now get a longer limit.
+  4. **Facts left out on purpose:**
+     - the fee: "2% per trade" exists only in a commented-out part of the docs;
+     - user counts: the project's own figures disagree.
+- **Change next time:**
+  - Before the first stills, grep the page for every new class name.
+  - Name every config so its render folder can't be a source folder (`explainer-…`, `analysis-…`).
+  - Start renders over 15 minutes with a long timeout.
+  - At 2:59 this is over X's 140 s: offer a short cut when a video runs long.
+- **The owner's reaction:** (waiting)
+
+---
+
 ## 7 Oct: the owner's recording, "Held Too Long" (crypto: holding a long after the bias changed, 5:14, 9:16 and 16:9)
 
 - **Before editing:** read the last three entries' "Change next time" lines and applied them:

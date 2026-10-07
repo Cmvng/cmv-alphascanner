@@ -111,3 +111,30 @@ A 17-second product clip (16:9, 60 fps, no voice; only music and interface sound
   our own UI.
 - End on a social-proof grid when there is a real count to show.
 - Keep the subject's own palette (the owner's rule), with our blue as the frame.
+
+## Another format: copy trading (`cf_*`, CopyFomo on Fomo, 7 Oct 2026)
+
+Template: `copyfomo-copy-2026-10-07.json` (sources in `video/out/explainer-copyfomo-2026-10-07-sources.md`). A product
+walkthrough that starts from the owner's own app recording and a market number, in the "product demo" style of the Fungo
+Labs clip.
+- **`rec`:** the owner's screen recording plays inside a phone on any beat:
+  `"rec": {"file": "<path from video/out>", "from": 0, "to": 6.6, "speed": 0.6}`. make-video cuts the frames, and the
+  page waits for each frame to decode.
+- **Beats:**
+  - `cf_cold`: three big numbers over the recording, in deep blue;
+  - `cf_title`: drop;
+  - `cf_mkt`: two bars and a stamp;
+  - `cf_red`: the recording, plus a tally of coins read off it (`tape`), red against green;
+  - `cf_hot`: trending cards;
+  - `cf_tide`: a crowd of traders, bull then bear;
+  - `cf_top`: a leaderboard board, a stamp and week bars;
+  - `cf_bot` / `cf_live`: a Telegram chat. `msgs` take `me`, `bot` (with `rows`, `btns`, `tapbtn`, `tap`), `shot` (a
+    profile screenshot) or `note`, each timed by `at: [line, word regex, fallback fraction, offset]`. `pill` is a status
+    pill;
+  - `cf_set`: twelve questions, with detail cards (`hits`) and an arm button;
+  - `cf_rules`: rules and a quote card;
+  - `cf_end`: logo, title and chips.
+- **The subject's look:** `explainer.brand.logo` (their profile picture in `video/out/brand/`); the app's own colours on
+  every app piece. Bot screens are labelled "redrawn from the docs", and example trades are labelled as examples.
+- **Words with numbers in them:** the timing regex matches the caption's words, which show digits ("$33.1", "78%"),
+  not the spoken words. Match the digits, or rely on the fallback fraction.
