@@ -125,7 +125,7 @@ const segs = Array.from({ length: WORKERS }, (_, w) => path.join(OUT, `seg${SUF}
 fs.writeFileSync(path.join(OUT, `segments${SUF}.txt`), segs.map(f => `file '${f}'`).join('\n'))
 const final = path.join(OUT, `${slug}${SUF}.mp4`)
 await run(FF, ['-y', '-loglevel', 'error', '-f', 'concat', '-safe', '0', '-i', path.join(OUT, `segments${SUF}.txt`), '-i', path.join(OUT, 'mix.wav'),
-  '-filter_complex', '[1:a]loudnorm=I=-14:TP=-1.5:LRA=9[a]', '-map', '0:v', '-map', '[a]', '-c:v', 'copy', '-c:a', 'aac', '-b:a', '192k', '-ar', '48000', '-ac', '2', '-t', plan.duration.toFixed(2), '-movflags', '+faststart', final])
+  '-filter_complex', '[1:a]loudnorm=I=-14:TP=-2.5:LRA=9[a]', '-map', '0:v', '-map', '[a]', '-c:v', 'copy', '-c:a', 'aac', '-b:a', '192k', '-ar', '48000', '-ac', '2', '-t', plan.duration.toFixed(2), '-movflags', '+faststart', final])
 for (const f of segs) fs.rmSync(f)
 fs.writeFileSync(path.join(OUT, 'credits.txt'), `Music: "${tr.name}"${tr.artist ? ' by ' + tr.artist : ''} (Mixkit)\nSound effects: Mixkit\n`)
 console.log(`\nDone in ${((Date.now() - t0) / 1000).toFixed(0)}s → ${final}`)

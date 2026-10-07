@@ -24,6 +24,52 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
+## 7 Oct: the owner's recording, "Held Too Long" (crypto: holding a long after the bias changed, 5:14, 9:16 and 16:9)
+
+- **Before editing:** read the last three entries' "Change next time" lines and applied them:
+  - pale big areas: a light-blue page and white cards, with royal blue only for the cold open, the title and the end;
+  - at least 0.9 s of silence before the drop (1.0 s);
+  - the wow pool: every approved track is in the last six, so I used the least recent (542 "A Love Theme", by the
+    rotation's own rule) and asked the owner again to approve the three candidates.
+- **What worked:**
+  - **The story.** The owner's 9 minutes are built around one lesson, all in their own words: the trade, the signs, the
+    structure, what they should have done, what holding cost, Ethereum, the rule.
+  - **The cuts.** All 35 cuts fall at silences (0 loud edges). Every clip's first and last word was checked by
+    transcribing the cut voice.
+  - **A new 9:16 layout for desktop recordings ("desk").** The whole chart sits on top, never cropped. A close-up below
+    follows the keyframes and marks, and the owner sits in the corner.
+  - **Two new ideas.**
+    - The tracker: "Long BTC" against the market's bias, flashing "Out of sync" in red once the market turns bearish.
+    - The bias diagram: market structure drawn live, the tag flipping, the stop hit, and the sell with its 1:3.
+  - **Numbers from the screen.** The callouts took them from the position tool's own labels: stop 1.182%, R:R 3.03.
+- **Mistakes, and how they got through:**
+  1. **The title hid the chart and shifted its overlay by 80 px.** The close-up code (written for the duo layout) treats
+     anything that isn't a clip as a "solo" moment and slides the screen away. Stills before rendering caught it. Desk
+     now always shows the screen.
+  2. **The first bias diagram's small labels overlapped** ("Last higher low" under the sell, "Structure breaks" on the
+     gap). Stills caught it. Re-spaced, with every label in a white pill and bigger type.
+  3. **The tracker said "Out of sync" after Ethereum's stop-out.** A stopped-out position can't be out of sync; the rule
+     now ignores stopped or closed positions.
+  4. **True peak −0.9 dB, over −1.** The edit's loudness step aimed at −1.5, and the AAC encode added the rest. It now
+     aims at −2.5. The sent file measures −14.5 LUFS and −2.0 dB.
+  5. **92% of the colour is blue.** The TradingView chart is grey, so nearly all the colour comes from our own frame,
+     plus the red and green candles. The flag is real: the coins' own colours never appear.
+  6. **The drop rises only +6.4 dB.** The track's build is 8.9 s and the cold open 14 s, so the music came in late and
+     quietly.
+  7. **An unclear line.** Bitcoin's "…and it looks like it's a stop loss" stayed unclear in four models. The stop line on
+     the axis (82,759) was below the price at the time. So nothing on screen says Bitcoin stopped out; the tracker says
+     "invalidated", the owner's own word. Ethereum's "it took my stop loss" is clear and is shown.
+  8. **Still stretches:** the last 3 s of the compare card and of the end card.
+- **Change next time:**
+  - The coin's own colour on the big things (Bitcoin orange on the chapter numbers and the tracker's position pill,
+    Ethereum's on its chapter), so the subject has its colour and the blue stays the frame.
+  - Pick a track whose build is at least as long as the cold open, or shorten the cold open, so the drop hits.
+  - Inserts end within a second of their last item landing.
+  - Check every edit's true peak in the review; never send over −1 dB.
+- **The owner's reaction:** (waiting)
+
+---
+
 ## 7 Oct: analysis, "Follow the Sun" (8 games across 3 continents, plus a cover and a thumbnail)
 
 - **Before writing:** read the last three entries' "Change next time" lines and applied them:
