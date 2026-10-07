@@ -1100,13 +1100,13 @@ function glDraw(cv, o) {
   g.addColorStop(0, dk ? 'rgba(79,179,255,.38)' : 'rgba(255,255,255,.95)'); g.addColorStop(1, 'rgba(255,255,255,0)')
   ctx.fillStyle = g; ctx.beginPath(); ctx.arc(o.cx, o.cy, o.r * 1.2, 0, TAU); ctx.fill()
   g = ctx.createRadialGradient(o.cx - o.r * 0.35, o.cy - o.r * 0.4, o.r * 0.1, o.cx, o.cy, o.r)  // the ocean, light blue
-  g.addColorStop(0, dk ? '#2350B0' : '#E6F2FF'); g.addColorStop(1, dk ? '#0B2A6F' : '#94C1F5')
+  g.addColorStop(0, dk ? '#2350B0' : '#EEF6FF'); g.addColorStop(1, dk ? '#0B2A6F' : '#B9D7F7')
   ctx.fillStyle = g; ctx.beginPath(); ctx.arc(o.cx, o.cy, o.r, 0, TAU); ctx.fill()
   ctx.beginPath(); path(GL.grat); ctx.strokeStyle = dk ? 'rgba(255,255,255,.07)' : 'rgba(31,95,219,.11)'; ctx.lineWidth = 1; ctx.stroke()
-  ctx.beginPath(); path(GL.land); ctx.fillStyle = dk ? '#2B58BE' : '#FFFFFF'; ctx.fill()
-  ctx.strokeStyle = dk ? 'rgba(255,255,255,.28)' : 'rgba(31,95,219,.32)'; ctx.lineWidth = 1.2; ctx.stroke()
+  ctx.beginPath(); path(GL.land); ctx.fillStyle = dk ? '#2B58BE' : '#F3E6C8'; ctx.fill()
+  ctx.strokeStyle = dk ? 'rgba(255,255,255,.28)' : 'rgba(150,120,70,.45)'; ctx.lineWidth = 1.2; ctx.stroke()
   for (const t of o.tint || []) { const f = GL.countries.find(c => +c.id === +t.id); if (!f) continue; ctx.beginPath(); path(f); ctx.globalAlpha = t.a ?? 0.4; ctx.fillStyle = t.c; ctx.fill(); ctx.globalAlpha = 1 }
-  ctx.beginPath(); path(GL.borders); ctx.strokeStyle = dk ? 'rgba(255,255,255,.14)' : 'rgba(31,95,219,.18)'; ctx.lineWidth = 0.8; ctx.stroke()
+  ctx.beginPath(); path(GL.borders); ctx.strokeStyle = dk ? 'rgba(255,255,255,.14)' : 'rgba(150,120,70,.28)'; ctx.lineWidth = 0.8; ctx.stroke()
   if (o.sun) {                                         // night: soft-edged, centred opposite the sun
     const anti = [o.sun[0] + 180, -o.sun[1]]
     for (let rad = 100; rad >= 74; rad -= 1.5) { ctx.beginPath(); path(d3.geoCircle().center(anti).radius(rad).precision(2)()); ctx.fillStyle = `rgba(9,26,72,${(rad > 94 ? 0.018 : rad > 84 ? 0.036 : 0.018) * (o.nightK ?? 1)})`; ctx.fill() }
@@ -2060,7 +2060,7 @@ function draw(k, lt, sc) {
       const from = glPrevCentre(sc), to = glLL(q), fq = P(lt, 0.05, 1.25, E.inOutSine), ip = d3.geoInterpolate ? d3.geoInterpolate(from, to) : null
       const pq = GLS[GLS.indexOf(sc) - 1], pm = pq && /^gl_(match|deep)$/.test(pq.type) ? glMin(D.picks[pq.data.match].ko) : firstKO - 30, km = glMin(q.ko), mm = pm + (km - pm) * fq
       if (GL.on) glDraw(cv, { cx: 540, cy: 760, r: 380 * (1 - 0.2 * Math.sin(Math.PI * fq)), rot: ip ? ip(fq) : to, sun: glSun(glUtcOfLagos(mm)),
-        tint: q.city?.iso ? [{ id: q.city.iso, c: vrKit(q, 'home').c, a: 0.32 * P(lt, 1.1, 1.7) }] : [],
+        tint: q.city?.iso ? [{ id: q.city.iso, c: vrKit(q, 'home').c, a: 0.62 * P(lt, 1.1, 1.7) }] : [],
         arcs: [{ from, to, t: fq, ball: true }], pins: glPins(i => i === cur ? 1.3 * P(lt, 1.15, 1.5, E.outBack) : 0.75, cur, lt) })
       rise([$('.gl-top', el)], lt, 0.1, 0, 14); slam($('.gl-ko', el), lt, 1.15, 1.4, 0.28); rise([$('.gl-city', el)], lt, 1.3, 0, 22)
       const vn = $('.gl-venue', el); if (vn) rise([vn], lt, 1.45, 0, 14)
@@ -2073,7 +2073,7 @@ function draw(k, lt, sc) {
     } else if (sc.type === 'gl_deep') {
       // inside the game: the globe shrinks to the corner, the blocks land one per line
       const ll = glLL(q)
-      if (GL.on) glDraw(cv, { cx: 905, cy: 270, r: 112, rot: [ll[0] + 8 - 6 * P(lt, 0, sc.dur), ll[1]], sun: glSun(glUtcOfLagos(glMin(q.ko))), tint: q.city?.iso ? [{ id: q.city.iso, c: vrKit(q, 'home').c, a: 0.32 }] : [],
+      if (GL.on) glDraw(cv, { cx: 905, cy: 270, r: 112, rot: [ll[0] + 8 - 6 * P(lt, 0, sc.dur), ll[1]], sun: glSun(glUtcOfLagos(glMin(q.ko))), tint: q.city?.iso ? [{ id: q.city.iso, c: vrKit(q, 'home').c, a: 0.62 }] : [],
         pins: glPins(i => i === cur ? 1 : 0.6, cur, lt) })
       rise([$('.gl-top', el)], lt, 0.1, 0, 14); rise([$('.gl-h', el), $('.gl-k', el)], lt, 0.25, 0.08, 24)
       ;['form', 'table', 'men', 'read'].forEach((kk, j) => {

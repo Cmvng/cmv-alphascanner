@@ -40,6 +40,39 @@ side is a "vault": a long unbeaten run, a fortress, a defence nobody scores agai
 - **Timing:** most drawings take `line`/`at` hints (which spoken line, how far into it) for when a mark, arrow, stamp or
   note lands. Check every drawing on stills at the real voice timing before the full render.
 
+## Another format: Follow the Sun (a day of games around the world, 7 Oct 2026)
+For a slate spread over countries and kick-offs. Reference: `follow-the-sun-2026-10-07.json` (mode "review", screens
+`gl_*` in `review.html`).
+
+**The look:**
+- A globe (d3-geo, Natural Earth land in warm sand, a pale blue ocean) flies city to city as the kick-offs move through
+  the day. The ball follows the great circle.
+- At each stop, the night falls where it really is at that kick-off; the sun's position comes from the date and hour.
+- The host country is tinted in the home team's kit, and the venue is labelled.
+- A timeline of the day (Lagos time) runs along the bottom. The sun moves along it and becomes the moon after dusk.
+
+**Each pick needs:**
+- `ko` (Lagos "HH:MM");
+- `city: {name, lat, lon, venue, local, iso}`, where `iso` is the numeric country code used for the tint;
+- `home_short` / `away_short`;
+- `kit` where the crest colour is wrong.
+
+**The screens:**
+- `gl_cold`: the globe at night, every city lighting up, one big line per spoken line.
+- `gl_title`: FOLLOW THE SUN on the drop, the globe spinning while the day runs from the first kick-off to the last.
+- `gl_match`: a stop, made of the kick-off board, the city, the model bar and `points: [[tag, text, line, at]]`.
+  Keep it to two spoken lines.
+- `gl_deep`: "Inside the game", for the headline games: last five as W/D/L pills, the table, key men, and the read.
+  Each block lands on its line (`form_at`, `table_at`, `men_at`, `read_at`).
+- `gl_end`: the whole route drawn city to city.
+
+**The cover:** `node video/make-cover.mjs video/out/<slug>.json` after the render, with a `cover` block in the cfg. It
+makes `<slug>_cover.png` (1080×1920) and `<slug>_thumbnail.png` (1280×720).
+
+**Lessons from the first one:**
+- The pale ocean and sand land are there because a saturated blue globe measured 91% blue.
+- Eight stops fit under X's 140 s only at two lines each.
+
 ## Two cuts from one file
 
 - **Full** (about 2 minutes, for X and YouTube): `bash video/daily.sh render video/out/<file>.json`

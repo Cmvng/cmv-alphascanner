@@ -67,11 +67,11 @@ function globe(o) {
   const pr = d3.geoOrthographic().scale(o.r).translate([o.cx, o.cy]).rotate([-o.rot[0], -o.rot[1], 0]).clipAngle(90).precision(0.5), path = d3.geoPath(pr, ctx)
   let g = ctx.createRadialGradient(o.cx, o.cy, o.r * 0.96, o.cx, o.cy, o.r * 1.22); g.addColorStop(0, 'rgba(255,255,255,.95)'); g.addColorStop(1, 'rgba(255,255,255,0)')
   ctx.fillStyle = g; ctx.beginPath(); ctx.arc(o.cx, o.cy, o.r * 1.22, 0, TAU); ctx.fill()
-  g = ctx.createRadialGradient(o.cx - o.r * 0.35, o.cy - o.r * 0.4, o.r * 0.1, o.cx, o.cy, o.r); g.addColorStop(0, '#E6F2FF'); g.addColorStop(1, '#8DBCF3')
+  g = ctx.createRadialGradient(o.cx - o.r * 0.35, o.cy - o.r * 0.4, o.r * 0.1, o.cx, o.cy, o.r); g.addColorStop(0, '#EEF6FF'); g.addColorStop(1, '#B3D3F6')
   ctx.fillStyle = g; ctx.beginPath(); ctx.arc(o.cx, o.cy, o.r, 0, TAU); ctx.fill()
   ctx.beginPath(); path(d3.geoGraticule10()); ctx.strokeStyle = 'rgba(31,95,219,.11)'; ctx.lineWidth = 1; ctx.stroke()
-  ctx.beginPath(); path(land); ctx.fillStyle = '#fff'; ctx.fill(); ctx.strokeStyle = 'rgba(31,95,219,.32)'; ctx.lineWidth = 1.4; ctx.stroke()
-  ctx.beginPath(); path(borders); ctx.strokeStyle = 'rgba(31,95,219,.18)'; ctx.lineWidth = 0.9; ctx.stroke()
+  ctx.beginPath(); path(land); ctx.fillStyle = '#F3E6C8'; ctx.fill(); ctx.strokeStyle = 'rgba(150,120,70,.45)'; ctx.lineWidth = 1.4; ctx.stroke()
+  ctx.beginPath(); path(borders); ctx.strokeStyle = 'rgba(150,120,70,.28)'; ctx.lineWidth = 0.9; ctx.stroke()
   const anti = [o.sun[0] + 180, -o.sun[1]]
   for (let rad = 100; rad >= 74; rad -= 1) { ctx.beginPath(); path(d3.geoCircle().center(anti).radius(rad).precision(2)()); ctx.fillStyle = `rgba(9,26,72,${rad > 94 ? 0.012 : rad > 84 ? 0.024 : 0.012})`; ctx.fill() }
   if (d3.geoDistance(o.sun, o.rot) < Math.PI / 2) { const [sx, sy] = pr(o.sun), sg = ctx.createRadialGradient(sx, sy, 0, sx, sy, o.r * 0.5); sg.addColorStop(0, 'rgba(255,200,80,.5)'); sg.addColorStop(1, 'rgba(255,200,80,0)'); ctx.fillStyle = sg; ctx.beginPath(); ctx.arc(sx, sy, o.r * 0.5, 0, TAU); ctx.fill() }
