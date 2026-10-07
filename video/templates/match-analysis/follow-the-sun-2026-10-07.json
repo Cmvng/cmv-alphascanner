@@ -54,8 +54,7 @@
     "l2_html": "The <span>sun</span>",
     "sub": "8 games · 3 continents · Lagos time",
     "say": [
-     "Follow the sun: today's games, city by city.",
-     "First stop: Ibadan."
+     "Follow the sun: today's games, city by city."
     ]
    },
    {
@@ -158,7 +157,7 @@
       "stat": "Ex-Super Eagles captain · scored v Doma"
      }
     ],
-    "read": "Close. Shooting Stars, just",
+    "read": "Hoodoo holds: 3SC don't lose · likeliest 1–1",
     "form_at": [
      0,
      0
@@ -176,10 +175,11 @@
      0
     ],
     "say": [
-     "Pillars are unbeaten, but have drawn their last three.",
-     "Their coach, Salisu Yusuf, faces his former club. Pillars have Ahmed Musa.",
-     "On our numbers: close. Shooting Stars, just."
-    ]
+     "Pillars are unbeaten, but haven't won away this season.",
+     "Salisu Yusuf faces his old club. Pillars have Ahmed Musa.",
+     "The verdict: the hoodoo holds. Shooting Stars don't lose, and one-all is the likeliest score."
+    ],
+    "read_label": "Our take"
    },
    {
     "type": "gl_match",
@@ -188,27 +188,27 @@
     "comp": "Veikkausliiga · Round 4 of 10",
     "points": [
      [
-      "Title race",
-      "Inter 2nd on 48 pts, level with leaders KuPS",
-      0,
-      0.75
-     ],
-     [
       "Head to head",
       "Gnistan won 2–0 and 2–1 this season",
-      1,
-      0.55
+      0,
+      0.6
      ],
      [
-      "Our read",
-      "Close. Gnistan unbeaten",
+      "Likeliest",
+      "1–1 · 13%",
       1,
-      0.92
+      0.1
+     ],
+     [
+      "Our take",
+      "Gnistan don't lose · Inter's charge stalls",
+      1,
+      0.25
      ]
     ],
     "say": [
-     "Five o'clock, Helsinki: Gnistan against Inter Turku, who are chasing a treble.",
-     "But Gnistan are the only team to beat Inter in the regular season. Twice."
+     "Five o'clock, Helsinki: Gnistan, the only team to beat Inter Turku in the regular season. Twice.",
+     "The verdict: Gnistan don't lose, and Inter Turku's title charge stalls. One-all."
     ]
    },
    {
@@ -219,26 +219,26 @@
     "points": [
      [
       "Rotation",
-      "Zamalek's first team rests for Sunday's derby with Al Ahly",
-      1,
-      0.2
+      "First team rests for Sunday's Al Ahly derby",
+      0,
+      0.55
      ],
      [
-      "Last meeting",
-      "ZED won 1–0 in this cup, January",
+      "Likeliest",
+      "1–0 or 2–0 · 12% each",
       1,
-      0.6
+      0.1
      ],
      [
-      "Our read",
-      "Zamalek, on our numbers",
+      "Our take",
+      "Zamalek, narrowly",
       1,
-      0.9
+      0.3
      ]
     ],
     "say": [
-     "Six o'clock, Cairo: Zamalek, the champions, against ZED in the League Cup.",
-     "Zamalek rest their first team for Sunday's derby with Al Ahly."
+     "Six o'clock, Cairo: Zamalek, the champions, rest their first team for Sunday's derby with Al Ahly.",
+     "The verdict: Zamalek still win, but narrowly. One-nil."
     ]
    },
    {
@@ -248,27 +248,27 @@
     "comp": "Primera Federación · the Murcia derby",
     "points": [
      [
-      "Table",
-      "Murcia 4th, 12 pts · Cartagena 10th, 8 pts",
+      "Last derby",
+      "Cartagena won 2–1 in Murcia, February",
+      0,
+      0.7
+     ],
+     [
+      "Likeliest",
+      "1–1 · 12%",
       1,
       0.1
      ],
      [
-      "Last derby",
-      "Cartagena won 2–1 in Murcia, February",
+      "Our take",
+      "Cartagena don't lose at home",
       1,
-      0.7
-     ],
-     [
-      "Our read",
-      "Cartagena unbeaten at home",
-      1,
-      0.94
+      0.3
      ]
     ],
     "say": [
      "Half past seven: the Murcia derby, with more than nine thousand tickets sold.",
-     "A Murcia win takes them level with the leaders. But Cartagena won the last derby."
+     "The verdict: Cartagena don't lose at home. One-all is the likeliest score."
     ]
    },
    {
@@ -281,24 +281,24 @@
       "Table",
       "Belouizdad 2nd, 7 pts · Khenchela 13th, 2 pts",
       0,
-      0.7
-     ],
-     [
-      "Last meeting",
-      "Belouizdad won 3–1, May 2026",
-      1,
       0.45
      ],
      [
-      "Our read",
-      "Belouizdad unbeaten",
+      "Likeliest win",
+      "1–0 · 11%",
       1,
-      0.93
+      0.1
+     ],
+     [
+      "Our take",
+      "A narrow Belouizdad win",
+      1,
+      0.3
      ]
     ],
     "say": [
-     "Eight o'clock, Algiers: Belouizdad, second in the table, against Khenchela.",
-     "Franck Etouga faces Khenchela, the club he left this summer."
+     "Eight o'clock, Algiers: Belouizdad, second, against Khenchela, and Etouga against his old club.",
+     "The verdict: a narrow Belouizdad win."
     ]
    },
    {
@@ -311,24 +311,24 @@
       "The tie",
       "First leg · the return is on 21 Oct",
       0,
-      0.75
+      0.6
      ],
      [
-      "Watch",
-      "Brayan Hurtado: 8 goals in 7 cup games",
+      "Likeliest",
+      "1–1 · 14%",
       1,
-      0.5
+      0.1
      ],
      [
-      "Our read",
-      "Too close to call",
+      "Our take",
+      "Level after the first leg",
       1,
-      0.93
+      0.3
      ]
     ],
     "say": [
-     "Eleven o'clock: second-tier Antofagasta against Universidad de Chile, in the cup.",
-     "Antofagasta are unbeaten in this cup. Brayan Hurtado has eight goals."
+     "Eleven o'clock: second-tier Antofagasta, unbeaten in this cup, host Universidad de Chile.",
+     "The verdict: one-all in the first leg, with everything to play for in Santiago."
     ]
    },
    {
@@ -430,7 +430,7 @@
       "stat": "Back after 69 days out · 8 goals in 2026"
      }
     ],
-    "read": "Close. Inter unbeaten at home",
+    "read": "Inter don't lose · likeliest 1–1",
     "form_at": [
      0,
      0
@@ -449,9 +449,10 @@
     ],
     "say": [
      "Inter have won one of their last five. Corinthians have not won any.",
-     "Eduardo Baptista takes charge of Inter for the first time. Yuri Alberto is back for Corinthians.",
-     "On our numbers: close, with Inter unbeaten at home."
-    ]
+     "It's Eduardo Baptista's first game. Yuri Alberto is back for Corinthians.",
+     "The verdict: Inter don't lose on his debut. One-all."
+    ],
+    "read_label": "Our take"
    },
    {
     "type": "gl_match",
@@ -463,24 +464,24 @@
       "Table",
       "Bragantino 11th, 36 pts · Mirassol 15th, 32 pts",
       0,
-      0.75
+      0.6
      ],
      [
-      "Watch",
-      "Carlos Eduardo: 6 league goals for Mirassol",
+      "Likeliest",
+      "1–1 · 13%",
       1,
-      0.45
+      0.1
      ],
      [
-      "Our read",
-      "Too close to call",
+      "Our take",
+      "Too tight to split",
       1,
-      0.93
+      0.3
      ]
     ],
     "say": [
-     "Same time: Bragantino, without a win in five, against Mirassol.",
-     "Mirassol finished fourth last season. Now they are three points above the drop."
+     "Same time: Bragantino, without a win in five, against Mirassol, three points above the drop.",
+     "The verdict: too tight to split. One-all."
     ]
    },
    {
