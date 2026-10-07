@@ -83,3 +83,31 @@ in `video/out/explainer-fungolabs-2026-10-06-sources.md`).
   beat uses `sides` for its two labels.
 - **Rendering:** if renders start crashing at random, check `df -h /` first: on 6 Oct a full disk crashed the browser
   again and again. The cold open zooms its canvas inside the drawing and its cards in `.zw`.
+
+## Inspiration the owner liked: Fungo Labs' "Are you in?" (7 Oct 2026)
+
+A 17-second product clip (16:9, 60 fps, no voice; only music and interface sounds) for Fungo Labs' whitelist
+"pass it" feature. The owner sent it as "a cool video". What makes it work:
+- **The real interface, filmed with a virtual camera.** The page is built once, and a camera pans and zooms after the
+  cursor: close on the field while it types, wide when the result arrives. The headline slides half out of frame. It
+  reads as a live product, not slides.
+- **Every interaction is acted out:**
+  - the cursor eases in, buttons press down, and the focused field gets a glowing ring;
+  - the handle types one letter at a time;
+  - the button's label changes ("Pass it" becomes "Pass it to @nomineehandle" with an Edit link), then a loading state
+    ("Passing…").
+- **Shape first, content second.** The result card grows as a plain yellow block, then its content lands: the logo grid,
+  "SPOT PASSED. TO @nomineehandle", "Copy the card", "Post on X".
+- **A status pill tells the story without words:** "Waiting for them" becomes "Claimed".
+- **The payoff is social proof:** "10 HOLDERS. 10 NOMINATIONS.", with ten avatar cards popping in one by one, each with
+  a "1 nomination" chip.
+- **A strict palette:** black and one yellow (the brand's own), a soft amber light drifting behind, a tight grotesk for
+  the headline and mono capitals for labels. Fades in and out.
+
+**What we take:**
+- A "product demo" scene kit: a cursor that moves and clicks, typing, a button whose label changes, a loading state, a
+  card that grows then fills, a status pill, and a camera that follows the action.
+- Use it for the app (search a team, tap, the pick card builds) and for crypto and Polymarket walkthroughs, redrawn in
+  our own UI.
+- End on a social-proof grid when there is a real count to show.
+- Keep the subject's own palette (the owner's rule), with our blue as the frame.
