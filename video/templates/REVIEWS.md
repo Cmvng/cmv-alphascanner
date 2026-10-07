@@ -58,6 +58,14 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
      Count, don't assume.
   6. **"Corinthians, none" was in a draft.** That's the "Czechia none" → "nine" trap, so it was rewritten before
      recording.
+  7. **The final review** (sent):
+     - the length is 134.5 s, under X's 140 s;
+     - the drop rises +9.6 dB;
+     - true peak −3.3 dB;
+     - the colour mix is blue 80%, cream 10%, red 6%.
+     The rest of the "heard differently" list is name spellings only.
+  8. **The cover's crest row came out huge.** The cover only sized crests inside the matchup cards. Fixed with a
+     general crest rule in cover.html.
 - **Change next time:**
   - A big area of saturated blue (an ocean, a pitch, a backdrop) counts against the colour mix. Paint it pale, and give
     the subject's colour the big areas.
