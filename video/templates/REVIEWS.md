@@ -72,7 +72,13 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
   - Trim to about 132 s of estimate for X; the real voice can run a little longer.
   - Never "Our read" (twice misheard): "On our numbers…".
   - Give every cold open at least 0.9 s of silence before the drop.
-- **The owner's reaction:** (waiting)
+- **The owner's reaction:** "You didn't give your take on the matches in the video. Did you forget?"
+  - Six of the eight games only had "Our read" as a small chip on screen, never spoken.
+  - Two of those said "too close to call", which is not a take.
+  - How it got through: I trimmed the second lines to fit X's 140 s and cut the reads first, treating them as extra.
+    The review checks length, colour and mishearings, but nothing checks that every game has a verdict.
+  - Fixed and re-sent: every game ends with "The verdict: …", a reason, and the app's likeliest score on screen.
+  - The rule is now in MASTER-PROMPT section 5 and the skill. When trimming, cut facts, never the verdict.
 
 ---
 

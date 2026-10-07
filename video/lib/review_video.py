@@ -183,6 +183,16 @@ if len(col):
     if sum(1 for v in share.values() if v >= 0.05) < 2: flags.append('fewer than two colour families: the video may look flat')
 
 # ---------------------------------------------------------------- 6. captions
+# a take on every game (the owner, 7 Oct: "You didn't give your take on the matches"): in an analysis, every match with a
+# screen of its own needs a spoken verdict ("The verdict: …"), not only a chip on screen
+_say = lambda x: (x if isinstance(x, str) else (x or {}).get('say', '')) or ''
+_ana = [sc for sc in scenes if re.match(r'^(gl_(match|deep)|bp_(job|verdict|chances))$', sc.get('type', '')) and (sc.get('data') or {}).get('match') is not None]
+if _ana:
+    _byM = {}
+    for sc in _ana: _byM.setdefault(sc['data']['match'], []).extend(_say(x) for x in sc['data'].get('say', []))
+    _names = {j: f"{p.get('home_short') or p['home']} v {p.get('away_short') or p['away']}" for j, p in enumerate(D.get('picks', []))}
+    _miss = [_names.get(m, str(m)) for m, lines in _byM.items() if not any(re.search(r'\b(verdict|our read|our take)\b', l, re.I) for l in lines)]
+    if _miss: flags.append(f'no spoken verdict for {len(_miss)} game(s): {", ".join(_miss)} (say "The verdict: …" for every game)')
 long_caps = [c for c in caps if len(' '.join(w['w'] for w in c['words'])) > 34]
 if long_caps: flags.append(f'{len(long_caps)} caption chunk(s) over 34 characters (may wrap to two lines)')
 

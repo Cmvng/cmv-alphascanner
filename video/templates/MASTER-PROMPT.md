@@ -187,6 +187,14 @@ either pre analysis or post analysis."*
   - give every match on the day's slate a round-up card: teams and crests, kick-off time (Lagos), competition,
     our model's chances and expected goals, and one or two researched notes;
   - put the main match's group first.
+- **A spoken take on every game** (the owner, 7 Oct: "You didn't give your take on the matches in the video. Did you
+  forget?"). Every match in an analysis, round-up games included, ends with a spoken verdict:
+  - what we think happens and why, in one line, from the app's numbers plus the research ("The verdict: the hoodoo
+    holds. Shooting Stars don't lose, and one-all is the likeliest score.");
+  - the app's likeliest score on screen next to it.
+  - A chip on screen is not a take, and "too close to call" on its own is not one either: say which way it leans, or
+    why it is a draw.
+  - Say "The verdict:", not "Our read:" ("Our read" has been heard as "I read" and "I'll read").
 - **Two lengths:**
   - the main video for X and YouTube, at most 2:20 on X unless the account has Premium;
   - a 60-second cut for Shorts, Reels and TikTok.
