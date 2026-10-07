@@ -130,6 +130,7 @@ async function fetchTo(url, file) {
 // Crests are the clubs' trademarks: the owner chose to show them, as the app does.
 const SDB = 'https://www.thesportsdb.com/api/v1/json/3/searchteams.php?t='
 const CREST_ALIAS = {
+  'sc internacional rs': 'Internacional', 'usm khenchela': 'Khenchela', 'red bull bragantino sp': 'Red Bull Bragantino',
   'tottenham': 'Tottenham Hotspur', 'spurs': 'Tottenham Hotspur', 'man city': 'Manchester City', 'man utd': 'Manchester United',
   'man united': 'Manchester United', 'wolves': 'Wolverhampton Wanderers', 'newcastle': 'Newcastle United', 'west ham': 'West Ham United',
   'brighton': 'Brighton and Hove Albion', 'leeds': 'Leeds United', 'nottm forest': 'Nottingham Forest', 'sheff utd': 'Sheffield United',

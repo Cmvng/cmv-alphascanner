@@ -781,6 +781,104 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#03060F}
 #cap.vrc{right:70px}
 #cap.vrc .c{color:#fff;background:rgba(11,31,77,.9);padding:10px 26px 12px;border-radius:16px;text-shadow:none}
 #stage.vrl #credit{color:rgba(11,31,77,.5)}#stage.vrl #foot{color:rgba(11,31,77,.55)}
+/* follow the sun (gl_*, first used 7 Oct 2026): the day's games as a route around a globe. The globe turns to each
+   city as the kick-offs move through the day, with the real day and night at that kick-off (the sun's position from
+   the date and time). Light-blue oceans and white land; every team in its own kit; a timeline of the day along the
+   bottom, the sun moving across it. Every class starts gl- */
+.gl{--gl-ink:#0B1F4D;--gl-blue:#1F5FDB;--gl-sky:#4FB3FF;--gl-mute:#5B6B8C;--gl-ok:#15A34A;--gl-bad:#DC2626;--gl-draw:#94A3B8;color:var(--gl-ink)}
+.gl .gl-sky{position:absolute;inset:0;background:radial-gradient(ellipse 90% 45% at 50% 40%,#FFFFFF 0%,rgba(255,255,255,0) 70%),linear-gradient(180deg,#EAF4FF 0%,#D6E8FF 55%,#C2DAFF 100%)}
+.gl .gl-cv{position:absolute;left:0;top:0;width:1080px;height:1920px}
+.gl .gl-pg{position:absolute;inset:0}
+.gl .gl-top{position:absolute;left:46px;right:46px;top:96px;height:64px;display:flex;align-items:center;gap:18px;font:700 19px JBM;letter-spacing:3px;text-transform:uppercase;color:var(--gl-mute);white-space:nowrap}
+.gl .gl-chip{display:flex;align-items:center;gap:12px;padding:12px 22px;border-radius:999px;background:var(--gl-ink);color:#fff}
+.gl .gl-chip i{display:block;width:16px;height:16px;border-radius:50%;background:radial-gradient(circle at 40% 40%,#FFE7A3,#FFB020)}
+.gl .gl-top .gl-stop{margin-left:auto;color:var(--gl-blue)}
+.gl .badge{width:96px;height:96px}.gl .badge img{filter:none}
+.gl .badge.flag{box-shadow:0 0 0 4px #fff,0 10px 26px rgba(16,52,130,.28)}
+.gl .gl-card{position:absolute;background:#fff;border-radius:28px;box-shadow:0 26px 60px rgba(16,52,130,.2),0 0 0 2px rgba(11,31,77,.05)}
+.gl .gl-sw{display:inline-block;border-radius:6px;box-shadow:inset 0 0 0 2px rgba(11,31,77,.16)}
+/* the day's timeline: Lagos time, day to night, one marker per game, the sun (then the moon) moving along */
+.gl .gl-day{position:absolute;left:60px;right:60px;top:1742px;height:14px;border-radius:7px;box-shadow:inset 0 0 0 2px rgba(11,31,77,.08)}
+.gl .gl-mk{position:absolute;top:1739px;width:20px;height:20px;margin-left:-10px;border-radius:50%;background:#fff;box-shadow:0 0 0 3px var(--gl-blue)}
+.gl .gl-mk.done{background:var(--gl-blue)}
+.gl .gl-mk.cur{width:28px;height:28px;margin-left:-14px;top:1735px;box-shadow:0 0 0 5px var(--gl-blue),0 0 18px rgba(31,95,219,.6)}
+.gl .gl-tk{position:absolute;top:1768px;width:90px;margin-left:-45px;text-align:center;font:700 16px JBM;letter-spacing:1px;color:var(--gl-mute)}
+.gl .gl-bub{position:absolute;top:1660px;display:flex;align-items:center;gap:0;padding:6px 10px;margin-left:-60px;width:120px;justify-content:center;border-radius:999px;background:#fff;box-shadow:0 10px 24px rgba(16,52,130,.2)}
+.gl .gl-bub .badge{width:44px;height:44px;margin:0 -3px}.gl .gl-bub .badge.flag{box-shadow:0 0 0 2px #fff}
+.gl .gl-sun{position:absolute;top:1716px;width:52px;height:52px;margin-left:-26px;border-radius:50%}
+.gl .gl-sun.day{background:radial-gradient(circle at 40% 40%,#FFF3C4 0%,#FFC93C 55%,#FF9F1C 100%);box-shadow:0 0 26px 8px rgba(255,190,60,.55)}
+.gl .gl-sun.night{background:radial-gradient(circle at 35% 35%,#FFFFFF 0%,#DCE7FF 60%,#AFC4F0 100%);box-shadow:0 0 22px 6px rgba(175,196,240,.6)}
+.gl .gl-sun.night::after{content:'';position:absolute;left:16px;top:-6px;width:46px;height:46px;border-radius:50%;background:var(--gl-moonbg,#173A8A)}
+/* the cold open: the globe at night in deep royal blue, one line at a time */
+.gl_cold .gl-deep{position:absolute;inset:0;background:radial-gradient(ellipse 85% 55% at 50% 40%,#1C44A8 0%,#0B2A6F 55%,#061848 100%)}
+.gl_cold .gl-cbig{position:absolute;left:0;right:0;top:330px;text-align:center;font:400 190px/1 Anton;color:#fff;text-transform:uppercase;white-space:nowrap}
+.gl_cold .gl-cbig.red{color:#FF5A6A}.gl_cold .gl-cbig.sky{color:var(--gl-sky)}.gl_cold .gl-cbig.sun{color:#FFC93C}
+.gl_cold .gl-clab{position:absolute;left:0;right:0;top:560px;text-align:center;font:700 26px JBM;letter-spacing:6px;text-transform:uppercase;color:var(--gl-sky)}
+.gl_cold .gl-tc{position:absolute;right:56px;top:106px;font:700 36px JBM;letter-spacing:2px;color:#fff}
+.gl_cold .gl-pb{position:absolute;left:56px;top:112px;font:700 24px JBM;letter-spacing:5px;color:var(--gl-sky);text-transform:uppercase}
+/* the title on the drop */
+.gl_title .gl-t1{position:absolute;left:0;right:0;top:200px;text-align:center;font:400 230px/1 Anton;letter-spacing:6px;text-transform:uppercase;white-space:nowrap}
+.gl_title .gl-t2{position:absolute;left:0;right:0;top:425px;text-align:center;font:400 230px/1 Anton;letter-spacing:6px;text-transform:uppercase;white-space:nowrap;color:var(--gl-blue)}
+.gl_title .gl-t2 span{color:#FF9F1C}
+.gl_title .gl-sub{position:absolute;left:0;right:0;top:680px;text-align:center;font:700 26px JBM;letter-spacing:5px;text-transform:uppercase;color:var(--gl-mute)}
+.gl_title .gl-clock{position:absolute;left:0;right:0;top:1310px;text-align:center}
+.gl_title .gl-clock b{display:inline-block;padding:14px 30px;border-radius:999px;background:var(--gl-ink);color:#fff;font:700 40px JBM;letter-spacing:3px}
+/* a stop: the kick-off board above the globe, the analysis card below it */
+.gl_match .gl-ko{position:absolute;left:50px;top:180px}
+.gl_match .gl-ko b{display:block;font:400 150px/1 Anton;letter-spacing:2px}
+.gl_match .gl-ko span{display:block;margin-top:4px;font:700 20px JBM;letter-spacing:4px;text-transform:uppercase;color:var(--gl-blue)}
+.gl_match .gl-city{position:absolute;right:50px;top:196px;text-align:right}
+.gl_match .gl-city b{display:block;font:400 76px/1 Anton;text-transform:uppercase;white-space:nowrap}
+.gl_match .gl-city span{display:block;margin-top:8px;font:700 20px JBM;letter-spacing:3px;text-transform:uppercase;color:var(--gl-mute);white-space:nowrap}
+.gl_match .gl-city em{display:block;margin-top:8px;font:700 20px JBM;font-style:normal;letter-spacing:3px;text-transform:uppercase;color:var(--gl-blue);white-space:nowrap}
+.gl_match .gl-venue{position:absolute;padding:8px 16px;border-radius:999px;background:#fff;box-shadow:0 8px 20px rgba(16,52,130,.2);font:700 17px JBM;letter-spacing:2px;text-transform:uppercase;white-space:nowrap}
+.gl_match .gl-mc{left:46px;right:46px;top:1010px;padding:24px 30px 22px}
+.gl_match .gl-teams{display:flex;align-items:center;gap:18px}
+.gl_match .gl-teams .gl-tm{flex:1;display:flex;align-items:center;gap:16px;min-width:0}
+.gl_match .gl-teams .gl-tm.a{flex-direction:row-reverse;text-align:right}
+.gl_match .gl-teams .gl-tm b{font:400 50px/1.02 Anton;text-transform:uppercase}
+.gl_match .gl-teams em{font:700 24px JBM;font-style:normal;color:var(--gl-mute)}
+.gl_match .gl-tri{display:flex;gap:6px;height:26px;margin-top:20px}
+.gl_match .gl-tri i{display:block;height:100%;border-radius:7px;box-shadow:inset 0 0 0 2px rgba(11,31,77,.15);transform-origin:0 50%}
+.gl_match .gl-lab{display:flex;justify-content:space-between;margin-top:8px;font:700 18px JBM;letter-spacing:2px;color:var(--gl-mute);text-transform:uppercase}
+.gl_match .gl-lab b{color:var(--gl-ink)}
+.gl_match .gl-pts{margin-top:14px}
+.gl_match .gl-pt{display:flex;align-items:baseline;gap:16px;padding:12px 0 0;border-top:2px solid rgba(11,31,77,.08);margin-top:12px}
+.gl_match .gl-pt i{flex-shrink:0;font:700 17px JBM;font-style:normal;letter-spacing:3px;text-transform:uppercase;color:#fff;background:var(--gl-blue);padding:6px 12px;border-radius:9px}
+.gl_match .gl-pt span{font:800 31px/1.28 Manrope}
+/* inside the game: form, the table, the key men, the read */
+.gl_deep .gl-h{position:absolute;left:46px;right:300px;top:186px;font:400 96px/1 Anton;text-transform:uppercase;white-space:nowrap}
+.gl_deep .gl-k{position:absolute;left:50px;right:300px;top:292px;font:700 21px JBM;letter-spacing:4px;text-transform:uppercase;color:var(--gl-blue);white-space:nowrap}
+.gl_deep .gl-blk{left:46px;right:46px;padding:20px 28px}
+.gl_deep .gl-bt{font:700 18px JBM;letter-spacing:4px;text-transform:uppercase;color:var(--gl-blue);margin-bottom:12px}
+.gl_deep .gl-fr{display:flex;align-items:center;gap:12px;margin-top:10px}
+.gl_deep .gl-fr .badge{width:58px;height:58px;flex-shrink:0}
+.gl_deep .gl-fr b{width:250px;font:400 38px/1 Anton;text-transform:uppercase;white-space:nowrap}
+.gl_deep .gl-fr .gl-pl{display:flex;gap:8px;flex:1;justify-content:flex-end}
+.gl_deep .gl-pl span{width:84px;height:62px;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;font:400 32px/1 Anton}
+.gl_deep .gl-pl span small{font:700 14px JBM;letter-spacing:1px;margin-top:3px;opacity:.9}
+.gl_deep .gl-pl .W{background:var(--gl-ok)}.gl_deep .gl-pl .D{background:var(--gl-draw)}.gl_deep .gl-pl .L{background:var(--gl-bad)}
+.gl_deep .gl-tb{display:flex;gap:16px}
+.gl_deep .gl-tb>div{flex:1;display:flex;align-items:center;gap:16px;padding:6px 0}
+.gl_deep .gl-tb>div b{font:400 76px/1 Anton}
+.gl_deep .gl-tb>div span{font:700 18px/1.3 JBM;letter-spacing:2px;text-transform:uppercase;color:var(--gl-mute)}
+.gl_deep .gl-km{display:flex;gap:16px}
+.gl_deep .gl-km>div{flex:1;min-width:0}
+.gl_deep .gl-km>div em{display:block;font:700 16px JBM;font-style:normal;letter-spacing:3px;text-transform:uppercase}
+.gl_deep .gl-km>div b{display:block;margin-top:4px;font:400 46px/1.02 Anton;text-transform:uppercase;white-space:nowrap}
+.gl_deep .gl-km>div p{margin-top:6px;font:700 26px/1.25 Manrope;color:var(--gl-mute)}
+.gl_deep .gl-rd{display:flex;align-items:center;gap:18px}
+.gl_deep .gl-rd i{flex-shrink:0;font:700 18px JBM;font-style:normal;letter-spacing:3px;text-transform:uppercase;color:#fff;background:var(--gl-ink);padding:8px 14px;border-radius:10px}
+.gl_deep .gl-rd span{font:800 34px/1.25 Manrope}
+/* the end: the whole route */
+.gl_end .gl-e1{position:absolute;left:0;right:0;top:190px;text-align:center;font:400 150px/1 Anton;text-transform:uppercase}
+.gl_end .gl-e2{position:absolute;left:0;right:0;top:340px;text-align:center;font:400 150px/1 Anton;text-transform:uppercase;color:var(--gl-blue)}
+.gl_end .gl-fol{position:absolute;left:0;right:0;top:1330px;text-align:center}
+.gl_end .gl-fol b{display:inline-block;padding:16px 32px;border-radius:999px;background:var(--gl-ink);color:#fff;font:700 26px JBM;letter-spacing:4px;text-transform:uppercase}
+.gl_end .gl-fol span{display:block;margin-top:18px;font:700 22px JBM;letter-spacing:5px;text-transform:uppercase;color:var(--gl-mute)}
+#cap.glc{right:70px}
+#cap.glc .c{color:#fff;background:rgba(11,31,77,.9);padding:10px 26px 12px;border-radius:16px;text-shadow:none}
+#stage.gll #credit{color:rgba(11,31,77,.5)}#stage.gll #foot{color:rgba(11,31,77,.55)}
 /* stickers and emoji bursts */
 #fxl{position:absolute;inset:0;z-index:40;pointer-events:none;overflow:hidden}
 .stk{position:absolute;font-size:240px;line-height:1;filter:drop-shadow(0 20px 40px rgba(0,0,0,.55))}
@@ -975,7 +1073,95 @@ function vrStates(q, items, END) {
   return pts.map((p, j) => ({ a: p.min, b: pts[j + 1]?.min ?? END, s: p.s }))
 }
 
+// ---- follow the sun (gl_*): a globe (d3-geo orthographic, Natural Earth land) that turns to each game's city, with the
+// real day and night at its kick-off. Each pick carries city {name, lat, lon, venue, local, iso} and ko_utc (ISO time)
+const GL = { on: D.scenes.some(s => /^gl_/.test(s.type)) && !!(window.d3?.geoOrthographic && window.topojson) }
+if (GL.on) {
+  GL.land = topojson.feature(WORLD_LAND50, WORLD_LAND50.objects.land)
+  GL.countries = topojson.feature(WORLD_COUNTRIES110, WORLD_COUNTRIES110.objects.countries).features
+  GL.borders = topojson.mesh(WORLD_COUNTRIES110, WORLD_COUNTRIES110.objects.countries, (a, b) => a !== b)
+  GL.grat = d3.geoGraticule10()
+}
+const glLL = q => q?.city ? [+q.city.lon, +q.city.lat] : [10, 15]
+const glMin = s => { const [h, m] = String(s || '0:0').split(':').map(Number); return h * 60 + m }          // "17:00" → minutes (Lagos)
+const glHHMM = m => `${String(Math.floor(m / 60) % 24).padStart(2, '0')}:${String(Math.round(m % 60)).padStart(2, '0')}`
+// where the sun is overhead at a UTC time: [longitude, latitude] (declination by day of year, plus the equation of time)
+function glSun(t) {
+  const d = new Date(t), N = Math.floor((d - Date.UTC(d.getUTCFullYear(), 0, 0)) / 864e5), h = d.getUTCHours() + d.getUTCMinutes() / 60
+  const B = 2 * Math.PI * (N - 81) / 364, eot = 9.87 * Math.sin(2 * B) - 7.53 * Math.cos(B) - 1.5 * Math.sin(B)
+  return [-15 * (h - 12 + eot / 60), -23.44 * Math.cos(2 * Math.PI / 365 * (N + 10))]
+}
+const glUtcOfLagos = m => { const d0 = D.cfg.date || '2026-10-07'; return Date.parse(`${d0}T00:00:00Z`) + (m - 60) * 6e4 }   // Lagos is UTC+1
+function glDraw(cv, o) {
+  const ctx = cv.getContext('2d'); ctx.clearRect(0, 0, cv.width, cv.height)
+  const pr = d3.geoOrthographic().scale(o.r).translate([o.cx, o.cy]).rotate([-o.rot[0], -o.rot[1], 0]).clipAngle(90).precision(0.6)
+  const path = d3.geoPath(pr, ctx), dk = !!o.dark, TAU = Math.PI * 2
+  let g = ctx.createRadialGradient(o.cx, o.cy, o.r * 0.96, o.cx, o.cy, o.r * 1.2)               // the atmosphere
+  g.addColorStop(0, dk ? 'rgba(79,179,255,.38)' : 'rgba(255,255,255,.95)'); g.addColorStop(1, 'rgba(255,255,255,0)')
+  ctx.fillStyle = g; ctx.beginPath(); ctx.arc(o.cx, o.cy, o.r * 1.2, 0, TAU); ctx.fill()
+  g = ctx.createRadialGradient(o.cx - o.r * 0.35, o.cy - o.r * 0.4, o.r * 0.1, o.cx, o.cy, o.r)  // the ocean, light blue
+  g.addColorStop(0, dk ? '#2350B0' : '#E6F2FF'); g.addColorStop(1, dk ? '#0B2A6F' : '#94C1F5')
+  ctx.fillStyle = g; ctx.beginPath(); ctx.arc(o.cx, o.cy, o.r, 0, TAU); ctx.fill()
+  ctx.beginPath(); path(GL.grat); ctx.strokeStyle = dk ? 'rgba(255,255,255,.07)' : 'rgba(31,95,219,.11)'; ctx.lineWidth = 1; ctx.stroke()
+  ctx.beginPath(); path(GL.land); ctx.fillStyle = dk ? '#2B58BE' : '#FFFFFF'; ctx.fill()
+  ctx.strokeStyle = dk ? 'rgba(255,255,255,.28)' : 'rgba(31,95,219,.32)'; ctx.lineWidth = 1.2; ctx.stroke()
+  for (const t of o.tint || []) { const f = GL.countries.find(c => +c.id === +t.id); if (!f) continue; ctx.beginPath(); path(f); ctx.globalAlpha = t.a ?? 0.4; ctx.fillStyle = t.c; ctx.fill(); ctx.globalAlpha = 1 }
+  ctx.beginPath(); path(GL.borders); ctx.strokeStyle = dk ? 'rgba(255,255,255,.14)' : 'rgba(31,95,219,.18)'; ctx.lineWidth = 0.8; ctx.stroke()
+  if (o.sun) {                                         // night: soft-edged, centred opposite the sun
+    const anti = [o.sun[0] + 180, -o.sun[1]]
+    for (let rad = 100; rad >= 74; rad -= 1.5) { ctx.beginPath(); path(d3.geoCircle().center(anti).radius(rad).precision(2)()); ctx.fillStyle = `rgba(9,26,72,${(rad > 94 ? 0.018 : rad > 84 ? 0.036 : 0.018) * (o.nightK ?? 1)})`; ctx.fill() }
+    if (d3.geoDistance(o.sun, o.rot) < Math.PI / 2 - 0.05) {   // the sun's warm spot
+      const [sx, sy] = pr(o.sun), sg = ctx.createRadialGradient(sx, sy, 0, sx, sy, o.r * 0.42)
+      sg.addColorStop(0, 'rgba(255,200,80,.42)'); sg.addColorStop(1, 'rgba(255,200,80,0)'); ctx.fillStyle = sg; ctx.beginPath(); ctx.arc(sx, sy, o.r * 0.42, 0, TAU); ctx.fill()
+    }
+  }
+  ctx.beginPath(); ctx.arc(o.cx, o.cy, o.r, 0, TAU); ctx.strokeStyle = dk ? 'rgba(142,197,255,.7)' : 'rgba(31,95,219,.4)'; ctx.lineWidth = 2.5; ctx.stroke()
+  for (const a of o.arcs || []) {                    // flight paths: great circles, drawn as far as t
+    const ip = d3.geoInterpolate(a.from, a.to), t1 = a.t ?? 1, n = 72, pts = Array.from({ length: n + 1 }, (_, i) => ip(t1 * i / n))
+    ctx.beginPath(); path({ type: 'LineString', coordinates: pts }); ctx.setLineDash([12, 10]); ctx.strokeStyle = a.c || (dk ? 'rgba(142,197,255,.9)' : '#1F5FDB'); ctx.lineWidth = a.w || 4; ctx.stroke(); ctx.setLineDash([])
+    if (a.ball && t1 > 0.02 && t1 < 0.995) { const hd = ip(t1); if (d3.geoDistance(hd, o.rot) < Math.PI / 2) { const [hx, hy] = pr(hd); ctx.font = '38px "Noto Color Emoji"'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText('⚽', hx, hy) } }
+  }
+  for (const p of o.pins || []) {                    // pins: the two kit colours, a white ring, a ripple on the active one
+    if (d3.geoDistance([p.lon, p.lat], o.rot) > Math.PI / 2 - 0.03 || !(p.s > 0.01)) continue
+    const [x, y] = pr([p.lon, p.lat]), s = p.s, R = 15 * s
+    if (p.ripple != null) for (const k of [0, 0.5]) { const q = (p.ripple + k) % 1; ctx.beginPath(); ctx.arc(x, y, R + 70 * q, 0, TAU); ctx.strokeStyle = `rgba(31,95,219,${0.55 * (1 - q)})`; ctx.lineWidth = 3; ctx.stroke() }
+    ctx.beginPath(); ctx.arc(x, y + 4, R + 2, 0, TAU); ctx.fillStyle = 'rgba(11,31,77,.25)'; ctx.fill()
+    ctx.save(); ctx.beginPath(); ctx.arc(x, y, R, 0, TAU); ctx.clip(); ctx.fillStyle = p.c1; ctx.fillRect(x - R, y - R, R, 2 * R); ctx.fillStyle = p.c2; ctx.fillRect(x, y - R, R, 2 * R); ctx.restore()
+    ctx.beginPath(); ctx.arc(x, y, R, 0, TAU); ctx.strokeStyle = '#fff'; ctx.lineWidth = Math.max(2, 4 * Math.min(1, s)); ctx.stroke()
+  }
+  return pr
+}
+// the camera: each stop's globe centre; the previous stop's, for the flight in
+const GLS = D.scenes.filter(s => /^gl_/.test(s.type))
+const glBlockAt = (sc, kk, j) => sc.data?.[kk + '_at'] ? vrT(sc, ...sc.data[kk + '_at']) : (S(sc, Math.min(j, sc.lines.length - 1))[0] ?? 0.5) - 0.1
+const glCentre = sc => /^gl_(match|deep)$/.test(sc.type) ? glLL(D.picks[sc.data?.match ?? 0]) : null
+const glPrevCentre = sc => { for (let j = GLS.indexOf(sc) - 1; j >= 0; j--) { const c = glCentre(GLS[j]); if (c) return c } return [8, 12] }
+const glPins = (on, cur, lt) => D.picks.map((q, j) => { const [lon, lat] = glLL(q), h = vrKit(q, 'home'), a = vrKit(q, 'away'); return { lon, lat, c1: h.c, c2: a.c, s: on(j), ripple: j === cur ? (lt * 0.8) % 1 : null } })
+// the day's timeline (Lagos time), from just before the first kick-off to just after the last
+const GLT = (() => { const ks = D.picks.map(q => glMin(q.ko)).filter(Boolean); const a = Math.min(...ks) - 45, b = Math.max(...ks) + 45; return { a, b, x: m => 60 + 960 * clamp((m - a) / (b - a)) } })()
+const GL_DUSK = [glMin('18:30'), glMin('19:15')]
+function glDay(cur) {
+  const x = m => n1(100 * clamp((m - GLT.a) / (GLT.b - GLT.a))), bar = `linear-gradient(90deg,#CFE6FF 0%,#CFE6FF ${x(GL_DUSK[0])}%,#3A63C4 ${x(GL_DUSK[1])}%,#0B2A6F 100%)`
+  return `<div class="gl-day" style="background:${bar}"></div>${D.picks.map((q, j) => `<i class="gl-mk" data-j="${j}" style="left:${n1(GLT.x(glMin(q.ko)))}px"></i>`).join('')}
+    <div class="gl-tk gl-tka" style="left:${n1(GLT.x(GLT.a + 45))}px">${glHHMM(GLT.a + 45)}</div><div class="gl-tk gl-tkb" style="left:${n1(GLT.x(GLT.b - 45))}px">${glHHMM(GLT.b - 45)}</div>
+    <div class="gl-tk gl-tkc" style="font-size:20px;color:var(--gl-ink)"></div><div class="gl-bub"></div><i class="gl-sun day"></i>`
+}
+function glDayDraw(el, m, cur, lt) {
+  const sun = $('.gl-sun', el); if (!sun) return
+  sun.style.left = `${n1(GLT.x(m))}px`; const night = m > (GL_DUSK[0] + GL_DUSK[1]) / 2; sun.className = 'gl-sun ' + (night ? 'night' : 'day')
+  $$('.gl-mk', el).forEach(n => { const j = +n.dataset.j, k = glMin(D.picks[j].ko), cls = 'gl-mk' + (j === cur ? ' cur' : k < m - 1 || (cur != null && k <= glMin(D.picks[cur]?.ko) && j < cur) ? ' done' : ''); if (n.className !== cls) n.className = cls })
+  const bub = $('.gl-bub', el), tc = $('.gl-tkc', el)
+  if (cur != null && D.picks[cur]) { const q = D.picks[cur], x = GLT.x(glMin(q.ko)); if (bub._c !== cur) { bub._c = cur; bub.innerHTML = badge(q.bh) + badge(q.ba) } bub.style.left = `${n1(x)}px`; bub.style.opacity = 1; tc.textContent = q.ko; tc.style.left = `${n1(x)}px`; tc.style.opacity = 1 }
+  else { bub.style.opacity = 0; tc.style.opacity = 0 }
+  $$('.gl-tka, .gl-tkb', el).forEach(n => { n.style.opacity = cur != null && Math.abs(parseFloat(n.style.left) - GLT.x(glMin(D.picks[cur].ko))) < 70 ? 0 : 1 })
+}
+const glTop = (b, stop) => `<div class="gl-top"><span class="gl-chip"><i></i>${html(D.cfg.review?.project || 'Follow the sun')}</span><span>${html(b.top || '')}</span><span class="gl-stop">${html(stop || '')}</span></div>`
+const glStopOf = sc => { const ms = [...new Set(GLS.filter(s => s.type === 'gl_match').map(s => s.data?.match))]; const j = ms.indexOf(sc.data?.match); return j >= 0 ? `Stop ${j + 1} / ${ms.length}` : '' }
+
 function mkBg(sc, k) {
+  if (/^gl_/.test(sc.type)) {        // follow the sun draws its own sky; deep royal blue under the cold open
+    const d = document.createElement('div'); d.className = 'bg none'; d.style.background = sc.type === 'gl_cold' ? '#0B2A6F' : '#D6E8FF'; d.style.filter = 'none'; $('#bgs').appendChild(d); return d
+  }
   if (/^vr_/.test(sc.type)) {        // the review room draws its own page; deep royal blue under the cold open
     const d = document.createElement('div'); d.className = 'bg none'; d.style.background = sc.type === 'vr_cold' ? '#0B2A6F' : '#DCEBFF'; d.style.filter = 'none'; $('#bgs').appendChild(d); return d
   }
@@ -1364,6 +1550,41 @@ const built = D.scenes.map((sc, k) => {
     } else if (sc.type === 'vr_end') {
       el.innerHTML = vrPage(`${vrTop(b)}<div class="vr-card vr-off"><div class="vr-e1">${html(b.l1 || "That's the")}</div><div class="vr-e2">${html(b.l2 || 'Review')}</div><div class="vr-e3">${html(b.follow || 'Follow for more')}</div><div class="vr-e4">Football, by the numbers</div></div><i class="vr-beam"></i>
         <div class="vr-nx">${(b.next || []).map(x => { const pk = D.picks[x.match ?? 0]; return `<div><i>${html(x.when || '')}</i>${x.badges ? x.badges.map(([m, sd]) => badge(sd === 'away' ? D.picks[m].ba : D.picks[m].bh)).join('') : x.match != null ? badge(pk.bh) + badge(pk.ba) : ''}<span>${html(x.text || '')}</span></div>` }).join('')}</div>`)
+    }
+  } else if (/^gl_/.test(sc.type)) {
+    el.classList.add('gl')
+    const q = D.picks[b.match ?? 0] || M, kh = vrKit(q, 'home'), ka = vrKit(q, 'away'), cv = '<canvas class="gl-cv" width="1080" height="1920"></canvas>'
+    if (sc.type === 'gl_cold') {
+      el.innerHTML = `<div class="gl-deep"></div>${cv}<div class="gl-pb">${html(b.tag || 'Today · Lagos time')}</div><div class="gl-tc"></div><div class="gl-cbig"></div><div class="gl-clab"></div>`
+    } else if (sc.type === 'gl_title') {
+      el.innerHTML = `<div class="gl-sky"></div>${cv}<div class="gl-pg">${glTop(b, b.stop || '')}<div class="gl-t1">${html(b.l1 || 'Follow')}</div><div class="gl-t2">${b.l2_html || html(b.l2 || 'The sun')}</div>
+        <div class="gl-sub">${html(b.sub || '')}</div><div class="gl-clock"><b></b></div></div>${glDay()}`
+    } else if (sc.type === 'gl_match') {
+      const m = b.model || [q.home_win, q.draw, q.away_win]
+      el.innerHTML = `<div class="gl-sky"></div>${cv}<div class="gl-pg">${glTop(b, glStopOf(sc))}
+        <div class="gl-ko"><b>${html(q.ko || '')}</b><span>${html(b.ko_label || 'Kick-off · Lagos')}</span></div>
+        <div class="gl-city"><b>${html(q.city?.name || '')}</b><span>${html(q.city?.local || '')}</span><em>${html(b.comp || q.competition || '')}</em></div>
+        ${q.city?.venue ? `<div class="gl-venue" style="left:${b.venue_x ?? 580}px;top:${b.venue_y ?? 690}px">${html(q.city.venue)}</div>` : ''}
+        <div class="gl-card gl-mc"><div class="gl-teams"><div class="gl-tm h">${badge(q.bh)}<b style="color:${vrTx(kh)}">${html(vrName(q, 'home'))}</b></div><em>v</em><div class="gl-tm a">${badge(q.ba)}<b style="color:${vrTx(ka)}">${html(vrName(q, 'away'))}</b></div></div>
+          <div class="gl-tri">${m.map((v, j) => `<i style="width:${v}%;background:${[kh.bg, '#C9D5EA', ka.bg][j]}"></i>`).join('')}</div>
+          <div class="gl-lab"><span>${html(vrName(q, 'home'))} <b>${Math.round(m[0])}%</b></span><span>Draw <b>${Math.round(m[1])}%</b></span><span>${html(vrName(q, 'away'))} <b>${Math.round(m[2])}%</b></span></div>
+          <div class="gl-pts">${(b.points || []).map(p => `<div class="gl-pt"><i>${html(p[0])}</i><span>${html(p[1])}</span></div>`).join('')}</div></div></div>${glDay()}`
+    } else if (sc.type === 'gl_deep') {
+      const f = b.form || {}, pills = (arr) => (arr || []).map(r => `<span class="${r[0]}">${r[0]}<small>${html(r[1] || '')}</small></span>`).join('')
+      const blocks = [], tops = { form: 420, table: 742, men: 930, read: 1196 }
+      if (b.form) blocks.push(`<div class="gl-card gl-blk gl-b-form" style="top:${b.form_top ?? tops.form}px"><div class="gl-bt">${html(b.form_label || 'Last five · newest last')}</div>
+        <div class="gl-fr">${badge(q.bh)}<b style="color:${vrTx(kh)}">${html(vrName(q, 'home'))}</b><div class="gl-pl">${pills(f.home)}</div></div>
+        <div class="gl-fr">${badge(q.ba)}<b style="color:${vrTx(ka)}">${html(vrName(q, 'away'))}</b><div class="gl-pl">${pills(f.away)}</div></div></div>`)
+      if (b.table) blocks.push(`<div class="gl-card gl-blk gl-b-table" style="top:${b.table_top ?? tops.table}px"><div class="gl-bt">${html(b.table_label || 'The table')}</div><div class="gl-tb">
+        <div><b style="color:${vrTx(kh)}">${html(b.table.home?.[0] || '')}</b><span>${html(vrName(q, 'home'))}<br>${html(b.table.home?.[1] || '')}</span></div>
+        <div><b style="color:${vrTx(ka)}">${html(b.table.away?.[0] || '')}</b><span>${html(vrName(q, 'away'))}<br>${html(b.table.away?.[1] || '')}</span></div></div></div>`)
+      if (b.men) blocks.push(`<div class="gl-card gl-blk gl-b-men" style="top:${b.men_top ?? tops.men}px"><div class="gl-bt">${html(b.men_label || 'Key men')}</div><div class="gl-km">${b.men.map(x => { const kt = x.team === 'away' ? ka : kh
+        return `<div><em style="color:${vrTx(kt)}">${html(x.team === 'away' ? vrName(q, 'away') : vrName(q, 'home'))}</em><b>${html(x.name)}</b><p>${html(x.stat || '')}</p></div>` }).join('')}</div></div>`)
+      if (b.read) blocks.push(`<div class="gl-card gl-blk gl-b-read" style="top:${b.read_top ?? tops.read}px"><div class="gl-rd"><i>${html(b.read_label || 'Our read')}</i><span>${html(b.read)}</span></div></div>`)
+      el.innerHTML = `<div class="gl-sky"></div>${cv}<div class="gl-pg">${glTop(b, '')}<div class="gl-h">${html(b.title || 'Inside the game')}</div><div class="gl-k">${html(b.kicker || '')}</div>${blocks.join('')}</div>${glDay()}`
+    } else if (sc.type === 'gl_end') {
+      el.innerHTML = `<div class="gl-sky"></div>${cv}<div class="gl-pg">${glTop(b, b.stop || '')}<div class="gl-e1">${html(b.l1 || '')}</div><div class="gl-e2">${html(b.l2 || '')}</div>
+        <div class="gl-fol"><b>${html(b.follow || 'Follow for the post-match')}</b><span>Football, by the numbers</span></div></div>${glDay()}`
     }
   } else if (sc.type === 'rv_cta') {
     el.innerHTML = `<div class="wrap"><div class="logo"><span class="bars"><i style="height:64px"></i><i style="height:98px"></i><i style="height:132px"></i></span>cmvng</div>
@@ -1802,6 +2023,74 @@ function draw(k, lt, sc) {
       bm.style.opacity = lt > o0 + 0.28 ? n1(1 - q2) : 0; bm.style.transform = `scaleX(${n1(1 - q2)})`
       $$('.vr-nx, .vr-top', el).forEach(x => { if (lt > o0) x.style.opacity = n1(1 - q1) })
     }
+  } else if (/^gl_/.test(sc.type)) {
+    const L0 = j => S(sc, j)[0] ?? 99, LD = j => S(sc, j)[1] ?? 1, last = sc.lines.length - 1, nx = D.scenes[k + 1], cv = $('.gl-cv', el), pg = $('.gl-pg', el)
+    const q = D.picks[b.match ?? 0] || M, cur = /^gl_(match|deep)$/.test(sc.type) ? (b.match ?? 0) : null
+    if (pg && !['gl_cold', 'gl_title'].includes(sc.type)) {
+      const qi = P(lt, 0, 0.45, E.outCubic), ex = nx && /^gl_/.test(nx.type) ? P(lt, sc.dur - 0.22, sc.dur, E.inCubic) : 0
+      pg.style.opacity = n1(Math.min(1, qi * 1.4) * (1 - ex))
+    }
+    $$('.gl-chip i', el).forEach(n => { n.style.transform = `scale(${n1(1 + 0.12 * Math.sin(lt * 3))})` })
+    const allKO = D.picks.map(p => glMin(p.ko)), firstKO = Math.min(...allKO), lastKO = Math.max(...allKO)
+    if (sc.type === 'gl_cold') {
+      // the globe at night, every game's city lighting up; one line at a time over it
+      const steps = b.steps || [], n = sc.lines.filter(l => lt >= l[0] - 0.08).length, j = Math.max(0, Math.min(steps.length - 1, n - 1)), st = steps[j] || {}
+      const at = n ? L0(j) - 0.08 : 99, big = $('.gl-cbig', el), lab = $('.gl-clab', el), tx = n ? String(st.big ?? '') : ''
+      if (big.textContent !== tx) big.textContent = tx
+      lab.textContent = n ? (st.label ?? '') : ''; big.className = 'gl-cbig' + (st.tone ? ' ' + st.tone : '')
+      big.style.fontSize = `${Math.min(190, Math.floor(960 / (0.47 * Math.max(1, tx.length))))}px`
+      slam(big, lt, at, 1.6, 0.28); big.style.transform += st.glitch ? glitch(big, lt, at + (st.glitch_at || 0)) : (big.style.textShadow = '', '')
+      rise([lab], lt, at + 0.18, 0, 24)
+      const end = L0(last) + LD(last), [c0, c1] = (b.clock || [glHHMM(firstKO), glHHMM(lastKO)]).map(glMin), cm = c0 + (c1 - c0) * P(lt, 0.2, end, E.inOutSine)
+      $('.gl-tc', el).textContent = glHHMM(cm) + ' LAGOS'
+      if (GL.on) glDraw(cv, { cx: 540, cy: 1130, r: 420, dark: true, rot: [28 - 40 * P(lt, 0, sc.dur, E.inOutSine), 6], sun: glSun(glUtcOfLagos(cm)), nightK: 1.5,
+        pins: glPins(i => P(lt, L0(0) + 0.3 + i * 0.13, L0(0) + 0.6 + i * 0.13, E.outBack), -1, lt) })
+      el.style.transform = shake(lt, at + 0.02, n ? 8 : 0)
+    } else if (sc.type === 'gl_title') {
+      // the drop: FOLLOW THE SUN, the globe spinning west while the day runs from the first kick-off to the last
+      slam($('.gl-t1', el), lt, 0.04, 1.6, 0.3); slam($('.gl-t2', el), lt, 0.2, 1.6, 0.3); rise([$('.gl-sub', el)], lt, 0.5, 0, 18); rise([$('.gl-top', el), $('.gl-clock', el)], lt, 0.6, 0.1, 18)
+      const sm = firstKO + (lastKO - firstKO) * P(lt, 0.5, sc.dur - 0.2, E.inOutSine)
+      $('.gl-clock b', el).textContent = glHHMM(sm) + ' · LAGOS'
+      if (GL.on) glDraw(cv, { cx: 540, cy: 1060, r: 330, rot: [70 - 120 * P(lt, 0, sc.dur, E.outCubic), 8], sun: glSun(glUtcOfLagos(sm)), pins: glPins(i => P(lt, 0.8 + i * 0.08, 1.1 + i * 0.08, E.outBack), -1, lt) })
+      glDayDraw(el, sm, null, lt)
+      el.style.transform = shake(lt, 0.04, 16)
+    } else if (sc.type === 'gl_match') {
+      // a stop: the globe flies from the last city to this one (the ball follows the great circle), the night where it is at
+      // kick-off; the board and the analysis card land with the voice
+      const from = glPrevCentre(sc), to = glLL(q), fq = P(lt, 0.05, 1.25, E.inOutSine), ip = d3.geoInterpolate ? d3.geoInterpolate(from, to) : null
+      const pq = GLS[GLS.indexOf(sc) - 1], pm = pq && /^gl_(match|deep)$/.test(pq.type) ? glMin(D.picks[pq.data.match].ko) : firstKO - 30, km = glMin(q.ko), mm = pm + (km - pm) * fq
+      if (GL.on) glDraw(cv, { cx: 540, cy: 760, r: 380 * (1 - 0.2 * Math.sin(Math.PI * fq)), rot: ip ? ip(fq) : to, sun: glSun(glUtcOfLagos(mm)),
+        tint: q.city?.iso ? [{ id: q.city.iso, c: vrKit(q, 'home').c, a: 0.32 * P(lt, 1.1, 1.7) }] : [],
+        arcs: [{ from, to, t: fq, ball: true }], pins: glPins(i => i === cur ? 1.3 * P(lt, 1.15, 1.5, E.outBack) : 0.75, cur, lt) })
+      rise([$('.gl-top', el)], lt, 0.1, 0, 14); slam($('.gl-ko', el), lt, 1.15, 1.4, 0.28); rise([$('.gl-city', el)], lt, 1.3, 0, 22)
+      const vn = $('.gl-venue', el); if (vn) rise([vn], lt, 1.45, 0, 14)
+      const cardAt = b.card_at ? vrT(sc, ...b.card_at) : Math.max(1.3, L0(0) - 0.1); rise([$('.gl-mc', el)], lt, cardAt, 0, 40)
+      const ma = b.model_at ? vrT(sc, ...b.model_at) : cardAt + 0.4
+      $$('.gl-tri i', el).forEach((x, j) => { x.style.transform = `scaleX(${n1(P(lt, ma + j * 0.15, ma + 0.6 + j * 0.15, E.outCubic))})` })
+      $$('.gl-pt', el).forEach((n, j) => { const p = b.points[j]; rise([n], lt, (p[2] != null ? vrT(sc, p[2], p[3] || 0) : L0(Math.min(j + 1, last))) - 0.1, 0, 20) })
+      glDayDraw(el, mm, cur, lt)
+      el.style.transform = shake(lt, 1.2, 9)
+    } else if (sc.type === 'gl_deep') {
+      // inside the game: the globe shrinks to the corner, the blocks land one per line
+      const ll = glLL(q)
+      if (GL.on) glDraw(cv, { cx: 905, cy: 270, r: 112, rot: [ll[0] + 8 - 6 * P(lt, 0, sc.dur), ll[1]], sun: glSun(glUtcOfLagos(glMin(q.ko))), tint: q.city?.iso ? [{ id: q.city.iso, c: vrKit(q, 'home').c, a: 0.32 }] : [],
+        pins: glPins(i => i === cur ? 1 : 0.6, cur, lt) })
+      rise([$('.gl-top', el)], lt, 0.1, 0, 14); rise([$('.gl-h', el), $('.gl-k', el)], lt, 0.25, 0.08, 24)
+      ;['form', 'table', 'men', 'read'].forEach((kk, j) => {
+        const n = $('.gl-b-' + kk, el); if (!n) return
+        const a = glBlockAt(sc, kk, j); rise([n], lt, a, 0, 30)
+        if (kk === 'form') $$('.gl-pl span', n).forEach((p2, i) => { const t2 = a + 0.35 + (i % 5) * 0.09 + Math.floor(i / 5) * 0.2, s2 = P(lt, t2, t2 + 0.3, E.outBack); p2.style.transform = `scale(${n1(Math.max(0.01, s2))})` })
+      })
+      glDayDraw(el, glMin(q.ko), cur, lt)
+    } else if (sc.type === 'gl_end') {
+      // the whole route, drawn city to city, the globe turning west into the night
+      const route = [...new Set(GLS.filter(s => s.type === 'gl_match').map(s => s.data.match))].map(j => glLL(D.picks[j])), rq = P(lt, 0.4, Math.max(1.5, sc.dur - 1.2))
+      const arcs = route.slice(1).map((to, j) => ({ from: route[j], to, t: clamp(rq * (route.length - 1) - j), w: 3 }))
+      if (GL.on) glDraw(cv, { cx: 540, cy: 900, r: 400, rot: [15 - 55 * P(lt, 0, sc.dur, E.inOutSine), 2], sun: glSun(glUtcOfLagos(lastKO)), arcs, pins: glPins(() => 0.9, -1, lt) })
+      slam($('.gl-e1', el), lt, 0.35, 1.4, 0.3); slam($('.gl-e2', el), lt, 0.5, 1.4, 0.3); rise([$('.gl-top', el)], lt, 0.1, 0, 14)
+      rise([$('.gl-fol', el)], lt, b.follow_at ? vrT(sc, ...b.follow_at) : L0(last) - 0.1, 0, 20)
+      glDayDraw(el, lastKO, null, lt)
+    }
   } else if (sc.type === 'rv_cta') {
     const lg = $('.logo', el); slam(lg, lt, 0.05, 1.6, 0.4)
     $$('.logo .bars i', el).forEach((x, j) => { x.style.transform = `scaleY(${P(lt, 0.1 + j * 0.08, 0.5 + j * 0.08, E.outBack)})`; x.style.transformOrigin = '50% 100%' })
@@ -1830,7 +2119,7 @@ const stampAt = sc => sc.data?.stamp_at ?? Math.max(1.2, (S(sc, sc.lines.length 
 function fxCinematic() {
   const ev = [], add = (t, sfx, db, o = {}) => ev.push({ t: +Math.max(0, t).toFixed(3), sfx, db, ...o }), syn = (t, type, gain) => ev.push({ t: +t.toFixed(3), type, ...(gain ? { gain } : {}) })
   D.scenes.forEach((sc, k) => {
-    const T = sc.start, b = sc.data || {}, at = j => T + S(sc, j)[0], next = D.scenes[k + 1], drop = /_intro$|_hook$|^(bp|vr)_title$/.test(sc.type) && b.drop
+    const T = sc.start, b = sc.data || {}, at = j => T + S(sc, j)[0], next = D.scenes[k + 1], drop = /_intro$|_hook$|^(bp|vr|gl)_title$/.test(sc.type) && b.drop
     if (k > 0 && !drop && !b.hard_cut) add(T, k % 2 ? '1492' : '2636', k % 2 ? -12 : -14, { align: 'peak' })
     if (sc.type === 'rx_cold') {
       const steps = b.steps || []
@@ -1941,6 +2230,18 @@ function fxCinematic() {
     if (sc.type === 'vr_board') (b.items || []).forEach((it, j) => { add(T + vrItemAt(sc, it, j), '3115', -14); const sa = T + vrItemStamp(sc, it, j); add(sa, '1365', -6); add(sa, '2299', -10); if (it.verdict === 'called') add(sa + 0.08, '2110', -20, { max: 1.2 }) })
     if (sc.type === 'vr_tally') { const ca = T + vrCountAt(sc); for (let j = 0; j < 8; j++) add(ca + 1.2 * (1 - Math.pow(1 - j / 8, 1 / 3)), '2857', -15); add(ca + 1.2, '2909', -8); add(ca + 1.25, '462', -16, { max: 2.2 }) }
     if (sc.type === 'vr_end') { add(T + 0.4, '2909', -8); add(T + sc.dur - 0.8, '2951', -13); add(T + sc.dur - 0.5, '2299', -8) }
+    // follow the sun: a night hum under the cold open, the flight and the landing at every stop
+    if (sc.type === 'gl_cold') {
+      add(T, '497', -14, { align: 'start', max: Math.max(1, sc.dur - 0.2) }); add(T, '2297', -15, { align: 'start', max: Math.max(1, sc.dur - 0.2) })
+      const steps = b.steps || []
+      sc.lines.forEach((_, j) => { add(at(j) - 0.08, '2299', j ? -7 : -4); add(at(j) - 0.08, '2636', -14); if (j === 0) add(at(0) - 0.08, '2909', -3); if (steps[j]?.glitch) add(at(j) - 0.08 + (steps[j].glitch_at || 0), '2951', -9) })
+      D.picks.forEach((_, i) => add(at(0) + 0.3 + i * 0.13, '3124', -20 - i * 0.3))
+      if (next?.data?.drop) add(next.start, '2908', -6, { reverse: true, max: 2.6, align: 'end' })
+    }
+    if (sc.type === 'gl_title') { add(T + 0.5, '2847', -16, { max: 2.2 }); D.picks.forEach((_, i) => add(T + 0.8 + i * 0.08, '3124', -18 - i * 0.2)) }
+    if (sc.type === 'gl_match') { add(T + 0.08, '3115', -10); add(T + 1.18, '1143', -11); add(T + 1.2, '2299', -9); (b.points || []).forEach((p, j) => add(T + (p[2] != null ? vrT(sc, p[2], p[3] || 0) : (S(sc, Math.min(j + 1, lastL))[0] ?? 2)) - 0.1, '3124', -14)) }
+    if (sc.type === 'gl_deep') ['form', 'table', 'men', 'read'].forEach((kk, j) => { if (b[kk]) add(T + glBlockAt(sc, kk, j), '2573', -13) })
+    if (sc.type === 'gl_end') { add(T + 0.35, '2909', -8); add(T + 0.4, '2299', -7); add(T + 0.6, '2847', -18, { max: 1.6 }) }
     if (b.sticker) add(T + (b.sticker.at ?? 1.0), '3005', -9)
   })
   return ev
@@ -2022,10 +2323,10 @@ window.renderAt = async function (t) {
   else pr.style.display = 'none'
   const BOX = !!D.cfg.presenter?.box
   pr.classList.toggle('box', BOX); pr.classList.toggle('still', !!sc.pres?.still); $('#ptag').style.display = sc.pres && BOX ? 'flex' : 'none'
-  const NPg = /^np_/.test(sc.type), BPg = /^bp_/.test(sc.type), VRg = /^vr_/.test(sc.type)
-  $('#stage').classList.toggle('vrl', VRg && sc.type !== 'vr_cold')
+  const NPg = /^np_/.test(sc.type), BPg = /^bp_/.test(sc.type), VRg = /^(vr|gl)_/.test(sc.type), GLg = /^gl_/.test(sc.type)
+  $('#stage').classList.toggle('vrl', VRg && !/_cold$/.test(sc.type))
   $('#tint').style.opacity = memeLike || NPg || BPg || VRg ? 0 : b.style === 'pov' ? 0.55 : 1
-  $('#vig').style.opacity = memeLike || (VRg && sc.type !== 'vr_cold') ? 0 : 1
+  $('#vig').style.opacity = memeLike || (VRg && !/_cold$/.test(sc.type)) ? 0 : 1
   $('#credit').textContent = VRg ? [b.photo?.credit].filter(Boolean).join('  ·  ') : BPg ? [b.photo?.credit, ...(b.items || []).map(it => it.photo?.credit)].filter(Boolean).join('  ·  ') : sc.bgs ? (b.photos[sc.bgs.indexOf(bgNow)]?.credit || '') : memeLike || sc.clip ? (b.credit || '') : (b.photo?.credit || (sc.bg.classList.contains('photo') ? (D.picks[sc.i] || M).stadium?.credit || '' : ''))
 
   draw(k, lt, sc)
@@ -2038,7 +2339,7 @@ window.renderAt = async function (t) {
 
   // cut flash, in time with the whoosh (memes cut hard: no flash)
   let fl = 0
-  for (let j = 1; j < D.scenes.length; j++) { const d = t - D.scenes[j].start, ty = D.scenes[j].type; if (d >= 0 && d < 0.3 && ty !== 'rv_meme' && !(/^(bp|vr)_/.test(ty) && !['bp_title', 'vr_title'].includes(ty))) fl = Math.max(fl, 0.5 * (1 - d / 0.3)) }
+  for (let j = 1; j < D.scenes.length; j++) { const d = t - D.scenes[j].start, ty = D.scenes[j].type; if (d >= 0 && d < 0.3 && ty !== 'rv_meme' && !(/^(bp|vr|gl)_/.test(ty) && !['bp_title', 'vr_title', 'gl_title'].includes(ty))) fl = Math.max(fl, 0.5 * (1 - d / 0.3)) }
   const hk = D.scenes.find(s => s.type === 'rv_hook'); if (hk && t - hk.start > 0.38 && t - hk.start < 0.7) fl = Math.max(fl, 0.7 * (1 - (t - hk.start - 0.38) / 0.32))
   $('#flash').style.opacity = fl
 
@@ -2055,7 +2356,7 @@ window.renderAt = async function (t) {
   }
   capEl.className = (D.cfg.caption_style === 'bold' ? 'bold' : '') + (BPg ? ' bpc' : '') + (VRg ? ' vrc' : '')
   capEl.style.top = memeLike ? '1500px' : sc.pres ? (D.cfg.presenter?.box ? '1450px' : '1330px') : '1474px'
-  $('#hdr').style.display = /^(rx|pm|np|bp|vr)_/.test(sc.type) ? 'none' : ''
+  $('#hdr').style.display = /^(rx|pm|np|bp|vr|gl)_/.test(sc.type) ? 'none' : ''
   if (NPg || BPg || VRg) capEl.style.top = '1478px'
   if (wait) await wait
 }

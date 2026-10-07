@@ -769,6 +769,72 @@
     "hit_db": 9.6
    },
    "wow": true
+  },
+  {
+   "id": 607,
+   "name": "Forest Walk",
+   "artist": "Eugenio Mininni",
+   "genre": "Film Score",
+   "mood": "drop",
+   "start": 16.129,
+   "bpm": 120,
+   "seconds": 174.2,
+   "drop": 16.129,
+   "loop": [
+    16.129,
+    166.2
+   ],
+   "vibe": "cinematic",
+   "impact": {
+    "jump_db": 29.03,
+    "hit_db": 24.78
+   },
+   "wow": false,
+   "candidate": "measured 7 Oct 2026 (passes the wow test); play to the owner before setting wow: true"
+  },
+  {
+   "id": 586,
+   "name": "Charlotte",
+   "artist": "Eugenio Mininni",
+   "genre": "Film Score",
+   "mood": "drop",
+   "start": 16.964,
+   "bpm": 100,
+   "seconds": 225.0,
+   "drop": 16.964,
+   "loop": [
+    16.964,
+    217.0
+   ],
+   "vibe": "cinematic",
+   "impact": {
+    "jump_db": 22.77,
+    "hit_db": 24.95
+   },
+   "wow": false,
+   "candidate": "measured 7 Oct 2026 (passes the wow test); play to the owner before setting wow: true"
+  },
+  {
+   "id": 551,
+   "name": "Home",
+   "artist": "Eugenio Mininni",
+   "genre": "Film Score",
+   "mood": "drop",
+   "start": 17.652,
+   "bpm": 70,
+   "seconds": 146.0,
+   "drop": 17.652,
+   "loop": [
+    17.652,
+    138.0
+   ],
+   "vibe": "cinematic",
+   "impact": {
+    "jump_db": 14.41,
+    "hit_db": 19.06
+   },
+   "wow": false,
+   "candidate": "measured 7 Oct 2026 (passes the wow test); play to the owner before setting wow: true"
   }
  ],
  "_wow": "The owner's soundtrack, for every analysis and post-match video (4-6 Oct 2026): cinematic film score with a quiet build and a hard drop that keeps people wowed, like 'A New Life' (543). 'wow' tracks jump at least 12 dB at the drop with a hit of at least 9 dB in the first half second (measured; see impact). Soft-drop tracks (Silent Descent, Moon Walk, Walking Dead, Red Lights, Cinematic Jazz) are not used for these videos."

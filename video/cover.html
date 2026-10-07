@@ -1,0 +1,113 @@
+<!doctype html>
+<html>
+<!-- cmvng cover / thumbnail (vertical 1080×1920 and YouTube 1280×720). Driven by window.DATA from a rendered video
+     (picks with crests, kit colours and cities) and window.COVER ({format, kicker, l1, l2, tag, feature: [match, …], more}).
+     Made by make-cover.mjs. The globe is the same one as the "Follow the sun" screens (gl_*). -->
+<head>
+<meta charset="utf-8">
+<style>
+@font-face{font-family:Anton;src:url(assets/fonts/anton-latin-400-normal.woff2) format('woff2')}
+@font-face{font-family:Anton;src:url(assets/fonts/anton-latin-ext-400-normal.woff2) format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+1E00-1E9F}
+@font-face{font-family:Manrope;font-weight:800;src:url(assets/fonts/manrope-latin-800-normal.woff2) format('woff2')}
+@font-face{font-family:JBM;font-weight:700;src:url(assets/fonts/jetbrains-mono-latin-700-normal.woff2) format('woff2')}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{background:#DCEBFF}
+#cv-stage{position:relative;overflow:hidden;color:#0B1F4D;font-family:Manrope,'Noto Color Emoji',sans-serif;
+  background:radial-gradient(ellipse 90% 50% at 50% 30%,#FFFFFF 0%,rgba(255,255,255,0) 70%),linear-gradient(180deg,#EAF4FF 0%,#D3E6FF 60%,#BFD8FF 100%)}
+#cv-stage canvas{position:absolute;left:0;top:0}
+.cv-chip{position:absolute;display:inline-flex;align-items:center;gap:14px;padding:14px 26px;border-radius:999px;background:#0B1F4D;color:#fff;font:700 26px JBM;letter-spacing:4px;text-transform:uppercase;white-space:nowrap}
+.cv-chip i{display:block;width:22px;height:22px;border-radius:50%;background:radial-gradient(circle at 40% 40%,#FFE7A3,#FFB020);box-shadow:0 0 14px 4px rgba(255,190,60,.6)}
+.cv-l1{position:absolute;font:400 130px/1 Anton;text-transform:uppercase;white-space:nowrap;letter-spacing:2px}
+.cv-l2{position:absolute;font:400 260px/.95 Anton;text-transform:uppercase;white-space:nowrap;color:#1F5FDB;letter-spacing:2px;text-shadow:0 10px 40px rgba(31,95,219,.25)}
+.cv-tag{position:absolute;font:700 28px JBM;letter-spacing:5px;text-transform:uppercase;color:#5B6B8C;white-space:nowrap}
+.cv-tag b{color:#FF9F1C}
+.cv-ft{position:absolute;display:flex;align-items:center;gap:20px;background:#fff;border-radius:30px;box-shadow:0 24px 60px rgba(16,52,130,.25),0 0 0 2px rgba(11,31,77,.05);padding:0 28px}
+.cv-ft .badge{width:116px;height:116px;border-radius:50%;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0}
+.cv-ft .badge img{width:100%;height:100%;object-fit:contain}
+.cv-ft .badge.flag{box-shadow:0 0 0 4px #fff,0 10px 26px rgba(16,52,130,.28)}.cv-ft .badge.flag img{object-fit:cover}
+.cv-ft .badge.shield svg{width:100%;height:100%}
+.cv-ft .cv-nm{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;text-align:center}
+.cv-ft .cv-nm b{font:400 50px/1.02 Anton;text-transform:uppercase;white-space:nowrap}
+.cv-ft .cv-nm b u{text-decoration:none}
+.cv-ft .cv-nm>span{margin-top:8px;font:700 21px JBM;letter-spacing:3px;text-transform:uppercase;color:#5B6B8C;white-space:nowrap}
+.cv-ft .cv-nm em{font-style:normal;color:#5B6B8C;font-size:34px;margin:0 10px}
+.cv-more{position:absolute;font:800 30px Manrope;color:#0B1F4D;white-space:nowrap}
+.cv-more i{font-style:normal;display:inline-block;padding:8px 18px;border-radius:999px;background:#1F5FDB;color:#fff;font:700 22px JBM;letter-spacing:3px;margin-right:14px;vertical-align:4px}
+.cv-brand{position:absolute;display:flex;align-items:center;gap:12px;font:400 44px Anton;letter-spacing:1px;color:#0B1F4D}
+.cv-brand span{display:flex;align-items:flex-end;gap:5px;transform:skewX(-11deg)}.cv-brand span i{display:block;width:11px;border-radius:2px;background:linear-gradient(180deg,#6E9BFF,#1F5FDB)}
+</style>
+</head>
+<body>
+<div id="cv-stage"><canvas id="cv-globe"></canvas><div id="cv-ui"></div></div>
+<script>
+const D = window.DATA, C = window.COVER || {}, V = C.format !== 'youtube', W = V ? 1080 : 1280, H = V ? 1920 : 720
+const $ = s => document.querySelector(s), html = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]))
+const st = $('#cv-stage'); st.style.width = W + 'px'; st.style.height = H + 'px'
+const cv = $('#cv-globe'); cv.width = W; cv.height = H
+let uid = 0
+function badge(b) {
+  if (!b) return ''
+  if (b.svg) { const u = `c${uid++}`; return `<div class="badge shield">${b.svg.replace(/id="(\w+)"/g, `id="$1${u}"`).replace(/url\(#(\w+)\)/g, `url(#$1${u})`)}</div>` }
+  return `<div class="badge ${b.kind}"><img src="${b.src}"></div>`
+}
+const rgb = c => { const m = /^#([0-9a-f]{6})$/i.exec(c || ''); return m ? [0, 2, 4].map(i => parseInt(m[1].slice(i, i + 2), 16)) : null }
+const ink = c => { const x = rgb(c); return x && 0.299 * x[0] + 0.587 * x[1] + 0.114 * x[2] > 170 ? '#0B1F4D' : c }
+const kit = (q, s) => (q?.kit?.[s]?.c) || (s === 'away' ? q?.ba : q?.bh)?.colour || '#1F5FDB'
+const nm = (q, s) => s === 'away' ? q.away_short || q.away : q.home_short || q.home
+const LL = q => [+q.city.lon, +q.city.lat]
+const glMin = s => { const [h, m] = String(s || '0:0').split(':').map(Number); return h * 60 + m }
+function sunAt(lagosMin) {
+  const d = new Date(Date.parse(`${D.cfg.date}T00:00:00Z`) + (lagosMin - 60) * 6e4), N = Math.floor((d - Date.UTC(d.getUTCFullYear(), 0, 0)) / 864e5), h = d.getUTCHours() + d.getUTCMinutes() / 60
+  const B = 2 * Math.PI * (N - 81) / 364, eot = 9.87 * Math.sin(2 * B) - 7.53 * Math.cos(B) - 1.5 * Math.sin(B)
+  return [-15 * (h - 12 + eot / 60), -23.44 * Math.cos(2 * Math.PI / 365 * (N + 10))]
+}
+function globe(o) {
+  const ctx = cv.getContext('2d'), TAU = Math.PI * 2
+  const land = topojson.feature(WORLD_LAND50, WORLD_LAND50.objects.land), borders = topojson.mesh(WORLD_COUNTRIES110, WORLD_COUNTRIES110.objects.countries, (a, b) => a !== b)
+  const pr = d3.geoOrthographic().scale(o.r).translate([o.cx, o.cy]).rotate([-o.rot[0], -o.rot[1], 0]).clipAngle(90).precision(0.5), path = d3.geoPath(pr, ctx)
+  let g = ctx.createRadialGradient(o.cx, o.cy, o.r * 0.96, o.cx, o.cy, o.r * 1.22); g.addColorStop(0, 'rgba(255,255,255,.95)'); g.addColorStop(1, 'rgba(255,255,255,0)')
+  ctx.fillStyle = g; ctx.beginPath(); ctx.arc(o.cx, o.cy, o.r * 1.22, 0, TAU); ctx.fill()
+  g = ctx.createRadialGradient(o.cx - o.r * 0.35, o.cy - o.r * 0.4, o.r * 0.1, o.cx, o.cy, o.r); g.addColorStop(0, '#E6F2FF'); g.addColorStop(1, '#8DBCF3')
+  ctx.fillStyle = g; ctx.beginPath(); ctx.arc(o.cx, o.cy, o.r, 0, TAU); ctx.fill()
+  ctx.beginPath(); path(d3.geoGraticule10()); ctx.strokeStyle = 'rgba(31,95,219,.11)'; ctx.lineWidth = 1; ctx.stroke()
+  ctx.beginPath(); path(land); ctx.fillStyle = '#fff'; ctx.fill(); ctx.strokeStyle = 'rgba(31,95,219,.32)'; ctx.lineWidth = 1.4; ctx.stroke()
+  ctx.beginPath(); path(borders); ctx.strokeStyle = 'rgba(31,95,219,.18)'; ctx.lineWidth = 0.9; ctx.stroke()
+  const anti = [o.sun[0] + 180, -o.sun[1]]
+  for (let rad = 100; rad >= 74; rad -= 1) { ctx.beginPath(); path(d3.geoCircle().center(anti).radius(rad).precision(2)()); ctx.fillStyle = `rgba(9,26,72,${rad > 94 ? 0.012 : rad > 84 ? 0.024 : 0.012})`; ctx.fill() }
+  if (d3.geoDistance(o.sun, o.rot) < Math.PI / 2) { const [sx, sy] = pr(o.sun), sg = ctx.createRadialGradient(sx, sy, 0, sx, sy, o.r * 0.5); sg.addColorStop(0, 'rgba(255,200,80,.5)'); sg.addColorStop(1, 'rgba(255,200,80,0)'); ctx.fillStyle = sg; ctx.beginPath(); ctx.arc(sx, sy, o.r * 0.5, 0, TAU); ctx.fill() }
+  ctx.beginPath(); ctx.arc(o.cx, o.cy, o.r, 0, TAU); ctx.strokeStyle = 'rgba(31,95,219,.4)'; ctx.lineWidth = 3; ctx.stroke()
+  const route = D.picks.filter(q => q.city).sort((a, b) => glMin(a.ko) - glMin(b.ko)).map(LL)
+  route.slice(1).forEach((to, j) => { const ip = d3.geoInterpolate(route[j], to); ctx.beginPath(); path({ type: 'LineString', coordinates: Array.from({ length: 73 }, (_, i) => ip(i / 72)) }); ctx.setLineDash([14, 11]); ctx.strokeStyle = '#1F5FDB'; ctx.lineWidth = o.r / 110; ctx.stroke(); ctx.setLineDash([]) })
+  for (const q of D.picks) {
+    if (!q.city || d3.geoDistance(LL(q), o.rot) > Math.PI / 2 - 0.03) continue
+    const [x, y] = pr(LL(q)), R = o.r / 26, big = (C.feature || []).includes(D.picks.indexOf(q)), r2 = big ? R * 1.5 : R
+    if (big) for (const k of [2.6, 1.9]) { ctx.beginPath(); ctx.arc(x, y, r2 * k, 0, TAU); ctx.strokeStyle = `rgba(31,95,219,${k > 2 ? 0.25 : 0.45})`; ctx.lineWidth = 3; ctx.stroke() }
+    ctx.beginPath(); ctx.arc(x, y + 4, r2 + 2, 0, TAU); ctx.fillStyle = 'rgba(11,31,77,.25)'; ctx.fill()
+    ctx.save(); ctx.beginPath(); ctx.arc(x, y, r2, 0, TAU); ctx.clip(); ctx.fillStyle = kit(q, 'home'); ctx.fillRect(x - r2, y - r2, r2, 2 * r2); ctx.fillStyle = kit(q, 'away'); ctx.fillRect(x, y - r2, r2, 2 * r2); ctx.restore()
+    ctx.beginPath(); ctx.arc(x, y, r2, 0, TAU); ctx.strokeStyle = '#fff'; ctx.lineWidth = 4; ctx.stroke()
+  }
+}
+const n = D.picks.length, feats = (C.feature || [0]).map(j => D.picks[j]), ks = D.picks.map(q => glMin(q.ko)), mid = (Math.min(...ks) + Math.max(...ks)) / 2
+const brand = (x, y) => `<div class="cv-brand" style="left:${x}px;top:${y}px"><span><i style="height:22px"></i><i style="height:33px"></i><i style="height:44px"></i></span>cmvng</div>`
+const ft = (q, x, y, w, h) => `<div class="cv-ft" style="left:${x}px;top:${y}px;width:${w}px;height:${h}px">${badge(q.bh)}<div class="cv-nm"><b><u style="color:${ink(kit(q, 'home'))}">${html(nm(q, 'home'))}</u><em>v</em><u style="color:${ink(kit(q, 'away'))}">${html(nm(q, 'away'))}</u></b><span>${html(q.ko)} Lagos · ${html(q.city?.name || '')}</span></div>${badge(q.ba)}</div>`
+if (V) {
+  globe({ cx: 540, cy: 1010, r: 350, rot: C.rot || [-5, 8], sun: sunAt(C.sun_at ? glMin(C.sun_at) : mid) })
+  $('#cv-ui').innerHTML = `<div class="cv-chip" style="left:50%;transform:translateX(-50%);top:250px"><i></i>${html(C.kicker || '')}</div>
+    <div class="cv-l1" style="left:0;right:0;text-align:center;top:330px">${html(C.l1 || "Today's")}</div><div class="cv-l2" style="left:0;right:0;text-align:center;top:450px">${html(C.l2 || n + ' games')}</div>
+    ${feats.map((q, j) => ft(q, 46, 1330 + j * 178, 988, 160)).join('')}
+    ${C.more ? `<div class="cv-more" style="left:0;right:0;text-align:center;top:${1330 + feats.length * 178 + 4}px"><i>+${n - feats.length}</i>${html(C.more)}</div>` : ''}
+    <div class="cv-row" style="position:absolute;left:46px;right:46px;top:1736px;display:flex;justify-content:center;gap:22px">${D.picks.filter((q, j) => !(C.feature || []).includes(j)).map(q => `<div class="cv-pair" style="display:flex;padding:8px 10px;border-radius:999px;background:#fff;box-shadow:0 10px 24px rgba(16,52,130,.18)">${badge(q.bh).replace('class="badge', 'style="width:58px;height:58px;margin:0 -3px" class="badge')}${badge(q.ba).replace('class="badge', 'style="width:58px;height:58px;margin:0 -3px" class="badge')}</div>`).join('')}</div>
+    ${brand(56, 120)}<div class="cv-tag" style="right:56px;top:132px">${C.tag || ''}</div>`
+} else {
+  globe({ cx: 1000, cy: 380, r: 330, rot: C.rot || [-5, 8], sun: sunAt(C.sun_at ? glMin(C.sun_at) : mid) })
+  $('#cv-ui').innerHTML = `${brand(48, 36)}<div class="cv-chip" style="left:48px;top:110px;font-size:20px;padding:10px 20px"><i style="width:18px;height:18px"></i>${html(C.kicker || '')}</div>
+    <div class="cv-l1" style="left:44px;top:178px;font-size:92px">${html(C.l1 || "Today's")}</div><div class="cv-l2" style="left:40px;top:262px;font-size:200px">${html(C.l2 || n + ' games')}</div>
+    ${feats.slice(0, 2).map((q, j) => ft(q, 40, 478 + j * 116, 700, 104).replace('<div class="cv-ft"', '<div class="cv-ft" data-s="1"')).join('')}`
+  document.querySelectorAll('.cv-ft[data-s] .badge').forEach(b => { b.style.width = b.style.height = '78px' })
+  document.querySelectorAll('.cv-ft[data-s] .cv-nm b').forEach(b => { b.style.fontSize = '36px' })
+  document.querySelectorAll('.cv-ft[data-s] .cv-nm>span').forEach(b => { b.style.fontSize = '16px' })
+}
+window.ready = (async () => { await document.fonts.ready; await Promise.all([...document.images].map(i => i.decode().catch(() => {}))) })()
+</script>
+</body>
+</html>
