@@ -24,6 +24,50 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
+## 7 Oct: analysis, "Follow the Sun" (8 games across 3 continents, plus a cover and a thumbnail)
+
+- **Before writing:** read the last three entries' "Change next time" lines and applied them:
+  - subject colours on the big type (team names, scores, numbers, tinted host countries);
+  - no score right after "won";
+  - child selectors (`>`) inside cards;
+  - stills before the first full render;
+  - grow the wow soundtrack pool: three new tracks measured, kept out of rotation until the owner hears them, and a
+    sampler sent.
+- **What worked:**
+  - The idea fits a scattered slate: a globe flies city to city as the kick-offs move through the day, with the real
+    night where it is at each kick-off.
+  - The timeline's sun turns into the moon after dusk.
+  - Every game has a researched hook: Pillars' nine-year wait in Ibadan, Gnistan's double over Inter Turku, the Murcia
+    derby moved for a festival, two crises at the Beira-Rio.
+  - Four research agents in parallel, one per region, all with dated sources.
+  - The cover and thumbnail are made from the same data (the globe, the route, crests).
+- **Mistakes, and how they got through:**
+  1. **The first render measured 91% blue.** A saturated ocean on a big globe in every frame counted as blue, and
+     white land added nothing. The stills looked fine to me because of the crests. Fixed: sand-coloured land, a paler
+     ocean, home-team tints at 60%. It measured 79% blue on the next render.
+  2. **The first render was 2:33, over X's 140 s.** I estimated from stills, but the real voice ran 2.5% longer than
+     the estimate (earlier videos ran shorter). Trimmed to two lines per stop and a shorter flight lead.
+  3. **The drop only rose +5.7 dB.** The last cold-open line ran almost into the drop. A longer silence before it
+     (tail 0.95 s) gave +9.6 dB.
+  4. **Three mishearings again:**
+     - "Our read" was heard as "I read" (the second time: it's now "On our numbers");
+     - "Inter are" was heard as "Enter our";
+     - "Inter sit eighteenth" was too fast to make out.
+     Fixed: "On our numbers", and "Internacional are eighteenth".
+  5. **I wrote "four continents" in the plan.** The games are on three, which I caught before writing the script.
+     Count, don't assume.
+  6. **"Corinthians, none" was in a draft.** That's the "Czechia none" → "nine" trap, so it was rewritten before
+     recording.
+- **Change next time:**
+  - A big area of saturated blue (an ocean, a pitch, a backdrop) counts against the colour mix. Paint it pale, and give
+    the subject's colour the big areas.
+  - Trim to about 132 s of estimate for X; the real voice can run a little longer.
+  - Never "Our read" (twice misheard): "On our numbers…".
+  - Give every cold open at least 0.9 s of silence before the drop.
+- **The owner's reaction:** (waiting)
+
+---
+
 ## 6 Oct: post-match, "Under Review" (2:18, our ten calls v the final whistle)
 
 - **Before writing:** read the last three entries' "Change next time" lines and applied them:
