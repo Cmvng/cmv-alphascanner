@@ -1,0 +1,798 @@
+{
+ "mode": "explainer",
+ "title": "CopyFomo: copy the real ones",
+ "competition": "Explainer",
+ "date": "2026-10-07",
+ "picks": [],
+ "voice": "af_heart",
+ "voice_fx": "deep",
+ "voice_speed": 1.0,
+ "sound": "cinematic",
+ "caption_style": "bold",
+ "music_track": 587,
+ "explainer": {
+  "theme": "sky",
+  "foot": "Independent guide · not affiliated with CopyFomo or Fomo · not financial advice",
+  "brand": {
+   "name": "Fomo",
+   "logo": "../brand/copyfomo-logo.jpg",
+   "primary": "#4462F8",
+   "ink": "#05030F",
+   "ok": "#00C853",
+   "bad": "#F2445B",
+   "source": "colours sampled from the Fomo app (owner's screen recording, 7 Oct 2026)"
+  },
+  "chapters": {
+   "ex_cf_mkt": "The market",
+   "ex_cf_tide": "Why now",
+   "ex_cf_top": "The leaderboard",
+   "ex_cf_bot": "The bot",
+   "ex_cf_set": "Your settings",
+   "ex_cf_live": "Then it runs",
+   "ex_cf_rules": "Before you copy"
+  },
+  "beats": [
+   {
+    "type": "cf_cold",
+    "rec": {
+     "file": "copyfomo-2026-10-07/src/dash.mp4",
+     "from": 0,
+     "to": 6.6,
+     "speed": 0.55
+    },
+    "big": [
+     "21 / 25",
+     "+$375,031",
+     "LUCK RUNS OUT."
+    ],
+    "lab": [
+     "most-held memecoins on Fomo · red",
+     "Fomo's top trade this week",
+     ""
+    ],
+    "say": [
+     {
+      "say": "Twenty-one of the twenty-five most-held meme coins on Fomo are red.",
+      "show": "21 of the 25 most-held memecoins on Fomo are red."
+     },
+     {
+      "say": "Yet Fomo's top trade this week made three hundred and seventy-five thousand dollars.",
+      "show": "Yet Fomo's top trade this week made $375,031."
+     },
+     "In a bear market, luck runs out."
+    ],
+    "pauses": [
+     0.55,
+     0.6
+    ],
+    "tail": 1.0
+   },
+   {
+    "type": "cf_title",
+    "drop": true,
+    "kick": "Fomo · CopyFomo · Telegram",
+    "h1": "Find the",
+    "h2": "real ones.",
+    "sub": "Then copy their trades, from Telegram.",
+    "tags": [
+     [
+      "Fomo",
+      "traders"
+     ],
+     [
+      "CopyFomo",
+      "bot"
+     ]
+    ],
+    "say": [
+     "That's why this could be the best time to spot the traders who are actually good.",
+     "And with CopyFomo, you can copy them, straight from Telegram."
+    ]
+   },
+   {
+    "type": "cf_mkt",
+    "kick": "The memecoin market · CoinGecko",
+    "title": "Down 78%",
+    "bars": [
+     [
+      "Dec 2024 peak",
+      150.6
+     ],
+     [
+      "Today",
+      33.1
+     ]
+    ],
+    "pct": "−78%",
+    "at": [
+     [
+      1,
+      "peak",
+      0.3
+     ],
+     [
+      0,
+      "thirty",
+      0.5
+     ],
+     [
+      1,
+      "seventy",
+      0.8
+     ]
+    ],
+    "src": "CoinGecko: meme category, 7 Oct 2026 · 2025 State of Memecoins report",
+    "say": [
+     {
+      "say": "The whole meme coin market is worth thirty-three billion dollars today.",
+      "show": "The whole memecoin market is worth $33.1 billion today."
+     },
+     {
+      "say": "At its peak, in December 2024, it was a hundred and fifty billion. That's down seventy-eight percent.",
+      "show": "At its peak, in December 2024, it was $150.6 billion. That's down 78%."
+     }
+    ]
+   },
+   {
+    "type": "cf_red",
+    "rec": {
+     "file": "copyfomo-2026-10-07/src/dash.mp4",
+     "from": 0,
+     "to": 6.6,
+     "speed": 0.6
+    },
+    "kick": "Fomo · most held · 7 Oct",
+    "tape": [
+     [
+      "AI",
+      3.92
+     ],
+     [
+      "STONK",
+      -17.73
+     ],
+     [
+      "CATE",
+      -12.83
+     ],
+     [
+      "PONS",
+      -4.62
+     ],
+     [
+      "BONER",
+      -9.98
+     ],
+     [
+      "SI",
+      -8.05
+     ],
+     [
+      "ZCAT",
+      -25.89
+     ],
+     [
+      "ORBIO",
+      -2.24
+     ],
+     [
+      "USELESS",
+      -11.36
+     ],
+     [
+      "CASHCAT",
+      -10.1
+     ],
+     [
+      "ANSEM",
+      -7.95
+     ],
+     [
+      "CARDS",
+      -5.11
+     ],
+     [
+      "SOL",
+      -3.66
+     ],
+     [
+      "MEME",
+      -15.04
+     ],
+     [
+      "MASK",
+      -5.45
+     ],
+     [
+      "BUN",
+      -6.53
+     ],
+     [
+      "BATON",
+      -8.21
+     ],
+     [
+      "HOOKED",
+      -30.15
+     ],
+     [
+      "PUMP",
+      1.42
+     ],
+     [
+      "NEET",
+      -12.94
+     ],
+     [
+      "UBIK",
+      -4.98
+     ],
+     [
+      "ALLINU",
+      -15.7
+     ],
+     [
+      "AGENCY",
+      24.92
+     ],
+     [
+      "PRIORS",
+      1.13
+     ],
+     [
+      "QUOTRON",
+      -15.05
+     ]
+    ],
+    "foot": "21 of 25 in the red",
+    "say": [
+     "This is Fomo right now. Scroll through the coins people hold the most.",
+     {
+      "say": "Red, red, red. Twenty-one of twenty-five are down.",
+      "show": "Red, red, red. 21 of 25 are down."
+     }
+    ]
+   },
+   {
+    "type": "cf_hot",
+    "rec": {
+     "file": "copyfomo-2026-10-07/src/dash.mp4",
+     "from": 8.6,
+     "to": 13.3,
+     "speed": 0.8
+    },
+    "kick": "Fomo · trending",
+    "coins": [
+     [
+      "FLY",
+      "15,641",
+      "$457.9K"
+     ],
+     [
+      "TWEETCRAFT",
+      "14,646",
+      "$1.33M"
+     ],
+     [
+      "AUTON",
+      "98,455",
+      "$3.69M"
+     ]
+    ],
+    "warn": "Easy to chase. Easy to get burned.",
+    "say": [
+     "Meanwhile, the trending tab is brand-new coins, up thousands of percent, at tiny market caps.",
+     "Easy to chase. Easy to get burned."
+    ]
+   },
+   {
+    "type": "cf_tide",
+    "tags": [
+     "Bull run",
+     "Bear market",
+     "Still green"
+    ],
+    "ill": "Illustration",
+    "say": [
+     "In a bull run, almost every trader looks like a genius.",
+     "When the market bleeds, most of them go red.",
+     "The few still making money? Those are the ones worth copying."
+    ]
+   },
+   {
+    "type": "cf_top",
+    "kick": "Fomo · weekly top trades · 7 Oct",
+    "title": "Every trade is public",
+    "board": "Weekly Top Trades",
+    "top": [
+     [
+      "fxcxc",
+      "+$375,031.22"
+     ],
+     [
+      "0xangeryy",
+      "+$358,031.44"
+     ]
+    ],
+    "src": "From the Fomo app · 7 Oct 2026",
+    "stamp": "One trade isn't a track record",
+    "weeks": [
+     40,
+     55,
+     -30,
+     62,
+     48,
+     70,
+     -25,
+     58
+    ],
+    "wl": "Look for weeks of green · illustration",
+    "say": [
+     {
+      "say": "On Fomo, every trade is public. This week's top two: plus three hundred and seventy-five thousand dollars, and plus three hundred and fifty-eight thousand.",
+      "show": "On Fomo, every trade is public. This week's top two: +$375,031 and +$358,031."
+     },
+     "But one big trade isn't a track record.",
+     "Look for traders who stay green, week after week. Especially in a market like this."
+    ]
+   },
+   {
+    "type": "cf_bot",
+    "ill": "Redrawn from CopyFomo's docs · example trader from the Fomo app",
+    "msgs": [
+     {
+      "note": "copyfomo · independent, not Fomo",
+      "at": [
+       0,
+       "telegram",
+       0.6
+      ]
+     },
+     {
+      "me": "/start",
+      "at": [
+       1,
+       "start",
+       0.6,
+       0.15
+      ]
+     },
+     {
+      "bot": "<b>your wallets are ready</b>",
+      "rows": [
+       [
+        "EVM chains",
+        "✓"
+       ],
+       [
+        "Solana",
+        "✓"
+       ]
+      ],
+      "at": [
+       1,
+       "wallets",
+       0.7,
+       0.1
+      ]
+     },
+     {
+      "me": "/leaderboard",
+      "at": [
+       2,
+       "leaderboard",
+       0.3,
+       0.25
+      ]
+     },
+     {
+      "bot": "<b>most-followed wallets on fomo</b>",
+      "btns": [
+       "24h PnL",
+       "7d PnL",
+       "30d PnL"
+      ],
+      "at": [
+       2,
+       "followed|wallets",
+       0.45,
+       0.2
+      ]
+     },
+     {
+      "me": "/find",
+      "at": [
+       2,
+       "screenshot",
+       0.65,
+       -0.3
+      ]
+     },
+     {
+      "shot": "fxcxc",
+      "pg": "+$375,031",
+      "pl": "FOMO PROFILE · SCREENSHOT",
+      "at": [
+       2,
+       "profile",
+       0.75,
+       0.1
+      ]
+     },
+     {
+      "bot": "<b>fxcxc</b> is copyable",
+      "btns": [
+       "copy this trader"
+      ],
+      "tapbtn": 0,
+      "tap": [
+       2,
+       "copyable",
+       0.95,
+       0.45
+      ],
+      "at": [
+       2,
+       "copyable",
+       0.92,
+       0.05
+      ]
+     }
+    ],
+    "say": [
+     "CopyFomo is a Telegram bot. It copies the buys and sells of Fomo traders into your own wallet, at the size you choose.",
+     {
+      "say": "Open the CopyFomo bot and send slash start. You get two wallets: one for E V M chains, and one for Solana.",
+      "show": "Open @copyfomo_bot and send /start. You get two wallets: one for EVM chains, and one for Solana."
+     },
+     {
+      "say": "Then pick a trader. Slash leaderboard lists the most-followed wallets on Fomo. Or send a screenshot of any Fomo profile, and slash find makes that trader copyable.",
+      "show": "Then pick a trader. /leaderboard lists the most-followed wallets on Fomo. Or send a screenshot of any Fomo profile, and /find makes that trader copyable."
+     }
+    ]
+   },
+   {
+    "type": "cf_set",
+    "kick": "CopyFomo · the copy flow",
+    "title": "A dozen questions",
+    "qs": [
+     "Sizing mode",
+     "Your size",
+     "Max per trade",
+     "Minimum trade to follow",
+     "Market cap band",
+     "First buys only",
+     "Take profit",
+     "Stop loss",
+     "Stop after a take profit",
+     "Max chase",
+     "When they sell at a loss",
+     "Two traders, same coin"
+    ],
+    "hits": [
+     {
+      "q": 1,
+      "at": [
+       1,
+       "fixed",
+       0.2
+      ],
+      "title": "Your size",
+      "opts": [
+       "$20",
+       "$50",
+       "$100",
+       "Custom"
+      ],
+      "on": 1,
+      "note": "From $3 · default $50 · or a % of their size"
+     },
+     {
+      "q": 2,
+      "at": [
+       2,
+       "max",
+       0.1
+      ],
+      "title": "Max per trade",
+      "opts": [
+       "$50",
+       "$100",
+       "$250",
+       "Custom"
+      ],
+      "on": 2,
+      "note": "Default $250 · a ceiling on any single copy"
+     },
+     {
+      "q": 6,
+      "at": [
+       2,
+       "take",
+       0.4
+      ],
+      "title": "Take profit",
+      "opts": [
+       "+50%",
+       "+100%",
+       "+300%",
+       "Custom"
+      ],
+      "on": -1,
+      "note": "Up to 3 levels · off by default"
+     },
+     {
+      "q": 7,
+      "at": [
+       2,
+       "stop",
+       0.6
+      ],
+      "title": "Stop loss",
+      "opts": [
+       "−25%",
+       "−50%",
+       "−80%",
+       "Custom",
+       "Off"
+      ],
+      "on": -1,
+      "note": "Off by default"
+     },
+     {
+      "q": 10,
+      "at": [
+       2,
+       "sells",
+       0.85
+      ],
+      "title": "When they sell at a loss",
+      "opts": [
+       "Sell with them",
+       "Hold when I'm down"
+      ],
+      "on": 0,
+      "note": "Default: sell with them"
+     }
+    ],
+    "arm": {
+     "at": [
+      3,
+      "switched|before",
+      0.7,
+      0.3
+     ],
+     "text": "Save and start copying",
+     "done": "Copying fxcxc ✓"
+    },
+    "say": [
+     "Next, the bot asks about a dozen questions, with nothing pre-selected.",
+     {
+      "say": "How much per trade: a fixed amount, from three dollars, fifty by default, or a percentage of what they buy.",
+      "show": "How much per trade: a fixed amount, from $3, $50 by default, or a percentage of what they buy."
+     },
+     "Then a max per trade, your take profit and stop loss, and what to do when your trader sells at a loss.",
+     "The last screen shows everything you chose, before anything is switched on."
+    ]
+   },
+   {
+    "type": "cf_live",
+    "ill": "Redrawn from CopyFomo's docs · example trades",
+    "msgs": [
+     {
+      "me": "/deposit",
+      "at": [
+       0,
+       "deposit",
+       0.5,
+       0.1
+      ]
+     },
+     {
+      "bot": "<b>fund your wallet</b>",
+      "btns": [
+       "Crypto",
+       "Apple Pay",
+       "Cash App"
+      ],
+      "at": [
+       0,
+       "crypto",
+       0.6
+      ]
+     },
+     {
+      "bot": "🟢 <b>copied a buy</b> · fxcxc",
+      "rows": [
+       [
+        "Your size",
+        "$50"
+       ]
+      ],
+      "at": [
+       1,
+       "buys",
+       0.4,
+       0.1
+      ]
+     },
+     {
+      "bot": "🔴 <b>copied a sell</b> · fxcxc",
+      "rows": [
+       [
+        "Your PnL",
+        "+$12.40",
+        "#00A84E"
+       ]
+      ],
+      "at": [
+       1,
+       "profit",
+       0.75
+      ]
+     },
+     {
+      "me": "/settings",
+      "at": [
+       2,
+       "settings",
+       0.3,
+       0.1
+      ]
+     },
+     {
+      "bot": "<b>settings</b>",
+      "btns": [
+       "⏸ pause all",
+       "🔑 my wallets"
+      ],
+      "tapbtn": 0,
+      "tap": [
+       2,
+       "pause",
+       0.5,
+       0.25
+      ],
+      "at": [
+       2,
+       "tap",
+       0.45,
+       -0.2
+      ]
+     },
+     {
+      "note": "paused · nothing sold",
+      "at": [
+       2,
+       "sold",
+       0.9,
+       0.1
+      ]
+     },
+     {
+      "me": "/withdraw",
+      "at": [
+       3,
+       "withdraw",
+       0.5,
+       0.15
+      ]
+     },
+     {
+      "bot": "<b>cash out as USDC</b>",
+      "rows": [
+       [
+        "To your own wallet",
+        "✓"
+       ]
+      ],
+      "at": [
+       3,
+       "out",
+       0.85,
+       0.2
+      ]
+     }
+    ],
+    "pill": [
+     [
+      [
+       1,
+       "nothing",
+       0.1
+      ],
+      "Copying: on"
+     ],
+     [
+      [
+       2,
+       "pause",
+       0.6,
+       0.3
+      ],
+      "Paused",
+      1
+     ]
+    ],
+    "say": [
+     {
+      "say": "Fund the wallet with slash deposit: crypto, Apple Pay, or Cash App.",
+      "show": "Fund the wallet with /deposit: crypto, Apple Pay, or Cash App."
+     },
+     "Then you do nothing. Every time your trader buys or sells, you get a message with the trade, and your profit or loss.",
+     "Want out? Open settings and tap pause all. Copying stops, and nothing gets sold.",
+     {
+      "say": "And slash withdraw sends your money out, as U S D C.",
+      "show": "And /withdraw sends your money out, as USDC."
+     }
+    ]
+   },
+   {
+    "type": "cf_rules",
+    "kick": "Before you copy",
+    "title": "Four rules",
+    "rules": [
+     [
+      "Check weeks of results, not one lucky trade.",
+      [
+       1,
+       "weeks",
+       0.2
+      ]
+     ],
+     [
+      "Start small. Set a max per trade and a stop loss.",
+      [
+       1,
+       "small",
+       0.4
+      ]
+     ],
+     [
+      "Only use the bot linked from @copyfomo on X.",
+      [
+       2,
+       "only",
+       0.2
+      ]
+     ],
+     [
+      "It's independent: not part of Fomo.",
+      [
+       2,
+       "independent",
+       0.5
+      ]
+     ]
+    ],
+    "quote": "Trading memecoins carries a high risk of losing everything you put in, and copying another trader does not reduce that risk.",
+    "qsrc": "CopyFomo's own docs",
+    "qat": [
+     3,
+     "copying|words",
+     0.2
+    ],
+    "say": [
+     "Before you copy anyone, a few rules.",
+     "Check weeks of results, not one lucky trade. Start small, and set a max per trade and a stop loss.",
+     "Only use the bot linked from CopyFomo's own X account. It's an independent product, not part of Fomo.",
+     "And in CopyFomo's own words: copying another trader does not reduce the risk."
+    ]
+   },
+   {
+    "type": "cf_end",
+    "t1": "Copy skill.",
+    "t2": "Not luck.",
+    "chips": [
+     "<b>@copyfomo_bot</b> on Telegram",
+     "Not financial advice"
+    ],
+    "foot": "Follow for more crypto, explained",
+    "say": [
+     "When the whole market bleeds, the traders still winning are easier to spot.",
+     "Copy skill, not luck. Follow for more crypto, explained."
+    ]
+   }
+  ]
+ }
+}

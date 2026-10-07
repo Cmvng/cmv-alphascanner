@@ -339,10 +339,22 @@ if (cfg.mode === 'review') {
   }
 }
 
+// ---------------------------------------------------------------- 4d. the owner's own screen recording in an explainer
+// A beat's `rec: { file, from, to?, speed?, w? }` plays that stretch of the recording (slowed when speed < 1; the file is
+// relative to the config) as an image sequence the page shows frame by frame (sc.rec). Frames are kept only while rendering.
+if (cfg.mode === 'explainer') for (const [k, sc] of scenes.entries()) {
+  const r = sc.data?.rec; if (!r?.file) continue
+  const dir = path.join(OUT, 'rec', `s${k}`); fs.mkdirSync(dir, { recursive: true })
+  const sp = r.speed || 1, from = r.from || 0, len = Math.min(sc.dur + 0.3, ((r.to ?? from + 1e4) - from) / sp)
+  await run(FF, ['-y', '-loglevel', 'error', '-ss', String(from), '-i', path.resolve(path.dirname(path.resolve(input)), r.file), '-t', (len * sp).toFixed(2),
+    '-vf', `setpts=PTS/${sp},fps=${FPS},scale=${r.w || 540}:-2`, '-c:v', 'libwebp', '-quality', '85', path.join(dir, '%04d.webp')])
+  sc.rec = { dir: `rec/s${k}`, n: fs.readdirSync(dir).length }
+}
+
 // ---------------------------------------------------------------- 5. page
 fs.cpSync(path.join(DIR, 'assets'), path.join(OUT, 'assets'), { recursive: true })
 cfg.when_word ||= cfg.when === 'tonight' ? 'Tonight' : 'Today'
-const DATA = { cfg, picks, recap, beat: BEAT, scenes: scenes.map(({ type, i, start, dur, lines, data, clip, pres }) => ({ type, i, start, dur, lines, data, clip, pres })), captions, duration: DURATION }
+const DATA = { cfg, picks, recap, beat: BEAT, scenes: scenes.map(({ type, i, start, dur, lines, data, clip, pres, rec }) => ({ type, i, start, dur, lines, data, clip, pres, rec })), captions, duration: DURATION }
 const page = fs.readFileSync(path.join(DIR, cfg.mode === 'review' ? 'review.html' : cfg.mode === 'explainer' ? 'explainer.html' : 'scene.html'), 'utf8')
   .replace('<script>\nconst D = window.DATA', `${scenes.some(s => /^gl_/.test(s.type)) ? ['d3-array.min.js', 'd3-geo.min.js', 'topojson-client.min.js', 'land-50m.js', 'countries-110m.js'].map(f => `<script src="assets/geo/${f}"></script>`).join('\n') + '\n' : ''}<script>window.DATA=${JSON.stringify(DATA).replace(/</g, '\\u003c')}</script>\n<script>\nconst D = window.DATA`)
 fs.writeFileSync(path.join(OUT, 'index.html'), page)
@@ -455,6 +467,7 @@ await run(FF, ['-y', '-loglevel', 'error', '-f', 'concat', '-safe', '0', '-i', p
 for (const f of segs) fs.rmSync(f)
 fs.rmSync(path.join(OUT, 'clips'), { recursive: true, force: true })      // clip frames are only needed while rendering
 fs.rmSync(path.join(OUT, 'pres'), { recursive: true, force: true })
+fs.rmSync(path.join(OUT, 'rec'), { recursive: true, force: true })
 // subtitles (.srt) for YouTube / X: the caption text (real names and digits, not the voice's respellings), timed to the voice
 if (durs) {
   const ts = t => { const ms = Math.round(t * 1000), h = Math.floor(ms / 3600000), m = Math.floor(ms / 60000) % 60, s = Math.floor(ms / 1000) % 60

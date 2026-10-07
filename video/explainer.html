@@ -578,6 +578,148 @@ svg.pti{display:block}
 #foot{position:absolute;left:56px;right:56px;bottom:46px;text-align:center;font:500 18px JBM;letter-spacing:1px;color:rgba(255,255,255,.45);z-index:45}
 #flash{position:absolute;inset:0;background:var(--acc);opacity:0;z-index:60;pointer-events:none;mix-blend-mode:overlay}
 #grain{position:absolute;inset:0;opacity:.05;pointer-events:none;background-size:256px 256px;z-index:70}
+/* ---- copy trading (cf_*), 7 Oct: CopyFomo and the Fomo app. The page is our light blue; the app's own pieces keep
+   Fomo's colours (near-black violet, its blue, its green and red); the owner's real screen recording plays in a phone */
+.cf{--fb:#05030F;--fb2:#12101F;--fa:#4462F8;--fg:#00C853;--fr:#F2445B;--fl:rgba(255,255,255,.08)}
+.cf .cf-deep{position:absolute;inset:0;background:radial-gradient(110% 75% at 50% 45%,#1F5FDB 0%,#0E3D96 45%,#072A6B 100%)}
+.cf .cf-ph{position:absolute;border-radius:58px;background:#000;padding:14px;box-shadow:0 0 0 3px #2A2D3A,0 40px 100px rgba(10,42,79,.35)}
+.cf .cf-ph .cf-scr{position:relative;width:100%;height:100%;border-radius:46px;overflow:hidden;background:var(--fb)}
+.cf .cf-ph img.rec{position:absolute;left:0;top:0;width:100%;height:auto;display:block}
+.cf .cf-ph .cf-isl{position:absolute;left:50%;top:22px;width:120px;height:34px;margin-left:-60px;border-radius:20px;background:#000;z-index:3}
+.cf .cf-lbl{font:700 22px JBM;letter-spacing:4px;text-transform:uppercase;color:#1F5FDB}
+.cf .cf-big{position:absolute;left:40px;right:40px;text-align:center}
+.cf .cf-big .cf-v{font:400 220px/.9 Anton;letter-spacing:2px;color:#fff;text-shadow:0 20px 60px rgba(2,10,50,.6)}
+.cf .cf-big .cf-v.red{color:#FF6B82}.cf .cf-big .cf-v.grn{color:#5CF2A0}
+.cf .cf-big .cf-l{margin-top:26px;font:700 30px JBM;letter-spacing:6px;text-transform:uppercase;color:rgba(255,255,255,.88)}
+.ex_cf_cold .cf-ph{left:290px;top:300px;width:500px;height:1100px;opacity:.5;filter:grayscale(.2) brightness(.7) blur(1.5px)}
+.ex_cf_title .cf-kick{position:absolute;left:0;right:0;top:330px;text-align:center}
+.ex_cf_title .cf-kick span{display:inline-block;padding:12px 24px;border-radius:999px;background:#fff;color:#1F5FDB;font:700 24px JBM;letter-spacing:4px;text-transform:uppercase;box-shadow:0 12px 30px rgba(31,95,219,.18)}
+.ex_cf_title .cf-h{position:absolute;left:40px;right:40px;top:420px;text-align:center;font:400 200px/.9 Anton;letter-spacing:2px;color:#0A2A4F;text-transform:uppercase}
+.ex_cf_title .cf-h em{font-style:normal;display:inline-block;padding:0 18px;background:#1F5FDB;color:#fff;border-radius:18px;margin-top:14px}
+.ex_cf_title .cf-s{position:absolute;left:80px;right:80px;top:930px;text-align:center;font:800 44px/1.25 Manrope;color:#0A2A4F}
+.ex_cf_title .cf-tg{position:absolute;left:0;right:0;top:1120px;display:flex;justify-content:center;gap:18px}
+.ex_cf_title .cf-tg span{padding:14px 24px;border-radius:20px;background:var(--fb);color:#fff;font:800 30px Manrope;box-shadow:0 18px 40px rgba(5,3,15,.25)}
+.ex_cf_title .cf-tg span b{color:var(--fa)}
+.ex_cf_red .cf-ph,.ex_cf_hot .cf-ph{top:250px;width:470px;height:1010px}
+.ex_cf_red .cf-ph{left:50px}.ex_cf_hot .cf-ph{left:560px}
+.ex_cf_red .cf-side{position:absolute;left:560px;right:40px;top:250px}
+.ex_cf_red .cf-cnt{display:flex;gap:16px;margin-top:18px}
+.ex_cf_red .cf-cnt div{flex:1;padding:18px 20px 16px;border-radius:24px;background:#fff;box-shadow:0 14px 34px rgba(31,95,219,.14)}
+.ex_cf_red .cf-cnt div b{display:block;font:400 110px/.9 Anton;font-variant-numeric:tabular-nums}
+.ex_cf_red .cf-cnt div span{font:700 20px JBM;letter-spacing:3px;text-transform:uppercase;color:rgba(10,42,79,.6)}
+.ex_cf_red .cf-cnt .cf-r b{color:var(--fr)}.ex_cf_red .cf-cnt .cf-g b{color:#00A84E}
+.ex_cf_red .cf-tape{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:22px}
+.ex_cf_red .cf-tape div{display:flex;justify-content:space-between;align-items:center;padding:9px 12px;border-radius:12px;background:var(--fb);font:700 19px JBM;color:#fff;opacity:0}
+.ex_cf_red .cf-tape div i{font-style:normal}
+.ex_cf_red .cf-tape div.cf-r i{color:var(--fr)}.ex_cf_red .cf-tape div.cf-g i{color:var(--fg)}
+.ex_cf_red .cf-of{margin-top:18px;font:800 30px/1.3 Manrope;color:#0A2A4F}
+.ex_cf_hot .cf-side{position:absolute;left:40px;width:490px;top:250px}
+.ex_cf_hot .cf-hc{margin-top:18px;padding:18px 22px;border-radius:24px;background:var(--fb);color:#fff;box-shadow:0 18px 40px rgba(5,3,15,.22);opacity:0}
+.ex_cf_hot .cf-hc .cf-n{font:800 30px Manrope}
+.ex_cf_hot .cf-hc .cf-p{font:400 64px/1 Anton;color:var(--fg);margin-top:6px;font-variant-numeric:tabular-nums}
+.ex_cf_hot .cf-hc .cf-m{font:700 20px JBM;letter-spacing:2px;color:rgba(255,255,255,.6);margin-top:8px}
+.ex_cf_hot .cf-warn{margin-top:26px;font:800 42px/1.2 Manrope;color:#0A2A4F;opacity:0}
+.ex_cf_tide canvas{position:absolute;left:40px;top:300px;width:1000px;height:1060px}
+.ex_cf_tide .cf-tag{position:absolute;left:0;right:0;top:220px;text-align:center}
+.ex_cf_tide .cf-tag span{display:inline-block;padding:14px 28px;border-radius:999px;font:400 46px Anton;letter-spacing:2px;color:#fff;background:#00A84E}
+.ex_cf_tide .cf-ill{position:absolute;left:0;right:0;top:1380px;text-align:center;font:600 18px JBM;letter-spacing:2px;color:rgba(10,42,79,.5);text-transform:uppercase}
+.ex_cf_top .cf-head{position:absolute;left:60px;right:60px;top:230px}
+.ex_cf_top .cf-head .cf-t{font:400 92px/1 Anton;text-transform:uppercase;color:#0A2A4F;margin-top:10px}
+.ex_cf_top .cf-board{position:absolute;left:60px;right:60px;top:440px;padding:26px;border-radius:36px;background:var(--fb);box-shadow:0 30px 70px rgba(5,3,15,.3)}
+.ex_cf_top .cf-board .cf-bt{display:flex;align-items:center;gap:12px;font:800 30px Manrope;color:#fff;margin-bottom:20px}
+.ex_cf_top .cf-board .cf-bt i{width:14px;height:14px;border-radius:50%;background:var(--fa);box-shadow:0 0 14px var(--fa)}
+.ex_cf_top .cf-tc{display:flex;align-items:center;justify-content:space-between;padding:22px 26px;margin-top:14px;border-radius:24px;background:var(--fb2);border:2px solid var(--fl);opacity:0}
+.ex_cf_top .cf-tc .cf-who{font:800 38px Manrope;color:#fff;display:flex;align-items:center;gap:16px}
+.ex_cf_top .cf-tc .cf-who u{text-decoration:none;width:54px;height:54px;border-radius:50%;background:linear-gradient(140deg,#4462F8,#9B6BF2);display:flex;align-items:center;justify-content:center;font:400 28px Anton;color:#fff}
+.ex_cf_top .cf-tc .cf-pnl{font:400 66px/1 Anton;color:var(--fg);font-variant-numeric:tabular-nums}
+.ex_cf_top .cf-tc.cf-cut{opacity:0}
+.ex_cf_top .cf-src{margin-top:16px;font:600 18px JBM;letter-spacing:2px;color:rgba(255,255,255,.45);text-transform:uppercase}
+.ex_cf_top .cf-stamp{position:absolute;left:90px;right:90px;top:1010px;padding:22px 26px;border-radius:26px;background:#fff;border:4px solid var(--fr);text-align:center;font:400 62px/1.05 Anton;text-transform:uppercase;color:var(--fr);opacity:0;box-shadow:0 20px 50px rgba(242,68,91,.22)}
+.ex_cf_top .cf-weeks{position:absolute;left:90px;right:90px;top:1210px;height:250px;display:flex;align-items:flex-end;gap:14px;opacity:0}
+.ex_cf_top .cf-weeks div{flex:1;border-radius:10px 10px 4px 4px;background:#00A84E}
+.ex_cf_top .cf-weeks div.cf-dn{background:var(--fr);align-self:flex-start;margin-top:150px}
+.ex_cf_top .cf-wl{position:absolute;left:0;right:0;top:1478px;text-align:center;font:700 22px JBM;letter-spacing:3px;color:rgba(10,42,79,.6);text-transform:uppercase;opacity:0}
+/* cf_* part 2: the market bars, a Telegram chat redrawn from CopyFomo's docs (their logo and blue), the dozen
+   questions, the rules and the end card */
+.cf{--cb:#5A7CFA}
+.ex_cf_mkt .cf-head,.ex_cf_set .cf-head,.ex_cf_rules .cf-head{position:absolute;left:60px;right:60px;top:220px}
+.cf .cf-t{font:400 92px/1 Anton;text-transform:uppercase;color:#0A2A4F;margin-top:10px}
+.ex_cf_mkt .cf-bars{position:absolute;left:110px;right:110px;top:480px;height:820px;display:flex;align-items:flex-end;gap:90px}
+.ex_cf_mkt .cf-bar{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%}
+.ex_cf_mkt .cf-bar .cf-val{font:400 84px/1 Anton;color:#0A2A4F;font-variant-numeric:tabular-nums;margin-bottom:16px}
+.ex_cf_mkt .cf-bar i{display:block;width:100%;border-radius:22px 22px 8px 8px;background:linear-gradient(180deg,#1F5FDB,#0E3D96);transform-origin:50% 100%}
+.ex_cf_mkt .cf-bar.now i{background:linear-gradient(180deg,#F2445B,#B8203A)}
+.ex_cf_mkt .cf-bar.now .cf-val{color:#F2445B}
+.ex_cf_mkt .cf-bar .cf-when{margin-top:18px;font:700 24px JBM;letter-spacing:3px;text-transform:uppercase;color:rgba(10,42,79,.65)}
+.ex_cf_mkt .cf-pct{position:absolute;right:120px;top:640px;padding:14px 28px;border-radius:24px;background:#F2445B;color:#fff;font:400 110px/1 Anton;transform:rotate(-6deg);opacity:0;box-shadow:0 20px 50px rgba(242,68,91,.35)}
+.ex_cf_mkt .cf-src{position:absolute;left:60px;right:60px;top:1420px;text-align:center;font:600 18px JBM;letter-spacing:2px;color:rgba(10,42,79,.5);text-transform:uppercase}
+/* the Telegram phone */
+.cf .cf-tgph{position:absolute;left:180px;top:230px;width:720px;height:1260px;border-radius:72px;background:#000;padding:16px;box-shadow:0 0 0 3px #2A2D3A,0 50px 120px rgba(10,42,79,.35);transform-origin:50% 60%}
+.cf .cf-tgsc{position:relative;width:100%;height:100%;border-radius:58px;overflow:hidden;background:linear-gradient(180deg,#DCE8F7,#C9DCF2)}
+.cf .cf-tghd{position:absolute;left:0;right:0;top:0;height:150px;padding:62px 28px 0;display:flex;align-items:center;gap:16px;background:#fff;border-bottom:2px solid #E3EAF4;z-index:3}
+.cf .cf-tghd img{width:64px;height:64px;border-radius:50%}
+.cf .cf-tghd b{display:block;font:800 30px Manrope;color:#0B1220}
+.cf .cf-tghd span{font:600 20px Manrope;color:#64748B}
+.cf .cf-tgmsgs{position:absolute;left:0;right:0;top:150px;bottom:116px;display:flex;flex-direction:column;justify-content:flex-end;gap:14px;padding:0 22px 20px;overflow:hidden}
+.cf .cf-msg{max-width:88%;padding:18px 22px;border-radius:26px;font:700 31px/1.3 Manrope;color:#0B1220;background:#fff;box-shadow:0 4px 12px rgba(10,42,79,.08);display:none;transform-origin:0 100%}
+.cf .cf-msg.cf-me{align-self:flex-end;background:var(--cb);color:#fff;transform-origin:100% 100%;font:700 32px JBM}
+.cf .cf-msg b{font-weight:800}
+.cf .cf-msg .cf-rw{display:flex;justify-content:space-between;gap:16px;padding:8px 0;border-top:2px solid #EEF2F8;font:700 28px Manrope}
+.cf .cf-msg .cf-rw:first-of-type{border-top:0}
+.cf .cf-msg .cf-rw em{font-style:normal;font-weight:800}
+.cf .cf-msg .cf-btns{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.cf .cf-msg .cf-btns span{flex:1;min-width:40%;text-align:center;padding:14px 10px;border-radius:14px;background:#EEF3FF;color:var(--cb);font:800 26px Manrope}
+.cf .cf-msg .cf-btns span.on{background:var(--cb);color:#fff}
+.cf .cf-msg.cf-shot{padding:10px;background:var(--cb)}
+.cf .cf-msg .cf-prof{width:300px;padding:18px;border-radius:18px;background:#05030F;color:#fff}
+.cf .cf-msg .cf-prof .cf-pn{font:800 28px Manrope;display:flex;align-items:center;gap:12px}
+.cf .cf-msg .cf-prof .cf-pn u{text-decoration:none;width:44px;height:44px;border-radius:50%;background:linear-gradient(140deg,#4462F8,#9B6BF2)}
+.cf .cf-msg .cf-prof .cf-pg{margin-top:10px;font:400 44px Anton;color:#00C853}
+.cf .cf-msg .cf-prof .cf-pl{font:700 16px JBM;letter-spacing:2px;color:rgba(255,255,255,.5)}
+.cf .cf-msg.cf-note{align-self:center;background:rgba(10,42,79,.55);color:#fff;font:700 22px JBM;letter-spacing:1px;padding:8px 16px;border-radius:999px}
+.cf .cf-tgin{position:absolute;left:18px;right:18px;bottom:22px;height:80px;border-radius:40px;background:#fff;display:flex;align-items:center;padding:0 12px 0 30px;box-shadow:0 6px 16px rgba(10,42,79,.12);z-index:3}
+.cf .cf-tgin .cf-tx{flex:1;font:700 28px JBM;color:#0B1220;white-space:nowrap;overflow:hidden}
+.cf .cf-tgin .cf-tx.ph{color:#94A3B8;font:600 26px Manrope}
+.cf .cf-tgin .cf-snd{width:58px;height:58px;border-radius:50%;background:var(--cb);display:flex;align-items:center;justify-content:center;color:#fff;font:800 26px Manrope}
+.cf .cf-tap{position:absolute;width:96px;height:96px;margin:-48px 0 0 -48px;border-radius:50%;background:rgba(255,255,255,.7);box-shadow:0 0 0 6px rgba(90,124,250,.45);z-index:6;opacity:0;pointer-events:none}
+.cf .cf-pill{position:absolute;left:0;right:0;top:170px;text-align:center;z-index:4}
+.cf .cf-pill span{display:inline-block;padding:10px 22px;border-radius:999px;font:800 24px Manrope;color:#fff;background:#00A84E;box-shadow:0 10px 24px rgba(0,168,78,.3)}
+.cf .cf-pill span.cf-off{background:#64748B;box-shadow:none}
+.cf .cf-ill2{position:absolute;left:0;right:0;top:1500px;text-align:center;font:600 18px JBM;letter-spacing:2px;color:rgba(10,42,79,.5);text-transform:uppercase}
+/* the dozen questions */
+.ex_cf_set .cf-qs{position:absolute;left:60px;right:60px;top:430px;display:grid;grid-template-columns:1fr 1fr;gap:10px 16px}
+.ex_cf_set .cf-q{display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:16px;background:rgba(255,255,255,.75);font:700 22px Manrope;color:rgba(10,42,79,.55);border:2px solid transparent}
+.ex_cf_set .cf-q i{font-style:normal;font:700 18px JBM;color:rgba(10,42,79,.4);width:34px}
+.ex_cf_set .cf-q.cf-hit{background:#fff;color:#0A2A4F;border-color:var(--cb);box-shadow:0 10px 26px rgba(90,124,250,.25)}
+.ex_cf_set .cf-q.cf-hit i{color:var(--cb)}
+.ex_cf_set .cf-q.cf-done i::after{content:' ✓';color:#00A84E}
+.ex_cf_set .cf-det{position:absolute;left:60px;right:60px;top:880px;height:470px}
+.ex_cf_set .cf-dc{position:absolute;inset:0;padding:30px 34px;border-radius:32px;background:#05030F;color:#fff;opacity:0;box-shadow:0 30px 70px rgba(5,3,15,.3)}
+.ex_cf_set .cf-dc .cf-dq{font:700 20px JBM;letter-spacing:3px;text-transform:uppercase;color:var(--cb)}
+.ex_cf_set .cf-dc .cf-dt{font:400 62px/1.05 Anton;text-transform:uppercase;margin-top:12px}
+.ex_cf_set .cf-dc .cf-opts{display:flex;flex-wrap:wrap;gap:12px;margin-top:24px}
+.ex_cf_set .cf-dc .cf-opts span{padding:14px 22px;border-radius:16px;background:rgba(255,255,255,.08);border:2px solid rgba(255,255,255,.14);font:800 28px Manrope}
+.ex_cf_set .cf-dc .cf-opts span.on{background:var(--cb);border-color:var(--cb)}
+.ex_cf_set .cf-dc .cf-dn2{margin-top:20px;font:600 22px Manrope;color:rgba(255,255,255,.6)}
+.ex_cf_set .cf-arm{position:absolute;left:0;right:0;top:1390px;text-align:center;opacity:0}
+.ex_cf_set .cf-arm span{display:inline-block;padding:20px 40px;border-radius:22px;background:var(--cb);color:#fff;font:800 34px Manrope;box-shadow:0 18px 40px rgba(90,124,250,.4)}
+/* the rules */
+.ex_cf_rules .cf-rl{position:absolute;left:60px;right:60px;top:420px;display:flex;flex-direction:column;gap:18px}
+.ex_cf_rules .cf-r1{display:flex;align-items:center;gap:22px;padding:24px 28px;border-radius:26px;background:#fff;box-shadow:0 14px 34px rgba(31,95,219,.14);opacity:0}
+.ex_cf_rules .cf-r1 i{flex-shrink:0;width:64px;height:64px;border-radius:18px;background:#1F5FDB;color:#fff;font:400 38px Anton;font-style:normal;display:flex;align-items:center;justify-content:center}
+.ex_cf_rules .cf-r1 span{font:800 36px/1.2 Manrope;color:#0A2A4F}
+.ex_cf_rules .cf-q2{position:absolute;left:60px;right:60px;top:1150px;padding:30px 34px;border-radius:30px;background:#05030F;color:#fff;opacity:0}
+.ex_cf_rules .cf-q2 .cf-qt{font:800 38px/1.3 Manrope}
+.ex_cf_rules .cf-q2 .cf-qs2{margin-top:14px;font:700 20px JBM;letter-spacing:2px;color:var(--cb);text-transform:uppercase}
+/* the end */
+.ex_cf_end .cf-lg{position:absolute;left:50%;top:420px;width:220px;height:220px;margin-left:-110px;border-radius:56px;overflow:hidden;box-shadow:0 30px 70px rgba(90,124,250,.35)}
+.ex_cf_end .cf-lg img{width:100%;height:100%;display:block}
+.ex_cf_end .cf-et{position:absolute;left:40px;right:40px;top:720px;text-align:center;font:400 170px/.92 Anton;text-transform:uppercase;color:#0A2A4F}
+.ex_cf_end .cf-et em{font-style:normal;color:#1F5FDB}
+.ex_cf_end .cf-ec{position:absolute;left:0;right:0;top:1120px;display:flex;justify-content:center;gap:16px;flex-wrap:wrap}
+.ex_cf_end .cf-ec span{padding:14px 24px;border-radius:999px;background:#fff;color:#0A2A4F;font:800 28px Manrope;box-shadow:0 12px 30px rgba(31,95,219,.16)}
+.ex_cf_end .cf-ec span b{color:#1F5FDB}
+.ex_cf_end .cf-ef{position:absolute;left:0;right:0;top:1260px;text-align:center;font:700 26px JBM;letter-spacing:4px;color:rgba(10,42,79,.6);text-transform:uppercase}
 </style>
 </head>
 <body>
@@ -1277,12 +1419,228 @@ function fxPT(add, sc, T, next) {
   if (ty === 'end') { add(Math.max(T + 0.2, at(0) - 0.1), '1143', -7, { align: 'peak' }); const tB = w(1, /losers/i, 0.4); add(tB - 0.05, '2908', -4); add(tB, '2299', -5); add(at(1, 0.75), '3124', -12) }
 }
 
+// ---------------------------------------------------------------- copy trading (cf_*), 7 Oct: CopyFomo and the Fomo app.
+// The owner's own screen recording plays in a phone (a beat's `rec`, frames from make-video); every move is cued to the
+// spoken word (WT). The app's pieces keep Fomo's colours; the page stays our light blue.
+const PEND = []
+function recAt(el, sc, lt) {             // the recording's frame for this moment (holds the last frame when it runs out)
+  const img = $('img.rec', el); if (!img || !sc.rec) return
+  const f = Math.max(1, Math.min(sc.rec.n, Math.floor(lt * 30) + 1)), src = `${sc.rec.dir}/${String(f).padStart(4, '0')}.webp`
+  if (img.dataset.src !== src) { img.dataset.src = src; img.src = src; PEND.push(img.decode().catch(() => {})) }
+}
+const phoneRec = () => `<div class="cf-ph"><div class="cf-scr"><img class="rec"><div class="cf-isl"></div></div></div>`
+const cfTiles = b => (b.tape || []).map(r => `<div class="${r[1] >= 0 ? 'cf-g' : 'cf-r'}"><span>${html(r[0])}</span><i>${r[1] >= 0 ? '▲' : '▼'} ${Math.abs(r[1]).toFixed(2)}%</i></div>`).join('')
+function buildCF(el, sc, b) {
+  el.classList.add('cf')
+  const ty = sc.type.slice(6)
+  if (ty === 'cold') el.innerHTML = `<div class="cf-deep"></div>${phoneRec()}<div class="cf-big" style="top:640px"><div class="cf-v A"></div><div class="cf-l"></div></div>`
+  else if (ty === 'title') el.innerHTML = `<div class="cf-kick"><span>${html(b.kick || '')}</span></div><div class="cf-h">${html(b.h1 || '')}<br><em>${html(b.h2 || '')}</em></div><div class="cf-s">${html(b.sub || '')}</div>
+    <div class="cf-tg">${(b.tags || []).map(t => `<span>${html(t[0])} <b>${html(t[1] || '')}</b></span>`).join('')}</div>`
+  else if (ty === 'red') el.innerHTML = `${phoneRec()}<div class="cf-side"><div class="cf-lbl">${html(b.kick || '')}</div><div class="cf-cnt"><div class="cf-r"><b>0</b><span>Red</span></div><div class="cf-g"><b>0</b><span>Green</span></div></div>
+    <div class="cf-tape">${cfTiles(b)}</div><div class="cf-of">${html(b.foot || '')}</div></div>`
+  else if (ty === 'hot') el.innerHTML = `${phoneRec()}<div class="cf-side"><div class="cf-lbl">${html(b.kick || '')}</div>${(b.coins || []).map(c => `<div class="cf-hc"><div class="cf-n">${html(c[0])}</div><div class="cf-p">+${html(c[1])}%</div><div class="cf-m">${html(c[2])} market cap</div></div>`).join('')}<div class="cf-warn">${html(b.warn || '')}</div></div>`
+  else if (ty === 'tide') el.innerHTML = `<div class="cf-tag"><span></span></div><canvas width="1000" height="1060"></canvas><div class="cf-ill">${html(b.ill || 'Illustration')}</div>`
+  else if (ty === 'top') el.innerHTML = `<div class="cf-head"><div class="cf-lbl">${html(b.kick || '')}</div><div class="cf-t">${html(b.title || '')}</div></div>
+    <div class="cf-board"><div class="cf-bt"><i></i>${html(b.board || '')}</div>${(b.top || []).map((r, j) => `<div class="cf-tc${r[2] ? ' cf-cut' : ''}"><div class="cf-who"><u>${html(r[0][0].toUpperCase())}</u>${html(r[0])}</div><div class="cf-pnl">${html(r[1])}</div></div>`).join('')}<div class="cf-src">${html(b.src || '')}</div></div>
+    <div class="cf-stamp">${html(b.stamp || '')}</div><div class="cf-weeks">${(b.weeks || []).map(v => `<div class="${v < 0 ? 'cf-dn' : ''}" style="height:${Math.abs(v)}%"></div>`).join('')}</div><div class="cf-wl">${html(b.wl || '')}</div>`
+  else if (buildCF2) buildCF2(el, sc, b, ty)
+}
+// the bull and bear crowd: 120 traders as dots under a market line; in the run up most turn green, in the bleed most turn
+// red and a few stay green (an illustration)
+const TIDE = Array.from({ length: 120 }, (_, i) => ({ x: 70 + (i % 12) * 78, y: 520 + Math.floor(i / 12) * 54, bull: hsh(i, 3) < 0.86, keep: [7, 22, 41, 58, 77, 95, 110].includes(i), d: hsh(i, 9) }))
+function drawTide(c, lt, tUp, tDn, tKeep) {
+  const g = c.getContext('2d'); g.clearRect(0, 0, 1000, 1060)
+  g.fillStyle = 'rgba(255,255,255,.9)'; g.beginPath(); g.roundRect(0, 0, 1000, 1060, 34); g.fill()
+  // the market line: up through tUp, down through tDn
+  const up = P(lt, tUp - 0.2, tUp + 1.6, E.inOutSine), dn = P(lt, tDn - 0.2, tDn + 1.6, E.inOutSine)
+  const pts = []; for (let i = 0; i <= 60; i++) { const x = i / 60, rise = Math.min(1, x / 0.55), fall = Math.max(0, (x - 0.55) / 0.45)
+    pts.push([60 + x * 880, 400 - 260 * rise * Math.min(1, up * 1.2) + 330 * fall * dn + 14 * Math.sin(i * 1.7)]) }
+  const shown = Math.floor(60 * Math.min(1, 0.55 * P(lt, tUp - 0.2, tUp + 1.2) + 0.45 * P(lt, tDn - 0.2, tDn + 1.2)))
+  g.lineWidth = 8; g.lineJoin = 'round'; g.strokeStyle = lt >= tDn ? '#F2445B' : '#00A84E'; g.beginPath()
+  pts.slice(0, shown + 1).forEach((p, i) => i ? g.lineTo(...p) : g.moveTo(...p)); g.stroke()
+  g.fillStyle = 'rgba(10,42,79,.5)'; g.font = '700 22px JBM'; g.fillText('THE MARKET', 60, 60)
+  for (const d of TIDE) {
+    const gU = d.bull && lt >= tUp + 0.3 + d.d * 1.2, rD = lt >= tDn + 0.3 + d.d * 1.4 && !d.keep
+    let col = 'rgba(10,42,79,.18)'; if (gU) col = '#00C853'; if (rD) col = '#F2445B'; if (d.keep && lt >= tDn + 0.3) col = '#00C853'
+    if (lt >= tDn + 0.3 && !d.keep && !gU && !rD) col = '#F2445B'
+    const hot = d.keep && lt >= tKeep
+    g.fillStyle = col; g.beginPath(); g.arc(d.x, d.y, hot ? 19 : 15, 0, 6.2832); g.fill()
+    if (hot) { const q = P(lt, tKeep, tKeep + 0.6, E.outBack); g.strokeStyle = '#1F5FDB'; g.lineWidth = 5; g.beginPath(); g.arc(d.x, d.y, 19 + 16 * q, 0, 6.2832); g.stroke() }
+  }
+}
+function drawCF(el, lt, sc, b) {
+  const ty = sc.type.slice(6), w = (j, re, f) => WT(sc, j, re, f)
+  if (ty === 'cold') {
+    recAt(el, sc, lt)
+    const marks = [{ v: b.big?.[0], cls: 'red', l: b.lab?.[0], at: L(sc, 0, 0) - 0.05 }, { v: b.big?.[1], cls: 'grn', l: b.lab?.[1], at: w(1, /three|375/i, 0.4) - 0.1 }, { v: b.big?.[2], cls: 'red', l: b.lab?.[2], at: w(2, /luck/i, 0.3) - 0.05 }]
+    const j = marks.findLastIndex(m => lt >= m.at), m = marks[Math.max(0, j)], v = $('.cf-big .cf-v', el), l = $('.cf-big .cf-l', el)
+    v.textContent = j < 0 ? '' : m.v || ''; v.className = 'cf-v A ' + m.cls; l.textContent = j < 0 ? '' : m.l || ''
+    v.style.transform = slam(v, lt, m.at, 1.9, 0.28) || v.style.transform
+    if (j === 2) v.style.transform += ' ' + (glitch(v, lt, m.at + 0.35) || '')
+    l.style.opacity = P(lt, m.at + 0.2, m.at + 0.5)
+    const ph = $('.cf-ph', el), end = L(sc, sc.lines.length - 1, 1)
+    ph.style.transform = `scale(${1 + 0.05 * P(lt, 0, sc.dur, E.inOutSine)})`
+    el.style.transform = `scale(${1 + 0.04 * P(lt, end, sc.dur, E.inOutSine)})` + ' ' + (j >= 0 ? shake(lt, m.at, 10) : '')
+  } else if (ty === 'title') {
+    slam($('.cf-h', el), lt, 0, 2.1, 0.32); rise([$('.cf-kick', el)], lt, 0.25); rise([$('.cf-s', el)], lt, Math.max(0.6, L(sc, 1, 0) - 0.1))
+    $$('.cf-tg span', el).forEach((n, j) => pop(n, lt, Math.max(0.9, w(1, /copyfomo|copy/i, 0.3)) + j * 0.18, 0.6))
+    el.style.transform = shake(lt, 0.03, 24)
+  } else if (ty === 'red') {
+    recAt(el, sc, lt)
+    rise([$('.cf-ph', el)], lt, 0, 0, 160, 0.6); rise([$('.cf-side .cf-lbl', el), $('.cf-cnt', el)], lt, 0.2, 0.1)
+    const tiles = $$('.cf-tape div', el), t0 = w(0, /scroll|held/i, 0.3), t1 = Math.max(t0 + 2, w(1, /twenty|21/i, 0.6)), step = (t1 - t0) / Math.max(1, tiles.length)
+    let r = 0, g = 0
+    tiles.forEach((n, i) => { const at = t0 + i * step; pop(n, lt, at, 0.7, 0.25); if (lt >= at) n.classList.contains('cf-g') ? g++ : r++ })
+    $('.cf-cnt .cf-r b', el).textContent = r; $('.cf-cnt .cf-g b', el).textContent = g
+    rise([$('.cf-of', el)], lt, t1 + 0.2)
+  } else if (ty === 'hot') {
+    recAt(el, sc, lt)
+    rise([$('.cf-ph', el)], lt, 0, 0, 160, 0.6); rise([$('.cf-side .cf-lbl', el)], lt, 0.2)
+    const cs = $$('.cf-hc', el), t0 = w(0, /thousand|percent/i, 0.3)
+    cs.forEach((n, j) => { const at = t0 + j * 0.55; n.style.opacity = P(lt, at, at + 0.2); n.style.transform = `translate3d(${(1 - P(lt, at, at + 0.45, E.outBack)) * -300}px,0,0)` })
+    rise([$('.cf-warn', el)], lt, has(sc, 1) ? L(sc, 1, 0) : L(sc, 0, 0.9))
+  } else if (ty === 'tide') {
+    const tUp = w(0, /bull/i, 0.2), tDn = w(1, /bleed|red/i, 0.3), tKeep = w(2, /few|still/i, 0.3)
+    drawTide($('canvas', el), lt, tUp, tDn, tKeep)
+    const tag = $('.cf-tag span', el), bear = lt >= tDn
+    tag.textContent = lt >= tKeep ? (b.tags?.[2] || 'The real ones') : bear ? (b.tags?.[1] || 'Bear market') : (b.tags?.[0] || 'Bull run')
+    tag.style.background = lt >= tKeep ? '#1F5FDB' : bear ? '#F2445B' : '#00A84E'
+    const at = lt >= tKeep ? tKeep : bear ? tDn : tUp; slam(tag, lt, at, 1.5, 0.25)
+  } else if (ty === 'top') {
+    rise([$('.cf-head', el)], lt, 0.05); rise([$('.cf-board', el)], lt, 0.25, 0, 120)
+    const cs = $$('.cf-tc', el), tA = w(0, /three hundred|375/i, 0.2), tB = w(0, /fifty|358/i, 0.2)
+    cs.forEach((n, j) => { const at = [tA - 0.3, tB - 0.3, tB + 0.5][j] ?? tB + 0.5 + j * 0.3; n.style.opacity = P(lt, at, at + 0.2) * (n.classList.contains('cf-cut') ? 0.45 : 1); n.style.transform = `translate3d(${(1 - P(lt, at, at + 0.45, E.outBack)) * 400}px,0,0)` })
+    const tS = w(1, /track|isn/i, 0.2); slam($('.cf-stamp', el), lt, tS - 0.15, 1.8, 0.26, 'rotate(-3deg)')
+    const tW = has(sc, 2) ? w(2, /week/i, 0.2) : tS + 1.5, wk = $('.cf-weeks', el); wk.style.opacity = P(lt, tW - 0.2, tW + 0.1)
+    $$('.cf-weeks div', el).forEach((n, j) => { const q = P(lt, tW + j * 0.12, tW + j * 0.12 + 0.35, E.outBack); n.style.transform = `scaleY(${q})`; n.style.transformOrigin = n.classList.contains('cf-dn') ? '50% 0' : '50% 100%' })
+    rise([$('.cf-wl', el)], lt, tW + 0.9)
+    el.style.transform = shake(lt, tS - 0.12, 12)
+  } else if (drawCF2) drawCF2(el, lt, sc, b, ty)
+}
+let buildCF2 = null, drawCF2 = null, fxCF2 = null
+function fxCF(add, sc, T, next) {
+  const b = sc.data || {}, ty = sc.type.slice(6), w = (j, re, f) => T + WT(sc, j, re, f), at = (j, f = 0) => T + L(sc, j, f)
+  if (ty === 'cold') {
+    add(T, '497', -13, { align: 'start', max: Math.max(1, sc.dur - 0.2) })
+    add(at(0) - 0.08, '2909', -3); add(at(0) - 0.08, '2299', -6)
+    add(w(1, /three|375/i, 0.4) - 0.15, '2909', -5); add(w(1, /three|375/i, 0.4) - 0.15, '3124', -10)
+    const tL = w(2, /luck/i, 0.3) - 0.05; add(tL, '2299', -5); add(tL + 0.35, '2951', -7)
+    if (next?.data?.drop) add(next.start, '2908', -6, { reverse: true, max: 2.6, align: 'end' })
+  }
+  if (ty === 'title') add(Math.max(T + 0.9, w(1, /copyfomo|copy/i, 0.3)), '2573', -12)
+  if (ty === 'red') { const t0 = w(0, /scroll|held/i, 0.3), t1 = Math.max(t0 + 2, w(1, /twenty|21/i, 0.6)), n = (b.tape || []).length, st = (t1 - t0) / Math.max(1, n)
+    for (let i = 0; i < n; i++) add(t0 + i * st, '2577', -19 + (i % 2) * 2) }
+  if (ty === 'hot') { const t0 = w(0, /thousand|percent/i, 0.3); (b.coins || []).forEach((_, j) => add(t0 + j * 0.55, '3115', -12)) }
+  if (ty === 'tide') { add(w(0, /bull/i, 0.2), '1365', -10); add(w(1, /bleed|red/i, 0.3), '2951', -10); add(w(2, /few|still/i, 0.3), '2573', -9) }
+  if (ty === 'top') { add(w(0, /three hundred|375/i, 0.2) - 0.3, '3124', -11); add(w(0, /fifty|358/i, 0.2) - 0.3, '3124', -11); const tS = w(1, /track|isn/i, 0.2) - 0.15; add(tS, '2299', -7); add(tS, '2568', -11) }
+  if (fxCF2) fxCF2(add, sc, T, next, ty, w, at)
+}
+
+// cf_* part 2: the market bars, the Telegram chat (redrawn from CopyFomo's docs, with their logo), the dozen questions,
+// the rules and the end. Times come from the spoken words: a spec is [line, word regex, fraction of the line if not found].
+const CF_LOGO = (EX.brand && EX.brand.logo) || ''
+const tAt = (sc, s) => s ? WT(sc, s[0], new RegExp(s[1], 'i'), s[2] ?? 0) + (s[3] || 0) : -1
+function offIn(n, root) { let x = 0, y = 0; while (n && n !== root) { x += n.offsetLeft; y += n.offsetTop; n = n.offsetParent } return [x, y] }
+function chatHtml(b) {
+  const m = (x, i) => {
+    if (x.me) return `<div class="cf-msg cf-me" data-i="${i}">${html(x.me)}</div>`
+    if (x.shot) return `<div class="cf-msg cf-shot cf-me" data-i="${i}"><div class="cf-prof"><div class="cf-pn"><u></u>${html(x.shot)}</div><div class="cf-pg">${html(x.pg || '')}</div><div class="cf-pl">${html(x.pl || '')}</div></div></div>`
+    if (x.note) return `<div class="cf-msg cf-note" data-i="${i}">${html(x.note)}</div>`
+    return `<div class="cf-msg" data-i="${i}">${x.bot ? `<div>${x.bot}</div>` : ''}${(x.rows || []).map(r => `<div class="cf-rw"><span>${html(r[0])}</span><em${r[2] ? ` style="color:${r[2]}"` : ''}>${html(r[1])}</em></div>`).join('')}${x.btns ? `<div class="cf-btns">${x.btns.map(t => `<span>${html(t)}</span>`).join('')}</div>` : ''}</div>`
+  }
+  return `<div class="cf-tgph"><div class="cf-tgsc"><div class="cf-tghd"><img src="${CF_LOGO}"><div><b>copyfomo</b><span>bot · @copyfomo_bot</span></div></div>
+    <div class="cf-tgmsgs">${(b.msgs || []).map(m).join('')}</div><div class="cf-tgin"><span class="cf-tx ph">Message</span><span class="cf-snd">➤</span></div>${b.pill ? '<div class="cf-pill"><span></span></div>' : ''}</div><div class="cf-tap"></div></div>
+    <div class="cf-ill2">${html(b.ill || '')}</div>`
+}
+function drawChat(el, lt, sc, b) {
+  const ms = $$('.cf-msg', el), ph = $('.cf-tgph', el), tx = $('.cf-tx', el), tap = $('.cf-tap', el), box = $('.cf-tgmsgs', el), X = b.msgs || []
+  const T = X.map(x => x.pre ? -1 : tAt(sc, x.at))
+  let typing = null, zoom = 0
+  ms.forEach((n, i) => { const x = X[i], at = T[i], on = lt >= at
+    n.style.display = on ? 'block' : 'none'
+    if (on) { const q = P(lt, at, at + 0.35, E.outBack); n.style.opacity = clamp((lt - at) / 0.1); n.style.transform = `scale(${0.85 + 0.15 * q})` }
+    if (x.me && lt >= at - 1.0 && lt < at) typing = { x, at }
+    if (x.me) zoom = Math.max(zoom, P(lt, at - 1.2, at - 0.8, E.inOutSine) * (1 - P(lt, at + 0.1, at + 0.6, E.inOutSine)))
+    if (x.tapbtn != null) { const tt = tAt(sc, x.tap); $$('.cf-btns span', n).forEach((s, k) => s.classList.toggle('on', k === x.tapbtn && lt >= tt)) }
+  })
+  if (typing) { const k = Math.round(typing.x.me.length * clamp((lt - typing.at + 0.95) / 0.6)); tx.textContent = typing.x.me.slice(0, k) + (k < typing.x.me.length ? '|' : ''); tx.className = 'cf-tx' }
+  else { tx.textContent = 'Message'; tx.className = 'cf-tx ph' }
+  // the newest bubble pushes the others up smoothly
+  const last = T.reduce((a, t, i) => (t <= lt && (a < 0 || t >= T[a]) ? i : a), -1)
+  if (last >= 0 && T[last] >= 0) { const h = ms[last].offsetHeight + 14, q = P(lt, T[last], T[last] + 0.3, E.outCubic); box.style.transform = `translate3d(0,${(1 - q) * h}px,0)` } else box.style.transform = ''
+  // a finger on the send button, or on a tapped button
+  let tp = null
+  X.forEach((x, i) => { if (x.me && Math.abs(lt - (T[i] - 0.12)) < 0.55) tp = { at: T[i] - 0.12, n: $('.cf-snd', el) }
+    if (x.tapbtn != null) { const tt = tAt(sc, x.tap); if (Math.abs(lt - tt) < 0.55) tp = { at: tt, n: $$('.cf-btns span', ms[i])[x.tapbtn] } } })
+  if (tp && tp.n) { const [x, y] = offIn(tp.n, ph); tap.style.left = x + tp.n.offsetWidth / 2 + 'px'; tap.style.top = y + tp.n.offsetHeight / 2 + 'px'; tapAt(tap, lt, tp.at) } else tap.style.opacity = 0
+  // the camera: closer on the keyboard line while a message is typed
+  ph.style.transformOrigin = '50% 88%'; ph.style.transform = `scale(${1 + 0.07 * zoom})`
+  if (b.pill) { const ps = b.pill.map(p => [tAt(sc, p[0]), p[1], p[2]]), j = ps.findLastIndex(p => lt >= p[0]), pe = $('.cf-pill span', el)
+    if (j < 0) pe.style.opacity = 0; else { pe.textContent = ps[j][1]; pe.className = ps[j][2] ? 'cf-off' : ''; slam(pe, lt, ps[j][0], 1.4, 0.22) } }
+}
+buildCF2 = (el, sc, b, ty) => {
+  const head = `<div class="cf-head"><div class="cf-lbl">${html(b.kick || '')}</div><div class="cf-t">${html(b.title || '')}</div></div>`
+  if (ty === 'mkt') el.innerHTML = head + `<div class="cf-bars">${(b.bars || []).map((r, j) => `<div class="cf-bar${j ? ' now' : ''}"><div class="cf-val">$0B</div><i style="height:${Math.round(560 * r[1] / b.bars[0][1])}px"></i><div class="cf-when">${html(r[0])}</div></div>`).join('')}</div><div class="cf-pct">${html(b.pct || '')}</div><div class="cf-src">${html(b.src || '')}</div>`
+  else if (ty === 'bot' || ty === 'live') el.innerHTML = chatHtml(b)
+  else if (ty === 'set') el.innerHTML = head + `<div class="cf-qs">${(b.qs || []).map((q, i) => `<div class="cf-q"><i>${String(i + 1).padStart(2, '0')}</i>${html(q)}</div>`).join('')}</div>
+    <div class="cf-det">${(b.hits || []).map(h => `<div class="cf-dc"><div class="cf-dq">Question ${String(h.q + 1).padStart(2, '0')}</div><div class="cf-dt">${html(h.title)}</div><div class="cf-opts">${(h.opts || []).map((o, k) => `<span class="${k === h.on ? 'on' : ''}">${html(o)}</span>`).join('')}</div><div class="cf-dn2">${html(h.note || '')}</div></div>`).join('')}</div>
+    <div class="cf-arm"><span>${html(b.arm?.text || '')}</span></div><div class="cf-tap"></div>`
+  else if (ty === 'rules') el.innerHTML = head + `<div class="cf-rl">${(b.rules || []).map((r, i) => `<div class="cf-r1"><i>${i + 1}</i><span>${html(r[0])}</span></div>`).join('')}</div><div class="cf-q2"><div class="cf-qt">“${html(b.quote || '')}”</div><div class="cf-qs2">${html(b.qsrc || '')}</div></div>`
+  else if (ty === 'end') el.innerHTML = `<div class="cf-lg"><img src="${CF_LOGO}"></div><div class="cf-et">${html(b.t1 || '')}<br><em>${html(b.t2 || '')}</em></div><div class="cf-ec">${(b.chips || []).map(c => `<span>${c}</span>`).join('')}</div><div class="cf-ef">${html(b.foot || '')}</div>`
+}
+drawCF2 = (el, lt, sc, b, ty) => {
+  if (ty === 'mkt') {
+    rise([$('.cf-head', el)], lt, 0.05)
+    const bars = $$('.cf-bar', el), times = [tAt(sc, b.at?.[0] || [1, 'peak', 0.3]), tAt(sc, b.at?.[1] || [0, 'thirty|33', 0.4])]
+    bars.forEach((n, j) => { const at = times[j], q = P(lt, at, at + 0.9, E.outCubic), i = $('i', n), v = $('.cf-val', n)
+      i.style.transform = `scaleY(${q})`; v.textContent = '$' + (b.bars[j][1] * q).toFixed(1) + 'B'; v.style.opacity = clamp((lt - at) / 0.15) })
+    const tp = tAt(sc, b.at?.[2] || [1, 'seventy|78', 0.8]); slam($('.cf-pct', el), lt, tp - 0.1, 1.8, 0.25, 'rotate(-6deg)')
+    el.style.transform = shake(lt, tp - 0.07, 12); rise([$('.cf-src', el)], lt, tp + 0.4)
+  } else if (ty === 'bot' || ty === 'live') {
+    rise([$('.cf-tgph', el)], lt, 0, 0, 200, 0.6); rise([$('.cf-ill2', el)], lt, 0.8)
+    drawChat(el, lt, sc, b)
+  } else if (ty === 'set') {
+    rise([$('.cf-head', el)], lt, 0.05)
+    const qs = $$('.cf-q', el), hits = b.hits || [], ht = hits.map(h => tAt(sc, h.at)), ta = tAt(sc, b.arm?.at)
+    qs.forEach((n, i) => { const at = 0.3 + i * 0.07; n.style.opacity = P(lt, at, at + 0.25); n.style.transform = `translate3d(0,${(1 - P(lt, at, at + 0.35, E.outCubic)) * 30}px,0)` })
+    const j = ht.findLastIndex(t => lt >= t)
+    qs.forEach((n, i) => { const hi = j >= 0 && hits[j].q === i && lt < ta; n.classList.toggle('cf-hit', hi); n.classList.toggle('cf-done', (ta >= 0 && lt >= ta) || hits.some((h, k) => k < j && h.q === i)) })
+    $$('.cf-dc', el).forEach((n, k) => { const on = k === j && (ta < 0 || lt < ta + 0.3); n.style.opacity = on ? P(lt, ht[k], ht[k] + 0.2) : 0; n.style.transform = `translate3d(${on ? (1 - P(lt, ht[k], ht[k] + 0.4, E.outBack)) * 120 : 0}px,0,0)`
+      $$('.cf-opts span', n).forEach((s, m) => { s.style.transform = m === hits[k].on ? `scale(${1 + 0.1 * (1 - P(lt, ht[k] + 0.5, ht[k] + 0.8))})` : '' }) })
+    if (ta >= 0) { const a = $('.cf-arm', el); a.style.opacity = P(lt, ta - 0.4, ta - 0.2); const s = $('.cf-arm span', a); s.style.transform = `scale(${lt >= ta ? 0.94 + 0.06 * P(lt, ta, ta + 0.25, E.outBack) : 1})`
+      if (lt >= ta + 0.15) { s.textContent = b.arm.done || s.textContent; s.style.background = '#00A84E' }
+      const tp = $('.cf-tap', el); tp.style.left = '540px'; tp.style.top = (a.offsetTop + 40) + 'px'; tapAt(tp, lt, ta) }
+  } else if (ty === 'rules') {
+    rise([$('.cf-head', el)], lt, 0.05)
+    $$('.cf-r1', el).forEach((n, i) => { const at = tAt(sc, b.rules[i][1]); n.style.opacity = P(lt, at, at + 0.2); n.style.transform = `translate3d(${(1 - P(lt, at, at + 0.45, E.outBack)) * -200}px,0,0)` })
+    const tq = tAt(sc, b.qat); rise([$('.cf-q2', el)], lt, tq - 0.1, 0, 80)
+  } else if (ty === 'end') {
+    pop($('.cf-lg', el), lt, 0.1, 0.4, 0.45); slam($('.cf-et', el), lt, 0.35, 1.9, 0.3)
+    $$('.cf-ec span', el).forEach((n, j) => pop(n, lt, Math.max(0.9, L(sc, 0, 0.5)) + j * 0.15, 0.6)); rise([$('.cf-ef', el)], lt, Math.max(1.4, L(sc, 1, 0)))
+    el.style.transform = shake(lt, 0.38, 16)
+  }
+}
+fxCF2 = (add, sc, T, next, ty, w, at) => {
+  const b = sc.data || {}, ta = s => T + tAt(sc, s)
+  if (ty === 'mkt') { add(ta(b.at?.[1] || [0, 'thirty|33', 0.4]), '1365', -10); add(ta(b.at?.[0] || [1, 'peak', 0.3]), '1365', -10); const tp = ta(b.at?.[2] || [1, 'seventy|78', 0.8]) - 0.1; add(tp, '2299', -7); add(tp, '2951', -11) }
+  if (ty === 'bot' || ty === 'live') {
+    (b.msgs || []).forEach(x => { if (x.pre) return; const t = ta(x.at)
+      if (x.me) { add(t - 0.95, '3005', -20, { max: 0.6 }); add(t - 0.12, '2577', -12); add(t, '3115', -14) } else add(t, '2573', -13)
+      if (x.tapbtn != null) add(ta(x.tap), '2577', -11) })
+    ;(b.pill || []).forEach(p => add(ta(p[0]), '3124', -11))
+  }
+  if (ty === 'set') { (b.hits || []).forEach(h => add(ta(h.at), '3115', -12)); if (b.arm) { add(ta(b.arm.at), '2577', -10); add(ta(b.arm.at) + 0.15, '2568', -10) } }
+  if (ty === 'rules') { (b.rules || []).forEach(r => add(ta(r[1]), '2573', -12)); add(ta(b.qat), '3124', -10) }
+  if (ty === 'end') { add(T + 0.35, '2908', -4); add(T + 0.35, '2299', -5) }
+}
+
 // ---------------------------------------------------------------- build each screen
 const built = D.scenes.map(sc => {
   const el = document.createElement('div'), b = sc.data || {}
   el.className = `scene ${sc.type}`
   if (sc.type.startsWith('ex_kh_')) buildKH(el, sc, b)
   else if (sc.type.startsWith('ex_pt_')) buildPT(el, sc, b)
+  else if (sc.type.startsWith('ex_cf_')) buildCF(el, sc, b)
   else if (sc.type === 'ex_cold') {
     const legs = b.legs || []
     el.innerHTML = `<div class="dim"></div><div class="amt2"><div class="v">${html(b.from || '$10')}</div><div class="lb"></div></div>
@@ -1357,6 +1715,7 @@ function draw(k, lt, sc) {
   const el = built[k], b = sc.data || {}
   if (sc.type.startsWith('ex_kh_')) return drawKH(el, lt, sc, b)
   if (sc.type.startsWith('ex_pt_')) return drawPT(el, lt, sc, b)
+  if (sc.type.startsWith('ex_cf_')) return drawCF(el, lt, sc, b)
   if (sc.type === 'ex_cold') {
     // lines: "Ten dollars." / "One ticket." / "$172 back, if every leg lands." / "Or nothing at all." → silence → the drop
     const v = $('.amt2 .v', el), lb = $('.amt2 .lb', el), ct = $('.ct', el), cks = $$('.ck', el)
@@ -1486,9 +1845,10 @@ function fxCinematic() {
   const ev = [], add = (t, sfx, db, o = {}) => ev.push({ t: +Math.max(0, t).toFixed(3), sfx, db, ...o })
   D.scenes.forEach((sc, k) => {
     const T = sc.start, b = sc.data || {}, at = (j, f = 0) => T + L(sc, j, f), next = D.scenes[k + 1]
-    const drop = (sc.type === 'ex_hook' || /^ex_(kh|pt)_/.test(sc.type)) && b.drop
+    const drop = (sc.type === 'ex_hook' || /^ex_(kh|pt|cf)_/.test(sc.type)) && b.drop
     if (sc.type.startsWith('ex_kh_')) fxKH(add, sc, T, next)
     if (sc.type.startsWith('ex_pt_')) fxPT(add, sc, T, next)
+    if (sc.type.startsWith('ex_cf_')) fxCF(add, sc, T, next)
     if (k > 0 && !drop) add(T, k % 2 ? '1492' : '2636', k % 2 ? -12 : -14, { align: 'peak' })
     if (sc.type === 'ex_cold') {
       add(T, '497', -13, { align: 'start', max: Math.max(1, sc.dur - 0.2) })                // heartbeat under the cold open
@@ -1576,6 +1936,7 @@ window.renderAt = async function (t) {
   $('#b1').style.transform = `translate3d(${-260 + 180 * Math.sin(t * 0.31)}px,${-200 + 220 * Math.cos(t * 0.23)}px,0)`
   $('#b2').style.transform = `translate3d(${520 + 160 * Math.cos(t * 0.27)}px,${1180 + 200 * Math.sin(t * 0.19)}px,0)`
   draw(k, lt, sc)
+  if (PEND.length) { await Promise.all(PEND.splice(0)) }
   // the sky theme opens in deep blue: no header until the drop, captions in a dark pill
   if (EX.theme === 'sky') { const cold = /_cold$/.test(sc.type), o = cold ? 0 : P(lt, 0, 0.5); $('#hdr').style.opacity = o; $('#prog').style.opacity = o; $('#stage').classList.toggle('coldcap', cold) }
   // chapter label and progress
