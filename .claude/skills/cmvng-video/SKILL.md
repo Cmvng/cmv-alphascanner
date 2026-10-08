@@ -325,7 +325,12 @@ Run it in the background. It takes about 5–8 minutes; the first run in a new s
 - **Real pictures and a cover in every football video (the owner, 8 Oct: "Why are you no longer showing the stadiums in
   the background or showing players…? And why is there no unique cover image?").** A new format changes the device,
   never these:
-  - the venue's stadium photo behind each game (`lib/stadium.mjs`, Wikimedia, credited) wherever a free photo exists;
+  - **the team's own stadium** behind each game (the owner: "The stadiums have to be the stadiums of the teams"): the
+    ground the home side really plays at this season, from `lib/stadium.mjs` (Wikimedia, credited). Put the researched
+    ground on each pick as `venue`; the renderer drops any photo of a different ground. Wikidata can be wrong (8 Oct:
+    Blacks Power → Mandela National Stadium, but they play at Hoima City Stadium), so look at every photo and its name.
+    No free photo of the right ground: no photo (our drawn page), never another stadium. Put the right file in
+    `stadium` + `stadium_credit` when you find it on Commons yourself;
   - free player photos (Wikimedia, credited) for the key men wherever they exist, the crest only when there's none;
   - a designed cover (1080×1920) and YouTube thumbnail (1280×720) made for that video's concept, sent with the video.
     The renderer's `_cover.jpg` is only a frame grab, not a cover.

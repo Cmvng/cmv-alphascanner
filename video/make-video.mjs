@@ -77,6 +77,10 @@ const OUT = path.join(DIR, 'out', slug), CACHE = path.join(DIR, '.cache')
 // a stills check keeps the finished video, its review and its voice (6 Oct: a stills run wiped the final render)
 if (flag('stills', false) || flag('say-check', false)) fs.rmSync(path.join(OUT, 'stills'), { recursive: true, force: true })     // checks keep the finished render
 else fs.rmSync(OUT, { recursive: true, force: true })
+// two venue names are the same ground when they share a distinctive word ("Shahid Vatani Stadium" = "Vatani Stadium")
+const VSTOP = new Set(['stadium', 'stadionul', 'stadion', 'stade', 'estadio', 'stadio', 'arena', 'sports', 'sport', 'national', 'city', 'the', 'park', 'ground', 'municipal', 'olympic', 'dr', 'of', 'de', 'del', 'la'])
+const vTok = s => new Set(String(s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').split(' ').filter(w => w.length > 2 && !VSTOP.has(w)))
+const sameVenue = (a, b) => { const A = vTok(a), B = vTok(b); return [...A].some(w => B.has(w)) }
 fs.mkdirSync(OUT, { recursive: true })
 console.log(`\n${cfg.title} · ${cfg.competition} · ${cfg.date}`)
 for (const p of picks) {
@@ -85,6 +89,10 @@ for (const p of picks) {
   const own = typeof p.stadium === 'string' ? p.stadium : null
   p.stadium = cfg.stadiums === false ? null
     : await resolveStadium(p.home, { national: isCountry(p.home), country: p.country, cacheDir: CACHE, outDir: OUT, own, ownCredit: p.stadium_credit })
+  // The photo must be the team's own ground (the owner, 8 Oct: "The stadiums have to be the stadiums of the teams").
+  // Wikidata can be wrong (Blacks Power → Mandela National Stadium; they play at Hoima City Stadium), so when the pick
+  // carries the researched `venue`, a photo of any other ground is dropped. Better no photo than the wrong stadium.
+  if (p.stadium && p.venue && !own && !sameVenue(p.venue, p.stadium.venue)) { console.log(`  ! ${p.home}: the photo found is ${p.stadium.venue}, but they play at ${p.venue}. Photo dropped: put the right one in "stadium".`); p.stadium = null }
   if (cfg.style === 'players') p.players = await resolvePlayers(p.home, { national: isCountry(p.home), country: p.country, cacheDir: CACHE, outDir: OUT })
   if (cfg.mode === 'preview' || cfg.mode === 'review') { console.log(`  ${p.home} v ${p.away}  ${p.stadium ? '📷 ' + p.stadium.venue : '(no stadium photo)'}`); continue }
   console.log(`  ${(p.home + ' v ' + p.away).padEnd(28)} ${p.pick.padEnd(26)} @${p.odds.toFixed(2)}  model ${p.model}%  book ${p.market.toFixed(0)}%  edge ${(p.edge * 100).toFixed(1).padStart(5)}%  → ${p.signal} bar${p.signal > 1 ? 's' : ' '} (${cfg.currency}${p.stake})  ${p.stadium ? '📷 ' + p.stadium.venue : '(no stadium photo)'}`)
