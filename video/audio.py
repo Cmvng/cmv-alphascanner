@@ -319,13 +319,31 @@ def fx_zip(dur=0.5, seed=5):
     out = np.diff(out + rasp, prepend=0)
     return _stereo(out / (np.abs(out).max() + 1e-9) * 0.6)
 
+def fx_paper(dur=0.42, seed=9):
+    """Paper sliding out of an envelope: band-passed noise that swells and fades, with a soft flutter."""
+    rng = np.random.default_rng(seed); n = int(dur * SR); t = np.arange(n) / SR
+    k = np.arange(-128, 129); fh, fl = 3600 / SR, 700 / SR
+    h = (2 * fh * np.sinc(2 * fh * k) - 2 * fl * np.sinc(2 * fl * k)) * np.hanning(257)
+    y = np.convolve(rng.standard_normal(n), h, 'same')
+    out = y * np.sin(np.pi * np.clip(t / dur, 0, 1)) ** 1.5 * (1 + 0.3 * np.sin(2 * np.pi * 21 * t))
+    return _stereo(out / (np.abs(out).max() + 1e-9) * 0.6)
+
+def fx_seal(seed=4):
+    """A wax seal breaking: a dry crack over a small low thump."""
+    rng = np.random.default_rng(seed); n = int(0.3 * SR); t = np.arange(n) / SR
+    crack = np.diff(rng.standard_normal(n) * np.exp(-t / 0.01), prepend=0) * 0.5
+    crack[int(0.035 * SR):] += np.diff(rng.standard_normal(n - int(0.035 * SR)) * np.exp(-t[:n - int(0.035 * SR)] / 0.006), prepend=0) * 0.35
+    thump = np.sin(2 * np.pi * 110 * t) * np.exp(-t / 0.05)
+    out = crack + 0.7 * thump
+    return _stereo(out / (np.abs(out).max() + 1e-9) * 0.6)
+
 FX = {'whoosh': fx_whoosh, 'impact': fx_impact, 'riser': fx_riser, 'ding': fx_ding, 'thud': fx_thud, 'cash': fx_cash,
       'tick': lambda: fx_tick(1.0), 'tick2': lambda: fx_tick(1.26), 'tick3': lambda: fx_tick(1.5),
       'boom': fx_boom, 'crowd': fx_crowd, 'groan': fx_groan, 'scratch': fx_scratch, 'aww': fx_aww, 'pop': fx_pop,
-      'flap': lambda: fx_flaps(0.26, 30.0, 3), 'flaps': lambda: fx_flaps(0.7, 36.0, 7), 'flapsl': lambda: fx_flaps(1.3, 40.0, 11), 'zip': fx_zip}
+      'flap': lambda: fx_flaps(0.26, 30.0, 3), 'flaps': lambda: fx_flaps(0.7, 36.0, 7), 'flapsl': lambda: fx_flaps(1.3, 40.0, 11), 'zip': fx_zip, 'paper': fx_paper, 'seal': fx_seal}
 FX_GAIN = {'whoosh': 0.4, 'impact': 0.42, 'riser': 0.32, 'ding': 0.5, 'thud': 0.5, 'cash': 0.4, 'tick': 0.35, 'tick2': 0.35, 'tick3': 0.4,
            'boom': 0.62, 'crowd': 0.42, 'groan': 0.42, 'scratch': 0.45, 'aww': 0.4, 'pop': 0.35,
-           'flap': 0.32, 'flaps': 0.36, 'flapsl': 0.36, 'zip': 0.42}
+           'flap': 0.32, 'flaps': 0.36, 'flapsl': 0.36, 'zip': 0.42, 'paper': 0.4, 'seal': 0.42}
 
 
 # ---- recorded sound effects (Mixkit Sound Effects Free License: commercial use allowed, no credit needed;

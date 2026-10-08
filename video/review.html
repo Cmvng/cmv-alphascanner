@@ -879,6 +879,98 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#03060F}
 #cap.glc{right:70px}
 #cap.glc .c{color:#fff;background:rgba(11,31,77,.9);padding:10px 26px 12px;border-radius:16px;text-shadow:none}
 #stage.gll #credit{color:rgba(11,31,77,.5)}#stage.gll #foot{color:rgba(11,31,77,.55)}
+/* the envelope, please (en_*, first used 8 Oct 2026): the day's games as award categories. Two nominees, the case for
+   each, and the verdict sealed in an envelope in the home side's colours, opened on the spoken verdict. */
+.en{--en-ink:#0B1F4D;--en-blue:#1F5FDB;--en-mute:#5A6B8C;color:var(--en-ink)}
+.en .en-stage{position:absolute;inset:0;background:radial-gradient(ellipse 75% 32% at 50% 0%,rgba(255,255,255,.95) 0%,rgba(255,255,255,0) 100%),linear-gradient(180deg,#EAF3FF 0%,#D3E5FF 100%)}
+.en .en-stage::before,.en .en-stage::after{content:'';position:absolute;top:0;bottom:0;width:70px;background:repeating-linear-gradient(90deg,rgba(31,95,219,.10) 0 14px,rgba(31,95,219,.03) 14px 28px)}
+.en .en-stage::before{left:0}.en .en-stage::after{right:0}
+.en .en-pg{position:absolute;inset:0}
+.en .en-top{position:absolute;left:46px;right:46px;top:120px;display:flex;justify-content:space-between;align-items:center;font:700 21px JBM;letter-spacing:4px;text-transform:uppercase;color:var(--en-blue)}
+.en .en-top b{color:var(--en-ink)}
+.en .en-top .en-cat{padding:8px 16px;border-radius:999px;background:var(--en-ink);color:#fff;letter-spacing:3px}
+.en .en-h{position:absolute;left:46px;right:46px;top:176px;font:400 100px/1 Anton;text-transform:uppercase;white-space:nowrap;text-align:center}
+.en .en-k{position:absolute;left:46px;right:46px;top:290px;text-align:center;font:700 21px JBM;letter-spacing:3px;text-transform:uppercase;color:var(--en-mute);white-space:nowrap}
+.en .en-noms{position:absolute;left:46px;right:46px;top:350px;display:flex;gap:24px}
+.en .en-nm{flex:1;min-width:0;background:#fff;border-radius:22px;padding:16px 22px 18px;box-shadow:0 14px 34px rgba(16,52,130,.14)}
+.en .en-nm>em{display:block;font:700 15px JBM;font-style:normal;letter-spacing:4px;text-transform:uppercase;color:var(--en-mute)}
+.en .en-nt{display:flex;align-items:center;gap:14px;margin-top:8px;height:96px}
+.en .en-nt .badge{width:88px;height:88px;flex-shrink:0}
+.en .en-nt>b{font:400 50px/1.02 Anton;text-transform:uppercase;overflow-wrap:anywhere}
+.en .en-nl{margin-top:10px;font:800 30px/1.25 Manrope;min-height:38px}
+.en .en-pl{display:flex;gap:7px;margin-top:12px}
+.en .en-pl>span{flex:1;height:54px;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;font:400 26px/1 Anton}
+.en .en-pl>span.W{background:#1E9E62}.en .en-pl>span.D{background:#8A97B0}.en .en-pl>span.L{background:#D8434F}
+.en .en-pll{margin-top:6px;font:700 15px JBM;letter-spacing:2px;text-transform:uppercase;color:var(--en-mute)}
+.en .en-km{margin-top:12px;padding-top:10px;border-top:2px solid rgba(11,31,77,.08)}
+.en .en-km>i{display:block;font:700 14px JBM;font-style:normal;letter-spacing:3px;text-transform:uppercase;color:var(--en-blue)}
+.en .en-km>b{display:block;margin-top:3px;font:400 40px/1.05 Anton;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.en .en-km>span{display:block;margin-top:3px;font:700 25px/1.25 Manrope;color:var(--en-mute)}
+.en .en-case{position:absolute;left:46px;right:46px;background:#fff;border-radius:22px;padding:14px 26px 12px;box-shadow:0 14px 34px rgba(16,52,130,.14)}
+.en .en-case>em{display:block;font:700 16px JBM;font-style:normal;letter-spacing:4px;text-transform:uppercase;color:var(--en-blue);margin-bottom:4px}
+.en .en-cr{display:flex;align-items:center;gap:14px;height:68px;border-top:2px solid rgba(11,31,77,.07)}
+.en .en-cr>b{width:130px;font:400 52px/1 Anton;font-variant-numeric:tabular-nums}
+.en .en-cr>b.a{text-align:right}
+.en .en-cm{flex:1;text-align:center}
+.en .en-cm>span{display:block;font:700 19px JBM;letter-spacing:3px;text-transform:uppercase;color:var(--en-mute)}
+.en .en-cb{position:relative;height:12px;margin-top:8px}
+.en .en-cb>i{position:absolute;top:0;height:12px;border-radius:6px;box-shadow:inset 0 0 0 2px rgba(11,31,77,.15)}
+.en .en-cb>i.h{right:50%;margin-right:3px;transform-origin:100% 50%}.en .en-cb>i.a{left:50%;margin-left:3px;transform-origin:0 50%}
+.en .en-np{display:flex;align-items:baseline;gap:14px;padding:12px 0 8px;border-top:2px solid rgba(11,31,77,.07)}
+.en .en-np>i{flex-shrink:0;font:700 15px JBM;font-style:normal;letter-spacing:3px;text-transform:uppercase;color:#fff;background:var(--en-blue);padding:6px 11px;border-radius:9px}
+.en .en-np>span{font:800 29px/1.25 Manrope}
+/* the envelope: back, the card, the front pocket, the flap and its wax seal */
+.en .en-env{position:absolute;left:50%;perspective:1100px}
+.en .en-env>div{position:absolute}
+.en .en-eb{inset:0;border-radius:10px}
+.en .en-ef{inset:0;border-radius:10px;clip-path:polygon(0 0,50% 54%,100% 0,100% 100%,0 100%);box-shadow:inset 0 -6px 0 rgba(0,0,0,.08)}
+.en .en-ef::after{content:'';position:absolute;inset:0;background:linear-gradient(35deg,transparent 49.4%,rgba(255,255,255,.22) 50%,transparent 50.6%),linear-gradient(-35deg,transparent 49.4%,rgba(255,255,255,.22) 50%,transparent 50.6%)}
+.en .en-fl{left:0;right:0;top:0;height:56%;clip-path:polygon(0 0,100% 0,50% 100%);transform-origin:50% 0;backface-visibility:visible}
+.en .en-seal{width:96px;height:96px;margin:-48px 0 0 -48px;left:50%;top:56%;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 14px rgba(0,0,0,.25),inset 0 0 0 6px rgba(255,255,255,.18);z-index:6}
+.en .en-seal>span{font-size:46px;line-height:1}
+.en .en-cd{left:50%;width:480px;height:276px;margin-left:-240px;top:12px;background:#fff;border-radius:16px;padding:18px 24px 16px;box-shadow:0 10px 30px rgba(11,31,77,.25);transform-origin:50% 50%}
+.en .en-cd>small{display:block;font:700 13px JBM;letter-spacing:4px;text-transform:uppercase;color:var(--en-blue)}
+.en .en-cd>b{display:block;margin-top:6px;font:400 40px/1.04 Anton;text-transform:uppercase;min-height:84px}
+.en .en-ls{display:flex;align-items:baseline;gap:10px;margin-top:6px}
+.en .en-ls>em{font:700 13px JBM;font-style:normal;letter-spacing:3px;text-transform:uppercase;color:var(--en-mute)}
+.en .en-ls>span{font:400 34px/1 Anton}
+.en .en-tri{display:flex;gap:4px;height:14px;margin-top:12px}
+.en .en-tri>i{display:block;height:100%;border-radius:5px;box-shadow:inset 0 0 0 1px rgba(11,31,77,.15)}
+.en .en-trl{display:flex;justify-content:space-between;margin-top:6px;font:700 12px JBM;letter-spacing:1px;text-transform:uppercase;color:var(--en-mute)}
+.en .en-trl b{color:var(--en-ink)}
+/* the cold open: night, a spotlight, the envelopes fanning out */
+.en_cold .en-night{position:absolute;inset:0;background:radial-gradient(ellipse 60% 45% at 50% 62%,#2453C2 0%,#0B2A6F 55%,#061848 100%)}
+.en_cold .en-beam{position:absolute;left:190px;right:190px;top:-80px;height:1500px;background:linear-gradient(180deg,rgba(255,255,255,.22),rgba(255,255,255,0));clip-path:polygon(38% 0,62% 0,100% 100%,0 100%)}
+.en_cold .en-cbig{position:absolute;left:0;right:0;top:300px;text-align:center;font:400 170px/1 Anton;color:#fff;text-transform:uppercase;white-space:nowrap}
+.en_cold .en-cbig.red{color:#FF5A6A}
+.en_cold .en-clab{position:absolute;left:0;right:0;top:500px;text-align:center;font:700 26px JBM;letter-spacing:6px;text-transform:uppercase;color:#9CCBFF}
+.en .en-fan{position:absolute;left:0;right:0;top:0;height:0}
+.en .en-fan>.en-env{transform-origin:50% 120%}
+.en .en-mini{position:absolute;display:flex;align-items:center;justify-content:center;font:400 40px/1 Anton;color:#fff;z-index:7;letter-spacing:1px}
+/* the title */
+.en_title .en-t1{position:absolute;left:0;right:0;top:190px;text-align:center;font:400 150px/1 Anton;text-transform:uppercase;white-space:nowrap}
+.en_title .en-t2{position:absolute;left:0;right:0;top:340px;text-align:center;font:400 240px/1 Anton;text-transform:uppercase;white-space:nowrap;color:var(--en-blue)}
+.en_title .en-sub{position:absolute;left:0;right:0;top:610px;text-align:center;font:700 26px JBM;letter-spacing:5px;text-transform:uppercase;color:var(--en-mute)}
+.en .en-run{position:absolute;left:46px;right:46px;top:700px;display:grid;grid-template-columns:repeat(4,1fr);gap:26px 18px}
+.en .en-run>div{display:flex;flex-direction:column;align-items:center;gap:8px}
+.en .en-run>div>.en-env{position:relative;left:auto}
+.en .en-run>div>b{font:400 38px/1 Anton}
+.en .en-run>div>span{font:700 16px JBM;letter-spacing:2px;text-transform:uppercase;color:var(--en-mute);white-space:nowrap}
+/* the end: every envelope open */
+.en_end .en-e1{position:absolute;left:0;right:0;top:170px;text-align:center;font:400 96px/1 Anton;text-transform:uppercase;white-space:nowrap}
+.en_end .en-e1 span{color:var(--en-blue)}
+.en_end .en-grid{position:absolute;left:46px;right:46px;top:300px;display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.en_end .en-mc{background:#fff;border-radius:18px;padding:18px 20px;min-height:200px;box-shadow:0 10px 26px rgba(16,52,130,.14);border-left:12px solid}
+.en_end .en-mc .en-mt{display:flex;align-items:center;gap:8px;font:700 18px JBM;letter-spacing:2px;text-transform:uppercase;color:var(--en-mute)}
+.en_end .en-mc .en-mt .badge{width:52px;height:52px}
+.en_end .en-mc>b{display:block;margin-top:10px;font:400 42px/1.05 Anton;text-transform:uppercase}
+.en_end .en-mc>span{display:block;margin-top:6px;font:700 22px JBM;letter-spacing:1px;color:var(--en-mute)}
+.en_end .en-mc.wide{grid-column:1 / span 2}
+.en_end .en-fol{position:absolute;left:0;right:0;text-align:center}
+.en_end .en-fol b{display:inline-block;padding:16px 30px;border-radius:999px;background:var(--en-ink);color:#fff;font:700 30px JBM;letter-spacing:2px}
+.en_end .en-fol span{display:block;margin-top:12px;font:700 20px JBM;letter-spacing:4px;text-transform:uppercase;color:var(--en-blue)}
+#cap.enc{right:70px}
+#cap.enc .c{color:#fff;background:rgba(11,31,77,.9);padding:10px 26px 12px;border-radius:16px;text-shadow:none}
 /* arrivals (ar_*, first used 8 Oct 2026): the post-match as an airport arrivals board. The morning's analysis flew
    city to city; overnight every game "landed". Split-flap tiles clatter each score in, in the teams' own kit colours; a
    flight path runs from kick-off (take-off) to full time (landing) with the goals as waypoints, and the morning's call
@@ -1284,6 +1376,41 @@ function glDayDraw(el, m, cur, lt) {
 const glTop = (b, stop) => `<div class="gl-top"><span class="gl-chip"><i></i>${html(D.cfg.review?.project || 'Follow the sun')}</span><span>${html(b.top || '')}</span><span class="gl-stop">${html(stop || '')}</span></div>`
 const glStopOf = sc => { const ms = [...new Set(GLS.filter(s => s.type === 'gl_match').map(s => s.data?.match))]; const j = ms.indexOf(sc.data?.match); return j >= 0 ? `Stop ${j + 1} / ${ms.length}` : '' }
 
+// ---- the envelope, please (en_*): the day's games as award categories. Each pick: ko ("13:00"), where ("Thimphu"),
+// flag (emoji, on the wax seal), home_short / away_short, kit as vr_*. The envelope is the home side's colours, the seal
+// the away side's; it opens on the spoken verdict (b.open_at, default: the last line).
+const enCats = () => D.scenes.filter(s => s.type === 'en_game')
+const enFmt = v => v == null ? '–' : String(+(+v).toFixed(2))
+function enEnv(q, o = {}) {
+  const kh = vrKit(q, 'home'), ka = vrKit(q, 'away'), w = o.w || 520, h = o.h || 290, sz = o.seal || 96
+  return `<div class="en-env ${o.cls || ''}" style="width:${w}px;height:${h}px;margin-left:${o.inline ? 0 : -w / 2}px;${o.st || ''}">
+    <div class="en-eb" style="z-index:1;background:${arShade(kh.c, -0.3)}"></div>${o.card || ''}
+    <div class="en-ef" style="z-index:3;background:linear-gradient(165deg,${arShade(kh.c, 0.12)} 0%,${kh.c} 55%,${arShade(kh.c, -0.12)} 100%)"></div>
+    <div class="en-fl" style="z-index:4;background:linear-gradient(180deg,${arShade(kh.c, -0.06)},${arShade(kh.c, -0.2)})"></div>
+    <div class="en-seal" style="width:${sz}px;height:${sz}px;margin:${-sz / 2}px 0 0 ${-sz / 2}px;background:radial-gradient(circle at 35% 30%,${arShade(ka.c, 0.3)},${ka.c} 62%,${arShade(ka.c, -0.3)})"><span style="font-size:${Math.round(sz * 0.48)}px">${q.flag || ''}</span></div></div>`
+}
+const enTri = q => { const kh = vrKit(q, 'home'), ka = vrKit(q, 'away')
+  return `<div class="en-tri"><i style="flex:${q.home_win};background:${kh.bg}"></i><i style="flex:${q.draw};background:#C9D3E6"></i><i style="flex:${q.away_win};background:${ka.bg}"></i></div>
+    <div class="en-trl"><span>${html(vrName(q, 'home'))} <b>${q.home_win}%</b></span><span>Draw <b>${q.draw}%</b></span><span>${html(vrName(q, 'away'))} <b>${q.away_win}%</b></span></div>` }
+const enCard = (q, v) => `<div class="en-cd" style="z-index:2"><small>${html(v.label || 'The verdict')}</small><b>${html(v.text || '')}</b><div class="en-ls"><em>Likeliest score</em><span>${html(v.score || '')}</span></div>${enTri(q)}</div>`
+function enNom(q, side, n = {}) {
+  const kt = vrKit(q, side), f = String(n.form ?? '').toUpperCase().replace(/[^WDL]/g, '').split('').slice(-5)
+  return `<div class="en-nm en-n-${side}" style="border-top:10px solid ${kt.bg}"><em>${html(n.tag || 'Nominee')}</em>
+    <div class="en-nt">${badge(side === 'away' ? q.ba : q.bh)}<b style="color:${vrTx(kt)}">${html(vrName(q, side))}</b></div>
+    <div class="en-nl">${html(n.line || '')}</div>
+    ${f.length ? `<div class="en-pl">${f.map(r => `<span class="${r}">${r}</span>`).join('')}</div><div class="en-pll">${html(n.form_label || 'Last five')}</div>` : ''}
+    ${n.man ? `<div class="en-km"><i>${html(n.man_tag || 'Key man')}</i><b>${html(n.man)}</b><span>${html(n.stat || '')}</span></div>` : ''}</div>`
+}
+function enCase(q, b) {
+  const kh = vrKit(q, 'home'), ka = vrKit(q, 'away')
+  const rows = (b.stats ?? [['Goals a game', q.scored_home, q.scored_away], ['Conceded a game', q.conceded_home, q.conceded_away], ['Expected goals today', q.xg_home, q.xg_away]]).filter(r => r[1] != null && r[2] != null)
+  const st = rows.map(([lab, a, c]) => { const m = Math.max(+a, +c, 0.01)
+    return `<div class="en-cr"><b class="h" style="color:${vrTx(kh)}">${enFmt(a)}</b><div class="en-cm"><span>${html(lab)}</span><div class="en-cb"><i class="h" style="width:${n1(46 * a / m)}%;background:${kh.bg}"></i><i class="a" style="width:${n1(46 * c / m)}%;background:${ka.bg}"></i></div></div><b class="a" style="color:${vrTx(ka)}">${enFmt(c)}</b></div>` })
+  const np = (b.notes || []).map(p => `<div class="en-np"><i>${html(p[0])}</i><span>${html(p[1])}</span></div>`)
+  return `<div class="en-case" style="top:${b.case_top ?? 820}px"><em>${html(b.case_label || 'The case')}</em>${st.join('')}${np.join('')}</div>`
+}
+const enOpenAt = sc => vrT(sc, ...(sc.data?.open_at || [sc.lines.length - 1, 0])) - 0.15
+
 // ---- arrivals (ar_*): the post-match as an airport arrivals board. Each pick: ko ("16:00"), city {name}, kit as vr_*.
 // Split-flap tiles: each character turns through the drum, one step every 50 ms, to its target
 const AR_DRUM = ' ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789:/–-·?½'
@@ -1385,6 +1512,9 @@ D.scenes.forEach(sc => { if (sc.type === 'ar_flight' && sc.data?.match != null) 
 function mkBg(sc, k) {
   if (/^gl_/.test(sc.type)) {        // follow the sun draws its own sky; deep royal blue under the cold open
     const d = document.createElement('div'); d.className = 'bg none'; d.style.background = sc.type === 'gl_cold' ? '#0B2A6F' : '#D6E8FF'; d.style.filter = 'none'; $('#bgs').appendChild(d); return d
+  }
+  if (/^en_/.test(sc.type)) {        // the awards stage draws its own page; deep royal blue under the cold open
+    const d = document.createElement('div'); d.className = 'bg none'; d.style.background = sc.type === 'en_cold' ? '#0B2A6F' : '#DCEBFF'; d.style.filter = 'none'; $('#bgs').appendChild(d); return d
   }
   if (/^ar_/.test(sc.type)) {        // the arrivals hall draws its own page; deep royal blue under the cold open
     const d = document.createElement('div'); d.className = 'bg none'; d.style.background = sc.type === 'ar_cold' ? '#0B2A6F' : '#DCEBFF'; d.style.filter = 'none'; $('#bgs').appendChild(d); return d
@@ -1812,6 +1942,28 @@ const built = D.scenes.map((sc, k) => {
     } else if (sc.type === 'gl_end') {
       el.innerHTML = `<div class="gl-sky"></div>${cv}<div class="gl-pg">${glTop(b, b.stop || '')}<div class="gl-e1">${html(b.l1 || '')}</div><div class="gl-e2">${html(b.l2 || '')}</div>
         <div class="gl-fol"><b>${html(b.follow || 'Follow for the post-match')}</b><span>Football, by the numbers</span></div></div>${glDay()}`
+    }
+  } else if (/^en_/.test(sc.type)) {
+    el.classList.add('en')
+    const q = D.picks[b.match ?? 0] || M, cats = enCats(), ci = cats.indexOf(sc), N = cats.length
+    const top = r => `<div class="en-top"><span>${html(D.cfg.review?.project || 'The envelope, please')}</span>${r}</div>`
+    if (sc.type === 'en_cold') {
+      const fan = D.picks.map(p => enEnv(p, { w: 300, h: 172, seal: 58, cls: 'en-fe', st: `top:${b.fan_top ?? 1000}px` })).join('')
+      el.innerHTML = `<div class="en-night"></div><div class="en-beam"></div><div class="en-cbig"></div><div class="en-clab"></div><div class="en-fan">${fan}</div>`
+    } else if (sc.type === 'en_title') {
+      const run = D.picks.map(p => `<div>${enEnv(p, { w: 220, h: 128, seal: 50, inline: true })}<b>${html(p.ko || p.kickoff || '')}</b><span>${html(p.where || '')}</span></div>`).join('')
+      el.innerHTML = `<div class="en-stage"></div><div class="en-pg">${top(`<b>${html(b.when || '')}</b>`)}<div class="en-t1">${html(b.l1 || 'The envelope,')}</div><div class="en-t2">${html(b.l2 || 'please.')}</div>
+        <div class="en-sub">${html(b.sub || '')}</div><div class="en-run" style="top:${b.run_top ?? 720}px">${run}</div></div>`
+    } else if (sc.type === 'en_game') {
+      el.innerHTML = `<div class="en-stage"></div><div class="en-pg">${top(`<span class="en-cat">Category ${ci + 1} / ${N}</span><b>${html(q.ko || q.kickoff || '')} Lagos</b>`)}
+        <div class="en-h">${html(b.head || '')}</div><div class="en-k">${html(b.kicker || '')}</div>
+        <div class="en-noms">${enNom(q, 'home', b.home)}${enNom(q, 'away', b.away)}</div>${enCase(q, b)}
+        ${enEnv(q, { w: 540, h: 300, cls: 'en-main', st: `top:${b.env_top ?? 1200}px`, card: enCard(q, b.verdict || {}) })}</div>`
+    } else if (sc.type === 'en_end') {
+      const cards = cats.map((s, j) => { const p = D.picks[s.data.match ?? 0] || M, kh = vrKit(p, 'home'), v = s.data.verdict || {}
+        return `<div class="en-mc${j === cats.length - 1 && cats.length % 2 ? ' wide' : ''}" style="border-left-color:${kh.bg}"><div class="en-mt">${badge(p.bh)}${badge(p.ba)}<span>${html(p.ko || '')} · ${html(p.where || '')}</span></div><b>${html(v.short || v.text || '')}</b><span>${html(v.score ? 'Likeliest ' + v.score : '')}</span></div>` }).join('')
+      el.innerHTML = `<div class="en-stage"></div><div class="en-pg">${top(`<b>${html(b.when || '')}</b>`)}<div class="en-e1">${html(b.l1 || '')} <span>${html(b.l2 || '')}</span></div><div class="en-grid">${cards}</div>
+        <div class="en-fol" style="top:${b.fol_top ?? 1260}px"><b>${html(b.follow || 'Follow for the post-match')}</b><span>Football, by the numbers</span></div></div>`
     }
   } else if (/^ar_/.test(sc.type)) {
     el.classList.add('ar')
@@ -2371,6 +2523,43 @@ function draw(k, lt, sc) {
       rise([$('.gl-fol', el)], lt, b.follow_at ? vrT(sc, ...b.follow_at) : L0(last) - 0.1, 0, 20)
       glDayDraw(el, lastKO, null, lt)
     }
+  } else if (/^en_/.test(sc.type)) {
+    const nx = D.scenes[k + 1], pg = $('.en-pg', el)
+    if (pg) { const qi = P(lt, 0, 0.4, E.outCubic), ex = nx && /^en_/.test(nx.type) ? P(lt, sc.dur - 0.22, sc.dur, E.inCubic) : 0
+      pg.style.transform = `translate3d(${n1(-160 * ex)}px,${n1(60 * (1 - qi))}px,0)`; pg.style.opacity = n1(Math.min(1, qi * 1.5) * (1 - 0.9 * ex)) }
+    if (sc.type === 'en_cold') {
+      const steps = b.steps || [], nl = sc.lines.filter(l => lt >= l[0] - 0.08).length, j = Math.max(0, Math.min(steps.length - 1, nl - 1)), st = steps[j] || {}
+      const big = $('.en-cbig', el), lab = $('.en-clab', el), a = S(sc, j)[0] ?? 0
+      if (big._j !== j) { big._j = j; big.textContent = st.big || ''; big.className = 'en-cbig' + (st.tone ? ' ' + st.tone : ''); lab.textContent = st.label || '' }
+      slam(big, lt, a - 0.05, 1.5, 0.28); lab.style.opacity = n1(P(lt, a + 0.15, a + 0.45))
+      if (st.glitch) glitch(big, lt, a + (st.glitch_at || 0.3))
+      const fe = $$('.en-fe', el), n = fe.length
+      fe.forEach((e, i) => { const t0 = 0.3 + i * ((sc.dur - 1.8) / n), q2 = P(lt, t0, t0 + 0.45, E.outBack), c = i - (n - 1) / 2
+        e.style.opacity = lt >= t0 ? 1 : 0; e.style.zIndex = 10 - Math.round(Math.abs(c))
+        e.style.transform = `translate3d(${n1(c * 96)}px,${n1(Math.abs(c) * 16 + 300 * (1 - q2))}px,0) rotate(${n1(c * 8 * q2)}deg)` })
+    } else if (sc.type === 'en_title') {
+      slam($('.en-t1', el), lt, 0.05, 1.6, 0.3); slam($('.en-t2', el), lt, 0.3, 1.8, 0.3); rise([$('.en-sub', el)], lt, 0.7, 0, 20)
+      $$('.en-run>div', el).forEach((d, i) => { const a = 1.0 + i * 0.12, q2 = P(lt, a, a + 0.4, E.outBack); d.style.opacity = lt >= a ? 1 : 0; d.style.transform = `translate3d(0,${n1(80 * (1 - q2))}px,0)` })
+    } else if (sc.type === 'en_game') {
+      rise([$('.en-top', el)], lt, 0.1, 0, 14); slam($('.en-h', el), lt, 0.25, 1.4, 0.3); rise([$('.en-k', el)], lt, 0.45, 0, 16)
+      const nomAt = vrT(sc, ...(b.nom_at || [0, 0.3]))
+      ;[$('.en-n-home', el), $('.en-n-away', el)].forEach((n, i) => { const a = nomAt + i * 0.15, q2 = P(lt, a, a + 0.45, E.outCubic); n.style.opacity = n1(clamp(q2 * 1.5)); n.style.transform = `translate3d(${n1((i ? 1 : -1) * 520 * (1 - q2))}px,0,0)` })
+      const caseAt = vrT(sc, ...(b.case_at || [1, 0])), cs = $('.en-case', el), openT = enOpenAt(sc)
+      cs.style.opacity = n1(P(lt, caseAt - 0.2, caseAt + 0.1) * (1 - 0.88 * P(lt, openT + 0.95, openT + 1.3)))
+      $$('.en-cr', el).forEach((r, i) => { const a = caseAt + i * 0.4, q2 = P(lt, a, a + 0.4, E.outCubic); r.style.opacity = n1(q2); $$('.en-cb>i', r).forEach(x => { x.style.transform = `scaleX(${n1(P(lt, a + 0.1, a + 0.7, E.outCubic))})` }) })
+      $$('.en-np', el).forEach((r, i) => { const nt = (b.notes || [])[i] || [], a = nt[2] != null ? vrT(sc, nt[2], nt[3] || 0) : caseAt + 1.3 + i * 0.4, q2 = P(lt, a, a + 0.4, E.outCubic); r.style.opacity = n1(q2); r.style.transform = `translate3d(${n1(40 * (1 - q2))}px,0,0)` })
+      // the envelope: rises in, waits, then the seal breaks, the flap opens and the verdict slides out to the front
+      const env = $('.en-main', el), eq = P(lt, 0.6, 1.1, E.outBack), fl = $('.en-fl', env), seal = $('.en-seal', env), cd = $('.en-cd', env)
+      env.style.transform = `translate3d(0,${n1(360 * (1 - eq) + (lt < openT ? 4 * Math.sin(lt * 2.4) : 0))}px,0)`
+      const rot = 180 * P(lt, openT, openT + 0.4, E.inOutSine); fl.style.transform = `rotateX(${n1(rot)}deg)`; fl.style.zIndex = rot > 90 ? 0 : 4
+      const sq = P(lt, openT, openT + 0.25); seal.style.opacity = n1(1 - sq); seal.style.transform = `scale(${n1(1 + 0.6 * sq)})`
+      const yB = -430 * P(lt, openT + 0.3, openT + 0.95, E.outCubic), qC = P(lt, openT + 0.95, openT + 1.4, E.outBack)
+      cd.style.transform = `translate3d(0,${n1(yB + 70 * qC)}px,0) scale(${(1 + 0.8 * qC).toFixed(3)})`; cd.style.zIndex = lt >= openT + 0.95 ? 7 : 2
+    } else if (sc.type === 'en_end') {
+      rise([$('.en-top', el)], lt, 0.1, 0, 14); slam($('.en-e1', el), lt, 0.2, 1.5, 0.3)
+      $$('.en-mc', el).forEach((d, i) => { const a = 0.6 + i * 0.12, q2 = P(lt, a, a + 0.4, E.outBack); d.style.opacity = lt >= a ? 1 : 0; d.style.transform = `scale(${n1(0.6 + 0.4 * q2)})` })
+      rise([$('.en-fol', el)], lt, vrT(sc, sc.lines.length - 1, 0), 0, 30)
+    }
   } else if (/^ar_/.test(sc.type)) {
     const L0 = j => S(sc, j)[0] ?? 99, LD = j => S(sc, j)[1] ?? 1, last = sc.lines.length - 1, T = sc.start + lt, nx = D.scenes[k + 1]
     const q = D.picks[b.match ?? 0] || M
@@ -2486,7 +2675,7 @@ const stampAt = sc => sc.data?.stamp_at ?? Math.max(1.2, (S(sc, sc.lines.length 
 function fxCinematic() {
   const ev = [], add = (t, sfx, db, o = {}) => ev.push({ t: +Math.max(0, t).toFixed(3), sfx, db, ...o }), syn = (t, type, gain) => ev.push({ t: +t.toFixed(3), type, ...(gain ? { gain } : {}) })
   D.scenes.forEach((sc, k) => {
-    const T = sc.start, b = sc.data || {}, at = j => T + S(sc, j)[0], next = D.scenes[k + 1], drop = /_intro$|_hook$|^(bp|vr|gl|ar)_title$/.test(sc.type) && b.drop
+    const T = sc.start, b = sc.data || {}, at = j => T + S(sc, j)[0], next = D.scenes[k + 1], drop = /_intro$|_hook$|^(bp|vr|gl|ar|en)_title$/.test(sc.type) && b.drop
     if (k > 0 && !drop && !b.hard_cut) add(T, k % 2 ? '1492' : '2636', k % 2 ? -12 : -14, { align: 'peak' })
     if (sc.type === 'rx_cold') {
       const steps = b.steps || []
@@ -2609,6 +2798,19 @@ function fxCinematic() {
     if (sc.type === 'gl_match') { add(T + 0.08, '3115', -10); add(T + 1.18, '1143', -11); add(T + 1.2, '2299', -9); (b.points || []).forEach((p, j) => add(T + (p[2] != null ? vrT(sc, p[2], p[3] || 0) : (S(sc, Math.min(j + 1, lastL))[0] ?? 2)) - 0.1, '3124', -14)) }
     if (sc.type === 'gl_deep') ['form', 'table', 'men', 'read'].forEach((kk, j) => { if (b[kk]) add(T + glBlockAt(sc, kk, j), '2573', -13) })
     if (sc.type === 'gl_end') { add(T + 0.35, '2909', -8); add(T + 0.4, '2299', -7); add(T + 0.6, '2847', -18, { max: 1.6 }) }
+    // the envelope, please: paper, a wax seal breaking, the verdict landing
+    if (sc.type === 'en_cold') {
+      add(T, '497', -14, { align: 'start', max: Math.max(1, sc.dur - 0.2) })
+      sc.lines.forEach((_, j) => { add(at(j) - 0.05, '2909', j ? -11 : -6); add(at(j) - 0.05, '2299', j ? -13 : -8) })
+      D.picks.forEach((_, i) => syn(T + 0.3 + i * ((sc.dur - 1.8) / D.picks.length), 'paper', 0.4))
+      if (next?.data?.drop) add(next.start, '2908', -6, { reverse: true, max: 2.6, align: 'end' })
+    }
+    if (sc.type === 'en_title') D.picks.forEach((_, i) => syn(T + 1.0 + i * 0.12, 'paper', 0.28))
+    if (sc.type === 'en_game') {
+      const o = T + enOpenAt(sc); syn(T + 0.6, 'paper', 0.3); add(T + vrT(sc, ...(b.nom_at || [0, 0.3])), '3115', -15)
+      syn(o, 'seal', 0.9); syn(o + 0.3, 'paper', 0.8); add(o + 0.95, '2909', -13); add(o + 1.0, '871', -15)
+    }
+    if (sc.type === 'en_end') { add(T + 0.2, '2909', -8); add(T + 0.25, '2299', -8); enCats().forEach((_, i) => syn(T + 0.6 + i * 0.12, 'paper', 0.22)) }
     // arrivals: the hall, the chime, the flaps clattering, a jet landing at full time, a stamp on every boarding pass
     if (sc.type === 'ar_cold') {
       add(T, '357', -22, { align: 'start', max: Math.max(1, sc.dur - 0.2) }); add(T, '497', -16, { align: 'start', max: Math.max(1, sc.dur - 0.2) })
@@ -2712,7 +2914,7 @@ window.renderAt = async function (t) {
   else pr.style.display = 'none'
   const BOX = !!D.cfg.presenter?.box
   pr.classList.toggle('box', BOX); pr.classList.toggle('still', !!sc.pres?.still); $('#ptag').style.display = sc.pres && BOX ? 'flex' : 'none'
-  const NPg = /^np_/.test(sc.type), BPg = /^bp_/.test(sc.type), VRg = /^(vr|gl|ar)_/.test(sc.type), GLg = /^gl_/.test(sc.type)
+  const NPg = /^np_/.test(sc.type), BPg = /^bp_/.test(sc.type), VRg = /^(vr|gl|ar|en)_/.test(sc.type), GLg = /^gl_/.test(sc.type)
   $('#stage').classList.toggle('vrl', VRg && !/_cold$/.test(sc.type))
   $('#tint').style.opacity = memeLike || NPg || BPg || VRg ? 0 : b.style === 'pov' ? 0.55 : 1
   $('#vig').style.opacity = memeLike || (VRg && !/_cold$/.test(sc.type)) ? 0 : 1
@@ -2728,7 +2930,7 @@ window.renderAt = async function (t) {
 
   // cut flash, in time with the whoosh (memes cut hard: no flash)
   let fl = 0
-  for (let j = 1; j < D.scenes.length; j++) { const d = t - D.scenes[j].start, ty = D.scenes[j].type; if (d >= 0 && d < 0.3 && ty !== 'rv_meme' && !(/^(bp|vr|gl|ar)_/.test(ty) && !['bp_title', 'vr_title', 'gl_title', 'ar_title'].includes(ty))) fl = Math.max(fl, 0.5 * (1 - d / 0.3)) }
+  for (let j = 1; j < D.scenes.length; j++) { const d = t - D.scenes[j].start, ty = D.scenes[j].type; if (d >= 0 && d < 0.3 && ty !== 'rv_meme' && !(/^(bp|vr|gl|ar|en)_/.test(ty) && !['bp_title', 'vr_title', 'gl_title', 'ar_title', 'en_title'].includes(ty))) fl = Math.max(fl, 0.5 * (1 - d / 0.3)) }
   const hk = D.scenes.find(s => s.type === 'rv_hook'); if (hk && t - hk.start > 0.38 && t - hk.start < 0.7) fl = Math.max(fl, 0.7 * (1 - (t - hk.start - 0.38) / 0.32))
   $('#flash').style.opacity = fl
 
@@ -2745,8 +2947,9 @@ window.renderAt = async function (t) {
   }
   capEl.className = (D.cfg.caption_style === 'bold' ? 'bold' : '') + (BPg ? ' bpc' : '') + (VRg ? ' vrc' : '')
   capEl.style.top = memeLike ? '1500px' : sc.pres ? (D.cfg.presenter?.box ? '1450px' : '1330px') : '1474px'
-  $('#hdr').style.display = /^(rx|pm|np|bp|vr|gl|ar)_/.test(sc.type) ? 'none' : ''
+  $('#hdr').style.display = /^(rx|pm|np|bp|vr|gl|ar|en)_/.test(sc.type) ? 'none' : ''
   if (NPg || BPg || VRg) capEl.style.top = '1478px'
+  if (/^en_/.test(sc.type)) capEl.style.top = '1590px'
   if (wait) await wait
 }
 

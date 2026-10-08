@@ -198,7 +198,7 @@ export function buildScenes(cfg, picks, recap) {
 // Post-match review / reaction: every screen is a beat written for this match (cfg.review.beats), so no two videos
 // run the same way. A beat: { type: hook|moment|meme|stats|read|table|ratings|cta, say: [lines], clip, sticker, burst, … }
 function buildReviewScenes(cfg) {
-  return (cfg.review?.beats || []).map(b => ({ type: (/^(rx|pm|np|bp|vr|gl|ar)_/.test(b.type) ? '' : 'rv_') + b.type, i: b.match ?? 0, say: (b.say || []).map(WS), data: b, hold: b.hold }))
+  return (cfg.review?.beats || []).map(b => ({ type: (/^(rx|pm|np|bp|vr|gl|ar|en)_/.test(b.type) ? '' : 'rv_') + b.type, i: b.match ?? 0, say: (b.say || []).map(WS), data: b, hold: b.hold }))
 }
 
 // Motion-graphics explainer (any topic, e.g. how a product works): every screen is a beat in cfg.explainer.beats,
