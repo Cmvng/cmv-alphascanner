@@ -1,0 +1,79 @@
+{
+ "mode": "explainer",
+ "title": "Fungo Labs: a hype edit (fan edit for the whitelist)",
+ "competition": "Explainer",
+ "date": "2026-10-08",
+ "voice": false,
+ "sound": "cinematic",
+ "music_track": 370,
+ "music_drop": "after_cold",
+ "explainer": {
+  "foot": "Fan edit by @i_am_vickyd · not affiliated with Fungo Labs",
+  "chapters": {},
+  "brand": {
+   "name": "Fungo Labs",
+   "primary": "#FFD207",
+   "primary2": "#FFE25C",
+   "ink": "#0B0B10",
+   "cream": "#F4F1EA",
+   "ok": "#7EE2A8",
+   "warn": "#FFB547",
+   "bad": "#FF7A6B",
+   "source": "fungolabs.org stylesheet and favicon.svg; art sampled from their teaser videos (6 Oct)",
+   "art": {
+    "red": "../brand/fungo-red.png",
+    "green": "../brand/fungo-green.png",
+    "king": "../brand/fungo-king.png",
+    "robot": "../brand/fungo-robot.png"
+   },
+   "art_bg": {
+    "red": "#2D3659",
+    "green": "#2D3659",
+    "king": "#225A4F",
+    "robot": "#61262E"
+   }
+  },
+  "beats": [
+   {
+    "type": "hy_cold",
+    "hold": 4.0,
+    "l1": "I know a",
+    "l2": "secret."
+   },
+   {
+    "type": "hy_reel",
+    "hold": 23.5,
+    "tagline": "Encrypted NFTs on Ethereum",
+    "built": "Built with FHE on <b>Zama</b>",
+    "not_even": "Not even the team.",
+    "ask": "Are you in?",
+    "wl_title": "Fungo Labs whitelist",
+    "wl_left": "About 20% filled",
+    "wl_right": "Reviews ongoing",
+    "fill": 20,
+    "me": "@i_am_vickyd · applied ✓",
+    "credit": "A fan edit for <b>@FungoLabs</b> · by @i_am_vickyd"
+   }
+  ],
+  "hits": [
+   0,
+   1.5,
+   2,
+   4,
+   5.5,
+   6,
+   8,
+   9.5,
+   10,
+   12,
+   13.5,
+   14,
+   16,
+   17.5,
+   18,
+   20,
+   21.5,
+   22
+  ]
+ }
+}
