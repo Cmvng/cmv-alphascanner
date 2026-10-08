@@ -24,6 +24,59 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
+## 8 Oct: post-match, "Arrivals" (the 7 Oct games as an arrivals board, 2:17)
+
+- **Before writing:** read the last three entries' "Change next time" lines and applied them:
+  - every new class starts `ar-`, and I grepped the page for `ar-` before the first stills;
+  - the config is named `postmatch-…`, so its render folder can't be a source folder;
+  - long renders run with a two-hour limit;
+  - the track's build (36 s) is longer than the cold open, and there's 1.1 s of silence before the drop;
+  - the subject's colours on the big things (score tiles in kit colours, the city in the home side's colour, the
+    flight path in the leading side's colour);
+  - the chat copy plus the download page.
+- **What worked:**
+  - **The idea pays off the morning.** The analysis flew city to city around a globe, so the post-match is the arrivals
+    board: every game a flight that landed overnight. Same story, a new look.
+  - **The flight path is the match.** The plane flies kick-off to full time through the goals, the score tiles flip as
+    it passes each one, and the flown path takes the colour of whoever was ahead (grey while level). Inter's route is
+    red all the way; the 0–0s stay grey.
+  - **The boarding pass makes our call concrete.** The morning's verdict is printed on the pass, "Final" flips to the
+    score at landing, and the stamp lands on the last word.
+  - **The whole slate, every verdict spoken,** with the honest ones: a half right (the hoodoo broke even though 3SC
+    didn't lose) and two misses.
+  - **Research in three parallel agents by region,** each with dated sources. Where reports disagreed (a scorer's name,
+    a minute, who hit the post), the video leaves it out or uses the version two sources share.
+  - **Sound:** an airport chime, the hall, a synthesised flap clatter and a jet landing at every full time.
+- **Mistakes, and how they got through:**
+  1. **`.ar-pl` named two different things** (the plane in the SVG and the pass's left block). It worked only because
+     the plane came first in the page. Renamed the pass block `ar-pleft`. The grep caught the prefix, not duplicates
+     within it.
+  2. **The stamp covered our call** on the first stills; then the "Final" tiles stacked vertically because
+     `.ar-fields div` also matched the tile row's div. That's the child-selector lesson again (`>`).
+  3. **`q` was undefined in the draw code** (the pass's final score). The stills run caught it before any render.
+  4. **The first render measured 80% blue.** The flight path was blue on every flight. The leading side's colour on the
+     path and the home colour on the city brought it to 77%.
+  5. **Mishearings:**
+     - "Ibadan:" at the start of a line was heard as "He bought on". "In Ibadan, …" fixed it.
+     - "volleyed" was heard as "volide". Changed to "won it with a volley".
+     - André was heard as "Andrei". IPA added; now heard as "Andra", which is close to the Portuguese.
+     - The rest are spellings (Zamalik, Mercia, Bellouise dad, Coops for KuPS, which is right).
+  6. **Inter's screen runs 19.3 s** (three lines for the headline game). Left as it is.
+  7. **The final review** (sent):
+     - the length is 137.0 s, under X's 140 s;
+     - the drop rises +8.6 dB;
+     - true peak −3.4 dB;
+     - the colour mix is blue 77%, red 13%.
+- **Change next time:**
+  - Check new class names for duplicates within the prefix, not only for clashes with old names.
+  - A flight path, scrub bar or progress line takes the subject's colour (who's ahead), never our blue.
+  - Start a sentence with a place name only after a word ("In Ibadan, …"): alone it's misheard.
+  - The drop: +8.6 dB with 1.1 s of silence on this track. For a harder hit, choose a track whose drop jumps more, or
+    cut the build's last bar.
+- **The owner's reaction:** (waiting)
+
+---
+
 ## 7 Oct: explainer, "Copy skill. Not luck." (CopyFomo, copying Fomo traders on Telegram; 2:59)
 
 - **Before writing:** read the last three entries' "Change next time" lines and applied them:
