@@ -322,6 +322,9 @@ Run it in the background. It takes about 5–8 minutes; the first run in a new s
   eye; fix wrong ones with IPA in `SAY_IPA`. `node video/make-video.mjs <file> --say-check` prints it alone.
 - **Frames:** pull 4–6 with ffmpeg (opening, a pick card, the slate or totals, the last card), put them in one contact sheet and look. Check for overlapping text, a missing stadium or crest, or a wrong name.
 - **Voice:** transcribe the final audio with faster-whisper (`base.en`) and compare it with the script. Fix any name the voice gets wrong in `SAY_NAMES` in `video/lib/narration.mjs`, then re-render.
+- **Send the write-up too (the owner, 8 Oct: "Where is the write up").** With every analysis video, write
+  `<slug>-write-up.md` (each game: the setting, form, team news, key men, the numbers, the verdict, then a table of all
+  verdicts; no betting words) and send it and the post kit as files with the video. Naming a path is not sending.
 - **Send:** send the `SEND` file with SendUserFile (`display: render`). In a few short, plain-English lines, say which session it covers and list the picks; for results, won/lost and the money. Mention anything left out. Offer the caption from `script.txt` and the credits from `credits.txt`.
 
 ## If it fails

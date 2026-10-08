@@ -65,7 +65,10 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 - **Final review** (sent): 199.9 s; the drop rises +7.2 dB; true peak −3.5 dB; blue 52%, red 26%. The remaining
   "heard differently" lines are spellings only (Nasaji, Satif, Zobahan, digits for scores).
 - **Sent:** the chat copy (27.9 MB), and a download page with the full file (59.8 MB) and the two X parts (1:54, 1:26).
-- **The owner's reaction:** (waiting)
+- **The owner's reaction:** "Where is the write up". I had only named the post kit's path. Sent a full per-game
+  write-up and the post kit as files; the skill now says to send both with every analysis video.
+  - While writing it, I found that the on-screen note for the Cluj derby says "5 CFR players ill". The source says six
+    were ill and five are unlikely to play. The voice says it correctly ("five players are unlikely to play").
 
 ---
 
