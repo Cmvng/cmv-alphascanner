@@ -138,3 +138,32 @@ Labs clip.
   every app piece. Bot screens are labelled "redrawn from the docs", and example trades are labelled as examples.
 - **Words with numbers in them:** the timing regex matches the caption's words, which show digits ("$33.1", "78%"),
   not the spoken words. Match the digits, or rely on the fallback fraction.
+
+## Another format: "Planet Fungo" (`nd_*`, a nature-documentary fan film, 8 Oct 2026)
+
+Template: `fungolabs-planet-2026-10-08.json` (sources in `video/out/explainer-fungolabs-planet-2026-10-08-sources.md`).
+The owner asked for "a dope fun video" for Fungo Labs' whitelist. Instead of explaining the product again, it continues
+the project's own latest clip (the bear whispers a secret, the bunny zips its mouth) as a wildlife documentary.
+- **The voice:** `bm_george` (a British male Kokoro voice, `en-gb`) at 0.95, hushed and slow, like a wildlife film.
+- **The look:** pixel art drawn as SVG (crisp edges). Night in deep royal blue for the cold open, then a light morning sky.
+  The island (grass, stepped earth), their yellow mushrooms and the Z block are drawn once. The bunny and the bear are
+  hand-drawn fan art, with faces that can be swapped (`ndFace(eyes, mouth)`) and a zipper drawn tooth by tooth
+  (`ndZip`). Their own four creatures come from `explainer.brand.art`.
+- **The documentary frame:**
+  - a "Night cam" tag and a running timecode (`clock`);
+  - a lower third for each "species" in made-up Latin (`l3: [name, latin]`, `l3_at`, `l3_hold`);
+  - pixel speech bubbles (`ndBub`; tails `nd-tail-l` / `nd-tail-r`).
+- **Beats:**
+  - `nd_cold`: the whisper (ciphertext in the bubble), the gasp, the zip in the tail;
+  - `nd_title`: sunrise and the title on the drop;
+  - `nd_whale`: a bag of money and a sad trombone;
+  - `nd_bot`: a scan beam, a read-out (`term` rows; `hex` rows scramble) and "READ: DENIED";
+  - `nd_crowd`: their cats and king drop in to a sealed listing;
+  - `nd_makers`: their quote on a yellow card;
+  - `nd_holder`: a close-up, the unzip, the holder's card, the tagline;
+  - `nd_end`: the whitelist bar and the owner's application.
+- **Sound:** night crickets (Mixkit 1789), a whisper (302), a cartoon gasp (967), a synthesised zipper (`zip` in
+  `audio.py`), a boing (2894), bubbles (729), a sad trombone (744), computer sounds (3122, 2847), a meow (92) and a fairy
+  sparkle (871).
+- **The betting-word check runs here too:** their site's "Nobody picks what you get" was flagged ("picks"), so the video
+  quotes their 6 Oct post, "Nobody gets to choose. Not even us."

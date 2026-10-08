@@ -52,7 +52,7 @@
     ],
     "say": [
      "Night, on the island of Fungo.",
-     "And here, something rarely caught on camera.",
+     "And here, something almost never caught on camera.",
      "A secret, being passed."
     ],
     "pauses": [
@@ -303,7 +303,11 @@
      "creature",
      0
     ],
-    "l3_hold": 2.4
+    "l3_hold": 2.4,
+    "pauses": [
+     0.2,
+     1.8
+    ]
    },
    {
     "type": "nd_end",

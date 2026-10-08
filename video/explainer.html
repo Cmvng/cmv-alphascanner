@@ -769,7 +769,7 @@ svg.pti{display:block}
 .ex_nd_bot .nd-den span{display:inline-block;padding:10px 30px;border:9px solid #E5293F;color:#E5293F;background:rgba(255,255,255,.9);font:400 92px/1 Anton;letter-spacing:4px;transform:rotate(-6deg)}
 /* the marketplace listing */
 .ex_nd_crowd .nd-lst{position:absolute;left:250px;width:580px;top:220px;background:#fff;border:8px solid var(--nd-ink);z-index:20;opacity:0}
-.ex_nd_crowd .nd-lst .nd-art{height:380px;background:var(--nd-ink);display:flex;align-items:center;justify-content:center}
+.ex_nd_crowd .nd-lst .nd-art{height:300px;background:var(--nd-ink);display:flex;align-items:center;justify-content:center}
 .ex_nd_crowd .nd-lst .nd-art .bm{width:240px;height:240px}
 .ex_nd_crowd .nd-lst .nd-rw{display:flex;justify-content:space-between;padding:16px 24px;border-top:4px solid #E4E8F0;font:700 28px JBM;color:var(--nd-ink)}
 .ex_nd_crowd .nd-lst .nd-rw b{font-weight:700}
@@ -1824,7 +1824,7 @@ function buildND(el, sc, b) {
   } else if (sc.type === 'ex_nd_crowd') {
     cast = shadow(60, 224) + shadow(320, 224) + shadow(590, 224) + shadow(830, 200) + ndArt('red', 224) + ndArt('green', 224) + ndArt('king', 224) + ndBunny('nd-b1 nd-sm')
     over = `<div class="nd-lst"><div class="nd-hd">${html(b.title || 'Listing')}</div><div class="nd-art">${brandMark()}</div>${(b.rows || []).map(r => `<div class="nd-rw ${r[2] || ''}"><span>${html(r[0])}</span><b>${html(r[1])}</b></div>`).join('')}</div>
-      ${ndBub('nd-c1', 90, 890, '?')}${ndBub('nd-c2', 360, 870, '??')}${ndBub('nd-c3', 630, 890, '…')}`
+      ${ndBub('nd-c1', 90, 878, '?')}${ndBub('nd-c2', 360, 862, '??')}${ndBub('nd-c3', 630, 878, '…')}`
   } else if (sc.type === 'ex_nd_makers') {
     cast = shadow(780, 224) + ndBunny('nd-b1')
     over = `<div class="nd-q">${brandMark()}<p>${html(b.quote || '')}</p><small>${html(b.who || '')}</small></div>`
