@@ -61,7 +61,17 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
     (`grep -o 'nd-[a-z0-9-]*' | sort | uniq -c`, then look at each).
   - Run the betting-word check on quotes before writing them into the script.
   - Any card that carries a point needs about 2 s on screen: check it against the line timings, not only on stills.
-- **The owner's reaction:** (waiting)
+- **The owner's reaction:** "What is this man…. This is worse.. What's the voice over... What's the idea.... This is like
+  a 1/10".
+  - **The ask was "a dope fun video".** I made a slow, narrated parody: 71 s, with a hushed AI narrator. Fun and dope mean
+    energy: music-led, beat-cut, short. I never checked the concept against the word "dope".
+  - **The voice:** a new AI voice (bm_george), played to nobody before I relied on it, and slow on purpose. The rule for
+    new soundtracks (play them to the owner first) applies to new voices too.
+  - **The idea:** a documentary parody needs a viewer who gets the joke in the first second. The opening was 10 s of
+    night and narration.
+  - **The look:** flat pixel sprites drawn in code, next to Fungo Labs' polished 3D voxel clip, looked cheap.
+  - **I ignored the reference the owner had sent the day before:** Fungo Labs' own "Are you in?" clip, called "cool": no
+    voice, 17 s, black and yellow, a product acted out with a camera that follows it. That was the brief.
 
 ---
 

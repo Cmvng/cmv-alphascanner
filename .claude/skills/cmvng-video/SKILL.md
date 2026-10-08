@@ -41,6 +41,19 @@ To see which sessions exist: `node video/from-app.mjs --list`.
 
 Read the printed lines: every single with its pick, price, us % and book %, and for results won/lost and the score. Note any `left out:` lines to tell the owner.
 
+## "Fun", "dope", hype or whitelist videos for a project (the owner, 8 Oct: "This is like a 1/10")
+
+When the owner asks for a fun or dope video about a project (a whitelist entry, community content), it is not an
+explainer and not a parody:
+- **No AI narrator.** It's music-led: 15–35 s, cut on the beat, with kinetic type and sound design. A voice only if the owner
+  records it.
+- **Start from the references the owner liked,** above all the project's own clips (Fungo Labs' "Are you in?": the
+  product acted out, a camera that follows the cursor, a strict palette, 17 s). Say which reference it builds on.
+- **The project's own look at its own quality bar.** If their art is polished 3D, don't put flat home-made sprites next
+  to it.
+- **The hook in the first second,** a payoff at the end, and the owner's handle on the end card.
+- **Never rely on a new voice or soundtrack the owner hasn't heard.** Send a 10-second sample first.
+
 ## Match previews (for X and YouTube: no betting at all)
 
 Tips videos don't earn on YouTube or X. A preview is football analysis only, so it can be monetised:
