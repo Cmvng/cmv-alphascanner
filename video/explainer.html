@@ -2175,10 +2175,9 @@ function drawHY(el, lt, sc, b) {
 function fxHY(add, sc, T, next, syn) {
   if (sc.type === 'ex_hy_cold') {
     add(T + 0.35, '302', -12, { max: 1.4 }); add(T + 1.0, '2894', -14); add(T + 1.5, '967', -8)
-    add(T + 2.0, '2909', -17); add(T + 2.5, '2909', -14); add(T + 2.5, '2299', -15)
+    add(T + 2.0, '2909', -21); add(T + 2.5, '2909', -18); add(T + 2.5, '2299', -19)
     syn(T + 2.75, 'zip', 0.5); syn(T + 3.0, 'zip', 0.9); add(T + 3.0, '2636', -17)
-    if (next?.data?.drop) add(next.start, '2908', -7, { reverse: true, max: 1.2, align: 'end' })
-    return
+    return                                             // no swell into the drop: the gap stays silent so the drop hits
   }
   // the reel: an impact on every bar's first kick, sweeps and ticks on the others
   for (const h of HY_HITS) {

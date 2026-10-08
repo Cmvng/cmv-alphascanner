@@ -76,5 +76,9 @@
    22
   ]
  },
- "music_gap": 0.5
+ "music_gap": 0.5,
+ "music_muffle": {
+  "hz": 650,
+  "db": 0
+ }
 }

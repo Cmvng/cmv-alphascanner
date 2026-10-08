@@ -282,6 +282,7 @@ if (music?.drop != null && cfg.music_drop) {
     music.start = music.drop - scenes[k].start
     const last = scenes[k - 1].sentences.at(-1)
     music.cuts = last ? [[last.start + last.dur + 0.03, scenes[k].start]] : cfg.music_gap ? [[scenes[k].start - cfg.music_gap, scenes[k].start]] : []     // no voice: a set gap of silence before the drop
+    music.muffleUntil = scenes[k].start
     console.log(`Music drop at ${scenes[k].start.toFixed(2)}s (start of "${scenes[k].type}"), track from ${music.start.toFixed(2)}s`)
   }
 }
@@ -457,7 +458,8 @@ fs.writeFileSync(path.join(OUT, 'segments.txt'), segs.map(f => `file '${f}'`).jo
 const final = flag('out', null) || path.join(OUT, `${slug}.mp4`)
 fs.writeFileSync(path.join(OUT, 'timeline.json'), JSON.stringify({
   duration: DURATION, sentences: durs ? scenes.flatMap(s => s.sentences) : [], fx,
-  music: music ? { file: music.file, start: music.start, ...(music.drop != null ? { ref: 'loud', duck: cfg.music_duck ?? 8, level: cfg.music_level ?? 0, cuts: music.cuts || [], loop: music.loop } : {}) } : null,
+  music: music ? { file: music.file, start: music.start, ...(music.drop != null ? { ref: 'loud', duck: cfg.music_duck ?? 8, level: cfg.music_level ?? 0, cuts: music.cuts || [], loop: music.loop } : {}),
+    ...(cfg.music_muffle && music.muffleUntil ? { muffle: { until: music.muffleUntil, hz: cfg.music_muffle.hz ?? 700, db: cfg.music_muffle.db ?? 0 } } : {}) } : null,     // the build sounds far away until the drop
   ...(cfg.sound === 'cinematic' ? { limiter: 'peak' } : {}),
 }))
 await run(PY, [path.join(DIR, 'audio.py'), 'mix', path.join(OUT, 'timeline.json'), path.join(OUT, 'mix.wav')])

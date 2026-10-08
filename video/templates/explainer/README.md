@@ -167,3 +167,19 @@ the project's own latest clip (the bear whispers a secret, the bunny zips its mo
   sparkle (871).
 - **The betting-word check runs here too:** their site's "Nobody picks what you get" was flagged ("picks"), so the video
   quotes their 6 Oct post, "Nobody gets to choose. Not even us."
+
+## Another format: the hype edit (`hy_*`, no voice, 8 Oct 2026)
+
+Template: `fungolabs-hype-2026-10-08.json`. The owner's pick after "Planet Fungo" scored 1/10: a fun or "dope" video is
+music-led, not narrated.
+- **Two scenes:**
+  - `hy_cold` (`hold` 4.0): the hook, the bunny and "I KNOW A SECRET.", then a giant zipper shuts the screen;
+  - `hy_reel` (`hold` 23.5): one scene holding seven shots (logo, sealed, choose, seen, known, wl, end), each timed in
+    seconds after the drop.
+- **The hits:** `explainer.hits` lists the track's kicks in seconds after the drop. Map them from the track's loudness
+  first. Sparta: 0, 1.5, 2, 4, 5.5, 6, … and a dead stop from 15.0 to 16.0. Slams, shakes and flashes land on them.
+- **Light and dark:** shots with `hy-lite` get a light-blue page, so the big hits cut light and dark.
+- **Sound without a voice:**
+  - `voice: false`;
+  - `music_gap` (seconds of silence before the drop);
+  - `music_muffle` ({hz, db}: the build sounds far away until the drop).

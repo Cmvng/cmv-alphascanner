@@ -24,6 +24,33 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
+## 8 Oct: hype edit for Fungo Labs (the redo, 0:28, no voice)
+
+- **Before building:** the owner picked a direction from four concrete options (a hype edit). This is the rule I added
+  after the 1/10: music-led, short, cut on the beat, in the subject's own look, the owner's handle at the end.
+- **What worked:**
+  - **Cut to the track itself.** I mapped Sparta's loudness: a drop at 32.0 s, hits every two seconds, and a dead stop
+    at 47.0 s. Every slam lands on a kick, and the stop becomes the "KNOWN BY ONE." beat.
+  - **One device ties it together:** a giant zipper seals the screen before the drop, bursts open on their logo, and
+    seals it again on the owner's handle.
+  - **Light and deep-blue shots alternate on the big hits,** so the colour mix fell from 90% blue to 75%.
+- **Mistakes, and how they got through:**
+  1. **True peak +4 dBTP.** Not the mix: ffmpeg's AAC encoder overshot on one frame when fed float audio. The master is
+     now a float WAV, and `lib/fix_tp.py` measures every encode (the full file and the chat copy) and re-encodes from
+     the clean source until it is under −1. Final: −2.4 dBTP for the full file, −1.4 for the chat copy.
+  2. **The drop rose only +1.8 dB:** the hook's hits were as loud as the drop, and a reverse swell filled the gap. The fix:
+     quieter hook hits, no swell, half a second of silence (`music_gap`), and a muffled build (`music_muffle`). Now
+     +6.4 dB, plus the jump from muffled to full brightness.
+  3. **90% blue on the first render:** a deep blue background on every shot. Light shots on the big hits fixed it.
+  4. **Light shots showed blue edges when the camera shook.** The light layer is now oversized.
+- **Change next time:**
+  - With no voice, the build before the drop must be clearly quieter or muffled, with a real gap.
+  - Alternate light and dark on the big beats from the first draft.
+  - Trust `fix_tp.py`, but read its line in the log.
+- **The owner's reaction:** (waiting)
+
+---
+
 ## 8 Oct: fan film, "Planet Fungo, Episode 2: The Secret" (Fungo Labs whitelist, 1:11)
 
 - **Before writing:** read the last three entries' "Change next time" lines and applied them:
