@@ -1956,7 +1956,7 @@ const built = D.scenes.map((sc, k) => {
         <div class="en-sub">${html(b.sub || '')}</div><div class="en-run" style="top:${b.run_top ?? 720}px">${run}</div></div>`
     } else if (sc.type === 'en_game') {
       el.innerHTML = `<div class="en-stage"></div><div class="en-pg">${top(`<span class="en-cat">Category ${ci + 1} / ${N}</span><b>${html(q.ko || q.kickoff || '')} Lagos</b>`)}
-        <div class="en-h">${html(b.head || '')}</div><div class="en-k">${html(b.kicker || '')}</div>
+        <div class="en-h" style="font-size:${Math.min(100, Math.floor(988 / (0.45 * Math.max(1, [...(b.head || '')].length))))}px">${html(b.head || '')}</div><div class="en-k">${html(b.kicker || '')}</div>
         <div class="en-noms">${enNom(q, 'home', b.home)}${enNom(q, 'away', b.away)}</div>${enCase(q, b)}
         ${enEnv(q, { w: 540, h: 300, cls: 'en-main', st: `top:${b.env_top ?? 1200}px`, card: enCard(q, b.verdict || {}) })}</div>`
     } else if (sc.type === 'en_end') {
@@ -2530,7 +2530,7 @@ function draw(k, lt, sc) {
     if (sc.type === 'en_cold') {
       const steps = b.steps || [], nl = sc.lines.filter(l => lt >= l[0] - 0.08).length, j = Math.max(0, Math.min(steps.length - 1, nl - 1)), st = steps[j] || {}
       const big = $('.en-cbig', el), lab = $('.en-clab', el), a = S(sc, j)[0] ?? 0
-      if (big._j !== j) { big._j = j; big.textContent = st.big || ''; big.className = 'en-cbig' + (st.tone ? ' ' + st.tone : ''); lab.textContent = st.label || '' }
+      if (big._j !== j) { big._j = j; big.textContent = st.big || ''; big.className = 'en-cbig' + (st.tone ? ' ' + st.tone : ''); lab.textContent = st.label || ''; big.style.fontSize = Math.min(170, Math.floor(980 / (0.47 * Math.max(1, [...(st.big || '')].length)))) + 'px' }
       slam(big, lt, a - 0.05, 1.5, 0.28); lab.style.opacity = n1(P(lt, a + 0.15, a + 0.45))
       if (st.glitch) glitch(big, lt, a + (st.glitch_at || 0.3))
       const fe = $$('.en-fe', el), n = fe.length

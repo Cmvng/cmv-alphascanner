@@ -1,0 +1,652 @@
+{
+ "mode": "review",
+ "title": "The envelope, please: today's games, 8 Oct",
+ "competition": "Football",
+ "date": "2026-10-08",
+ "sound": "cinematic",
+ "voice_fx": "deep",
+ "voice_speed": 1.05,
+ "music_track": 587,
+ "music_drop": "after_cold",
+ "music_duck": 10,
+ "stadiums": false,
+ "review": {
+  "project": "The envelope, please",
+  "beats": [
+   {
+    "type": "en_cold",
+    "steps": [
+     {
+      "big": "7 games",
+      "label": "Thursday · 13:00 → 20:00 Lagos"
+     },
+     {
+      "big": "3 continents",
+      "label": "Asia · Africa · Europe"
+     },
+     {
+      "big": "7 verdicts",
+      "label": "Sealed until kick-off"
+     },
+     {
+      "big": "A derby with flu",
+      "label": "Cluj · tonight",
+      "tone": "red",
+      "glitch": true,
+      "glitch_at": 0.5
+     }
+    ],
+    "say": [
+     "Seven games today.",
+     "Seven countries, three continents.",
+     "Seven verdicts, sealed.",
+     "And in Cluj, a derby hit by flu."
+    ],
+    "tail": 0.95
+   },
+   {
+    "type": "en_title",
+    "drop": true,
+    "when": "Thu 8 Oct",
+    "sub": "7 games · 7 verdicts · Lagos time",
+    "say": [
+     "The envelope, please: today's seven games, and a verdict for each."
+    ]
+   },
+   {
+    "type": "en_game",
+    "match": 0,
+    "head": "The one Paro can't beat",
+    "kicker": "Bhutan Premier League · Round 18 of 18",
+    "home": {
+     "line": "2nd · 40 pts",
+     "form": "DWWWW",
+     "man": "Orgyen Tshering",
+     "stat": "Captain · 2 goals on 23 Sep"
+    },
+    "away": {
+     "line": "1st · 46 pts · champions",
+     "form": "WWWWW",
+     "man": "Yuta Mishima",
+     "stat": "Midfielder · 16 league goals"
+    },
+    "notes": [
+     [
+      "Paro",
+      "28 goals in their last five"
+     ],
+     [
+      "In May",
+      "Paro 0–0 Thimphu City"
+     ]
+    ],
+    "verdict": {
+     "text": "City spoil the party",
+     "short": "City spoil the party",
+     "score": "2–1"
+    },
+    "say": [
+     "We start at one o'clock, in Bhutan: Thimphu City against Paro, the champions, on the last day of the season.",
+     "Paro have scored 28 goals in their last five games. City are second, and unbeaten in five themselves.",
+     "And in May, City held Paro to a goalless draw.",
+     "The verdict: City spoil the party, in a game with goals. Two–one, with 42% for City on our numbers."
+    ]
+   },
+   {
+    "type": "en_game",
+    "match": 1,
+    "head": "A new coach's first night",
+    "kicker": "Pro League · Round 8 · Shahid Vatani Stadium, Qaem Shahr",
+    "home": {
+     "line": "9th · 8 pts from 7",
+     "form": "DLWWD",
+     "man": "Javad Aghaeipour",
+     "stat": "Forward · top scorer, 2 goals"
+    },
+    "away": {
+     "line": "14th · 6 pts from 6",
+     "form": "LDDWL",
+     "man": "Davoud Noushi Sofiani",
+     "stat": "Keeper · 5 conceded in 6"
+    },
+    "notes": [
+     [
+      "New coach",
+      "Saeid Daghighi's first game for Nassaji"
+     ],
+     [
+      "Goals",
+      "Nassaji 4 in 7 · Zob Ahan 3 in 6"
+     ]
+    ],
+    "verdict": {
+     "text": "A winning start for Daghighi",
+     "short": "Daghighi starts with a win",
+     "score": "1–0"
+    },
+    "say": [
+     "Half past one, in Iran: Nassaji, the newly promoted side, against Zob Ahan.",
+     "Nassaji have a new coach, Saeid Daghighi, in charge for the first time. And goals are rare here: Nassaji have four in seven games, Zob Ahan three in six.",
+     "Zob Ahan sit one point above the drop zone, and they're likely without their banned midfielder, Farshid Esmaeili.",
+     "The verdict: few goals, and a winning start for Daghighi, with 42% for Nassaji on our numbers. One–nil."
+    ]
+   },
+   {
+    "type": "en_game",
+    "match": 2,
+    "head": "The newcomers' big test",
+    "kicker": "Uganda Premier League · Matchday 5 · Hoima City Stadium",
+    "home": {
+     "line": "4th · 9 pts from 4",
+     "form": "DWWWL",
+     "man": "Oscar Otim",
+     "stat": "Scored v Maroons and BUL"
+    },
+    "away": {
+     "line": "13th · 3 pts from 2",
+     "form": "WLDDW",
+     "man": "Hilary Mukundane",
+     "stat": "Back from Uganda duty"
+    },
+    "notes": [
+     [
+      "Meetings",
+      "Vipers won the last three"
+     ],
+     [
+      "Newcomers",
+      "Blacks Power: three wins, all by one goal"
+     ]
+    ],
+    "verdict": {
+     "text": "Vipers, by a goal",
+     "short": "Vipers by a goal",
+     "score": "0–1"
+    },
+    "say": [
+     "At two o'clock, in Hoima: Blacks Power, last season's Big League winners, against Vipers.",
+     "The newcomers have won three of their four games, all by a single goal. Vipers have played only twice.",
+     "Vipers won the last three meetings, and our numbers give them 39%, the hosts 29.",
+     "The verdict: Vipers, by a single goal. One–nil to Vipers."
+    ]
+   },
+   {
+    "type": "en_game",
+    "match": 3,
+    "head": "Champions with no points",
+    "kicker": "ADIB Cup · Round 3 · Hazza bin Zayed Stadium, Al Ain",
+    "home": {
+     "line": "Cup: 0 pts · League: 2nd",
+     "form": "WDWLL",
+     "form_label": "Last five · all competitions",
+     "man": "Houssine Rahimi",
+     "stat": "Striker · 2 goals v Al Nassr"
+    },
+    "away": {
+     "line": "Cup: 3 pts · League: 10th",
+     "form": "LLWWL",
+     "form_label": "Last five · all competitions",
+     "man": "Benjamin Tetteh",
+     "stat": "Striker · scored at Ajman"
+    },
+    "stats": [
+     [
+      "Scored, last five",
+      12,
+      6
+     ],
+     [
+      "Conceded, last five",
+      8,
+      13
+     ],
+     [
+      "Expected goals today",
+      2.48,
+      1.19
+     ]
+    ],
+    "notes": [
+     [
+      "Cup",
+      "Al Ain lost both cup games 3–2, from ahead"
+     ],
+     [
+      "Meetings",
+      "Al Ain unbeaten in 9 v Kalba"
+     ]
+    ],
+    "verdict": {
+     "text": "Al Ain's first cup win",
+     "short": "Al Ain's first cup win",
+     "score": "2–1"
+    },
+    "say": [
+     "At ten past two, in Al Ain: the champions host Kalba in the League Cup.",
+     "Al Ain went last season unbeaten in the league, but they've lost both cup games three–two, both times after leading.",
+     "Against Kalba, though, they're unbeaten in nine, and they won two–nil there five weeks ago.",
+     "The verdict: Al Ain get their first cup win, with 67% on our numbers. Two–one."
+    ]
+   },
+   {
+    "type": "en_game",
+    "match": 4,
+    "head": "Three meetings, no goal",
+    "kicker": "NBC Premier League · Round 7 · Majaliwa Stadium, Ruangwa",
+    "home": {
+     "line": "13th · 6 pts from 7",
+     "form": "WLLLL",
+     "man": "Herbert Lukindo",
+     "stat": "Forward · 2 goals"
+    },
+    "away": {
+     "line": "12th · 6 pts from 6",
+     "form": "LDLDW",
+     "man": "Ani Elijah",
+     "stat": "2 goals, 2 assists"
+    },
+    "notes": [
+     [
+      "Meetings",
+      "Namungo: no goal in the last three v TRA"
+     ],
+     [
+      "At home",
+      "Namungo have won 2 of 3"
+     ]
+    ],
+    "verdict": {
+     "text": "A draw",
+     "short": "A draw",
+     "score": "1–1"
+    },
+    "say": [
+     "Half past four, in Ruangwa: Namungo against TRA United, the old Tabora United.",
+     "Both sides have six points. Namungo have lost four in a row, but at home they've won two of three.",
+     "And Namungo haven't scored in their last three meetings with TRA.",
+     "The verdict: a draw. Home form against the head-to-head. One–all."
+    ]
+   },
+   {
+    "type": "en_game",
+    "match": 5,
+    "head": "Flu, or mind games?",
+    "kicker": "Superliga · Round 4, rearranged · Dr. Constantin Rădulescu, Cluj",
+    "home": {
+     "line": "8th · 13 pts from 9",
+     "form": "WWDLW",
+     "man": "Andrei Cordea",
+     "man_tag": "Doubtful · flu",
+     "stat": "5 league goals"
+    },
+    "away": {
+     "line": "5th · 15 pts from 9",
+     "form": "LWLWW",
+     "man": "Alibek Aliev",
+     "stat": "Striker · 6 league goals"
+    },
+    "notes": [
+     [
+      "Team news",
+      "5 CFR players ill, Cordea and Drăzić included"
+     ],
+     [
+      "At home",
+      "CFR unbeaten in the league since Oct 2025"
+     ]
+    ],
+    "verdict": {
+     "text": "CFR edge the derby",
+     "short": "CFR edge the derby",
+     "score": "1–0"
+    },
+    "say": [
+     "Half past six, in Cluj: the city derby. CFR against Universitatea, eighth against fifth, two points apart.",
+     "But CFR have been hit by flu. Five players are unlikely to play, including Cordea and Drăzić, five league goals each.",
+     "Universitatea's coach, Cristiano Bergodi, even suggested the illness could be a strategy.",
+     "Even so, CFR haven't lost a home league game since October last year, and our numbers give them 45%, Universitatea 28.",
+     "The verdict: CFR edge the derby, flu and all. One–nil."
+    ]
+   },
+   {
+    "type": "en_game",
+    "match": 6,
+    "head": "A perfect start, tested",
+    "kicker": "Ligue 1 · Matchday 4 · Stade Miloud-Hadefi, Oran",
+    "home": {
+     "line": "4th · 6 pts from 2",
+     "form": "WLDWW",
+     "man": "Ismaïl Saâdi",
+     "stat": "Scored the winner at Chlef"
+    },
+    "away": {
+     "line": "8th · 3 pts from 3",
+     "form": "WWLLW",
+     "man": "Zakaria Benchaâ",
+     "stat": "2 goals v Constantine"
+    },
+    "notes": [
+     [
+      "Oran",
+      "2 wins from 2, nothing conceded"
+     ],
+     [
+      "Meetings",
+      "Sétif unbeaten in the last 3, 3–0 in April"
+     ]
+    ],
+    "verdict": {
+     "text": "MC Oran stay perfect",
+     "short": "MC Oran stay perfect",
+     "score": "1–0"
+    },
+    "say": [
+     "And we finish at eight o'clock, in Oran: MC Oran against ES Sétif.",
+     "Oran have the perfect start: two wins from two, nothing conceded, and a game in hand.",
+     "But Sétif are unbeaten in the last three meetings, and they won five–one in their last game.",
+     "The verdict: MC Oran keep another clean sheet, with 44% on our numbers. One–nil."
+    ]
+   },
+   {
+    "type": "en_end",
+    "when": "Thu 8 Oct",
+    "l1": "7 envelopes.",
+    "l2": "7 verdicts.",
+    "follow": "Follow for the post-match",
+    "say": [
+     "Seven games. Seven envelopes. Seven verdicts.",
+     "That's the analysis. Follow for the post-match."
+    ],
+    "tail": 0.9
+   }
+  ]
+ },
+ "picks": [
+  {
+   "home": "Thimphu City FC",
+   "away": "Paro FC",
+   "competition": "Premier League",
+   "kickoff": "13:00",
+   "home_win": 42,
+   "draw": 21,
+   "away_win": 37,
+   "xg_home": 2.05,
+   "xg_away": 1.9,
+   "form_home": "DWWWW",
+   "form_away": "WWWWW",
+   "scored_home": 3.2,
+   "scored_away": 4.5,
+   "conceded_home": 0.7,
+   "conceded_away": 0.5,
+   "top_scores": [
+    [
+     1,
+     1,
+     7
+    ],
+    [
+     2,
+     1,
+     7
+    ],
+    [
+     1,
+     2,
+     7
+    ]
+   ],
+   "ko": "13:00",
+   "where": "Bhutan",
+   "flag": "🇧🇹",
+   "home_short": "Thimphu City",
+   "away_short": "Paro"
+  },
+  {
+   "home": "Nassaji Mazandaran FC",
+   "away": "Zob Ahan Isfahan FC",
+   "competition": "Pro League",
+   "kickoff": "13:30",
+   "home_win": 42,
+   "draw": 29,
+   "away_win": 29,
+   "xg_home": 1.33,
+   "xg_away": 1.05,
+   "form_home": "LLLWL",
+   "form_away": "DLLWD",
+   "scored_home": 0.6,
+   "scored_away": 0.6,
+   "conceded_home": 1,
+   "conceded_away": 0.9,
+   "top_scores": [
+    [
+     1,
+     1,
+     14
+    ],
+    [
+     1,
+     0,
+     12
+    ],
+    [
+     0,
+     0,
+     10
+    ]
+   ],
+   "ko": "13:30",
+   "where": "Iran",
+   "flag": "🇮🇷",
+   "home_short": "Nassaji",
+   "away_short": "Zob Ahan"
+  },
+  {
+   "home": "Blacks Power FC",
+   "away": "Vipers SC",
+   "competition": "Premier League",
+   "kickoff": "14:00",
+   "home_win": 29,
+   "draw": 32,
+   "away_win": 39,
+   "xg_home": 0.93,
+   "xg_away": 1.14,
+   "form_home": "DWWWL",
+   "form_away": "WLDDW",
+   "scored_home": 1.25,
+   "scored_away": 1.4,
+   "conceded_home": 0.75,
+   "conceded_away": 0.4,
+   "top_scores": [
+    [
+     0,
+     1,
+     14
+    ],
+    [
+     1,
+     1,
+     14
+    ],
+    [
+     0,
+     0,
+     13
+    ]
+   ],
+   "ko": "14:00",
+   "where": "Hoima",
+   "flag": "🇺🇬",
+   "home_short": "Blacks Power",
+   "away_short": "Vipers"
+  },
+  {
+   "home": "Al Ain FC",
+   "away": "Ittihad Kalba FC",
+   "competition": "Pro League Cup",
+   "kickoff": "14:10",
+   "home_win": 67,
+   "draw": 18,
+   "away_win": 15,
+   "xg_home": 2.48,
+   "xg_away": 1.19,
+   "form_home": "WWWWW",
+   "form_away": "LDLLD",
+   "scored_home": 2.8,
+   "scored_away": 1,
+   "conceded_home": 1.2,
+   "conceded_away": 2.2,
+   "top_scores": [
+    [
+     2,
+     1,
+     9
+    ],
+    [
+     3,
+     1,
+     8
+    ],
+    [
+     2,
+     0,
+     7
+    ]
+   ],
+   "ko": "14:10",
+   "where": "Al Ain",
+   "flag": "🇦🇪",
+   "home_short": "Al Ain",
+   "away_short": "Kalba",
+   "kit": {
+    "home": {
+     "c": "#5B2D86"
+    }
+   }
+  },
+  {
+   "home": "Namungo FC",
+   "away": "TRA United Sports Club",
+   "competition": "Premier League",
+   "kickoff": "16:30",
+   "home_win": 39,
+   "draw": 28,
+   "away_win": 33,
+   "xg_home": 1.31,
+   "xg_away": 1.18,
+   "scored_home": 0.86,
+   "scored_away": 1,
+   "conceded_home": 1.57,
+   "conceded_away": 1,
+   "top_scores": [
+    [
+     1,
+     1,
+     13
+    ],
+    [
+     1,
+     0,
+     10
+    ],
+    [
+     0,
+     0,
+     9
+    ]
+   ],
+   "ko": "16:30",
+   "where": "Ruangwa",
+   "flag": "🇹🇿",
+   "home_short": "Namungo",
+   "away_short": "TRA United"
+  },
+  {
+   "home": "CFR Cluj",
+   "away": "FC Universitatea Cluj",
+   "competition": "Superliga",
+   "kickoff": "18:30",
+   "home_win": 45,
+   "draw": 27,
+   "away_win": 28,
+   "xg_home": 1.5,
+   "xg_away": 1.14,
+   "form_home": "WWDLW",
+   "form_away": "LWLWW",
+   "scored_home": 1.67,
+   "scored_away": 1.56,
+   "conceded_home": 1.56,
+   "conceded_away": 1.44,
+   "top_scores": [
+    [
+     1,
+     1,
+     13
+    ],
+    [
+     1,
+     0,
+     10
+    ],
+    [
+     2,
+     1,
+     9
+    ]
+   ],
+   "ko": "18:30",
+   "where": "Cluj",
+   "flag": "🇷🇴",
+   "home_short": "CFR Cluj",
+   "away_short": "U Cluj",
+   "kit": {
+    "away": {
+     "c": "#1C1C22"
+    }
+   }
+  },
+  {
+   "home": "MC Oran",
+   "away": "ES Setif",
+   "competition": "Ligue 1",
+   "kickoff": "20:00",
+   "home_win": 44,
+   "draw": 27,
+   "away_win": 29,
+   "xg_home": 1.47,
+   "xg_away": 1.16,
+   "form_home": "WLDWW",
+   "form_away": "WWLLW",
+   "scored_home": 1.4,
+   "scored_away": 1.67,
+   "conceded_home": 1,
+   "conceded_away": 1,
+   "top_scores": [
+    [
+     1,
+     1,
+     13
+    ],
+    [
+     1,
+     0,
+     10
+    ],
+    [
+     2,
+     1,
+     9
+    ]
+   ],
+   "ko": "20:00",
+   "where": "Oran",
+   "flag": "🇩🇿",
+   "home_short": "MC Oran",
+   "away_short": "ES Setif",
+   "kit": {
+    "away": {
+     "c": "#1C1C22"
+    }
+   }
+  }
+ ]
+}

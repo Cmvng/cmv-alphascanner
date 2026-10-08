@@ -41,6 +41,8 @@ const SAY_IPA = {
   'Modrić': 'mˈɔːdɹɪtʃ', Budimir: 'bˈuːdɪmiːɹ', 'Smolčić': 'smˈɔːltʃɪtʃ', 'Bilić': 'bˈiːlɪtʃ', Poljud: 'pˈɔːljuːd', Lamine: 'lɐmˈiːn',
   Yamal: 'jɐmˈɑːl', 'Krejčí': 'kɹˈeɪtʃiː', Czechia: 'tʃˈɛkiə', Ante: 'ˈɑːnteɪ',
   Cluj: 'klˈuːʒ', Cordea: 'kɔːɹdˈeɪɑː', 'Drăzić': 'dɹˈʌzɪtʃ', Universitatea: 'uːnˌiːvɛɹsiːtˈɑːtjɑː', "Universitatea's": 'uːnˌiːvɛɹsiːtˈɑːtjɑːz', Thimphu: 'tˈɪmpuː', Paro: 'pˈɑːɹoʊ',
+  Nassaji: 'nɑːsˈɑːdʒi', Zob: 'zˈoʊb', Ahan: 'ɑːhˈɑːn', Daghighi: 'dɑːɡiːɡˈiː', Saeid: 'sɑːˈiːd', Farshid: 'fɑːɹʃˈiːd', Esmaeili: 'ɛsmɑːiːlˈiː',
+  ES: 'ˌiːˈɛs', Iran: 'ɪɹˈɑːn',
   TRA: 'tˌiːɑːɹˈeɪ', Namungo: 'nɑːmˈuːŋɡoʊ', Ruangwa: 'ɹuːˈɑːŋɡwɑː', Tabora: 'tɑːbˈɔːɹɑː', 'Sétif': 'seɪtˈiːf', Oran: 'ɔːɹˈɑːn', Hoima: 'hˈɔɪmɑː', Bergodi: 'bɛɹɡˈoʊdi',
   Zamalek: 'zˈæməlɛk', Ibadan: 'iːbˈɑːdɑːn', Belouizdad: 'bɛluːizdˈæd', Khenchela: 'kɛnʃˈɛlə', Etouga: 'ɛtˈuːɡɑː', Gnistan: 'ɡnˈiːstɑːn', Mirassol: 'mˌiːɹəsˈɔːl',
   Paulista: 'paʊlˈiːstə', Universidad: 'uːnˌiːvɛɹsiːdˈɑːd', Antofagasta: 'ˌɑːntoʊfəɡˈɑːstə', Cartagena: 'kˌɑːɹtəhˈeɪnə', Murcia: 'mˈɜːsiə',

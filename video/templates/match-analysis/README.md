@@ -73,6 +73,32 @@ makes `<slug>_cover.png` (1080×1920) and `<slug>_thumbnail.png` (1280×720).
 - The pale ocean and sand land are there because a saturated blue globe measured 91% blue.
 - Eight stops fit under X's 140 s only at two lines each.
 
+## Another format: "The envelope, please" (the day's games as an awards night, 8 Oct 2026)
+For a slate of unrelated games. Reference: `envelope-2026-10-08.json` (mode "review", screens `en_*` in `review.html`).
+
+**The look:** a light stage with a soft spotlight. Every game is a category ("Category 3 / 7"). Two nominee cards
+(crest, table line, last five as W/D/L pills, key man) slide in, "The case" card fills row by row (goals for and
+against a game, expected goals today, then two researched notes), and an envelope in the home side's colours waits
+at the bottom with a wax seal in the away side's colour and the country's flag. On the verdict line the seal breaks,
+the flap opens and the verdict card slides out and grows: verdict, likeliest score, and the win-chance bar in kit
+colours.
+
+**Each pick needs:** `ko`, `where` (city, or the country when the venue isn't confirmed), `flag` (emoji),
+`home_short` / `away_short`, and `kit` where the crest colour is wrong (Al Ain purple; black for U Cluj and ES Sétif).
+
+**The screens:**
+- `en_cold`: night, a spotlight, one envelope per game fanning out; one big line per spoken line (auto-fitted).
+- `en_title`: THE ENVELOPE, PLEASE. on the drop, with the running order as small envelopes (time and place).
+- `en_game`: `head` (the story, auto-fitted), `kicker`, `home` / `away` {line, form, form_label, man, man_tag, stat},
+  `stats` (optional override of the app rows), `notes` [[tag, text, line?, at?]], `verdict` {text, short, score},
+  `open_at` (default: the last line). Four lines: the setting, the case, a researched angle, "The verdict: …".
+- `en_end`: every verdict card open, and "Follow for the post-match".
+
+**Lessons from the first one:**
+- The app's form strings run oldest first. Check them against researched results; on 8 Oct two games clashed and
+  used the researched last five instead (labelled).
+- With five "wow" tracks, the rotation runs out in six videos; grow the pool.
+
 ## Two cuts from one file
 
 - **Full** (about 2 minutes, for X and YouTube): `bash video/daily.sh render video/out/<file>.json`
