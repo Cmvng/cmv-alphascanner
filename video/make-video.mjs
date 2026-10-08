@@ -281,7 +281,7 @@ if (music?.drop != null && cfg.music_drop) {
   if (k > 0) {
     music.start = music.drop - scenes[k].start
     const last = scenes[k - 1].sentences.at(-1)
-    music.cuts = last ? [[last.start + last.dur + 0.03, scenes[k].start]] : []
+    music.cuts = last ? [[last.start + last.dur + 0.03, scenes[k].start]] : cfg.music_gap ? [[scenes[k].start - cfg.music_gap, scenes[k].start]] : []     // no voice: a set gap of silence before the drop
     console.log(`Music drop at ${scenes[k].start.toFixed(2)}s (start of "${scenes[k].type}"), track from ${music.start.toFixed(2)}s`)
   }
 }
@@ -461,9 +461,13 @@ fs.writeFileSync(path.join(OUT, 'timeline.json'), JSON.stringify({
   ...(cfg.sound === 'cinematic' ? { limiter: 'peak' } : {}),
 }))
 await run(PY, [path.join(DIR, 'audio.py'), 'mix', path.join(OUT, 'timeline.json'), path.join(OUT, 'mix.wav')])
-await run(FF, ['-y', '-loglevel', 'error', '-f', 'concat', '-safe', '0', '-i', path.join(OUT, 'segments.txt'), '-i', path.join(OUT, 'mix.wav'),
-  '-filter_complex', '[1:a]loudnorm=I=-14:TP=-1.5:LRA=9,aresample=48000,lowpass=f=16000:poles=2,alimiter=limit=0.56:level=0[a]', '-map', '0:v', '-map', '[a]',      // sharp hits (stamps, drops) made the AAC encoder overshoot to +5 dBTP on 6 Oct: band-limit, then limit at -5 dBFS so the file stays under -1 dBTP
+// the master: loudness, band-limit, then a limiter at -5 dBFS (sharp hits made the AAC encoder overshoot to +5 dBTP on 6 Oct)
+await run(FF, ['-y', '-loglevel', 'error', '-i', path.join(OUT, 'mix.wav'), '-af', 'loudnorm=I=-14:TP=-1.5:LRA=9,aresample=48000,lowpass=f=16000:poles=2,alimiter=limit=0.56:level=0',
+  '-c:a', 'pcm_f32le', path.join(OUT, 'master.wav')])
+await run(FF, ['-y', '-loglevel', 'error', '-f', 'concat', '-safe', '0', '-i', path.join(OUT, 'segments.txt'), '-i', path.join(OUT, 'master.wav'), '-map', '0:v', '-map', '1:a',
   '-c:v', 'copy', '-c:a', 'aac', '-b:a', '192k', '-ar', '48000', '-ac', '2', '-t', DURATION.toFixed(2), '-movflags', '+faststart', final])
+// the AAC encoder can still overshoot on one frame of hard, clipped music (+4 dBTP on 8 Oct): measure, and re-encode until under -1
+await run(PY, [path.join(DIR, 'lib', 'fix_tp.py'), final, path.join(OUT, 'master.wav'), '192'])
 for (const f of segs) fs.rmSync(f)
 fs.rmSync(path.join(OUT, 'clips'), { recursive: true, force: true })      // clip frames are only needed while rendering
 fs.rmSync(path.join(OUT, 'pres'), { recursive: true, force: true })

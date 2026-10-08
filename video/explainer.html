@@ -813,6 +813,8 @@ svg.pti{display:block}
 .hy .hy-hex{position:absolute;inset:0;font:700 26px/1.25 JBM;color:rgba(255,210,7,.16);white-space:pre;overflow:hidden;letter-spacing:4px}
 .hy .hy-cam{position:absolute;inset:0}
 .hy .hy-shot{position:absolute;inset:0;display:none}
+.hy .hy-shot.hy-lite::before{content:'';position:absolute;inset:-80px;background:radial-gradient(ellipse 90% 50% at 50% 40%,#FFFFFF 0%,rgba(255,255,255,0) 70%),linear-gradient(180deg,#F2F8FF 0%,#DDEBFF 55%,#C6DCFF 100%)}
+.hy .hy-shot.hy-lite .hy-w:not(.hy-y){color:#0B0B10}
 .hy .hy-fl{position:absolute;inset:0;background:#FFD207;opacity:0;z-index:40;pointer-events:none}
 .hy .hy-flw{position:absolute;inset:0;background:#FFFFFF;opacity:0;z-index:41;pointer-events:none}
 .hy .hy-w{position:absolute;left:0;right:0;text-align:center;font:400 220px/.86 Anton;letter-spacing:2px;text-transform:uppercase;white-space:nowrap;color:#fff;opacity:0}
@@ -2083,19 +2085,19 @@ function buildHY(el, sc, b) {
   const cells = n => [...Array(n)].map((_, i) => i % 5 === 4 ? `<div class="hy-cell">${brandMark()}</div>` : `<div class="hy-cell">${artImg(HY_SPR[i % 5 % 4])}</div>`).join('')
   const crowd = Array.from({ length: 16 }, (_, i) => `<div data-i="${i}">${artImg(HY_SPR[(i * 3 + Math.floor(i / 4)) % 4])}</div>`).join('')
   el.innerHTML = `${base}<div class="hy-cam">
-    <div class="hy-shot" data-s="logo">${hyMark(540, 720, 420, 'hy-m1')}<div class="hy-ring"></div>${hyW('hy-fn', 1000, 'Fungo Labs', 200)}
+    <div class="hy-shot hy-lite" data-s="logo">${hyMark(540, 720, 420, 'hy-m1')}<div class="hy-ring"></div>${hyW('hy-fn', 1000, 'Fungo Labs', 200)}
       <div class="hy-bar" style="top:1230px"><span>${html(b.tagline || 'Encrypted NFTs on Ethereum')}</span></div><div class="hy-chip" style="top:1370px"><span>${b.built || 'Built with FHE on <b>Zama</b>'}</span></div></div>
     <div class="hy-shot" data-s="sealed">${hyW('hy-bo', 300, 'Born', 230)}${hyW('hy-y hy-se', 510, 'sealed.', 230)}
       <div class="hy-card"><div class="hy-art">${artImg('red')}<div class="hy-cx"></div><div class="hy-cm">${brandMark()}</div></div><div class="hy-cr"><span>Revealed</span><b>No</b></div></div></div>
-    <div class="hy-shot" data-s="choose">${hyW('hy-no', 300, 'Nobody', 210)}${hyW('hy-gt', 510, 'gets to', 170)}
+    <div class="hy-shot hy-lite" data-s="choose">${hyW('hy-no', 300, 'Nobody', 210)}${hyW('hy-gt', 510, 'gets to', 170)}
       <div class="hy-reels">${[0, 1, 2].map(r => `<div class="hy-reel"><div class="hy-strip" data-r="${r}">${cells(25)}</div></div>`).join('')}</div>
       ${hyW('hy-y hy-ch', 1160, 'choose.', 230)}<div class="hy-chip" style="top:1420px"><span>${html(b.not_even || 'Not even the team.')}</span></div></div>
     <div class="hy-shot" data-s="seen">${hyW('hy-sa', 360, 'Seen by all.', 190)}<div class="hy-crowd">${crowd}</div></div>
     <div class="hy-shot" data-s="known"><div class="hy-spot"></div>${hyW('hy-y hy-ko', 480, 'Known by one.', 170)}<div class="hy-bun" style="position:absolute;left:390px;top:840px;width:300px;height:394px">${ndBunny()}</div></div>
-    <div class="hy-shot" data-s="wl">${hyW('hy-in', 380, b.ask || 'Are you in?', 190)}
+    <div class="hy-shot hy-lite" data-s="wl">${hyW('hy-in', 380, b.ask || 'Are you in?', 190)}
       <div class="hy-wl"><div class="hy-wh">${brandMark()}${html(b.wl_title || 'Whitelist')}</div><div class="hy-wb"><i></i></div><div class="hy-wf"><span class="hy-f1">${html(b.wl_left || 'About 20% filled')}</span><span class="hy-f2">${html(b.wl_right || 'Reviews ongoing')}</span></div></div>
       <div class="hy-st"><span>${b.me || '@i_am_vickyd · applied ✓'}</span></div></div>
-    <div class="hy-shot" data-s="end">${hyMark(540, 600, 300, 'hy-m2')}${hyW('hy-e1', 900, 'Seen by all.', 170)}${hyW('hy-y hy-e2', 1090, 'Known by one.', 170)}
+    <div class="hy-shot hy-lite" data-s="end">${hyMark(540, 600, 300, 'hy-m2')}${hyW('hy-e1', 900, 'Seen by all.', 170)}${hyW('hy-y hy-e2', 1090, 'Known by one.', 170)}
       <div class="hy-chip" style="top:1330px"><span>${b.credit || 'A fan edit for <b>@FungoLabs</b>'}</span></div></div>
   </div>${hyZipper()}<div class="hy-zt"><span>${b.sealed || '🤐 @i_am_vickyd · lips sealed'}</span></div><div class="hy-fl"></div><div class="hy-flw"></div>`
   $$('.hy-shot[data-s="known"] .nd-bunny', el).forEach(n => { n.style.width = '300px'; n.style.height = '394px' })
@@ -2173,8 +2175,8 @@ function drawHY(el, lt, sc, b) {
 function fxHY(add, sc, T, next, syn) {
   if (sc.type === 'ex_hy_cold') {
     add(T + 0.35, '302', -12, { max: 1.4 }); add(T + 1.0, '2894', -14); add(T + 1.5, '967', -8)
-    add(T + 2.0, '2909', -9); add(T + 2.0, '2299', -10); add(T + 2.5, '2909', -6); add(T + 2.5, '2299', -7)
-    syn(T + 2.75, 'zip', 0.6); syn(T + 3.0, 'zip', 1.2); add(T + 3.0, '2636', -12)
+    add(T + 2.0, '2909', -17); add(T + 2.5, '2909', -14); add(T + 2.5, '2299', -15)
+    syn(T + 2.75, 'zip', 0.5); syn(T + 3.0, 'zip', 0.9); add(T + 3.0, '2636', -17)
     if (next?.data?.drop) add(next.start, '2908', -7, { reverse: true, max: 1.2, align: 'end' })
     return
   }

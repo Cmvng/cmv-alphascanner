@@ -32,6 +32,7 @@ DUR=$( ("$FFMPEG" -i "$MP4" 2>&1 || true) | sed -n 's/.*Duration: \([0-9:.]*\).*
 KBPS=$(awk -v d="$DUR" 'BEGIN{b=int(28*8*1000/d)-180; if(b>8000)b=8000; print b}')
 "$FFMPEG" -loglevel error -y -i "$MP4" -c:v libx264 -preset slow -b:v "${KBPS}k" -pass 1 -passlogfile "$OUT/2pass" -an -f mp4 /dev/null
 "$FFMPEG" -loglevel error -y -i "$MP4" -c:v libx264 -preset slow -b:v "${KBPS}k" -pass 2 -passlogfile "$OUT/2pass" -c:a aac -b:a 160k -pix_fmt yuv420p -movflags +faststart "$SEND"
+python3 "$(dirname "$0")/lib/fix_tp.py" "$SEND" "$MP4" 160 >/dev/null
 rm -f "$OUT"/2pass*
 
 echo
