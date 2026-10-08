@@ -78,6 +78,9 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
     Stadium), and Thimphu City's photo was of an archery event beside the stadium. The renderer now drops a photo whose
     ground doesn't match the researched `venue`.
   - Also found: a full render wipes the output folder, so photos copied there by hand vanished; `media_dir` fixes it.
+  - Re-sent (16:20 Lagos): the chat copy, the cover and thumbnail with CFR's stadium, the two X parts in the chat
+    (about 26 MB each), and the full file (113 MB) on the same download page. The page holds at most 256 MB per
+    version, so the X parts went on it at the smaller size.
 
 ---
 
