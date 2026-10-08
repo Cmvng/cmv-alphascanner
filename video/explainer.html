@@ -2445,10 +2445,10 @@ function buildVX(el, sc, b) {
   }
   const S2 = (s, back, front) => `<div class="vx-sh" data-s="${s}"><div class="vx-back">${back}</div></div>`, F2 = (s, front) => `<div class="vx-sh vx-fr" data-s="${s}">${front}</div>`
   el.innerHTML = `<div class="vx-bg"></div><div class="vx-cam">
-    ${S2('logo', vxW('vx-fn', 250, 'Fungo Labs', 190))}${S2('tunnel', vxW('vx-bo', 300, 'Born', 280))}
+    ${S2('logo', vxW('vx-fn', 250, 'Fungo Labs', 190))}
     <div class="vx-slot"></div>
     ${F2('logo', `<div class="vx-bar" style="top:1470px"><span>${html(b.tagline || 'Encrypted NFTs on Ethereum')}</span></div>${vxChip('vx-c1', 1600, b.built || 'Built with FHE on <b>Zama</b>')}`)}
-    ${F2('tunnel', vxW('vx-y vx-se', 1330, 'sealed.', 280) + vxChip('vx-c2', 1600, b.revealed || 'Revealed: <b class="vx-no">No</b>'))}
+    ${F2('tunnel', vxW('vx-bo', 300, 'Born', 280) + vxW('vx-y vx-se', 1330, 'sealed.', 280) + vxChip('vx-c2', 1600, b.revealed || 'Revealed: <b class="vx-no">No</b>'))}
     ${F2('crowd', vxW('vx-sa', 240, 'Seen by all.', 180))}
     ${F2('roll', vxW('vx-nb', 250, 'Nobody', 230) + vxW('vx-gt', 1330, 'gets to', 150) + vxW('vx-y vx-ch', 1460, 'choose.', 250) + vxChip('vx-c3', 1760, html(b.not_even || 'Not even the team.')))}
     ${F2('known', vxW('vx-y vx-ko', 300, 'Known by one.', 170))}

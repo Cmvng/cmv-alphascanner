@@ -24,6 +24,34 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
+## 8 Oct: voxel film for Fungo Labs (the second redo, 0:28, 3D, no voice)
+
+- **Before building:** read the hype edit's lessons and the owner's verdict ("just looks normal"). Same music (Sparta,
+  which the owner approved) and the same story beats, because the timing worked; what changed is the medium.
+- **What worked:**
+  - **Their world, in their own medium.** Their clips are 3D voxel art, so everything is cubes: the mark builds itself
+    from flying voxels on the first three kicks, their creatures stand in a crowd, our bunny is a voxel model.
+  - **One camera move that means something:** the camera flies through the mark's empty centre ("where its holder
+    looks from") into a tunnel of sealed cards. The track's dead stop becomes a single beam of light falling through
+    that same centre onto the bunny.
+  - **Balanced colour without forcing it:** yellow 26%, blue 24%, ink 24%, green 22%. The drop +6.4 dB, true peak −2.5.
+  - **Words in front of and behind the 3D**, so "FUNGO LABS" sits behind the flying tiles.
+- **Mistakes, and how they got through:**
+  1. **First stills:** the hook camera was 4 units from the bunny (a wall of green), the crowd faced away from the camera
+     and ran off both sides, the beam lit only the top of the head, and the end mark sat on the words. Caught on two
+     rounds of stills before the full render; framing in 3D needs the frame size worked out first (0.39·d wide).
+  2. **"BORN" behind the cards:** hidden for most of its 2.5 s, found on the 2-fps contact sheet of the finished render.
+     Moved in front and rendered again (15 minutes). Key words go in front; only decorative ones go behind.
+  3. **The similarity guard** stopped the render because the screen list matched the hype edit (two scenes). The look is
+     a different medium, so I passed `--allow-same`; the guard can't see that.
+- **Change next time:**
+  - Before the first 3D still, work out each shot's frame size at its camera distance.
+  - Put every word the story needs in front of the 3D.
+  - Check a 2-fps contact sheet of the finished render, not only the stills.
+- **The owner's reaction:** (waiting)
+
+---
+
 ## 8 Oct: hype edit for Fungo Labs (the redo, 0:28, no voice)
 
 - **Before building:** the owner picked a direction from four concrete options (a hype edit). This is the rule I added
