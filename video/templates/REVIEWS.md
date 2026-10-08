@@ -24,6 +24,47 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
+## 8 Oct: fan film, "Planet Fungo, Episode 2: The Secret" (Fungo Labs whitelist, 1:11)
+
+- **Before writing:** read the last three entries' "Change next time" lines and applied them:
+  - every class starts `nd-`, and I checked for duplicates inside the prefix (one slipped through anyway, see 1);
+  - no saturated blue backdrop after the cold open: a pale morning sky, with the colour in the characters, the grass,
+    the earth and their yellow;
+  - no place name alone at the start of a line;
+  - the config is named `explainer-…`.
+- **What worked:**
+  - **The idea is their own story, continued.** Their 7 Oct clip showed the bear whispering a secret and the bunny
+    zipping its mouth. The film picks it up as a wildlife documentary, with a hushed British narrator (a new voice:
+    `bm_george`) and made-up Latin species names as lower thirds.
+  - **The product's facts act as the plot:** a whale can't buy the secret, the machine computes but can't read (FHE), the
+    marketplace sees "Revealed: No", the makers can't choose, and only the holder looks inside.
+  - **Pixel art made in code:** the bunny's faces swap per moment, the zipper closes tooth by tooth, the whisper shows
+    ciphertext, and the sun rises on the drop.
+  - **The colour mix is the best yet:** blue 45%, green 18%, orange 18%, yellow 10%.
+  - **The full file is 27.3 MiB,** so it went out at full quality in the chat, with no download page.
+- **Mistakes, and how they got through:**
+  1. **`.nd-tl` named both the bubble tail and the tagline,** so the tagline never showed. The stills caught it, and the
+     tails are now `nd-tail-l` and `nd-tail-r`. That's the same mistake as `.ar-pl` in this morning's video, made again
+     the same day: grepping the prefix isn't enough.
+  2. **"rarely" was heard as "really"** (bm_george), which flips the meaning. Rewritten as "almost never".
+  3. **Their site's quote ("Nobody picks what you get") failed the betting-word check.** Their 6 Oct post says the same
+     thing as "Nobody gets to choose", so the video quotes that.
+  4. **The holder's card was on screen for half a second.** A 1.8 s pause after "The one who holds it" fixed it.
+  5. **The moon sat under the timecode, the sun under the title, and the crowd's bubbles on the listing.** All caught on
+     stills before the first render.
+  6. **Final numbers:**
+     - the length is 71.2 s;
+     - loudness −14.0 LUFS, true peak −4.6 dB;
+     - the drop rises +8.4 dB.
+- **Change next time:**
+  - Before the first stills, list every class the build creates and check that no name is used for two things
+    (`grep -o 'nd-[a-z0-9-]*' | sort | uniq -c`, then look at each).
+  - Run the betting-word check on quotes before writing them into the script.
+  - Any card that carries a point needs about 2 s on screen: check it against the line timings, not only on stills.
+- **The owner's reaction:** (waiting)
+
+---
+
 ## 8 Oct: post-match, "Arrivals" (the 7 Oct games as an arrivals board, 2:17)
 
 - **Before writing:** read the last three entries' "Change next time" lines and applied them:
