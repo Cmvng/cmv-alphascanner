@@ -24,7 +24,7 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
-## 8 Oct: analysis, "The envelope, please" (7 games across 3 continents, 3:19)
+## 8 Oct: analysis, "The envelope, please" (7 games across 3 continents, 3:20)
 
 - **Before writing:** read the last three entries' "Change next time" lines and the 7 Oct analysis lessons, and applied
   them:
@@ -56,12 +56,15 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
   4. **Al Ain's envelope came out gold** (the crest colour); U Cluj and ES Sétif came out blue and gold. Fixed with kit
      overrides after the first stills.
   5. **Long headlines overflowed** ("Champions with no points", "A derby with flu"): both now shrink to fit.
-  6. **Length:** 3:19, over X's 2:20, as expected for seven full segments. Delivered for YouTube, plus two X parts cut
+  6. **Length:** 3:20, over X's 2:20, as expected for seven full segments. Delivered for YouTube, plus two X parts cut
      at a game boundary.
 - **Change next time:**
   - Run the say-check, then a quick voice-only render of any line with a hard name, before the full render.
   - Count the soundtrack rotation by video, not by entry; play the three new candidates to the owner so the pool grows.
   - Keep checking the app's form strings against the research; label any replacement.
+- **Final review** (sent): 199.9 s; the drop rises +7.2 dB; true peak −3.5 dB; blue 52%, red 26%. The remaining
+  "heard differently" lines are spellings only (Nasaji, Satif, Zobahan, digits for scores).
+- **Sent:** the chat copy (27.9 MB), and a download page with the full file (59.8 MB) and the two X parts (1:54, 1:26).
 - **The owner's reaction:** (waiting)
 
 ---
