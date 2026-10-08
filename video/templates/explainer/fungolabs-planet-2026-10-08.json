@@ -1,0 +1,336 @@
+{
+ "mode": "explainer",
+ "title": "Planet Fungo: the secret (a fan film for Fungo Labs)",
+ "competition": "Explainer",
+ "date": "2026-10-08",
+ "voice": "bm_george",
+ "voice_fx": "deep",
+ "voice_speed": 0.95,
+ "sound": "cinematic",
+ "music_track": 543,
+ "explainer": {
+  "theme": "sky",
+  "foot": "Fan film by @i_am_vickyd · not affiliated with Fungo Labs",
+  "chapters": {},
+  "brand": {
+   "name": "Fungo Labs",
+   "primary": "#FFD207",
+   "primary2": "#FFE25C",
+   "ink": "#0B0B10",
+   "cream": "#F4F1EA",
+   "ok": "#7EE2A8",
+   "warn": "#FFB547",
+   "bad": "#FF7A6B",
+   "source": "fungolabs.org stylesheet and favicon.svg; art sampled from their teaser videos (6 Oct)",
+   "art": {
+    "red": "../brand/fungo-red.png",
+    "green": "../brand/fungo-green.png",
+    "king": "../brand/fungo-king.png",
+    "robot": "../brand/fungo-robot.png"
+   },
+   "art_bg": {
+    "red": "#2D3659",
+    "green": "#2D3659",
+    "king": "#225A4F",
+    "robot": "#61262E"
+   }
+  },
+  "beats": [
+   {
+    "type": "nd_cold",
+    "clock": "02:14",
+    "tag": "Night cam",
+    "bear_at": [
+     1,
+     "something",
+     0.1
+    ],
+    "whisper_at": [
+     2,
+     "secret",
+     0.1
+    ],
+    "say": [
+     "Night, on the island of Fungo.",
+     "And here, something rarely caught on camera.",
+     "A secret, being passed."
+    ],
+    "pauses": [
+     0.35,
+     0.35
+    ],
+    "tail": 1.5
+   },
+   {
+    "type": "nd_title",
+    "tag": "Planet Fungo",
+    "clock": "06:58",
+    "seal_at": [
+     0,
+     "seals",
+     0.8
+    ],
+    "say": [
+     "The bunny does what every Fungo does with a secret. It seals it."
+    ],
+    "l3": [
+     "The Fungo bunny",
+     "Lepus sigillatus"
+    ],
+    "l3_at": [
+     0,
+     "bunny",
+     0
+    ],
+    "l3_hold": 3.0
+   },
+   {
+    "type": "nd_whale",
+    "tag": "Planet Fungo",
+    "clock": "07:40",
+    "offer": "1,000 ETH.<br>Tell me.",
+    "offer_at": [
+     1,
+     "fortune",
+     0.2
+    ],
+    "no_at": [
+     2,
+     "blink",
+     0.5
+    ],
+    "say": [
+     "By morning, the predators arrive. First, the whale.",
+     "It offers a fortune, for one little secret.",
+     "The bunny does not even blink."
+    ],
+    "l3": [
+     "The whale",
+     "Balaena liquiditas"
+    ],
+    "l3_at": [
+     0,
+     "whale",
+     0
+    ],
+    "l3_hold": 3.4
+   },
+   {
+    "type": "nd_bot",
+    "tag": "Planet Fungo",
+    "clock": "09:12",
+    "scan_at": [
+     1,
+     "compute",
+     0
+    ],
+    "deny_at": [
+     2,
+     "never",
+     0
+    ],
+    "term": [
+     [
+      "> target: one bunny",
+      ""
+     ],
+     [
+      "enc(0x…)",
+      "",
+      null,
+      "hex"
+     ],
+     [
+      "compute ............ ✓",
+      "nd-ok",
+      [
+       1,
+       "day",
+       0
+      ]
+     ],
+     [
+      "read ............... ✗",
+      "nd-no",
+      [
+       2,
+       "never",
+       0
+      ]
+     ]
+    ],
+    "denied": "Read: denied",
+    "say": [
+     "Next, the machine.",
+     "It can compute on the secret all day long.",
+     "It will never read it."
+    ],
+    "l3": [
+     "The machine",
+     "Computatrix caeca"
+    ],
+    "l3_at": [
+     0,
+     "machine",
+     0
+    ],
+    "l3_hold": 2.6
+   },
+   {
+    "type": "nd_crowd",
+    "tag": "Planet Fungo",
+    "clock": "12:30",
+    "title": "Genesis NFT",
+    "rows": [
+     [
+      "Art",
+      "Sealed"
+     ],
+     [
+      "Holder",
+      "Only one"
+     ],
+     [
+      "Revealed",
+      "No",
+      "nd-no"
+     ]
+    ],
+    "list_at": [
+     1,
+     "marketplace",
+     0
+    ],
+    "rev_at": [
+     2,
+     "Revealed",
+     0
+    ],
+    "say": [
+     "Then, the crowd.",
+     "On the marketplace, this is all they get to see.",
+     "Revealed: no."
+    ],
+    "l3": [
+     "The crowd",
+     "Turba curiosa"
+    ],
+    "l3_at": [
+     0,
+     "crowd",
+     0
+    ],
+    "l3_hold": 2.4
+   },
+   {
+    "type": "nd_makers",
+    "tag": "Planet Fungo",
+    "clock": "15:05",
+    "quote": "Nobody gets to choose. Not even us.",
+    "who": "Fungo Labs on X · 6 Oct",
+    "quote_at": [
+     1,
+     "nobody",
+     -0.2
+    ],
+    "say": [
+     "Even the makers of this island are kept in the dark.",
+     "In their own words: nobody gets to choose. Not even us."
+    ],
+    "l3": [
+     "The makers",
+     "Fungus fabricator"
+    ],
+    "l3_at": [
+     0,
+     "makers",
+     0
+    ],
+    "l3_hold": 2.8
+   },
+   {
+    "type": "nd_holder",
+    "tag": "Planet Fungo",
+    "clock": "18:45",
+    "psst": "psst… only you.",
+    "unzip_at": [
+     1,
+     "holds",
+     0
+    ],
+    "tag_at": [
+     2,
+     "Seen",
+     -0.15
+    ],
+    "name": "Your Fungo",
+    "cls": "Rare",
+    "ill": "Holder view · an illustration",
+    "stats": [
+     [
+      "Secrecy",
+      92,
+      "#FFD207"
+     ],
+     [
+      "Intuition",
+      74,
+      "#7EE2A8"
+     ],
+     [
+      "Will",
+      81,
+      "#FF7A6B"
+     ],
+     [
+      "Energy",
+      66,
+      "#FFB547"
+     ]
+    ],
+    "tag_by": "Fungo Labs",
+    "say": [
+     "Only one creature may look inside.",
+     "The one who holds it.",
+     "Seen by all. Known by one."
+    ],
+    "l3": [
+     "The holder",
+     "Custos unicus"
+    ],
+    "l3_at": [
+     0,
+     "creature",
+     0
+    ],
+    "l3_hold": 2.4
+   },
+   {
+    "type": "nd_end",
+    "tag": "Planet Fungo",
+    "clock": "20:00",
+    "wl_title": "Fungo Labs whitelist",
+    "wl_left": "About 20% filled",
+    "wl_right": "Reviews ongoing",
+    "fill": 20,
+    "me": "@i_am_vickyd · <b>applied</b> · lips sealed 🤐",
+    "made": "A fan film for @FungoLabs",
+    "me_at": [
+     1,
+     "applied",
+     -0.2
+    ],
+    "wink_at": [
+     1,
+     "secret",
+     0
+    ],
+    "say": [
+     "The whitelist is about a fifth full, and every application is read by hand.",
+     "This one has applied. And it knows how to keep a secret."
+    ],
+    "tail": 1.2
+   }
+  ]
+ }
+}

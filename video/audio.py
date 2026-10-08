@@ -305,13 +305,27 @@ def fx_flaps(dur=0.7, rate=36.0, seed=7):
     return _stereo(out / (np.abs(out).max() + 1e-9) * 0.6)
 
 
+
+def fx_zip(dur=0.5, seed=5):
+    """A zipper: a fast run of tiny metal clicks, rising, that slows at the end, over a soft rasp."""
+    rng = np.random.default_rng(seed)
+    n = int((dur + 0.06) * SR); out = np.zeros(n); t = 0.0
+    while t < dur:
+        f = t / dur; i = int(t * SR); k = int(0.006 * SR); tt = np.arange(k) / SR
+        c = rng.standard_normal(k) * np.exp(-tt / 0.0008) + np.sin(2 * np.pi * (3200 + 2200 * f) * tt) * np.exp(-tt / 0.0012) * 0.6
+        out[i:i + k] += c[:max(0, n - i)] * (0.6 + 0.4 * np.sin(np.pi * f))
+        t += 1 / (140 + 220 * np.sin(np.pi * min(0.95, f + 0.1)))
+    rasp = rng.standard_normal(n) * 0.08 * np.clip(np.sin(np.pi * np.arange(n) / n), 0, 1)
+    out = np.diff(out + rasp, prepend=0)
+    return _stereo(out / (np.abs(out).max() + 1e-9) * 0.6)
+
 FX = {'whoosh': fx_whoosh, 'impact': fx_impact, 'riser': fx_riser, 'ding': fx_ding, 'thud': fx_thud, 'cash': fx_cash,
       'tick': lambda: fx_tick(1.0), 'tick2': lambda: fx_tick(1.26), 'tick3': lambda: fx_tick(1.5),
       'boom': fx_boom, 'crowd': fx_crowd, 'groan': fx_groan, 'scratch': fx_scratch, 'aww': fx_aww, 'pop': fx_pop,
-      'flap': lambda: fx_flaps(0.26, 30.0, 3), 'flaps': lambda: fx_flaps(0.7, 36.0, 7), 'flapsl': lambda: fx_flaps(1.3, 40.0, 11)}
+      'flap': lambda: fx_flaps(0.26, 30.0, 3), 'flaps': lambda: fx_flaps(0.7, 36.0, 7), 'flapsl': lambda: fx_flaps(1.3, 40.0, 11), 'zip': fx_zip}
 FX_GAIN = {'whoosh': 0.4, 'impact': 0.42, 'riser': 0.32, 'ding': 0.5, 'thud': 0.5, 'cash': 0.4, 'tick': 0.35, 'tick2': 0.35, 'tick3': 0.4,
            'boom': 0.62, 'crowd': 0.42, 'groan': 0.42, 'scratch': 0.45, 'aww': 0.4, 'pop': 0.35,
-           'flap': 0.32, 'flaps': 0.36, 'flapsl': 0.36}
+           'flap': 0.32, 'flaps': 0.36, 'flapsl': 0.36, 'zip': 0.42}
 
 
 # ---- recorded sound effects (Mixkit Sound Effects Free License: commercial use allowed, no credit needed;

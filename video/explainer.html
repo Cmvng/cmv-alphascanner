@@ -720,6 +720,92 @@ svg.pti{display:block}
 .ex_cf_end .cf-ec span{padding:14px 24px;border-radius:999px;background:#fff;color:#0A2A4F;font:800 28px Manrope;box-shadow:0 12px 30px rgba(31,95,219,.16)}
 .ex_cf_end .cf-ec span b{color:#1F5FDB}
 .ex_cf_end .cf-ef{position:absolute;left:0;right:0;top:1260px;text-align:center;font:700 26px JBM;letter-spacing:4px;color:rgba(10,42,79,.6);text-transform:uppercase}
+/* planet fungo (nd_*, 8 Oct 2026): a nature-documentary parody, the sequel to Fungo Labs' own 7 Oct clip (the bear in the
+   Z cap whispers a secret, the bunny zips its mouth). Their island, their creatures and their yellow, as pixel art: the
+   bunny and the bear redrawn by hand as fan art, their four creatures from our earlier pixel-exact rebuilds. Night in
+   deep royal blue for the cold open, then a light morning sky. Every class starts nd- */
+.nd{--nd-ink:#15141C;--nd-y:#FFD207;--nd-sky1:#EAF4FF;--nd-sky2:#C9E0FF;overflow:hidden}
+.nd .nd-cam{position:absolute;inset:0;transform-origin:50% 62%}
+.nd .nd-sky{position:absolute;inset:-40px}
+.nd .nd-sky.nd-night{background:linear-gradient(180deg,#061848 0%,#0B2A6F 48%,#1C44A8 86%,#2B5BC4 100%)}
+.nd .nd-sky.nd-day{background:linear-gradient(180deg,#F2F8FF 0%,#E0EEFF 50%,#C6DDFF 100%)}
+.nd .nd-star{position:absolute;width:8px;height:8px;background:#FFF6C8}
+.nd .nd-moon{position:absolute;left:110px;top:330px;width:150px;height:150px}
+.nd .nd-sun{position:absolute;left:830px;top:830px;width:150px;height:150px}
+.nd .nd-cloud{position:absolute;opacity:.95}
+.nd .nd-isl{position:absolute;left:60px;top:1240px;width:960px;height:300px}
+.nd .nd-deco{position:absolute}
+.nd .nd-sp{display:block;width:100%;height:100%}
+.nd .nd-ch{position:absolute;transform-origin:50% 100%}
+.nd .nd-ch img{width:100%;height:auto;image-rendering:pixelated;display:block}
+.nd .nd-shadow{position:absolute;height:22px;border-radius:50%;background:rgba(11,31,77,.22)}
+/* the documentary frame: a recording tag, a timecode, a lower third with the species' name */
+.nd .nd-tag{position:absolute;left:56px;top:150px;display:flex;align-items:center;gap:14px;font:700 24px JBM;letter-spacing:5px;text-transform:uppercase;color:#fff;z-index:30}
+.nd .nd-tag i{display:block;width:18px;height:18px;border-radius:50%;background:#FF4D5E}
+.nd .nd-tc{position:absolute;right:56px;top:150px;font:700 24px JBM;letter-spacing:3px;color:#fff;z-index:30}
+.nd.nd-light .nd-tag,.nd.nd-light .nd-tc{color:#0A2A4F}
+.nd .nd-l3{position:absolute;left:56px;top:1410px;padding:16px 26px 16px 22px;border-left:10px solid var(--nd-y);background:rgba(255,255,255,.94);box-shadow:0 16px 40px rgba(11,31,77,.18);z-index:30;opacity:0}
+.nd .nd-l3 b{display:block;font:400 46px/1 Anton;letter-spacing:1px;text-transform:uppercase;color:var(--nd-ink)}
+.nd .nd-l3 span{display:block;margin-top:8px;font:italic 700 26px/1 Manrope;color:#1F5FDB}
+/* speech bubbles: pixel corners, a hard ink border, a stepped tail */
+.nd .nd-bub{position:absolute;padding:18px 26px;background:#fff;color:var(--nd-ink);font:700 36px/1.2 JBM;white-space:nowrap;z-index:25;opacity:0;
+  box-shadow:0 -6px 0 0 #fff,0 6px 0 0 #fff,-6px 0 0 0 #fff,6px 0 0 0 #fff,0 -12px 0 0 var(--nd-ink),0 12px 0 0 var(--nd-ink),-12px 0 0 0 var(--nd-ink),12px 0 0 0 var(--nd-ink),-6px -6px 0 0 var(--nd-ink),6px -6px 0 0 var(--nd-ink),-6px 6px 0 0 var(--nd-ink),6px 6px 0 0 var(--nd-ink)}
+.nd .nd-bub::after{content:'';position:absolute;bottom:-30px;width:18px;height:18px;background:#fff;box-shadow:6px 6px 0 0 var(--nd-ink),-6px 0 0 0 var(--nd-ink),0 6px 0 0 var(--nd-ink)}
+.nd .nd-bub.nd-tail-l::after{left:34px}.nd .nd-bub.nd-tail-r::after{right:34px}
+.nd .nd-bub em{font-style:normal;color:#1F5FDB}
+.nd .nd-bub.nd-big{font-size:64px;padding:10px 22px}
+/* the title */
+.ex_nd_title .nd-t1{position:absolute;left:0;right:0;top:250px;text-align:center;font:400 200px/.9 Anton;letter-spacing:4px;color:var(--nd-ink);text-transform:uppercase;text-shadow:10px 10px 0 rgba(11,31,77,.12)}
+.ex_nd_title .nd-t2{position:absolute;left:0;right:0;top:432px;text-align:center;font:400 230px/.9 Anton;letter-spacing:6px;color:var(--nd-y);text-transform:uppercase;text-shadow:10px 10px 0 var(--nd-ink)}
+.ex_nd_title .nd-ep{position:absolute;left:0;right:0;top:690px;text-align:center}
+.ex_nd_title .nd-ep span{display:inline-block;padding:14px 30px;background:var(--nd-ink);color:#fff;font:700 28px JBM;letter-spacing:5px;text-transform:uppercase}
+.ex_nd_title .nd-ep span b{color:var(--nd-y)}
+/* the machine's read-out */
+.ex_nd_bot .nd-term{position:absolute;left:60px;right:60px;top:300px;padding:26px 30px;background:#fff;border:8px solid var(--nd-ink);font:700 30px/1.45 JBM;color:var(--nd-ink);z-index:22;opacity:0}
+.ex_nd_bot .nd-term div{white-space:nowrap;overflow:hidden}
+.ex_nd_bot .nd-term .nd-ok{color:#1A9E5C}.ex_nd_bot .nd-term .nd-no{color:#E5293F}
+.ex_nd_bot .nd-beam{position:absolute;z-index:18;opacity:0;transform-origin:0 50%}
+.ex_nd_bot .nd-den{position:absolute;left:0;right:0;top:640px;text-align:center;z-index:26;opacity:0}
+.ex_nd_bot .nd-den span{display:inline-block;padding:10px 30px;border:9px solid #E5293F;color:#E5293F;background:rgba(255,255,255,.9);font:400 92px/1 Anton;letter-spacing:4px;transform:rotate(-6deg)}
+/* the marketplace listing */
+.ex_nd_crowd .nd-lst{position:absolute;left:250px;width:580px;top:220px;background:#fff;border:8px solid var(--nd-ink);z-index:20;opacity:0}
+.ex_nd_crowd .nd-lst .nd-art{height:380px;background:var(--nd-ink);display:flex;align-items:center;justify-content:center}
+.ex_nd_crowd .nd-lst .nd-art .bm{width:240px;height:240px}
+.ex_nd_crowd .nd-lst .nd-rw{display:flex;justify-content:space-between;padding:16px 24px;border-top:4px solid #E4E8F0;font:700 28px JBM;color:var(--nd-ink)}
+.ex_nd_crowd .nd-lst .nd-rw b{font-weight:700}
+.ex_nd_crowd .nd-lst .nd-rw.nd-no b{color:#E5293F}
+.ex_nd_crowd .nd-lst .nd-hd{padding:18px 24px;font:400 44px/1 Anton;letter-spacing:1px;color:var(--nd-ink);text-transform:uppercase}
+/* the makers' quote */
+.ex_nd_makers .nd-q{position:absolute;left:70px;right:70px;top:300px;padding:40px 44px 36px;background:var(--nd-y);border:8px solid var(--nd-ink);z-index:20;opacity:0}
+.ex_nd_makers .nd-q .bm{width:110px;height:110px;margin-bottom:22px}
+.ex_nd_makers .nd-q p{font:400 92px/1 Anton;letter-spacing:1px;color:var(--nd-ink);text-transform:uppercase}
+.ex_nd_makers .nd-q small{display:block;margin-top:22px;font:700 24px JBM;letter-spacing:3px;color:var(--nd-ink);text-transform:uppercase}
+/* the holder's view */
+.ex_nd_holder .nd-card{position:absolute;left:150px;right:150px;top:250px;background:#fff;border:8px solid var(--nd-ink);z-index:22;opacity:0}
+.ex_nd_holder .nd-card .nd-ch2{height:330px;background:#2D3659;display:flex;align-items:flex-end;justify-content:center;padding-bottom:30px}
+.ex_nd_holder .nd-card .nd-ch2 .nd-sp{width:190px;height:auto}
+.ex_nd_holder .nd-card .nd-cl{display:flex;justify-content:space-between;align-items:center;padding:18px 24px 6px;font:400 44px/1 Anton;text-transform:uppercase;color:var(--nd-ink)}
+.ex_nd_holder .nd-card .nd-cl span{padding:6px 14px;background:var(--nd-y);font-size:30px}
+.ex_nd_holder .nd-card .nd-st{padding:8px 24px 22px}
+.ex_nd_holder .nd-card .nd-st div{display:flex;align-items:center;gap:14px;margin-top:10px;font:700 22px JBM;letter-spacing:2px;text-transform:uppercase;color:var(--nd-ink)}
+.ex_nd_holder .nd-card .nd-st div span{width:180px}
+.ex_nd_holder .nd-card .nd-st div i{display:block;height:18px;background:var(--c,#43C79A)}
+.ex_nd_holder .nd-card .nd-il{padding:0 24px 18px;font:700 16px JBM;letter-spacing:2px;color:#8A93A8;text-transform:uppercase}
+.ex_nd_holder .nd-tl{position:absolute;left:0;right:0;top:300px;text-align:center;z-index:24;opacity:0}
+.ex_nd_holder .nd-tl b{display:block;font:400 150px/.95 Anton;letter-spacing:2px;color:var(--nd-ink);text-transform:uppercase}
+.ex_nd_holder .nd-tl b em{font-style:normal;color:var(--nd-y);text-shadow:8px 8px 0 var(--nd-ink)}
+.ex_nd_holder .nd-tl span{display:inline-block;margin-top:20px;font:700 24px JBM;letter-spacing:4px;color:#1F5FDB;text-transform:uppercase}
+/* the end: the whitelist and the application */
+.ex_nd_end .nd-wl{position:absolute;left:70px;right:70px;top:250px;padding:30px 34px;background:#fff;border:8px solid var(--nd-ink);z-index:22;opacity:0}
+.ex_nd_end .nd-wl .nd-wh{display:flex;align-items:center;gap:18px;font:400 54px/1 Anton;text-transform:uppercase;color:var(--nd-ink)}
+.ex_nd_end .nd-wl .nd-wh .bm{width:70px;height:70px}
+.ex_nd_end .nd-wl .nd-bar{margin-top:26px;height:44px;border:6px solid var(--nd-ink);background:#F4F1EA;position:relative}
+.ex_nd_end .nd-wl .nd-bar i{position:absolute;left:0;top:0;bottom:0;width:0;background:var(--nd-y)}
+.ex_nd_end .nd-wl .nd-wf{display:flex;justify-content:space-between;margin-top:14px;font:700 24px JBM;letter-spacing:2px;color:var(--nd-ink);text-transform:uppercase}
+.ex_nd_end .nd-me{position:absolute;left:0;right:0;top:620px;text-align:center;z-index:22;opacity:0}
+.ex_nd_end .nd-me span{display:inline-block;padding:18px 30px;background:var(--nd-ink);color:#fff;font:700 34px JBM}
+.ex_nd_end .nd-me span b{color:var(--nd-y)}
+.ex_nd_end .nd-mf{position:absolute;left:0;right:0;top:740px;text-align:center;font:700 24px JBM;letter-spacing:4px;color:#1F5FDB;text-transform:uppercase;z-index:22;opacity:0}
 </style>
 </head>
 <body>
@@ -1634,6 +1720,254 @@ fxCF2 = (add, sc, T, next, ty, w, at) => {
   if (ty === 'end') { add(T + 0.35, '2908', -4); add(T + 0.35, '2299', -5) }
 }
 
+// ---------------------------------------------------------------- planet fungo (nd_*), 8 Oct: a nature-documentary
+// parody, the sequel to Fungo Labs' 7 Oct clip. Pixel sprites drawn as SVG (crisp), their faces swapped per moment.
+const ND_PAL = { g: '#43C79A', G: '#2C9A74', h: '#86E6C4', p: '#F4A3B8', w: '#FFFFFF', k: '#15141C', r: '#8E1F33', t: '#F27C93', y: '#FFD207',
+  Y: '#C9A100', o: '#E8843E', O: '#B4592A', l: '#F6A766', c: '#FBE6CC', b: '#6A7BAE', u: '#E4ECF8', m: '#2A2F45', q: '#B7C3E0', s: '#FFFFFF',
+  d: '#8B5A2B', D: '#6B4423', e: '#7E5229', v: '#5CC45A', V: '#46A048', j: '#7ED957', J: '#3E9443', n: '#F6E7C8', x: '#C98A2E' }
+// the bunny and the bear: Fungo Labs' characters from their 7 Oct clip, redrawn by hand as flat pixel fan art
+const ND_BUNNY = ['...GG......GG...', '..GhgG....GhgG..', '..GppG....GppG..', '..GppG....GppG..', '..GppG....GppG..', '..GggG....GggG..',
+  '..GggGGGGGGggG..', '.GggggggggggggG.', 'GgghgggggggggggG', 'GghggggggggggggG', 'GggggggggggggggG', 'GggggggggggggggG',
+  'GggggggggggggggG', 'GggggggggggggggG', 'GggggggggggggggG', 'GggggggggggggggG', 'GggggggggggggggG', 'GggggggggggggggG',
+  '.GggggggggggggG.', '..GGGGGGGGGGGG..', '...GG......GG...']
+const ND_EYES = { open: ['GggwwwggggwwwggG', 'GggwkkggggwkkggG', 'GggwkkggggwkkggG'], blink: ['GggggggggggggggG', 'GggkkkggggkkkggG', 'GggggggggggggggG'],
+  wink: ['GggwwwggggggggggG'.slice(0, 15) + 'G', 'GggwkkggggkkkggG', 'GggwkkgggggggggG'], wide: ['GggwwwggggwwwggG', 'GggwkwggggwkwggG', 'GggwwwggggwwwggG'],
+  look: ['GggwwwggggwwwggG', 'GggwwkggggwwkggG', 'GggwwkggggwwkggG'] }
+const ND_MOUTH = { smile: ['gkggggkg', 'ggkkkkgg', 'gggttggg'], open: ['ggkkkkgg', 'gkttttkg', 'ggkkkkgg'], gasp: ['gggkkggg', 'ggkrrkgg', 'gggkkggg'],
+  flat: ['gggggggg', 'ggkkkkgg', 'gggggggg'], zip: ['gggggggg', 'gggggggg', 'gggggggg'] }
+const ND_BEAR = ['....kkkkkkkk....', '...kkkyyyyykk...', '..kkkkkkkyykkk..', '..kkkkkkyykkkk..', '..kkkkkyykkkkk..', '..kkkkyyyyykkk..',
+  'OokkkkkkkkkkkkoO', 'OoooooooooooooOO', '.OoloooooooooooO', '.OoooooooooooooO', '.OoooooooooooooO', '.OoooooooooooooO',
+  '.OoooocccccooooO', '.OooocckkkccoooO', '.OooccckccccoooO', '.OoooccttccoooO.', '..OoooooooooooO.', '..OOOOOOOOOOOO..', '...OO......OO...']
+const ND_BEYES = { open: ['.OoowkooooowkooO', '.OoowkooooowkooO'], wink: ['.OoowkoooooooooO', '.OoowkoooookkkoO'] }
+const ND_WHALE = ['..........................mm', '........bbbbbbbbbbb......mbm', '......bbbbbbbbbbbbbbb...mbbm', '.....bbbbbbbbbbbbbbbbb.mbbm.',
+  '....bbbbbbbbbbbbbbbbbbbbbm..', '...bbwkbbbbbbbbbbbbbbbbbm...', '...bbkkbbbbbbbbbbbbbbbbbm...', '..bbbbbbbbbbbbbbbbbbbbbbm...',
+  '..bkkkkkkbbbbbbbbbbbbbbm....', '..uuuuuuuuuuuuuuuubbbbbm....', '...uuquuquuquuquuuubbbm.....', '....uuuuuuuuuuuuuuubbm......', '......mmmmmmmmmmmmmmm.......']
+const ND_BAG = ['....kkk.....', '...kxxxk....', '....kxk.....', '..kkkkkkk...', '.kxxxxxxxk..', 'kxxkkkkkxxk.', 'kxxxxxxxxxk.', 'kxxxkkkxxxk.', 'kxxxxxxxxxk.', 'kxxkkkkkxxk.', '.kxxxxxxxk..', '..kkkkkkk...']
+const ND_MUSH = ['..kkk..', '.kyyyk.', 'kyykyyk', 'kyyyyky', 'kkkkkkk', '..knk..', '..knk..', '..kkk..']
+const ND_ZBLK = ['kkkkkkkk', 'kyyyyyyk', 'kykkkkyk', 'kyyykyyk', 'kyykyyyk', 'kykkkkyk', 'kyyyyyyk', 'kkkkkkkk']
+const ND_MOON = (() => { const n = 10, r = []; for (let y = 0; y < n; y++) { let s = ''; for (let x = 0; x < n; x++) { const d = Math.hypot(x - 4.5, y - 4.5); s += d < 4.7 ? (Math.hypot(x - 3, y - 3) < 1.3 || Math.hypot(x - 6.2, y - 5.6) < 1 ? 'x' : 'y') : '.' } r.push(s) } return r })()
+const ND_CLOUD = ['....wwww.......', '..wwwwwwww.ww..', '.wwwwwwwwwwwww.', 'wwwwwwwwwwwwwww', '.qqqqqqqqqqqqq.']
+// rows of characters → an SVG of merged runs (one rect per run of the same colour)
+function ndRects(grid, x0 = 0, y0 = 0) {
+  let s = ''
+  grid.forEach((r, y) => { let x = 0; while (x < r.length) { const ch = r[x]; let n = 1; while (r[x + n] === ch) n++; if (ND_PAL[ch]) s += `<rect x="${x + x0}" y="${y + y0}" width="${n + 0.02}" height="1.02" fill="${ND_PAL[ch]}"/>`; x += n } })
+  return s
+}
+const ndSvg = (grid, cls = '') => `<svg class="nd-sp ${cls}" viewBox="0 0 ${Math.max(...grid.map(r => r.length))} ${grid.length}" shape-rendering="crispEdges">${ndRects(grid)}</svg>`
+// the bunny: a body, then every face it can make (switched on per moment), then the zipper (teeth drawn one by one)
+function ndBunny(cls = '') {
+  const eyes = Object.entries(ND_EYES).map(([k, rows]) => `<g class="nd-e nd-e-${k}" style="display:none">${ndRects(rows, 0, 10)}</g>`).join('')
+  const mouths = Object.entries(ND_MOUTH).map(([k, rows]) => `<g class="nd-m nd-m-${k}" style="display:none">${ndRects(rows, 4, 14)}</g>`).join('')
+  const teeth = Array.from({ length: 8 }, (_, i) => `<rect class="nd-zt" x="${4 + i}" y="15" width="1.02" height="1.02" fill="${i % 2 ? '#FFFFFF' : '#15141C'}" style="opacity:0"/>`).join('')
+  return `<div class="nd-ch nd-bunny ${cls}" style="width:224px;height:294px"><svg class="nd-sp" viewBox="0 0 16 21" shape-rendering="crispEdges">${ndRects(ND_BUNNY)}${eyes}${mouths}<g class="nd-zip">${teeth}<g class="nd-tab" style="opacity:0"><rect x="0" y="15" width="1.02" height="1.02" fill="#FFD207"/><rect x="0" y="16" width="1.02" height="1.02" fill="#C9A100"/></g></g></svg></div>`
+}
+function ndFace(ch, eyes, mouth) {
+  if (!ch) return
+  if (ch._e !== eyes) { ch._e = eyes; $$('.nd-e', ch).forEach(g => { g.style.display = g.classList.contains('nd-e-' + eyes) ? '' : 'none' }) }
+  if (ch._m !== mouth) { ch._m = mouth; $$('.nd-m', ch).forEach(g => { g.style.display = g.classList.contains('nd-m-' + mouth) ? '' : 'none' }) }
+}
+function ndZip(ch, q) {               // q 0 → 1: the zipper closes left to right (q < 0: open the other way)
+  if (!ch) return; const n = Math.round(8 * clamp(Math.abs(q)))
+  $$('.nd-zt', ch).forEach((r, i) => { r.style.opacity = q >= 0 ? (i < n ? 1 : 0) : (i < 8 - n ? 1 : 0) })
+  const tab = $('.nd-tab', ch), at = q >= 0 ? n : 8 - n
+  tab.style.opacity = (q >= 0 ? n > 0 : n < 8) ? 1 : 0; tab.setAttribute('transform', `translate(${4 + Math.min(7, at)},0)`)
+}
+function ndBear(cls = '') {
+  const eyes = Object.entries(ND_BEYES).map(([k, rows]) => `<g class="nd-e nd-e-${k}" style="display:none">${ndRects(rows, 0, 10)}</g>`).join('')
+  return `<div class="nd-ch nd-bear ${cls}" style="width:224px;height:266px"><svg class="nd-sp" viewBox="0 0 16 19" shape-rendering="crispEdges">${ndRects(ND_BEAR)}${eyes}</svg></div>`
+}
+const ndArt = (n, w = 224) => `<div class="nd-ch nd-${n}" style="width:${w}px">${artImg(n)}</div>`
+// the island: grass on top, stepped earth below, their yellow mushrooms and the Z block on top (drawn once)
+function ndIsland() {
+  const W = 64, rows = []
+  for (let y = 0; y < 20; y++) {
+    const ins = y < 3 ? 0 : Math.floor(Math.pow(y - 2, 1.32) * 1.05 + hsh(y, 7) * 2)
+    let s = ''; for (let x = 0; x < W; x++) {
+      if (x < ins || x >= W - ins) { s += '.'; continue }
+      s += y === 0 ? (hsh(x, 1) < 0.22 ? 'j' : 'v') : y === 1 ? (hsh(x, 3) < 0.3 ? 'V' : 'v') : y === 2 ? (hsh(x, 2) < 0.5 ? 'J' : 'V') : (hsh(x, y) < 0.14 ? 'D' : hsh(x, y + 50) < 0.3 ? 'e' : 'd')
+    }
+    rows.push(s)
+  }
+  return `<svg class="nd-sp" viewBox="0 0 64 20" shape-rendering="crispEdges" preserveAspectRatio="none">${ndRects(rows)}</svg>`
+}
+const ND_DECO = [['mush', 70, -112, 10], ['mush', 200, -84, 7], ['zblk', 820, -96, 8], ['mush', 880, -112, 10], ['mush', 760, -70, 6]]
+const ndDeco = () => ND_DECO.map(([k, x, y, s]) => { const g = k === 'mush' ? ND_MUSH : ND_ZBLK; return `<div class="nd-deco" style="left:${60 + x}px;top:${1240 + y + (16 - s) * 0}px;width:${g[0].length * s * 1.6}px;height:${g.length * s * 1.6}px">${ndSvg(g)}</div>` }).join('')
+const ndStars = () => Array.from({ length: 46 }, (_, i) => `<i class="nd-star" data-i="${i}" style="left:${Math.floor(hsh(i, 11) * 1040)}px;top:${Math.floor(60 + hsh(i, 12) * 900)}px"></i>`).join('')
+const ndClouds = () => [[80, 520, 15], [640, 360, 12], [420, 760, 9]].map(([x, y, s], i) => `<div class="nd-cloud" data-i="${i}" style="left:${x}px;top:${y}px;width:${15 * s}px;height:${5 * s}px">${ndSvg(ND_CLOUD)}</div>`).join('')
+const ndWorld = (night, extra = '', dawn = false) => `<div class="nd-sky ${night ? 'nd-night' : 'nd-day'}"></div>${dawn ? '<div class="nd-sky nd-night nd-dawn"></div>' : ''}${night ? ndStars() + `<div class="nd-moon">${ndSvg(ND_MOON)}</div>` : ndClouds()}
+  <div class="nd-isl">${ndIsland()}</div>${ndDeco()}${extra}`
+const ndL3 = l3 => l3 ? `<div class="nd-l3"><b>${html(l3[0])}</b><span>${html(l3[1])}</span></div>` : ''
+const ndTag = (b, night) => `<div class="nd-tag"><i></i>${html(b.tag || (night ? 'Night cam' : 'Planet Fungo'))}</div><div class="nd-tc"></div>`
+const ndBub = (cls, x, y, txt, tail = 'nd-tail-l') => `<div class="nd-bub ${cls} ${tail}" style="left:${x}px;top:${y}px">${txt}</div>`
+const ndTime = (sc, s) => s ? WT(sc, s[0], new RegExp(s[1], 'i'), s[2] ?? 0) + (s[3] || 0) : 99
+// the timecode in the corner: a clock running from b.clock
+function ndClock(el, sc, lt) { const tc = $('.nd-tc', el); if (!tc) return; const [h, m] = String(sc.data?.clock || '02:14').split(':').map(Number), s = Math.floor(lt * 7) + 2, z = v => String(v).padStart(2, '0'); tc.textContent = `${z(h)}:${z(m + Math.floor(s / 60))}:${z(s % 60)}` }
+
+function buildND(el, sc, b) {
+  el.classList.add('nd'); const night = sc.type === 'ex_nd_cold'
+  if (!night) el.classList.add('nd-light')
+  const shadow = (x, w) => `<div class="nd-shadow" style="left:${x - w * 0.125}px;top:1228px;width:${w * 1.25}px"></div>`
+  let cast = '', over = ''
+  if (sc.type === 'ex_nd_cold') {
+    cast = shadow(600, 224) + shadow(250, 224) + ndBunny('nd-b1') + ndBear('nd-r1')
+    over = ndBub('nd-wh', 330, 690, `psst… <em class="nd-hx"></em>`)
+  } else if (sc.type === 'ex_nd_title') {
+    cast = `<div class="nd-sun">${ndSvg(ND_MOON)}</div>` + shadow(560, 224) + shadow(290, 224) + ndBunny('nd-b1') + ndBear('nd-r1')
+    over = `<div class="nd-t1">${html(b.l1 || 'Planet')}</div><div class="nd-t2">${html(b.l2 || 'Fungo')}</div><div class="nd-ep"><span>${b.ep || 'Episode 2 · <b>The Secret</b>'}</span></div>`
+  } else if (sc.type === 'ex_nd_whale') {
+    cast = shadow(600, 224) + ndBunny('nd-b1') + `<div class="nd-ch nd-whale" style="width:588px;height:273px">${ndSvg(ND_WHALE)}</div><div class="nd-ch nd-bag" style="width:120px;height:120px">${ndSvg(ND_BAG)}</div>`
+    over = ndBub('nd-wb', 120, 330, b.offer || '1,000 ETH.<br>Tell me.', 'nd-tail-r') + ndBub('nd-bb nd-big', 650, 760, '🤐', 'nd-tail-l')
+  } else if (sc.type === 'ex_nd_bot') {
+    cast = shadow(640, 224) + shadow(170, 252) + ndBunny('nd-b1') + ndArt('robot', 252)
+    over = `<svg class="nd-beam" style="left:380px;top:980px" width="300" height="260" viewBox="0 0 300 260"><polygon points="0,20 300,0 300,260 0,40" fill="rgba(255,77,94,.22)"/><line x1="0" y1="30" x2="300" y2="130" stroke="#FF4D5E" stroke-width="4"/></svg>
+      <div class="nd-term">${(b.term || []).map(r => `<div class="${r[1] || ''}">${html(r[0])}</div>`).join('')}</div><div class="nd-den"><span>${html(b.denied || 'Read: denied')}</span></div>`
+  } else if (sc.type === 'ex_nd_crowd') {
+    cast = shadow(60, 224) + shadow(320, 224) + shadow(590, 224) + shadow(830, 200) + ndArt('red', 224) + ndArt('green', 224) + ndArt('king', 224) + ndBunny('nd-b1 nd-sm')
+    over = `<div class="nd-lst"><div class="nd-hd">${html(b.title || 'Listing')}</div><div class="nd-art">${brandMark()}</div>${(b.rows || []).map(r => `<div class="nd-rw ${r[2] || ''}"><span>${html(r[0])}</span><b>${html(r[1])}</b></div>`).join('')}</div>
+      ${ndBub('nd-c1', 90, 890, '?')}${ndBub('nd-c2', 360, 870, '??')}${ndBub('nd-c3', 630, 890, '…')}`
+  } else if (sc.type === 'ex_nd_makers') {
+    cast = shadow(780, 224) + ndBunny('nd-b1')
+    over = `<div class="nd-q">${brandMark()}<p>${html(b.quote || '')}</p><small>${html(b.who || '')}</small></div>`
+  } else if (sc.type === 'ex_nd_holder') {
+    cast = shadow(428, 224) + ndBunny('nd-b1')
+    const st = (b.stats || []).map(([k, v, c]) => `<div><span>${html(k)}</span><i style="width:${v * 3.6}px;--c:${c || '#43C79A'}"></i></div>`).join('')
+    over = ndBub('nd-pb', 600, 600, b.psst || 'psst… only you.') + `<div class="nd-card"><div class="nd-ch2">${ndSvg(ND_BUNNY.map((r, y) => y >= 10 && y <= 12 ? ND_EYES.open[y - 10] : y >= 14 && y <= 16 ? r.slice(0, 4) + ND_MOUTH.smile[y - 14] + r.slice(12) : r))}</div>
+      <div class="nd-cl">${html(b.name || 'Your Fungo')}<span>${html(b.cls || 'Rare')}</span></div><div class="nd-st">${st}</div><div class="nd-il">${html(b.ill || 'Holder view · illustration')}</div></div>
+      <div class="nd-tl"><b>${b.tagline_html || 'Seen by all.<br><em>Known by one.</em>'}</b><span>${html(b.tag_by || '')}</span></div>`
+  } else if (sc.type === 'ex_nd_end') {
+    cast = shadow(300, 224) + shadow(560, 224) + ndBear('nd-r1') + ndBunny('nd-b1')
+    over = `<div class="nd-wl"><div class="nd-wh">${brandMark()}${html(b.wl_title || 'Whitelist')}</div><div class="nd-bar"><i></i></div><div class="nd-wf"><span>${html(b.wl_left || '')}</span><span>${html(b.wl_right || '')}</span></div></div>
+      <div class="nd-me"><span>${b.me || ''}</span></div><div class="nd-mf">${html(b.made || '')}</div>`
+  }
+  el.innerHTML = `<div class="nd-cam">${ndWorld(night, cast, sc.type === 'ex_nd_title')}</div>${over}${ndTag(b, night)}${ndL3(b.l3)}`
+}
+
+// place a character: x, y = its feet (bottom centre), with a bob
+function ndPut(n, x, y, bob = 0, rot = 0, sc = 1.25) {
+  if (!n) return; const w = n.offsetWidth || 224, h = n.offsetHeight || 294
+  n.style.left = `${(x - w / 2).toFixed(1)}px`; n.style.top = `${(y - h).toFixed(1)}px`
+  n.style.transform = `translate3d(0,${(-Math.abs(bob)).toFixed(1)}px,0) rotate(${rot.toFixed(2)}deg) scale(${sc})`
+}
+function ndPop(n, lt, at, dur = 0.3) { if (!n) return; const q = P(lt, at, at + dur, E.outBack); n.style.opacity = lt >= at ? 1 : 0; n.style.transform = `scale(${(0.3 + 0.7 * q).toFixed(3)})`; n.style.transformOrigin = '30% 100%' }
+
+function drawND(el, lt, sc, b) {
+  const last = sc.lines.length - 1, end = L(sc, last, 1), bob = (f, ph = 0) => 10 * Math.sin(lt * f + ph)
+  ndClock(el, sc, lt)
+  const tg = $('.nd-tag i', el); if (tg) tg.style.opacity = Math.floor(lt * 1.6) % 2 ? 0.25 : 1
+  $$('.nd-star', el).forEach(s => { const i = +s.dataset.i; s.style.opacity = (0.35 + 0.65 * Math.abs(Math.sin(lt * (0.8 + hsh(i, 5)) + i))).toFixed(2) })
+  $$('.nd-cloud', el).forEach(c => { c.style.transform = `translate3d(${(lt * (10 + 6 * +c.dataset.i)).toFixed(1)}px,0,0)` })
+  const l3 = $('.nd-l3', el); if (l3) { const a = b.l3_at ? ndTime(sc, b.l3_at) : L(sc, 0, 0.3); const q = P(lt, a, a + 0.45, E.outCubic), out = P(lt, a + (b.l3_hold || 3.2), a + (b.l3_hold || 3.2) + 0.4); l3.style.opacity = (q * (1 - out)).toFixed(2); l3.style.transform = `translate3d(${(-60 * (1 - q)).toFixed(1)}px,0,0)` }
+  const cam = $('.nd-cam', el), bun = $('.nd-bunny', el), bear = $('.nd-bear', el)
+  const blink = (t0) => (lt + t0) % 3.1 < 0.12
+  if (sc.type === 'ex_nd_cold') {
+    // night on the island: a slow push-in; the bear drifts in, whispers, the bunny gasps, then zips its mouth
+    cam.style.transform = `scale(${(1 + 0.1 * P(lt, 0, sc.dur, E.inOutSine)).toFixed(4)})`
+    const bin = ndTime(sc, b.bear_at || [1, 'something', 0.2]), wh = ndTime(sc, b.whisper_at || [2, 'secret', 0.2]), gs = wh + 0.9, z0 = b.zip_at != null ? b.zip_at : end + 0.15
+    const bx = 250 + 110 * P(lt, wh - 0.4, wh, E.outCubic) - 600 * (1 - P(lt, bin, bin + 1.6, E.outCubic))
+    ndPut(bear, bx + 112, 1240, bob(2.4), lt > wh - 0.4 && lt < gs + 0.6 ? 9 : 0)
+    const shs = $$('.nd-shadow', el); if (shs[1]) shs[1].style.opacity = P(lt, bin + 0.6, bin + 1.6).toFixed(2)
+    ndPut(bun, 712, 1240, lt > gs && lt < gs + 0.25 ? 26 : bob(2, 1.3) * 0.4)
+    const zq = P(lt, z0, z0 + 0.55, E.inOutSine)
+    ndFace(bun, lt > gs ? 'wide' : blink(0) ? 'blink' : 'open', lt >= z0 ? 'zip' : lt > gs ? 'gasp' : 'smile'); ndZip(bun, lt >= z0 ? zq : 0)
+    ndFace(bear, lt > wh + 1.3 ? 'wink' : 'open', '')
+    const wb = $('.nd-wh', el); ndPop(wb, lt, wh); if (lt > gs + 0.4) wb.style.opacity = 0
+    const hx = $('.nd-hx', el); if (hx) hx.textContent = hexs(6, 3, lt, 10)
+  } else if (sc.type === 'ex_nd_title') {
+    // the drop: sunrise. PLANET FUNGO slams in; the bunny, zipped, winks on "seals"
+    const sq = P(lt, 0, 1.4, E.outCubic), sun = $('.nd-sun', el), dw = $('.nd-dawn', el)
+    if (dw) dw.style.opacity = (1 - P(lt, 0, 1.1, E.inOutSine)).toFixed(3)
+    sun.style.transform = `translate3d(0,${(260 * (1 - sq)).toFixed(1)}px,0)`
+    slam($('.nd-t1', el), lt, 0.05, 1.8, 0.3); slam($('.nd-t2', el), lt, 0.22, 1.8, 0.3); rise([$('.nd-ep span', el)], lt, 0.6, 0, 30)
+    ndPut(bear, 402, 1240, bob(2.2), 0); ndPut(bun, 672, 1240, bob(2, 1.3) * 0.5)
+    const sa = ndTime(sc, b.seal_at || [0, 'seals', 0.8])
+    ndFace(bun, lt > sa && lt < sa + 0.9 ? 'wink' : blink(0.4) ? 'blink' : 'open', 'zip'); ndZip(bun, 1); ndFace(bear, lt > sa + 0.2 && lt < sa + 1.2 ? 'wink' : 'open', '')
+    el.style.transform = shake(lt, 0.22, 16)
+  } else if (sc.type === 'ex_nd_whale') {
+    // the whale floats in with a bag of money; the bunny doesn't blink; the whale sinks away to a trombone
+    const win = L(sc, 0, 0.55), off = ndTime(sc, b.offer_at || [1, 'fortune', 0.3]), no = ndTime(sc, b.no_at || [2, 'blink', 0.6]), gone = no + 0.9
+    const wx = 1300 - 760 * P(lt, win, win + 1.4, E.outCubic) + 900 * P(lt, gone, gone + 1.4, E.inCubic), wy = 640 + 14 * Math.sin(lt * 1.6) + 200 * P(lt, gone, gone + 1.4, E.inCubic)
+    const wh = $('.nd-whale', el); wh.style.left = `${(wx - 294).toFixed(1)}px`; wh.style.top = `${(wy - 273).toFixed(1)}px`; wh.style.transform = `rotate(${(lt > gone ? -12 * P(lt, gone, gone + 0.6) : 2 * Math.sin(lt * 1.6)).toFixed(2)}deg)`
+    const bg = $('.nd-bag', el), bq = P(lt, off, off + 0.5, E.outBack); bg.style.left = `${(wx - 290).toFixed(1)}px`; bg.style.top = `${(wy - 20 + 40 * (1 - bq)).toFixed(1)}px`; bg.style.opacity = lt >= off && lt < gone + 0.2 ? 1 : 0
+    ndPut(bun, 712, 1240, 0); ndFace(bun, lt > no - 0.2 && lt < no + 1.2 ? 'look' : 'open', 'zip'); ndZip(bun, 1)
+    const wb = $('.nd-wb', el); ndPop(wb, lt, off); if (lt > no) wb.style.opacity = 0
+    ndPop($('.nd-bb', el), lt, no)
+  } else if (sc.type === 'ex_nd_bot') {
+    // the machine: scans and computes all day; reading is denied
+    const rin = L(sc, 0, 0.3), sc0 = ndTime(sc, b.scan_at || [1, 'compute', 0]), dn = ndTime(sc, b.deny_at || [2, 'never', 0])
+    const rx = 300 - 600 * (1 - P(lt, rin, rin + 1.2, E.outCubic))
+    const rb = $('.nd-robot', el); ndPut(rb, rx, 1240, bob(3.4), lt > dn ? 6 * Math.sin(lt * 30) * (1 - P(lt, dn, dn + 0.5)) : 0)
+    ndPut(bun, 752, 1240, 0); ndFace(bun, blink(0.8) ? 'blink' : 'open', 'zip'); ndZip(bun, 1)
+    const bm = $('.nd-beam', el); bm.style.opacity = lt > sc0 && lt < dn + 0.4 ? (0.6 + 0.4 * Math.sin(lt * 12)).toFixed(2) : 0
+    const tm = $('.nd-term', el); rise([tm], lt, sc0 - 0.2, 0, 40)
+    const rows = $$('.nd-term div', el), tr = b.term || []
+    rows.forEach((r, j) => { const a = tr[j]?.[2] ? ndTime(sc, tr[j][2]) : sc0 + 0.3 + j * 0.5; r.style.opacity = lt >= a ? 1 : 0; if (tr[j]?.[3] === 'hex') r.textContent = `enc(0x${hexs(18, 7 + j, lt, 9)}…)` })
+    slam($('.nd-den', el), lt, dn, 1.8, 0.25); const dd = $('.nd-den', el); dd.style.transform += glitch(dd, lt, dn + 0.05) || ''
+  } else if (sc.type === 'ex_nd_crowd') {
+    // the marketplace: the crowd peers at a sealed listing; "Revealed: No"
+    const ca = L(sc, 0, 0.1), la = ndTime(sc, b.list_at || [1, 'marketplace', 0]), rv = ndTime(sc, b.rev_at || [2, 'Revealed', 0])
+    const ch = [['red', 172], ['green', 432], ['king', 702]]
+    ch.forEach(([n, x], j) => { const a = ca + j * 0.25, q = P(lt, a, a + 0.55, E.outBack); const c = $('.nd-' + n, el); c.style.opacity = lt >= a ? 1 : 0; ndPut(c, x, 1240 - 900 * (1 - q), q < 1 ? 0 : bob(2.6, j * 1.7), Math.sin(lt * 2 + j) * 3) })
+    const bb = $('.nd-bunny', el); ndPut(bb, 930, 1240, 0, 0); ndFace(bb, 'look', 'zip'); ndZip(bb, 1)
+    slam($('.nd-lst', el), lt, la, 1.15, 0.3)
+    const rows = $$('.nd-rw', el); rows.forEach((r, j) => { r.style.opacity = j === rows.length - 1 ? (lt >= rv ? 1 : 0) : 1 }); const lr = rows.at(-1); if (lr && lt >= rv) lr.style.transform = `scale(${(1 + 0.12 * (1 - P(lt, rv, rv + 0.3))).toFixed(3)})`
+    ;['.nd-c1', '.nd-c2', '.nd-c3'].forEach((s, j) => ndPop($(s, el), lt, rv + 0.35 + j * 0.15))
+  } else if (sc.type === 'ex_nd_makers') {
+    // even the makers: their own words on a yellow card; the bunny peeks from the side
+    const qa = ndTime(sc, b.quote_at || [1, 'nobody', -0.3])
+    slam($('.nd-q', el), lt, Math.max(0.4, qa), 1.2, 0.3)
+    ndPut(bun, 892, 1240, bob(2, 0.4) * 0.4, -8 * Math.sin(lt * 1.3)); ndFace(bun, lt > qa + 1.5 ? 'wide' : 'look', 'zip'); ndZip(bun, 1)
+  } else if (sc.type === 'ex_nd_holder') {
+    // only the holder: the camera comes close, the bunny leans in, unzips for you; the holder's card; the tagline
+    const pa = L(sc, 0, 0.5), ua = ndTime(sc, b.unzip_at || [1, 'holds', 0]), ta = ndTime(sc, b.tag_at || [2, 'Seen', -0.1])
+    cam.style.transform = `scale(${(1 + 0.45 * P(lt, 0, pa + 0.6, E.inOutSine) - 0.45 * P(lt, ua + 0.9, ua + 1.5, E.inOutSine)).toFixed(4)})`; cam.style.transformOrigin = '50% 62%'
+    ndPut(bun, 540, 1240, bob(2) * 0.3); ndFace(bun, lt > ua + 0.4 ? 'open' : blink(0.2) ? 'blink' : 'look', lt > ua + 0.55 ? 'smile' : 'zip'); ndZip(bun, lt > ua ? -P(lt, ua, ua + 0.5) : 1)
+    const pb = $('.nd-pb', el); ndPop(pb, lt, pa); if (lt > ua + 0.8) pb.style.opacity = 0
+    const cd = $('.nd-card', el); slam(cd, lt, ua + 0.9, 1.15, 0.3); if (lt > ta - 0.3) cd.style.opacity = (1 - P(lt, ta - 0.3, ta)).toFixed(2)
+    $$('.nd-st i', el).forEach((x, j) => { x.style.transform = `scaleX(${P(lt, ua + 1.2 + j * 0.15, ua + 1.7 + j * 0.15, E.outCubic).toFixed(3)})`; x.style.transformOrigin = '0 50%' })
+    slam($('.nd-tl', el), lt, ta, 1.5, 0.3)
+  } else if (sc.type === 'ex_nd_end') {
+    // the whitelist, about a fifth full, and the owner's application; the bunny winks and zips again
+    const wa = L(sc, 0, 0.05), ma = ndTime(sc, b.me_at || [1, 'applied', -0.2]), wk = ndTime(sc, b.wink_at || [1, 'secret', 0])
+    slam($('.nd-wl', el), lt, wa, 1.12, 0.3); $('.nd-bar i', el).style.width = `${(+(b.fill || 20) * P(lt, wa + 0.5, wa + 1.8, E.outCubic)).toFixed(1)}%`
+    slam($('.nd-me', el), lt, ma, 1.3, 0.28); rise([$('.nd-mf', el)], lt, ma + 0.5, 0, 20)
+    ndPut(bear, 412, 1240, bob(2.2), Math.sin(lt * 3) * 6); ndPut(bun, 672, 1240, bob(2, 1.1) * 0.6)
+    ndFace(bun, lt > wk && lt < wk + 1.1 ? 'wink' : blink(0.5) ? 'blink' : 'open', lt > wk + 0.2 ? 'zip' : 'smile'); ndZip(bun, lt > wk + 0.2 ? P(lt, wk + 0.2, wk + 0.7) : 0)
+    ndFace(bear, lt > wk + 0.3 && lt < wk + 1.3 ? 'wink' : 'open', '')
+  }
+}
+
+function fxND(add, sc, T, next, syn) {
+  const b = sc.data || {}, last = sc.lines.length - 1, end = L(sc, last, 1)
+  if (sc.type === 'ex_nd_cold') {
+    add(T, '1789', -20, { align: 'start', max: Math.max(1, sc.dur + 0.4) }); add(T, '497', -17, { align: 'start', max: Math.max(1, sc.dur - 0.2) })
+    const bin = ndTime(sc, b.bear_at || [1, 'something', 0.2]), wh = ndTime(sc, b.whisper_at || [2, 'secret', 0.2]), z0 = b.zip_at != null ? b.zip_at : end + 0.15
+    add(T + bin + 0.2, '3115', -16); add(T + wh, '302', -13, { max: 1.6 }); add(T + wh + 0.9, '967', -9); syn(T + z0, 'zip', 1)
+    if (next?.data?.drop) add(next.start, '2908', -6, { reverse: true, max: 2.4, align: 'end' })
+  }
+  if (sc.type === 'ex_nd_title') { const sa = ndTime(sc, b.seal_at || [0, 'seals', 0.8]); add(T + sa, '871', -11); add(T + 0.6, '2894', -16) }
+  if (sc.type === 'ex_nd_whale') {
+    const win = L(sc, 0, 0.55), off = ndTime(sc, b.offer_at || [1, 'fortune', 0.3]), no = ndTime(sc, b.no_at || [2, 'blink', 0.6])
+    add(T + win, '3115', -14); add(T + off, '2894', -13); add(T + off + 0.1, '729', -16); add(T + no, '729', -15); add(T + no + 0.9, '744', -12)
+  }
+  if (sc.type === 'ex_nd_bot') {
+    const rin = L(sc, 0, 0.3), sc0 = ndTime(sc, b.scan_at || [1, 'compute', 0]), dn = ndTime(sc, b.deny_at || [2, 'never', 0])
+    add(T + rin, '3117', -15, { max: 1.4 }); add(T + sc0, '2847', -14, { max: 2.2 }); add(T + sc0 + 0.2, '3122', -18, { max: Math.max(1, dn - sc0) }); add(T + dn, '2951', -9); add(T + dn, '1035', -13)
+  }
+  if (sc.type === 'ex_nd_crowd') {
+    const la = ndTime(sc, b.list_at || [1, 'marketplace', 0]), rv = ndTime(sc, b.rev_at || [2, 'Revealed', 0])
+    add(T + L(sc, 0, 0.1) + 0.3, '92', -15, { max: 1.2 }); add(T + la, '3124', -11); add(T + rv, '2299', -8); add(T + rv, '2573', -11); add(T + rv + 0.4, '729', -16)
+  }
+  if (sc.type === 'ex_nd_makers') { const qa = ndTime(sc, b.quote_at || [1, 'nobody', -0.3]); add(T + Math.max(0.4, qa), '1143', -12); add(T + Math.max(0.4, qa), '2299', -10) }
+  if (sc.type === 'ex_nd_holder') {
+    const pa = L(sc, 0, 0.5), ua = ndTime(sc, b.unzip_at || [1, 'holds', 0]), ta = ndTime(sc, b.tag_at || [2, 'Seen', -0.1])
+    add(T + pa, '729', -16); syn(T + ua, 'zip', 0.9); add(T + ua + 0.5, '871', -10); add(T + ua + 0.9, '2350', -13); add(T + ta, '2909', -7); add(T + ta, '2299', -7)
+  }
+  if (sc.type === 'ex_nd_end') {
+    const wa = L(sc, 0, 0.05), ma = ndTime(sc, b.me_at || [1, 'applied', -0.2]), wk = ndTime(sc, b.wink_at || [1, 'secret', 0])
+    add(T + wa, '3124', -11); add(T + ma, '3193', -11); syn(T + wk + 0.2, 'zip', 0.8); add(T + wk + 0.1, '871', -12)
+  }
+}
+
 // ---------------------------------------------------------------- build each screen
 const built = D.scenes.map(sc => {
   const el = document.createElement('div'), b = sc.data || {}
@@ -1641,6 +1975,7 @@ const built = D.scenes.map(sc => {
   if (sc.type.startsWith('ex_kh_')) buildKH(el, sc, b)
   else if (sc.type.startsWith('ex_pt_')) buildPT(el, sc, b)
   else if (sc.type.startsWith('ex_cf_')) buildCF(el, sc, b)
+  else if (sc.type.startsWith('ex_nd_')) buildND(el, sc, b)
   else if (sc.type === 'ex_cold') {
     const legs = b.legs || []
     el.innerHTML = `<div class="dim"></div><div class="amt2"><div class="v">${html(b.from || '$10')}</div><div class="lb"></div></div>
@@ -1716,6 +2051,7 @@ function draw(k, lt, sc) {
   if (sc.type.startsWith('ex_kh_')) return drawKH(el, lt, sc, b)
   if (sc.type.startsWith('ex_pt_')) return drawPT(el, lt, sc, b)
   if (sc.type.startsWith('ex_cf_')) return drawCF(el, lt, sc, b)
+  if (sc.type.startsWith('ex_nd_')) return drawND(el, lt, sc, b)
   if (sc.type === 'ex_cold') {
     // lines: "Ten dollars." / "One ticket." / "$172 back, if every leg lands." / "Or nothing at all." → silence → the drop
     const v = $('.amt2 .v', el), lb = $('.amt2 .lb', el), ct = $('.ct', el), cks = $$('.ck', el)
@@ -1842,13 +2178,14 @@ function draw(k, lt, sc) {
 // "cinematic" sound (cfg.sound): recorded Mixkit effects (lib/sfx.json), placed on the moments the screens move.
 // db = level against the voice; align = which part of the effect lands on the moment.
 function fxCinematic() {
-  const ev = [], add = (t, sfx, db, o = {}) => ev.push({ t: +Math.max(0, t).toFixed(3), sfx, db, ...o })
+  const ev = [], add = (t, sfx, db, o = {}) => ev.push({ t: +Math.max(0, t).toFixed(3), sfx, db, ...o }), syn = (t, type, gain) => ev.push({ t: +Math.max(0, t).toFixed(3), type, ...(gain ? { gain } : {}) })
   D.scenes.forEach((sc, k) => {
     const T = sc.start, b = sc.data || {}, at = (j, f = 0) => T + L(sc, j, f), next = D.scenes[k + 1]
-    const drop = (sc.type === 'ex_hook' || /^ex_(kh|pt|cf)_/.test(sc.type)) && b.drop
+    const drop = (sc.type === 'ex_hook' || /^ex_(kh|pt|cf|nd)_/.test(sc.type)) && b.drop
     if (sc.type.startsWith('ex_kh_')) fxKH(add, sc, T, next)
     if (sc.type.startsWith('ex_pt_')) fxPT(add, sc, T, next)
     if (sc.type.startsWith('ex_cf_')) fxCF(add, sc, T, next)
+    if (sc.type.startsWith('ex_nd_')) fxND(add, sc, T, next, syn)
     if (k > 0 && !drop) add(T, k % 2 ? '1492' : '2636', k % 2 ? -12 : -14, { align: 'peak' })
     if (sc.type === 'ex_cold') {
       add(T, '497', -13, { align: 'start', max: Math.max(1, sc.dur - 0.2) })                // heartbeat under the cold open
