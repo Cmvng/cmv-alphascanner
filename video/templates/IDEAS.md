@@ -47,6 +47,9 @@ Different is the floor; creative is the bar. Before building, write the concept 
 - **Minute by minute:** a timeline strip that fills in as the goals and cards land.
 - **What we got wrong:** an honesty format when the read failed; it builds trust.
 - **Ratings wall:** the players as cards, the best and worst flipped over last.
+- **Pay off the morning's device (used 8 Oct, `post-match/arrivals-2026-10-08.json`):** when the analysis had a strong
+  picture (a route around the globe), the post-match answers it in a new look (an arrivals board, every game a flight
+  that lands). Other pairs: a heist plan → the heist's aftermath; a newspaper's two front pages → the one that printed.
 
 ## The owner's own recordings (crypto, Polymarket)
 - The two creators' look (4 Oct): the owner full frame, screens floating in as tilted cards, numbers popping out,

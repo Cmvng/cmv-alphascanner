@@ -879,6 +879,132 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#03060F}
 #cap.glc{right:70px}
 #cap.glc .c{color:#fff;background:rgba(11,31,77,.9);padding:10px 26px 12px;border-radius:16px;text-shadow:none}
 #stage.gll #credit{color:rgba(11,31,77,.5)}#stage.gll #foot{color:rgba(11,31,77,.55)}
+/* arrivals (ar_*, first used 8 Oct 2026): the post-match as an airport arrivals board. The morning's analysis flew
+   city to city; overnight every game "landed". Split-flap tiles clatter each score in, in the teams' own kit colours; a
+   flight path runs from kick-off (take-off) to full time (landing) with the goals as waypoints, and the morning's call
+   is a boarding pass that gets stamped. A light terminal page; deep royal blue only for the cold open. Green, amber and
+   red only mean called, half right and missed. Every class starts ar- */
+.ar{--ar-ink:#0B1F4D;--ar-blue:#1F5FDB;--ar-sky:#4FB3FF;--ar-mute:#5B6B8C;--ar-ok:#15A34A;--ar-bad:#DC2626;--ar-half:#E08A00;--ar-wait:#8A9AB8;color:var(--ar-ink)}
+.ar .ar-hall{position:absolute;inset:0;background:radial-gradient(ellipse 90% 38% at 50% 16%,#FFFFFF 0%,rgba(255,255,255,0) 70%),linear-gradient(180deg,#EEF6FF 0%,#DCEBFF 55%,#C9DEFF 100%)}
+.ar .ar-glass{position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(31,95,219,.06) 0 5px,rgba(0,0,0,0) 5px 216px)}
+.ar .ar-pg{position:absolute;inset:0}
+.ar .ar-top{position:absolute;left:46px;right:46px;top:96px;height:64px;display:flex;align-items:center;gap:18px;font:700 19px JBM;letter-spacing:3px;text-transform:uppercase;color:var(--ar-mute);white-space:nowrap}
+.ar .ar-chip{display:flex;align-items:center;gap:12px;padding:12px 22px 12px 16px;border-radius:999px;background:var(--ar-ink);color:#fff}
+.ar .ar-chip svg{width:30px;height:30px;fill:var(--ar-sky)}
+.ar .ar-top .ar-no{margin-left:auto;color:var(--ar-blue)}
+.ar .badge{width:96px;height:96px}.ar .badge img{filter:none}
+.ar .badge.flag{box-shadow:0 0 0 4px #fff,0 10px 26px rgba(16,52,130,.28)}
+.ar .ar-card{position:absolute;background:#fff;border-radius:28px;box-shadow:0 26px 60px rgba(16,52,130,.18),0 0 0 2px rgba(11,31,77,.05)}
+.ar .ar-sw{display:inline-block;border-radius:6px;box-shadow:inset 0 0 0 2px rgba(11,31,77,.16)}
+/* a split-flap tile: two halves with a hinge; the character flips through the drum to its target */
+.ar-f{position:relative;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;border-radius:9px;overflow:hidden;color:#0B1F4D;font-family:JBM;font-weight:700;
+  background:linear-gradient(180deg,#FFFFFF 0%,#F2F6FD 49.4%,#DCE5F4 50.6%,#F4F7FD 100%);box-shadow:0 8px 18px rgba(16,52,130,.22),inset 0 0 0 2px rgba(11,31,77,.08)}
+.ar-f::after{content:'';position:absolute;left:0;right:0;top:50%;height:3px;margin-top:-1.5px;background:rgba(11,31,77,.22)}
+.ar-f::before{content:'';position:absolute;left:5px;right:5px;top:50%;height:9px;margin-top:-4.5px;background:radial-gradient(circle,rgba(11,31,77,.35) 3px,rgba(0,0,0,0) 3.5px) 0 0/100% 100% no-repeat,radial-gradient(circle,rgba(11,31,77,.35) 3px,rgba(0,0,0,0) 3.5px) 100% 0/9px 9px no-repeat;opacity:.9}
+.ar-f b{display:block;font-weight:inherit;line-height:1;transform-origin:50% 50%;white-space:pre}
+.ar-f.kit::after{background:rgba(0,0,0,.28)}
+.ar-f.ok{background:linear-gradient(180deg,#1DB257 0%,#16A34A 49.4%,#118A3D 50.6%,#16A34A 100%);color:#fff}
+.ar-f.bad{background:linear-gradient(180deg,#EA3B3B 0%,#DC2626 49.4%,#B91C1C 50.6%,#DC2626 100%);color:#fff}
+.ar-f.half{background:linear-gradient(180deg,#F29A12 0%,#E08A00 49.4%,#C07400 50.6%,#E08A00 100%);color:#fff}
+.ar-f.navy{background:linear-gradient(180deg,#1F4FB8 0%,#173F9A 49.4%,#103483 50.6%,#163E98 100%);color:#fff}
+.ar-fs{display:flex;gap:6px}
+/* the board: a white panel with a navy header bar; one row per game */
+.ar .ar-board{position:absolute;left:24px;right:24px;border-radius:28px;background:#fff;box-shadow:0 30px 70px rgba(16,52,130,.24),0 0 0 2px rgba(11,31,77,.05);overflow:hidden}
+.ar .ar-bh{position:absolute;left:0;right:0;top:0;height:92px;background:linear-gradient(180deg,#14399A,#0E2C7C);display:flex;align-items:center;gap:16px;padding:0 30px;color:#fff}
+.ar .ar-bh svg{width:46px;height:46px;fill:var(--ar-sky)}
+.ar .ar-bh .ar-bw{font:400 54px/1 Anton;letter-spacing:4px;text-transform:uppercase}
+.ar .ar-bh .ar-bt{margin-left:auto;font:700 20px JBM;letter-spacing:3px;color:var(--ar-sky);text-transform:uppercase}
+.ar .ar-cols{position:absolute;left:0;right:0;top:92px;height:44px;display:flex;align-items:center;font:700 15px JBM;letter-spacing:3px;color:var(--ar-mute);text-transform:uppercase;border-bottom:2px solid rgba(11,31,77,.08)}
+.ar .ar-cols span{position:absolute}
+.ar .ar-row{position:absolute;left:0;right:0;border-bottom:2px solid rgba(11,31,77,.07)}
+.ar .ar-row:last-child{border-bottom:0}
+.ar .ar-row.cur{background:linear-gradient(90deg,rgba(79,179,255,.16),rgba(79,179,255,.04))}
+.ar .ar-row>.ar-tm{position:absolute;left:26px;top:50%;transform:translateY(-50%);width:150px}
+.ar .ar-tm b{display:block;font:700 30px/1 JBM;color:var(--ar-ink)}
+.ar .ar-tm span{display:block;margin-top:8px;font:700 15px/1.1 JBM;letter-spacing:2px;color:var(--ar-blue);text-transform:uppercase;white-space:nowrap}
+.ar .ar-row>.ar-mt{position:absolute;left:178px;top:50%;transform:translateY(-50%);width:420px;display:flex;flex-direction:column;gap:8px}
+.ar .ar-mt>div{display:flex;align-items:center;gap:12px;font:800 25px/1 Manrope;letter-spacing:-.5px;white-space:nowrap}
+.ar .ar-mt .badge{width:40px;height:40px}
+.ar .ar-mt .ar-sw{width:10px;height:30px}
+.ar .ar-row>.ar-rs{position:absolute;left:560px;top:50%;transform:translateY(-50%)}
+.ar .ar-row>.ar-st{position:absolute;right:22px;top:50%;transform:translateY(-50%)}
+.ar .ar-st .ar-f{font:800 21px/1 JBM;letter-spacing:2px}
+/* the strip of all eight flights along the bottom, filling in as each verdict lands */
+.ar .ar-strip{position:absolute;left:46px;right:46px;top:1704px;height:100px;display:flex;gap:8px}
+.ar .ar-slot{flex:1;position:relative;border-radius:18px;background:rgba(255,255,255,.66);box-shadow:0 0 0 2px rgba(11,31,77,.06);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px}
+.ar .ar-slot>.ar-fl{display:flex}.ar .ar-slot .badge{width:38px;height:38px;margin:0 -4px}
+.ar .ar-slot>i{display:block;width:44px;height:8px;border-radius:4px;background:#C3CFE4}
+.ar .ar-slot.cur{background:#fff;box-shadow:0 0 0 4px var(--ar-blue),0 12px 26px rgba(31,95,219,.3)}
+.ar .ar-slot.ok>i{background:var(--ar-ok)}.ar .ar-slot.bad>i{background:var(--ar-bad)}.ar .ar-slot.half>i{background:var(--ar-half)}
+/* the cold open: the arrivals hall at night, deep royal blue; one big flap word per line; a runway's approach lights */
+.ar_cold .ar-deep{position:absolute;inset:0;background:radial-gradient(ellipse 85% 55% at 50% 40%,#1C44A8 0%,#0B2A6F 55%,#061848 100%)}
+.ar_cold .ar-pb{position:absolute;left:56px;top:112px;display:flex;align-items:center;gap:12px;font:700 24px JBM;letter-spacing:5px;color:var(--ar-sky);text-transform:uppercase}
+.ar_cold .ar-pb svg{width:34px;height:34px;fill:var(--ar-sky)}
+.ar_cold .ar-tc{position:absolute;right:56px;top:100px}
+.ar_cold .ar-cw{position:absolute;left:40px;right:40px;top:400px;display:flex;justify-content:center}
+.ar_cold .ar-clab{position:absolute;left:0;right:0;top:640px;text-align:center;font:700 28px JBM;letter-spacing:6px;text-transform:uppercase;color:var(--ar-sky)}
+.ar_cold .ar-run{position:absolute;left:0;top:820px;width:1080px;height:640px}
+.ar_cold .ar-f.red{color:#E5293F}
+/* the title: ARRIVALS flips in on the drop, then the board */
+.ar_title .ar-tw{position:absolute;left:40px;right:40px;top:200px;display:flex;justify-content:center}
+.ar_title .ar-sub{position:absolute;left:0;right:0;top:372px;text-align:center;font:700 24px JBM;letter-spacing:5px;color:var(--ar-blue);text-transform:uppercase}
+/* a flight: the big score in kit colours, the flight path, the boarding pass */
+.ar_flight .ar-k{position:absolute;left:50px;right:46px;top:184px;font:700 22px JBM;letter-spacing:4px;text-transform:uppercase;color:var(--ar-blue);white-space:nowrap}
+.ar_flight .ar-cityb{position:absolute;left:46px;right:46px;top:222px;font:400 96px/1 Anton;letter-spacing:1px;text-transform:uppercase;white-space:nowrap}
+.ar_flight .ar-cityb span{color:var(--ar-blue)}
+.ar_flight .ar-sc{position:absolute;left:24px;right:24px;top:356px;height:390px}
+.ar_flight .ar-tmb{position:absolute;top:0;width:250px;display:flex;flex-direction:column;align-items:center;gap:16px;text-align:center}
+.ar_flight .ar-tmb .badge{width:170px;height:170px}
+.ar_flight .ar-tmb b{display:block;font:400 40px/1.05 Anton;letter-spacing:.5px;text-transform:uppercase}
+.ar_flight .ar-tmb .ar-sw{width:120px;height:14px}
+.ar_flight .ar-dig{position:absolute;top:20px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:16px}
+.ar_flight .ar-dig .ar-f{font-family:Anton;font-weight:400}
+.ar_flight .ar-dig em{font:400 90px/1 Anton;color:var(--ar-mute);font-style:normal}
+.ar_flight .ar-ft{position:absolute;left:0;right:0;top:300px;text-align:center;font:700 20px JBM;letter-spacing:5px;color:var(--ar-mute);text-transform:uppercase}
+.ar_flight .ar-path{position:absolute;left:24px;right:24px;top:700px;height:300px;padding:0}
+.ar_flight .ar-path svg{position:absolute;left:0;top:0;width:1032px;height:300px;overflow:visible}
+.ar_flight .ar-ev{position:absolute;display:flex;flex-direction:column;align-items:center;text-align:center;white-space:nowrap}
+.ar_flight .ar-ev.up{flex-direction:column-reverse}
+.ar_flight .ar-ev i{display:flex;align-items:center;justify-content:center;width:52px;height:52px;border-radius:50%;font-style:normal;font-size:28px;box-shadow:0 0 0 4px #fff,0 6px 14px rgba(16,52,130,.3)}
+.ar_flight .ar-ev b{display:block;margin:8px 0 0;font:700 22px/1 JBM;color:var(--ar-ink)}
+.ar_flight .ar-ev.up b{margin:0 0 8px}
+.ar_flight .ar-ev span{display:block;margin-top:4px;font:800 24px/1.1 Manrope;letter-spacing:-.3px}
+.ar_flight .ar-ev.up span{margin:0 0 4px}
+.ar_flight .ar-pt{position:absolute;font:700 16px JBM;letter-spacing:2px;color:var(--ar-mute)}
+.ar_flight .ar-pass{left:46px;right:46px;top:1052px;height:392px;overflow:hidden}
+.ar_flight .ar-pass .ar-pleft{position:absolute;left:34px;right:296px;top:30px;bottom:30px}
+.ar_flight .ar-pass small{display:flex;align-items:center;gap:10px;font:700 17px JBM;letter-spacing:4px;color:var(--ar-blue);text-transform:uppercase}
+.ar_flight .ar-pass small svg{width:26px;height:26px;fill:var(--ar-blue)}
+.ar_flight .ar-pass .ar-call{margin-top:16px;font:400 64px/1.04 Anton;letter-spacing:.3px;text-transform:uppercase;color:var(--ar-ink)}
+.ar_flight .ar-pass .ar-fields{position:absolute;left:0;bottom:0;display:flex;gap:26px}
+.ar_flight .ar-pass .ar-fields>div{display:flex;flex-direction:column;justify-content:flex-end;gap:6px}
+.ar_flight .ar-pass .ar-fields em{font:700 14px JBM;letter-spacing:3px;color:var(--ar-mute);font-style:normal;text-transform:uppercase}
+.ar_flight .ar-pass .ar-fields b{font:700 27px/1 JBM;color:var(--ar-ink)}
+.ar_flight .ar-stub{position:absolute;right:0;top:0;bottom:0;width:262px;border-left:4px dashed rgba(11,31,77,.16);background:#F4F8FF;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px}
+.ar_flight .ar-stub b{font:400 46px/1 Anton;letter-spacing:2px;color:var(--ar-ink)}
+.ar_flight .ar-stub span{font:700 15px JBM;letter-spacing:3px;color:var(--ar-mute);text-transform:uppercase}
+.ar_flight .ar-stub .ar-bar{width:190px;height:60px;background:repeating-linear-gradient(90deg,#0B1F4D 0 3px,rgba(0,0,0,0) 3px 6px,#0B1F4D 6px 8px,rgba(0,0,0,0) 8px 13px,#0B1F4D 13px 17px,rgba(0,0,0,0) 17px 19px)}
+.ar_flight .ar-pass::before,.ar_flight .ar-pass::after{content:'';position:absolute;right:243px;width:40px;height:40px;border-radius:50%;background:#DCEBFF;z-index:2}
+.ar_flight .ar-pass::before{top:-20px}.ar_flight .ar-pass::after{bottom:-20px}
+.ar .ar-stamp{position:absolute;padding:10px 30px 8px;border:9px solid currentColor;border-radius:22px;text-align:center;background:rgba(255,255,255,.82);white-space:nowrap;z-index:5}
+.ar .ar-stamp b{display:block;font:400 80px/1 Anton;letter-spacing:4px;text-transform:uppercase}
+.ar .ar-stamp span{display:block;margin-top:4px;font:700 17px JBM;letter-spacing:5px;text-transform:uppercase}
+.ar .ar-stamp.ok{color:var(--ar-ok)}.ar .ar-stamp.bad{color:var(--ar-bad)}.ar .ar-stamp.half{color:var(--ar-half)}
+/* the board again, with the tally */
+.ar_board .ar-h{position:absolute;left:46px;right:46px;top:180px;font:400 96px/1 Anton;letter-spacing:1px;text-transform:uppercase;white-space:nowrap}
+.ar_board .ar-h span{color:var(--ar-blue)}
+.ar .ar-tally{position:absolute;left:0;right:0;display:flex;justify-content:center;gap:22px}
+.ar .ar-tally>div{display:flex;align-items:center;gap:14px;padding:12px 22px 12px 12px;border-radius:20px;background:#fff;box-shadow:0 14px 34px rgba(16,52,130,.18)}
+.ar .ar-tally>div span{font:700 19px JBM;letter-spacing:3px;text-transform:uppercase}
+.ar .ar-tally>.ok span{color:var(--ar-ok)}.ar .ar-tally>.half span{color:var(--ar-half)}.ar .ar-tally>.bad span{color:var(--ar-bad)}
+/* the end: next departures, then the board goes dark */
+.ar_end .ar-fol{position:absolute;left:46px;right:46px;top:1180px;text-align:center}
+.ar_end .ar-fol b{display:inline-block;padding:18px 38px;border-radius:999px;background:var(--ar-ink);color:#fff;font:800 40px/1 Manrope;letter-spacing:-.5px}
+.ar_end .ar-fol span{display:block;margin-top:22px;font:700 22px JBM;letter-spacing:5px;color:var(--ar-blue);text-transform:uppercase}
+.ar_end .ar-dk{position:absolute;inset:0;background:#0B2A6F;opacity:0}
+#cap.arc{right:70px}
+#cap.arc .c{color:#fff;background:rgba(11,31,77,.9);padding:10px 26px 12px;border-radius:16px;text-shadow:none}
+#stage.arl #credit{color:rgba(11,31,77,.5)}#stage.arl #foot{color:rgba(11,31,77,.55)}
 /* stickers and emoji bursts */
 #fxl{position:absolute;inset:0;z-index:40;pointer-events:none;overflow:hidden}
 .stk{position:absolute;font-size:240px;line-height:1;filter:drop-shadow(0 20px 40px rgba(0,0,0,.55))}
@@ -1158,9 +1284,99 @@ function glDayDraw(el, m, cur, lt) {
 const glTop = (b, stop) => `<div class="gl-top"><span class="gl-chip"><i></i>${html(D.cfg.review?.project || 'Follow the sun')}</span><span>${html(b.top || '')}</span><span class="gl-stop">${html(stop || '')}</span></div>`
 const glStopOf = sc => { const ms = [...new Set(GLS.filter(s => s.type === 'gl_match').map(s => s.data?.match))]; const j = ms.indexOf(sc.data?.match); return j >= 0 ? `Stop ${j + 1} / ${ms.length}` : '' }
 
+// ---- arrivals (ar_*): the post-match as an airport arrivals board. Each pick: ko ("16:00"), city {name}, kit as vr_*.
+// Split-flap tiles: each character turns through the drum, one step every 50 ms, to its target
+const AR_DRUM = ' ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789:/–-·?½'
+// icons from Material Design (Apache 2.0): flight, flight_land, flight_takeoff
+const AR_SVG = {
+  plane: '<svg viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg>',
+  land: '<svg viewBox="0 0 24 24"><path d="M2.5 19h19v2h-19v-2zm7.18-5.73l4.35 1.16 5.31 1.42c.8.21 1.62-.26 1.84-1.06.21-.8-.26-1.62-1.06-1.84l-5.31-1.42-2.76-9.02L10.12 2v8.28L5.15 8.95l-.93-2.32-1.45-.39v5.17l1.6.43 5.31 1.43z"/></svg>',
+  off: '<svg viewBox="0 0 24 24"><path d="M2.5 19h19v2h-19v-2zm19.57-9.36c-.21-.8-1.04-1.28-1.84-1.06L14.92 10l-6.9-6.43-1.93.51 4.14 7.17-4.97 1.33-1.97-1.54-1.45.39 2.59 4.49L21 11.49c.81-.23 1.28-1.05 1.07-1.85z"/></svg>',
+}
+const AR_PLANE_D = 'M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z'
+const arShade = (c, k) => { const x = rgb(c); if (!x) return c; const f = v => Math.round(Math.max(0, Math.min(255, k < 0 ? v * (1 + k) : v + (255 - v) * k))).toString(16).padStart(2, '0'); return '#' + x.map(f).join('') }
+const arKitSt = kt => `background:linear-gradient(180deg,${arShade(kt.c, 0.08)} 0%,${kt.c} 49.4%,${arShade(kt.c, -0.16)} 50.6%,${kt.c} 100%);color:${kt.ink}`
+const arTile = (ch, o = {}) => `<span class="ar-f ${o.cls || ''}" style="width:${o.w}px;height:${o.h}px;font-size:${o.fs}px;${o.st || ''}"><b>${ch === ' ' || ch == null ? '&nbsp;' : html(ch)}</b></span>`
+const arTiles = (s, o = {}) => `<div class="ar-fs" style="gap:${o.gap ?? 6}px">${[...String(s)].map(ch => arTile(o.blank ? ' ' : ch, o)).join('')}</div>`
+const arCls = v => ({ called: 'ok', missed: 'bad', half: 'half' })[v] || ''
+const arWord = v => ({ called: 'CALLED IT', missed: 'MISSED', half: 'HALF RIGHT' })[v] || 'LANDED'
+const arCode = q => 'CV ' + String(q.ko || q.kickoff || '').replace(':', '')
+const arCity = q => q.city?.name || ''
+// the drum: from one character to the next, through the drum's order (at most `max` steps)
+function arSeq(a, b, max = 9) {
+  const N = AR_DRUM.length, i = AR_DRUM.indexOf(a), j = AR_DRUM.indexOf(b)
+  if (a === b) return [b]
+  if (j < 0) return [b]
+  const d = Math.min(max, i < 0 ? max : (j - i + N) % N)
+  return Array.from({ length: d + 1 }, (_, k) => AR_DRUM[(j - d + k + N) % N])
+}
+// one tile at time lt, from its keys [[t, char], ...]: it turns from the last character to the new one
+function arFlap(n, lt, keys, o = {}) {
+  if (!n) return -1
+  const rate = o.rate ?? 0.05, b = n.firstChild
+  let k = -1; for (let i = 0; i < keys.length; i++) if (lt >= keys[i][0]) k = i
+  let ch = k < 0 ? (o.from ?? ' ') : keys[k][1], sq = 1
+  if (k >= 0) {
+    const prev = k ? keys[k - 1][1] : (o.from ?? ' '), seq = arSeq(prev, keys[k][1], o.max ?? 9), x = (lt - keys[k][0]) / rate
+    if (x < seq.length - 1) { ch = seq[Math.floor(x)]; sq = 0.4 + 0.6 * Math.abs(Math.cos(Math.PI * (x % 1))) }
+  }
+  if (n._c !== ch) { n._c = ch; b.textContent = ch === ' ' ? ' ' : ch }
+  const tf = sq < 1 ? `scaleY(${sq.toFixed(3)})` : ''
+  if (b.style.transform !== tf) b.style.transform = tf
+  return k
+}
+// a row of tiles showing strings over time: keys [[t, "TEXT"], ...], each tile a little after the one before
+function arFlaps(tiles, lt, keys, o = {}) {
+  tiles.forEach((n, j) => arFlap(n, lt, keys.map(([t, s, st]) => [t + j * (o.stagger ?? 0.035), [...String(s)][j] ?? ' ']), o))
+}
+// a one-word module (the status): the old word folds away and the new one opens. keys [[t, text, cls]]
+function arModule(n, lt, keys, o = {}) {
+  if (!n) return
+  let k = -1; keys.forEach((kk, i) => { if (lt >= kk[0]) k = i })
+  const base = [0, o.from ?? '', o.fromCls ?? ''], d = k >= 0 ? lt - keys[k][0] : 9, fl = o.fold ?? 0.26
+  const show = k >= 0 && d < fl / 2 ? (k ? keys[k - 1] : base) : k >= 0 ? keys[k] : base
+  const cls = 'ar-f ' + (show[2] || '') + (o.cls ? ' ' + o.cls : '')
+  if (n.className !== cls) n.className = cls
+  if (n._w !== show[1]) { n._w = show[1]; n.firstChild.textContent = show[1] || ' ' }
+  const sq = d < fl ? Math.max(0.04, Math.abs(Math.cos(Math.PI * d / fl))) : 1
+  n.firstChild.style.transform = sq < 1 ? `scaleY(${sq.toFixed(3)})` : ''
+}
+// the board: a white panel with a navy header; o {top, rowH, word, right, rows: [{q, tm, sub, home, away, hb, ab, kh, ka, status}]}
+function arBoard(o) {
+  const rh = o.rowH || 112, cols = o.cols || ['Time · from', 'Match', 'Result', 'Status']
+  const rows = o.rows.map((r, j) => `<div class="ar-row" data-j="${j}" style="top:${136 + j * rh}px;height:${rh}px">
+      <div class="ar-tm">${arTiles(r.tm || '', { w: 26, h: 40, fs: 26, gap: 3 })}<span>${html(r.sub || '')}</span></div>
+      <div class="ar-mt">${r.lines.map(l => `<div>${l.badge ? badge(l.badge) : ''}${l.kit ? vrSw(l.kit, 'width:10px;height:30px') : ''}<span style="color:${l.kit ? vrTx(l.kit) : 'var(--ar-ink)'}">${html(l.name)}</span></div>`).join('')}</div>
+      ${r.res ? `<div class="ar-rs"><div class="ar-fs" style="gap:8px;align-items:center">${arTile(' ', { w: 64, h: 86, fs: 64, cls: 'kit ar-rh', st: arKitSt(r.res[0]) + ';font-family:Anton;font-weight:400' })}${arTile('–', { w: 34, h: 50, fs: 34, cls: 'ar-rd' })}${arTile(' ', { w: 64, h: 86, fs: 64, cls: 'kit ar-ra', st: arKitSt(r.res[1]) + ';font-family:Anton;font-weight:400' })}</div></div>` : ''}
+      <div class="ar-st">${arTile(r.status || 'LANDED', { w: o.stW || 236, h: 62, fs: 21, cls: 'ar-sm' })}</div></div>`).join('')
+  return `<div class="ar-board" style="top:${o.top}px;height:${136 + o.rows.length * rh}px"><div class="ar-bh">${AR_SVG.land}<div class="ar-bw">${o.wordTiles || html(o.word || 'Arrivals')}</div><div class="ar-bt">${html(o.right || 'Lagos time')}</div></div>
+    <div class="ar-cols"><span style="left:26px">${html(cols[0])}</span><span style="left:178px">${html(cols[1])}</span><span style="left:560px">${html(cols[2])}</span><span style="right:22px">${html(cols[3])}</span></div>${rows}</div>`
+}
+// a game as a board row
+const arRow = (q, j) => {
+  const kh = vrKit(q, 'home'), ka = vrKit(q, 'away')
+  return { tm: q.ko || q.kickoff || '', sub: arCity(q), res: [kh, ka], lines: [{ badge: q.bh, kit: kh, name: vrName(q, 'home') }, { badge: q.ba, kit: ka, name: vrName(q, 'away') }] }
+}
+const arTop = (b, no) => `<div class="ar-top"><span class="ar-chip">${AR_SVG.land}${html(D.cfg.review?.project || 'Arrivals')}</span><span>${html(b.top || '')}</span><span class="ar-no">${html(no || '')}</span></div>`
+const arStrip = () => `<div class="ar-strip">${D.picks.map((q, j) => `<div class="ar-slot" data-j="${j}"><div class="ar-fl">${badge(q.bh)}${badge(q.ba)}</div><i></i></div>`).join('')}</div>`
+const arPage = (inner, strip = false) => `<div class="ar-hall"></div><div class="ar-glass"></div><div class="ar-pg">${inner}</div>${strip ? arStrip() : ''}`
+// the flight path: a quadratic arc from take-off (0') to landing (full time)
+const AR_P = [[60, 236], [516, -24], [972, 236]]
+const arPt = s => { const u = 1 - s; return [u * u * AR_P[0][0] + 2 * u * s * AR_P[1][0] + s * s * AR_P[2][0], u * u * AR_P[0][1] + 2 * u * s * AR_P[1][1] + s * s * AR_P[2][1]] }
+const arAng = s => { const dx = 2 * (1 - s) * (AR_P[1][0] - AR_P[0][0]) + 2 * s * (AR_P[2][0] - AR_P[1][0]), dy = 2 * (1 - s) * (AR_P[1][1] - AR_P[0][1]) + 2 * s * (AR_P[2][1] - AR_P[1][1]); return Math.atan2(dy, dx) * 180 / Math.PI }
+// when things land (scene seconds)
+const arStampAt = sc => sc.data?.stamp_at ? vrT(sc, ...sc.data.stamp_at) : Math.max(1.6, (S(sc, sc.lines.length - 1)[0] ?? 2) + (S(sc, sc.lines.length - 1)[1] ?? 1) - 0.35)
+const arEvAt = (sc, e, j) => e.line != null ? vrT(sc, e.line, e.at ?? 0.3) : 1.2 + j * 0.8
+const arLandAt = sc => sc.data?.land_at ? vrT(sc, ...sc.data.land_at) : (S(sc, 0)[0] ?? 0.6) + (S(sc, 0)[1] ?? 2) + 0.05
+const ARV = {}
+D.scenes.forEach(sc => { if (sc.type === 'ar_flight' && sc.data?.match != null) ARV[sc.data.match] = { v: sc.data.verdict || 'half', t: sc.start + arStampAt(sc) } })
+
 function mkBg(sc, k) {
   if (/^gl_/.test(sc.type)) {        // follow the sun draws its own sky; deep royal blue under the cold open
     const d = document.createElement('div'); d.className = 'bg none'; d.style.background = sc.type === 'gl_cold' ? '#0B2A6F' : '#D6E8FF'; d.style.filter = 'none'; $('#bgs').appendChild(d); return d
+  }
+  if (/^ar_/.test(sc.type)) {        // the arrivals hall draws its own page; deep royal blue under the cold open
+    const d = document.createElement('div'); d.className = 'bg none'; d.style.background = sc.type === 'ar_cold' ? '#0B2A6F' : '#DCEBFF'; d.style.filter = 'none'; $('#bgs').appendChild(d); return d
   }
   if (/^vr_/.test(sc.type)) {        // the review room draws its own page; deep royal blue under the cold open
     const d = document.createElement('div'); d.className = 'bg none'; d.style.background = sc.type === 'vr_cold' ? '#0B2A6F' : '#DCEBFF'; d.style.filter = 'none'; $('#bgs').appendChild(d); return d
@@ -1585,6 +1801,59 @@ const built = D.scenes.map((sc, k) => {
     } else if (sc.type === 'gl_end') {
       el.innerHTML = `<div class="gl-sky"></div>${cv}<div class="gl-pg">${glTop(b, b.stop || '')}<div class="gl-e1">${html(b.l1 || '')}</div><div class="gl-e2">${html(b.l2 || '')}</div>
         <div class="gl-fol"><b>${html(b.follow || 'Follow for the post-match')}</b><span>Football, by the numbers</span></div></div>${glDay()}`
+    }
+  } else if (/^ar_/.test(sc.type)) {
+    el.classList.add('ar')
+    const q = D.picks[b.match ?? 0] || M, kh = vrKit(q, 'home'), ka = vrKit(q, 'away')
+    if (sc.type === 'ar_cold') {
+      // the arrivals hall at night: one big flap word per line, the clock, a runway's approach lights
+      const steps = b.steps || [], n = Math.max(...steps.map(s => [...String(s.big || '')].length), 1), w = Math.min(122, Math.floor((1000 - 8 * (n - 1)) / n))
+      sc.ar = { n, w }
+      const lights = []; for (let r = 0; r < 14; r++) { const f = r / 13, y = 40 + 600 * Math.pow(f, 1.6), hw = 70 + 430 * Math.pow(f, 1.6); lights.push(`<circle class="ar-al" data-r="${r}" cx="${n1(540 - hw)}" cy="${n1(y)}" r="${n1(3 + 9 * f)}"/><circle class="ar-al" data-r="${r}" cx="${n1(540 + hw)}" cy="${n1(y)}" r="${n1(3 + 9 * f)}"/>`) }
+      const dash = []; for (let r = 0; r < 9; r++) { const f0 = r / 9, f1 = (r + 0.45) / 9, y0 = 40 + 600 * Math.pow(f0, 1.6), y1 = 40 + 600 * Math.pow(f1, 1.6); dash.push(`<line x1="540" y1="${n1(y0)}" x2="540" y2="${n1(y1)}" stroke="rgba(255,255,255,.35)" stroke-width="${n1(2 + 10 * f1)}"/>`) }
+      el.innerHTML = `<div class="ar-deep"></div><div class="ar-pb">${AR_SVG.land}${html(b.tag || 'Arrivals')}</div><div class="ar-tc">${arTiles('     ', { w: 38, h: 56, fs: 36, gap: 4 })}</div>
+        <div class="ar-cw">${arTiles(' '.repeat(n), { w, h: Math.round(w * 1.5), fs: Math.round(w * 1.18), gap: 8, st: 'font-family:Anton;font-weight:400' })}</div><div class="ar-clab"></div>
+        <svg class="ar-run" viewBox="0 0 1080 640"><defs><radialGradient id="arglow"><stop offset="0" stop-color="#FFFFFF" stop-opacity=".95"/><stop offset=".35" stop-color="#BFE3FF" stop-opacity=".55"/><stop offset="1" stop-color="#4FB3FF" stop-opacity="0"/></radialGradient></defs>
+          <polygon points="470,40 610,40 1040,640 40,640" fill="rgba(4,14,46,.55)"/>${dash.join('')}<g fill="#FFD27A">${lights.join('')}</g><circle class="ar-glow" cx="540" cy="30" r="120" fill="url(#arglow)" opacity="0"/></svg>`
+    } else if (sc.type === 'ar_title') {
+      const word = String(b.l1 || 'ARRIVALS').toUpperCase(), w = Math.min(118, Math.floor((1000 - 8 * (word.length - 1)) / word.length))
+      el.innerHTML = arPage(`${arTop(b, b.no || '')}<div class="ar-tw">${arTiles(word, { w, h: Math.round(w * 1.25), fs: Math.round(w * 1.02), gap: 8, cls: 'navy', st: 'font-family:Anton;font-weight:400' })}</div>
+        <div class="ar-sub">${html(b.sub || '')}</div>${arBoard({ top: b.board_top ?? 428, rowH: 108, rows: D.picks.map(arRow), right: b.right || 'Lagos time' })}`)
+    } else if (sc.type === 'ar_flight') {
+      // one flight: the score in kit tiles, the flight path from kick-off to full time, the boarding pass with our call
+      const evs = b.events || [], END = b.end_min ?? 90, sz = { w: 170, h: 236, fs: 196 }
+      const ico = e => ({ goal: '⚽', og: '⚽', pen: '⚽', red: '🟥', post: '🥅', save: '🧤', line: '🛡️' })[e.kind] || '•'
+      const tk = e => e.team === 'away' ? ka : kh
+      let pside = 'dn'
+      const evHtml = evs.map((e, j) => { const s = Math.min(1, e.min / END), [x, y] = arPt(s), side = e.side || (j && e.min - evs[j - 1].min < 14 && pside === 'dn' ? 'up' : 'dn'); pside = side
+        return `<div class="ar-ev ${side}" data-tf="${side === 'up' ? 'translate(-50%,-100%)' : 'translate(-50%,0)'}" style="left:${n1(x)}px;top:${n1(side === 'up' ? y + 26 : y - 26)}px"><i class="emo" style="background:${['goal', 'og', 'pen'].includes(e.kind) ? tk(e).c : '#fff'}">${ico(e)}</i><b>${html(e.min_label || e.min + "'")}</b><span style="color:${e.team ? vrTx(tk(e)) : 'var(--ar-mute)'}">${html(e.who || '')}</span></div>` }).join('')
+      const pathD = `M${AR_P[0][0]} ${AR_P[0][1]} Q${AR_P[1][0]} ${AR_P[1][1]} ${AR_P[2][0]} ${AR_P[2][1]}`
+      const fields = `<div class="ar-fin"><em>Final</em>${arTiles('   ', { w: 36, h: 50, fs: 34, gap: 4 })}</div>` + (b.fields || []).map(f => `<div><em>${html(f[0])}</em><b>${html(f[1])}</b></div>`).join('')
+      el.innerHTML = arPage(`${arTop(b, b.no || '')}<div class="ar-k">${html(b.kicker || '')}</div><div class="ar-cityb">${html(arCity(q))} <span>${html(q.ko || '')}</span></div>
+        <div class="ar-sc"><div class="ar-tmb" style="left:0">${badge(q.bh)}<b style="color:${vrTx(kh)}">${html(vrName(q, 'home'))}</b>${vrSw(kh, 'width:120px;height:14px')}</div>
+          <div class="ar-dig">${arTile(' ', { ...sz, cls: 'kit ar-dh', st: arKitSt(kh) })}<em>–</em>${arTile(' ', { ...sz, cls: 'kit ar-da', st: arKitSt(ka) })}</div>
+          <div class="ar-tmb" style="right:0">${badge(q.ba)}<b style="color:${vrTx(ka)}">${html(vrName(q, 'away'))}</b>${vrSw(ka, 'width:120px;height:14px')}</div><div class="ar-ft">${html(b.ft || 'Full time')}</div></div>
+        <div class="ar-path"><svg viewBox="0 0 1032 300"><path d="${pathD}" fill="none" stroke="rgba(31,95,219,.22)" stroke-width="5" stroke-dasharray="4 14" stroke-linecap="round"/>
+          <path class="ar-pp" d="${pathD}" fill="none" stroke="#1F5FDB" stroke-width="6" stroke-linecap="round"/>
+          <g class="ar-pl"><circle r="38" fill="#fff" opacity=".92"/><g transform="rotate(90) translate(-30,-30) scale(2.5)"><path d="${AR_PLANE_D}" fill="#0B1F4D"/></g></g></svg>
+          <div class="ar-pt" style="left:30px;top:262px">${"0'"}</div><div class="ar-pt" style="left:${n1(arPt(45 / END)[0] - 18)}px;top:${n1(arPt(45 / END)[1] - 52)}px">HT</div><div class="ar-pt" style="left:950px;top:262px">${html(b.end_label || 'FT')}</div>
+          <div class="ar-pi" style="position:absolute;left:12px;top:262px;width:0"></div>${evHtml}</div>
+        <div class="ar-card ar-pass"><div class="ar-pleft"><small>${AR_SVG.plane}${html(b.pass_label || 'Boarding pass · our call · 7 Oct')}</small><div class="ar-call">${html(b.call || '')}</div><div class="ar-fields">${fields}</div></div>
+          <div class="ar-stub"><span>Flight</span><b>${html(arCode(q))}</b><div class="ar-bar"></div><span>${html(arCity(q))}</span></div></div>
+        <div class="ar-stamp ${arCls(b.verdict)}" style="left:${b.stamp_x ?? 618}px;top:${b.stamp_y ?? 1296}px"><b>${html(b.stamp || arWord(b.verdict))}</b><span>${html(b.stamp_sub || 'Arrivals · 7 Oct')}</span></div>`, true)
+      sc.ar = { evs, END, len: null }
+    } else if (sc.type === 'ar_board') {
+      const n = b.counts || {}, cells = [['called', 'Called it'], ['half', 'Half right'], ['missed', 'Missed']].filter(([k]) => n[k] != null)
+      el.innerHTML = arPage(`${arTop(b, b.no || '')}<div class="ar-h">${html(b.l1 || '')} <span>${html(b.l2 || '')}</span></div>
+        ${arBoard({ top: b.board_top ?? 300, rowH: 112, rows: D.picks.map(arRow), right: b.right || 'Lagos time' })}
+        <div class="ar-tally" style="top:${b.tally_top ?? 1350}px">${cells.map(([k, l]) => `<div class="${arCls(k)}" data-n="${n[k]}">${arTile(String(n[k]), { w: 58, h: 76, fs: 56, cls: arCls(k), st: 'font-family:Anton;font-weight:400' })}<span>${html(l)}</span></div>`).join('')}</div>`)
+    } else if (sc.type === 'ar_end') {
+      const nx = b.next || [], rows = nx.map(x => ({ tm: x.when || '', sub: x.city || '', lines: (x.lines || []).map(l => { const pk = D.picks[l.match ?? 0]; return { badge: l.side ? (l.side === 'away' ? pk.ba : pk.bh) : null, kit: l.side ? vrKit(pk, l.side) : null, name: l.name } }), status: x.status || 'SCHEDULED' }))
+      const word = 'DEPARTURES'
+      el.innerHTML = arPage(`${arTop(b, b.no || '')}<div class="ar-h" style="position:absolute;left:46px;right:46px;top:180px;font:400 96px/1 Anton;text-transform:uppercase;white-space:nowrap">${html(b.l1 || 'Next')} <span style="color:var(--ar-blue)">${html(b.l2 || 'departures')}</span></div>
+        ${arBoard({ top: b.board_top ?? 300, rowH: 124, rows, right: b.right || 'Next up', wordTiles: arTiles('          ', { w: 34, h: 52, fs: 36, gap: 3, cls: 'navy ar-bwt', st: 'font-family:Anton;font-weight:400' }), cols: ['When · where', 'Match', '', 'Status'], stW: 220 })}
+        <div class="ar-fol" style="top:${b.fol_top ?? 1060}px"><b>${html(b.follow || 'Follow for the next analysis')}</b><span>Football, by the numbers</span></div><div class="ar-dk"></div>`)
+      sc.ar = { word }
     }
   } else if (sc.type === 'rv_cta') {
     el.innerHTML = `<div class="wrap"><div class="logo"><span class="bars"><i style="height:64px"></i><i style="height:98px"></i><i style="height:132px"></i></span>cmvng</div>
@@ -2091,6 +2360,93 @@ function draw(k, lt, sc) {
       rise([$('.gl-fol', el)], lt, b.follow_at ? vrT(sc, ...b.follow_at) : L0(last) - 0.1, 0, 20)
       glDayDraw(el, lastKO, null, lt)
     }
+  } else if (/^ar_/.test(sc.type)) {
+    const L0 = j => S(sc, j)[0] ?? 99, LD = j => S(sc, j)[1] ?? 1, last = sc.lines.length - 1, T = sc.start + lt, nx = D.scenes[k + 1]
+    const q = D.picks[b.match ?? 0] || M
+    const pg = $('.ar-pg', el)
+    if (pg && !['ar_cold', 'ar_title'].includes(sc.type)) {
+      const qi = P(lt, 0, 0.45, E.outCubic), ex = nx && /^ar_/.test(nx.type) ? P(lt, sc.dur - 0.22, sc.dur, E.inCubic) : 0
+      pg.style.transform = `translate3d(${n1(-200 * ex)}px,${n1(80 * (1 - qi))}px,0)`; pg.style.opacity = n1(Math.min(1, qi * 1.5) * (1 - 0.9 * ex))
+    }
+    const cur = sc.type === 'ar_flight' ? [b.match] : []
+    $$('.ar-slot', el).forEach(n => {
+      const j = +n.dataset.j, v = ARV[j], on = !!v && T >= v.t, cls = 'ar-slot' + (cur.includes(j) ? ' cur' : '') + (on ? ' ' + arCls(v.v) : '')
+      if (n.className !== cls) n.className = cls
+    })
+    if (sc.type !== 'ar_cold') rise([$('.ar-top', el)], lt, 0.1, 0, 14)
+    // a board's rows: times flip in, then each row's result and status, at the row's own moment
+    const boardRows = (t0, step, withRes, verdicts) => $$('.ar-row', el).forEach((r, j) => {
+      const a = t0 + j * step, q2 = D.picks[j]
+      arFlaps($$('.ar-tm .ar-f', r), lt, [[a, q2?.ko || '']])
+      const rh = $('.ar-rh', r), ra = $('.ar-ra', r)
+      if (rh && withRes) { const s0 = verdicts?.[j]?.score, s = s0 && s0[0] != null && s0[1] != null ? s0 : null; arFlap(rh, lt, s ? [[a + 0.15, String(s[0])]] : []); arFlap(ra, lt, s ? [[a + 0.2, String(s[1])]] : []) }
+      const vv = verdicts?.[j]
+      arModule($('.ar-st .ar-f', r), lt, vv ? [[a + 0.05, 'LANDED', ''], [a + 0.35, arWord(vv.v), arCls(vv.v)]] : [[a + 0.05, 'LANDED', '']], { cls: 'ar-sm' })
+      r.style.opacity = n1(P(lt, a - 0.1, a + 0.1))
+    })
+    if (sc.type === 'ar_cold') {
+      const steps = b.steps || [], nl = sc.lines.filter(l => lt >= l[0] - 0.08).length, j = Math.max(0, Math.min(steps.length - 1, nl - 1)), st = steps[j] || {}
+      const pad = s => { const a = [...String(s || '').toUpperCase()], n = sc.ar.n, l = Math.floor((n - a.length) / 2); return ' '.repeat(Math.max(0, l)) + a.join('') + ' '.repeat(Math.max(0, n - a.length - l)) }
+      const tiles = $$('.ar-cw .ar-f', el)
+      arFlaps(tiles, lt, steps.map((s, i) => [L0(i) - 0.1, pad(s.big)]), { stagger: 0.03, max: 10 })
+      tiles.forEach(n => n.classList.toggle('red', st.tone === 'red' && nl > 0))
+      const lab = $('.ar-clab', el), lx = nl ? (st.label ?? '') : ''; if (lab.textContent !== lx) lab.textContent = lx
+      rise([lab], lt, (nl ? L0(j) : 99) + 0.25, 0, 22)
+      arFlaps($$('.ar-tc .ar-f', el), lt, steps.map((s, i) => [L0(i) - 0.05, s.clock || '']).filter(x => x[1]), { stagger: 0.04 })
+      // approach lights chase toward the horizon; on the last line a plane's landing lights grow out of it
+      const ph = (lt * 1.4) % 1
+      $$('.ar-al', el).forEach(c => { const r = +c.dataset.r / 13, d = Math.abs(((1 - r) - ph + 1) % 1); c.setAttribute('opacity', n1(0.25 + 0.75 * Math.max(0, 1 - d * 6))) })
+      const ga = L0(last), gq = P(lt, ga, sc.dur, E.inCubic), gl = $('.ar-glow', el)
+      gl.setAttribute('opacity', n1(gq)); gl.setAttribute('r', n1(60 + 520 * gq))
+      if (st.glitch) { const n0 = $('.ar-cw', el); n0.style.transform = glitch(n0, lt, L0(j) + (st.glitch_at || 0.3)) }
+      el.style.transform = shake(lt, (nl ? L0(j) : 99) - 0.02, nl ? 7 : 0)
+    } else if (sc.type === 'ar_title') {
+      // the drop: ARRIVALS clatters in, then every row of the board
+      arFlaps($$('.ar-tw .ar-f', el), lt, [[0.02, String(b.l1 || 'ARRIVALS').toUpperCase()]], { stagger: 0.045, max: 12 })
+      rise([$('.ar-sub', el)], lt, 0.6, 0, 18)
+      const bd = $('.ar-board', el); slam(bd, lt, 0.35, 1.08, 0.32)
+      boardRows(0.7, 0.11, false, null)
+      el.style.transform = shake(lt, 0.04, 16)
+    } else if (sc.type === 'ar_flight') {
+      const { evs, END } = sc.ar, land = arLandAt(sc)
+      // the plane flies kick-off to full time, through each goal as it's spoken
+      const keys = [[0.55, 0], ...evs.map((e, j) => [arEvAt(sc, e, j), Math.min(END, e.min)]), [land, END]].sort((x, y) => x[0] - y[0])
+      let m = 0
+      for (let i = 1; i < keys.length; i++) { const [t0, m0] = keys[i - 1], [t1, m1] = keys[i]; if (lt >= t0) m = m0 + (m1 - m0) * clamp((lt - t0) / Math.max(0.01, t1 - t0)) }
+      if (lt < keys[0][0]) m = 0
+      const s = clamp(m / END), [px, py] = arPt(s), pl = $('.ar-pl', el)
+      pl.setAttribute('transform', `translate(${n1(px)},${n1(py)}) rotate(${n1(arAng(s))})`); pl.style.opacity = n1(P(lt, 0.35, 0.6))
+      const pp = $('.ar-pp', el); if (!sc.ar.len) sc.ar.len = pp.getTotalLength()
+      pp.style.strokeDasharray = `${n1(sc.ar.len)} ${n1(sc.ar.len)}`; pp.style.strokeDashoffset = n1(sc.ar.len * (1 - s))
+      // the score: 0–0 at take-off, each goal flips its tile as the plane passes it
+      let sh = 0, sa = 0; const hk = [[0.5, '0']], ak = [[0.58, '0']]
+      evs.forEach((e, j) => { if (!['goal', 'og', 'pen'].includes(e.kind)) return; const t = arEvAt(sc, e, j); if ((e.team === 'away') !== (e.kind === 'og')) ak.push([t, String(++sa)]); else hk.push([t, String(++sh)]) })
+      arFlap($('.ar-dh', el), lt, hk, { rate: 0.06 }); arFlap($('.ar-da', el), lt, ak, { rate: 0.06 })
+      $$('.ar-ev', el).forEach((n, j) => { const a = arEvAt(sc, evs[j], j) - 0.05, qv = P(lt, a, a + 0.35, E.outBack); n.style.opacity = lt >= a ? 1 : 0; n.style.transform = `${n.dataset.tf} scale(${n1(Math.max(0.01, qv))})` })
+      rise([$('.ar-k', el), $('.ar-cityb', el)], lt, 0.2, 0.08, 24); rise($$('.ar-tmb', el), lt, 0.3, 0.08, 30)
+      const ft = $('.ar-ft', el); ft.style.opacity = n1(P(lt, land, land + 0.3))
+      arFlaps($$('.ar-fin .ar-f', el), lt, [[land + 0.1, `${q.score_home ?? ''}–${q.score_away ?? ''}`]], { stagger: 0.06 })
+      rise([$('.ar-pass', el)], lt, 0.6, 0, 60, 0.7)
+      const sa2 = arStampAt(sc); slam($('.ar-stamp', el), lt, sa2, 2.1, 0.22, 'rotate(-7deg)')
+      el.style.transform = shake(lt, sa2 + 0.03, 12) || evs.map((e, j) => ['goal', 'og', 'pen'].includes(e.kind) ? shake(lt, arEvAt(sc, e, j), 7) : '').find(Boolean) || ''
+    } else if (sc.type === 'ar_board') {
+      // the whole board, every result and verdict clattering in row by row; then the tally
+      rise([$('.ar-h', el)], lt, 0.2, 0, 24)
+      const vs = D.picks.map((q2, j) => ({ v: ARV[j]?.v, score: [q2.score_home, q2.score_away] }))
+      boardRows(b.rows_at ? vrT(sc, ...b.rows_at) : 0.5, b.row_step ?? 0.16, true, vs)
+      const ta = b.tally_at ? vrT(sc, ...b.tally_at) : L0(Math.min(1, last)) - 0.1
+      $$('.ar-tally>div', el).forEach((d, j) => { slam(d, lt, ta + j * 0.3, 1.25, 0.26); arFlap($('.ar-f', d), lt, [[ta + j * 0.3 + 0.1, d.dataset.n]]) })
+    } else if (sc.type === 'ar_end') {
+      rise([$('.ar-h', el)], lt, 0.2, 0, 24); slam($('.ar-board', el), lt, 0.3, 1.06, 0.3)
+      arFlaps($$('.ar-bwt', el), lt, [[0.25, 'ARRIVALS  '], [b.flip_at ? vrT(sc, ...b.flip_at) : 0.9, 'DEPARTURES']], { stagger: 0.04, max: 12 })
+      const nxr = b.next || []
+      $$('.ar-row', el).forEach((r, j) => { const a = (b.rows_at ? vrT(sc, ...b.rows_at) : 1.1) + j * 0.2; arFlaps($$('.ar-tm .ar-f', r), lt, [[a, nxr[j]?.when || '']]); arModule($('.ar-st .ar-f', r), lt, [[a + 0.2, nxr[j]?.status || 'SCHEDULED', 'navy']], { cls: 'ar-sm' }); r.style.opacity = n1(P(lt, a - 0.1, a + 0.1)) })
+      rise([$('.ar-fol', el)], lt, b.follow_at ? vrT(sc, ...b.follow_at) : L0(last) - 0.1, 0, 22)
+      // lights out: the board's tiles turn to blank in a wave and the hall goes dark blue
+      const o0 = sc.dur - 1.0
+      if (lt > o0) $$('.ar-f', el).forEach((n, i) => { n._pre ??= n._c ?? ' '; arFlap(n, lt, [[o0 + (i % 12) * 0.03, ' ']], { max: 4, from: n._pre }) })
+      $('.ar-dk', el).style.opacity = n1(P(lt, o0 + 0.3, sc.dur, E.inCubic) * 0.92)
+    }
   } else if (sc.type === 'rv_cta') {
     const lg = $('.logo', el); slam(lg, lt, 0.05, 1.6, 0.4)
     $$('.logo .bars i', el).forEach((x, j) => { x.style.transform = `scaleY(${P(lt, 0.1 + j * 0.08, 0.5 + j * 0.08, E.outBack)})`; x.style.transformOrigin = '50% 100%' })
@@ -2119,7 +2475,7 @@ const stampAt = sc => sc.data?.stamp_at ?? Math.max(1.2, (S(sc, sc.lines.length 
 function fxCinematic() {
   const ev = [], add = (t, sfx, db, o = {}) => ev.push({ t: +Math.max(0, t).toFixed(3), sfx, db, ...o }), syn = (t, type, gain) => ev.push({ t: +t.toFixed(3), type, ...(gain ? { gain } : {}) })
   D.scenes.forEach((sc, k) => {
-    const T = sc.start, b = sc.data || {}, at = j => T + S(sc, j)[0], next = D.scenes[k + 1], drop = /_intro$|_hook$|^(bp|vr|gl)_title$/.test(sc.type) && b.drop
+    const T = sc.start, b = sc.data || {}, at = j => T + S(sc, j)[0], next = D.scenes[k + 1], drop = /_intro$|_hook$|^(bp|vr|gl|ar)_title$/.test(sc.type) && b.drop
     if (k > 0 && !drop && !b.hard_cut) add(T, k % 2 ? '1492' : '2636', k % 2 ? -12 : -14, { align: 'peak' })
     if (sc.type === 'rx_cold') {
       const steps = b.steps || []
@@ -2242,6 +2598,28 @@ function fxCinematic() {
     if (sc.type === 'gl_match') { add(T + 0.08, '3115', -10); add(T + 1.18, '1143', -11); add(T + 1.2, '2299', -9); (b.points || []).forEach((p, j) => add(T + (p[2] != null ? vrT(sc, p[2], p[3] || 0) : (S(sc, Math.min(j + 1, lastL))[0] ?? 2)) - 0.1, '3124', -14)) }
     if (sc.type === 'gl_deep') ['form', 'table', 'men', 'read'].forEach((kk, j) => { if (b[kk]) add(T + glBlockAt(sc, kk, j), '2573', -13) })
     if (sc.type === 'gl_end') { add(T + 0.35, '2909', -8); add(T + 0.4, '2299', -7); add(T + 0.6, '2847', -18, { max: 1.6 }) }
+    // arrivals: the hall, the chime, the flaps clattering, a jet landing at full time, a stamp on every boarding pass
+    if (sc.type === 'ar_cold') {
+      add(T, '357', -22, { align: 'start', max: Math.max(1, sc.dur - 0.2) }); add(T, '497', -16, { align: 'start', max: Math.max(1, sc.dur - 0.2) })
+      add(T + 0.05, '1570', -9, { align: 'start' })
+      const steps = b.steps || []
+      sc.lines.forEach((_, j) => { syn(at(j) - 0.1, 'flaps', 1); add(at(j) - 0.08, '2299', j ? -8 : -5); if (steps[j]?.glitch) add(at(j) + (steps[j].glitch_at || 0.3), '2951', -10) })
+      if (next?.data?.drop) { add(next.start, '2908', -6, { reverse: true, max: 2.6, align: 'end' }); add(next.start - 0.2, '1579', -16, { align: 'end', max: 3.5 }) }
+    }
+    if (sc.type === 'ar_title') { syn(T + 0.02, 'flapsl', 1.1); D.picks.forEach((_, i) => { if (i % 2 === 0) syn(T + 0.7 + i * 0.11, 'flaps', 0.7) }) }
+    if (sc.type === 'ar_flight') {
+      syn(T + 0.5, 'flap', 0.9); add(T + 0.6, '3115', -14)
+      ;(b.events || []).forEach((e, j) => { const t2 = T + arEvAt(sc, e, j); if (['goal', 'og', 'pen'].includes(e.kind)) { syn(t2, 'flap', 1.1); add(t2, '3022', -19, { max: 1.6 }); add(t2, '2299', -12) } else add(t2, '2573', -15) })
+      add(T + arLandAt(sc), '1576', -17, { align: 'peak', max: 2.4 })
+      const sa = T + arStampAt(sc), v = b.verdict
+      add(sa, '1365', -5); add(sa, '2299', -9)
+      if (v === 'called') add(sa + 0.08, '462', -19, { max: 1.8 }); else if (v === 'half') add(sa + 0.08, '2110', -20, { max: 1.2 }); else syn(sa + 0.05, 'thud', 0.8)
+    }
+    if (sc.type === 'ar_board') {
+      const r0 = T + (b.rows_at ? vrT(sc, ...b.rows_at) : 0.5); D.picks.forEach((_, i) => syn(r0 + i * (b.row_step ?? 0.16), 'flap', 0.8))
+      const ta = T + (b.tally_at ? vrT(sc, ...b.tally_at) : (S(sc, Math.min(1, lastL))[0] ?? 1) - 0.1); [0, 1, 2].forEach(j => { add(ta + j * 0.3, '2573', -12); syn(ta + j * 0.3 + 0.1, 'flap', 0.8) })
+    }
+    if (sc.type === 'ar_end') { add(T + 0.3, '1569', -10, { align: 'start' }); syn(T + (b.flip_at ? vrT(sc, ...b.flip_at) : 0.9), 'flaps', 1); syn(T + sc.dur - 1.0, 'flapsl', 0.9); add(T + sc.dur - 0.7, '2297', -16, { max: 1.2 }) }
     if (b.sticker) add(T + (b.sticker.at ?? 1.0), '3005', -9)
   })
   return ev
@@ -2323,7 +2701,7 @@ window.renderAt = async function (t) {
   else pr.style.display = 'none'
   const BOX = !!D.cfg.presenter?.box
   pr.classList.toggle('box', BOX); pr.classList.toggle('still', !!sc.pres?.still); $('#ptag').style.display = sc.pres && BOX ? 'flex' : 'none'
-  const NPg = /^np_/.test(sc.type), BPg = /^bp_/.test(sc.type), VRg = /^(vr|gl)_/.test(sc.type), GLg = /^gl_/.test(sc.type)
+  const NPg = /^np_/.test(sc.type), BPg = /^bp_/.test(sc.type), VRg = /^(vr|gl|ar)_/.test(sc.type), GLg = /^gl_/.test(sc.type)
   $('#stage').classList.toggle('vrl', VRg && !/_cold$/.test(sc.type))
   $('#tint').style.opacity = memeLike || NPg || BPg || VRg ? 0 : b.style === 'pov' ? 0.55 : 1
   $('#vig').style.opacity = memeLike || (VRg && !/_cold$/.test(sc.type)) ? 0 : 1
@@ -2339,7 +2717,7 @@ window.renderAt = async function (t) {
 
   // cut flash, in time with the whoosh (memes cut hard: no flash)
   let fl = 0
-  for (let j = 1; j < D.scenes.length; j++) { const d = t - D.scenes[j].start, ty = D.scenes[j].type; if (d >= 0 && d < 0.3 && ty !== 'rv_meme' && !(/^(bp|vr|gl)_/.test(ty) && !['bp_title', 'vr_title', 'gl_title'].includes(ty))) fl = Math.max(fl, 0.5 * (1 - d / 0.3)) }
+  for (let j = 1; j < D.scenes.length; j++) { const d = t - D.scenes[j].start, ty = D.scenes[j].type; if (d >= 0 && d < 0.3 && ty !== 'rv_meme' && !(/^(bp|vr|gl|ar)_/.test(ty) && !['bp_title', 'vr_title', 'gl_title', 'ar_title'].includes(ty))) fl = Math.max(fl, 0.5 * (1 - d / 0.3)) }
   const hk = D.scenes.find(s => s.type === 'rv_hook'); if (hk && t - hk.start > 0.38 && t - hk.start < 0.7) fl = Math.max(fl, 0.7 * (1 - (t - hk.start - 0.38) / 0.32))
   $('#flash').style.opacity = fl
 
@@ -2356,7 +2734,7 @@ window.renderAt = async function (t) {
   }
   capEl.className = (D.cfg.caption_style === 'bold' ? 'bold' : '') + (BPg ? ' bpc' : '') + (VRg ? ' vrc' : '')
   capEl.style.top = memeLike ? '1500px' : sc.pres ? (D.cfg.presenter?.box ? '1450px' : '1330px') : '1474px'
-  $('#hdr').style.display = /^(rx|pm|np|bp|vr|gl)_/.test(sc.type) ? 'none' : ''
+  $('#hdr').style.display = /^(rx|pm|np|bp|vr|gl|ar)_/.test(sc.type) ? 'none' : ''
   if (NPg || BPg || VRg) capEl.style.top = '1478px'
   if (wait) await wait
 }

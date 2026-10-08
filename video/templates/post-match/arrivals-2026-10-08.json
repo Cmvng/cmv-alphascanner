@@ -1,0 +1,888 @@
+{
+ "mode": "review",
+ "title": "Arrivals: our 7 Oct calls v the final whistle",
+ "competition": "Football",
+ "date": "2026-10-08",
+ "sound": "cinematic",
+ "voice_fx": "deep",
+ "voice_speed": 1.05,
+ "music_vibe": [
+  "cinematic"
+ ],
+ "music_drop": "after_cold",
+ "music_duck": 10,
+ "music_track": 625,
+ "stadiums": false,
+ "review": {
+  "project": "Arrivals",
+  "beats": [
+   {
+    "type": "ar_cold",
+    "tag": "Arrivals · Lagos",
+    "steps": [
+     {
+      "big": "8 CALLS",
+      "label": "Before kick-off · Wed 7 Oct",
+      "clock": "16:00"
+     },
+     {
+      "big": "3 CONTINENTS",
+      "label": "Ibadan → Porto Alegre",
+      "clock": "23:30"
+     },
+     {
+      "big": "90+",
+      "label": "Two settled deep in stoppage time",
+      "tone": "red",
+      "glitch": true,
+      "glitch_at": 0.35
+     }
+    ],
+    "say": [
+     "Yesterday, eight games. Eight calls.",
+     "Three continents, from Ibadan to Porto Alegre.",
+     "And two were settled deep in stoppage time."
+    ],
+    "tail": 0.95
+   },
+   {
+    "type": "ar_title",
+    "l1": "ARRIVALS",
+    "sub": "Our 7 Oct calls v the final whistle",
+    "say": [
+     "Arrivals. Here's how our eight calls landed."
+    ]
+   },
+   {
+    "type": "ar_flight",
+    "match": 0,
+    "no": "Flight 1 / 8",
+    "top": "NPFL · Matchday 3, rescheduled",
+    "kicker": "Lekan Salami Stadium",
+    "events": [
+     {
+      "min": 9,
+      "kind": "line",
+      "who": "Off the line",
+      "line": 0,
+      "at": 0.3
+     }
+    ],
+    "call": "The hoodoo holds · 3SC don't lose",
+    "fields": [
+     [
+      "Likeliest",
+      "1–1"
+     ],
+     [
+      "Our numbers",
+      "39 · 28 · 33"
+     ]
+    ],
+    "verdict": "half",
+    "say": [
+     "Ibadan: nil-nil, though Shooting Stars had 65% of the ball.",
+     "The verdict: half right. Shooting Stars didn't lose, but the hoodoo is over: Kano Pillars' first point here in nine years."
+    ]
+   },
+   {
+    "type": "ar_flight",
+    "match": 1,
+    "no": "Flight 2 / 8",
+    "top": "Veikkausliiga · Championship series",
+    "kicker": "Markku.fi Areena, Oulunkylä",
+    "events": [
+     {
+      "min": 4,
+      "kind": "post",
+      "who": "Post",
+      "line": 0,
+      "at": 0.4
+     },
+     {
+      "min": 87,
+      "kind": "post",
+      "who": "Post",
+      "line": 0,
+      "at": 0.8
+     }
+    ],
+    "call": "Gnistan don't lose",
+    "fields": [
+     [
+      "Likeliest",
+      "1–1"
+     ],
+     [
+      "Our numbers",
+      "40 · 27 · 33"
+     ]
+    ],
+    "verdict": "called",
+    "say": [
+     "Helsinki: nil-nil, with two shots off the post.",
+     "The verdict: called it. Gnistan didn't lose, and Inter Turku dropped two points."
+    ]
+   },
+   {
+    "type": "ar_flight",
+    "match": 2,
+    "no": "Flight 3 / 8",
+    "top": "Egyptian League Cup · Group 1",
+    "kicker": "Arab Contractors Stadium",
+    "events": [
+     {
+      "min": 40,
+      "kind": "goal",
+      "team": "away",
+      "who": "Hegig",
+      "line": 0,
+      "at": 0.5
+     },
+     {
+      "min": 53,
+      "kind": "goal",
+      "team": "away",
+      "who": "Atef",
+      "line": 0,
+      "at": 0.72
+     },
+     {
+      "min": 55,
+      "kind": "goal",
+      "team": "away",
+      "who": "Atef",
+      "line": 0,
+      "at": 0.9
+     }
+    ],
+    "call": "Zamalek, narrowly",
+    "fields": [
+     [
+      "Likeliest",
+      "1–0"
+     ],
+     [
+      "Our numbers",
+      "62 · 23 · 15"
+     ]
+    ],
+    "verdict": "missed",
+    "say": [
+     "Cairo: Zamalek played their youngsters, and ZED scored three in fifteen minutes, two from Ahmed Atef.",
+     "The verdict: missed. We had Zamalek winning narrowly. It was three-nil to ZED."
+    ]
+   },
+   {
+    "type": "ar_flight",
+    "match": 3,
+    "no": "Flight 4 / 8",
+    "top": "Primera Federación · the Murcia derby",
+    "kicker": "Estadio Cartagonova · about 10,000 inside",
+    "end_min": 100,
+    "events": [
+     {
+      "min": 98,
+      "kind": "goal",
+      "team": "home",
+      "who": "Baz",
+      "line": 0,
+      "at": 0.72
+     }
+    ],
+    "call": "Cartagena don't lose at home",
+    "fields": [
+     [
+      "Likeliest",
+      "1–1"
+     ],
+     [
+      "Our numbers",
+      "46 · 27 · 27"
+     ]
+    ],
+    "verdict": "called",
+    "say": [
+     "The Murcia derby: fifteen minutes were added after a fan needed medical help, and in the ninety-eighth, Imanol Baz volleyed the winner.",
+     "The verdict: called it. Cartagena didn't lose, and Murcia stay three points off the top."
+    ]
+   },
+   {
+    "type": "ar_flight",
+    "match": 4,
+    "no": "Flight 5 / 8",
+    "top": "Ligue 1 Mobilis · Matchday 4",
+    "kicker": "Stade du 5-Juillet",
+    "end_min": 100,
+    "events": [
+     {
+      "min": 97,
+      "min_label": "90+7'",
+      "kind": "pen",
+      "team": "home",
+      "who": "Penalty",
+      "line": 0,
+      "at": 0.8
+     }
+    ],
+    "call": "A narrow Belouizdad win",
+    "fields": [
+     [
+      "Likeliest win",
+      "1–0"
+     ],
+     [
+      "Our numbers",
+      "49 · 27 · 24"
+     ]
+    ],
+    "verdict": "called",
+    "say": [
+     "Algiers: nil-nil into the ninety-seventh minute. Then a penalty, and one-nil to Belouizdad.",
+     "The verdict: called it. A narrow Belouizdad win, and they go top, for now."
+    ]
+   },
+   {
+    "type": "ar_flight",
+    "match": 5,
+    "no": "Flight 6 / 8",
+    "top": "Copa Chile · Quarter-final, first leg",
+    "kicker": "Estadio Regional Calvo y Bascuñán",
+    "events": [
+     {
+      "min": 53,
+      "kind": "goal",
+      "team": "home",
+      "who": "Tapia",
+      "line": 0,
+      "at": 0.45
+     },
+     {
+      "min": 57,
+      "kind": "goal",
+      "team": "home",
+      "who": "Bandez",
+      "line": 0,
+      "at": 0.8
+     }
+    ],
+    "call": "Level after the first leg",
+    "fields": [
+     [
+      "Likeliest",
+      "1–1"
+     ],
+     [
+      "Our numbers",
+      "35 · 30 · 35"
+     ]
+    ],
+    "verdict": "missed",
+    "say": [
+     "Second-tier Antofagasta beat Universidad de Chile two-nil: a Tapia header, then Bandez four minutes later.",
+     "The verdict: missed. We had it level. Antofagasta take a two-goal lead into the second leg."
+    ]
+   },
+   {
+    "type": "ar_flight",
+    "match": 6,
+    "no": "Flight 7 / 8",
+    "top": "Brasileirão · Round 29",
+    "kicker": "Beira-Rio, Porto Alegre",
+    "events": [
+     {
+      "min": 1,
+      "kind": "goal",
+      "team": "home",
+      "who": "Vitinho",
+      "line": 0,
+      "at": 0.3
+     },
+     {
+      "min": 77,
+      "kind": "goal",
+      "team": "home",
+      "who": "Alan Patrick",
+      "line": 0,
+      "at": 0.75
+     },
+     {
+      "min": 80,
+      "kind": "goal",
+      "team": "away",
+      "who": "André",
+      "line": 0,
+      "at": 0.92
+     }
+    ],
+    "call": "Inter don't lose",
+    "fields": [
+     [
+      "Likeliest",
+      "1–1"
+     ],
+     [
+      "Our numbers",
+      "41 · 28 · 31"
+     ]
+    ],
+    "verdict": "called",
+    "say": [
+     "Porto Alegre: Vitinho scored after forty-two seconds. Alan Patrick made it two, and André pulled one back.",
+     "Corinthians hit the woodwork three times, lost a seventh in a row, and sacked Fernando Diniz.",
+     "The verdict: called it. Inter won on Baptista's debut, but they're still in the bottom four."
+    ]
+   },
+   {
+    "type": "ar_flight",
+    "match": 7,
+    "no": "Flight 8 / 8",
+    "top": "Brasileirão · Round 29",
+    "kicker": "Nabi Abi Chedid, Bragança Paulista",
+    "events": [
+     {
+      "min": 27,
+      "kind": "red",
+      "team": "away",
+      "who": "João Victor",
+      "line": 0,
+      "at": 0.3
+     },
+     {
+      "min": 51,
+      "kind": "goal",
+      "team": "home",
+      "who": "Sasha",
+      "line": 0,
+      "at": 0.62
+     },
+     {
+      "min": 70,
+      "kind": "goal",
+      "team": "away",
+      "who": "André Luís",
+      "line": 0,
+      "at": 0.9
+     }
+    ],
+    "call": "Too tight to split",
+    "fields": [
+     [
+      "Likeliest",
+      "1–1"
+     ],
+     [
+      "Our numbers",
+      "37 · 28 · 35"
+     ]
+    ],
+    "verdict": "called",
+    "say": [
+     "Mirassol went down to ten men after twenty-seven minutes. Eduardo Sasha scored, and André Luís equalised.",
+     "The verdict: called it, to the exact score. One-all."
+    ]
+   },
+   {
+    "type": "ar_board",
+    "l1": "All eight",
+    "l2": "landed",
+    "counts": {
+     "called": 5,
+     "half": 1,
+     "missed": 2
+    },
+    "say": [
+     "All eight landed.",
+     "Five called, one half right, and two missed: Zamalek's youngsters, and Antofagasta's upset."
+    ]
+   },
+   {
+    "type": "ar_end",
+    "l1": "Next",
+    "l2": "departures",
+    "next": [
+     {
+      "when": "SUN",
+      "city": "Egypt · league",
+      "status": "DERBY",
+      "lines": [
+       {
+        "match": 2,
+        "side": "home",
+        "name": "Zamalek"
+       },
+       {
+        "name": "Al Ahly"
+       }
+      ]
+     },
+     {
+      "when": "SUN",
+      "city": "Veikkausliiga",
+      "status": "SCHEDULED",
+      "lines": [
+       {
+        "match": 1,
+        "side": "away",
+        "name": "Inter Turku"
+       },
+       {
+        "name": "KuPS"
+       }
+      ]
+     },
+     {
+      "when": "21/10",
+      "city": "Copa Chile",
+      "status": "2ND LEG",
+      "lines": [
+       {
+        "match": 5,
+        "side": "away",
+        "name": "U de Chile"
+       },
+       {
+        "match": 5,
+        "side": "home",
+        "name": "Antofagasta"
+       }
+      ]
+     }
+    ],
+    "follow": "Follow for the next analysis",
+    "say": [
+     "Next up on Sunday: Zamalek against Al Ahly, and Inter Turku against KuPS.",
+     "That's the post-match. Follow for the next analysis."
+    ],
+    "tail": 1.1
+   }
+  ]
+ },
+ "picks": [
+  {
+   "home": "Shooting Stars",
+   "away": "Kano Pillars FC",
+   "competition": "Premier League",
+   "kickoff": "16:00",
+   "home_win": 39,
+   "draw": 28,
+   "away_win": 33,
+   "xg_home": 1.31,
+   "xg_away": 1.18,
+   "form_home": "LWLLD",
+   "form_away": "WDDDD",
+   "scored_home": 1.17,
+   "scored_away": 1.71,
+   "conceded_home": 1.5,
+   "conceded_away": 1.14,
+   "top_scores": [
+    [
+     1,
+     1,
+     13
+    ],
+    [
+     1,
+     0,
+     10
+    ],
+    [
+     0,
+     0,
+     9
+    ]
+   ],
+   "ko": "16:00",
+   "city": {
+    "name": "Ibadan",
+    "lat": 7.3775,
+    "lon": 3.947,
+    "venue": "Lekan Salami Stadium",
+    "local": "Nigeria · 16:00 local",
+    "iso": 566
+   },
+   "home_short": "Shooting Stars",
+   "away_short": "Kano Pillars",
+   "mid": "1242583",
+   "score_home": 0,
+   "score_away": 0
+  },
+  {
+   "home": "IF Gnistan",
+   "away": "FC Inter Turku",
+   "competition": "Veikkausliiga",
+   "kickoff": "17:00",
+   "home_win": 40,
+   "draw": 27,
+   "away_win": 33,
+   "xg_home": 1.39,
+   "xg_away": 1.27,
+   "form_home": "WDDWD",
+   "form_away": "WWLWW",
+   "scored_home": 1.6,
+   "scored_away": 1.28,
+   "conceded_home": 1.28,
+   "conceded_away": 0.72,
+   "top_scores": [
+    [
+     1,
+     1,
+     13
+    ],
+    [
+     1,
+     0,
+     9
+    ],
+    [
+     2,
+     1,
+     9
+    ]
+   ],
+   "ko": "17:00",
+   "city": {
+    "name": "Helsinki",
+    "lat": 60.17,
+    "lon": 24.94,
+    "venue": "Markku.fi Areena",
+    "local": "Finland · 19:00 local",
+    "iso": 246
+   },
+   "home_short": "Gnistan",
+   "away_short": "Inter Turku",
+   "mid": "1240916",
+   "score_home": 0,
+   "score_away": 0
+  },
+  {
+   "home": "Zamalek SC",
+   "away": "Zed FC",
+   "competition": "League Cup",
+   "kickoff": "18:00",
+   "home_win": 62,
+   "draw": 23,
+   "away_win": 15,
+   "xg_home": 1.84,
+   "xg_away": 0.78,
+   "form_home": "WDWWL",
+   "form_away": "LDLLD",
+   "scored_home": 1.6,
+   "scored_away": 1,
+   "conceded_home": 0.3,
+   "conceded_away": 1,
+   "top_scores": [
+    [
+     1,
+     0,
+     12
+    ],
+    [
+     2,
+     0,
+     12
+    ],
+    [
+     1,
+     1,
+     11
+    ]
+   ],
+   "ko": "18:00",
+   "city": {
+    "name": "Cairo",
+    "lat": 30.07,
+    "lon": 31.32,
+    "venue": "Arab Contractors Stadium",
+    "local": "Egypt · 20:00 local",
+    "iso": 818
+   },
+   "home_short": "Zamalek",
+   "away_short": "ZED",
+   "mid": "1240965",
+   "kit": {
+    "home": {
+     "c": "#CC1E2B",
+     "bg": "linear-gradient(180deg,#FFFFFF 0 34%,#CC1E2B 34% 66%,#FFFFFF 66%)"
+    }
+   },
+   "score_home": 0,
+   "score_away": 3
+  },
+  {
+   "home": "FC Cartagena",
+   "away": "Real Murcia CF",
+   "competition": "Primera Federacion",
+   "kickoff": "19:30",
+   "home_win": 46,
+   "draw": 27,
+   "away_win": 27,
+   "xg_home": 1.59,
+   "xg_away": 1.19,
+   "form_home": "DLWDW",
+   "form_away": "DWWWW",
+   "scored_home": 1.6,
+   "scored_away": 1.9,
+   "conceded_home": 1.2,
+   "conceded_away": 1.2,
+   "top_scores": [
+    [
+     1,
+     1,
+     12
+    ],
+    [
+     1,
+     0,
+     9
+    ],
+    [
+     2,
+     1,
+     9
+    ]
+   ],
+   "ko": "19:30",
+   "city": {
+    "name": "Cartagena",
+    "lat": 37.6,
+    "lon": -0.98,
+    "venue": "Estadio Cartagonova",
+    "local": "Spain · 20:30 local",
+    "iso": 724
+   },
+   "home_short": "Cartagena",
+   "away_short": "Real Murcia",
+   "mid": "1242588",
+   "kit": {
+    "home": {
+     "c": "#1A1A1A",
+     "bg": "repeating-linear-gradient(90deg,#FFFFFF 0 12px,#1A1A1A 12px 24px)",
+     "ink": "#FFFFFF"
+    },
+    "away": {
+     "c": "#B0122A"
+    }
+   },
+   "score_home": 1,
+   "score_away": 0
+  },
+  {
+   "home": "CR Belouizdad",
+   "away": "USM Khenchela",
+   "competition": "Ligue 1",
+   "kickoff": "20:00",
+   "home_win": 49,
+   "draw": 27,
+   "away_win": 24,
+   "xg_home": 1.56,
+   "xg_away": 1.03,
+   "form_home": "WWLDW",
+   "form_away": "WLLWW",
+   "scored_home": 1.4,
+   "scored_away": 1.3,
+   "conceded_home": 0.9,
+   "conceded_away": 1.1,
+   "top_scores": [
+    [
+     1,
+     1,
+     13
+    ],
+    [
+     1,
+     0,
+     11
+    ],
+    [
+     2,
+     0,
+     9
+    ]
+   ],
+   "ko": "20:00",
+   "city": {
+    "name": "Algiers",
+    "lat": 36.75,
+    "lon": 3.06,
+    "venue": "Stade du 5-Juillet",
+    "local": "Algeria · 20:00 local",
+    "iso": 12
+   },
+   "home_short": "Belouizdad",
+   "away_short": "Khenchela",
+   "mid": "1240967",
+   "kit": {
+    "home": {
+     "c": "#C8102E"
+    }
+   },
+   "score_home": 1,
+   "score_away": 0
+  },
+  {
+   "home": "CD Antofagasta",
+   "away": "Universidad de Chile",
+   "competition": "Copa Chile",
+   "kickoff": "23:00",
+   "home_win": 35,
+   "draw": 30,
+   "away_win": 35,
+   "xg_home": 1.18,
+   "xg_away": 1.2,
+   "form_home": "LWWDD",
+   "form_away": "LWWWW",
+   "scored_home": 1.7,
+   "scored_away": 1.9,
+   "conceded_home": 0.8,
+   "conceded_away": 0.9,
+   "top_scores": [
+    [
+     1,
+     1,
+     14
+    ],
+    [
+     0,
+     0,
+     10
+    ],
+    [
+     1,
+     0,
+     10
+    ]
+   ],
+   "ko": "23:00",
+   "city": {
+    "name": "Antofagasta",
+    "lat": -23.65,
+    "lon": -70.4,
+    "venue": "Estadio Calvo y Bascuñán",
+    "local": "Chile · 19:00 local",
+    "iso": 152
+   },
+   "home_short": "Antofagasta",
+   "away_short": "U de Chile",
+   "mid": "1268609",
+   "score_home": 2,
+   "score_away": 0
+  },
+  {
+   "home": "SC Internacional RS",
+   "away": "SC Corinthians SP",
+   "competition": "Brasileiro Serie A",
+   "kickoff": "23:30",
+   "home_win": 41,
+   "draw": 28,
+   "away_win": 31,
+   "xg_home": 1.36,
+   "xg_away": 1.17,
+   "form_home": "LLLWL",
+   "form_away": "LDLLL",
+   "scored_home": 1.07,
+   "scored_away": 1.04,
+   "conceded_home": 1.29,
+   "conceded_away": 1.14,
+   "top_scores": [
+    [
+     1,
+     1,
+     13
+    ],
+    [
+     1,
+     0,
+     10
+    ],
+    [
+     2,
+     1,
+     9
+    ]
+   ],
+   "ko": "23:30",
+   "city": {
+    "name": "Porto Alegre",
+    "lat": -30.03,
+    "lon": -51.22,
+    "venue": "Beira-Rio",
+    "local": "Brazil · 19:30 local",
+    "iso": 76
+   },
+   "home_short": "Internacional",
+   "away_short": "Corinthians",
+   "mid": "1240919",
+   "kit": {
+    "home": {
+     "c": "#E30613"
+    },
+    "away": {
+     "c": "#1A1A1A",
+     "bg": "linear-gradient(180deg,#FFFFFF 0 50%,#1A1A1A 50%)",
+     "ink": "#FFFFFF"
+    }
+   },
+   "score_home": 2,
+   "score_away": 1
+  },
+  {
+   "home": "Red Bull Bragantino SP",
+   "away": "Mirassol FC SP",
+   "competition": "Brasileiro Serie A",
+   "kickoff": "23:30",
+   "home_win": 37,
+   "draw": 28,
+   "away_win": 35,
+   "xg_home": 1.3,
+   "xg_away": 1.21,
+   "form_home": "LLDLL",
+   "form_away": "DLWDW",
+   "scored_home": 1.18,
+   "scored_away": 1.18,
+   "conceded_home": 1.14,
+   "conceded_away": 1.5,
+   "top_scores": [
+    [
+     1,
+     1,
+     13
+    ],
+    [
+     0,
+     0,
+     9
+    ],
+    [
+     1,
+     0,
+     9
+    ]
+   ],
+   "ko": "23:30",
+   "city": {
+    "name": "Bragança Paulista",
+    "lat": -22.95,
+    "lon": -46.54,
+    "venue": "Cícero de Souza Marques",
+    "local": "Brazil · 19:30 local",
+    "iso": 76
+   },
+   "home_short": "Bragantino",
+   "away_short": "Mirassol",
+   "mid": "1240918",
+   "kit": {
+    "home": {
+     "c": "#D6001C"
+    },
+    "away": {
+     "c": "#E0B000",
+     "bg": "linear-gradient(180deg,#FFD000 0 62%,#00843D 62%)",
+     "ink": "#0B1F4D"
+    }
+   },
+   "score_home": 1,
+   "score_away": 1
+  }
+ ]
+}

@@ -37,6 +37,7 @@ const SAY_IPA = {
   'Zinédine': 'zˌiːnədˈiːn', 'Lukébakio': 'lˌuːkeɪbˈɑːkioʊ', Calafiori: 'kˌɑːləfjˈɔːɹi', Esposito: 'ɛspˈɔːzitoʊ',
   'Gyökeres': 'jˈøːkɛɹɛʃ', 'Saint-Denis': 'sˈæn dənˈiː', Trnava: 'tˈɜːɹnəvə', 'Türkiye': 'tˈʊɹkiːjɛ', Yaremchuk: 'jˌɑːɹɛmtʃˈuːk',
   Csinger: 'tʃˈɪŋɡɛɹ', Vandevoordt: 'vˌɑːndəvˈoːɹt',
+  Vitinho: 'viːtʃˈiːnjuː', Diniz: 'dʒiːnˈiːs', Imanol: 'iːmˈɑːnoʊl', Baz: 'bˈɑːz', Bandez: 'bˈɑːndɛs', Tapia: 'tˈɑːpjə', 'Luís': 'luːˈiːs', Chile: 'tʃˈiːleɪ', KuPS: 'kˈuːps', Atef: 'ˈɑːtɛf',
   'Modrić': 'mˈɔːdɹɪtʃ', Budimir: 'bˈuːdɪmiːɹ', 'Smolčić': 'smˈɔːltʃɪtʃ', 'Bilić': 'bˈiːlɪtʃ', Poljud: 'pˈɔːljuːd', Lamine: 'lɐmˈiːn',
   Yamal: 'jɐmˈɑːl', 'Krejčí': 'kɹˈeɪtʃiː', Czechia: 'tʃˈɛkiə', Ante: 'ˈɑːnteɪ',
   Zamalek: 'zˈæməlɛk', Ibadan: 'iːbˈɑːdɑːn', Belouizdad: 'bɛluːizdˈæd', Khenchela: 'kɛnʃˈɛlə', Etouga: 'ɛtˈuːɡɑː', Gnistan: 'ɡnˈiːstɑːn', Mirassol: 'mˌiːɹəsˈɔːl',
@@ -197,7 +198,7 @@ export function buildScenes(cfg, picks, recap) {
 // Post-match review / reaction: every screen is a beat written for this match (cfg.review.beats), so no two videos
 // run the same way. A beat: { type: hook|moment|meme|stats|read|table|ratings|cta, say: [lines], clip, sticker, burst, … }
 function buildReviewScenes(cfg) {
-  return (cfg.review?.beats || []).map(b => ({ type: (/^(rx|pm|np|bp|vr|gl)_/.test(b.type) ? '' : 'rv_') + b.type, i: b.match ?? 0, say: (b.say || []).map(WS), data: b, hold: b.hold }))
+  return (cfg.review?.beats || []).map(b => ({ type: (/^(rx|pm|np|bp|vr|gl|ar)_/.test(b.type) ? '' : 'rv_') + b.type, i: b.match ?? 0, say: (b.say || []).map(WS), data: b, hold: b.hold }))
 }
 
 // Motion-graphics explainer (any topic, e.g. how a product works): every screen is a beat in cfg.explainer.beats,

@@ -290,11 +290,28 @@ def fx_pop():
     return _stereo(m * 0.8)
 
 
+def fx_flaps(dur=0.7, rate=36.0, seed=7):
+    """A split-flap board settling: a burst of small plastic clacks that thins out as the tiles reach their letters."""
+    rng = np.random.default_rng(seed)
+    n = int((dur + 0.08) * SR); out = np.zeros(n); t = 0.0
+    while t < dur:
+        i = int(t * SR); k = int(0.014 * SR); tt = np.arange(k) / SR
+        c = rng.standard_normal(k) * np.exp(-tt / 0.0014) * 0.9 + np.sin(2 * np.pi * rng.uniform(1700, 2700) * tt) * np.exp(-tt / 0.0025) * 0.45 \
+            + np.sin(2 * np.pi * rng.uniform(380, 520) * tt) * np.exp(-tt / 0.004) * 0.3
+        amp = rng.uniform(0.55, 1.0) * (1 - 0.65 * t / dur)
+        out[i:i + k] += c[:max(0, n - i)] * amp
+        t += rng.exponential(1 / (rate * (1 - 0.5 * t / dur)))
+    out = np.diff(out, prepend=0) * 0.55 + out * 0.45
+    return _stereo(out / (np.abs(out).max() + 1e-9) * 0.6)
+
+
 FX = {'whoosh': fx_whoosh, 'impact': fx_impact, 'riser': fx_riser, 'ding': fx_ding, 'thud': fx_thud, 'cash': fx_cash,
       'tick': lambda: fx_tick(1.0), 'tick2': lambda: fx_tick(1.26), 'tick3': lambda: fx_tick(1.5),
-      'boom': fx_boom, 'crowd': fx_crowd, 'groan': fx_groan, 'scratch': fx_scratch, 'aww': fx_aww, 'pop': fx_pop}
+      'boom': fx_boom, 'crowd': fx_crowd, 'groan': fx_groan, 'scratch': fx_scratch, 'aww': fx_aww, 'pop': fx_pop,
+      'flap': lambda: fx_flaps(0.26, 30.0, 3), 'flaps': lambda: fx_flaps(0.7, 36.0, 7), 'flapsl': lambda: fx_flaps(1.3, 40.0, 11)}
 FX_GAIN = {'whoosh': 0.4, 'impact': 0.42, 'riser': 0.32, 'ding': 0.5, 'thud': 0.5, 'cash': 0.4, 'tick': 0.35, 'tick2': 0.35, 'tick3': 0.4,
-           'boom': 0.62, 'crowd': 0.42, 'groan': 0.42, 'scratch': 0.45, 'aww': 0.4, 'pop': 0.35}
+           'boom': 0.62, 'crowd': 0.42, 'groan': 0.42, 'scratch': 0.45, 'aww': 0.4, 'pop': 0.35,
+           'flap': 0.32, 'flaps': 0.36, 'flapsl': 0.36}
 
 
 # ---- recorded sound effects (Mixkit Sound Effects Free License: commercial use allowed, no credit needed;

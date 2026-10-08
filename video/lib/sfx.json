@@ -165,6 +165,31 @@
    "id": 994,
    "name": "Security facility breach alarm",
    "use": "the alarm goes off (keep it low)"
+  },
+  {
+   "id": 357,
+   "name": "Airport departures hall",
+   "use": "the arrivals hall under a cold open (arrivals post-match)"
+  },
+  {
+   "id": 1570,
+   "name": "Melodic airport announcement ding",
+   "use": "the arrivals chime before the first line"
+  },
+  {
+   "id": 1569,
+   "name": "Airport announcement ding",
+   "use": "the chime for next departures"
+  },
+  {
+   "id": 1576,
+   "name": "Landing jet flying whoosh",
+   "use": "a flight lands at full time"
+  },
+  {
+   "id": 1579,
+   "name": "Low airplane flying over",
+   "use": "a jet passes low into the drop"
   }
  ]
 }

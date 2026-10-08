@@ -70,6 +70,39 @@ The morning's calls go to the review screen, like a VAR check. Reference: `under
   - `vr_tally`: the count, by verdict.
   - `vr_end`: next fixtures (`next: [{when, badges: [[match, side], ...], text}]`); the monitor switches off.
 
+## Arrivals (ar_*, first used 8 Oct 2026)
+The post-match as an airport arrivals board: the follow-up to a "route" analysis (the 7 Oct "Follow the Sun" globe), where
+every game "lands" overnight. Reference: `arrivals-2026-10-08.json` (built from the morning's config: the picks keep
+their `ko`, `city` and `kit`, plus `score_home`/`score_away`).
+- **The look.**
+  - A light terminal page with faint glass panes; split-flap tiles that turn through the drum to their letters.
+  - Score tiles in each team's kit colour. Green, amber and red only mean called, half right and missed.
+  - Deep royal blue only for the cold open (a runway at night, the approach lights chasing toward the horizon).
+- **The screens:**
+  - `ar_cold`: one big flap word per line (`steps: [{big, label, clock, tone, glitch}]`); a small flap clock; on the
+    last line a plane's landing lights grow out of the horizon; the drop follows.
+  - `ar_title`: ARRIVALS flips in on the drop, then the board: every game's time, city, crests, blank kit tiles,
+    "LANDED".
+  - `ar_flight` (one per game): the city and kick-off big, the score in kit tiles, the flight path, and the boarding
+    pass.
+    - `events: [{min, kind: goal|og|pen|red|post|save|line, team, who, min_label, line, at}]`. The plane reaches each
+      event on its spoken line, and the score tiles flip as it passes each goal. Close events put their labels on
+      opposite sides of the path.
+    - `end_min` (default 90) for games settled in stoppage time.
+    - The pass: `call` (the morning's verdict, in words), `fields` (likeliest score, our numbers); "Final" flips to the
+      score at landing.
+    - The stamp (`verdict: called|half|missed`) lands at the end of the last line.
+    - The strip of all the games along the bottom fills in as each verdict lands.
+  - `ar_board`: the whole board again, every score and verdict flipping in row by row, then the tally (`counts`).
+  - `ar_end`: the board turns to DEPARTURES with the next fixtures (`next: [{when, city, status, lines: [{match, side,
+    name}]}]`), "Follow for the next analysis", then the tiles go blank and the hall goes dark blue.
+- **Sound:** an airport chime (Mixkit 1570) and the departures hall (357) under the cold open; a low jet into the drop
+  (1579); a synthesised split-flap clatter (`flap`, `flaps`, `flapsl` in `audio.py`); a jet landing at every full time
+  (1576); a stamp and a crowd for called, a groan for half right, a thud for missed.
+- **Judging a call:** "X don't lose" is called if X won or drew; "a narrow X win" if X won by one; "level" or "too tight
+  to split" on a draw. A two-part call with one part wrong is half right (8 Oct: "the hoodoo holds, 3SC don't lose"
+  ended 0–0, the first point Pillars had taken there in nine years).
+
 ## Rules that keep it monetised and legal
 
 - **No broadcast footage. Ever.** Not even 2 seconds. A Content ID claim stops the money however short the clip.
