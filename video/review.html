@@ -951,6 +951,46 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#03060F}
 .en .en-km.p>div>i{display:block;font:700 14px JBM;font-style:normal;letter-spacing:3px;text-transform:uppercase;color:var(--en-blue)}
 .en .en-km.p>div>b{display:block;margin-top:3px;font:400 36px/1.05 Anton;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .en .en-km.p>div>span{display:block;margin-top:3px;font:700 22px/1.25 Manrope;color:var(--en-mute)}
+/* the results night (en_res, en_board; first used 9 Oct 2026): the morning's envelopes against the final whistle */
+.en .en-sb{position:absolute;left:46px;right:46px;top:336px;background:#fff;border-radius:22px;padding:18px 22px 14px;box-shadow:0 14px 34px rgba(16,52,130,.18)}
+.en .en-sbr{display:flex;align-items:center;gap:12px}
+.en .en-sbt{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center}
+.en .en-sbt .badge{width:92px;height:92px;flex-shrink:0}
+.en .en-sbt b{font:400 40px/1.02 Anton;text-transform:uppercase;overflow-wrap:anywhere}
+.en .en-dg{display:flex;align-items:center;gap:10px}
+.en .en-dg span{width:118px;height:150px;border-radius:14px;display:flex;align-items:center;justify-content:center;font:400 118px/1 Anton;box-shadow:inset 0 -6px 0 rgba(0,0,0,.12)}
+.en .en-dg em{font:400 56px Anton;color:#8A97B0;font-style:normal}
+.en .en-ft{display:flex;justify-content:center;gap:22px;margin-top:12px;font:700 18px JBM;letter-spacing:3px;text-transform:uppercase;color:var(--en-mute)}
+.en .en-ft b{color:var(--en-ink)}
+.en .en-mv{position:absolute;left:46px;right:46px;background:#fff;border-radius:22px;padding:14px 24px 8px;box-shadow:0 14px 34px rgba(16,52,130,.14)}
+.en .en-mv>em{display:block;font:700 16px JBM;font-style:normal;letter-spacing:4px;text-transform:uppercase;color:var(--en-blue);margin-bottom:4px}
+.en .en-mr{display:flex;align-items:center;gap:14px;padding:9px 0;border-top:2px solid rgba(11,31,77,.07)}
+.en .en-mr>i{flex-shrink:0;min-width:78px;text-align:center;font:400 34px/1 Anton;font-style:normal;border-radius:10px;padding:7px 8px;box-shadow:inset 0 0 0 2px rgba(11,31,77,.12)}
+.en .en-mr>span{font:800 28px/1.2 Manrope;flex:1;min-width:0}
+.en .en-mr>small{font:700 16px JBM;letter-spacing:2px;text-transform:uppercase;color:var(--en-mute);white-space:nowrap}
+.en .en-vc{position:absolute;left:50%;width:700px;margin-left:-350px;background:#fff;border-radius:18px;padding:18px 26px;box-shadow:0 18px 40px rgba(11,31,77,.3);border-top:12px solid}
+.en .en-vc>small{display:block;font:700 15px JBM;letter-spacing:4px;text-transform:uppercase;color:var(--en-blue)}
+.en .en-vc>b{display:block;margin-top:6px;font:400 54px/1.04 Anton;text-transform:uppercase}
+.en .en-vc>span{display:block;margin-top:6px;font:700 20px JBM;letter-spacing:2px;color:var(--en-mute)}
+.en .en-stp{position:absolute;padding:12px 24px;border:8px solid;border-radius:12px;font:400 70px/1 Anton;letter-spacing:2px;text-transform:uppercase;opacity:0;background:rgba(255,255,255,.92);white-space:nowrap;z-index:8}
+.en .en-stp.ok{color:#1E9E62;border-color:#1E9E62}.en .en-stp.half{color:#E08A00;border-color:#E08A00}.en .en-stp.bad{color:#D8434F;border-color:#D8434F}
+.en_board .en-e1{position:absolute;left:0;right:0;top:170px;text-align:center;font:400 96px/1 Anton;text-transform:uppercase;white-space:nowrap}
+.en_board .en-e1 span{color:var(--en-blue)}
+.en.en-ph.en_board .en-e1{color:#fff}
+.en_board .en-bg2{position:absolute;left:46px;right:46px;top:300px;display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.en_board .en-bc{position:relative;background:#fff;border-radius:18px;padding:14px 18px;min-height:176px;box-shadow:0 10px 26px rgba(16,52,130,.16);border-left:12px solid}
+.en_board .en-bc.wide{grid-column:1 / span 2}
+.en_board .en-bt{display:flex;align-items:center;gap:8px}
+.en_board .en-bt .badge{width:50px;height:50px}
+.en_board .en-bt b{font:400 46px/1 Anton;margin-left:6px}
+.en_board .en-bc>p{margin-top:8px;font:700 19px/1.3 JBM;letter-spacing:1px;color:var(--en-mute)}
+.en_board .en-bc>p b{color:var(--en-ink)}
+.en_board .en-bs{position:absolute;right:12px;bottom:12px;padding:6px 12px;border:4px solid;border-radius:8px;font:400 26px/1 Anton;letter-spacing:1px;text-transform:uppercase;opacity:0;background:#fff}
+.en_board .en-bs.ok{color:#1E9E62;border-color:#1E9E62}.en_board .en-bs.half{color:#E08A00;border-color:#E08A00}.en_board .en-bs.bad{color:#D8434F;border-color:#D8434F}
+.en_board .en-tl{position:absolute;left:46px;right:46px;display:flex;justify-content:center;gap:16px}
+.en_board .en-tl>div{display:flex;align-items:center;gap:12px;padding:12px 22px;border-radius:999px;background:#fff;box-shadow:0 10px 24px rgba(16,52,130,.16);font:700 24px JBM;letter-spacing:2px;text-transform:uppercase;opacity:0}
+.en_board .en-tl>div b{font:400 52px/1 Anton}
+.en_board .en-tl .ok b{color:#1E9E62}.en_board .en-tl .half b{color:#E08A00}.en_board .en-tl .bad b{color:#D8434F}
 /* the cold open: night, a spotlight, the envelopes fanning out */
 .en_cold .en-night{position:absolute;inset:0;background:radial-gradient(ellipse 60% 45% at 50% 62%,#2453C2 0%,#0B2A6F 55%,#061848 100%)}
 .en_cold .en-beam{position:absolute;left:190px;right:190px;top:-80px;height:1500px;background:linear-gradient(180deg,rgba(255,255,255,.22),rgba(255,255,255,0));clip-path:polygon(38% 0,62% 0,100% 100%,0 100%)}
@@ -1422,6 +1462,16 @@ function enCase(q, b) {
   const np = (b.notes || []).map(p => `<div class="en-np"><i>${html(p[0])}</i><span>${html(p[1])}</span></div>`)
   return `<div class="en-case" style="top:${b.case_top ?? 820}px"><em>${html(b.case_label || 'The case')}</em>${st.join('')}${np.join('')}</div>`
 }
+const enPhotoLayer = ph => ph.length ? `<div class="en-bgs">${ph.map(x => `<div class="en-bgi" style="background-image:url('${html(x.src)}');background-position:${x.pos || 'center'}"></div>`).join('')}</div><div class="en-bgl"><i></i><span></span></div>` : ''
+function enPhotos(el, sc, b, lt) {
+  const ph = b.photos || []; if (!ph.length) return
+  const at = ph.map(x => x.at ? vrT(sc, ...x.at) : 0); let cur = 0; at.forEach((a, i) => { if (lt >= a) cur = i })
+  $$('.en-bgi', el).forEach((n, i) => { const a = at[i], nx2 = at[i + 1] ?? 1e9, on = P(lt, a, a + 0.6) * (1 - P(lt, nx2, nx2 + 0.6)); n.style.opacity = n1(i === 0 ? Math.max(on, lt < (at[1] ?? 1e9) ? 1 : 0) : on); n.style.transform = `scale(${(1.04 + 0.06 * clamp((lt - a) / 8)).toFixed(4)})` })
+  const lab = $('.en-bgl', el), x = ph[cur]; if (lab._c !== cur) { lab._c = cur; $('span', lab).textContent = x.label || '' } lab.style.opacity = n1(x.label ? P(lt, at[cur] + 0.2, at[cur] + 0.6) : 0)
+  $('#credit').textContent = x.credit || ''
+}
+const enStampAt = sc => sc.data?.stamp_at ? vrT(sc, ...sc.data.stamp_at) : vrT(sc, sc.lines.length - 1, 0.55)
+const enCardAt = sc => sc.data?.card_at ? vrT(sc, ...sc.data.card_at) : vrT(sc, sc.lines.length - 1, 0) - 0.5
 const enOpenAt = sc => vrT(sc, ...(sc.data?.open_at || [sc.lines.length - 1, 0])) - 0.15
 
 // ---- arrivals (ar_*): the post-match as an airport arrivals board. Each pick: ko ("16:00"), city {name}, kit as vr_*.
@@ -1973,6 +2023,26 @@ const built = D.scenes.map((sc, k) => {
         <div class="en-h" style="font-size:${Math.min(100, Math.floor(988 / (0.45 * Math.max(1, [...(b.head || '')].length))))}px">${html(b.head || '')}</div><div class="en-k">${html(b.kicker || '')}</div>
         <div class="en-noms">${enNom(q, 'home', b.home)}${enNom(q, 'away', b.away)}</div>${enCase(q, b)}
         ${enEnv(q, { w: 540, h: 300, cls: 'en-main', st: `top:${b.env_top ?? 1200}px`, card: enCard(q, b.verdict || {}) })}</div>`
+    } else if (sc.type === 'en_res') {
+      const kh = vrKit(q, 'home'), ka = vrKit(q, 'away'), s2 = b.score || [0, 0], m = b.morning || {}, ph = b.photos || []
+      if (ph.length) el.classList.add('en-ph')
+      const rows = (b.moments || []).map(x => { const kt = x.team === 'away' ? ka : x.team === 'home' ? kh : { bg: '#E4E9F2', ink: '#0B1F4D' }; return `<div class="en-mr"><i style="background:${kt.bg};color:${kt.ink}">${html(x.min)}</i><span>${html(x.text)}</span><small>${html(x.tag || '')}</small></div>` }).join('')
+      const rcats = D.scenes.filter(s => s.type === 'en_res'), ri = rcats.indexOf(sc)
+      el.innerHTML = `<div class="en-stage"></div>${enPhotoLayer(ph)}<div class="en-pg">${top(`<span class="en-cat">Category ${ri + 1} / ${rcats.length}</span><b>${html(b.when || 'Full time')}</b>`)}
+        <div class="en-h" style="font-size:${Math.min(100, Math.floor(988 / (0.45 * Math.max(1, [...(b.head || '')].length))))}px">${html(b.head || '')}</div><div class="en-k">${html(b.kicker || '')}</div>
+        <div class="en-sb"><div class="en-sbr"><div class="en-sbt">${badge(q.bh)}<b style="color:${vrTx(kh)}">${html(vrName(q, 'home'))}</b></div><div class="en-dg"><span style="${arKitSt(kh)}">${html(s2[0])}</span><em>–</em><span style="${arKitSt(ka)}">${html(s2[1])}</span></div><div class="en-sbt">${badge(q.ba)}<b style="color:${vrTx(ka)}">${html(vrName(q, 'away'))}</b></div></div>
+          <div class="en-ft"><span>${html(b.ft || 'Full time')}</span>${b.ht ? `<span>Half time <b>${html(b.ht)}</b></span>` : ''}</div></div>
+        ${rows ? `<div class="en-mv" style="top:${b.mv_top ?? 640}px"><em>${html(b.mv_label || 'How it happened')}</em>${rows}</div>` : ''}
+        <div class="en-vc" style="top:${b.vc_top ?? 1040}px;border-top-color:${kh.bg}"><small>${html(m.label || "This morning's envelope")}</small><b>${html(m.text || '')}</b><span>${html(m.score ? 'Likeliest score ' + m.score : '')}</span></div>
+        <div class="en-stp ${arCls(b.verdict)}" style="left:${b.stamp_x ?? 520}px;top:${b.stamp_y ?? 1150}px">${html(b.stamp || arWord(b.verdict))}</div></div>`
+    } else if (sc.type === 'en_board') {
+      const rs = D.scenes.filter(s => s.type === 'en_res'), ph = b.photos || []
+      if (ph.length) el.classList.add('en-ph')
+      const cards = rs.map((s, j) => { const d = s.data || {}, p = D.picks[d.match ?? 0] || M, kh = vrKit(p, 'home'), sc3 = d.score || ['', '']
+        return `<div class="en-bc${j === rs.length - 1 && rs.length % 2 ? ' wide' : ''}" style="border-left-color:${kh.bg}"><div class="en-bt">${badge(p.bh)}<b>${html(sc3[0])}–${html(sc3[1])}</b>${badge(p.ba)}</div><p>Our call: <b>${html(d.morning?.short || d.morning?.text || '')}</b></p><div class="en-bs ${arCls(d.verdict)}">${html(arWord(d.verdict))}</div></div>` }).join('')
+      const n = { called: 0, half: 0, missed: 0 }; rs.forEach(s => { if (n[s.data?.verdict] != null) n[s.data.verdict]++ })
+      el.innerHTML = `<div class="en-stage"></div>${enPhotoLayer(ph)}<div class="en-pg">${top(`<b>${html(b.when || '')}</b>`)}<div class="en-e1">${html(b.l1 || '')} <span>${html(b.l2 || '')}</span></div><div class="en-bg2">${cards}</div>
+        <div class="en-tl" style="top:${b.tally_top ?? 1330}px">${[['called', 'Called it', 'ok'], ['half', 'Half right', 'half'], ['missed', 'Missed', 'bad']].map(([k, l, c]) => `<div class="${c}"><b>${n[k]}</b>${l}</div>`).join('')}</div></div>`
     } else if (sc.type === 'en_end') {
       const cards = cats.map((s, j) => { const p = D.picks[s.data.match ?? 0] || M, kh = vrKit(p, 'home'), v = s.data.verdict || {}
         return `<div class="en-mc${j === cats.length - 1 && cats.length % 2 ? ' wide' : ''}" style="border-left-color:${kh.bg}"><div class="en-mt">${badge(p.bh)}${badge(p.ba)}<span>${html(p.ko || '')} · ${html(p.where || '')}</span></div><b>${html(v.short || v.text || '')}</b><span>${html(v.score ? 'Likeliest ' + v.score : '')}</span></div>` }).join('')
@@ -2576,6 +2646,21 @@ function draw(k, lt, sc) {
       const sq = P(lt, openT, openT + 0.25); seal.style.opacity = n1(1 - sq); seal.style.transform = `scale(${n1(1 + 0.6 * sq)})`
       const yB = -430 * P(lt, openT + 0.3, openT + 0.95, E.outCubic), qC = P(lt, openT + 0.95, openT + 1.4, E.outBack)
       cd.style.transform = `translate3d(0,${n1(yB + 70 * qC)}px,0) scale(${(1 + 0.8 * qC).toFixed(3)})`; cd.style.zIndex = lt >= openT + 0.95 ? 7 : 2
+    } else if (sc.type === 'en_res') {
+      enPhotos(el, sc, b, lt)
+      rise([$('.en-top', el)], lt, 0.1, 0, 14); slam($('.en-h', el), lt, 0.25, 1.4, 0.3); rise([$('.en-k', el)], lt, 0.45, 0, 16)
+      const sb = $('.en-sb', el), sq = P(lt, 0.35, 0.8, E.outBack); sb.style.opacity = n1(clamp(sq * 2)); sb.style.transform = `scale(${n1(0.7 + 0.3 * sq)})`
+      $$('.en-dg span', el).forEach((d, i) => { const a = 0.6 + i * 0.12, q2 = P(lt, a, a + 0.35, E.outBack); d.style.transform = `rotateX(${n1(90 * (1 - q2))}deg)` })
+      const mv = $('.en-mv', el), mvAt = vrT(sc, ...(b.mv_at || [1, 0])) - 0.2
+      if (mv) { mv.style.opacity = n1(P(lt, mvAt, mvAt + 0.3)); $$('.en-mr', el).forEach((r, i) => { const x = (b.moments || [])[i] || {}, a = x.at ? vrT(sc, ...x.at) : mvAt + 0.2 + i * 0.5, q2 = P(lt, a, a + 0.4, E.outCubic); r.style.opacity = n1(q2); r.style.transform = `translate3d(${n1(40 * (1 - q2))}px,0,0)` }) }
+      const vc = $('.en-vc', el), ca = enCardAt(sc), cq = P(lt, ca, ca + 0.6, E.outBack); vc.style.opacity = n1(clamp(cq * 2)); vc.style.transform = `translate3d(0,${n1(260 * (1 - cq))}px,0) rotate(${n1(-2 * (1 - cq))}deg)`
+      const st = $('.en-stp', el); slam(st, lt, enStampAt(sc), 2.2, 0.25, 'rotate(-8deg)')
+    } else if (sc.type === 'en_board') {
+      enPhotos(el, sc, b, lt)
+      rise([$('.en-top', el)], lt, 0.1, 0, 14); slam($('.en-e1', el), lt, 0.2, 1.5, 0.3)
+      const t1 = vrT(sc, ...(b.stamps_at || [0, 0.6]))
+      $$('.en-bc', el).forEach((d, i) => { const a = 0.5 + i * 0.12, q2 = P(lt, a, a + 0.4, E.outBack); d.style.opacity = lt >= a ? 1 : 0; d.style.transform = `scale(${n1(0.6 + 0.4 * q2)})`; slam($('.en-bs', d), lt, t1 + i * 0.22, 2, 0.2, 'rotate(-6deg)') })
+      const ta = vrT(sc, ...(b.tally_at || [1, 0])); $$('.en-tl>div', el).forEach((d, i) => slam(d, lt, ta + i * 0.25, 1.6, 0.25))
     } else if (sc.type === 'en_end') {
       rise([$('.en-top', el)], lt, 0.1, 0, 14); slam($('.en-e1', el), lt, 0.2, 1.5, 0.3)
       $$('.en-mc', el).forEach((d, i) => { const a = 0.6 + i * 0.12, q2 = P(lt, a, a + 0.4, E.outBack); d.style.opacity = lt >= a ? 1 : 0; d.style.transform = `scale(${n1(0.6 + 0.4 * q2)})` })
@@ -2831,6 +2916,12 @@ function fxCinematic() {
       const o = T + enOpenAt(sc); syn(T + 0.6, 'paper', 0.3); add(T + vrT(sc, ...(b.nom_at || [0, 0.3])), '3115', -15)
       syn(o, 'seal', 0.9); syn(o + 0.3, 'paper', 0.8); add(o + 0.95, '2909', -13); add(o + 1.0, '871', -15)
     }
+    if (sc.type === 'en_res') {
+      add(T + 0.35, '2909', -11); add(T + 0.35, '2299', -12); syn(T + 0.6, 'flap', 0.6)
+      ;(b.moments || []).forEach((x, i) => { const a = x.at ? vrT(sc, ...x.at) : vrT(sc, ...(b.mv_at || [1, 0])) + i * 0.5; add(T + a, '3115', -16) })
+      syn(T + enCardAt(sc), 'paper', 0.6); add(T + enStampAt(sc), '1365', -5); if (b.verdict === 'missed') add(T + enStampAt(sc) + 0.05, '2951', -14)
+    }
+    if (sc.type === 'en_board') { add(T + 0.2, '2909', -9); D.scenes.filter(s => s.type === 'en_res').forEach((_, i) => add(T + vrT(sc, ...(b.stamps_at || [0, 0.6])) + i * 0.22, '1365', -14)) }
     if (sc.type === 'en_end') { add(T + 0.2, '2909', -8); add(T + 0.25, '2299', -8); enCats().forEach((_, i) => syn(T + 0.6 + i * 0.12, 'paper', 0.22)) }
     // arrivals: the hall, the chime, the flaps clattering, a jet landing at full time, a stamp on every boarding pass
     if (sc.type === 'ar_cold') {
