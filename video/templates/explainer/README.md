@@ -183,3 +183,26 @@ music-led, not narrated.
   - `voice: false`;
   - `music_gap` (seconds of silence before the drop);
   - `music_muffle` ({hz, db}: the build sounds far away until the drop).
+
+## Another format: the voxel film (`vx_*`, 3D, no voice, 8 Oct 2026)
+
+Template: `fungolabs-voxel-2026-10-08.json`. The owner on the flat hype edit: "just looks normal". Their own clips are 3D
+voxel art, so this one is built in 3D voxels too: one world, one camera, the words around it.
+- **The engine:** three.js (`assets/three/three.min.js`, r160, MIT), loaded only when a scene is `ex_vx_*`. Headless
+  Chromium draws it with SwiftShader (software WebGL2), about 1.3 s a frame, so a 28 s film takes about 6 minutes on
+  three workers. Everything is a function of the global time, so every worker draws the same frame.
+- **Layers:** a CSS background per shot (`VX_BG`: deep blue for the hook and the zipper, light blue for the rest, navy
+  for the silence), words behind the canvas (`.vx-back`: they get covered by the 3D, like "FUNGO LABS" behind the
+  flying tiles), the transparent canvas, then words in front.
+- **Shots** (`vxShot`, seconds after the drop): hook, logo (the mark builds from flying voxels on the first three
+  kicks), tunnel (the camera flies through the mark's empty centre into a ring of sealed cards, with a wide lens),
+  roll (eight byte dice tumble and land, then the seal slams over them), crowd (their creatures in three rows), known
+  (the track's dead stop: dark, one beam through the centre onto the bunny), wl (the mark and a 20-cell bar, 4 lit),
+  end, zip (a macro on the zipper with the handle).
+- **The camera:** `VX_PATHS` keys `[time, position, target]`, joined by a smooth Hermite path that only stops at the
+  ends, so a move can pass through a key (the centre of the mark) without stopping. Every hit kicks the lens.
+- **Models:** `model(voxels)` makes one InstancedMesh per model; sprites become voxels with `vxImgGrid` (their PNGs,
+  3 deep). Keep sizes in mind: at distance d the frame is 0.39·d wide and 0.69·d high (fov 38).
+- **Check stills at several times per shot:** at the first try the hook was a wall of green (camera too close), the
+  crowd was cut off at the sides, the beam lit only the top of the head, and the end mark sat on the words.
+

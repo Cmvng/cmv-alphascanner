@@ -878,6 +878,34 @@ svg.pti{display:block}
 .hy .hy-st span{display:inline-block;padding:16px 30px;border:10px solid #FFD207;color:#FFD207;font:400 70px/1 Anton;letter-spacing:2px;text-transform:uppercase;background:rgba(6,24,72,.85)}
 .hy .nd-sp{display:block;width:100%;height:100%}
 .hy .hy-cm .bm{width:100%;height:100%;display:block}
+/* voxel film (vx_*), 8 Oct: a three.js canvas between two layers of words; the background changes per shot */
+.vx{overflow:hidden;color:#0B0B10}
+.vx .vx-bg{position:absolute;inset:0}
+.vx .vx-bg.vx-lite{background:radial-gradient(ellipse 90% 50% at 50% 45%,#FFFFFF 0%,rgba(255,255,255,0) 70%),linear-gradient(180deg,#F2F8FF 0%,#DCEAFF 55%,#C3D9FF 100%)}
+.vx .vx-bg.vx-deep{background:radial-gradient(ellipse 90% 60% at 50% 45%,#1D49B5 0%,#0B2A6F 55%,#061848 100%)}
+.vx .vx-bg.vx-night{background:radial-gradient(ellipse 80% 55% at 50% 55%,#10307E 0%,#0A2160 50%,#071A4A 100%)}
+.vx .vx-cam{position:absolute;inset:0}
+.vx .vx-sh{position:absolute;inset:0;display:none}
+.vx .vx-back,.vx .vx-front{position:absolute;inset:0}
+.vx .vx-slot{position:absolute;inset:0}
+.vx .vx-slot canvas{position:absolute;left:0;top:0;width:1080px;height:1920px}
+.vx .vx-w{position:absolute;left:0;right:0;text-align:center;font:400 220px/.86 Anton;letter-spacing:2px;text-transform:uppercase;white-space:nowrap;color:#0B0B10;opacity:0}
+.vx .vx-w.vx-y{color:#FFD207;text-shadow:10px 10px 0 #0B0B10}
+.vx .vx-deep~.vx-cam .vx-w:not(.vx-y),.vx .vx-night~.vx-cam .vx-w:not(.vx-y){color:#fff;text-shadow:8px 8px 0 #0B0B10}
+.vx .vx-bar{position:absolute;left:0;right:0;text-align:center;opacity:0}
+.vx .vx-bar span{display:inline-block;padding:16px 30px;background:#FFD207;color:#0B0B10;font:400 64px/1 Anton;letter-spacing:2px;text-transform:uppercase;box-shadow:8px 8px 0 #0B0B10}
+.vx .vx-chip{position:absolute;left:0;right:0;text-align:center;opacity:0}
+.vx .vx-chip span{display:inline-block;padding:12px 24px;background:#0B0B10;color:#fff;font:700 30px JBM;letter-spacing:3px;text-transform:uppercase}
+.vx .vx-chip span b{color:#FFD207}
+.vx .vx-chip span b.vx-no{color:#FF5A6A}
+.vx .vx-ps{position:absolute;left:0;right:0;top:170px;text-align:center;font:700 64px JBM;color:#fff;opacity:0;text-shadow:4px 4px 0 #0B0B10}
+.vx .vx-ps em{font-style:normal;color:#FFD207}
+.vx .vx-st{position:absolute;left:0;right:0;top:1560px;text-align:center;opacity:0}
+.vx .vx-st span{display:inline-block;padding:16px 30px;border:10px solid #0B0B10;color:#0B0B10;font:400 66px/1 Anton;letter-spacing:2px;text-transform:uppercase;background:#FFD207}
+.vx .vx-zt{position:absolute;left:0;right:0;top:1480px;text-align:center;opacity:0}
+.vx .vx-zt span{display:inline-block;padding:18px 34px;background:#FFD207;color:#0B0B10;font:700 44px JBM;box-shadow:8px 8px 0 #0B0B10}
+.vx .vx-fl{position:absolute;inset:0;background:#FFD207;opacity:0;z-index:40;pointer-events:none;mix-blend-mode:screen}
+.vx .vx-flw{position:absolute;inset:0;background:#FFFFFF;opacity:0;z-index:41;pointer-events:none}
 </style>
 </head>
 <body>
@@ -2192,6 +2220,294 @@ function fxHY(add, sc, T, next, syn) {
   syn(T + 22.0, 'zip', 1.1); add(T + 22.45, '1365', -8)   // zipped shut again, the handle stamps on
 }
 
+// ---------------------------------------------------------------- voxel film (vx_*), 8 Oct: Fungo Labs in their own 3D
+// voxel look (three.js, rendered in software). One world, one camera; everything is a function of the global time T
+// (seconds), so every render worker draws the same frame. Words sit behind (vx-back) and in front of (vx-front) the 3D.
+const VX = { on: D.scenes.some(s => /^ex_vx_/.test(s.type)) && !!window.THREE }
+const VXH = (EX.hits || [0, 1.5, 2, 4, 5.5, 6, 8, 9.5, 10, 12, 13.5, 14, 16, 17.5, 18, 20, 21.5, 22])
+const vxDrop = () => D.scenes.find(s => s.type === 'ex_vx_reel')?.start ?? 4
+const vxE = { o: x => 1 - Math.pow(1 - clamp(x), 3), io: x => { x = clamp(x); return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2 }, back: x => { x = clamp(x); return 1 + 2.7 * Math.pow(x - 1, 3) + 1.7 * Math.pow(x - 1, 2) } }
+const vxL = (a, b, q) => a + (b - a) * q
+const vxV = (a, b, q) => [vxL(a[0], b[0], q), vxL(a[1], b[1], q), vxL(a[2], b[2], q)]
+function vxImgGrid(src) {        // a pixel sprite (their creatures) → rows of colours, transparent as null
+  return new Promise(res => { const im = new Image(); im.onload = () => { const c = document.createElement('canvas'); c.width = im.width; c.height = im.height; const x = c.getContext('2d'); x.drawImage(im, 0, 0)
+    const d = x.getImageData(0, 0, im.width, im.height).data, rows = []
+    for (let y = 0; y < im.height; y++) { const r = []; for (let k = 0; k < im.width; k++) { const i = (y * im.width + k) * 4; r.push(d[i + 3] > 128 ? `rgb(${d[i]},${d[i + 1]},${d[i + 2]})` : null) } rows.push(r) }
+    res(rows) }; im.onerror = () => res(null); im.src = src })
+}
+if (VX.on) VX.ready = (async () => {
+  await Promise.all([...document.fonts].map(f => f.load())); await document.fonts.ready
+  const T3 = THREE
+  const cv = document.createElement('canvas'); cv.width = 1080; cv.height = 1920; cv.className = 'vx-cv'
+  const R = new T3.WebGLRenderer({ canvas: cv, antialias: true, alpha: true, preserveDrawingBuffer: true })
+  R.setPixelRatio(1); R.setSize(1080, 1920, false); R.setClearColor(0x000000, 0)
+  R.toneMapping = T3.ACESFilmicToneMapping; R.toneMappingExposure = 1.25; R.outputColorSpace = T3.SRGBColorSpace
+  R.shadowMap.enabled = true; R.shadowMap.type = T3.PCFSoftShadowMap
+  const S = new T3.Scene(), cam = new T3.PerspectiveCamera(38, 1080 / 1920, 0.05, 600)
+  const hemi = new T3.HemisphereLight('#DCEBFF', '#13285E', 1.35); S.add(hemi)
+  const key = new T3.DirectionalLight('#FFF4DE', 2.6); key.position.set(18, 30, 26); key.castShadow = true; key.shadow.mapSize.set(1024, 1024)
+  Object.assign(key.shadow.camera, { left: -40, right: 40, top: 40, bottom: -40, near: 1, far: 140 }); key.shadow.bias = -0.0008; S.add(key); S.add(key.target)
+  const rim = new T3.DirectionalLight('#4FB3FF', 1.6); rim.position.set(-20, 10, -30); S.add(rim)
+  const spot = new T3.SpotLight('#FFE27A', 0, 120, 0.3, 0.35, 1.2); spot.castShadow = true; spot.shadow.mapSize.set(1024, 1024); spot.shadow.bias = -0.0005; S.add(spot); S.add(spot.target)
+  // geometry: a soft-edged voxel for the hero objects, a plain one for crowds
+  const rs = new T3.Shape(), a = 0.46, rr = 0.1
+  rs.moveTo(-a + rr, -a); rs.lineTo(a - rr, -a); rs.quadraticCurveTo(a, -a, a, -a + rr); rs.lineTo(a, a - rr); rs.quadraticCurveTo(a, a, a - rr, a); rs.lineTo(-a + rr, a); rs.quadraticCurveTo(-a, a, -a, a - rr); rs.lineTo(-a, -a + rr); rs.quadraticCurveTo(-a, -a, -a + rr, -a)
+  const gSoft = new T3.ExtrudeGeometry(rs, { depth: 0.8, bevelEnabled: true, bevelThickness: 0.06, bevelSize: 0.04, bevelSegments: 1, curveSegments: 2 }); gSoft.translate(0, 0, -0.4)
+  const gBox = new T3.BoxGeometry(0.94, 0.94, 0.94)
+  const mVox = new T3.MeshStandardMaterial({ roughness: 0.5, metalness: 0.02 })
+  // a voxel model: list of {p:[x,y,z], c:'#hex'} → an instanced mesh inside a group; per-instance home positions kept for animation
+  function model(vox, soft = true) {
+    const im = new T3.InstancedMesh(soft ? gSoft : gBox, mVox, vox.length); im.castShadow = true; im.receiveShadow = true
+    const o = new T3.Object3D(), col = new T3.Color()
+    vox.forEach((v, i) => { o.position.set(...v.p); o.updateMatrix(); im.setMatrixAt(i, o.matrix); im.setColorAt(i, col.setStyle(v.c)) })
+    im.instanceMatrix.needsUpdate = true; if (im.instanceColor) im.instanceColor.needsUpdate = true
+    const g = new T3.Group(); g.add(im); g.userData = { im, vox }; return g
+  }
+  // their mark: a yellow slab with eight black tiles around a hole (the empty centre, "where its holder looks from")
+  const MK = []
+  for (let y = 0; y < 13; y++) for (let x = 0; x < 13; x++) {
+    const corner = (x === 0 || x === 12) && (y === 0 || y === 12), hole = x >= 5 && x <= 7 && y >= 5 && y <= 7
+    if (corner || hole) continue
+    for (let z = 0; z < 2; z++) MK.push({ p: [x - 6, 6 - y, z - 0.5], c: '#FFD207', part: 0 })
+  }
+  ;[[1, 1], [5, 1], [9, 1], [9, 5], [9, 9], [5, 9], [1, 9], [1, 5]].forEach(([tx, ty], k) => { for (let y = 0; y < 3; y++) for (let x = 0; x < 3; x++) MK.push({ p: [tx + x - 6, 6 - (ty + y), 1.5], c: '#121218', part: 1 + (k < 4 ? 0 : 1) }) })
+  const mark = model(MK); S.add(mark)
+  // the bunny (our pixel fan art) in 3D: body 6 deep, ears 2, the face on the front layer, and a zipper mouth
+  const BG = ND_BUNNY.map(r => [...r]), BV = [], bpal = ND_PAL
+  BG.forEach((r, y) => r.forEach((ch, x) => { if (!bpal[ch]) return; const ear = y < 6, d = ear ? 2 : 6; for (let z = 0; z < d; z++) BV.push({ p: [x - 7.5, 10 - y, z - d / 2 + (ear ? 0 : 0)], c: bpal[ch] }) }))
+  // face layer (eyes open, mouth flat) one voxel proud of the front
+  ND_EYES.open.forEach((r, i) => [...r].forEach((ch, x) => { if (ch === 'w' || ch === 'k') BV.push({ p: [x - 7.5, 10 - (10 + i), 2.75], c: bpal[ch], face: 'eye' }) }))
+  const bunny = model(BV); S.add(bunny)
+  const SM = []; ND_MOUTH.smile.forEach((r, i) => [...r].forEach((ch, x) => { if (ch === 'k' || ch === 't') SM.push({ p: [x + 4 - 7.5, 10 - (14 + i), 2.75], c: bpal[ch] }) }))
+  const smile = model(SM); bunny.add(smile)
+  const ZT = [], zg = new T3.Group()       // the zipper: eight teeth and a pull tab, in front of the mouth
+  for (let i = 0; i < 8; i++) { const m = new T3.Mesh(gSoft, new T3.MeshStandardMaterial({ color: i % 2 ? '#F4F1EA' : '#121218', roughness: 0.4 })); m.scale.set(0.9, 0.55, 0.6); m.position.set(i - 3.5, 10 - 15, 3.3); zg.add(m); ZT.push(m) }
+  const tab = new T3.Group(); { const a1 = new T3.Mesh(gSoft, new T3.MeshStandardMaterial({ color: '#FFD207', roughness: 0.3, metalness: 0.3 })); a1.scale.set(0.8, 0.8, 0.5); const a2 = a1.clone(); a2.scale.set(0.5, 1.2, 0.5); a2.position.set(0, -0.9, 0); tab.add(a1, a2) }
+  zg.add(tab); bunny.add(zg)
+  const mouthO = new T3.Mesh(gBox, new T3.MeshStandardMaterial({ color: '#8E1F33', roughness: 0.6 })); mouthO.scale.set(2.2, 1.6, 0.4); mouthO.position.set(0, -5, 3.1); bunny.add(mouthO)
+  // their creatures, extruded from the pixel sprites (3 deep), for the crowd
+  const grids = await Promise.all(['red', 'green', 'king', 'robot'].map(n => vxImgGrid((BR.art || {})[n] || '')))
+  const crowd = new T3.Group(); S.add(crowd)
+  const CR = []
+  grids.forEach((gr, gi) => { if (!gr) return
+    const vox = []; gr.forEach((r, y) => r.forEach((c, x) => { if (!c) return; for (let z = 0; z < 3; z++) vox.push({ p: [x - gr[0].length / 2, gr.length - y, z - 1], c }) }))
+    for (let k = 0; k < 5; k++) { const m = model(vox, false); crowd.add(m); CR.push({ m, i: gi * 5 + k }) } })
+  const ROWS = [[5, 6.5], [6, 6], [9, 4.1]]
+  CR.sort((p, q) => hsh(p.i, 3) - hsh(q.i, 3)).forEach((c, j) => { let k = 0, n = j; while (n >= ROWS[k][0]) { n -= ROWS[k][0]; k++ } const [cnt, sp] = ROWS[k]; c.home = [(n - (cnt - 1) / 2) * sp, -14.4, -275 - k * 8]; c.row = k; c.j = j })
+  // the sealed cards: their mark on ink, and ciphertext on the back
+  const cardTex = (() => { const c = document.createElement('canvas'); c.width = 256; c.height = 352; const x = c.getContext('2d'); x.fillStyle = '#121218'; x.fillRect(0, 0, 256, 352)
+    x.fillStyle = '#FFD207'; x.beginPath(); x.roundRect(68, 96, 120, 120, 26); x.fill(); x.fillStyle = '#121218'
+    ;[[0, 0], [1, 0], [2, 0], [2, 1], [2, 2], [1, 2], [0, 2], [0, 1]].forEach(([i, j]) => { x.beginPath(); x.roundRect(83 + i * 31, 111 + j * 31, 26, 26, 6); x.fill() })
+    x.fillStyle = '#F4F1EA'; x.font = '700 18px JBM'; x.fillText('REVEALED', 20, 316); x.fillStyle = '#FF5A6A'; x.fillText('NO', 206, 316)
+    const t = new T3.CanvasTexture(c); t.colorSpace = T3.SRGBColorSpace; return t })()
+  const backTex = (() => { const c = document.createElement('canvas'); c.width = 256; c.height = 352; const x = c.getContext('2d'); x.fillStyle = '#0B0B10'; x.fillRect(0, 0, 256, 352); x.fillStyle = '#FFD207'; x.font = '700 15px JBM'
+    for (let r = 0; r < 19; r++) x.fillText(hexs(22, r + 3), 12, 26 + r * 17.5); const t = new T3.CanvasTexture(c); t.colorSpace = T3.SRGBColorSpace; return t })()
+  const side = new T3.MeshStandardMaterial({ color: '#F4F1EA', roughness: 0.5 })
+  const cardMats = [side, side, side, side, new T3.MeshStandardMaterial({ map: cardTex, roughness: 0.45 }), new T3.MeshStandardMaterial({ map: backTex, roughness: 0.45 })]
+  const gCard = new T3.BoxGeometry(8, 11, 0.4), cards = []
+  for (let i = 0; i < 26; i++) { const m = new T3.Mesh(gCard, cardMats); m.castShadow = true; const a2 = i * 0.9, z = -14 - i * 6; m.userData = { home: [7 * Math.cos(a2) * (i % 2 ? 1 : 1.2), 9 * Math.sin(a2), z], i }; S.add(m); cards.push(m) }
+  // the roll: eight byte cubes with hex on every face; they land on random values, then a seal slams over them
+  const BYTES = ['7F', 'A3', '0C', 'E9', '41', 'D2', '88', '5B']
+  const hexTex = s => { const c = document.createElement('canvas'); c.width = c.height = 128; const x = c.getContext('2d'); x.fillStyle = '#121218'; x.fillRect(0, 0, 128, 128); x.strokeStyle = '#FFD207'; x.lineWidth = 6; x.strokeRect(6, 6, 116, 116)
+    x.fillStyle = '#FFD207'; x.font = '400 64px Anton'; x.textAlign = 'center'; x.textBaseline = 'middle'; x.fillText(s, 64, 68); const t = new T3.CanvasTexture(c); t.colorSpace = T3.SRGBColorSpace; return t }
+  const dice = BYTES.map((v, i) => { const faces = [0, 1, 2, 3, 4, 5].map(f => new T3.MeshStandardMaterial({ map: hexTex(f === 4 ? v : hexs(2, i * 7 + f).toUpperCase()), roughness: 0.4 }))
+    const m = new T3.Mesh(new T3.BoxGeometry(2.6, 2.6, 2.6), faces); m.castShadow = true; m.userData = { home: [(i % 4 - 1.5) * 3.2, (i < 4 ? 1.7 : -1.7), -190] }; S.add(m); return m })
+  const sealPlate = model(MK.filter(v => v.part === 0)); sealPlate.scale.setScalar(0.92); S.add(sealPlate)
+  // the whitelist bar: 40 cells, the first 8 (20%) fill
+  const WB = []; for (let i = 0; i < 20; i++) for (let y = 0; y < 2; y++) WB.push({ p: [(i - 9.5) * 0.62, y * 0.62, 0], c: i < 4 ? '#FFD207' : '#FFFFFF', i })
+  const wbar = model(WB, false); S.add(wbar)
+  // the beam: a shaft of light through the mark's empty centre (known by one)
+  const beam = new T3.Mesh(new T3.BoxGeometry(2.6, 1, 2.6), new T3.MeshBasicMaterial({ color: '#FFE27A', transparent: true, opacity: 0.22, blending: T3.AdditiveBlending, depthWrite: false })); S.add(beam)
+  // a floor for the crowd, catching their shadows
+  const floor = new T3.Mesh(new T3.CircleGeometry(90, 48), new T3.MeshStandardMaterial({ color: '#1A3C8F', roughness: 0.9 })); floor.rotation.x = -Math.PI / 2; floor.position.set(0, -14.5, -260); floor.receiveShadow = true; S.add(floor)
+  const pedestal = new T3.Mesh(new T3.BoxGeometry(7, 4, 7), new T3.MeshStandardMaterial({ color: '#F4F1EA', roughness: 0.6 })); pedestal.position.set(0, -12.5, -264); pedestal.castShadow = pedestal.receiveShadow = true; S.add(pedestal)
+  const pCard = new T3.Mesh(gCard, cardMats); pCard.position.set(0, -1, -264); pCard.castShadow = true; S.add(pCard)
+  Object.assign(VX, { T3, R, S, cam, cv, hemi, key, rim, spot, mark, bunny, smile, ZT, tab, mouthO, CR, cards, dice, sealPlate, wbar, floor, pedestal, pCard, crowd, beam, fog: new T3.Fog('#D3E4FF', 26, 150) })
+  return true
+})()
+
+// place every voxel of a model: home, or flying in from a scattered start (assembly), per instance timing
+function vxAssemble(g, T, t0, dur, spread, partAt) {
+  const { im, vox } = g.userData, o = new VX.T3.Object3D()
+  vox.forEach((v, i) => {
+    const a = partAt ? partAt(v) : t0, s = hsh(i, 5), q = vxE.o((T - a - s * 0.18) / dur)
+    const from = [v.p[0] * 3 + (hsh(i, 1) - 0.5) * spread, v.p[1] * 3 + (hsh(i, 2) - 0.5) * spread, v.p[2] + 30 + hsh(i, 3) * spread]
+    o.position.set(...vxV(from, v.p, q)); o.rotation.set((1 - q) * 6 * hsh(i, 7), (1 - q) * 6 * hsh(i, 8), 0); o.scale.setScalar(T < a ? 0.0001 : 1); o.updateMatrix(); im.setMatrixAt(i, o.matrix)
+  })
+  im.instanceMatrix.needsUpdate = true
+}
+function vxPlaceAll(g, scale = 1) { const { im, vox } = g.userData, o = new VX.T3.Object3D(); vox.forEach((v, i) => { o.position.set(...v.p); o.rotation.set(0, 0, 0); o.scale.setScalar(scale); o.updateMatrix(); im.setMatrixAt(i, o.matrix) }); im.instanceMatrix.needsUpdate = true }
+// which shot: the camera and the words both follow it
+const vxShot = (T, Dp = vxDrop()) => { const r = T - Dp; return T < Dp ? 'hook' : r < 4 ? 'logo' : r < 8 ? 'tunnel' : r < 12 ? 'roll' : r < 15 ? 'crowd' : r < 16 ? 'known' : r < 20 ? 'wl' : r < 22 ? 'end' : 'zip' }
+// the camera paths: keys [time, position, target]; hook times are absolute (its last key lands on the drop), the rest are
+// seconds after the drop. The drop and the tunnel are one move: the camera never stops as it goes through the centre.
+const VX_PATHS = Dp => ({
+  hook: [[0, [-14, 4, 118], [0, 0, 60]], [1.3, [-9, 1, 108], [0, -1, 60]], [2.5, [-4, -2, 92], [0, -2.5, 60]], [3.25, [-1, -4.5, 85], [0, -5, 62]], [Dp, [0.4, -4.8, 83], [0, -5, 62]]],
+  logo: [[0, [-14, 6, 52], [0, 0, 0]], [2, [8, 3, 44], [0, 0, 0]], [4, [3, 1, 24], [0, 0, 0]], [5.5, [0, 0, 1.2], [0, 0, -20]], [6, [0, 0, -8], [0, 0, -40]], [8, [1.5, 0.8, -60], [0, 0, -110]]],
+  roll: [[8, [2, 1, -142], [0, 0, -190]], [10, [-2, 1.5, -148], [0, 0, -190]], [12, [0, 0, -151], [0, 0, -190]]],
+  crowd: [[12, [0, 9, -196], [0, -6, -270]], [15, [0, 20, -204], [0, -8, -270]]],
+  known: [[15, [0, -5, -229], [0, -6.5, -264]], [16, [0, -5, -232], [0, -6.5, -264]]],
+  wl: [[16, [9, 0, 42], [0, 0, 0]], [20, [-6, -1, 38], [0, 0, 0]]],
+  end: [[20, [4, 9, 140], [0, 8, 60]], [22, [1.5, 7, 124], [0, 7.5, 60]]],
+  zip: [[22, [0, -4.9, 85], [0, -5, 63]], [23.5, [0, -4.9, 82], [0, -5, 63]]],
+})
+// a smooth path through the keys (cubic Hermite, time as the parameter): still at the ends, moving through the middle keys
+function vxPath(k, t, j) {
+  if (t <= k[0][0]) return k[0][j]; if (t >= k.at(-1)[0]) return k.at(-1)[j]
+  let i = 0; while (t > k[i + 1][0]) i++
+  const [t0, t1] = [k[i][0], k[i + 1][0]], dt = t1 - t0, s = (t - t0) / dt, s2 = s * s, s3 = s2 * s
+  const tan = n => n <= 0 || n >= k.length - 1 ? [0, 0, 0] : k[n + 1][j].map((v, c) => (v - k[n - 1][j][c]) / (k[n + 1][0] - k[n - 1][0]))
+  const m0 = tan(i), m1 = tan(i + 1), p0 = k[i][j], p1 = k[i + 1][j]
+  return p0.map((v, c) => (2 * s3 - 3 * s2 + 1) * v + (s3 - 2 * s2 + s) * dt * m0[c] + (-2 * s3 + 3 * s2) * p1[c] + (s3 - s2) * dt * m1[c])
+}
+function vxCam(T) {
+  const Dp = vxDrop(), shot = vxShot(T, Dp), P2 = VX_PATHS(Dp), key = shot === 'tunnel' ? 'logo' : shot, t = shot === 'hook' ? T : T - Dp
+  const p = vxPath(P2[key], t, 1), g = vxPath(P2[key], t, 2)
+  // a kick on every hit: the lens punches in and the camera jolts (none in the silence)
+  let kick = 0; for (const h of VXH) { const d = T - (Dp + h); if (d >= 0 && d < 0.25) kick = Math.max(kick, (h % 4 === 0 ? 1 : 0.45) * (1 - d / 0.25)) }
+  const amp = shot === 'zip' || shot === 'hook' ? 0.05 : 0.25
+  VX.cam.position.set(p[0] + kick * amp * Math.sin(T * 90), p[1] + kick * amp * Math.cos(T * 70), p[2]); VX.cam.lookAt(...g)
+  const warp = shot === 'tunnel' ? 30 * Math.sin(Math.PI * clamp((T - Dp - 4.6) / 3.4)) : 0
+  VX.cam.fov = 38 + warp - 3 * kick; VX.cam.updateProjectionMatrix()
+  return shot
+}
+function vxRender(T) {
+  const V = VX, Dp = vxDrop(), r = T - Dp, shot = vxCam(T)
+  ;[V.bunny, V.mark, V.sealPlate, V.wbar, V.crowd, V.floor, V.pedestal, V.pCard, V.beam, ...V.cards, ...V.dice].forEach(o => { o.visible = false })
+  V.S.fog = shot === 'tunnel' ? V.fog : null
+  // light: bright and soft; the silence is dark, with one beam
+  const dark = shot === 'known', dq = dark ? vxE.o((r - 15) / 0.12) : 0
+  V.hemi.intensity = vxL(1.35, 0.2, dq); V.key.intensity = vxL(2.6, 0.06, dq); V.rim.intensity = vxL(1.6, 0.6, dq); V.spot.intensity = dark ? 1100 * vxE.o((r - 15.04) / 0.2) : 0
+  // the bunny: the hook, the silence (on the floor, half size) and the end
+  if (shot === 'hook' || shot === 'end' || shot === 'zip' || dark) {
+    V.bunny.visible = true
+    if (dark) { V.bunny.position.set(0, -8.26, -264); V.bunny.scale.setScalar(0.6); V.bunny.rotation.set(0, 0, 0) }
+    else { V.bunny.position.set(0, 0, 60); V.bunny.scale.set(1, 1 + 0.008 * Math.sin(T * 5), 1); V.bunny.rotation.set(0, (shot === 'zip' ? 0.02 : 0.07) * Math.sin(T * 1.7), 0) }
+    const zq = shot === 'hook' ? clamp((T - 2.6) / 0.6) : 1, gasp = shot === 'hook' && T > 1.1 && T < 2.6
+    V.smile.visible = shot === 'hook' && T <= 1.1; V.mouthO.visible = gasp; V.mouthO.scale.y = 1.6 * (gasp ? 0.5 + 0.5 * vxE.back((T - 1.1) / 0.25) : 1)
+    V.ZT.forEach((m, i) => { m.visible = zq * 8 > i + 0.01 })
+    const wig = shot === 'zip' ? Math.exp(-(r - 22.45) * 4) * Math.sin((r - 22.45) * 26) * (r > 22.45 ? 1 : 0) : 0
+    V.tab.position.set(-3.5 + 7 * zq, -5.2, 3.55); V.tab.rotation.set(0, 0, 0.5 * wig); V.tab.visible = zq > 0.01
+  }
+  // the mark: built from flying voxels on the drop (slab on the first kick, tiles on the next two); the camera then
+  // flies through its empty centre
+  if (shot === 'logo' || shot === 'tunnel') {
+    V.mark.visible = true; vxAssemble(V.mark, T, Dp, 0.55, 40, v => Dp + (v.part === 0 ? 0 : v.part === 1 ? 1.5 : 2.0))
+    V.mark.position.set(0, 0, 0); V.mark.rotation.set(0, 0.22 * Math.sin(r * 0.9) * (1 - clamp((r - 3.5) / 1.5)), 0); V.mark.scale.setScalar(1)
+  }
+  // the cards: born sealed in the tunnel past the centre; they flip in on 5.5 and 6
+  if (shot === 'tunnel') V.cards.forEach(m => { const { home, i } = m.userData, a = Dp + 5.5 + (i % 2) * 0.5 + Math.floor(i / 2) * 0.03, q = vxE.back((T - a) / 0.5), pop = Math.sin(Math.PI * clamp((T - a) / 0.3))
+    m.visible = true; m.position.set(...home); m.scale.setScalar(0.8 * (1 + 0.18 * pop)); m.rotation.set(0.15 * Math.sin(T + i), Math.PI * (1 - q) + 0.35 * Math.sin(T * 0.7 + i), 0.1 * Math.cos(T + i)) })
+  // the roll: eight bytes tumble from 8, land on 10, and the seal slams over them
+  if (shot === 'roll') {
+    V.dice.forEach((m, i) => { const land = Dp + 10 + i * 0.03, q = vxE.o((T - (Dp + 8)) / (land - Dp - 8)), spin = (1 - q) * (14 + i * 3)
+      m.visible = true; m.position.set(m.userData.home[0], m.userData.home[1] + 3 * (1 - q) * Math.abs(Math.sin(T * 7 + i)), m.userData.home[2]); m.rotation.set(spin, spin * 0.7, 0); m.scale.setScalar(Math.max(0.0001, vxE.back((T - Dp - 8 - i * 0.04) / 0.4))) })
+    if (r >= 10.4) { V.sealPlate.visible = true; vxPlaceAll(V.sealPlate); V.sealPlate.position.set(0, 0, vxL(-150, -187.4, vxE.o((r - 10.4) / 0.22))); V.sealPlate.scale.setScalar(0.95) }
+  }
+  // the crowd: their creatures around a pedestal, in waves on 12, 13.5 and 14, bobbing on the beat
+  if (shot === 'crowd' || dark) {
+    V.crowd.visible = true; V.floor.visible = true
+    V.CR.forEach(c => { const wave = [12, 13.5, 14][c.row], q = vxE.back((r - wave - (c.j % 7) * 0.03) / 0.35), bob = dark ? 0 : Math.abs(Math.sin((r + c.j * 0.1) * Math.PI * 2)) * 0.8
+      c.m.position.set(c.home[0], c.home[1] + bob, c.home[2]); c.m.scale.setScalar(Math.max(0.0001, (dark ? 1 : q) * 0.5)); c.m.lookAt(0, c.home[1] + bob, -264) })
+  }
+  if (shot === 'crowd') { V.pedestal.visible = true; V.pCard.visible = true; V.pCard.position.set(0, -4.4, -264); V.pCard.rotation.set(0, 0.5 * Math.sin(T * 1.3), 0) }
+  // known by one: the mark hangs flat above the bunny; the only light comes down through its empty centre
+  if (dark) {
+    V.mark.visible = true; vxPlaceAll(V.mark); V.mark.position.set(0, 3, -260.1); V.mark.rotation.set(-Math.PI / 2, 0, 0); V.mark.scale.setScalar(1)
+    V.spot.position.set(0, 26, -252); V.spot.target.position.set(0, -8, -264); V.spot.target.updateMatrixWorld()
+    V.beam.visible = true; V.beam.position.set(0, -5.75, -263.2); V.beam.rotation.set(0.34, 0, 0); V.beam.scale.set(1, 18.6, 1); V.beam.material.opacity = 0.2 * vxE.o((r - 15.04) / 0.2)
+  }
+  // are you in: the mark slams back, the whitelist bar builds under it, 4 of 20 cells lit (about 20%)
+  if (shot === 'wl') {
+    V.mark.visible = true; vxPlaceAll(V.mark); const sq = vxE.back((r - 16) / 0.3); V.mark.position.set(0, 1.65, 0); V.mark.rotation.set(0, 0.15 * Math.sin(r), 0); V.mark.scale.setScalar(Math.max(0.0001, 0.75 * (0.4 + 0.6 * sq)))
+    V.wbar.visible = true; const { im, vox } = V.wbar.userData, o = new V.T3.Object3D()
+    vox.forEach((v, i) => { const on = v.i < 4, a = on ? Dp + 16.6 + v.i * 0.12 : Dp + 16.1 + v.i * 0.012, q = vxE.back((T - a) / 0.3)
+      o.position.set(v.p[0], v.p[1], v.p[2] + (on ? 0.25 * clamp(q) : 0)); o.rotation.set(0, 0, 0); o.scale.setScalar(Math.max(0.0001, 0.62 * q)); o.updateMatrix(); im.setMatrixAt(i, o.matrix) })
+    im.instanceMatrix.needsUpdate = true; V.wbar.position.set(0, -5.2, 0)
+  }
+  // the end: the bunny with the mark spinning over its head like a coin
+  if (shot === 'end' || shot === 'zip') { V.mark.visible = true; vxPlaceAll(V.mark); V.mark.position.set(0, 14.5, 58); V.mark.rotation.set(0, r * 1.4, 0); V.mark.scale.setScalar(0.4) }
+  V.key.position.set(V.cam.position.x + 18, V.cam.position.y + 30, V.cam.position.z + 26); V.key.target.position.copy(V.cam.position).add(new V.T3.Vector3(0, -10, -40)); V.key.target.updateMatrixWorld()
+  V.R.render(V.S, V.cam)
+  return shot
+}
+
+// ---- the page around the 3D: a background per shot, words behind and in front of the canvas, flashes on the kicks
+const vxW = (cls, y, txt, size) => `<div class="vx-w ${cls}" style="top:${y}px${size ? `;font-size:${size}px` : ''}">${txt}</div>`
+const vxChip = (cls, y, txt) => `<div class="vx-chip ${cls}" style="top:${y}px"><span>${txt}</span></div>`
+function buildVX(el, sc, b) {
+  el.classList.add('vx')
+  const tail = `<div class="vx-fl"></div><div class="vx-flw"></div>`
+  if (sc.type === 'ex_vx_cold') {
+    el.innerHTML = `<div class="vx-bg vx-deep"></div><div class="vx-cam"><div class="vx-back"></div><div class="vx-slot"></div><div class="vx-front vx-on">
+      <div class="vx-ps">psst… <em class="vx-hx"></em></div>${vxW('vx-a', 1290, b.l1 || 'I know a', 150)}${vxW('vx-y vx-b', 1440, b.l2 || 'secret.', 220)}</div></div>${tail}`
+    return
+  }
+  const S2 = (s, back, front) => `<div class="vx-sh" data-s="${s}"><div class="vx-back">${back}</div></div>`, F2 = (s, front) => `<div class="vx-sh vx-fr" data-s="${s}">${front}</div>`
+  el.innerHTML = `<div class="vx-bg"></div><div class="vx-cam">
+    ${S2('logo', vxW('vx-fn', 250, 'Fungo Labs', 190))}${S2('tunnel', vxW('vx-bo', 300, 'Born', 280))}
+    <div class="vx-slot"></div>
+    ${F2('logo', `<div class="vx-bar" style="top:1470px"><span>${html(b.tagline || 'Encrypted NFTs on Ethereum')}</span></div>${vxChip('vx-c1', 1600, b.built || 'Built with FHE on <b>Zama</b>')}`)}
+    ${F2('tunnel', vxW('vx-y vx-se', 1330, 'sealed.', 280) + vxChip('vx-c2', 1600, b.revealed || 'Revealed: <b class="vx-no">No</b>'))}
+    ${F2('crowd', vxW('vx-sa', 240, 'Seen by all.', 180))}
+    ${F2('roll', vxW('vx-nb', 250, 'Nobody', 230) + vxW('vx-gt', 1330, 'gets to', 150) + vxW('vx-y vx-ch', 1460, 'choose.', 250) + vxChip('vx-c3', 1760, html(b.not_even || 'Not even the team.')))}
+    ${F2('known', vxW('vx-y vx-ko', 300, 'Known by one.', 170))}
+    ${F2('wl', vxW('vx-in', 230, b.ask || 'Are you in?', 190) + vxChip('vx-c4', 1430, `${html(b.wl_left || 'About 20% filled')} · ${html(b.wl_right || 'Reviews ongoing')}`) + `<div class="vx-st"><span>${b.me || '@i_am_vickyd · applied ✓'}</span></div>`)}
+    ${F2('end', vxW('vx-e1', 220, 'Seen by all.', 160) + vxW('vx-y vx-e2', 390, 'Known by one.', 160) + vxChip('vx-c5', 1640, b.credit || 'A fan edit for <b>@FungoLabs</b>'))}
+    ${F2('zip', `<div class="vx-zt"><span>${b.sealed || '🤐 @i_am_vickyd · lips sealed'}</span></div>`)}
+  </div>${tail}`
+}
+const VX_BG = { hook: 'vx-deep', logo: 'vx-lite', tunnel: 'vx-lite', roll: 'vx-lite', crowd: 'vx-lite', known: 'vx-night', wl: 'vx-lite', end: 'vx-lite', zip: 'vx-deep' }
+function drawVX(el, lt, sc, b) {
+  if (!VX.R) return
+  const T = sc.start + lt, Dp = vxDrop(), r = T - Dp, slot = $('.vx-slot', el)
+  if (VX.cv.parentNode !== slot) slot.appendChild(VX.cv)
+  const shot = vxRender(T)
+  const bg = $('.vx-bg', el), cls = 'vx-bg ' + VX_BG[shot]; if (bg.className !== cls) bg.className = cls
+  $('#foot').style.color = VX_BG[shot] === 'vx-lite' ? 'rgba(11,11,16,.5)' : 'rgba(255,255,255,.55)'
+  if (sc.type === 'ex_vx_cold') {
+    const ps = $('.vx-ps', el), pq = clamp((lt - 0.35) / 0.4); ps.style.opacity = lt > 0.35 && lt < 3.3 ? 1 : 0
+    ps.firstChild.textContent = 'psst… '.slice(0, Math.ceil(6 * pq)); $('.vx-hx', el).textContent = lt > 0.8 ? '0x' + hexs(4, 9, lt, 12) : ''
+    hyWord($('.vx-a', el), lt, 2.0); hyWord($('.vx-b', el), lt, 2.5, 2.0)
+    const out = 1 - P(lt, 3.3, 3.6); $('.vx-a', el).style.opacity = lt >= 2.0 ? out : 0; $('.vx-b', el).style.opacity = lt >= 2.5 ? out : 0
+    $('.vx-cam', el).style.transform = lt > 2.0 && lt < 2.3 ? shake(lt, 2.0, 12) : lt > 2.5 && lt < 2.8 ? shake(lt, 2.5, 16) : ''
+    $('.vx-fl', el).style.opacity = 0; $('.vx-flw', el).style.opacity = lt > 2.5 && lt < 2.65 ? (0.25 * (1 - (lt - 2.5) / 0.15)).toFixed(3) : 0
+    return
+  }
+  $$('.vx-sh', el).forEach(n => { const on = n.dataset.s === shot; if (n._on !== on) { n._on = on; n.style.display = on ? 'block' : 'none' } })
+  const u = lt
+  if (shot === 'logo') { hyWord($('.vx-fn', el), u, 1.5); const bar = $('.vx-bar', el); bar.style.opacity = u >= 2 ? 1 : 0; bar.style.clipPath = `inset(0 ${(100 * (1 - P(u, 2, 2.3, E.outCubic))).toFixed(1)}% 0 0)`; rise([$('.vx-c1', el)], u, 2.8, 0, 24) }
+  if (shot === 'tunnel') { hyWord($('.vx-bo', el), u, 5.5); hyWord($('.vx-se', el), u, 6, 2.1); rise([$('.vx-c2', el)], u, 6.6, 0, 24) }
+  if (shot === 'roll') { hyWord($('.vx-nb', el), u, 8); hyWord($('.vx-gt', el), u, 9.5); hyWord($('.vx-ch', el), u, 10, 2.1); rise([$('.vx-c3', el)], u, 10.6, 0, 24) }
+  if (shot === 'crowd') hyWord($('.vx-sa', el), u, 12)
+  if (shot === 'known') { const kw = $('.vx-ko', el); kw.style.opacity = P(u, 15.1, 15.3).toFixed(2); kw.style.transform = `scale(${(1.06 - 0.06 * P(u, 15.1, 15.8)).toFixed(3)})` }
+  if (shot === 'wl') { hyWord($('.vx-in', el), u, 16); rise([$('.vx-c4', el)], u, 17.1, 0, 20); slam($('.vx-st', el), u, 18, 2.0, 0.22, 'rotate(-4deg)') }
+  if (shot === 'end') { hyWord($('.vx-e1', el), u, 20.05); hyWord($('.vx-e2', el), u, 20.3, 2.0); rise([$('.vx-c5', el)], u, 20.7, 0, 20) }
+  if (shot === 'zip') { const zt = $('.vx-zt', el); zt.style.opacity = P(u, 22.45, 22.65).toFixed(2); zt.style.transform = `scale(${(1.3 - 0.3 * P(u, 22.45, 22.7, E.outCubic)).toFixed(3)})` }
+  $('.vx-cam', el).style.transform = shot === 'known' || shot === 'zip' ? '' : hyShake(lt, 0.5)
+  let y = 0, w = 0
+  if (shot !== 'known') for (const h of VXH) { const d = lt - h; if (d >= 0 && d < 0.14) { if (h % 4 === 0) y = Math.max(y, 0.35 * (1 - d / 0.14)); else w = Math.max(w, 0.16 * (1 - d / 0.14)) } }
+  $('.vx-fl', el).style.opacity = y.toFixed(3); $('.vx-flw', el).style.opacity = w.toFixed(3)
+}
+function fxVX(add, sc, T, next, syn) {
+  if (sc.type === 'ex_vx_cold') {
+    add(T + 0.35, '302', -12, { max: 1.4 }); add(T + 1.1, '967', -8)
+    add(T + 2.0, '2909', -21); add(T + 2.5, '2909', -18); add(T + 2.5, '2299', -19)
+    syn(T + 2.6, 'zip', 0.9); add(T + 3.2, '2636', -18)
+    return                                             // the gap before the drop stays silent
+  }
+  for (const h of VXH) { if (h % 4 === 0) { add(T + h, '2909', -9); add(T + h, '2299', -10) } else add(T + h, h % 1 ? '3115' : '2573', -15) }
+  syn(T + 0.02, 'flaps', 0.7); syn(T + 1.5, 'flaps', 0.55); syn(T + 2.0, 'flaps', 0.55)      // the voxels snap into the mark
+  add(T + 4.6, '2350', -9)                             // through the centre
+  add(T + 5.5, '2951', -12); add(T + 6.0, '1365', -9)
+  syn(T + 8.1, 'flapsl', 0.5); [0, 0.03, 0.06].forEach(d => add(T + 10 + d, '2853', -12))   // the bytes tumble and land
+  add(T + 10.4, '1365', -6)                            // the seal slams down
+  ;[12, 13.5, 14].forEach(t => add(T + t + 0.03, '2894', -20))
+  add(T + 15.06, '871', -9)                            // the silence: a single sparkle in the beam
+  add(T + 18.0, '1365', -5)                            // the application stamp
+  syn(T + 22.0, 'zip', 0.6); add(T + 22.45, '1365', -8)
+}
+
 // ---------------------------------------------------------------- build each screen
 const built = D.scenes.map(sc => {
   const el = document.createElement('div'), b = sc.data || {}
@@ -2201,6 +2517,7 @@ const built = D.scenes.map(sc => {
   else if (sc.type.startsWith('ex_cf_')) buildCF(el, sc, b)
   else if (sc.type.startsWith('ex_nd_')) buildND(el, sc, b)
   else if (sc.type.startsWith('ex_hy_')) buildHY(el, sc, b)
+  else if (sc.type.startsWith('ex_vx_')) buildVX(el, sc, b)
   else if (sc.type === 'ex_cold') {
     const legs = b.legs || []
     el.innerHTML = `<div class="dim"></div><div class="amt2"><div class="v">${html(b.from || '$10')}</div><div class="lb"></div></div>
@@ -2278,6 +2595,7 @@ function draw(k, lt, sc) {
   if (sc.type.startsWith('ex_cf_')) return drawCF(el, lt, sc, b)
   if (sc.type.startsWith('ex_nd_')) return drawND(el, lt, sc, b)
   if (sc.type.startsWith('ex_hy_')) return drawHY(el, lt, sc, b)
+  if (sc.type.startsWith('ex_vx_')) return drawVX(el, lt, sc, b)
   if (sc.type === 'ex_cold') {
     // lines: "Ten dollars." / "One ticket." / "$172 back, if every leg lands." / "Or nothing at all." → silence → the drop
     const v = $('.amt2 .v', el), lb = $('.amt2 .lb', el), ct = $('.ct', el), cks = $$('.ck', el)
@@ -2413,7 +2731,8 @@ function fxCinematic() {
     if (sc.type.startsWith('ex_cf_')) fxCF(add, sc, T, next)
     if (sc.type.startsWith('ex_nd_')) fxND(add, sc, T, next, syn)
     if (sc.type.startsWith('ex_hy_')) fxHY(add, sc, T, next, syn)
-    if (k > 0 && !drop && !/^ex_hy_/.test(sc.type)) add(T, k % 2 ? '1492' : '2636', k % 2 ? -12 : -14, { align: 'peak' })
+    if (sc.type.startsWith('ex_vx_')) fxVX(add, sc, T, next, syn)
+    if (k > 0 && !drop && !/^ex_(hy|vx)_/.test(sc.type)) add(T, k % 2 ? '1492' : '2636', k % 2 ? -12 : -14, { align: 'peak' })
     if (sc.type === 'ex_cold') {
       add(T, '497', -13, { align: 'start', max: Math.max(1, sc.dur - 0.2) })                // heartbeat under the cold open
       add(at(0) - 0.03, '2909', -1); add(at(0) - 0.03, '2299', -4)                        // "Ten dollars."
@@ -2503,7 +2822,7 @@ window.renderAt = async function (t) {
   if (PEND.length) { await Promise.all(PEND.splice(0)) }
   // the sky theme opens in deep blue: no header until the drop, captions in a dark pill
   if (EX.theme === 'sky') { const cold = /_cold$/.test(sc.type), o = cold ? 0 : P(lt, 0, 0.5); $('#hdr').style.opacity = o; $('#prog').style.opacity = o; $('#stage').classList.toggle('coldcap', cold) }
-  if (/^ex_hy_/.test(sc.type)) { $('#hdr').style.opacity = 0; $('#prog').style.opacity = 0 }
+  if (/^ex_(hy|vx)_/.test(sc.type)) { $('#hdr').style.opacity = 0; $('#prog').style.opacity = 0 }
   // chapter label and progress
   const ch = CH[sc.type] || ''
   $('#chap').innerHTML = ch ? `<b>${String(Object.keys(CH).indexOf(sc.type) + 1).padStart(2, '0')}</b>${html(ch)}` : ''
@@ -2523,6 +2842,7 @@ window.renderAt = async function (t) {
 window.ready = (async () => {
   await Promise.all([...document.fonts].map(f => f.load()))
   await document.fonts.ready
+  if (VX.on) await VX.ready
   if (EX.theme === 'sky') {     // the hex field: faint ciphertext drifting up behind everything (drawn once, tiled)
     const c = document.createElement('canvas'); c.width = 1080; c.height = 960; const x = c.getContext('2d')
     x.font = '500 22px JBM'; x.textBaseline = 'top'

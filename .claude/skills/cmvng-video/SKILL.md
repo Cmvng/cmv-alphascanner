@@ -53,6 +53,9 @@ explainer and not a parody:
   to it.
 - **The hook in the first second,** a payoff at the end, and the owner's handle on the end card.
 - **Never rely on a new voice or soundtrack the owner hasn't heard.** Send a 10-second sample first.
+- **Flat type slammed on the beat "just looks normal"** (the owner, 8 Oct, on the 2D hype edit). Build it in the
+  project's own medium, with one camera move that means something: for voxel art, a 3D voxel film (`vx_*` in
+  `video/templates/explainer/README.md`, three.js), e.g. the camera flies through the empty centre of their logo.
 
 ## Match previews (for X and YouTube: no betting at all)
 

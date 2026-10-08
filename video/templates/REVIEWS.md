@@ -47,7 +47,9 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
   - With no voice, the build before the drop must be clearly quieter or muffled, with a real gap.
   - Alternate light and dark on the big beats from the first draft.
   - Trust `fix_tp.py`, but read its line in the log.
-- **The owner's reaction:** (waiting)
+- **The owner's reaction:** "This is better but could be way better… You didn't apply creative ideas to make it clean…
+  if I post this, no one would find it interesting cos it just looks normal." Flat words and sprites slammed on the beat
+  look like every other edit. Redone the same day as a 3D voxel film (next entry).
 
 ---
 
