@@ -322,6 +322,13 @@ Run it in the background. It takes about 5–8 minutes; the first run in a new s
   eye; fix wrong ones with IPA in `SAY_IPA`. `node video/make-video.mjs <file> --say-check` prints it alone.
 - **Frames:** pull 4–6 with ffmpeg (opening, a pick card, the slate or totals, the last card), put them in one contact sheet and look. Check for overlapping text, a missing stadium or crest, or a wrong name.
 - **Voice:** transcribe the final audio with faster-whisper (`base.en`) and compare it with the script. Fix any name the voice gets wrong in `SAY_NAMES` in `video/lib/narration.mjs`, then re-render.
+- **Real pictures and a cover in every football video (the owner, 8 Oct: "Why are you no longer showing the stadiums in
+  the background or showing players…? And why is there no unique cover image?").** A new format changes the device,
+  never these:
+  - the venue's stadium photo behind each game (`lib/stadium.mjs`, Wikimedia, credited) wherever a free photo exists;
+  - free player photos (Wikimedia, credited) for the key men wherever they exist, the crest only when there's none;
+  - a designed cover (1080×1920) and YouTube thumbnail (1280×720) made for that video's concept, sent with the video.
+    The renderer's `_cover.jpg` is only a frame grab, not a cover.
 - **Send the write-up too (the owner, 8 Oct: "Where is the write up").** With every analysis video, write
   `<slug>-write-up.md` (each game: the setting, form, team news, key men, the numbers, the verdict, then a table of all
   verdicts; no betting words) and send it and the post kit as files with the video. Naming a path is not sending.
