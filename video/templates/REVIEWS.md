@@ -48,6 +48,8 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
   - Before the first 3D still, work out each shot's frame size at its camera distance.
   - Put every word the story needs in front of the 3D.
   - Check a 2-fps contact sheet of the finished render, not only the stills.
+  - Ink words over dark 3D objects (the black cards) lose contrast for a few frames: give them a light outline.
+- **Sent:** the chat copy (27.9 MB) and the full file (45.5 MB) on a download page.
 - **The owner's reaction:** (waiting)
 
 ---
