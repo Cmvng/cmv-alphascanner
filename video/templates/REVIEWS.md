@@ -24,6 +24,46 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
+## 9 Oct: post-match, "And the winner is…" (the 8 Oct envelopes opened, 3:08)
+
+- **Before writing:** read the last three entries' "Change next time" lines and applied them:
+  - the say-check before the first render, with 18 new names set by hand (Mulongo, Usama, Macalou, Oucasse,
+    Al-Hourani, Ivić, Lukić and more);
+  - a contact sheet of the finished render, not only the stills;
+  - the betting-word check on quotes.
+- **What worked:**
+  - **The morning's device, paid off.** Each game opens its envelope against the final whistle:
+    - the score in kit tiles;
+    - "How it happened" with minute chips in the scorer's kit;
+    - the morning's card;
+    - a CALLED IT / HALF RIGHT / MISSED stamp on the spoken "The verdict: …".
+    The board stamps all seven and counts them.
+  - **Real pictures throughout:**
+    - every game is set at the home team's own ground;
+    - eight players and coaches appear on the lines about them, each identity checked on Wikidata;
+    - Namungo stays drawn: no free photo of its ground exists.
+  - **Honest about a bad night:** 0 called, 3 half right, 4 missed, said plainly and printed on the cover.
+  - **Disputed facts left vague, not guessed:**
+    - Vipers' first goal is 12' or 14', so the chip says "Early";
+    - Sétif's red card is 85' or 86', so it says "Late";
+    - Paro's red card has a single source, so it is left out.
+- **Mistakes, and how they got through:**
+  1. **"An Oran win" was heard as "Iran win"**, with an Iranian game in the same video. "Two-all" came out as "to all",
+     and "flu" as "flew" again. All three were homophones the say-check can't catch. Reworded: "a win for MC Oran", "it
+     ended level", "some players were ill".
+  2. **The repeat guard stopped the render.** The post-match shares the morning's envelope family. It is a companion
+     piece with all-new screens, so I passed `--allow-same` and noted it in the template.
+  3. **The cover's fonts didn't load** at first: the cover page sat in the output folder, where `assets/` doesn't
+     resolve. It now uses the absolute font path.
+  4. **Usama's photo came in on "Gusto Mulongo"**: it was timed to the middle of a three-name line. Moved to his name.
+- **Change next time:**
+  - Read every verdict line for homophones (to/two, flu/flew, Oran/Iran) before the first render. Don't trust the
+    say-check for them.
+  - Save the designed cover outside the output folder: a full render wipes it.
+  - When a game has no photos, give the empty lower half something to carry (a stat bar), or move the card up.
+
+---
+
 ## 8 Oct: analysis, "The envelope, please" (7 games across 3 continents, 3:20)
 
 - **Before writing:** read the last three entries' "Change next time" lines and the 7 Oct analysis lessons, and applied
