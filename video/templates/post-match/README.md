@@ -103,6 +103,28 @@ their `ko`, `city` and `kit`, plus `score_home`/`score_away`).
   to split" on a draw. A two-part call with one part wrong is half right (8 Oct: "the hoodoo holds, 3SC don't lose"
   ended 0–0, the first point Pillars had taken there in nine years).
 
+## And the winner is… (en_res, en_board; first used 9 Oct 2026)
+The results night for an "envelope" analysis ("The envelope, please", `video/templates/match-analysis/README.md`).
+It opens the morning's envelopes against the final whistles. Reference: `video/out/postmatch-2026-10-09-envelope.json`.
+- **Reuse:** the morning's `picks` (with `kit`), its `en_cold` and `en_title` beats, and its stadium photos. It is a
+  companion of the morning video, so render with `--allow-same`: the repeat guard sees the shared envelope family.
+- **`en_res` (one per game):**
+  - The home ground behind, players and coaches behind the lines about them (`photos`, as `en_game`).
+  - The score slams in as kit-coloured tiles (`score: [h, a]`, `ht`). `head` is the game's story in 2–5 words.
+  - "How it happened": `moments: [{min, team: home|away, text, tag, at: [line, frac]}]`. Each row appears on its
+    spoken words. When the sources disagree on a minute, the chip says "Early" or "Late" instead.
+  - This morning's card slides in (`morning: {text, short, score}`). The stamp lands on the last line, which always
+    starts "The verdict:" and says the call plainly (`verdict: called|half|missed`).
+- **`en_board`:** every game's score, "Our call: …" and its stamp, then the tally of called, half right and missed.
+  Set the timing with `stamps_at` and `tally_at`.
+- **`en_end`:** takes `photos` too, so the last screen still stands in a real stadium. It shows no grid without
+  `en_game` screens.
+- **Judging:**
+  - A two-part verdict with one part right is half right ("few goals and a Nassaji win" ended 1–1).
+  - The right winner with the wrong margin is half right ("Vipers by a goal" ended 0–4).
+  - Neither part is a miss.
+  - Say every miss plainly: the 8 Oct night was 0 called, 3 half right, 4 missed, and the video says so.
+
 ## Rules that keep it monetised and legal
 
 - **No broadcast footage. Ever.** Not even 2 seconds. A Content ID claim stops the money however short the clip.

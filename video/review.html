@@ -976,7 +976,7 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#03060F}
 .en .en-stp.ok{color:#1E9E62;border-color:#1E9E62}.en .en-stp.half{color:#E08A00;border-color:#E08A00}.en .en-stp.bad{color:#D8434F;border-color:#D8434F}
 .en_board .en-e1{position:absolute;left:0;right:0;top:170px;text-align:center;font:400 96px/1 Anton;text-transform:uppercase;white-space:nowrap}
 .en_board .en-e1 span{color:var(--en-blue)}
-.en.en-ph.en_board .en-e1{color:#fff}
+.en.en-ph.en_board .en-e1,.en.en-ph.en_end .en-e1{color:#fff;text-shadow:0 4px 18px rgba(0,0,0,.45)}
 .en_board .en-bg2{position:absolute;left:46px;right:46px;top:300px;display:grid;grid-template-columns:1fr 1fr;gap:16px}
 .en_board .en-bc{position:relative;background:#fff;border-radius:18px;padding:14px 18px;min-height:176px;box-shadow:0 10px 26px rgba(16,52,130,.16);border-left:12px solid}
 .en_board .en-bc.wide{grid-column:1 / span 2}
@@ -2044,9 +2044,10 @@ const built = D.scenes.map((sc, k) => {
       el.innerHTML = `<div class="en-stage"></div>${enPhotoLayer(ph)}<div class="en-pg">${top(`<b>${html(b.when || '')}</b>`)}<div class="en-e1">${html(b.l1 || '')} <span>${html(b.l2 || '')}</span></div><div class="en-bg2">${cards}</div>
         <div class="en-tl" style="top:${b.tally_top ?? 1330}px">${[['called', 'Called it', 'ok'], ['half', 'Half right', 'half'], ['missed', 'Missed', 'bad']].map(([k, l, c]) => `<div class="${c}"><b>${n[k]}</b>${l}</div>`).join('')}</div></div>`
     } else if (sc.type === 'en_end') {
+      const ph = b.photos || []; if (ph.length) el.classList.add('en-ph')
       const cards = cats.map((s, j) => { const p = D.picks[s.data.match ?? 0] || M, kh = vrKit(p, 'home'), v = s.data.verdict || {}
         return `<div class="en-mc${j === cats.length - 1 && cats.length % 2 ? ' wide' : ''}" style="border-left-color:${kh.bg}"><div class="en-mt">${badge(p.bh)}${badge(p.ba)}<span>${html(p.ko || '')} · ${html(p.where || '')}</span></div><b>${html(v.short || v.text || '')}</b><span>${html(v.score ? 'Likeliest ' + v.score : '')}</span></div>` }).join('')
-      el.innerHTML = `<div class="en-stage"></div><div class="en-pg">${top(`<b>${html(b.when || '')}</b>`)}<div class="en-e1">${html(b.l1 || '')} <span>${html(b.l2 || '')}</span></div><div class="en-grid">${cards}</div>
+      el.innerHTML = `<div class="en-stage"></div>${enPhotoLayer(ph)}<div class="en-pg">${top(`<b>${html(b.when || '')}</b>`)}<div class="en-e1">${html(b.l1 || '')} <span>${html(b.l2 || '')}</span></div><div class="en-grid">${cards}</div>
         <div class="en-fol" style="top:${b.fol_top ?? 1260}px"><b>${html(b.follow || 'Follow for the post-match')}</b><span>Football, by the numbers</span></div></div>`
     }
   } else if (/^ar_/.test(sc.type)) {
@@ -2662,6 +2663,7 @@ function draw(k, lt, sc) {
       $$('.en-bc', el).forEach((d, i) => { const a = 0.5 + i * 0.12, q2 = P(lt, a, a + 0.4, E.outBack); d.style.opacity = lt >= a ? 1 : 0; d.style.transform = `scale(${n1(0.6 + 0.4 * q2)})`; slam($('.en-bs', d), lt, t1 + i * 0.22, 2, 0.2, 'rotate(-6deg)') })
       const ta = vrT(sc, ...(b.tally_at || [1, 0])); $$('.en-tl>div', el).forEach((d, i) => slam(d, lt, ta + i * 0.25, 1.6, 0.25))
     } else if (sc.type === 'en_end') {
+      enPhotos(el, sc, b, lt)
       rise([$('.en-top', el)], lt, 0.1, 0, 14); slam($('.en-e1', el), lt, 0.2, 1.5, 0.3)
       $$('.en-mc', el).forEach((d, i) => { const a = 0.6 + i * 0.12, q2 = P(lt, a, a + 0.4, E.outBack); d.style.opacity = lt >= a ? 1 : 0; d.style.transform = `scale(${n1(0.6 + 0.4 * q2)})` })
       rise([$('.en-fol', el)], lt, vrT(sc, sc.lines.length - 1, 0), 0, 30)
