@@ -43,7 +43,7 @@
      "Three continents, from Ibadan to Porto Alegre.",
      "And two were settled deep in stoppage time."
     ],
-    "tail": 0.95
+    "tail": 1.1
    },
    {
     "type": "ar_title",
@@ -81,7 +81,7 @@
     ],
     "verdict": "half",
     "say": [
-     "Ibadan: nil-nil, though Shooting Stars had 65% of the ball.",
+     "In Ibadan, nil-nil, though Shooting Stars had 65% of the ball.",
      "The verdict: half right. Shooting Stars didn't lose, but the hoodoo is over: Kano Pillars' first point here in nine years."
     ]
    },
@@ -203,7 +203,7 @@
     ],
     "verdict": "called",
     "say": [
-     "The Murcia derby: fifteen minutes were added after a fan needed medical help, and in the ninety-eighth, Imanol Baz volleyed the winner.",
+     "The Murcia derby: fifteen minutes were added after a fan needed medical help, and in the ninety-eighth, Imanol Baz won it with a volley.",
      "The verdict: called it. Cartagena didn't lose, and Murcia stay three points off the top."
     ]
    },

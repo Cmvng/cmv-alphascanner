@@ -37,7 +37,7 @@ const SAY_IPA = {
   'Zinédine': 'zˌiːnədˈiːn', 'Lukébakio': 'lˌuːkeɪbˈɑːkioʊ', Calafiori: 'kˌɑːləfjˈɔːɹi', Esposito: 'ɛspˈɔːzitoʊ',
   'Gyökeres': 'jˈøːkɛɹɛʃ', 'Saint-Denis': 'sˈæn dənˈiː', Trnava: 'tˈɜːɹnəvə', 'Türkiye': 'tˈʊɹkiːjɛ', Yaremchuk: 'jˌɑːɹɛmtʃˈuːk',
   Csinger: 'tʃˈɪŋɡɛɹ', Vandevoordt: 'vˌɑːndəvˈoːɹt',
-  Vitinho: 'viːtʃˈiːnjuː', Diniz: 'dʒiːnˈiːs', Imanol: 'iːmˈɑːnoʊl', Baz: 'bˈɑːz', Bandez: 'bˈɑːndɛs', Tapia: 'tˈɑːpjə', 'Luís': 'luːˈiːs', Chile: 'tʃˈiːleɪ', KuPS: 'kˈuːps', Atef: 'ˈɑːtɛf',
+  Vitinho: 'viːtʃˈiːnjuː', Diniz: 'dʒiːnˈiːs', Imanol: 'iːmˈɑːnoʊl', Baz: 'bˈɑːz', Bandez: 'bˈɑːndɛs', Tapia: 'tˈɑːpjə', 'Luís': 'luːˈiːs', Chile: 'tʃˈiːleɪ', KuPS: 'kˈuːps', Atef: 'ˈɑːtɛf', 'André': 'ɑːndɹˈɛ',
   'Modrić': 'mˈɔːdɹɪtʃ', Budimir: 'bˈuːdɪmiːɹ', 'Smolčić': 'smˈɔːltʃɪtʃ', 'Bilić': 'bˈiːlɪtʃ', Poljud: 'pˈɔːljuːd', Lamine: 'lɐmˈiːn',
   Yamal: 'jɐmˈɑːl', 'Krejčí': 'kɹˈeɪtʃiː', Czechia: 'tʃˈɛkiə', Ante: 'ˈɑːnteɪ',
   Zamalek: 'zˈæməlɛk', Ibadan: 'iːbˈɑːdɑːn', Belouizdad: 'bɛluːizdˈæd', Khenchela: 'kɛnʃˈɛlə', Etouga: 'ɛtˈuːɡɑː', Gnistan: 'ɡnˈiːstɑːn', Mirassol: 'mˌiːɹəsˈɔːl',

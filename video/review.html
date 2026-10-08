@@ -1367,6 +1367,17 @@ const arAng = s => { const dx = 2 * (1 - s) * (AR_P[1][0] - AR_P[0][0]) + 2 * s 
 // when things land (scene seconds)
 const arStampAt = sc => sc.data?.stamp_at ? vrT(sc, ...sc.data.stamp_at) : Math.max(1.6, (S(sc, sc.lines.length - 1)[0] ?? 2) + (S(sc, sc.lines.length - 1)[1] ?? 1) - 0.35)
 const arEvAt = (sc, e, j) => e.line != null ? vrT(sc, e.line, e.at ?? 0.3) : 1.2 + j * 0.8
+// the path, cut where the score changes: each stretch in the colour of whoever was ahead, grey while level
+function arSegs(q, evs, END, kh, ka) {
+  const ink = kt => vrInk(kt.c) === '#0B1F4D' ? '#0B1F4D' : kt.c, cuts = [0], lead = []; let h = 0, a = 0
+  const st = () => h > a ? ink(kh) : a > h ? ink(ka) : '#A3AEC2'
+  lead.push(st())
+  evs.forEach(e => { if (!['goal', 'og', 'pen'].includes(e.kind)) return; if ((e.team === 'away') !== (e.kind === 'og')) a++; else h++; cuts.push(Math.min(END, e.min)); lead.push(st()) })
+  cuts.push(END)
+  return lead.map((c, j) => { const m0 = cuts[j], m1 = cuts[j + 1], n = Math.max(2, Math.ceil((m1 - m0) / 1.5)), pts = []
+    for (let i = 0; i <= n; i++) { const [x, y] = arPt(clamp((m0 + (m1 - m0) * i / n) / END)); pts.push(`${n1(x)},${n1(y)}`) }
+    return { a: m0, b: m1, c, pts: pts.join(' ') } }).filter(g => g.b > g.a)
+}
 const arLandAt = sc => sc.data?.land_at ? vrT(sc, ...sc.data.land_at) : (S(sc, 0)[0] ?? 0.6) + (S(sc, 0)[1] ?? 2) + 0.05
 const ARV = {}
 D.scenes.forEach(sc => { if (sc.type === 'ar_flight' && sc.data?.match != null) ARV[sc.data.match] = { v: sc.data.verdict || 'half', t: sc.start + arStampAt(sc) } })
@@ -1829,12 +1840,12 @@ const built = D.scenes.map((sc, k) => {
         return `<div class="ar-ev ${side}" data-tf="${side === 'up' ? 'translate(-50%,-100%)' : 'translate(-50%,0)'}" style="left:${n1(x)}px;top:${n1(side === 'up' ? y + 26 : y - 26)}px"><i class="emo" style="background:${['goal', 'og', 'pen'].includes(e.kind) ? tk(e).c : '#fff'}">${ico(e)}</i><b>${html(e.min_label || e.min + "'")}</b><span style="color:${e.team ? vrTx(tk(e)) : 'var(--ar-mute)'}">${html(e.who || '')}</span></div>` }).join('')
       const pathD = `M${AR_P[0][0]} ${AR_P[0][1]} Q${AR_P[1][0]} ${AR_P[1][1]} ${AR_P[2][0]} ${AR_P[2][1]}`
       const fields = `<div class="ar-fin"><em>Final</em>${arTiles('   ', { w: 36, h: 50, fs: 34, gap: 4 })}</div>` + (b.fields || []).map(f => `<div><em>${html(f[0])}</em><b>${html(f[1])}</b></div>`).join('')
-      el.innerHTML = arPage(`${arTop(b, b.no || '')}<div class="ar-k">${html(b.kicker || '')}</div><div class="ar-cityb">${html(arCity(q))} <span>${html(q.ko || '')}</span></div>
+      el.innerHTML = arPage(`${arTop(b, b.no || '')}<div class="ar-k">${html(b.kicker || '')}</div><div class="ar-cityb"><b style="font-weight:400;color:${vrTx(kh)}">${html(arCity(q))}</b> <span>${html(q.ko || '')}</span></div>
         <div class="ar-sc"><div class="ar-tmb" style="left:0">${badge(q.bh)}<b style="color:${vrTx(kh)}">${html(vrName(q, 'home'))}</b>${vrSw(kh, 'width:120px;height:14px')}</div>
           <div class="ar-dig">${arTile(' ', { ...sz, cls: 'kit ar-dh', st: arKitSt(kh) })}<em>–</em>${arTile(' ', { ...sz, cls: 'kit ar-da', st: arKitSt(ka) })}</div>
           <div class="ar-tmb" style="right:0">${badge(q.ba)}<b style="color:${vrTx(ka)}">${html(vrName(q, 'away'))}</b>${vrSw(ka, 'width:120px;height:14px')}</div><div class="ar-ft">${html(b.ft || 'Full time')}</div></div>
         <div class="ar-path"><svg viewBox="0 0 1032 300"><path d="${pathD}" fill="none" stroke="rgba(31,95,219,.22)" stroke-width="5" stroke-dasharray="4 14" stroke-linecap="round"/>
-          <path class="ar-pp" d="${pathD}" fill="none" stroke="#1F5FDB" stroke-width="6" stroke-linecap="round"/>
+          ${arSegs(q, evs, END, kh, ka).map(g => `<polyline class="ar-sg" data-a="${g.a}" data-b="${g.b}" points="${g.pts}" fill="none" stroke="${g.c}" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>`).join('')}
           <g class="ar-pl"><circle r="38" fill="#fff" opacity=".92"/><g transform="rotate(90) translate(-30,-30) scale(2.5)"><path d="${AR_PLANE_D}" fill="#0B1F4D"/></g></g></svg>
           <div class="ar-pt" style="left:30px;top:262px">${"0'"}</div><div class="ar-pt" style="left:${n1(arPt(45 / END)[0] - 18)}px;top:${n1(arPt(45 / END)[1] - 52)}px">HT</div><div class="ar-pt" style="left:950px;top:262px">${html(b.end_label || 'FT')}</div>
           <div class="ar-pi" style="position:absolute;left:12px;top:262px;width:0"></div>${evHtml}</div>
@@ -2416,8 +2427,8 @@ function draw(k, lt, sc) {
       if (lt < keys[0][0]) m = 0
       const s = clamp(m / END), [px, py] = arPt(s), pl = $('.ar-pl', el)
       pl.setAttribute('transform', `translate(${n1(px)},${n1(py)}) rotate(${n1(arAng(s))})`); pl.style.opacity = n1(P(lt, 0.35, 0.6))
-      const pp = $('.ar-pp', el); if (!sc.ar.len) sc.ar.len = pp.getTotalLength()
-      pp.style.strokeDasharray = `${n1(sc.ar.len)} ${n1(sc.ar.len)}`; pp.style.strokeDashoffset = n1(sc.ar.len * (1 - s))
+      $$('.ar-sg', el).forEach(g => { const a = +g.dataset.a, bb = +g.dataset.b, L = g._L || (g._L = g.getTotalLength() + 0.01), f = clamp((m - a) / Math.max(0.01, bb - a))
+        g.style.strokeDasharray = `${n1(L)} ${n1(L)}`; g.style.strokeDashoffset = n1(L * (1 - f)); g.style.opacity = m > a ? 1 : 0 })
       // the score: 0–0 at take-off, each goal flips its tile as the plane passes it
       let sh = 0, sa = 0; const hk = [[0.5, '0']], ak = [[0.58, '0']]
       evs.forEach((e, j) => { if (!['goal', 'og', 'pen'].includes(e.kind)) return; const t = arEvAt(sc, e, j); if ((e.team === 'away') !== (e.kind === 'og')) ak.push([t, String(++sa)]); else hk.push([t, String(++sh)]) })
