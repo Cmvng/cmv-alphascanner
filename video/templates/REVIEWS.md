@@ -69,6 +69,15 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
   write-up and the post kit as files; the skill now says to send both with every analysis video.
   - While writing it, I found that the on-screen note for the Cluj derby says "5 CFR players ill". The source says six
     were ill and five are unlikely to play. The voice says it correctly ("five players are unlikely to play").
+  - Then: "Why are you no longer showing the stadiums in the background or showing players…? And why is there no unique
+    cover image?", "The stadiums have to be the stadiums of the teams", and "This is football you have to show players of
+    the teams in the background and the stadium or coaches". My last three football formats were all drawn graphics;
+    I had switched the photos off to make each look different. Redone the same day: each team's own ground behind the
+    game, players and coaches on the lines about them, portraits on the cards, and a designed cover and thumbnail.
+  - Found while redoing it: Wikidata gave Blacks Power's ground as Mandela National Stadium (they play at Hoima City
+    Stadium), and Thimphu City's photo was of an archery event beside the stadium. The renderer now drops a photo whose
+    ground doesn't match the researched `venue`.
+  - Also found: a full render wipes the output folder, so photos copied there by hand vanished; `media_dir` fixes it.
 
 ---
 

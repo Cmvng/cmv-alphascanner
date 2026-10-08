@@ -938,6 +938,19 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#03060F}
 .en .en-tri>i{display:block;height:100%;border-radius:5px;box-shadow:inset 0 0 0 1px rgba(11,31,77,.15)}
 .en .en-trl{display:flex;justify-content:space-between;margin-top:6px;font:700 12px JBM;letter-spacing:1px;text-transform:uppercase;color:var(--en-mute)}
 .en .en-trl b{color:var(--en-ink)}
+.en .en-bgs{position:absolute;inset:0;overflow:hidden}
+.en .en-bgi{position:absolute;inset:-40px;background-size:cover;background-position:center;opacity:0}
+.en .en-bgs::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,24,72,.72) 0%,rgba(6,24,72,.38) 22%,rgba(10,42,111,.30) 60%,rgba(6,24,72,.78) 100%)}
+.en.en-ph .en-h{color:#fff;text-shadow:0 4px 18px rgba(0,0,0,.45)}
+.en.en-ph .en-k,.en.en-ph .en-top,.en.en-ph .en-top b{color:#DCEBFF;text-shadow:0 2px 10px rgba(0,0,0,.5)}
+.en .en-bgl{position:absolute;left:46px;top:1770px;display:flex;align-items:center;gap:10px;padding:9px 16px;border-radius:999px;background:rgba(6,24,72,.78);color:#fff;font:700 20px JBM;letter-spacing:2px;text-transform:uppercase;opacity:0;z-index:5}
+.en .en-bgl i{width:10px;height:10px;border-radius:50%;background:#4FB3FF}
+.en .en-km.p{display:flex;align-items:center;gap:14px}
+.en .en-km.p>img{width:104px;height:104px;border-radius:50%;object-fit:cover;object-position:50% 22%;flex-shrink:0;box-shadow:0 0 0 4px #fff,0 0 0 7px var(--en-kc,#1F5FDB)}
+.en .en-km.p>div{min-width:0;flex:1}
+.en .en-km.p>div>i{display:block;font:700 14px JBM;font-style:normal;letter-spacing:3px;text-transform:uppercase;color:var(--en-blue)}
+.en .en-km.p>div>b{display:block;margin-top:3px;font:400 36px/1.05 Anton;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.en .en-km.p>div>span{display:block;margin-top:3px;font:700 22px/1.25 Manrope;color:var(--en-mute)}
 /* the cold open: night, a spotlight, the envelopes fanning out */
 .en_cold .en-night{position:absolute;inset:0;background:radial-gradient(ellipse 60% 45% at 50% 62%,#2453C2 0%,#0B2A6F 55%,#061848 100%)}
 .en_cold .en-beam{position:absolute;left:190px;right:190px;top:-80px;height:1500px;background:linear-gradient(180deg,rgba(255,255,255,.22),rgba(255,255,255,0));clip-path:polygon(38% 0,62% 0,100% 100%,0 100%)}
@@ -1399,7 +1412,7 @@ function enNom(q, side, n = {}) {
     <div class="en-nt">${badge(side === 'away' ? q.ba : q.bh)}<b style="color:${vrTx(kt)}">${html(vrName(q, side))}</b></div>
     <div class="en-nl">${html(n.line || '')}</div>
     ${f.length ? `<div class="en-pl">${f.map(r => `<span class="${r}">${r}</span>`).join('')}</div><div class="en-pll">${html(n.form_label || 'Last five')}</div>` : ''}
-    ${n.man ? `<div class="en-km"><i>${html(n.man_tag || 'Key man')}</i><b>${html(n.man)}</b><span>${html(n.stat || '')}</span></div>` : ''}</div>`
+    ${n.man ? (n.photo ? `<div class="en-km p" style="--en-kc:${kt.bg}"><img src="${html(n.photo)}"><div><i>${html(n.man_tag || 'Key man')}</i><b>${html(n.man)}</b><span>${html(n.stat || '')}</span></div></div>` : `<div class="en-km"><i>${html(n.man_tag || 'Key man')}</i><b>${html(n.man)}</b><span>${html(n.stat || '')}</span></div>`) : ''}</div>`
 }
 function enCase(q, b) {
   const kh = vrKit(q, 'home'), ka = vrKit(q, 'away')
@@ -1955,7 +1968,8 @@ const built = D.scenes.map((sc, k) => {
       el.innerHTML = `<div class="en-stage"></div><div class="en-pg">${top(`<b>${html(b.when || '')}</b>`)}<div class="en-t1">${html(b.l1 || 'The envelope,')}</div><div class="en-t2">${html(b.l2 || 'please.')}</div>
         <div class="en-sub">${html(b.sub || '')}</div><div class="en-run" style="top:${b.run_top ?? 720}px">${run}</div></div>`
     } else if (sc.type === 'en_game') {
-      el.innerHTML = `<div class="en-stage"></div><div class="en-pg">${top(`<span class="en-cat">Category ${ci + 1} / ${N}</span><b>${html(q.ko || q.kickoff || '')} Lagos</b>`)}
+      const ph = b.photos || []; if (ph.length) el.classList.add('en-ph')
+      el.innerHTML = `<div class="en-stage"></div>${ph.length ? `<div class="en-bgs">${ph.map(x => `<div class="en-bgi" style="background-image:url('${html(x.src)}');background-position:${x.pos || 'center'}"></div>`).join('')}</div><div class="en-bgl"><i></i><span></span></div>` : ''}<div class="en-pg">${top(`<span class="en-cat">Category ${ci + 1} / ${N}</span><b>${html(q.ko || q.kickoff || '')} Lagos</b>`)}
         <div class="en-h" style="font-size:${Math.min(100, Math.floor(988 / (0.45 * Math.max(1, [...(b.head || '')].length))))}px">${html(b.head || '')}</div><div class="en-k">${html(b.kicker || '')}</div>
         <div class="en-noms">${enNom(q, 'home', b.home)}${enNom(q, 'away', b.away)}</div>${enCase(q, b)}
         ${enEnv(q, { w: 540, h: 300, cls: 'en-main', st: `top:${b.env_top ?? 1200}px`, card: enCard(q, b.verdict || {}) })}</div>`
@@ -2542,6 +2556,13 @@ function draw(k, lt, sc) {
       $$('.en-run>div', el).forEach((d, i) => { const a = 1.0 + i * 0.12, q2 = P(lt, a, a + 0.4, E.outBack); d.style.opacity = lt >= a ? 1 : 0; d.style.transform = `translate3d(0,${n1(80 * (1 - q2))}px,0)` })
     } else if (sc.type === 'en_game') {
       rise([$('.en-top', el)], lt, 0.1, 0, 14); slam($('.en-h', el), lt, 0.25, 1.4, 0.3); rise([$('.en-k', el)], lt, 0.45, 0, 16)
+      const ph = b.photos || []
+      if (ph.length) {
+        const at = ph.map(x => x.at ? vrT(sc, ...x.at) : 0); let cur = 0; at.forEach((a, i) => { if (lt >= a) cur = i })
+        $$('.en-bgi', el).forEach((n, i) => { const a = at[i], nx2 = at[i + 1] ?? 1e9, on = P(lt, a, a + 0.6) * (1 - P(lt, nx2, nx2 + 0.6)); n.style.opacity = n1(i === 0 ? Math.max(on, lt < (at[1] ?? 1e9) ? 1 : 0) : on); n.style.transform = `scale(${(1.04 + 0.06 * clamp((lt - a) / 8)).toFixed(4)})` })
+        const lab = $('.en-bgl', el), x = ph[cur]; if (lab._c !== cur) { lab._c = cur; $('span', lab).textContent = x.label || '' } lab.style.opacity = n1(x.label ? P(lt, at[cur] + 0.2, at[cur] + 0.6) : 0)
+        $('#credit').textContent = x.credit || ''
+      }
       const nomAt = vrT(sc, ...(b.nom_at || [0, 0.3]))
       ;[$('.en-n-home', el), $('.en-n-away', el)].forEach((n, i) => { const a = nomAt + i * 0.15, q2 = P(lt, a, a + 0.45, E.outCubic); n.style.opacity = n1(clamp(q2 * 1.5)); n.style.transform = `translate3d(${n1((i ? 1 : -1) * 520 * (1 - q2))}px,0,0)` })
       const caseAt = vrT(sc, ...(b.case_at || [1, 0])), cs = $('.en-case', el), openT = enOpenAt(sc)

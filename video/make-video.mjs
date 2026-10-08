@@ -82,6 +82,9 @@ const VSTOP = new Set(['stadium', 'stadionul', 'stadion', 'stade', 'estadio', 's
 const vTok = s => new Set(String(s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').split(' ').filter(w => w.length > 2 && !VSTOP.has(w)))
 const sameVenue = (a, b) => { const A = vTok(a), B = vTok(b); return [...A].some(w => B.has(w)) }
 fs.mkdirSync(OUT, { recursive: true })
+// photos picked by hand for this video (stadiums, players, coaches) live outside out/, which a full render wipes:
+// cfg.media_dir (relative to the repo's video/ folder) is copied into the render folder
+if (cfg.media_dir) fs.cpSync(path.resolve(DIR, cfg.media_dir), OUT, { recursive: true })
 console.log(`\n${cfg.title} · ${cfg.competition} · ${cfg.date}`)
 for (const p of picks) {
   p.bh = await resolveBadge(p.home, p.crest_home, CACHE, OUT)

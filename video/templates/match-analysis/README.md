@@ -94,6 +94,14 @@ colours.
   `open_at` (default: the last line). Four lines: the setting, the case, a researched angle, "The verdict: …".
 - `en_end`: every verdict card open, and "Follow for the post-match".
 
+**Real pictures (the owner, 8 Oct: "This is football you have to show players of the teams in the background and the
+stadium or coaches").** Each `en_game` takes `photos: [{src, credit, label, at: [line, frac], pos}]`: the home side's
+own ground first (from the start), then the player or coach on the line that talks about him. The page turns deep blue
+over the photo and the cards stay white. A key man with a free photo gets a portrait on his card (`home.photo`).
+Photos picked by hand live in `video/.cache/media/<slug>/` and the cfg points `media_dir` at it: a full render wipes
+`video/out/<slug>/` first, so anything copied there by hand is lost (8 Oct). Check every person's Wikidata clubs and
+every stadium's name before using it; skip group photos where it isn't clear who is who.
+
 **Lessons from the first one:**
 - The app's form strings run oldest first. Check them against researched results; on 8 Oct two games clashed and
   used the researched last five instead (labelled).
