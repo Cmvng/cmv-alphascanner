@@ -24,6 +24,48 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
+## 8 Oct: analysis, "The envelope, please" (7 games across 3 continents, 3:19)
+
+- **Before writing:** read the last three entries' "Change next time" lines and the 7 Oct analysis lessons, and applied
+  them:
+  - every game ends with a spoken "The verdict: …", a reason and the likeliest score; the envelope device makes the
+    verdict the payoff of each segment, so it can't be trimmed away;
+  - "On our numbers", never "Our read";
+  - the subject's colours on the big areas (each envelope in the home kit, the seal in the away kit);
+  - 0.95 s of silence before the drop;
+  - every new class starts `en-`.
+- **What worked:**
+  - **One device for the whole slate:** seven categories, two nominees each, and a verdict sealed in an envelope that
+    opens on the spoken line. The cold open fans the seven envelopes out under a spotlight; the end board shows all
+    seven open cards.
+  - **Seven research agents in parallel,** one per game, every fact dated. They found the stories: Paro already
+    champions but held 0–0 by City; a new coach's debut in Iran; the champions Al Ain without a cup point; the Cluj
+    derby with five CFR players down with flu and the U coach calling it "a strategy".
+  - **The app's data checked against the research:** the app's form strings run oldest first. Two games (Al Ain,
+    Nassaji) clashed with the confirmed results, so those screens use the researched last five, labelled.
+  - **Colour:** blue 51%, red 27%, pink 8%, purple 6%, green 5%. The kit-coloured envelopes did it.
+- **Mistakes, and how they got through:**
+  1. **"Daghighi" was heard as "doggy gi"** in the first render, in the verdict. The IPA was right on paper; speech-to-text
+     turned it into a word. The verdict now says "the new coach"; the name stays on screen.
+  2. Four more mishearings fixed before sending: "verdicts" → "vertex", "in Cluj" → "includes", "flu and all" →
+     "flew in all", "banned" → "band".
+  3. **I first picked yesterday's soundtrack.** Track 546 passed the rotation check (it counts entries, and the
+     hype edit's re-render counted twice), but it was "Follow the Sun"'s track. Caught before the render finished and
+     switched to "Discover" (587), never used under an analysis. All five approved wow tracks have now been used in
+     the last six videos.
+  4. **Al Ain's envelope came out gold** (the crest colour); U Cluj and ES Sétif came out blue and gold. Fixed with kit
+     overrides after the first stills.
+  5. **Long headlines overflowed** ("Champions with no points", "A derby with flu"): both now shrink to fit.
+  6. **Length:** 3:19, over X's 2:20, as expected for seven full segments. Delivered for YouTube, plus two X parts cut
+     at a game boundary.
+- **Change next time:**
+  - Run the say-check, then a quick voice-only render of any line with a hard name, before the full render.
+  - Count the soundtrack rotation by video, not by entry; play the three new candidates to the owner so the pool grows.
+  - Keep checking the app's form strings against the research; label any replacement.
+- **The owner's reaction:** (waiting)
+
+---
+
 ## 8 Oct: voxel film for Fungo Labs (the second redo, 0:28, 3D, no voice)
 
 - **Before building:** read the hype edit's lessons and the owner's verdict ("just looks normal"). Same music (Sparta,
