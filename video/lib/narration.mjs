@@ -68,6 +68,7 @@ const SAY_IPA = {
   Coman: 'kɔːmˈɑːn', 'Galán': 'ɡɑːlˈɑːn', Kowalczyk: 'kɔvˈɑːltʃɪk', 'Lukáš': 'lˈuːkɑːʃ', 'Martín': 'mɑːɹtˈiːn',
   Mateusz: 'mɑːtˈɛuːʃ', Nowak: 'nˈɔvɑːk', Pascual: 'pɑːskwˈɑːl', 'Piazón': 'piːɑːzˈoʊn', 'Samú': 'sɑːmˈuː',
   Semedo: 'sɛmˈɛdu', Askildsen: 'ˈɑːskɪlsən', Guus: 'ɡˈuːs', VAR: 'vˌiːˌeɪˈɑːɹ',
+  Thauvin: 'toʊvˈæn', Sotoca: 'soʊtˈoʊkɑː', Udol: 'uːdˈɔːl', Matthieu: 'mætjˈɜː',
 }
 const IPA_RE = new RegExp(`(?<!\\p{L})(${Object.keys(SAY_IPA).join('|')})(['’]s)?(?!\\p{L})`, 'gu')
 // letter-aware edges: \b treats accented letters as non-letters, so "Doué" or "Çalhanoğlu" would never match
