@@ -107,6 +107,31 @@ every stadium's name before using it; skip group photos where it isn't clear who
   used the researched last five instead (labelled).
 - With five "wow" tracks, the rotation runs out in six videos; grow the pool.
 
+## Another format: "The Blueprint" (each game drawn up as a technical sheet, 9 Oct 2026)
+The owner asked for a "creative, clean, dwelling" analysis of 11 games. Each game is one sheet on light-blue drafting
+paper. It has a frame with zone markers, a header ("Sheet 03 / 11", kick-off), and a title block at the bottom like an
+engineering drawing. Reference: `video/out/analysis-2026-10-09-blueprint.json`. Screens: `dw_cold`, `dw_title`,
+`dw_game` (one per game) and `dw_end`.
+- **The photo window.** The home ground (or tonight's venue, labelled as such) scans in from the left. It switches to
+  players and coaches on their lines.
+  - `photos: [{src, credit, label, sub, team, at: [line, frac], fit: 'contain'}]`.
+  - Use `fit: 'contain'` for portraits: the full photo sits on a blurred copy of itself, so no face is cropped.
+  - `team` colours the label stripe.
+- **The pitch draws itself** with the pen sound, at `pitch_at`.
+  - At `front_at`, a dashed front line slides from halfway toward the weaker side, by our win chances. The two halves
+    are hatched in the kit colours.
+  - At `xg_at`, each side's expected goals is drawn as an arrow toward the other goal (3.0 = the full width).
+  - The win-chance ruler under the pitch shows the three numbers.
+- **Notes:** two cards (`notes: [{label, text, team, at}]`), one fact each, appearing on their words.
+- **Form rows** use the app's last five, unless research shows they're wrong. Then use
+  `form: {home, away}, form_label: 'Last five · from match reports'`.
+- **The title block:** "The verdict" is written in on the last line, which always starts "The verdict:". Then the
+  likeliest score slams in, and `verdict.note` gives one number that backs it.
+- **Kits:** set `kit` on every pick. The crests' own colours can mislead.
+- **Venues:** check them in the research. On 9 Oct, two games weren't at the home club's own ground: Wieczysta play
+  at Wisła Kraków's stadium, and Instituto v Boca was moved to the Kempes. Show the real venue and say so on the label.
+- **Pace:** four lines a sheet, about 25 s each. The 11-game cut ran 5:17, so split it into three parts for X.
+
 ## Two cuts from one file
 
 - **Full** (about 2 minutes, for X and YouTube): `bash video/daily.sh render video/out/<file>.json`

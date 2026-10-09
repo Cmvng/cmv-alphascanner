@@ -2205,6 +2205,7 @@ const built = D.scenes.map((sc, k) => {
         <div class="dw-h" style="font-size:${dwFit(b.head, 96, 976)}px">${html(b.head || '')}</div><div class="dw-k">${html(b.kicker || '')}</div>
         <div class="dw-tm"><div class="dw-ts h">${badge(q.bh)}<div><b style="color:${vrTx(kh)}">${html(vrName(q, 'home'))}</b><div class="dw-fm">${dwForm(f.home ?? q.form_home)}</div></div></div>
           <div class="dw-ts a">${badge(q.ba)}<div><b style="color:${vrTx(ka)}">${html(vrName(q, 'away'))}</b><div class="dw-fm">${dwForm(f.away ?? q.form_away)}</div></div></div></div>
+        ${b.form_label ? `<div class="dw-fl" style="position:absolute;left:0;right:0;top:${b.fl_top ?? 902}px;text-align:center">${html(b.form_label)}</div>` : ''}
         ${dwPitch(q)}
         <div class="dw-ru"><div class="dw-rl"><span style="width:${n1(100 * hw / tot)}%"><b>${html(vrName(q, 'home'))}</b> ${hw}%</span><span style="width:${n1(100 * dr / tot)}%">Draw ${dr}%</span><span style="width:${n1(100 * aw / tot)}%"><b>${html(vrName(q, 'away'))}</b> ${aw}%</span></div>
           <div class="dw-rb"><i style="width:${n1(100 * hw / tot)}%;background:${kh.bg}"></i><i style="width:${n1(100 * dr / tot)}%;background:#B9C6DC"></i><i style="width:${n1(100 * aw / tot)}%;background:${ka.bg}"></i></div></div>
