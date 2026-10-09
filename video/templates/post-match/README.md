@@ -133,6 +133,29 @@ It opens the morning's envelopes against the final whistles. Reference: `video/o
 - **Judging:** called or missed only; see "Judging a verdict" at the top. (Before 9 Oct this section had a "half
   right" stamp for the wrong margin or one part of two. The owner found it confusing, so it is gone.)
 
+## As-Built (dw_res, dw_board; first used 9 Oct 2026)
+The results night for a "Blueprint" analysis (the drafting-paper `dw_*` family in `video/review.html`). This morning's
+sheets come back after full time and are inspected in red pen. Reference: `video/out/postmatch-2026-10-09-asbuilt.json`,
+built by a short script from the morning's config, so the picks, kits and photos are the morning's own.
+- **Reuse:** the morning's `picks` and photos (copy its `media_dir` into a new one and add tonight's scorers). Render with
+  `--allow-same`: the repeat guard sees the shared `dw_` family.
+- **`dw_res` (one per game):**
+  - The morning's photo window, with tonight's scorers coming in on their spoken names (`photos[].at`).
+  - The final score slams in as kit tiles (`score`, `ht`, `score_at`); `head` is the night's story in 2–5 words.
+  - The morning's drawing comes back faint (the pitch and the "drawn xG" arrows), and every event is circled in red pen
+    in the goal it went into: `events: [{min, min_label, kind: goal|og|pen|red, team, who, at: [line, frac]}]`. An own
+    goal takes the team of the player who scored it; the circle lands in the other side's column. Up to five goals a
+    side are spread down the goal mouth.
+  - A minute ruler under the pitch marks each event in the scorer's kit as it is spoken (`end_min`, default 90).
+  - Two notes (`notes: [{label, text, team, at}]`), then the title block: "Our call" from the morning (`morning`),
+    struck through in red on a miss, and the stamp on the last line: CALLED IT or MISSED IT (`verdict: called|missed`).
+- **`dw_board`:** every sheet stamped in turn (`stamps_at`, `step`), then the tally: two boxes, called and missed.
+- **`dw_end`:** "Inspected. Filed." with a result card per game, coloured by its stamp.
+- **Script:** three lines a game, about 22 s. Line 1: the place and the score said as "Three–nil to Wieczysta" (a
+  "Płock nil" score line ran together through the deep voice). Line 2: the goals, by name, in order. Line 3: "The
+  verdict: we said …", what happened, then "Called it." or "We missed it."
+- **Judging:** called or missed only (see the top of this file).
+
 ## Rules that keep it monetised and legal
 
 - **No broadcast footage. Ever.** Not even 2 seconds. A Content ID claim stops the money however short the clip.
