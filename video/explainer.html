@@ -991,6 +991,7 @@ svg.pti{display:block}
 #stage.axdark #hdr,#stage.axdark .logo{color:#FFFFFF}
 #stage.axdark #chap{color:rgba(255,255,255,.7)}
 #stage.axdark #prog{background:rgba(255,255,255,.18)}
+.ax .ax-num.ln .v{text-shadow:0 0 22px rgba(255,255,255,.75),0 0 4px rgba(255,255,255,.6)}
 </style>
 </head>
 <body>
@@ -3004,10 +3005,15 @@ const AXF = {
     // simulation: from "simulation" the line redraws itself as wire (left to right); from "deploy" the real line scans back in
     let mode = 'sky', scanX = null
     if (lt >= t1 && lt < t3) { const s = vxL(-12, 12, P(lt, t1, t1 + 1.6, E.inOutSine)); V.clipS.constant = -1e4; V.clipW.normal.set(-1, 0, 0); V.clipW.constant = s; mode = 'sim' }
-    else if (lt >= t3) { const s = vxL(-12, 12, P(lt, t3, t3 + 1.5, E.inOutSine)); axSim(s); mode = s < 11.9 ? 'sweep' : 'sky'; scanX = s }
+    else if (lt >= t3) { scanX = P(lt, t3, t3 + 1.5, E.inOutSine); mode = scanX < 0.999 ? 'sweep' : 'sky' }
     const [p, g] = axPath([[0, [-14.5, 11.6, 14.5], [0.4, 0.9, -1.0]], [t1, [-13.5, 10.8, 13.6], [0.4, 0.9, -1.0]], [t3, [-12.2, 9.9, 12.8], [0.6, 1.0, -1.0]], [sc.dur + 1, [-12.8, 10.3, 13.4], [0.6, 1.0, -1.0]]], lt)
     axCam(p, g, 34); axLight([0, 1, -1], 12, mode === 'sim')
-    let scan = null; if (scanX != null && mode === 'sweep') { const a2 = axProj(scanX, 1, 0), b2 = axProj(scanX, 1, -3); scan = [a2[0], b2[0]] }
+    // the deploy sweep is a vertical line on screen: a clipping plane through the camera that projects to x = X, real
+    // (solid) to its left, simulation (wire) to its right, so the 3D split, the navy page and the green line always agree
+    let scan = null
+    if (mode === 'sweep') { const X = 1080 * scanX, u = 2 * scanX - 1, k = u * Math.tan(V.cam.fov * Math.PI / 360) * V.cam.aspect
+      const n = new V.T3.Vector3(1, 0, k).normalize().applyQuaternion(V.cam.quaternion), c = -n.dot(V.cam.position)
+      V.clipS.normal.copy(n).negate(); V.clipS.constant = -c; V.clipW.normal.copy(n); V.clipW.constant = c; scan = [X, X] }
     return { bg: mode, scan, t: { tJ, t1, t2, t3 } }
   },
   // the network: their partners' logos orbit the mark

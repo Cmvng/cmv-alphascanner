@@ -59,6 +59,8 @@ const SAY_IPA = {
   Ethereum: 'ɪθˈɪɹiəm', NFTs: 'ˌɛnˌɛftˈiːz', homomorphic: 'hˌoʊmoʊmˈɔːɹfɪk', memecoin: 'mˈiːmkɔɪn',
   memecoins: 'mˈiːmkɔɪnz', Vitalik: 'vɪtˈɑːlɪk', DeFi: 'dˈiːfaɪ', FHEVM: 'ˌɛfˌeɪtʃˌiːvˌiːˈɛm', ERC: 'ˌiːˌɑːɹsˈiː',
   Binance: 'bˈaɪnæns', Lido: 'lˈiːdoʊ', Aave: 'ˈɑːveɪ', Nakamoto: 'nˌɑːkəmˈoʊtoʊ', Satoshi: 'sətˈoʊʃi',
+  // Axis (Robotics): the plain /ˈæksɪs/ was heard as "Access" three times out of three (9 Oct); a reduced second vowel fixes it
+  Axis: 'ˈæksᵻs',
 }
 const IPA_RE = new RegExp(`(?<!\\p{L})(${Object.keys(SAY_IPA).join('|')})(['’]s)?(?!\\p{L})`, 'gu')
 // letter-aware edges: \b treats accented letters as non-letters, so "Doué" or "Çalhanoğlu" would never match
