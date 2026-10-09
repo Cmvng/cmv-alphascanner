@@ -337,13 +337,25 @@ def fx_seal(seed=4):
     out = crack + 0.7 * thump
     return _stereo(out / (np.abs(out).max() + 1e-9) * 0.6)
 
+def fx_pen(dur=0.9, seed=5):
+    """A pen drawing on paper: bright band-passed noise in quick strokes, each a soft swell."""
+    rng = np.random.default_rng(seed); n = int(dur * SR); t = np.arange(n) / SR
+    k = np.arange(-128, 129); fh, fl = 7500 / SR, 1800 / SR
+    h = (2 * fh * np.sinc(2 * fh * k) - 2 * fl * np.sinc(2 * fl * k)) * np.hanning(257)
+    y = np.convolve(rng.standard_normal(n), h, 'same')
+    rate = 7.5 + 2.5 * rng.random()
+    strokes = np.clip(np.sin(2 * np.pi * rate * t + rng.random() * 6), 0, 1) ** 0.7 * (0.75 + 0.25 * np.sin(2 * np.pi * 1.3 * t))
+    env = np.clip(t / 0.04, 0, 1) * np.clip((dur - t) / 0.12, 0, 1)
+    out = y * strokes * env
+    return _stereo(out / (np.abs(out).max() + 1e-9) * 0.5)
+
 FX = {'whoosh': fx_whoosh, 'impact': fx_impact, 'riser': fx_riser, 'ding': fx_ding, 'thud': fx_thud, 'cash': fx_cash,
       'tick': lambda: fx_tick(1.0), 'tick2': lambda: fx_tick(1.26), 'tick3': lambda: fx_tick(1.5),
       'boom': fx_boom, 'crowd': fx_crowd, 'groan': fx_groan, 'scratch': fx_scratch, 'aww': fx_aww, 'pop': fx_pop,
-      'flap': lambda: fx_flaps(0.26, 30.0, 3), 'flaps': lambda: fx_flaps(0.7, 36.0, 7), 'flapsl': lambda: fx_flaps(1.3, 40.0, 11), 'zip': fx_zip, 'paper': fx_paper, 'seal': fx_seal}
+      'flap': lambda: fx_flaps(0.26, 30.0, 3), 'flaps': lambda: fx_flaps(0.7, 36.0, 7), 'flapsl': lambda: fx_flaps(1.3, 40.0, 11), 'zip': fx_zip, 'paper': fx_paper, 'seal': fx_seal, 'pen': fx_pen, 'penl': lambda: fx_pen(1.7, 8)}
 FX_GAIN = {'whoosh': 0.4, 'impact': 0.42, 'riser': 0.32, 'ding': 0.5, 'thud': 0.5, 'cash': 0.4, 'tick': 0.35, 'tick2': 0.35, 'tick3': 0.4,
            'boom': 0.62, 'crowd': 0.42, 'groan': 0.42, 'scratch': 0.45, 'aww': 0.4, 'pop': 0.35,
-           'flap': 0.32, 'flaps': 0.36, 'flapsl': 0.36, 'zip': 0.42, 'paper': 0.4, 'seal': 0.42}
+           'flap': 0.32, 'flaps': 0.36, 'flapsl': 0.36, 'zip': 0.42, 'paper': 0.4, 'seal': 0.42, 'pen': 0.3, 'penl': 0.3}
 
 
 # ---- recorded sound effects (Mixkit Sound Effects Free License: commercial use allowed, no credit needed;
