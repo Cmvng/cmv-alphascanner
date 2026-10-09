@@ -126,7 +126,7 @@
     "cue": {
      "head": [
       0,
-      "bottleneck",
+      "puts",
       0
      ],
      "text": [
@@ -194,7 +194,7 @@
      ]
     },
     "say": [
-     "So Axis doesn't sell a fixed dataset. It runs a loop.",
+     "So Axis doesn't just deliver static datasets. It runs a loop.",
      "First, it generates tasks in simulation.",
      "Then people around the world demonstrate them, straight from a web browser.",
      "Models train on that data, and automatic checks score its quality.",
@@ -291,7 +291,7 @@
       "show": "The demonstrations come from people. Axis says more than 100,000 contributors have joined."
      },
      "No robot and no special hardware: you sign in, steer a simulated robot arm in your browser, and every run becomes training data.",
-     "Each run is signed on Base, Coinbase's blockchain, and signed runs earn Axis Points.",
+     "Each run is signed on Base, Coinbase's blockchain, and signed runs earn points.",
      {
       "say": "By the first of October, Axis counted more than six million trajectories.",
       "show": "By 1 October, Axis counted more than 6 million trajectories."
@@ -545,7 +545,7 @@
       "say": "In July, a twelve million dollar seed round, led by Hack V C.",
       "show": "In July, a $12 million seed round, led by Hack VC."
      },
-     "In August, a commercial partnership with robot maker Booster Robotics, and Dexmal brought Axis in as a core data infrastructure partner.",
+     "In August, a commercial partnership with robot maker Booster Robotics, and Dexmal brought it in as a core data infrastructure partner.",
      {
       "say": "In September, its community token sale drew two point three nine million dollars in commitments, more than double the cap.",
       "show": "In September, its community token sale drew $2.39 million in commitments, more than double the cap."
@@ -572,7 +572,7 @@
      ]
     },
     "say": [
-     "And on the same day, Axis told its community to link their accounts before the tenth, with three words: something is coming.",
+     "And on the same day, the company told its community to link their accounts before the tenth, with three words: something is coming.",
      "Robot intelligence isn't built by a few. It's built by all. Follow for more."
     ]
    }
