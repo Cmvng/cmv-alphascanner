@@ -24,6 +24,46 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
+## 9 Oct: analysis, "The Blueprint" (11 games, about 5:20, plus an X thread of three)
+
+- **The ask:** "a creative, clean, dwelling football analysis video" for the day's 11 singles.
+- **Before writing:** read the last three entries' "Change next time" lines and applied them:
+  - the say-check before the first render: about 50 names set by hand;
+  - the cover saved outside the output folder;
+  - a sheet with no photos still has something in every area (the notes and the title block fill the lower half);
+  - verdict lines read for homophones (one miss, see 1).
+- **What worked:**
+  - **A new, clean device.** Each game is a technical drawing on light-blue drafting paper:
+    - the venue scans into a photo window;
+    - the pitch draws itself with a pen sound;
+    - a dashed front line slides toward the weaker side by our win chances;
+    - expected goals are drawn as arrows toward goal;
+    - the verdict is written into the title block.
+    It is calm, readable and blue, with the kits carrying the colour (blue 47%).
+  - **Eleven research agents in parallel**, every fact dated. They caught what the app couldn't know:
+    - two games not at the home club's own ground (Wieczysta at Wisła Kraków's stadium, Instituto v Boca at the Kempes);
+    - Raków bottom of the league, with the app's form rows for that game wrong. Those rows were replaced and labelled.
+  - **Real faces on their lines:** 11 players and coaches, each checked against their clubs on Wikidata. Photos shot
+    from behind or with the face hidden were dropped.
+  - **Portraits fit to the window** (`fit: 'contain'` on a blurred copy), so no face is cropped by the 16:9 window.
+- **Mistakes, and how they got through:**
+  1. **Two homophones in verdict lines, again.** "Dinamo end the run" came out as "and the run", and "One–all" as
+     "won all". I read the verdicts for the words from the last entry (to/two, flu/flew, Oran/Iran), not for every
+     short word. Fixed ("snap the run", "One goal each") and re-rendered.
+  2. **The cover's small title fell back to a serif font** (`font:400 Anton` is not valid CSS). Fixed with
+     `font-family`.
+  3. **Three claims cut before the voice:**
+     - "unbeaten this season" on two coaches (Slavia lost to Lens in Europe; Lyon are unbeaten only in the league);
+     - "a record" on Al Nassr's scoring run (the sources disagree);
+     - Ronaldo's goal count (only dated to 10 Sep).
+- **Change next time:**
+  - Before the first render, run every verdict line through speech-to-text on its own. "and/end", "won/one" and "to/two"
+    never show in the pronunciation list.
+  - Never write a score as "One–all" or "Two–all": say "One goal each", "Two goals each".
+  - For 10+ games, write each sheet to about 22 s; this one ran 24–33 s a sheet.
+
+---
+
 ## 9 Oct: post-match, "And the winner is…" (the 8 Oct envelopes opened, 3:09)
 
 - **Before writing:** read the last three entries' "Change next time" lines and applied them:
