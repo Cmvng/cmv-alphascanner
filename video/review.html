@@ -1085,6 +1085,8 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#03060F}
 .dw .dw-ec .badge{width:34px;height:34px}
 .dw .dw-ec b{display:block;margin-top:6px;font:400 28px/1.02 Anton;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .dw .dw-ec.wide{grid-column:1 / span 2}
+.dw .dwr-ec.called{border-left-color:#1E9E62}.dw .dwr-ec.half{border-left-color:#C77A00}.dw .dwr-ec.missed{border-left-color:#D8434F}.dw .dwr-ec.later{border-left-color:var(--dw-mute)}
+.dw .dwr-ec.called .t span{color:#1E9E62}.dw .dwr-ec.half .t span{color:#C77A00}.dw .dwr-ec.missed .t span{color:#D8434F}
 .dw .dw-fol{position:absolute;left:0;right:0;display:flex;flex-direction:column;align-items:center;gap:8px}
 .dw .dw-fol b{padding:14px 30px;background:var(--dw-ink);color:#fff;font:700 30px JBM;letter-spacing:2px}
 .dw .dw-fol span{font:700 18px JBM;letter-spacing:5px;text-transform:uppercase;color:var(--dw-blue)}
@@ -1257,6 +1259,52 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#03060F}
 #cap .w.now{color:#fff;background:var(--brand2);border-radius:12px;padding:0 .14em;margin:0 -.01em;box-shadow:0 8px 30px rgba(61,123,255,.6)}
 #cap .w.next{opacity:.6}
 #grain{position:absolute;inset:0;opacity:.05;pointer-events:none;background-size:256px 256px;z-index:70}
+
+/* as-built (dw_res, dw_board; first used 9 Oct 2026): the morning's sheets inspected after full time, in red pen, with
+   the review stamps an engineer puts on a submittal: approved, approved as noted, revise and resubmit */
+.dw .dwr-scr{position:absolute;left:52px;right:52px;top:818px;height:108px;display:flex;align-items:center;justify-content:space-between}
+.dw .dwr-scr .dwr-s{display:flex;align-items:center;gap:12px;width:330px;opacity:0}
+.dw .dwr-scr .dwr-s.a{flex-direction:row-reverse;text-align:right}
+.dw .dwr-scr .dwr-s b{font:400 36px/1 Anton;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dw .dwr-scr .badge{width:66px;height:66px;flex-shrink:0}
+.dw .dwr-ft{display:flex;align-items:center;gap:10px}
+.dw .dwr-ft .dwr-t{width:96px;height:106px;display:flex;align-items:center;justify-content:center;font:400 86px/1 Anton;box-shadow:0 0 0 3px var(--dw-ink);opacity:0}
+.dw .dwr-ft .dwr-d{font:400 54px Anton;color:var(--dw-ink);opacity:0}
+.dw .dwr-mk circle{fill:none;stroke:#E0313F;stroke-width:5;stroke-dasharray:1 1;stroke-linecap:round}
+.dw .dwr-mk text{font:700 25px JBM;fill:#E0313F;paint-order:stroke;stroke:#fff;stroke-width:7px;stroke-linejoin:round}
+.dw .dwr-mk text.dwr-w{font:700 19px JBM;fill:#0B1F4D}
+.dw .dwr-mk rect.dwr-rc{fill:#E0313F}
+.dw .dwr-mr{position:absolute;left:90px;right:90px;top:1280px;height:58px;opacity:0}
+.dw .dwr-mr .dwr-ax{position:absolute;left:0;right:0;top:24px;height:4px;background:var(--dw-ink)}
+.dw .dwr-mr .dwr-tk{position:absolute;top:16px;width:2px;height:20px;background:var(--dw-ink)}
+.dw .dwr-mr .dwr-tl{position:absolute;top:38px;transform:translateX(-50%);font:700 15px JBM;color:var(--dw-mute)}
+.dw .dwr-mr .dwr-ev{position:absolute;top:0;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;opacity:0}
+.dw .dwr-mr .dwr-ev i{width:22px;height:22px;transform:rotate(45deg);box-shadow:0 0 0 3px #fff,0 0 0 5px #E0313F}
+.dw .dwr-mr .dwr-ev.dwr-rd i{border-radius:3px;transform:none;width:16px;height:22px;background:#E0313F !important}
+.dw .dw-tb .dw-sc.red b{color:#E0313F}
+.dw .dw-v .dwr-x{position:absolute;left:14px;top:62px;height:6px;width:0;background:#E0313F;border-radius:3px;transform:rotate(-2deg);transform-origin:0 50%}
+.dw .dwr-stp{position:absolute;right:62px;top:1560px;padding:12px 22px 10px;border:7px solid currentColor;border-radius:12px;font:400 50px/1 Anton;letter-spacing:2px;text-transform:uppercase;text-align:center;background:rgba(255,255,255,.72);opacity:0;z-index:5;white-space:nowrap}
+.dw .dwr-stp small{display:block;margin-top:6px;font:700 16px JBM;letter-spacing:3px}
+.dw .dwr-stp.called{color:#1E9E62}.dw .dwr-stp.half{color:#C77A00}.dw .dwr-stp.missed{color:#D8434F}
+.dw_board .dwr-bt{position:absolute;left:52px;right:52px;top:104px;font:400 96px/1 Anton;text-transform:uppercase;white-space:nowrap}
+.dw_board .dwr-bt span{color:#E0313F}
+.dw_board .dwr-bs{position:absolute;left:54px;top:212px;font:700 20px JBM;letter-spacing:4px;text-transform:uppercase;color:var(--dw-mute)}
+.dw .dwr-br{position:absolute;left:52px;right:52px;top:262px;border:3px solid var(--dw-ink);background:rgba(255,255,255,.9)}
+.dw .dwr-bw{display:grid;grid-template-columns:50px 96px 1fr 120px 178px;align-items:center;height:96px;border-bottom:1px solid rgba(11,31,77,.25);opacity:0}
+.dw .dwr-bw:last-child{border-bottom:none}
+.dw .dwr-bw>*{padding:0 8px;min-width:0}
+.dw .dwr-bw>span:first-child{font:700 18px JBM;color:var(--dw-blue)}
+.dw .dwr-bw .dwr-cr{display:flex;gap:4px}.dw .dwr-bw .badge{width:40px;height:40px}
+.dw .dwr-bw .dwr-m b{display:block;font:400 27px/1.05 Anton;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dw .dwr-bw .dwr-m span{display:block;margin-top:3px;font:700 15px JBM;letter-spacing:1px;text-transform:uppercase;color:var(--dw-mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dw .dwr-bw .dwr-f{font:400 44px/1 Anton;color:#E0313F;text-align:center}
+.dw .dwr-bw .dwr-k{justify-self:end;margin-right:10px;padding:7px 10px 6px;border:4px solid currentColor;border-radius:8px;font:400 22px/1 Anton;letter-spacing:1px;text-transform:uppercase;white-space:nowrap;transform:rotate(-5deg);opacity:0}
+.dw .dwr-bw .dwr-k.called{color:#1E9E62}.dw .dwr-bw .dwr-k.half{color:#C77A00}.dw .dwr-bw .dwr-k.missed{color:#D8434F}.dw .dwr-bw .dwr-k.later{color:#7A879E}
+.dw .dwr-ty{position:absolute;left:52px;right:52px;display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.dw .dwr-ty>div{border:4px solid currentColor;background:rgba(255,255,255,.9);padding:10px 14px;text-align:center;opacity:0}
+.dw .dwr-ty b{display:block;font:400 76px/1 Anton}
+.dw .dwr-ty span{display:block;margin-top:4px;font:700 16px JBM;letter-spacing:2px;text-transform:uppercase}
+.dw .dwr-ty .called{color:#1E9E62}.dw .dwr-ty .half{color:#C77A00}.dw .dwr-ty .missed{color:#D8434F}
 </style>
 </head>
 <body>
@@ -1604,7 +1652,30 @@ function dwPhotos(el, sc, b, lt) {
   const a0 = Math.max(at[cur], cur ? 0 : 0.9); pb.style.opacity = n1(x.label ? P(lt, a0 + 0.2, a0 + 0.5) : 0); pb.style.transform = `translate3d(${n1(-30 * (1 - P(lt, a0 + 0.2, a0 + 0.5, E.outCubic)))}px,0,0)`
   $('#credit').textContent = x.credit || ''
 }
-const dwSheets = () => D.scenes.filter(s => s.type === 'dw_game')
+const dwSheets = () => D.scenes.filter(s => s.type === 'dw_game' || s.type === 'dw_res')
+const DW_STAMP = { called: ['Approved', 'Called it'], half: ['Approved as noted', 'Half right'], missed: ['Revise & resubmit', 'Missed it'], later: ['Pending', 'Still to play'] }
+// tonight's red pen on the drawn pitch: a circle in the goal each goal went into, its minute and the scorer
+function dwMarks(b) {
+  const evs = (b.events || []).filter(e => ['goal', 'og', 'pen', 'red'].includes(e.kind)), out = [], nG = { h: 0, a: 0 }
+  const nOf = { h: 0, a: 0 }; evs.forEach(e => { if (e.kind !== 'red') nOf[(e.team === 'away') !== (e.kind === 'og') ? 'a' : 'h']++ })
+  const YS = { 1: [165], 2: [115, 215], 3: [75, 165, 255], 4: [60, 130, 200, 270], 5: [50, 107, 165, 223, 280] }
+  evs.forEach((e, j) => {
+    if (e.kind === 'red') { const x = e.team === 'home' ? 380 : 580; out.push(`<g class="dwr-mk" data-j="${j}" opacity="0"><rect class="dwr-rc" x="${x - 9}" y="${280 - 26}" width="18" height="26" rx="3"/><text x="${x + 16}" y="${280 - 4}">${html(e.min_label || e.min + "'")}</text></g>`); return }
+    const scorer = (e.team === 'away') !== (e.kind === 'og') ? 'a' : 'h', k = nG[scorer]++, y = (YS[nOf[scorer]] || YS[5])[k % 5]
+    const x = scorer === 'h' ? 872 : 88, tx = scorer === 'h' ? 700 : 128, anchor = scorer === 'h' ? 'end' : 'start'
+    out.push(`<g class="dwr-mk" data-j="${j}" opacity="0"><circle pathLength="1" cx="${x}" cy="${y}" r="28"/><text x="${scorer === 'h' ? x - 40 : x + 40}" y="${y - 2}" text-anchor="${anchor}">${html(e.min_label || e.min + "'")}${e.kind === 'pen' ? ' pen' : e.kind === 'og' ? ' o.g.' : ''}</text><text class="dwr-w" x="${scorer === 'h' ? x - 40 : x + 40}" y="${y + 24}" text-anchor="${anchor}">${html(e.who || '')}</text></g>`)
+  })
+  return out.join('')
+}
+// tonight's minute ruler: 0' to full time, each event as a marker in the scorer's kit
+function dwRuler(q, b) {
+  const END = b.end_min || 90, kh = vrKit(q, 'home'), ka = vrKit(q, 'away'), ticks = [0, 15, 30, 45, 60, 75, 90].filter(m => m <= END)
+  const evs = (b.events || []).map((e, j) => { const side = (e.team === 'away') !== (e.kind === 'og') ? ka : kh
+    return `<div class="dwr-ev${e.kind === 'red' ? ' dwr-rd' : ''}" data-j="${j}" style="left:${n1(100 * Math.min(e.min, END) / END)}%"><i style="background:${side.bg}"></i></div>` }).join('')
+  return `<div class="dwr-mr"><div class="dwr-ax"></div>${ticks.map(m => `<i class="dwr-tk" style="left:${n1(100 * m / END)}%"></i><span class="dwr-tl" style="left:${n1(100 * m / END)}%">${m}'</span>`).join('')}${evs}</div>`
+}
+const dwEvAt = (sc, e, j) => e.at ? vrT(sc, ...e.at) : vrT(sc, 1, 0.15 + 0.2 * j)
+const dwStampAt = sc => sc.data?.stamp_at ? vrT(sc, ...sc.data.stamp_at) : vrT(sc, sc.lines.length - 1, 0.6)
 
 // ---- arrivals (ar_*): the post-match as an airport arrivals board. Each pick: ko ("16:00"), city {name}, kit as vr_*.
 // Split-flap tiles: each character turns through the drum, one step every 50 ms, to its target
@@ -2213,8 +2284,34 @@ const built = D.scenes.map((sc, k) => {
         <div class="dw-tb"><div><small>Drawn by</small><em>cmvng · on our numbers</em></div><div><small>Sheet</small><em>${z(si + 1)} of ${z(N)}</em></div><div><small>Kick-off</small><em>${html(q.ko || q.kickoff || '')} Lagos</em></div>
           <div class="dw-v"><small>The verdict</small><b style="font-size:${dwFit(v.text, 54, 560)}px">${html(v.text || '')}</b><u></u></div>
           <div class="dw-sc"><small>Likeliest score</small><b>${html(v.score || '')}</b><span>${html(v.note || '')}</span></div></div></div>`
+    } else if (sc.type === 'dw_res') {
+      const kh = vrKit(q, 'home'), ka = vrKit(q, 'away'), ph = b.photos || [], m = b.morning || {}, sc0 = b.score || [0, 0], vd = b.verdict || 'half', st = DW_STAMP[vd] || DW_STAMP.half
+      const notes = (b.notes || []).map(n => `<div class="dw-n" style="border-left-color:${n.team === 'home' ? kh.bg : n.team === 'away' ? ka.bg : '#E0313F'}"><i style="color:#E0313F">${html(n.label || '')}</i><span>${html(n.text || '')}</span></div>`).join('')
+      const pitch = dwPitch(q).replace('</svg>', dwMarks(b) + '</svg>')
+      el.innerHTML = `<div class="dw-paper"></div>${dwFrame()}<div class="dw-pg">${top(`<span class="dw-sh">Sheet ${z(si + 1)} / ${z(N)}</span><b>Full time</b>`)}
+        <div class="dw-win">${dwPhotoLayer(ph)}<div class="dw-pb"></div><div class="dw-scan"></div></div>
+        <div class="dw-cx" style="left:37px;top:81px"></div><div class="dw-cx" style="right:37px;top:81px"></div><div class="dw-cx" style="left:37px;top:621px"></div><div class="dw-cx" style="right:37px;top:621px"></div>
+        <div class="dw-h" style="font-size:${dwFit(b.head, 96, 976)}px">${html(b.head || '')}</div><div class="dw-k">${html(b.kicker || '')}</div>
+        <div class="dwr-scr"><div class="dwr-s h">${badge(q.bh)}<b style="color:${vrTx(kh)}">${html(vrName(q, 'home'))}</b></div>
+          <div class="dwr-ft"><span class="dwr-t" style="background:${kh.bg};color:${kh.ink}">${sc0[0]}</span><span class="dwr-d">–</span><span class="dwr-t" style="background:${ka.bg};color:${ka.ink}">${sc0[1]}</span></div>
+          <div class="dwr-s a">${badge(q.ba)}<b style="color:${vrTx(ka)}">${html(vrName(q, 'away'))}</b></div></div>
+        ${pitch}${dwRuler(q, b)}
+        ${notes ? `<div class="dw-nt${(b.notes || []).length === 1 ? ' one' : ''}" style="top:${b.notes_top ?? 1352}px">${notes}</div>` : ''}
+        <div class="dw-tb"><div><small>Drawn</small><em>This morning · on our numbers</em></div><div><small>Sheet</small><em>${z(si + 1)} of ${z(N)}</em></div><div><small>Inspected</small><em>Full time</em></div>
+          <div class="dw-v"><small>Our call</small><b style="font-size:${dwFit(m.text, 54, 560)}px">${html(m.text || '')}</b><i class="dwr-x"></i></div>
+          <div class="dw-sc red"><small>As built</small><b>${sc0[0]}–${sc0[1]}</b><span>${html(b.ht ? 'HT ' + b.ht.join('–') : (m.score ? 'Drawn ' + m.score : ''))}</span></div></div>
+        <div class="dwr-stp ${vd}">${html(st[0])}<small>${html(b.stamp_note || st[1])}</small></div></div>`
+    } else if (sc.type === 'dw_board') {
+      const res = D.scenes.filter(x => x.type === 'dw_res'), rows = res.map((r, j) => { const d = r.data || {}, p = D.picks[d.match ?? 0] || M, vd = d.verdict || 'half', sc1 = d.score
+        return `<div class="dwr-bw" style="height:${b.row_h ?? 96}px"><span>${z(j + 1)}</span><span class="dwr-cr">${badge(p.bh)}${badge(p.ba)}</span><div class="dwr-m"><b>${html(vrName(p, 'home'))} v ${html(vrName(p, 'away'))}</b><span>Our call: ${html((d.morning || {}).short || (d.morning || {}).text || '')}</span></div><div class="dwr-f">${sc1 ? sc1.join('–') : '–'}</div><div class="dwr-k ${vd}">${html((DW_STAMP[vd] || DW_STAMP.half)[1])}</div></div>` }).join('')
+      const cn = { called: 0, half: 0, missed: 0 }; res.forEach(r => { const v = r.data?.verdict; if (cn[v] != null) cn[v]++ })
+      const ty = (b.counts || cn), tyTop = 262 + 6 + res.length * (b.row_h ?? 96) + 26
+      el.innerHTML = `<div class="dw-paper"></div>${dwFrame()}<div class="dw-pg">${top(`<b>${html(b.when || '')}</b>`)}<div class="dwr-bt">${html(b.l1 || 'The')} <span>${html(b.l2 || 'inspection')}</span></div><div class="dwr-bs">${html(b.sub || '')}</div>
+        <div class="dwr-br">${rows}</div><div class="dwr-ty" style="top:${tyTop}px"><div class="called"><b data-n="${ty.called}">0</b><span>Approved · called</span></div><div class="half"><b data-n="${ty.half}">0</b><span>As noted · half right</span></div><div class="missed"><b data-n="${ty.missed}">0</b><span>Revise · missed</span></div></div></div>`
     } else if (sc.type === 'dw_end') {
-      const cards = sh.map((s, j) => { const d = s.data || {}, p = D.picks[d.match ?? 0] || M, kh = vrKit(p, 'home'), v = d.verdict || {}
+      const cards = b.cards === false ? '' : sh.map((s, j) => { const d = s.data || {}, p = D.picks[d.match ?? 0] || M, kh = vrKit(p, 'home'), v = d.verdict || {}
+        if (s.type === 'dw_res') { const st = DW_STAMP[d.verdict] || DW_STAMP.half, f = (d.score || []).join('–')
+          return `<div class="dw-ec dwr-ec ${d.verdict || 'half'}${j === sh.length - 1 && sh.length % 2 ? ' wide' : ''}"><div class="t">${badge(p.bh)}${badge(p.ba)}<span>${z(j + 1)} · ${html(st[1])}</span></div><b>${html(vrName(p, 'home'))} ${f} ${html(vrName(p, 'away'))}</b></div>` }
         return `<div class="dw-ec${j === sh.length - 1 && sh.length % 2 ? ' wide' : ''}" style="border-left-color:${kh.bg}"><div class="t">${badge(p.bh)}${badge(p.ba)}<span>${z(j + 1)} · ${html(p.ko || '')}</span></div><b>${html(v.short || v.text || '')}</b></div>` }).join('')
       el.innerHTML = `<div class="dw-paper"></div>${dwFrame()}<div class="dw-pg">${top(`<b>${html(b.when || '')}</b>`)}<div class="dw-e1">${html(b.l1 || '')} <span>${html(b.l2 || '')}</span></div><div class="dw-eg">${cards}</div>
         <div class="dw-fol" style="top:${b.fol_top ?? 1080}px"><b>${html(b.follow || 'Follow for the post-match')}</b><span>Football, by the numbers</span></div></div>`
@@ -2884,6 +2981,40 @@ function draw(k, lt, sc) {
       const va = vrT(sc, ...(b.verdict_at || [last, 0])), vb = $('.dw-v b', el), vq = P(lt, va, va + 0.8, E.inOutSine)
       vb.style.clipPath = `inset(-10px ${n1(100 * (1 - vq))}% -10px 0)`; $('.dw-v u', el).style.transform = `scaleX(${n1(P(lt, va + 0.5, va + 1.0, E.outCubic))})`
       const scb = $('.dw-sc b', el); slam(scb, lt, va + 0.7, 1.8, 0.3); const scs = $('.dw-sc span', el); scs.style.opacity = n1(P(lt, va + 0.9, va + 1.2))
+    } else if (sc.type === 'dw_res') {
+      dwPhotos(el, sc, b, lt)
+      rise([$('.dw-top', el)], lt, 0.1, 0, 14)
+      const sq = P(lt, 0.15, 0.8, E.inOutSine), ws = $('.dw-ws', el), scan = $('.dw-scan', el)
+      if (ws) ws.style.clipPath = `inset(0 ${n1(100 * (1 - sq))}% 0 0)`; scan.style.left = n1(100 * sq) + '%'; scan.style.opacity = n1(sq > 0 && sq < 1 ? 1 : 0)
+      slam($('.dw-h', el), lt, 0.3, 1.35, 0.3); rise([$('.dw-k', el)], lt, 0.5, 0, 16)
+      $$('.dwr-scr .dwr-s', el).forEach((n, i) => { const a2 = 0.55 + i * 0.1, q2 = P(lt, a2, a2 + 0.4, E.outCubic); n.style.opacity = n1(q2); n.style.transform = `translate3d(${n1((i ? 1 : -1) * 50 * (1 - q2))}px,0,0)` })
+      // the final score slams in on the first line, tile by tile
+      const fa = vrT(sc, ...(b.score_at || [0, 0.35]))
+      $$('.dwr-ft .dwr-t', el).forEach((n, i) => slam(n, lt, fa + i * 0.12, 1.9, 0.26)); const dd = $('.dwr-ft .dwr-d', el); dd.style.opacity = n1(P(lt, fa, fa + 0.2))
+      // the morning's drawing comes back quickly, faint: lines, then the blue-pencil xG arrows
+      drawLines(0.2, 0.03, 0.4)
+      ;[['h', q.xg_home, 105, 1], ['a', q.xg_away, 225, -1]].forEach(([s2, xg, y, dir]) => {
+        const g = $(`.dw-xg.${s2}`, el); if (!g || xg == null) return; const x0 = dir > 0 ? 50 : 910, x1 = x0 + dir * 860 * Math.min(1, xg / 3)
+        g.setAttribute('opacity', n1(0.3 * P(lt, 0.5, 0.9))); const ln = $('line', g); ln.setAttribute('x1', x0); ln.setAttribute('y1', y); ln.setAttribute('x2', n1(x1 - dir * 6)); ln.setAttribute('y2', y)
+        $('polygon', g).setAttribute('transform', `translate(${n1(x1 - dir * 4)},${y}) scale(${dir},1)`); const tx = $('text', g); tx.textContent = `drawn xG ${Number(xg).toFixed(2)}`; tx.setAttribute('x', dir > 0 ? 300 : 470); tx.setAttribute('y', y - 22)
+      })
+      // tonight's red pen: each event circled on the pitch and marked on the ruler as it is spoken
+      const mr = $('.dwr-mr', el); mr.style.opacity = n1(P(lt, 0.7, 1.0))
+      ;(b.events || []).forEach((e, j) => { const a2 = dwEvAt(sc, e, j), mk = $(`.dwr-mk[data-j="${j}"]`, el), ev = $(`.dwr-mr .dwr-ev[data-j="${j}"]`, el)
+        if (mk) { mk.setAttribute('opacity', n1(P(lt, a2, a2 + 0.1))); const c = $('circle', mk); if (c) c.style.strokeDashoffset = n1(1 - P(lt, a2, a2 + 0.45, E.inOutCubic)) }
+        if (ev) { const q2 = P(lt, a2, a2 + 0.35, E.outBack); ev.style.opacity = n1(P(lt, a2, a2 + 0.1)); ev.style.transform = `translateX(-50%) scale(${n1(0.4 + 0.6 * q2)})` } })
+      $$('.dw-n', el).forEach((n, i) => { const nt = (b.notes || [])[i] || {}, a2 = nt.at ? vrT(sc, ...nt.at) : vrT(sc, 1, 0.5) + i * 0.6, q2 = P(lt, a2, a2 + 0.45, E.outCubic); n.style.opacity = n1(q2); n.style.transform = `translate3d(0,${n1(30 * (1 - q2))}px,0)` })
+      rise([$('.dw-tb', el)], lt, 0.9, 0, 30)
+      // the stamp, and on a miss the morning's call struck through in red
+      const ta = dwStampAt(sc), x = $('.dw-v .dwr-x', el); if ((b.verdict || 'half') === 'missed') x.style.width = n1(Math.min(540, 26 * [...String((b.morning || {}).text || '')].length) * P(lt, ta - 0.35, ta, E.outCubic)) + 'px'
+      slam($('.dwr-stp', el), lt, ta, 2.1, 0.24, 'rotate(-7deg)')
+    } else if (sc.type === 'dw_board') {
+      rise([$('.dw-top', el)], lt, 0.1, 0, 14); slam($('.dwr-bt', el), lt, 0.15, 1.4, 0.3); rise([$('.dwr-bs', el)], lt, 0.4, 0, 16)
+      const sa = vrT(sc, ...(b.stamps_at || [0, 0.4])), step = b.step ?? 0.24
+      $$('.dwr-bw', el).forEach((d, i) => { const a2 = 0.5 + i * 0.08, q2 = P(lt, a2, a2 + 0.35, E.outCubic); d.style.opacity = n1(q2); d.style.transform = `translate3d(${n1(50 * (1 - q2))}px,0,0)`
+        slam($('.dwr-k', d), lt, sa + i * step, 1.9, 0.22, 'rotate(-5deg)') })
+      const tya = vrT(sc, ...(b.tally_at || [1, 0])); $$('.dwr-ty>div', el).forEach((d, i) => { const a2 = tya + i * 0.25, q2 = P(lt, a2, a2 + 0.4, E.outBack); d.style.opacity = n1(P(lt, a2, a2 + 0.15)); d.style.transform = `scale(${n1(0.75 + 0.25 * q2)})`
+        const bn = $('b', d); bn.textContent = Math.round(+bn.dataset.n * P(lt, a2, a2 + 0.6, E.outCubic)) })
     } else if (sc.type === 'dw_end') {
       rise([$('.dw-top', el)], lt, 0.1, 0, 14); slam($('.dw-e1', el), lt, 0.2, 1.4, 0.3)
       $$('.dw-ec', el).forEach((d, i) => { const a2 = 0.6 + i * 0.1, q2 = P(lt, a2, a2 + 0.4, E.outBack); d.style.opacity = lt >= a2 ? 1 : 0; d.style.transform = `scale(${n1(0.7 + 0.3 * q2)})` })
@@ -3160,6 +3291,14 @@ function fxCinematic() {
       ;(b.notes || []).forEach((n, i) => add(T + (n.at ? vrT(sc, ...n.at) : vrT(sc, 2, 0) + i * 0.6), '3115', -17))
       const va = T + vrT(sc, ...(b.verdict_at || [sc.lines.length - 1, 0])); syn(va, 'pen', 0.7); add(va + 0.7, '2909', -13); add(va + 0.75, '871', -16)
     }
+    if (sc.type === 'dw_res') {
+      syn(T + 0.12, 'paper', 0.45); syn(T + 0.25, 'pen', 0.4)
+      const fa = T + vrT(sc, ...(b.score_at || [0, 0.35])); add(fa, '2909', -10); add(fa + 0.12, '2299', -12)
+      ;(b.events || []).forEach((e, j) => { const a2 = T + dwEvAt(sc, e, j); syn(a2, 'pen', 0.55); if (e.kind !== 'red') add(a2 + 0.05, '3022', -24, { max: 1.6 }) })
+      const ta = T + dwStampAt(sc), vd = b.verdict || 'half'; add(ta, '1365', -4); add(ta + 0.02, '2299', -10)
+      if (vd === 'called') add(ta + 0.08, '462', -20, { max: 2.2 }); else if (vd === 'missed') add(ta + 0.06, '2951', -15)
+    }
+    if (sc.type === 'dw_board') { add(T + 0.15, '2909', -9); D.scenes.filter(x => x.type === 'dw_res').forEach((_, i) => add(T + vrT(sc, ...(b.stamps_at || [0, 0.4])) + i * (b.step ?? 0.24), '1365', -15)); const tya = T + vrT(sc, ...(b.tally_at || [1, 0])); [0, 1, 2].forEach(i => add(tya + i * 0.25, '2573', -12)) }
     if (sc.type === 'dw_end') { add(T + 0.2, '2909', -8); add(T + 0.25, '2299', -8); dwSheets().forEach((_, i) => { if (i % 2 === 0) syn(T + 0.6 + i * 0.1, 'paper', 0.22) }) }
     // arrivals: the hall, the chime, the flaps clattering, a jet landing at full time, a stamp on every boarding pass
     if (sc.type === 'ar_cold') {
@@ -3300,7 +3439,7 @@ window.renderAt = async function (t) {
   $('#hdr').style.display = /^(rx|pm|np|bp|vr|gl|ar|en|dw)_/.test(sc.type) ? 'none' : ''
   if (NPg || BPg || VRg) capEl.style.top = '1478px'
   if (/^en_/.test(sc.type)) capEl.style.top = '1590px'
-  if (sc.type === 'dw_game') capEl.style.top = '1484px'
+  if (sc.type === 'dw_game' || sc.type === 'dw_res') capEl.style.top = '1484px'
   if (wait) await wait
 }
 

@@ -63,6 +63,11 @@ const SAY_IPA = {
   Axis: 'ˈæksᵻs',
   // "datasets" with a flapped t (DAY-ruh-sets) was heard as "deer sets" through the deep voice (9 Oct); a hard t is clear
   datasets: 'dˈeɪtəsˌɛts', dataset: 'dˈeɪtəsˌɛt',
+  // 9 Oct post-match ("As-Built"): the phonemizer said a-ZBILT, KOW-awl-kzik, NOH-ak, BAR-tahsz, PAS-kyoo-ul, KOH-mun
+  'As-Built': 'æz bˈɪlt', Ayaosi: 'ˌɑːjɑːˈoʊsi', Bartosz: 'bˈɑːɹtɔʃ', Borja: 'bˈɔːɹhɑː', Christiansen: 'kɹˈɪstʃənsən',
+  Coman: 'kɔːmˈɑːn', 'Galán': 'ɡɑːlˈɑːn', Kowalczyk: 'kɔvˈɑːltʃɪk', 'Lukáš': 'lˈuːkɑːʃ', 'Martín': 'mɑːɹtˈiːn',
+  Mateusz: 'mɑːtˈɛuːʃ', Nowak: 'nˈɔvɑːk', Pascual: 'pɑːskwˈɑːl', 'Piazón': 'piːɑːzˈoʊn', 'Samú': 'sɑːmˈuː',
+  Semedo: 'sɛmˈɛdu', Askildsen: 'ˈɑːskɪlsən', Guus: 'ɡˈuːs', VAR: 'vˌiːˌeɪˈɑːɹ',
 }
 const IPA_RE = new RegExp(`(?<!\\p{L})(${Object.keys(SAY_IPA).join('|')})(['’]s)?(?!\\p{L})`, 'gu')
 // letter-aware edges: \b treats accented letters as non-letters, so "Doué" or "Çalhanoğlu" would never match
