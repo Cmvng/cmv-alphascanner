@@ -337,6 +337,25 @@ Run it in the background. It takes about 5–8 minutes; the first run in a new s
 - **Send the write-up too (the owner, 8 Oct: "Where is the write up").** With every analysis video, write
   `<slug>-write-up.md` (each game: the setting, form, team news, key men, the numbers, the verdict, then a table of all
   verdicts; no betting words) and send it and the post kit as files with the video. Naming a path is not sending.
+- **Write-ups read like a professional match preview (the owner, 9 Oct: "a clean writeup that is without AI slop and
+  it's clean like a professional").** Reference: `video/out/analysis-2026-10-09-blueprint-write-up.md`.
+  - **Top:** a title, one line with the date and "All kick-off times are Lagos time (WAT)", one plain sentence on what
+    follows, then a table of every match with its competition and predicted score.
+  - **Each match:**
+    - a header line in italics (competition and round · venue · kick-off);
+    - two short paragraphs of prose: the situation first, then team news and key players;
+    - a form line, a model line ("Model: X 46%, draw 27%, Y 27% · Expected goals 1.53–1.10");
+    - "**Prediction: Home 1–0 Away**".
+  - **Plain language:**
+    - one fact per sentence, concrete numbers and names;
+    - quotes only verbatim from a dated source;
+    - no hype words (clash, showdown, battle, crucial, must-win, mouth-watering);
+    - no rhetorical questions, no emojis, no "here's", "let's", "dive into", "all eyes on", "it remains to be seen".
+  - **Out of the write-up:** bold-label bullet lists ("**Story:**", "**Stakes:**"), slogans from the video ("Sporting
+    break the wall"), and working notes (file names, "the app's rows didn't match", checking notes). Notes go in the
+    sources file; slogans stay in the video.
+  - **Social copy (X, TikTok, YouTube description) in the same plain style:** no emojis, predicted scores written out.
+  - **Facts:** the same as the video and the sources file. Add nothing new.
 - **Send:** send the `SEND` file with SendUserFile (`display: render`). In a few short, plain-English lines, say which session it covers and list the picks; for results, won/lost and the money. Mention anything left out. Offer the caption from `script.txt` and the credits from `credits.txt`.
 
 ## If it fails
