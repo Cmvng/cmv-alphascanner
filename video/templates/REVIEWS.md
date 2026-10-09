@@ -61,6 +61,15 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
     never show in the pronunciation list.
   - Never write a score as "One–all" or "Two–all": say "One goal each", "Two goals each".
   - For 10+ games, write each sheet to about 22 s; this one ran 24–33 s a sheet.
+- **Final review** (sent):
+  - 320 s; the drop rises +9.9 dB; true peak −3.1 dB; blue 47%.
+  - The fixed verdicts come back as written. The remaining "heard differently" lines are spellings only (Lance, Leon,
+    Cepsi, Bokeh).
+- **Sent:** the chat copy (27.7 MB), the cover and thumbnail, three X parts (2:06, 1:49 and 1:25, about 26 MB each),
+  the write-up, the post kit and the sources.
+  - The 203 MB master is too big for the download page (base64 would pass 256 MiB), so the page holds a 148 MB
+    two-pass copy. One served part's sha256 was checked against the local file.
+- **The owner's reaction:** (waiting)
 
 ---
 
