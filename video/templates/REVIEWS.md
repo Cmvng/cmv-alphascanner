@@ -24,7 +24,7 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
-## 9 Oct: post-match, "And the winner is…" (the 8 Oct envelopes opened, 3:08)
+## 9 Oct: post-match, "And the winner is…" (the 8 Oct envelopes opened, 3:09)
 
 - **Before writing:** read the last three entries' "Change next time" lines and applied them:
   - the say-check before the first render, with 18 new names set by hand (Mulongo, Usama, Macalou, Oucasse,
@@ -61,6 +61,16 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
     say-check for them.
   - Save the designed cover outside the output folder: a full render wipes it.
   - When a game has no photos, give the empty lower half something to carry (a stat bar), or move the card up.
+- **Final review** (sent):
+  - 189.2 s; the drop rises +8.2 dB; true peak −1.2 dB; loudness −14.6 LUFS; blue 64%.
+  - The "Iran win" and "to all" lines now come back as written. The remaining "heard differently" lines are spellings
+    only (Nasaji, Satif, Godoss).
+- **Sent:**
+  - In the chat: the chat copy (28.0 MB), the cover and thumbnail, the two X parts (1:49 and 1:20, about 26 MB each),
+    the write-up, the post kit and the sources.
+  - A new download page holds the full file (122.2 MB) and both parts. One served part's sha256 was checked against
+    the local file.
+- **The owner's reaction:** (waiting)
 
 ---
 
