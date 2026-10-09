@@ -85,7 +85,7 @@ doesn't like it."* And: *"Most importantly the videos have to be very creative. 
   - **Reaction videos (1–4 Oct):** a female presenter reacting to our morning analysis over World Cup photos of the
     teams' players, a fixture card, an "Our take" card, the score, and a running tally (1/1 ✅, 1/2 🤏, 1/3 ❌).
   - **Post-match reviews (1–4 Oct):** score slam, key moments, text memes over licensed reaction clips, stats with
-    "the stat that hurts", our read stamped CALLED IT / HALF RIGHT / MISSED IT, ratings, the table.
+    "the stat that hurts", our read stamped CALLED IT / MISSED IT (no "half right" since 9 Oct), ratings, the table.
   - **Tips and results (1–3 Oct):** stadium, broadcast-graphics and players styles; pick cards with signal bars; results
     with WON/LOST stamps and a running total.
   - **Polymarket plays (2 Oct):** our own market cards (question, YES/NO, price, "$100 → $X").

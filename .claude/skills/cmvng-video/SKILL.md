@@ -167,6 +167,10 @@ Preview rules, which keep it monetisable:
 
 ## Post-match reviews and reactions (after full time)
 
+**Judging our verdicts: only "Called it" or "Missed it"** (the owner, 9 Oct: "if it happened, that means you called
+it. It's simple."). If what the verdict said happened, it's called, whatever the margin or the predicted score. Never
+"half right". A two-part verdict is called when both parts happened. Details in `video/templates/post-match/README.md`.
+
 When the owner asks for "the reaction", "the review", "post-match" or "what happened in <match>", follow `video/templates/post-match/README.md`.
 
 - **Format:** `mode: "review"` with hand-written `review.beats` (hook, moment, meme, stats, read, ratings, quote, table, cta), rendered by `video/review.html`. Each video gets its own structure and jokes.

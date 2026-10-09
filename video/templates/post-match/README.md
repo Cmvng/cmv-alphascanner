@@ -2,6 +2,19 @@
 
 The follow-up to every match analysis: what happened, the moments, the reactions, and how our read held up. Made after full time, for X, YouTube Shorts, TikTok and Facebook.
 
+## Judging a verdict: called it or missed it (the owner's rule, 9 Oct 2026)
+
+There are only two results: **Called it** and **Missed it**. Never "half right".
+
+> "If you made a prediction that Chelsea will win or just there will be goals in the match, if it happened, that means
+> you called it. It's simple."
+
+- If what the verdict said happened, it's called: "Slavia, comfortably" ended 0–1, and "Al Nassr, narrowly" ended 3–0.
+  Both are called. The predicted score and the margin are never judged.
+- "X don't lose" is called if X won or drew.
+- A two-part verdict ("goals, and a GKS win") is called when both parts happened, and missed when either didn't.
+- Say every miss plainly. The tally has two boxes: called and missed.
+
 ## How it's built
 
 `mode: "review"` with a list of **beats** in `review.beats`. Every screen is written for the match, so no two videos run the same way (YouTube won't pay for near-identical template videos).
@@ -99,9 +112,7 @@ their `ko`, `city` and `kit`, plus `score_home`/`score_away`).
 - **Sound:** an airport chime (Mixkit 1570) and the departures hall (357) under the cold open; a low jet into the drop
   (1579); a synthesised split-flap clatter (`flap`, `flaps`, `flapsl` in `audio.py`); a jet landing at every full time
   (1576); a stamp and a crowd for called, a groan for half right, a thud for missed.
-- **Judging a call:** "X don't lose" is called if X won or drew; "a narrow X win" if X won by one; "level" or "too tight
-  to split" on a draw. A two-part call with one part wrong is half right (8 Oct: "the hoodoo holds, 3SC don't lose"
-  ended 0–0, the first point Pillars had taken there in nine years).
+- **Judging a call:** called or missed only; see "Judging a verdict" at the top.
 
 ## And the winner is… (en_res, en_board; first used 9 Oct 2026)
 The results night for an "envelope" analysis ("The envelope, please", `video/templates/match-analysis/README.md`).
@@ -119,11 +130,8 @@ It opens the morning's envelopes against the final whistles. Reference: `video/o
   Set the timing with `stamps_at` and `tally_at`.
 - **`en_end`:** takes `photos` too, so the last screen still stands in a real stadium. It shows no grid without
   `en_game` screens.
-- **Judging:**
-  - A two-part verdict with one part right is half right ("few goals and a Nassaji win" ended 1–1).
-  - The right winner with the wrong margin is half right ("Vipers by a goal" ended 0–4).
-  - Neither part is a miss.
-  - Say every miss plainly: the 8 Oct night was 0 called, 3 half right, 4 missed, and the video says so.
+- **Judging:** called or missed only; see "Judging a verdict" at the top. (Before 9 Oct this section had a "half
+  right" stamp for the wrong margin or one part of two. The owner found it confusing, so it is gone.)
 
 ## Rules that keep it monetised and legal
 
