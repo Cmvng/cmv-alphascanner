@@ -206,3 +206,44 @@ voxel art, so this one is built in 3D voxels too: one world, one camera, the wor
 - **Check stills at several times per shot:** at the first try the hook was a wall of green (camera too close), the
   crowd was cut off at the sides, the beam lit only the top of the head, and the end mark sat on the words.
 
+
+## Another format: the narrated 3D explainer (`ax_*`, Axis Robotics, 9 Oct 2026)
+
+Templates: `axis-robotics-2026-10-09.json` (long form, about 4:30) and `axis-robotics-short-2026-10-09.json` (about
+1:05). Sources are in `video/out/explainer-axis-2026-10-09-sources.md`. The owner asked for something "very
+explanatory, clean motion designs and concepts even the team will be very impressed". The voxel film's three.js world
+now carries a narrated story, cued to the spoken word.
+
+- **The engine:**
+  - It is the same software WebGL as the voxel film, loaded only when a scene is `ex_ax_*`. `assets/geo/landdots.js`
+    holds 2,368 land points for the globe.
+  - There is one world. Each scene type shows its own set and camera (`AXF[type]` in `explainer.html`), and the page
+    around it holds the words and cards (`buildAX` / `drawAX`).
+  - Reflections come from a soft studio prefiltered once (PMREM). A shadow-catcher floor gives everything a soft blue
+    shadow on the page.
+- **Simulation versus the real world:** every arm, belt and part has a green wire twin, and two clipping planes split
+  them at a scan line. All wire on a navy page means "in simulation"; a green line sweeping across turns it solid
+  ("deploy on the real line").
+- **Scenes:**
+  - `ax_cold`: three pedestals (a chip lights, an arm wakes, a near-empty data crate glitches red). With
+    `kind: "line"`, it is the parts line in green wire on royal blue instead, the short's hook.
+  - `ax_title`: their mark builds rod by rod (twelve rays fly in along their own directions), then a green ring.
+  - `ax_gap`: a black tower (text on the internet) beside a few green blocks (robot data), and an outlined gap labelled
+    with their phrase.
+  - `ax_loop`: a figure-eight track with four gates; a pulse lights each gate as it is named, then more pulses join.
+  - `ax_axes`: one task tile multiplied ×5 on each axis as it is named (3,125); the camera pulls back to hold it all.
+  - `ax_crowd`: a dotted globe; contributors light up green and upload beams shoot out. The number swaps from
+    contributors to trajectories (`big2`).
+  - `ax_proof`: the arm misses the part until the selected data arrives, then carries it to the tray. Alongside it
+    are 1,200 demonstrations as lines, a scan that picks 600, a results card, and a 40-dot grid.
+  - `ax_sg`: their photos on floating cards in front of a white Marina Bay Sands silhouette, plus their video in a card
+    (`rec`).
+  - `ax_lotus`: the parts line. Two arms pick parts by inverse kinematics and drop them into four bins. It goes from
+    real, to simulation, to faster training, to the deploy sweep.
+  - `ax_net`: partner logos on black discs orbiting the mark, beside a dated timeline.
+  - `ax_end`: the mark with a soft green halo.
+- **Cues:** `cue: { key: [line, "word regex", fallback fraction, offset] }`. The regex matches the caption words
+  (digits as shown, e.g. "16"). A missing cue falls back to the line's start.
+- **Framing in a vertical frame:** at fov 30 the frame is only 0.30·d wide. The first stills had every camera too
+  close; work out each shot's width from the distance first. Words anchored to 3D points are kept on screen.
+- **Rendering:** about 1 s a frame on three workers.

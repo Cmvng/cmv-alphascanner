@@ -1,0 +1,581 @@
+{
+ "mode": "explainer",
+ "competition": "Explainer",
+ "date": "2026-10-09",
+ "picks": [],
+ "voice": "af_heart",
+ "voice_fx": "deep",
+ "voice_speed": 1.0,
+ "sound": "cinematic",
+ "caption_style": "bold",
+ "music_drop": "ax_title",
+ "title": "Axis Robotics: the data engine for robots (long form)",
+ "music_track": 625,
+ "explainer": {
+  "theme": "sky",
+  "foot": "Independent guide · not affiliated with Axis Robotics · not financial advice",
+  "brand": {
+   "name": "Axis Robotics",
+   "primary": "#00FF59",
+   "ink": "#0A0A0C",
+   "source": "axisrobotics.ai stylesheet (neon green #00FF59), media kit (black, white, AXIS Green #0BB037), their mark from axis-symbol-hero.svg; photos, video and partner logos from @axisrobotics and axisrobotics.ai (9 Oct 2026)",
+   "img": {
+    "x00": "../brand/axis/x00.jpg",
+    "x01": "../brand/axis/x01.jpg",
+    "x02": "../brand/axis/x02.jpg"
+   },
+   "partners": [
+    {
+     "name": "Booster Robotics",
+     "logo": "../brand/axis/footer-logo-booster.svg"
+    },
+    {
+     "name": "Dexmal",
+     "logo": "../brand/axis/footer-logo-dexmal.svg"
+    },
+    {
+     "name": "Manycore",
+     "logo": "../brand/axis/footer-logo-manycore.png"
+    },
+    {
+     "name": "Lotus",
+     "logo": "../brand/axis/footer-logo-lotus.png",
+     "tall": true
+    },
+    {
+     "name": "Geely",
+     "logo": "../brand/axis/footer-logo-geely.png",
+     "tall": true
+    }
+   ]
+  },
+  "chapters": {
+   "ex_ax_gap": "The bottleneck",
+   "ex_ax_loop": "The engine",
+   "ex_ax_axes": "Axis by axis",
+   "ex_ax_crowd": "Built by all",
+   "ex_ax_proof": "The proof",
+   "ex_ax_sg": "Singapore",
+   "ex_ax_lotus": "The factory",
+   "ex_ax_net": "The deals",
+   "ex_ax_end": "What's next"
+  },
+  "beats": [
+   {
+    "type": "ax_cold",
+    "tags": [
+     "Compute",
+     "Robots",
+     "Data"
+    ],
+    "cue": {
+     "c": [
+      0,
+      "chips",
+      0.3
+     ],
+     "r": [
+      1,
+      "robot",
+      0.3
+     ],
+     "d": [
+      2,
+      "nothing",
+      0.5
+     ],
+     "x": [
+      3,
+      "starving",
+      0.4
+     ]
+    },
+    "say": [
+     "The chips are ready.",
+     "The robot bodies are ready.",
+     "But robots have almost nothing to learn from.",
+     "Physical AI is starving for data."
+    ],
+    "pauses": [
+     0.4,
+     0.45,
+     0.6
+    ],
+    "tail": 0.8
+   },
+   {
+    "type": "ax_title",
+    "drop": true,
+    "name": "AXIS ROBOTICS",
+    "tagline": "The compounding data engine for physical AI",
+    "say": [
+     "That's the problem Axis Robotics was built to solve.",
+     "It calls itself the compounding data engine for physical AI.",
+     "Here's how it works, what it has proved, and where it went this week."
+    ]
+   },
+   {
+    "type": "ax_gap",
+    "head": "The bottleneck is <em>data</em>,<br>not compute.",
+    "labels": [
+     "Text: the internet",
+     "Robot data"
+    ],
+    "ghost": "GPT-1 moment",
+    "note": "Illustration, not to scale",
+    "cue": {
+     "head": [
+      0,
+      "bottleneck",
+      0
+     ],
+     "text": [
+      1,
+      "language",
+      0
+     ],
+     "robot": [
+      2,
+      "robots",
+      0
+     ],
+     "ghost": [
+      3,
+      "moment",
+      0,
+      -0.3
+     ]
+    },
+    "say": [
+     "Axis puts it plainly: the bottleneck is data, not compute.",
+     "Language models learned from text that already existed, all over the internet.",
+     "Robots need something else: demonstrations of real movement, with real objects. And there is very little of it.",
+     {
+      "say": "In Axis's words, physical AI is still waiting for its G P T one moment, and data is what will trigger it.",
+      "show": "In Axis's words, physical AI is still waiting for its GPT-1 moment, and data is what will trigger it."
+     }
+    ]
+   },
+   {
+    "type": "ax_loop",
+    "head": "It runs a <em>loop</em>.",
+    "gates": [
+     "Task generation",
+     "Data collection",
+     "Model training",
+     "Optimization"
+    ],
+    "comp": "Every round <b>compounds</b>",
+    "cue": {
+     "g1": [
+      1,
+      "generates",
+      0
+     ],
+     "g2": [
+      2,
+      "people",
+      0
+     ],
+     "g3": [
+      3,
+      "models",
+      0
+     ],
+     "g4": [
+      4,
+      "failures",
+      0
+     ],
+     "comp": [
+      5,
+      "feeds",
+      0
+     ]
+    },
+    "say": [
+     "So Axis doesn't sell a fixed dataset. It runs a loop.",
+     "First, it generates tasks in simulation.",
+     "Then people around the world demonstrate them, straight from a web browser.",
+     "Models train on that data, and automatic checks score its quality.",
+     "Then the model's failures decide which tasks come next.",
+     "Every task, demonstration and failure feeds the next round. That's the compounding part."
+    ]
+   },
+   {
+    "type": "ax_axes",
+    "head": "Axis <em>by</em> axis",
+    "unit": "tasks",
+    "dims": [
+     "Robots",
+     "Objects",
+     "Layouts",
+     "Variants",
+     "Looks"
+    ],
+    "note": "Illustration: five options on each axis",
+    "cue": {
+     "d1": [
+      1,
+      "robots",
+      0
+     ],
+     "d2": [
+      1,
+      "objects",
+      0
+     ],
+     "d3": [
+      1,
+      "layouts",
+      0
+     ],
+     "d4": [
+      1,
+      "versions",
+      0
+     ],
+     "d5": [
+      1,
+      "looks",
+      0
+     ],
+     "total": [
+      2,
+      "3,000|thousand",
+      0
+     ]
+    },
+    "say": [
+     "The tasks are built for variety. Axis says it doesn't leave diversity to chance: it engineers it, axis by axis.",
+     "Different robots. Different objects. Different layouts. Different versions of each object. Different looks.",
+     {
+      "say": "Five options on each axis, and one task becomes more than three thousand.",
+      "show": "Five options on each axis, and one task becomes more than 3,000."
+     }
+    ]
+   },
+   {
+    "type": "ax_crowd",
+    "big": "100K+",
+    "big_sub": "contributors, Axis says",
+    "chips": [
+     "In the browser · <b>no robot needed</b>",
+     "Every run signed on <b>Base</b>"
+    ],
+    "cue": {
+     "big": [
+      0,
+      "100",
+      0
+     ],
+     "br": [
+      1,
+      "browser",
+      0
+     ],
+     "base": [
+      2,
+      "Base",
+      0
+     ],
+     "traj": [
+      3,
+      "million",
+      0
+     ]
+    },
+    "say": [
+     {
+      "say": "The demonstrations come from people. Axis says more than one hundred thousand contributors have joined.",
+      "show": "The demonstrations come from people. Axis says more than 100,000 contributors have joined."
+     },
+     "No robot and no special hardware: you sign in, steer a simulated robot arm in your browser, and every run becomes training data.",
+     "Each run is signed on Base, Coinbase's blockchain, and signed runs earn Axis Points.",
+     {
+      "say": "By the first of October, Axis counted more than six million trajectories.",
+      "show": "By 1 October, Axis counted more than 6 million trajectories."
+     }
+    ],
+    "big2": "6M+",
+    "big2_sub": "trajectories by 1 Oct, Axis says"
+   },
+   {
+    "type": "ax_proof",
+    "head": "Study · <b>7 Oct 2026</b>",
+    "setup": "Franka Research 3 · 3 tasks · 10 real demos each",
+    "res_title": "Real-robot success · average of 3 tasks",
+    "res_n": "40 trials per task",
+    "rows": [
+     [
+      "Real demos only",
+      "10 per task",
+      16.7
+     ],
+     [
+      "+ all 1,200 sim demos",
+      "the full pool",
+      25.8
+     ],
+     [
+      "+ 600 picked by TUCO",
+      "selected sim demos",
+      85.8
+     ]
+    ],
+    "dots": {
+     "label": "CupCake task",
+     "of": 40
+    },
+    "lesson": "Not more data.<br>The <em>right</em> data.",
+    "cue": {
+     "setup": [
+      1,
+      "Franka",
+      0
+     ],
+     "r1": [
+      1,
+      "16",
+      0
+     ],
+     "r2": [
+      2,
+      "25",
+      0
+     ],
+     "pick": [
+      3,
+      "TUCO",
+      0
+     ],
+     "r3": [
+      3,
+      "85",
+      0
+     ],
+     "cup": [
+      4,
+      "cupcake",
+      0
+     ],
+     "cup2": [
+      4,
+      "^to$",
+      0.8
+     ],
+     "lesson": [
+      5,
+      "right",
+      0
+     ]
+    },
+    "say": [
+     "But does simulation data actually help a real robot? On the seventh of October, Axis published a study.",
+     {
+      "say": "A real Franka arm learned three tasks from just ten real demonstrations each. It succeeded sixteen point seven percent of the time.",
+      "show": "A real Franka arm learned three tasks from just 10 real demonstrations each. It succeeded 16.7% of the time."
+     },
+     {
+      "say": "Adding all twelve hundred simulated demonstrations only lifted that to twenty-five point eight.",
+      "show": "Adding all 1,200 simulated demonstrations only lifted that to 25.8%."
+     },
+     {
+      "say": "But six hundred, chosen by Axis's selection method, TUCO, lifted it to eighty-five point eight.",
+      "show": "But 600, chosen by Axis's selection method, TUCO, lifted it to 85.8%."
+     },
+     {
+      "say": "On one task, placing a cupcake-shaped part on a tray, it went from zero out of forty to forty out of forty.",
+      "show": "On one task, placing a cupcake-shaped part on a tray, it went from 0 out of 40 to 40 out of 40."
+     },
+     "The lesson: not more data. The right data."
+    ]
+   },
+   {
+    "type": "ax_sg",
+    "chip": "TOKEN2049 week · Singapore",
+    "event": "OKX Web3 Night · <b>7 Oct</b>",
+    "rec": {
+     "file": "brand/axis/x03.mp4",
+     "from": 0,
+     "to": 15.3,
+     "w": 480
+    },
+    "rec_cap": "K1 · <b>OKX Web3 Night</b>",
+    "credit": "Photos and video: @axisrobotics",
+    "cue": {
+     "ev": [
+      1,
+      "OKX",
+      0
+     ],
+     "k1": [
+      1,
+      "K1",
+      0
+     ],
+     "show": [
+      2,
+      "show",
+      0
+     ]
+    },
+    "say": [
+     {
+      "say": "On the same day, Axis was in Singapore for Token twenty forty-nine week.",
+      "show": "On the same day, Axis was in Singapore for TOKEN2049 week."
+     },
+     {
+      "say": "At O K X Web three Night, a rooftop party on the conference's first evening, Axis was one of the partners, and it brought two K one humanoids from Booster Robotics.",
+      "show": "At OKX Web3 Night, a rooftop party on the conference's first evening, Axis was one of the partners, and it brought two K1 humanoids from Booster Robotics."
+     },
+     "Booster is one of its key embodiment partners. The robots put on a show and interacted with everyone at the venue.",
+     "Earlier, in Singapore, the team also walked Coinbase CEO Brian Armstrong through its product."
+    ]
+   },
+   {
+    "type": "ax_lotus",
+    "rec": {
+     "file": "brand/axis/x04.mp4",
+     "from": 0,
+     "to": 8,
+     "w": 960
+    },
+    "big": "500–800",
+    "big_sub": "distinct parts · one policy",
+    "steps": [
+     "1 · Simulate the line",
+     "2 · Scale in simulation",
+     "3 · Deploy on the real line"
+    ],
+    "end": "Axis Suite · <b>into automotive manufacturing</b>",
+    "cue": {
+     "job": [
+      1,
+      "500",
+      0
+     ],
+     "s1": [
+      2,
+      "simulation",
+      0
+     ],
+     "s2": [
+      3,
+      "scales",
+      0
+     ],
+     "s3": [
+      4,
+      "deploys",
+      0
+     ],
+     "end": [
+      5,
+      "move",
+      0
+     ]
+    },
+    "say": [
+     "The next day, Axis announced a commercial partnership with Lotus Cars and Geely.",
+     {
+      "say": "The job is sorting parts on a production line: between five hundred and eight hundred different car parts.",
+      "show": "The job is sorting parts on a production line: between 500 and 800 different car parts."
+     },
+     "Axis builds a simulation of the real line,",
+     "scales up the sorting policy with generated tasks and training in simulation,",
+     "then deploys it on the physical line. One simulation-trained policy handles all of them, replacing per-part manual engineering.",
+     "Axis calls it Axis Suite's move into real automotive manufacturing."
+    ]
+   },
+   {
+    "type": "ax_net",
+    "items": [
+     [
+      "Jul 27",
+      "<b>$12M seed round</b>, led by Hack VC"
+     ],
+     [
+      "Aug 6",
+      "Commercial partnership with <b>Booster Robotics</b>"
+     ],
+     [
+      "Aug 28",
+      "<b>Dexmal</b>: core data infrastructure partner"
+     ],
+     [
+      "Sep 21–28",
+      "Community sale: <b>$2.39M</b> committed <i>(2.39× the cap)</i>"
+     ],
+     [
+      "Oct 8",
+      "<b>Lotus Cars</b> and <b>Geely</b>: Sim2Real parts sorting"
+     ]
+    ],
+    "cue": {
+     "i0": [
+      1,
+      "seed",
+      0
+     ],
+     "i1": [
+      2,
+      "Booster",
+      0
+     ],
+     "i2": [
+      2,
+      "Dexmal",
+      0
+     ],
+     "i3": [
+      3,
+      "sale",
+      0
+     ],
+     "i4": [
+      4,
+      "Lotus",
+      0
+     ]
+    },
+    "say": [
+     "Behind this week, the deals have stacked up fast.",
+     {
+      "say": "In July, a twelve million dollar seed round, led by Hack V C.",
+      "show": "In July, a $12 million seed round, led by Hack VC."
+     },
+     "In August, a commercial partnership with robot maker Booster Robotics, and Dexmal brought Axis in as a core data infrastructure partner.",
+     {
+      "say": "In September, its community token sale drew two point three nine million dollars in commitments, more than double the cap.",
+      "show": "In September, its community token sale drew $2.39 million in commitments, more than double the cap."
+     },
+     "And now, Lotus and Geely."
+    ]
+   },
+   {
+    "type": "ax_end",
+    "coming": "“Something is coming” · <b>8 Oct</b>",
+    "head": "Built by <em>all</em>.",
+    "handle": "@axisrobotics",
+    "follow": "Follow for more",
+    "cue": {
+     "coming": [
+      0,
+      "coming",
+      0
+     ],
+     "all": [
+      1,
+      "^all",
+      0.6
+     ]
+    },
+    "say": [
+     "And on the same day, Axis told its community to link their accounts before the tenth, with three words: something is coming.",
+     "Robot intelligence isn't built by a few. It's built by all. Follow for more."
+    ]
+   }
+  ]
+ }
+}

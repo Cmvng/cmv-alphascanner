@@ -1,0 +1,272 @@
+{
+ "mode": "explainer",
+ "competition": "Explainer",
+ "date": "2026-10-09",
+ "picks": [],
+ "voice": "af_heart",
+ "voice_fx": "deep",
+ "voice_speed": 1.0,
+ "sound": "cinematic",
+ "caption_style": "bold",
+ "music_drop": "ax_title",
+ "title": "Axis Robotics: the robot that learned in simulation (short)",
+ "music_track": 720,
+ "explainer": {
+  "theme": "sky",
+  "foot": "Independent guide · not affiliated with Axis Robotics · not financial advice",
+  "brand": {
+   "name": "Axis Robotics",
+   "primary": "#00FF59",
+   "ink": "#0A0A0C",
+   "source": "axisrobotics.ai stylesheet (neon green #00FF59), media kit (black, white, AXIS Green #0BB037), their mark from axis-symbol-hero.svg; photos, video and partner logos from @axisrobotics and axisrobotics.ai (9 Oct 2026)",
+   "img": {
+    "x00": "../brand/axis/x00.jpg",
+    "x01": "../brand/axis/x01.jpg",
+    "x02": "../brand/axis/x02.jpg"
+   },
+   "partners": [
+    {
+     "name": "Booster Robotics",
+     "logo": "../brand/axis/footer-logo-booster.svg"
+    },
+    {
+     "name": "Dexmal",
+     "logo": "../brand/axis/footer-logo-dexmal.svg"
+    },
+    {
+     "name": "Manycore",
+     "logo": "../brand/axis/footer-logo-manycore.png"
+    },
+    {
+     "name": "Lotus",
+     "logo": "../brand/axis/footer-logo-lotus.png",
+     "tall": true
+    },
+    {
+     "name": "Geely",
+     "logo": "../brand/axis/footer-logo-geely.png",
+     "tall": true
+    }
+   ]
+  },
+  "chapters": {
+   "ex_ax_lotus": "The factory",
+   "ex_ax_proof": "The proof",
+   "ex_ax_crowd": "Built by all",
+   "ex_ax_sg": "Singapore"
+  },
+  "beats": [
+   {
+    "type": "ax_cold",
+    "kind": "line",
+    "words": [
+     [
+      "Up to <em>800</em><br>car parts.",
+      230
+     ],
+     [
+      "<em>One</em> AI model.",
+      230
+     ],
+     [
+      "Trained in<br><em>simulation</em>.",
+      230
+     ]
+    ],
+    "say": [
+     {
+      "say": "Up to eight hundred different car parts.",
+      "show": "Up to 800 different car parts."
+     },
+     "One AI model sorts them all.",
+     "And it learned the job in simulation."
+    ],
+    "pauses": [
+     0.35,
+     0.4
+    ],
+    "tail": 0.8
+   },
+   {
+    "type": "ax_title",
+    "drop": true,
+    "name": "AXIS ROBOTICS",
+    "tagline": "The compounding data engine for physical AI",
+    "say": [
+     "Meet Axis Robotics, a data engine for robots.",
+     "This week, it announced a commercial partnership with Lotus Cars and Geely."
+    ]
+   },
+   {
+    "type": "ax_lotus",
+    "big": "500–800",
+    "big_sub": "distinct parts · one policy",
+    "steps": [
+     "1 · Simulate the line",
+     "2 · Scale in simulation",
+     "3 · Deploy on the real line"
+    ],
+    "cue": {
+     "s1": [
+      0,
+      "simulates",
+      0
+     ],
+     "s2": [
+      0,
+      "trains",
+      0
+     ],
+     "s3": [
+      0,
+      "deploys",
+      0
+     ]
+    },
+    "say": [
+     "It simulates the production line, trains the sorting policy there, then deploys it on the real line."
+    ]
+   },
+   {
+    "type": "ax_proof",
+    "head": "Study · <b>7 Oct 2026</b>",
+    "setup": "Franka Research 3 · 3 tasks · 10 real demos each",
+    "res_title": "Real-robot success · average of 3 tasks",
+    "res_n": "40 trials per task",
+    "rows": [
+     [
+      "Real demos only",
+      "10 per task",
+      16.7
+     ],
+     [
+      "+ all 1,200 sim demos",
+      "the full pool",
+      25.8
+     ],
+     [
+      "+ 600 picked by TUCO",
+      "selected sim demos",
+      85.8
+     ]
+    ],
+    "cue": {
+     "setup": [
+      0,
+      "study",
+      0
+     ],
+     "r1": [
+      0,
+      "16",
+      0
+     ],
+     "pick": [
+      1,
+      "TUCO",
+      0
+     ],
+     "r3": [
+      1,
+      "85",
+      0
+     ],
+     "r2": [
+      1,
+      "25",
+      0
+     ]
+    },
+    "say": [
+     {
+      "say": "Why simulation? In Axis's own study, a real arm with ten demos per task succeeded sixteen point seven percent of the time.",
+      "show": "Why simulation? In Axis's own study, a real arm with 10 demos per task succeeded 16.7% of the time."
+     },
+     {
+      "say": "Six hundred simulated runs, picked by its method TUCO, took it to eighty-five point eight. All twelve hundred only reached twenty-five point eight.",
+      "show": "600 simulated runs, picked by its method TUCO, took it to 85.8%. All 1,200 only reached 25.8%."
+     }
+    ]
+   },
+   {
+    "type": "ax_crowd",
+    "big": "100K+",
+    "big_sub": "contributors, Axis says",
+    "chips": [
+     "In the browser · <b>no robot needed</b>"
+    ],
+    "cue": {
+     "big": [
+      0,
+      "100",
+      0
+     ],
+     "br": [
+      0,
+      "browsers",
+      0
+     ]
+    },
+    "say": [
+     {
+      "say": "Its data comes from people: more than one hundred thousand contributors, Axis says, steering robots in their browsers.",
+      "show": "Its data comes from people: more than 100,000 contributors, Axis says, steering robots in their browsers."
+     }
+    ]
+   },
+   {
+    "type": "ax_sg",
+    "chip": "TOKEN2049 week · Singapore",
+    "event": "OKX Web3 Night · <b>7 Oct</b>",
+    "rec": {
+     "file": "brand/axis/x03.mp4",
+     "from": 0,
+     "to": 15.3,
+     "w": 480
+    },
+    "rec_cap": "K1 · <b>OKX Web3 Night</b>",
+    "credit": "Photos and video: @axisrobotics",
+    "cue": {
+     "ev": [
+      0,
+      "OKX",
+      0
+     ],
+     "k1": [
+      0,
+      "humanoid",
+      0
+     ],
+     "show": [
+      0,
+      "rooftop",
+      0
+     ]
+    },
+    "say": [
+     {
+      "say": "And in Singapore for Token twenty forty-nine week, it brought two humanoid robots to O K X's rooftop party.",
+      "show": "And in Singapore for TOKEN2049 week, it brought two humanoid robots to OKX's rooftop party."
+     }
+    ]
+   },
+   {
+    "type": "ax_end",
+    "coming": "",
+    "head": "Built by <em>all</em>.",
+    "handle": "@axisrobotics",
+    "follow": "Follow for more",
+    "cue": {
+     "all": [
+      0,
+      "^all",
+      0.6
+     ]
+    },
+    "say": [
+     "Robot intelligence isn't built by a few. It's built by all. Follow for more."
+    ]
+   }
+  ]
+ }
+}

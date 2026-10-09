@@ -906,6 +906,91 @@ svg.pti{display:block}
 .vx .vx-zt span{display:inline-block;padding:18px 34px;background:#FFD207;color:#0B0B10;font:700 44px JBM;box-shadow:8px 8px 0 #0B0B10}
 .vx .vx-fl{position:absolute;inset:0;background:#FFD207;opacity:0;z-index:40;pointer-events:none;mix-blend-mode:screen}
 .vx .vx-flw{position:absolute;inset:0;background:#FFFFFF;opacity:0;z-index:41;pointer-events:none}
+
+/* the axis film (ax_*), 9 Oct: a narrated 3D explainer (Axis Robotics). Their black, white and green; our blue page */
+.ax{overflow:hidden}
+.ax .ax-bg{position:absolute;inset:0;transition:none}
+.ax .ax-bg i{position:absolute;inset:0;opacity:0}
+.ax .ax-bg .ax-sky{background:radial-gradient(120% 70% at 50% 32%,#FFFFFF 0%,#EAF3FF 46%,#C9DEFF 100%)}
+.ax .ax-bg .ax-deep{background:radial-gradient(120% 80% at 50% 38%,#1E56C4 0%,#0E3184 52%,#081D57 100%)}
+.ax .ax-bg .ax-sim{background:radial-gradient(120% 80% at 50% 42%,#123372 0%,#0A1F4D 58%,#06142F 100%)}
+.ax .ax-bg .ax-gr{background-image:linear-gradient(rgba(31,95,219,.075) 2px,transparent 2px),linear-gradient(90deg,rgba(31,95,219,.075) 2px,transparent 2px);background-size:72px 72px;background-position:-2px -2px}
+.ax .ax-bg .ax-gs{background-image:linear-gradient(rgba(0,255,89,.09) 2px,transparent 2px),linear-gradient(90deg,rgba(0,255,89,.09) 2px,transparent 2px);background-size:72px 72px;background-position:-2px -2px}
+.ax .ax-slot{position:absolute;inset:0}
+.ax .ax-slot canvas{position:absolute;left:0;top:0;width:1080px;height:1920px}
+.ax .ax-back,.ax .ax-front{position:absolute;inset:0;pointer-events:none}
+.ax .ax-h{position:absolute;left:64px;right:64px;font:800 104px/1.0 Manrope;letter-spacing:-3.5px;color:#0A2A4F;opacity:0}
+.ax .ax-h.c{text-align:center}
+.ax .ax-h em{font-style:normal;color:#0BB037}
+.ax .ax-h.dk{color:#FFFFFF}
+.ax .ax-h.dk em{color:#00FF59}
+.ax .ax-k{position:absolute;display:inline-flex;align-items:center;gap:12px;padding:12px 24px 13px;border-radius:14px;background:#0A0A0C;color:#00FF59;font:700 27px JBM;letter-spacing:2.5px;text-transform:uppercase;white-space:nowrap;opacity:0;box-shadow:0 14px 34px rgba(10,42,79,.22)}
+.ax .ax-k.lt{background:#FFFFFF;color:#0A2A4F;box-shadow:0 14px 34px rgba(10,42,79,.16)}
+.ax .ax-k.lt b{color:#0BB037}
+.ax .ax-k.rd{background:#FF3756;color:#FFFFFF}
+.ax .ax-k .n{color:#FFFFFF;opacity:.55}
+.ax .ax-k.lt .n{color:#0A2A4F}
+.ax .ax-tag{position:absolute;transform:translate(-50%,-50%);display:inline-flex;align-items:center;gap:10px;padding:10px 20px 11px;border-radius:12px;background:#0A0A0C;color:#FFFFFF;font:700 24px JBM;letter-spacing:2px;text-transform:uppercase;white-space:nowrap;opacity:0;box-shadow:0 12px 30px rgba(10,42,79,.25)}
+.ax .ax-tag b{color:#00FF59}
+.ax .ax-tag.ok b{color:#00FF59}
+.ax .ax-tag.no{background:#FF3756}
+.ax .ax-tag.no b{color:#FFFFFF}
+.ax .ax-tag.on{background:#00FF59;color:#0A0A0C}
+.ax .ax-tag.on b{color:#0A0A0C}
+.ax .ax-tag .d{width:12px;height:12px;border-radius:50%;background:#00FF59;box-shadow:0 0 12px #00FF59}
+.ax .ax-num{position:absolute;left:0;right:0;text-align:center;font:400 190px/1 Anton;letter-spacing:1px;color:#0A2A4F;opacity:0}
+.ax .ax-num small{display:block;font:700 30px JBM;letter-spacing:5px;text-transform:uppercase;color:#0A2A4F;opacity:.7;margin-top:14px}
+.ax .ax-note{position:absolute;left:0;right:0;text-align:center;font:600 22px JBM;letter-spacing:1.5px;color:rgba(10,42,79,.55);opacity:0}
+.ax .ax-note.dk{color:rgba(255,255,255,.6)}
+/* the wordmark on the drop: their name in our type (their logo itself is the 3D mark) */
+.ax .ax-wm{position:absolute;left:0;right:0;top:1090px;text-align:center;font:800 118px/0.95 Manrope;letter-spacing:6px;color:#0A0A0C;opacity:0}
+.ax .ax-wm span{display:block;font-size:118px}
+.ax .ax-sub{position:absolute;left:0;right:0;top:1360px;text-align:center;opacity:0}
+.ax .ax-sub .ax-k{position:static;opacity:1}
+/* cards: their media in clean white frames */
+.ax .ax-card{position:absolute;border-radius:28px;background:#FFFFFF;padding:14px;box-shadow:0 30px 70px rgba(10,42,79,.28);opacity:0;overflow:hidden}
+.ax .ax-card img{display:block;width:100%;height:100%;object-fit:cover;border-radius:18px}
+.ax .ax-card.ink{background:#0A0A0C}
+.ax .ax-card .cap{position:absolute;left:30px;bottom:28px;display:inline-flex;gap:10px;align-items:center;padding:9px 16px 10px;border-radius:10px;background:rgba(10,10,12,.82);color:#FFFFFF;font:700 21px JBM;letter-spacing:1.5px;text-transform:uppercase}
+.ax .ax-card .cap b{color:#00FF59}
+.ax .ax-card.vid img.rec{position:absolute;left:14px;top:14px;width:calc(100% - 28px);height:calc(100% - 28px);object-fit:cover;border-radius:18px}
+/* the results card (the study) */
+.ax .ax-res{position:absolute;left:70px;right:70px;top:1040px;padding:30px 34px 26px;border-radius:30px;background:#FFFFFF;box-shadow:0 30px 70px rgba(10,42,79,.24);opacity:0}
+.ax .ax-res .hd{display:flex;justify-content:space-between;font:700 20px JBM;letter-spacing:2px;text-transform:uppercase;color:rgba(10,42,79,.55);margin-bottom:10px}
+.ax .ax-res .rw{display:grid;grid-template-columns:330px 1fr 150px;align-items:center;gap:18px;padding:13px 0;border-top:2px solid #EEF2F8;opacity:0}
+.ax .ax-res .rw .l{font:800 27px Manrope;color:#0A2A4F;letter-spacing:-.3px}
+.ax .ax-res .rw .l i{display:block;font:600 19px JBM;font-style:normal;color:rgba(10,42,79,.55);letter-spacing:.5px;margin-top:3px}
+.ax .ax-res .rw .b{height:30px;border-radius:15px;background:#EEF2F8;overflow:hidden}
+.ax .ax-res .rw .b u{display:block;height:100%;width:0;border-radius:15px;background:#9AA8BC}
+.ax .ax-res .rw.hi .b u{background:linear-gradient(90deg,#0BB037,#00FF59)}
+.ax .ax-res .rw .v{font:400 54px/1 Anton;text-align:right;color:#0A2A4F}
+.ax .ax-res .rw.hi .v{color:#0BB037}
+.ax .ax-dots{position:absolute;left:70px;right:70px;top:1395px;padding:22px 30px;border-radius:26px;background:#0A0A0C;display:flex;align-items:center;gap:26px;opacity:0}
+.ax .ax-dots .g{display:grid;grid-template-columns:repeat(20,22px);gap:7px}
+.ax .ax-dots .g i{width:22px;height:22px;border-radius:6px;background:#2A2D33}
+.ax .ax-dots .g i.on{background:#00FF59;box-shadow:0 0 10px rgba(0,255,89,.6)}
+.ax .ax-dots .t{font:400 64px/1 Anton;color:#FFFFFF;min-width:190px;text-align:right}
+.ax .ax-dots .t small{display:block;font:700 18px JBM;letter-spacing:2px;color:rgba(255,255,255,.55);text-transform:uppercase;margin-top:6px}
+/* the multiplier read-out */
+.ax .ax-mul{position:absolute;left:70px;right:70px;top:1180px;display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+.ax .ax-mul .ax-k{position:static}
+/* the scan line between simulation and the real world */
+.ax .ax-scan{position:absolute;top:0;bottom:0;width:6px;margin-left:-3px;background:#00FF59;box-shadow:0 0 30px 8px rgba(0,255,89,.55);opacity:0}
+/* the timeline (the network) */
+.ax .ax-tl{position:absolute;left:70px;right:70px;top:1000px}
+.ax .ax-tl .it{display:flex;align-items:center;gap:20px;padding:15px 22px;margin-bottom:12px;border-radius:20px;background:rgba(255,255,255,.92);box-shadow:0 14px 34px rgba(10,42,79,.14);opacity:0}
+.ax .ax-tl .it .dt{flex:none;width:118px;font:700 22px JBM;letter-spacing:1px;color:#0BB037;text-transform:uppercase}
+.ax .ax-tl .it .tx{font:700 29px/1.2 Manrope;color:#0A2A4F;letter-spacing:-.3px}
+.ax .ax-tl .it .tx i{font-style:normal;color:rgba(10,42,79,.55);font-weight:600}
+.ax .ax-fl{position:absolute;inset:0;background:#FFFFFF;opacity:0;pointer-events:none}
+.ax .ax-cw{position:absolute;left:0;right:0;text-align:center;opacity:0}
+.ax .ax-cw .ax-k{position:static;opacity:1}
+.ax .ax-h.sm{font-size:84px;letter-spacing:-2.5px}
+.ax .ax-hud{position:absolute;left:150px;right:150px;top:176px;height:380px;border-radius:36px;background:rgba(255,255,255,.88);box-shadow:0 24px 60px rgba(10,42,79,.16);opacity:0}
+.ax .ax-num.dk,.ax .ax-num.dk small{color:#FFFFFF}
+#stage.axdark #hdr,#stage.axdark .logo{color:#FFFFFF}
+#stage.axdark #chap{color:rgba(255,255,255,.7)}
+#stage.axdark #prog{background:rgba(255,255,255,.18)}
 </style>
 </head>
 <body>
@@ -2508,6 +2593,557 @@ function fxVX(add, sc, T, next, syn) {
   syn(T + 22.0, 'zip', 0.6); add(T + 22.45, '1365', -8)
 }
 
+// ---------------------------------------------------------------- the axis film (ax_*), 9 Oct: Axis Robotics in 3D
+// A narrated explainer in one three.js world (software WebGL, like the voxel film). Their mark is built from its own
+// six rods; a research arm is green wireframe in simulation and solid in the real world; the data loop, the task
+// multiplier, a contributor globe, a car-parts line, their Singapore night and their partners. Their black, white and
+// green on our light-blue page (deep royal blue for the cold open, navy for simulation). Moves are cued to the words.
+const AX = { on: D.scenes.some(s => /^ex_ax_/.test(s.type)) && !!window.THREE }
+const AXN = '#00FF59', AXG = '#0BB037'
+const axImg = src => new Promise(res => { if (!src) return res(null); const im = new Image(); im.onload = () => res(im); im.onerror = () => res(null); im.src = src })
+// a cued moment: cue[key] = [line, "word regex", fallback fraction, offset s] → scene time, or `def` when not cued
+const axAt = (sc, b, k, def = null) => { const c = b.cue?.[k]; if (!c) return def; return WT(sc, c[0], new RegExp(c[1] || '^\\b$', 'i'), c[2] ?? 0) + (c[3] || 0) }
+const AL = { H0: 1.5, L1: 1.8, L2: 1.6, L3: 0.95 }     // the arm: shoulder height, upper arm, forearm, wrist to fingertips
+if (AX.on) AX.ready = (async () => {
+  await Promise.all([...document.fonts].map(f => f.load())); await document.fonts.ready
+  const T3 = THREE
+  const cv = document.createElement('canvas'); cv.width = 1080; cv.height = 1920
+  const R = new T3.WebGLRenderer({ canvas: cv, antialias: true, alpha: true, preserveDrawingBuffer: true })
+  R.setPixelRatio(1); R.setSize(1080, 1920, false); R.setClearColor(0x000000, 0)
+  R.toneMapping = T3.ACESFilmicToneMapping; R.toneMappingExposure = 1.0; R.outputColorSpace = T3.SRGBColorSpace
+  R.shadowMap.enabled = true; R.shadowMap.type = T3.PCFSoftShadowMap; R.localClippingEnabled = true
+  const S = new T3.Scene(), cam = new T3.PerspectiveCamera(30, 1080 / 1920, 0.05, 600)
+  // reflections: a soft studio (a pale blue room and four white light panels), prefiltered once
+  const env = new T3.Scene()
+  env.add(new T3.Mesh(new T3.SphereGeometry(40, 24, 12), new T3.MeshBasicMaterial({ color: '#8FB4E8', side: T3.BackSide })))
+  const panel = (w, h, p, c) => { const m = new T3.Mesh(new T3.PlaneGeometry(w, h), new T3.MeshBasicMaterial({ color: new T3.Color(c, c, c), side: T3.DoubleSide })); m.position.set(...p); m.lookAt(0, 0, 0); env.add(m) }
+  panel(34, 14, [0, 28, 6], 5); panel(10, 26, [-26, 6, 8], 3); panel(9, 22, [24, 5, 14], 2.5); panel(40, 5, [0, 1, -32], 1.4)
+  const pm = new T3.PMREMGenerator(R); S.environment = pm.fromScene(env, 0.035).texture; pm.dispose()
+  const hemi = new T3.HemisphereLight('#F4F9FF', '#7092C9', 0.55); S.add(hemi)
+  const key = new T3.DirectionalLight('#FFFFFF', 1.9); key.castShadow = true; key.shadow.mapSize.set(1024, 1024)
+  Object.assign(key.shadow.camera, { left: -14, right: 14, top: 14, bottom: -14, near: 1, far: 90 }); key.shadow.bias = -0.0005; key.shadow.normalBias = 0.02; S.add(key, key.target)
+  const rim = new T3.DirectionalLight('#CFE6FF', 0.9); S.add(rim, rim.target)
+  const glow = new T3.PointLight(AXN, 0, 14, 2); S.add(glow)
+  const floor = new T3.Mesh(new T3.PlaneGeometry(400, 400), new T3.ShadowMaterial({ color: '#173E86', opacity: 0.16 })); floor.rotation.x = -Math.PI / 2; floor.receiveShadow = true; S.add(floor)
+  // simulation and the real world: solids are clipped to x < s, their green wire twins to x > s (s = the scan line)
+  const clipS = new T3.Plane(new T3.Vector3(-1, 0, 0), 1e4), clipW = new T3.Plane(new T3.Vector3(1, 0, 0), -1e4)
+  const std = o => new T3.MeshStandardMaterial(o)
+  const M = {
+    mark: std({ color: '#0A0B0E', roughness: 0.22, metalness: 0.6 }),
+    ink: std({ color: '#0C0D10', roughness: 0.3, metalness: 0.5, clippingPlanes: [clipS] }),
+    white: std({ color: '#F1F3F6', roughness: 0.33, metalness: 0.04, clippingPlanes: [clipS] }),
+    joint: std({ color: '#17191E', roughness: 0.36, metalness: 0.35, clippingPlanes: [clipS] }),
+    steel: std({ color: '#B4BCC6', roughness: 0.3, metalness: 0.9, clippingPlanes: [clipS] }),
+    brass: std({ color: '#C9A24E', roughness: 0.32, metalness: 0.85, clippingPlanes: [clipS] }),
+    green: new T3.MeshBasicMaterial({ color: AXN, toneMapped: false }),
+    wire: new T3.LineBasicMaterial({ color: AXN, transparent: true, opacity: 0.95, toneMapped: false, clippingPlanes: [clipW] }),
+    wireM: new T3.MeshBasicMaterial({ color: AXN, wireframe: true, transparent: true, opacity: 0.8, toneMapped: false, clippingPlanes: [clipW] }),
+  }
+  // a solid part and its wire twin (edges), both under one parent so they move together
+  function twin(parent, geo, mat, pos, rot, wireMesh) {
+    const m = new T3.Mesh(geo, mat); if (pos) m.position.set(...pos); if (rot) m.rotation.set(...rot); m.castShadow = m.receiveShadow = true; parent.add(m)
+    const w = wireMesh ? new T3.Mesh(geo, M.wireM) : new T3.LineSegments(new T3.EdgesGeometry(geo, 25), M.wire); w.position.copy(m.position); w.rotation.copy(m.rotation); parent.add(w)
+    return m
+  }
+  const cyl = (r, h, seg = 20) => new T3.CylinderGeometry(r, r, h, seg)
+  const box = (x, y, z) => new T3.BoxGeometry(x, y, z)
+
+  // their mark: six rods through one centre at 30° steps (the 60° and 150° rods shorter, as in their logo), as 12 rays
+  const gRay = box(1, 0.5, 0.5); gRay.translate(0.5, 0, 0)
+  const mark = new T3.Group(); S.add(mark)
+  const rays = [0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330].map((d, i) => { const m = new T3.Mesh(gRay, M.mark); m.userData = { a: d * Math.PI / 180, len: [60, 150, 240, 330].includes(d) ? 4 : 6, i }; m.scale.x = m.userData.len; m.rotation.z = m.userData.a; m.castShadow = true; mark.add(m); return m })
+  const ring = new T3.Mesh(new T3.RingGeometry(0.97, 1, 128), new T3.MeshBasicMaterial({ color: AXN, transparent: true, opacity: 0, toneMapped: false, side: T3.DoubleSide, depthWrite: false })); S.add(ring)
+  const haloTex = (() => { const c = document.createElement('canvas'); c.width = c.height = 256; const x = c.getContext('2d'), gr = x.createRadialGradient(128, 128, 0, 128, 128, 128); gr.addColorStop(0, 'rgba(255,255,255,1)'); gr.addColorStop(0.35, 'rgba(255,255,255,.45)'); gr.addColorStop(1, 'rgba(255,255,255,0)'); x.fillStyle = gr; x.fillRect(0, 0, 256, 256); return new T3.CanvasTexture(c) })()
+  const halo = new T3.Mesh(new T3.PlaneGeometry(2, 2), new T3.MeshBasicMaterial({ color: AXN, map: haloTex, transparent: true, opacity: 0, toneMapped: false, depthWrite: false })); S.add(halo)
+
+  // a research arm (a seven-axis arm, simplified to four joints): white links, dark joints, a green ring at the wrist
+  function makeArm() {
+    const root = new T3.Group()
+    twin(root, cyl(0.62, 0.22, 28), M.joint, [0, 0.11, 0]); twin(root, cyl(0.5, 0.3, 28), M.white, [0, 0.37, 0])
+    const j1 = new T3.Group(); j1.position.y = 0.52; root.add(j1)
+    twin(j1, cyl(0.38, AL.H0 - 0.62, 24), M.white, [0, (AL.H0 - 0.62) / 2, 0]); twin(j1, cyl(0.4, 0.86, 24), M.joint, [0, AL.H0 - 0.52, 0], [Math.PI / 2, 0, 0])
+    const j2 = new T3.Group(); j2.position.y = AL.H0 - 0.52; j1.add(j2)
+    twin(j2, cyl(0.31, AL.L1 - 0.3, 24), M.white, [0, AL.L1 / 2, 0]); twin(j2, cyl(0.34, 0.74, 24), M.joint, [0, AL.L1, 0], [Math.PI / 2, 0, 0])
+    const j3 = new T3.Group(); j3.position.y = AL.L1; j2.add(j3)
+    twin(j3, cyl(0.27, AL.L2 - 0.26, 24), M.white, [0, AL.L2 / 2, 0]); twin(j3, cyl(0.28, 0.6, 24), M.joint, [0, AL.L2, 0], [Math.PI / 2, 0, 0])
+    const j4 = new T3.Group(); j4.position.y = AL.L2; j3.add(j4)
+    twin(j4, cyl(0.22, 0.34, 20), M.white, [0, 0.2, 0]); twin(j4, box(0.66, 0.16, 0.34), M.joint, [0, 0.44, 0])
+    const fa = new T3.Group(), fb = new T3.Group(); j4.add(fa, fb)
+    twin(fa, box(0.08, 0.38, 0.22), M.ink, [0, 0.7, 0]); twin(fb, box(0.08, 0.38, 0.22), M.ink, [0, 0.7, 0])
+    const led = new T3.Mesh(new T3.TorusGeometry(0.235, 0.028, 8, 36), M.green); led.rotation.x = Math.PI / 2; led.position.y = 0.37; j4.add(led)
+    const tip = new T3.Object3D(); tip.position.y = AL.L3; j4.add(tip)
+    const A = { root, j1, j2, j3, j4, fa, fb, tip, led }; armPose(A, [0, -0.5, 1.6, -Math.PI + 1.1 - 0.5, 0]); return A
+  }
+  const arms = [makeArm(), makeArm(), makeArm()]; arms.forEach(A => S.add(A.root))
+
+  // the cold open: three pedestals; a chip (compute), an arm (the body), a near-empty crate (data)
+  const cold = new T3.Group(); S.add(cold)
+  const peds = [-3.4, 0, 3.4].map(x => { const p = new T3.Mesh(cyl(1.25, 0.9, 48), M.white); p.position.set(x, 0.45, 0); p.castShadow = p.receiveShadow = true; cold.add(p); return p })
+  const chip = new T3.Group(); chip.position.set(-3.4, 0.9, 0); cold.add(chip)
+  { const pcb = new T3.Mesh(box(1.7, 0.1, 1.7), std({ color: '#12261B', roughness: 0.5, metalness: 0.2 })); pcb.position.y = 0.05; pcb.castShadow = true; chip.add(pcb)
+    const die = new T3.Mesh(box(0.95, 0.16, 0.95), std({ color: '#0C0D10', roughness: 0.25, metalness: 0.6, emissive: AXN, emissiveIntensity: 0 })); die.position.y = 0.18; die.castShadow = true; chip.add(die); chip.userData.die = die
+    const pin = box(0.08, 0.03, 0.16); for (let s = 0; s < 4; s++) for (let i = 0; i < 9; i++) { const m = new T3.Mesh(pin, M.steel); const u = (i - 4) * 0.17; m.position.set(s < 2 ? u : (s === 2 ? -0.92 : 0.92), 0.08, s < 2 ? (s ? 0.92 : -0.92) : u); if (s >= 2) m.rotation.y = Math.PI / 2; chip.add(m) } }
+  const crate = new T3.Group(); crate.position.set(3.4, 0.9, 0); cold.add(crate)
+  { const g = box(1.5, 1.5, 1.5); const glass = new T3.Mesh(g, std({ color: '#DDEBFF', roughness: 0.1, metalness: 0, transparent: true, opacity: 0.16, depthWrite: false })); glass.position.y = 0.75; crate.add(glass)
+    const ed = new T3.LineSegments(new T3.EdgesGeometry(g), new T3.LineBasicMaterial({ color: '#FFFFFF', transparent: true, opacity: 0.9 })); ed.position.y = 0.75; crate.add(ed); crate.userData.ed = ed
+    const bits = [[-0.4, -0.3], [0.1, 0.35], [0.45, -0.1]].map(([x, z]) => { const m = new T3.Mesh(box(0.22, 0.22, 0.22), M.green); m.position.set(x, 0.11, z); crate.add(m); return m }); crate.userData.bits = bits }
+
+  // the bottleneck: text for language models (a tall white tower) and robot data (a few green blocks), and the gap
+  const gap = new T3.Group(); S.add(gap)
+  const GT = 4 * 4 * 13, gTower = new T3.InstancedMesh(box(0.92, 0.92, 0.92), std({ color: '#0C0D10', roughness: 0.28, metalness: 0.5 }), GT); gTower.castShadow = gTower.receiveShadow = true; gap.add(gTower)
+  const gData = new T3.InstancedMesh(box(0.92, 0.92, 0.92), std({ color: AXG, roughness: 0.35, emissive: AXN, emissiveIntensity: 0.25 }), 7); gData.castShadow = true; gap.add(gData)
+  const ghost = new T3.LineSegments(new T3.EdgesGeometry(box(4, 10.5, 4)), new T3.LineBasicMaterial({ color: AXG, transparent: true, opacity: 0.9 })); gap.add(ghost)
+  const gBase = [-3, 3].map(x => { const p = new T3.Mesh(box(4.6, 0.16, 4.6), M.white); p.position.set(x, 0.08, 0); p.receiveShadow = true; gap.add(p); return p })
+
+  // the loop: a figure-eight track (their "infinity loop"), four gates, green pulses running round
+  const loop = new T3.Group(); S.add(loop)
+  const lemn = new T3.Curve(); lemn.getPoint = (u, v = new T3.Vector3()) => { const t = u * Math.PI * 2, s = Math.sin(t), c = Math.cos(t), k = 1 + s * s; return v.set(4.8 * s * c / k, 1.2 + 0.42 * s, 5.4 * c / k) }     // long axis toward the camera: tall on a vertical screen
+  const tube = new T3.Mesh(new T3.TubeGeometry(lemn, 420, 0.17, 14, true), M.mark); tube.castShadow = true; loop.add(tube)
+  const GATES = [0.11, 0.39, 0.61, 0.89]       // on the track: right top → left bottom → left top → right bottom (the pulse's order)
+  const gates = GATES.map(u => { const g = new T3.Group(), p = lemn.getPoint(u), q = lemn.getPoint((u + 0.002) % 1); g.position.copy(p); g.lookAt(q)
+    const r = new T3.Mesh(new T3.TorusGeometry(0.62, 0.1, 12, 48), std({ color: '#0C0D10', roughness: 0.3, metalness: 0.5, emissive: AXN, emissiveIntensity: 0 })); r.castShadow = true; g.add(r)
+    const post = new T3.Mesh(cyl(0.06, p.y - 0.62, 10), M.white); post.position.set(0, 0, 0); g.add(post); g.userData = { r, post, u }; loop.add(g); return g })
+  const pulses = Array.from({ length: 16 }, () => { const g = new T3.Group(); for (let k = 0; k < 6; k++) { const m = new T3.Mesh(new T3.SphereGeometry(0.2 - k * 0.026, 12, 8), new T3.MeshBasicMaterial({ color: AXN, transparent: true, opacity: 1 - k * 0.15, toneMapped: false })); g.add(m) } loop.add(g); return g })
+
+  // the multiplier: one task, then ×5 on each axis (robots, objects, layouts, variants, looks) = 3,125 tasks
+  const axes = new T3.Group(); S.add(axes)
+  const NT = 3125
+  const tiles = new T3.InstancedMesh(box(0.9, 0.08, 0.9), std({ color: '#FFFFFF', roughness: 0.4 }), NT); tiles.castShadow = tiles.receiveShadow = true; axes.add(tiles)
+  const OBJ = [box(0.3, 0.3, 0.3), new T3.SphereGeometry(0.19, 14, 10), cyl(0.15, 0.36, 14), new T3.ConeGeometry(0.19, 0.38, 14), new T3.TorusGeometry(0.15, 0.06, 8, 18)]
+  const objs = OBJ.map(g => { const m = new T3.InstancedMesh(g, std({ color: '#FFFFFF', roughness: 0.35, metalness: 0.1 }), 625); m.castShadow = true; axes.add(m); return m })
+  const pins = new T3.InstancedMesh(cyl(0.055, 1, 8), std({ color: '#FFFFFF', roughness: 0.35, metalness: 0.2 }), NT); pins.castShadow = true; axes.add(pins)
+  const LOOKS = ['#0C0D10', AXG, '#F5F6F8', '#2F6BFF', '#FF8A3D'].map(c => new T3.Color(c)), ROBOTS = ['#0C0D10', '#3A404A', '#6B7380', '#9AA3AE', '#C5CBD3'].map(c => new T3.Color(c))
+  for (let i = 0; i < NT; i++) { const a = i % 5, e = Math.floor(i / 625) % 5; pins.setColorAt(i, ROBOTS[a]); tiles.setColorAt(i, new T3.Color('#FFFFFF')); objs[Math.floor(i / 5) % 5].setColorAt(a + 5 * (Math.floor(i / 25) % 5) + 25 * (Math.floor(i / 125) % 5) + 125 * e, LOOKS[e]) }
+
+  // the study: a table, a cupcake-shaped part, a tray, and 1,200 simulated demonstrations as lines in the air
+  const lab = new T3.Group(); S.add(lab)
+  twin(lab, box(3.8, 0.9, 2.3), M.white, [0.3, 0.45, 0])
+  const cake = new T3.Group(); lab.add(cake); { const c1 = new T3.Mesh(cyl(0.17, 0.13, 24), std({ color: '#F2B8C6', roughness: 0.5 })); c1.position.y = 0.065; c1.castShadow = true; const c2 = new T3.Mesh(new T3.SphereGeometry(0.17, 20, 10, 0, Math.PI * 2, 0, Math.PI / 2), std({ color: '#FFFFFF', roughness: 0.4 })); c2.position.y = 0.13; c2.castShadow = true; cake.add(c1, c2) }
+  const tray = new T3.Mesh(box(0.8, 0.05, 0.6), M.ink); tray.receiveShadow = true; lab.add(tray)
+  const NTR = 1200, SEG = 12, trPos = new Float32Array(NTR * SEG * 6), trCol = new Float32Array(NTR * SEG * 6), trDev = []
+  const trG = new T3.BufferGeometry(); trG.setAttribute('position', new T3.BufferAttribute(trPos, 3)); trG.setAttribute('color', new T3.BufferAttribute(trCol, 3))
+  const trails = new T3.LineSegments(trG, new T3.LineBasicMaterial({ vertexColors: true, toneMapped: false })); lab.add(trails)
+  const lineVerts = (s0, s1) => {        // every demo: a lifted arc from above the part to above the tray, with its own wobble
+    for (let i = 0; i < NTR; i++) { const dev = Math.pow(hsh(i, 51), 1.6), w = [(hsh(i, 52) - 0.5) * 2.2 * dev, (hsh(i, 53) - 0.2) * 1.6 * dev, (hsh(i, 54) - 0.5) * 2.2 * dev]; trDev.push(dev)
+      for (let k = 0; k < SEG; k++) for (let e = 0; e < 2; e++) { const t = (k + e) / SEG, j = (i * SEG + k) * 6 + e * 3, lift = Math.sin(Math.PI * t)
+        trPos[j] = vxL(s0[0], s1[0], t) + w[0] * lift; trPos[j + 1] = vxL(s0[1], s1[1], t) + (0.9 + w[1]) * lift; trPos[j + 2] = vxL(s0[2], s1[2], t) + w[2] * lift } } }
+  lab.userData = { cake, tray, lineVerts }
+
+
+  // the globe: land as dots, contributors lighting up green, arcs to the simulator floating above
+  const globe = new T3.Group(); S.add(globe)
+  const ball = new T3.Mesh(new T3.SphereGeometry(3.12, 64, 32), std({ color: '#F4F7FB', roughness: 0.55, metalness: 0 })); ball.castShadow = true; globe.add(ball)
+  const LD = window.LAND_DOTS || [], dots = new T3.InstancedMesh(new T3.SphereGeometry(0.036, 6, 4), std({ color: '#FFFFFF', roughness: 0.4 }), Math.max(1, LD.length)); globe.add(dots)
+  const dotP = LD.map(([lo, la]) => { const a = la * Math.PI / 180, o = -lo * Math.PI / 180; return new T3.Vector3(3.17 * Math.cos(a) * Math.cos(o), 3.17 * Math.sin(a), 3.17 * Math.cos(a) * Math.sin(o)) })
+  { const o = new T3.Object3D(); dotP.forEach((p, i) => { o.position.copy(p); o.updateMatrix(); dots.setMatrixAt(i, o.matrix); dots.setColorAt(i, new T3.Color('#1B2230')) }) }
+  const hub = new T3.Group(); hub.position.set(0, 4.7, 0); hub.scale.setScalar(0.8); globe.add(hub)
+  { const lid = new T3.Mesh(box(2.6, 0.08, 1.7), M.mark); lid.position.y = 0.0; hub.add(lid); const scr = new T3.Mesh(box(2.6, 1.6, 0.06), M.mark); scr.position.set(0, 0.84, -0.82); scr.rotation.x = -0.18; hub.add(scr)
+    const sc2 = new T3.Mesh(new T3.PlaneGeometry(2.4, 1.4), new T3.MeshBasicMaterial({ color: '#0E2A5C', toneMapped: false })); sc2.position.set(0, 0.84, -0.785); sc2.rotation.x = -0.18; hub.add(sc2); hub.userData.scr = sc2 }
+  const arcs = Array.from({ length: 22 }, (_, k) => { const i = Math.floor(hsh(k, 41) * dotP.length) || 0; return { i, mesh: null } })
+  const arcMat = new T3.MeshBasicMaterial({ color: AXG, toneMapped: false })
+
+  // the car-parts line: a belt, two arms, four bins; parts flow in and get sorted (Lotus × Geely)
+  const line = new T3.Group(); S.add(line)
+  const BW = 20, stripe = (() => { const c = document.createElement('canvas'); c.width = 256; c.height = 32; const x = c.getContext('2d'); x.fillStyle = '#1B1E24'; x.fillRect(0, 0, 256, 32); x.fillStyle = '#262A31'; for (let i = 0; i < 8; i++) x.fillRect(i * 32, 0, 14, 32); const t = new T3.CanvasTexture(c); t.wrapS = t.wrapT = T3.RepeatWrapping; t.repeat.set(BW / 2, 1); t.colorSpace = T3.SRGBColorSpace; return t })()
+  twin(line, box(BW, 0.95, 2.3), M.joint, [0, 0.475, 0])
+  const beltTop = twin(line, new T3.PlaneGeometry(BW, 2.0), std({ map: stripe, roughness: 0.75, clippingPlanes: [clipS] }), [0, 0.952, 0], [-Math.PI / 2, 0, 0])
+  ;[-1.2, 1.2].forEach(z => twin(line, box(BW, 0.16, 0.12), M.white, [0, 1.06, z]))
+  const XA = [-3.2, 3.0], ZA = -2.35, BINX = [-5.0, -1.4, 1.2, 4.8]
+  BINX.forEach(x => { const g = new T3.Group(); g.position.set(x, 0, ZA); line.add(g); twin(g, box(1.3, 0.08, 1.15), M.white, [0, 0.04, 0]); [[0, 0.33, 0.55, 1.3, 0.6, 0.06], [0, 0.33, -0.55, 1.3, 0.6, 0.06], [0.62, 0.33, 0, 0.06, 0.6, 1.15], [-0.62, 0.33, 0, 0.06, 0.6, 1.15]].forEach(([x2, y, z, a, b2, c]) => twin(g, box(a, b2, c), M.white, [x2, y, z]))
+    const rim2 = new T3.Mesh(box(1.32, 0.05, 0.07), M.green); rim2.position.set(0, 0.65, 0.58); g.add(rim2) })
+  const PT = [      // the four kinds of part (one per bin): [geometry, material, position, rotation]
+    [[new T3.TorusGeometry(0.2, 0.085, 10, 22), 'steel', [0, 0.085, 0], [Math.PI / 2, 0, 0]]],
+    [[box(0.5, 0.08, 0.32), 'ink', [0, 0.04, 0]], [box(0.08, 0.3, 0.32), 'ink', [0.21, 0.19, 0]]],
+    [[cyl(0.06, 0.5, 10), 'brass', [0.05, 0.07, 0], [0, 0, Math.PI / 2]], [cyl(0.14, 0.12, 6), 'brass', [-0.22, 0.07, 0], [0, 0, Math.PI / 2]]],
+    [[box(0.5, 0.07, 0.38), 'white', [0, 0.035, 0]], [box(0.2, 0.05, 0.14), 'ink', [0, 0.095, 0]]],
+  ]
+  const parts = Array.from({ length: 72 }, (_, k) => { const g = new T3.Group(), type = (k % 2) * 2 + (hsh(k, 9) < 0.5 ? 0 : 1)
+    PT[type].forEach(([geo, mat, p, r]) => twin(g, geo, M[mat], p, r, true)); const s = 0.85 + 0.35 * hsh(k, 10); g.scale.setScalar(s); g.userData = { type, s, yaw: hsh(k, 11) * 6.28 }; line.add(g); return g })
+
+  // Singapore: the skyline they posted (three towers and the sky park), and their photos on floating cards
+  const sg = new T3.Group(); S.add(sg)
+  const skyG = new T3.Group(); skyG.position.set(0.4, 0, -20); skyG.scale.setScalar(0.62); sg.add(skyG)       // the skyline: a backdrop on the horizon
+  const edge = new T3.LineBasicMaterial({ color: '#0A2A4F', transparent: true, opacity: 0.35 }), sgB = (g, p, rz = 0) => { const m = new T3.Mesh(g, M.white); m.position.set(...p); m.rotation.z = rz; m.castShadow = m.receiveShadow = true; skyG.add(m); const e = new T3.LineSegments(new T3.EdgesGeometry(g), edge); e.position.copy(m.position); e.rotation.copy(m.rotation); skyG.add(e) }
+  ;[-3.3, 0, 3.3].forEach(x => [-0.36, 0.36].forEach((dx, j) => sgB(box(0.95, 8.6, 1.5), [x + dx * 0.8, 4.3, 0], (j ? -1 : 1) * 0.045)))
+  sgB(box(12.6, 0.42, 1.9), [1.0, 8.82, 0])
+  const photoMat = await Promise.all(['x00', 'x02', 'x01'].map(async k => { const im = await axImg((BR.img || {})[k]); if (!im) return null; const t = new T3.Texture(im); t.needsUpdate = true; t.colorSpace = T3.SRGBColorSpace; t.anisotropy = 4; return { t, ar: im.width / im.height } }))
+  const photos = photoMat.map((pm2, i) => { const g = new T3.Group(); sg.add(g); if (!pm2) return g; const h = 2.9, w = h * pm2.ar
+    const fr = new T3.Mesh(box(w + 0.22, h + 0.22, 0.06), std({ color: '#FFFFFF', roughness: 0.4 })); fr.castShadow = true; g.add(fr)
+    const ph = new T3.Mesh(new T3.PlaneGeometry(w, h), new T3.MeshBasicMaterial({ map: pm2.t, toneMapped: false })); ph.position.z = 0.035; g.add(ph); g.userData = { w, h }; return g })
+
+  // the network: their partners' logos on black discs, orbiting the mark
+  const net = new T3.Group(); S.add(net)
+  const orbit = new T3.Mesh(new T3.TorusGeometry(5.2, 0.025, 8, 160), new T3.MeshBasicMaterial({ color: AXG, toneMapped: false })); orbit.rotation.x = Math.PI / 2; net.add(orbit)
+  const logoIm = await Promise.all((BR.partners || []).map(p => axImg(p.logo)))
+  const discs = (BR.partners || []).map((p, i) => { const c = document.createElement('canvas'); c.width = c.height = 512; const x = c.getContext('2d'); x.fillStyle = '#0A0B0E'; x.fillRect(0, 0, 512, 512)
+    const im = logoIm[i]; if (im) { const w0 = im.naturalWidth || im.width || 1, h0 = im.naturalHeight || im.height || 1, sc2 = Math.min(330 / w0, (p.tall ? 300 : 150) / h0); x.drawImage(im, 256 - w0 * sc2 / 2, 256 - h0 * sc2 / 2, w0 * sc2, h0 * sc2) }
+    const t = new T3.CanvasTexture(c); t.colorSpace = T3.SRGBColorSpace; t.anisotropy = 4; t.center.set(0.5, 0.5); t.rotation = Math.PI / 2
+    const g = new T3.Group(), d = new T3.Mesh(cyl(1, 0.18, 64), [std({ color: '#0A0B0E', roughness: 0.3, metalness: 0.5 }), new T3.MeshBasicMaterial({ map: t, toneMapped: false }), std({ color: '#0A0B0E' })])
+    d.rotation.x = Math.PI / 2; d.castShadow = true; g.add(d); net.add(g); return g })
+
+  Object.assign(AX, { lab, trails, trDev, NTR, SEG, T3, R, S, cam, cv, M, hemi, key, rim, glow, floor, clipS, clipW, mark, rays, ring, halo, arms, cold, chip, crate, peds, gap, gTower, gData, ghost, gBase, loop, lemn, tube, gates, pulses, axes, tiles, objs, pins, LOOKS, ROBOTS, globe, ball, dots, dotP, hub, arcs, arcMat, line, stripe, parts, sg, photos, net, orbit, discs, sets: [mark, ring, halo, cold, gap, loop, axes, globe, line, sg, net, lab, ...arms.map(A => A.root)] })
+  return true
+})()
+
+// ---- the arm: a pose is [yaw, shoulder, elbow, wrist, grip 0..1]; reach puts the fingertips at a world point, pointing down
+function armPose(A, p) { A.j1.rotation.y = p[0]; A.j2.rotation.z = p[1]; A.j3.rotation.z = p[2]; A.j4.rotation.z = p[3]; const g = 0.25 - 0.13 * clamp(p[4] ?? 0); A.fa.position.x = -g; A.fb.position.x = g }
+function armReach(A, x, y, z, grip = 0, tilt = 0) {
+  const b = A.root.position, s = A.root.scale.x, dx = (x - b.x) / s, dz = (z - b.z) / s, yaw = Math.atan2(-dz, dx), r = Math.hypot(dx, dz)
+  const vx = r, vy = (y - b.y) / s + AL.L3 - AL.H0, d = clamp(Math.hypot(vx, vy), 0.4, AL.L1 + AL.L2 - 0.02)
+  const be = Math.acos(clamp((d * d - AL.L1 * AL.L1 - AL.L2 * AL.L2) / (2 * AL.L1 * AL.L2), -1, 1))
+  const aV = Math.atan2(-vx, vy), k = Math.atan2(AL.L2 * Math.sin(be), AL.L1 + AL.L2 * Math.cos(be)), a1 = aV + k
+  armPose(A, [yaw - A.root.rotation.y, a1, -be, -Math.PI - a1 + be + tilt, grip])
+}
+const axV = (a, b, q) => [vxL(a[0], b[0], q), vxL(a[1], b[1], q), vxL(a[2], b[2], q)]
+function axProj(x, y, z) { const v = new AX.T3.Vector3(x, y, z).project(AX.cam); return [(v.x + 1) * 540, (1 - v.y) * 960, v.z] }
+function axCam(p, g, fov = 30) { AX.cam.position.set(...p); AX.cam.lookAt(...g); if (AX.cam.fov !== fov) { AX.cam.fov = fov; AX.cam.updateProjectionMatrix() } }
+function axLight(c, span = 14, dark = false) {
+  const V = AX; V.key.position.set(c[0] + 9, c[1] + 22, c[2] + 15); V.key.target.position.set(...c); V.key.target.updateMatrixWorld()
+  Object.assign(V.key.shadow.camera, { left: -span, right: span, top: span, bottom: -span }); V.key.shadow.camera.updateProjectionMatrix()
+  V.rim.position.set(c[0] - 12, c[1] + 9, c[2] - 15); V.rim.target.position.set(...c); V.rim.target.updateMatrixWorld()
+  V.hemi.intensity = dark ? 0.32 : 0.55; V.key.intensity = dark ? 1.25 : 1.9; V.rim.intensity = dark ? 1.4 : 0.9
+  V.floor.material.opacity = dark ? 0.3 : 0.16
+}
+function axSim(s) { AX.clipS.constant = s; AX.clipW.constant = -s }        // s: the scan line (x); +1e4 all real, -1e4 all simulation
+function axMarkBuild(lt, t0, spread = 24) {     // the rays fly in rod by rod along their own directions and lock (t0 … t0+0.9)
+  AX.rays.forEach((m, i) => { const u = m.userData, a0 = t0 + (i % 6) * 0.075 + (i >= 6 ? 0.03 : 0), q = vxE.o((lt - a0) / 0.5)
+    const d = (1 - q) * (spread + 8 * hsh(i, 3)); m.visible = lt >= a0 - 0.02
+    m.position.set(Math.cos(u.a) * d, Math.sin(u.a) * d, (1 - q) * 8 * (hsh(i, 4) - 0.5)); m.rotation.set((1 - q) * 2.4 * (hsh(i, 5) - 0.5), (1 - q) * 3 * (hsh(i, 6) - 0.5), u.a) })
+}
+function axMarkRest() { AX.rays.forEach(m => { m.visible = true; m.position.set(0, 0, 0); m.rotation.set(0, 0, m.userData.a) }) }
+function axRing(lt, t0, at, r0 = 1, r1 = 9, o = 0.85) { const q = clamp((lt - t0) / 0.9); AX.ring.visible = lt >= t0 && q < 1; AX.ring.position.set(...at); AX.ring.scale.setScalar(vxL(r0, r1, vxE.o(q))); AX.ring.material.opacity = o * (1 - q); AX.ring.quaternion.copy(AX.cam.quaternion) }
+
+// ---- the car-parts line, as a function of the line's own clock tc (seconds; it runs faster while "training")
+const AXP = { P: 0.8, v: 1.6, x0: -10.5 }
+const V_XA = a => [-3.2, 3.0][a]
+const AXBIN = [-5.0, -1.4, 1.2, 4.8]
+function axLine(tc) {
+  const V = AX, { P, v, x0 } = AXP, tipPos = new V.T3.Vector3()
+  V.stripe.offset.x = -((tc * v / 2) % 1)
+  if (!V.pile) { const n = [0, 0, 0, 0]; V.pile = V.parts.map(g => n[g.userData.type]++) }      // each part's place in its bin
+  V.parts.forEach((g, k) => {
+    const u = g.userData, a = k % 2, t0 = k * P, ta = t0 + (V_XA(a) - x0) / v, tr = ta + 0.8
+    g.visible = tc >= t0; if (!g.visible) return
+    if (tc < ta) { g.position.set(x0 + v * (tc - t0), 0.96, 0); g.rotation.set(0, u.yaw, 0) }
+    else if (tc < tr) { V.arms[a].tip.getWorldPosition(tipPos); g.position.set(tipPos.x, tipPos.y - 0.2 * u.s, tipPos.z); g.rotation.set(0, u.yaw, 0) }
+    else { const n = V.pile[k], q = clamp((tc - tr) / 0.28)
+      g.position.set(AXBIN[u.type] + ((n % 3) - 1) * 0.32, vxL(1.25, 0.1 + 0.07 * Math.floor(n / 6), q * q), -2.35 + ((Math.floor(n / 3) % 2) - 0.5) * 0.4); g.rotation.set(0, u.yaw + 2 * q, 0) }
+  })
+}
+// the arm for line slot a: reach for part k as it arrives, lift, swing to its bin, drop, come back
+function axArmCycle(a, tc) {
+  const V = AX, A = V.arms[a], { P, v, x0 } = AXP, xa = V_XA(a), hover = [xa, 2.05, 0]
+  // the part this arm is handling: k ≡ a (mod 2) with its window [ta-0.45, ta+1.15)
+  let k = Math.floor(((tc + 0.45) - (xa - x0) / v) / P); if (((k % 2) + 2) % 2 !== a) k -= 1
+  if (k < 0) { armReach(A, ...hover, 0); return }
+  const ta = k * P + (xa - x0) / v, u = V.parts[k] ? V.parts[k].userData : { type: a * 2, s: 1 }, bx = AXBIN[u.type], ph = 0.2 * u.s
+  const partAt = t => [x0 + v * (t - k * P), 0.96 + ph, 0], binHover = [bx, 1.45, -2.35]
+  const d = tc - ta
+  if (d < 0) { const q = vxE.io((d + 0.45) / 0.45); armReach(A, ...axV(hover, partAt(tc), q), 0) }
+  else if (d < 0.3) { const g = clamp(d / 0.12), q = vxE.o(clamp((d - 0.1) / 0.2)), p0 = partAt(ta); armReach(A, p0[0], p0[1] + 0.85 * q, p0[2], g) }
+  else if (d < 0.8) { const q = vxE.io((d - 0.3) / 0.5), p0 = partAt(ta), p1 = [p0[0], p0[1] + 0.85, p0[2]], m = axV(p1, binHover, q); armReach(A, m[0], m[1] + 0.5 * Math.sin(Math.PI * q), m[2], 1) }
+  else if (d < 0.95) armReach(A, ...binHover, 1 - clamp((d - 0.8) / 0.1))
+  else { const q = vxE.io((d - 0.95) / 0.2); armReach(A, ...axV(binHover, hover, q), 0) }
+}
+
+// ---- each scene's shot: which sets show, where the camera goes, what moves. Returns what the page around it needs.
+const axPath = (k, t) => [vxPath(k, t, 1), vxPath(k, t, 2)]
+const AXF = {
+  // the cold open (deep royal blue): the chip lights, the arm wakes, the data crate is all but empty, then glitches red
+  cold(lt, sc, b, at) {
+    if (b.kind === 'line') {          // the short's hook: the parts line in green wire on deep blue, learning in simulation
+      const V = AX; V.line.visible = true; [0, 1].forEach(a => { const A = V.arms[a]; A.root.visible = true; A.root.position.set(V_XA(a), 0, -2.35) })
+      const tc = lt + 3.2; [0, 1].forEach(a => axArmCycle(a, tc)); V.arms.forEach(A => A.root.updateMatrixWorld(true)); axLine(tc)
+      V.clipS.constant = -1e4; V.clipW.constant = 1e4
+      const k = [[0, [-5.2, 2.6, 4.2], [-1.6, 1.0, 0]], [L(sc, 1), [-8.0, 5.2, 8.0], [-0.2, 0.6, -0.6]], [L(sc, 2), [-11.5, 8.6, 11.6], [0.4, 0.3, -0.9]], [sc.dur + 1, [-13.0, 9.8, 13.0], [0.4, 0.3, -0.9]]]
+      const [p, g] = axPath(k, lt); axCam(p, g, 32); axLight(g, 12, true)
+      return { bg: 'deep' }
+    }
+    const V = AX, tc = at('c', 0.4), tr = at('r', L(sc, 1)), td = at('d', L(sc, 2)), tx = at('x', L(sc, 3))
+    V.cold.visible = true; const A = V.arms[0]; A.root.visible = true; A.root.position.set(0, 0.9, 0); A.root.scale.setScalar(0.62)
+    const w = vxE.io((lt - tr) / 1.2), look = 0.18 * Math.sin((lt - tr) * 0.8) * clamp(lt - tr - 1)
+    armPose(A, [vxL(0.9, -0.5 + look, w), vxL(1.0, -0.15, w), vxL(2.2, 0.75, w), vxL(-1.0, -Math.PI + 1.15 - 0.75 + 0.15, w), 0])
+    A.led.visible = lt >= tr + 0.4
+    V.chip.userData.die.material.emissiveIntensity = 1.3 * P(lt, tc, tc + 0.5)
+    const red = lt >= tx, gl = lt >= tx && lt < tx + 0.45
+    V.crate.userData.ed.material.color.set(red ? '#FF3756' : '#FFFFFF')
+    V.crate.position.set(3.4 + (gl ? 0.06 * Math.sin(lt * 90) : 0), 0.9, 0)
+    V.crate.userData.bits.forEach((m, i) => { m.visible = !red || hsh(i, Math.floor(lt * 18)) > 0.55 })
+    const k = [[0, [-4.3, 3.6, 11.6], [-3.4, 1.6, 0]], [tr - 0.7, [-3.8, 3.2, 10.0], [-3.4, 1.6, 0]], [tr + 0.4, [-0.6, 3.8, 11.0], [0, 2.3, 0]], [td - 0.7, [0.2, 3.6, 10.4], [0, 2.3, 0]],
+      [td + 0.35, [2.9, 3.0, 10.2], [3.4, 1.7, 0]], [tx + 0.2, [3.3, 2.8, 9.0], [3.4, 1.7, 0]], [sc.dur + 1, [3.35, 2.7, 8.5], [3.4, 1.7, 0]]]
+    const [p, g] = axPath(k, lt); axCam(p, g); axLight(g, 9, true)
+    return { bg: 'deep', tags: [[-3.4, 2.05, 0], [0, 5.0, 0], [3.4, 2.95, 0]].map(q => axProj(...q)), t: { tc, tr, td, tx } }
+  },
+  // the drop: their mark builds from its rods, a green ring goes out, the camera settles
+  title(lt, sc, b) {
+    const V = AX, lock = 0.98; V.mark.visible = true; V.mark.position.set(0, 6.9, 0); V.mark.scale.setScalar(0.42)
+    V.mark.rotation.set(-0.1, 0.42 * (1 - vxE.o(lt / 2.4)) + 0.16 + 0.05 * Math.sin(lt * 0.7), 0); axMarkBuild(lt, 0.04, 26)
+    const [p, g] = axPath([[0, [0, 7.4, 34], [0, 4.7, 0]], [sc.dur + 1, [0, 7.1, 30.5], [0, 4.7, 0]]], lt); axCam(p, g); axLight([0, 5, 0], 10)
+    axRing(lt, lock, [0, 6.9, 0.4], 0.8, 7)
+    return { bg: 'sky', lock }
+  },
+  // the bottleneck: text for language models (a tall tower) next to robot data (a few blocks); the gap outlined
+  gap(lt, sc, b, at) {
+    const V = AX, tT = at('text', L(sc, 1)), tR = at('robot', L(sc, 2)), tG = at('ghost', L(sc, 3)), o = new V.T3.Object3D()
+    V.gap.visible = true
+    for (let i = 0; i < 208; i++) { const lay = Math.floor(i / 16); if (lay >= 11) { o.scale.setScalar(0.0001); o.updateMatrix(); V.gTower.setMatrixAt(i, o.matrix); continue }
+      const c = i % 16, a = tT + lay * 0.1 + hsh(i, 2) * 0.1, q = vxE.o((lt - a) / 0.35)
+      o.position.set(-3 + ((c % 4) - 1.5) * 0.95, 0.62 + lay * 0.95 + (1 - q) * 5, (Math.floor(c / 4) - 1.5) * 0.95); o.rotation.set(0, 0, 0); o.scale.setScalar(lt >= a ? 1 : 0.0001); o.updateMatrix(); V.gTower.setMatrixAt(i, o.matrix) }
+    V.gTower.instanceMatrix.needsUpdate = true
+    ;[0, 5, 10, 15, 2, 7, 13].forEach((c, i) => { const a = tR + i * 0.14, q = vxE.back((lt - a) / 0.35)
+      o.position.set(3 + ((c % 4) - 1.5) * 0.95, 0.62, (Math.floor(c / 4) - 1.5) * 0.95); o.scale.setScalar(Math.max(0.0001, q)); o.updateMatrix(); V.gData.setMatrixAt(i, o.matrix) })
+    V.gData.instanceMatrix.needsUpdate = true
+    const gq = vxE.io((lt - tG) / 1.4); V.ghost.visible = lt >= tG; V.ghost.scale.set(1, Math.max(0.001, gq), 1); V.ghost.position.set(3, 0.16 + 5.25 * gq, 0)
+    const [p, g] = axPath([[0, [-1.5, 10.5, 50], [0, 6.2, 0]], [sc.dur + 1, [0.5, 10.0, 46], [0, 6.0, 0]]], lt); axCam(p, g); axLight([0, 5, 0], 12)
+    return { bg: 'sky', tags: [axProj(-3, 0.2, 2.9), axProj(3, 0.2, 2.9), axProj(3, 5.6, 2.1)], t: { tT, tR, tG } }
+  },
+  // the loop: a pulse runs the figure eight and lights each gate as it is named; then more pulses join (it compounds)
+  loop(lt, sc, b, at) {
+    const V = AX, G = ['g1', 'g2', 'g3', 'g4'].map((k, j) => at(k, L(sc, j + 1))), tC = at('comp', L(sc, 5)), U = [0.11, 0.39, 0.61, 0.89]
+    V.loop.visible = true
+    let u
+    if (lt < G[0]) u = U[0] - 0.16 * (1 - vxE.o(clamp(lt / G[0])))
+    else if (lt >= G[3]) u = U[3] + 0.16 * (lt - G[3])
+    else { let j = 0; while (lt >= G[j + 1]) j++; u = vxL(U[j], U[j + 1], vxE.io((lt - G[j]) / Math.max(0.3, G[j + 1] - G[j]))) }
+    const pt = new V.T3.Vector3(), N = lt < tC ? 1 : 1 + Math.min(11, Math.floor((lt - tC) / 0.22))
+    V.pulses.forEach((g, i) => { g.visible = i < N; if (!g.visible) return; const ui = i === 0 ? u : u - i / 12 + 0.02 * Math.sin(lt + i)
+      g.children.forEach((m, k) => { V.lemn.getPoint((((ui - k * 0.007) % 1) + 1) % 1, pt); m.position.copy(pt) }) })
+    V.gates.forEach((g, j) => { const on = P(lt, G[j] - 0.05, G[j] + 0.25), fl = Math.exp(-Math.max(0, lt - G[j]) * 3) * (lt >= G[j] ? 1 : 0); g.userData.r.material.emissiveIntensity = 0.9 * on + 1.5 * fl + (lt >= tC ? 0.4 * (0.5 + 0.5 * Math.sin(lt * 6 + j)) : 0) })
+    const sw = 0.12 * Math.sin(lt * 0.25)
+    axCam([30 * Math.sin(sw), 33 - 0.06 * lt, 15.5 - 0.04 * lt], [0, 0.4, -0.6]); axLight([0, 1, 0], 9)
+    return { bg: 'sky', tags: V.gates.map(g => axProj(g.position.x, g.position.y + 1.05, g.position.z)), t: { G, tC } }
+  },
+  // axis by axis: one task, then ×5 on each axis as it is named, the camera pulling back to hold them all
+  axes(lt, sc, b, at) {
+    const V = AX, Dt = ['d1', 'd2', 'd3', 'd4', 'd5'].map((k, j) => at(k, L(sc, 1, j * 0.2))), tT = at('total', L(sc, 2)), o = new V.T3.Object3D()
+    V.axes.visible = true
+    const POS = (a, bb, c, d, e) => [a * 1.15 + d * 6.6, c * 0.95, bb * 1.15 + e * 6.6]
+    const t0 = 0.3
+    for (let i = 0; i < 3125; i++) {
+      const ix = [i % 5, Math.floor(i / 5) % 5, Math.floor(i / 25) % 5, Math.floor(i / 125) % 5, Math.floor(i / 625) % 5]
+      let hi = -1; for (let j = 4; j >= 0; j--) if (ix[j]) { hi = j; break }
+      const a0 = hi < 0 ? t0 : Dt[hi] + ix[hi] * 0.06 + (hi >= 3 ? hsh(i, 7) * 0.25 : 0), q = vxE.o((lt - a0) / 0.5), par = ix.slice(); if (hi >= 0) par[hi] = 0
+      const p1 = POS(...ix), p0 = POS(...par), p = axV(p0, p1, q), s = lt >= a0 ? Math.max(0.0001, hi < 0 ? vxE.back((lt - t0) / 0.4) : 1) : 0.0001
+      o.rotation.set(0, 0, 0); o.position.set(...p); o.scale.setScalar(s); o.updateMatrix(); V.tiles.setMatrixAt(i, o.matrix)
+      const ro = 0.3 + ix[0] * 0.1; o.position.set(p[0] - 0.32, p[1] + 0.04 + ro / 2, p[2] - 0.32); o.scale.set(s, s * ro, s); o.updateMatrix(); V.pins.setMatrixAt(i, o.matrix)
+      const off = [[0, 0], [0.18, 0.12], [-0.15, 0.18], [0.12, -0.2], [-0.2, -0.1]][ix[2]]
+      o.position.set(p[0] + off[0], p[1] + 0.24, p[2] + off[1]); o.scale.setScalar(s); o.updateMatrix(); V.objs[ix[1]].setMatrixAt(ix[0] + 5 * ix[2] + 25 * ix[3] + 125 * ix[4], o.matrix)
+    }
+    ;[V.tiles, V.pins, ...V.objs].forEach(m => { m.instanceMatrix.needsUpdate = true; if (m.instanceColor) m.instanceColor.needsUpdate = true })
+    // the camera holds whatever has been built
+    const ext = j => P(lt, Dt[j], Dt[j] + 1.0, E.inOutSine)
+    const sx = 4 * 1.15 * ext(0) + 4 * 6.6 * ext(3), sz = 4 * 1.15 * ext(1) + 4 * 6.6 * ext(4), sy = 4 * 0.95 * ext(2), span = Math.max(sx, sz, sy * 1.6, 1.2)
+    const c = [sx / 2, sy / 2, sz / 2], dist = 4.5 + 1.75 * span + 0.25 * span * P(lt, tT, tT + 3, E.inOutSine), rot = 0.32 + 0.06 * Math.sin(lt * 0.2)
+    axCam([c[0] + dist * Math.sin(rot) * 0.62, c[1] + dist * 0.82 + 1.0, c[2] + dist * Math.cos(rot) * 0.62], [c[0], c[1] - 0.6, c[2] + 0.04 * span]); axLight(c, Math.max(8, span * 0.75 + 4))
+    return { bg: 'sky', t: { Dt, tT } }
+  },
+  // built by all: the world's land as dots; contributors light up green, lines run up to the simulator in the browser
+  crowd(lt, sc, b, at) {
+    const V = AX, tB = at('big', L(sc, 0, 0.5)), tA = at('br', L(sc, 1)), o = new V.T3.Object3D(), green = new V.T3.Color(AXN), ink = new V.T3.Color('#1B2230')
+    V.globe.visible = true; V.globe.position.set(0, 7.2, 0); V.globe.rotation.set(0.22, -1.2 + lt * 0.12, 0)
+    const f = P(lt, tB - 0.3, tB + 4.5, E.inOutSine)
+    V.dotP.forEach((pp, i) => { const on = hsh(i, 21) < f * 0.75, q = on ? clamp((f * 0.75 - hsh(i, 21)) * 30) : 0
+      o.position.copy(pp); o.scale.setScalar(1 + 0.45 * q); o.updateMatrix(); V.dots.setMatrixAt(i, o.matrix); V.dots.setColorAt(i, on ? green : ink) })
+    V.dots.instanceMatrix.needsUpdate = true; V.dots.instanceColor.needsUpdate = true
+    // uploads: beams shoot out from lit dots, again and again (every run becomes data)
+    if (!V.arcsBuilt) { V.arcsBuilt = true; const g0 = new V.T3.CylinderGeometry(0.02, 0.02, 1, 5); g0.translate(0, 0.5, 0); V.beams = Array.from({ length: 46 }, (_, k) => { const i = Math.floor(hsh(k, 41) * V.dotP.length), m = new V.T3.Mesh(g0, V.arcMat), n = (V.dotP[i] || new V.T3.Vector3(0, 3.2, 0)).clone().normalize()
+      m.quaternion.setFromUnitVectors(new V.T3.Vector3(0, 1, 0), n); m.userData = { n, k }; V.globe.add(m); return m }) }
+    V.beams.forEach(m => { const { n, k } = m.userData, ph = ((lt - tA) * 0.7 + hsh(k, 42)) % 1, on = lt >= tA + hsh(k, 43) * 0.8
+      m.visible = on; const len = 0.9 * Math.sin(Math.PI * ph), r0 = 3.17 + 1.4 * ph * ph; m.position.copy(n).multiplyScalar(r0); m.scale.set(1, Math.max(0.001, len), 1) })
+    V.hub.visible = false
+    const [p, g] = axPath([[0, [0, 8.6, 31], [0, 4.3, 0]], [sc.dur + 1, [0, 8.3, 29], [0, 4.3, 0]]], lt); axCam(p, g); axLight([0, 6, 0], 8)
+    return { bg: 'sky', t: { tB, tA } }
+  },
+  // the study: 10 real demos (fails), the full sim pool (barely better), TUCO's 600 (the arm gets it), the cupcake 40/40
+  proof(lt, sc, b, at) {
+    const V = AX, t1 = at('r1', L(sc, 1, 0.6)), t2 = at('r2', L(sc, 2, 0.4)), tp = at('pick', L(sc, 3, 0.3)), t3 = at('r3', L(sc, 3, 0.7)), A = V.arms[0], { cake, tray, lineVerts } = V.lab.userData
+    V.lab.visible = true; A.root.visible = true; A.root.position.set(-1.05, 0.9, -0.45); A.root.scale.setScalar(0.62)
+    const C0 = [0.75, 0.9, 0.35], T0 = [-0.1, 0.9, 0.75]; tray.position.set(T0[0], 0.925, T0[2])
+    if (!V.trBuilt) { V.trBuilt = true; lineVerts([C0[0], 1.35, C0[2]], [T0[0], 1.35, T0[2]]); V.trails.geometry.attributes.position.needsUpdate = true
+      V.trSel = V.trDev.map((d, i) => i).sort((x, y) => V.trDev[x] - V.trDev[y]).slice(0, 600).reduce((m, i) => (m[i] = 1, m), {}) }
+    // one attempt every 3.2 s from the first number: before TUCO it misses the part; after, it carries it to the tray
+    const okFrom = t3, per = 3.2, k = Math.floor((lt - t1 + 0.6) / per), d = lt - t1 + 0.6 - k * per, ok = t1 - 0.6 + k * per >= okFrom - 0.4
+    const miss = ok ? [0, 0, 0] : [0.28 * (k % 2 ? 1 : -1), 0, 0.22], hov = [0.35, 1.9, 0.5], top = [C0[0] + miss[0], C0[1] + 0.3, C0[2] + miss[2]]
+    let carry = false
+    if (lt < t1 - 0.6) armReach(A, ...hov, 0, 0)
+    else if (d < 0.6) armReach(A, ...axV(hov, [top[0], top[1] + 0.35, top[2]], vxE.io(d / 0.6)), 0)
+    else if (d < 0.9) armReach(A, ...axV([top[0], top[1] + 0.35, top[2]], top, vxE.io((d - 0.6) / 0.3)), 0)
+    else if (d < 1.1) armReach(A, ...top, clamp((d - 0.9) / 0.15))
+    else if (d < 2.0) { const q = vxE.io((d - 1.1) / 0.9), m = axV(top, [T0[0], T0[1] + 0.32, T0[2]], q); armReach(A, m[0], m[1] + 0.5 * Math.sin(Math.PI * q), m[2], ok ? 1 : 0.3); carry = ok }
+    else if (d < 2.25) { armReach(A, T0[0], T0[1] + 0.32, T0[2], ok ? 1 - clamp((d - 2.0) / 0.15) : 0) }
+    else armReach(A, ...axV([T0[0], T0[1] + 0.32, T0[2]], hov, vxE.io((d - 2.25) / 0.9)), 0)
+    if (carry) { const tp2 = new V.T3.Vector3(); A.tip.getWorldPosition(tp2); cake.position.set(tp2.x, tp2.y - 0.24, tp2.z) }
+    else if (ok && d >= 2.0 && k >= 0 && t1 - 0.6 + k * per >= okFrom - 0.4 && d < 3.0) cake.position.set(T0[0], 0.95, T0[2])
+    else cake.position.set(...C0)
+    // the demonstrations: drawn in as the full pool, then a scan picks TUCO's 600 (green) and the rest fade
+    const nOn = Math.floor(V.NTR * P(lt, t2 - 0.2, t2 + 1.4, E.outCubic)), col = V.trails.geometry.attributes.color.array, scan = lt < tp ? -9 : vxL(-2.2, 2.6, P(lt, tp, tp + 1.1, E.inOutSine))
+    V.trails.visible = nOn > 0; V.trails.geometry.setDrawRange(0, nOn * V.SEG * 2)
+    const cA = [0.55, 0.80, 0.98], cS = [0.04, 0.69, 0.22], cF = [0.86, 0.91, 0.98]
+    for (let i = 0; i < nOn; i++) { const sel = V.trSel[i], mid = (i * V.SEG + V.SEG / 2) * 6, past = V.trails.geometry.attributes.position.array[mid] < scan - 1.05
+      const c = !past ? cA : sel ? cS : cF; for (let j = 0; j < V.SEG * 2; j++) { const x = (i * V.SEG * 2 + j) * 3; col[x] = c[0]; col[x + 1] = c[1]; col[x + 2] = c[2] } }
+    V.trails.geometry.attributes.color.needsUpdate = true
+    const [p, g] = axPath([[0, [4.6, 5.4, 15.5], [0.0, 0.35, 0]], [sc.dur + 1, [3.4, 5.0, 14.0], [0.0, 0.35, 0]]], lt); axCam(p, g); axLight([0, 1.5, 0], 6)
+    return { bg: 'sky', scan: lt >= tp && lt < tp + 1.25 ? axProj(scan, 1.6, 0)[0] : null }
+  },
+  // Singapore: their skyline in white, their photos from the night on floating cards
+  sg(lt, sc, b, at) {
+    const V = AX, tE = at('ev', L(sc, 1)), tK = at('k1', L(sc, 1, 0.5)), tS = at('show', L(sc, 2))
+    V.sg.visible = true
+    const PH = [[-1.35, 6.7, 1.0, 0.18, tE], [2.05, 6.1, 0.4, -0.22, tK], [-1.3, 3.4, 3.6, 0.12, tS]]
+    V.photos.forEach((g, i) => { const [x, y, z, ry, ta] = PH[i] || PH[0], q = vxE.back((lt - ta) / 0.55)
+      g.visible = lt >= ta; g.position.set(x, y + 0.08 * Math.sin(lt * 1.2 + i), z + (1 - clamp(q)) * 4); g.rotation.set(0.04 * Math.sin(lt + i), ry + (1 - clamp(q)) * 0.8, 0); g.scale.setScalar(Math.max(0.001, 0.8 * q)) })
+    const [p, g] = axPath([[0, [1.8, 6.0, 26], [0, 4.6, -4]], [sc.dur + 1, [-0.9, 5.8, 23.5], [0, 4.5, -4]]], lt); axCam(p, g); axLight([0, 4, -3], 12)
+    return { bg: 'sky', t: { tE, tK, tS } }
+  },
+  // the car-parts line: real, then built again in simulation, trained faster there, then deployed (the scan line)
+  lotus(lt, sc, b, at) {
+    const V = AX, tJ = at('job', L(sc, 1)), t1 = at('s1', L(sc, 2)), t2 = at('s2', L(sc, 3)), t3 = at('s3', L(sc, 4))
+    V.line.visible = true; [0, 1].forEach(a => { const A = V.arms[a]; A.root.visible = true; A.root.position.set(V_XA(a), 0, -2.35) })
+    const fast = t3 > t2 ? 2.5 * clamp(lt - t2, 0, t3 - t2) : 0, tc = lt + 1.2 + fast
+    ;[0, 1].forEach(a => axArmCycle(a, tc)); V.arms.forEach(A => A.root.updateMatrixWorld(true)); axLine(tc)
+    // simulation: from "simulation" the line redraws itself as wire (left to right); from "deploy" the real line scans back in
+    let mode = 'sky', scanX = null
+    if (lt >= t1 && lt < t3) { const s = vxL(-12, 12, P(lt, t1, t1 + 1.6, E.inOutSine)); V.clipS.constant = -1e4; V.clipW.normal.set(-1, 0, 0); V.clipW.constant = s; mode = 'sim' }
+    else if (lt >= t3) { const s = vxL(-12, 12, P(lt, t3, t3 + 1.5, E.inOutSine)); axSim(s); mode = s < 11.9 ? 'sweep' : 'sky'; scanX = s }
+    const [p, g] = axPath([[0, [-14.5, 11.6, 14.5], [0.4, 0.9, -1.0]], [t1, [-13.5, 10.8, 13.6], [0.4, 0.9, -1.0]], [t3, [-12.2, 9.9, 12.8], [0.6, 1.0, -1.0]], [sc.dur + 1, [-12.8, 10.3, 13.4], [0.6, 1.0, -1.0]]], lt)
+    axCam(p, g, 34); axLight([0, 1, -1], 12, mode === 'sim')
+    let scan = null; if (scanX != null && mode === 'sweep') { const a2 = axProj(scanX, 1, 0), b2 = axProj(scanX, 1, -3); scan = [a2[0], b2[0]] }
+    return { bg: mode, scan, t: { tJ, t1, t2, t3 } }
+  },
+  // the network: their partners' logos orbit the mark
+  net(lt, sc, b) {
+    const V = AX; V.net.visible = true; V.mark.visible = true; axMarkRest(); V.mark.position.set(0, 6.3, 0); V.mark.scale.setScalar(0.24); V.mark.rotation.set(0, 0, lt * 0.2)
+    V.orbit.position.set(0, 6.3, 0); V.orbit.rotation.set(Math.PI / 2 - 0.3, 0, 0); V.orbit.scale.setScalar(3.5 / 5.2)
+    const [p, g] = axPath([[0, [0, 9.2, 30], [0, 3.6, 0]], [sc.dur + 1, [0, 8.8, 27], [0, 3.6, 0]]], lt); axCam(p, g); axLight([0, 6, 0], 9)
+    const n = V.discs.length
+    V.discs.forEach((d, i) => { const th = i / n * Math.PI * 2 + lt * 0.3, a = 0.5 + i * 0.22, q = vxE.back((lt - a) / 0.45)
+      d.visible = lt >= a; d.position.set(3.5 * Math.cos(th), 6.3 + 3.5 * Math.sin(th) * Math.sin(0.3), 3.5 * Math.sin(th) * Math.cos(0.3)); d.scale.setScalar(Math.max(0.001, 0.62 * q)); d.lookAt(V.cam.position) })
+    return { bg: 'sky' }
+  },
+  // the end: the mark, large; a green halo on "coming"
+  end(lt, sc, b, at) {
+    const V = AX, tC = at('coming', L(sc, 0, 0.8)); V.mark.visible = true; axMarkRest(); V.mark.position.set(0, 7.2, 0); V.mark.scale.setScalar(0.44); V.mark.rotation.set(0.08 * Math.sin(lt * 0.5), 0.25 * Math.sin(lt * 0.4), lt * 0.12)
+    V.halo.visible = lt >= tC; V.halo.position.set(0, 7.2, -1.2); V.halo.scale.setScalar(vxL(0.5, 4.2, vxE.o((lt - tC) / 1.2))); V.halo.material.opacity = 0.55 * P(lt, tC, tC + 0.4) * (0.85 + 0.15 * Math.sin(lt * 3)); V.halo.quaternion.copy(V.cam.quaternion)
+    axRing(lt, tC, [0, 7.2, 0.3], 1, 8)
+    const [p, g] = axPath([[0, [0, 7.8, 31], [0, 4.6, 0]], [sc.dur + 1, [0, 7.4, 27], [0, 4.6, 0]]], lt); axCam(p, g); axLight([0, 6, 0], 9)
+    return { bg: 'sky', t: { tC } }
+  },
+}
+function axShot(sc, lt, b) {
+  const V = AX, ty = sc.type.slice(6), at = (k, d) => axAt(sc, b, k, d)
+  V.sets.forEach(o => { o.visible = false }); V.ring.visible = false; V.halo.visible = false
+  V.clipS.normal.set(-1, 0, 0); V.clipW.normal.set(1, 0, 0); axSim(1e4)
+  V.arms.forEach(A => { A.root.scale.setScalar(1); A.root.rotation.set(0, 0, 0); A.led.visible = true })
+  const out = (AXF[ty] || AXF.end)(lt, sc, b, at) || { bg: 'sky' }
+  V.R.render(V.S, V.cam)
+  return out
+}
+
+// ---- the page around the 3D: background, words behind and in front, chips anchored to 3D points
+const axK = (cls, txt, style = '') => `<div class="ax-k ${cls}" style="${style}">${txt}</div>`
+const axTag = (cls, txt) => `<div class="ax-tag ${cls}">${txt}</div>`
+const axKC = (cls, txt, top, k = 'lt') => `<div class="ax-cw ${cls}" style="top:${top}px">${axK(k, txt)}</div>`      // a centred chip
+function buildAX(el, sc, b) {
+  el.classList.add('ax'); const ty = sc.type.slice(6)
+  const bg = `<div class="ax-bg"><i class="ax-sky"></i><i class="ax-deep"></i><i class="ax-sim"></i><i class="ax-gr"></i><i class="ax-gs"></i></div>`
+  let back = '', front = ''
+  if (ty === 'cold' && b.kind === 'line') front = (b.words || []).map(w => `<div class="ax-h c dk cw" style="top:${w[1] || 230}px">${w[0]}</div>`).join('')
+  else if (ty === 'cold') front = (b.tags || ['Compute', 'Robots', 'Data']).map((t, i) => axTag(i === 2 ? 'dt' : '', `${html(t)} <b>${i === 2 ? '?' : '✓'}</b>`)).join('')
+  if (ty === 'title') front = `<div class="ax-wm">${(b.name || 'AXIS ROBOTICS').split(' ').map(w => `<span>${html(w)}</span>`).join('')}</div><div class="ax-sub">${axK('', html(b.tagline || 'The compounding data engine for physical AI'))}</div>`
+  if (ty === 'gap') front = `<div class="ax-h c sm" style="top:196px">${b.head || 'The bottleneck is <em>data</em>,<br>not compute.'}</div>` + (b.labels || ['Text for language models', 'Robot data']).map((t, i) => axTag(i ? 'on' : 'lt', html(t))).join('') + axTag('gh', html(b.ghost || 'GPT-1 moment')) + `<div class="ax-note" style="top:1530px">${html(b.note || 'Illustration, not to scale')}</div>`
+  if (ty === 'loop') front = `<div class="ax-h c" style="top:200px">${b.head || 'It runs a <em>loop</em>.'}</div>` + (b.gates || []).map((t, i) => axTag('gt', `<b>0${i + 1}</b> ${html(t)}`)).join('') + axKC('cp', b.comp || 'Every round <b>compounds</b>', 1450)
+  if (ty === 'axes') front = `<div class="ax-hud"></div><div class="ax-h c" style="top:196px">${b.head || 'Axis <em>by</em> axis'}</div><div class="ax-num" style="top:318px"><span class="v">1</span><small>${html(b.unit || 'tasks')}</small></div><div class="ax-mul">${(b.dims || []).map(t => axK('lt dm', `${html(t)} <b>×5</b>`)).join('')}</div><div class="ax-note" style="top:1540px">${html(b.note || 'Illustration: five options on each axis')}</div>`
+  if (ty === 'crowd') front = `<div class="ax-num" style="top:1085px"><span class="v">${html(b.big || '100K+')}</span><small>${html(b.big_sub || 'contributors')}</small></div>` + (b.big2 ? `<div class="ax-num n2" style="top:1085px"><span class="v">${html(b.big2)}</span><small>${html(b.big2_sub || '')}</small></div>` : '') + (b.chips || []).map((t, i) => axKC('ch', t, 1395 + i * 80)).join('')
+  if (ty === 'proof') front = axKC('hd', b.head || 'Study · <b>7 Oct 2026</b>', 190) + `<div class="ax-note" style="top:268px">${html(b.setup || '')}</div>`
+    + `<div class="ax-res"><div class="hd"><span>${html(b.res_title || 'Real-robot success, average of 3 tasks')}</span><span>${html(b.res_n || '40 trials each')}</span></div>${(b.rows || []).map((r, i) => `<div class="rw${i === 2 ? ' hi' : ''}"><div class="l">${html(r[0])}<i>${html(r[1])}</i></div><div class="b"><u></u></div><div class="v">0%</div></div>`).join('')}</div>`
+    + (b.dots ? `<div class="ax-dots"><div class="g">${'<i></i>'.repeat(b.dots.of || 40)}</div><div class="t"><span>0/40</span><small>${html(b.dots.label || '')}</small></div></div>` : '')
+    + `<div class="ax-scan"></div>` + (b.lesson ? `<div class="ax-h c ls" style="top:1040px">${b.lesson}</div>` : '')
+  if (ty === 'sg') front = axKC('tk', b.chip || 'TOKEN2049 week · Singapore', 190, '') + axK('lt ev', b.event || 'OKX Web3 Night · <b>7 Oct</b>', 'left:70px;top:1400px')
+    + (b.rec ? `<div class="ax-card vid ink" style="left:640px;top:930px;width:370px;height:560px"><img class="rec"><div class="cap">${b.rec_cap || 'K1 · <b>@boosterobotics</b>'}</div></div>` : '') + `<div class="ax-note" style="top:1528px">${html(b.credit || 'Photos and video: @axisrobotics')}</div>`
+  if (ty === 'lotus') front = (b.rec ? `<div class="ax-card vid ink lc" style="left:70px;top:330px;width:940px;height:${Math.round(940 * 9 / 16)}px"><img class="rec"></div>` : '')
+    + `<div class="ax-num ln" style="top:190px"><span class="v">${html(b.big || '500–800')}</span><small>${html(b.big_sub || 'distinct parts · one policy')}</small></div>`
+    + `<div class="ax-mul st" style="top:1300px">${(b.steps || []).map(t => axK('lt sp', t)).join('')}</div>` + axKC('en', b.end || 'Axis Suite · <b>real automotive manufacturing</b>', 1460) + `<div class="ax-scan"></div>`
+  if (ty === 'net') front = `<div class="ax-tl">${(b.items || []).map(([d, t]) => `<div class="it"><div class="dt">${html(d)}</div><div class="tx">${t}</div></div>`).join('')}</div>`
+  if (ty === 'end') front = (b.coming === '' ? '' : axKC('cm', b.coming || 'Something is coming', 200, '')) + `<div class="ax-h c" style="top:1080px">${b.head || 'Built by <em>all</em>.'}</div>` + axKC('hn', b.handle || '@axisrobotics', 1250) + axKC('fo', b.follow || 'Follow for more', 1340, '')
+  el.innerHTML = `${bg}<div class="ax-back">${back}</div><div class="ax-slot"></div><div class="ax-front">${front}</div><div class="ax-fl"></div>`
+}
+function drawAX(el, lt, sc, b) {
+  if (!AX.R) return
+  const slot = $('.ax-slot', el); if (AX.cv.parentNode !== slot) slot.appendChild(AX.cv)
+  const o = axShot(sc, lt, b), ty = sc.type.slice(6), at = (k, d) => axAt(sc, b, k, d)
+  // background: sky, deep (cold open), sim (navy) and, during the deploy sweep, sim only right of the scan line
+  const L2 = $$('.ax-bg i', el), sim = o.bg === 'sim' || o.bg === 'sweep'
+  L2[0].style.opacity = o.bg === 'deep' ? 0 : 1; L2[1].style.opacity = o.bg === 'deep' ? 1 : 0; L2[2].style.opacity = sim ? 1 : 0; L2[3].style.opacity = o.bg === 'sky' || o.bg === 'sweep' ? 1 : 0; L2[4].style.opacity = sim ? 1 : 0
+  const cut = o.bg === 'sweep' && o.scan ? `inset(0 0 0 ${Math.max(0, Math.min(o.scan[0], o.scan[1])).toFixed(0)}px)` : ''
+  L2[2].style.clipPath = cut; L2[4].style.clipPath = cut
+  $('#foot').style.color = o.bg === 'deep' || o.bg === 'sim' ? 'rgba(255,255,255,.55)' : 'rgba(10,42,79,.5)'
+  $('#stage').classList.toggle('axdark', o.bg === 'sim')
+  const T = o.t || {}, show = (n, a, from = 24) => { if (n) rise([n], lt, a, 0, from) }
+  const tagAt = (n, q, a, on = true) => { if (!n || !q) return; const hw = (n.offsetWidth || 240) / 2 + 24; n.style.left = clamp(q[0], hw, 1080 - hw).toFixed(0) + 'px'; n.style.top = q[1].toFixed(0) + 'px'; const v = on ? P(lt, a, a + 0.3) : 0; n.style.opacity = v.toFixed(2); n.style.transform = `translate(-50%,-50%) scale(${(0.8 + 0.2 * vxE.back(clamp((lt - a) / 0.3))).toFixed(3)})` }
+  if (ty === 'cold' && b.kind === 'line') $$('.cw', el).forEach((n, j) => { const a = L(sc, j, 0) - 0.05, z = j + 1 < sc.lines.length ? L(sc, j + 1, 0) - 0.1 : 1e9
+    const q = P(lt, a, a + 0.3, E.outCubic) * (1 - P(lt, z, z + 0.15)); n.style.opacity = q.toFixed(2); n.style.transform = `scale(${(1.12 - 0.12 * P(lt, a, a + 0.35, E.outCubic)).toFixed(3)}) ${j === sc.lines.length - 1 ? glitch(n, lt, a + 0.05, 0.45) || '' : ''}` })
+  else if (ty === 'cold') { const tg = $$('.ax-tag', el), a = [T.tc + 0.35, T.tr + 0.7, T.td + 0.35]
+    tg.forEach((n, i) => tagAt(n, o.tags[i], a[i]))
+    if (tg[2]) { const red = lt >= T.tx; tg[2].className = 'ax-tag' + (red ? ' no' : ''); tg[2].querySelector('b').textContent = red ? '✕' : '?'; if (red) tg[2].style.transform += ' ' + (glitch(tg[2], lt, T.tx) || '') } }
+  if (ty === 'title') { slam($('.ax-wm', el), lt, (o.lock || 1) + 0.02, 1.25, 0.32); rise([$('.ax-sub', el)], lt, (o.lock || 1) + 0.45, 0, 26) }
+  if (ty === 'gap') { show($('.ax-h', el), at('head', 0.25)); const tg = $$('.ax-tag', el); tagAt(tg[0], o.tags[0], T.tT); tagAt(tg[1], o.tags[1], T.tR); tagAt(tg[2], o.tags[2], T.tG + 1.2); show($('.ax-note', el), T.tT + 0.5, 10) }
+  if (ty === 'loop') { show($('.ax-h', el), 0.25); $$('.ax-tag', el).forEach((n, i) => { tagAt(n, o.tags[i], T.G[i]); n.classList.toggle('on', lt >= T.G[i] && lt < T.G[i] + 0.6) }); show($('.cp', el), T.tC + 0.3) }
+  if (ty === 'axes') { show($('.ax-h', el), 0.2); show($('.ax-hud', el), 0.1, 10); const n = $('.ax-num', el), k = T.Dt.filter(t => lt >= t).length, prev = Math.pow(5, Math.max(0, k - 1)), cur = Math.pow(5, k), q = k ? P(lt, T.Dt[k - 1], T.Dt[k - 1] + 0.6, E.outCubic) : 1
+    n.style.opacity = P(lt, 0.4, 0.8).toFixed(2); $('.v', n).textContent = Math.round(k ? vxL(prev, cur, q) : 1).toLocaleString('en-US'); n.style.transform = k && lt - T.Dt[k - 1] < 0.25 ? `scale(${1 + 0.08 * (1 - (lt - T.Dt[k - 1]) / 0.25)})` : ''
+    $$('.dm', el).forEach((c, j) => pop(c, lt, T.Dt[j], 0.6)); show($('.ax-note', el), T.Dt[0] + 0.3, 10) }
+  if (ty === 'crowd') { const n = $('.ax-num', el), n2 = $('.n2', el), tj = at('traj', 1e9); show(n, T.tB - 0.15, 30); if (n2) { n.style.opacity = (+n.style.opacity * (1 - P(lt, tj - 0.1, tj + 0.2))).toFixed(2); show(n2, tj + 0.05, 30) } $$('.ch', el).forEach((c, j) => show(c, at(['br', 'base', 'traj'][j], L(sc, j + 1)))) }
+  if (ty === 'proof') {
+    show($('.hd', el), 0.2); show($('.ax-note', el), at('setup', L(sc, 1)), 10)
+    const card = $('.ax-res', el), rows = $$('.rw', el), ts = [at('r1', L(sc, 1, 0.6)), at('r2', L(sc, 2, 0.4)), at('r3', L(sc, 3, 0.7))], tl = at('lesson', 1e9)
+    const outQ = 1 - P(lt, tl - 0.1, tl + 0.3)
+    card.style.opacity = (P(lt, ts[0] - 0.5, ts[0] - 0.2) * outQ).toFixed(2)
+    rows.forEach((r, j) => { const v = (b.rows[j] || [])[2] || 0, q = P(lt, ts[j], ts[j] + 1.0, E.outCubic); r.style.opacity = P(lt, ts[j] - 0.15, ts[j] + 0.1).toFixed(2); $('u', r).style.width = (v * q).toFixed(1) + '%'; $('.v', r).textContent = (v * q).toFixed(1) + '%' })
+    const dt = $('.ax-dots', el); if (dt) { const c1 = at('cup', L(sc, 4, 0.2)), c2 = at('cup2', L(sc, 4, 0.75)), n = lt < c2 ? 0 : Math.round(40 * P(lt, c2, c2 + 0.8, E.outCubic)); dt.style.opacity = (P(lt, c1 - 0.2, c1 + 0.2) * outQ).toFixed(2)
+      $$('.g i', dt).forEach((d, j) => { d.className = j < n ? 'on' : '' }); $('.t span', dt).textContent = `${n}/40` }
+    const sn = $('.ax-scan', el); sn.style.opacity = o.scan != null ? 1 : 0; if (o.scan != null) sn.style.left = o.scan.toFixed(0) + 'px'
+    const ls = $('.ls', el); if (ls) slam(ls, lt, tl, 1.3, 0.3)
+  }
+  if (ty === 'sg') { show($('.tk', el), 0.2); show($('.ev', el), T.tE + 0.2); const cd = $('.ax-card', el); if (cd) { pop(cd, lt, T.tS, 0.7, 0.4); recAt(el, sc, Math.max(0, lt - T.tS)) } show($('.ax-note', el), T.tE + 0.5, 10) }
+  if (ty === 'lotus') {
+    const cd = $('.lc', el), tJ = T.tJ; if (cd) { cd.style.opacity = (P(lt, 0.15, 0.45) * (1 - P(lt, tJ - 0.3, tJ))).toFixed(2); cd.style.transform = `scale(${(0.94 + 0.06 * P(lt, 0.15, 0.6, E.outCubic)).toFixed(3)})`; recAt(el, sc, lt) }
+    const n = $('.ln', el); n.style.opacity = P(lt, tJ, tJ + 0.35).toFixed(2); n.style.transform = `scale(${(1.15 - 0.15 * P(lt, tJ, tJ + 0.4, E.outCubic)).toFixed(3)})`; n.classList.toggle('dk', o.bg === 'sim')
+    $$('.sp', el).forEach((c, j) => { const a = [T.t1, T.t2, T.t3][j]; c.style.opacity = P(lt, a, a + 0.3).toFixed(2); c.className = 'ax-k sp ' + (lt >= a && (j === 2 || lt < [T.t2, T.t3][j]) ? '' : 'lt') })
+    show($('.en', el), at('end', 1e9))
+    const sn = $('.ax-scan', el); sn.style.opacity = o.scan ? 1 : 0; if (o.scan) sn.style.left = ((o.scan[0] + o.scan[1]) / 2).toFixed(0) + 'px'
+  }
+  if (ty === 'net') $$('.it', el).forEach((n, j) => { const a = at('i' + j, L(sc, Math.min(j + 1, sc.lines.length - 1))); n.style.opacity = P(lt, a, a + 0.3).toFixed(2); n.style.transform = `translateX(${((1 - P(lt, a, a + 0.45, E.outCubic)) * -40).toFixed(1)}px)` })
+  if (ty === 'end') { if ($('.cm', el)) pop($('.cm', el), lt, T.tC, 0.85)
+    const ta = at('all', L(sc, 1, 0.55)); slam($('.ax-h', el), lt, ta, 1.3, 0.3); [$('.hn', el), $('.fo', el)].forEach((n, j) => show(n, ta + 0.5 + j * 0.25, 20)) }
+}
+function fxAX(add, sc, T, next) {
+  const b = sc.data || {}, ty = sc.type.slice(6), at = (k, d) => T + axAt(sc, b, k, d), ln = (j, f = 0) => T + L(sc, j, f)
+  if (ty === 'cold' && b.kind === 'line') {
+    add(T, '497', -14, { align: 'start', max: Math.max(1, sc.dur - 0.2) }); add(T + 0.1, '2297', -18, { max: sc.dur })
+    add(ln(0) - 0.03, '2909', -6); add(ln(0) - 0.03, '2299', -8); add(ln(1), '3117', -11); add(ln(2), '2847', -12); add(ln(3), '2951', -8); add(ln(3), '2299', -9)
+    if (next?.data?.drop) add(next.start, '2908', -6, { reverse: true, max: 2.6, align: 'end' })
+    return
+  }
+  if (ty === 'cold') {
+    add(T, '497', -14, { align: 'start', max: Math.max(1, sc.dur - 0.2) }); add(T + 0.1, '2297', -18, { max: sc.dur })
+    add(at('c', 0.4), '3124', -10); add(at('c', 0.4) + 0.05, '2573', -14)
+    add(at('r', ln(1)), '3117', -11)
+    add(at('d', ln(2)), '2636', -15)
+    add(at('x', ln(3)), '2951', -7); add(at('x', ln(3)), '2299', -8)
+    if (next?.data?.drop) add(next.start, '2908', -6, { reverse: true, max: 2.6, align: 'end' })
+  }
+  if (ty === 'title') { for (let i = 0; i < 6; i++) add(T + 0.12 + i * 0.075, '2857', -15, { pan: [-0.5, 0.5, -0.3, 0.3, -0.1, 0.1][i] }); add(T + 1.0, '2909', -7); add(T + 1.0, '2636', -13); add(T + 1.45, '3124', -12) }
+  if (ty === 'gap') { add(at('head', 0.25), '3124', -12); const tt = at('text', ln(1)); for (let i = 0; i < 7; i++) add(tt + i * 0.2, '2577', -17); add(at('robot', ln(2)), '2573', -12); add(at('ghost', ln(3)), '2636', -11) }
+  if (ty === 'loop') { ['g1', 'g2', 'g3', 'g4'].forEach((k, j) => { add(at(k, ln(j + 1)), '3124', -11); add(at(k, ln(j + 1)) + 0.05, '2573', -16) }); add(at('comp', ln(5)), '1143', -9) }
+  if (ty === 'axes') { ['d1', 'd2', 'd3', 'd4', 'd5'].forEach((k, j) => { add(at(k, ln(1, j * 0.2)), '3115', -12, { pan: [-0.4, 0.4, -0.2, 0.2, 0][j] }); add(at(k, ln(1, j * 0.2)) + 0.05, '2577', -15) }); add(at('total', ln(2)), '1143', -8) }
+  if (ty === 'crowd') { add(at('big', ln(0, 0.5)), '1143', -8); add(at('br', ln(1)), '3115', -12); add(at('base', ln(2)), '3124', -12); add(at('traj', ln(3)), '2573', -11) }
+  if (ty === 'proof') { add(at('setup', ln(1)), '3124', -13); add(at('r1', ln(1, 0.6)), '2573', -11); add(at('r2', ln(2, 0.4)), '2573', -11); add(at('pick', ln(3, 0.3)), '2847', -12); add(at('r3', ln(3, 0.7)), '1143', -7)
+    const c2 = at('cup2', ln(4, 0.75)); for (let i = 0; i < 6; i++) add(c2 + i * 0.12, '2577', -16); add(at('lesson', ln(5)), '1365', -8) }
+  if (ty === 'sg') { add(T + 0.2, '3124', -13); add(at('ev', ln(1)), '3115', -12); add(at('k1', ln(1, 0.5)), '3115', -12); add(at('show', ln(2)), '3115', -11) }
+  if (ty === 'lotus') { add(at('job', ln(1)), '1143', -8); add(at('s1', ln(2)), '2847', -10); add(at('s2', ln(3)), '3117', -11); add(at('s3', ln(4)), '2847', -11); add(at('s3', ln(4)) + 0.2, '2909', -10); add(T + 0.3, '3117', -20, { max: sc.dur }) }
+  if (ty === 'net') (b.items || []).forEach((_, j) => add(at('i' + j, ln(Math.min(j + 1, sc.lines.length - 1))), j % 2 ? '2573' : '3124', -12))
+  if (ty === 'end') { add(at('coming', ln(0, 0.8)), '2636', -10); const ta = at('all', ln(1, 0.55)); add(ta, '2908', -5); add(ta, '2299', -7) }
+}
+
 // ---------------------------------------------------------------- build each screen
 const built = D.scenes.map(sc => {
   const el = document.createElement('div'), b = sc.data || {}
@@ -2518,6 +3154,7 @@ const built = D.scenes.map(sc => {
   else if (sc.type.startsWith('ex_nd_')) buildND(el, sc, b)
   else if (sc.type.startsWith('ex_hy_')) buildHY(el, sc, b)
   else if (sc.type.startsWith('ex_vx_')) buildVX(el, sc, b)
+  else if (sc.type.startsWith('ex_ax_')) buildAX(el, sc, b)
   else if (sc.type === 'ex_cold') {
     const legs = b.legs || []
     el.innerHTML = `<div class="dim"></div><div class="amt2"><div class="v">${html(b.from || '$10')}</div><div class="lb"></div></div>
@@ -2596,6 +3233,7 @@ function draw(k, lt, sc) {
   if (sc.type.startsWith('ex_nd_')) return drawND(el, lt, sc, b)
   if (sc.type.startsWith('ex_hy_')) return drawHY(el, lt, sc, b)
   if (sc.type.startsWith('ex_vx_')) return drawVX(el, lt, sc, b)
+  if (sc.type.startsWith('ex_ax_')) return drawAX(el, lt, sc, b)
   if (sc.type === 'ex_cold') {
     // lines: "Ten dollars." / "One ticket." / "$172 back, if every leg lands." / "Or nothing at all." → silence → the drop
     const v = $('.amt2 .v', el), lb = $('.amt2 .lb', el), ct = $('.ct', el), cks = $$('.ck', el)
@@ -2725,13 +3363,14 @@ function fxCinematic() {
   const ev = [], add = (t, sfx, db, o = {}) => ev.push({ t: +Math.max(0, t).toFixed(3), sfx, db, ...o }), syn = (t, type, gain) => ev.push({ t: +Math.max(0, t).toFixed(3), type, ...(gain ? { gain } : {}) })
   D.scenes.forEach((sc, k) => {
     const T = sc.start, b = sc.data || {}, at = (j, f = 0) => T + L(sc, j, f), next = D.scenes[k + 1]
-    const drop = (sc.type === 'ex_hook' || /^ex_(kh|pt|cf|nd)_/.test(sc.type)) && b.drop
+    const drop = (sc.type === 'ex_hook' || /^ex_(kh|pt|cf|nd|ax)_/.test(sc.type)) && b.drop
     if (sc.type.startsWith('ex_kh_')) fxKH(add, sc, T, next)
     if (sc.type.startsWith('ex_pt_')) fxPT(add, sc, T, next)
     if (sc.type.startsWith('ex_cf_')) fxCF(add, sc, T, next)
     if (sc.type.startsWith('ex_nd_')) fxND(add, sc, T, next, syn)
     if (sc.type.startsWith('ex_hy_')) fxHY(add, sc, T, next, syn)
     if (sc.type.startsWith('ex_vx_')) fxVX(add, sc, T, next, syn)
+    if (sc.type.startsWith('ex_ax_')) fxAX(add, sc, T, next)
     if (k > 0 && !drop && !/^ex_(hy|vx)_/.test(sc.type)) add(T, k % 2 ? '1492' : '2636', k % 2 ? -12 : -14, { align: 'peak' })
     if (sc.type === 'ex_cold') {
       add(T, '497', -13, { align: 'start', max: Math.max(1, sc.dur - 0.2) })                // heartbeat under the cold open
@@ -2843,6 +3482,7 @@ window.ready = (async () => {
   await Promise.all([...document.fonts].map(f => f.load()))
   await document.fonts.ready
   if (VX.on) await VX.ready
+  if (AX.on) await AX.ready
   if (EX.theme === 'sky') {     // the hex field: faint ciphertext drifting up behind everything (drawn once, tiled)
     const c = document.createElement('canvas'); c.width = 1080; c.height = 960; const x = c.getContext('2d')
     x.font = '500 22px JBM'; x.textBaseline = 'top'
