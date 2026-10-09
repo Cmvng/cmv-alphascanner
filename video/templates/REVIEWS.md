@@ -24,6 +24,64 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
+## 9 Oct: explainer, Axis Robotics in 3D (long form 4:14, short 1:06)
+
+- **Before building:** read the last three entries' "Change next time" lines and applied them:
+  - verdict-style lines through speech-to-text (here: every line, through the full render's heard-back list);
+  - the frame size worked out for each 3D shot (the voxel film's lesson), checked on three rounds of stills;
+  - key words in front of the 3D;
+  - a 2-fps contact sheet of each finished render, not only the stills.
+- **What worked:**
+  - **One 3D world, narrated.** The voxel engine now carries a story cued to the spoken word:
+    - their mark builds rod by rod on the drop;
+    - a figure-eight loop lights a gate per stage;
+    - one task multiplies to 3,125;
+    - a dotted globe of contributors;
+    - the study as 1,200 demonstration lines with a scan that picks 600;
+    - their Singapore photos in front of a Marina Bay Sands silhouette;
+    - the Lotus parts line with two arms sorting by inverse kinematics;
+    - partner logos orbiting the mark.
+  - **The idea that carries it: simulation versus the real world.** Every arm, belt and part has a green wire twin. All wire on navy means "in simulation", and a green line sweeping across turns it solid ("deploy").
+  - **Their colours on our page:** black, white and green on light blue. Colour mix 58% blue, 34% ink, 5% green.
+  - **Facts held to their sources:**
+    - Lotus/Geely is "Axis announced" (neither company has commented);
+    - the contributor count is attributed to Axis (sources disagree: 94K, 100K+, 200K+);
+    - the unseen-lighting result is left out (not significant).
+- **Mistakes, and how they got through:**
+  1. **First stills: every camera was too close.** A vertical frame at fov 30 is only 0.30·d wide; the gap towers, the loop, the globe and the line ran off the frame, and the end halo turned the whole page green. Fixed over three rounds of stills before rendering.
+  2. **"Axis" was heard as "Access"** in the first short (three of three).
+     - A reduced second vowel (/ˈæksᵻs/) fixed it on the raw voice, but through the deep voice effect it still goes to "Access" about half the time.
+     - It is a near-homophone, not a wrong pronunciation. The fix that works is fewer mid-sentence "Axis" mentions ("it", "the company"), with the name always on screen.
+     - Cost: one stopped long render, and one short re-render.
+  3. **The deploy sweep projected off-screen.** The scan was a world-x plane, which behind the camera has no screen position, so for a moment the navy page vanished.
+     - Fixed with a clipping plane through the camera that projects to a vertical screen line, so the 3D split, the navy page and the scan line always agree.
+     - Found on cover stills, after a render had started; that render was stopped and restarted.
+  4. **"datasets" was heard wrong twice:**
+     - "a fixed dataset" as "fixed air set";
+     - after the rewrite to their own words, "static datasets", as "deer sets".
+     - The real cause is the flapped t ("DAY-ruh-sets") under the deep voice effect; a hard t (`datasets` in `SAY_IPA`) is clear.
+     - The second fix needed no render: that one line was re-recorded (0.07 s longer, inside the 0.12 s gap), then the audio was remixed from `timeline.json` and muxed onto the existing frames (about 3 minutes, instead of 75).
+  5. **Long screens:** chapters run 19–38 s, over the 15 s rule. Each is one continuous 3D shot with cued changes, so I kept them, but the study (38 s) and Singapore (29 s) hold the same composition for stretches.
+  6. **In the short, the 1,200 lines appear after the scan that picks 600** (the lines are cued to "All 1,200", which comes last in the short's wording).
+- **Change next time:**
+  - Run every line with a brand name or a merged consonant (fixed dataset, house holds) through Kokoro, the voice effect and whisper together before the first render; the raw voice alone is not enough.
+  - For a near-homophone brand name, say it at the start of sentences and use "it" or "the company" in mid-sentence.
+  - Screen-space effects (sweeps, wipes) go in camera space, never in world coordinates.
+  - In 3D, cue anything a later line depends on (the pool before the selection) in the order it will be spoken in every cut.
+  - A one-line voice fix doesn't need a re-render: re-record the line, check it fits its gap, remix from `timeline.json`, and mux onto the frames.
+- **Final review:**
+  - Long form: 253.5 s; −14.6 LUFS; true peak −2.9 dB; the drop +8.9 dB. Colour 57% blue, 34% ink, 5% green.
+  - Short: 65.6 s; −14.8 LUFS; true peak −2.6 dB; the drop +9.2 dB.
+  - Heard back: one "Axis" heard as "Access" at the start of a sentence, plus spelling-only differences (Tuco, HackVC, Dexmul).
+- **Sent:**
+  - Chat copies: the short (27.9 MB) and the long form (27.8 MB).
+  - Covers and thumbnails for both.
+  - The write-up, the post kit (with chapters) and the sources.
+  - A download page with both full-quality files (43.2 MB and 142.7 MB); one served part's sha256 was checked.
+- **The owner's reaction:** (waiting)
+
+---
+
 ## 9 Oct: analysis, "The Blueprint" (11 games, about 5:20, plus an X thread of three)
 
 - **The ask:** "a creative, clean, dwelling football analysis video" for the day's 11 singles.
