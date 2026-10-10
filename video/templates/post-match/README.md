@@ -135,7 +135,7 @@ It opens the morning's envelopes against the final whistles. Reference: `video/o
 
 ## As-Built (dw_res, dw_board; first used 9 Oct 2026)
 The results night for a "Blueprint" analysis (the drafting-paper `dw_*` family in `video/review.html`). This morning's
-sheets come back after full time and are inspected in red pen. Reference: `video/out/postmatch-2026-10-09-asbuilt.json`,
+sheets come back after full time and are inspected in red pen. Reference: `video/templates/post-match/asbuilt-2026-10-09.json`,
 built by a short script from the morning's config, so the picks, kits and photos are the morning's own.
 - **Reuse:** the morning's `picks` and photos (copy its `media_dir` into a new one and add tonight's scorers). Render with
   `--allow-same`: the repeat guard sees the shared `dw_` family.

@@ -24,6 +24,38 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
+## 9 Oct: post-match, "As-Built" (the 11 Blueprint games, 4:38)
+
+- **Before building:** read the last three entries' "Change next time" lines and applied them:
+  - every line through Kokoro, the deep voice and whisper together before the first render (41 lines, retested after each rewrite);
+  - about 22 s a sheet (they ran 19–24 s; Braga was cut from 27 s);
+  - the say-check read by eye: 30 names set by hand (Kowalczyk, Pascual, Coman, Nowak, Mateusz, Thauvin, Merentiel and more);
+  - a 2-fps contact sheet of the finished render, and settled frames of the stamps.
+- **What worked:**
+  - **The morning's sheets came back for inspection.** Same drafting paper, same photos, the morning's xG arrows drawn faint, then red pen for what really happened: each goal circled in the goal it went into, a minute ruler that fills as the goals are spoken, the morning's call struck through on a miss, and a stamp.
+  - **Tonight's scorers behind their lines:** Piazón, Heggheim, Christiansen, Til, Samú Costa, Coman, Thauvin, Sotoca and Udol, with each photo checked by eye (kit, club, face). Two photos that couldn't be confirmed (Danny Armstrong, Morten Jensen) were left out.
+  - **Built from the morning's config by a script,** so the picks, kits and verdicts couldn't drift. Each game was added as its brief came in, and the whole slate rendered once.
+  - **The owner's rule, applied the same night:** called or missed, nothing in between (see below).
+- **Mistakes, and how they got through:**
+  1. **"Half right."** I judged three games half right (right winner, wrong margin). The owner didn't understand the term: "if it happened, that means you called it. It's simple." All three were re-judged as called, and "half right" was removed from the guide, the skill, the master prompt, the stamps and the tally. It came from my own rule in the 8 Oct entry, never from the owner.
+  2. **CSS collision on the first stills.** Short class names (`.tk`, `.ev`, `.s`) picked up another family's styles, and the ruler ticks drew as big navy circles. Renamed everything with a `dwr-` prefix.
+  3. **Goal labels overlapped** where one side scored four (Raków); the marks are now spread by count.
+  4. **Score lines ran together** through the deep voice ("Płock nil" → "Płatsknell", "Diriyah nil" → "D'Rionnel"). Every score is now "Three–nil to Wieczysta". Also "through an own goal" was heard as "threw", and "a Braga own goal" as "Braga-owned goal"; both were rewritten.
+  5. **The soundtrack pool ran out.** All five approved wow tracks were in the last six, so this video uses candidate 607 (Forest Walk), and the owner was told.
+  6. **The Boca sheet ran 29 s**, against about 22 s for the others: four goals and a long second line. I kept it rather than spend another 15-minute render at 2 a.m.; the line should have been cut before the first render.
+  7. **The container restarted** while the Boca agent was waiting for full time; it was resumed from its transcript and nothing was lost.
+- **Change next time:**
+  - Judge every verdict as called or missed only: if what we said happened, it's called.
+  - Give new CSS classes a unique family prefix from the first line.
+  - Write score lines as "X–Y to Team", never "Team X, Team Y".
+  - Check every sheet's length on the say-check run, before the render, not on the review after it.
+  - When the approved soundtrack pool is nearly used up, ask the owner about the candidates early in the day, not at render time.
+- **Final review:** 4:38, -14.6 LUFS, true peak -3.3 dB; all 41 lines heard as written (only name spellings differ); sheets 19–29 s; the stamps checked on settled frames.
+- **Sent:** the chat copy (27.8 MB), cover, thumbnail, subtitles, write-up, sources and post kit; the full-quality file (174.9 MB) on a private download page, one served part checked by sha256.
+- **The owner's reaction:** asked mid-build to drop "half right" (done). Reaction to the video: (waiting)
+
+---
+
 ## 9 Oct: explainer, Axis Robotics in 3D (long form 4:14, short 1:06)
 
 - **Before building:** read the last three entries' "Change next time" lines and applied them:

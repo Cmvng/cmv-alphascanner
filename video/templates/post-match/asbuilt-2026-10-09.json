@@ -1,0 +1,1697 @@
+{
+ "mode": "review",
+ "competition": "Football",
+ "date": "2026-10-09",
+ "sound": "cinematic",
+ "voice_fx": "deep",
+ "voice_speed": 1.05,
+ "music_drop": "after_cold",
+ "music_duck": 10,
+ "stadiums": false,
+ "picks": [
+  {
+   "home": "FC Zlin",
+   "away": "Slavia Prague",
+   "competition": "1. Liga",
+   "kickoff": "17:00",
+   "home_win": 10,
+   "draw": 17,
+   "away_win": 73,
+   "xg_home": 0.73,
+   "xg_away": 2.24,
+   "form_home": "LLLWD",
+   "form_away": "WLWWW",
+   "scored_home": 0.89,
+   "scored_away": 2.78,
+   "conceded_home": 2.11,
+   "conceded_away": 0.67,
+   "top_scores": [
+    [
+     0,
+     2,
+     13
+    ],
+    [
+     0,
+     1,
+     10
+    ],
+    [
+     0,
+     3,
+     10
+    ]
+   ],
+   "ko": "17:00",
+   "where": "Czechia",
+   "home_short": "Zlín",
+   "away_short": "Slavia",
+   "kit": {
+    "home": {
+     "c": "#F2C200"
+    },
+    "away": {
+     "c": "#D7141A"
+    }
+   }
+  },
+  {
+   "home": "Wieczysta Krakow",
+   "away": "Wisla Plock",
+   "competition": "Ekstraklasa",
+   "kickoff": "17:00",
+   "home_win": 29,
+   "draw": 30,
+   "away_win": 41,
+   "xg_home": 0.99,
+   "xg_away": 1.26,
+   "form_home": "LLDLD",
+   "form_away": "LWDWW",
+   "scored_home": 1.38,
+   "scored_away": 1.12,
+   "conceded_home": 2.12,
+   "conceded_away": 1.5,
+   "top_scores": [
+    [
+     1,
+     1,
+     14
+    ],
+    [
+     0,
+     1,
+     12
+    ],
+    [
+     0,
+     0,
+     11
+    ]
+   ],
+   "ko": "17:00",
+   "where": "Poland",
+   "home_short": "Wieczysta",
+   "away_short": "Wisła Płock",
+   "kit": {
+    "home": {
+     "c": "#F5C518"
+    },
+    "away": {
+     "c": "#1E5BB8"
+    }
+   }
+  },
+  {
+   "home": "SK Brann",
+   "away": "Viking FK",
+   "competition": "Eliteserien",
+   "kickoff": "18:00",
+   "home_win": 29,
+   "draw": 27,
+   "away_win": 44,
+   "xg_home": 1.19,
+   "xg_away": 1.53,
+   "form_home": "DLLWW",
+   "form_away": "DLWWW",
+   "scored_home": 1.86,
+   "scored_away": 2.57,
+   "conceded_home": 1.52,
+   "conceded_away": 0.95,
+   "top_scores": [
+    [
+     1,
+     1,
+     13
+    ],
+    [
+     0,
+     1,
+     9
+    ],
+    [
+     1,
+     2,
+     9
+    ]
+   ],
+   "ko": "18:00",
+   "where": "Norway",
+   "home_short": "Brann",
+   "away_short": "Viking",
+   "kit": {
+    "home": {
+     "c": "#D71920"
+    },
+    "away": {
+     "c": "#1A3A8F"
+    }
+   }
+  },
+  {
+   "home": "PSV Eindhoven",
+   "away": "SC Heerenveen",
+   "competition": "Eredivisie",
+   "kickoff": "19:00",
+   "home_win": 75,
+   "draw": 17,
+   "away_win": 8,
+   "xg_home": 2.34,
+   "xg_away": 0.75,
+   "form_home": "WWDWL",
+   "form_away": "LDLDW",
+   "scored_home": 3.43,
+   "scored_away": 1.57,
+   "conceded_home": 1.43,
+   "conceded_away": 1.29,
+   "top_scores": [
+    [
+     2,
+     0,
+     12
+    ],
+    [
+     3,
+     0,
+     10
+    ],
+    [
+     1,
+     0,
+     9
+    ]
+   ],
+   "ko": "19:00",
+   "where": "Netherlands",
+   "home_short": "PSV",
+   "away_short": "Heerenveen",
+   "kit": {
+    "home": {
+     "c": "#E30613"
+    },
+    "away": {
+     "c": "#0057A8"
+    }
+   }
+  },
+  {
+   "home": "Al Nassr Club",
+   "away": "Diriyah Club",
+   "competition": "Saudi Pro League",
+   "kickoff": "19:00",
+   "home_win": 50,
+   "draw": 27,
+   "away_win": 23,
+   "xg_home": 1.57,
+   "xg_away": 1.02,
+   "form_home": "WLWDL",
+   "form_away": "DWLWD",
+   "scored_home": 2.29,
+   "scored_away": 1,
+   "conceded_home": 1,
+   "conceded_away": 0.71,
+   "top_scores": [
+    [
+     1,
+     1,
+     13
+    ],
+    [
+     1,
+     0,
+     11
+    ],
+    [
+     2,
+     1,
+     10
+    ]
+   ],
+   "ko": "19:00",
+   "where": "Saudi Arabia",
+   "home_short": "Al Nassr",
+   "away_short": "Diriyah",
+   "kit": {
+    "home": {
+     "c": "#F9D71C"
+    }
+   }
+  },
+  {
+   "home": "ACS Sepsi OSK Sfantu Gheorghe",
+   "away": "FC Dinamo Bucuresti 1948",
+   "competition": "Superliga",
+   "kickoff": "19:00",
+   "home_win": 33,
+   "draw": 27,
+   "away_win": 40,
+   "xg_home": 1.24,
+   "xg_away": 1.36,
+   "form_home": "WLLWL",
+   "form_away": "DWWWW",
+   "scored_home": 0.7,
+   "scored_away": 2.3,
+   "conceded_home": 1,
+   "conceded_away": 0.7,
+   "top_scores": [
+    [
+     1,
+     1,
+     13
+    ],
+    [
+     0,
+     1,
+     9
+    ],
+    [
+     1,
+     2,
+     9
+    ]
+   ],
+   "ko": "19:00",
+   "where": "Romania",
+   "home_short": "Sepsi",
+   "away_short": "Dinamo",
+   "kit": {
+    "away": {
+     "c": "#D3122C"
+    }
+   }
+  },
+  {
+   "home": "Rakow Czestochowa",
+   "away": "GKS Katowice",
+   "competition": "Ekstraklasa",
+   "kickoff": "19:30",
+   "home_win": 33,
+   "draw": 28,
+   "away_win": 39,
+   "xg_home": 1.33,
+   "xg_away": 1.46,
+   "form_home": "LDDLW",
+   "form_away": "LWLWW",
+   "scored_home": 1.5,
+   "scored_away": 2,
+   "conceded_home": 2.1,
+   "conceded_away": 1.5,
+   "top_scores": [
+    [
+     1,
+     1,
+     13
+    ],
+    [
+     1,
+     2,
+     9
+    ],
+    [
+     0,
+     1,
+     8
+    ]
+   ],
+   "ko": "19:30",
+   "where": "Poland",
+   "home_short": "Raków",
+   "away_short": "Katowice",
+   "kit": {
+    "home": {
+     "c": "#D2232A"
+    },
+    "away": {
+     "c": "#00843D"
+    }
+   }
+  },
+  {
+   "home": "Lens",
+   "away": "Lyon",
+   "competition": "Ligue 1",
+   "kickoff": "19:45",
+   "home_win": 46,
+   "draw": 27,
+   "away_win": 27,
+   "xg_home": 1.53,
+   "xg_away": 1.1,
+   "form_home": "LLWDL",
+   "form_away": "DWDWW",
+   "scored_home": 1.8,
+   "scored_away": 2,
+   "conceded_home": 1.8,
+   "conceded_away": 0.4,
+   "top_scores": [
+    [
+     1,
+     1,
+     13
+    ],
+    [
+     1,
+     0,
+     10
+    ],
+    [
+     2,
+     1,
+     9
+    ]
+   ],
+   "ko": "19:45",
+   "where": "France",
+   "home_short": "Lens",
+   "away_short": "Lyon"
+  },
+  {
+   "home": "Malaga CF",
+   "away": "Espanyol",
+   "competition": "Laliga",
+   "kickoff": "20:00",
+   "home_win": 38,
+   "draw": 28,
+   "away_win": 34,
+   "xg_home": 1.29,
+   "xg_away": 1.2,
+   "form_home": "LDDLL",
+   "form_away": "LDWLL",
+   "scored_home": 0.43,
+   "scored_away": 1.43,
+   "conceded_home": 1.71,
+   "conceded_away": 1.43,
+   "top_scores": [
+    [
+     1,
+     1,
+     13
+    ],
+    [
+     1,
+     0,
+     10
+    ],
+    [
+     0,
+     0,
+     9
+    ]
+   ],
+   "ko": "20:00",
+   "where": "Spain",
+   "home_short": "Málaga",
+   "away_short": "Espanyol",
+   "kit": {
+    "home": {
+     "c": "#4A9DE0"
+    },
+    "away": {
+     "c": "#0A4FA0"
+    }
+   }
+  },
+  {
+   "home": "Braga",
+   "away": "Sporting",
+   "competition": "Liga Portugal",
+   "kickoff": "20:15",
+   "home_win": 26,
+   "draw": 28,
+   "away_win": 46,
+   "xg_home": 1.03,
+   "xg_away": 1.47,
+   "form_home": "WWLWD",
+   "form_away": "WWWDD",
+   "scored_home": 1.17,
+   "scored_away": 2.43,
+   "conceded_home": 0.83,
+   "conceded_away": 1.14,
+   "top_scores": [
+    [
+     1,
+     1,
+     13
+    ],
+    [
+     0,
+     1,
+     11
+    ],
+    [
+     0,
+     0,
+     9
+    ]
+   ],
+   "ko": "20:15",
+   "where": "Portugal",
+   "home_short": "Braga",
+   "away_short": "Sporting",
+   "kit": {
+    "home": {
+     "c": "#D71920"
+    },
+    "away": {
+     "c": "#008057"
+    }
+   }
+  },
+  {
+   "home": "Instituto AC Cordoba",
+   "away": "Boca Juniors",
+   "competition": "Primera Lpf",
+   "kickoff": "23:30",
+   "home_win": 33,
+   "draw": 28,
+   "away_win": 39,
+   "xg_home": 1.23,
+   "xg_away": 1.35,
+   "form_home": "WLWWW",
+   "form_away": "WDWWW",
+   "scored_home": 1.55,
+   "scored_away": 1.55,
+   "conceded_home": 0.73,
+   "conceded_away": 1,
+   "top_scores": [
+    [
+     1,
+     1,
+     13
+    ],
+    [
+     0,
+     1,
+     9
+    ],
+    [
+     1,
+     2,
+     9
+    ]
+   ],
+   "ko": "23:30",
+   "where": "Argentina",
+   "home_short": "Instituto",
+   "away_short": "Boca",
+   "kit": {
+    "home": {
+     "c": "#C8102E"
+    },
+    "away": {
+     "c": "#0B3C8C"
+    }
+   }
+  }
+ ],
+ "title": "As-Built: the post-match for today's 11 games, 9 Oct",
+ "media_dir": ".cache/media/postmatch-2026-10-09-asbuilt",
+ "music_vibe": [
+  "cinematic"
+ ],
+ "music_track": 607,
+ "review": {
+  "project": "As-Built",
+  "beats": [
+   {
+    "type": "dw_cold",
+    "steps": [
+     {
+      "big": "11 sheets",
+      "label": "Drawn this morning · 9 Oct"
+     },
+     {
+      "big": "11 verdicts",
+      "label": "One per game · on our numbers"
+     },
+     {
+      "big": "990 minutes",
+      "label": "Ten countries · three continents"
+     },
+     {
+      "big": "Inspected",
+      "label": "Full time · in red pen",
+      "tone": "red",
+      "glitch": true,
+      "glitch_at": 0.5
+     }
+    ],
+    "say": [
+     "This morning, we drew eleven sheets.",
+     "Eleven verdicts, one for every game.",
+     "Ninety minutes each.",
+     "Tonight, every sheet gets inspected."
+    ],
+    "tail": 0.95
+   },
+   {
+    "type": "dw_title",
+    "drop": true,
+    "when": "Fri 9 Oct",
+    "l1": "The",
+    "l2": "As-Built.",
+    "sub": "This morning's sheets · checked at full time",
+    "say": [
+     "As-Built: this morning's sheets, checked against what really happened."
+    ]
+   },
+   {
+    "type": "dw_res",
+    "match": 0,
+    "head": "One header was enough",
+    "kicker": "Chance Liga · Round 10 · Full time · HT 0–1",
+    "photos": [
+     {
+      "src": "ph_st_zlin.jpg",
+      "credit": "Stadion Letná · Photo: Palickap · CC BY-SA 4.0",
+      "label": "Stadion Letná, Zlín"
+     },
+     {
+      "src": "ph_jindrich_trpisovsky.jpg",
+      "credit": "Jindřich Trpišovský · Photo: Вячеслав Евдокимов · CC BY-SA 3.0",
+      "label": "Jindřich Trpišovský",
+      "sub": "Slavia coach · 8 wins, 2 draws in 10",
+      "team": "away",
+      "fit": "contain",
+      "at": [
+       2,
+       0.0
+      ]
+     }
+    ],
+    "score": [
+     0,
+     1
+    ],
+    "ht": [
+     0,
+     1
+    ],
+    "events": [
+     {
+      "min": 16,
+      "kind": "goal",
+      "team": "away",
+      "who": "Ayaosi",
+      "at": [
+       1,
+       0.025
+      ]
+     }
+    ],
+    "notes": [
+     {
+      "label": "Shots",
+      "text": "Zlín 4 · Slavia 20",
+      "team": "away",
+      "at": [
+       1,
+       0.485
+      ]
+     },
+     {
+      "label": "VAR · 72'",
+      "text": "Slavia penalty overturned",
+      "at": [
+       1,
+       0.672
+      ]
+     }
+    ],
+    "morning": {
+     "text": "Slavia, comfortably",
+     "short": "Slavia, comfortably",
+     "score": "0–2"
+    },
+    "verdict": "called",
+    "say": [
+     "We start in Zlín, at the bottom of the league. One–nil to Slavia.",
+     "Emmanuel Ayaosi headed in Lukáš Provod's cross on 16 minutes. Slavia had 20 shots to Zlín's 4, and VAR took a penalty away from them on 72.",
+     "The verdict: we said Slavia. One header was enough. Called it."
+    ]
+   },
+   {
+    "type": "dw_res",
+    "match": 1,
+    "head": "Oxygen for Wieczysta",
+    "kicker": "Ekstraklasa · Round 10 · Full time · HT 1–0",
+    "photos": [
+     {
+      "src": "ph_st_reyman.jpg",
+      "credit": "Henryk Reyman Stadium · Photo: Piotr Drabik · CC BY 2.0",
+      "label": "Henryk Reyman Stadium, Kraków · tonight's venue"
+     },
+     {
+      "src": "p_lucas_piazon.jpg",
+      "credit": "Lucas Piazon · Photo: Williamkeane · CC BY-SA 3.0",
+      "label": "Lucas Piazón",
+      "sub": "Wieczysta · scored on 34'",
+      "team": "home",
+      "fit": "contain",
+      "at": [
+       1,
+       0.0
+      ]
+     }
+    ],
+    "score": [
+     3,
+     0
+    ],
+    "ht": [
+     1,
+     0
+    ],
+    "events": [
+     {
+      "min": 34,
+      "kind": "goal",
+      "team": "home",
+      "who": "Piazón",
+      "at": [
+       1,
+       0.0
+      ]
+     },
+     {
+      "min": 68,
+      "kind": "goal",
+      "team": "home",
+      "who": "Semedo",
+      "at": [
+       1,
+       0.41
+      ]
+     },
+     {
+      "min": 96,
+      "min_label": "90+6'",
+      "kind": "goal",
+      "team": "home",
+      "who": "Semedo",
+      "at": [
+       1,
+       0.551
+      ]
+     }
+    ],
+    "notes": [
+     {
+      "label": "xG",
+      "text": "Wieczysta 1.83 · Płock 0.57",
+      "team": "home",
+      "at": [
+       1,
+       0.275
+      ]
+     },
+     {
+      "label": "Table",
+      "text": "Wieczysta 17th → 13th",
+      "team": "home",
+      "at": [
+       2,
+       0.579
+      ]
+     }
+    ],
+    "morning": {
+     "text": "Płock edge it",
+     "short": "Płock edge it",
+     "score": "0–1"
+    },
+    "verdict": "missed",
+    "say": [
+     "Kraków next, at Wieczysta's borrowed home. Three–nil to Wieczysta.",
+     "Lucas Piazón finished a counter on 34 minutes. Substitute Lisandro Semedo scored twice, the second into an empty net, six minutes into stoppage time.",
+     "The verdict: we had Płock edging it. Wieczysta won by three, and climbed from 17th to 13th. We missed it."
+    ]
+   },
+   {
+    "type": "dw_res",
+    "match": 2,
+    "head": "Ten men, still top",
+    "kicker": "Eliteserien · Round 23 · Full time · HT 0–2",
+    "photos": [
+     {
+      "src": "ph_st_brann.jpg",
+      "credit": "Brann Stadion · Photo: Alasdair McLellan · CC BY-SA 3.0",
+      "label": "Brann Stadion, Bergen"
+     },
+     {
+      "src": "p_henrik_heggheim.jpg",
+      "credit": "Henrik Heggheim · Photo: 3point.dk · CC BY 3.0",
+      "label": "Henrik Heggheim",
+      "sub": "Viking · a goal and an assist",
+      "team": "away",
+      "fit": "contain",
+      "at": [
+       1,
+       0.0
+      ]
+     },
+     {
+      "src": "p_peter_christiansen.jpg",
+      "credit": "Peter Christiansen · Photo: Zafer · CC BY 4.0",
+      "label": "Peter Christiansen",
+      "sub": "Viking · scored on 20'",
+      "team": "away",
+      "fit": "contain",
+      "at": [
+       1,
+       0.255
+      ]
+     }
+    ],
+    "score": [
+     0,
+     2
+    ],
+    "ht": [
+     0,
+     2
+    ],
+    "events": [
+     {
+      "min": 11,
+      "kind": "goal",
+      "team": "away",
+      "who": "Heggheim",
+      "at": [
+       1,
+       0.004
+      ]
+     },
+     {
+      "min": 20,
+      "kind": "goal",
+      "team": "away",
+      "who": "Christiansen",
+      "at": [
+       1,
+       0.333
+      ]
+     },
+     {
+      "min": 39,
+      "kind": "red",
+      "team": "away",
+      "who": "Askildsen",
+      "at": [
+       1,
+       0.53
+      ]
+     }
+    ],
+    "notes": [
+     {
+      "label": "Brann",
+      "text": "80% of the ball · 29 shots",
+      "team": "home",
+      "at": [
+       1,
+       0.776
+      ]
+     },
+     {
+      "label": "Table",
+      "text": "Viking 53 · Bodø/Glimt 50, a game in hand",
+      "team": "away",
+      "at": [
+       2,
+       0.575
+      ]
+     }
+    ],
+    "morning": {
+     "text": "Viking stay top",
+     "short": "Viking stay top",
+     "score": "1–2"
+    },
+    "verdict": "called",
+    "say": [
+     "Bergen, with the leaders in town. Two–nil to Viking.",
+     "Henrik Heggheim headed in on 11 minutes, then set up Peter Christiansen on 20. Viking had a man sent off after a VAR review, and held on with ten for an hour.",
+     "The verdict: we said Viking stay top. They did, three points clear. Called it."
+    ]
+   },
+   {
+    "type": "dw_res",
+    "match": 3,
+    "head": "The clean sheet, at last",
+    "kicker": "Eredivisie · Round 8 · Full time · HT 1–0",
+    "photos": [
+     {
+      "src": "ph_st_psv.jpg",
+      "credit": "Philips Stadion · Photo: Michielverbeek · CC BY-SA 4.0",
+      "label": "Philips Stadion, Eindhoven"
+     },
+     {
+      "src": "p_guus_til.jpg",
+      "credit": "Guus Til · Photo: Анна Нэсси · CC BY-SA 3.0",
+      "label": "Guus Til",
+      "sub": "PSV · headed in on 29'",
+      "team": "home",
+      "fit": "contain",
+      "at": [
+       1,
+       0.0
+      ]
+     }
+    ],
+    "score": [
+     2,
+     0
+    ],
+    "ht": [
+     1,
+     0
+    ],
+    "events": [
+     {
+      "min": 29,
+      "kind": "goal",
+      "team": "home",
+      "who": "Til",
+      "at": [
+       1,
+       0.0
+      ]
+     },
+     {
+      "min": 68,
+      "kind": "og",
+      "team": "away",
+      "who": "Linday",
+      "at": [
+       1,
+       0.275
+      ]
+     }
+    ],
+    "notes": [
+     {
+      "label": "Heerenveen",
+      "text": "The better early chances",
+      "team": "away",
+      "at": [
+       1,
+       0.59
+      ]
+     },
+     {
+      "label": "PSV",
+      "text": "First clean sheet in 10 games",
+      "team": "home",
+      "at": [
+       2,
+       0.512
+      ]
+     }
+    ],
+    "morning": {
+     "text": "PSV, by two",
+     "short": "PSV, by two",
+     "score": "2–0"
+    },
+    "verdict": "called",
+    "say": [
+     "Eindhoven, and PSV against Heerenveen. Two–nil to PSV.",
+     "Guus Til headed in at the back post on 29 minutes. On 68, a corner went in off a Heerenveen defender. Heerenveen had chances, but PSV's keeper kept every one out.",
+     "The verdict: we said PSV, by two. Two–nil, and their first clean sheet of the season. Called it."
+    ]
+   },
+   {
+    "type": "dw_res",
+    "match": 4,
+    "head": "Ronaldo, goal 980",
+    "kicker": "Saudi Pro League · Round 8 · Full time · HT 2–0",
+    "photos": [
+     {
+      "src": "ph_st_alawwal.jpg",
+      "credit": "Al-Awwal Park · Photo: Alina.chiorean · CC BY-SA 4.0",
+      "label": "Al-Awwal Park, Riyadh"
+     },
+     {
+      "src": "ph_cristiano_ronaldo.jpg",
+      "credit": "Cristiano Ronaldo · Photo: Bryan Berlin · CC BY-SA 4.0",
+      "label": "Cristiano Ronaldo",
+      "sub": "Al Nassr · scored on 23'",
+      "team": "home",
+      "fit": "contain",
+      "at": [
+       1,
+       0.0
+      ]
+     },
+     {
+      "src": "p_samu_costa.jpg",
+      "credit": "Samú Costa · Photo: Bryan Berlin · CC BY-SA 4.0",
+      "label": "Samú Costa",
+      "sub": "Al Nassr · headed in on 35'",
+      "team": "home",
+      "fit": "contain",
+      "at": [
+       1,
+       0.32
+      ]
+     },
+     {
+      "src": "p_kingsley_coman.jpg",
+      "credit": "Kingsley Coman · Photo: Sven Mandel · CC BY-SA 4.0",
+      "label": "Kingsley Coman",
+      "sub": "Al Nassr · scored on 77'",
+      "team": "home",
+      "fit": "contain",
+      "at": [
+       1,
+       0.52
+      ]
+     }
+    ],
+    "score": [
+     3,
+     0
+    ],
+    "ht": [
+     2,
+     0
+    ],
+    "events": [
+     {
+      "min": 23,
+      "kind": "goal",
+      "team": "home",
+      "who": "Ronaldo",
+      "at": [
+       1,
+       0.0
+      ]
+     },
+     {
+      "min": 35,
+      "kind": "goal",
+      "team": "home",
+      "who": "Samú Costa",
+      "at": [
+       1,
+       0.36
+      ]
+     },
+     {
+      "min": 77,
+      "kind": "goal",
+      "team": "home",
+      "who": "Coman",
+      "at": [
+       1,
+       0.56
+      ]
+     }
+    ],
+    "notes": [
+     {
+      "label": "Diriyah",
+      "text": "1 shot on target",
+      "team": "away",
+      "at": [
+       1,
+       0.76
+      ]
+     },
+     {
+      "label": "Table",
+      "text": "Al Nassr 2nd · level with the leaders",
+      "team": "home",
+      "at": [
+       2,
+       0.556
+      ]
+     }
+    ],
+    "morning": {
+     "text": "Al Nassr, narrowly",
+     "short": "Al Nassr, narrowly",
+     "score": "1–0"
+    },
+    "verdict": "called",
+    "say": [
+     "Riyadh, and Ronaldo's return. Three–nil to Al Nassr.",
+     "Cristiano Ronaldo scored on 23 minutes, the 980th goal of his career. Samú Costa headed in a corner, and Kingsley Coman finished a counter. Diriyah managed one shot on target.",
+     "The verdict: we said Al Nassr. Three–nil. Called it."
+    ]
+   },
+   {
+    "type": "dw_res",
+    "match": 5,
+    "head": "The run is over",
+    "kicker": "Superliga · Round 11 · Full time · HT 0–2",
+    "photos": [
+     {
+      "src": "ph_st_sepsi.jpg",
+      "credit": "Sepsi Arena · Photo: @8Dodo8 · Public domain",
+      "label": "Sepsi Arena, Sfântu Gheorghe"
+     },
+     {
+      "src": "ph_ovidiu_burca.jpg",
+      "credit": "Ovidiu Burcă · Photo: Northside · CC BY-SA 3.0",
+      "label": "Ovidiu Burcă",
+      "sub": "Sepsi coach",
+      "team": "home",
+      "fit": "contain",
+      "at": [
+       1,
+       0.535
+      ]
+     }
+    ],
+    "score": [
+     0,
+     2
+    ],
+    "ht": [
+     0,
+     2
+    ],
+    "events": [
+     {
+      "min": 24,
+      "kind": "goal",
+      "team": "away",
+      "who": "Pascual",
+      "at": [
+       1,
+       0.005
+      ]
+     },
+     {
+      "min": 36,
+      "kind": "goal",
+      "team": "away",
+      "who": "Soro",
+      "at": [
+       1,
+       0.447
+      ]
+     }
+    ],
+    "notes": [
+     {
+      "label": "Sepsi",
+      "text": "Woodwork in the second half",
+      "team": "home",
+      "at": [
+       1,
+       0.575
+      ]
+     },
+     {
+      "label": "Table",
+      "text": "Dinamo top on 26 points",
+      "team": "away",
+      "at": [
+       2,
+       0.778
+      ]
+     }
+    ],
+    "morning": {
+     "text": "Dinamo snap the run",
+     "short": "Dinamo snap the run",
+     "score": "0–1"
+    },
+    "verdict": "called",
+    "say": [
+     "Then Romania, and Dinamo's Sepsi problem. Two–nil to Dinamo.",
+     "Martín Pascual headed in a corner on 24 minutes, and Danny Armstrong set up Alberto Soro on 36. Sepsi hit the woodwork in the second half, but never scored.",
+     "The verdict: we said Dinamo snap the run. Their first win over Sepsi since 2019, and they stay top. Called it."
+    ]
+   },
+   {
+    "type": "dw_res",
+    "match": 6,
+    "head": "Champions, still bottom",
+    "kicker": "Ekstraklasa · Round 10 · Full time · HT 1–1",
+    "photos": [
+     {
+      "src": "ph_st_rakow.jpg",
+      "credit": "Raków stadium · Photo: Carl92 · CC BY-SA 4.0",
+      "label": "Raków Municipal Stadium, Częstochowa"
+     },
+     {
+      "src": "ph_ilya_shkurin.jpg",
+      "credit": "Ilya Shkurin · Photo: Dynamomania.com · CC BY-SA 4.0",
+      "label": "Ilya Shkurin",
+      "sub": "GKS Katowice · scored on 34'",
+      "team": "away",
+      "fit": "contain",
+      "at": [
+       1,
+       0.0
+      ]
+     }
+    ],
+    "score": [
+     1,
+     4
+    ],
+    "ht": [
+     1,
+     1
+    ],
+    "events": [
+     {
+      "min": 34,
+      "kind": "goal",
+      "team": "away",
+      "who": "Shkurin",
+      "at": [
+       1,
+       0.0
+      ]
+     },
+     {
+      "min": 37,
+      "kind": "goal",
+      "team": "home",
+      "who": "Makuch",
+      "at": [
+       1,
+       0.24
+      ]
+     },
+     {
+      "min": 48,
+      "kind": "pen",
+      "team": "away",
+      "who": "Nowak",
+      "at": [
+       1,
+       0.515
+      ]
+     },
+     {
+      "min": 57,
+      "kind": "goal",
+      "team": "away",
+      "who": "Kowalczyk",
+      "at": [
+       1,
+       0.759
+      ]
+     },
+     {
+      "min": 91,
+      "min_label": "90+1'",
+      "kind": "goal",
+      "team": "away",
+      "who": "Galán",
+      "at": [
+       1,
+       0.844
+      ]
+     }
+    ],
+    "notes": [
+     {
+      "label": "Shkurin",
+      "text": "Scored against his old club",
+      "team": "away",
+      "at": [
+       1,
+       0.082
+      ]
+     },
+     {
+      "label": "Raków",
+      "text": "9 defeats in 10 · bottom",
+      "team": "home",
+      "at": [
+       2,
+       0.511
+      ]
+     }
+    ],
+    "morning": {
+     "text": "Goals, and GKS edge it",
+     "short": "GKS edge it",
+     "score": "1–2"
+    },
+    "verdict": "called",
+    "say": [
+     "Częstochowa, where the champions of 2023 are bottom. Four–one to GKS Katowice.",
+     "Ilya Shkurin scored against his old club, and Raków levelled off the bar. After the break, Bartosz Nowak chipped in a penalty, and Kowalczyk and Galán made it four.",
+     "The verdict: we said goals, and a GKS win. Five goals, and GKS won. Called it."
+    ]
+   },
+   {
+    "type": "dw_res",
+    "match": 7,
+    "head": "Lyon's first defeat",
+    "kicker": "Ligue 1 · Matchday 6 · Full time · HT 1–0",
+    "photos": [
+     {
+      "src": "ph_st_lens.jpg",
+      "credit": "Stade Bollaert-Delelis · Photo: Liondartois · CC BY-SA 4.0",
+      "label": "Stade Bollaert-Delelis, Lens"
+     },
+     {
+      "src": "p_florian_thauvin.jpg",
+      "credit": "Florian Thauvin · Photo: Антон Зайцев · CC BY-SA 3.0",
+      "label": "Florian Thauvin",
+      "sub": "Lens · two assists",
+      "team": "home",
+      "fit": "contain",
+      "at": [
+       1,
+       0.0
+      ]
+     },
+     {
+      "src": "p_florian_sotoca.jpg",
+      "credit": "Florian Sotoca · Photo: Paté kroute",
+      "label": "Florian Sotoca",
+      "sub": "Lens · scored on 36'",
+      "team": "home",
+      "fit": "contain",
+      "at": [
+       1,
+       0.145
+      ]
+     },
+     {
+      "src": "p_matthieu_udol.jpg",
+      "credit": "Matthieu Udol · Photo: Supporterhéninois",
+      "label": "Matthieu Udol",
+      "sub": "Lens · scored on 76', sent off on 84'",
+      "team": "home",
+      "fit": "contain",
+      "at": [
+       1,
+       0.347
+      ]
+     }
+    ],
+    "score": [
+     2,
+     1
+    ],
+    "ht": [
+     1,
+     0
+    ],
+    "events": [
+     {
+      "min": 36,
+      "kind": "goal",
+      "team": "home",
+      "who": "Sotoca",
+      "at": [
+       1,
+       0.185
+      ]
+     },
+     {
+      "min": 76,
+      "kind": "goal",
+      "team": "home",
+      "who": "Udol",
+      "at": [
+       1,
+       0.387
+      ]
+     },
+     {
+      "min": 84,
+      "kind": "red",
+      "team": "home",
+      "who": "Udol",
+      "at": [
+       1,
+       0.595
+      ]
+     },
+     {
+      "min": 85,
+      "kind": "goal",
+      "team": "away",
+      "who": "Merah",
+      "at": [
+       1,
+       0.786
+      ]
+     }
+    ],
+    "notes": [
+     {
+      "label": "Thauvin",
+      "text": "Two assists",
+      "team": "home",
+      "at": [
+       1,
+       0.0
+      ]
+     },
+     {
+      "label": "Lyon",
+      "text": "First league defeat of the season",
+      "team": "away",
+      "at": [
+       2,
+       0.312
+      ]
+     }
+    ],
+    "morning": {
+     "text": "Lyon don't lose",
+     "short": "Lyon don't lose",
+     "score": "1–1"
+    },
+    "verdict": "missed",
+    "say": [
+     "Bollaert next, where Lyon arrived unbeaten. Two–one to Lens.",
+     "Florian Thauvin set up both Lens goals: Florian Sotoca on 36 minutes, and a Matthieu Udol header on 76. Udol was sent off eight minutes later, and Lyon pulled one back, too late.",
+     "The verdict: we said Lyon don't lose. They lost, for the first time in the league this season. We missed it."
+    ]
+   },
+   {
+    "type": "dw_res",
+    "match": 8,
+    "head": "Rescued at the death",
+    "kicker": "LaLiga · Matchday 8 · Full time · HT 0–1",
+    "photos": [
+     {
+      "src": "ph_st_rosaleda.jpg",
+      "credit": "La Rosaleda · Photo: Hidalgismael · CC0",
+      "label": "La Rosaleda, Málaga"
+     }
+    ],
+    "score": [
+     1,
+     1
+    ],
+    "ht": [
+     0,
+     1
+    ],
+    "events": [
+     {
+      "min": 13,
+      "kind": "goal",
+      "team": "away",
+      "who": "Zaragoza",
+      "at": [
+       1,
+       0.0
+      ]
+     },
+     {
+      "min": 93,
+      "min_label": "90+3'",
+      "kind": "goal",
+      "team": "home",
+      "who": "Niño",
+      "at": [
+       1,
+       0.815
+      ]
+     }
+    ],
+    "notes": [
+     {
+      "label": "Málaga",
+      "text": "58% of the ball · 15 shots to 9",
+      "team": "home",
+      "at": [
+       1,
+       0.407
+      ]
+     },
+     {
+      "label": "Table",
+      "text": "Málaga 20th · still no win in 8",
+      "team": "home",
+      "at": [
+       2,
+       0.639
+      ]
+     }
+    ],
+    "morning": {
+     "text": "Espanyol don't lose",
+     "short": "Espanyol don't lose",
+     "score": "1–1"
+    },
+    "verdict": "called",
+    "say": [
+     "Then Málaga, still looking for a first win, against Espanyol. One goal each.",
+     "Bryan Zaragoza ran through on the counter and scored on 13 minutes. Málaga hit the bar, and in the third minute of stoppage time, Adrián Niño equalised.",
+     "The verdict: we said Espanyol don't lose, one goal each. The exact score. Called it."
+    ]
+   },
+   {
+    "type": "dw_res",
+    "match": 9,
+    "head": "The wall, broken",
+    "kicker": "Liga Portugal · Matchday 8 · Full time · HT 1–0",
+    "photos": [
+     {
+      "src": "ph_st_braga.jpg",
+      "credit": "Estádio Municipal de Braga · Photo: Joseolgon · CC BY-SA 4.0",
+      "label": "Estádio Municipal de Braga"
+     },
+     {
+      "src": "ph_luis_javier_suarez.jpg",
+      "credit": "Luis Javier Suárez · Photo: Presidencia de Colombia · Public domain",
+      "label": "Luis Javier Suárez",
+      "sub": "Sporting · came off the bench, scored on 66'",
+      "team": "away",
+      "fit": "contain",
+      "at": [
+       1,
+       0.309
+      ]
+     }
+    ],
+    "score": [
+     1,
+     3
+    ],
+    "ht": [
+     1,
+     0
+    ],
+    "events": [
+     {
+      "min": 41,
+      "kind": "og",
+      "team": "away",
+      "who": "Rui Silva",
+      "at": [
+       1,
+       0.115
+      ]
+     },
+     {
+      "min": 66,
+      "kind": "goal",
+      "team": "away",
+      "who": "Suárez",
+      "at": [
+       1,
+       0.349
+      ]
+     },
+     {
+      "min": 71,
+      "kind": "og",
+      "team": "home",
+      "who": "Fontes",
+      "at": [
+       1,
+       0.499
+      ]
+     },
+     {
+      "min": 82,
+      "kind": "goal",
+      "team": "away",
+      "who": "Zalazar",
+      "at": [
+       1,
+       0.722
+      ]
+     }
+    ],
+    "notes": [
+     {
+      "label": "Zalazar",
+      "text": "Ex-Braga · held back his celebration",
+      "team": "away",
+      "at": [
+       1,
+       0.722
+      ]
+     },
+     {
+      "label": "Table",
+      "text": "Sporting 2nd · 3 behind Porto",
+      "team": "away",
+      "at": [
+       2,
+       0.514
+      ]
+     }
+    ],
+    "morning": {
+     "text": "Sporting break the wall",
+     "short": "Sporting break the wall",
+     "score": "0–1"
+    },
+    "verdict": "called",
+    "say": [
+     "Then Braga, with five clean sheets at home this season, against Sporting. Three–one to Sporting.",
+     "Braga led at the break, after an own goal by Sporting's keeper. Substitute Luis Suárez headed in on 66, Braga then put one into their own net, and Rodrigo Zalazar, once of Braga, made it three.",
+     "The verdict: we said Sporting break the wall. They broke it three times. Called it."
+    ]
+   },
+   {
+    "type": "dw_res",
+    "match": 10,
+    "head": "Seventeen unbeaten",
+    "kicker": "Torneo Clausura · Round 12 · Full time · HT 1–1",
+    "photos": [
+     {
+      "src": "ph_st_kempes.jpg",
+      "credit": "Estadio Mario Alberto Kempes · Photo: Alepizarro32 · CC BY-SA 4.0",
+      "label": "Estadio Kempes, Córdoba · tonight's venue"
+     },
+     {
+      "src": "ph_enner_valencia.jpg",
+      "credit": "Enner Valencia · Photo: Bryan Berlin · CC BY-SA 4.0",
+      "label": "Enner Valencia",
+      "sub": "Boca · scored on 23'",
+      "team": "away",
+      "fit": "contain",
+      "at": [
+       1,
+       0.125
+      ]
+     }
+    ],
+    "score": [
+     2,
+     2
+    ],
+    "ht": [
+     1,
+     1
+    ],
+    "events": [
+     {
+      "min": 13,
+      "kind": "goal",
+      "team": "home",
+      "who": "Alarcón",
+      "at": [
+       1,
+       0.0
+      ]
+     },
+     {
+      "min": 23,
+      "kind": "goal",
+      "team": "away",
+      "who": "Valencia",
+      "at": [
+       1,
+       0.165
+      ]
+     },
+     {
+      "min": 47,
+      "kind": "goal",
+      "team": "home",
+      "who": "Galván",
+      "at": [
+       1,
+       0.419
+      ]
+     },
+     {
+      "min": 55,
+      "kind": "goal",
+      "team": "away",
+      "who": "Merentiel",
+      "at": [
+       1,
+       0.659
+      ]
+     }
+    ],
+    "notes": [
+     {
+      "label": "Boca",
+      "text": "69% of the ball · first touch, goal",
+      "team": "away",
+      "at": [
+       1,
+       0.659
+      ]
+     },
+     {
+      "label": "Table",
+      "text": "Instituto still top · Boca 2nd",
+      "team": "home",
+      "at": [
+       2,
+       0.46
+      ]
+     }
+    ],
+    "morning": {
+     "text": "Boca don't lose",
+     "short": "Boca don't lose",
+     "score": "1–1"
+    },
+    "verdict": "called",
+    "say": [
+     "And the late one, in Córdoba: the leaders, Instituto, against unbeaten Boca. Two goals each.",
+     "Alarcón put Instituto ahead on 13 minutes, and Enner Valencia levelled when the keeper dropped the ball. Jonathan Galván scored again just after the break, and Miguel Merentiel came off the bench to equalise with his first touch.",
+     "The verdict: we said goals at both ends, and Boca don't lose. Two goals each, and Boca are unbeaten in seventeen. Called it."
+    ]
+   },
+   {
+    "type": "dw_board",
+    "when": "Fri 9 Oct",
+    "l1": "The",
+    "l2": "inspection",
+    "sub": "11 games · stamped at full time",
+    "stamps_at": [
+     0,
+     0.3
+    ],
+    "step": 0.24,
+    "tally_at": [
+     1,
+     0
+    ],
+    "say": [
+     "And now, the inspection: all eleven sheets.",
+     "Nine called, and two missed."
+    ]
+   },
+   {
+    "type": "dw_end",
+    "when": "Fri 9 Oct",
+    "l1": "Inspected.",
+    "l2": "Filed.",
+    "fol_top": 1080,
+    "follow": "Follow for more football, by the numbers",
+    "say": [
+     "Eleven sheets, all inspected.",
+     "That's the post-match. Follow for more football, by the numbers."
+    ],
+    "tail": 0.9
+   }
+  ]
+ }
+}
