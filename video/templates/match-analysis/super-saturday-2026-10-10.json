@@ -1095,7 +1095,7 @@
       "note": "Genoa: 19th, no win yet",
       "at": [
        0,
-       0.109
+       0.095
       ]
      },
      {
@@ -1109,7 +1109,7 @@
      }
     ],
     "say": [
-     "In Italy, Fiorentina edge it at Genoa, who are still without a win.",
+     "In Italy, Fiorentina should edge it at Genoa, who are still without a win.",
      "And Napoli beat promoted Frosinone, with McTominay back in the squad."
     ]
    },
@@ -1219,13 +1219,13 @@
       "note": "Dolberg out after knee surgery",
       "at": [
        1,
-       0.46
+       0.504
       ]
      }
     ],
     "say": [
      "Elsewhere, Rangers beat Kilmarnock to go top in Scotland, and Bodø Glimt beat Kristiansund to draw level with Viking.",
-     "Hajduk edge the Croatian derby, and Ajax beat NEC, even without Dolberg."
+     "Hajduk should edge the Croatian derby, and Ajax beat NEC, even without Dolberg."
     ]
    },
    {
@@ -1429,12 +1429,6 @@
    3
   ],
   "more": "Chelsea, Bayern, Barça, PSG and more",
-  "row_max": 6,
-  "rot": [
-   6,
-   47
-  ],
-  "sun_at": "15:00",
   "row": [
    1,
    2,
@@ -1442,6 +1436,12 @@
    16,
    14,
    10
-  ]
+  ],
+  "row_max": 6,
+  "rot": [
+   6,
+   47
+  ],
+  "sun_at": "15:00"
  }
 }
