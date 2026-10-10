@@ -24,6 +24,47 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
+## 10 Oct: analysis, "Super Saturday" (23 of the day's 52 games, 2:59)
+
+- **Before building:** read the last three entries' "Change next time" lines and applied them:
+  - called or missed only (no verdict today is judged, but the write-up and stamps no longer have a middle box);
+  - unique CSS prefixes from the first line (`gll-` for the round-up card, `glp-` for postcards and avatars);
+  - score lines as "Three–nil to X" wherever a score is spoken;
+  - sheet lengths checked at say-check time: the first estimate was 3:41, so every line was cut (533 words to 432)
+    before the first render, which came in at 2:56.
+- **What worked:**
+  - **The cut.** 52 games became four in depth and 19 at a glance: one round-up card per league, every game named
+    once with its model bar and one researched note. The big leagues, Scotland, Norway, Croatia and the Netherlands
+    made it; the lower divisions didn't.
+  - **The globe, zoomed in to Europe.** The Follow the Sun globe at five times the size reads as a map. Each league
+    card flies to its country and lights it up, so the viewer always knows where they are.
+  - **Stadium postcards** on the four headline stops, and faces on "Inside the game" (Saka, Calvert-Lewin, Mbappé,
+    Pape Gueye), each checked by eye for player and club.
+  - **Built by a script** from the app's preview files, so the model numbers couldn't drift.
+- **Mistakes, and how they got through:**
+  1. **Homophones in the round-up lines.** "Rangers win to go top" was heard back as "went", and "Bodø/Glimt" would
+     have been read as "Bodø slash Glimt". Both lines were rewritten after the first hear-back ("Rangers beat
+     Kilmarnock to go top"); the "/" rule was already in the guide and should have caught it at writing time.
+  2. **"Edge it" heard as "edged"** in the second render's hear-back: "Fiorentina edged at Genoa" and "Hajduk edged the
+     Croatian derby", which makes a preview sound like a result. Both became "should edge", were heard back right on
+     their own, and the video was rendered a third time. The homophone list is now a step in the match-analysis guide.
+  3. **Too long at first.** The first draft was 3:41 against the owner's "not five minutes". The estimate caught it
+     before any render.
+  4. **The cover's crest row** overflowed with eight pairs and didn't match its caption ("Chelsea, Bayern, Barça, PSG"),
+     and its tag accent was orange. `row_max` caps the row, `row` picks the games, and the accent is now blue.
+  5. **A render deleted the shell's working folder** (the output folder is rebuilt); use absolute paths.
+- **Change next time:**
+  - On a big slate, decide the cut (which games in depth, which leagues at a glance) before any research, and say it
+    to the owner in the first reply.
+  - Run every line through the homophone list in the match-analysis guide (step 3) before the first voice test, and
+    write predictions with "should" or "to" wherever a present-tense verb could be heard as past.
+  - Estimate the length from the word count before the first render: about 2.45 words a second at speed 1.05.
+- **Final review:** 2:59, −14.7 LUFS, true peak −1.9 dB, music 587 "Discover" (drop on the title at 8.8 s). Cream 66% and blue 29% of the coloured pixels (the sand land of the Follow the Sun globe, kept on purpose). Heard back: both "should edge" lines right; the 16 remaining differences are name spellings by the speech-to-text and "two–nil" written "2-0". The two "Inside the game" screens run 16–17.5 s.
+- **Sent:** 10 Oct, 09:10 UTC (10:10 Lagos), before the first kick-off (Arsenal v Leeds, 12:30 Lagos): the 27.3 MB chat copy, the cover and thumbnail, the write-up, the post kit, the sources and the subtitles, plus a private download page for the 86 MB file.
+- **The owner's reaction:** (waiting)
+
+---
+
 ## 9 Oct: post-match, "As-Built" (the 11 Blueprint games, 4:38)
 
 - **Before building:** read the last three entries' "Change next time" lines and applied them:
