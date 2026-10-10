@@ -798,6 +798,24 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#03060F}
 .gl .gl-card{position:absolute;background:#fff;border-radius:28px;box-shadow:0 26px 60px rgba(16,52,130,.2),0 0 0 2px rgba(11,31,77,.05)}
 .gl .gl-sw{display:inline-block;border-radius:6px;box-shadow:inset 0 0 0 2px rgba(11,31,77,.16)}
 /* the day's timeline: Lagos time, day to night, one marker per game, the sun (then the moon) moving along */
+.gl_list .gll-h{position:absolute;left:46px;right:46px;top:178px;font:400 112px/1 Anton;text-transform:uppercase;white-space:nowrap}
+.gl_list .gll-s{position:absolute;left:50px;right:46px;top:300px;font:700 21px JBM;letter-spacing:4px;text-transform:uppercase;color:var(--gl-blue);white-space:nowrap}
+.gl_list .gll-card{left:40px;right:40px;top:944px;padding:10px 26px}
+.gl_list .gll-r{display:grid;grid-template-columns:86px 104px minmax(0,1fr) auto;align-items:center;gap:14px;height:118px;border-top:2px solid rgba(11,31,77,.08)}
+.gl_list .gll-r:first-child{border-top:none}
+.gl_list .gll-k{font:700 24px JBM;letter-spacing:1px;color:var(--gl-ink)}
+.gl_list .gll-c{display:flex;gap:6px}.gl_list .gll-c .badge{width:46px;height:46px}
+.gl_list .gll-m{min-width:0}
+.gl_list .gll-m b{display:block;font:400 34px/1.05 Anton;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gl_list .gll-t{display:flex;gap:4px;height:10px;margin-top:8px;max-width:380px}
+.gl_list .gll-t i{display:block;height:100%;border-radius:5px;transform-origin:0 50%}
+.gl_list .gll-n{display:block;margin-top:7px;font:700 20px/1.2 Manrope;color:var(--gl-mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gl_list .gll-v{font:700 18px JBM;font-style:normal;letter-spacing:2px;text-transform:uppercase;color:#fff;background:var(--gl-blue);padding:9px 14px;border-radius:10px;white-space:nowrap}
+.gl .glp-pc{position:absolute;left:610px;top:350px;width:410px;padding:12px 12px 40px;background:#fff;border-radius:6px;box-shadow:0 22px 50px rgba(16,52,130,.28);transform:rotate(3deg);transform-origin:50% 0}
+.gl .glp-pc div{width:100%;height:250px;background-size:cover;background-position:center;border-radius:2px}
+.gl .glp-pc span{position:absolute;left:14px;right:14px;bottom:9px;font:700 16px JBM;letter-spacing:2px;text-transform:uppercase;color:var(--gl-ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gl .glp-cr{position:absolute;left:60px;right:60px;top:1812px;font:600 14px Manrope;color:rgba(11,31,77,.5);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gl_deep .gl-km>div .glp-av{display:block;width:118px;height:118px;border-radius:50%;background-size:cover;background-position:center 20%;box-shadow:0 0 0 4px #fff,0 8px 18px rgba(16,52,130,.25);margin-bottom:10px}
 .gl .gl-day{position:absolute;left:60px;right:60px;top:1742px;height:14px;border-radius:7px;box-shadow:inset 0 0 0 2px rgba(11,31,77,.08)}
 .gl .gl-mk{position:absolute;top:1739px;width:20px;height:20px;margin-left:-10px;border-radius:50%;background:#fff;box-shadow:0 0 0 3px var(--gl-blue)}
 .gl .gl-mk.done{background:var(--gl-blue)}
@@ -1549,7 +1567,9 @@ function glDraw(cv, o) {
 // the camera: each stop's globe centre; the previous stop's, for the flight in
 const GLS = D.scenes.filter(s => /^gl_/.test(s.type))
 const glBlockAt = (sc, kk, j) => sc.data?.[kk + '_at'] ? vrT(sc, ...sc.data[kk + '_at']) : (S(sc, Math.min(j, sc.lines.length - 1))[0] ?? 0.5) - 0.1
-const glCentre = sc => /^gl_(match|deep)$/.test(sc.type) ? glLL(D.picks[sc.data?.match ?? 0]) : null
+const glCentre = sc => /^gl_(match|deep)$/.test(sc.type) ? glLL(D.picks[sc.data?.match ?? 0]) : sc.type === 'gl_list' ? (sc.data?.centre || glLL(D.picks[sc.data?.rows?.[0]?.match ?? 0])) : null
+// the globe's size on a stop (cfg.review.globe_r): 380 shows continents; ~1400 is a map of Europe
+const GLR = () => D.cfg.review?.globe_r || 380
 const glPrevCentre = sc => { for (let j = GLS.indexOf(sc) - 1; j >= 0; j--) { const c = glCentre(GLS[j]); if (c) return c } return [8, 12] }
 const glPins = (on, cur, lt) => D.picks.map((q, j) => { const [lon, lat] = glLL(q), h = vrKit(q, 'home'), a = vrKit(q, 'away'); return { lon, lat, c1: h.c, c2: a.c, s: on(j), ripple: j === cur ? (lt * 0.8) % 1 : null } })
 // the day's timeline (Lagos time), from just before the first kick-off to just after the last
@@ -2192,6 +2212,7 @@ const built = D.scenes.map((sc, k) => {
         <div class="gl-ko"><b>${html(q.ko || '')}</b><span>${html(b.ko_label || 'Kick-off · Lagos')}</span></div>
         <div class="gl-city"><b>${html(q.city?.name || '')}</b><span>${html(q.city?.local || '')}</span><em>${html(b.comp || q.competition || '')}</em></div>
         ${q.city?.venue ? `<div class="gl-venue" style="left:${b.venue_x ?? 580}px;top:${b.venue_y ?? 690}px">${html(q.city.venue)}</div>` : ''}
+        ${b.photo ? `<div class="glp-pc" style="${b.photo.pos || ''}"><div style="background-image:url('${b.photo.src}')"></div><span>${html(b.photo.label || q.city?.venue || '')}</span></div><div class="glp-cr">${html(b.photo.credit || '')}</div>` : ''}
         <div class="gl-card gl-mc"><div class="gl-teams"><div class="gl-tm h">${badge(q.bh)}<b style="color:${vrTx(kh)}">${html(vrName(q, 'home'))}</b></div><em>v</em><div class="gl-tm a">${badge(q.ba)}<b style="color:${vrTx(ka)}">${html(vrName(q, 'away'))}</b></div></div>
           <div class="gl-tri">${m.map((v, j) => `<i style="width:${v}%;background:${[kh.bg, '#C9D5EA', ka.bg][j]}"></i>`).join('')}</div>
           <div class="gl-lab"><span>${html(vrName(q, 'home'))} <b>${Math.round(m[0])}%</b></span><span>Draw <b>${Math.round(m[1])}%</b></span><span>${html(vrName(q, 'away'))} <b>${Math.round(m[2])}%</b></span></div>
@@ -2206,9 +2227,16 @@ const built = D.scenes.map((sc, k) => {
         <div><b style="color:${vrTx(kh)}">${html(b.table.home?.[0] || '')}</b><span>${html(vrName(q, 'home'))}<br>${html(b.table.home?.[1] || '')}</span></div>
         <div><b style="color:${vrTx(ka)}">${html(b.table.away?.[0] || '')}</b><span>${html(vrName(q, 'away'))}<br>${html(b.table.away?.[1] || '')}</span></div></div></div>`)
       if (b.men) blocks.push(`<div class="gl-card gl-blk gl-b-men" style="top:${b.men_top ?? tops.men}px"><div class="gl-bt">${html(b.men_label || 'Key men')}</div><div class="gl-km">${b.men.map(x => { const kt = x.team === 'away' ? ka : kh
-        return `<div><em style="color:${vrTx(kt)}">${html(x.team === 'away' ? vrName(q, 'away') : vrName(q, 'home'))}</em><b>${html(x.name)}</b><p>${html(x.stat || '')}</p></div>` }).join('')}</div></div>`)
+        return `<div>${x.photo ? `<i class="glp-av" style="background-image:url('${x.photo}')"></i>` : ''}<em style="color:${vrTx(kt)}">${html(x.team === 'away' ? vrName(q, 'away') : vrName(q, 'home'))}</em><b>${html(x.name)}</b><p>${html(x.stat || '')}</p></div>` }).join('')}</div></div>`)
+      const crd = (b.men || []).map(x => x.credit).filter(Boolean).join(' · ')
       if (b.read) blocks.push(`<div class="gl-card gl-blk gl-b-read" style="top:${b.read_top ?? tops.read}px"><div class="gl-rd"><i>${html(b.read_label || 'Our read')}</i><span>${html(b.read)}</span></div></div>`)
-      el.innerHTML = `<div class="gl-sky"></div>${cv}<div class="gl-pg">${glTop(b, '')}<div class="gl-h">${html(b.title || 'Inside the game')}</div><div class="gl-k">${html(b.kicker || '')}</div>${blocks.join('')}</div>${glDay()}`
+      el.innerHTML = `<div class="gl-sky"></div>${cv}<div class="gl-pg">${glTop(b, '')}<div class="gl-h">${html(b.title || 'Inside the game')}</div><div class="gl-k">${html(b.kicker || '')}</div>${blocks.join('')}${typeof crd !== 'undefined' && crd ? `<div class="glp-cr">${html(crd)}</div>` : ''}</div>${glDay()}`
+    } else if (sc.type === 'gl_list') {
+      // a league round-up: the map flies to the country, its games light up, one row per game with the model and a note
+      const rows = (b.rows || []).map(r => { const p = D.picks[r.match] || M, h = vrKit(p, 'home'), a = vrKit(p, 'away'), m = [p.home_win, p.draw, p.away_win]
+        return `<div class="gll-r" data-j="${r.match}"><span class="gll-k">${html(p.ko || '')}</span><span class="gll-c">${badge(p.bh)}${badge(p.ba)}</span><div class="gll-m"><b>${html(vrName(p, 'home'))} v ${html(vrName(p, 'away'))}</b>
+          <div class="gll-t">${m.map((v, j) => `<i style="width:${v}%;background:${[h.bg, '#C9D5EA', a.bg][j]}"></i>`).join('')}</div><span class="gll-n">${html(r.note || '')}</span></div><em class="gll-v">${html(r.lean || '')}</em></div>` }).join('')
+      el.innerHTML = `<div class="gl-sky"></div>${cv}<div class="gl-pg">${glTop(b, b.stop || '')}<div class="gll-h">${html(b.title || '')}</div><div class="gll-s">${html(b.sub || '')}</div><div class="gl-card gll-card">${rows}</div></div>${glDay()}`
     } else if (sc.type === 'gl_end') {
       el.innerHTML = `<div class="gl-sky"></div>${cv}<div class="gl-pg">${glTop(b, b.stop || '')}<div class="gl-e1">${html(b.l1 || '')}</div><div class="gl-e2">${html(b.l2 || '')}</div>
         <div class="gl-fol"><b>${html(b.follow || 'Follow for the post-match')}</b><span>Football, by the numbers</span></div></div>${glDay()}`
@@ -2843,11 +2871,12 @@ function draw(k, lt, sc) {
       // kick-off; the board and the analysis card land with the voice
       const from = glPrevCentre(sc), to = glLL(q), fq = P(lt, 0.05, 1.25, E.inOutSine), ip = d3.geoInterpolate ? d3.geoInterpolate(from, to) : null
       const pq = GLS[GLS.indexOf(sc) - 1], pm = pq && /^gl_(match|deep)$/.test(pq.type) ? glMin(D.picks[pq.data.match].ko) : firstKO - 30, km = glMin(q.ko), mm = pm + (km - pm) * fq
-      if (GL.on) glDraw(cv, { cx: 540, cy: 760, r: 380 * (1 - 0.2 * Math.sin(Math.PI * fq)), rot: ip ? ip(fq) : to, sun: glSun(glUtcOfLagos(mm)),
+      if (GL.on) glDraw(cv, { cx: 540, cy: 760, r: (b.r || GLR()) * (1 - 0.2 * Math.sin(Math.PI * fq)), rot: ip ? ip(fq) : to, sun: glSun(glUtcOfLagos(mm)),
         tint: q.city?.iso ? [{ id: q.city.iso, c: vrKit(q, 'home').c, a: 0.62 * P(lt, 1.1, 1.7) }] : [],
         arcs: [{ from, to, t: fq, ball: true }], pins: glPins(i => i === cur ? 1.3 * P(lt, 1.15, 1.5, E.outBack) : 0.75, cur, lt) })
       rise([$('.gl-top', el)], lt, 0.1, 0, 14); slam($('.gl-ko', el), lt, 1.15, 1.4, 0.28); rise([$('.gl-city', el)], lt, 1.3, 0, 22)
       const vn = $('.gl-venue', el); if (vn) rise([vn], lt, 1.45, 0, 14)
+      const pc = $('.glp-pc', el); if (pc) { const pa = b.photo?.at ? vrT(sc, ...b.photo.at) : 1.6, pq = P(lt, pa, pa + 0.5, E.outBack); pc.style.opacity = n1(P(lt, pa, pa + 0.2)); pc.style.transform = `rotate(${n1(3 + 8 * (1 - pq))}deg) translate3d(0,${n1(-60 * (1 - pq))}px,0) scale(${n1(0.7 + 0.3 * pq)})`; const cr = $('.glp-cr', el); if (cr) cr.style.opacity = n1(P(lt, pa, pa + 0.3)) }
       const cardAt = b.card_at ? vrT(sc, ...b.card_at) : Math.max(1.3, L0(0) - 0.1); rise([$('.gl-mc', el)], lt, cardAt, 0, 40)
       const ma = b.model_at ? vrT(sc, ...b.model_at) : cardAt + 0.4
       $$('.gl-tri i', el).forEach((x, j) => { x.style.transform = `scaleX(${n1(P(lt, ma + j * 0.15, ma + 0.6 + j * 0.15, E.outCubic))})` })
@@ -2866,6 +2895,16 @@ function draw(k, lt, sc) {
         if (kk === 'form') $$('.gl-pl span', n).forEach((p2, i) => { const t2 = a + 0.35 + (i % 5) * 0.09 + Math.floor(i / 5) * 0.2, s2 = P(lt, t2, t2 + 0.3, E.outBack); p2.style.transform = `scale(${n1(Math.max(0.01, s2))})` })
       })
       glDayDraw(el, glMin(q.ko), cur, lt)
+    } else if (sc.type === 'gl_list') {
+      const rows = b.rows || [], on = new Set(rows.map(r => r.match)), from = glPrevCentre(sc), to = glCentre(sc), fq = P(lt, 0.05, 1.1, E.inOutSine), ip = d3.geoInterpolate ? d3.geoInterpolate(from, to) : null
+      const km = Math.min(...rows.map(r => glMin(D.picks[r.match]?.ko)))
+      if (GL.on) glDraw(cv, { cx: 540, cy: b.cy ?? 640, r: (b.r || GLR()) * (1 - 0.15 * Math.sin(Math.PI * fq)), rot: ip ? ip(fq) : to, sun: glSun(glUtcOfLagos(km)),
+        tint: (b.iso ? [].concat(b.iso) : []).map(id => ({ id, c: '#4FB3FF', a: 0.38 * P(lt, 0.9, 1.5) })),
+        pins: glPins(i => on.has(i) ? 1.15 * P(lt, 1.0 + 0.12 * [...on].indexOf(i), 1.35 + 0.12 * [...on].indexOf(i), E.outBack) : 0.45, -1, lt) })
+      rise([$('.gl-top', el)], lt, 0.1, 0, 14); slam($('.gll-h', el), lt, 0.9, 1.4, 0.28); rise([$('.gll-s', el)], lt, 1.1, 0, 18); rise([$('.gll-card', el)], lt, 1.0, 0, 30)
+      $$('.gll-r', el).forEach((n, j) => { const r = rows[j] || {}, a = r.at ? vrT(sc, ...r.at) : L0(Math.min(j, last)) + 0.2 * j; rise([n], lt, a - 0.1, 0, 22)
+        $$('.gll-t i', n).forEach((x, i) => { x.style.transform = `scaleX(${n1(P(lt, a + 0.1 + i * 0.1, a + 0.5 + i * 0.1, E.outCubic))})` }) })
+      glDayDraw(el, km, null, lt)
     } else if (sc.type === 'gl_end') {
       // the whole route, drawn city to city, the globe turning west into the night
       const route = [...new Set(GLS.filter(s => s.type === 'gl_match').map(s => s.data.match))].map(j => glLL(D.picks[j])), rq = P(lt, 0.4, Math.max(1.5, sc.dur - 1.2))
@@ -3256,6 +3295,7 @@ function fxCinematic() {
       if (next?.data?.drop) add(next.start, '2908', -6, { reverse: true, max: 2.6, align: 'end' })
     }
     if (sc.type === 'gl_title') { add(T + 0.5, '2847', -16, { max: 2.2 }); D.picks.forEach((_, i) => add(T + 0.8 + i * 0.08, '3124', -18 - i * 0.2)) }
+    if (sc.type === 'gl_list') { add(T + 0.08, '3115', -11); (b.rows || []).forEach((r, j) => add(T + (r.at ? vrT(sc, ...r.at) : (S(sc, Math.min(j, sc.lines.length - 1))[0] ?? 1)) - 0.1, '3124', -15)) }
     if (sc.type === 'gl_match') { add(T + 0.08, '3115', -10); add(T + 1.18, '1143', -11); add(T + 1.2, '2299', -9); (b.points || []).forEach((p, j) => add(T + (p[2] != null ? vrT(sc, p[2], p[3] || 0) : (S(sc, Math.min(j + 1, lastL))[0] ?? 2)) - 0.1, '3124', -14)) }
     if (sc.type === 'gl_deep') ['form', 'table', 'men', 'read'].forEach((kk, j) => { if (b[kk]) add(T + glBlockAt(sc, kk, j), '2573', -13) })
     if (sc.type === 'gl_end') { add(T + 0.35, '2909', -8); add(T + 0.4, '2299', -7); add(T + 0.6, '2847', -18, { max: 1.6 }) }
