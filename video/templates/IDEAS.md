@@ -67,6 +67,46 @@ Different is the floor; creative is the bar. Before building, write the concept 
   In the owner's light style (sky blue, white glass, navy type). Next time: a different metaphor (a vault, a metro map, a
   receipt, a race), and alternate light and dark from video to video.
 
+## Reference from the owner, 10 Oct: "Wat is PaperTrade?" (@levithefirst on X, 1:32, 16:9)
+The same project as our "The House" (6 Oct), told the opposite way: quiet, one diagram, honest. What it does:
+- **One canvas, no cuts.** 92 seconds with not a single cut. One diagram builds clause by clause: a box slides in, a
+  dashed arrow draws, a coin pops. The hero object (the pool, a tall box) stays on screen almost the whole time and
+  changes state. It starts empty with "$0", fills with ink as losses come in, empties into a queue, and sinks below a
+  zero line ("can sit underwater").
+- **Old parts fade to grey instead of leaving.** When the voice says "Papertrade skips that", the normal-exchange
+  diagram fades to about 20% and stays, so the viewer keeps the comparison in view.
+- **Three colours that mean something:** ink for structure, red for loss, green for profit, and one colour for the token
+  (mustard, PAPER). Thin lines, small labels, and a tiny "■ label" tag top left that names the current idea ("starts
+  at zero", "payout queue", "realized losses"), so it works as a chapter marker.
+- **Everyday objects in one line style:** an invoice ("amount due: + profit"), an empty dashed "cash today" box,
+  numbered queue tickets with "first in, first out", a see-saw ("clever design" against "serious trade-off"), a
+  waterline. Each metaphor is drawn like the rest of the diagram, so it never breaks the look.
+- **Read-along captions:** the whole sentence sits at the bottom in light grey and each word turns dark as it's
+  spoken. No big kinetic words; it reads like subtitles that follow the voice.
+- **The script:** a question hook ("What if the people losing money were helping build the system that pays the
+  winners?") → the name and a one-line definition → the contrast ("on many exchanges… Papertrade skips that") → the
+  mechanism, one step a line → the turn ("But what happens when you win and the pool can't cover it?") → an everyday
+  comparison ("a business that owes you money but lacks the cash today") → the risk, said plainly ("nothing guarantees
+  they will", "it doesn't remove the risk") → a two-line recap → a balanced verdict on the see-saw → it ends on an open
+  question card ("what happens when the house starts with nothing?").
+- **Sound:** a calm voice at about 2.8 words a second (ours: 2.45), and a soft music bed about 8 dB under it with no
+  drop. −16.6 LUFS.
+
+What we take (and what we don't):
+- **New format, "The whiteboard":** one vertical canvas, a hero object that stays and changes state, no cuts, and old
+  parts fading to grey. In `explainer.html` it would be a data-driven family (`ex_wb_`): nodes
+  `{id, kind: box|pool|invoice|ticket|coin|seesaw|line|waterline, label, at: [line, frac], state}`, each line adding,
+  dimming or moving nodes. Lay it out for 1080×1920: the diagram in the top two-thirds, the caption in the lower third.
+- **A read-along caption mode** (the sentence in grey, spoken words in navy) for explainers, next to our current
+  blue word chip. We already have word timings.
+- **One colour per meaning:** keep red and green for loss and profit only, and give the project's token its own colour
+  from its brand.
+- **The honest beat:** say the risk plainly and end on a balanced verdict and an open question. It builds trust and
+  keeps the video monetisable (an explainer, not a promotion). The open question also invites comments.
+- **Keep ours:** the light-blue page and the project's own colours (the cream was Papertrade's), our cold open, and a
+  wow soundtrack with the drop (the owner's taste). The calm comes from the diagram and the pace, not from dropping the
+  music. No black frame at the end (this one ends on two seconds of black).
+
 ## References from the owner, 5 Oct (batch 2: six TikTok football edits)
 Four of the six are built on match footage, which we never use (copyright; see the skill). We take the techniques.
 - **Collage poster (lorentso.tv, made for the Bundesliga, 0:12).** Players cut out and set on torn paper, black and
