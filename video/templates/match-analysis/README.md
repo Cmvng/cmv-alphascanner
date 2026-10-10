@@ -132,6 +132,27 @@ engineering drawing. Reference: `video/out/analysis-2026-10-09-blueprint.json`. 
   at Wisła Kraków's stadium, and Instituto v Boca was moved to the Kempes. Show the real venue and say so on the label.
 - **Pace:** four lines a sheet, about 25 s each. The 11-game cut ran 5:17, so split it into three parts for X.
 
+## Another format: "Super Saturday" (a big slate, four in depth and the rest at a glance, 10 Oct 2026)
+The owner, with 52 games on the app: *"focus on the top matches and just talk briefly on the other matches so that it's
+not be long."* The globe from Follow the Sun, zoomed in to a map of Europe. Reference:
+`super-saturday-2026-10-10.json` (mode "review", `gl_*` screens).
+- **Choosing the games.** Four headline games get the full treatment (`gl_match` with three lines, and `gl_deep` for
+  the two biggest). The rest of the big leagues get one round-up card per league. Leave out the lower divisions and
+  small leagues: 23 of 52 games made it in, and the cut ran about three minutes.
+- **The map.** `review.globe_r: 1500` zooms every screen in to Europe. Each screen can set its own `r`, `cy` and
+  `centre: [lon, lat]`. The land stays sand and the sea pale blue, as in Follow the Sun.
+- **The round-up card, `gl_list`.** The map flies from the last stop to the league's country, tints it (`iso` is one
+  code or a list) and grows a pin for each listed game. Then one row rises per game on its words:
+  - `rows: [{match, lean, note, at: [line, frac]}]`: kick-off, crests, "Home v Away", the model's three-way bar, one
+    short researched note, and the lean chip ("Villa 47%").
+  - `title`, `sub` and `stop` head the card. Two spoken lines a card, with every game named in them.
+  - Order the cards by kick-off around the headline games, and end on the late headline game.
+- **Stadium postcards.** `gl_match` takes `photo: {src, label, credit, pos, at}`: the home ground as a tilted postcard
+  with the city and kick-off on it ("London · 12:30 today"), and the credit along the bottom.
+- **Faces on "Inside the game".** Each `gl_deep` key man can take `photo` (a round avatar). Check every photo by eye
+  for the right player and club; the credits are joined at the bottom.
+- **Cover:** set `cover.row_max` (6 here) so the crest row fits.
+
 ## Two cuts from one file
 
 - **Full** (about 2 minutes, for X and YouTube): `bash video/daily.sh render video/out/<file>.json`

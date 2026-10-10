@@ -77,7 +77,7 @@ const SAY_IPA = {
   Lorient: 'lɔːɹiˈɑːn', Havre: 'hˈɑːvɹə', Mans: 'mˈɑːn', Demichelis: 'dˌɛmɪtʃˈɛlɪs', 'Dembélé': 'dɑːmbeɪlˈeɪ', Xabi: 'ʃˈɑːbi',
   Mainz: 'mˈaɪnts', Lille: 'lˈiːl', Bundesliga: 'bˈʊndəsliːɡə', 'Alavés': 'ˌɑːlɑːvˈɛs', Frosinone: 'fɹˌoʊzɪnˈoʊneɪ',
   Genoa: 'dʒˈɛnoʊə', Getafe: 'hɛtˈɑːfeɪ', Raphinha: 'ɹɑːfˈiːnjə', Rayo: 'ɹˈaɪoʊ', 'Álvaro': 'ˈɑːlvɑːɹoʊ', Napoli: 'nˈɑːpoʊli',
-  'Bernabéu': 'bɛɹnəbˈeɪuː', Huijsen: 'hˈaʊsən', Kylian: 'kˈiːliən', 'Militão': 'mɪlɪtˈaʊ', Mourinho: 'məɹˈiːnjoʊ', Rodrygo: 'ɹoʊdɹˈiːɡoʊ', Villarreal: 'vˌiːjəɹeɪˈɑːl',
+  'Bernabéu': 'bɛɹnəbˈeɪuː', Huijsen: 'hˈaʊsən', Kylian: 'kˈiːliən', 'Militão': 'mɪlɪtˈaʊ', Mourinho: 'məɹˈiːnjoʊ', Rodrygo: 'ɹoʊdɹˈiːɡoʊ', Villarreal: 'vˌiːjəɹeɪˈɑːl', Kristiansund: 'kɹˈɪstjɑːnsʊn',
 }
 const IPA_RE = new RegExp(`(?<!\\p{L})(${Object.keys(SAY_IPA).join('|')})(['’]s)?(?!\\p{L})`, 'gu')
 // letter-aware edges: \b treats accented letters as non-letters, so "Doué" or "Çalhanoğlu" would never match
