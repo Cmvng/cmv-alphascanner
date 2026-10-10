@@ -71,6 +71,13 @@ const SAY_IPA = {
   Thauvin: 'toʊvˈæn', Sotoca: 'soʊtˈoʊkɑː', Udol: 'uːdˈɔːl', Matthieu: 'mætjˈɜː',
   Zaragoza: 'zˌæɹəɡˈoʊzə', 'Adrián': 'ˌɑːdɹiˈɑːn', 'Niño': 'nˈiːnjoʊ',
   'Alarcón': 'ˌɑːlɑːɹkˈoʊn', 'Galván': 'ɡɑːlvˈɑːn', Merentiel: 'mˌɛɹɛntjˈɛl', Enner: 'ˈɛnɚ',
+  // 10 Oct "Super Saturday": the phonemizer said AWGS-burg, BAY-ern, BOR-neh-muth, BYOO-kayo, HA-jduk, LIHL, GEH-tayf
+  Augsburg: 'ˈaʊksbʊɹk', Bayern: 'bˈaɪɚn', Bournemouth: 'bˈɔːɹnməθ', Bukayo: 'buːkˈaɪoʊ', 'Calvert-Lewin': 'kˈælvɚt lˈuːɪn',
+  Hajduk: 'hˈaɪdʊk', Havertz: 'hˈɑːfɚts', NEC: 'ˌɛnˌiːsˈiː', Hoffenheim: 'hˈɒfənhaɪm', Leverkusen: 'lˈeɪvɚkuːzən',
+  Lorient: 'lɔːɹiˈɑːn', Havre: 'hˈɑːvɹə', Mans: 'mˈɑːn', Demichelis: 'dˌɛmɪtʃˈɛlɪs', 'Dembélé': 'dɑːmbeɪlˈeɪ', Xabi: 'ʃˈɑːbi',
+  Mainz: 'mˈaɪnts', Lille: 'lˈiːl', Bundesliga: 'bˈʊndəsliːɡə', 'Alavés': 'ˌɑːlɑːvˈɛs', Frosinone: 'fɹˌoʊzɪnˈoʊneɪ',
+  Genoa: 'dʒˈɛnoʊə', Getafe: 'hɛtˈɑːfeɪ', Raphinha: 'ɹɑːfˈiːnjə', Rayo: 'ɹˈaɪoʊ', 'Álvaro': 'ˈɑːlvɑːɹoʊ', Napoli: 'nˈɑːpoʊli',
+  'Bernabéu': 'bɛɹnəbˈeɪuː', Huijsen: 'hˈaʊsən', Kylian: 'kˈiːliən', 'Militão': 'mɪlɪtˈaʊ', Mourinho: 'məɹˈiːnjoʊ', Rodrygo: 'ɹoʊdɹˈiːɡoʊ', Villarreal: 'vˌiːjəɹeɪˈɑːl',
 }
 const IPA_RE = new RegExp(`(?<!\\p{L})(${Object.keys(SAY_IPA).join('|')})(['’]s)?(?!\\p{L})`, 'gu')
 // letter-aware edges: \b treats accented letters as non-letters, so "Doué" or "Çalhanoğlu" would never match
