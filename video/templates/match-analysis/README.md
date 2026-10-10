@@ -201,6 +201,11 @@ node video/from-app.mjs preview --match <main> --with <id>,<id>,<id>    # app nu
    Every fact needs a dated source; mark anything unconfirmed and leave it out.
 2. **Fill in** `analysis`, the `round` object for each round-up match, a `stadium` for the real venue, `skip`, and the `script`. Copy the shape of `denmark-portugal-2026-10-01.json`.
 3. **Check names:** test new names with Kokoro and whisper, and add respellings to `SAY_NAMES`.
+   Then read every line for words the deep voice runs together. Each of these was heard wrong at least once:
+   - "and" / "end", "won" / "one", "to" / "two" / "too", "rested" / "arrested";
+   - "win to go top" → "went", "edge it" / "edge the" → "edged" (a preview then sounds like a result: say "should edge");
+   - "Team nil" (say "Three–nil to Team"), "One–all" (say "One goal each");
+   - a "/" in a name ("Bodø/Glimt" is read "Bodø slash Glimt": write "Bodø Glimt" in the voice line).
 4. **Render:** `bash video/daily.sh render video/out/<file>.json`. The betting-word check runs first.
 5. **Check:** look at a frame from the end of every screen, then transcribe the whole voice with whisper and read it against the script.
 6. **Send** the video and the post kit, and save `sources.md` next to it. The kit has:
