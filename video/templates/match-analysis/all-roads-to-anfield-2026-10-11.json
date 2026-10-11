@@ -1,0 +1,1474 @@
+{
+ "mode": "review",
+ "title": "Super Sunday: today's big games, 11 Oct",
+ "competition": "Football",
+ "date": "2026-10-11",
+ "sound": "cinematic",
+ "voice_fx": "deep",
+ "voice_speed": 1.05,
+ "music_vibe": [
+  "cinematic"
+ ],
+ "music_drop": "after_cold",
+ "music_duck": 10,
+ "music_track": 542,
+ "stadiums": false,
+ "media_dir": ".cache/media/analysis-2026-10-11-sunday",
+ "picks": [
+  {
+   "home": "Como 1907",
+   "away": "Roma",
+   "competition": "Serie A",
+   "kickoff": "11:30",
+   "home_win": 36,
+   "draw": 27,
+   "away_win": 37,
+   "xg_home": 1.36,
+   "xg_away": 1.36,
+   "form_home": "DWWWD",
+   "form_away": "WWWWW",
+   "scored_home": 1.9,
+   "scored_away": 2.6,
+   "conceded_home": 0.8,
+   "conceded_away": 0.6,
+   "top_scores": [
+    [
+     1,
+     1,
+     13
+    ],
+    [
+     1,
+     0,
+     8
+    ],
+    [
+     0,
+     1,
+     8
+    ]
+   ],
+   "home_short": "Como",
+   "away_short": "Roma",
+   "city": {
+    "name": "Como",
+    "lat": 45.8139,
+    "lon": 9.0722,
+    "venue": "Stadio Sinigaglia",
+    "local": "",
+    "iso": 380
+   },
+   "ko": "11:30"
+  },
+  {
+   "home": "Motherwell FC",
+   "away": "Celtic",
+   "competition": "Premiership",
+   "kickoff": "12:00",
+   "home_win": 23,
+   "draw": 26,
+   "away_win": 51,
+   "xg_home": 1.02,
+   "xg_away": 1.6,
+   "form_home": "DWLLL",
+   "form_away": "WWLLL",
+   "scored_home": 1.29,
+   "scored_away": 2,
+   "conceded_home": 1.57,
+   "conceded_away": 0.57,
+   "top_scores": [
+    [
+     1,
+     1,
+     12
+    ],
+    [
+     0,
+     1,
+     11
+    ],
+    [
+     1,
+     2,
+     10
+    ]
+   ],
+   "home_short": "Motherwell",
+   "away_short": "Celtic",
+   "city": {
+    "name": "Motherwell",
+    "lat": 55.78,
+    "lon": -3.98,
+    "venue": "Fir Park",
+    "local": "",
+    "iso": 826
+   },
+   "ko": "12:00"
+  },
+  {
+   "home": "Elche CF",
+   "away": "Celta",
+   "competition": "Laliga",
+   "kickoff": "13:00",
+   "home_win": 29,
+   "draw": 29,
+   "away_win": 42,
+   "xg_home": 1.04,
+   "xg_away": 1.31,
+   "form_home": "LDDWL",
+   "form_away": "LLDWD",
+   "scored_home": 1.4,
+   "scored_away": 1,
+   "conceded_home": 2,
+   "conceded_away": 0.8,
+   "top_scores": [
+    [
+     1,
+     1,
+     14
+    ],
+    [
+     0,
+     1,
+     12
+    ],
+    [
+     0,
+     0,
+     10
+    ]
+   ],
+   "record_away": [
+    2,
+    5,
+    3
+   ],
+   "games_away": 10,
+   "ppg_away": 1.1,
+   "home_short": "Elche",
+   "away_short": "Celta",
+   "city": {
+    "name": "Elche",
+    "lat": 38.2671,
+    "lon": -0.6634,
+    "venue": "Martínez Valero",
+    "local": "",
+    "iso": 724
+   },
+   "ko": "13:00"
+  },
+  {
+   "home": "Crystal Palace",
+   "away": "Nottingham Forest",
+   "competition": "Premier League",
+   "kickoff": "14:00",
+   "home_win": 46,
+   "draw": 28,
+   "away_win": 26,
+   "xg_home": 1.47,
+   "xg_away": 1.05,
+   "form_home": "WWLWD",
+   "form_away": "LDDWL",
+   "scored_home": 1.2,
+   "scored_away": 0.8,
+   "conceded_home": 2.2,
+   "conceded_away": 1,
+   "top_scores": [
+    [
+     1,
+     1,
+     13
+    ],
+    [
+     1,
+     0,
+     11
+    ],
+    [
+     0,
+     0,
+     9
+    ]
+   ],
+   "home_short": "Palace",
+   "away_short": "Forest",
+   "city": {
+    "name": "London",
+    "lat": 51.3983,
+    "lon": -0.0855,
+    "venue": "Selhurst Park",
+    "local": "",
+    "iso": 826
+   },
+   "ko": "14:00"
+  },
+  {
+   "home": "Hull City",
+   "away": "Everton",
+   "competition": "Premier League",
+   "kickoff": "14:00",
+   "home_win": 24,
+   "draw": 27,
+   "away_win": 49,
+   "xg_home": 1.01,
+   "xg_away": 1.55,
+   "scored_home": 1.2,
+   "scored_away": 1.2,
+   "conceded_home": 0.8,
+   "conceded_away": 0.6,
+   "top_scores": [
+    [
+     1,
+     1,
+     13
+    ],
+    [
+     0,
+     1,
+     11
+    ],
+    [
+     0,
+     2,
+     9
+    ]
+   ],
+   "clean_home": 3,
+   "clean_away": 3,
+   "shots_home": 12.2,
+   "shots_away": 16,
+   "sot_home": 3.8,
+   "sot_away": 4.6,
+   "home_short": "Hull",
+   "away_short": "Everton",
+   "city": {
+    "name": "Hull",
+    "lat": 53.7462,
+    "lon": -0.368,
+    "venue": "MKM Stadium",
+    "local": "",
+    "iso": 826
+   },
+   "ko": "14:00"
+  },
+  {
+   "home": "Lazio",
+   "away": "Monza",
+   "competition": "Serie A",
+   "kickoff": "14:00",
+   "home_win": 59,
+   "draw": 23,
+   "away_win": 18,
+   "xg_home": 1.79,
+   "xg_away": 0.89,
+   "form_home": "WWWDW",
+   "form_away": "LWDLW",
+   "scored_home": 1.6,
+   "scored_away": 1.6,
+   "conceded_home": 0.6,
+   "conceded_away": 2.4,
+   "top_scores": [
+    [
+     1,
+     0,
+     11
+    ],
+    [
+     2,
+     0,
+     11
+    ],
+    [
+     1,
+     1,
+     11
+    ]
+   ],
+   "home_short": "Lazio",
+   "away_short": "Monza",
+   "city": {
+    "name": "Rome",
+    "lat": 41.9341,
+    "lon": 12.4547,
+    "venue": "Stadio Olimpico",
+    "local": "",
+    "iso": 380
+   },
+   "ko": "14:00"
+  },
+  {
+   "home": "Lecce",
+   "away": "Bologna",
+   "competition": "Serie A",
+   "kickoff": "14:00",
+   "home_win": 29,
+   "draw": 27,
+   "away_win": 44,
+   "xg_home": 1.11,
+   "xg_away": 1.45,
+   "form_home": "WLLWL",
+   "form_away": "LLDLD",
+   "scored_home": 1,
+   "scored_away": 0.6,
+   "conceded_home": 2,
+   "conceded_away": 1.2,
+   "top_scores": [
+    [
+     1,
+     1,
+     13
+    ],
+    [
+     0,
+     1,
+     10
+    ],
+    [
+     1,
+     2,
+     9
+    ]
+   ],
+   "home_short": "Lecce",
+   "away_short": "Bologna",
+   "city": {
+    "name": "Lecce",
+    "lat": 40.3653,
+    "lon": 18.2089,
+    "venue": "Via del Mare",
+    "local": "",
+    "iso": 380
+   },
+   "ko": "14:00"
+  },
+  {
+   "home": "Nice",
+   "away": "Strasbourg",
+   "competition": "Ligue 1",
+   "kickoff": "14:00",
+   "home_win": 33,
+   "draw": 28,
+   "away_win": 39,
+   "xg_home": 1.25,
+   "xg_away": 1.37,
+   "form_home": "DLDLW",
+   "form_away": "LWWDL",
+   "scored_home": 0.6,
+   "scored_away": 2,
+   "conceded_home": 1.2,
+   "conceded_away": 2,
+   "top_scores": [
+    [
+     1,
+     1,
+     13
+    ],
+    [
+     0,
+     1,
+     9
+    ],
+    [
+     1,
+     2,
+     9
+    ]
+   ],
+   "home_short": "Nice",
+   "away_short": "Strasbourg",
+   "city": {
+    "name": "Nice",
+    "lat": 43.705,
+    "lon": 7.1925,
+    "venue": "Allianz Riviera",
+    "local": "",
+    "iso": 250
+   },
+   "ko": "14:00"
+  },
+  {
+   "home": "Cologne",
+   "away": "Borussia M´gladbach",
+   "competition": "Bundesliga",
+   "kickoff": "14:30",
+   "home_win": 42,
+   "draw": 26,
+   "away_win": 32,
+   "xg_home": 1.51,
+   "xg_away": 1.28,
+   "form_home": "LLDLD",
+   "form_away": "WLWDD",
+   "scored_home": 1.4,
+   "scored_away": 1.8,
+   "conceded_home": 2.3,
+   "conceded_away": 2,
+   "top_scores": [
+    [
+     1,
+     1,
+     12
+    ],
+    [
+     2,
+     1,
+     9
+    ],
+    [
+     1,
+     0,
+     8
+    ]
+   ],
+   "home_short": "Cologne",
+   "away_short": "Gladbach",
+   "city": {
+    "name": "Cologne",
+    "lat": 50.9336,
+    "lon": 6.875,
+    "venue": "RheinEnergieStadion",
+    "local": "",
+    "iso": 276
+   },
+   "ko": "14:30"
+  },
+  {
+   "home": "Real Sociedad",
+   "away": "RC Deportivo de A Coruna",
+   "competition": "Laliga",
+   "kickoff": "15:15",
+   "home_win": 52,
+   "draw": 26,
+   "away_win": 22,
+   "xg_home": 1.64,
+   "xg_away": 1.02,
+   "scored_home": 1.29,
+   "scored_away": 1.43,
+   "conceded_home": 1.86,
+   "conceded_away": 1.14,
+   "top_scores": [
+    [
+     1,
+     1,
+     12
+    ],
+    [
+     1,
+     0,
+     11
+    ],
+    [
+     2,
+     1,
+     10
+    ]
+   ],
+   "home_short": "Real Sociedad",
+   "away_short": "Deportivo",
+   "city": {
+    "name": "San Sebastián",
+    "lat": 43.3014,
+    "lon": -1.9736,
+    "venue": "Anoeta",
+    "local": "",
+    "iso": 724
+   },
+   "ko": "15:15"
+  },
+  {
+   "home": "Rennes",
+   "away": "AJ Auxerre",
+   "competition": "Ligue 1",
+   "kickoff": "16:15",
+   "home_win": 50,
+   "draw": 26,
+   "away_win": 24,
+   "xg_home": 1.62,
+   "xg_away": 1.06,
+   "scored_home": 1.6,
+   "scored_away": 1.4,
+   "conceded_home": 1.8,
+   "conceded_away": 2.4,
+   "top_scores": [
+    [
+     1,
+     1,
+     12
+    ],
+    [
+     1,
+     0,
+     10
+    ],
+    [
+     2,
+     1,
+     10
+    ]
+   ],
+   "home_short": "Rennes",
+   "away_short": "Auxerre",
+   "city": {
+    "name": "Rennes",
+    "lat": 48.1075,
+    "lon": -1.7128,
+    "venue": "Roazhon Park",
+    "local": "",
+    "iso": 250
+   },
+   "ko": "16:15"
+  },
+  {
+   "home": "Freiburg",
+   "away": "Schalke",
+   "competition": "Bundesliga",
+   "kickoff": "16:30",
+   "home_win": 65,
+   "draw": 21,
+   "away_win": 14,
+   "xg_home": 1.98,
+   "xg_away": 0.83,
+   "form_home": "WWWWD",
+   "form_away": "DLDWD",
+   "scored_home": 3,
+   "scored_away": 0.75,
+   "conceded_home": 0.75,
+   "conceded_away": 1,
+   "top_scores": [
+    [
+     1,
+     0,
+     11
+    ],
+    [
+     2,
+     0,
+     11
+    ],
+    [
+     1,
+     1,
+     10
+    ]
+   ],
+   "home_short": "Freiburg",
+   "away_short": "Schalke",
+   "city": {
+    "name": "Freiburg",
+    "lat": 48.0216,
+    "lon": 7.8297,
+    "venue": "Europa-Park Stadion",
+    "local": "",
+    "iso": 276
+   },
+   "ko": "16:30"
+  },
+  {
+   "home": "Liverpool",
+   "away": "Man City",
+   "competition": "Premier League",
+   "kickoff": "16:30",
+   "home_win": 32,
+   "draw": 27,
+   "away_win": 41,
+   "xg_home": 1.22,
+   "xg_away": 1.41,
+   "form_home": "WWDWW",
+   "form_away": "WWWWW",
+   "scored_home": 1.4,
+   "scored_away": 2.6,
+   "conceded_home": 0.8,
+   "conceded_away": 1,
+   "top_scores": [
+    [
+     1,
+     1,
+     13
+    ],
+    [
+     0,
+     1,
+     9
+    ],
+    [
+     1,
+     2,
+     9
+    ]
+   ],
+   "record_home": [
+    4,
+    5,
+    1
+   ],
+   "games_home": 10,
+   "ppg_home": 1.7,
+   "home_short": "Liverpool",
+   "away_short": "Man City",
+   "city": {
+    "name": "Liverpool",
+    "lat": 53.4308,
+    "lon": -2.9608,
+    "venue": "Anfield",
+    "local": "",
+    "iso": 826
+   },
+   "ko": "16:30"
+  },
+  {
+   "home": "Besiktas Istanbul",
+   "away": "Kocaelispor",
+   "competition": "Super Lig",
+   "kickoff": "17:00",
+   "home_win": 60,
+   "draw": 24,
+   "away_win": 16,
+   "xg_home": 1.81,
+   "xg_away": 0.87,
+   "form_home": "LLWWW",
+   "form_away": "LLLDL",
+   "scored_home": 2.2,
+   "scored_away": 0.8,
+   "conceded_home": 0.9,
+   "conceded_away": 0.8,
+   "top_scores": [
+    [
+     1,
+     0,
+     11
+    ],
+    [
+     2,
+     0,
+     11
+    ],
+    [
+     1,
+     1,
+     11
+    ]
+   ],
+   "record_home": [
+    7,
+    0,
+    3
+   ],
+   "games_home": 10,
+   "ppg_home": 2.1,
+   "home_short": "Beşiktaş",
+   "away_short": "Kocaelispor",
+   "city": {
+    "name": "Istanbul",
+    "lat": 41.0394,
+    "lon": 28.9946,
+    "venue": "Tüpraş Stadium",
+    "local": "",
+    "iso": 792
+   },
+   "ko": "17:00"
+  },
+  {
+   "home": "Sassuolo",
+   "away": "AC Milan",
+   "competition": "Serie A",
+   "kickoff": "17:00",
+   "home_win": 30,
+   "draw": 27,
+   "away_win": 43,
+   "xg_home": 1.22,
+   "xg_away": 1.49,
+   "form_home": "WDDWL",
+   "form_away": "WDDLW",
+   "scored_home": 1.8,
+   "scored_away": 2,
+   "conceded_home": 1.8,
+   "conceded_away": 0.8,
+   "top_scores": [
+    [
+     1,
+     1,
+     13
+    ],
+    [
+     0,
+     1,
+     9
+    ],
+    [
+     1,
+     2,
+     9
+    ]
+   ],
+   "home_short": "Sassuolo",
+   "away_short": "Milan",
+   "city": {
+    "name": "Reggio Emilia",
+    "lat": 44.7147,
+    "lon": 10.6497,
+    "venue": "Mapei Stadium",
+    "local": "",
+    "iso": 380
+   },
+   "ko": "17:00"
+  },
+  {
+   "home": "Betis",
+   "away": "Osasuna",
+   "competition": "Laliga",
+   "kickoff": "17:30",
+   "home_win": 59,
+   "draw": 23,
+   "away_win": 18,
+   "xg_home": 1.79,
+   "xg_away": 0.89,
+   "form_home": "WWWWD",
+   "form_away": "WLLLD",
+   "scored_home": 1.29,
+   "scored_away": 0.86,
+   "conceded_home": 1,
+   "conceded_away": 1.86,
+   "top_scores": [
+    [
+     1,
+     0,
+     11
+    ],
+    [
+     2,
+     0,
+     11
+    ],
+    [
+     1,
+     1,
+     11
+    ]
+   ],
+   "home_short": "Betis",
+   "away_short": "Osasuna",
+   "city": {
+    "name": "Seville",
+    "lat": 37.4163,
+    "lon": -6.0047,
+    "venue": "La Cartuja",
+    "local": "",
+    "iso": 724
+   },
+   "ko": "17:30"
+  },
+  {
+   "home": "Benfica",
+   "away": "Vitoria SC Guimaraes",
+   "competition": "Liga Portugal",
+   "kickoff": "18:00",
+   "home_win": 60,
+   "draw": 24,
+   "away_win": 16,
+   "xg_home": 1.9,
+   "xg_away": 0.94,
+   "scored_home": 3.14,
+   "scored_away": 0.71,
+   "conceded_home": 1,
+   "conceded_away": 1.14,
+   "top_scores": [
+    [
+     1,
+     1,
+     11
+    ],
+    [
+     1,
+     0,
+     10
+    ],
+    [
+     2,
+     0,
+     10
+    ]
+   ],
+   "home_short": "Benfica",
+   "away_short": "Vitória",
+   "city": {
+    "name": "Lisbon",
+    "lat": 38.7527,
+    "lon": -9.1847,
+    "venue": "Estádio da Luz",
+    "local": "",
+    "iso": 620
+   },
+   "ko": "18:00"
+  },
+  {
+   "home": "Cagliari",
+   "away": "Juventus",
+   "competition": "Serie A",
+   "kickoff": "19:45",
+   "home_win": 24,
+   "draw": 27,
+   "away_win": 49,
+   "xg_home": 1.03,
+   "xg_away": 1.56,
+   "form_home": "LLWWW",
+   "form_away": "WDLWW",
+   "scored_home": 1,
+   "scored_away": 1.6,
+   "conceded_home": 0.4,
+   "conceded_away": 0.8,
+   "top_scores": [
+    [
+     1,
+     1,
+     13
+    ],
+    [
+     0,
+     1,
+     11
+    ],
+    [
+     0,
+     2,
+     9
+    ]
+   ],
+   "home_short": "Cagliari",
+   "away_short": "Juventus",
+   "city": {
+    "name": "Cagliari",
+    "lat": 39.2,
+    "lon": 9.1373,
+    "venue": "Unipol Domus",
+    "local": "",
+    "iso": 380
+   },
+   "ko": "19:45"
+  },
+  {
+   "home": "Troyes",
+   "away": "Marseille",
+   "competition": "Ligue 1",
+   "kickoff": "19:45",
+   "home_win": 24,
+   "draw": 27,
+   "away_win": 49,
+   "xg_home": 1.05,
+   "xg_away": 1.57,
+   "form_home": "DWLLL",
+   "form_away": "LLLLL",
+   "scored_home": 0.8,
+   "scored_away": 1.4,
+   "conceded_home": 2.2,
+   "conceded_away": 1.6,
+   "top_scores": [
+    [
+     1,
+     1,
+     13
+    ],
+    [
+     0,
+     1,
+     10
+    ],
+    [
+     0,
+     2,
+     9
+    ]
+   ],
+   "home_short": "Troyes",
+   "away_short": "Marseille",
+   "city": {
+    "name": "Troyes",
+    "lat": 48.3075,
+    "lon": 4.0985,
+    "venue": "Stade de l'Aube",
+    "local": "",
+    "iso": 250
+   },
+   "ko": "19:45"
+  },
+  {
+   "home": "Racing Santander",
+   "away": "Valencia",
+   "competition": "Laliga",
+   "kickoff": "20:00",
+   "home_win": 46,
+   "draw": 26,
+   "away_win": 28,
+   "xg_home": 1.58,
+   "xg_away": 1.19,
+   "form_home": "WLWLL",
+   "form_away": "LLLWL",
+   "scored_home": 1.57,
+   "scored_away": 0.57,
+   "conceded_home": 3,
+   "conceded_away": 1.86,
+   "top_scores": [
+    [
+     1,
+     1,
+     12
+    ],
+    [
+     1,
+     0,
+     9
+    ],
+    [
+     2,
+     1,
+     9
+    ]
+   ],
+   "home_short": "Racing",
+   "away_short": "Valencia",
+   "city": {
+    "name": "Santander",
+    "lat": 43.4764,
+    "lon": -3.7933,
+    "venue": "El Sardinero",
+    "local": "",
+    "iso": 724
+   },
+   "ko": "20:00"
+  }
+ ],
+ "review": {
+  "project": "All roads to Anfield",
+  "globe_r": 1500,
+  "beats": [
+   {
+    "type": "gl_cold",
+    "tag": "Sunday · Lagos time",
+    "clock": [
+     "11:00",
+     "21:00"
+    ],
+    "steps": [
+     {
+      "big": "20 games",
+      "label": "Sunday · 11:30 → 20:00 Lagos"
+     },
+     {
+      "big": "8 countries",
+      "label": "The five big leagues, and three more"
+     },
+     {
+      "big": "Anfield",
+      "label": "Liverpool v Man City · 16:30",
+      "tone": "sky"
+     },
+     {
+      "big": "3 in 29",
+      "label": "City's league wins at Anfield since 1992",
+      "tone": "red",
+      "glitch": true,
+      "glitch_at": 0.5
+     }
+    ],
+    "say": [
+     "Twenty games today.",
+     "Eight countries.",
+     "And one game at Anfield.",
+     "Where City have won just three times in twenty-nine league visits."
+    ],
+    "tail": 0.95
+   },
+   {
+    "type": "gl_title",
+    "l1": "All roads",
+    "l2": "to Anfield",
+    "sub": "20 games · 8 countries · Lagos time",
+    "say": [
+     "All roads to Anfield: twenty games, one Sunday."
+    ]
+   },
+   {
+    "type": "gl_match",
+    "match": 0,
+    "top": "Serie A · Matchday 6",
+    "comp": "Serie A · Matchday 6",
+    "photo": {
+     "src": "como_1907.jpg",
+     "label": "Como · 11:30 today",
+     "credit": "Stadio Sinigaglia · Photo: MarioG999 · Copyrighted free use"
+    },
+    "points": [
+     [
+      "Roma",
+      "2nd, unbeaten · Malen: 6 league goals",
+      1,
+      0.0
+     ],
+     [
+      "Como",
+      "Won both home games v Roma since 2024",
+      1,
+      0.55
+     ],
+     [
+      "The verdict",
+      "Nothing between them · 1–1",
+      2,
+      0.0
+     ]
+    ],
+    "say": [
+     "We start at half past eleven by Lake Como, where Fàbregas and Como host Gasperini and Roma.",
+     "Roma are second and unbeaten, and a win takes them level with Inter at the top.",
+     "The verdict: nothing between them. One goal each."
+    ]
+   },
+   {
+    "type": "gl_list",
+    "title": "Elsewhere",
+    "sub": "Scotland · Turkey · Portugal",
+    "centre": [
+     9,
+     47
+    ],
+    "r": 650,
+    "cy": 600,
+    "iso": [
+     826,
+     792,
+     620
+    ],
+    "stop": "Round-up",
+    "rows": [
+     {
+      "match": 1,
+      "lean": "Celtic 51%",
+      "note": "Both sides have lost their last three",
+      "at": [
+       0,
+       0.233
+      ]
+     },
+     {
+      "match": 13,
+      "lean": "Beşiktaş 60%",
+      "note": "Both on 12 points · Kökçü and Rashica out",
+      "at": [
+       1,
+       0.0
+      ]
+     },
+     {
+      "match": 16,
+      "lean": "Benfica 60%",
+      "note": "Unbeaten in 33 against Vitória",
+      "at": [
+       1,
+       0.293
+      ]
+     }
+    ],
+    "say": [
+     "At noon in Scotland, Celtic should snap a run of three defeats at Motherwell.",
+     "Beşiktaş beat Kocaelispor, and Benfica, unbeaten in 33 games against Vitória, win at the Luz."
+    ]
+   },
+   {
+    "type": "gl_list",
+    "title": "LaLiga",
+    "sub": "Matchday 8",
+    "centre": [
+     -3.5,
+     40.5
+    ],
+    "r": 2300,
+    "cy": 620,
+    "iso": 724,
+    "stop": "Round-up",
+    "rows": [
+     {
+      "match": 2,
+      "lean": "Celta 42%",
+      "note": "Elche 18th on 5 · Celta 14th on 7",
+      "at": [
+       0,
+       0.095
+      ]
+     },
+     {
+      "match": 9,
+      "lean": "Real Sociedad 52%",
+      "note": "8th v 7th, both on 10 points",
+      "at": [
+       0,
+       0.568
+      ]
+     },
+     {
+      "match": 15,
+      "lean": "Betis 59%",
+      "note": "At La Cartuja · Betis 3rd on 16",
+      "at": [
+       1,
+       0.0
+      ]
+     },
+     {
+      "match": 19,
+      "lean": "Racing 46%",
+      "note": "Valencia 19th on 4 points",
+      "at": [
+       1,
+       0.401
+      ]
+     }
+    ],
+    "say": [
+     "In Spain, Celta should edge it at Elche, and Real Sociedad beat Deportivo.",
+     "Betis, third in the table, beat Osasuna, and promoted Racing should edge Valencia, who are nineteenth."
+    ]
+   },
+   {
+    "type": "gl_list",
+    "title": "Premier League",
+    "sub": "At 14:00 · Matchweek 6",
+    "centre": [
+     -1.0,
+     52.6
+    ],
+    "r": 2600,
+    "cy": 620,
+    "iso": 826,
+    "stop": "Round-up",
+    "rows": [
+     {
+      "match": 3,
+      "lean": "Palace 46%",
+      "note": "Last three league meetings: all 1–1",
+      "at": [
+       0,
+       0.233
+      ]
+     },
+     {
+      "match": 4,
+      "lean": "Everton 49%",
+      "note": "Everton: still unbeaten this season",
+      "at": [
+       1,
+       0.0
+      ]
+     }
+    ],
+    "say": [
+     "In the Premier League at two, Palace should edge Forest, after three meetings that all finished one goal each.",
+     "And Everton, still unbeaten, beat Hull."
+    ]
+   },
+   {
+    "type": "gl_list",
+    "title": "Serie A",
+    "sub": "Matchday 6",
+    "centre": [
+     12.5,
+     42.0
+    ],
+    "r": 2200,
+    "cy": 620,
+    "iso": 380,
+    "stop": "Round-up",
+    "rows": [
+     {
+      "match": 5,
+      "lean": "Lazio 59%",
+      "note": "Unbeaten, chasing a 5th win in 6",
+      "at": [
+       0,
+       0.065
+      ]
+     },
+     {
+      "match": 6,
+      "lean": "Bologna 44%",
+      "note": "Bologna: 18th and without a win",
+      "at": [
+       0,
+       0.392
+      ]
+     },
+     {
+      "match": 14,
+      "lean": "Milan 43%",
+      "note": "Milan unbeaten on 11 · Saelemaekers out",
+      "at": [
+       1,
+       0.0
+      ]
+     },
+     {
+      "match": 17,
+      "lean": "Juventus 49%",
+      "note": "Cagliari 2 points above Juve",
+      "at": [
+       1,
+       0.377
+      ]
+     }
+    ],
+    "say": [
+     "In Italy, unbeaten Lazio beat Monza, and Bologna, still without a win, should edge it at Lecce.",
+     "Milan, also unbeaten, win at Sassuolo, and Juventus win in Cagliari, even without Yildiz and Locatelli."
+    ]
+   },
+   {
+    "type": "gl_list",
+    "title": "Ligue 1",
+    "sub": "Matchday 6",
+    "centre": [
+     2.4,
+     46.6
+    ],
+    "r": 2300,
+    "cy": 620,
+    "iso": 250,
+    "stop": "Round-up",
+    "rows": [
+     {
+      "match": 7,
+      "lean": "Strasbourg 39%",
+      "note": "Strasbourg 8th · Nice 14th",
+      "at": [
+       0,
+       0.084
+      ]
+     },
+     {
+      "match": 10,
+      "lean": "Rennes 50%",
+      "note": "Rennes 5th, unbeaten at home",
+      "at": [
+       0,
+       0.522
+      ]
+     },
+     {
+      "match": 18,
+      "lean": "Marseille 49%",
+      "note": "Troyes 3rd from bottom, Marseille a point below",
+      "at": [
+       1,
+       0.0
+      ]
+     }
+    ],
+    "say": [
+     "In France, Strasbourg should edge it at Nice, and Rennes, unbeaten at home, beat Auxerre.",
+     "And Marseille, down near the bottom, should still win at Troyes."
+    ]
+   },
+   {
+    "type": "gl_list",
+    "title": "Bundesliga",
+    "sub": "Matchday 5",
+    "centre": [
+     8.5,
+     49.8
+    ],
+    "r": 2500,
+    "cy": 620,
+    "iso": 276,
+    "stop": "Round-up",
+    "rows": [
+     {
+      "match": 8,
+      "lean": "Cologne 42%",
+      "note": "The Rhine derby · Gladbach: 0 points",
+      "at": [
+       0,
+       0.093
+      ]
+     },
+     {
+      "match": 11,
+      "lean": "Freiburg 65%",
+      "note": "Freiburg 3rd, unbeaten · Schalke 11th",
+      "at": [
+       1,
+       0.0
+      ]
+     }
+    ],
+    "say": [
+     "In Germany, Cologne should edge the Rhine derby against Gladbach, who haven't won a point.",
+     "And Freiburg, third and unbeaten, beat promoted Schalke."
+    ]
+   },
+   {
+    "type": "gl_match",
+    "match": 12,
+    "top": "Premier League · Matchweek 6",
+    "comp": "Premier League · Matchweek 6",
+    "photo": {
+     "src": "liverpool_f_c.jpg",
+     "label": "Liverpool · 16:30 today",
+     "credit": "Anfield · Photo: Arne Müseler · CC BY-SA 3.0 de"
+    },
+    "points": [
+     [
+      "Table",
+      "City 1st on 15 · Liverpool 7th on 9, unbeaten",
+      0,
+      0.854
+     ],
+     [
+      "Last three",
+      "City 9–1 Liverpool on aggregate",
+      1,
+      0.0
+     ]
+    ],
+    "say": [
+     "And all roads lead to Anfield: half past four, Iraola's Liverpool against Maresca's Manchester City, the leaders.",
+     "City have won the last three meetings, nine goals to one."
+    ]
+   },
+   {
+    "type": "gl_deep",
+    "match": 12,
+    "top": "Liverpool v Man City",
+    "title": "Inside the game",
+    "kicker": "Premier League · Anfield, Liverpool",
+    "form_label": "Last five, all competitions · oldest first",
+    "form": {
+     "home": [
+      [
+       "W",
+       ""
+      ],
+      [
+       "W",
+       ""
+      ],
+      [
+       "D",
+       ""
+      ],
+      [
+       "W",
+       ""
+      ],
+      [
+       "W",
+       ""
+      ]
+     ],
+     "away": [
+      [
+       "W",
+       ""
+      ],
+      [
+       "W",
+       ""
+      ],
+      [
+       "W",
+       ""
+      ],
+      [
+       "W",
+       ""
+      ],
+      [
+       "W",
+       ""
+      ]
+     ]
+    },
+    "table": {
+     "home": [
+      "7th",
+      "9 pts · unbeaten"
+     ],
+     "away": [
+      "1st",
+      "15 pts · level with Arsenal"
+     ]
+    },
+    "men": [
+     {
+      "team": "home",
+      "name": "Florian Wirtz",
+      "stat": "9 chances created in 403 minutes",
+      "photo": "p_florian_wirtz.jpg",
+      "credit": "Florian Wirtz · Photo: Bryan Berlin · CC BY-SA 4.0"
+     },
+     {
+      "team": "away",
+      "name": "Erling Haaland",
+      "stat": "5 league goals · top scorer",
+      "photo": "p_erling_haaland.jpg",
+      "credit": "Erling Haaland · Photo: Bryan Berlin · CC BY-SA 4.0"
+     }
+    ],
+    "form_at": [
+     0,
+     0.0
+    ],
+    "table_at": [
+     0,
+     0.55
+    ],
+    "men_at": [
+     1,
+     0.0
+    ],
+    "read_at": [
+     2,
+     0.0
+    ],
+    "read_label": "The verdict",
+    "read": "Both score, City win · 2–1 · City 41%",
+    "say": [
+     "On our numbers, City win 41% of the time, and Liverpool 32.",
+     "Isak and Gakpo are out for Liverpool, and Foden is suspended. Haaland leads the league with five goals.",
+     "The verdict: goals at both ends, and a City win. Two–one to City."
+    ]
+   },
+   {
+    "type": "gl_end",
+    "l1": "20 games",
+    "l2": "One Sunday",
+    "follow": "Follow for the post-match",
+    "say": [
+     "Twenty games, one Sunday.",
+     "Follow for the post-match tonight."
+    ],
+    "tail": 0.9
+   }
+  ]
+ },
+ "cover": {
+  "kicker": "Sun 11 Oct · Analysis",
+  "l1": "All roads to",
+  "l2": "Anfield",
+  "tag": "Twenty games, <b>one</b> Sunday",
+  "feature": [
+   12,
+   0
+  ],
+  "more": "Milan, Juventus, Celtic, Marseille and more",
+  "row": [
+   14,
+   17,
+   1,
+   18,
+   15,
+   16
+  ],
+  "row_max": 6,
+  "rot": [
+   6,
+   47
+  ],
+  "sun_at": "16:30"
+ }
+}

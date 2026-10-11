@@ -1,0 +1,1196 @@
+{
+ "mode": "review",
+ "title": "The Verdicts: Super Saturday, marked",
+ "competition": "Football",
+ "date": "2026-10-10",
+ "sound": "cinematic",
+ "voice_fx": "deep",
+ "voice_speed": 1.05,
+ "music_vibe": [
+  "cinematic"
+ ],
+ "music_drop": "after_cold",
+ "music_duck": 10,
+ "music_track": 546,
+ "stadiums": false,
+ "media_dir": ".cache/media/analysis-2026-10-10-saturday",
+ "picks": [
+  {
+   "home": "Arsenal",
+   "away": "Leeds United",
+   "competition": "Premier League",
+   "kickoff": "12:30",
+   "home_win": 72,
+   "draw": 18,
+   "away_win": 10,
+   "xg_home": 2.24,
+   "xg_away": 0.75,
+   "form_home": "WWWWL",
+   "form_away": "DDLWD",
+   "scored_home": 1.6,
+   "scored_away": 1.4,
+   "conceded_home": 0.8,
+   "conceded_away": 0.6,
+   "top_scores": [
+    [
+     2,
+     0,
+     12
+    ],
+    [
+     1,
+     0,
+     10
+    ],
+    [
+     3,
+     0,
+     10
+    ]
+   ],
+   "record_home": [
+    7,
+    1,
+    2
+   ],
+   "games_home": 10,
+   "ppg_home": 2.2,
+   "home_short": "Arsenal",
+   "away_short": "Leeds",
+   "city": {
+    "name": "London",
+    "lat": 51.5549,
+    "lon": -0.1084,
+    "venue": "Emirates Stadium",
+    "local": "England · 11:30 local",
+    "iso": 826
+   },
+   "ko": "12:30"
+  },
+  {
+   "home": "Chelsea",
+   "away": "Bournemouth",
+   "competition": "Premier League",
+   "kickoff": "15:00",
+   "home_win": 46,
+   "draw": 26,
+   "away_win": 28,
+   "xg_home": 1.54,
+   "xg_away": 1.15,
+   "round": {
+    "title": "Around the league",
+    "stage": "Premier League",
+    "points": []
+   },
+   "form_home": "WLWDL",
+   "form_away": "DWDWL",
+   "top_scores": [
+    [
+     1,
+     1,
+     13
+    ],
+    [
+     1,
+     0,
+     10
+    ],
+    [
+     2,
+     1,
+     9
+    ]
+   ],
+   "scored_home": 2,
+   "scored_away": 1.2,
+   "conceded_home": 2.4,
+   "conceded_away": 1.6,
+   "home_short": "Chelsea",
+   "away_short": "Bournemouth",
+   "city": {
+    "name": "London",
+    "lat": 51.4817,
+    "lon": -0.191,
+    "venue": "Stamford Bridge",
+    "local": "England · 14:00 local",
+    "iso": 826
+   },
+   "ko": "15:00"
+  },
+  {
+   "home": "Augsburg",
+   "away": "Bayern Munich",
+   "competition": "Bundesliga",
+   "kickoff": "14:30",
+   "home_win": 12,
+   "draw": 18,
+   "away_win": 70,
+   "xg_home": 0.87,
+   "xg_away": 2.26,
+   "round": {
+    "title": "Around the league",
+    "stage": "Bundesliga",
+    "points": []
+   },
+   "form_home": "WWWDL",
+   "form_away": "WDWWW",
+   "top_scores": [
+    [
+     0,
+     2,
+     11
+    ],
+    [
+     1,
+     2,
+     10
+    ],
+    [
+     0,
+     3,
+     9
+    ]
+   ],
+   "scored_home": 2.75,
+   "scored_away": 3.5,
+   "conceded_home": 1.5,
+   "conceded_away": 0.5,
+   "home_short": "Augsburg",
+   "away_short": "Bayern",
+   "city": {
+    "name": "Augsburg",
+    "lat": 48.3233,
+    "lon": 10.8861,
+    "venue": "WWK Arena",
+    "local": "Germany · 15:30 local",
+    "iso": 276
+   },
+   "ko": "14:30"
+  },
+  {
+   "home": "Real Madrid",
+   "away": "Villarreal",
+   "competition": "Laliga",
+   "kickoff": "20:00",
+   "home_win": 65,
+   "draw": 21,
+   "away_win": 14,
+   "xg_home": 2.06,
+   "xg_away": 0.89,
+   "round": {
+    "title": "Around the league",
+    "stage": "Laliga",
+    "points": []
+   },
+   "form_home": "LWWWL",
+   "form_away": "LLLWW",
+   "top_scores": [
+    [
+     2,
+     0,
+     11
+    ],
+    [
+     1,
+     0,
+     10
+    ],
+    [
+     1,
+     1,
+     10
+    ]
+   ],
+   "scored_home": 2.57,
+   "scored_away": 1.86,
+   "conceded_home": 1.14,
+   "conceded_away": 1.71,
+   "home_short": "Real Madrid",
+   "away_short": "Villarreal",
+   "city": {
+    "name": "Madrid",
+    "lat": 40.4531,
+    "lon": -3.6883,
+    "venue": "Santiago Bernabéu",
+    "local": "Spain · 21:00 local",
+    "iso": 724
+   },
+   "ko": "20:00"
+  },
+  {
+   "home": "Aston Villa",
+   "away": "Brentford",
+   "competition": "Premier League",
+   "kickoff": "15:00",
+   "home_win": 47,
+   "draw": 26,
+   "away_win": 27,
+   "xg_home": 1.58,
+   "xg_away": 1.16,
+   "round": {
+    "title": "Around the league",
+    "stage": "Premier League",
+    "points": []
+   },
+   "home_short": "Aston Villa",
+   "away_short": "Brentford",
+   "city": {
+    "name": "Birmingham",
+    "lat": 52.5092,
+    "lon": -1.8848,
+    "venue": "Villa Park",
+    "local": "",
+    "iso": 826
+   },
+   "ko": "15:00"
+  },
+  {
+   "home": "Sunderland AFC",
+   "away": "Brighton",
+   "competition": "Premier League",
+   "kickoff": "15:00",
+   "home_win": 24,
+   "draw": 26,
+   "away_win": 50,
+   "xg_home": 1.06,
+   "xg_away": 1.63,
+   "round": {
+    "title": "Around the league",
+    "stage": "Premier League",
+    "points": []
+   },
+   "home_short": "Sunderland",
+   "away_short": "Brighton",
+   "city": {
+    "name": "Sunderland",
+    "lat": 54.9146,
+    "lon": -1.3884,
+    "venue": "Stadium of Light",
+    "local": "",
+    "iso": 826
+   },
+   "ko": "15:00"
+  },
+  {
+   "home": "Ipswich Town",
+   "away": "Fulham",
+   "competition": "Premier League",
+   "kickoff": "15:00",
+   "home_win": 30,
+   "draw": 28,
+   "away_win": 42,
+   "xg_home": 1.22,
+   "xg_away": 1.48,
+   "round": {
+    "title": "Around the league",
+    "stage": "Premier League",
+    "points": []
+   },
+   "home_short": "Ipswich",
+   "away_short": "Fulham",
+   "city": {
+    "name": "Ipswich",
+    "lat": 52.0547,
+    "lon": 1.1447,
+    "venue": "Portman Road",
+    "local": "",
+    "iso": 826
+   },
+   "ko": "15:00"
+  },
+  {
+   "home": "Rayo Vallecano",
+   "away": "Athletic Bilbao",
+   "competition": "Laliga",
+   "kickoff": "13:00",
+   "home_win": 39,
+   "draw": 26,
+   "away_win": 35,
+   "xg_home": 1.48,
+   "xg_away": 1.4,
+   "round": {
+    "title": "Around the league",
+    "stage": "Laliga",
+    "points": []
+   },
+   "home_short": "Rayo",
+   "away_short": "Athletic",
+   "city": {
+    "name": "Madrid",
+    "lat": 40.3919,
+    "lon": -3.6587,
+    "venue": "Vallecas",
+    "local": "",
+    "iso": 724
+   },
+   "ko": "13:00"
+  },
+  {
+   "home": "Alaves",
+   "away": "Atletico Madrid",
+   "competition": "Laliga",
+   "kickoff": "15:15",
+   "home_win": 24,
+   "draw": 26,
+   "away_win": 50,
+   "xg_home": 1.05,
+   "xg_away": 1.59,
+   "round": {
+    "title": "Around the league",
+    "stage": "Laliga",
+    "points": []
+   },
+   "home_short": "Alavés",
+   "away_short": "Atlético",
+   "city": {
+    "name": "Vitoria-Gasteiz",
+    "lat": 42.837,
+    "lon": -2.688,
+    "venue": "Mendizorroza",
+    "local": "",
+    "iso": 724
+   },
+   "ko": "15:15"
+  },
+  {
+   "home": "Barcelona",
+   "away": "Getafe",
+   "competition": "Laliga",
+   "kickoff": "17:30",
+   "home_win": 84,
+   "draw": 12,
+   "away_win": 4,
+   "xg_home": 2.69,
+   "xg_away": 0.58,
+   "round": {
+    "title": "Around the league",
+    "stage": "Laliga",
+    "points": []
+   },
+   "home_short": "Barcelona",
+   "away_short": "Getafe",
+   "city": {
+    "name": "Barcelona",
+    "lat": 41.3809,
+    "lon": 2.1228,
+    "venue": "Camp Nou",
+    "local": "",
+    "iso": 724
+   },
+   "ko": "17:30"
+  },
+  {
+   "home": "Mainz",
+   "away": "Bayer Leverkusen",
+   "competition": "Bundesliga",
+   "kickoff": "14:30",
+   "home_win": 29,
+   "draw": 26,
+   "away_win": 45,
+   "xg_home": 1.21,
+   "xg_away": 1.54,
+   "round": {
+    "title": "Around the league",
+    "stage": "Bundesliga",
+    "points": []
+   },
+   "home_short": "Mainz",
+   "away_short": "Leverkusen",
+   "city": {
+    "name": "Mainz",
+    "lat": 49.9839,
+    "lon": 8.2244,
+    "venue": "MEWA Arena",
+    "local": "",
+    "iso": 276
+   },
+   "ko": "14:30"
+  },
+  {
+   "home": "Hoffenheim",
+   "away": "Hamburger SV",
+   "competition": "Bundesliga",
+   "kickoff": "14:30",
+   "home_win": 55,
+   "draw": 23,
+   "away_win": 22,
+   "xg_home": 1.83,
+   "xg_away": 1.06,
+   "round": {
+    "title": "Around the league",
+    "stage": "Bundesliga",
+    "points": []
+   },
+   "home_short": "Hoffenheim",
+   "away_short": "Hamburg",
+   "city": {
+    "name": "Sinsheim",
+    "lat": 49.2381,
+    "lon": 8.8876,
+    "venue": "PreZero Arena",
+    "local": "",
+    "iso": 276
+   },
+   "ko": "14:30"
+  },
+  {
+   "home": "RB Leipzig",
+   "away": "Eintracht Frankfurt",
+   "competition": "Bundesliga",
+   "kickoff": "17:30",
+   "home_win": 55,
+   "draw": 24,
+   "away_win": 21,
+   "xg_home": 1.83,
+   "xg_away": 1.07,
+   "round": {
+    "title": "Around the league",
+    "stage": "Bundesliga",
+    "points": []
+   },
+   "home_short": "Leipzig",
+   "away_short": "Frankfurt",
+   "city": {
+    "name": "Leipzig",
+    "lat": 51.3458,
+    "lon": 12.3483,
+    "venue": "Red Bull Arena",
+    "local": "",
+    "iso": 276
+   },
+   "ko": "17:30"
+  },
+  {
+   "home": "Genoa",
+   "away": "Fiorentina",
+   "competition": "Serie A",
+   "kickoff": "14:00",
+   "home_win": 34,
+   "draw": 28,
+   "away_win": 38,
+   "xg_home": 1.23,
+   "xg_away": 1.32,
+   "round": {
+    "title": "Around the league",
+    "stage": "Serie A",
+    "points": []
+   },
+   "home_short": "Genoa",
+   "away_short": "Fiorentina",
+   "city": {
+    "name": "Genoa",
+    "lat": 44.4164,
+    "lon": 8.9526,
+    "venue": "Luigi Ferraris",
+    "local": "",
+    "iso": 380
+   },
+   "ko": "14:00"
+  },
+  {
+   "home": "Napoli",
+   "away": "Frosinone",
+   "competition": "Serie A",
+   "kickoff": "19:45",
+   "home_win": 56,
+   "draw": 25,
+   "away_win": 19,
+   "xg_home": 1.76,
+   "xg_away": 0.95,
+   "round": {
+    "title": "Around the league",
+    "stage": "Serie A",
+    "points": []
+   },
+   "home_short": "Napoli",
+   "away_short": "Frosinone",
+   "city": {
+    "name": "Naples",
+    "lat": 40.8279,
+    "lon": 14.1931,
+    "venue": "Diego Armando Maradona",
+    "local": "",
+    "iso": 380
+   },
+   "ko": "19:45"
+  },
+  {
+   "home": "Lille",
+   "away": "Le Havre",
+   "competition": "Ligue 1",
+   "kickoff": "16:15",
+   "home_win": 64,
+   "draw": 23,
+   "away_win": 13,
+   "xg_home": 1.9,
+   "xg_away": 0.79,
+   "round": {
+    "title": "Around the league",
+    "stage": "Ligue 1",
+    "points": []
+   },
+   "home_short": "Lille",
+   "away_short": "Le Havre",
+   "city": {
+    "name": "Lille",
+    "lat": 50.6119,
+    "lon": 3.1305,
+    "venue": "Pierre-Mauroy",
+    "local": "",
+    "iso": 250
+   },
+   "ko": "16:15"
+  },
+  {
+   "home": "PSG",
+   "away": "Le Mans FC",
+   "competition": "Ligue 1",
+   "kickoff": "19:45",
+   "home_win": 80,
+   "draw": 14,
+   "away_win": 6,
+   "xg_home": 2.43,
+   "xg_away": 0.59,
+   "round": {
+    "title": "Around the league",
+    "stage": "Ligue 1",
+    "points": []
+   },
+   "home_short": "PSG",
+   "away_short": "Le Mans",
+   "city": {
+    "name": "Paris",
+    "lat": 48.8414,
+    "lon": 2.253,
+    "venue": "Parc des Princes",
+    "local": "",
+    "iso": 250
+   },
+   "ko": "19:45"
+  },
+  {
+   "home": "Monaco",
+   "away": "Toulouse",
+   "competition": "Ligue 1",
+   "kickoff": "19:45",
+   "home_win": 58,
+   "draw": 24,
+   "away_win": 18,
+   "xg_home": 1.79,
+   "xg_away": 0.92,
+   "round": {
+    "title": "Around the league",
+    "stage": "Ligue 1",
+    "points": []
+   },
+   "home_short": "Monaco",
+   "away_short": "Toulouse",
+   "city": {
+    "name": "Monaco",
+    "lat": 43.7277,
+    "lon": 7.4156,
+    "venue": "Stade Louis II",
+    "local": "",
+    "iso": 250
+   },
+   "ko": "19:45"
+  },
+  {
+   "home": "Lorient",
+   "away": "Paris FC",
+   "competition": "Ligue 1",
+   "kickoff": "19:45",
+   "home_win": 40,
+   "draw": 28,
+   "away_win": 32,
+   "xg_home": 1.34,
+   "xg_away": 1.2,
+   "round": {
+    "title": "Around the league",
+    "stage": "Ligue 1",
+    "points": []
+   },
+   "home_short": "Lorient",
+   "away_short": "Paris FC",
+   "city": {
+    "name": "Lorient",
+    "lat": 47.7486,
+    "lon": -3.3695,
+    "venue": "Le Moustoir",
+    "local": "",
+    "iso": 250
+   },
+   "ko": "19:45"
+  },
+  {
+   "home": "Rangers",
+   "away": "Kilmarnock FC",
+   "competition": "Premiership",
+   "kickoff": "15:00",
+   "home_win": 73,
+   "draw": 17,
+   "away_win": 10,
+   "xg_home": 2.21,
+   "xg_away": 0.66,
+   "round": {
+    "title": "Around the league",
+    "stage": "Premiership",
+    "points": []
+   },
+   "home_short": "Rangers",
+   "away_short": "Kilmarnock",
+   "city": {
+    "name": "Glasgow",
+    "lat": 55.853,
+    "lon": -4.3093,
+    "venue": "Ibrox",
+    "local": "",
+    "iso": 826
+   },
+   "ko": "15:00"
+  },
+  {
+   "home": "Bodoe/Glimt",
+   "away": "Kristiansund BK",
+   "competition": "Eliteserien",
+   "kickoff": "15:00",
+   "home_win": 83,
+   "draw": 12,
+   "away_win": 5,
+   "xg_home": 2.66,
+   "xg_away": 0.63,
+   "round": {
+    "title": "Around the league",
+    "stage": "Eliteserien",
+    "points": []
+   },
+   "home_short": "Bodø/Glimt",
+   "away_short": "Kristiansund",
+   "city": {
+    "name": "Bodø",
+    "lat": 67.2777,
+    "lon": 14.3836,
+    "venue": "Aspmyra",
+    "local": "",
+    "iso": 578
+   },
+   "ko": "15:00"
+  },
+  {
+   "home": "HNK Hajduk Split",
+   "away": "GNK Dinamo Zagreb",
+   "competition": "Hnl",
+   "kickoff": "14:00",
+   "home_win": 46,
+   "draw": 27,
+   "away_win": 27,
+   "xg_home": 1.59,
+   "xg_away": 1.19,
+   "round": {
+    "title": "Around the league",
+    "stage": "Hnl",
+    "points": []
+   },
+   "home_short": "Hajduk",
+   "away_short": "Dinamo Zagreb",
+   "city": {
+    "name": "Split",
+    "lat": 43.5197,
+    "lon": 16.432,
+    "venue": "Poljud",
+    "local": "",
+    "iso": 191
+   },
+   "ko": "14:00"
+  },
+  {
+   "home": "Ajax",
+   "away": "NEC Nijmegen",
+   "competition": "Eredivisie",
+   "kickoff": "20:00",
+   "home_win": 55,
+   "draw": 24,
+   "away_win": 21,
+   "xg_home": 1.83,
+   "xg_away": 1.07,
+   "round": {
+    "title": "Around the league",
+    "stage": "Eredivisie",
+    "points": []
+   },
+   "home_short": "Ajax",
+   "away_short": "NEC",
+   "city": {
+    "name": "Amsterdam",
+    "lat": 52.3144,
+    "lon": 4.9415,
+    "venue": "Johan Cruijff ArenA",
+    "local": "",
+    "iso": 528
+   },
+   "ko": "20:00"
+  }
+ ],
+ "review": {
+  "project": "The Verdicts",
+  "globe_r": 1500,
+  "beats": [
+   {
+    "type": "gl_cold",
+    "tag": "Saturday · full time",
+    "clock": [
+     "12:00",
+     "22:00"
+    ],
+    "steps": [
+     {
+      "big": "23 calls",
+      "label": "Saturday · 12:30 → 22:00 Lagos"
+     },
+     {
+      "big": "4 in depth",
+      "label": "Arsenal · Chelsea · Bayern · Real Madrid"
+     },
+     {
+      "big": "1 suspended",
+      "label": "Rayo v Athletic, stopped at 0–0",
+      "tone": "sky"
+     },
+     {
+      "big": "8 seconds",
+      "label": "The fastest goal in Bundesliga history",
+      "tone": "red",
+      "glitch": true,
+      "glitch_at": 0.5
+     }
+    ],
+    "say": [
+     "Yesterday, twenty-three calls.",
+     "Four in depth.",
+     "One game that never finished.",
+     "And one goal after eight seconds."
+    ],
+    "tail": 0.95
+   },
+   {
+    "type": "gl_title",
+    "l1": "The",
+    "l2": "Verdicts",
+    "sub": "Super Saturday · marked",
+    "say": [
+     "Super Saturday, marked: called it, or missed it."
+    ]
+   },
+   {
+    "type": "gl_list",
+    "title": "The big four",
+    "sub": "In depth yesterday",
+    "centre": [
+     3,
+     46.5
+    ],
+    "r": 1400,
+    "cy": 620,
+    "iso": [
+     826,
+     276,
+     724
+    ],
+    "stop": "Full time",
+    "say": [
+     "Two–one to Arsenal, from a goal down. But we also called a clean sheet, so it is missed.",
+     "Augsburg scored after eight seconds and held Bayern, two goals each. Missed.",
+     "Five–one to Chelsea, with goals at both ends, as we said. Called it.",
+     "And one–nil to Real Madrid, with a clean sheet, even after Vinícius was sent off. Called it."
+    ],
+    "rows": [
+     {
+      "match": 0,
+      "score": "2–1",
+      "stamp": "missed",
+      "note": "Came from behind · we said a clean sheet",
+      "at": [
+       0,
+       0.0
+      ]
+     },
+     {
+      "match": 2,
+      "score": "2–2",
+      "stamp": "missed",
+      "note": "Fellhauer scored after 8 seconds",
+      "at": [
+       1,
+       0.0
+      ]
+     },
+     {
+      "match": 1,
+      "score": "5–1",
+      "stamp": "called",
+      "note": "2–0 up inside three minutes",
+      "at": [
+       2,
+       0.0
+      ]
+     },
+     {
+      "match": 3,
+      "score": "1–0",
+      "stamp": "called",
+      "note": "Diomande's first goal · Vinícius sent off",
+      "at": [
+       3,
+       0.0
+      ]
+     }
+    ]
+   },
+   {
+    "type": "gl_list",
+    "title": "Premier League",
+    "sub": "Matchweek 6 · Saturday",
+    "centre": [
+     -1.2,
+     52.5
+    ],
+    "r": 2600,
+    "cy": 620,
+    "iso": 826,
+    "stop": "Full time",
+    "say": [
+     "In the Premier League, Villa and Brentford drew, two goals each, and it was two–nil to Brighton at Sunderland.",
+     "Ipswich beat Fulham with a winner in stoppage time. One called from three."
+    ],
+    "rows": [
+     {
+      "match": 4,
+      "score": "2–2",
+      "stamp": "missed",
+      "note": "Brentford stay unbeaten",
+      "at": [
+       0,
+       0.169
+      ]
+     },
+     {
+      "match": 5,
+      "score": "0–2",
+      "stamp": "called",
+      "note": "Brighton: a third straight win to nil",
+      "at": [
+       0,
+       0.651
+      ]
+     },
+     {
+      "match": 6,
+      "score": "2–1",
+      "stamp": "missed",
+      "note": "O'Shea's winner in stoppage time",
+      "at": [
+       1,
+       0.0
+      ]
+     }
+    ]
+   },
+   {
+    "type": "gl_list",
+    "title": "Bundesliga",
+    "sub": "Matchday 5",
+    "centre": [
+     10.2,
+     50.4
+    ],
+    "r": 2500,
+    "cy": 620,
+    "iso": 276,
+    "stop": "Full time",
+    "say": [
+     "In Germany, it was four–three to Leverkusen at Mainz, and six–nil to Leipzig against Frankfurt, with an Nkunku hat-trick.",
+     "But Hamburg won at Hoffenheim in stoppage time. Two called from three."
+    ],
+    "rows": [
+     {
+      "match": 10,
+      "score": "3–4",
+      "stamp": "called",
+      "note": "Seven goals at Mainz",
+      "at": [
+       0,
+       0.117
+      ]
+     },
+     {
+      "match": 12,
+      "score": "6–0",
+      "stamp": "called",
+      "note": "Nkunku: a first-half hat-trick",
+      "at": [
+       0,
+       0.439
+      ]
+     },
+     {
+      "match": 11,
+      "score": "2–3",
+      "stamp": "missed",
+      "note": "Muheim's winner in stoppage time",
+      "at": [
+       1,
+       0.0
+      ]
+     }
+    ]
+   },
+   {
+    "type": "gl_list",
+    "title": "Serie A",
+    "sub": "Matchday 6",
+    "centre": [
+     11.8,
+     43.0
+    ],
+    "r": 2200,
+    "cy": 620,
+    "iso": 380,
+    "stop": "Full time",
+    "say": [
+     "In Italy, Genoa got their first win, two–one against Fiorentina, so we missed that one.",
+     "And it was three–nil to Napoli against Frosinone, with two from De Bruyne. Called it."
+    ],
+    "rows": [
+     {
+      "match": 13,
+      "score": "2–1",
+      "stamp": "missed",
+      "note": "Genoa's first win of the season",
+      "at": [
+       0,
+       0.0
+      ]
+     },
+     {
+      "match": 14,
+      "score": "3–0",
+      "stamp": "called",
+      "note": "De Bruyne scored twice",
+      "at": [
+       1,
+       0.0
+      ]
+     }
+    ]
+   },
+   {
+    "type": "gl_list",
+    "title": "Ligue 1",
+    "sub": "Matchday 6",
+    "centre": [
+     2.4,
+     46.6
+    ],
+    "r": 2300,
+    "cy": 620,
+    "iso": 250,
+    "stop": "Full time",
+    "say": [
+     "In France, Lille, PSG and Lorient all won, as we said.",
+     "But Monaco gave away a two-goal lead against Toulouse. Missed."
+    ],
+    "rows": [
+     {
+      "match": 15,
+      "score": "1–0",
+      "stamp": "called",
+      "note": "Bakwa scored after five minutes",
+      "at": [
+       0,
+       0.164
+      ]
+     },
+     {
+      "match": 16,
+      "score": "3–1",
+      "stamp": "called",
+      "note": "Le Mans scored once",
+      "at": [
+       0,
+       0.293
+      ]
+     },
+     {
+      "match": 18,
+      "score": "1–0",
+      "stamp": "called",
+      "note": "Paris FC's first league defeat",
+      "at": [
+       0,
+       0.441
+      ]
+     },
+     {
+      "match": 17,
+      "score": "2–2",
+      "stamp": "missed",
+      "note": "Monaco led 2–0",
+      "at": [
+       1,
+       0.0
+      ]
+     }
+    ]
+   },
+   {
+    "type": "gl_list",
+    "title": "LaLiga",
+    "sub": "Matchday 8",
+    "centre": [
+     -2.6,
+     40.9
+    ],
+    "r": 2300,
+    "cy": 620,
+    "iso": 724,
+    "stop": "Full time",
+    "say": [
+     "In Spain, Rayo against Athletic was suspended with no goals, after objects were thrown onto the pitch.",
+     "Atlético won late at Alavés, and it was three–nil to Barcelona against Getafe. Both called."
+    ],
+    "rows": [
+     {
+      "match": 7,
+      "score": "0–0",
+      "stamp": "void",
+      "note": "Suspended: objects thrown onto the pitch",
+      "at": [
+       0,
+       0.0
+      ]
+     },
+     {
+      "match": 8,
+      "score": "1–2",
+      "stamp": "called",
+      "note": "Romero's header in the 87th minute",
+      "at": [
+       1,
+       0.0
+      ]
+     },
+     {
+      "match": 9,
+      "score": "3–0",
+      "stamp": "called",
+      "note": "Every league game won · 5 points clear",
+      "at": [
+       1,
+       0.4
+      ]
+     }
+    ]
+   },
+   {
+    "type": "gl_list",
+    "title": "Elsewhere",
+    "sub": "Scotland · Norway · Croatia · Netherlands",
+    "centre": [
+     9,
+     57
+    ],
+    "r": 760,
+    "cy": 600,
+    "iso": [
+     826,
+     578,
+     191,
+     528
+    ],
+    "stop": "Full time",
+    "say": [
+     "Rangers went top in Scotland, Hajduk won the derby, and Bodø Glimt beat Kristiansund. All three called.",
+     "Ajax were held at home by NEC. Missed."
+    ],
+    "rows": [
+     {
+      "match": 19,
+      "score": "3–1",
+      "stamp": "called",
+      "note": "Rangers go top, above Celtic",
+      "at": [
+       0,
+       0.0
+      ]
+     },
+     {
+      "match": 20,
+      "score": "3–1",
+      "stamp": "called",
+      "note": "Level with Viking on 53 points",
+      "at": [
+       0,
+       0.504
+      ]
+     },
+     {
+      "match": 21,
+      "score": "2–1",
+      "stamp": "called",
+      "note": "Came from behind in the derby",
+      "at": [
+       0,
+       0.251
+      ]
+     },
+     {
+      "match": 22,
+      "score": "1–1",
+      "stamp": "missed",
+      "note": "Held at home again",
+      "at": [
+       1,
+       0.0
+      ]
+     }
+    ]
+   },
+   {
+    "type": "gl_end",
+    "l1": "14 called",
+    "l2": "8 missed",
+    "follow": "Follow for today's analysis",
+    "say": [
+     "Fourteen called, eight missed, and one suspended.",
+     "Follow for today's analysis."
+    ],
+    "tail": 0.9
+   }
+  ]
+ },
+ "cover": {
+  "kicker": "Sat 10 Oct · Full time",
+  "l1": "The",
+  "l2": "Verdicts",
+  "tag": "Super Saturday, <b>marked</b>",
+  "feature": [
+   1,
+   0
+  ],
+  "more": "Bayern, Real Madrid, Barça and more",
+  "row": [
+   2,
+   3,
+   9,
+   12,
+   19,
+   16
+  ],
+  "row_max": 6,
+  "rot": [
+   6,
+   47
+  ],
+  "sun_at": "15:00"
+ }
+}

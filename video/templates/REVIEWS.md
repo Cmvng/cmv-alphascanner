@@ -24,6 +24,28 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
+## 11 Oct: analysis "All roads to Anfield" (2:08) and post-match "The Verdicts" (1:47), made together on low credits
+
+- **Before building:** applied the last "Change next time" lines: the cut decided before research (2 games in depth, the rest one card per league), every line read for homophones, the length estimated from the word count (316 words, 2:08).
+- **What worked:**
+  - **One engine, two videos.** Both reuse the Super Saturday globe. The results video adds a score and a stamp to each round-up row (`score`, `stamp: called|missed|void`), so the format cost almost no new code.
+  - **Three research agents in parallel** (yesterday's 23 scores, the headline brief, today's 22 fixtures). The fixture check caught four games that are on Monday (Atalanta, Torino, Coventry v Newcastle, Levante); they were left out.
+  - **Judged by the owner's rule:** Arsenal won 2–1 but our call included a clean sheet, so it is missed. Rayo v Athletic was suspended at 0–0 and is shown as "Suspended", not judged.
+- **Mistakes, and how they got through:**
+  1. **Homophones again:** "Everton win at Hull" was heard as "when"; "we said a clean sheet" as "set"; "Monaco let a lead slip" as "led". All three were reworded after the first hear-back ("beat Hull", "we also called", "gave away").
+  2. **The stamp chip came out as a blue bar:** `.gll-st` lost to `.gll-v` (same specificity, defined later). Caught on the contact sheet; fixed with `.gll-v.gll-st`, then checked on one still before the re-render.
+  3. **Two queued renders waited forever:** each `until ! pgrep -f "<cmd>"` loop matched its own command line. Run renders back to back in one command instead.
+  4. **Matchday numbers guessed** on four cards; corrected to the confirmed rounds before rendering.
+- **Change next time:**
+  - Never wait on a process with `pgrep -f` on a string the waiting command itself contains; chain the commands.
+  - Give any new class that sits on an existing chip a compound selector from the start.
+  - Prefer "beat" or "should win" to a bare "win at" in round-up lines.
+- **Final review:** analysis 2:08, −14.9 LUFS, peak −3.6 dB, music 542; results 1:47, −15.0 LUFS, peak −3.3 dB, music 546. Heard back: only name spellings left (Bodø Glimt is still heard as "Booder").
+- **Sent:** 11 Oct, about 09:45 Lagos, before the first kick-off (Como v Roma, 11:30): both 28 MB chat copies, covers, thumbnails, write-ups, post kits, sources and subtitles, plus one download page for both full files.
+- **The owner's reaction:** (waiting)
+
+---
+
 ## 10 Oct: analysis, "Super Saturday" (23 of the day's 52 games, 2:59)
 
 - **Before building:** read the last three entries' "Change next time" lines and applied them:
