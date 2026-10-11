@@ -78,6 +78,12 @@ const SAY_IPA = {
   Mainz: 'mˈaɪnts', Lille: 'lˈiːl', Bundesliga: 'bˈʊndəsliːɡə', 'Alavés': 'ˌɑːlɑːvˈɛs', Frosinone: 'fɹˌoʊzɪnˈoʊneɪ',
   Genoa: 'dʒˈɛnoʊə', Getafe: 'hɛtˈɑːfeɪ', Raphinha: 'ɹɑːfˈiːnjə', Rayo: 'ɹˈaɪoʊ', 'Álvaro': 'ˈɑːlvɑːɹoʊ', Napoli: 'nˈɑːpoʊli',
   'Bernabéu': 'bɛɹnəbˈeɪuː', Huijsen: 'hˈaʊsən', Kylian: 'kˈiːliən', 'Militão': 'mɪlɪtˈaʊ', Mourinho: 'məɹˈiːnjoʊ', Rodrygo: 'ɹoʊdɹˈiːɡoʊ', Villarreal: 'vˌiːjəɹeɪˈɑːl', Kristiansund: 'kɹˈɪstjɑːnsʊn',
+  // 11 Oct
+  Auxerre: 'oʊsˈɛɹ', Benfica: 'bˈɛnfiːkə', Betis: 'bˈɛtɪs', Cagliari: 'kˈæljəɹi', Celta: 'sˈɛltə', Celtic: 'sˈɛltɪk', Como: 'kˈoʊmoʊ',
+  Deportivo: 'dˌeɪpɔːɹtˈiːvoʊ', Elche: 'ˈɛltʃeɪ', Iraola: 'ˌɪɹəˈoʊlə', Isak: 'ˈiːsɑːk', Kocaelispor: 'koʊdʒˈɑːɛlɪspɔːɹ', Lazio: 'lˈætsioʊ',
+  Lecce: 'lˈɛtʃeɪ', Luz: 'lˈuːʃ', Maresca: 'məɹˈɛskə', Monza: 'mˈɒntsə', Nice: 'nˈiːs', Real: 'ɹeɪˈɑːl', Rennes: 'ɹˈɛn', Sassuolo: 'sæsuˈoʊloʊ',
+  Schalke: 'ʃˈælkə', Sociedad: 'sˌoʊsiːɛˈdæd', Troyes: 'tɹwˈɑː', 'Beşiktaş': 'bəʃˈɪktɑːʃ',
+  Nkunku: 'ənkˈʊŋkuː', 'Vinícius': 'vɪnˈiːsiəs',
 }
 const IPA_RE = new RegExp(`(?<!\\p{L})(${Object.keys(SAY_IPA).join('|')})(['’]s)?(?!\\p{L})`, 'gu')
 // letter-aware edges: \b treats accented letters as non-letters, so "Doué" or "Çalhanoğlu" would never match
