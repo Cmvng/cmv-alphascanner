@@ -810,6 +810,9 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#03060F}
 .gl_list .gll-t{display:flex;gap:4px;height:10px;margin-top:8px;max-width:380px}
 .gl_list .gll-t i{display:block;height:100%;border-radius:5px;transform-origin:0 50%}
 .gl_list .gll-n{display:block;margin-top:7px;font:700 20px/1.2 Manrope;color:var(--gl-mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gl_list .gll-sc{text-decoration:none;color:var(--gl-blue);font-variant-numeric:tabular-nums;padding:0 4px}
+.gl_list .gll-st{transform:rotate(-4deg);background:none;border:3px solid currentColor}
+.gl_list .gll-st.called{color:#1E9E62}.gl_list .gll-st.missed{color:#D8434F}
 .gl_list .gll-v{font:700 18px JBM;font-style:normal;letter-spacing:2px;text-transform:uppercase;color:#fff;background:var(--gl-blue);padding:9px 14px;border-radius:10px;white-space:nowrap}
 .gl .glp-pc{position:absolute;left:610px;top:350px;width:410px;padding:12px 12px 40px;background:#fff;border-radius:6px;box-shadow:0 22px 50px rgba(16,52,130,.28);transform:rotate(3deg);transform-origin:50% 0}
 .gl .glp-pc div{width:100%;height:250px;background-size:cover;background-position:center;border-radius:2px}
@@ -2234,8 +2237,8 @@ const built = D.scenes.map((sc, k) => {
     } else if (sc.type === 'gl_list') {
       // a league round-up: the map flies to the country, its games light up, one row per game with the model and a note
       const rows = (b.rows || []).map(r => { const p = D.picks[r.match] || M, h = vrKit(p, 'home'), a = vrKit(p, 'away'), m = [p.home_win, p.draw, p.away_win]
-        return `<div class="gll-r" data-j="${r.match}"><span class="gll-k">${html(p.ko || '')}</span><span class="gll-c">${badge(p.bh)}${badge(p.ba)}</span><div class="gll-m"><b>${html(vrName(p, 'home'))} v ${html(vrName(p, 'away'))}</b>
-          <div class="gll-t">${m.map((v, j) => `<i style="width:${v}%;background:${[h.bg, '#C9D5EA', a.bg][j]}"></i>`).join('')}</div><span class="gll-n">${html(r.note || '')}</span></div><em class="gll-v">${html(r.lean || '')}</em></div>` }).join('')
+        return `<div class="gll-r" data-j="${r.match}"><span class="gll-k">${html(p.ko || '')}</span><span class="gll-c">${badge(p.bh)}${badge(p.ba)}</span><div class="gll-m"><b>${html(vrName(p, 'home'))} ${r.score ? `<u class="gll-sc">${html(r.score)}</u>` : 'v'} ${html(vrName(p, 'away'))}</b>
+          <div class="gll-t">${m.map((v, j) => `<i style="width:${v}%;background:${[h.bg, '#C9D5EA', a.bg][j]}"></i>`).join('')}</div><span class="gll-n">${html(r.note || '')}</span></div><em class="gll-v${r.stamp ? ' gll-st ' + r.stamp : ''}">${html(r.stamp ? (r.stamp === 'called' ? 'Called it' : 'Missed it') : (r.lean || ''))}</em></div>` }).join('')
       el.innerHTML = `<div class="gl-sky"></div>${cv}<div class="gl-pg">${glTop(b, b.stop || '')}<div class="gll-h">${html(b.title || '')}</div><div class="gll-s">${html(b.sub || '')}</div><div class="gl-card gll-card">${rows}</div></div>${glDay()}`
     } else if (sc.type === 'gl_end') {
       el.innerHTML = `<div class="gl-sky"></div>${cv}<div class="gl-pg">${glTop(b, b.stop || '')}<div class="gl-e1">${html(b.l1 || '')}</div><div class="gl-e2">${html(b.l2 || '')}</div>
