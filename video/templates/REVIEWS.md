@@ -42,7 +42,8 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
   - Prefer "beat" or "should win" to a bare "win at" in round-up lines.
 - **Final review:** analysis 2:08, −14.9 LUFS, peak −3.6 dB, music 542; results 1:47, −15.0 LUFS, peak −3.3 dB, music 546. Heard back: only name spellings left (Bodø Glimt is still heard as "Booder").
 - **Sent:** 11 Oct, about 09:45 Lagos, before the first kick-off (Como v Roma, 11:30): both 28 MB chat copies, covers, thumbnails, write-ups, post kits, sources and subtitles, plus one download page for both full files.
-- **The owner's reaction:** (waiting)
+- **The owner's reaction:** YouTube blocked the analysis Short worldwide: a Content ID claim matched Mixkit 542 ("A Love Theme") to "Sunu Sir Nka Love Story" (RDC Media). Re-rendered with Mixkit 625 and re-sent; 542 is retired in `lib/music.json` with the claim noted, and a render now stops if a config asks for a claimed track. Earlier videos with 542 (6 Oct Croatia v Spain and full analysis, 7 Oct hold edit, 9 Oct envelope post-match) may be claimed too. The re-render's true peak came out at −0.8 dB; an audio-only limiter pass brought it to −3.9 dB without touching the picture.
+  - **Change next time:** when YouTube claims a track, retire it the same day and tell the owner which earlier videos used it.
 
 ---
 
