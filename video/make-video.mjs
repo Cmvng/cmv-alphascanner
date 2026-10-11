@@ -137,6 +137,8 @@ function pickTrack() {
   const all = JSON.parse(fs.readFileSync(path.join(DIR, 'lib', 'music.json'), 'utf8')).tracks
   // a track asked for by id (music_track): e.g. a "drop" track whose drop lands on a chosen cut
   const want = cfg.music_track && all.find(t => t.id === +cfg.music_track)
+  // a track YouTube's Content ID has claimed blocks the whole video there: never use it, even when asked for by id
+  if (want?.claimed) { console.error(`Music ${want.id} "${want.name}" is claimed on YouTube (${want.claimed}). Pick another track.`); process.exit(1) }
   // retired tracks (the old defaults the owner found repetitive) never come back in rotation; "drop" tracks only by id,
   // or in rotation for a video that opens on a drop (music_drop), optionally narrowed by music_vibe ("dark trap", ...)
   const vibes = cfg.music_vibe ? [].concat(cfg.music_vibe) : null
