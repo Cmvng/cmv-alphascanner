@@ -171,7 +171,7 @@ through and a "clean and mini cover". Each tie is one whiteboard. Reference: `ta
 - **Sound.** A faint stadium crowd (Mixkit 2097, −28 dB) plays under every screen, with a marker squeak on the arrows
   and a magnet click on the players.
 - **Pace.** Four lines a board (context, team news and key men, how they play and the model, the verdict), about
-  31–38 s each. Five ties ran 3:17.
+  30–32 s each. Five ties ran 2:58, under the three minutes for a Short.
 - **Cover.** `cover.style: 'tb'` uses `cover-board.html`: "The Tactics Board." in two sizes, a mini board drawn from
   `cover.feature[0]` (its magnets, the away key man as a photo magnet, one marker arrow), and the crest row.
 - **Names on magnets** are short (surname, 14 px). Check crowded lines (a back four with a holding pair) on a still.
