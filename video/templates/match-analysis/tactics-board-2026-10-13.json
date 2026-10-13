@@ -533,7 +533,7 @@
     "match": 2,
     "kicker": "Matchday 2 · Estadio de la Cerámica, Villarreal",
     "say": [
-     "Also at eight, the Cerámica: Villarreal against Napoli, both still waiting for a point. Villarreal have gone twelve Champions League games without a win.",
+     "Also at eight: Villarreal against Napoli, both still waiting for a point. Villarreal have gone twelve Champions League games without a win.",
      "Buchanan is out for Villarreal; Napoli are without Anguissa and Buongiorno. Pape Gueye leads Villarreal’s league scoring, and De Bruyne scored twice at the weekend.",
      "Villarreal keep the ball and threaten from set pieces; Napoli sit deep and break. On our numbers, Villarreal win 40% of the time.",
      "The verdict: Villarreal, by the narrowest margin. One–nil."
@@ -652,7 +652,7 @@
     "kicker": "Matchday 2 · Emirates Stadium, London",
     "say": [
      "At the Emirates, Arsenal, who won in Naples, face Lille, who have lost their last seven Champions League games against English sides.",
-     "Arsenal are without Saliba, Zubimendi and Hincapié; Lille without Ethan Mbappé and Igamane. Saka has three league goals; Bakwa has two goals from six games for Lille.",
+     "Arsenal are without Saliba, Zubimendi and Hincapié; Lille without Ethan Mbappé and Igamane. Saka has three league goals; Bakwa has two goals from six games.",
      "Arsenal are patient on the ball and rarely concede; Lille press, then break fast. On our numbers, Arsenal win 73% of the time.",
      "The verdict: Arsenal, and a clean sheet. Two–nil."
     ],
@@ -685,7 +685,7 @@
        "credit": "Bukayo Saka · Photo: Bryan Berlin · CC BY-SA 4.0",
        "at": [
         1,
-        0.524
+        0.56
        ]
       }
      ]
@@ -718,7 +718,7 @@
        "credit": "Dilane Bakwa · Photo: Paté kroute · CC0",
        "at": [
         1,
-        0.699
+        0.746
        ]
       }
      ]
@@ -895,7 +895,7 @@
      "Five boards, five verdicts.",
      "Follow for the post-match tonight."
     ],
-    "tail": 0.9
+    "tail": 0.6
    }
   ]
  },

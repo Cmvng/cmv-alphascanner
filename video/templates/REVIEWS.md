@@ -24,6 +24,34 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
+## 13 Oct: analysis, "The Tactics Board" (5 Champions League ties, 2:58)
+
+- **Before building:** applied the last "Change next time" lines:
+  - no waiting on `pgrep -f`; renders ran in the background with an until-loop on the log;
+  - unique `tb-` prefixes and compound selectors from the first line;
+  - "should edge it" and "beat" rather than a bare "win at".
+- **What worked:**
+  - **A new look built for the brief** ("well detailed… clean… appealing"): a whiteboard per tie with formation magnets in kit colours, photo magnets for the key men, crossed-out absentees, marker arrows with a numbered legend (labels off the pitch), the model bar, and a verdict written in marker with the likeliest score stamped.
+  - **The commentary all the way through**, with a faint stadium crowd under every screen.
+  - **A minimal cover:** the title in two sizes, one mini board (Galatasaray v Barcelona with Yamal as a photo magnet) and the five crests.
+  - **Every board on its words:** each magnet, arrow and card is timed to the word that names it (`frac(line, word)`), so nothing appears before it is said.
+- **Mistakes, and how they got through:**
+  1. **Same-colour sides.** Inter and Brugge were both blue, and Galatasaray and Barcelona both garnet, so the two halves of the board blurred. I set the kits from the crests without checking the clashes; caught on the first cover. Brugge are now in black, Barcelona in blue, and the render was restarted.
+  2. **A random green crest for Galatasaray.** The app calls them "Galatasaray Istanbul", which missed the club colour table, so the badge fell back to a hashed colour. Added the alias.
+  3. **"Six goals in four games" heard as "and"**, twice. Not on the homophone list; now "from".
+  4. **"Inter are" heard as "Enter our".** /ˈɪntɚ/ sits too close to "enter"; /ˈɪntɛɹ/ is heard right every time.
+  5. **3:11 at first**, over YouTube's three minutes for a Short. Trimmed 38 words: lines that repeated the cold open ("half a goal a game", "a perfect league record") and venue names already on screen.
+  6. **The end card had a large empty gap**, the thumbnail board touched the card's edge, and two verdicts left one word alone on a line ("IT", "WIN"); all fixed on stills (`text-wrap: balance` on the verdict).
+  7. **3:00.5 after the first trim**, half a second over. The estimate from stills runs about 6% long, so cut to a target of 2:55, not 3:00.
+- **Change next time:**
+  - Check each tie's two kit colours side by side before the first still; change the away side's colour when they clash.
+  - Add "in" → "and" to the homophone list: say "from" for "X goals from Y games".
+  - Estimate the length against 180 s before the first render (the estimate runs about 6% long).
+- **Final review:** 2:58 (fits a YouTube Short), −14.6 LUFS, true peak −3.7 dB, drop on the title +12.3 dB, music 586 "Charlotte" (a candidate: the owner is asked to approve it). Heard back: only name spellings ("Lants" for Lens, "Bruga" for Brugge, "nil" written as zero). Five renders in all: two stopped or redone for the kit clash, one for the length, one for the last half-second and the verdict wrap.
+- **Sent:** 13 Oct, about 03:10 Lagos, well before the first kick-off (Lens v Sporting, 17:45): the 27.7 MB chat copy, cover, thumbnail, subtitles, write-up, post kit and sources, plus a private download page for the full 45 MB file.
+
+---
+
 ## 11 Oct: analysis "All roads to Anfield" (2:08) and post-match "The Verdicts" (1:47), made together on low credits
 
 - **Before building:** applied the last "Change next time" lines: the cut decided before research (2 games in depth, the rest one card per league), every line read for homophones, the length estimated from the word count (316 words, 2:08).
