@@ -153,6 +153,29 @@ not be long."* The globe from Follow the Sun, zoomed in to a map of Europe. Refe
   for the right player and club; the credits are joined at the bottom.
 - **Cover:** set `cover.row_max` (6 here) so the crest row fits.
 
+## Another format: "The Tactics Board" (each tie on a coach's whiteboard, 13 Oct 2026)
+The owner asked for a "well detailed" Champions League analysis, clean and appealing, with the commentary all the way
+through and a "clean and mini cover". Each tie is one whiteboard. Reference: `tactics-board-2026-10-13.json`
+(mode "review", `tb_*` screens: `tb_cold`, `tb_title`, `tb_game` one per tie, `tb_end`).
+- **The board.** A pitch (620×890) on the left, the home side at the bottom attacking up and the away side mirrored at
+  the top. Each side's XI is a row of kit-coloured magnets placed by its formation.
+  - `home` / `away`: `{form: '4-2-3-1', xi: [GK, then each line from the team's right to its left], out: [names],
+    key: [{i, name, stat, photo, credit, at}], arrows: [{kind, label, at}]}`.
+  - `key` turns magnet `i` into a photo magnet that grows on its words, and a card in the side panel. Name tags
+    counter-scale, so they stay the same size.
+  - `out` names are struck through in red marker under the formation.
+  - `arrows` use presets (`right`, `left`, `middle`, `counter`, `press`, `block`, `setpiece`). Each draws on its
+    words with a numbered dot; the label goes in the side panel's legend, never on the pitch.
+- **Model bar and verdict.** `model_at` shows our three-way bar. On the last line the verdict is written in marker and
+  `verdict.score` stamps in as "likeliest". `verdict.short` is the line on the end card.
+- **Sound.** A faint stadium crowd (Mixkit 2097, −28 dB) plays under every screen, with a marker squeak on the arrows
+  and a magnet click on the players.
+- **Pace.** Four lines a board (context, team news and key men, how they play and the model, the verdict), about
+  31–38 s each. Five ties ran 3:17.
+- **Cover.** `cover.style: 'tb'` uses `cover-board.html`: "The Tactics Board." in two sizes, a mini board drawn from
+  `cover.feature[0]` (its magnets, the away key man as a photo magnet, one marker arrow), and the crest row.
+- **Names on magnets** are short (surname, 14 px). Check crowded lines (a back four with a holding pair) on a still.
+
 ## Two cuts from one file
 
 - **Full** (about 2 minutes, for X and YouTube): `bash video/daily.sh render video/out/<file>.json`

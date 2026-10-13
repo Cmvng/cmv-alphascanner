@@ -50,7 +50,7 @@ const SAY_IPA = {
   TRA: 'tˌiːɑːɹˈeɪ', Namungo: 'nɑːmˈuːŋɡoʊ', Ruangwa: 'ɹuːˈɑːŋɡwɑː', Tabora: 'tɑːbˈɔːɹɑː', 'Sétif': 'seɪtˈiːf', Oran: 'ɔːɹˈɑːn', Hoima: 'hˈɔɪmɑː', Bergodi: 'bɛɹɡˈoʊdi',
   Zamalek: 'zˈæməlɛk', Ibadan: 'iːbˈɑːdɑːn', Belouizdad: 'bɛluːizdˈæd', Khenchela: 'kɛnʃˈɛlə', Etouga: 'ɛtˈuːɡɑː', Gnistan: 'ɡnˈiːstɑːn', Mirassol: 'mˌiːɹəsˈɔːl',
   Paulista: 'paʊlˈiːstə', Universidad: 'uːnˌiːvɛɹsiːdˈɑːd', Antofagasta: 'ˌɑːntoʊfəɡˈɑːstə', Cartagena: 'kˌɑːɹtəhˈeɪnə', Murcia: 'mˈɜːsiə',
-  Inter: 'ˈɪntɚ', Internacional: 'ˌɪntɚnˌæsiːoʊnˈɑːl', Alberto: 'ɑːlbˈɛɹtoʊ', Baptista: 'bæptˈiːstə', Musa: 'mˈuːsə', Ahmed: 'ˈɑːmɛd', Alegre: 'ɐlˈɛɡɹɪ',
+  Inter: 'ˈɪntɛɹ', Internacional: 'ˌɪntɚnˌæsiːoʊnˈɑːl', Alberto: 'ɑːlbˈɛɹtoʊ', Baptista: 'bæptˈiːstə', Musa: 'mˈuːsə', Ahmed: 'ˈɑːmɛd', Alegre: 'ɐlˈɛɡɹɪ',
   IK: 'ˌaɪkˈeɪ', Niger: 'niːʒˈɛɹ', Montserrat: 'mˌɑːntsəɹˈæt',
   'Perišić': 'pˈɛɹɪʃɪtʃ', Merino: 'mɛɹˈiːnoʊ', Mikel: 'mˈiːkɛl', Zubimendi: 'zˌuːbiːmˈɛndi', Coufal: 'tsˈoʊfɑːl', 'Simón': 'siːmˈoʊn', Unai: 'uːnˈaɪ',
   Raufoss: 'ɹˈaʊfɔs', 'Trollhättan': 'tɹˈɔlhɛtən', 'Mjällby': 'mjˈɛlbi', 'Hložek': 'hlˈɔʒɛk', Neghiz: 'nɛɡˈiːz', Kazakhstan: 'kˌæzəkstˈæn',
@@ -77,13 +77,16 @@ const SAY_IPA = {
   Lorient: 'lɔːɹiˈɑːn', Havre: 'hˈɑːvɹə', Mans: 'mˈɑːn', Demichelis: 'dˌɛmɪtʃˈɛlɪs', 'Dembélé': 'dɑːmbeɪlˈeɪ', Xabi: 'ʃˈɑːbi',
   Mainz: 'mˈaɪnts', Lille: 'lˈiːl', Bundesliga: 'bˈʊndəsliːɡə', 'Alavés': 'ˌɑːlɑːvˈɛs', Frosinone: 'fɹˌoʊzɪnˈoʊneɪ',
   Genoa: 'dʒˈɛnoʊə', Getafe: 'hɛtˈɑːfeɪ', Raphinha: 'ɹɑːfˈiːnjə', Rayo: 'ɹˈaɪoʊ', 'Álvaro': 'ˈɑːlvɑːɹoʊ', Napoli: 'nˈɑːpoʊli',
-  'Bernabéu': 'bɛɹnəbˈeɪuː', Huijsen: 'hˈaʊsən', Kylian: 'kˈiːliən', 'Militão': 'mɪlɪtˈaʊ', Mourinho: 'məɹˈiːnjoʊ', Rodrygo: 'ɹoʊdɹˈiːɡoʊ', Villarreal: 'vˌiːjəɹeɪˈɑːl', Kristiansund: 'kɹˈɪstjɑːnsʊn',
+  'Bernabéu': 'bɛɹnəbˈeɪuː', Huijsen: 'hˈaʊsən', Kylian: 'kˈiːliən', 'Militão': 'mɪlɪtˈaʊ', Mourinho: 'məɹˈiːnjoʊ', Rodrygo: 'ɹoʊdɹˈiːɡoʊ', Villarreal: 'vˌɪljəɹiˈɑːl', Kristiansund: 'kɹˈɪstjɑːnsʊn',
   // 11 Oct
   Auxerre: 'oʊsˈɛɹ', Benfica: 'bˈɛnfiːkə', Betis: 'bˈɛtɪs', Cagliari: 'kˈæljəɹi', Celta: 'sˈɛltə', Celtic: 'sˈɛltɪk', Como: 'kˈoʊmoʊ',
   Deportivo: 'dˌeɪpɔːɹtˈiːvoʊ', Elche: 'ˈɛltʃeɪ', Iraola: 'ˌɪɹəˈoʊlə', Isak: 'ˈiːsɑːk', Kocaelispor: 'koʊdʒˈɑːɛlɪspɔːɹ', Lazio: 'lˈætsioʊ',
   Lecce: 'lˈɛtʃeɪ', Luz: 'lˈuːʃ', Maresca: 'məɹˈɛskə', Monza: 'mˈɒntsə', Nice: 'nˈiːs', Real: 'ɹeɪˈɑːl', Rennes: 'ɹˈɛn', Sassuolo: 'sæsuˈoʊloʊ',
   Schalke: 'ʃˈælkə', Sociedad: 'sˌoʊsiːɛˈdæd', Troyes: 'tɹwˈɑː', 'Beşiktaş': 'bəʃˈɪktɑːʃ',
   Nkunku: 'ənkˈʊŋkuː', 'Vinícius': 'vɪnˈiːsiəs',
+  // 13 Oct
+  Anguissa: 'æŋɡˈwiːsə', Brugge: 'bɹˈuːɡə', Buongiorno: 'bwɒndʒˈɔːɹnoʊ', 'Cerámica': 'sɛɹˈɑːmɪkə', Gradit: 'ɡɹædˈiː', 'Hincapié': 'ɪŋkɑːpjˈeɪ',
+  Igamane: 'iɡɐmˈɑːnɛ', Osimhen: 'oʊʃˈɪmhɛn', Serie: 'sˈɛɹiə', Siro: 'sˈiːɹoʊ', Sommer: 'zˈɒmɚ', Thuram: 'tuːɹˈæm', Galatasaray: 'ɡəlˌætəsəɹˈaɪ', Gueye: 'ɡˈeɪjɛ', Pape: 'pˈæp',
 }
 const IPA_RE = new RegExp(`(?<!\\p{L})(${Object.keys(SAY_IPA).join('|')})(['’]s)?(?!\\p{L})`, 'gu')
 // letter-aware edges: \b treats accented letters as non-letters, so "Doué" or "Çalhanoğlu" would never match
@@ -231,7 +234,7 @@ export function buildScenes(cfg, picks, recap) {
 // Post-match review / reaction: every screen is a beat written for this match (cfg.review.beats), so no two videos
 // run the same way. A beat: { type: hook|moment|meme|stats|read|table|ratings|cta, say: [lines], clip, sticker, burst, … }
 function buildReviewScenes(cfg) {
-  return (cfg.review?.beats || []).map(b => ({ type: (/^(rx|pm|np|bp|vr|gl|ar|en|dw)_/.test(b.type) ? '' : 'rv_') + b.type, i: b.match ?? 0, say: (b.say || []).map(WS), data: b, hold: b.hold }))
+  return (cfg.review?.beats || []).map(b => ({ type: (/^(rx|pm|np|bp|vr|gl|ar|en|dw|tb)_/.test(b.type) ? '' : 'rv_') + b.type, i: b.match ?? 0, say: (b.say || []).map(WS), data: b, hold: b.hold }))
 }
 
 // Motion-graphics explainer (any topic, e.g. how a product works): every screen is a beat in cfg.explainer.beats,

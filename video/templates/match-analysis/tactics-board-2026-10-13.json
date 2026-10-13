@@ -1,0 +1,913 @@
+{
+ "mode": "review",
+ "title": "The Tactics Board: Champions League Tuesday, 13 Oct",
+ "competition": "Football",
+ "date": "2026-10-13",
+ "sound": "cinematic",
+ "voice_fx": "deep",
+ "voice_speed": 1.05,
+ "music_vibe": [
+  "cinematic"
+ ],
+ "music_drop": "after_cold",
+ "music_duck": 10,
+ "stadiums": false,
+ "media_dir": ".cache/media/analysis-2026-10-13-tactics",
+ "picks": [
+  {
+   "home": "Lens",
+   "away": "Sporting",
+   "competition": "UEFA Champions League",
+   "kickoff": "17:45",
+   "home_win": 32,
+   "draw": 26,
+   "away_win": 42,
+   "xg_home": 1.47,
+   "xg_away": 1.69,
+   "form_home": "LWDLW",
+   "form_away": "WWDDW",
+   "scored_home": 2.2,
+   "scored_away": 2.4,
+   "conceded_home": 1.3,
+   "conceded_away": 1.1,
+   "top_scores": [
+    [
+     1,
+     1,
+     11
+    ],
+    [
+     1,
+     2,
+     9
+    ],
+    [
+     2,
+     1,
+     8
+    ]
+   ],
+   "home_short": "Lens",
+   "away_short": "Sporting",
+   "where": "Stade Bollaert-Delelis, Lens",
+   "kit": {
+    "home": {
+     "c": "#D61F26"
+    },
+    "away": {
+     "c": "#0B7A3E"
+    }
+   },
+   "ko": "17:45"
+  },
+  {
+   "home": "Inter",
+   "away": "Club Brugge",
+   "competition": "UEFA Champions League",
+   "kickoff": "20:00",
+   "home_win": 62,
+   "draw": 23,
+   "away_win": 15,
+   "xg_home": 1.93,
+   "xg_away": 0.91,
+   "form_home": "WLWDW",
+   "form_away": "WLWWW",
+   "scored_home": 2.5,
+   "scored_away": 2.2,
+   "conceded_home": 1.4,
+   "conceded_away": 0.8,
+   "top_scores": [
+    [
+     2,
+     0,
+     11
+    ],
+    [
+     1,
+     0,
+     10
+    ],
+    [
+     1,
+     1,
+     10
+    ]
+   ],
+   "home_short": "Inter",
+   "away_short": "Club Brugge",
+   "where": "San Siro, Milan",
+   "kit": {
+    "home": {
+     "c": "#0B4EA2"
+    },
+    "away": {
+     "c": "#1A1D24"
+    }
+   },
+   "ko": "20:00"
+  },
+  {
+   "home": "Villarreal",
+   "away": "Napoli",
+   "competition": "UEFA Champions League",
+   "kickoff": "20:00",
+   "home_win": 40,
+   "draw": 27,
+   "away_win": 33,
+   "xg_home": 1.36,
+   "xg_away": 1.24,
+   "form_home": "LLWWL",
+   "form_away": "LLWDW",
+   "scored_home": 2,
+   "scored_away": 1.6,
+   "conceded_home": 1.7,
+   "conceded_away": 1,
+   "top_scores": [
+    [
+     1,
+     1,
+     13
+    ],
+    [
+     1,
+     0,
+     9
+    ],
+    [
+     2,
+     1,
+     9
+    ]
+   ],
+   "record_away": [
+    5,
+    1,
+    4
+   ],
+   "games_away": 10,
+   "ppg_away": 1.6,
+   "home_short": "Villarreal",
+   "away_short": "Napoli",
+   "where": "Estadio de la Cerámica",
+   "kit": {
+    "home": {
+     "c": "#E8B900",
+     "bg": "#F2C200"
+    },
+    "away": {
+     "c": "#1E8FD6"
+    }
+   },
+   "ko": "20:00"
+  },
+  {
+   "home": "Arsenal",
+   "away": "Lille",
+   "competition": "UEFA Champions League",
+   "kickoff": "20:00",
+   "home_win": 73,
+   "draw": 18,
+   "away_win": 9,
+   "xg_home": 2.2,
+   "xg_away": 0.68,
+   "form_home": "WWWLW",
+   "form_away": "WLWLW",
+   "scored_home": 2,
+   "scored_away": 1.3,
+   "conceded_home": 1,
+   "conceded_away": 1,
+   "top_scores": [
+    [
+     2,
+     0,
+     13
+    ],
+    [
+     1,
+     0,
+     11
+    ],
+    [
+     3,
+     0,
+     10
+    ]
+   ],
+   "home_short": "Arsenal",
+   "away_short": "Lille",
+   "where": "Emirates Stadium, London",
+   "kit": {
+    "home": {
+     "c": "#DB0007"
+    },
+    "away": {
+     "c": "#1D3A8F"
+    }
+   },
+   "ko": "20:00"
+  },
+  {
+   "home": "Galatasaray Istanbul",
+   "away": "Barcelona",
+   "competition": "UEFA Champions League",
+   "kickoff": "20:00",
+   "home_win": 30,
+   "draw": 20,
+   "away_win": 50,
+   "xg_home": 1.9,
+   "xg_away": 2.37,
+   "form_home": "WLWLW",
+   "form_away": "WWWWW",
+   "scored_home": 2.1,
+   "scored_away": 4,
+   "conceded_home": 1.7,
+   "conceded_away": 1.1,
+   "top_scores": [
+    [
+     1,
+     2,
+     7
+    ],
+    [
+     2,
+     2,
+     7
+    ],
+    [
+     1,
+     1,
+     6
+    ]
+   ],
+   "home_short": "Galatasaray",
+   "away_short": "Barcelona",
+   "where": "RAMS Park, Istanbul",
+   "kit": {
+    "home": {
+     "c": "#A90432"
+    },
+    "away": {
+     "c": "#004D98"
+    }
+   },
+   "ko": "20:00"
+  }
+ ],
+ "review": {
+  "project": "The Tactics Board",
+  "beats": [
+   {
+    "type": "tb_cold",
+    "steps": [
+     {
+      "big": "5 ties",
+      "label": "Champions League · Tuesday · Lagos time"
+     },
+     {
+      "big": "8 from 8",
+      "label": "Barcelona, league games won this season"
+     },
+     {
+      "big": "0.44",
+      "label": "Goals a game Arsenal concede in Europe",
+      "tone": "sky"
+     },
+     {
+      "big": "0 in 13",
+      "label": "Barcelona clean sheets · last 13 Champions League games",
+      "tone": "red",
+      "glitch": true,
+      "glitch_at": 0.5
+     }
+    ],
+    "say": [
+     "Five Champions League ties tonight.",
+     "Barcelona: eight league wins from eight.",
+     "Arsenal concede under half a goal a game in Europe.",
+     "But Barcelona haven't kept a clean sheet in thirteen."
+    ],
+    "tail": 0.95
+   },
+   {
+    "type": "tb_title",
+    "l1": "The Tactics",
+    "l2": "Board.",
+    "left": "Champions League",
+    "mid": "Matchday 2",
+    "right": "Tue 13 Oct",
+    "sub": "Five ties · drawn up one by one",
+    "say": [
+     "The tactics board: five ties, drawn up one by one."
+    ]
+   },
+   {
+    "type": "tb_game",
+    "match": 0,
+    "kicker": "Matchday 2 · Stade Bollaert-Delelis, Lens",
+    "say": [
+     "We start at a quarter to six: Lens against Sporting, both winners on matchday one. Lens have lost two of their last twenty-nine European home games.",
+     "Lens are without Gradit and Sima; Sporting without Zalazar. Watch Thauvin, and Suárez, who has scored in seven games in a row.",
+     "Lens push their wing-backs on and are strong at set pieces; Sporting tend to finish games strongly. On our numbers, Sporting win 42% of the time.",
+     "The verdict: goals at both ends, and Sporting should edge it. Two–one to Sporting."
+    ],
+    "home": {
+     "form": "3-4-2-1",
+     "xi": [
+      "Risser",
+      "Ganiou",
+      "Baidoo",
+      "Todibo",
+      "Abdulhamid",
+      "Haïdara",
+      "Cuisance",
+      "Udol",
+      "Thauvin",
+      "Ivanovic",
+      "Édouard"
+     ],
+     "out": [
+      "Gradit",
+      "Sima"
+     ],
+     "key": [
+      {
+       "i": 8,
+       "name": "Florian Thauvin",
+       "stat": "1 goal, 4 chances made v Slavia",
+       "photo": "p_florian_thauvin.jpg",
+       "credit": "Florian Thauvin · Photo: Anton Zaitsev · CC BY-SA 3.0",
+       "at": [
+        1,
+        0.494
+       ]
+      }
+     ]
+    },
+    "away": {
+     "form": "4-2-3-1",
+     "xi": [
+      "R. Silva",
+      "Fresneda",
+      "Quaresma",
+      "Inácio",
+      "Araújo",
+      "Altimira",
+      "Doumbia",
+      "Catamo",
+      "Gonçalves",
+      "Irankunda",
+      "Suárez"
+     ],
+     "out": [
+      "Zalazar",
+      "Debast"
+     ],
+     "key": [
+      {
+       "i": 10,
+       "name": "Luis Suárez",
+       "stat": "Scored in 7 games in a row",
+       "photo": "p_luis_javier_suarez.jpg",
+       "credit": "Luis Javier Suárez · Photo: Presidencia de Colombia · Public domain",
+       "at": [
+        1,
+        0.597
+       ]
+      }
+     ]
+    },
+    "out_at": [
+     1,
+     0.0
+    ],
+    "arrows": [
+     {
+      "team": "home",
+      "kind": "left",
+      "label": "Wing-backs push on",
+      "at": [
+       2,
+       0.04
+      ]
+     },
+     {
+      "team": "home",
+      "kind": "setpiece",
+      "label": "Set pieces",
+      "at": [
+       2,
+       0.301
+      ]
+     },
+     {
+      "team": "away",
+      "kind": "middle",
+      "label": "Suárez in the box",
+      "at": [
+       2,
+       0.384
+      ]
+     }
+    ],
+    "model_at": [
+     2,
+     0.66
+    ],
+    "verdict": {
+     "text": "Both score, Sporting edge it",
+     "short": "Both score, Sporting edge it",
+     "score": "1–2"
+    }
+   },
+   {
+    "type": "tb_game",
+    "match": 1,
+    "kicker": "Matchday 2 · San Siro, Milan",
+    "say": [
+     "At eight, Inter host Club Brugge. Inter are top of Serie A but without a point in Europe; Brugge also lost on matchday one.",
+     "Stones and Curtis Jones are out for Inter. Thuram has three goals in his last four games, and Sommer returns to San Siro, now in the Brugge goal.",
+     "Brugge press high, but they've conceded three or more in seven of their last nine European games. On our numbers, Inter win 62% of the time.",
+     "The verdict: Inter, and a clean sheet. Two–nil."
+    ],
+    "home": {
+     "form": "3-5-2",
+     "xi": [
+      "J. Martínez",
+      "Bisseck",
+      "Akanji",
+      "Bastoni",
+      "Diouf",
+      "Barella",
+      "Stanković",
+      "Zieliński",
+      "Dimarco",
+      "Thuram",
+      "Lautaro"
+     ],
+     "out": [
+      "Stones",
+      "C. Jones"
+     ],
+     "key": [
+      {
+       "i": 9,
+       "name": "Marcus Thuram",
+       "stat": "3 goals, 2 assists in his last 4",
+       "photo": "p_marcus_thuram.jpg",
+       "credit": "Marcus Thuram · Photo: Bryan Berlin · CC BY-SA 4.0",
+       "at": [
+        1,
+        0.267
+       ]
+      }
+     ]
+    },
+    "away": {
+     "form": "4-2-3-1",
+     "xi": [
+      "Sommer",
+      "Sabbe",
+      "Mechele",
+      "Lee",
+      "Seys",
+      "Potts",
+      "Vanaken",
+      "Forbs",
+      "Vetlesen",
+      "Virgili",
+      "Tresoldi"
+     ],
+     "out": [
+      "Ordoñez"
+     ],
+     "key": [
+      {
+       "i": 0,
+       "name": "Yann Sommer",
+       "stat": "Back at San Siro · 139 games for Inter",
+       "photo": "p_yann_sommer.jpg",
+       "credit": "Yann Sommer · Photo: Steindy · CC BY-SA 3.0",
+       "at": [
+        1,
+        0.618
+       ]
+      }
+     ]
+    },
+    "out_at": [
+     1,
+     0.0
+    ],
+    "arrows": [
+     {
+      "team": "away",
+      "kind": "press",
+      "label": "Brugge press high",
+      "at": [
+       2,
+       0.03
+      ]
+     },
+     {
+      "team": "home",
+      "kind": "middle",
+      "label": "Thuram and Lautaro",
+      "at": [
+       2,
+       0.134
+      ]
+     }
+    ],
+    "model_at": [
+     2,
+     0.67
+    ],
+    "verdict": {
+     "text": "Inter, and a clean sheet",
+     "short": "Inter, and a clean sheet",
+     "score": "2–0"
+    }
+   },
+   {
+    "type": "tb_game",
+    "match": 2,
+    "kicker": "Matchday 2 · Estadio de la Cerámica, Villarreal",
+    "say": [
+     "Also at eight, the Cerámica: Villarreal against Napoli, both still waiting for a point. Villarreal have gone twelve Champions League games without a win.",
+     "Buchanan is out for Villarreal; Napoli are without Anguissa and Buongiorno. Pape Gueye leads Villarreal’s league scoring, and De Bruyne scored twice at the weekend.",
+     "Villarreal keep the ball and threaten from set pieces; Napoli sit deep and break. On our numbers, Villarreal win 40% of the time.",
+     "The verdict: Villarreal, by the narrowest margin. One–nil."
+    ],
+    "home": {
+     "form": "4-2-3-1",
+     "xi": [
+      "Gulácsi",
+      "Mouriño",
+      "Navarro",
+      "Veiga",
+      "Cardona",
+      "Comesaña",
+      "Gueye",
+      "Akhomach",
+      "Moleiro",
+      "Ayoze",
+      "Mikautadze"
+     ],
+     "out": [
+      "Buchanan"
+     ],
+     "key": [
+      {
+       "i": 6,
+       "name": "Pape Gueye",
+       "stat": "3 league goals · top scorer",
+       "photo": "p_pape_gueye.jpg",
+       "credit": "Pape Gueye · Photo: Bryan Berlin · CC BY-SA 4.0",
+       "at": [
+        1,
+        0.433
+       ]
+      }
+     ]
+    },
+    "away": {
+     "form": "3-4-2-1",
+     "xi": [
+      "Meret",
+      "Rafa Marín",
+      "Rrahmani",
+      "Badiashile",
+      "Di Lorenzo",
+      "Lobotka",
+      "McTominay",
+      "Spinazzola",
+      "Neres",
+      "De Bruyne",
+      "Højlund"
+     ],
+     "out": [
+      "Anguissa",
+      "Buongiorno"
+     ],
+     "key": [
+      {
+       "i": 9,
+       "name": "Kevin De Bruyne",
+       "stat": "2 goals v Frosinone on Saturday",
+       "photo": "p_kevin_de_bruyne.jpg",
+       "credit": "Kevin De Bruyne · Photo: Bryan Berlin · CC BY-SA 4.0",
+       "at": [
+        1,
+        0.738
+       ]
+      }
+     ]
+    },
+    "out_at": [
+     1,
+     0.0
+    ],
+    "arrows": [
+     {
+      "team": "home",
+      "kind": "setpiece",
+      "label": "Set pieces",
+      "at": [
+       2,
+       0.303
+      ]
+     },
+     {
+      "team": "away",
+      "kind": "block",
+      "label": "Napoli sit deep",
+      "at": [
+       2,
+       0.396
+      ]
+     },
+     {
+      "team": "away",
+      "kind": "counter",
+      "label": "…and break",
+      "at": [
+       2,
+       0.52
+      ]
+     }
+    ],
+    "model_at": [
+     2,
+     0.606
+    ],
+    "verdict": {
+     "text": "Villarreal, by the narrowest margin",
+     "short": "Villarreal, narrowly",
+     "score": "1–0"
+    }
+   },
+   {
+    "type": "tb_game",
+    "match": 3,
+    "kicker": "Matchday 2 · Emirates Stadium, London",
+    "say": [
+     "At the Emirates, Arsenal, who won in Naples, face Lille, who have lost their last seven Champions League games against English sides.",
+     "Arsenal are without Saliba, Zubimendi and Hincapié; Lille without Ethan Mbappé and Igamane. Saka has three league goals; Bakwa has two goals from six games for Lille.",
+     "Arsenal are patient on the ball and rarely concede; Lille press, then break fast. On our numbers, Arsenal win 73% of the time.",
+     "The verdict: Arsenal, and a clean sheet. Two–nil."
+    ],
+    "home": {
+     "form": "4-2-3-1",
+     "xi": [
+      "Raya",
+      "Timber",
+      "Konsa",
+      "Gabriel",
+      "Calafiori",
+      "Guimarães",
+      "Merino",
+      "Saka",
+      "Ødegaard",
+      "Eze",
+      "Gyökeres"
+     ],
+     "out": [
+      "Saliba",
+      "Zubimendi",
+      "Hincapié"
+     ],
+     "key": [
+      {
+       "i": 7,
+       "name": "Bukayo Saka",
+       "stat": "3 league goals · top scorer",
+       "photo": "p_bukayo_saka.jpg",
+       "credit": "Bukayo Saka · Photo: Bryan Berlin · CC BY-SA 4.0",
+       "at": [
+        1,
+        0.524
+       ]
+      }
+     ]
+    },
+    "away": {
+     "form": "4-2-3-1",
+     "xi": [
+      "Özer",
+      "Ngoy",
+      "Nianzou",
+      "Alexsandro",
+      "Verdonk",
+      "André",
+      "Bentaleb",
+      "Bakwa",
+      "Haraldsson",
+      "Perrin",
+      "Ueda"
+     ],
+     "out": [
+      "E. Mbappé",
+      "Igamane"
+     ],
+     "key": [
+      {
+       "i": 7,
+       "name": "Dilane Bakwa",
+       "stat": "2 goals, 1 assist in 6 games",
+       "photo": "p_dilane_bakwa.jpg",
+       "credit": "Dilane Bakwa · Photo: Paté kroute · CC0",
+       "at": [
+        1,
+        0.699
+       ]
+      }
+     ]
+    },
+    "out_at": [
+     1,
+     0.0
+    ],
+    "arrows": [
+     {
+      "team": "home",
+      "kind": "right",
+      "label": "Saka on the right",
+      "at": [
+       2,
+       0.03
+      ]
+     },
+     {
+      "team": "away",
+      "kind": "press",
+      "label": "Lille press…",
+      "at": [
+       2,
+       0.383
+      ]
+     },
+     {
+      "team": "away",
+      "kind": "counter",
+      "label": "…then break fast",
+      "at": [
+       2,
+       0.486
+      ]
+     }
+    ],
+    "model_at": [
+     2,
+     0.621
+    ],
+    "verdict": {
+     "text": "Arsenal, and a clean sheet",
+     "short": "Arsenal, and a clean sheet",
+     "score": "2–0"
+    }
+   },
+   {
+    "type": "tb_game",
+    "match": 4,
+    "kicker": "Matchday 2 · RAMS Park, Istanbul",
+    "say": [
+     "And the last board: Barcelona in Istanbul. Galatasaray are top of the Turkish league but lost in Lisbon.",
+     "Raphinha is out for Barcelona, but Osimhen is back for Galatasaray, with six goals from four games. Yamal has twelve goals for club and country.",
+     "Galatasaray press high, and Barcelona's high line leaves space behind. On our numbers, Barcelona win half the time.",
+     "The verdict: goals at both ends, and a Barcelona win. Two–one to Barcelona."
+    ],
+    "home": {
+     "form": "4-2-3-1",
+     "xi": [
+      "Çakır",
+      "Barış Alper",
+      "Bardakcı",
+      "D. Sánchez",
+      "Jakobs",
+      "Lemina",
+      "Torreira",
+      "Akgün",
+      "Sara",
+      "Leão",
+      "Osimhen"
+     ],
+     "out": [
+      "Singo"
+     ],
+     "key": [
+      {
+       "i": 10,
+       "name": "Victor Osimhen",
+       "stat": "6 goals, 2 assists in 4 games",
+       "photo": "p_victor_osimhen.jpg",
+       "credit": "Victor Osimhen · Photo: Fédération Guinéenne de Football · Public domain",
+       "at": [
+        1,
+        0.213
+       ]
+      }
+     ]
+    },
+    "away": {
+     "form": "4-3-3",
+     "xi": [
+      "Joan García",
+      "Eric García",
+      "G. Martín",
+      "Cubarsí",
+      "Cancelo",
+      "Pedri",
+      "Rodri",
+      "Olmo",
+      "Yamal",
+      "Jesus",
+      "Adeyemi"
+     ],
+     "out": [
+      "Raphinha",
+      "Christensen"
+     ],
+     "key": [
+      {
+       "i": 8,
+       "name": "Lamine Yamal",
+       "stat": "12 goals, 8 assists for club and country",
+       "photo": "p_lamine_yamal.jpg",
+       "credit": "Lamine Yamal · Photo: Bryan Berlin · CC BY-SA 4.0",
+       "at": [
+        1,
+        0.664
+       ]
+      }
+     ]
+    },
+    "out_at": [
+     1,
+     0.0
+    ],
+    "arrows": [
+     {
+      "team": "home",
+      "kind": "press",
+      "label": "Galatasaray press high",
+      "at": [
+       2,
+       0.03
+      ]
+     },
+     {
+      "team": "away",
+      "kind": "left",
+      "label": "Yamal cuts in",
+      "at": [
+       2,
+       0.213
+      ]
+     },
+     {
+      "team": "home",
+      "kind": "counter",
+      "label": "Space behind the line",
+      "at": [
+       2,
+       0.405
+      ]
+     }
+    ],
+    "model_at": [
+     2,
+     0.587
+    ],
+    "verdict": {
+     "text": "Both score, Barcelona win",
+     "short": "Both score, Barcelona win",
+     "score": "1–2"
+    }
+   },
+   {
+    "type": "tb_end",
+    "mid": "Matchday 2",
+    "right": "Tue 13 Oct",
+    "l1": "Tonight's",
+    "l2": "verdicts",
+    "follow": "Follow for the post-match",
+    "say": [
+     "Five boards, five verdicts.",
+     "Follow for the post-match tonight."
+    ],
+    "tail": 0.9
+   }
+  ]
+ },
+ "music_track": 586,
+ "cover": {
+  "style": "tb",
+  "kicker": "Champions League · Tue 13 Oct",
+  "l1": "The Tactics",
+  "l2": "Board.",
+  "feature": [
+   4,
+   3
+  ]
+ }
+}

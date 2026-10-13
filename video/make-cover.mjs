@@ -15,7 +15,7 @@ const idx = fs.readFileSync(path.join(OUT, 'index.html'), 'utf8')
 const m = idx.match(/<script>window\.DATA=([\s\S]*?)<\/script>/)
 if (!m) { console.error(`No video data in ${OUT}/index.html: render the video first`); process.exit(2) }
 const geo = ['d3-array.min.js', 'd3-geo.min.js', 'topojson-client.min.js', 'land-50m.js', 'countries-110m.js'].map(f => `<script src="assets/geo/${f}"></script>`).join('\n')
-const tpl = fs.readFileSync(path.join(DIR, 'cover.html'), 'utf8')
+const tpl = fs.readFileSync(path.join(DIR, cfg.cover?.style === 'tb' ? 'cover-board.html' : 'cover.html'), 'utf8')   // the tactics board has its own minimal cover
 const req = createRequire(import.meta.url)
 let chromium
 for (const p of [process.env.PLAYWRIGHT_PATH, 'playwright', path.join(execSync('npm root -g').toString().trim(), 'playwright')]) { if (!p) continue; try { ({ chromium } = req(p)); break } catch {} }

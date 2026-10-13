@@ -80,7 +80,7 @@ const CLUBS = {
   'lens': ['RCL', '#FFDD00', '#E30613'], 'benfica': ['SLB', '#E83030', '#FFFFFF'], 'porto': ['FCP', '#00428C', '#FFFFFF'],
   'sporting': ['SCP', '#008057', '#FFFFFF'], 'sp lisbon': ['SCP', '#008057', '#FFFFFF'], 'ajax': ['AJA', '#FFFFFF', '#D2122E'],
   'psv': ['PSV', '#ED1C24', '#FFFFFF'], 'psv eindhoven': ['PSV', '#ED1C24', '#FFFFFF'], 'feyenoord': ['FEY', '#FF0000', '#FFFFFF'],
-  'celtic': ['CEL', '#018749', '#FFFFFF'], 'rangers': ['RAN', '#1B458F', '#FFFFFF'], 'galatasaray': ['GAL', '#A90432', '#FDB912'],
+  'celtic': ['CEL', '#018749', '#FFFFFF'], 'rangers': ['RAN', '#1B458F', '#FFFFFF'], 'galatasaray': ['GAL', '#A90432', '#FDB912'], 'galatasaray istanbul': ['GAL', '#A90432', '#FDB912'],
   'fenerbahce': ['FEN', '#002D72', '#FFED00'],
   // Nigeria / Ghana
   'enyimba': ['ENY', '#0A5C36', '#FFFFFF'], 'enugu rangers': ['RAN', '#C8102E', '#FFFFFF'], 'kano pillars': ['KAN', '#FFD700', '#0055A4'],

@@ -1,0 +1,97 @@
+<!doctype html>
+<html>
+<!-- cmvng cover / thumbnail for the tactics board videos (tb_*): a clean whiteboard, the title, one mini board drawn up
+     from the feature game (its predicted shapes as magnets, the key man as a photo magnet, one marker arrow) and a row
+     of tonight's crests. Made by make-cover.mjs when cover.style is "tb". -->
+<head>
+<meta charset="utf-8">
+<style>
+@font-face{font-family:Anton;src:url(assets/fonts/anton-latin-400-normal.woff2) format('woff2')}
+@font-face{font-family:Anton;src:url(assets/fonts/anton-latin-ext-400-normal.woff2) format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+1E00-1E9F}
+@font-face{font-family:Manrope;font-weight:800;src:url(assets/fonts/manrope-latin-800-normal.woff2) format('woff2')}
+@font-face{font-family:JBM;font-weight:700;src:url(assets/fonts/jetbrains-mono-latin-700-normal.woff2) format('woff2')}
+@font-face{font-family:Caveat;font-weight:700;src:url(assets/fonts/caveat-latin-700-normal.woff2) format('woff2')}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{background:#DCE9FB}
+#st{position:relative;overflow:hidden;color:#0B1F4D;font-family:Manrope,sans-serif;background:radial-gradient(120% 80% at 50% 0%,#EAF3FF 0%,#D3E4FA 100%)}
+.bd{position:absolute;border-radius:30px;background:linear-gradient(180deg,#FFFFFF 0%,#F3F7FF 100%);box-shadow:0 0 0 12px #CFDAEB,0 0 0 14px #B8C6DD,0 30px 70px rgba(16,52,130,.2)}
+.bd::after{content:'';position:absolute;inset:0;border-radius:30px;background:linear-gradient(115deg,rgba(255,255,255,0) 32%,rgba(255,255,255,.6) 46%,rgba(255,255,255,0) 60%)}
+.ab{position:absolute}
+.brand{display:flex;align-items:center;gap:12px;font:400 44px Anton;letter-spacing:1px}
+.brand span{display:flex;align-items:flex-end;gap:5px;transform:skewX(-11deg)}.brand span i{display:block;width:11px;border-radius:2px;background:linear-gradient(180deg,#6E9BFF,#1F5FDB)}
+.kick{font:700 24px JBM;letter-spacing:5px;text-transform:uppercase;color:#5B6B8C;white-space:nowrap}
+.t1{font:400 136px/1 Anton;text-transform:uppercase;white-space:nowrap}
+.t2{font:400 300px/.9 Anton;text-transform:uppercase;color:#1F5FDB;white-space:nowrap}
+.pt svg{position:absolute;inset:0;overflow:visible}
+.pt .ln{fill:none;stroke:#2B4A86;stroke-width:4;stroke-linecap:round;opacity:.75}
+.mg{position:absolute;border-radius:50%;border:4px solid #fff;box-shadow:0 7px 14px rgba(11,31,77,.26),inset 0 -6px 0 rgba(0,0,0,.12);transform:translate(-50%,-50%)}
+.mg.ph{background-size:cover;background-position:center 18%;border-width:6px}
+.lab{font:700 46px/1 Caveat;white-space:nowrap;paint-order:stroke fill;-webkit-text-stroke:10px #fff}
+.row{display:flex;gap:16px;justify-content:center}
+.pair{display:flex;padding:8px 10px;border-radius:999px;background:#fff;box-shadow:0 10px 24px rgba(16,52,130,.14)}
+.badge{border-radius:50%;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0}.badge img{width:100%;height:100%;object-fit:contain}.badge.shield svg{width:100%;height:100%}
+.pair .badge{width:60px;height:60px;margin:0 -3px}
+.foot{font:700 22px JBM;letter-spacing:4px;text-transform:uppercase;color:#5B6B8C;text-align:center;white-space:nowrap}
+</style>
+</head>
+<body>
+<div id="st"></div>
+<script>
+const D = window.DATA, C = window.COVER || {}, V = C.format !== 'youtube', W = V ? 1080 : 1280, H = V ? 1920 : 720
+const $ = s => document.querySelector(s), html = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]))
+const st = $('#st'); st.style.width = W + 'px'; st.style.height = H + 'px'
+let uid = 0
+function badge(b) {
+  if (!b) return ''
+  if (b.svg) { const u = `c${uid++}`; return `<div class="badge shield">${b.svg.replace(/id="(\w+)"/g, `id="$1${u}"`).replace(/url\(#(\w+)\)/g, `url(#$1${u})`)}</div>` }
+  return `<div class="badge ${b.kind}"><img src="${b.src}"></div>`
+}
+const rgb = c => { const m = /^#([0-9a-f]{6})$/i.exec(c || ''); return m ? [0, 2, 4].map(i => parseInt(m[1].slice(i, i + 2), 16)) : null }
+const ink = c => { const x = rgb(c); return x && 0.299 * x[0] + 0.587 * x[1] + 0.114 * x[2] > 185 ? '#0B1F4D' : c }
+const kit = (q, s) => (q?.kit?.[s]?.bg) || (q?.kit?.[s]?.c) || (s === 'away' ? q?.ba : q?.bh)?.colour || '#1F5FDB'
+// the feature game's board: the same shapes as the video (620 × 890 board units), scaled into a box
+const PW = 620, PH = 890
+const lines = f => String(f || '4-3-3').split('-').map(Number).filter(n => n > 0)
+function spots(form, side) {
+  const ls = lines(form), n = ls.length, out = [[PW / 2, 838]]
+  ls.forEach((k, li) => { const y = 752 - (n === 1 ? 0 : li * (250 / (n - 1))); for (let i = 0; i < k; i++) out.push([60 + (k - 1 - i + 0.5) * ((PW - 120) / k), y]) })
+  return side === 'away' ? out.map(([x, y]) => [PW - x, PH - y]) : out
+}
+const fi = (C.feature || [0])[0], q = D.picks[fi] || D.picks[0], beat = (D.cfg.review?.beats || []).find(b => b.type === 'tb_game' && (b.match ?? 0) === fi) || {}
+function board(x0, y0, h) {
+  const s = h / PH, w = PW * s, P = ([x, y]) => [x0 + x * s, y0 + y * s]
+  const L = d => `<path class="ln" d="${d}"/>`
+  const svg = `<svg viewBox="0 0 ${PW} ${PH}" style="left:${x0}px;top:${y0}px;width:${w}px;height:${h}px;position:absolute">${[L('M10 10H610V880H10Z'), L('M10 445H610'), '<circle class="ln" cx="310" cy="445" r="72"/>',
+    L('M140 10V138H480V10'), L('M232 10V54H388V10'), L('M140 880V752H480V880'), L('M232 880V836H388V880')].join('')}</svg>`
+  let mags = '', photo = null
+  ;['home', 'away'].forEach(side => { const t = beat[side] || {}, sp = spots(t.form, side), k = (t.key || [])[0]
+    ;(t.xi || []).slice(0, 11).forEach((_, i) => { const [x, y] = P(sp[i] || [PW / 2, PH / 2]), isK = k && k.i === i && k.photo
+      if (isK && side === (C.photo_side || 'away')) { photo = { x, y, src: k.photo, c: kit(q, side), name: k.name }; return }
+      mags += `<div class="mg" style="left:${x}px;top:${y}px;width:${42 * s / 0.62}px;height:${42 * s / 0.62}px;background:${kit(q, side)}"></div>` }) })
+  if (photo) mags += `<div class="mg ph" style="left:${photo.x}px;top:${photo.y}px;width:${130 * s / 0.62}px;height:${130 * s / 0.62}px;background-image:url('${html(photo.src)}');box-shadow:0 0 0 7px ${ink(photo.c)},0 14px 30px rgba(11,31,77,.32)"></div>`
+  // one marker arrow: from the photo magnet toward goal
+  let arrow = ''
+  if (photo) { const ax = photo.x, ay = photo.y + 90 * s / 0.62, bx = photo.x + 70 * s / 0.62, by = y0 + h * 0.86, c = ink(photo.c)
+    arrow = `<svg style="position:absolute;left:0;top:0;width:${W}px;height:${H}px;overflow:visible"><path d="M${ax} ${ay} C ${ax - 40 * s} ${ay + 160 * s}, ${bx + 60 * s} ${by - 200 * s}, ${bx} ${by}" fill="none" stroke="${c}" stroke-width="${10 * s / 0.62}" stroke-linecap="round"/>
+      <polygon points="0,-16 28,0 0,16" fill="${c}" transform="translate(${bx},${by}) rotate(78) scale(${s / 0.62})"/></svg>` }
+  return `<div class="pt">${svg}${arrow}${mags}</div>`
+}
+const pairs = D.picks.map(p => `<div class="pair">${badge(p.bh)}${badge(p.ba)}</div>`).join('')
+const brand = (x, y) => `<div class="ab brand" style="left:${x}px;top:${y}px"><span><i style="height:22px"></i><i style="height:33px"></i><i style="height:44px"></i></span>cmvng</div>`
+if (V) {
+  st.innerHTML = `<div class="bd" style="left:40px;top:40px;right:40px;bottom:40px"></div>${brand(92, 96)}<div class="ab kick" style="right:92px;top:110px">${html(C.kicker || '')}</div>
+    <div class="ab t1" style="left:0;right:0;text-align:center;top:214px">${html(C.l1 || 'The Tactics')}</div><div class="ab t2" style="left:0;right:0;text-align:center;top:344px">${html(C.l2 || 'Board.')}</div>
+    ${board(255, 690, 830)}
+    <div class="ab row" style="left:60px;right:60px;top:1600px">${pairs}</div>
+    <div class="ab foot" style="left:0;right:0;top:1712px">${html(C.foot || `${D.picks.length} ties · drawn up one by one`)}</div>`
+} else {
+  st.innerHTML = `<div class="bd" style="left:22px;top:22px;right:22px;bottom:22px"></div>${brand(64, 58)}<div class="ab kick" style="left:66px;top:132px;font-size:18px">${html(C.kicker || '')}</div>
+    <div class="ab t1" style="left:60px;top:180px;font-size:100px">${html(C.l1 || 'The Tactics')}</div><div class="ab t2" style="left:56px;top:278px;font-size:224px">${html(C.l2 || 'Board.')}</div>
+    <div class="ab row" style="left:60px;top:560px;justify-content:flex-start;gap:12px">${pairs}</div>
+    ${board(800, 66, 590)}`
+  document.querySelectorAll('.pair .badge').forEach(b => { b.style.width = b.style.height = '50px' })
+}
+window.ready = (async () => { await document.fonts.ready; await Promise.all([...document.images].map(i => i.decode().catch(() => {}))) })()
+</script>
+</body>
+</html>

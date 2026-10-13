@@ -18,6 +18,10 @@
 @font-face{font-family:JBM;font-weight:700;src:url(assets/fonts/jetbrains-mono-latin-ext-700-normal.woff2) format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
 @font-face{font-family:Anton;font-weight:400;src:url(assets/fonts/anton-latin-400-normal.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
 @font-face{font-family:Anton;font-weight:400;src:url(assets/fonts/anton-latin-ext-400-normal.woff2) format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:Caveat;font-weight:600;src:url(assets/fonts/caveat-latin-600-normal.woff2) format('woff2')}
+@font-face{font-family:Caveat;font-weight:600;src:url(assets/fonts/caveat-latin-ext-600-normal.woff2) format('woff2')}
+@font-face{font-family:Caveat;font-weight:700;src:url(assets/fonts/caveat-latin-700-normal.woff2) format('woff2')}
+@font-face{font-family:Caveat;font-weight:700;src:url(assets/fonts/caveat-latin-ext-700-normal.woff2) format('woff2')}
 @font-face{font-family:Playfair;font-weight:900;src:url(assets/fonts/playfair-display-latin-900-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215}
 @font-face{font-family:Playfair;font-weight:900;src:url(assets/fonts/playfair-display-latin-ext-900-normal.woff2) format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
 @font-face{font-family:PlayfairI;font-weight:700;font-style:italic;src:url(assets/fonts/playfair-display-latin-700-italic.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215}
@@ -1274,6 +1278,107 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#03060F}
 .stk{position:absolute;font-size:240px;line-height:1;filter:drop-shadow(0 20px 40px rgba(0,0,0,.55))}
 .pcl{position:absolute;font-size:90px;line-height:1}
 
+/* the tactics board (tb_*, first used 13 Oct 2026): each game drawn up live on a coach's whiteboard. Magnets in kit colours
+   in the predicted formations, photo magnets for the key men, marker arrows for how each side plays, read-along captions */
+.tb{--tb-ink:#0B1F4D;--tb-mute:#5B6B8C;--tb-blue:#1F5FDB;--tb-sky:#4FB3FF;--tb-line:#C9D6EA;--tb-red:#D8434F}
+.tb .badge img{filter:drop-shadow(0 4px 10px rgba(11,31,77,.18))}
+.tb .tb-room{position:absolute;inset:0;background:radial-gradient(120% 80% at 50% 0%,#EAF3FF 0%,#D7E6FB 100%)}
+.tb .tb-bd{position:absolute;left:22px;right:22px;top:22px;bottom:22px;border-radius:26px;background:linear-gradient(180deg,#FFFFFF 0%,#F4F8FF 100%);
+  box-shadow:0 0 0 10px #CFDAEB,0 0 0 12px #B8C6DD,0 24px 60px rgba(16,52,130,.18)}
+.tb .tb-bd::after{content:'';position:absolute;inset:0;border-radius:26px;background:linear-gradient(115deg,rgba(255,255,255,0) 30%,rgba(255,255,255,.55) 45%,rgba(255,255,255,0) 60%);pointer-events:none}
+.tb .tb-pg{position:absolute;inset:0}
+.tb .tb-top{position:absolute;left:62px;right:62px;top:52px;display:flex;justify-content:space-between;align-items:center;font:700 21px JBM;letter-spacing:4px;text-transform:uppercase;color:var(--tb-mute)}
+.tb .tb-top b{color:var(--tb-blue);font-weight:700}
+.tb .tb-top i{font-style:normal;color:var(--tb-ink)}
+.tb .tb-hd{position:absolute;left:40px;right:40px;top:104px;display:flex;align-items:center;justify-content:center;gap:22px}
+.tb .tb-hd .badge{width:92px;height:92px;flex:none}
+.tb .tb-hd b{font:400 74px/1 Anton;text-transform:uppercase;white-space:nowrap}
+.tb .tb-hd em{font:600 52px/1 Caveat;font-style:normal;color:var(--tb-mute);margin:0 4px}
+.tb .tb-k{position:absolute;left:0;right:0;top:214px;text-align:center;font:700 20px JBM;letter-spacing:4px;text-transform:uppercase;color:var(--tb-mute)}
+.tb .tb-pt{position:absolute;left:66px;top:276px;width:620px;height:890px}
+.tb .tb-pt svg{position:absolute;inset:0;overflow:visible}
+.tb .tb-ln{fill:none;stroke:#2B4A86;stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1;opacity:.8}
+.tb .tb-sp{fill:#2B4A86}
+.tb .tb-ar{fill:none;stroke-width:9;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1}
+.tb .tb-ah{stroke-linejoin:round;stroke-width:3}
+.tb .tb-al{font:700 34px Caveat;paint-order:stroke fill;stroke:#fff;stroke-width:9px;stroke-linejoin:round}
+.tb .tb-mg{position:absolute;width:56px;height:56px;margin:-28px 0 0 -28px;border-radius:50%;border:4px solid #fff;box-shadow:0 7px 14px rgba(11,31,77,.28),inset 0 -6px 0 rgba(0,0,0,.12);
+  background-size:cover;background-position:center 20%;opacity:0}
+.tb .tb-mg.key{z-index:3}
+.tb .tb-nm{position:absolute;left:50%;top:100%;margin-top:7px;transform:translateX(-50%);font:800 14px/1 Manrope;color:var(--tb-ink);background:rgba(255,255,255,.92);padding:3px 7px 4px;border-radius:7px;white-space:nowrap;max-width:100px;overflow:hidden;text-overflow:ellipsis}
+.tb .tb-side{position:absolute;left:712px;width:304px}
+.tb .tb-side.a{top:276px}.tb .tb-side.h{top:736px}
+.tb .tb-tn{display:flex;align-items:center;gap:12px}
+.tb .tb-tn .badge{width:52px;height:52px;flex:none}
+.tb .tb-tn b{font:400 38px/1 Anton;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tb .tb-fm{margin-top:8px;display:flex;align-items:baseline;gap:10px}
+.tb .tb-fm em{font:700 54px/1 Caveat;font-style:normal}
+.tb .tb-fm span{font:700 15px JBM;letter-spacing:3px;text-transform:uppercase;color:var(--tb-mute)}
+.tb .tb-out{margin-top:10px;display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 14px;min-height:40px}
+.tb .tb-out>i{font:700 15px JBM;font-style:normal;letter-spacing:3px;text-transform:uppercase;color:var(--tb-red)}
+.tb .tb-out>span{position:relative;font:700 32px/1.05 Caveat;color:var(--tb-ink);white-space:nowrap}
+.tb .tb-out>span u{position:absolute;left:-4px;right:-4px;top:52%;height:4px;border-radius:2px;background:var(--tb-red);transform-origin:0 50%;transform:scaleX(0)}
+.tb .tb-pl{margin-top:10px;display:flex;align-items:center;gap:10px;opacity:0}
+.tb .tb-pl i{width:30px;height:30px;flex:none;border-radius:50%;color:#fff;font:800 17px/30px Manrope;font-style:normal;text-align:center}
+.tb .tb-pl span{font:700 30px/1.05 Caveat;color:var(--tb-ink)}
+.tb .tb-key{margin-top:12px;display:flex;align-items:center;gap:14px;background:#fff;border-radius:16px;padding:12px 14px;box-shadow:0 10px 26px rgba(16,52,130,.12);border-left:7px solid var(--tb-blue);opacity:0}
+.tb .tb-key i{width:62px;height:62px;flex:none;border-radius:50%;background-size:cover;background-position:center 20%;border:3px solid #fff;box-shadow:0 0 0 3px var(--tb-line)}
+.tb .tb-key div{min-width:0}
+.tb .tb-key b{display:block;font:800 22px/1.15 Manrope;color:var(--tb-ink)}
+.tb .tb-key span{display:block;margin-top:4px;font:600 19px/1.25 Manrope;color:var(--tb-mute)}
+.tb .tb-mb{position:absolute;left:66px;right:66px;top:1192px;opacity:0}
+.tb .tb-mb small{display:block;font:700 34px/1 Caveat;color:var(--tb-blue)}
+.tb .tb-ml{display:flex;justify-content:space-between;gap:16px;margin-top:6px;font:700 17px JBM;letter-spacing:2px;text-transform:uppercase;color:var(--tb-mute)}
+.tb .tb-ml span{white-space:nowrap;width:auto!important}
+.tb .tb-ml b{font:400 30px Anton;letter-spacing:0;color:var(--tb-ink);margin-right:6px}
+.tb .tb-mr{display:flex;gap:6px;height:18px;margin-top:6px}
+.tb .tb-mr i{display:block;height:100%;border-radius:9px;transform-origin:0 50%;transform:scaleX(0)}
+.tb .tb-vd{position:absolute;left:66px;right:66px;top:1500px;height:300px;border-top:3px dashed var(--tb-line);opacity:0}
+.tb .tb-vd small{position:absolute;left:0;top:22px;font:700 40px/1 Caveat;color:var(--tb-blue)}
+.tb .tb-vd b{position:absolute;left:0;right:250px;top:76px;font:400 66px/1.04 Anton;text-transform:uppercase;color:var(--tb-ink)}
+.tb .tb-vd svg{position:absolute;left:-6px;top:200px;width:640px;height:40px;overflow:visible}
+.tb .tb-vd svg path{fill:none;stroke:var(--tb-blue);stroke-width:8;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1}
+.tb .tb-sc{position:absolute;right:6px;top:52px;width:210px;height:210px;border-radius:50%;border:6px solid var(--tb-blue);display:flex;flex-direction:column;align-items:center;justify-content:center;transform:rotate(-8deg);opacity:0}
+.tb .tb-sc b{position:static;font:400 72px/1 Anton;color:var(--tb-blue);white-space:nowrap}
+.tb .tb-sc span{font:700 15px JBM;letter-spacing:3px;text-transform:uppercase;color:var(--tb-blue);margin-top:6px}
+.tb_cold .tb-night{position:absolute;inset:0;background:radial-gradient(110% 70% at 50% 30%,#1748B0 0%,#0D3B8E 55%,#0A2C6E 100%)}
+.tb_cold .tb-pt{left:230px;top:820px;transform:scale(1)}
+.tb_cold .tb-ln{stroke:#fff;opacity:.55}
+.tb_cold .tb-sp{fill:#fff;opacity:.55}
+.tb_cold .tb-cbig{position:absolute;left:0;right:0;top:300px;text-align:center;font:400 170px/1 Anton;color:#fff;text-transform:uppercase;white-space:nowrap}
+.tb_cold .tb-cbig.sky{color:#8FD0FF}.tb_cold .tb-cbig.red{color:#FF5A6A}
+.tb_cold .tb-clab{position:absolute;left:60px;right:60px;top:500px;text-align:center;font:700 25px JBM;letter-spacing:5px;text-transform:uppercase;color:#9CCBFF}
+.tb_title .tb-t1{position:absolute;left:0;right:0;top:120px;text-align:center;font:400 128px/1 Anton;text-transform:uppercase;color:var(--tb-ink)}
+.tb_title .tb-t2{position:absolute;left:0;right:0;top:248px;text-align:center;font:400 232px/1 Anton;text-transform:uppercase;color:var(--tb-blue);white-space:nowrap}
+.tb_title .tb-sub{position:absolute;left:0;right:0;top:500px;text-align:center;font:700 24px JBM;letter-spacing:5px;text-transform:uppercase;color:var(--tb-mute)}
+.tb_title .tb-fx,.tb_end .tb-fx{position:absolute;left:62px;right:62px;display:flex;flex-direction:column;gap:18px}
+.tb_title .tb-fx{top:600px}
+.tb .tb-fr{display:flex;align-items:center;gap:16px;background:#fff;border-radius:18px;padding:16px 20px;box-shadow:0 10px 26px rgba(16,52,130,.10);opacity:0}
+.tb .tb-fr>span{font:700 22px JBM;color:var(--tb-blue);width:84px;flex:none}
+.tb .tb-fr .cr{display:flex;flex:none}.tb .tb-fr .cr .badge{width:54px;height:54px;margin-right:-6px}
+.tb .tb-fr>div{min-width:0;flex:1}
+.tb .tb-fr b{display:block;font:400 36px/1.05 Anton;text-transform:uppercase;color:var(--tb-ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tb .tb-fr small{display:block;margin-top:4px;font:600 18px Manrope;color:var(--tb-mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tb .tb-fr em{font:700 36px/1 Caveat;font-style:normal;color:var(--tb-blue);white-space:nowrap}
+.tb_end .tb-e1{position:absolute;left:62px;right:62px;top:100px;font:400 104px/1 Anton;text-transform:uppercase;color:var(--tb-ink)}
+.tb_end .tb-e1 span{color:var(--tb-blue)}
+.tb_end .tb-fx{top:250px}
+.tb_end .tb-fol{position:absolute;left:0;right:0;top:1190px;text-align:center}
+.tb_end .tb-fx{gap:22px}
+.tb_end .tb-fr{padding:30px 26px;border-radius:22px}
+.tb_end .tb-fr b{font-size:46px}
+.tb_end .tb-fr small{font-size:23px;margin-top:8px}
+.tb_end .tb-fr .cr .badge{width:66px;height:66px}
+.tb_end .tb-fr>span{font-size:24px}
+.tb_end .tb-fr em{font-size:54px}
+.tb_end .tb-fol b{display:inline-block;font:800 30px Manrope;color:#fff;background:linear-gradient(90deg,#1F5FDB,#3D7BFF);padding:18px 34px;border-radius:999px;box-shadow:0 14px 34px rgba(31,95,219,.35)}
+#cap.tbc{left:70px;right:70px}
+#cap.tbc .c{color:#0B1F4D;background:rgba(255,255,255,.94);padding:14px 30px 16px;border-radius:18px;text-shadow:none;box-shadow:0 14px 36px rgba(16,52,130,.14);font:800 44px/1.28 Manrope;letter-spacing:-.5px}
+#cap.tbc .w.now{background:none;box-shadow:none;color:#1F5FDB;padding:0;margin:0 .13em}
+#cap.tbc .w.next{opacity:1;color:#A9B7CF}
+#cap.tbn .c{color:#fff;background:rgba(5,22,66,.55)}
+#cap.tbn .w.now{color:#7FC4FF}
+#cap.tbn .w.next{color:rgba(255,255,255,.5)}
 #cap{position:absolute;left:70px;right:150px;top:1474px;height:200px;z-index:55;display:flex;align-items:flex-start;justify-content:center;text-align:center}
 #cap .c{font:800 50px/1.22 Manrope;letter-spacing:-1px;text-shadow:0 4px 24px rgba(0,0,0,.85),0 0 2px rgba(0,0,0,.9)}
 #cap .w{display:inline-block;margin:0 .13em}
@@ -1641,6 +1746,67 @@ const enStampAt = sc => sc.data?.stamp_at ? vrT(sc, ...sc.data.stamp_at) : vrT(s
 const enCardAt = sc => sc.data?.card_at ? vrT(sc, ...sc.data.card_at) : vrT(sc, sc.lines.length - 1, 0) - 0.5
 const enOpenAt = sc => vrT(sc, ...(sc.data?.open_at || [sc.lines.length - 1, 0])) - 0.15
 
+// ---- the tactics board (tb_*, first used 13 Oct 2026): each game drawn up live on a coach's whiteboard, as the commentary goes
+const TB_W = 620, TB_H = 890
+const tbLines = f => String(f || '4-3-3').split('-').map(n => +n).filter(n => n > 0)
+// a side's magnets: home at the bottom attacking up, away at the top attacking down. The XI is listed GK, then each line
+// from the team's right to its left, so the first defender is the right-back (on the viewer's right for home, left for away)
+function tbSpots(form, side) {
+  const ls = tbLines(form), n = ls.length, out = [[TB_W / 2, 838]]
+  ls.forEach((k, li) => { const y = 752 - (n === 1 ? 0 : li * (250 / (n - 1)))
+    for (let i = 0; i < k; i++) out.push([60 + (k - 1 - i + 0.5) * ((TB_W - 120) / k), y]) })
+  return side === 'away' ? out.map(([x, y]) => [TB_W - x, TB_H - y]) : out
+}
+function tbPitch(cold) {
+  const L = d => `<path class="tb-ln" pathLength="1" d="${d}"/>`
+  const ls = [L('M10 10H610V880H10Z'), L('M10 445H610'), `<circle class="tb-ln" pathLength="1" cx="310" cy="445" r="72"/>`,
+    L('M140 10V138H480V10'), L('M232 10V54H388V10'), L('M252 138A72 72 0 0 0 368 138'), L('M276 10V-6H344V10'),
+    L('M140 880V752H480V880'), L('M232 880V836H388V880'), L('M252 752A72 72 0 0 1 368 752'), L('M276 880V896H344V880')].join('')
+  const sp = [[310, 445], [310, 100], [310, 790]].map(([x, y]) => `<circle class="tb-sp" cx="${x}" cy="${y}" r="5" opacity="0"/>`).join('')
+  return `<div class="tb-pt"><svg viewBox="0 0 ${TB_W} ${TB_H}">${ls}${sp}${cold ? '' : '<g class="tb-ars"></g>'}</svg>${cold ? '' : '<div class="tb-mgs"></div>'}</div>`
+}
+// marker arrows for how a side plays (home coordinates; away mirrored top to bottom). [path, label x, label y, anchor]
+const TB_AR = {
+  right: ['M520 730 C 566 570, 566 390, 478 236', 600, 300, 'end'], left: ['M100 730 C 54 570, 54 390, 142 236', 20, 300, 'start'],
+  middle: ['M310 650 C 296 540, 324 400, 310 258', 330, 560, 'start'], counter: ['M300 806 C 440 640, 180 430, 330 218', 360, 700, 'start'],
+  press: ['M150 392 L170 352 L190 392 M290 362 L310 322 L330 362 M430 392 L450 352 L470 392', 310, 432, 'middle'],
+  block: ['M60 690 H560', 310, 670, 'middle'], setpiece: ['C470 196', 466, 286, 'middle']
+}
+function tbArrows(q, b) {
+  return (b.arrows || []).map((a, j) => {
+    const pr = TB_AR[a.kind] || TB_AR.middle, away = a.team === 'away', k = vrKit(q, away ? 'away' : 'home'), col = tbInk(k)
+    const d = away ? pr[0].replace(/(-?\d+(?:\.\d+)?)[ ,](-?\d+(?:\.\d+)?)/g, (m, x, y) => `${x} ${TB_H - +y}`) : pr[0]
+    const ly = away ? TB_H - pr[2] + 12 : pr[2], dash = a.kind === 'block' ? ' style="stroke-dasharray:.035 .025;stroke-dashoffset:0;opacity:0" data-op="1"' : ''
+    // the head: a small triangle at the end, turned along the last segment (not for press, block or set pieces)
+    let head = ''
+    if (!['press', 'block', 'setpiece'].includes(a.kind)) {
+      const nums = d.match(/-?\d+(?:\.\d+)?/g).map(Number), x1 = nums[nums.length - 2], y1 = nums[nums.length - 1], x0 = nums[nums.length - 4], y0 = nums[nums.length - 3]
+      const ang = Math.atan2(y1 - y0, x1 - x0) * 180 / Math.PI
+      head = `<polygon class="tb-ah" points="0,-15 26,0 0,15" fill="${col}" stroke="${col}" transform="translate(${x1},${y1}) rotate(${n1(ang)})" opacity="0"/>`
+    }
+    const shape = a.kind === 'setpiece' ? `<circle class="tb-ar" pathLength="1" cx="470" cy="${away ? TB_H - 196 : 196}" r="44" stroke="${col}"/>`
+      : `<path class="tb-ar" pathLength="1" d="${d}" stroke="${col}"${dash}/>`
+    return `<g class="tb-a" data-j="${j}">${shape}${head}
+      <g class="tb-al" opacity="0"><circle cx="${n1(a.nx ?? pr[1])}" cy="${n1(away ? TB_H - (a.ny ?? pr[2]) : (a.ny ?? pr[2]))}" r="17" fill="${col}" stroke="#fff" stroke-width="4"/><text x="${n1(a.nx ?? pr[1])}" y="${n1((away ? TB_H - (a.ny ?? pr[2]) : (a.ny ?? pr[2])) + 7)}" text-anchor="middle" font-family="Manrope" font-weight="800" font-size="19" fill="#fff">${j + 1}</text></g></g>`
+  }).join('')
+}
+// a kit colour that reads as marker ink on white (very light kits fall back to navy)
+function tbInk(k) { const c = String(k.c || k.bg || '#0B1F4D').replace('#', ''); if (c.length < 6) return '#0B1F4D'
+  const r = parseInt(c.slice(0, 2), 16), g = parseInt(c.slice(2, 4), 16), bl = parseInt(c.slice(4, 6), 16); return (0.299 * r + 0.587 * g + 0.114 * bl) > 200 ? '#0B1F4D' : '#' + c }
+function tbMagnets(q, b) {
+  return ['home', 'away'].map(side => { const t = b[side] || {}, k = vrKit(q, side), sp = tbSpots(t.form, side), keys = (t.key || []).map(x => x.i)
+    return (t.xi || []).slice(0, 11).map((nm, i) => { const [x, y] = sp[i] || [TB_W / 2, TB_H / 2], ki = keys.indexOf(i), ph = ki >= 0 ? t.key[ki].photo : ''
+      return `<div class="tb-mg${ki >= 0 ? ' key' : ''}" data-s="${side}" data-i="${i}" data-k="${ki}" style="left:${n1(x)}px;top:${n1(y)}px;background-color:${k.bg};${ph ? `--ph:url('${html(ph)}');` : ''}"><span class="tb-nm">${html(nm)}</span></div>` }).join('') }).join('')
+}
+function tbSide(q, b, side) {
+  const t = b[side] || {}, k = vrKit(q, side), ink = tbInk(k)
+  const out = (t.out || []).length ? `<div class="tb-out"><i>Out</i>${t.out.map(n => `<span>${html(n)}<u></u></span>`).join('')}</div>` : '<div class="tb-out"></div>'
+  const plan = (b.arrows || []).map((a, j) => a.team === side ? `<div class="tb-pl" data-j="${j}"><i style="background:${ink}">${j + 1}</i><span>${html(a.label || '')}</span></div>` : '').join('')
+  const keys = (t.key || []).map(x => `<div class="tb-key" style="border-left-color:${ink}"><i style="background-image:url('${html(x.photo || '')}')"></i><div><b>${html(x.name || '')}</b><span>${html(x.stat || '')}</span></div></div>`).join('')
+  return `<div class="tb-side ${side === 'home' ? 'h' : 'a'}"><div class="tb-tn">${badge(side === 'home' ? q.bh : q.ba)}<b style="color:${vrTx(k)}">${html(vrName(q, side))}</b></div>
+    <div class="tb-fm"><em style="color:${ink}">${html(t.form || '')}</em><span>${html(t.form_note || 'predicted')}</span></div>${out}${keys}${plan}</div>`
+}
+const tbBoards = () => D.scenes.filter(s => s.type === 'tb_game')
 // ---- the blueprint (dw_*): each game drawn up as a technical sheet. Picks keep `ko`, `where`, `kit` (as vr_*).
 const dwFit = (s, max, w) => Math.min(max, Math.floor(w / (0.45 * Math.max(1, [...String(s || '')].length))))
 const dwFrame = () => `<div class="dw-fr"></div><div class="dw-zx">${'ABCDEF'.split('').map(x => `<span>${x}</span>`).join('')}</div><div class="dw-zy">${'12345678'.split('').map(x => `<span>${x}</span>`).join('')}</div>`
@@ -1802,6 +1968,9 @@ D.scenes.forEach(sc => { if (sc.type === 'ar_flight' && sc.data?.match != null) 
 function mkBg(sc, k) {
   if (/^gl_/.test(sc.type)) {        // follow the sun draws its own sky; deep royal blue under the cold open
     const d = document.createElement('div'); d.className = 'bg none'; d.style.background = sc.type === 'gl_cold' ? '#0B2A6F' : '#D6E8FF'; d.style.filter = 'none'; $('#bgs').appendChild(d); return d
+  }
+  if (/^tb_/.test(sc.type)) {        // the tactics board draws its own room; deep royal blue under the cold open
+    const d = document.createElement('div'); d.className = 'bg none'; d.style.background = sc.type === 'tb_cold' ? '#0D3B8E' : '#DCE9FB'; d.style.filter = 'none'; $('#bgs').appendChild(d); return d
   }
   if (/^dw_/.test(sc.type)) {        // the blueprint draws its own paper; deep royal blue under the cold open
     const d = document.createElement('div'); d.className = 'bg none'; d.style.background = sc.type === 'dw_cold' ? '#0D3B8E' : '#E9F2FF'; d.style.filter = 'none'; $('#bgs').appendChild(d); return d
@@ -2287,6 +2456,31 @@ const built = D.scenes.map((sc, k) => {
         return `<div class="en-mc${j === cats.length - 1 && cats.length % 2 ? ' wide' : ''}" style="border-left-color:${kh.bg}"><div class="en-mt">${badge(p.bh)}${badge(p.ba)}<span>${html(p.ko || '')} · ${html(p.where || '')}</span></div><b>${html(v.short || v.text || '')}</b><span>${html(v.score ? 'Likeliest ' + v.score : '')}</span></div>` }).join('')
       el.innerHTML = `<div class="en-stage"></div>${enPhotoLayer(ph)}<div class="en-pg">${top(`<b>${html(b.when || '')}</b>`)}<div class="en-e1">${html(b.l1 || '')} <span>${html(b.l2 || '')}</span></div><div class="en-grid">${cards}</div>
         <div class="en-fol" style="top:${b.fol_top ?? 1260}px"><b>${html(b.follow || 'Follow for the post-match')}</b><span>Football, by the numbers</span></div></div>`
+    }
+  } else if (/^tb_/.test(sc.type)) {
+    el.classList.add('tb')
+    const q = D.picks[b.match ?? 0] || M, bs = tbBoards(), bi = bs.indexOf(sc), N = bs.length, z = x => String(x).padStart(2, '0')
+    const top = (l, m, r) => `<div class="tb-top"><span>${l}</span><b>${m}</b><i>${r}</i></div>`, proj = html(D.cfg.review?.project || 'The Tactics Board')
+    if (sc.type === 'tb_cold') {
+      el.innerHTML = `<div class="tb-night"></div>${tbPitch(true)}<div class="tb-cbig"></div><div class="tb-clab"></div>`
+    } else if (sc.type === 'tb_title') {
+      const rows = D.picks.map(p => `<div class="tb-fr"><span>${html(p.ko || p.kickoff || '')}</span><span class="cr">${badge(p.bh)}${badge(p.ba)}</span><div><b>${html(vrName(p, 'home'))} v ${html(vrName(p, 'away'))}</b><small>${html(p.where || '')}</small></div></div>`).join('')
+      el.innerHTML = `<div class="tb-room"></div><div class="tb-bd"></div><div class="tb-pg">${top(html(b.left || 'Champions League'), html(b.mid || ''), html(b.right || ''))}<div class="tb-t1">${html(b.l1 || 'The Tactics')}</div><div class="tb-t2">${html(b.l2 || 'Board.')}</div><div class="tb-sub">${html(b.sub || '')}</div><div class="tb-fx">${rows}</div></div>`
+    } else if (sc.type === 'tb_game') {
+      const kh = vrKit(q, 'home'), ka = vrKit(q, 'away'), hw = q.home_win ?? 0, dr = q.draw ?? 0, aw = q.away_win ?? 0, tot = Math.max(1, hw + dr + aw), v = b.verdict || {}
+      el.innerHTML = `<div class="tb-room"></div><div class="tb-bd"></div><div class="tb-pg">${top(proj, `Board ${z(bi + 1)} / ${z(N)}`, `${html(q.ko || q.kickoff || '')} Lagos`)}
+        <div class="tb-hd">${badge(q.bh)}<b style="color:${vrTx(kh)}">${html(vrName(q, 'home'))}</b><em>v</em><b style="color:${vrTx(ka)}">${html(vrName(q, 'away'))}</b>${badge(q.ba)}</div>
+        <div class="tb-k">${html(b.kicker || '')}</div>${tbPitch(false)}${tbSide(q, b, 'away')}${tbSide(q, b, 'home')}
+        <div class="tb-mb"><small>${html(b.model_label || 'On our numbers')}</small>
+          <div class="tb-ml"><span style="width:${n1(100 * hw / tot)}%"><b>${hw}%</b>${html(vrName(q, 'home'))}</span><span style="width:${n1(100 * dr / tot)}%"><b>${dr}%</b>Draw</span><span style="width:${n1(100 * aw / tot)}%"><b>${aw}%</b>${html(vrName(q, 'away'))}</span></div>
+          <div class="tb-mr"><i style="width:${n1(100 * hw / tot)}%;background:${kh.bg}"></i><i style="width:${n1(100 * dr / tot)}%;background:#C9D5EA"></i><i style="width:${n1(100 * aw / tot)}%;background:${ka.bg}"></i></div></div>
+        <div class="tb-vd"><small>${html(b.verdict_label || 'The verdict')}</small><b>${html(v.text || '')}</b><svg viewBox="0 0 640 40"><path pathLength="1" d="M6 24 C 120 8, 260 34, 400 18 S 600 14, 634 22"/></svg>
+          ${v.score ? `<div class="tb-sc"><b>${html(v.score)}</b><span>${html(v.note || 'likeliest')}</span></div>` : ''}</div></div>`
+      $('.tb-ars', el).innerHTML = tbArrows(q, b); $('.tb-mgs', el).innerHTML = tbMagnets(q, b)
+    } else if (sc.type === 'tb_end') {
+      const rows = bs.map(s2 => { const d = s2.data || {}, p = D.picks[d.match ?? 0] || M, v = d.verdict || {}
+        return `<div class="tb-fr"><span>${html(p.ko || p.kickoff || '')}</span><span class="cr">${badge(p.bh)}${badge(p.ba)}</span><div><b>${html(vrName(p, 'home'))} v ${html(vrName(p, 'away'))}</b><small>${html(v.short || v.text || '')}</small></div><em>${html(v.score || '')}</em></div>` }).join('')
+      el.innerHTML = `<div class="tb-room"></div><div class="tb-bd"></div><div class="tb-pg">${top(proj, html(b.mid || ''), html(b.right || ''))}<div class="tb-e1">${html(b.l1 || "Tonight's")} <span>${html(b.l2 || 'verdicts')}</span></div><div class="tb-fx">${rows}</div><div class="tb-fol"><b>${html(b.follow || 'Follow for the post-match')}</b></div></div>`
     }
   } else if (/^dw_/.test(sc.type)) {
     el.classList.add('dw')
@@ -2977,6 +3171,60 @@ function draw(k, lt, sc) {
       $$('.en-mc', el).forEach((d, i) => { const a = 0.6 + i * 0.12, q2 = P(lt, a, a + 0.4, E.outBack); d.style.opacity = lt >= a ? 1 : 0; d.style.transform = `scale(${n1(0.6 + 0.4 * q2)})` })
       rise([$('.en-fol', el)], lt, vrT(sc, sc.lines.length - 1, 0), 0, 30)
     }
+  } else if (/^tb_/.test(sc.type)) {
+    const nx = D.scenes[k + 1], pg = $('.tb-pg', el), q = D.picks[b.match ?? 0] || M, last = sc.lines.length - 1
+    if (pg) { const qi = P(lt, 0, 0.45, E.outCubic), ex = nx && /^tb_/.test(nx.type) ? P(lt, sc.dur - 0.28, sc.dur, E.inCubic) : 0
+      pg.style.transform = `translate3d(${n1(90 * (1 - qi) - 140 * ex)}px,0,0)`; pg.style.opacity = n1(Math.min(1, qi * 1.6) * (1 - 0.95 * ex)) }
+    const pen = (sel, t0, step, dur) => $$(sel, el).forEach((n, i) => { const a = t0 + i * step; n.style.strokeDashoffset = n1(1 - P(lt, a, a + dur, E.inOutCubic)) })
+    const spots = t0 => $$('.tb-sp', el).forEach(n => n.setAttribute('opacity', n1(P(lt, t0, t0 + 0.3))))
+    if (sc.type === 'tb_cold') {
+      const steps = b.steps || [], nl = sc.lines.filter(l => lt >= l[0] - 0.08).length, j = Math.max(0, Math.min(steps.length - 1, nl - 1)), st = steps[j] || {}
+      const big = $('.tb-cbig', el), lab = $('.tb-clab', el), a = S(sc, j)[0] ?? 0
+      if (big._j !== j) { big._j = j; big.textContent = st.big || ''; big.className = 'tb-cbig' + (st.tone ? ' ' + st.tone : ''); lab.textContent = st.label || ''; big.style.fontSize = Math.min(170, Math.floor(980 / (0.47 * Math.max(1, [...(st.big || '')].length)))) + 'px' }
+      slam(big, lt, a - 0.05, 1.5, 0.28); lab.style.opacity = n1(P(lt, a + 0.15, a + 0.45))
+      if (st.glitch) { const g = glitch(big, lt, a + (st.glitch_at || 0.3)); if (g) big.style.transform += g }
+      pen('.tb-ln', 0.3, (sc.dur - 2.2) / 11, 1.1); spots(0.3 + (sc.dur - 2.2) * 0.7)
+    } else if (sc.type === 'tb_title') {
+      rise([$('.tb-top', el)], lt, 0.1, 0, 14); slam($('.tb-t1', el), lt, 0.05, 1.6, 0.3); slam($('.tb-t2', el), lt, 0.3, 1.8, 0.3); rise([$('.tb-sub', el)], lt, 0.7, 0, 20)
+      $$('.tb-fr', el).forEach((d, i) => { const a2 = 1.0 + i * 0.14, q2 = P(lt, a2, a2 + 0.45, E.outBack); d.style.opacity = n1(P(lt, a2, a2 + 0.2)); d.style.transform = `translate3d(${n1(80 * (1 - q2))}px,0,0)` })
+    } else if (sc.type === 'tb_game') {
+      rise([$('.tb-top', el)], lt, 0.1, 0, 14); slam($('.tb-hd', el), lt, 0.25, 1.2, 0.3); rise([$('.tb-k', el)], lt, 0.45, 0, 16)
+      const ba = vrT(sc, ...(b.board_at || [0, 0])) + 0.3; pen('.tb-ln', ba, 0.06, 0.5); spots(ba + 0.6)
+      const ma = vrT(sc, ...(b.mag_at || [0, 0.45]))
+      const keyT = (side, ki) => { const kk = (b[side]?.key || [])[ki]; return kk?.at ? vrT(sc, ...kk.at) : vrT(sc, 1, 0.25 + ki * 0.3) }
+      const arT = (b.arrows || []).map((a2, j) => a2.at ? vrT(sc, ...a2.at) : vrT(sc, 2, 0.1 + j * 0.25))
+      const firstAr = arT.length ? Math.min(...arT) : 1e9, keyStart = Math.min(1e9, ...['home', 'away'].flatMap(s => (b[s]?.key || []).map((_, ki) => keyT(s, ki))))
+      const va = vrT(sc, ...(b.verdict_at || [last, 0]))
+      // magnets: the away side slides down from the top, the home side up from the bottom; key men turn into photo magnets
+      $$('.tb-mg', el).forEach(m => { const s = m.dataset.s, i = +m.dataset.i, ki = +m.dataset.k, a2 = ma + (s === 'away' ? 0.3 : 0) + (i === 0 ? 0 : 0.08 + 0.05 * i)
+        const q2 = P(lt, a2, a2 + 0.45, E.outBack), dir = s === 'away' ? -1 : 1
+        let sc2 = 1, dim = 1
+        if (ki >= 0) { const kt = keyT(s, ki), kq = P(lt, kt, kt + 0.5, E.outBack); sc2 = 1 + 0.85 * kq
+          m.style.backgroundImage = kq > 0.02 ? 'var(--ph)' : 'none'; m.style.boxShadow = kq > 0.02 ? `0 0 0 5px ${tbInk(vrKit(q, s))},0 10px 22px rgba(11,31,77,.3)` : '' }
+        else if (lt >= keyStart) dim = lt < firstAr ? 1 - 0.5 * P(lt, keyStart, keyStart + 0.4) : 0.5 + 0.3 * P(lt, firstAr, firstAr + 0.5)
+        m.style.opacity = n1(P(lt, a2, a2 + 0.15) * dim); m.style.transform = `translate3d(0,${n1(dir * 140 * (1 - q2))}px,0) scale(${n1(sc2)})`
+        const nm = m.firstElementChild; if (nm) nm.style.transform = `translateX(-50%) scale(${n1(1 / sc2)})`; if (nm) nm.style.transformOrigin = '50% 0' })
+      // the side panels: name and formation with the magnets, the absentees struck through, each key man's card on his cue
+      $$('.tb-side', el).forEach((n, i) => { const a2 = ma + 0.2 + (i ? 0 : 0.3); n.style.opacity = n1(P(lt, a2, a2 + 0.4)); n.style.transform = `translate3d(${n1(40 * (1 - P(lt, a2, a2 + 0.5, E.outCubic)))}px,0,0)` })
+      const oa = vrT(sc, ...(b.out_at || [1, 0]))
+      $$('.tb-out>span u', el).forEach((u, i) => { u.style.transform = `scaleX(${n1(P(lt, oa + i * 0.25, oa + i * 0.25 + 0.4, E.outCubic))})` })
+      ;['away', 'home'].forEach(s => $$(`.tb-side.${s === 'home' ? 'h' : 'a'} .tb-key`, el).forEach((c, ki) => { const kt = keyT(s, ki), cq = P(lt, kt + 0.1, kt + 0.55, E.outCubic); c.style.opacity = n1(cq); c.style.transform = `translate3d(${n1(36 * (1 - cq))}px,0,0)` }))
+      // marker arrows draw themselves on their words; they fade to grey when the verdict is written
+      $$('.tb-a', el).forEach((g, j) => { const a2 = arT[j] ?? 1e9, fade = 1 - 0.6 * P(lt, va, va + 0.5), ar = $('.tb-ar', g)
+        if (ar.dataset.op) ar.style.opacity = n1(P(lt, a2, a2 + 0.5) * fade); else { ar.style.strokeDashoffset = n1(1 - P(lt, a2, a2 + 0.9, E.inOutCubic)); ar.style.opacity = n1(fade) }
+        const hd = $('.tb-ah', g); if (hd) hd.setAttribute('opacity', n1(P(lt, a2 + 0.8, a2 + 0.95) * fade)); $('.tb-al', g).setAttribute('opacity', n1(P(lt, a2 + 0.85, a2 + 1.0) * fade))
+        const pl = $(`.tb-pl[data-j="${j}"]`, el); if (pl) { const pq = P(lt, a2 + 0.2, a2 + 0.6, E.outCubic); pl.style.opacity = n1(pq * (1 - 0.4 * P(lt, va, va + 0.5))); pl.style.transform = `translate3d(${n1(30 * (1 - pq))}px,0,0)` } })
+      const mt = vrT(sc, ...(b.model_at || [2, 0.6])), mb = $('.tb-mb', el); mb.style.opacity = n1(P(lt, mt, mt + 0.3))
+      $$('.tb-mr>i', el).forEach((n, i) => { n.style.transform = `scaleX(${n1(P(lt, mt + i * 0.15, mt + i * 0.15 + 0.6, E.outCubic))})` })
+      const vd = $('.tb-vd', el), vq = P(lt, va, va + 0.9, E.inOutSine); vd.style.opacity = n1(P(lt, va - 0.1, va + 0.2))
+      $('.tb-vd>b', el).style.clipPath = `inset(-10px ${n1(100 * (1 - vq))}% -10px 0)`; $('.tb-vd path', el).style.strokeDashoffset = n1(1 - P(lt, va + 0.6, va + 1.2, E.inOutCubic))
+      const scs = $('.tb-sc', el); if (scs) { scs.style.opacity = n1(P(lt, va + 0.9, va + 1.05)); slam(scs, lt, va + 0.9, 1.6, 0.3); scs.style.transform += ' rotate(-8deg)' }
+      const cr = ['home', 'away'].flatMap(s => (b[s]?.key || []).filter((_, ki) => lt >= keyT(s, ki)).map(x => x.credit)).filter(Boolean); $('#credit').textContent = cr.join(' · ')
+    } else if (sc.type === 'tb_end') {
+      rise([$('.tb-top', el)], lt, 0.1, 0, 14); slam($('.tb-e1', el), lt, 0.2, 1.5, 0.3)
+      $$('.tb-fr', el).forEach((d, i) => { const a2 = 0.7 + i * 0.16, q2 = P(lt, a2, a2 + 0.45, E.outBack); d.style.opacity = n1(P(lt, a2, a2 + 0.2)); d.style.transform = `translate3d(${n1(80 * (1 - q2))}px,0,0)` })
+      rise([$('.tb-fol', el)], lt, vrT(sc, last, 0), 0, 30); $('#credit').textContent = ''
+    }
   } else if (/^dw_/.test(sc.type)) {
     const nx = D.scenes[k + 1], pg = $('.dw-pg', el), q = D.picks[b.match ?? 0] || M, last = sc.lines.length - 1
     if (pg) { const qi = P(lt, 0, 0.4, E.outCubic), ex = nx && /^dw_/.test(nx.type) ? P(lt, sc.dur - 0.24, sc.dur, E.inCubic) : 0
@@ -3178,7 +3426,7 @@ const stampAt = sc => sc.data?.stamp_at ?? Math.max(1.2, (S(sc, sc.lines.length 
 function fxCinematic() {
   const ev = [], add = (t, sfx, db, o = {}) => ev.push({ t: +Math.max(0, t).toFixed(3), sfx, db, ...o }), syn = (t, type, gain) => ev.push({ t: +t.toFixed(3), type, ...(gain ? { gain } : {}) })
   D.scenes.forEach((sc, k) => {
-    const T = sc.start, b = sc.data || {}, at = j => T + S(sc, j)[0], next = D.scenes[k + 1], drop = /_intro$|_hook$|^(bp|vr|gl|ar|en|dw)_title$/.test(sc.type) && b.drop
+    const T = sc.start, b = sc.data || {}, at = j => T + S(sc, j)[0], next = D.scenes[k + 1], drop = /_intro$|_hook$|^(bp|vr|gl|ar|en|dw|tb)_title$/.test(sc.type) && b.drop
     if (k > 0 && !drop && !b.hard_cut) add(T, k % 2 ? '1492' : '2636', k % 2 ? -12 : -14, { align: 'peak' })
     if (sc.type === 'rx_cold') {
       const steps = b.steps || []
@@ -3321,6 +3569,26 @@ function fxCinematic() {
     }
     if (sc.type === 'en_board') { add(T + 0.2, '2909', -9); D.scenes.filter(s => s.type === 'en_res').forEach((_, i) => add(T + vrT(sc, ...(b.stamps_at || [0, 0.6])) + i * 0.22, '1365', -14)) }
     if (sc.type === 'en_end') { add(T + 0.2, '2909', -8); add(T + 0.25, '2299', -8); enCats().forEach((_, i) => syn(T + 0.6 + i * 0.12, 'paper', 0.22)) }
+    // the tactics board: magnets clack on, the marker squeaks, a faint stadium murmur under the commentary
+    if (sc.type === 'tb_cold') {
+      add(T, '497', -14, { align: 'start', max: Math.max(1, sc.dur - 0.2) })
+      sc.lines.forEach((_, j) => { add(at(j) - 0.05, '2909', j ? -11 : -6); add(at(j) - 0.05, '2299', j ? -13 : -8) })
+      syn(T + 0.3, 'penl', 0.5); syn(T + 0.3 + (sc.dur - 2.2) / 2, 'penl', 0.45)
+      if (next?.data?.drop) add(next.start, '2908', -6, { reverse: true, max: 2.6, align: 'end' })
+    }
+    if (/^tb_(title|game|end)$/.test(sc.type)) add(T, '2097', b.crowd_db ?? -28, { align: 'start', max: sc.dur + 0.25 })
+    if (sc.type === 'tb_title') D.picks.forEach((_, i) => add(T + 1.0 + i * 0.14, '2857', -21))
+    if (sc.type === 'tb_game') {
+      const vt = (a, d) => T + vrT(sc, ...(a || d)); add(T + 0.02, '1492', -19)
+      syn(vt(b.board_at, [0, 0]) + 0.3, 'penl', 0.5)
+      const ma = vt(b.mag_at, [0, 0.45]); [0, 1, 2, 3].forEach(i => { add(ma + 0.1 + i * 0.16, '2857', -22); add(ma + 0.4 + i * 0.16, '2857', -22) })
+      ;['home', 'away'].forEach(s => (b[s]?.key || []).forEach((kk, ki) => add(kk.at ? vt(kk.at) : T + vrT(sc, 1, 0.25 + ki * 0.3), '3115', -16)))
+      if ((b.home?.out || []).length || (b.away?.out || []).length) syn(vt(b.out_at, [1, 0]), 'pen', 0.45)
+      ;(b.arrows || []).forEach((a2, j) => syn(a2.at ? vt(a2.at) : T + vrT(sc, 2, 0.1 + j * 0.25), 'pen', 0.5))
+      add(vt(b.model_at, [2, 0.6]), '3115', -15)
+      const va = vt(b.verdict_at, [sc.lines.length - 1, 0]); syn(va, 'pen', 0.7); add(va + 0.9, '2909', -13); add(va + 0.95, '871', -16)
+    }
+    if (sc.type === 'tb_end') { add(T + 0.2, '2909', -8); add(T + 0.25, '2299', -8); tbBoards().forEach((_, i) => add(T + 0.7 + i * 0.16, '2857', -21)) }
     // the blueprint: a sheet laid down, the pen drawing the pitch, a tick for each note, the verdict written in
     if (sc.type === 'dw_cold') {
       add(T, '497', -14, { align: 'start', max: Math.max(1, sc.dur - 0.2) })
@@ -3463,7 +3731,7 @@ window.renderAt = async function (t) {
 
   // cut flash, in time with the whoosh (memes cut hard: no flash)
   let fl = 0
-  for (let j = 1; j < D.scenes.length; j++) { const d = t - D.scenes[j].start, ty = D.scenes[j].type; if (d >= 0 && d < 0.3 && ty !== 'rv_meme' && !(/^(bp|vr|gl|ar|en|dw)_/.test(ty) && !['bp_title', 'vr_title', 'gl_title', 'ar_title', 'en_title', 'dw_title'].includes(ty))) fl = Math.max(fl, 0.5 * (1 - d / 0.3)) }
+  for (let j = 1; j < D.scenes.length; j++) { const d = t - D.scenes[j].start, ty = D.scenes[j].type; if (d >= 0 && d < 0.3 && ty !== 'rv_meme' && !(/^(bp|vr|gl|ar|en|dw|tb)_/.test(ty) && !['bp_title', 'vr_title', 'gl_title', 'ar_title', 'en_title', 'dw_title', 'tb_title'].includes(ty))) fl = Math.max(fl, 0.5 * (1 - d / 0.3)) }
   const hk = D.scenes.find(s => s.type === 'rv_hook'); if (hk && t - hk.start > 0.38 && t - hk.start < 0.7) fl = Math.max(fl, 0.7 * (1 - (t - hk.start - 0.38) / 0.32))
   $('#flash').style.opacity = fl
 
@@ -3478,12 +3746,13 @@ window.renderAt = async function (t) {
     const box = $('.c', capEl); box.style.opacity = clamp(q * 2); box.style.transform = `scale(${0.85 + 0.15 * q})`
     $$('.w', capEl).forEach((s, j) => { const w = c.words[j]; s.className = 'w' + (t >= w.t0 && t < w.t1 ? ' now' : t < w.t0 ? ' next' : '') })
   }
-  capEl.className = (D.cfg.caption_style === 'bold' ? 'bold' : '') + (BPg ? ' bpc' : '') + (VRg ? ' vrc' : '')
+  capEl.className = (D.cfg.caption_style === 'bold' ? 'bold' : '') + (BPg ? ' bpc' : '') + (VRg ? ' vrc' : '') + (/^tb_/.test(sc.type) ? ' tbc' + (sc.type === 'tb_cold' ? ' tbn' : '') : '')
   capEl.style.top = memeLike ? '1500px' : sc.pres ? (D.cfg.presenter?.box ? '1450px' : '1330px') : '1474px'
-  $('#hdr').style.display = /^(rx|pm|np|bp|vr|gl|ar|en|dw)_/.test(sc.type) ? 'none' : ''
+  $('#hdr').style.display = /^(rx|pm|np|bp|vr|gl|ar|en|dw|tb)_/.test(sc.type) ? 'none' : ''
   if (NPg || BPg || VRg) capEl.style.top = '1478px'
   if (/^en_/.test(sc.type)) capEl.style.top = '1590px'
   if (sc.type === 'dw_game' || sc.type === 'dw_res') capEl.style.top = '1484px'
+  if (sc.type === 'tb_game') capEl.style.top = '1330px'
   if (wait) await wait
 }
 
