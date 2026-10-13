@@ -1372,6 +1372,36 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#03060F}
 .tb_end .tb-fr>span{font-size:24px}
 .tb_end .tb-fr em{font-size:54px}
 .tb_end .tb-fol b{display:inline-block;font:800 30px Manrope;color:#fff;background:linear-gradient(90deg,#1F5FDB,#3D7BFF);padding:18px 34px;border-radius:999px;box-shadow:0 14px 34px rgba(31,95,219,.35)}
+/* the full-time board (tb_ft, 13 Oct post-match): the score in the header, balls in the nets, our call stamped */
+.tb_ft{--tb-ok:#1E9E62;--tb-no:#D8434F}
+.tb_ft .tb-hd b{font-size:var(--nm,74px)}
+.tb_ft .tb-fs{flex:none;display:flex;align-items:center;gap:10px;padding:8px 22px 10px;border-radius:18px;background:var(--tb-ink);color:#fff;font:400 78px/1 Anton;box-shadow:0 12px 28px rgba(11,31,77,.25)}
+.tb_ft .tb-fs i{font-style:normal;opacity:.6;font-size:60px}
+.tb_ft .tb-ball{opacity:0}
+.tb_ft .tb-gl{font:700 34px Caveat;paint-order:stroke fill;stroke:#fff;stroke-width:9px;stroke-linejoin:round;opacity:0}
+.tb_ft .tb-gx{margin-top:14px;display:flex;flex-direction:column;gap:6px}
+.tb_ft .tb-gx>div{display:flex;align-items:baseline;gap:10px;opacity:0}
+.tb_ft .tb-gx em{font:400 30px/1 Anton;font-style:normal;color:var(--tb-ink);min-width:58px}
+.tb_ft .tb-gx span{font:700 32px/1.05 Caveat;color:var(--tb-ink)}
+.tb_ft .tb-gx .rc{width:20px;height:28px;flex:none;border-radius:4px;background:var(--tb-red);transform:rotate(8deg);align-self:center}
+.tb_ft .tb-gx .none{font:700 15px JBM;letter-spacing:3px;text-transform:uppercase;color:var(--tb-mute);opacity:1}
+.tb_ft .tb-key span b{display:inline;font:inherit;color:var(--tb-ink)}
+.tb_ft .tb-st{position:absolute;right:0;top:64px;width:270px;padding:16px 10px 14px;border:7px solid currentColor;border-radius:18px;text-align:center;transform:rotate(-8deg);opacity:0;background:rgba(255,255,255,.7)}
+.tb_ft .tb-st b{position:static;display:block;font:400 64px/1 Anton;text-transform:uppercase;color:inherit;white-space:nowrap}
+.tb_ft .tb-st span{display:block;margin-top:8px;font:700 17px JBM;letter-spacing:3px;text-transform:uppercase;color:inherit}
+.tb_ft .tb-st.ok{color:var(--tb-ok)}.tb_ft .tb-st.no{color:var(--tb-no)}.tb_ft .tb-st.void{color:var(--tb-mute)}
+.tb_ft .tb-vd b{right:300px}
+.tb_ft .tb-vd.ok svg path{stroke:var(--tb-ok)}.tb_ft .tb-vd.no svg path{stroke:var(--tb-no)}
+/* the end card, marked: the real score, our call under it, a called or missed chip, and the tally */
+.tb_end.tbmk .tb-fr b{font-size:42px}
+.tb_end.tbmk .tb-fr small{white-space:normal;line-height:1.3}
+.tb_end .tb-ch{flex:none;padding:10px 16px 9px;border:4px solid currentColor;border-radius:12px;font:400 30px/1 Anton;text-transform:uppercase;white-space:nowrap;transform:rotate(-5deg)}
+.tb_end .tb-ch.ok{color:#1E9E62}.tb_end .tb-ch.no{color:#D8434F}.tb_end .tb-ch.void{color:var(--tb-mute)}
+.tb_end .tb-tal{position:absolute;left:62px;right:62px;display:flex;justify-content:center;gap:22px}
+.tb_end .tb-tal div{display:flex;align-items:center;gap:14px;padding:10px 26px 12px;border:6px solid currentColor;border-radius:16px;opacity:0}
+.tb_end .tb-tal b{font:400 92px/1 Anton}
+.tb_end .tb-tal span{font:700 20px/1.3 JBM;letter-spacing:4px;text-transform:uppercase}
+.tb_end .tb-tal .ok{color:#1E9E62}.tb_end .tb-tal .no{color:#D8434F}
 #cap.tbc{left:70px;right:70px}
 #cap.tbc .c{color:#0B1F4D;background:rgba(255,255,255,.94);padding:14px 30px 16px;border-radius:18px;text-shadow:none;box-shadow:0 14px 36px rgba(16,52,130,.14);font:800 44px/1.28 Manrope;letter-spacing:-.5px}
 #cap.tbc .w.now{background:none;box-shadow:none;color:#1F5FDB;padding:0;margin:0 .13em}
@@ -1806,7 +1836,8 @@ function tbSide(q, b, side) {
   return `<div class="tb-side ${side === 'home' ? 'h' : 'a'}"><div class="tb-tn">${badge(side === 'home' ? q.bh : q.ba)}<b style="color:${vrTx(k)}">${html(vrName(q, side))}</b></div>
     <div class="tb-fm"><em style="color:${ink}">${html(t.form || '')}</em><span>${html(t.form_note || 'predicted')}</span></div>${out}${keys}${plan}</div>`
 }
-const tbBoards = () => D.scenes.filter(s => s.type === 'tb_game')
+const TB_RES = r => r === 'called' ? 'ok' : r === 'missed' ? 'no' : 'void', TB_RES_TXT = { ok: 'Called it', no: 'Missed it', void: 'Suspended' }
+const tbBoards = () => D.scenes.filter(s => s.type === 'tb_game' || s.type === 'tb_ft')
 // ---- the blueprint (dw_*): each game drawn up as a technical sheet. Picks keep `ko`, `where`, `kit` (as vr_*).
 const dwFit = (s, max, w) => Math.min(max, Math.floor(w / (0.45 * Math.max(1, [...String(s || '')].length))))
 const dwFrame = () => `<div class="dw-fr"></div><div class="dw-zx">${'ABCDEF'.split('').map(x => `<span>${x}</span>`).join('')}</div><div class="dw-zy">${'12345678'.split('').map(x => `<span>${x}</span>`).join('')}</div>`
@@ -2465,7 +2496,7 @@ const built = D.scenes.map((sc, k) => {
       el.innerHTML = `<div class="tb-night"></div>${tbPitch(true)}<div class="tb-cbig"></div><div class="tb-clab"></div>`
     } else if (sc.type === 'tb_title') {
       const rows = D.picks.map(p => `<div class="tb-fr"><span>${html(p.ko || p.kickoff || '')}</span><span class="cr">${badge(p.bh)}${badge(p.ba)}</span><div><b>${html(vrName(p, 'home'))} v ${html(vrName(p, 'away'))}</b><small>${html(p.where || '')}</small></div></div>`).join('')
-      el.innerHTML = `<div class="tb-room"></div><div class="tb-bd"></div><div class="tb-pg">${top(html(b.left || 'Champions League'), html(b.mid || ''), html(b.right || ''))}<div class="tb-t1">${html(b.l1 || 'The Tactics')}</div><div class="tb-t2">${html(b.l2 || 'Board.')}</div><div class="tb-sub">${html(b.sub || '')}</div><div class="tb-fx">${rows}</div></div>`
+      el.innerHTML = `<div class="tb-room"></div><div class="tb-bd"></div><div class="tb-pg">${top(html(b.left || 'Champions League'), html(b.mid || ''), html(b.right || ''))}<div class="tb-t1"${b.l1_px ? ` style="font-size:${b.l1_px}px"` : ''}>${html(b.l1 || 'The Tactics')}</div><div class="tb-t2"${b.l2_px ? ` style="font-size:${b.l2_px}px"` : ''}>${html(b.l2 || 'Board.')}</div><div class="tb-sub">${html(b.sub || '')}</div><div class="tb-fx">${rows}</div></div>`
     } else if (sc.type === 'tb_game') {
       const kh = vrKit(q, 'home'), ka = vrKit(q, 'away'), hw = q.home_win ?? 0, dr = q.draw ?? 0, aw = q.away_win ?? 0, tot = Math.max(1, hw + dr + aw), v = b.verdict || {}
       el.innerHTML = `<div class="tb-room"></div><div class="tb-bd"></div><div class="tb-pg">${top(proj, `Board ${z(bi + 1)} / ${z(N)}`, `${html(q.ko || q.kickoff || '')} Lagos`)}
@@ -2477,10 +2508,43 @@ const built = D.scenes.map((sc, k) => {
         <div class="tb-vd"><small>${html(b.verdict_label || 'The verdict')}</small><b>${html(v.text || '')}</b><svg viewBox="0 0 640 40"><path pathLength="1" d="M6 24 C 120 8, 260 34, 400 18 S 600 14, 634 22"/></svg>
           ${v.score ? `<div class="tb-sc"><b>${html(v.score)}</b><span>${html(v.note || 'likeliest')}</span></div>` : ''}</div></div>`
       $('.tb-ars', el).innerHTML = tbArrows(q, b); $('.tb-mgs', el).innerHTML = tbMagnets(q, b)
+    } else if (sc.type === 'tb_ft') {
+      // full time: the score in the header, each goal dropped into the net with its minute and scorer, this afternoon's
+      // key men with what they did, our numbers from the morning, and our call stamped called or missed
+      const kh = vrKit(q, 'home'), ka = vrKit(q, 'away'), hw = q.home_win ?? 0, dr = q.draw ?? 0, aw = q.away_win ?? 0, tot = Math.max(1, hw + dr + aw), c = b.call || {}, sco = b.score || [0, 0]
+      const nm = Math.min(74, Math.floor(560 / (0.43 * [...(vrName(q, 'home') + vrName(q, 'away'))].length)))
+      const res = TB_RES(c.result), gs = (b.goals || []).map((g, j) => ({ ...g, j }))
+      const balls = ['home', 'away'].map(s2 => { const L = gs.filter(g => g.team === s2), n = L.length, up = s2 === 'home', ink = vrTx(vrKit(q, s2))
+        return L.map((g, k2) => { const x = 310 + (k2 - (n - 1) / 2) * 44, y = up ? 20 : TB_H - 20, ly = up ? 172 + k2 * 40 : TB_H - 150 - (n - 1 - k2) * 40
+          return `<g transform="translate(${n1(x)},${y})"><g class="tb-ball" data-j="${g.j}" data-up="${up ? 1 : 0}"><circle r="17" fill="#fff" stroke="#0B1F4D" stroke-width="3"/><path d="M0 -7 L6.7 -2.2 L4.1 5.7 L-4.1 5.7 L-6.7 -2.2Z" fill="#0B1F4D"/></g></g>`
+            + `<text class="tb-gl" data-j="${g.j}" x="310" y="${ly}" text-anchor="middle" fill="${ink}">${html(g.min || '')} ${html(g.name || '')}${g.note ? ` (${html(g.note)})` : ''}</text>` }).join('') }).join('')
+      const keys = ['home', 'away'].map(s2 => { const t = b[s2] || {}, k = vrKit(q, s2), sp = tbSpots(t.form, s2)
+        return (t.key || []).map((x, ki) => { const [mx0, my] = sp[x.i] || [TB_W / 2, TB_H / 2], mx = x.i === 0 ? mx0 + 170 : mx0   // a keeper steps aside so the balls in his net show
+          return `<div class="tb-mg key" data-s="${s2}" data-k="${ki}" style="left:${n1(mx)}px;top:${n1(my)}px;background-color:${k.bg};background-image:url('${html(x.photo || '')}');box-shadow:0 0 0 5px ${tbInk(k)},0 10px 22px rgba(11,31,77,.3)"><span class="tb-nm">${html(x.short || String(x.name || '').split(' ').slice(-1)[0])}</span></div>` }).join('') }).join('')
+      const side = s2 => { const t = b[s2] || {}, k = vrKit(q, s2), ink = tbInk(k)
+        const reds = (b.reds || []).map((r, j) => ({ ...r, j })).filter(r => r.team === s2).map(r => `<div data-r="${r.j}"><i class="rc"></i><em>${html(r.min || '')}</em><span>${html(r.name || '')}</span></div>`).join('')
+        const kc = (t.key || []).map(x => `<div class="tb-key" style="border-left-color:${ink}"><i style="background-image:url('${html(x.photo || '')}')"></i><div><b>${html(x.name || '')}</b><span>${html(x.res || '')}</span></div></div>`).join('')
+        return `<div class="tb-side ${s2 === 'home' ? 'h' : 'a'}"><div class="tb-tn">${badge(s2 === 'home' ? q.bh : q.ba)}<b style="color:${vrTx(k)}">${html(vrName(q, s2))}</b></div>${kc}<div class="tb-gx">${reds}</div></div>` }
+      el.innerHTML = `<div class="tb-room"></div><div class="tb-bd"></div><div class="tb-pg">${top(proj, `Board ${z(bi + 1)} / ${z(N)}`, html(b.right || 'Full time'))}
+        <div class="tb-hd" style="--nm:${nm}px">${badge(q.bh)}<b style="color:${vrTx(kh)}">${html(vrName(q, 'home'))}</b><div class="tb-fs">${sco[0]}<i>–</i>${sco[1]}</div><b style="color:${vrTx(ka)}">${html(vrName(q, 'away'))}</b>${badge(q.ba)}</div>
+        <div class="tb-k">${html(b.kicker || '')}</div>${tbPitch(false)}${side('away')}${side('home')}
+        <div class="tb-mb"><small>${html(b.model_label || 'Our numbers this afternoon')}</small>
+          <div class="tb-ml"><span style="width:${n1(100 * hw / tot)}%"><b>${hw}%</b>${html(vrName(q, 'home'))}</span><span style="width:${n1(100 * dr / tot)}%"><b>${dr}%</b>Draw</span><span style="width:${n1(100 * aw / tot)}%"><b>${aw}%</b>${html(vrName(q, 'away'))}</span></div>
+          <div class="tb-mr"><i style="width:${n1(100 * hw / tot)}%;background:${kh.bg}"></i><i style="width:${n1(100 * dr / tot)}%;background:#C9D5EA"></i><i style="width:${n1(100 * aw / tot)}%;background:${ka.bg}"></i></div></div>
+        <div class="tb-vd ${res}"><small>${html(b.call_label || 'Our call')}</small><b>${html(c.text || '')}</b><svg viewBox="0 0 640 40"><path pathLength="1" d="M6 24 C 120 8, 260 34, 400 18 S 600 14, 634 22"/></svg>
+          <div class="tb-st ${res}"><b>${TB_RES_TXT[res]}</b><span>${html(c.score ? 'We said ' + c.score : '')}</span></div></div></div>`
+      $('.tb-ars', el).innerHTML = balls; $('.tb-mgs', el).innerHTML = keys
+      // each half washed in the colours of the side defending it, so the board keeps both kits
+      $('.tb-pt svg', el).insertAdjacentHTML('afterbegin', `<rect class="tb-wash" x="10" y="10" width="600" height="435" fill="${ka.bg}" opacity="0"/><rect class="tb-wash" x="10" y="445" width="600" height="435" fill="${kh.bg}" opacity="0"/>`)
     } else if (sc.type === 'tb_end') {
+      const mk = bs.some(s2 => s2.type === 'tb_ft'); if (mk) el.classList.add('tbmk')
       const rows = bs.map(s2 => { const d = s2.data || {}, p = D.picks[d.match ?? 0] || M, v = d.verdict || {}
+        if (mk) { const c = d.call || {}, s0 = d.score || [0, 0], r = TB_RES(c.result)
+          return `<div class="tb-fr"><span class="cr">${badge(p.bh)}${badge(p.ba)}</span><div><b>${html(vrName(p, 'home'))} ${s0[0]}–${s0[1]} ${html(vrName(p, 'away'))}</b><small>We said: ${html(c.short || c.text || '')}${c.score ? ` (${html(c.score)})` : ''}</small></div><i class="tb-ch ${r}">${TB_RES_TXT[r]}</i></div>` }
         return `<div class="tb-fr"><span>${html(p.ko || p.kickoff || '')}</span><span class="cr">${badge(p.bh)}${badge(p.ba)}</span><div><b>${html(vrName(p, 'home'))} v ${html(vrName(p, 'away'))}</b><small>${html(v.short || v.text || '')}</small></div><em>${html(v.score || '')}</em></div>` }).join('')
-      el.innerHTML = `<div class="tb-room"></div><div class="tb-bd"></div><div class="tb-pg">${top(proj, html(b.mid || ''), html(b.right || ''))}<div class="tb-e1">${html(b.l1 || "Tonight's")} <span>${html(b.l2 || 'verdicts')}</span></div><div class="tb-fx">${rows}</div><div class="tb-fol"><b>${html(b.follow || 'Follow for the post-match')}</b></div></div>`
+      const cnt = r => bs.filter(s2 => TB_RES(s2.data?.call?.result) === r).length
+      const tal = mk ? `<div class="tb-tal" style="top:${b.tal_top ?? 1170}px"><div class="ok"><b>${cnt('ok')}</b><span>Called<br>it</span></div><div class="no"><b>${cnt('no')}</b><span>Missed<br>it</span></div></div>` : ''
+      el.innerHTML = `<div class="tb-room"></div><div class="tb-bd"></div><div class="tb-pg">${top(proj, html(b.mid || ''), html(b.right || ''))}<div class="tb-e1">${html(b.l1 || "Tonight's")} <span>${html(b.l2 || 'verdicts')}</span></div><div class="tb-fx">${rows}</div>${tal}<div class="tb-fol"${mk ? ` style="top:${b.fol_top ?? 1330}px"` : ''}><b>${html(b.follow || 'Follow for the post-match')}</b></div></div>`
     }
   } else if (/^dw_/.test(sc.type)) {
     el.classList.add('dw')
@@ -3220,9 +3284,32 @@ function draw(k, lt, sc) {
       $('.tb-vd>b', el).style.clipPath = `inset(-10px ${n1(100 * (1 - vq))}% -10px 0)`; $('.tb-vd path', el).style.strokeDashoffset = n1(1 - P(lt, va + 0.6, va + 1.2, E.inOutCubic))
       const scs = $('.tb-sc', el); if (scs) { scs.style.opacity = n1(P(lt, va + 0.9, va + 1.05)); slam(scs, lt, va + 0.9, 1.6, 0.3); scs.style.transform += ' rotate(-8deg)' }
       const cr = ['home', 'away'].flatMap(s => (b[s]?.key || []).filter((_, ki) => lt >= keyT(s, ki)).map(x => x.credit)).filter(Boolean); $('#credit').textContent = cr.join(' · ')
+    } else if (sc.type === 'tb_ft') {
+      rise([$('.tb-top', el)], lt, 0.1, 0, 14); slam($('.tb-hd', el), lt, 0.25, 1.2, 0.3); rise([$('.tb-k', el)], lt, 0.45, 0, 16)
+      const fa = vrT(sc, ...(b.score_at || [0, 0.35])); slam($('.tb-fs', el), lt, fa, 1.9, 0.3); const sh = shake(lt, fa + 0.05, 10); if (sh) $('.tb-hd', el).style.transform += ' ' + sh
+      const ba = 0.5; pen('.tb-ln', ba, 0.06, 0.5); spots(ba + 0.6); $$('.tb-wash', el).forEach(r => r.setAttribute('opacity', n1(0.16 * P(lt, ba + 0.4, ba + 1.2))))
+      // this afternoon's key men pop back onto the board, then the goals drop into the nets one by one, on their words
+      const ka = vrT(sc, ...(b.keys_at || [0, 0.5]))
+      $$('.tb-mg', el).forEach((m, i) => { const a2 = ka + i * 0.12, q2 = P(lt, a2, a2 + 0.45, E.outBack); m.style.opacity = n1(P(lt, a2, a2 + 0.15)); m.style.transform = `scale(${n1(0.4 + 1.2 * q2)})`
+        const nm = m.firstElementChild; if (nm) { nm.style.transform = `translateX(-50%) scale(${n1(1 / Math.max(0.4, 0.4 + 1.2 * q2))})`; nm.style.transformOrigin = '50% 0' } })
+      $$('.tb-side', el).forEach((n, i) => { const a2 = ka + 0.2 + (i ? 0 : 0.25); n.style.opacity = n1(P(lt, a2, a2 + 0.4)); n.style.transform = `translate3d(${n1(40 * (1 - P(lt, a2, a2 + 0.5, E.outCubic)))}px,0,0)` })
+      const gt = (b.goals || []).map((g, j) => g.at ? vrT(sc, ...g.at) : vrT(sc, 1, 0.1 + j * 0.12))
+      $$('.tb-ball', el).forEach(g => { const j = +g.dataset.j, a2 = gt[j] ?? 1e9, q2 = P(lt, a2, a2 + 0.5, E.outBack), up = g.dataset.up === '1'
+        g.style.opacity = n1(P(lt, a2, a2 + 0.1)); g.style.transform = `translate(0px,${n1((up ? 70 : -70) * (1 - q2))}px) scale(${n1(0.6 + 0.4 * q2)})` })
+      $$('.tb-gl', el).forEach(t => { const j = +t.dataset.j, a2 = (gt[j] ?? 1e9) + 0.2; t.style.opacity = n1(P(lt, a2, a2 + 0.3)) })
+      $$('.tb-gx>div', el).forEach(d => { const r = (b.reds || [])[+d.dataset.r], a2 = r?.at ? vrT(sc, ...r.at) : vrT(sc, 1, 0.5); d.style.opacity = n1(P(lt, a2, a2 + 0.3)) })
+      ;['away', 'home'].forEach(s2 => $$(`.tb-side.${s2 === 'home' ? 'h' : 'a'} .tb-key`, el).forEach((c, ki) => { const kk = (b[s2]?.key || [])[ki], kt = kk?.at ? vrT(sc, ...kk.at) : ka + 0.4, cq = P(lt, kt, kt + 0.45, E.outCubic); c.style.opacity = n1(cq); c.style.transform = `translate3d(${n1(36 * (1 - cq))}px,0,0)` }))
+      const mt = vrT(sc, ...(b.model_at || [last, 0])), mb = $('.tb-mb', el); mb.style.opacity = n1(P(lt, mt, mt + 0.3))
+      $$('.tb-mr>i', el).forEach((n, i) => { n.style.transform = `scaleX(${n1(P(lt, mt + i * 0.15, mt + i * 0.15 + 0.6, E.outCubic))})` })
+      const va = vrT(sc, ...(b.verdict_at || [last, 0])), vd = $('.tb-vd', el), vq = P(lt, va, va + 0.9, E.inOutSine); vd.style.opacity = n1(P(lt, va - 0.1, va + 0.2))
+      $('.tb-vd>b', el).style.clipPath = `inset(-10px ${n1(100 * (1 - vq))}% -10px 0)`; $('.tb-vd path', el).style.strokeDashoffset = n1(1 - P(lt, va + 0.6, va + 1.2, E.inOutCubic))
+      const sa = vrT(sc, ...(b.stamp_at || [last, 0.8])), st = $('.tb-st', el); st.style.opacity = n1(P(lt, sa, sa + 0.08)); slam(st, lt, sa, 2.2, 0.28); st.style.transform += ' rotate(-8deg)'
+      const cr = ['home', 'away'].flatMap(s2 => (b[s2]?.key || []).map(x => x.credit)).filter(Boolean); $('#credit').textContent = lt >= ka ? cr.join(' · ') : ''
     } else if (sc.type === 'tb_end') {
       rise([$('.tb-top', el)], lt, 0.1, 0, 14); slam($('.tb-e1', el), lt, 0.2, 1.5, 0.3)
       $$('.tb-fr', el).forEach((d, i) => { const a2 = 0.7 + i * 0.16, q2 = P(lt, a2, a2 + 0.45, E.outBack); d.style.opacity = n1(P(lt, a2, a2 + 0.2)); d.style.transform = `translate3d(${n1(80 * (1 - q2))}px,0,0)` })
+      $$('.tb-ch', el).forEach((c, i) => { const a2 = 1.6 + i * 0.22; slam(c, lt, a2, 1.8, 0.25); c.style.transform += ' rotate(-5deg)' })
+      const ta = vrT(sc, ...(b.tal_at || [0, 0.1])); $$('.tb-tal>div', el).forEach((d, i) => slam(d, lt, ta + i * 0.35, 1.7, 0.3))
       rise([$('.tb-fol', el)], lt, vrT(sc, last, 0), 0, 30); $('#credit').textContent = ''
     }
   } else if (/^dw_/.test(sc.type)) {
@@ -3576,7 +3663,7 @@ function fxCinematic() {
       syn(T + 0.3, 'penl', 0.5); syn(T + 0.3 + (sc.dur - 2.2) / 2, 'penl', 0.45)
       if (next?.data?.drop) add(next.start, '2908', -6, { reverse: true, max: 2.6, align: 'end' })
     }
-    if (/^tb_(title|game|end)$/.test(sc.type)) add(T, '2097', b.crowd_db ?? -28, { align: 'start', max: sc.dur + 0.25 })
+    if (/^tb_(title|game|ft|end)$/.test(sc.type)) add(T, '2097', b.crowd_db ?? -28, { align: 'start', max: sc.dur + 0.25 })
     if (sc.type === 'tb_title') D.picks.forEach((_, i) => add(T + 1.0 + i * 0.14, '2857', -21))
     if (sc.type === 'tb_game') {
       const vt = (a, d) => T + vrT(sc, ...(a || d)); add(T + 0.02, '1492', -19)
@@ -3588,7 +3675,18 @@ function fxCinematic() {
       add(vt(b.model_at, [2, 0.6]), '3115', -15)
       const va = vt(b.verdict_at, [sc.lines.length - 1, 0]); syn(va, 'pen', 0.7); add(va + 0.9, '2909', -13); add(va + 0.95, '871', -16)
     }
-    if (sc.type === 'tb_end') { add(T + 0.2, '2909', -8); add(T + 0.25, '2299', -8); tbBoards().forEach((_, i) => add(T + 0.7 + i * 0.16, '2857', -21)) }
+    if (sc.type === 'tb_ft') {
+      const vt = (a, d) => T + vrT(sc, ...(a || d)); add(T + 0.02, '1492', -19); syn(T + 0.5, 'penl', 0.5)
+      const fa = vt(b.score_at, [0, 0.35]); add(fa, '2909', -10); add(fa, '2299', -10)
+      const ka = vt(b.keys_at, [0, 0.5]); ['home', 'away'].forEach(s2 => (b[s2]?.key || []).forEach((_, i) => add(ka + i * 0.12, '2857', -20)))
+      ;(b.goals || []).forEach((g, j) => { const t = g.at ? vt(g.at) : T + vrT(sc, 1, 0.1 + j * 0.12); add(t, '3115', -20); add(t + 0.15, '3022', -24, { max: 1.6 }) })
+      ;(b.reds || []).forEach(r => syn(r.at ? vt(r.at) : T + vrT(sc, 1, 0.5), 'pen', 0.4))
+      add(vt(b.model_at, [sc.lines.length - 1, 0]), '3115', -16)
+      const va = vt(b.verdict_at, [sc.lines.length - 1, 0]); syn(va, 'pen', 0.7)
+      const sa = vt(b.stamp_at, [sc.lines.length - 1, 0.8]), ok = b.call?.result === 'called'; add(sa, '1365', -8); add(sa, '2299', -9); if (ok) add(sa + 0.05, '462', -15, { max: 3 }); else if (b.call?.result === 'missed') add(sa + 0.02, '2951', -14)
+    }
+    if (sc.type === 'tb_end') { add(T + 0.2, '2909', -8); add(T + 0.25, '2299', -8); tbBoards().forEach((s2, i) => { add(T + 0.7 + i * 0.16, '2857', -21); if (s2.type === 'tb_ft') add(T + 1.6 + i * 0.22, '1365', -14) })
+      if (tbBoards().some(s2 => s2.type === 'tb_ft')) { const ta = T + vrT(sc, ...(b.tal_at || [0, 0.1])); add(ta, '2909', -10); add(ta + 0.35, '2909', -12) } }
     // the blueprint: a sheet laid down, the pen drawing the pitch, a tick for each note, the verdict written in
     if (sc.type === 'dw_cold') {
       add(T, '497', -14, { align: 'start', max: Math.max(1, sc.dur - 0.2) })
@@ -3752,7 +3850,7 @@ window.renderAt = async function (t) {
   if (NPg || BPg || VRg) capEl.style.top = '1478px'
   if (/^en_/.test(sc.type)) capEl.style.top = '1590px'
   if (sc.type === 'dw_game' || sc.type === 'dw_res') capEl.style.top = '1484px'
-  if (sc.type === 'tb_game') capEl.style.top = '1330px'
+  if (sc.type === 'tb_game' || sc.type === 'tb_ft') capEl.style.top = '1330px'
   if (wait) await wait
 }
 

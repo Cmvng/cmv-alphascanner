@@ -87,6 +87,9 @@ const SAY_IPA = {
   // 13 Oct
   Anguissa: 'æŋɡˈwiːsə', Brugge: 'bɹˈuːɡə', Buongiorno: 'bwɒndʒˈɔːɹnoʊ', 'Cerámica': 'sɛɹˈɑːmɪkə', Gradit: 'ɡɹædˈiː', 'Hincapié': 'ɪŋkɑːpjˈeɪ',
   Igamane: 'iɡɐmˈɑːnɛ', Osimhen: 'oʊʃˈɪmhɛn', Serie: 'sˈɛɹiə', Siro: 'sˈiːɹoʊ', Sommer: 'zˈɒmɚ', Thuram: 'tuːɹˈæm', Galatasaray: 'ɡəlˌætəsəɹˈaɪ', Gueye: 'ɡˈeɪjɛ', Pape: 'pˈæp',
+  // 13 Oct, full time
+  Adeyemi: 'ˌɑːdɛjˈɛmi', Cancelo: 'kænsˈɛloʊ', Doumbia: 'dˈuːmbiə', Eze: 'ˈɛzeɪ', 'Fermín': 'fɛɹmˈiːn', Lautaro: 'laʊtˈɑːɹoʊ', Mikautadze: 'mˌiːkaʊtˈɑːdzɛ',
+  'Mouriño': 'muːɹˈiːnjoʊ', Istanbul: 'ˈɪstænbʊl', Oluwaseyi: 'ˌoʊluːwˈɑːsɛji', Rrahmani: 'ɹɑːmˈɑːni', Vermant: 'vɛɹmˈɑːnt', Tresoldi: 'tɹɛsˈɒldi',
 }
 const IPA_RE = new RegExp(`(?<!\\p{L})(${Object.keys(SAY_IPA).join('|')})(['’]s)?(?!\\p{L})`, 'gu')
 // letter-aware edges: \b treats accented letters as non-letters, so "Doué" or "Çalhanoğlu" would never match

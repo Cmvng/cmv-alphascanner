@@ -175,6 +175,17 @@ through and a "clean and mini cover". Each tie is one whiteboard. Reference: `ta
 - **Cover.** `cover.style: 'tb'` uses `cover-board.html`: "The Tactics Board." in two sizes, a mini board drawn from
   `cover.feature[0]` (its magnets, the away key man as a photo magnet, one marker arrow), and the crest row.
 - **Names on magnets** are short (surname, 14 px). Check crowded lines (a back four with a holding pair) on a still.
+- **The post-match ("full time", 13 Oct): `tb_ft` boards** replace `tb_game`, built from the afternoon's config so the
+  model numbers and key men match. Reference: `video/templates/post-match/tactics-board-fulltime-2026-10-13.json`.
+  - `score: [home, away]` slams into the header; `kicker` carries the venue and half-time score.
+  - `goals: [{team, min, name, note, at}]`: each ball drops into the net its team attacks (home: top, away: bottom) on
+    its words, and "22' Suárez" is written in marker in that box, in time order.
+  - `home/away.key` brings back the afternoon's key men as photo magnets with `res` (what they did, sourced).
+  - `call: {text, short, score, result: called|missed|void}` is stamped on `stamp_at` (the words "Called it" or
+    "Missed it"). Say the verdict as "Our call: …", never "We said" (heard back as "We set").
+  - `tb_end` turns into the scorecard when the boards are `tb_ft`: each row has the real score, our call and a chip,
+    then the tally. The cover takes `cover.mode: 'ft'` (the feature tie's goals in the nets, the score on the halfway
+    line, crest pairs ringed green or red).
 
 ## Two cuts from one file
 

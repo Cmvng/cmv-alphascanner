@@ -24,6 +24,32 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
+## 13 Oct: post-match, "The Tactics Board, full time" (the 5 ties marked, 1:50)
+
+- **Before building:**
+  - applied the last "Change next time" lines: kept the afternoon's kit fixes (Brugge black, Barcelona blue);
+  - estimated the length before rendering (1:50, inside X's 2:20);
+  - no `pgrep -f` waits.
+  - Five research agents ran in parallel, one per tie, the moment the 20:00 games ended.
+- **What worked:**
+  - **The same board, marked.** `tb_ft` is built from the afternoon's config, so the model numbers and key men can't drift. The score slams into the header, each goal drops into the net it went in on its words, the afternoon's key men come back with what they did, and our call is stamped green or red.
+  - **Honest judging:** three two-part calls missed on one part each: Lens didn't score; Inter conceded four; Villarreal won by two, not one.
+  - **A kit wash on each half** brought the team colours back after the review flagged 88% blue.
+- **Mistakes, and how they got through:**
+  1. **A class name collision.** The scorecard's `mk` class already existed (an old market card: `position:absolute; top:276px`), so the end card slid 276 px down over a dark background. Caught on a still; renamed `tbmk`.
+  2. **"We said" heard as "We set"** three times (on the 11 Oct list, and I still wrote it). Verdicts are now "Our call: …".
+  3. **"Marked at full time" heard as "marked it"**, and **"And Istanbul" as "a stand bowl"**. Now "at full time" and "Finally, to Istanbul" with Istanbul as /ˈɪstænbʊl/.
+  4. **Goal labels collided with a keeper's photo magnet** (Sommer), and Villarreal's labels were yellow on white. The keeper now steps aside; labels use the kit's text colour.
+  5. **The first still had no photos**: the first frame of a still run renders before the images load. Not a video problem; check photos on a later still.
+- **Change next time:**
+  - Prefix every new class with its family (`tb-`, `tbmk`), never a two-letter generic name; grep the stylesheet for it first.
+  - Never write "We said" in a verdict line: "Our call: …".
+  - Use the kit's text colour (`vrTx`) for any writing on white, not the marker ink.
+- **Final review:** 1:50 (inside X's 2:20 and a YouTube Short), −14.7 LUFS, true peak −3.7 dB, drop on the title +9.2 dB, music 543 "A New Life" (approved, not in the last six published videos). Colour: 76% blue after the kit wash (88% before). Heard back: only name spellings ("Lants" for Lens, "Bruga", "Mourinho" for Mouriño, "Sokka" for Saka).
+- **Sent:** 13 Oct, about 23:00 Lagos, an hour after the 20:00 games ended: the chat copy, cover, thumbnail, subtitles, write-up, post kit and sources, plus a private download page for the full file.
+
+---
+
 ## 13 Oct: analysis, "The Tactics Board" (5 Champions League ties, 2:58)
 
 - **Before building:** applied the last "Change next time" lines:

@@ -156,6 +156,15 @@ built by a short script from the morning's config, so the picks, kits and photos
   verdict: we said …", what happened, then "Called it." or "We missed it."
 - **Judging:** called or missed only (see the top of this file).
 
+## The Tactics Board, full time (tb_ft; first used 13 Oct 2026)
+The afternoon's whiteboards, marked at full time. Built from the analysis config, so the model numbers and key men are
+the ones we published. Reference: `tactics-board-fulltime-2026-10-13.json` (with its sources file); the screen fields
+are in `video/templates/match-analysis/README.md` under "The Tactics Board".
+- Three lines a board: the score ("Four–three to Club Brugge"), the goals (each ball drops into the net on its scorer's
+  name), then "Our call: …" ending on "Called it" or "Missed it", where the stamp lands.
+- Each half is washed in the kit of the side defending it; goal labels use the kit's text colour.
+- The end card is the scorecard (real score, our call, a chip each, then the tally). Five ties ran 1:50.
+
 ## Rules that keep it monetised and legal
 
 - **No broadcast footage. Ever.** Not even 2 seconds. A Content ID claim stops the money however short the clip.
