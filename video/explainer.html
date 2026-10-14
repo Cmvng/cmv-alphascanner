@@ -1040,14 +1040,16 @@ svg.pti{display:block}
 .pr .pr-wm{position:absolute;left:0;right:0;text-align:center;opacity:0}
 .pr .pr-wm img{width:560px;height:auto}
 .pr .ax-card .cap b{color:#8FD0FF}
-.pr .ax-tl .it .dt{color:#1F5FDB;width:150px}
+.pr .ax-tl .it .dt{color:#1F5FDB;width:160px;font-size:24px}
+.pr .ax-tl .it .tx{font-size:34px}
+.pr .ax-tl .it{padding:20px 26px;margin-bottom:14px}
 .pr .pr-q{position:absolute;left:70px;right:70px;padding:30px 36px 34px;border-radius:30px;background:#FFFFFF;box-shadow:0 26px 64px rgba(10,42,79,.22);opacity:0}
 .pr .pr-q .who{display:flex;align-items:center;gap:18px}
 .pr .pr-q .who .av{flex:none;width:68px;height:68px;border-radius:50%;object-fit:cover;display:flex;align-items:center;justify-content:center;background:#0B1F4D;color:#FFFFFF;font:800 26px Manrope}
 .pr .pr-q .who span{display:flex;flex-direction:column;font:800 30px/1.1 Manrope;color:#0B1F4D;letter-spacing:-.3px}
 .pr .pr-q .who span i{font:600 22px JBM;font-style:normal;color:rgba(11,31,77,.55);letter-spacing:.5px;margin-top:4px}
 .pr .pr-q .who em{margin-left:auto;font:700 21px JBM;font-style:normal;color:rgba(11,31,77,.5);letter-spacing:1px;text-transform:uppercase}
-.pr .pr-q .tx{font:800 50px/1.14 Manrope;color:#0B1F4D;letter-spacing:-1.4px;margin-top:20px}
+.pr .pr-q .tx{font:800 46px/1.16 Manrope;color:#0B1F4D;letter-spacing:-1.3px;margin-top:20px}
 .pr .pr-q .tx em{font-style:normal;color:#1F5FDB}
 .pr .pr-q.or{background:#FD4C00}
 .pr .pr-q.or .who span,.pr .pr-q.or .tx{color:#FFFFFF}
@@ -3503,7 +3505,7 @@ if (PR.on) PR.ready = (async () => {
     edge: new T3.LineBasicMaterial({ color: '#FFFFFF', transparent: true, opacity: 0.75 }),
   }
   // glass: real transmission. roughness 0 is clear; 0.35-0.6 is frosted (what is inside blurs)
-  const glassM = (r = 0.03, tint = '#F3F8FF') => new T3.MeshPhysicalMaterial({ color: '#FFFFFF', metalness: 0, roughness: r, transmission: 1, thickness: 0.9, ior: 1.42, attenuationColor: new T3.Color(tint), attenuationDistance: 14, envMapIntensity: 0.45, specularIntensity: 0.7, toneMapped: false })
+  const glassM = (r = 0.03, tint = '#F3F8FF') => new T3.MeshPhysicalMaterial({ color: '#FFFFFF', metalness: 0, roughness: r, transmission: 1, thickness: 0.4, ior: 1.5, attenuationColor: new T3.Color(tint), attenuationDistance: 14, envMapIntensity: 0.45, specularIntensity: 0.7, toneMapped: false })
 
   // shapes: a rounded rectangle; a rounded box (extruded, bevelled), centred on its middle
   const rrect = (w, h, r) => { const s = new T3.Shape(), x = -w / 2, y = -h / 2; s.moveTo(x + r, y); s.lineTo(x + w - r, y); s.quadraticCurveTo(x + w, y, x + w, y + r); s.lineTo(x + w, y + h - r); s.quadraticCurveTo(x + w, y + h, x + w - r, y + h); s.lineTo(x + r, y + h); s.quadraticCurveTo(x, y + h, x, y + h - r); s.lineTo(x, y + r); s.quadraticCurveTo(x, y, x + r, y); return s }
@@ -3587,6 +3589,7 @@ function prBuildSets() {
   const AMT = [4.2e6, 8.6e5, 1.26e7, 2.1e6, 3.14e7, 5.4e5, 7.9e6, 1.3e6, 1.82e7, 6.4e6, 2.7e6, 9.1e5], NC = [5, 3, 8, 4, 9, 3, 6, 4, 7, 5, 4, 3]
   const wallets = AMT.map((a, i) => { const W = wallet(2.3, 2.6, 2.3, NC[i], a); W.position.set(((i % 3) - 1) * 3.4, 0, (Math.floor(i / 3) - 3) * 3.3); wal.add(W); return W })
   const hop = V.makeCoin('u', 0.42, 0.1); wal.add(hop)
+  wallets.forEach(W => { W.userData.lab.position.y = 2.6 + 0.4 })
   const trailN = 36, trail = new T3.InstancedMesh(new T3.SphereGeometry(0.055, 8, 6), new T3.MeshBasicMaterial({ color: '#9CCBFF', toneMapped: false }), trailN); wal.add(trail)
   const track = new T3.Mesh(new T3.TorusGeometry(0.7, 0.035, 8, 64), new T3.MeshBasicMaterial({ color: '#9CCBFF', toneMapped: false })); wal.add(track)
 
@@ -3699,7 +3702,7 @@ const PRF = {
     prBg('deep'); V.wal.visible = true
     V.wallets.forEach((W, i) => { const a = 0.05 + (i % 3) * 0.06 + Math.floor(i / 3) * 0.1, q = vxE.back((lt - a) / 0.55); prS(W, q)
       const c = lt >= t1 ? P(lt, t1 + 0.04 * i, t1 + 0.04 * i + 1.0, E.outCubic) : 0
-      V.setAmt(W, c > 0 && i >= 6 ? prFmt(W.userData.amt * c) : ' ', lt >= tx && Math.floor((lt - tx) * 8) % 2 === 0 && lt < tx + 0.6 ? '#FF6B7C' : '#FFFFFF')
+      V.setAmt(W, c > 0 && [7, 10].includes(i) ? prFmt(W.userData.amt * c) : ' ', lt >= tx && Math.floor((lt - tx) * 8) % 2 === 0 && lt < tx + 0.6 ? '#FF6B7C' : '#FFFFFF')
       W.userData.lab.quaternion.copy(V.cam.quaternion)
       const red = lt >= tx; W.userData.em.color.set(red ? '#FF3756' : '#FFFFFF'); W.userData.em.opacity = red ? 0.95 : 0.55 })
     // the hop: from the wallet at the back left to the front right, on line 2
@@ -3717,11 +3720,11 @@ const PRF = {
   // the title: the mark builds, the frosted pane in front clears and lifts away (a privacy layer you can still verify)
   title(lt, sc, b, at) {
     const V = PR, tC = at('clear', 0.75), my = b.mark_y ?? 7.0
-    prBg('sky'); V.mark.visible = true; V.slab.visible = true
+    prBg('sky'); V.mark.visible = true; V.slab.visible = true; V.floor.visible = false
     const q = vxE.o((lt - 0.02) / 0.9), ms = b.mark_s ?? 0.74; V.mark.position.set(0, my, 0); V.mark.scale.setScalar(ms * vxL(0.7, 1.0, q)); V.mark.rotation.set(0.06 * Math.sin(lt * 0.6), vxL(-0.7, 0, q) + 0.12 * Math.sin(lt * 0.5), 0)
-    V.slab.material.roughness = vxL(0.55, 0.0, P(lt, tC, tC + 0.6, E.outCubic)); const up = P(lt, tC + 0.35, tC + 1.0, E.inOutSine)
-    V.slab.visible = up < 0.999; V.slab.position.set(0, my + up * 16, 1.6); V.slab.rotation.set(-0.25 * up, 0, 0)
-    V.halo.visible = lt >= tC; V.halo.position.set(0, my, -1.4); V.halo.scale.setScalar(vxL(1, 4.6, vxE.o((lt - tC) / 1.1))); V.halo.material.opacity = 0.5 * P(lt, tC, tC + 0.4); V.halo.quaternion.copy(V.cam.quaternion)
+    V.slab.material.roughness = vxL(0.55, 0.0, P(lt, tC, tC + 0.6, E.outCubic)); V.slab.visible = lt < tC + 0.62
+    V.slab.position.set(0, my, 1.6); V.slab.rotation.set(0, 0, 0)
+    V.halo.visible = lt >= tC; V.halo.material.color.set('#8FD0FF'); V.halo.position.set(0, my, -1.4); V.halo.scale.setScalar(vxL(1, 4.6, vxE.o((lt - tC) / 1.1))); V.halo.material.opacity = 0.45 * P(lt, tC, tC + 0.4); V.halo.quaternion.copy(V.cam.quaternion)
     const [cp, cg] = prPath([[0, [0, my + 0.4, 21], [0, my - 0.9, 0]], [sc.dur + 1, [0, my + 0.2, 19.5], [0, my - 1.0, 0]]], lt); prCam(cp, cg); prLight([0, my, 0], 8)
     return { bg: 'sky', lock: tC }
   },
@@ -3730,7 +3733,7 @@ const PRF = {
     const V = PR, tH = at('hidden', L(sc, 1)), tC = at('conf', L(sc, 2)), tF = at('private', L(sc, 3)), T3 = V.T3
     prBg('sky'); V.duo.visible = true
     const out = P(lt, tH + 0.2, tH + 1.4, E.inOutSine)
-    V.dA.position.set(-1.95 - 1.15 * out, 1.5 * Math.sin(Math.PI * out) * 0.6 + 0.0 * out, 0.9 * out); V.dB.position.set(1.95, 0, 0)
+    V.dA.position.set(-1.95 + 0.25 * out, 1.6 * out, -0.5 * out); V.dB.position.set(1.95, 0, 0)
     prS(V.dA, vxE.back((lt - 0.1) / 0.5)); prS(V.dB, vxE.back((lt - 0.22) / 0.5)); V.hub.position.set(0, 0, -4.2); prS(V.hub, vxE.back((lt - 0.0) / 0.5))
     const dark = lt >= tH + 0.75, uA = V.dA.userData; uA.gl.material = dark ? V.inkM : uA.mat; uA.coins.forEach(c => { c.visible = !dark }); uA.lab.visible = !dark; uA.ed.visible = !dark
     ;[V.dA, V.dB].forEach(W => { V.setAmt(W, '$9.8M', '#0B1F4D'); W.userData.lab.quaternion.copy(V.cam.quaternion) })
@@ -3738,9 +3741,9 @@ const PRF = {
     V.pipes[0].m.scale.setScalar(1)
     V.flow.forEach((row, j) => row.forEach((m, k) => { const u = (lt * 0.42 + k / row.length) % 1; m.position.copy(V.pipes[j].c.getPoint(u)); m.position.y += 0.02
       const fade = j === 0 ? 1 - P(lt, tH, tH + 0.4) : 1; m.scale.setScalar(Math.max(0.001, fade * P(lt, 0.4 + k * 0.05, 0.7 + k * 0.05))) }))
-    V.bars.forEach((m, k) => { const h = [0.55, 0.95, 1.4][k] * P(lt, tC + 0.15 * k, tC + 0.15 * k + 0.6, E.outCubic); m.visible = lt >= tC; m.scale.set(1, Math.max(0.001, h), 1); m.position.set(3.65, h / 2, 0.75 - k * 0.55) })
+    V.bars.forEach((m, k) => { const h = [0.55, 0.95, 1.4][k] * P(lt, tC + 0.15 * k, tC + 0.15 * k + 0.6, E.outCubic); m.visible = lt >= tC; m.scale.set(1, Math.max(0.001, h), 1); m.position.set(3.4, h / 2, 0.75 - k * 0.55) })
     V.dB.userData.mat.roughness = vxL(0.03, 0.5, P(lt, tF, tF + 0.9, E.inOutSine))
-    const [cp, cg] = prPath([[0, [0.9, 10.2, 30.5], [0.4, 1.0, -1.3]], [sc.dur + 1, [0.1, 9.6, 29.0], [0.4, 1.0, -1.3]]], lt); prCam(cp, cg); prLight([0, 0.5, -1], 9)
+    const [cp, cg] = prPath([[0, [0.7, 8.4, 25.5], [0.25, 1.5, -1.3]], [sc.dur + 1, [0.0, 8.0, 24.5], [0.25, 1.5, -1.3]]], lt); prCam(cp, cg); prLight([0, 0.5, -1], 9)
     ;[V.dA, V.dB].forEach(W => { W.userData.em.color.set('#7FA3D9'); W.userData.em.opacity = 0.9 })
     const pA = prW(V.dA, 0, 3.55, 0), pB = prW(V.dB, 0, 3.55, 0), pH = prW(V.hub, 0, 1.0, 0)
     return { bg: 'sky', tags: [prProj(pA.x, pA.y, pA.z), prProj(pB.x, pB.y, pB.z), prProj(pH.x, pH.y, pH.z)], t: { tH, tC, tF } }
@@ -3756,13 +3759,14 @@ const PRF = {
     const inside = y < 3.0, wob = 0.18 * Math.sin(lt * 1.3)
     ;[V.cU, V.cE].forEach(c => { c.visible = !inside; c.position.set(0, y, 0); c.rotation.set(0, wob, 0); prS(c, vxE.back((lt - 0.05) / 0.5)) })
     V.gate.material.roughness = 0.42; V.gateRim.material.color.set(Math.abs(y - GY) < 0.9 ? '#FFFFFF' : PRO)
+    V.tube.material.roughness = vxL(0.02, 0.5, P(lt, tSend - 0.4, tSend + 0.3, E.inOutSine)) * (1 - P(lt, tOut + 2.2, tOut + 2.6))
     const v = V.vault.userData, open = P(lt, tYield, tYield + 0.5, E.outCubic) * (1 - P(lt, tOut - 0.6, tOut - 0.1))
     v.hinge.rotation.y = -1.1 * open; v.gl2.intensity = 6 * open
-    V.yieldC.forEach((c, k) => { const a = tYield + 0.25 + k * 0.22, u = clamp((lt - a) / 1.3), on = lt >= a && lt < tOut
-      c.visible = on; c.position.set(-1.5 + k * 0.75, 3.2 + 1.4 * Math.sin(Math.PI * u * 0.5) + 0.6 * u, 1.6 - 0.4 * u); c.rotation.set(0, lt * 2 + k, 0); prS(c, on ? vxE.back(u / 0.3) * (1 - P(lt, tOut - 0.6, tOut - 0.1)) : 0) })
-    const kf = [[0, [3.6, 12.4, 29.0], [0, 5.3, 0]], [tSend, [3.0, 11.8, 29.5], [0, 5.0, 0]], [tOut, [2.6, 11.4, 29.5], [0, 4.9, 0]], [sc.dur + 1, [3.2, 12.0, 30.0], [0, 5.1, 0]]]
+    V.yieldC.forEach((c, k) => { const a = tYield + 0.15 + k * 0.16, u = clamp((lt - a) / 1.1), on = lt >= a && lt < tOut
+      c.visible = on; c.position.set((k - 2) * 0.95 * vxE.o(u), 2.9 + (2.6 - 0.38 * Math.abs(k - 2)) * vxE.o(u), 1.9); c.rotation.set(0, 0.4 * Math.sin(lt * 2 + k), 0); prS(c, on ? vxE.back(u / 0.35) * (1 - P(lt, tOut - 0.5, tOut - 0.05)) : 0) })
+    const kf = [[0, [3.6, 12.6, 31.5], [0, 5.0, 0]], [tSend, [3.0, 12.0, 32.0], [0, 4.8, 0]], [tOut, [2.6, 11.6, 32.0], [0, 4.8, 0]], [sc.dur + 1, [3.2, 12.2, 32.5], [0, 4.9, 0]]]
     const [cp, cg] = prPath(kf, lt); prCam(cp, cg); prLight([0, 4, 0], 9)
-    const pts = [[1.0, 9.0, 0], [1.9, GY, 0], [1.2, 5.1, 0], [2.0, 2.4, 0], [1.9, GY + 0.6, 0]]
+    const pts = [[1.75, 9.0, 0], [1.9, GY, 0], [1.3, 5.1, 0], [2.1, 3.6, 0], [1.9, GY + 0.6, 0]]
     return { bg: 'sky', tags: pts.map(p => prProj(...p)), t: { tIn, tEnc, tSend, tYield, tOut } }
   },
   // the privacy wrapper (their co-founder's words, his interview on the page): a big position in glass, a frosted
@@ -3771,7 +3775,7 @@ const PRF = {
     const V = PR, tW = at('wrap', L(sc, 1, 0.5)), tO = at('out', L(sc, 2)), oy = b.y ?? 0
     prBg('sky'); V.wrp.visible = true; V.wrp.position.set(0, oy, 0)
     V.setAmt(V.big, '$25.0M', '#0B1F4D'); V.big.userData.lab.quaternion.copy(V.cam.quaternion)
-    V.wrapP.material.roughness = vxL(0.0, 0.52, P(lt, tW, tW + 0.9, E.inOutSine)); V.wrapP.position.y = 1.95 + (1 - P(lt, tW - 0.5, tW, E.outCubic)) * -4.5
+    V.wrapP.visible = lt >= tW - 0.55; V.wrapP.material.roughness = vxL(0.0, 0.52, P(lt, tW, tW + 0.9, E.inOutSine)); V.wrapP.position.y = 1.95 + (1 - P(lt, tW - 0.5, tW, E.outCubic)) * -4.5
     const lq = P(lt, tO, tO + 2.4, E.inOutSine); V.lens.visible = lt >= tO; V.lens.position.set(vxL(-3.6, 2.2, lq), 2.0 + 0.2 * Math.sin(lt * 2), 3.4); V.lens.rotation.set(0, 0, 0)
     const [cp, cg] = prPath([[0, [0.6, 4.4, 20], [0, 2.7, 0]], [sc.dur + 1, [-0.4, 4.2, 19], [0, 2.6, 0]]], lt); prCam(cp, cg); prLight([0, 1.5, 0], 7)
     V.big.userData.em.color.set('#7FA3D9'); V.big.userData.em.opacity = 0.9
@@ -3789,16 +3793,16 @@ const PRF = {
       x.textBaseline = 'middle'; x.textAlign = 'left'; x.font = '600 52px Manrope'; x.fillStyle = '#51607E'; x.fillText('Balance', 40, h / 2)
       x.textAlign = 'right'; x.font = '800 56px Manrope'; x.fillStyle = '#0B1F4D'; x.fillText(yes ? 'over $10,000  ·  TRUE' : '$48,250.00', w - (yes ? 220 : 40), h / 2) }) }
     V.frost.material.roughness = vxL(0.0, 0.55, P(lt, tPage, tPage + 0.9, E.inOutSine)); V.frost.visible = lt >= tPage - 0.1
-    V.keyG.visible = lt >= tPass; V.keyG.position.set(1.25, 3.95, 1.6); V.keyG.rotation.set(0.15, -0.35 + 0.1 * Math.sin(lt), 0.15); prS(V.keyG, 1.0 * vxE.back((lt - tPass) / 0.45))
+    V.keyG.visible = lt >= tPass; V.keyG.position.set(1.35, 4.4, 1.6); V.keyG.rotation.set(0.15, -0.35 + 0.1 * Math.sin(lt), 0.15); prS(V.keyG, 1.0 * vxE.back((lt - tPass) / 0.45))
     const sq = clamp((lt - tSign) / 0.35); V.seal.visible = lt >= tSign; V.seal.position.set(2.2, 0, 0.12 + (1 - vxE.o(sq)) * 2.5); V.seal.scale.set(1 + 0.25 * Math.max(0, 1 - Math.abs(sq - 1) * 6), 1 + 0.25 * Math.max(0, 1 - Math.abs(sq - 1) * 6), 1)
     const kf = [[0, [0, 6.0, 23], [0, 5.6, 0]], [tFact, [0.5, 6.5, 22.5], [0, 6.0, 0]], [sc.dur + 1, [0.2, 6.9, 21.8], [0, 6.2, 0]]]
     const [cp, cg] = prPath(kf, lt); prCam(cp, cg); prLight([0, 5, 0], 8)
-    const pad = prW(V.page, -1.74, 1.8, 0.12), cl = prW(V.claim, 0, 0.62, 0), key2 = prW(V.keyG, 0.7, 0.75, 0), sl = prW(V.claim, 2.15, -0.75, 0)
+    const pad = prW(V.page, -1.35, 1.32, 0.5), cl = prW(V.claim, 0, 0.62, 0), key2 = prW(V.keyG, 0.7, 0.75, 0), sl = prW(V.claim, 2.15, -0.75, 0)
     return { bg: 'sky', tags: [prProj(pad.x, pad.y, pad.z), prProj(cl.x, cl.y, cl.z), prProj(key2.x, key2.y, key2.z), prProj(sl.x, sl.y, sl.z)], t: { tPad, tFact, tPage, tPass, tSign, tProof } }
   },
   // Kaito: the sealed card turning slowly beneath their post
   kaito(lt, sc, b) {
-    const V = PR; prBg('sky'); V.zk.visible = true; V.page.visible = false; V.frost.visible = false; V.keyG.visible = false
+    const V = PR; prBg('sky'); V.floor.visible = false; V.zk.visible = true; V.page.visible = false; V.frost.visible = false; V.keyG.visible = false
     V.claim.visible = true; V.claim.position.set(0, 2.4, 0); V.claim.rotation.set(0.1, 0.35 * Math.sin(lt * 0.5), 0); V.seal.visible = true; V.seal.position.set(2.15, 0, 0.12); V.seal.scale.setScalar(1)
     if (V.claim.userData.k !== 'y') { V.claim.userData.k = 'y'; V.redraw(V.claimTex, (x, w, h) => { x.fillStyle = '#FFFFFF'; x.fillRect(0, 0, w, h); x.fillStyle = '#1F5FDB'; x.fillRect(0, 0, 12, h); x.textBaseline = 'middle'; x.textAlign = 'left'; x.font = '600 52px Manrope'; x.fillStyle = '#51607E'; x.fillText('Balance', 40, h / 2); x.textAlign = 'right'; x.font = '800 56px Manrope'; x.fillStyle = '#0B1F4D'; x.fillText('over $10,000  ·  TRUE', w - 220, h / 2) }) }
     prCam([0, 5.6, 24], [0, 5.0, 0]); prLight([0, 2.4, 0], 6)
@@ -3806,19 +3810,19 @@ const PRF = {
   },
   // the calm set: the mark behind frosted glass, drifting (quotes, backers)
   calm(lt, sc, b) {
-    const V = PR; prBg('sky'); V.mark.visible = true; V.slab.visible = true; const y = b.mark_y ?? 2.6
+    const V = PR; prBg('sky'); V.floor.visible = false; V.mark.visible = true; V.slab.visible = true; const y = b.mark_y ?? 2.6, dy = b.look_dy ?? 2.0
     V.mark.position.set(0.3 * Math.sin(lt * 0.3), y, -1.4); V.mark.scale.setScalar(b.mark_s ?? 0.62); V.mark.rotation.set(0.1 * Math.sin(lt * 0.4), 0.5 * Math.sin(lt * 0.25), 0)
     V.slab.position.set(0, y, 0.6); V.slab.rotation.set(0, 0, 0); V.slab.material.roughness = b.frost ?? 0.45
-    prCam([0, y + 1.8, 20], [0, y + 2.4, 0]); prLight([0, y, 0], 7)
+    prCam([0, y + dy + 0.6, 20], [0, y + dy, 0]); prLight([0, y, 0], 7)
     return { bg: 'sky' }
   },
   // the end: their mark inside a cube of frosted glass; the frost thins on the last words
   end(lt, sc, b, at) {
     const V = PR, tN = at('not', L(sc, 0, 0.6)), y = b.cube_y ?? 5.2
-    prBg('sky'); V.cube.visible = true; V.mark.visible = true
-    V.cube.position.set(0, y, 0); V.cube.rotation.set(0.05, 0.5 + lt * 0.12, 0); V.cube.material.roughness = vxL(0.5, 0.22, P(lt, tN, tN + 1.0, E.inOutSine)); prS(V.cube, vxE.back((lt - 0.05) / 0.6))
-    V.mark.position.set(0, y, 0); V.mark.scale.setScalar(0.82); V.mark.rotation.set(0, 0.5 + lt * 0.12, 0)
-    V.halo.visible = true; V.halo.position.set(0, y, -3.5); V.halo.scale.setScalar(5.2); V.halo.material.opacity = 0.35 * P(lt, tN, tN + 0.6); V.halo.quaternion.copy(V.cam.quaternion)
+    prBg('sky'); V.floor.visible = false; V.cube.visible = true; V.mark.visible = true
+    V.cube.position.set(0, y, 0); V.cube.rotation.set(0.04, 0.22 + 0.06 * Math.sin(lt * 0.5), 0); V.cube.material.roughness = vxL(0.5, 0.2, P(lt, tN, tN + 1.0, E.inOutSine)); prS(V.cube, 0.86 * vxE.back((lt - 0.05) / 0.6))
+    V.mark.position.set(0, y, 0); V.mark.scale.setScalar(0.72); V.mark.rotation.set(0, 0.22 + 0.06 * Math.sin(lt * 0.5), 0)
+    V.halo.visible = true; V.halo.material.color.set('#8FD0FF'); V.halo.position.set(0, y, -3.5); V.halo.scale.setScalar(5.2); V.halo.material.opacity = 0.35 * P(lt, tN, tN + 0.6); V.halo.quaternion.copy(V.cam.quaternion)
     const [cp, cg] = prPath([[0, [0, y + 1.2, 22], [0, y - 0.6, 0]], [sc.dur + 1, [0, y + 1.0, 20], [0, y - 0.6, 0]]], lt); prCam(cp, cg); prLight([0, y, 0], 7)
     return { bg: 'sky', t: { tN } }
   },
@@ -3826,7 +3830,7 @@ const PRF = {
 function prShot(sc, lt, b) {
   const V = PR, ty = sc.type.slice(6), at = (k, d) => prAt(sc, b, k, d)
   V.sets.forEach(o => { o.visible = false }); V.mark.visible = false; V.halo.visible = false; V.zk.visible = false
-  V.page.visible = true; V.mark.scale.setScalar(1)
+  V.page.visible = true; V.mark.scale.setScalar(1); V.floor.visible = true
   const out = (PRF[b.set || ty] || PRF.calm)(lt, sc, b, at) || { bg: 'sky' }
   V.R.render(V.S, V.cam)
   return out
@@ -3871,8 +3875,8 @@ function drawPR(el, lt, sc, b) {
     tags.forEach((n, i) => tagAt(n, o.tags[i], a[i], z[i])); show($('.ax-note', el), 0.8, 10) }
   if (ty === 'wrap') { const cd = $('.pr-iv', el); pop(cd, lt, 0.1, 0.92, 0.45); recAt(el, sc, lt); show($('.ax-note', el), 0.5, 10) }
   if (ty === 'zk') { show($('.kc', el), 0.15); show($('.ax-h', el), 0.3)
-    const t3 = T.tProof; tagAt(tags[0], o.tags[0], T.tPad + 0.1, T.tFact); tagAt(tags[1], o.tags[1], T.tFact + 0.9, t3 - 0.2); tagAt(tags[2], o.tags[2], T.tPass + 0.2); tagAt(tags[3], o.tags[3], T.tSign + 0.3)
-    $$('.pr-pf .ax-k', el).forEach((c, j) => pop(c, lt, j ? at('copy', t3 + 1.2) : t3 + 0.05, 0.6)); show($('.ax-note', el), 0.8, 10) }
+    const t3 = T.tProof; tagAt(tags[0], o.tags[0], T.tPad + 0.1, T.tSign); tagAt(tags[1], o.tags[1], T.tFact + 0.9, t3 - 0.2); tagAt(tags[2], o.tags[2], T.tPass + 0.2); tagAt(tags[3], o.tags[3], T.tSign + 0.3)
+    $$('.pr-pf .ax-k', el).forEach((c, j) => pop(c, lt, j ? at('copy', t3 + 1.2) : t3 + 0.05, 0.6)); const nt = $('.ax-note', el); show(nt, 0.8, 10); if (nt) nt.style.opacity = (+nt.style.opacity * (1 - P(lt, t3 - 0.3, t3))).toFixed(2) }
   if (ty === 'kaito') { show($('.kc', el), 0.1); const cd = $('.pr-kp', el); pop(cd, lt, 0.15, 0.92, 0.45); show($('.ax-note', el), 0.5, 10)
     $$('.pr-kc .ax-k', el).forEach((c, j) => pop(c, lt, at('c' + j, L(sc, Math.min(j, sc.lines.length - 1), 0.5)), 0.6)) }
   if (ty === 'quote') { $$('.pr-q', el).forEach((n, j) => { const a = at('q' + j, L(sc, j, 0)) - 0.1; n.style.opacity = P(lt, a, a + 0.35).toFixed(2); n.style.transform = `translateY(${((1 - P(lt, a, a + 0.5, E.outCubic)) * 50).toFixed(1)}px)` })

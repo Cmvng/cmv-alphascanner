@@ -59,11 +59,11 @@
      "For institutions, that's a problem."
     ],
     "pauses": [
-     0.35,
-     0.35,
-     0.45
+     0.3,
+     0.3,
+     0.4
     ],
-    "tail": 0.8
+    "tail": 0.6
    },
    {
     "type": "pr_title",
@@ -163,6 +163,12 @@
      },
      "It can still be sent privately, and earn yield.",
      "And you unwrap it whenever you need it."
+    ],
+    "pauses": [
+     0,
+     0,
+     0,
+     1.1
     ]
    },
    {
@@ -258,7 +264,7 @@
      "It's made in your browser, and an attestor signs it.",
      "The app gets proof of the claim, not a copy of your account."
     ],
-    "chips_top": 1470
+    "chips_top": 1430
    },
    {
     "type": "pr_kaito",
@@ -267,8 +273,8 @@
     "credit": "Image: @KaitoAI · 14 Sep 2026",
     "chips": [
      "Kaito Pulse · <b>browser-based verification</b>",
-     "No <b>logins</b> shared",
-     "Proofs also feed <b>Kaito Aura</b>"
+     "Prove activity from <b>other platforms</b>",
+     "No <b>logins</b> shared"
     ],
     "chips_top": 880,
     "cue": {
@@ -279,18 +285,17 @@
      ],
      "c1": [
       1,
-      "logins",
+      "platforms",
       0
      ],
      "c2": [
       1,
-      "logins",
-      0,
-      0.9
+      "sharing",
+      0
      ]
     },
     "say": [
-     "In September, Kaito brought it into Kaito Pulse:",
+     "Kaito brought it into Kaito Pulse:",
      "prove what you've done on other platforms, without sharing your logins."
     ]
    },
@@ -317,7 +322,7 @@
      }
     ],
     "chip": "Ethereum Foundation <b>grantee</b>",
-    "chip_top": 1250,
+    "chip_top": 1050,
     "note": "Posts on X, 19 and 20 Sep 2026",
     "cue": {
      "q0": [
@@ -340,7 +345,8 @@
      "In September, Vitalik Buterin wrote: I'm not giving up on privacy. I'm doubling down.",
      "Primus answered: privacy is not dead. It is infrastructure still being built.",
      "And Primus builds it as an Ethereum Foundation grantee."
-    ]
+    ],
+    "look_dy": 2.2
    },
    {
     "type": "pr_back",
@@ -365,7 +371,7 @@
      "head": "Token",
      "text": "No token yet. <i>A $PRIM campaign is running on Kaito Studio; no launch date has been announced.</i>"
     },
-    "token_top": 1120,
+    "token_top": 1180,
     "note": "Not financial advice · sources: @primus_labs, @KaitoStudio_",
     "cue": {
      "i0": [
@@ -402,7 +408,8 @@
       "say": "No token yet: a PRIM campaign runs on Kaito Studio, with no launch date announced.",
       "show": "No token yet: a $PRIM campaign runs on Kaito Studio, with no launch date announced."
      }
-    ]
+    ],
+    "look_dy": 0.0
    },
    {
     "type": "pr_end",
