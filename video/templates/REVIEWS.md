@@ -24,6 +24,46 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
+## 14 Oct: analysis, "The Walk-Out" (7 Champions League ties, 2:46, CSS 3D tunnels)
+
+- **The ask:** "an analysis video of today's Champions League matches… Take your time on the creative idea."
+- **Before building:** applied the last "Change next time" lines:
+  - `df -h /` before each render;
+  - bracketed `pgrep` patterns in the wait loops;
+  - post-match judging rules carried into the calls (each one a result call; "goals at both ends" is an extra read).
+  - From 13 Oct: kits checked side by side before the stills (AEK and Dortmund get a dark fill so their bars don't clash), and "from" instead of "in" for "X goals from Y games".
+- **What worked:**
+  - **The idea: every tie is a walk down its players' tunnel.**
+    - Crests at the entrance, the key men as posters the camera turns to as they're named, the model card near the exit, then out into that stadium's own photo for the call.
+    - It's built in CSS 3D, so the photos, crests and text stay crisp at about 0.65 s a frame.
+  - **Seven research agents in parallel**, one per tie, each with dated sources; the conflicts were left out.
+  - **The hear-back before the render caught five problems** that would have cost a render:
+    - "Our read" was heard as "I'll read", so it became "Our call";
+    - "Betis beat" as "bet is";
+    - "Saint-Germain" as "and German";
+    - "in ten games" as "and";
+    - Bodø as "Boudre".
+  - **The app's form left out:** its form strings clash with confirmed results (Liverpool's 3–0 home loss to City shows as a W), so the card shows the likeliest score instead.
+- **Mistakes, and how they got through:**
+  1. **The first full render was 90% blue**, the "monotonous" look from 6 Oct. Painting each wall's lower third in the club colours brought it to 83% and made every tunnel look like its own club's. It cost a second render (56 min).
+  2. **The audio mix crashed after the first render:** a reversed whoosh shorter than the 0.4 s fade-in. `audio.py` is fixed, and the mix and mux were redone by hand from `timeline.json` and the kept segments.
+  3. **"an AEK win" was heard as "and AEK win"** (an/and) in the first render; it became "three points for AEK".
+  4. **Stadium photos:**
+     - `resolveStadium` is for teams, not venues: it matched La Cartuja to Camp Nou.
+     - The first La Cartuja photo's author name was unsuitable for a credit, so another photo was used.
+     - A Commons photo of Pepê was a news-agency photo, so it was skipped.
+  5. **Starting a render wipes the output folder**, including a cover page written there during the run. Write cover pages after the render, or in scratch.
+- **Change next time:**
+  - Add "an/and" to the homophone list: never "an <name> win"; say "three points for X".
+  - A navy or dark set needs a planned colour budget (kit bands, crests, photos) before the first full render; check one still's colour mix.
+  - Keep cover pages and frames out of the render folder until the render has finished.
+- **Final review:** 166.97 s (a YouTube Short), −14.7 LUFS, true peak −3.5 dB, the drop on the title +8.9 dB. Music 607 "Forest Walk" (a candidate, played once before on 9 Oct; all four approved tracks were in the last six). Colour: blue 83%, ink 8%, yellow 3%, red 3%. Heard back: only name spellings (Feynord, Bettis, Boda, Holland for Haaland).
+- **Sent:**
+  - the 28.0 MB chat copy, the cover and thumbnail, the srt, the write-up, the post kit (with chapters) and the sources;
+  - a private download page for the full 129 MB file (15 parts; one served part's sha256 checked).
+
+---
+
 ## 14 Oct: explainer, Axis Robotics, "From simulation to reality" (1:56, 3D)
 
 - **The ask:** "a clean, well-created video on Axis Robotics", using four of their recent posts:
