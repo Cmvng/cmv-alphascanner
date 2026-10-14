@@ -300,6 +300,11 @@ chain every wallet is clear glass, and the product frosts it, so the money stays
       floor grid). Transmission only sees what is drawn in 3D, so with an HTML background the glass shows white.
     - Second, **glass is `toneMapped: false`**. With ACES, the bright page seen through glass came out grey.
     - Labels inside glass must be opaque (`alphaTest`, not `transparent`), or the glass doesn't see them.
+    - **Keep `ior` at 1.5 and make the glass thin (`thickness` 0.4).** three.js scales the frost blur by `ior × 2 − 2`, so
+      ior 1.25 halves it and the frosted panes looked clear. Thick glass (0.9) refracted labels, coins and rings into
+      doubles. Thin glass at ior 1.5 gives the full frost and no ghosts.
+    - Anything behind glass that must not show twice: keep it out of the glass (the cold open's amounts float above
+      the wallets). Making it `transparent` hides it entirely, because the glass's depth occludes it.
   - **Their mark from their own logo paths:** the site's SVG `d` strings, parsed (M/L/H/V/C/Z) into three.js shapes and
     extruded, an orange square with a white bracket and key on its face.
 - **Scenes:**
