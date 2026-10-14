@@ -74,7 +74,7 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
   for Xie, "ZKT-LS", attester). One long screen, the vault at 21.2 s, kept: one continuous shot with four cued steps.
   Every second of the final video checked frame by frame.
 - **Sent:**
-  - the 28 MB chat copy, the cover and thumbnail, the srt, the write-up, the post kit (with chapters) and the sources;
+  - the 27.7 MB chat copy, the cover and thumbnail, the srt, the write-up, the post kit (with chapters) and the sources;
   - a private download page for the full 51.3 MB file (6 parts; one served part's sha256 checked).
 
 ---
