@@ -1293,6 +1293,9 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#03060F}
 .wo .wo-wl .sm{position:absolute;top:0;bottom:0;width:6px;background:rgba(4,18,52,.45)}
 .wo .wo-wl .dd{position:absolute;left:0;right:0;top:640px;height:5px;background:rgba(255,255,255,.22)}
 .wo .wo-wl .led{position:absolute;left:0;right:0;top:1196px;height:16px}
+.wo .wo-wl .kb{position:absolute;left:0;right:0;top:840px;height:356px}
+.wo .wo-wl .kb::before{content:'';position:absolute;left:0;right:0;top:0;height:10px;background:rgba(255,255,255,.55)}
+.wo .wo-wl .kb::after{content:'';position:absolute;left:0;right:0;top:0;bottom:0;background:linear-gradient(180deg,rgba(255,255,255,.14),rgba(0,0,0,.18))}
 .wo .wo-wl .tp{position:absolute;left:0;right:0;top:0;height:60px;background:linear-gradient(180deg,rgba(255,255,255,.12),rgba(255,255,255,0))}
 .wo .wo-cl{width:1000px;background:#0A2459;overflow:hidden}
 .wo .wo-cl i{position:absolute;left:70px;right:70px;height:26px;border-radius:13px;background:#EAF4FF;box-shadow:0 0 40px 12px rgba(190,225,255,.55)}
@@ -1957,11 +1960,12 @@ const woLights = () => { const z = []; for (let x = -200; x > -WO.L + 200; x -= 
 function woWorld(kh, ka, b, opt = {}) {
   const { L, W, YT, YB, T, Z0 } = WO, H = YB - YT, out = []
   const led = (c, glow) => `<i class="led" style="background:${c};box-shadow:0 0 22px 4px ${glow || c}"></i>`
+  const band = k => k.band === false ? '' : `<i class="kb" style="background:${k.dado || k.c}"></i>`      // each wall's lower third painted in that side's colour
   for (let z = Z0; z > -L; z -= T) {
     const far = clamp(-z / L), br = (0.62 + 0.5 * far).toFixed(2), seam = ((Z0 - z) % 520 + 520) % 520
     const sm = seam < T ? `<i class="sm" style="left:${seam}px"></i>` : ''
-    out.push(`<div class="wo-wl wo-t" data-z="${z}" style="width:${T + 2}px;transform:translate3d(${-W / 2}px,${YT}px,${z}px) rotateY(90deg);filter:brightness(${br})"><i class="tp"></i><i class="dd"></i>${sm}${led(kh.c, kh.c)}</div>`)
-    out.push(`<div class="wo-wl wo-t" data-z="${z}" style="width:${T + 2}px;transform:translate3d(${W / 2}px,${YT}px,${z - T}px) rotateY(-90deg);filter:brightness(${br})"><i class="tp"></i><i class="dd"></i>${seam < T ? `<i class="sm" style="right:${seam}px"></i>` : ''}${led(ka.c, ka.c)}</div>`)
+    out.push(`<div class="wo-wl wo-t" data-z="${z}" style="width:${T + 2}px;transform:translate3d(${-W / 2}px,${YT}px,${z}px) rotateY(90deg);filter:brightness(${br})"><i class="tp"></i><i class="dd"></i>${sm}${band(kh)}${led(kh.c, kh.c)}</div>`)
+    out.push(`<div class="wo-wl wo-t" data-z="${z}" style="width:${T + 2}px;transform:translate3d(${W / 2}px,${YT}px,${z - T}px) rotateY(-90deg);filter:brightness(${br})"><i class="tp"></i><i class="dd"></i>${seam < T ? `<i class="sm" style="right:${seam}px"></i>` : ''}${band(ka)}${led(ka.c, ka.c)}</div>`)
     out.push(`<div class="wo-fl wo-t" data-z="${z}" style="height:${T + 2}px;transform:translate3d(${-W / 2}px,${YB}px,${z}px) rotateX(-90deg);filter:brightness(${br})"><i class="ln" style="left:96px"></i><i class="ln" style="right:96px"></i></div>`)
     out.push(`<div class="wo-cl wo-t" data-z="${z}" style="height:${T + 2}px;transform:translate3d(${-W / 2}px,${YT}px,${z}px) rotateX(-90deg);filter:brightness(${br})"></div>`)
   }
@@ -2664,14 +2668,14 @@ const built = D.scenes.map((sc, k) => {
   } else if (/^wo_/.test(sc.type)) {
     el.classList.add('wo')
     const q = D.picks[b.match ?? 0] || M, ties = D.scenes.filter(x => x.type === 'wo_tie'), ti = ties.indexOf(sc), z = x => String(x).padStart(2, '0')
-    const neutral = { bg: '#4FB3FF', c: '#4FB3FF' }
+    const neutral = { bg: '#4FB3FF', c: '#4FB3FF', band: false }
     if (sc.type === 'wo_cold') {
       el.innerHTML = woWorld(neutral, neutral, b, { beam: '' }) + `<div class="wo-ui"><div class="wo-cbig"></div><div class="wo-clab"></div></div>`
     } else if (sc.type === 'wo_title') {
       const rows = D.picks.map(p => `<div class="wo-fr"><span>${html(p.ko || p.kickoff || '')}</span><span class="cr">${badge(p.bh)}${badge(p.ba)}</span><b>${html(vrName(p, 'home'))} v ${html(vrName(p, 'away'))}</b></div>`).join('')
       el.innerHTML = woWorld(neutral, neutral, b, { beam: b.beam || 'MATCHDAY 2', stadium: b.stadium }) + `<div class="wo-ui"><div class="wo-t1">${html(b.l1 || 'The')}</div><div class="wo-t2"${b.l2_px ? ` style="font-size:${b.l2_px}px"` : ''}>${html(b.l2 || 'Walk-Out')}</div><div class="wo-sub">${html(b.sub || '')}</div><div class="wo-fx">${rows}</div></div>`
     } else if (sc.type === 'wo_tie') {
-      const kh = { ...vrKit(q, 'home'), crest: badge(q.bh) }, ka = { ...vrKit(q, 'away'), crest: badge(q.ba) }, hw = q.home_win ?? 0, dr = q.draw ?? 0, aw = q.away_win ?? 0, tot = Math.max(1, hw + dr + aw), v = b.verdict || {}
+      const kh = { ...vrKit(q, 'home'), crest: badge(q.bh), dado: q.kit?.home?.dado }, ka = { ...vrKit(q, 'away'), crest: badge(q.ba), dado: q.kit?.away?.dado }, hw = q.home_win ?? 0, dr = q.draw ?? 0, aw = q.away_win ?? 0, tot = Math.max(1, hw + dr + aw), v = b.verdict || {}
       const posters = woPosters(q, b); sc.woP = posters
       const nm = Math.min(68, Math.floor(700 / (0.43 * [...(vrName(q, 'home') + vrName(q, 'away'))].length)))
       el.innerHTML = woWorld(kh, ka, b, { posters, stadium: b.stadium, beam: b.beam || (q.ko || '') })

@@ -384,7 +384,7 @@ def sfx_sample(ref, reverse=False, rate=1.0, maxlen=None):
         f = int(0.15 * SR); a[-f:] *= np.linspace(1, 0, f)[:, None]
     if reverse:
         a = a[::-1].copy()
-        f = int(0.4 * SR); a[:f] *= np.linspace(0, 1, f)[:, None] ** 2
+        f = min(int(0.4 * SR), len(a)); a[:f] *= np.linspace(0, 1, f)[:, None] ** 2      # short samples (a 0.39 s whoosh, 14 Oct) fade over their whole length
     a /= np.abs(a).max() + 1e-9
     _sfx_cache[key] = a
     return a
