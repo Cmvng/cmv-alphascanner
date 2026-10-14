@@ -95,7 +95,10 @@ const SAY_IPA = {
   Kuip: 'kˈaʊp', Malen: 'mˈɑːlən', Paz: 'pˈɑːs', Guirassy: 'ɡiɹˈæsi', Olimpico: 'oʊlˈɪmpɪkoʊ', Bednarek: 'bɛdnˈɑːɹɛk', Dijk: 'dˈaɪk',
   Shakhtar: 'ʃˈɑːktɑːɹ', Torres: 'tˈɔːɹɛs',
   // 14 Oct, Primus Labs
-  Primus: 'pɹˈaɪməs', Kaito: 'kˈaɪtoʊ', Buterin: 'bˈuːtəɹɪn', 'Xiang Xie': 'ʃjˈɑŋ ʃjˈɛ', VanEck: 'vænˈɛk'
+  Primus: 'pɹˈaɪməs', Kaito: 'kˈaɪtoʊ', Buterin: 'bˈuːtəɹɪn', 'Xiang Xie': 'ʃjˈɑŋ ʃjˈɛ', VanEck: 'vænˈɛk',
+  // 14 Oct, the Walk-Out results
+  'Sjøvold': 'ʃˈɜːvɔl', 'Zechiël': 'zˈɛkiɛl', Endrick: 'ˈɛndɹɪk', 'Espí': 'ɛspˈiː', Turan: 'tˈuːɹɑːn', Moussa: 'mˈuːsə',
+  'Rüdiger': 'ɹˈuːdɪɡɚ', Isco: 'ˈiːskoʊ', Cucho: 'kˈuːtʃoʊ', 'Hernández': 'ɛɹnˈɑːndɛs'
 }
 const IPA_RE = new RegExp(`(?<!\\p{L})(${Object.keys(SAY_IPA).join('|')})(['’]s)?(?!\\p{L})`, 'gu')
 // letter-aware edges: \b treats accented letters as non-letters, so "Doué" or "Çalhanoğlu" would never match
