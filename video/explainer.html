@@ -1016,6 +1016,53 @@ svg.pti{display:block}
 #stage.axdark #chap{color:rgba(255,255,255,.7)}
 #stage.axdark #prog{background:rgba(255,255,255,.18)}
 .ax .ax-num.ln .v{text-shadow:0 0 22px rgba(255,255,255,.75),0 0 4px rgba(255,255,255,.6)}
+/* the glass film (pr_*), 14 Oct: Primus Labs. Reuses the ax-* pieces; our accents blue, their orange on their things */
+.pr .ax-slot canvas{position:absolute;left:0;top:0;width:1080px;height:1920px}
+.pr .ax-h{color:#0B1F4D}
+.pr .ax-h em{color:#1F5FDB}
+.pr .ax-h.dk{color:#FFFFFF}
+.pr .ax-h.dk em{color:#8FD0FF}
+.pr .ax-h .rd{color:#FF3756}
+.pr .ax-k{background:#0B1F4D;color:#FFFFFF}
+.pr .ax-k b{color:#8FD0FF}
+.pr .ax-k.lt{background:#FFFFFF;color:#0B1F4D}
+.pr .ax-k.lt b{color:#1F5FDB}
+.pr .ax-k.lt.no{background:rgba(255,255,255,.7);color:rgba(11,31,77,.55);text-decoration:line-through;text-decoration-thickness:3px}
+.pr .ax-k.or{background:#FD4C00;color:#FFFFFF}
+.pr .ax-tag{background:#0B1F4D;color:#FFFFFF}
+.pr .ax-tag b{color:#8FD0FF}
+.pr .ax-tag.or{background:#FD4C00;color:#FFFFFF}
+.pr .ax-tag.or b{color:#FFE3D2}
+.pr .ax-tag.lt{background:#FFFFFF;color:#0B1F4D;box-shadow:0 12px 30px rgba(10,42,79,.18)}
+.pr .ax-tag.lt b{color:#1F5FDB}
+.pr .ax-tag.gy{background:#FFFFFF;color:#0B1F4D;box-shadow:0 12px 30px rgba(10,42,79,.18)}
+.pr .ax-tag.gy.dkk{background:#15171C;color:#FFFFFF}
+.pr .pr-wm{position:absolute;left:0;right:0;text-align:center;opacity:0}
+.pr .pr-wm img{width:560px;height:auto}
+.pr .ax-card .cap b{color:#8FD0FF}
+.pr .ax-tl .it .dt{color:#1F5FDB;width:150px}
+.pr .pr-q{position:absolute;left:70px;right:70px;padding:30px 36px 34px;border-radius:30px;background:#FFFFFF;box-shadow:0 26px 64px rgba(10,42,79,.22);opacity:0}
+.pr .pr-q .who{display:flex;align-items:center;gap:18px}
+.pr .pr-q .who .av{flex:none;width:68px;height:68px;border-radius:50%;object-fit:cover;display:flex;align-items:center;justify-content:center;background:#0B1F4D;color:#FFFFFF;font:800 26px Manrope}
+.pr .pr-q .who span{display:flex;flex-direction:column;font:800 30px/1.1 Manrope;color:#0B1F4D;letter-spacing:-.3px}
+.pr .pr-q .who span i{font:600 22px JBM;font-style:normal;color:rgba(11,31,77,.55);letter-spacing:.5px;margin-top:4px}
+.pr .pr-q .who em{margin-left:auto;font:700 21px JBM;font-style:normal;color:rgba(11,31,77,.5);letter-spacing:1px;text-transform:uppercase}
+.pr .pr-q .tx{font:800 50px/1.14 Manrope;color:#0B1F4D;letter-spacing:-1.4px;margin-top:20px}
+.pr .pr-q .tx em{font-style:normal;color:#1F5FDB}
+.pr .pr-q.or{background:#FD4C00}
+.pr .pr-q.or .who span,.pr .pr-q.or .tx{color:#FFFFFF}
+.pr .pr-q.or .who span i,.pr .pr-q.or .who em{color:rgba(255,255,255,.78)}
+.pr .pr-q.or .tx em{color:#FFFFFF;text-decoration:underline;text-decoration-thickness:4px;text-underline-offset:8px}
+.pr .pr-q.or .who .av{background:#FFFFFF;padding:8px}
+.pr .pr-tk{position:absolute;left:70px;right:70px;padding:24px 30px 26px;border-radius:26px;background:#0B1F4D;opacity:0}
+.pr .pr-tk .hd{font:700 22px JBM;letter-spacing:3px;text-transform:uppercase;color:#8FD0FF}
+.pr .pr-tk .tx{font:800 34px/1.25 Manrope;color:#FFFFFF;letter-spacing:-.4px;margin-top:10px}
+.pr .pr-tk .tx i{font-style:normal;color:rgba(255,255,255,.62);font-weight:700}
+.pr .ax-mul.pr-kc,.pr .ax-mul.pr-pf{flex-direction:column;align-items:center}
+.pr .ax-sub .ax-k{display:inline-block;white-space:normal;text-align:center;font-size:25px;line-height:1.45;letter-spacing:2px;padding:14px 24px 15px}
+.pr .ax-tag{text-transform:none;letter-spacing:.4px;font-size:25px}
+.pr .pr-iv .cap{top:28px;bottom:auto}
+.pr .ax-h.cw{font-size:88px;letter-spacing:-3px}
 </style>
 </head>
 <body>
@@ -3401,6 +3448,463 @@ function fxAX(add, sc, T, next) {
   if (ty === 'end') { add(at('coming', ln(0, 0.8)), '2636', -10); const ta = at('all', ln(1, 0.55)); add(ta, '2908', -5); add(ta, '2299', -7) }
 }
 
+// ---------------------------------------------------------------- the glass film (pr_*), 14 Oct: Primus Labs
+// One three.js world about glass. A public chain is clear glass: every balance on show, every move followed. Primus
+// frosts it: real transmission with roughness, so what sits inside truly blurs, and nothing leaves the system. Their
+// mark is built from their logo's own paths; their orange and cream stay on their things (the mark, eU, the seal, the
+// vault); our accents stay blue. The canvas is opaque: the 3D backdrop is the page, so the glass has a page to bend.
+const PR = { on: D.scenes.some(s => /^ex_pr_/.test(s.type)) && !!window.THREE }
+const PRO = '#FD4C00', PRC = '#EFE4D0', PRK = '#0A0A0C', PRB = '#1F5FDB', PRS = '#4FB3FF'
+// their logo (primuslabs.xyz, the site's own SVG, viewBox 0 0 31.48 31.65): the rounded square, the bracket, the key
+const PR_PATHS = [
+  'M27.5407 0.174805H3.93438C1.76148 0.174805 0 1.93629 0 4.10919V27.7155C0 29.8884 1.76148 31.6499 3.93438 31.6499H27.5407C29.7136 31.6499 31.4751 29.8884 31.4751 27.7155V4.10919C31.4751 1.93629 29.7136 0.174805 27.5407 0.174805Z',
+  'M25.179 4.10913H6.29605V6.46905C6.29605 7.77206 7.35297 8.82898 8.65597 8.82898H22.8191V22.9921H13.3776C12.0746 22.9921 11.0177 24.049 11.0177 25.352V27.7119H25.1807C26.4837 27.7119 27.5407 26.655 27.5407 25.352V6.47082C27.5407 5.16782 26.4837 4.1109 25.1807 4.1109L25.179 4.10913Z',
+  'M12.5686 20.0799C13.1687 19.4797 13.8202 19.416 15.6933 19.416C17.5663 19.416 19.234 17.8315 19.234 15.8752C19.234 13.919 17.6496 12.3345 15.6933 12.3345C13.737 12.3345 12.1525 13.919 12.1525 15.8752C12.1525 18.5096 11.7329 18.8743 11.5258 19.1204C11.2054 19.501 8.42585 22.2203 8.42585 22.2203C8.10541 22.5 7.38664 22.994 6.29608 22.994H5.11523C4.46373 22.994 3.93439 23.5215 3.93439 24.1748V26.5347C3.93439 27.1862 4.46196 27.7156 5.11523 27.7156H7.47516C8.12666 27.7156 8.656 27.188 8.656 26.5347V25.3539C8.656 23.9039 9.61732 23.0364 9.61732 23.0364L12.5686 20.0799Z',
+]
+const prAt = (sc, b, k, def = null) => { const c = b.cue?.[k]; if (!c) return def; return WT(sc, c[0], new RegExp(c[1] || '^\\b$', 'i'), c[2] ?? 0) + (c[3] || 0) }
+if (PR.on) PR.ready = (async () => {
+  await Promise.all([...document.fonts].map(f => f.load())); await document.fonts.ready
+  const T3 = THREE
+  const cv = document.createElement('canvas'); cv.width = 1080; cv.height = 1920
+  const R = new T3.WebGLRenderer({ canvas: cv, antialias: true, alpha: false, preserveDrawingBuffer: true })
+  R.setPixelRatio(1); R.setSize(1080, 1920, false)
+  R.toneMapping = T3.ACESFilmicToneMapping; R.toneMappingExposure = 1.0; R.outputColorSpace = T3.SRGBColorSpace
+  R.shadowMap.enabled = true; R.shadowMap.type = T3.PCFSoftShadowMap; R.localClippingEnabled = true
+  const S = new T3.Scene(), cam = new T3.PerspectiveCamera(30, 1080 / 1920, 0.05, 900)
+  const env = new T3.Scene()
+  env.add(new T3.Mesh(new T3.SphereGeometry(40, 24, 12), new T3.MeshBasicMaterial({ color: '#8FB4E8', side: T3.BackSide })))
+  const panel = (w, h, p, c) => { const m = new T3.Mesh(new T3.PlaneGeometry(w, h), new T3.MeshBasicMaterial({ color: new T3.Color(c, c, c), side: T3.DoubleSide })); m.position.set(...p); m.lookAt(0, 0, 0); env.add(m) }
+  panel(34, 14, [0, 28, 6], 5); panel(10, 26, [-26, 6, 8], 3); panel(9, 22, [24, 5, 14], 2.5); panel(40, 5, [0, 1, -32], 1.4)
+  const pm = new T3.PMREMGenerator(R); S.environment = pm.fromScene(env, 0.035).texture; pm.dispose()
+  const hemi = new T3.HemisphereLight('#F4F9FF', '#7092C9', 0.55); S.add(hemi)
+  const key = new T3.DirectionalLight('#FFFFFF', 1.8); key.castShadow = true; key.shadow.mapSize.set(1024, 1024)
+  Object.assign(key.shadow.camera, { left: -14, right: 14, top: 14, bottom: -14, near: 1, far: 90 }); key.shadow.bias = -0.0005; key.shadow.normalBias = 0.02; S.add(key, key.target)
+  const rim = new T3.DirectionalLight('#CFE6FF', 0.9); S.add(rim, rim.target)
+  const glow = new T3.PointLight(PRO, 0, 10, 2); S.add(glow)
+
+  // the page itself, in the scene: a sky (our light blue) or the deep royal blue of the cold open, plus a faint floor grid
+  const grad = stops => { const c = document.createElement('canvas'); c.width = 4; c.height = 512; const x = c.getContext('2d'), g = x.createLinearGradient(0, 512, 0, 0)
+    stops.forEach(([o, col]) => g.addColorStop(o, col)); x.fillStyle = g; x.fillRect(0, 0, 4, 512); const t = new T3.CanvasTexture(c); t.colorSpace = T3.SRGBColorSpace; return t }
+  const BG = { sky: grad([[0, '#BCD3F6'], [0.4, '#D9E8FD'], [0.5, '#EDF5FF'], [0.6, '#F8FBFF'], [1, '#FFFFFF']]), deep: grad([[0, '#050F33'], [0.38, '#0A2466'], [0.5, '#123C9E'], [0.62, '#1A4DB8'], [1, '#0B276E']]) }
+  const back = new T3.Mesh(new T3.SphereGeometry(400, 48, 32), new T3.MeshBasicMaterial({ map: BG.sky, side: T3.BackSide, toneMapped: false, depthWrite: false, fog: false })); S.add(back)
+  const gridG = new T3.BufferGeometry(), gp = []; for (let i = -40; i <= 40; i++) { gp.push(i * 1.5, 0, -60, i * 1.5, 0, 60, -60, 0, i * 1.5, 60, 0, i * 1.5) }
+  gridG.setAttribute('position', new T3.Float32BufferAttribute(gp, 3))
+  const grid = new T3.LineSegments(gridG, new T3.LineBasicMaterial({ color: '#D3E2F8', toneMapped: false })); grid.position.y = 0.002; S.add(grid)
+  const floor = new T3.Mesh(new T3.PlaneGeometry(300, 300), new T3.ShadowMaterial({ color: '#173E86', opacity: 0.16 })); floor.rotation.x = -Math.PI / 2; floor.receiveShadow = true; S.add(floor)
+  S.fog = new T3.Fog('#EDF5FF', 40, 120)
+
+  const std = o => new T3.MeshStandardMaterial(o)
+  const M = {
+    gold: std({ color: '#E2A83A', roughness: 0.28, metalness: 0.85 }), goldE: std({ color: '#C88E22', roughness: 0.3, metalness: 0.9 }),
+    orange: std({ color: PRO, roughness: 0.34, metalness: 0.15 }), orangeE: std({ color: '#D93E00', roughness: 0.32, metalness: 0.2 }),
+    white: std({ color: '#F6F7F9', roughness: 0.32, metalness: 0.04 }), cream: std({ color: PRC, roughness: 0.55, metalness: 0.05 }),
+    ink: std({ color: '#121418', roughness: 0.3, metalness: 0.5 }), steel: std({ color: '#B7BFCA', roughness: 0.28, metalness: 0.9 }),
+    blue: new T3.MeshBasicMaterial({ color: PRS, toneMapped: false }), blueD: std({ color: PRB, roughness: 0.35, metalness: 0.1, emissive: PRB, emissiveIntensity: 0.25 }),
+    edge: new T3.LineBasicMaterial({ color: '#FFFFFF', transparent: true, opacity: 0.75 }),
+  }
+  // glass: real transmission. roughness 0 is clear; 0.35-0.6 is frosted (what is inside blurs)
+  const glassM = (r = 0.03, tint = '#F3F8FF') => new T3.MeshPhysicalMaterial({ color: '#FFFFFF', metalness: 0, roughness: r, transmission: 1, thickness: 0.9, ior: 1.42, attenuationColor: new T3.Color(tint), attenuationDistance: 14, envMapIntensity: 0.45, specularIntensity: 0.7, toneMapped: false })
+
+  // shapes: a rounded rectangle; a rounded box (extruded, bevelled), centred on its middle
+  const rrect = (w, h, r) => { const s = new T3.Shape(), x = -w / 2, y = -h / 2; s.moveTo(x + r, y); s.lineTo(x + w - r, y); s.quadraticCurveTo(x + w, y, x + w, y + r); s.lineTo(x + w, y + h - r); s.quadraticCurveTo(x + w, y + h, x + w - r, y + h); s.lineTo(x + r, y + h); s.quadraticCurveTo(x, y + h, x, y + h - r); s.lineTo(x, y + r); s.quadraticCurveTo(x, y, x + r, y); return s }
+  const rbox = (w, h, d, r = 0.12, bv = 0.06) => { const g = new T3.ExtrudeGeometry(rrect(w - 2 * bv, h - 2 * bv, Math.max(0.01, r - bv)), { depth: Math.max(0.01, d - 2 * bv), bevelEnabled: true, bevelThickness: bv, bevelSize: bv, bevelSegments: 3, curveSegments: 8 }); g.translate(0, 0, -(d - 2 * bv) / 2); g.computeVertexNormals(); return g }
+  const cyl = (r, h, seg = 32) => new T3.CylinderGeometry(r, r, h, seg)
+  // an SVG path (M L H V C Z, absolute) as a three.js shape, y up, centred on (cx, cy), s world units per SVG unit
+  const svgShape = (d, s, cx, cy) => {
+    const sh = new T3.Shape(), tk = d.match(/[a-zA-Z]|-?\d*\.?\d+(?:e-?\d+)?/g); let i = 0, x = 0, y = 0, sx = 0, sy = 0, cmd = ''
+    const X = v => (v - cx) * s, Y = v => -(v - cy) * s, n = () => +tk[i++]
+    while (i < tk.length) {
+      if (/[a-zA-Z]/.test(tk[i])) cmd = tk[i++]
+      if (cmd === 'M') { x = n(); y = n(); sh.moveTo(X(x), Y(y)); sx = x; sy = y; cmd = 'L' }
+      else if (cmd === 'L') { x = n(); y = n(); sh.lineTo(X(x), Y(y)) }
+      else if (cmd === 'H') { x = n(); sh.lineTo(X(x), Y(y)) }
+      else if (cmd === 'V') { y = n(); sh.lineTo(X(x), Y(y)) }
+      else if (cmd === 'C') { const a = n(), b2 = n(), c = n(), e = n(); x = n(); y = n(); sh.bezierCurveTo(X(a), Y(b2), X(c), Y(e), X(x), Y(y)) }
+      else if (cmd === 'Z' || cmd === 'z') { sh.closePath(); x = sx; y = sy; cmd = '' }
+      else i++
+    }
+    return sh
+  }
+  // canvas textures: words and pictures drawn once (or redrawn when they change)
+  const canvasTex = (w, h, draw) => { const c = document.createElement('canvas'); c.width = w; c.height = h; const x = c.getContext('2d'); draw(x, w, h); const t = new T3.CanvasTexture(c); t.colorSpace = T3.SRGBColorSpace; t.anisotropy = 4; t.userData = { c, x, draw }; return t }
+  const redraw = (t, draw) => { const { c, x } = t.userData; x.clearRect(0, 0, c.width, c.height); draw(x, c.width, c.height); t.needsUpdate = true }
+  // a label: words on a plane, opaque where drawn (alphaTest), so glass in front of it can blur it
+  function label(w, h, draw, px = 256) { const t = canvasTex(Math.round(px * w / h), px, draw); const m = new T3.Mesh(new T3.PlaneGeometry(w, h), new T3.MeshBasicMaterial({ map: t, alphaTest: 0.4, toneMapped: false, side: T3.DoubleSide })); m.userData.tex = t; return m }
+  const txt = (s, font, col, x0 = 0.5, y0 = 0.55) => (x, w, h) => { x.font = font; x.fillStyle = col; x.textAlign = 'center'; x.textBaseline = 'middle'; x.fillText(s, w * x0, h * y0) }
+
+  // ---- their mark, from the logo's own paths: the orange square, the white bracket and key on its face
+  const mark = new T3.Group(); S.add(mark)
+  { const s = 0.1, cx = 15.74, cy = 15.91
+    const base = new T3.ExtrudeGeometry(svgShape(PR_PATHS[0], s, cx, cy), { depth: 0.3, bevelEnabled: true, bevelThickness: 0.06, bevelSize: 0.05, bevelSegments: 4, curveSegments: 24 }); base.translate(0, 0, -0.15)
+    const glyph = new T3.ExtrudeGeometry([svgShape(PR_PATHS[1], s, cx, cy), svgShape(PR_PATHS[2], s, cx, cy)], { depth: 0.08, bevelEnabled: true, bevelThickness: 0.025, bevelSize: 0.02, bevelSegments: 2, curveSegments: 24 }); glyph.translate(0, 0, 0.2)
+    const mb = new T3.Mesh(base, std({ color: PRO, roughness: 0.3, metalness: 0.12 })); mb.castShadow = true; mark.add(mb)
+    const mg = new T3.Mesh(glyph, std({ color: '#FFFFFF', roughness: 0.25, metalness: 0.05 })); mg.castShadow = true; mark.add(mg)
+    mark.userData = { base: mb, glyph: mg } }
+  const halo = new T3.Mesh(new T3.PlaneGeometry(2, 2), new T3.MeshBasicMaterial({ color: PRO, transparent: true, opacity: 0, toneMapped: false, depthWrite: false,
+    map: canvasTex(256, 256, (x) => { const g = x.createRadialGradient(128, 128, 0, 128, 128, 128); g.addColorStop(0, 'rgba(255,255,255,1)'); g.addColorStop(0.4, 'rgba(255,255,255,.4)'); g.addColorStop(1, 'rgba(255,255,255,0)'); x.fillStyle = g; x.fillRect(0, 0, 256, 256) }) })); S.add(halo)
+
+  // ---- coins: a gold $U and an orange eU (encrypted U, with a lock), standing, faces toward +z
+  const faceTex = kind => canvasTex(512, 512, (x, w, h) => {
+    x.fillStyle = kind === 'u' ? '#E8B04A' : PRO; x.beginPath(); x.arc(256, 256, 256, 0, 6.2832); x.fill()
+    x.strokeStyle = kind === 'u' ? 'rgba(120,70,0,.5)' : 'rgba(255,255,255,.55)'; x.lineWidth = 14; x.beginPath(); x.arc(256, 256, 222, 0, 6.2832); x.stroke()
+    x.fillStyle = kind === 'u' ? '#5A3A06' : '#FFFFFF'; x.textAlign = 'center'; x.textBaseline = 'middle'
+    if (kind === 'u') { x.font = '800 220px Manrope'; x.fillText('$U', 256, 270) }
+    else { x.font = '800 190px Manrope'; x.fillText('eU', 256, 300); x.lineWidth = 20; x.strokeStyle = '#FFFFFF'; x.beginPath(); x.arc(256, 120, 34, Math.PI, 0); x.stroke(); x.fillRect(206, 118, 100, 70) }
+  })
+  const FACE = { u: faceTex('u'), e: faceTex('e') }
+  function makeCoin(kind, r = 0.8, th = 0.16) {
+    const g = new T3.Group(), body = new T3.Mesh(cyl(r, th, 64), kind === 'u' ? M.gold : M.orange); body.rotation.x = Math.PI / 2; body.castShadow = true; g.add(body)
+    ;[1, -1].forEach(sd => { const f = new T3.Mesh(new T3.CircleGeometry(r * 0.985, 64), std({ map: FACE[kind], roughness: 0.3, metalness: kind === 'u' ? 0.6 : 0.1 })); f.position.z = sd * (th / 2 + 0.002); if (sd < 0) f.rotation.y = Math.PI; g.add(f) })
+    return g
+  }
+
+  Object.assign(PR, { T3, R, S, cam, cv, M, hemi, key, rim, glow, back, BG, grid, floor, mark, halo, glassM, rbox, rrect, cyl, label, txt, canvasTex, redraw, makeCoin, FACE, std })
+  prBuildSets()
+  return true
+})()
+
+// ---- the sets (built once, after the world): each scene shows its own
+function prBuildSets() {
+  const V = PR, T3 = V.T3, S = V.S, M = V.M
+  const sets = []
+  const add = g => { S.add(g); sets.push(g); return g }
+  const edgesOf = (w, h, d, mat = M.edge) => new T3.LineSegments(new T3.EdgesGeometry(new T3.BoxGeometry(w, h, d)), mat)
+
+  // a glass wallet: a box of glass, a stack of coins, the amount floating inside
+  function wallet(w, h, d, n, amt, col = '#FFFFFF') {
+    const g = new T3.Group(), mat = V.glassM(0.03)
+    const gl = new T3.Mesh(V.rbox(w, h, d, 0.16, 0.07), mat); gl.position.y = h / 2; g.add(gl)
+    const em = new T3.LineBasicMaterial({ color: '#FFFFFF', transparent: true, opacity: 0.6 }); const ed = edgesOf(w * 1.002, h * 1.002, d * 1.002, em); ed.position.y = h / 2; g.add(ed)
+    const coins = []; for (let k = 0; k < n; k++) { const c = new T3.Mesh(V.cyl(0.6, 0.12, 40), M.gold); c.position.set((hsh(k, n) - 0.5) * 0.14, 0.07 + k * 0.128, (hsh(k, n + 9) - 0.5) * 0.14); c.castShadow = true; g.add(c); coins.push(c) }
+    const lab = V.label(1.9, 0.5, () => {}); lab.position.set(0, Math.min(h - 0.45, 0.35 + n * 0.128 + 0.5), 0); g.add(lab)
+    g.userData = { gl, mat, ed, em, coins, lab, amt, col, w, h, d, shown: null }
+    return g
+  }
+  const setAmt = (W, s, col) => { const u = W.userData; if (u.shown === s + col) return; u.shown = s + col; V.redraw(u.lab.userData.tex, V.txt(s, '800 170px Manrope', col)) }
+
+  // 1. the cold open: nine glass wallets on deep royal blue; a coin hops between two, followed by a ring
+  const wal = add(new T3.Group())
+  const AMT = [4.2e6, 8.6e5, 1.26e7, 2.1e6, 3.14e7, 5.4e5, 7.9e6, 1.3e6, 1.82e7, 6.4e6, 2.7e6, 9.1e5], NC = [5, 3, 8, 4, 9, 3, 6, 4, 7, 5, 4, 3]
+  const wallets = AMT.map((a, i) => { const W = wallet(2.3, 2.6, 2.3, NC[i], a); W.position.set(((i % 3) - 1) * 3.4, 0, (Math.floor(i / 3) - 3) * 3.3); wal.add(W); return W })
+  const hop = V.makeCoin('u', 0.42, 0.1); wal.add(hop)
+  const trailN = 36, trail = new T3.InstancedMesh(new T3.SphereGeometry(0.055, 8, 6), new T3.MeshBasicMaterial({ color: '#9CCBFF', toneMapped: false }), trailN); wal.add(trail)
+  const track = new T3.Mesh(new T3.TorusGeometry(0.7, 0.035, 8, 64), new T3.MeshBasicMaterial({ color: '#9CCBFF', toneMapped: false })); wal.add(track)
+
+  // 2. the title: their mark behind a slab of frosted glass that clears
+  const slab = add(new T3.Mesh(V.rbox(6.2, 6.2, 0.34, 0.5, 0.12), V.glassM(0.55)))
+
+  // 3. hidden and confidential: two wallets fed by one hub (the financial system), pipes with value flowing
+  const duo = add(new T3.Group())
+  const dA = wallet(2.6, 2.9, 2.6, 7, 9.8e6), dB = wallet(2.6, 2.9, 2.6, 7, 9.8e6); duo.add(dA, dB)
+  const hub = new T3.Group(); duo.add(hub)
+  { const d1 = new T3.Mesh(V.cyl(1.35, 0.28, 64), M.white); d1.position.y = 0.14; d1.castShadow = d1.receiveShadow = true; hub.add(d1)
+    const r1 = new T3.Mesh(new T3.TorusGeometry(1.08, 0.06, 10, 80), M.blueD); r1.rotation.x = Math.PI / 2; r1.position.y = 0.3; hub.add(r1)
+    for (let k = 0; k < 6; k++) { const n = new T3.Mesh(V.cyl(0.16, 0.22, 20), M.blueD); n.position.set(0.68 * Math.cos(k * 1.047), 0.38, 0.68 * Math.sin(k * 1.047)); hub.add(n) } }
+  const pipeMat = [M.white.clone(), M.white.clone()]
+  const pipes = [-1, 1].map((s, j) => { const c = new T3.CatmullRomCurve3([new T3.Vector3(s * 0.9, 0.16, -3.3), new T3.Vector3(s * 1.7, 0.16, -2.4), new T3.Vector3(s * 1.95, 0.16, -1.35)])
+    const m = new T3.Mesh(new T3.TubeGeometry(c, 40, 0.085, 10, false), pipeMat[j]); m.castShadow = true; duo.add(m); return { c, m } })
+  const flow = [0, 1].map(() => Array.from({ length: 8 }, () => { const m = new T3.Mesh(new T3.SphereGeometry(0.1, 12, 8), M.blue); duo.add(m); return m }))
+  const bars = [0, 1, 2].map(k => { const m = new T3.Mesh(V.rbox(0.34, 1, 0.34, 0.06, 0.03), M.blueD); m.castShadow = true; duo.add(m); return m })
+  const inkM = V.std({ color: '#15171C', roughness: 0.38, metalness: 0.35 })
+
+  // 4. the vault, in one column: a gold $U at the top, a frosted FHE gate, a frosted tube, their cream vault below
+  const vlt = add(new T3.Group())
+  const GY = 7.4, clipU = new T3.Plane(new T3.Vector3(0, 1, 0), -GY), clipE = new T3.Plane(new T3.Vector3(0, -1, 0), GY)
+  const cM = (base, plane) => { const m = base.clone(); m.clippingPlanes = [plane]; return m }
+  function coinC(kind, plane, r = 0.78, th = 0.16) {      // a coin whose materials are clipped at the gate
+    const g = new T3.Group(), body = new T3.Mesh(V.cyl(r, th, 64), cM(kind === 'u' ? M.gold : M.orange, plane)); body.rotation.x = Math.PI / 2; body.castShadow = true; g.add(body)
+    ;[1, -1].forEach(sd => { const f = new T3.Mesh(new T3.CircleGeometry(r * 0.985, 64), V.std({ map: V.FACE[kind], roughness: 0.3, metalness: kind === 'u' ? 0.6 : 0.1, clippingPlanes: [plane] })); f.position.z = sd * (th / 2 + 0.002); if (sd < 0) f.rotation.y = Math.PI; g.add(f) })
+    return g }
+  const cU = coinC('u', clipU), cE = coinC('e', clipE); vlt.add(cU, cE)
+  const gate = new T3.Mesh(V.rbox(3.4, 3.4, 0.3, 0.3, 0.1), V.glassM(0.42)); gate.rotation.x = Math.PI / 2; gate.position.y = GY; vlt.add(gate)
+  const gateRim = new T3.Mesh(new T3.TorusGeometry(1.3, 0.09, 12, 80), new T3.MeshBasicMaterial({ color: PRO, toneMapped: false })); gateRim.rotation.x = Math.PI / 2; gateRim.position.y = GY; vlt.add(gateRim)
+  const tube = new T3.Mesh(new T3.CylinderGeometry(1.0, 1.0, 3.7, 64, 1, true), V.glassM(0.5)); tube.position.y = 5.1; vlt.add(tube)
+  const tubeE = [3.25, 6.95].map(y => { const r = new T3.Mesh(new T3.TorusGeometry(1.0, 0.05, 10, 80), new T3.MeshBasicMaterial({ color: '#FFFFFF', toneMapped: false })); r.rotation.x = Math.PI / 2; r.position.y = y; vlt.add(r); return r })
+  const vault = new T3.Group(); vlt.add(vault)
+  { const bd = new T3.Mesh(V.rbox(3.8, 3.0, 3.2, 0.3, 0.12), M.cream); bd.position.y = 1.5; bd.castShadow = bd.receiveShadow = true; vault.add(bd)
+    const top = new T3.Mesh(V.cyl(1.05, 0.12, 48), M.ink); top.position.y = 3.02; vault.add(top)
+    const hinge = new T3.Group(); hinge.position.set(-1.05, 1.5, 1.62); vault.add(hinge)
+    const door = new T3.Mesh(V.cyl(1.05, 0.22, 64), M.steel); door.rotation.x = Math.PI / 2; door.position.x = 1.05; door.castShadow = true; hinge.add(door)
+    const hub2 = new T3.Mesh(V.cyl(0.2, 0.3, 24), M.ink); hub2.rotation.x = Math.PI / 2; hub2.position.set(1.05, 0, 0.16); hinge.add(hub2)
+    for (let k = 0; k < 3; k++) { const sp = new T3.Mesh(V.cyl(0.05, 1.3, 10), M.ink); sp.position.set(1.05, 0, 0.3); sp.rotation.z = k * 1.047; hinge.add(sp) }
+    const gl2 = new T3.PointLight(PRO, 0, 6, 2); gl2.position.set(0, 1.5, 1.2); vault.add(gl2)
+    vault.userData = { hinge, gl2 } }
+  const yieldC = Array.from({ length: 5 }, () => { const c = V.makeCoin('e', 0.26, 0.06); vlt.add(c); return c })
+
+  // 5. the privacy wrapper: a glass wallet with a big position, a frosted panel in front, an outsider's lens passing
+  const wrp = add(new T3.Group())
+  const big = wallet(2.8, 3.0, 2.8, 9, 2.5e7); wrp.add(big)
+  const wrapP = new T3.Mesh(V.rbox(5.0, 3.9, 0.26, 0.3, 0.1), V.glassM(0.0)); wrapP.position.set(0, 1.95, 2.3); wrp.add(wrapP)
+  { const e = new T3.LineSegments(new T3.EdgesGeometry(new T3.BoxGeometry(5.0, 3.9, 0.26)), new T3.LineBasicMaterial({ color: '#6F97D6', transparent: true, opacity: 0.95 })); wrapP.add(e) }
+  const lens = new T3.Group(); wrp.add(lens)
+  { const rr = new T3.Mesh(new T3.TorusGeometry(0.62, 0.08, 12, 64), M.ink); lens.add(rr); const hd = new T3.Mesh(V.cyl(0.08, 1.0, 12), M.ink); hd.position.set(0.62, -0.62, 0); hd.rotation.z = Math.PI / 4; hd.position.set(0.8, -0.8, 0); lens.add(hd) }
+
+  // 6. zkTLS: a browser page (their HTTPS session), one fact lifted out as a card, an attestor's seal, your key
+  const zk = add(new T3.Group())
+  const page = new T3.Group(); page.position.set(0, 5.4, 0); zk.add(page)
+  const PW = 5.6, PH = 4.0
+  const pageTex = V.canvasTex(1120, 800, (x, w, h) => {
+    x.fillStyle = '#FFFFFF'; x.fillRect(0, 0, w, h); x.fillStyle = '#EEF2F8'; x.fillRect(0, 0, w, 96)
+    ;['#FF6159', '#FFBD2E', '#28C941'].forEach((c, i) => { x.fillStyle = c; x.beginPath(); x.arc(42 + i * 34, 48, 11, 0, 6.2832); x.fill() })
+    x.fillStyle = '#FFFFFF'; x.beginPath(); x.roundRect(170, 22, 900, 52, 26); x.fill()
+    x.strokeStyle = '#1E9E62'; x.lineWidth = 6; x.beginPath(); x.arc(212, 40, 10, Math.PI, 0); x.stroke(); x.fillStyle = '#1E9E62'; x.fillRect(196, 40, 32, 24)
+    x.font = '600 30px JBM'; x.fillStyle = '#1E9E62'; x.textBaseline = 'middle'; x.fillText('https://', 244, 49); x.fillStyle = '#51607E'; x.fillText('your-account', 400, 49)
+    x.font = '800 40px Manrope'; x.fillStyle = '#0B1F4D'; x.fillText('My account', 60, 160)
+    const rows = [['Name', 'Alex ••••••'], ['Balance', '$48,250.00'], ['Email', 'a•••@••••.com'], ['Member since', '2021'], ['Trades this month', '126']]
+    rows.forEach(([a, b2], i) => { const y = 250 + i * 104; x.fillStyle = i === 1 ? '#F3F7FF' : '#FFFFFF'; x.fillRect(40, y - 44, w - 80, 88); x.fillStyle = '#E3E9F3'; x.fillRect(40, y + 44, w - 80, 2)
+      x.font = '600 32px Manrope'; x.fillStyle = '#51607E'; x.textAlign = 'left'; x.fillText(a, 70, y); x.font = '800 34px Manrope'; x.fillStyle = '#0B1F4D'; x.textAlign = 'right'; x.fillText(b2, w - 70, y); x.textAlign = 'left' })
+  })
+  { const fr = new T3.Mesh(V.rbox(PW + 0.24, PH + 0.24, 0.2, 0.22, 0.06), M.white); fr.castShadow = true; page.add(fr)
+    const pg = new T3.Mesh(new T3.PlaneGeometry(PW, PH), new T3.MeshBasicMaterial({ map: pageTex, toneMapped: false })); pg.position.z = 0.105; page.add(pg) }
+  const frost = new T3.Mesh(V.rbox(PW + 0.1, PH - 0.5, 0.16, 0.12, 0.05), V.glassM(0.0)); frost.position.set(0, 5.4 - 0.22, 0.42); zk.add(frost)
+  const claim = new T3.Group(); zk.add(claim)
+  const claimTex = V.canvasTex(1040, 150, () => {})
+  { const bd = new T3.Mesh(V.rbox(5.2, 0.75, 0.14, 0.16, 0.05), M.white); bd.castShadow = true; claim.add(bd)
+    const f = new T3.Mesh(new T3.PlaneGeometry(5.0, 0.72), new T3.MeshBasicMaterial({ map: claimTex, toneMapped: false })); f.position.z = 0.075; claim.add(f) }
+  const seal = new T3.Group(); claim.add(seal)
+  { const sb = new T3.Mesh(V.cyl(0.42, 0.14, 48), M.orange); sb.rotation.x = Math.PI / 2; sb.castShadow = true; seal.add(sb)
+    const sf = new T3.Mesh(new T3.CircleGeometry(0.41, 48), new T3.MeshBasicMaterial({ toneMapped: false, map: V.canvasTex(256, 256, (x) => { x.fillStyle = PRO; x.fillRect(0, 0, 256, 256); x.strokeStyle = '#FFFFFF'; x.lineWidth = 26; x.lineCap = 'round'; x.lineJoin = 'round'; x.beginPath(); x.moveTo(70, 132); x.lineTo(112, 174); x.lineTo(190, 88); x.stroke() }) })); sf.position.z = 0.072; seal.add(sf) }
+  const keyG = new T3.Group(); zk.add(keyG)
+  { const bow = new T3.Mesh(new T3.TorusGeometry(0.34, 0.11, 14, 40), M.gold); keyG.add(bow); const sh = new T3.Mesh(V.cyl(0.08, 1.3, 16), M.gold); sh.rotation.z = Math.PI / 2; sh.position.x = 0.98; keyG.add(sh)
+    ;[[1.35, 0.16], [1.6, 0.12]].forEach(([x, hh]) => { const t = new T3.Mesh(new T3.BoxGeometry(0.12, hh + 0.12, 0.1), M.gold); t.position.set(x, -0.1 - hh / 2, 0); keyG.add(t) }); keyG.traverse(o => { if (o.isMesh) o.castShadow = true }) }
+
+  // 7. Kaito: the attestation card, sealed, turning slowly (the page carries their post)
+  // 8-9. calm sets: the mark behind a frosted pane, drifting
+  // 10. the end: their mark inside a cube of frosted glass
+  const cube = add(new T3.Mesh(V.rbox(5.0, 5.0, 5.0, 0.5, 0.16), V.glassM(0.3)))
+  { const e = new T3.LineSegments(new T3.EdgesGeometry(new T3.BoxGeometry(5.0, 5.0, 5.0)), new T3.LineBasicMaterial({ color: '#6F97D6', transparent: true, opacity: 0.9 })); cube.add(e) }
+
+  Object.assign(PR, { sets, wal, wallets, hop, trail, trailN, track, setAmt, slab, duo, dA, dB, hub, pipes, pipeMat, flow, bars, inkM, vlt, GY, cU, cE, gate, gateRim, tube, tubeE, vault, yieldC, wrp, big, wrapP, lens, zk, page, pageTex, frost, claim, claimTex, seal, keyG, cube, PW, PH })
+}
+
+// ---- camera, light, page colour, projection
+function prCam(p, g, fov = 30) { PR.cam.position.set(...p); PR.cam.lookAt(...g); if (PR.cam.fov !== fov) { PR.cam.fov = fov; PR.cam.updateProjectionMatrix() } PR.cam.updateMatrixWorld(true) }
+function prLight(c, span = 12, dark = false) {
+  const V = PR; V.key.position.set(c[0] + 8, c[1] + 20, c[2] + 14); V.key.target.position.set(...c); V.key.target.updateMatrixWorld()
+  Object.assign(V.key.shadow.camera, { left: -span, right: span, top: span, bottom: -span }); V.key.shadow.camera.updateProjectionMatrix()
+  V.rim.position.set(c[0] - 12, c[1] + 9, c[2] - 15); V.rim.target.position.set(...c); V.rim.target.updateMatrixWorld()
+  V.hemi.intensity = dark ? 0.4 : 0.55; V.key.intensity = dark ? 1.3 : 1.8; V.rim.intensity = dark ? 1.3 : 0.9; V.floor.material.opacity = dark ? 0.3 : 0.16
+}
+function prBg(k) { const V = PR; V.back.material.map = V.BG[k]; V.back.material.needsUpdate = true; V.grid.visible = k === 'sky'; V.S.fog.color.set(k === 'sky' ? '#EDF5FF' : '#0E2F86') }
+function prProj(x, y, z) { const v = new PR.T3.Vector3(x, y, z).project(PR.cam); return [(v.x + 1) * 540, (1 - v.y) * 960, v.z] }
+const prW = (o, x = 0, y = 0, z = 0) => { const v = new PR.T3.Vector3(x, y, z); o.updateMatrixWorld(true); return o.localToWorld(v) }
+const prFmt = v => v >= 1e6 ? '$' + (v / 1e6).toFixed(1) + 'M' : v >= 1e3 ? '$' + Math.round(v / 1e3) + 'K' : '$' + Math.round(v)
+const prPath = (k, t) => [vxPath(k, t, 1), vxPath(k, t, 2)]
+const prS = (o, q) => o.scale.setScalar(Math.max(0.001, q))
+
+const PRF = {
+  // the cold open (deep royal blue): wallets of clear glass; amounts count up; a coin hops and a ring follows it; red on the twist
+  cold(lt, sc, b, at) {
+    const V = PR, n = sc.lines.length, t1 = L(sc, 1), t2 = L(sc, 2), tx = L(sc, n - 1)
+    prBg('deep'); V.wal.visible = true
+    V.wallets.forEach((W, i) => { const a = 0.05 + (i % 3) * 0.06 + Math.floor(i / 3) * 0.1, q = vxE.back((lt - a) / 0.55); prS(W, q)
+      const c = lt >= t1 ? P(lt, t1 + 0.04 * i, t1 + 0.04 * i + 1.0, E.outCubic) : 0
+      V.setAmt(W, c > 0 && i >= 6 ? prFmt(W.userData.amt * c) : ' ', lt >= tx && Math.floor((lt - tx) * 8) % 2 === 0 && lt < tx + 0.6 ? '#FF6B7C' : '#FFFFFF')
+      W.userData.lab.quaternion.copy(V.cam.quaternion)
+      const red = lt >= tx; W.userData.em.color.set(red ? '#FF3756' : '#FFFFFF'); W.userData.em.opacity = red ? 0.95 : 0.55 })
+    // the hop: from the wallet at the back left to the front right, on line 2
+    const A = V.wallets[3].position, B = V.wallets[10].position, q = P(lt, t2 + 0.1, t2 + 1.7, E.inOutSine)
+    const at2 = u => [vxL(A.x, B.x, u), 1.6 + 3.2 * Math.sin(Math.PI * u), vxL(A.z, B.z, u)]
+    V.hop.visible = lt >= t2 + 0.05; const p = at2(q); V.hop.position.set(...p); V.hop.rotation.set(0, lt * 2.2, 0)
+    const o = new V.T3.Object3D()
+    for (let k = 0; k < V.trailN; k++) { const u = q - k * 0.018, on = lt >= t2 + 0.1 && u > 0; o.position.set(...at2(Math.max(0, u))); o.scale.setScalar(on ? 1 - k / V.trailN : 0.001); o.updateMatrix(); V.trail.setMatrixAt(k, o.matrix) }
+    V.trail.instanceMatrix.needsUpdate = true
+    V.track.visible = lt >= t2 + 0.25; V.track.position.set(...p); V.track.quaternion.copy(V.cam.quaternion); V.track.scale.setScalar(1 + 0.12 * Math.sin(lt * 9)); V.track.material.color.set(lt >= tx ? '#FF3756' : '#9CCBFF')
+    const kf = [[0, [0.4, 2.9, 7.5], [0, 1.5, -2.4]], [t1, [0.8, 6.2, 11], [0, 1.0, -3.2]], [t2, [1.2, 8.6, 13], [0, 0.8, -3.4]], [sc.dur + 1, [0.6, 10.2, 14.2], [0, 0.6, -3.6]]]
+    const [cp, cg] = prPath(kf, lt); prCam(cp, cg, 40); prLight([0, 0, -3], 10, true)
+    return { bg: 'deep', t: { t1, t2, tx } }
+  },
+  // the title: the mark builds, the frosted pane in front clears and lifts away (a privacy layer you can still verify)
+  title(lt, sc, b, at) {
+    const V = PR, tC = at('clear', 0.75), my = b.mark_y ?? 7.0
+    prBg('sky'); V.mark.visible = true; V.slab.visible = true
+    const q = vxE.o((lt - 0.02) / 0.9), ms = b.mark_s ?? 0.74; V.mark.position.set(0, my, 0); V.mark.scale.setScalar(ms * vxL(0.7, 1.0, q)); V.mark.rotation.set(0.06 * Math.sin(lt * 0.6), vxL(-0.7, 0, q) + 0.12 * Math.sin(lt * 0.5), 0)
+    V.slab.material.roughness = vxL(0.55, 0.0, P(lt, tC, tC + 0.6, E.outCubic)); const up = P(lt, tC + 0.35, tC + 1.0, E.inOutSine)
+    V.slab.visible = up < 0.999; V.slab.position.set(0, my + up * 16, 1.6); V.slab.rotation.set(-0.25 * up, 0, 0)
+    V.halo.visible = lt >= tC; V.halo.position.set(0, my, -1.4); V.halo.scale.setScalar(vxL(1, 4.6, vxE.o((lt - tC) / 1.1))); V.halo.material.opacity = 0.5 * P(lt, tC, tC + 0.4); V.halo.quaternion.copy(V.cam.quaternion)
+    const [cp, cg] = prPath([[0, [0, my + 0.4, 21], [0, my - 0.9, 0]], [sc.dur + 1, [0, my + 0.2, 19.5], [0, my - 1.0, 0]]], lt); prCam(cp, cg); prLight([0, my, 0], 8)
+    return { bg: 'sky', lock: tC }
+  },
+  // hidden or confidential: one wallet leaves the system and goes black; the other stays, keeps earning, and frosts
+  duo(lt, sc, b, at) {
+    const V = PR, tH = at('hidden', L(sc, 1)), tC = at('conf', L(sc, 2)), tF = at('private', L(sc, 3)), T3 = V.T3
+    prBg('sky'); V.duo.visible = true
+    const out = P(lt, tH + 0.2, tH + 1.4, E.inOutSine)
+    V.dA.position.set(-1.95 - 1.15 * out, 1.5 * Math.sin(Math.PI * out) * 0.6 + 0.0 * out, 0.9 * out); V.dB.position.set(1.95, 0, 0)
+    prS(V.dA, vxE.back((lt - 0.1) / 0.5)); prS(V.dB, vxE.back((lt - 0.22) / 0.5)); V.hub.position.set(0, 0, -4.2); prS(V.hub, vxE.back((lt - 0.0) / 0.5))
+    const dark = lt >= tH + 0.75, uA = V.dA.userData; uA.gl.material = dark ? V.inkM : uA.mat; uA.coins.forEach(c => { c.visible = !dark }); uA.lab.visible = !dark; uA.ed.visible = !dark
+    ;[V.dA, V.dB].forEach(W => { V.setAmt(W, '$9.8M', '#0B1F4D'); W.userData.lab.quaternion.copy(V.cam.quaternion) })
+    V.pipeMat[0].color.set(lt >= tH ? new T3.Color('#F6F7F9').lerp(new T3.Color('#AEB6C2'), P(lt, tH, tH + 0.6)) : '#F6F7F9')
+    V.pipes[0].m.scale.setScalar(1)
+    V.flow.forEach((row, j) => row.forEach((m, k) => { const u = (lt * 0.42 + k / row.length) % 1; m.position.copy(V.pipes[j].c.getPoint(u)); m.position.y += 0.02
+      const fade = j === 0 ? 1 - P(lt, tH, tH + 0.4) : 1; m.scale.setScalar(Math.max(0.001, fade * P(lt, 0.4 + k * 0.05, 0.7 + k * 0.05))) }))
+    V.bars.forEach((m, k) => { const h = [0.55, 0.95, 1.4][k] * P(lt, tC + 0.15 * k, tC + 0.15 * k + 0.6, E.outCubic); m.visible = lt >= tC; m.scale.set(1, Math.max(0.001, h), 1); m.position.set(3.65, h / 2, 0.75 - k * 0.55) })
+    V.dB.userData.mat.roughness = vxL(0.03, 0.5, P(lt, tF, tF + 0.9, E.inOutSine))
+    const [cp, cg] = prPath([[0, [0.9, 10.2, 30.5], [0.4, 1.0, -1.3]], [sc.dur + 1, [0.1, 9.6, 29.0], [0.4, 1.0, -1.3]]], lt); prCam(cp, cg); prLight([0, 0.5, -1], 9)
+    ;[V.dA, V.dB].forEach(W => { W.userData.em.color.set('#7FA3D9'); W.userData.em.opacity = 0.9 })
+    const pA = prW(V.dA, 0, 3.55, 0), pB = prW(V.dB, 0, 3.55, 0), pH = prW(V.hub, 0, 1.0, 0)
+    return { bg: 'sky', tags: [prProj(pA.x, pA.y, pA.z), prProj(pB.x, pB.y, pB.z), prProj(pH.x, pH.y, pH.z)], t: { tH, tC, tF } }
+  },
+  // the Confidential Vault, top to bottom: $U → the FHE gate (eU) → the frosted tube (sent privately) → the vault (yield) → back up, unwrapped
+  vault(lt, sc, b, at) {
+    const V = PR, GY = V.GY, tIn = at('in', L(sc, 1)), tEnc = at('enc', L(sc, 2)), tSend = at('send', L(sc, 3)), tYield = at('yield', L(sc, 3, 0.6)), tOut = at('unwrap', L(sc, 4))
+    prBg('sky'); V.vlt.visible = true
+    let y = 9.0
+    if (lt >= tIn) y = vxL(9.0, 6.2, P(lt, tIn, tIn + 1.5, E.inOutSine))
+    if (lt >= tSend) y = vxL(6.2, 1.7, P(lt, tSend, tSend + 2.0, E.inOutSine))
+    if (lt >= tOut) y = vxL(1.7, 9.0, P(lt, tOut, tOut + 2.4, E.inOutSine))
+    const inside = y < 3.0, wob = 0.18 * Math.sin(lt * 1.3)
+    ;[V.cU, V.cE].forEach(c => { c.visible = !inside; c.position.set(0, y, 0); c.rotation.set(0, wob, 0); prS(c, vxE.back((lt - 0.05) / 0.5)) })
+    V.gate.material.roughness = 0.42; V.gateRim.material.color.set(Math.abs(y - GY) < 0.9 ? '#FFFFFF' : PRO)
+    const v = V.vault.userData, open = P(lt, tYield, tYield + 0.5, E.outCubic) * (1 - P(lt, tOut - 0.6, tOut - 0.1))
+    v.hinge.rotation.y = -1.1 * open; v.gl2.intensity = 6 * open
+    V.yieldC.forEach((c, k) => { const a = tYield + 0.25 + k * 0.22, u = clamp((lt - a) / 1.3), on = lt >= a && lt < tOut
+      c.visible = on; c.position.set(-1.5 + k * 0.75, 3.2 + 1.4 * Math.sin(Math.PI * u * 0.5) + 0.6 * u, 1.6 - 0.4 * u); c.rotation.set(0, lt * 2 + k, 0); prS(c, on ? vxE.back(u / 0.3) * (1 - P(lt, tOut - 0.6, tOut - 0.1)) : 0) })
+    const kf = [[0, [3.6, 12.4, 29.0], [0, 5.3, 0]], [tSend, [3.0, 11.8, 29.5], [0, 5.0, 0]], [tOut, [2.6, 11.4, 29.5], [0, 4.9, 0]], [sc.dur + 1, [3.2, 12.0, 30.0], [0, 5.1, 0]]]
+    const [cp, cg] = prPath(kf, lt); prCam(cp, cg); prLight([0, 4, 0], 9)
+    const pts = [[1.0, 9.0, 0], [1.9, GY, 0], [1.2, 5.1, 0], [2.0, 2.4, 0], [1.9, GY + 0.6, 0]]
+    return { bg: 'sky', tags: pts.map(p => prProj(...p)), t: { tIn, tEnc, tSend, tYield, tOut } }
+  },
+  // the privacy wrapper (their co-founder's words, his interview on the page): a big position in glass, a frosted
+  // panel in front, an outsider's lens that finds only blur
+  wrap(lt, sc, b, at) {
+    const V = PR, tW = at('wrap', L(sc, 1, 0.5)), tO = at('out', L(sc, 2)), oy = b.y ?? 0
+    prBg('sky'); V.wrp.visible = true; V.wrp.position.set(0, oy, 0)
+    V.setAmt(V.big, '$25.0M', '#0B1F4D'); V.big.userData.lab.quaternion.copy(V.cam.quaternion)
+    V.wrapP.material.roughness = vxL(0.0, 0.52, P(lt, tW, tW + 0.9, E.inOutSine)); V.wrapP.position.y = 1.95 + (1 - P(lt, tW - 0.5, tW, E.outCubic)) * -4.5
+    const lq = P(lt, tO, tO + 2.4, E.inOutSine); V.lens.visible = lt >= tO; V.lens.position.set(vxL(-3.6, 2.2, lq), 2.0 + 0.2 * Math.sin(lt * 2), 3.4); V.lens.rotation.set(0, 0, 0)
+    const [cp, cg] = prPath([[0, [0.6, 4.4, 20], [0, 2.7, 0]], [sc.dur + 1, [-0.4, 4.2, 19], [0, 2.6, 0]]], lt); prCam(cp, cg); prLight([0, 1.5, 0], 7)
+    V.big.userData.em.color.set('#7FA3D9'); V.big.userData.em.opacity = 0.9
+    return { bg: 'sky', t: { tW, tO } }
+  },
+  // zkTLS: an HTTPS page; one fact lifts off as a card and becomes a yes or no; the page frosts; your key stays; a seal
+  zk(lt, sc, b, at) {
+    const V = PR, tPad = at('https', L(sc, 1)), tFact = at('fact', L(sc, 1, 0.35)), tPage = at('page', L(sc, 1, 0.6)), tPass = at('password', L(sc, 1, 0.85)), tSign = at('signed', L(sc, 2, 0.6)), tProof = at('proof', L(sc, 3))
+    prBg('sky'); V.zk.visible = true
+    prS(V.page, vxE.back((lt - 0.05) / 0.5)); V.page.rotation.set(0, 0.04 * Math.sin(lt * 0.5), 0)
+    const rowY = 5.4 + V.PH / 2 - (354 / 800) * V.PH, lift = P(lt, tFact, tFact + 1.0, E.inOutSine)
+    V.claim.visible = lt >= tFact - 0.05; V.claim.position.set(0, vxL(rowY, 8.05, lift), vxL(0.12, 1.5, lift)); V.claim.rotation.set(0, 0, 0.02 * Math.sin(lt * 0.8) * lift)
+    const yes = lt >= tFact + 0.75, ck = yes ? 'y' : 'n'
+    if (V.claim.userData.k !== ck) { V.claim.userData.k = ck; V.redraw(V.claimTex, (x, w, h) => { x.fillStyle = '#FFFFFF'; x.fillRect(0, 0, w, h); x.fillStyle = '#1F5FDB'; x.fillRect(0, 0, 12, h)
+      x.textBaseline = 'middle'; x.textAlign = 'left'; x.font = '600 52px Manrope'; x.fillStyle = '#51607E'; x.fillText('Balance', 40, h / 2)
+      x.textAlign = 'right'; x.font = '800 56px Manrope'; x.fillStyle = '#0B1F4D'; x.fillText(yes ? 'over $10,000  ·  TRUE' : '$48,250.00', w - (yes ? 220 : 40), h / 2) }) }
+    V.frost.material.roughness = vxL(0.0, 0.55, P(lt, tPage, tPage + 0.9, E.inOutSine)); V.frost.visible = lt >= tPage - 0.1
+    V.keyG.visible = lt >= tPass; V.keyG.position.set(1.25, 3.95, 1.6); V.keyG.rotation.set(0.15, -0.35 + 0.1 * Math.sin(lt), 0.15); prS(V.keyG, 1.0 * vxE.back((lt - tPass) / 0.45))
+    const sq = clamp((lt - tSign) / 0.35); V.seal.visible = lt >= tSign; V.seal.position.set(2.2, 0, 0.12 + (1 - vxE.o(sq)) * 2.5); V.seal.scale.set(1 + 0.25 * Math.max(0, 1 - Math.abs(sq - 1) * 6), 1 + 0.25 * Math.max(0, 1 - Math.abs(sq - 1) * 6), 1)
+    const kf = [[0, [0, 6.0, 23], [0, 5.6, 0]], [tFact, [0.5, 6.5, 22.5], [0, 6.0, 0]], [sc.dur + 1, [0.2, 6.9, 21.8], [0, 6.2, 0]]]
+    const [cp, cg] = prPath(kf, lt); prCam(cp, cg); prLight([0, 5, 0], 8)
+    const pad = prW(V.page, -1.74, 1.8, 0.12), cl = prW(V.claim, 0, 0.62, 0), key2 = prW(V.keyG, 0.7, 0.75, 0), sl = prW(V.claim, 2.15, -0.75, 0)
+    return { bg: 'sky', tags: [prProj(pad.x, pad.y, pad.z), prProj(cl.x, cl.y, cl.z), prProj(key2.x, key2.y, key2.z), prProj(sl.x, sl.y, sl.z)], t: { tPad, tFact, tPage, tPass, tSign, tProof } }
+  },
+  // Kaito: the sealed card turning slowly beneath their post
+  kaito(lt, sc, b) {
+    const V = PR; prBg('sky'); V.zk.visible = true; V.page.visible = false; V.frost.visible = false; V.keyG.visible = false
+    V.claim.visible = true; V.claim.position.set(0, 2.4, 0); V.claim.rotation.set(0.1, 0.35 * Math.sin(lt * 0.5), 0); V.seal.visible = true; V.seal.position.set(2.15, 0, 0.12); V.seal.scale.setScalar(1)
+    if (V.claim.userData.k !== 'y') { V.claim.userData.k = 'y'; V.redraw(V.claimTex, (x, w, h) => { x.fillStyle = '#FFFFFF'; x.fillRect(0, 0, w, h); x.fillStyle = '#1F5FDB'; x.fillRect(0, 0, 12, h); x.textBaseline = 'middle'; x.textAlign = 'left'; x.font = '600 52px Manrope'; x.fillStyle = '#51607E'; x.fillText('Balance', 40, h / 2); x.textAlign = 'right'; x.font = '800 56px Manrope'; x.fillStyle = '#0B1F4D'; x.fillText('over $10,000  ·  TRUE', w - 220, h / 2) }) }
+    prCam([0, 5.6, 24], [0, 5.0, 0]); prLight([0, 2.4, 0], 6)
+    return { bg: 'sky' }
+  },
+  // the calm set: the mark behind frosted glass, drifting (quotes, backers)
+  calm(lt, sc, b) {
+    const V = PR; prBg('sky'); V.mark.visible = true; V.slab.visible = true; const y = b.mark_y ?? 2.6
+    V.mark.position.set(0.3 * Math.sin(lt * 0.3), y, -1.4); V.mark.scale.setScalar(b.mark_s ?? 0.62); V.mark.rotation.set(0.1 * Math.sin(lt * 0.4), 0.5 * Math.sin(lt * 0.25), 0)
+    V.slab.position.set(0, y, 0.6); V.slab.rotation.set(0, 0, 0); V.slab.material.roughness = b.frost ?? 0.45
+    prCam([0, y + 1.8, 20], [0, y + 2.4, 0]); prLight([0, y, 0], 7)
+    return { bg: 'sky' }
+  },
+  // the end: their mark inside a cube of frosted glass; the frost thins on the last words
+  end(lt, sc, b, at) {
+    const V = PR, tN = at('not', L(sc, 0, 0.6)), y = b.cube_y ?? 5.2
+    prBg('sky'); V.cube.visible = true; V.mark.visible = true
+    V.cube.position.set(0, y, 0); V.cube.rotation.set(0.05, 0.5 + lt * 0.12, 0); V.cube.material.roughness = vxL(0.5, 0.22, P(lt, tN, tN + 1.0, E.inOutSine)); prS(V.cube, vxE.back((lt - 0.05) / 0.6))
+    V.mark.position.set(0, y, 0); V.mark.scale.setScalar(0.82); V.mark.rotation.set(0, 0.5 + lt * 0.12, 0)
+    V.halo.visible = true; V.halo.position.set(0, y, -3.5); V.halo.scale.setScalar(5.2); V.halo.material.opacity = 0.35 * P(lt, tN, tN + 0.6); V.halo.quaternion.copy(V.cam.quaternion)
+    const [cp, cg] = prPath([[0, [0, y + 1.2, 22], [0, y - 0.6, 0]], [sc.dur + 1, [0, y + 1.0, 20], [0, y - 0.6, 0]]], lt); prCam(cp, cg); prLight([0, y, 0], 7)
+    return { bg: 'sky', t: { tN } }
+  },
+}
+function prShot(sc, lt, b) {
+  const V = PR, ty = sc.type.slice(6), at = (k, d) => prAt(sc, b, k, d)
+  V.sets.forEach(o => { o.visible = false }); V.mark.visible = false; V.halo.visible = false; V.zk.visible = false
+  V.page.visible = true; V.mark.scale.setScalar(1)
+  const out = (PRF[b.set || ty] || PRF.calm)(lt, sc, b, at) || { bg: 'sky' }
+  V.R.render(V.S, V.cam)
+  return out
+}
+
+// ---- the page around the 3D (Primus): words, chips anchored to 3D points, their posts and the interview in cards
+function buildPR(el, sc, b) {
+  el.classList.add('ax', 'pr'); const ty = sc.type.slice(6)
+  const tag = (cls, t) => `<div class="ax-tag ${cls}">${t}</div>`, kc = (cls, t, top, k = 'lt') => axKC(cls, t, top, k)
+  let front = ''
+  if (ty === 'cold') front = (b.words || []).map(w => `<div class="ax-h c dk cw" style="top:${w[1] || 230}px">${w[0]}</div>`).join('')
+  if (ty === 'title') front = `<div class="pr-wm" style="top:${b.wm_top || 1290}px"><img src="${html(b.word || '')}"></div><div class="ax-sub" style="top:${b.sub_top || 1440}px">${axK('', b.tagline || '')}</div>`
+  if (ty === 'duo') front = kc('kc', b.kicker || '', 168, '') + `<div class="ax-h c sm" style="top:236px">${b.head || ''}</div>` + (b.tags || []).map((t, i) => tag(['gy', 'or', 'lt'][i] || 'lt', t)).join('') + `<div class="ax-note" style="top:1560px">${html(b.note || '')}</div>`
+  if (ty === 'vault') front = kc('kc', b.kicker || '', 168, '') + `<div class="ax-h c sm" style="top:236px">${b.head || ''}</div>` + (b.tags || []).map((t, i) => tag(['lt', 'or', '', '', 'lt'][i] || 'lt', t)).join('') + `<div class="ax-note" style="top:1572px">${html(b.note || '')}</div>`
+  if (ty === 'wrap') front = `<div class="ax-card vid ink pr-iv" style="left:70px;top:${b.card_top || 190}px;width:940px;height:${Math.round(912 * 9 / 16) + 28}px"><img class="rec"><div class="cap">${b.cap || ''}</div></div>`
+    + `<div class="ax-note" style="top:${(b.card_top || 190) + Math.round(912 * 9 / 16) + 48}px">${html(b.credit || '')}</div>` + (b.tags || []).map(t => tag('lt', t)).join('')
+  if (ty === 'zk') front = kc('kc', b.kicker || '', 168, '') + `<div class="ax-h c sm" style="top:236px">${b.head || ''}</div>` + (b.tags || []).map((t, i) => tag(['lt', '', 'lt', 'or'][i] || 'lt', t)).join('')
+    + `<div class="ax-mul pr-pf" style="top:${b.chips_top || 1330}px">${(b.chips || []).map((t, i) => axK(i ? 'lt no' : 'lt', t)).join('')}</div>` + `<div class="ax-note" style="top:1572px">${html(b.note || '')}</div>`
+  if (ty === 'kaito') front = kc('kc', b.kicker || '', 160, '') + `<div class="ax-card pr-kp" style="left:70px;top:${b.card_top || 240}px;width:940px;height:${Math.round(912 * 1882 / 3344) + 28}px"><img src="${html(b.card || '')}"></div>`
+    + `<div class="ax-note" style="top:${(b.card_top || 240) + Math.round(912 * 1882 / 3344) + 48}px">${html(b.credit || '')}</div>` + `<div class="ax-mul pr-kc" style="top:${b.chips_top || 880}px">${(b.chips || []).map(t => axK('lt', t)).join('')}</div>`
+  if (ty === 'quote') front = (b.quotes || []).map((q, i) => `<div class="pr-q${q.or ? ' or' : ''}" style="top:${q.top}px"><div class="who">${q.av ? `<img class="av" src="${html(q.av)}">` : `<span class="av">${html(q.ini || '')}</span>`}<span>${html(q.name)}<i>${html(q.handle || '')}</i></span><em>${html(q.date || '')}</em></div><div class="tx">${q.text}</div></div>`).join('')
+    + (b.chip ? kc('ef', b.chip, b.chip_top || 1390) : '') + `<div class="ax-note" style="top:1572px">${html(b.note || '')}</div>`
+  if (ty === 'back') front = kc('kc', b.kicker || '', 168, '') + `<div class="ax-h c sm" style="top:236px">${b.head || ''}</div>` + `<div class="ax-tl" style="top:${b.tl_top || 470}px">${(b.items || []).map(([d, t]) => `<div class="it"><div class="dt">${html(d)}</div><div class="tx">${t}</div></div>`).join('')}</div>`
+    + (b.token ? `<div class="pr-tk" style="top:${b.token_top || 1190}px"><div class="hd">${html(b.token.head || 'Token')}</div><div class="tx">${b.token.text}</div></div>` : '') + `<div class="ax-note" style="top:1572px">${html(b.note || '')}</div>`
+  if (ty === 'end') front = `<div class="ax-h c" style="top:${b.head_top || 1190}px">${b.head || ''}</div>` + kc('hn', b.handle || '', (b.head_top || 1190) + 250) + kc('fo', b.follow || 'Follow for more', (b.head_top || 1190) + 340, '')
+  el.innerHTML = `<div class="ax-slot"></div><div class="ax-front">${front}</div>`
+}
+function drawPR(el, lt, sc, b) {
+  if (!PR.R) return
+  const slot = $('.ax-slot', el); if (PR.cv.parentNode !== slot) slot.appendChild(PR.cv)
+  const o = prShot(sc, lt, b), ty = sc.type.slice(6), at = (k, d) => prAt(sc, b, k, d), T = o.t || {}
+  const dk = o.bg === 'deep'; $('#foot').style.color = dk ? 'rgba(255,255,255,.55)' : 'rgba(10,42,79,.5)'; $('#stage').classList.toggle('axdark', dk)
+  const show = (n, a, from = 24) => { if (n) rise([n], lt, a, 0, from) }
+  const tagAt = (n, q, a, z = 1e9) => { if (!n || !q) return; const hw = (n.offsetWidth || 240) / 2 + 24; n.style.left = clamp(q[0], hw, 1080 - hw).toFixed(0) + 'px'; n.style.top = q[1].toFixed(0) + 'px'; const v = P(lt, a, a + 0.3) * (1 - P(lt, z, z + 0.3)); n.style.opacity = v.toFixed(2); n.style.transform = `translate(-50%,-50%) scale(${(0.8 + 0.2 * vxE.back(clamp((lt - a) / 0.3))).toFixed(3)})` }
+  const tags = $$('.ax-tag', el)
+  if (ty === 'cold') $$('.cw', el).forEach((n, j) => { const a = L(sc, j, 0) - 0.05, z = j + 1 < sc.lines.length ? L(sc, j + 1, 0) - 0.1 : 1e9
+    const q = P(lt, a, a + 0.3, E.outCubic) * (1 - P(lt, z, z + 0.15)); n.style.opacity = q.toFixed(2); n.style.transform = `scale(${(1.12 - 0.12 * P(lt, a, a + 0.35, E.outCubic)).toFixed(3)}) ${j === sc.lines.length - 1 ? glitch(n, lt, a + 0.05, 0.45) || '' : ''}` })
+  if (ty === 'title') { slam($('.pr-wm', el), lt, (o.lock || 1) + 0.05, 1.25, 0.32); rise([$('.ax-sub', el)], lt, (o.lock || 1) + 0.5, 0, 26) }
+  if (ty === 'duo') { show($('.kc', el), 0.15); show($('.ax-h', el), 0.3); tagAt(tags[0], o.tags[0], 0.6); tagAt(tags[1], o.tags[1], 0.8); tagAt(tags[2], o.tags[2], 0.4); if (tags[0]) tags[0].classList.toggle('dkk', lt >= T.tH + 0.75); show($('.ax-note', el), 0.9, 10) }
+  if (ty === 'vault') { show($('.kc', el), 0.15); show($('.ax-h', el), 0.3)
+    const a = [0.5, T.tIn + 0.8, T.tSend + 0.3, T.tYield + 0.2, T.tOut + 1.2], z = [T.tIn + 1.2, T.tSend, T.tYield, T.tOut, 1e9]
+    tags.forEach((n, i) => tagAt(n, o.tags[i], a[i], z[i])); show($('.ax-note', el), 0.8, 10) }
+  if (ty === 'wrap') { const cd = $('.pr-iv', el); pop(cd, lt, 0.1, 0.92, 0.45); recAt(el, sc, lt); show($('.ax-note', el), 0.5, 10) }
+  if (ty === 'zk') { show($('.kc', el), 0.15); show($('.ax-h', el), 0.3)
+    const t3 = T.tProof; tagAt(tags[0], o.tags[0], T.tPad + 0.1, T.tFact); tagAt(tags[1], o.tags[1], T.tFact + 0.9, t3 - 0.2); tagAt(tags[2], o.tags[2], T.tPass + 0.2); tagAt(tags[3], o.tags[3], T.tSign + 0.3)
+    $$('.pr-pf .ax-k', el).forEach((c, j) => pop(c, lt, j ? at('copy', t3 + 1.2) : t3 + 0.05, 0.6)); show($('.ax-note', el), 0.8, 10) }
+  if (ty === 'kaito') { show($('.kc', el), 0.1); const cd = $('.pr-kp', el); pop(cd, lt, 0.15, 0.92, 0.45); show($('.ax-note', el), 0.5, 10)
+    $$('.pr-kc .ax-k', el).forEach((c, j) => pop(c, lt, at('c' + j, L(sc, Math.min(j, sc.lines.length - 1), 0.5)), 0.6)) }
+  if (ty === 'quote') { $$('.pr-q', el).forEach((n, j) => { const a = at('q' + j, L(sc, j, 0)) - 0.1; n.style.opacity = P(lt, a, a + 0.35).toFixed(2); n.style.transform = `translateY(${((1 - P(lt, a, a + 0.5, E.outCubic)) * 50).toFixed(1)}px)` })
+    if ($('.ef', el)) pop($('.ef', el), lt, at('ef', L(sc, 2, 0.4)), 0.6); show($('.ax-note', el), 0.6, 10) }
+  if (ty === 'back') { show($('.kc', el), 0.15); show($('.ax-h', el), 0.3)
+    $$('.ax-tl .it', el).forEach((n, j) => { const a = at('i' + j, L(sc, Math.min(j, sc.lines.length - 1), 0.1)); n.style.opacity = P(lt, a, a + 0.3).toFixed(2); n.style.transform = `translateX(${((1 - P(lt, a, a + 0.45, E.outCubic)) * -40).toFixed(1)}px)` })
+    const tk = $('.pr-tk', el); if (tk) pop(tk, lt, at('token', L(sc, sc.lines.length - 1, 0)), 0.9, 0.4); show($('.ax-note', el), 0.6, 10) }
+  if (ty === 'end') { const ta = at('not', L(sc, 0, 0.55)); slam($('.ax-h', el), lt, Math.max(0.1, ta - 0.9), 1.3, 0.3); [$('.hn', el), $('.fo', el)].forEach((n, j) => show(n, ta + 0.3 + j * 0.25, 20)) }
+}
+function fxPR(add, sc, T, next) {
+  const b = sc.data || {}, ty = sc.type.slice(6), at = (k, d) => T + prAt(sc, b, k, d), ln = (j, f = 0) => T + L(sc, j, f)
+  if (ty === 'cold') {
+    add(T, '497', -14, { align: 'start', max: Math.max(1, sc.dur - 0.2) }); add(T + 0.1, '2297', -18, { max: sc.dur })
+    for (let i = 0; i < 6; i++) add(T + 0.05 + i * 0.09, '2577', -19, { pan: (i % 2 ? 0.3 : -0.3) })
+    add(ln(1), '3115', -13); add(ln(2) + 0.1, '2573', -12); add(ln(2) + 1.6, '3124', -12)
+    const n = sc.lines.length; add(ln(n - 1), '2951', -8); add(ln(n - 1), '2299', -9)
+    if (next?.data?.drop) add(next.start, '2908', -6, { reverse: true, max: 2.6, align: 'end' })
+  }
+  if (ty === 'title') { const tC = at('clear', 0.75); add(T + 0.05, '2909', -8); add(tC, '2847', -11); add(tC + 0.5, '2636', -13); add(tC + 0.6, '3124', -12) }
+  if (ty === 'duo') { add(T + 0.1, '3124', -13); add(T + 0.25, '3124', -14); const tH = at('hidden', ln(1)); add(tH + 0.2, '2573', -12); add(tH + 0.75, '2299', -12)
+    const tC = at('conf', ln(2)); [0, 1, 2].forEach(k => add(tC + 0.15 * k, '2577', -15)); add(at('private', ln(3)), '2847', -12) }
+  if (ty === 'vault') { add(at('in', ln(1)) + 0.9, '2847', -11); add(at('in', ln(1)) + 0.95, '3124', -12); add(at('send', ln(3)), '2573', -12)
+    const tY = at('yield', ln(3, 0.6)); add(tY, '2636', -12); for (let k = 0; k < 5; k++) add(tY + 0.25 + k * 0.22, '2577', -16); add(at('unwrap', ln(4)) + 1.3, '2847', -12) }
+  if (ty === 'wrap') { add(T + 0.1, '2573', -13); add(at('wrap', ln(1, 0.5)), '2847', -12); add(at('out', ln(2)), '3117', -16) }
+  if (ty === 'zk') { add(T + 0.05, '3124', -13); add(at('https', ln(1)) + 0.1, '3115', -13); add(at('fact', ln(1, 0.35)), '2573', -12); add(at('fact', ln(1, 0.35)) + 0.75, '1143', -10)
+    add(at('page', ln(1, 0.6)), '2847', -12); add(at('password', ln(1, 0.85)), '3124', -12); const tS = at('signed', ln(2, 0.6)); add(tS + 0.3, '2909', -9); add(tS + 0.32, '2299', -11); add(at('proof', ln(3)), '3115', -13) }
+  if (ty === 'kaito') { add(T + 0.15, '2573', -12); (b.chips || []).forEach((_, j) => add(at('c' + j, ln(Math.min(j, sc.lines.length - 1), 0.5)), '3124', -13)) }
+  if (ty === 'quote') { (b.quotes || []).forEach((_, j) => add(at('q' + j, ln(j)) - 0.1, j % 2 ? '2573' : '3115', -12)); if (b.chip) add(at('ef', ln(2, 0.4)), '1143', -10) }
+  if (ty === 'back') { (b.items || []).forEach((_, j) => add(at('i' + j, ln(Math.min(j, sc.lines.length - 1), 0.1)), j % 2 ? '2573' : '3124', -12)); if (b.token) add(at('token', ln(sc.lines.length - 1)), '3115', -12) }
+  if (ty === 'end') { const ta = at('not', ln(0, 0.55)); add(ta - 0.9, '2908', -6); add(ta - 0.9, '2299', -8); add(ta + 0.2, '2636', -12) }
+}
+
 // ---------------------------------------------------------------- build each screen
 const built = D.scenes.map(sc => {
   const el = document.createElement('div'), b = sc.data || {}
@@ -3412,6 +3916,7 @@ const built = D.scenes.map(sc => {
   else if (sc.type.startsWith('ex_hy_')) buildHY(el, sc, b)
   else if (sc.type.startsWith('ex_vx_')) buildVX(el, sc, b)
   else if (sc.type.startsWith('ex_ax_')) buildAX(el, sc, b)
+  else if (sc.type.startsWith('ex_pr_')) buildPR(el, sc, b)
   else if (sc.type === 'ex_cold') {
     const legs = b.legs || []
     el.innerHTML = `<div class="dim"></div><div class="amt2"><div class="v">${html(b.from || '$10')}</div><div class="lb"></div></div>
@@ -3491,6 +3996,7 @@ function draw(k, lt, sc) {
   if (sc.type.startsWith('ex_hy_')) return drawHY(el, lt, sc, b)
   if (sc.type.startsWith('ex_vx_')) return drawVX(el, lt, sc, b)
   if (sc.type.startsWith('ex_ax_')) return drawAX(el, lt, sc, b)
+  if (sc.type.startsWith('ex_pr_')) return drawPR(el, lt, sc, b)
   if (sc.type === 'ex_cold') {
     // lines: "Ten dollars." / "One ticket." / "$172 back, if every leg lands." / "Or nothing at all." → silence → the drop
     const v = $('.amt2 .v', el), lb = $('.amt2 .lb', el), ct = $('.ct', el), cks = $$('.ck', el)
@@ -3620,7 +4126,7 @@ function fxCinematic() {
   const ev = [], add = (t, sfx, db, o = {}) => ev.push({ t: +Math.max(0, t).toFixed(3), sfx, db, ...o }), syn = (t, type, gain) => ev.push({ t: +Math.max(0, t).toFixed(3), type, ...(gain ? { gain } : {}) })
   D.scenes.forEach((sc, k) => {
     const T = sc.start, b = sc.data || {}, at = (j, f = 0) => T + L(sc, j, f), next = D.scenes[k + 1]
-    const drop = (sc.type === 'ex_hook' || /^ex_(kh|pt|cf|nd|ax)_/.test(sc.type)) && b.drop
+    const drop = (sc.type === 'ex_hook' || /^ex_(kh|pt|cf|nd|ax|pr)_/.test(sc.type)) && b.drop
     if (sc.type.startsWith('ex_kh_')) fxKH(add, sc, T, next)
     if (sc.type.startsWith('ex_pt_')) fxPT(add, sc, T, next)
     if (sc.type.startsWith('ex_cf_')) fxCF(add, sc, T, next)
@@ -3628,6 +4134,7 @@ function fxCinematic() {
     if (sc.type.startsWith('ex_hy_')) fxHY(add, sc, T, next, syn)
     if (sc.type.startsWith('ex_vx_')) fxVX(add, sc, T, next, syn)
     if (sc.type.startsWith('ex_ax_')) fxAX(add, sc, T, next)
+    if (sc.type.startsWith('ex_pr_')) fxPR(add, sc, T, next)
     if (k > 0 && !drop && !/^ex_(hy|vx)_/.test(sc.type)) add(T, k % 2 ? '1492' : '2636', k % 2 ? -12 : -14, { align: 'peak' })
     if (sc.type === 'ex_cold') {
       add(T, '497', -13, { align: 'start', max: Math.max(1, sc.dur - 0.2) })                // heartbeat under the cold open
@@ -3740,6 +4247,7 @@ window.ready = (async () => {
   await document.fonts.ready
   if (VX.on) await VX.ready
   if (AX.on) await AX.ready
+  if (PR.on) await PR.ready
   if (EX.theme === 'sky') {     // the hex field: faint ciphertext drifting up behind everything (drawn once, tiled)
     const c = document.createElement('canvas'); c.width = 1080; c.height = 960; const x = c.getContext('2d')
     x.font = '500 22px JBM'; x.textBaseline = 'top'

@@ -285,3 +285,48 @@ created video". The 9 Oct engine is reused. The new scenes are built from the po
 **Facts:** the token figures come from the docs' tokenomics page, which says they "may change before TGE". So the video
 says it; it gives no price or listing, and the note "not financial advice" is on screen. Where the company's own
 sources disagreed (how often Challenger tasks come out, the contributor count), the fact was left out.
+
+## Another format: the glass film (`pr_*`, Primus Labs, 14 Oct 2026)
+
+Template: `primus-glass-2026-10-14.json`. Sources: `video/out/explainer-primus-2026-10-14-sources.md`. The owner asked
+for "a video on this project", with four posts as sources, and "take your time". The one idea is **glass**: on a public
+chain every wallet is clear glass, and the product frosts it, so the money stays in the system but the numbers blur.
+
+- **The engine** (`PR` in `explainer.html`, loaded for `ex_pr_*`) is a separate three.js world from `ax_*`. It
+  differs in two ways:
+  - **Real frosted glass:** `MeshPhysicalMaterial` with `transmission: 1`. Roughness 0 is clear and 0.4–0.55 is frosted:
+    whatever sits behind or inside truly blurs, and animating `roughness` frosts it over in front of you.
+    - Two rules make it work. First, **the canvas is opaque and the page is in the scene** (a gradient sky sphere and a
+      floor grid). Transmission only sees what is drawn in 3D, so with an HTML background the glass shows white.
+    - Second, **glass is `toneMapped: false`**. With ACES, the bright page seen through glass came out grey.
+    - Labels inside glass must be opaque (`alphaTest`, not `transparent`), or the glass doesn't see them.
+  - **Their mark from their own logo paths:** the site's SVG `d` strings, parsed (M/L/H/V/C/Z) into three.js shapes and
+    extruded, an orange square with a white bracket and key on its face.
+- **Scenes:**
+  - `pr_cold`: twelve glass wallets on deep royal blue (fov 40). The amounts count up on line 2 (the front six only;
+    the back rows overlap). A coin hops on line 3 with a trail and a ring following it, and the edges go red on the twist.
+  - `pr_title`: the mark behind a frosted pane that clears (`clear` cue) and lifts away fast. The wordmark is their SVG
+    as an `<img>`, and the tagline is two lines.
+  - `pr_duo`: "hidden" versus "confidential". The left wallet leaves the hub (its pipe greys, its flow stops) and turns
+    into an opaque black box. The right wallet keeps its flow, grows yield bars, and frosts on `private`.
+  - `pr_vault`: one vertical column. A gold $U falls through a frosted FHE gate and turns into an orange eU **exactly at
+    the glass**, using two clip planes at the gate's height (gold above, orange below, same position). Then it goes down
+    a frosted tube (sent privately) into a cream vault (the door opens and small eU coins rise for yield), then back up
+    as $U. The tags are anchored to 3D points.
+  - `pr_wrap`: their co-founder's interview (`rec`, their own clip, muted, its subtitles visible) over a glass wallet
+    with a pane that frosts on `wrapper`, and a magnifier that passes on `outsiders`.
+  - `pr_zk`: an example web page (labelled as one). One row lifts off as a card and is redrawn as "over $10,000 · TRUE",
+    the page frosts, a key appears and stays, and an orange seal stamps the card (`signed`). Then two chips: "Proof of
+    the claim" and, struck through, "A copy of your account".
+  - `pr_kaito`: their partner's post image in a card, the sealed card turning below, and chips.
+  - `pr_quote` / `pr_back` (`set: "calm"`): quote cards (`quotes`, one in their orange), or a timeline plus a token box,
+    over the mark behind frosted glass.
+  - `pr_end`: the mark inside a frosted cube with blue edges; the frost thins on "not".
+- **Framing (portrait, fov 30):** the visible width is about 0.30 × distance. Every first-pass camera was too close: the
+  boxes were cut off and the vault ran past the frame. Work out the widest moment of each shot first. Also call
+  `cam.updateMatrixWorld()` in `prCam`: tags projected before the render otherwise use the last frame's camera, which
+  is wrong on a scene's first frame.
+- **Length:** at voice 1.0 the gaps between lines add about 30% to the raw voice. 119 s of voice came out at 2:34, and
+  trimming to 2:19 took cutting about 40 words. Keep a project video under 2:20 for X without Premium.
+- **Voice:** "invested too" was heard as "two" (now "also invested"). "BNB" was heard as "B&B", so say "B N B". "PADO"
+  was heard as "Potto", so say "Pah-doe". "zee kay T L S" reads well for zkTLS.

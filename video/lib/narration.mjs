@@ -93,7 +93,9 @@ const SAY_IPA = {
   // 14 Oct, the walk-out
   AEK: 'ˌeɪˌiːkˈeɪ', LASK: 'lˈɑːsk', 'Jović': 'jˈoʊvɪtʃ', 'Saint-Germain': 'sæn ʒɛɹmˈæn', Szoboszlai: 'sˈoʊbɔslaɪ', Cartuja: 'kɑːɹtˈuːhɑ', Aspmyra: 'ˈæspmiːɹə',
   Kuip: 'kˈaʊp', Malen: 'mˈɑːlən', Paz: 'pˈɑːs', Guirassy: 'ɡiɹˈæsi', Olimpico: 'oʊlˈɪmpɪkoʊ', Bednarek: 'bɛdnˈɑːɹɛk', Dijk: 'dˈaɪk',
-  Shakhtar: 'ʃˈɑːktɑːɹ', Torres: 'tˈɔːɹɛs'
+  Shakhtar: 'ʃˈɑːktɑːɹ', Torres: 'tˈɔːɹɛs',
+  // 14 Oct, Primus Labs
+  Primus: 'pɹˈaɪməs', Kaito: 'kˈaɪtoʊ', Buterin: 'bˈuːtəɹɪn', 'Xiang Xie': 'ʃjˈɑŋ ʃjˈɛ', VanEck: 'vænˈɛk'
 }
 const IPA_RE = new RegExp(`(?<!\\p{L})(${Object.keys(SAY_IPA).join('|')})(['’]s)?(?!\\p{L})`, 'gu')
 // letter-aware edges: \b treats accented letters as non-letters, so "Doué" or "Çalhanoğlu" would never match

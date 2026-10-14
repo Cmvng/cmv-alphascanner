@@ -1,0 +1,425 @@
+{
+ "mode": "explainer",
+ "competition": "Explainer",
+ "date": "2026-10-14",
+ "picks": [],
+ "voice": "af_heart",
+ "voice_fx": "deep",
+ "voice_speed": 1.0,
+ "sound": "cinematic",
+ "caption_style": "bold",
+ "music_drop": "pr_title",
+ "music_track": 587,
+ "title": "Primus Labs: confidential, not hidden",
+ "explainer": {
+  "theme": "sky",
+  "foot": "Independent guide · not affiliated with Primus Labs · not financial advice",
+  "brand": {
+   "name": "Primus Labs",
+   "primary": "#FD4C00",
+   "ink": "#0A0A0C",
+   "cream": "#EFE4D0",
+   "source": "primuslabs.xyz (their logo SVG and site copy), @primus_labs avatar and banner (orange #FD4C00, cream #EFE4D0)"
+  },
+  "chapters": {
+   "ex_pr_duo": "Hidden or confidential",
+   "ex_pr_vault": "The Confidential Vault",
+   "ex_pr_wrap": "The privacy wrapper",
+   "ex_pr_zk": "zkTLS",
+   "ex_pr_kaito": "Kaito Pulse",
+   "ex_pr_quote": "Privacy is not dead",
+   "ex_pr_back": "Backers and token",
+   "ex_pr_end": "Confidential, not hidden"
+  },
+  "beats": [
+   {
+    "type": "pr_cold",
+    "words": [
+     [
+      "Every wallet is <em>glass</em>.",
+      250
+     ],
+     [
+      "Anyone can <em>count</em> it.",
+      250
+     ],
+     [
+      "Anyone can <em>follow</em> it.",
+      250
+     ],
+     [
+      "For institutions,<br>that's a <span class=\"rd\">problem</span>.",
+      250
+     ]
+    ],
+    "say": [
+     "On a blockchain, every wallet is made of glass.",
+     "Anyone can count what's inside.",
+     "Anyone can follow where it goes.",
+     "For institutions, that's a problem."
+    ],
+    "pauses": [
+     0.35,
+     0.35,
+     0.45
+    ],
+    "tail": 0.8
+   },
+   {
+    "type": "pr_title",
+    "drop": true,
+    "word": "../brand/primus/word.svg",
+    "tagline": "The Confidential Infra<br>for Institutional Onchain Finance",
+    "say": [
+     "This is Primus Labs.",
+     "It builds the privacy layer that institutions need to come onchain."
+    ]
+   },
+   {
+    "type": "pr_duo",
+    "kicker": "Their question · <b>9 Sep</b>",
+    "head": "Hidden, or<br><em>confidential?</em>",
+    "tags": [
+     "Hidden",
+     "Confidential",
+     "The financial system"
+    ],
+    "note": "Illustration",
+    "cue": {
+     "hidden": [
+      1,
+      "^Hidden",
+      0
+     ],
+     "conf": [
+      2,
+      "^Confidential",
+      0
+     ],
+     "private": [
+      3,
+      "private",
+      0
+     ]
+    },
+    "say": [
+     "Primus separates two words: hidden, and confidential.",
+     "Hidden means taking your assets out of the financial system.",
+     "Confidential means they stay in it, and keep working,",
+     "while the sensitive numbers stay private."
+    ]
+   },
+   {
+    "type": "pr_vault",
+    "kicker": "Live on <b>BNB Chain</b>",
+    "head": "The Confidential <em>Vault</em>",
+    "tags": [
+     "<b>$U</b> · stablecoin",
+     "Shield → <b>eU</b> · encrypted",
+     "Sent <b>privately</b>",
+     "Earns <b>yield</b>",
+     "Unwrap → <b>$U</b>"
+    ],
+    "note": "With Unitas and United Stables · not financial advice",
+    "cue": {
+     "in": [
+      1,
+      "goes",
+      0
+     ],
+     "enc": [
+      2,
+      "encrypted",
+      0
+     ],
+     "send": [
+      3,
+      "sent",
+      0
+     ],
+     "yield": [
+      3,
+      "yield",
+      0
+     ],
+     "unwrap": [
+      4,
+      "unwrap",
+      0
+     ]
+    },
+    "say": [
+     {
+      "say": "Its Confidential Vault is live on B N B Chain.",
+      "show": "Its Confidential Vault is live on BNB Chain."
+     },
+     {
+      "say": "Your U stablecoin goes in, and comes out as encrypted E U.",
+      "show": "Your $U stablecoin goes in, and comes out as encrypted eU."
+     },
+     {
+      "say": "Onchain, its balance only exists encrypted, using F H E: fully homomorphic encryption.",
+      "show": "Onchain, its balance only exists encrypted, using FHE: fully homomorphic encryption."
+     },
+     "It can still be sent privately, and earn yield.",
+     "And you unwrap it whenever you need it."
+    ]
+   },
+   {
+    "type": "pr_wrap",
+    "rec": {
+     "file": "brand/primus/interview-vault.mp4",
+     "from": 0.5,
+     "to": 18.5,
+     "speed": 1,
+     "w": 960
+    },
+    "cap": "Xiang Xie · <b>co-founder &amp; CEO</b>",
+    "credit": "Interview: @primus_labs · Token2049, Singapore · posted 13 Oct 2026",
+    "cue": {
+     "wrap": [
+      1,
+      "wrapper",
+      0
+     ],
+     "out": [
+      2,
+      "outsiders",
+      0
+     ]
+    },
+    "say": [
+     {
+      "say": "At Token twenty forty-nine, co-founder Xiang Xie put it simply.",
+      "show": "At Token2049, co-founder Xiang Xie put it simply."
+     },
+     "The vaults are still the same DeFi vaults. Primus adds a privacy wrapper in front.",
+     "So once an institution deposits, outsiders can't see how big its position is."
+    ]
+   },
+   {
+    "type": "pr_zk",
+    "kicker": "Data verification · <b>zkTLS</b>",
+    "head": "Prove it,<br><em>without showing it.</em>",
+    "tags": [
+     "<b>HTTPS</b> · any website",
+     "Just <b>one fact</b>",
+     "Your password <b>stays with you</b>",
+     "Signed by an <b>attestor</b>"
+    ],
+    "chips": [
+     "Proof of the claim",
+     "A copy of your account"
+    ],
+    "note": "Illustration: an example page",
+    "cue": {
+     "https": [
+      1,
+      "website",
+      0
+     ],
+     "fact": [
+      1,
+      "fact",
+      0
+     ],
+     "page": [
+      1,
+      "^page",
+      0
+     ],
+     "password": [
+      1,
+      "password",
+      0
+     ],
+     "signed": [
+      2,
+      "signs",
+      0
+     ],
+     "proof": [
+      3,
+      "proof",
+      0
+     ],
+     "copy": [
+      3,
+      "copy",
+      0
+     ]
+    },
+    "say": [
+     {
+      "say": "Its other tool is zee kay T L S.",
+      "show": "Its other tool is zkTLS."
+     },
+     "It lets you prove one fact from a website, without sharing the page, or your password.",
+     "It's made in your browser, and an attestor signs it.",
+     "The app gets proof of the claim, not a copy of your account."
+    ],
+    "chips_top": 1470
+   },
+   {
+    "type": "pr_kaito",
+    "kicker": "Kaito × Primus · <b>14 Sep</b>",
+    "card": "../brand/primus/kaito-primus.jpg",
+    "credit": "Image: @KaitoAI · 14 Sep 2026",
+    "chips": [
+     "Kaito Pulse · <b>browser-based verification</b>",
+     "No <b>logins</b> shared",
+     "Proofs also feed <b>Kaito Aura</b>"
+    ],
+    "chips_top": 880,
+    "cue": {
+     "c0": [
+      0,
+      "Pulse",
+      0
+     ],
+     "c1": [
+      1,
+      "logins",
+      0
+     ],
+     "c2": [
+      1,
+      "logins",
+      0,
+      0.9
+     ]
+    },
+    "say": [
+     "In September, Kaito brought it into Kaito Pulse:",
+     "prove what you've done on other platforms, without sharing your logins."
+    ]
+   },
+   {
+    "type": "pr_quote",
+    "set": "calm",
+    "quotes": [
+     {
+      "name": "Vitalik Buterin",
+      "handle": "@VitalikButerin",
+      "date": "19 Sep",
+      "ini": "VB",
+      "top": 250,
+      "text": "It's only dead if you give up. I'm not giving up on privacy. <em>I'm doubling down.</em>"
+     },
+     {
+      "name": "Primus",
+      "handle": "@primus_labs",
+      "date": "20 Sep",
+      "av": "../brand/primus/mark.svg",
+      "or": true,
+      "top": 760,
+      "text": "Privacy is not dead. It is <em>infrastructure still being built.</em>"
+     }
+    ],
+    "chip": "Ethereum Foundation <b>grantee</b>",
+    "chip_top": 1250,
+    "note": "Posts on X, 19 and 20 Sep 2026",
+    "cue": {
+     "q0": [
+      0,
+      "Vitalik",
+      0
+     ],
+     "q1": [
+      1,
+      "^Primus",
+      0
+     ],
+     "ef": [
+      2,
+      "Ethereum",
+      0
+     ]
+    },
+    "say": [
+     "In September, Vitalik Buterin wrote: I'm not giving up on privacy. I'm doubling down.",
+     "Primus answered: privacy is not dead. It is infrastructure still being built.",
+     "And Primus builds it as an Ethereum Foundation grantee."
+    ]
+   },
+   {
+    "type": "pr_back",
+    "set": "calm",
+    "kicker": "The company",
+    "head": "Who's <em>behind it</em>",
+    "items": [
+     [
+      "Nov 2024",
+      "PADO becomes <b>Primus</b>"
+     ],
+     [
+      "Feb 2025",
+      "<b>$6.5M</b> pre-seed and seed <i>· led by Dispersion, Symbolic and VanEck</i>"
+     ],
+     [
+      "Aug 2026",
+      "Investment from <b>YZi Labs</b> <i>· EASY Residency</i>"
+     ]
+    ],
+    "token": {
+     "head": "Token",
+     "text": "No token yet. <i>A $PRIM campaign is running on Kaito Studio; no launch date has been announced.</i>"
+    },
+    "token_top": 1120,
+    "note": "Not financial advice · sources: @primus_labs, @KaitoStudio_",
+    "cue": {
+     "i0": [
+      0,
+      "PADO",
+      0
+     ],
+     "i1": [
+      0,
+      "million",
+      0
+     ],
+     "i2": [
+      1,
+      "Labs",
+      0
+     ],
+     "token": [
+      2,
+      "token",
+      0
+     ]
+    },
+    "say": [
+     {
+      "say": "Formerly Pah-doe, it raised six and a half million dollars in 2025.",
+      "show": "Formerly PADO, it raised $6.5 million in 2025."
+     },
+     {
+      "say": "In August, Y Z I Labs also invested.",
+      "show": "In August, YZi Labs also invested."
+     },
+     {
+      "say": "No token yet: a PRIM campaign runs on Kaito Studio, with no launch date announced.",
+      "show": "No token yet: a $PRIM campaign runs on Kaito Studio, with no launch date announced."
+     }
+    ]
+   },
+   {
+    "type": "pr_end",
+    "head": "Confidential,<br><em>not hidden.</em>",
+    "handle": "@primus_labs",
+    "follow": "Follow for more",
+    "cue": {
+     "not": [
+      0,
+      "^not",
+      0
+     ]
+    },
+    "say": [
+     "Confidential, not hidden. Follow for more."
+    ]
+   }
+  ]
+ }
+}
