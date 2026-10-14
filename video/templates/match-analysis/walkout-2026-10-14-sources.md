@@ -1,6 +1,6 @@
 # Sources: "The Walk-Out", Champions League Wednesday, 14 Oct 2026
 
-The win chances, expected goals, form and likeliest scores on screen are the app's own numbers (cmvngpicks.com match
+The win chances and expected goals on screen are the app's own numbers (cmvngpicks.com match
 pages, read 14 Oct 2026). Everything else is from the dated sources below. Where sources disagreed, the video leaves the
 fact out (listed at the end of each tie).
 

@@ -234,6 +234,7 @@ node video/from-app.mjs preview --match <main> --with <id>,<id>,<id>    # app nu
    
    Every fact needs a dated source; mark anything unconfirmed and leave it out.
 2. **Fill in** `analysis`, the `round` object for each round-up match, a `stadium` for the real venue, `skip`, and the `script`. Copy the shape of `denmark-portugal-2026-10-01.json`.
+   **A likeliest score must fit the call.** When both sides expect about 1 to 1.5 goals, the app's single most likely score is usually 1–1, even for a clear favourite (14 Oct: City 56% to win, yet 1–1 at 12% topped the list). Show the first score in the app's list that fits the called result (a City win → 1–0), or no score at all. On 14 Oct a 1–1 sat under all seven calls and the video had to be rendered again.
 3. **Check names:** test new names with Kokoro and whisper, and add respellings to `SAY_NAMES`.
    Then read every line for words the deep voice runs together. Each of these was heard wrong at least once:
    - "and" / "end", "won" / "one", "to" / "two" / "too", "rested" / "arrested";
@@ -264,7 +265,7 @@ on three workers.
 - **A tie** (`wo_tie`):
   - The header slides in: kick-off, crests, venue, "Tunnel 03 / 07".
   - The camera walks in and turns 17° to each key man's poster as he is named (`home.key[].at`). His plate rises with the stat.
-  - The model card drops in on `model_at`, showing win chances, expected goals and the likeliest score. No app form: on 14 Oct it clashed with confirmed results.
+  - The model card drops in on `model_at`, showing win chances and expected goals. No app form (on 14 Oct it clashed with confirmed results) and no likeliest score (it was 1–1 for all seven ties, under win calls; see step 2 of "How to make one").
   - On `read_at` the camera accelerates out (cubic), a white flash, then the stadium photo fills the screen and the call slams in (`verdict`, label `Our call`).
   - A key man with no free photo gets a crest poster on a white card with a kit-colour band.
 - **Cold open** (`wo_cold`): the tunnel in deep royal blue, with a pair of ceiling lights clanking on per line and the exit glow growing. It has the same `steps` as `tb_cold` (big word, label, tone, glitch).

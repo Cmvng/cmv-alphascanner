@@ -210,7 +210,8 @@
     },
     "away": {
      "c": "#2F6FD6",
-     "bg": "#00428C"
+     "bg": "#00428C",
+     "dado": "#00428C"
     }
    },
    "ko": "20:00"
@@ -257,7 +258,8 @@
     },
     "away": {
      "c": "#FDE100",
-     "bg": "#111111"
+     "bg": "#111111",
+     "dado": "#FDE100"
     }
    },
    "ko": "20:00"
@@ -301,11 +303,13 @@
    "kit": {
     "home": {
      "c": "#C8364A",
-     "bg": "#8E1F2F"
+     "bg": "#8E1F2F",
+     "dado": "#8E1F2F"
     },
     "away": {
      "c": "#FFFFFF",
-     "bg": "#D9DEE8"
+     "bg": "#D9DEE8",
+     "dado": "#F4F5F8"
     }
    },
    "ko": "20:00"
@@ -352,7 +356,8 @@
     },
     "away": {
      "c": "#DA291C",
-     "bg": "#004170"
+     "bg": "#004170",
+     "dado": "#004170"
     }
    },
    "ko": "20:00"
@@ -440,8 +445,7 @@
     ],
     "verdict": {
      "text": "Feyenoord don't lose at home",
-     "short": "Feyenoord don't lose",
-     "score": "1–1"
+     "short": "Feyenoord don't lose"
     },
     "verdict_label": "Our call",
     "stadium": "s_dekuip.jpg",
@@ -494,8 +498,7 @@
     ],
     "verdict": {
      "text": "LASK don't lose",
-     "short": "LASK don't lose",
-     "score": "1–1"
+     "short": "LASK don't lose"
     },
     "verdict_label": "Our call",
     "stadium": "s_linz.jpg",
@@ -508,7 +511,7 @@
      "At eight, Shakhtar are at home in London: Stamford Bridge is their Champions League ground this season.",
      "AEK's Luka Jović has six goals from ten games.",
      "Our numbers lean to AEK: 46%, against 27% for Shakhtar.",
-     "Our call: an AEK win."
+     "Our call: three points for AEK."
     ],
     "home": {
      "key": []
@@ -536,9 +539,8 @@
      0.0
     ],
     "verdict": {
-     "text": "An AEK win in London",
-     "short": "An AEK win",
-     "score": "1–1"
+     "text": "Three points for AEK in London",
+     "short": "An AEK win"
     },
     "verdict_label": "Our call",
     "stadium": "s_bridge.jpg",
@@ -579,8 +581,7 @@
     ],
     "verdict": {
      "text": "A home win for Betis",
-     "short": "A Betis home win",
-     "score": "1–1"
+     "short": "A Betis home win"
     },
     "verdict_label": "Our call",
     "stadium": "s_cartuja.jpg",
@@ -633,8 +634,7 @@
     ],
     "verdict": {
      "text": "Dortmund don't lose, goals at both ends",
-     "short": "Dortmund don't lose",
-     "score": "1–1"
+     "short": "Dortmund don't lose"
     },
     "verdict_label": "Our call",
     "stadium": "s_aspmyra.jpg",
@@ -688,8 +688,7 @@
     ],
     "verdict": {
      "text": "Real Madrid don't lose in Rome",
-     "short": "Real Madrid don't lose",
-     "score": "1–1"
+     "short": "Real Madrid don't lose"
     },
     "verdict_label": "Our call",
     "stadium": "s_olimpico.jpg",
@@ -743,8 +742,7 @@
     ],
     "verdict": {
      "text": "A City win at the Etihad",
-     "short": "A City win",
-     "score": "1–1"
+     "short": "A City win"
     },
     "verdict_label": "Our call",
     "stadium": "s_etihad.jpg",

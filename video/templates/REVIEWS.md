@@ -43,7 +43,7 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
     - "Saint-Germain" as "and German";
     - "in ten games" as "and";
     - Bodø as "Boudre".
-  - **The app's form left out:** its form strings clash with confirmed results (Liverpool's 3–0 home loss to City shows as a W), so the card shows the likeliest score instead.
+  - **The app's form left out:** its form strings clash with confirmed results (Liverpool's 3–0 home loss to City shows as a W), so the card was given the likeliest score instead (see mistake 6).
 - **Mistakes, and how they got through:**
   1. **The first full render was 90% blue**, the "monotonous" look from 6 Oct. Painting each wall's lower third in the club colours brought it to 83% and made every tunnel look like its own club's. It cost a second render (56 min).
   2. **The audio mix crashed after the first render:** a reversed whoosh shorter than the 0.4 s fade-in. `audio.py` is fixed, and the mix and mux were redone by hand from `timeline.json` and the kept segments.
@@ -53,10 +53,12 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
      - The first La Cartuja photo's author name was unsuitable for a credit, so another photo was used.
      - A Commons photo of Pepê was a news-agency photo, so it was skipped.
   5. **Starting a render wipes the output folder**, including a cover page written there during the run. Write cover pages after the render, or in scratch.
+  6. **Every card showed "Likeliest score 1–1", under every call** (the owner spotted it after delivery). It was the app's single most likely scoreline for all seven ties, and it was taken without being checked against the calls: "A City win" sat over 1–1. The app is right that 1–1 is the most likely *single* score when both sides expect 1 to 1.5 goals (City 56% to win, yet 1–1 at 12% beat 1–0 at 11%), but on screen it reads as a contradiction. The score was taken off the cards and the write-up and the video was rendered again (third render).
 - **Change next time:**
   - Add "an/and" to the homophone list: never "an <name> win"; say "three points for X".
   - A navy or dark set needs a planned colour budget (kit bands, crests, photos) before the first full render; check one still's colour mix.
   - Keep cover pages and frames out of the render folder until the render has finished.
+  - A likeliest score on screen must fit the call: use the first score in the app's list that fits the called result, or show none. Never copy the top scoreline as it comes.
 - **Final review:** 166.97 s (a YouTube Short), −14.7 LUFS, true peak −3.5 dB, the drop on the title +8.9 dB. Music 607 "Forest Walk" (a candidate, played once before on 9 Oct; all four approved tracks were in the last six). Colour: blue 83%, ink 8%, yellow 3%, red 3%. Heard back: only name spellings (Feynord, Bettis, Boda, Holland for Haaland).
 - **Sent:**
   - the 28.0 MB chat copy, the cover and thumbnail, the srt, the write-up, the post kit (with chapters) and the sources;
