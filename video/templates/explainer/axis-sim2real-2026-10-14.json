@@ -1,0 +1,354 @@
+{
+ "mode": "explainer",
+ "competition": "Explainer",
+ "date": "2026-10-14",
+ "picks": [],
+ "voice": "af_heart",
+ "voice_fx": "deep",
+ "voice_speed": 1.0,
+ "sound": "cinematic",
+ "caption_style": "bold",
+ "music_drop": "ax_title",
+ "music_track": 720,
+ "title": "Axis Robotics: from simulation to reality",
+ "explainer": {
+  "theme": "sky",
+  "foot": "Independent guide · not affiliated with Axis Robotics · not financial advice",
+  "brand": {
+   "name": "Axis Robotics",
+   "primary": "#00FF59",
+   "ink": "#0A0A0C",
+   "source": "axisrobotics.ai stylesheet (#00FF59), media kit (black, white, AXIS Green #0BB037), their mark (axis-symbol-hero.svg); demo video, artwork and token film from @axisrobotics and @MPriosin71748 (13, 12 and 10 Oct 2026)"
+  },
+  "chapters": {
+   "ex_ax_distill": "Sim to real",
+   "ex_ax_demo": "The demo",
+   "ex_ax_chal": "Challengers",
+   "ex_ax_token": "The token",
+   "ex_ax_end": "Built by all"
+  },
+  "beats": [
+   {
+    "type": "ax_cold",
+    "kind": "rooms",
+    "looks": [
+     0,
+     1,
+     2
+    ],
+    "words": [
+     [
+      "A <em>yellow</em> room.",
+      230
+     ],
+     [
+      "A <em>green</em> one.",
+      230
+     ],
+     [
+      "A <em>purple</em> one.",
+      230
+     ],
+     [
+      "None of them<br><em>exist</em>.",
+      230
+     ]
+    ],
+    "say": [
+     "A yellow room.",
+     "A green one.",
+     "A purple one.",
+     "None of them exist."
+    ],
+    "pauses": [
+     0.35,
+     0.35,
+     0.5
+    ],
+    "tail": 0.8
+   },
+   {
+    "type": "ax_title",
+    "drop": true,
+    "name": "AXIS ROBOTICS",
+    "tagline": "The compounding data engine for physical AI",
+    "say": [
+     "This is Axis Robotics.",
+     "Language models inherited the internet. Robots have no corpus of physical experience, so it is building one."
+    ]
+   },
+   {
+    "type": "ax_distill",
+    "kicker": "New · <b>13 Oct</b>",
+    "head": "From <em>simulation</em><br>to reality",
+    "steps": [
+     "RL expert, trained in simulation",
+     "Distilled into a vision policy",
+     "Visual randomization",
+     "Deployed on a real robot"
+    ],
+    "inset_cap": "What the camera sees",
+    "cue": {
+     "vis": [
+      2,
+      "distilled",
+      0
+     ],
+     "rand": [
+      3,
+      "rooms",
+      0
+     ],
+     "real": [
+      4,
+      "deployed",
+      0
+     ]
+    },
+    "say": [
+     "This week, it showed how a skill learned in simulation gets to the real world.",
+     "First, an expert is trained in simulation, with reinforcement learning.",
+     "Then that expert is distilled into a vision policy: one that works from what a camera sees.",
+     "And the rooms keep changing, in colour and in light. That's visual randomization.",
+     "Then it's deployed on a real robot."
+    ]
+   },
+   {
+    "type": "ax_demo",
+    "head": "Placed <em>at random</em>",
+    "rec": {
+     "file": "brand/axis/x14_sim2real.mp4",
+     "from": 0,
+     "to": 23,
+     "speed": 1.5,
+     "w": 1296
+    },
+    "cap_sim": "Simulation",
+    "cap_real": "Real robot",
+    "credit": "Video: @MPriosin71748, shared by @axisrobotics · 13 Oct 2026",
+    "say": [
+     "Here's their demo: the simulation above, the real arm below.",
+     "The objects are placed at random, anywhere across the space. No fixed positions needed.",
+     "In the company's words: simulation provides scalable expertise, and vision distillation brings it to reality."
+    ]
+   },
+   {
+    "type": "ax_chal",
+    "kicker": "Contributors",
+    "head": "The <em>Challenger</em> program",
+    "chips": [
+     "High-difficulty tasks",
+     "2–3× points per task",
+     "Badges: automatic · no application"
+    ],
+    "chips_top": 1330,
+    "card": "../brand/axis/x14_challenger.jpg",
+    "card_top": 560,
+    "credit": "Artwork: @axisrobotics · 6 Sep and 12 Oct 2026",
+    "cue": {
+     "card": [
+      1,
+      "Challenger",
+      0
+     ],
+     "c0": [
+      1,
+      "hardest",
+      0
+     ],
+     "c1": [
+      1,
+      "three",
+      0
+     ],
+     "card_out": [
+      2,
+      "^On$",
+      0,
+      -0.2
+     ],
+     "scan": [
+      3,
+      "automatically",
+      0
+     ],
+     "badge": [
+      3,
+      "quality",
+      0
+     ],
+     "c2": [
+      3,
+      "application",
+      0
+     ]
+    },
+    "say": [
+     "The data comes from contributors, who run robot tasks right in a browser.",
+     "The hardest tasks go to the Challenger program, worth two to three times the points of a standard task.",
+     "On Monday, the company opened new Challenger spots.",
+     "Badges are given automatically, on the quality of your data and what's needed. No application."
+    ]
+   },
+   {
+    "type": "ax_token",
+    "kicker": "Announced <b>10 Oct</b>",
+    "head": "Introducing <em>$AXIS</em>",
+    "alloc": [
+     [
+      "Ecosystem",
+      51.08,
+      "#0BB037"
+     ],
+     [
+      "Contributor rewards",
+      10,
+      "#00FF59"
+     ],
+     [
+      "Core team",
+      15.2,
+      "#0A0A0C"
+     ],
+     [
+      "Private A",
+      9.8,
+      "#3A3E46"
+     ],
+     [
+      "Private B",
+      6.67,
+      "#6B7380"
+     ],
+     [
+      "Liquidity",
+      6,
+      "#9AA3AE"
+     ],
+     [
+      "Community sale",
+      1,
+      "#C5CBD3"
+     ],
+     [
+      "Kaito reward pool",
+      0.25,
+      "#DCE2EA"
+     ]
+    ],
+    "chips": [
+     "Fixed supply · 1,000,000,000",
+     "Launch date · not yet announced"
+    ],
+    "chips_top": 1395,
+    "note": "Figures from the Axis Robotics docs (10 Oct 2026), which say they may change · not financial advice",
+    "cue": {
+     "flip": [
+      0,
+      "^token",
+      0,
+      -0.3
+     ],
+     "pie": [
+      1,
+      "fixed",
+      0
+     ],
+     "t0": [
+      1,
+      "billion",
+      0
+     ],
+     "a0": [
+      2,
+      "51",
+      0
+     ],
+     "a1": [
+      3,
+      "10",
+      0
+     ],
+     "a2": [
+      4,
+      "team",
+      0
+     ],
+     "a3": [
+      4,
+      "private",
+      0
+     ],
+     "a4": [
+      4,
+      "private",
+      0,
+      0.35
+     ],
+     "a5": [
+      4,
+      "wait",
+      0
+     ],
+     "a6": [
+      4,
+      "wait",
+      0,
+      0.3
+     ],
+     "a7": [
+      4,
+      "wait",
+      0,
+      0.6
+     ],
+     "t1": [
+      5,
+      "date",
+      0
+     ]
+    },
+    "say": [
+     {
+      "say": "And on Saturday came its own token: the AXIS token, native to Base.",
+      "show": "And on Saturday came its own token: the $AXIS token, native to Base."
+     },
+     {
+      "say": "A fixed supply of one billion. No inflation.",
+      "show": "A fixed supply of 1 billion. No inflation."
+     },
+     {
+      "say": "Just over half, fifty-one percent, funds the ecosystem.",
+      "show": "Just over half, 51%, funds the ecosystem."
+     },
+     {
+      "say": "Ten percent rewards contributors, in two airdrop seasons: four percent for simulation work before launch, and six percent after, for sim to real work.",
+      "show": "10% rewards contributors, in two airdrop seasons: 4% for simulation work before launch, and 6% after, for sim-to-real work."
+     },
+     {
+      "say": "The team has fifteen percent and the private rounds about sixteen and a half, with nothing unlocked at launch: a one-year wait, then two years of releases.",
+      "show": "The team has 15% and the private rounds about 16.5%, with nothing unlocked at launch: a one-year wait, then two years of releases."
+     },
+     "There's no launch date yet, and the figures may still change."
+    ]
+   },
+   {
+    "type": "ax_end",
+    "coming": "",
+    "head": "Built by <em>all</em>.",
+    "handle": "@axisrobotics",
+    "follow": "Follow for more",
+    "cue": {
+     "all": [
+      0,
+      "^all",
+      0.6
+     ]
+    },
+    "say": [
+     "Robot intelligence isn't built by a few. It's built by all. Follow for more."
+    ]
+   }
+  ]
+ }
+}

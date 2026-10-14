@@ -988,6 +988,30 @@ svg.pti{display:block}
 .ax .ax-h.sm{font-size:84px;letter-spacing:-2.5px}
 .ax .ax-hud{position:absolute;left:150px;right:150px;top:176px;height:380px;border-radius:36px;background:rgba(255,255,255,.88);box-shadow:0 24px 60px rgba(10,42,79,.16);opacity:0}
 .ax .ax-num.dk,.ax .ax-num.dk small{color:#FFFFFF}
+/* 14 Oct: sim to real (the camera's view, the four steps), their demo, the Challenger pool, the token */
+.ax .ax-ins{position:absolute;border-radius:16px;border:10px solid #0A0A0C;box-shadow:0 0 0 3px #00FF59,0 24px 60px rgba(0,0,0,.35);opacity:0}
+.ax .ax-ins span{position:absolute;left:-10px;top:-54px;padding:8px 14px 9px;border-radius:10px;background:#0A0A0C;color:#00FF59;font:700 20px JBM;letter-spacing:2px;text-transform:uppercase;white-space:nowrap}
+.ax .ax-stp{position:absolute;left:60px;top:1235px;width:560px}
+.ax .ax-stp .it{display:flex;align-items:center;gap:14px;margin-bottom:10px;padding:13px 20px 14px;border-radius:14px;background:rgba(255,255,255,.92);color:#0A2A4F;font:800 30px/1.15 Manrope;letter-spacing:-.2px;opacity:0;box-shadow:0 10px 26px rgba(10,42,79,.14)}
+.ax .ax-stp .it b{flex:none;font:700 24px JBM;letter-spacing:1px;color:#0BB037}
+.ax .ax-stp .it.dk{background:rgba(255,255,255,.1);color:rgba(255,255,255,.7);box-shadow:none}
+.ax .ax-stp .it.on{background:#0A0A0C;color:#FFFFFF}
+.ax .ax-stp .it.on b{color:#00FF59}
+.ax .ax-half{position:absolute;left:14px;top:14px;right:14px;bottom:14px;overflow:hidden;border-radius:18px}
+.ax .ax-half img.rec{position:absolute;left:0;top:0;width:200%;height:100%;border-radius:0;object-fit:fill}
+.ax .ax-half.r img.rec{left:-100%}
+.ax .ax-dmc .cap{left:auto;right:30px}
+.ax .ax-chc .ax-k,.ax .ax-tkc .ax-k{position:static}
+.ax .ax-pst{padding:14px}
+.ax .ax-pie{position:absolute;left:0;top:0;overflow:visible}
+.ax .ax-pie .tr{stroke:rgba(10,42,79,.08);opacity:0}
+.ax .ax-plb{position:absolute;transform:translate(-50%,-50%);opacity:0}
+.ax .ax-plb b{display:inline-block;padding:7px 13px 8px;border-radius:10px;background:#0A0A0C;color:#FFFFFF;font:700 24px JBM;letter-spacing:1px}
+.ax .ax-al{position:absolute;left:70px;right:70px;top:1150px;display:grid;grid-template-columns:1fr 1fr;column-gap:34px}
+.ax .ax-al .rw{display:flex;align-items:center;gap:16px;padding:10px 6px;border-bottom:2px solid rgba(10,42,79,.08);opacity:0}
+.ax .ax-al .rw i{flex:none;width:22px;height:22px;border-radius:6px}
+.ax .ax-al .rw span{flex:1;font:700 25px Manrope;color:#0A2A4F;letter-spacing:-.3px}
+.ax .ax-al .rw b{font:400 34px/1 Anton;color:#0A2A4F}
 #stage.axdark #hdr,#stage.axdark .logo{color:#FFFFFF}
 #stage.axdark #chap{color:rgba(255,255,255,.7)}
 #stage.axdark #prog{background:rgba(255,255,255,.18)}
@@ -1696,9 +1720,9 @@ function fxPT(add, sc, T, next) {
 // spoken word (WT). The app's pieces keep Fomo's colours; the page stays our light blue.
 const PEND = []
 function recAt(el, sc, lt) {             // the recording's frame for this moment (holds the last frame when it runs out)
-  const img = $('img.rec', el); if (!img || !sc.rec) return
+  const imgs = $$('img.rec', el); if (!imgs.length || !sc.rec) return
   const f = Math.max(1, Math.min(sc.rec.n, Math.floor(lt * 30) + 1)), src = `${sc.rec.dir}/${String(f).padStart(4, '0')}.webp`
-  if (img.dataset.src !== src) { img.dataset.src = src; img.src = src; PEND.push(img.decode().catch(() => {})) }
+  for (const img of imgs) if (img.dataset.src !== src) { img.dataset.src = src; img.src = src; PEND.push(img.decode().catch(() => {})) }
 }
 const phoneRec = () => `<div class="cf-ph"><div class="cf-scr"><img class="rec"><div class="cf-isl"></div></div></div>`
 const cfTiles = b => (b.tape || []).map(r => `<div class="${r[1] >= 0 ? 'cf-g' : 'cf-r'}"><span>${html(r[0])}</span><i>${r[1] >= 0 ? '▲' : '▼'} ${Math.abs(r[1]).toFixed(2)}%</i></div>`).join('')
@@ -2782,7 +2806,59 @@ if (AX.on) AX.ready = (async () => {
     const g = new T3.Group(), d = new T3.Mesh(cyl(1, 0.18, 64), [std({ color: '#0A0B0E', roughness: 0.3, metalness: 0.5 }), new T3.MeshBasicMaterial({ map: t, toneMapped: false }), std({ color: '#0A0B0E' })])
     d.rotation.x = Math.PI / 2; d.castShadow = true; g.add(d); net.add(g); return g })
 
-  Object.assign(AX, { lab, trails, trDev, NTR, SEG, T3, R, S, cam, cv, M, hemi, key, rim, glow, floor, clipS, clipW, mark, rays, ring, halo, arms, cold, chip, crate, peds, gap, gTower, gData, ghost, gBase, loop, lemn, tube, gates, pulses, axes, tiles, objs, pins, LOOKS, ROBOTS, globe, ball, dots, dotP, hub, arcs, arcMat, line, stripe, parts, sg, photos, net, orbit, discs, sets: [mark, ring, halo, cold, gap, loop, axes, globe, line, sg, net, lab, ...arms.map(A => A.root)] })
+  // 14 Oct: the randomized room (their 13 Oct sim-to-real demo). The arm, a basket and five everyday things on the floor
+  // of a room whose floor and walls change colour (visual randomization). The room exists only in simulation: its own
+  // clip plane (clipR) follows the deploy sweep, so it dissolves where the real world begins.
+  const room = new T3.Group(); S.add(room)
+  const clipR = new T3.Plane(new T3.Vector3(1, 0, 0), 1e4)
+  const RM = { W: 5.6, D: 4.4, H: 4.0, Z: -0.55 }
+  const roomM = [0, 1, 2].map(() => std({ color: '#CFC24A', roughness: 0.92, metalness: 0, clippingPlanes: [clipR] }))
+  const rWalls = [[box(RM.W, 0.06, RM.D), [0, -0.026, RM.Z]], [box(RM.W, RM.H, 0.08), [0, RM.H / 2, RM.Z - RM.D / 2]], [box(0.08, RM.H, RM.D), [-RM.W / 2, RM.H / 2, RM.Z]]]
+    .map(([g, p], i) => { const m = new T3.Mesh(g, roomM[i]); m.position.set(...p); m.receiveShadow = true; room.add(m); return m })
+  const rEdge = new T3.LineSegments(new T3.EdgesGeometry(box(RM.W, RM.H, RM.D)), new T3.LineBasicMaterial({ color: AXN, transparent: true, opacity: 0.9, toneMapped: false })); rEdge.position.set(0, RM.H / 2, RM.Z); room.add(rEdge)
+  const rFloorW = new T3.LineSegments(new T3.EdgesGeometry(new T3.PlaneGeometry(RM.W, RM.D, 8, 6).rotateX(-Math.PI / 2)), new T3.LineBasicMaterial({ color: AXN, transparent: true, opacity: 0.35, toneMapped: false })); rFloorW.position.set(0, 0.01, RM.Z); room.add(rFloorW)
+  const rObj = parts => { const g = new T3.Group(); parts.forEach(([geo, col, p, r]) => twin(g, geo, std({ color: col, roughness: 0.42, metalness: 0.08, clippingPlanes: [clipS] }), p, r)); room.add(g); return g }
+  const RO = [    // [group, height]: the juice box (the one it fetches), a can, a bottle, a small bottle, a dark case
+    [rObj([[box(0.2, 0.34, 0.14), '#F1CF3A', [0, 0.17, 0]], [box(0.205, 0.1, 0.145), '#4DB33D', [0, 0.27, 0]]]), 0.34],
+    [rObj([[cyl(0.1, 0.3, 20), '#1D2230', [0, 0.15, 0]], [cyl(0.102, 0.08, 20), '#D23A3A', [0, 0.16, 0]]]), 0.3],
+    [rObj([[cyl(0.1, 0.32, 18), '#7C1D2E', [0, 0.16, 0]], [cyl(0.045, 0.12, 12), '#7C1D2E', [0, 0.38, 0]]]), 0.44],
+    [rObj([[cyl(0.065, 0.22, 14), '#E07B2A', [0, 0.11, 0]], [cyl(0.03, 0.06, 10), '#F4F1E8', [0, 0.25, 0]]]), 0.28],
+    [rObj([[box(0.32, 0.1, 0.18), '#16181D', [0, 0.05, 0]]]), 0.1],
+  ]
+  const basket = new T3.Group(); room.add(basket)
+  { const bM = std({ color: '#E3D2AE', roughness: 0.85, clippingPlanes: [clipS] })
+    ;[[box(0.9, 0.05, 0.66), [0, 0.025, 0]], [box(0.9, 0.3, 0.05), [0, 0.15, 0.33]], [box(0.9, 0.3, 0.05), [0, 0.15, -0.33]], [box(0.05, 0.3, 0.66), [0.45, 0.15, 0]], [box(0.05, 0.3, 0.66), [-0.45, 0.15, 0]]].forEach(([g, p]) => twin(basket, g, bM, p)) }
+  // the camera the vision policy sees through: a body on a post, a lens, its field of view drawn in green
+  const eye = new T3.Group(); room.add(eye)
+  { const bd = new T3.Mesh(box(0.42, 0.28, 0.3), std({ color: '#121418', roughness: 0.3, metalness: 0.5 })); bd.castShadow = true; eye.add(bd)
+    const ln = new T3.Mesh(cyl(0.11, 0.16, 24), std({ color: '#0A0B0E', roughness: 0.15, metalness: 0.8 })); ln.rotation.x = Math.PI / 2; ln.position.z = 0.22; eye.add(ln)
+    const lr = new T3.Mesh(new T3.TorusGeometry(0.11, 0.018, 8, 30), M.green); lr.position.z = 0.3; eye.add(lr) }
+  const eyePost = new T3.Mesh(cyl(0.035, 1, 8), M.white); eyePost.castShadow = true; room.add(eyePost)
+  const fovG = new T3.BufferGeometry(); fovG.setAttribute('position', new T3.BufferAttribute(new Float32Array(8 * 3), 3))
+  const fovL = new T3.LineSegments(fovG, new T3.LineBasicMaterial({ color: AXN, transparent: true, opacity: 0.85, toneMapped: false })); room.add(fovL)
+  const eyeCam = new T3.PerspectiveCamera(46, 4 / 3, 0.05, 60)
+
+  // 14 Oct: the Challenger pool: contributors as tiles; a scan picks the most consistent, lifts them and badges them
+  const chal = new T3.Group(); S.add(chal)
+  const CH = { cols: 7, rows: 9, gap: 0.96 }, NCH = CH.cols * CH.rows
+  const chTiles = new T3.InstancedMesh(box(0.8, 0.34, 0.8), std({ color: '#FFFFFF', roughness: 0.38, metalness: 0.05 }), NCH); chTiles.castShadow = chTiles.receiveShadow = true; chal.add(chTiles)
+  for (let i = 0; i < NCH; i++) chTiles.setColorAt(i, new T3.Color('#FFFFFF'))
+  const chPick = [3, 9, 15, 23, 26, 32, 41, 46, 52, 58]
+  const chBadges = chPick.map(() => { const g = new T3.Group(); const r = new T3.Mesh(new T3.TorusGeometry(0.3, 0.055, 10, 40), std({ color: '#0C0D10', roughness: 0.25, metalness: 0.7, emissive: AXN, emissiveIntensity: 0.7 })); g.add(r)
+    const bolt = new T3.Mesh(new T3.CircleGeometry(0.2, 6), M.green); g.add(bolt); chal.add(g); return g })
+  const chScan = new T3.Mesh(box(0.1, 0.06, CH.rows * CH.gap + 1.2), M.green); chal.add(chScan)
+
+  // 14 Oct: the token: a dark coin with their mark on its face and a green band round its edge (as in their 10 Oct film)
+  const coin = new T3.Group(); S.add(coin)
+  { const bodyM = std({ color: '#111216', roughness: 0.26, metalness: 0.78 })
+    const bd = new T3.Mesh(cyl(1.6, 0.36, 128), bodyM); bd.rotation.x = Math.PI / 2; bd.castShadow = true; coin.add(bd)
+    const band = new T3.Mesh(new T3.CylinderGeometry(1.612, 1.612, 0.1, 128, 1, true), new T3.MeshBasicMaterial({ color: AXN, toneMapped: false, side: T3.DoubleSide })); band.rotation.x = Math.PI / 2; coin.add(band)
+    ;[1.42, 1.18].forEach(r => [1, -1].forEach(s => { const t = new T3.Mesh(new T3.TorusGeometry(r, 0.022, 8, 120), std({ color: '#3A3E46', roughness: 0.3, metalness: 0.8 })); t.position.z = s * 0.181; coin.add(t) }))
+    const rayG = box(1, 0.11, 0.05); rayG.translate(0.5, 0, 0)
+    ;[1, -1].forEach(s => [0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330].forEach(d => { const m = new T3.Mesh(rayG, std({ color: '#C9CFD8', roughness: 0.3, metalness: 0.85 })); m.scale.x = [60, 150, 240, 330].includes(d) ? 0.62 : 0.92; m.rotation.z = d * Math.PI / 180; m.position.z = s * 0.19; if (s < 0) m.rotation.y = Math.PI; coin.add(m) })) }
+
+  Object.assign(AX, { room, clipR, RM, roomM, rWalls, rEdge, rFloorW, RO, basket, eye, eyePost, fovL, eyeCam, chal, CH, NCH, chTiles, chPick, chBadges, chScan, coin })
+  Object.assign(AX, { lab, trails, trDev, NTR, SEG, T3, R, S, cam, cv, M, hemi, key, rim, glow, floor, clipS, clipW, mark, rays, ring, halo, arms, cold, chip, crate, peds, gap, gTower, gData, ghost, gBase, loop, lemn, tube, gates, pulses, axes, tiles, objs, pins, LOOKS, ROBOTS, globe, ball, dots, dotP, hub, arcs, arcMat, line, stripe, parts, sg, photos, net, orbit, discs, sets: [mark, ring, halo, cold, gap, loop, axes, globe, line, sg, net, lab, room, chal, coin, ...arms.map(A => A.root)] })
   return true
 })()
 
@@ -2847,11 +2923,66 @@ function axArmCycle(a, tc) {
   else { const q = vxE.io((d - 0.95) / 0.2); armReach(A, ...axV(binHover, hover, q), 0) }
 }
 
+// ---- the randomized room (14 Oct): episodes of "put the juice box in the basket", every object re-placed at random
+// each time (as in their 13 Oct demo). A pose for every moment of the room's own clock tc, like the parts line.
+const AXR = {
+  EP: 2.6, root: [-0.3, 0, -1.75], s: 0.8, bin: [1.45, 0, -0.75], hover: [-0.2, 1.75, -0.7],
+  XS: [-1.75, -1.1, -0.45, 0.2], ZS: [-0.95, -0.35, 0.25], eye: [-2.2, 2.45, 0.95], look: [-0.55, 0.1, -0.6],
+  // their simulator's rooms (13 Oct demo): [floor, back wall, left wall]; a plain grey one before randomization
+  LOOKS: [['#CFC24A', '#2C301F', '#BDB03C'], ['#A9C3DD', '#1F3A22', '#2F7A3A'], ['#7A4C8C', '#2A2140', '#3E8E8A'], ['#9E5F68', '#E3D3CC', '#22402E'], ['#3A3226', '#4A3424', '#5B2B6E'], ['#B6D8C8', '#173F2B', '#262A55'], ['#C98A3C', '#2B2D5C', '#7FA7C9']],
+  GREY: ['#9AA2AE', '#5E6672', '#7A828E'],
+}
+function axRoomPos(e, i) {      // episode e: object i's spot [x, z, yaw] (five of twelve slots, shuffled, jittered)
+  const slots = Array.from({ length: 12 }, (_, k) => k).sort((a, b) => hsh(e * 13 + a, 77) - hsh(e * 13 + b, 77)), k = slots[i]
+  return [AXR.XS[k % 4] + (hsh(e, i + 30) - 0.5) * 0.24, AXR.ZS[Math.floor(k / 4)] + (hsh(e, i + 40) - 0.5) * 0.2, hsh(e, i + 50) * 6.28]
+}
+function axRoom(tc, A) {
+  const V = AX, { EP, bin, hover } = AXR, e = Math.floor(tc / EP), d = tc - e * EP, tip = new V.T3.Vector3()
+  const [ox, oz] = axRoomPos(e, 0), oh = 0.2, up = [ox, oh + 0.55, oz], dn = [ox, oh, oz], bh = [bin[0], 0.75, bin[2]]      // the fingertips close round the box's top half
+  let held = false, drop = null
+  if (d < 0.3) armReach(A, ...hover, 0)
+  else if (d < 0.9) armReach(A, ...axV(hover, up, vxE.io((d - 0.3) / 0.6)), 0)
+  else if (d < 1.1) armReach(A, ...axV(up, dn, vxE.io((d - 0.9) / 0.2)), 0)
+  else if (d < 1.25) { armReach(A, ...dn, 0.75 * clamp((d - 1.1) / 0.12)); held = d > 1.2 }
+  else if (d < 1.95) { const q = vxE.io((d - 1.25) / 0.7), m = axV(dn, bh, q); armReach(A, m[0], m[1] + 0.55 * Math.sin(Math.PI * q), m[2], 0.75); held = true }
+  else if (d < 2.08) { armReach(A, ...bh, 0.75 * (1 - clamp((d - 1.95) / 0.1))); drop = d - 1.95 }
+  else { armReach(A, ...axV(bh, hover, vxE.io((d - 2.08) / 0.5)), 0); drop = d - 1.95 }
+  A.root.updateMatrixWorld(true); A.tip.getWorldPosition(tip)
+  V.RO.forEach(([g], i) => { const [x, z, yaw] = axRoomPos(e, i); g.scale.setScalar(d < 0.3 ? Math.max(0.001, vxE.back(d / 0.3)) : 1); g.position.set(x, 0, z); g.rotation.set(0, yaw, 0) })
+  const J = V.RO[0][0]
+  if (held) J.position.set(tip.x, tip.y - oh, tip.z)
+  else if (drop != null) { const q = clamp(drop / 0.22); J.position.set(bin[0], vxL(0.75 - oh, 0.05, q * q), bin[2]) }
+  return e
+}
+function axRoomLook(lk) { AX.roomM.forEach((m, i) => m.color.set(lk[i])) }
+function axRoomSet(o = {}) {    // which parts of the room show: walls (solid, coloured), wire (the edges), the camera, its field of view
+  const V = AX; V.room.visible = true; V.basket.position.set(...AXR.bin)
+  V.rWalls.forEach(m => { m.visible = !!o.walls }); V.rEdge.visible = V.rFloorW.visible = !!o.wire
+  const ey = AXR.eye, q = o.eye ?? 0; V.eye.visible = V.eyePost.visible = q > 0
+  V.eye.position.set(ey[0], ey[1], ey[2]); V.eye.lookAt(...AXR.look); V.eye.scale.setScalar(Math.max(0.001, q))
+  V.eyePost.position.set(ey[0], (ey[1] - 0.14) / 2, ey[2]); V.eyePost.scale.set(1, Math.max(0.001, ey[1] - 0.14), 1)
+  const f = o.fov ?? 0; V.fovL.visible = f > 0
+  if (f > 0) { const lens = new AX.T3.Vector3(...AXR.look).sub(new AX.T3.Vector3(...ey)).normalize().multiplyScalar(0.3).add(new AX.T3.Vector3(...ey)), pa = V.fovL.geometry.attributes.position.array
+    ;[[-2.05, -1.2], [0.6, -1.2], [0.6, 0.55], [-2.05, 0.55]].forEach(([x, z], k) => { pa.set([lens.x, lens.y, lens.z, vxL(lens.x, x, f), vxL(lens.y, 0.01, f), vxL(lens.z, z, f)], k * 6) }); V.fovL.geometry.attributes.position.needsUpdate = true }
+  const c = new AX.T3.Vector3(...AXR.look).sub(new AX.T3.Vector3(...ey)).normalize().multiplyScalar(0.34).add(new AX.T3.Vector3(...ey))
+  V.eyeCam.position.copy(c); V.eyeCam.lookAt(...AXR.look)
+}
+
 // ---- each scene's shot: which sets show, where the camera goes, what moves. Returns what the page around it needs.
 const axPath = (k, t) => [vxPath(k, t, 1), vxPath(k, t, 2)]
 const AXF = {
   // the cold open (deep royal blue): the chip lights, the arm wakes, the data crate is all but empty, then glitches red
   cold(lt, sc, b, at) {
+    if (b.kind === 'rooms') {         // 14 Oct: the randomized room on deep royal blue: a new look on each line, then the twist turns it to wire
+      const V = AX, A = V.arms[0]; A.root.visible = true; A.root.position.set(...AXR.root); A.root.scale.setScalar(AXR.s)
+      const n = sc.lines.length, tx = L(sc, n - 1), k = Math.max(0, sc.lines.filter((_, j) => lt >= L(sc, j) - 0.05).length - 1)
+      axRoom(0.9 + lt * 1.15, A)
+      const gl = lt >= tx && lt < tx + 0.45, wire = lt >= tx + 0.45 || (gl && Math.sin(lt * 70) > 0)
+      axRoomSet({ walls: !wire, wire }); axRoomLook(AXR.LOOKS[(b.looks || [0, 1, 2])[Math.min(k, 2)] ?? 0]); axSim(wire ? -1e4 : 1e4)
+      const kf = [[0, [2.0, 3.9, 11.0], [-0.3, 1.25, -1.2]], [L(sc, 1), [2.4, 4.7, 13.0], [-0.2, 1.15, -1.0]], [L(sc, 2), [2.7, 5.5, 15.0], [-0.1, 1.05, -0.9]], [tx, [2.9, 6.2, 16.6], [0, 1.0, -0.85]], [sc.dur + 1, [3.0, 6.6, 17.6], [0, 1.0, -0.8]]]
+      const [p, g] = axPath(kf, lt); axCam(p, g, 32); axLight(g, 9, true); if (!wire) V.key.intensity = [1.25, 1.05, 1.4][Math.min(k, 2)]
+      return { bg: 'deep' }
+    }
     if (b.kind === 'line') {          // the short's hook: the parts line in green wire on deep blue, learning in simulation
       const V = AX; V.line.visible = true; [0, 1].forEach(a => { const A = V.arms[a]; A.root.visible = true; A.root.position.set(V_XA(a), 0, -2.35) })
       const tc = lt + 3.2; [0, 1].forEach(a => axArmCycle(a, tc)); V.arms.forEach(A => A.root.updateMatrixWorld(true)); axLine(tc)
@@ -3026,6 +3157,55 @@ const AXF = {
       d.visible = lt >= a; d.position.set(3.5 * Math.cos(th), 6.3 + 3.5 * Math.sin(th) * Math.sin(0.3), 3.5 * Math.sin(th) * Math.cos(0.3)); d.scale.setScalar(Math.max(0.001, 0.62 * q)); d.lookAt(V.cam.position) })
     return { bg: 'sky' }
   },
+  // 14 Oct, sim to real: an RL expert in simulation (all wire, navy), then the camera a vision policy sees through (and
+  // its view, inset), the room changing look (visual randomization), then the deploy sweep: the room dissolves behind a
+  // green line and the arm carries on, for real, on our page, with the objects still placed at random
+  distill(lt, sc, b, at) {
+    const V = AX, tV = at('vis', L(sc, 1)), tR = at('rand', L(sc, 2)), tD = at('real', L(sc, 3)), A = V.arms[0]
+    A.root.visible = true; A.root.position.set(...AXR.root); A.root.scale.setScalar(AXR.s)
+    axRoom(lt < tD ? 0.6 + 1.7 * lt : 0.6 + 1.7 * tD + (lt - tD), A)          // the expert works fast in simulation
+    const sweep = lt >= tD ? P(lt, tD, tD + 1.5, E.inOutSine) : 0, done = sweep >= 0.999
+    const wire = lt < tV, walls = lt >= tV && !done, kR = lt >= tR ? Math.floor((lt - tR) / 0.42) : -1
+    axRoomSet({ walls, wire, eye: lt >= tV ? vxE.back((lt - tV) / 0.4) : 0, fov: lt >= tV && lt < tD ? P(lt, tV + 0.2, tV + 0.8, E.outCubic) : 0 })
+    axRoomLook(kR < 0 ? AXR.GREY : AXR.LOOKS[kR % AXR.LOOKS.length]); axSim(wire ? -1e4 : 1e4)
+    const kf = [[0, [1.8, 5.0, 13.5], [-0.25, 1.15, -1.1]], [tV, [1.5, 7.8, 20.0], [0.05, 0.95, -0.85]], [tD, [1.3, 8.2, 21.0], [0.05, 0.9, -0.8]], [sc.dur + 1, [0.9, 7.8, 20.0], [0.05, 0.9, -0.8]]]
+    const [p, g] = axPath(kf, lt); axCam(p, g, 30); axLight(g, 8, lt < tD); if (kR >= 0 && lt < tD) V.key.intensity = 0.8 + 0.9 * hsh(kR, 5)
+    let mode = lt < tD ? 'sim' : done ? 'sky' : 'sweep', scan = null
+    if (mode === 'sweep') { const X = 1080 * sweep, u = 2 * sweep - 1, k = u * Math.tan(V.cam.fov * Math.PI / 360) * V.cam.aspect
+      const n = new V.T3.Vector3(1, 0, k).normalize().applyQuaternion(V.cam.quaternion), c = -n.dot(V.cam.position)
+      V.clipR.normal.copy(n); V.clipR.constant = c; scan = [X, X] }
+    else { V.clipR.normal.set(1, 0, 0); V.clipR.constant = 1e4 }
+    const ins = lt >= tV + 0.3 && lt < tD - 0.1 ? (b.inset || [610, 1250, 400, 300]) : null
+    return { bg: mode, scan, ins, insQ: ins ? P(lt, tV + 0.3, tV + 0.7) * (1 - P(lt, tD - 0.4, tD - 0.1)) : 0, t: { tV, tR, tD, kR } }
+  },
+  // 14 Oct: their own demo, sim above real (the page carries it; the 3D world rests)
+  demo(lt, sc, b) { axCam([0, 6, 30], [0, 6, 0]); return { bg: 'sky' } },
+  // 14 Oct: the Challenger pool: contributors arrive as tiles, a scan passes, the best rise in green and get a badge
+  chal(lt, sc, b, at) {
+    const V = AX, tS = at('scan', L(sc, 1)), tB = at('badge', L(sc, 2)), o = new V.T3.Object3D(), { cols, rows, gap } = V.CH
+    const white = new V.T3.Color('#FFFFFF'), dim = new V.T3.Color('#D5DDE8'), green = new V.T3.Color(AXG), col = new V.T3.Color()
+    V.chal.visible = true
+    const x0 = -(cols / 2) * gap - 0.8, x1 = (cols / 2) * gap + 0.8, sx = vxL(x0, x1, P(lt, tS, tS + 1.8, E.inOutSine))
+    V.chScan.visible = lt >= tS && lt < tS + 1.85; V.chScan.position.set(sx, 0.36, 0)
+    for (let i = 0; i < V.NCH; i++) { const c = i % cols, r = Math.floor(i / cols), x = (c - (cols - 1) / 2) * gap, z = (r - (rows - 1) / 2) * gap
+      const a = 0.15 + (rows - 1 - r) * 0.06 + c * 0.025, s = lt >= a ? Math.max(0.001, vxE.back((lt - a) / 0.4)) : 0.001
+      const j = V.chPick.indexOf(i), q = lt >= tS ? clamp((sx - x) / 1.2) : 0, bump = lt >= tS && sx > x ? 0.3 * Math.exp(-(sx - x) * 3) : 0, lift = j >= 0 ? 1.15 * vxE.back(q) : 0
+      o.position.set(x, 0.17 + bump + lift, z); o.rotation.set(0, 0, 0); o.scale.setScalar(s); o.updateMatrix(); V.chTiles.setMatrixAt(i, o.matrix)
+      V.chTiles.setColorAt(i, col.copy(white).lerp(j >= 0 ? green : dim, j >= 0 ? q : 0.7 * q))
+      if (j >= 0) { const bg = V.chBadges[j], ba = tB + j * 0.07, bq = lt >= ba ? Math.max(0.001, vxE.back((lt - ba) / 0.4)) : 0.001
+        bg.visible = lt >= ba; bg.position.set(x, 0.17 + lift + 0.78 + 0.05 * Math.sin(lt * 2 + j), z); bg.quaternion.copy(V.cam.quaternion); bg.scale.setScalar(bq) } }
+    V.chTiles.instanceMatrix.needsUpdate = true; V.chTiles.instanceColor.needsUpdate = true
+    const [p, g] = axPath([[0, [0.8, 16.0, 20.5], [0, 1.6, -0.4]], [sc.dur + 1, [-0.8, 15.2, 19.4], [0, 1.6, -0.4]]], lt); axCam(p, g, 30); axLight([0, 0.5, 0], 8)
+    return { bg: 'sky', t: { tS, tB } }
+  },
+  // 14 Oct: the token: the coin spins down into place; the page draws its allocation round it
+  token(lt, sc, b, at) {
+    const V = AX, tF = at('flip', 0.15), q = vxE.o(clamp((lt - tF) / 1.7)), cy = b.coin_y ?? 7.6
+    V.coin.visible = lt >= tF; V.coin.position.set(0, cy + (1 - q) * 7, 0)
+    V.coin.rotation.set(0.1 * Math.sin(lt * 0.6), (1 - q) * Math.PI * 7 + 0.32 * Math.sin(lt * 0.45), 0.05 * Math.sin(lt * 0.4))
+    axCam([0, cy - 0.6, 22.5], [0, cy - 1.5, 0], 30); axLight([0, cy, 0], 6)
+    return { bg: 'sky', c: axProj(0, cy, 0), t: { tF } }
+  },
   // the end: the mark, large; a green halo on "coming"
   end(lt, sc, b, at) {
     const V = AX, tC = at('coming', L(sc, 0, 0.8)); V.mark.visible = true; axMarkRest(); V.mark.position.set(0, 7.2, 0); V.mark.scale.setScalar(0.44); V.mark.rotation.set(0.08 * Math.sin(lt * 0.5), 0.25 * Math.sin(lt * 0.4), lt * 0.12)
@@ -3040,8 +3220,15 @@ function axShot(sc, lt, b) {
   V.sets.forEach(o => { o.visible = false }); V.ring.visible = false; V.halo.visible = false
   V.clipS.normal.set(-1, 0, 0); V.clipW.normal.set(1, 0, 0); axSim(1e4)
   V.arms.forEach(A => { A.root.scale.setScalar(1); A.root.rotation.set(0, 0, 0); A.led.visible = true })
+  if (V.clipR) { V.clipR.normal.set(1, 0, 0); V.clipR.constant = 1e4 }
   const out = (AXF[ty] || AXF.end)(lt, sc, b, at) || { bg: 'sky' }
   V.R.render(V.S, V.cam)
+  if (out.ins && out.insQ > 0.01) {        // the vision policy's own view: the scene again, from its camera, into a corner of the canvas
+    const [x, y, w, h] = out.ins, fv = V.fovL.visible, ev = V.eye.visible; V.fovL.visible = false; V.eye.visible = false
+    V.R.setScissorTest(true); V.R.setViewport(x, 1920 - y - h, w, h); V.R.setScissor(x, 1920 - y - h, w, h); V.R.setClearColor(0x0A1F4D, 1)
+    V.R.render(V.S, V.eyeCam)
+    V.R.setScissorTest(false); V.R.setViewport(0, 0, 1080, 1920); V.R.setClearColor(0x000000, 0); V.fovL.visible = fv; V.eye.visible = ev
+  }
   return out
 }
 
@@ -3053,7 +3240,7 @@ function buildAX(el, sc, b) {
   el.classList.add('ax'); const ty = sc.type.slice(6)
   const bg = `<div class="ax-bg"><i class="ax-sky"></i><i class="ax-deep"></i><i class="ax-sim"></i><i class="ax-gr"></i><i class="ax-gs"></i></div>`
   let back = '', front = ''
-  if (ty === 'cold' && b.kind === 'line') front = (b.words || []).map(w => `<div class="ax-h c dk cw" style="top:${w[1] || 230}px">${w[0]}</div>`).join('')
+  if (ty === 'cold' && (b.kind === 'line' || b.kind === 'rooms')) front = (b.words || []).map(w => `<div class="ax-h c dk cw" style="top:${w[1] || 230}px">${w[0]}</div>`).join('')
   else if (ty === 'cold') front = (b.tags || ['Compute', 'Robots', 'Data']).map((t, i) => axTag(i === 2 ? 'dt' : '', `${html(t)} <b>${i === 2 ? '?' : '✓'}</b>`)).join('')
   if (ty === 'title') front = `<div class="ax-wm">${(b.name || 'AXIS ROBOTICS').split(' ').map(w => `<span>${html(w)}</span>`).join('')}</div><div class="ax-sub">${axK('', html(b.tagline || 'The compounding data engine for physical AI'))}</div>`
   if (ty === 'gap') front = `<div class="ax-h c sm" style="top:196px">${b.head || 'The bottleneck is <em>data</em>,<br>not compute.'}</div>` + (b.labels || ['Text for language models', 'Robot data']).map((t, i) => axTag(i ? 'on' : 'lt', html(t))).join('') + axTag('gh', html(b.ghost || 'GPT-1 moment')) + `<div class="ax-note" style="top:1530px">${html(b.note || 'Illustration, not to scale')}</div>`
@@ -3069,6 +3256,23 @@ function buildAX(el, sc, b) {
   if (ty === 'lotus') front = (b.rec ? `<div class="ax-card vid ink lc" style="left:70px;top:330px;width:940px;height:${Math.round(940 * 9 / 16)}px"><img class="rec"></div>` : '')
     + `<div class="ax-num ln" style="top:190px"><span class="v">${html(b.big || '500–800')}</span><small>${html(b.big_sub || 'distinct parts · one policy')}</small></div>`
     + `<div class="ax-mul st" style="top:1300px">${(b.steps || []).map(t => axK('lt sp', t)).join('')}</div>` + axKC('en', b.end || 'Axis Suite · <b>real automotive manufacturing</b>', 1460) + `<div class="ax-scan"></div>`
+  if (ty === 'distill') { const [ix, iy, iw, ih] = b.inset || [610, 1250, 400, 300]
+    front = axKC('kc', b.kicker || 'New · <b>13 Oct</b>', 168, '') + `<div class="ax-h c sm" style="top:236px">${b.head || 'From <em>simulation</em><br>to reality'}</div>`
+      + `<div class="ax-ins" style="left:${ix - 10}px;top:${iy - 10}px;width:${iw + 20}px;height:${ih + 20}px"><span>${html(b.inset_cap || 'What the policy sees')}</span></div>`
+      + `<div class="ax-stp">${(b.steps || []).map((t, i) => `<div class="it"><b>0${i + 1}</b>${t}</div>`).join('')}</div>` + (b.any ? axKC('an', b.any, 1300, 'lt') : '') + `<div class="ax-scan"></div>` }
+  if (ty === 'demo') front = `<div class="ax-h c sm" style="top:178px">${b.head || 'Objects placed <em>at random</em>'}</div>`
+    + ['', 'r'].map((k, i) => `<div class="ax-card ink ax-dmc" style="left:140px;top:${[318, 948][i]}px;width:800px;height:600px"><div class="ax-half ${k}"><img class="rec"></div><div class="cap">${[b.cap_sim || 'Simulation', b.cap_real || 'Real robot'][i]}</div></div>`).join('')
+    + `<div class="ax-note" style="top:1572px">${html(b.credit || 'Video: @MPriosin71748, shared by @axisrobotics · 13 Oct 2026')}</div>`
+  if (ty === 'chal') front = axKC('kc', b.kicker || 'Contributors', 168, '') + `<div class="ax-h c sm" style="top:236px">${b.head || 'The <em>Challenger</em> program'}</div>`
+    + `<div class="ax-mul ax-chc" style="top:${b.chips_top || 1215}px">${(b.chips || []).map(t => axK('lt cc', t)).join('')}</div>`
+    + (b.card ? `<div class="ax-card ax-pst" style="left:90px;top:${b.card_top || 640}px;width:900px;height:${Math.round(872 * 9 / 16) + 28}px"><img src="${html(b.card)}"></div>` : '') + `<div class="ax-note" style="top:1572px">${html(b.credit || '')}</div>`
+  if (ty === 'token') { const al = b.alloc || [], R0 = b.r || 330, C = 2 * Math.PI * R0
+    front = axKC('kc', b.kicker || 'Announced <b>10 Oct</b>', 150, '') + `<div class="ax-h c sm" style="top:212px">${b.head || 'Introducing <em>$AXIS</em>'}</div>`
+      + `<svg class="ax-pie" width="1080" height="1920" viewBox="0 0 1080 1920"><circle class="tr" r="${R0}" fill="none" stroke-width="${b.sw || 54}"></circle>${al.map(a => `<circle class="sg" r="${R0}" fill="none" stroke="${a[2]}" stroke-width="${b.sw || 54}" stroke-dasharray="0 ${C.toFixed(1)}"></circle>`).join('')}</svg>`
+      + al.map(a => `<div class="ax-plb"><b>${html(a[1])}%</b></div>`).join('')
+      + `<div class="ax-al">${al.map(a => `<div class="rw"><i style="background:${a[2]}"></i><span>${html(a[0])}</span><b>${html(a[1])}%</b></div>`).join('')}</div>`
+      + `<div class="ax-mul ax-tkc" style="top:${b.chips_top || 1180}px">${(b.chips || []).map(t => axK('lt tc', t)).join('')}</div>`
+      + `<div class="ax-note" style="top:1572px">${html(b.note || 'Not financial advice · figures from Axis Robotics')}</div>` }
   if (ty === 'net') front = `<div class="ax-tl">${(b.items || []).map(([d, t]) => `<div class="it"><div class="dt">${html(d)}</div><div class="tx">${t}</div></div>`).join('')}</div>`
   if (ty === 'end') front = (b.coming === '' ? '' : axKC('cm', b.coming || 'Something is coming', 200, '')) + `<div class="ax-h c" style="top:1080px">${b.head || 'Built by <em>all</em>.'}</div>` + axKC('hn', b.handle || '@axisrobotics', 1250) + axKC('fo', b.follow || 'Follow for more', 1340, '')
   el.innerHTML = `${bg}<div class="ax-back">${back}</div><div class="ax-slot"></div><div class="ax-front">${front}</div><div class="ax-fl"></div>`
@@ -3086,7 +3290,7 @@ function drawAX(el, lt, sc, b) {
   $('#stage').classList.toggle('axdark', o.bg === 'sim')
   const T = o.t || {}, show = (n, a, from = 24) => { if (n) rise([n], lt, a, 0, from) }
   const tagAt = (n, q, a, on = true) => { if (!n || !q) return; const hw = (n.offsetWidth || 240) / 2 + 24; n.style.left = clamp(q[0], hw, 1080 - hw).toFixed(0) + 'px'; n.style.top = q[1].toFixed(0) + 'px'; const v = on ? P(lt, a, a + 0.3) : 0; n.style.opacity = v.toFixed(2); n.style.transform = `translate(-50%,-50%) scale(${(0.8 + 0.2 * vxE.back(clamp((lt - a) / 0.3))).toFixed(3)})` }
-  if (ty === 'cold' && b.kind === 'line') $$('.cw', el).forEach((n, j) => { const a = L(sc, j, 0) - 0.05, z = j + 1 < sc.lines.length ? L(sc, j + 1, 0) - 0.1 : 1e9
+  if (ty === 'cold' && (b.kind === 'line' || b.kind === 'rooms')) $$('.cw', el).forEach((n, j) => { const a = L(sc, j, 0) - 0.05, z = j + 1 < sc.lines.length ? L(sc, j + 1, 0) - 0.1 : 1e9
     const q = P(lt, a, a + 0.3, E.outCubic) * (1 - P(lt, z, z + 0.15)); n.style.opacity = q.toFixed(2); n.style.transform = `scale(${(1.12 - 0.12 * P(lt, a, a + 0.35, E.outCubic)).toFixed(3)}) ${j === sc.lines.length - 1 ? glitch(n, lt, a + 0.05, 0.45) || '' : ''}` })
   else if (ty === 'cold') { const tg = $$('.ax-tag', el), a = [T.tc + 0.35, T.tr + 0.7, T.td + 0.35]
     tg.forEach((n, i) => tagAt(n, o.tags[i], a[i]))
@@ -3117,12 +3321,50 @@ function drawAX(el, lt, sc, b) {
     show($('.en', el), at('end', 1e9))
     const sn = $('.ax-scan', el); sn.style.opacity = o.scan ? 1 : 0; if (o.scan) sn.style.left = ((o.scan[0] + o.scan[1]) / 2).toFixed(0) + 'px'
   }
+  if (ty === 'distill') {
+    show($('.kc', el), 0.15); show($('.ax-h', el), 0.3)
+    const st = $$('.ax-stp .it', el), ts = [0.4, T.tV, T.tR, T.tD]
+    st.forEach((n, j) => { n.style.opacity = P(lt, ts[j], ts[j] + 0.3).toFixed(2); n.classList.toggle('on', lt >= ts[j] && (j === st.length - 1 || lt < ts[j + 1])); n.classList.toggle('dk', o.bg === 'sim') })
+    const ins = $('.ax-ins', el); ins.style.opacity = (o.insQ || 0).toFixed(2)
+    const an = $('.an', el); if (an) show(an, at('any', 1e9))
+    const sn = $('.ax-scan', el); sn.style.opacity = o.scan ? 1 : 0; if (o.scan) sn.style.left = o.scan[0].toFixed(0) + 'px'
+    const nv = o.bg === 'sim' || (o.bg === 'sweep' && o.scan && o.scan[0] < 540); $('.kc .ax-k', el).classList.toggle('lt', !nv); $('.ax-h', el).classList.toggle('dk', nv)
+  }
+  if (ty === 'demo') { show($('.ax-h', el), 0.2); const cs = $$('.ax-dmc', el); pop(cs[0], lt, 0.15, 0.9, 0.45); pop(cs[1], lt, 0.35, 0.9, 0.45); recAt(el, sc, lt); show($('.ax-note', el), 0.6, 10) }
+  if (ty === 'chal') {
+    show($('.kc', el), 0.15); show($('.ax-h', el), 0.3)
+    $$('.cc', el).forEach((c, j) => pop(c, lt, at('c' + j, L(sc, Math.min(j + 1, sc.lines.length - 1))), 0.6))
+    const cd = $('.ax-pst', el); if (cd) { const a = at('card', 1e9), z = at('card_out', 1e9); cd.style.opacity = (P(lt, a, a + 0.35) * (1 - P(lt, z, z + 0.3))).toFixed(2); cd.style.transform = `translateY(${((1 - P(lt, a, a + 0.6, E.outCubic)) * 80).toFixed(1)}px) rotate(${(-1.5 * (1 - P(lt, a, a + 0.6, E.outCubic))).toFixed(2)}deg)` }
+    show($('.ax-note', el), at('card', 1e9) + 0.4, 10)
+  }
+  if (ty === 'token') {
+    show($('.kc', el), 0.15); show($('.ax-h', el), 0.3)
+    const al = b.alloc || [], R0 = b.r || 330, C = 2 * Math.PI * R0, [cx, cy] = o.c, sg = $$('.ax-pie .sg', el), lb = $$('.ax-plb', el), rw = $$('.ax-al .rw', el)
+    $$('.ax-pie circle', el).forEach(n => { n.setAttribute('cx', cx.toFixed(1)); n.setAttribute('cy', cy.toFixed(1)) })
+    const tP = at('pie', L(sc, 1)); $('.ax-pie .tr', el).style.opacity = P(lt, tP - 0.3, tP).toFixed(2)
+    let acc = 0
+    al.forEach((a, j) => { const ta = at('a' + j, tP + j * 0.35), q = P(lt, ta, ta + 0.7, E.outCubic), len = C * a[1] / 100, gapL = Math.min(6, len * 0.2)
+      sg[j].setAttribute('stroke-dasharray', `${Math.max(0, len * q - gapL).toFixed(1)} ${C.toFixed(1)}`); sg[j].setAttribute('stroke-dashoffset', (-(C * acc / 100)).toFixed(1)); sg[j].setAttribute('transform', `rotate(-90 ${cx.toFixed(1)} ${cy.toFixed(1)})`)
+      const mid = (acc + a[1] / 2) / 100 * 2 * Math.PI - Math.PI / 2, rr = R0 + (b.sw || 54) / 2 + 52
+      lb[j].style.left = (cx + rr * Math.cos(mid)).toFixed(0) + 'px'; lb[j].style.top = (cy + rr * Math.sin(mid)).toFixed(0) + 'px'; lb[j].style.opacity = a[1] >= (b.label_min ?? 9) ? P(lt, ta + 0.4, ta + 0.7).toFixed(2) : 0
+      if (rw[j]) { rw[j].style.opacity = P(lt, ta, ta + 0.3).toFixed(2); rw[j].style.transform = `translateX(${((1 - P(lt, ta, ta + 0.45, E.outCubic)) * -30).toFixed(1)}px)` }
+      acc += a[1] })
+    $$('.tc', el).forEach((c, j) => pop(c, lt, at('t' + j, L(sc, Math.min(j + 1, sc.lines.length - 1))), 0.6))
+    show($('.ax-note', el), tP + 0.5, 10)
+  }
   if (ty === 'net') $$('.it', el).forEach((n, j) => { const a = at('i' + j, L(sc, Math.min(j + 1, sc.lines.length - 1))); n.style.opacity = P(lt, a, a + 0.3).toFixed(2); n.style.transform = `translateX(${((1 - P(lt, a, a + 0.45, E.outCubic)) * -40).toFixed(1)}px)` })
   if (ty === 'end') { if ($('.cm', el)) pop($('.cm', el), lt, T.tC, 0.85)
     const ta = at('all', L(sc, 1, 0.55)); slam($('.ax-h', el), lt, ta, 1.3, 0.3); [$('.hn', el), $('.fo', el)].forEach((n, j) => show(n, ta + 0.5 + j * 0.25, 20)) }
 }
 function fxAX(add, sc, T, next) {
   const b = sc.data || {}, ty = sc.type.slice(6), at = (k, d) => T + axAt(sc, b, k, d), ln = (j, f = 0) => T + L(sc, j, f)
+  if (ty === 'cold' && b.kind === 'rooms') {
+    add(T, '497', -14, { align: 'start', max: Math.max(1, sc.dur - 0.2) }); add(T + 0.1, '2297', -18, { max: sc.dur })
+    const n = sc.lines.length; for (let j = 0; j < n - 1; j++) { add(ln(j) - 0.03, '2909', -9); add(ln(j) - 0.03, '3124', -12) }
+    add(ln(n - 1), '2951', -8); add(ln(n - 1), '2299', -9); add(ln(n - 1) + 0.05, '2847', -12)
+    if (next?.data?.drop) add(next.start, '2908', -6, { reverse: true, max: 2.6, align: 'end' })
+    return
+  }
   if (ty === 'cold' && b.kind === 'line') {
     add(T, '497', -14, { align: 'start', max: Math.max(1, sc.dur - 0.2) }); add(T + 0.1, '2297', -18, { max: sc.dur })
     add(ln(0) - 0.03, '2909', -6); add(ln(0) - 0.03, '2299', -8); add(ln(1), '3117', -11); add(ln(2), '2847', -12); add(ln(3), '2951', -8); add(ln(3), '2299', -9)
@@ -3146,6 +3388,15 @@ function fxAX(add, sc, T, next) {
     const c2 = at('cup2', ln(4, 0.75)); for (let i = 0; i < 6; i++) add(c2 + i * 0.12, '2577', -16); add(at('lesson', ln(5)), '1365', -8) }
   if (ty === 'sg') { add(T + 0.2, '3124', -13); add(at('ev', ln(1)), '3115', -12); add(at('k1', ln(1, 0.5)), '3115', -12); add(at('show', ln(2)), '3115', -11) }
   if (ty === 'lotus') { add(at('job', ln(1)), '1143', -8); add(at('s1', ln(2)), '2847', -10); add(at('s2', ln(3)), '3117', -11); add(at('s3', ln(4)), '2847', -11); add(at('s3', ln(4)) + 0.2, '2909', -10); add(T + 0.3, '3117', -20, { max: sc.dur }) }
+  if (ty === 'distill') { add(T + 0.3, '3117', -18, { max: Math.max(1, sc.dur - 0.5) }); const tV = at('vis', ln(1)), tR = at('rand', ln(2)), tD = at('real', ln(3))
+    add(tV, '2847', -11); add(tV + 0.05, '2573', -14)
+    for (let t = tR, k = 0; t < tD - 0.1 && k < 40; t += 0.42, k++) add(t, '2577', k % 2 ? -18 : -15, { pan: k % 2 ? 0.25 : -0.25 })
+    add(tD, '2909', -9); add(tD + 0.05, '2636', -12); if (b.cue?.any) add(at('any', 0), '3124', -12) }
+  if (ty === 'demo') { add(T + 0.15, '2573', -12); add(T + 0.35, '2573', -13) }
+  if (ty === 'chal') { (b.chips || []).forEach((_, j) => add(at('c' + j, ln(Math.min(j + 1, sc.lines.length - 1))), '3124', -12)); add(at('scan', ln(1)), '2847', -11)
+    const tB = at('badge', ln(2)); for (let j = 0; j < 10; j++) add(tB + j * 0.07, '2577', -16); if (b.cue?.card) add(at('card', 0), '1143', -9) }
+  if (ty === 'token') { const tF = at('flip', T + 0.15); add(tF, '2909', -9); add(tF + 1.55, '1143', -7); add(tF + 1.6, '2636', -12)
+    const tP = at('pie', ln(1)); (b.alloc || []).forEach((_, j) => add(at('a' + j, tP + j * 0.35), j % 2 ? '2573' : '3124', -12)); (b.chips || []).forEach((_, j) => add(at('t' + j, ln(Math.min(j + 1, sc.lines.length - 1))), '3115', -13)) }
   if (ty === 'net') (b.items || []).forEach((_, j) => add(at('i' + j, ln(Math.min(j + 1, sc.lines.length - 1))), j % 2 ? '2573' : '3124', -12))
   if (ty === 'end') { add(at('coming', ln(0, 0.8)), '2636', -10); const ta = at('all', ln(1, 0.55)); add(ta, '2908', -5); add(ta, '2299', -7) }
 }

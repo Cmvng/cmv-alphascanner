@@ -247,3 +247,41 @@ now carries a narrated story, cued to the spoken word.
 - **Framing in a vertical frame:** at fov 30 the frame is only 0.30·d wide. The first stills had every camera too
   close; work out each shot's width from the distance first. Words anchored to 3D points are kept on screen.
 - **Rendering:** about 1 s a frame on three workers.
+
+## The same 3D world, a new story: sim to real (`ax_*`, Axis Robotics, 14 Oct 2026)
+
+Template: `axis-sim2real-2026-10-14.json` (sources in `video/out/explainer-axis-2026-10-14-sources.md`). The owner sent
+four of the company's posts (a sim-to-real demo, new Challenger spots, the $AXIS token) and asked for "a clean, well
+created video". The 9 Oct engine is reused. The new scenes are built from the posts themselves:
+
+- **`ax_cold` with `kind: "rooms"`:** the randomized room from their demo (an arm, a basket, five everyday objects) on
+  deep royal blue, with one look per line ("A yellow room." / "A green one." / "A purple one."). On the last line
+  ("None of them exist.") the room glitches into green wireframe. `looks` picks the rooms from `AXR.LOOKS`, their
+  simulator's colours.
+- **`ax_distill`:** the method as four steps, each cued to its word (`vis`, `rand`, `real`):
+  - the RL expert works at 1.7× in wireframe on navy;
+  - the camera appears with its field of view, and a **second camera renders live into a corner of the same canvas**
+    (scissor and viewport, after the main render), framed by `.ax-ins` ("What the camera sees");
+  - the walls change look every 0.42 s with a tick (visual randomization), and the light changes with them;
+  - the deploy sweep: the room has its own clip plane (`clipR`) in camera space, so it dissolves behind the green line
+    while the arm stays solid.
+  Every episode re-places the objects at random (`axRoomPos`: five of twelve slots, jittered), and the arm fetches the
+  juice box into the basket by inverse kinematics (`axRoom`).
+- **`ax_demo`:** their own video, which has sim and real side by side, shown as two cards (sim above, real below). Each
+  card shows one half of the same frames (`.ax-half`, image at 200% width), and `recAt` now updates every `img.rec` in
+  a scene.
+- **`ax_chal`:** 63 contributor tiles arrive row by row; a green scan passes; the picked ones rise in green with a
+  badge. Their Challenger artwork drops in on `card` and leaves on `card_out`; the chips are cued `c0`…
+- **`ax_token`:** a dark coin with their mark and a green band spins down into place. The allocation ring (SVG) is
+  centred on the coin's projected position, and each segment draws on its cue (`a0`…). Labels show only for shares
+  of 9% or more (`label_min`); the legend lists all of them in two columns.
+
+**Voice lessons (checked before the first render, as the 9 Oct entry asked):**
+- "AXIS" mid-sentence was heard as "Access" again. "The AXIS token" (full vowel) was heard right.
+- "sim-to-real" came out as "Simterreal"; "sim to real work" is clear.
+- So: run every brand-name line through Kokoro, the deep voice effect and whisper first (`audio.py speak` on a small
+  `sentences.json`, then `ab_hear.py`), about two minutes.
+
+**Facts:** the token figures come from the docs' tokenomics page, which says they "may change before TGE". So the video
+says it; it gives no price or listing, and the note "not financial advice" is on screen. Where the company's own
+sources disagreed (how often Challenger tasks come out, the contributor count), the fact was left out.
