@@ -24,6 +24,42 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
+## 14 Oct: explainer, Axis Robotics, "From simulation to reality" (1:56, 3D)
+
+- **The ask:** "a clean, well-created video on Axis Robotics", using four of their recent posts:
+  - the sim-to-real demo (13 Oct, with @MPriosin71748's post);
+  - new Challenger spots (12 Oct);
+  - the $AXIS token (10 Oct).
+- **Before building:** applied the last three "Change next time" lines:
+  - `df -h /` before every render;
+  - no `pgrep -f`;
+  - unique class prefixes (`ax-ins`, `ax-stp`, `ax-pie`…), each checked with grep first.
+  - From the 9 Oct Axis entry: every brand-name line went through Kokoro, the deep effect and whisper *before* the first render.
+- **What worked:**
+  - **Built from their own demo:**
+    - The cold open shows their simulator's coloured rooms ("A yellow room. A green one. A purple one. None of them exist."), and the room glitches into wireframe on the twist.
+    - The method has four cued steps. The camera's own view renders live into a corner of the same canvas, the walls change colour every beat, and a deploy sweep (the room's own camera-space clip plane) dissolves the room while the arm keeps working for real.
+  - **Their footage, not just ours:** their 13 Oct video plays as two cards, sim above real, each showing half of the same frames.
+  - **The token without hype:** a coin in their film's style spins in, and an allocation ring draws each share as it is named. Every figure is from the docs page, with "may change before launch", no price and no listing.
+  - **Colour:** blue 59%, ink 26%, Axis green 7%.
+- **Mistakes, and how they got through:**
+  1. **"AXIS" heard as "Access" again.** The pre-render test caught it ("its own token: AXIS" → "Access"), and "the AXIS token" passed the test, but it was still heard as "access token" in the final render. The captions and srt are right; only auto-captions could get it wrong.
+  2. **"sim-to-real" came out as "Simterreal"** in the test; "sim to real work" is clear. Caught before rendering.
+  3. **First stills: the cameras were too close** (the wire arm cut off, the room cut on the right, the Challenger grid in the top half). Fixed on the second round.
+  4. **Facts the sources disagree on were left out:** Challenger tasks a day (post) against a week (blog), and 100K+ against 229,000+ contributors.
+  5. **Long screens:** the token runs 34 s and sim-to-real 22 s, each one continuous 3D shot with cued changes. Kept.
+  6. **The sweep:** for half a second the heading's white text sits on the light side.
+- **Change next time:**
+  - A near-homophone brand name is never safe mid-sentence, even after a passing test: put it first in its sentence, or say "the token".
+  - When a page has a second camera view, keep text and labels out of the crops used for covers.
+  - Check every 3D scene at two times before the first full render.
+- **Final review:** 115.5 s, −14.7 LUFS, true peak −3.0 dB, the drop +9.1 dB (music 720 "New Bass 01", explainer-approved; the four wow tracks were all in the last six).
+- **Sent:**
+  - the 27.8 MB chat copy, the cover and thumbnail, the srt, the write-up, the post kit (with chapters) and the sources;
+  - a private download page for the full 53 MB file (7 parts; one served part's sha256 checked).
+
+---
+
 ## 13 Oct: post-match redo, "Our analysis vs the results" (the presenter format, 4 from 5, 2:04)
 
 - **Why a redo:** the owner rejected the full-time board on both counts (see the entry below): judged wrong, and not the
