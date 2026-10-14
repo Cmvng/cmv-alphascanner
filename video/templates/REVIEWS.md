@@ -24,6 +24,61 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
+## 14 Oct: explainer, Primus Labs, "Confidential, not hidden" (2:04, 3D glass)
+
+- **The ask:** "create me a video on this project", with four posts as sources (the 13 Oct Token2049 interview,
+  "Privacy is not dead", Kaito Pulse, and "confidential" v "hidden"), then "take your time… a very clean perfect video".
+- **Before building:** applied the last three "Change next time" lines:
+  - from the Walk-Out: no "an <name>" anywhere; a colour budget planned before the first render (their orange and
+    cream on their own things, the gold $U, blue for everything else); the cover built in scratch and copied in after
+    the render;
+  - from Axis: every brand name tested through the voice and whisper first ("Primus", "Kaito", "Pah-doe" for PADO,
+    "zee kay T L S", "Y Z I Labs", "B N B Chain"), and every 3D scene checked at two or more times in stills;
+  - from 13 Oct: `df -h /` before each render, bracketed `pgrep` patterns.
+- **What worked:**
+  - **One idea: glass.** On a public chain every wallet is clear glass; Primus frosts it. The frost is real 3D glass
+    (transmission with roughness), so what sits behind it truly blurs, and it carries the whole story: the wallets, the
+    black box against the frosted wallet, the FHE gate and tube, the position behind a pane, the web page, the cube.
+  - **A coin that changes as it passes through the glass:** gold $U above the gate, orange eU below it, with two clip
+    planes at the same height.
+  - **Their own things:** the mark built in 3D from the SVG paths on their site; their orange and cream only on their own
+    objects; the founder's own interview (muted, with its English subtitles) in a card. The clip is in Chinese, so the
+    subtitles were read frame by frame and quoted from that.
+  - **Facts:** every line from a dated source; the conflicts left out ($3.5M against Primus's $6.5M, the vault APY, the
+    "builds on TLSNotary" claim, the campaign end date). The token line says plainly that there is no token yet.
+  - **Colour:** blue 57%, ink 19%, orange 8%, red 7%: not monotonous, and the page stays light.
+- **Mistakes, and how they got through:**
+  1. **The stills run's length estimate was 15 s off** (139 s against the real 2:04), so two timing problems only showed
+     in the first full render: the vault's unwrap was cut off by the next scene, and the yield beat was rushed. Fixed
+     with a shorter unwrap, a tail, a pause after the yield line and an arc of yield coins: a second full render (72 min).
+  2. **The glass looked grey:** ACES tone mapping darkened the page seen through it. Glass is now `toneMapped: false`.
+  3. **The frost disappeared** when `ior` was lowered to 1.25 to stop ghosts: three.js scales the blur by `ior × 2 − 2`.
+     Back to 1.5, with thin glass (`thickness` 0.4) instead.
+  4. **Ghosts:** thick glass refracted labels, the hopping coin and its ring into doubles. Making them `transparent`
+     hid them completely (the glass's depth hides them). They now draw over the glass (`depthTest: false`, a
+     `renderOrder`), and the coin is a flat billboard.
+  5. **Tags in the wrong place on a scene's first frame:** a stale camera matrix. `prCam` now updates it before
+     projecting.
+  6. **"Balance" was cut to "e":** a canvas `textAlign` carried over from the previous redraw.
+  7. **The "HTTPS" tag never showed:** its hide cue came before its show cue.
+  8. **Smaller ones, caught in stills:** the cold open crashed on a wallet that didn't exist (9 built, 12 used); stray
+     floor shadows in scenes without a floor; the duo's bars and the black box cut off at the edge; the zkTLS chips over
+     the note; the EF chip over the mark.
+- **Change next time:**
+  - Judge timing on a real render (a voice-only pass at least), never on the stills estimate.
+  - 3D glass: `ior` 1.5, thin, `toneMapped: false`, and nothing that must read clearly sits behind it.
+  - Check each cue's show and hide order in the config before rendering.
+  - Every scene hides what it doesn't use (the floor) by name.
+- **Final review:** 123.9 s (X without Premium and a Short), −14.7 LUFS, true peak −3.3 dB, the drop on the title
+  +8.1 dB at 10.96 s. Music 587 "Discover" (approved, not in the last six). Heard back: spelling only (on-chain, "Xia"
+  for Xie, "ZKT-LS", attester). One long screen, the vault at 21.2 s, kept: one continuous shot with four cued steps.
+  Every second of the final video checked frame by frame.
+- **Sent:**
+  - the 28 MB chat copy, the cover and thumbnail, the srt, the write-up, the post kit (with chapters) and the sources;
+  - a private download page for the full 51.3 MB file (6 parts; one served part's sha256 checked).
+
+---
+
 ## 14 Oct: analysis, "The Walk-Out" (7 Champions League ties, 2:46, CSS 3D tunnels)
 
 - **The ask:** "an analysis video of today's Champions League matches… Take your time on the creative idea."
