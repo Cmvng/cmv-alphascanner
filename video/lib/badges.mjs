@@ -134,10 +134,11 @@ const CREST_ALIAS = {
   'tottenham': 'Tottenham Hotspur', 'spurs': 'Tottenham Hotspur', 'man city': 'Manchester City', 'man utd': 'Manchester United',
   'man united': 'Manchester United', 'wolves': 'Wolverhampton Wanderers', 'newcastle': 'Newcastle United', 'west ham': 'West Ham United',
   'brighton': 'Brighton and Hove Albion', 'leeds': 'Leeds United', 'nottm forest': 'Nottingham Forest', 'sheff utd': 'Sheffield United',
-  'leicester': 'Leicester City', 'palace': 'Crystal Palace', 'villa': 'Aston Villa', 'inter': 'Inter Milan', 'psg': 'Paris SG',
+  'leicester': 'Leicester City', 'palace': 'Crystal Palace', 'villa': 'Aston Villa', 'inter': 'Inter Milan', 'psg': 'Paris Saint Germain',
   'atletico madrid': 'Atletico Madrid', 'bayern': 'Bayern Munich', 'dortmund': 'Borussia Dortmund', 'gladbach': 'Borussia Monchengladbach',
   'estudiantes de la plata': 'Estudiantes', 'ca platense': 'Platense', 'new york red bulls': 'New York Red Bulls',
   'saint louis city sc': 'St. Louis City', 'saint louis city': 'St. Louis City',
+  'como 1907': 'Como', 'bodoe glimt': 'Bodo Glimt', 'bodo glimt': 'Bodo Glimt', 'paris saint germain': 'Paris Saint Germain',
 }
 async function clubCrest(name, cacheDir) {
   const dir = path.join(cacheDir, 'crests'); fs.mkdirSync(dir, { recursive: true })

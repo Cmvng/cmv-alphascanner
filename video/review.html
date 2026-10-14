@@ -1282,6 +1282,113 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#03060F}
 .stk{position:absolute;font-size:240px;line-height:1;filter:drop-shadow(0 20px 40px rgba(0,0,0,.55))}
 .pcl{position:absolute;font-size:90px;line-height:1}
 
+/* the walk-out (wo_*, first used 14 Oct 2026): each tie is a walk down its players' tunnel, drawn in CSS 3D. Navy
+   walls with a light strip in each side's kit colour, the key men as lit posters on the walls, the model's numbers on a
+   card, then out into the light of that stadium for the verdict. Deep royal blue, never black. */
+.wo{overflow:hidden;--wo-ink:#0B1F4D;--wo-blue:#1F5FDB;--wo-sky:#4FB3FF}
+.wo .wo-cam{position:absolute;inset:0;perspective:760px;perspective-origin:540px 900px;overflow:hidden;background:radial-gradient(90% 60% at 50% 47%,#163F92 0%,#0A2763 60%,#071C4A 100%)}
+.wo .wo-w{position:absolute;left:540px;top:900px;width:0;height:0;transform-style:preserve-3d;transform-origin:0 0 760px}
+.wo .wo-w>div{position:absolute;left:0;top:0;transform-origin:0 0}
+.wo .wo-wl{height:1300px;background:linear-gradient(180deg,#0B2B6E 0%,#14408F 46%,#103680 72%,#0A2A6A 100%);overflow:hidden}
+.wo .wo-wl .sm{position:absolute;top:0;bottom:0;width:6px;background:rgba(4,18,52,.45)}
+.wo .wo-wl .dd{position:absolute;left:0;right:0;top:640px;height:5px;background:rgba(255,255,255,.22)}
+.wo .wo-wl .led{position:absolute;left:0;right:0;top:1196px;height:16px}
+.wo .wo-wl .tp{position:absolute;left:0;right:0;top:0;height:60px;background:linear-gradient(180deg,rgba(255,255,255,.12),rgba(255,255,255,0))}
+.wo .wo-cl{width:1000px;background:#0A2459;overflow:hidden}
+.wo .wo-cl i{position:absolute;left:70px;right:70px;height:26px;border-radius:13px;background:#EAF4FF;box-shadow:0 0 40px 12px rgba(190,225,255,.55)}
+.wo .wo-cl i.off{background:#22407E;box-shadow:none}
+.wo .wo-fl{width:1000px;background:linear-gradient(90deg,#06173F 0%,#0B2963 30%,#123C86 47%,#1A4C9E 50%,#123C86 53%,#0B2963 70%,#06173F 100%);overflow:hidden}
+.wo .wo-fl i{position:absolute;left:180px;right:180px;height:300px;background:radial-gradient(50% 50% at 50% 50%,rgba(190,225,255,.28),rgba(190,225,255,0))}
+.wo .wo-fl .ln{position:absolute;top:0;bottom:0;width:8px;background:rgba(255,255,255,.18)}
+.wo .wo-end{width:1000px;height:1300px;overflow:hidden;background:#EAF4FF}
+.wo .wo-end .bm{position:absolute;left:0;right:0;top:0;height:300px;background:linear-gradient(180deg,#0B2B6E,#123C86);border-bottom:10px solid #EAF4FF}
+.wo .wo-end .bm span{position:absolute;left:0;right:0;top:110px;text-align:center;font:700 54px JBM;letter-spacing:12px;color:rgba(255,255,255,.85)}
+.wo .wo-end img{position:absolute;left:0;top:310px;width:100%;height:990px;object-fit:cover;filter:brightness(1.18) saturate(1.05)}
+.wo .wo-pos{width:330px;height:470px;padding:12px;background:#fff;box-shadow:0 0 0 6px rgba(255,255,255,.08)}
+.wo .wo-pos img{display:block;width:100%;height:362px;object-fit:cover;object-position:50% 18%}
+.wo .wo-pos b{display:block;margin-top:12px;font:400 40px/1 Anton;text-transform:uppercase;color:#0B1F4D;white-space:nowrap;overflow:hidden}
+.wo .wo-pc{display:flex;align-items:center;justify-content:center;width:100%;height:362px;background:linear-gradient(180deg,#FFFFFF 0%,#EAF2FF 100%) !important;border-top:16px solid var(--k,#1F5FDB)}
+.wo .wo-pc .badge{position:static;width:230px;height:230px}
+.wo .wo-pc .badge img,.wo .wo-pc .badge svg{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 6px 14px rgba(0,0,0,.35))}
+.wo .wo-plt i.cr{display:flex;align-items:center;justify-content:center;background:#fff}
+.wo .wo-plt i.cr .badge{position:static;width:84px;height:84px}
+.wo .wo-plt i.cr .badge img,.wo .wo-plt i.cr .badge svg{width:100%;height:100%;object-fit:contain}
+.wo .wo-pos u{position:absolute;left:12px;right:12px;bottom:12px;height:10px;text-decoration:none}
+.wo .wo-crest{width:300px;height:300px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:rgba(255,255,255,.95);box-shadow:0 0 0 10px rgba(255,255,255,.12)}
+.wo .wo-crest .badge{width:220px;height:220px;position:static}
+.wo .wo-crest .badge img,.wo .wo-crest .badge svg{width:100%;height:100%;object-fit:contain}
+.wo .wo-glow{position:absolute;inset:0;pointer-events:none;mix-blend-mode:screen;opacity:0}
+.wo .wo-ui{position:absolute;inset:0;pointer-events:none}
+.wo .wo-hd{position:absolute;left:0;right:0;top:0;height:340px;padding:52px 56px 0;background:linear-gradient(180deg,rgba(5,20,58,.92) 0%,rgba(5,20,58,.7) 62%,rgba(5,20,58,0) 100%);opacity:0}
+.wo .wo-hd .tp{display:flex;justify-content:space-between;font:700 22px JBM;letter-spacing:4px;text-transform:uppercase;color:#9CCBFF}
+.wo .wo-hd .tp b{color:#fff;font-weight:700}
+.wo .wo-hd .mt{display:flex;align-items:center;justify-content:center;gap:22px;margin-top:26px}
+.wo .wo-hd .mt .badge{position:static;width:96px;height:96px}
+.wo .wo-hd .mt .badge img,.wo .wo-hd .mt .badge svg{width:100%;height:100%;object-fit:contain}
+.wo .wo-hd .mt b{font:400 68px/1 Anton;text-transform:uppercase;color:#fff;white-space:nowrap}
+.wo .wo-hd .mt em{font:700 30px JBM;font-style:normal;color:#7FC4FF}
+.wo .wo-hd .vn{margin-top:16px;text-align:center;font:700 23px JBM;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.72)}
+.wo .wo-plt{position:absolute;left:60px;right:60px;top:1190px;display:flex;align-items:center;gap:24px;padding:20px 28px;border-radius:26px;background:rgba(255,255,255,.95);box-shadow:0 24px 60px rgba(2,12,40,.45);opacity:0}
+.wo .wo-plt i{flex:none;width:118px;height:118px;border-radius:50%;background-size:cover;background-position:50% 18%;border:6px solid #fff}
+.wo .wo-plt div{flex:1;min-width:0}
+.wo .wo-plt small{display:block;font:700 20px JBM;letter-spacing:3px;text-transform:uppercase}
+.wo .wo-plt b{display:block;margin-top:6px;font:400 52px/1 Anton;text-transform:uppercase;color:#0B1F4D;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wo .wo-plt span{display:block;margin-top:8px;font:700 27px/1.25 Manrope;color:#33456B}
+.wo .wo-mod{position:absolute;left:60px;right:60px;top:372px;padding:26px 30px 24px;border-radius:28px;background:rgba(255,255,255,.95);box-shadow:0 24px 60px rgba(2,12,40,.45);opacity:0}
+.wo .wo-mod small{display:block;font:700 20px JBM;letter-spacing:4px;text-transform:uppercase;color:#5B6B8C}
+.wo .wo-mod .ml{display:flex;margin-top:14px}
+.wo .wo-mod .ml span{font:700 22px JBM;letter-spacing:1px;text-transform:uppercase;color:#33456B;white-space:nowrap;overflow:hidden}
+.wo .wo-mod .ml span b{display:block;font:400 64px/1 Anton;letter-spacing:0;color:#0B1F4D}
+.wo .wo-mod .ml span:nth-child(2){text-align:center}.wo .wo-mod .ml span:nth-child(3){text-align:right}
+.wo .wo-mod .mr{display:flex;height:22px;margin-top:14px;border-radius:11px;overflow:hidden;background:#E5ECF7}
+.wo .wo-mod .mr i{display:block;height:100%;width:0}
+.wo .wo-mod .xg{display:flex;justify-content:space-between;margin-top:16px;font:700 23px JBM;letter-spacing:1px;color:#33456B}
+.wo .wo-mod .xg b{color:#0B1F4D}
+.wo .wo-out{position:absolute;inset:0;opacity:0;overflow:hidden}
+.wo .wo-out img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.wo .wo-out .sh{position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,20,58,.55) 0%,rgba(5,20,58,0) 30%,rgba(5,20,58,0) 48%,rgba(5,20,58,.82) 100%)}
+.wo .wo-vd{position:absolute;left:60px;right:60px;top:1060px;padding:30px 34px 30px;border-radius:30px;background:#fff;box-shadow:0 30px 70px rgba(2,12,40,.5);opacity:0}
+.wo .wo-vd small{display:block;font:700 21px JBM;letter-spacing:4px;text-transform:uppercase;color:#1F5FDB}
+.wo .wo-vd b{display:block;margin-top:10px;font:800 54px/1.12 Manrope;letter-spacing:-1.2px;color:#0B1F4D;text-wrap:balance}
+.wo .wo-vd .sc{display:inline-flex;align-items:center;gap:14px;margin-top:18px;padding:10px 20px 11px;border-radius:14px;background:#0B1F4D;color:#fff}
+.wo .wo-vd .sc em{font:400 46px/1 Anton;font-style:normal}
+.wo .wo-vd .sc span{font:700 19px JBM;letter-spacing:3px;text-transform:uppercase;color:#9CCBFF}
+.wo .wo-flash{position:absolute;inset:0;background:#fff;opacity:0}
+.wo .wo-cbig{position:absolute;left:0;right:0;top:330px;text-align:center;font:400 170px/1 Anton;color:#fff;text-transform:uppercase;white-space:nowrap;text-shadow:0 10px 40px rgba(0,0,0,.35)}
+.wo .wo-cbig.sky{color:#8FD0FF}.wo .wo-cbig.red{color:#FF5A6A}
+.wo .wo-clab{position:absolute;left:60px;right:60px;top:530px;text-align:center;font:700 25px JBM;letter-spacing:5px;text-transform:uppercase;color:#9CCBFF}
+.wo .wo-t1{position:absolute;left:0;right:0;top:250px;text-align:center;font:400 96px/1 Anton;letter-spacing:22px;text-transform:uppercase;color:#9CCBFF;opacity:0}
+.wo .wo-t2{position:absolute;left:0;right:0;top:350px;text-align:center;font:400 218px/1 Anton;text-transform:uppercase;color:#fff;white-space:nowrap;text-shadow:0 0 60px rgba(120,190,255,.55);opacity:0}
+.wo .wo-sub{position:absolute;left:0;right:0;top:600px;text-align:center;font:700 25px JBM;letter-spacing:5px;text-transform:uppercase;color:#CFE6FF;opacity:0}
+.wo .wo-fx{position:absolute;left:60px;right:60px;top:1010px;padding:16px 26px;border-radius:28px;background:rgba(255,255,255,.95);box-shadow:0 24px 60px rgba(2,12,40,.45)}
+.wo .wo-fr{display:flex;align-items:center;gap:16px;padding:10px 0;border-bottom:2px solid #EEF2F8;opacity:0}
+.wo .wo-fr:last-child{border-bottom:0}
+.wo .wo-fr>span:first-child{width:92px;font:700 22px JBM;color:#1F5FDB}
+.wo .wo-fr .cr{display:flex;gap:6px}
+.wo .wo-fr .cr .badge{position:static;width:44px;height:44px}
+.wo .wo-fr .cr .badge img,.wo .wo-fr .cr .badge svg{width:100%;height:100%;object-fit:contain}
+.wo .wo-fr b{font:800 30px Manrope;letter-spacing:-.4px;color:#0B1F4D;white-space:nowrap}
+.wo .wo-room{position:absolute;inset:0;background:radial-gradient(120% 80% at 50% 0%,#EAF3FF 0%,#D7E6FB 100%)}
+.wo .wo-e1{position:absolute;left:0;right:0;top:150px;text-align:center;font:400 120px/1 Anton;text-transform:uppercase;color:#0B1F4D}
+.wo .wo-e1 span{color:#1F5FDB}
+.wo .wo-ek{position:absolute;left:0;right:0;top:290px;text-align:center;font:700 23px JBM;letter-spacing:5px;text-transform:uppercase;color:#5B6B8C}
+.wo .wo-er{position:absolute;left:60px;right:60px;top:360px;display:flex;flex-direction:column;gap:14px}
+.wo .wo-er>div{display:flex;align-items:center;gap:18px;padding:16px 22px;border-radius:22px;background:#fff;box-shadow:0 14px 34px rgba(16,52,130,.12);border-left:10px solid #1F5FDB;opacity:0}
+.wo .wo-er .cr{display:flex;gap:6px;flex:none}
+.wo .wo-er .cr .badge{position:static;width:54px;height:54px}
+.wo .wo-er .cr .badge img,.wo .wo-er .cr .badge svg{width:100%;height:100%;object-fit:contain}
+.wo .wo-er b{flex:1;font:800 30px/1.15 Manrope;letter-spacing:-.4px;color:#0B1F4D}
+.wo .wo-er b small{display:block;font:700 18px JBM;letter-spacing:2px;text-transform:uppercase;color:#5B6B8C;margin-bottom:4px}
+.wo .wo-er em{flex:none;font:400 44px/1 Anton;font-style:normal;color:#1F5FDB}
+.wo .wo-fol{position:absolute;left:60px;right:60px;top:1290px;padding:24px;border-radius:24px;background:#0B1F4D;text-align:center;opacity:0}
+.wo .wo-fol b{display:block;font:400 54px/1 Anton;text-transform:uppercase;color:#fff}
+.wo .wo-fol span{display:block;margin-top:10px;font:700 21px JBM;letter-spacing:4px;text-transform:uppercase;color:#9CCBFF}
+#cap.woc .c{color:#0B1F4D;background:rgba(255,255,255,.94);padding:14px 30px 16px;border-radius:18px;text-shadow:none;box-shadow:0 14px 36px rgba(2,12,40,.3);font:800 44px/1.28 Manrope;letter-spacing:-.5px;-webkit-text-stroke:0;text-transform:none}
+#cap.woc .w.now{background:none;box-shadow:none;color:#1F5FDB;padding:0;margin:0 .13em}
+#cap.woc .w.next{opacity:1;color:#A9B7CF}
+#cap.won .c{color:#fff;background:rgba(5,22,66,.55)}
+#cap.won .w.now{color:#7FC4FF}
+#cap.won .w.next{color:rgba(255,255,255,.5)}
 /* the tactics board (tb_*, first used 13 Oct 2026): each game drawn up live on a coach's whiteboard. Magnets in kit colours
    in the predicted formations, photo magnets for the key men, marker arrows for how each side plays, read-along captions */
 .tb{--tb-ink:#0B1F4D;--tb-mute:#5B6B8C;--tb-blue:#1F5FDB;--tb-sky:#4FB3FF;--tb-line:#C9D6EA;--tb-red:#D8434F}
@@ -1842,6 +1949,65 @@ function tbSide(q, b, side) {
 }
 const TB_RES = r => r === 'called' ? 'ok' : r === 'missed' ? 'no' : 'void', TB_RES_TXT = { ok: 'Called it', no: 'Missed it', void: 'Suspended' }
 const tbBoards = () => D.scenes.filter(s => s.type === 'tb_game' || s.type === 'tb_ft')
+// ---- the walk-out (wo_*): each tie a walk down its players' tunnel (CSS 3D: perspective 760, the eye at z = 760).
+// Walls, ceiling and floor are tiles along z, shown only when wholly in front of the eye. The camera is the world's
+// transform: translateZ(d) walks forward, rotateY(ry) turns round the eye (transform-origin z = 760).
+const WO = { L: 5200, W: 1000, YT: -720, YB: 580, T: 160, Z0: 400 }
+const woLights = () => { const z = []; for (let x = -200; x > -WO.L + 200; x -= 520) z.push(x); return z }
+function woWorld(kh, ka, b, opt = {}) {
+  const { L, W, YT, YB, T, Z0 } = WO, H = YB - YT, out = []
+  const led = (c, glow) => `<i class="led" style="background:${c};box-shadow:0 0 22px 4px ${glow || c}"></i>`
+  for (let z = Z0; z > -L; z -= T) {
+    const far = clamp(-z / L), br = (0.62 + 0.5 * far).toFixed(2), seam = ((Z0 - z) % 520 + 520) % 520
+    const sm = seam < T ? `<i class="sm" style="left:${seam}px"></i>` : ''
+    out.push(`<div class="wo-wl wo-t" data-z="${z}" style="width:${T + 2}px;transform:translate3d(${-W / 2}px,${YT}px,${z}px) rotateY(90deg);filter:brightness(${br})"><i class="tp"></i><i class="dd"></i>${sm}${led(kh.c, kh.c)}</div>`)
+    out.push(`<div class="wo-wl wo-t" data-z="${z}" style="width:${T + 2}px;transform:translate3d(${W / 2}px,${YT}px,${z - T}px) rotateY(-90deg);filter:brightness(${br})"><i class="tp"></i><i class="dd"></i>${seam < T ? `<i class="sm" style="right:${seam}px"></i>` : ''}${led(ka.c, ka.c)}</div>`)
+    out.push(`<div class="wo-fl wo-t" data-z="${z}" style="height:${T + 2}px;transform:translate3d(${-W / 2}px,${YB}px,${z}px) rotateX(-90deg);filter:brightness(${br})"><i class="ln" style="left:96px"></i><i class="ln" style="right:96px"></i></div>`)
+    out.push(`<div class="wo-cl wo-t" data-z="${z}" style="height:${T + 2}px;transform:translate3d(${-W / 2}px,${YT}px,${z}px) rotateX(-90deg);filter:brightness(${br})"></div>`)
+  }
+  // ceiling lights (each its own bar, so the cold open can switch them on one by one) and their pools on the floor
+  woLights().forEach((z, i) => {
+    out.push(`<div class="wo-cl wo-lt" data-z="${z}" data-i="${i}" style="height:60px;background:none;transform:translate3d(${-W / 2}px,${YT + 2}px,${z}px) rotateX(-90deg)"><i style="top:17px"></i></div>`)
+    out.push(`<div class="wo-fl wo-lp" data-z="${z}" data-i="${i}" style="height:300px;background:none;transform:translate3d(${-W / 2}px,${YB - 2}px,${z + 150}px) rotateX(-90deg)"><i style="top:0"></i></div>`)
+  })
+  // crests painted near the entrance, the key men's posters along the walls, the stadium at the end
+  if (kh.crest) out.push(`<div class="wo-crest" style="transform:translate3d(${-W / 2 + 4}px,${-430}px,${-260}px) rotateY(90deg)">${kh.crest}</div>`)
+  if (ka.crest) out.push(`<div class="wo-crest" style="transform:translate3d(${W / 2 - 4}px,${-430}px,${-560}px) rotateY(-90deg)">${ka.crest}</div>`)
+  ;(opt.posters || []).forEach((p, j) => {
+    const left = p.side === 'home', x = left ? -W / 2 + 6 : W / 2 - 6, z = left ? p.z : p.z - 330
+    out.push(`<div class="wo-pos" data-j="${j}" style="transform:translate3d(${x}px,-330px,${z}px) rotateY(${left ? 90 : -90}deg)">${p.photo ? `<img src="${html(p.photo)}">` : `<div class="wo-pc" style="--k:${p.kit}">${p.crest || ''}</div>`}<b>${html(p.short || '')}</b><u style="background:${p.kit}"></u></div>`)
+  })
+  out.push(`<div class="wo-end" style="transform:translate3d(${-W / 2}px,${YT}px,${-L}px)"><div class="bm"><span>${html(opt.beam || '')}</span></div>${opt.stadium ? `<img src="${html(opt.stadium)}">` : ''}</div>`)
+  return `<div class="wo-cam"><div class="wo-w">${out.join('')}</div></div><div class="wo-glow"></div>`
+}
+// the posters' places along the walls, in the order the key men are named
+function woPosters(q, b) {
+  const L = []
+  ;['home', 'away'].forEach(s2 => (b[s2]?.key || []).forEach(x => L.push({ ...x, side: s2 })))
+  L.sort((x, y) => (x.at?.[0] ?? 9) - (y.at?.[0] ?? 9) || (x.at?.[1] ?? 0) - (y.at?.[1] ?? 0))
+  return L.map((x, j) => ({ ...x, z: -1100 - j * 640, short: x.short || String(x.name || '').split(' ').slice(-1)[0], kit: vrKit(q, x.side).bg, crest: badge(x.side === 'away' ? q.ba : q.bh) }))
+}
+// the camera for a moment of a tie: walk in, turn to each poster as it is named, face the exit for the numbers,
+// then out into the light. Returns the walk distance d, the turn ry (degrees) and the exit progress
+function woCam(sc, b, lt, posters) {
+  const vt = (a, d) => vrT(sc, ...(a || d)), tR = vt(b.read_at, [sc.lines.length - 1, 0]), tM = vt(b.model_at, [Math.max(0, sc.lines.length - 2), 0])
+  const keys = [[0, 260, 0]]
+  posters.forEach(p => { const t = vt(p.at, [1, 0]); keys.push([t - 0.15, 140 - p.z - 260, 0], [t + 0.75, 140 - p.z, p.side === 'home' ? -17 : 17]) })
+  const lastD = keys.at(-1)[1]
+  keys.push([tM, lastD + 380, 0], [tR, lastD + 980, 0])
+  keys.sort((x, y) => x[0] - y[0])
+  let d = keys[0][1], ry = 0
+  for (let i = 0; i < keys.length - 1; i++) { const [t0, d0, r0] = keys[i], [t1, d1, r1] = keys[i + 1]; if (lt >= t0 && lt <= t1) { const q = E.inOutSine(clamp((lt - t0) / Math.max(0.2, t1 - t0))); d = d0 + (d1 - d0) * q; ry = r0 + (r1 - r0) * q; break } if (lt > t1) { d = d1; ry = r1 } }
+  const ex = P(lt, tR, tR + 1.15, x => x * x * x)            // the exit: accelerate out of the tunnel
+  d = d + (WO.L + 420 - d) * ex
+  return { d, ry: ry * (1 - ex), ex, tR, tM }
+}
+function woPose(el, d, ry, bob = 0) {
+  const w = $('.wo-w', el), eye = 760 - d
+  w.style.transform = `translateY(${n1(bob)}px) rotateY(${ry.toFixed(2)}deg) translateZ(${n1(d)}px)`
+  $$('.wo-t', el).forEach(n => { const z = +n.dataset.z; n.style.display = z > eye - 40 ? 'none' : '' })
+  $$('.wo-lt,.wo-lp', el).forEach(n => { const z = +n.dataset.z; n.style.display = z + (n.classList.contains('wo-lp') ? 150 : 0) > eye - 40 ? 'none' : '' })
+}
 // ---- the blueprint (dw_*): each game drawn up as a technical sheet. Picks keep `ko`, `where`, `kit` (as vr_*).
 const dwFit = (s, max, w) => Math.min(max, Math.floor(w / (0.45 * Math.max(1, [...String(s || '')].length))))
 const dwFrame = () => `<div class="dw-fr"></div><div class="dw-zx">${'ABCDEF'.split('').map(x => `<span>${x}</span>`).join('')}</div><div class="dw-zy">${'12345678'.split('').map(x => `<span>${x}</span>`).join('')}</div>`
@@ -2003,6 +2169,9 @@ D.scenes.forEach(sc => { if (sc.type === 'ar_flight' && sc.data?.match != null) 
 function mkBg(sc, k) {
   if (/^gl_/.test(sc.type)) {        // follow the sun draws its own sky; deep royal blue under the cold open
     const d = document.createElement('div'); d.className = 'bg none'; d.style.background = sc.type === 'gl_cold' ? '#0B2A6F' : '#D6E8FF'; d.style.filter = 'none'; $('#bgs').appendChild(d); return d
+  }
+  if (/^wo_/.test(sc.type)) {        // the walk-out draws its own tunnel; a light page for the closing reads
+    const d = document.createElement('div'); d.className = 'bg none'; d.style.background = sc.type === 'wo_end' ? '#DCE9FB' : '#071C4A'; d.style.filter = 'none'; $('#bgs').appendChild(d); return d
   }
   if (/^tb_/.test(sc.type)) {        // the tactics board draws its own room; deep royal blue under the cold open
     const d = document.createElement('div'); d.className = 'bg none'; d.style.background = sc.type === 'tb_cold' ? '#0D3B8E' : '#DCE9FB'; d.style.filter = 'none'; $('#bgs').appendChild(d); return d
@@ -2491,6 +2660,34 @@ const built = D.scenes.map((sc, k) => {
         return `<div class="en-mc${j === cats.length - 1 && cats.length % 2 ? ' wide' : ''}" style="border-left-color:${kh.bg}"><div class="en-mt">${badge(p.bh)}${badge(p.ba)}<span>${html(p.ko || '')} · ${html(p.where || '')}</span></div><b>${html(v.short || v.text || '')}</b><span>${html(v.score ? 'Likeliest ' + v.score : '')}</span></div>` }).join('')
       el.innerHTML = `<div class="en-stage"></div>${enPhotoLayer(ph)}<div class="en-pg">${top(`<b>${html(b.when || '')}</b>`)}<div class="en-e1">${html(b.l1 || '')} <span>${html(b.l2 || '')}</span></div><div class="en-grid">${cards}</div>
         <div class="en-fol" style="top:${b.fol_top ?? 1260}px"><b>${html(b.follow || 'Follow for the post-match')}</b><span>Football, by the numbers</span></div></div>`
+    }
+  } else if (/^wo_/.test(sc.type)) {
+    el.classList.add('wo')
+    const q = D.picks[b.match ?? 0] || M, ties = D.scenes.filter(x => x.type === 'wo_tie'), ti = ties.indexOf(sc), z = x => String(x).padStart(2, '0')
+    const neutral = { bg: '#4FB3FF', c: '#4FB3FF' }
+    if (sc.type === 'wo_cold') {
+      el.innerHTML = woWorld(neutral, neutral, b, { beam: '' }) + `<div class="wo-ui"><div class="wo-cbig"></div><div class="wo-clab"></div></div>`
+    } else if (sc.type === 'wo_title') {
+      const rows = D.picks.map(p => `<div class="wo-fr"><span>${html(p.ko || p.kickoff || '')}</span><span class="cr">${badge(p.bh)}${badge(p.ba)}</span><b>${html(vrName(p, 'home'))} v ${html(vrName(p, 'away'))}</b></div>`).join('')
+      el.innerHTML = woWorld(neutral, neutral, b, { beam: b.beam || 'MATCHDAY 2', stadium: b.stadium }) + `<div class="wo-ui"><div class="wo-t1">${html(b.l1 || 'The')}</div><div class="wo-t2"${b.l2_px ? ` style="font-size:${b.l2_px}px"` : ''}>${html(b.l2 || 'Walk-Out')}</div><div class="wo-sub">${html(b.sub || '')}</div><div class="wo-fx">${rows}</div></div>`
+    } else if (sc.type === 'wo_tie') {
+      const kh = { ...vrKit(q, 'home'), crest: badge(q.bh) }, ka = { ...vrKit(q, 'away'), crest: badge(q.ba) }, hw = q.home_win ?? 0, dr = q.draw ?? 0, aw = q.away_win ?? 0, tot = Math.max(1, hw + dr + aw), v = b.verdict || {}
+      const posters = woPosters(q, b); sc.woP = posters
+      const nm = Math.min(68, Math.floor(700 / (0.43 * [...(vrName(q, 'home') + vrName(q, 'away'))].length)))
+      el.innerHTML = woWorld(kh, ka, b, { posters, stadium: b.stadium, beam: b.beam || (q.ko || '') })
+        + `<div class="wo-out"><img src="${html(b.stadium || '')}"><i class="sh"></i></div><div class="wo-flash"></div>`
+        + `<div class="wo-ui"><div class="wo-hd"><div class="tp"><span>${html(b.left || 'Champions League')} · <b>${html(q.ko || q.kickoff || '')}</b></span><span>Tunnel ${z(ti + 1)} / ${z(ties.length)}</span></div>
+            <div class="mt">${badge(q.bh)}<b style="font-size:${nm}px">${html(vrName(q, 'home'))}</b><em>v</em><b style="font-size:${nm}px">${html(vrName(q, 'away'))}</b>${badge(q.ba)}</div><div class="vn">${html(q.where || '')}</div></div>
+          ${posters.map((p, j) => `<div class="wo-plt" data-j="${j}">${p.photo ? `<i style="background-image:url('${html(p.photo)}');box-shadow:0 0 0 6px ${p.kit}"></i>` : `<i class="cr" style="box-shadow:0 0 0 6px ${p.kit}">${p.crest || ''}</i>`}<div><small style="color:${vrTx(vrKit(q, p.side))}">${html(vrName(q, p.side))}${p.role ? ' · ' + html(p.role) : ''}</small><b>${html(p.name || '')}</b><span>${html(p.stat || '')}</span></div></div>`).join('')}
+          <div class="wo-mod"><small>${html(b.model_label || 'On our numbers')}</small>
+            <div class="ml"><span style="width:${n1(100 * hw / tot)}%;min-width:200px"><b>${hw}%</b>${html(vrName(q, 'home'))}</span><span style="flex:1"><b>${dr}%</b>Draw</span><span style="width:${n1(100 * aw / tot)}%;min-width:200px"><b>${aw}%</b>${html(vrName(q, 'away'))}</span></div>
+            <div class="mr"><i style="background:${kh.bg}" data-w="${n1(100 * hw / tot)}"></i><i style="background:#B8C6DD" data-w="${n1(100 * dr / tot)}"></i><i style="background:${clash(kh.bg, ka.bg) ? '#E2E8F0' : ka.bg}" data-w="${n1(100 * aw / tot)}"></i></div>
+            <div class="xg"><span>Expected goals <b>${(+q.xg_home).toFixed(2)} – ${(+q.xg_away).toFixed(2)}</b></span>${v.score ? `<span>Likeliest score <b>${html(v.score)}</b></span>` : ''}</div></div>
+          <div class="wo-vd"><small>${html(b.verdict_label || 'Our read')}</small><b>${html(v.text || '')}</b>${v.score ? `<div class="sc"><em>${html(v.score)}</em><span>${html(v.note || 'likeliest score')}</span></div>` : ''}</div></div>`
+    } else if (sc.type === 'wo_end') {
+      const rows = ties.map(t2 => { const p = D.picks[t2.data.match ?? 0] || M, v = t2.data.verdict || {}, kh = vrKit(p, 'home')
+        return `<div style="border-left-color:${kh.bg}"><span class="cr">${badge(p.bh)}${badge(p.ba)}</span><b><small>${html(p.ko || '')} · ${html(vrName(p, 'home'))} v ${html(vrName(p, 'away'))}</small>${html(v.short || v.text || '')}</b><em>${html(v.score || '')}</em></div>` }).join('')
+      el.innerHTML = `<div class="wo-room"></div><div class="wo-e1">${html(b.l1 || "Tonight's")} <span>${html(b.l2 || 'reads')}</span></div><div class="wo-ek">${html(b.kicker || '')}</div><div class="wo-er">${rows}</div><div class="wo-fol" style="top:${b.fol_top ?? 1290}px"><b>${html(b.follow || 'Follow for the results')}</b><span>Football, by the numbers</span></div>`
     }
   } else if (/^tb_/.test(sc.type)) {
     el.classList.add('tb')
@@ -3240,6 +3437,51 @@ function draw(k, lt, sc) {
       $$('.en-mc', el).forEach((d, i) => { const a = 0.6 + i * 0.12, q2 = P(lt, a, a + 0.4, E.outBack); d.style.opacity = lt >= a ? 1 : 0; d.style.transform = `scale(${n1(0.6 + 0.4 * q2)})` })
       rise([$('.en-fol', el)], lt, vrT(sc, sc.lines.length - 1, 0), 0, 30)
     }
+  } else if (/^wo_/.test(sc.type)) {
+    const q = D.picks[b.match ?? 0] || M
+    if (sc.type === 'wo_cold') {
+      // the tunnel in the dark: one more pair of lights clanks on with every line; the last line is the twist
+      const steps = b.steps || [], nl = sc.lines.filter(l => lt >= l[0] - 0.08).length, j = Math.max(0, Math.min(steps.length - 1, nl - 1)), st = steps[j] || {}
+      const big = $('.wo-cbig', el), lab = $('.wo-clab', el), a = S(sc, j)[0] ?? 0
+      if (big._j !== j) { big._j = j; big.textContent = st.big || ''; big.className = 'wo-cbig' + (st.tone ? ' ' + st.tone : ''); lab.textContent = st.label || ''; big.style.fontSize = Math.min(170, Math.floor(980 / (0.47 * Math.max(1, [...(st.big || '')].length)))) + 'px' }
+      slam(big, lt, a - 0.05, 1.5, 0.28); lab.style.opacity = n1(P(lt, a + 0.15, a + 0.45))
+      if (st.glitch) { const g = glitch(big, lt, a + (st.glitch_at || 0.3)); if (g) big.style.transform += g }
+      const on = sc.lines.map((l, i) => l[0] - 0.05).filter(t2 => lt >= t2).length * 2
+      $$('.wo-lt', el).forEach(n => { const i = +n.dataset.i; $('i', n).className = i < on ? '' : 'off' }); $$('.wo-lp', el).forEach(n => { n.style.opacity = +n.dataset.i < on ? 1 : 0 })
+      $('.wo-cam', el).style.filter = `brightness(${n1(0.35 + 0.16 * Math.min(on, 6))})`
+      const cg = $('.wo-glow', el); cg.style.background = 'radial-gradient(26% 18% at 50% 47%,rgba(220,240,255,.9),rgba(220,240,255,0))'; cg.style.opacity = n1(0.12 * Math.min(on, 6))
+      woPose(el, 120 + 90 * lt, 0, 3 * Math.sin(lt * 5.4))
+    } else if (sc.type === 'wo_title') {
+      woPose(el, 300 + 260 * lt, 0, 2.5 * Math.sin(lt * 5.4))
+      const gl = $('.wo-glow', el); gl.style.background = 'radial-gradient(40% 30% at 50% 47%,rgba(220,240,255,.9),rgba(220,240,255,0))'; gl.style.opacity = n1(0.35 + 0.25 * Math.sin(lt * 1.3))
+      slam($('.wo-t1', el), lt, 0.05, 1.4, 0.3); slam($('.wo-t2', el), lt, 0.22, 1.7, 0.32); rise([$('.wo-sub', el)], lt, 0.6, 0, 20)
+      rise([$('.wo-fx', el)], lt, 0.75, 0, 40)
+      $$('.wo-fr', el).forEach((d2, i) => { const a2 = 0.95 + i * 0.12, q2 = P(lt, a2, a2 + 0.45, E.outBack); d2.style.opacity = n1(P(lt, a2, a2 + 0.2)); d2.style.transform = `translate3d(${n1(70 * (1 - q2))}px,0,0)` })
+    } else if (sc.type === 'wo_tie') {
+      const posters = sc.woP || [], cm = woCam(sc, b, lt, posters), walking = cm.ex === 0
+      woPose(el, cm.d, cm.ry, walking ? 3 * Math.sin(lt * 5.4) : 0)
+      // the light at the end grows as we near it, then floods the screen; the stadium itself takes over
+      const gl = $('.wo-glow', el), near = clamp((cm.d - 1500) / (WO.L - 1500))
+      gl.style.background = `radial-gradient(${n1(30 + 40 * near)}% ${n1(22 + 30 * near)}% at 50% 47%,rgba(225,242,255,.95),rgba(225,242,255,0))`; gl.style.opacity = n1(0.25 + 0.45 * near + 0.3 * cm.ex)
+      $('.wo-flash', el).style.opacity = n1(P(cm.ex, 0.55, 0.92) * (1 - P(lt, cm.tR + 1.15, cm.tR + 1.6, E.outCubic)))
+      const out = $('.wo-out', el), oq = P(lt, cm.tR + 1.0, cm.tR + 1.2); out.style.opacity = n1(oq); $('img', out).style.transform = `scale(${(1.12 - 0.06 * P(lt, cm.tR + 1.0, sc.dur, x => x)).toFixed(4)})`
+      // the header: in on the walk, out with the light
+      const hd = $('.wo-hd', el); hd.style.opacity = n1(P(lt, 0.05, 0.4) * (1 - P(lt, cm.tR + 0.2, cm.tR + 0.6)) + P(lt, cm.tR + 1.3, cm.tR + 1.7)); hd.style.transform = `translateY(${n1(-30 * (1 - P(lt, 0.05, 0.45, E.outCubic)))}px)`
+      // posters light up as each key man is named; his plate rises and stays until the next one
+      posters.forEach((p, j) => { const t0 = vrT(sc, ...(p.at || [1, 0])), t1 = j + 1 < posters.length ? vrT(sc, ...(posters[j + 1].at || [1, 0])) : cm.tM
+        const ps = $(`.wo-pos[data-j="${j}"]`, el), pl = $(`.wo-plt[data-j="${j}"]`, el), lit = P(lt, t0 - 0.1, t0 + 0.3)
+        if (ps) { ps.style.filter = `brightness(${n1(0.42 + 0.68 * lit)})`; ps.style.boxShadow = `0 0 ${n1(70 * lit)}px ${n1(18 * lit)}px rgba(200,230,255,${n1(0.55 * lit)})` }
+        if (pl) { const qa = P(lt, t0 + 0.1, t0 + 0.45, E.outBack), qz = P(lt, t1 - 0.25, t1); pl.style.opacity = n1(Math.min(1, P(lt, t0 + 0.1, t0 + 0.25)) * (1 - qz)); pl.style.transform = `translate3d(0,${n1(50 * (1 - qa) + 30 * qz)}px,0) scale(${n1(0.94 + 0.06 * qa)})` } })
+      // the numbers: the card drops in, the bar fills
+      const mo = $('.wo-mod', el), mq = P(lt, cm.tM, cm.tM + 0.4, E.outBack); mo.style.opacity = n1(P(lt, cm.tM, cm.tM + 0.15) * (1 - P(lt, cm.tR + 0.1, cm.tR + 0.4))); mo.style.transform = `translate3d(0,${n1(-40 * (1 - mq))}px,0)`
+      $$('.wo-mod .mr i', el).forEach((n, i) => { n.style.width = n1(+n.dataset.w * P(lt, cm.tM + 0.25 + i * 0.1, cm.tM + 0.9 + i * 0.1, E.outCubic)) + '%' })
+      // the read, over the stadium
+      const vd = $('.wo-vd', el), va = vrT(sc, ...(b.verdict_at || [sc.lines.length - 1, 0])) ; const vt2 = Math.max(cm.tR + 1.25, va); slam(vd, lt, vt2, 1.15, 0.32)
+    } else if (sc.type === 'wo_end') {
+      rise([$('.wo-e1', el)], lt, 0.05, 0, 30); rise([$('.wo-ek', el)], lt, 0.3, 0, 16)
+      $$('.wo-er>div', el).forEach((d2, i) => { const a2 = 0.45 + i * 0.13, q2 = P(lt, a2, a2 + 0.45, E.outBack); d2.style.opacity = n1(P(lt, a2, a2 + 0.2)); d2.style.transform = `translate3d(${n1(80 * (1 - q2))}px,0,0)` })
+      rise([$('.wo-fol', el)], lt, vrT(sc, sc.lines.length - 1, 0), 0, 30)
+    }
   } else if (/^tb_/.test(sc.type)) {
     const nx = D.scenes[k + 1], pg = $('.tb-pg', el), q = D.picks[b.match ?? 0] || M, last = sc.lines.length - 1
     if (pg) { const qi = P(lt, 0, 0.45, E.outCubic), ex = nx && /^tb_/.test(nx.type) ? P(lt, sc.dur - 0.28, sc.dur, E.inCubic) : 0
@@ -3518,7 +3760,7 @@ const stampAt = sc => sc.data?.stamp_at ?? Math.max(1.2, (S(sc, sc.lines.length 
 function fxCinematic() {
   const ev = [], add = (t, sfx, db, o = {}) => ev.push({ t: +Math.max(0, t).toFixed(3), sfx, db, ...o }), syn = (t, type, gain) => ev.push({ t: +t.toFixed(3), type, ...(gain ? { gain } : {}) })
   D.scenes.forEach((sc, k) => {
-    const T = sc.start, b = sc.data || {}, at = j => T + S(sc, j)[0], next = D.scenes[k + 1], drop = /_intro$|_hook$|^(bp|vr|gl|ar|en|dw|tb)_title$/.test(sc.type) && b.drop
+    const T = sc.start, b = sc.data || {}, at = j => T + S(sc, j)[0], next = D.scenes[k + 1], drop = /_intro$|_hook$|^(bp|vr|gl|ar|en|dw|tb|wo)_title$/.test(sc.type) && b.drop
     if (k > 0 && !drop && !b.hard_cut) add(T, k % 2 ? '1492' : '2636', k % 2 ? -12 : -14, { align: 'peak' })
     if (sc.type === 'rx_cold') {
       const steps = b.steps || []
@@ -3661,6 +3903,20 @@ function fxCinematic() {
     }
     if (sc.type === 'en_board') { add(T + 0.2, '2909', -9); D.scenes.filter(s => s.type === 'en_res').forEach((_, i) => add(T + vrT(sc, ...(b.stamps_at || [0, 0.6])) + i * 0.22, '1365', -14)) }
     if (sc.type === 'en_end') { add(T + 0.2, '2909', -8); add(T + 0.25, '2299', -8); enCats().forEach((_, i) => syn(T + 0.6 + i * 0.12, 'paper', 0.22)) }
+    // the walk-out: footsteps down the tunnel, the crowd growing as the light nears, a rush and a roar at the exit
+    if (sc.type === 'wo_cold') {
+      add(T, '497', -14, { align: 'start', max: Math.max(1, sc.dur - 0.2) }); add(T + 0.2, '543', -24, { max: sc.dur - 0.3 })
+      sc.lines.forEach((_, j) => { add(at(j) - 0.05, '2909', j ? -12 : -7); add(at(j) - 0.04, '2849', -16) })
+      if (next?.data?.drop) add(next.start, '2908', -6, { reverse: true, max: 2.6, align: 'end' })
+    }
+    if (sc.type === 'wo_title') { add(T, '2097', -24, { align: 'start', max: sc.dur + 0.25 }); D.picks.forEach((_, i) => add(T + 0.95 + i * 0.12, '2857', -21)) }
+    if (sc.type === 'wo_tie') {
+      const vt = (a, d) => T + vrT(sc, ...(a || d)), tR = vt(b.read_at, [sc.lines.length - 1, 0]), tM = vt(b.model_at, [Math.max(0, sc.lines.length - 2), 0])
+      add(T, '2097', b.crowd_db ?? -29, { align: 'start', max: sc.dur + 0.25 }); add(T + 0.05, '543', -22, { max: Math.max(0.5, tR - T + 0.3) })
+      ;['home', 'away'].forEach(s2 => (b[s2]?.key || []).forEach(kk => add(vt(kk.at, [1, 0]), '3115', -15)))
+      add(tM, '3115', -14); add(tR + 0.3, '2636', -10, { reverse: true, max: 0.9, align: 'end' }); add(tR + 1.0, '2111', -12, { max: Math.max(1, T + sc.dur - tR - 1.0) }); add(tR + 1.05, '2909', -9)
+    }
+    if (sc.type === 'wo_end') { add(T + 0.2, '2909', -9); D.scenes.filter(x => x.type === 'wo_tie').forEach((_, i) => add(T + 0.45 + i * 0.13, '2857', -20)) }
     // the tactics board: magnets clack on, the marker squeaks, a faint stadium murmur under the commentary
     if (sc.type === 'tb_cold') {
       add(T, '497', -14, { align: 'start', max: Math.max(1, sc.dur - 0.2) })
@@ -3834,7 +4090,7 @@ window.renderAt = async function (t) {
 
   // cut flash, in time with the whoosh (memes cut hard: no flash)
   let fl = 0
-  for (let j = 1; j < D.scenes.length; j++) { const d = t - D.scenes[j].start, ty = D.scenes[j].type; if (d >= 0 && d < 0.3 && ty !== 'rv_meme' && !(/^(bp|vr|gl|ar|en|dw|tb)_/.test(ty) && !['bp_title', 'vr_title', 'gl_title', 'ar_title', 'en_title', 'dw_title', 'tb_title'].includes(ty))) fl = Math.max(fl, 0.5 * (1 - d / 0.3)) }
+  for (let j = 1; j < D.scenes.length; j++) { const d = t - D.scenes[j].start, ty = D.scenes[j].type; if (d >= 0 && d < 0.3 && ty !== 'rv_meme' && !(/^(bp|vr|gl|ar|en|dw|tb|wo)_/.test(ty) && !['bp_title', 'vr_title', 'gl_title', 'ar_title', 'en_title', 'dw_title', 'tb_title', 'wo_title', 'wo_end'].includes(ty))) fl = Math.max(fl, 0.5 * (1 - d / 0.3)) }
   const hk = D.scenes.find(s => s.type === 'rv_hook'); if (hk && t - hk.start > 0.38 && t - hk.start < 0.7) fl = Math.max(fl, 0.7 * (1 - (t - hk.start - 0.38) / 0.32))
   $('#flash').style.opacity = fl
 
@@ -3849,13 +4105,15 @@ window.renderAt = async function (t) {
     const box = $('.c', capEl); box.style.opacity = clamp(q * 2); box.style.transform = `scale(${0.85 + 0.15 * q})`
     $$('.w', capEl).forEach((s, j) => { const w = c.words[j]; s.className = 'w' + (t >= w.t0 && t < w.t1 ? ' now' : t < w.t0 ? ' next' : '') })
   }
-  capEl.className = (D.cfg.caption_style === 'bold' ? 'bold' : '') + (BPg ? ' bpc' : '') + (VRg ? ' vrc' : '') + (/^tb_/.test(sc.type) ? ' tbc' + (sc.type === 'tb_cold' ? ' tbn' : '') : '')
+  capEl.className = (D.cfg.caption_style === 'bold' ? 'bold' : '') + (BPg ? ' bpc' : '') + (VRg ? ' vrc' : '') + (/^tb_/.test(sc.type) ? ' tbc' + (sc.type === 'tb_cold' ? ' tbn' : '') : '') + (/^wo_/.test(sc.type) ? ' woc' + (sc.type === 'wo_cold' ? ' won' : '') : '')
   capEl.style.top = memeLike ? '1500px' : sc.pres ? (D.cfg.presenter?.box ? '1450px' : '1330px') : '1474px'
-  $('#hdr').style.display = /^(rx|pm|np|bp|vr|gl|ar|en|dw|tb)_/.test(sc.type) ? 'none' : ''
+  $('#hdr').style.display = /^(rx|pm|np|bp|vr|gl|ar|en|dw|tb|wo)_/.test(sc.type) ? 'none' : ''
   if (NPg || BPg || VRg) capEl.style.top = '1478px'
   if (/^en_/.test(sc.type)) capEl.style.top = '1590px'
   if (sc.type === 'dw_game' || sc.type === 'dw_res') capEl.style.top = '1484px'
   if (sc.type === 'tb_game' || sc.type === 'tb_ft') capEl.style.top = '1330px'
+  if (sc.type === 'wo_tie' || sc.type === 'wo_title') capEl.style.top = '1560px'
+  if (/^wo_/.test(sc.type)) { $('#tint').style.opacity = 0; $('#vig').style.opacity = 0; $('#credit').textContent = b.credit || '' }
   if (wait) await wait
 }
 
