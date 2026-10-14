@@ -249,3 +249,30 @@ node video/from-app.mjs preview --match <main> --with <id>,<id>,<id>    # app nu
    - the tags.
    
    The line "Narrated with an AI voice" goes only at the end of the YouTube description, never in the video.
+
+## The Walk-Out (`wo_*`, CSS 3D players' tunnels, 14 Oct 2026)
+
+Template: `walkout-2026-10-14.json` (sources: `walkout-2026-10-14-sources.md`; build script pattern: one `tie()` per match).
+The owner asked for "today's Champions League analysis… take your time on the creative idea". Each tie is a walk down
+its players' tunnel, built in CSS 3D (no WebGL), so the crests, photos and text stay crisp and a frame costs about 0.65 s
+on three workers.
+
+- **The world** (`woWorld` in `review.html`): perspective 760, the eye at z = 760.
+  - Walls, ceiling and floor are 160 px tiles along z. A tile is drawn only when it is wholly in front of the eye, because Chromium draws a plane that crosses the eye badly.
+  - The camera is the world's transform: `rotateY(ry) translateZ(d)`, with transform-origin z = 760, so a turn pivots on the eye.
+  - The far end is the stadium's own photo under a beam. Each wall has a light strip in that side's kit colour (`kit.c`; the bar and plates use `kit.bg`). The crests are painted near the entrance.
+- **A tie** (`wo_tie`):
+  - The header slides in: kick-off, crests, venue, "Tunnel 03 / 07".
+  - The camera walks in and turns 17° to each key man's poster as he is named (`home.key[].at`). His plate rises with the stat.
+  - The model card drops in on `model_at`, showing win chances, expected goals and the likeliest score. No app form: on 14 Oct it clashed with confirmed results.
+  - On `read_at` the camera accelerates out (cubic), a white flash, then the stadium photo fills the screen and the call slams in (`verdict`, label `Our call`).
+  - A key man with no free photo gets a crest poster on a white card with a kit-colour band.
+- **Cold open** (`wo_cold`): the tunnel in deep royal blue, with a pair of ceiling lights clanking on per line and the exit glow growing. It has the same `steps` as `tb_cold` (big word, label, tone, glitch).
+- **Title** (`wo_title`, `drop: true`): "The / Walk-Out" over the tunnel, with the fixture list. **End** (`wo_end`): a light page with every call.
+- **Sound:** footsteps in a tunnel (Mixkit sfx 543), a crowd bed under every tie, a reversed whoosh into the exit and the stadium (2111) as we come out.
+- **Voice lessons from the say-check and hear-back:**
+  - "Our read" is heard as "I'll read": use "Our call".
+  - "Betis beat" is heard as "bet is": "a home win for Betis".
+  - Say "PSG", not "Paris Saint-Germain", which was heard as "Paris and German".
+  - "goals in ten games" is heard as "and": use "from".
+- **Wikimedia:** search Commons by venue name with `commons_search.mjs`-style calls, slowly (it rate-limits). `resolveStadium` takes a team, not a venue, and matched La Cartuja to Camp Nou. Skip agency photos even when they are on Commons (a LUSA photo of Pepê was skipped).

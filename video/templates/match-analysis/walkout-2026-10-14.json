@@ -1,0 +1,767 @@
+{
+ "mode": "review",
+ "title": "The Walk-Out: Champions League Wednesday, 14 Oct",
+ "competition": "Football",
+ "date": "2026-10-14",
+ "sound": "cinematic",
+ "voice_fx": "deep",
+ "voice_speed": 1.05,
+ "music_vibe": [
+  "cinematic"
+ ],
+ "music_drop": "after_cold",
+ "music_duck": 10,
+ "stadiums": false,
+ "media_dir": ".cache/media/analysis-2026-10-14-walkout",
+ "picks": [
+  {
+   "home": "Feyenoord",
+   "away": "Como 1907",
+   "competition": "UEFA Champions League",
+   "kickoff": "17:45",
+   "home_win": 38,
+   "draw": 27,
+   "away_win": 35,
+   "xg_home": 1.42,
+   "xg_away": 1.36,
+   "form_home": "WLWWW",
+   "form_away": "WWWLD",
+   "scored_home": 3,
+   "scored_away": 1.9,
+   "conceded_home": 1.2,
+   "conceded_away": 0.8,
+   "top_scores": [
+    [
+     1,
+     1,
+     13
+    ],
+    [
+     2,
+     1,
+     9
+    ],
+    [
+     1,
+     0,
+     8
+    ]
+   ],
+   "home_short": "Feyenoord",
+   "away_short": "Como",
+   "where": "De Kuip, Rotterdam",
+   "kit": {
+    "home": {
+     "c": "#E2001A"
+    },
+    "away": {
+     "c": "#2E6DB4"
+    }
+   },
+   "ko": "17:45"
+  },
+  {
+   "home": "LASK Linz",
+   "away": "Liverpool",
+   "competition": "UEFA Champions League",
+   "kickoff": "17:45",
+   "home_win": 48,
+   "draw": 24,
+   "away_win": 28,
+   "xg_home": 1.91,
+   "xg_away": 1.46,
+   "form_home": "WWLWW",
+   "form_away": "WDDLW",
+   "scored_home": 2.2,
+   "scored_away": 1.5,
+   "conceded_home": 1.4,
+   "conceded_away": 1.3,
+   "top_scores": [
+    [
+     1,
+     1,
+     10
+    ],
+    [
+     2,
+     1,
+     9
+    ],
+    [
+     1,
+     2,
+     7
+    ]
+   ],
+   "home_short": "LASK",
+   "away_short": "Liverpool",
+   "where": "Raiffeisen Arena, Linz",
+   "kit": {
+    "home": {
+     "c": "#F2F2F2",
+     "bg": "#111418"
+    },
+    "away": {
+     "c": "#C8102E"
+    }
+   },
+   "ko": "17:45"
+  },
+  {
+   "home": "Shakhtar D",
+   "away": "AEK Athens",
+   "competition": "UEFA Champions League",
+   "kickoff": "20:00",
+   "home_win": 27,
+   "draw": 27,
+   "away_win": 46,
+   "xg_home": 1.13,
+   "xg_away": 1.52,
+   "form_home": "WLWWW",
+   "form_away": "WWDWW",
+   "scored_home": 2.2,
+   "scored_away": 3.1,
+   "conceded_home": 0.5,
+   "conceded_away": 0.4,
+   "top_scores": [
+    [
+     1,
+     1,
+     13
+    ],
+    [
+     0,
+     1,
+     10
+    ],
+    [
+     1,
+     2,
+     9
+    ]
+   ],
+   "home_short": "Shakhtar",
+   "away_short": "AEK Athens",
+   "where": "Stamford Bridge, London",
+   "kit": {
+    "home": {
+     "c": "#F37021"
+    },
+    "away": {
+     "c": "#F5C400",
+     "bg": "#1A1A1A"
+    }
+   },
+   "ko": "20:00"
+  },
+  {
+   "home": "Betis",
+   "away": "Porto",
+   "competition": "UEFA Champions League",
+   "kickoff": "20:00",
+   "home_win": 43,
+   "draw": 27,
+   "away_win": 30,
+   "xg_home": 1.47,
+   "xg_away": 1.21,
+   "form_home": "WLWWW",
+   "form_away": "WWWWW",
+   "scored_home": 1.9,
+   "scored_away": 2.1,
+   "conceded_home": 1.2,
+   "conceded_away": 0.6,
+   "top_scores": [
+    [
+     1,
+     1,
+     13
+    ],
+    [
+     1,
+     0,
+     9
+    ],
+    [
+     2,
+     1,
+     9
+    ]
+   ],
+   "record_home": [
+    8,
+    1,
+    1
+   ],
+   "record_away": [
+    9,
+    0,
+    1
+   ],
+   "games_home": 10,
+   "games_away": 10,
+   "ppg_home": 2.5,
+   "ppg_away": 2.7,
+   "home_short": "Betis",
+   "away_short": "Porto",
+   "where": "Estadio de La Cartuja, Seville",
+   "kit": {
+    "home": {
+     "c": "#00954C"
+    },
+    "away": {
+     "c": "#2F6FD6",
+     "bg": "#00428C"
+    }
+   },
+   "ko": "20:00"
+  },
+  {
+   "home": "Bodoe/Glimt",
+   "away": "Borussia Dortmund",
+   "competition": "UEFA Champions League",
+   "kickoff": "20:00",
+   "home_win": 36,
+   "draw": 22,
+   "away_win": 42,
+   "xg_home": 1.92,
+   "xg_away": 2.06,
+   "form_home": "LWLWW",
+   "form_away": "WWWWD",
+   "scored_home": 3,
+   "scored_away": 2.5,
+   "conceded_home": 1.6,
+   "conceded_away": 1,
+   "top_scores": [
+    [
+     1,
+     1,
+     7
+    ],
+    [
+     2,
+     1,
+     7
+    ],
+    [
+     1,
+     2,
+     7
+    ]
+   ],
+   "home_short": "Bodø/Glimt",
+   "away_short": "Dortmund",
+   "where": "Aspmyra Stadion, Bodø",
+   "kit": {
+    "home": {
+     "c": "#FFD200"
+    },
+    "away": {
+     "c": "#FDE100",
+     "bg": "#111111"
+    }
+   },
+   "ko": "20:00"
+  },
+  {
+   "home": "Roma",
+   "away": "Real Madrid",
+   "competition": "UEFA Champions League",
+   "kickoff": "20:00",
+   "home_win": 31,
+   "draw": 28,
+   "away_win": 41,
+   "xg_home": 1.21,
+   "xg_away": 1.39,
+   "form_home": "WWWWW",
+   "form_away": "LWWWW",
+   "scored_home": 2.2,
+   "scored_away": 2.5,
+   "conceded_home": 0.6,
+   "conceded_away": 1.1,
+   "top_scores": [
+    [
+     1,
+     1,
+     13
+    ],
+    [
+     0,
+     1,
+     9
+    ],
+    [
+     1,
+     2,
+     9
+    ]
+   ],
+   "home_short": "Roma",
+   "away_short": "Real Madrid",
+   "where": "Stadio Olimpico, Rome",
+   "kit": {
+    "home": {
+     "c": "#C8364A",
+     "bg": "#8E1F2F"
+    },
+    "away": {
+     "c": "#FFFFFF",
+     "bg": "#D9DEE8"
+    }
+   },
+   "ko": "20:00"
+  },
+  {
+   "home": "Man City",
+   "away": "PSG",
+   "competition": "UEFA Champions League",
+   "kickoff": "20:00",
+   "home_win": 56,
+   "draw": 25,
+   "away_win": 19,
+   "xg_home": 1.76,
+   "xg_away": 0.97,
+   "form_home": "WWWWW",
+   "form_away": "LWWWW",
+   "scored_home": 2.4,
+   "scored_away": 2,
+   "conceded_home": 1,
+   "conceded_away": 1.2,
+   "top_scores": [
+    [
+     1,
+     1,
+     12
+    ],
+    [
+     1,
+     0,
+     11
+    ],
+    [
+     2,
+     0,
+     10
+    ]
+   ],
+   "home_short": "Man City",
+   "away_short": "PSG",
+   "where": "Etihad Stadium, Manchester",
+   "kit": {
+    "home": {
+     "c": "#6CABDD"
+    },
+    "away": {
+     "c": "#DA291C",
+     "bg": "#004170"
+    }
+   },
+   "ko": "20:00"
+  }
+ ],
+ "review": {
+  "project": "The Walk-Out",
+  "beats": [
+   {
+    "type": "wo_cold",
+    "steps": [
+     {
+      "big": "7 tunnels",
+      "label": "Champions League · Wednesday · Lagos time"
+     },
+     {
+      "big": "14 teams",
+      "label": "One walk-out each"
+     },
+     {
+      "big": "London",
+      "label": "Shakhtar's home this season",
+      "tone": "sky"
+     },
+     {
+      "big": "Mourinho",
+      "label": "Back in Rome · with Real Madrid",
+      "tone": "red",
+      "glitch": true,
+      "glitch_at": 0.55
+     }
+    ],
+    "say": [
+     "Seven tunnels tonight.",
+     "Fourteen teams, waiting to walk out.",
+     "One of them is at home in London.",
+     "And Mourinho walks back into Rome, with Real Madrid."
+    ],
+    "tail": 0.95
+   },
+   {
+    "type": "wo_title",
+    "drop": true,
+    "l1": "The",
+    "l2": "Walk-Out",
+    "sub": "Champions League · Wednesday 14 October",
+    "beam": "MATCHDAY 2",
+    "say": [
+     "The walk-out: seven Champions League ties, one tunnel at a time."
+    ]
+   },
+   {
+    "type": "wo_tie",
+    "match": 0,
+    "say": [
+     "We start in Rotterdam, with Como's first ever Champions League away game.",
+     "Feyenoord haven't conceded since a five–one defeat at Barcelona. Nico Paz made two assists on Como's debut.",
+     "On our numbers it's close: Feyenoord 38%, Como 35%.",
+     "Our call: Feyenoord don't lose at home."
+    ],
+    "home": {
+     "key": []
+    },
+    "away": {
+     "key": [
+      {
+       "name": "Nico Paz",
+       "stat": "2 assists on the debut, 4–1 v Leipzig",
+       "at": [
+        1,
+        0.577
+       ],
+       "role": "Playmaker",
+       "photo": "p_nico_paz.jpg"
+      }
+     ]
+    },
+    "model_at": [
+     2,
+     0.0
+    ],
+    "read_at": [
+     3,
+     0.0
+    ],
+    "verdict": {
+     "text": "Feyenoord don't lose at home",
+     "short": "Feyenoord don't lose",
+     "score": "1–1"
+    },
+    "verdict_label": "Our call",
+    "stadium": "s_dekuip.jpg",
+    "credit": "De Kuip, Rotterdam · Photo: StevenL · CC BY-SA 3.0  ·  Nico Paz · Photo: Bryan Berlin · CC BY-SA 4.0"
+   },
+   {
+    "type": "wo_tie",
+    "match": 1,
+    "say": [
+     "Also at a quarter to six: LASK, against a Liverpool side short of bodies.",
+     "Isak, Gakpo and Szoboszlai didn't travel, and Van Dijk is a doubt.",
+     "For LASK, Christoph Lang has five league goals. For Liverpool, Mac Allister scored in the opening win over Atlético.",
+     "Our numbers make LASK favourites: 48%, against 28% for Liverpool.",
+     "Our call: LASK don't lose."
+    ],
+    "home": {
+     "key": [
+      {
+       "name": "Christoph Lang",
+       "stat": "5 Austrian Bundesliga goals this season",
+       "at": [
+        2,
+        0.056
+       ],
+       "role": "Forward"
+      }
+     ]
+    },
+    "away": {
+     "key": [
+      {
+       "name": "Alexis Mac Allister",
+       "stat": "Scored v Atlético on matchday 1",
+       "at": [
+        2,
+        0.513
+       ],
+       "role": "Midfield",
+       "photo": "p_alexis_mac_allister.jpg"
+      }
+     ]
+    },
+    "model_at": [
+     3,
+     0.0
+    ],
+    "read_at": [
+     4,
+     0.0
+    ],
+    "verdict": {
+     "text": "LASK don't lose",
+     "short": "LASK don't lose",
+     "score": "1–1"
+    },
+    "verdict_label": "Our call",
+    "stadium": "s_linz.jpg",
+    "credit": "Raiffeisen Arena, Linz · Photo: Werner100359 · CC BY-SA 4.0  ·  Alexis Mac Allister · Photo: Bryan Berlin · CC BY-SA 4.0"
+   },
+   {
+    "type": "wo_tie",
+    "match": 2,
+    "say": [
+     "At eight, Shakhtar are at home in London: Stamford Bridge is their Champions League ground this season.",
+     "AEK's Luka Jović has six goals from ten games.",
+     "Our numbers lean to AEK: 46%, against 27% for Shakhtar.",
+     "Our call: an AEK win."
+    ],
+    "home": {
+     "key": []
+    },
+    "away": {
+     "key": [
+      {
+       "name": "Luka Jović",
+       "stat": "6 goals in 10 games, all competitions",
+       "at": [
+        1,
+        0.1
+       ],
+       "role": "Striker",
+       "photo": "p_luka_jovic.jpg"
+      }
+     ]
+    },
+    "model_at": [
+     2,
+     0.0
+    ],
+    "read_at": [
+     3,
+     0.0
+    ],
+    "verdict": {
+     "text": "An AEK win in London",
+     "short": "An AEK win",
+     "score": "1–1"
+    },
+    "verdict_label": "Our call",
+    "stadium": "s_bridge.jpg",
+    "credit": "Stamford Bridge, London · Photo: Richard Humphrey · CC BY-SA 2.0  ·  Luka Jović · Photo: Oleg Bkhambri (Voltmetro) · CC BY-SA 3.0"
+   },
+   {
+    "type": "wo_tie",
+    "match": 3,
+    "say": [
+     "In Seville, Betis play at La Cartuja while their own ground is rebuilt.",
+     "Isco scored twice against Osasuna on Sunday. Porto didn't manage a shot on target against City, and Bednarek is suspended.",
+     "Our numbers: Betis 43%, Porto 30%.",
+     "Our call: a home win for Betis."
+    ],
+    "home": {
+     "key": [
+      {
+       "name": "Isco",
+       "stat": "2 LaLiga goals, both v Osasuna",
+       "at": [
+        1,
+        0.0
+       ],
+       "role": "Number 10"
+      }
+     ]
+    },
+    "away": {
+     "key": []
+    },
+    "model_at": [
+     2,
+     0.0
+    ],
+    "read_at": [
+     3,
+     0.0
+    ],
+    "verdict": {
+     "text": "A home win for Betis",
+     "short": "A Betis home win",
+     "score": "1–1"
+    },
+    "verdict_label": "Our call",
+    "stadium": "s_cartuja.jpg",
+    "credit": "Estadio de La Cartuja, Seville · Photo: Валерий Дед · CC BY 3.0"
+   },
+   {
+    "type": "wo_tie",
+    "match": 4,
+    "say": [
+     "Up in Bodø, Dortmund face the artificial pitch at Aspmyra.",
+     "Bodø have won seven home games in a row, even after losing five–nil at Bayern.",
+     "Helmersen has twelve league goals this year. Guirassy already has two in the Champions League.",
+     "Our numbers expect goals at both ends: Dortmund 42%, Bodø 36%.",
+     "Our call: Dortmund don't lose, with goals at both ends."
+    ],
+    "home": {
+     "key": [
+      {
+       "name": "Helmersen",
+       "stat": "12 top-flight goals in 2026",
+       "at": [
+        2,
+        0.0
+       ],
+       "role": "Striker"
+      }
+     ]
+    },
+    "away": {
+     "key": [
+      {
+       "name": "Guirassy",
+       "stat": "2 Champions League goals this season",
+       "at": [
+        2,
+        0.449
+       ],
+       "role": "Striker",
+       "photo": "p_serhou_guirassy.jpg"
+      }
+     ]
+    },
+    "model_at": [
+     3,
+     0.0
+    ],
+    "read_at": [
+     4,
+     0.0
+    ],
+    "verdict": {
+     "text": "Dortmund don't lose, goals at both ends",
+     "short": "Dortmund don't lose",
+     "score": "1–1"
+    },
+    "verdict_label": "Our call",
+    "stadium": "s_aspmyra.jpg",
+    "credit": "Aspmyra Stadion, Bodø · Photo: Lars Røed Hansen · CC BY-SA 2.5  ·  Serhou Guirassy · Photo: feguifoot · Public domain"
+   },
+   {
+    "type": "wo_tie",
+    "match": 5,
+    "say": [
+     "Rome, and Mourinho is back at the Olimpico, now with Real Madrid.",
+     "His words: it will be a game like any other.",
+     "Malen has six Serie A goals for Roma. Mbappé plays his hundredth Champions League game tonight.",
+     "Our numbers: Real Madrid 41%, Roma 31%.",
+     "Our call: Real Madrid don't lose."
+    ],
+    "home": {
+     "key": [
+      {
+       "name": "Malen",
+       "stat": "6 Serie A goals",
+       "at": [
+        2,
+        0.0
+       ],
+       "role": "Striker",
+       "photo": "p_donyell_malen.jpg"
+      }
+     ]
+    },
+    "away": {
+     "key": [
+      {
+       "name": "Kylian Mbappé",
+       "stat": "100th Champions League game tonight",
+       "at": [
+        2,
+        0.37
+       ],
+       "role": "Striker",
+       "photo": "p_kylian_mbappe.jpg"
+      }
+     ]
+    },
+    "model_at": [
+     3,
+     0.0
+    ],
+    "read_at": [
+     4,
+     0.0
+    ],
+    "verdict": {
+     "text": "Real Madrid don't lose in Rome",
+     "short": "Real Madrid don't lose",
+     "score": "1–1"
+    },
+    "verdict_label": "Our call",
+    "stadium": "s_olimpico.jpg",
+    "credit": "Stadio Olimpico, Rome · Photo: Vincenzo.togni · CC BY-SA 4.0  ·  Donyell Malen · Photo: Sandro Halank, Wikimedia Commons · CC BY-SA 4.0  ·  Kylian Mbappé · Photo: Bryan Berlin · CC BY-SA 4.0"
+   },
+   {
+    "type": "wo_tie",
+    "match": 6,
+    "say": [
+     "And the last tunnel: Manchester City against PSG.",
+     "Maresca says City need the perfect game against the best team in Europe right now.",
+     "Haaland has eight goals this season. Ferran Torres has seven, with a Champions League hat-trick.",
+     "Our numbers back City: 56%, against 19% for PSG.",
+     "Our call: a City win."
+    ],
+    "home": {
+     "key": [
+      {
+       "name": "Erling Haaland",
+       "stat": "8 goals this season, all competitions",
+       "at": [
+        2,
+        0.0
+       ],
+       "role": "Striker",
+       "photo": "p_erling_haaland.jpg"
+      }
+     ]
+    },
+    "away": {
+     "key": [
+      {
+       "name": "Ferran Torres",
+       "stat": "7 goals, including a Champions League hat-trick",
+       "at": [
+        2,
+        0.355
+       ],
+       "role": "Forward",
+       "photo": "p_ferran_torres.jpg"
+      }
+     ]
+    },
+    "model_at": [
+     3,
+     0.0
+    ],
+    "read_at": [
+     4,
+     0.0
+    ],
+    "verdict": {
+     "text": "A City win at the Etihad",
+     "short": "A City win",
+     "score": "1–1"
+    },
+    "verdict_label": "Our call",
+    "stadium": "s_etihad.jpg",
+    "credit": "Etihad Stadium, Manchester · Photo: Cléria De Souza · CC BY 2.0  ·  Erling Haaland · Photo: Bryan Berlin · CC BY-SA 4.0  ·  Ferran Torres · Photo: Bryan Berlin · CC BY-SA 4.0"
+   },
+   {
+    "type": "wo_end",
+    "l1": "Tonight's",
+    "l2": "calls",
+    "kicker": "Champions League · Wednesday 14 October",
+    "follow": "Follow for the results",
+    "say": [
+     "That's the walk-out: seven calls for tonight.",
+     "Follow for the results after full time."
+    ]
+   }
+  ]
+ },
+ "music_track": 607
+}
