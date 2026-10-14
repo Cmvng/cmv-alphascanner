@@ -169,7 +169,8 @@
      0,
      0,
      1.1
-    ]
+    ],
+    "tail": 1.0
    },
    {
     "type": "pr_wrap",
@@ -346,7 +347,7 @@
      "Primus answered: privacy is not dead. It is infrastructure still being built.",
      "And Primus builds it as an Ethereum Foundation grantee."
     ],
-    "look_dy": 2.2
+    "look_dy": 2.5
    },
    {
     "type": "pr_back",
@@ -409,7 +410,8 @@
       "show": "No token yet: a $PRIM campaign runs on Kaito Studio, with no launch date announced."
      }
     ],
-    "look_dy": 0.0
+    "look_dy": 0.4,
+    "mark_s": 0.5
    },
    {
     "type": "pr_end",
@@ -425,7 +427,8 @@
     },
     "say": [
      "Confidential, not hidden. Follow for more."
-    ]
+    ],
+    "tail": 1.2
    }
   ]
  }

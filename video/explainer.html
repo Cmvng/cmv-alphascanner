@@ -3588,10 +3588,10 @@ function prBuildSets() {
   const wal = add(new T3.Group())
   const AMT = [4.2e6, 8.6e5, 1.26e7, 2.1e6, 3.14e7, 5.4e5, 7.9e6, 1.3e6, 1.82e7, 6.4e6, 2.7e6, 9.1e5], NC = [5, 3, 8, 4, 9, 3, 6, 4, 7, 5, 4, 3]
   const wallets = AMT.map((a, i) => { const W = wallet(2.3, 2.6, 2.3, NC[i], a); W.position.set(((i % 3) - 1) * 3.4, 0, (Math.floor(i / 3) - 3) * 3.3); wal.add(W); return W })
-  const hop = V.makeCoin('u', 0.42, 0.1); wal.add(hop)
-  wallets.forEach(W => { W.userData.lab.position.y = 2.6 + 0.4 })
-  const trailN = 36, trail = new T3.InstancedMesh(new T3.SphereGeometry(0.055, 8, 6), new T3.MeshBasicMaterial({ color: '#9CCBFF', toneMapped: false }), trailN); wal.add(trail)
-  const track = new T3.Mesh(new T3.TorusGeometry(0.7, 0.035, 8, 64), new T3.MeshBasicMaterial({ color: '#9CCBFF', toneMapped: false })); wal.add(track)
+  const hop = new T3.Mesh(new T3.CircleGeometry(0.42, 48), new T3.MeshBasicMaterial({ map: V.FACE.u, transparent: true, depthTest: false, toneMapped: false })); hop.renderOrder = 20; wal.add(hop)
+  wallets.forEach(W => { const l = W.userData.lab; l.position.y = 2.6 + 0.4; l.material.transparent = true; l.material.depthTest = false; l.renderOrder = 18 })
+  const trailN = 36, trail = new T3.InstancedMesh(new T3.SphereGeometry(0.055, 8, 6), new T3.MeshBasicMaterial({ color: '#9CCBFF', toneMapped: false, transparent: true, depthTest: false }), trailN); trail.renderOrder = 19; wal.add(trail)
+  const track = new T3.Mesh(new T3.TorusGeometry(0.7, 0.035, 8, 64), new T3.MeshBasicMaterial({ color: '#9CCBFF', toneMapped: false, transparent: true, depthTest: false })); track.renderOrder = 21; wal.add(track)
 
   // 2. the title: their mark behind a slab of frosted glass that clears
   const slab = add(new T3.Mesh(V.rbox(6.2, 6.2, 0.34, 0.5, 0.12), V.glassM(0.55)))
@@ -3708,7 +3708,7 @@ const PRF = {
     // the hop: from the wallet at the back left to the front right, on line 2
     const A = V.wallets[3].position, B = V.wallets[10].position, q = P(lt, t2 + 0.1, t2 + 1.7, E.inOutSine)
     const at2 = u => [vxL(A.x, B.x, u), 1.6 + 3.2 * Math.sin(Math.PI * u), vxL(A.z, B.z, u)]
-    V.hop.visible = lt >= t2 + 0.05; const p = at2(q); V.hop.position.set(...p); V.hop.rotation.set(0, lt * 2.2, 0)
+    V.hop.visible = lt >= t2 + 0.05; const p = at2(q); V.hop.position.set(...p); V.hop.quaternion.copy(V.cam.quaternion); V.hop.scale.set(q < 1 ? 0.25 + 0.75 * Math.abs(Math.cos(lt * 4.2)) : 1, 1, 1)
     const o = new V.T3.Object3D()
     for (let k = 0; k < V.trailN; k++) { const u = q - k * 0.018, on = lt >= t2 + 0.1 && u > 0; o.position.set(...at2(Math.max(0, u))); o.scale.setScalar(on ? 1 - k / V.trailN : 0.001); o.updateMatrix(); V.trail.setMatrixAt(k, o.matrix) }
     V.trail.instanceMatrix.needsUpdate = true
@@ -3743,7 +3743,7 @@ const PRF = {
       const fade = j === 0 ? 1 - P(lt, tH, tH + 0.4) : 1; m.scale.setScalar(Math.max(0.001, fade * P(lt, 0.4 + k * 0.05, 0.7 + k * 0.05))) }))
     V.bars.forEach((m, k) => { const h = [0.55, 0.95, 1.4][k] * P(lt, tC + 0.15 * k, tC + 0.15 * k + 0.6, E.outCubic); m.visible = lt >= tC; m.scale.set(1, Math.max(0.001, h), 1); m.position.set(3.4, h / 2, 0.75 - k * 0.55) })
     V.dB.userData.mat.roughness = vxL(0.03, 0.5, P(lt, tF, tF + 0.9, E.inOutSine))
-    const [cp, cg] = prPath([[0, [0.7, 8.4, 25.5], [0.25, 1.5, -1.3]], [sc.dur + 1, [0.0, 8.0, 24.5], [0.25, 1.5, -1.3]]], lt); prCam(cp, cg); prLight([0, 0.5, -1], 9)
+    const [cp, cg] = prPath([[0, [0.9, 8.4, 25.5], [0.45, 1.5, -1.3]], [sc.dur + 1, [0.2, 8.0, 24.5], [0.45, 1.5, -1.3]]], lt); prCam(cp, cg); prLight([0, 0.5, -1], 9)
     ;[V.dA, V.dB].forEach(W => { W.userData.em.color.set('#7FA3D9'); W.userData.em.opacity = 0.9 })
     const pA = prW(V.dA, 0, 3.55, 0), pB = prW(V.dB, 0, 3.55, 0), pH = prW(V.hub, 0, 1.0, 0)
     return { bg: 'sky', tags: [prProj(pA.x, pA.y, pA.z), prProj(pB.x, pB.y, pB.z), prProj(pH.x, pH.y, pH.z)], t: { tH, tC, tF } }
@@ -3755,18 +3755,18 @@ const PRF = {
     let y = 9.0
     if (lt >= tIn) y = vxL(9.0, 6.2, P(lt, tIn, tIn + 1.5, E.inOutSine))
     if (lt >= tSend) y = vxL(6.2, 1.7, P(lt, tSend, tSend + 2.0, E.inOutSine))
-    if (lt >= tOut) y = vxL(1.7, 9.0, P(lt, tOut, tOut + 2.4, E.inOutSine))
+    if (lt >= tOut) y = vxL(1.7, 9.0, P(lt, tOut, tOut + 1.6, E.inOutSine))
     const inside = y < 3.0, wob = 0.18 * Math.sin(lt * 1.3)
     ;[V.cU, V.cE].forEach(c => { c.visible = !inside; c.position.set(0, y, 0); c.rotation.set(0, wob, 0); prS(c, vxE.back((lt - 0.05) / 0.5)) })
     V.gate.material.roughness = 0.42; V.gateRim.material.color.set(Math.abs(y - GY) < 0.9 ? '#FFFFFF' : PRO)
-    V.tube.material.roughness = vxL(0.02, 0.5, P(lt, tSend - 0.4, tSend + 0.3, E.inOutSine)) * (1 - P(lt, tOut + 2.2, tOut + 2.6))
+    V.tube.material.roughness = vxL(0.02, 0.5, P(lt, tSend - 0.4, tSend + 0.3, E.inOutSine)) * (1 - P(lt, tOut + 1.5, tOut + 1.9))
     const v = V.vault.userData, open = P(lt, tYield, tYield + 0.5, E.outCubic) * (1 - P(lt, tOut - 0.6, tOut - 0.1))
     v.hinge.rotation.y = -1.1 * open; v.gl2.intensity = 6 * open
     V.yieldC.forEach((c, k) => { const a = tYield + 0.15 + k * 0.16, u = clamp((lt - a) / 1.1), on = lt >= a && lt < tOut
       c.visible = on; c.position.set((k - 2) * 0.95 * vxE.o(u), 2.9 + (2.6 - 0.38 * Math.abs(k - 2)) * vxE.o(u), 1.9); c.rotation.set(0, 0.4 * Math.sin(lt * 2 + k), 0); prS(c, on ? vxE.back(u / 0.35) * (1 - P(lt, tOut - 0.5, tOut - 0.05)) : 0) })
     const kf = [[0, [3.6, 12.6, 31.5], [0, 5.0, 0]], [tSend, [3.0, 12.0, 32.0], [0, 4.8, 0]], [tOut, [2.6, 11.6, 32.0], [0, 4.8, 0]], [sc.dur + 1, [3.2, 12.2, 32.5], [0, 4.9, 0]]]
     const [cp, cg] = prPath(kf, lt); prCam(cp, cg); prLight([0, 4, 0], 9)
-    const pts = [[1.75, 9.0, 0], [1.9, GY, 0], [1.3, 5.1, 0], [2.1, 3.6, 0], [1.9, GY + 0.6, 0]]
+    const pts = [[2.05, 9.0, 0], [1.9, GY, 0], [1.3, 5.1, 0], [2.1, 3.6, 0], [1.9, GY + 0.6, 0]]
     return { bg: 'sky', tags: pts.map(p => prProj(...p)), t: { tIn, tEnc, tSend, tYield, tOut } }
   },
   // the privacy wrapper (their co-founder's words, his interview on the page): a big position in glass, a frosted
@@ -3784,7 +3784,7 @@ const PRF = {
   // zkTLS: an HTTPS page; one fact lifts off as a card and becomes a yes or no; the page frosts; your key stays; a seal
   zk(lt, sc, b, at) {
     const V = PR, tPad = at('https', L(sc, 1)), tFact = at('fact', L(sc, 1, 0.35)), tPage = at('page', L(sc, 1, 0.6)), tPass = at('password', L(sc, 1, 0.85)), tSign = at('signed', L(sc, 2, 0.6)), tProof = at('proof', L(sc, 3))
-    prBg('sky'); V.zk.visible = true
+    prBg('sky'); V.floor.visible = false; V.zk.visible = true
     prS(V.page, vxE.back((lt - 0.05) / 0.5)); V.page.rotation.set(0, 0.04 * Math.sin(lt * 0.5), 0)
     const rowY = 5.4 + V.PH / 2 - (354 / 800) * V.PH, lift = P(lt, tFact, tFact + 1.0, E.inOutSine)
     V.claim.visible = lt >= tFact - 0.05; V.claim.position.set(0, vxL(rowY, 8.05, lift), vxL(0.12, 1.5, lift)); V.claim.rotation.set(0, 0, 0.02 * Math.sin(lt * 0.8) * lift)
