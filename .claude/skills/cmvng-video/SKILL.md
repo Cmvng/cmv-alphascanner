@@ -169,7 +169,11 @@ Preview rules, which keep it monetisable:
 
 **Judging our verdicts: only "Called it" or "Missed it"** (the owner, 9 Oct: "if it happened, that means you called
 it. It's simple."). If what the verdict said happened, it's called, whatever the margin or the predicted score. Never
-"half right". A two-part verdict is called when both parts happened. Details in `video/templates/post-match/README.md`.
+"half right". **The result decides** (owner, 13 Oct): if the winner we called won, it's called. Goals at both ends, a clean
+sheet, the margin or the score are extra reads: say whether they came off, show them on their own chip, never let them
+turn a correct result into a miss. Details in `video/templates/post-match/README.md`.
+**Post-match look (owner, 13 Oct):** the approved presenter format (`video/templates/reaction/`): the lady at the mic,
+the commentary, each venue's stadium photo and the players who decided the game. Don't swap it for a graphics-only board.
 
 When the owner asks for "the reaction", "the review", "post-match" or "what happened in <match>", follow `video/templates/post-match/README.md`.
 

@@ -76,7 +76,7 @@ const slug = path.basename(input).replace(/\.(json|csv)$/i, '') + (SHORT ? '_sho
 const OUT = path.join(DIR, 'out', slug), CACHE = path.join(DIR, '.cache')
 // a stills check keeps the finished video, its review and its voice (6 Oct: a stills run wiped the final render)
 if (flag('stills', false) || flag('say-check', false)) fs.rmSync(path.join(OUT, 'stills'), { recursive: true, force: true })     // checks keep the finished render
-else fs.rmSync(OUT, { recursive: true, force: true })
+else if (!flag('resume', false)) fs.rmSync(OUT, { recursive: true, force: true })      // --resume keeps a crashed render's frames and segments
 // two venue names are the same ground when they share a distinctive word ("Shahid Vatani Stadium" = "Vatani Stadium")
 const VSTOP = new Set(['stadium', 'stadionul', 'stadion', 'stade', 'estadio', 'stadio', 'arena', 'sports', 'sport', 'national', 'city', 'the', 'park', 'ground', 'municipal', 'olympic', 'dr', 'of', 'de', 'del', 'la'])
 const vTok = s => new Set(String(s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').split(' ').filter(w => w.length > 2 && !VSTOP.has(w)))
@@ -344,6 +344,8 @@ if (cfg.mode === 'review') {
       const c = cams[j++ % cams.length]
       if (c.off + sc.dur > c.len - 0.2) c.off = c.from || 0
       const dir = path.join(OUT, 'pres', `s${k}`); fs.mkdirSync(dir, { recursive: true })
+      // --resume: a crashed render left these frames behind; reuse them (the voice, and so every screen's length, is the same)
+      if (flag('resume', false) && fs.readdirSync(dir).length >= Math.floor(sc.dur * FPS)) { sc.pres = { dir: `pres/s${k}`, n: fs.readdirSync(dir).length }; c.off += sc.dur + 0.5; continue }
       const vf = pc.box ? `${c.crop ? `crop=${c.crop},` : ''}scale=960:540,fps=${FPS}`
         : `${c.crop ? `crop=${c.crop},` : ''}scale=1080:-2,fps=${FPS},chromakey=${c.key || pc.key || '0x6CF514:0.14:0.06'},despill=type=green`
       await run(FF, ['-y', '-loglevel', 'error', '-ss', c.off.toFixed(2), '-i', c.src, '-t', (sc.dur + 0.1).toFixed(2), '-vf', vf, '-c:v', 'libwebp', '-quality', pc.box ? '82' : '75', path.join(dir, '%04d.webp')])
@@ -440,6 +442,9 @@ console.log(`Rendering ${FRAMES} frames with ${WORKERS} workers…`)
 await Promise.all(Array.from({ length: WORKERS }, async (_, w) => {
   const a = w * per, b = Math.min(FRAMES, a + per)
   if (a >= b) return
+  // --resume: keep a segment a crashed render already finished (worker 0 always runs: it collects the sound events)
+  const keep = String(flag('keep-segs', '') || '').split(',').filter(Boolean).map(Number)
+  if (w > 0 && keep.includes(w) && fs.existsSync(path.join(OUT, `seg_${w}.mp4`))) { done += b - a; console.log(`  segment ${w} kept (frames ${a}–${b - 1})`); return }
   let p = await openPage(), since = 0
   if (w === 0) fx = await p.pg.evaluate(() => window.fxEvents())
   const ff = spawn(FF, ['-y', '-loglevel', 'error', '-f', 'image2pipe', '-framerate', String(FPS), '-i', '-',

@@ -45,6 +45,23 @@ reaction screens. Write its type without the prefix (`"table"`, `"quote"`, `"sta
 `"rv_table"` becomes `rv_rv_table` and draws nothing. Example: a `table` beat ("Group 4 now") after the main match's reveal.
 Keep its `title` short (about 12 characters) so it fits the screen.
 
+## Judged on the result, extras on their own chip (13 Oct 2026)
+
+Reference: `ucl-2026-10-13-reaction.json` (five Champions League ties, 4 from 5). The owner: "you called the match right
+with the proper analysis and you still marking yourself wrong."
+- `ok` on `rx_reveal` is the **result** (did the team we backed win). Anything added to it (goals at both ends, a clean
+  sheet, the margin) goes in `extra: {text, ok, at: [line, frac]}`: a white chip on the score card, "Extra read …
+  YES/NO". Say it plainly in the voice, then the verdict: "Lens never scored, so the extra read missed. But the result?
+  Called it."
+- `tally_at: [line, frac]` lands the big n/of tally on the words "Called it" / "we missed", not before them.
+- Order the games for a story: three from three, then the miss, then the big one as the finale.
+- `rx_cold` takes `tint: 'blue'` for a royal-blue cold open (the owner: never black).
+- Photos: each venue's stadium (`picks[].stadium`) and the players who decided it (`people`); check every one by eye.
+  When a scorer has no free photo (Tresoldi, Rrahmani on 13 Oct), use the other players and the stadium.
+- Rendering: the presenter cut-out takes about 15 minutes, and a full render about 25. Check `df` first: Chromium keeps
+  deleted temp files open, so free disk drops by ~2 GB mid-render and a full disk crashes a worker. If a render dies,
+  `--resume --keep-segs 1,2` keeps the presenter frames and any finished segments.
+
 ## Prediction-market plays (Polymarket)
 
 `polymarket-2026-10-02.json` is the reference: the presenter, then one `pm_pick` card per app pick (the app's pick and confidence, the Polymarket question, our side lit green, the price and "$100 → $X"), a `pm_slate` and a `pm_outro`. The rules for converting picks are in `.claude/skills/cmvng-video/SKILL.md` ("Prediction-market plays"). Refresh prices with `python3 video/lib/pm_prices.py <file>` before rendering.

@@ -12,7 +12,12 @@ There are only two results: **Called it** and **Missed it**. Never "half right".
 - If what the verdict said happened, it's called: "Slavia, comfortably" ended 0–1, and "Al Nassr, narrowly" ended 3–0.
   Both are called. The predicted score and the margin are never judged.
 - "X don't lose" is called if X won or drew.
-- A two-part verdict ("goals, and a GKS win") is called when both parts happened, and missed when either didn't.
+- **The result decides** (the owner, 13 Oct: "you called the match right with the proper analysis and you still marking
+  yourself wrong"). If the winner we called won (or the draw, or "X don't lose"), it's called.
+- Anything added to the result (goals at both ends, a clean sheet, the margin, the score) is an **extra read**: say plainly
+  whether it came off and show it on its own chip (`extra: {text, ok}` on `rx_reveal`), but it never turns a correct
+  result into a miss. On 13 Oct "Sporting win, goals at both ends" ended 0–2: called, extra read missed.
+- A verdict with no winner in it ("goals at both ends") is judged on what it said.
 - Say every miss plainly. The tally has two boxes: called and missed.
 
 ## How it's built

@@ -24,6 +24,36 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
+## 13 Oct: post-match redo, "Our analysis vs the results" (the presenter format, 4 from 5, 2:04)
+
+- **Why a redo:** the owner rejected the full-time board on both counts (see the entry below): judged wrong, and not the
+  look they expect from a post-match.
+- **What worked:**
+  - **The approved format back:** the lady at the mic, the commentary, each venue's stadium, and photos of the players
+    who decided it (Suárez, Mikautadze, Timber, Eze, Saka, Lautaro, Sommer, Yamal, Fermín López, Cancelo, Gordon).
+  - **Judged on the result:** 4 from 5. The extra reads sit on their own chip (NO for Lens and Villarreal, YES for
+    Arsenal and Barcelona) and the voice says them before the verdict.
+  - **A story in the order:** three from three, then the San Siro shock, then Barcelona as the finale.
+  - **A royal-blue cold open** instead of black, and the tally landing on the words "Called it".
+- **Mistakes, and how they got through:**
+  1. **The disk filled up mid-render** (205 MB left), so Chromium crashed and the render hung for an hour with no error.
+     Found by loading the page alone and replaying the frame order until the "Target crashed". Freed about 5 GB
+     (finished scratch folders, published download parts, pip/uv caches, an unused 3.2 GB voice model).
+  2. **`pgrep -f` / `pkill -f` matched their own command lines** again: one wait hung, and one pkill killed its own
+     shell. Use a bracketed pattern (`[h]eadless_shell`) or the PID.
+  3. **"Both sides won on matchday one" was heard as "one"**, and **"Clean sheet too" as "two"**: both on the homophone
+     list, and both written anyway. Fixed and heard back before the final render.
+  4. **The renderer wiped the output folder**, so the first try at resuming re-rendered everything. `--resume` now
+     keeps the folder.
+- **Change next time:**
+  - Post-match = the presenter format by default. Judge the result; extras on the chip.
+  - Run `df -h /` before any render, and keep at least 4 GB free.
+  - Never `pgrep -f`/`pkill -f` a plain string that the command itself contains.
+- **Final review:** 2:04 (fits X and a Short), −14.4 LUFS, true peak −3.3 dB, drop +10.0 dB, music 543. Heard back: only
+  name spellings.
+- **Sent:** 14 Oct, about 04:15 Lagos: the 27.9 MB chat copy, a designed cover and thumbnail, subtitles, the corrected
+  write-up, post kit and sources, plus a private download page for the full 134 MB file.
+
 ## 13 Oct: post-match, "The Tactics Board, full time" (the 5 ties marked, 1:50)
 
 - **Before building:**
@@ -47,6 +77,10 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
   - Use the kit's text colour (`vrTx`) for any writing on white, not the marker ink.
 - **Final review:** 1:50 (inside X's 2:20 and a YouTube Short), −14.7 LUFS, true peak −3.7 dB, drop on the title +9.2 dB, music 543 "A New Life" (approved, not in the last six published videos). Colour: 76% blue after the kit wash (88% before). Heard back: only name spellings ("Lants" for Lens, "Bruga", "Mourinho" for Mouriño, "Sokka" for Saka).
 - **Sent:** 13 Oct, about 23:00 Lagos, an hour after the 20:00 games ended: the chat copy, cover, thumbnail, subtitles, write-up, post kit and sources, plus a private download page for the full file.
+- **The owner's reaction:** both the judging and the look were wrong.
+  - *Judging:* "you called sporting will win and you are saying you lost just cos they didn't play btts… A football analyst job is to predict the outcome and maybe other things… You called the match right… and you still marking yourself wrong." The result decides; extras (both score, clean sheet, margin) are extra reads that never flip a correct result. It was really 4 from 5, not 2 from 5. Villarreal's "narrowest margin" even broke the 9 Oct rule (the margin is never judged).
+  - *Look:* "I was expecting to see the lady and the commentator and the football stadiums and maybe some players… I expected something creative." The graphics-only board was the wrong format for a post-match; the approved post-match is the presenter format.
+  - **Change next time:** post-match videos use the presenter format (the lady, the commentary, stadium photos, the players who decided it) unless the owner asks for another; judge on the result and show extras on their own chip.
 
 ---
 
