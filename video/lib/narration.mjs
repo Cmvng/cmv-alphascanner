@@ -101,7 +101,10 @@ const SAY_IPA = {
   'Rüdiger': 'ɹˈuːdɪɡɚ', Isco: 'ˈiːskoʊ', Cucho: 'kˈuːtʃoʊ', 'Hernández': 'ɛɹnˈɑːndɛs',
   // 15 Oct, postcards from Europe
   Aspas: 'ˈɑːspɑːs', Iago: 'jˈɑːɡoʊ', Camarda: 'kɑːmˈɑːɹdɑː', Openda: 'oʊpˈɛndɑː', Mateta: 'mɑːtˈɛtɑː', Sage: 'sˈɑːʒ',
-  Pierre: 'pjˈɛɹ', Torreense: 'tɔːɹˈɛnsə', Leiria: 'leɪɹˈiːə', 'Ferencváros': 'fˈɛɹɛntsvɑːɹoʊʃ'
+  Pierre: 'pjˈɛɹ', Torreense: 'tɔːɹˈɛnsə', Leiria: 'leɪɹˈiːə', 'Ferencváros': 'fˈɛɹɛntsvɑːɹoʊʃ',
+  // 15 Oct post-match
+  Jhon: 'dʒˈɑːn', Hezze: 'hˈɛzeɪ', Woltemade: 'vˈɔltəmɑːdə', Camilo: 'kɑːmˈiːloʊ', Muani: 'muːˈɑːni', Nakamura: 'nɑːkɑːmˈʊɹə',
+  Nuamah: 'nuːˈɑːmə', Tolisso: 'tɔliˈsoʊ', Pavlidis: 'pɑːvlˈiːdɪs'
 }
 const IPA_RE = new RegExp(`(?<!\\p{L})(${Object.keys(SAY_IPA).join('|')})(['’]s)?(?!\\p{L})`, 'gu')
 // letter-aware edges: \b treats accented letters as non-letters, so "Doué" or "Çalhanoğlu" would never match

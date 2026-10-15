@@ -1353,6 +1353,7 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#03060F}
 .pc .pc-mini .mt .cr{display:flex;gap:6px}
 .pc .pc-mini .mt .badge{width:42px;height:42px}
 .pc .pc-mini b{display:block;margin-top:8px;font:800 25px/1.12 Manrope;color:#0B1F4D}
+.pc .pc-mini b em{font-style:normal;color:#1F5FDB;white-space:nowrap}     /* full time: the score sits between the names */
 .pc .pc-mini .cy{display:block;margin-top:4px;font:600 16px JBM;letter-spacing:1px;color:#7A8CB0}
 .pc .pc-mini .nt{display:block;margin-top:6px;font:700 29px/1.05 Caveat;color:var(--pc-pen)}
 .pc .pc-mini.big b{font-size:28px}
@@ -2835,7 +2836,7 @@ const built = D.scenes.map((sc, k) => {
       const cols = b.cols || 3, W = cols === 3 ? 312 : 470, H = cols === 3 ? 238 : 232, gx = cols === 3 ? 336 : 490, x0 = cols === 3 ? 44 : 55, y0 = b.y0 ?? 330, gy = cols === 3 ? 262 : 258
       el.innerHTML = `<div class="pc-desk"></div>${air}<div class="pc-bt"><div class="k">${html(b.kicker || '')}</div><div class="t">${html(b.l1 || 'Also')} <span>${html(b.l2 || 'tonight')}</span></div></div>`
         + (b.cards || []).map((c, j) => { const p = D.picks[c.match] || M, col = j % cols, row = Math.floor(j / cols), rot = (((j * 37) % 7) - 3) * 0.7
-          return `<div class="pc-mini${cols === 2 ? ' big' : ''}" data-j="${j}" data-r="${rot}" style="left:${x0 + col * gx}px;top:${y0 + row * gy}px;width:${W}px;height:${H}px"><i class="pin"></i><div class="mt"><span class="cr">${badge(p.bh)}${badge(p.ba)}</span><span>${html(p.ko || '')}</span></div><b>${html(vrName(p, 'home'))} v ${html(vrName(p, 'away'))}</b><span class="cy">${html(c.city || '')}</span><span class="nt">${pcNb(c.note || '')}</span></div>` }).join('')
+          return `<div class="pc-mini${cols === 2 ? ' big' : ''}" data-j="${j}" data-r="${rot}" style="left:${x0 + col * gx}px;top:${y0 + row * gy}px;width:${W}px;height:${H}px"><i class="pin"></i><div class="mt"><span class="cr">${badge(p.bh)}${badge(p.ba)}</span><span>${html(p.score_home != null ? 'FT' : (p.ko || ''))}</span></div><b>${html(vrName(p, 'home'))}${p.score_home != null ? ` <em>${html(p.score_home)}–${html(p.score_away)}</em> ` : ' v '}${html(vrName(p, 'away'))}</b><span class="cy">${html(c.city || '')}</span><span class="nt">${pcNb(c.note || '')}</span></div>` }).join('')
     } else if (sc.type === 'pc_end') {
       const rows = ties.map(t2 => { const p = D.picks[t2.data.match ?? 0] || M, v = t2.data.verdict || {}, kh = vrKit(p, 'home')
         return `<div style="border-left-color:${kh.bg}"><span class="cr">${badge(p.bh)}${badge(p.ba)}</span><b><small>${html(p.ko || '')} · ${html(t2.data.city || '')}</small>${html(v.short || v.text || '')}</b></div>` }).join('')

@@ -90,7 +90,7 @@ for (const p of picks) {
   p.bh = await resolveBadge(p.home, p.crest_home, CACHE, OUT)
   p.ba = await resolveBadge(p.away, p.crest_away, CACHE, OUT)
   const own = typeof p.stadium === 'string' ? p.stadium : null
-  p.stadium = cfg.stadiums === false ? null
+  p.stadium = cfg.stadiums === false || p.stadium === false ? null     // a board card can skip the stadium lookup on its own
     : await resolveStadium(p.home, { national: isCountry(p.home), country: p.country, cacheDir: CACHE, outDir: OUT, own, ownCredit: p.stadium_credit })
   // The photo must be the team's own ground (the owner, 8 Oct: "The stadiums have to be the stadiums of the teams").
   // Wikidata can be wrong (Blacks Power → Mandela National Stadium; they play at Hoima City Stadium), so when the pick
