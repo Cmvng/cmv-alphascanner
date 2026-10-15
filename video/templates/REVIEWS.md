@@ -24,6 +24,71 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
+## 15 Oct: analysis, "Postcards from Europe" (5 Europa League ties in depth + 20 more on two boards, 2:11)
+
+- **Before building:** applied the last three "Change next time" lines:
+  - from the 14 Oct post-match:
+    - stills estimate kept well under 145 s (132 s);
+    - every card's team names checked in the first stills, with proper short names (U Craiova, Lech Poznań, Beşiktaş);
+    - the post kit's calls proofread against the calls table;
+  - from Primus: the length judged on the real render, not the stills estimate.
+  - from the Walk-Out:
+    - every call is a result call ("a Benfica win", never "an … win");
+    - a colour budget for the light desk (kit colours on stamps, bars and polaroid labels; blue for everything else);
+    - the cover built from scratch files. One copy of its page sat in the render folder for a few minutes and was moved out before the render finished.
+- **What worked:**
+  - **The idea: every tie is a postcard from the host city.**
+    - The front is the stadium photo with "Greetings from <city>". It turns over on line 2.
+    - The back carries handwritten notes, a stamp with the home crest, a postmark showing the kick-off time, and the numbers along the address lines.
+    - The key men are taped on as polaroids when the commentary names them, and the call is rubber-stamped on the card.
+    - It reads at a glance and fits a Thursday tour of five cities.
+  - **The whole slate covered:**
+    - five ties in depth;
+    - the other 12 Europa League games and all 8 Conference League games on two boards of pinned mini-postcards, with the cards the voice names lifted.
+  - **Facts:**
+    - seven research briefs, every fact dated;
+    - conflicts left out: Juventus 5–0 or 4–0 against NEC, Gouiri's season total, Nuamah's goals;
+    - the app's clashing form left out of all five ties, and the clashing Marseille model hidden.
+  - **One check caught a near-miss:** the cold-open line "Marseille lost four in a row in September" was re-checked against the match dates (6, 13, 17 and 20 Sep) before it went out.
+- **Mistakes, and how they got through:**
+  1. **Stills drew blank screens**: the new `pc_` prefix was missing from the beat-type regex in `lib/narration.mjs`, so the types became `rv_pc_*`. Caught on the first stills; fixed.
+  2. **A crash in the stills run** ("Spread syntax requires an iterable"): the notes are strings, and `String.prototype.at` exists, so `nts[j]?.at` was a function, not a time. Fixed with `Array.isArray`. Lesson: never name a config field after a built-in method without a type check.
+  3. **Cold-open text on cream cards** (light blue on paper) could not be read, and the label ran through the postmark ring. Moved below the cards in a larger ring.
+  4. **The verdict stamp covered the model bars** on the Celta card. It is now kept inside the message column, in two lines.
+  5. **Bars without names** ("39% · Draw 28% · 33%"): each figure now has the team's short name.
+  6. **An empty address side** on the Marseille card once the model was hidden: it now shows "c/o Stade Vélodrome / In Marseille".
+  7. **"4–1" broke across two lines** on a board card, and a lone "5" sat on its own line on a note. Scores now never break, and a short last word stays with the word before it.
+  8. **Weekdays in the write-up**: the draft said "Saturday" for games on Sunday 11 Oct. Checked against the calendar and fixed.
+  9. **The drop rose only +2.1 dB** on the first full render. Track 625's tagged drop (35.95 s) is a lone hit,
+     followed by silence, a second hit and more silence, so the title slammed onto almost nothing. The groove starts
+     at 39.18 s. The new `music_drop_at` setting lands the title there: +7.5 dB.
+ 10. **Fronts held too long:** on the first render, the Lyon front showed for about 7 s with an empty bottom half, and Lisbon for about 5.5 s.
+     Found on the frame-a-second contact sheet. Lyon, Marseille and Lisbon now flip mid-line-1, on the phrase the
+     first note repeats, and the first polaroid is taped on before line 2.
+ 11. **Disk at the 4 GB floor during the render**: cleared delivered intermediates (old `master.wav` and `mix.wav`) to get back to 4.6 GB.
+- **Change next time:**
+  - A new format's beat prefix goes into the `lib/narration.mjs` regex in the same commit as the CSS.
+  - Config fields that may be strings or objects get an `Array.isArray` or `typeof` check (`.at`, `.find` and `.map` exist on strings and arrays).
+  - Big text never sits on a light prop: give it its own clear space.
+  - Check every weekday in the write-up against the date.
+  - Check `df -h /` before the render, not during it.
+  - Before using a drop track, look at the second after its tagged drop: it must be sustained, not a lone hit.
+  - No screen holds a half-empty layout for more than 3 s: check it on the frame-a-second sheet of the first render.
+- **Final review:** 130.6 s (fits X and a YouTube Short), −14.8 LUFS, true peak −3.6 dB, the drop on the title +6.4 dB
+  (music 625 "Fragments Of Bangkok", approved, last used 11 Oct, outside the last six; played from 28.73 s so the groove
+  lands on the title). Colour: blue 77%, red 5%, cream 5%, green 4%, ink 4%. The review flags "fewer than two colour
+  families": the light-blue desk leads, and the kit colours sit on stamps, bars, crests and photos. Heard back: spelling
+  only (Leon for Lyon, Saage, Viggo and Yago, Turram, Farron Svarosh, Basiktas, Torrenza, Hatafe, Dalberg; 1967
+  written as digits). Three ties run 17–20 s, kept: each has six timed moves (slide, flip, notes, polaroids, bars,
+  stamp). Every second of the final video checked frame by frame (two passes: the first render and the re-render).
+- **Sent:**
+  - the 27.9 MB chat copy, the cover and thumbnail, the srt, the write-up, the post kit (with chapters) and the sources;
+  - a private download page for the full 70.9 MB file (9 parts; the last part's served sha256 checked):
+    https://claude.ai/artifact/FZ9TgV4gbzqj6bYi6TDbwN
+- **The owner's reaction:** (waiting)
+
+---
+
 ## 14 Oct: post-match, "Our analysis vs the results" (the 7 Walk-Out ties, 3 from 7, 2:19)
 
 - **The ask:** "I need today's post match analysis video".
