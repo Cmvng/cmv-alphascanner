@@ -1327,12 +1327,14 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#03060F}
 .pc .pc-b .ad .br{display:flex;height:30px;border-radius:8px;overflow:hidden;background:#E3EBF7}
 .pc .pc-b .ad .br i{display:block;height:100%;width:0}
 .pc .pc-b .ad .bl{display:flex;justify-content:space-between;margin-top:6px;font:800 21px Manrope;color:#0B1F4D}
-.pc .pc-b .ad .bl span:nth-child(2){color:#7A8CB0}
+.pc .pc-b .ad .bl span:nth-child(2){color:#7A8CB0;text-align:center}
+.pc .pc-b .ad .bl span:nth-child(3){text-align:right}
+.pc .pc-b .ad .bl small{display:block;font:700 13px JBM;letter-spacing:2px;color:#7A8CB0;text-transform:uppercase;margin-bottom:2px}
 .pc .pc-b .ad .xg{font:700 40px Caveat;color:var(--pc-pen)}
-.pc .pc-b .vs{position:absolute;left:78px;top:392px;width:640px;padding:16px 26px 18px;border:7px solid #1F5FDB;border-radius:16px;color:#1F5FDB;transform:rotate(-6deg);opacity:0;mix-blend-mode:multiply;
+.pc .pc-b .vs{position:absolute;left:48px;top:404px;max-width:452px;padding:16px 26px 18px;border:7px solid #1F5FDB;border-radius:16px;color:#1F5FDB;transform:rotate(-6deg);opacity:0;mix-blend-mode:multiply;
   box-shadow:inset 0 0 0 3px rgba(31,95,219,.35)}
 .pc .pc-b .vs small{display:block;font:700 20px JBM;letter-spacing:6px;text-transform:uppercase}
-.pc .pc-b .vs b{display:block;font:400 60px/1.02 Anton;text-transform:uppercase;letter-spacing:1px}
+.pc .pc-b .vs b{display:block;font:400 58px/1.02 Anton;text-transform:uppercase;letter-spacing:1px}
 .pc .pc-pol{position:absolute;top:992px;width:330px;padding:16px 16px 18px;background:#fff;box-shadow:0 22px 50px rgba(11,31,77,.28);opacity:0}
 .pc .pc-pol .im{width:298px;height:298px;background-size:cover;background-position:center 18%;background-color:#E3EBF7;display:flex;align-items:center;justify-content:center}
 .pc .pc-pol .im .badge{width:150px;height:150px}
@@ -1357,17 +1359,17 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#03060F}
 .pc .pc-mini.big .nt{font-size:32px}
 /* the cold open: postcards dropping onto a deep blue desk, a number postmarked over them */
 .pc .pc-cold{position:absolute;inset:0;background:radial-gradient(85% 60% at 50% 42%,#164AA6 0%,#0D3B8E 55%,#0A2C6E 100%)}
-.pc .pc-cold .bk{position:absolute;left:290px;top:520px;width:500px;height:330px;background:var(--pc-paper);border-radius:8px;box-shadow:0 26px 60px rgba(2,10,40,.45);opacity:0}
+.pc .pc-cold .bk{position:absolute;left:290px;top:300px;width:500px;height:330px;background:var(--pc-paper);border-radius:8px;box-shadow:0 26px 60px rgba(2,10,40,.45);opacity:0}
 .pc .pc-cold .bk::before{content:'';position:absolute;left:250px;top:30px;bottom:30px;width:2px;background:#C9D4E8}
 .pc .pc-cold .bk::after{content:'';position:absolute;right:26px;top:24px;width:70px;height:84px;border:3px dashed #9FB4D8;border-radius:3px}
 .pc .pc-cold .bk i{position:absolute;left:276px;right:30px;height:2px;background:#D5DEEE}
 .pc .pc-cold .bk u{position:absolute;left:30px;width:190px;height:6px;border-radius:3px;background:#C3D2EC}
-.pc .pc-pmk{position:absolute;left:190px;top:400px;width:700px;height:560px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
-.pc .pc-pmk .rg{position:absolute;left:150px;top:30px;width:400px;height:400px;border-radius:50%;border:8px solid rgba(255,255,255,.9);box-shadow:inset 0 0 0 16px rgba(13,59,142,0),inset 0 0 0 20px rgba(255,255,255,.55)}
+.pc .pc-pmk{position:absolute;left:190px;top:730px;width:700px;height:560px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.pc .pc-pmk .rg{position:absolute;left:90px;top:-20px;width:520px;height:520px;border-radius:50%;border:8px solid rgba(255,255,255,.9);box-shadow:inset 0 0 0 16px rgba(13,59,142,0),inset 0 0 0 20px rgba(255,255,255,.55)}
 .pc .pc-cbig{position:relative;font:400 210px/1 Anton;color:#fff;margin-top:-90px}
 .pc .pc-cbig.hot{color:#9FD2FF}
 .pc .pc-cbig.red{color:#FF8A96}
-.pc .pc-clab{position:relative;margin-top:16px;font:700 26px JBM;letter-spacing:6px;text-transform:uppercase;color:#DCE9FB}
+.pc .pc-clab{position:absolute;left:0;right:0;top:530px;font:700 26px JBM;letter-spacing:6px;text-transform:uppercase;color:#DCE9FB}
 /* the title: five postcard fronts dealt in a fan under the name */
 .pc .pc-tt{position:absolute;left:60px;right:60px;top:150px;text-align:center}
 .pc .pc-tt .a{font:400 150px/0.92 Anton;text-transform:uppercase;color:#0B1F4D}
@@ -2073,6 +2075,7 @@ const tbBoards = () => D.scenes.filter(s => s.type === 'tb_game' || s.type === '
 // pc_tie {match, city, stadium, chip, notes: [text | {text, at}], pols: [{name, side, role, stat, photo, at}], verdict
 // {text, short}, flip_at, model_at, verdict_at, model: false hides the numbers}, pc_board {cards: [{match, city, note}],
 // cols 3|2, hl: [{j, at, to}]}, pc_end. The postmark is drawn as SVG; ids must be unique per postcard.
+const pcNb = s => html(s).replace(/ (\S{1,3})$/, '\u00a0$1').replace(/(\S+–\S+)/g, '<span style="white-space:nowrap">$1</span>')
 let pcN = 0
 function pcPostmark(city, time, date) {
   const id = 'pcr' + (++pcN), t = `${String(city).toUpperCase()} · ${date} · ${String(city).toUpperCase()} · ${date} ·`
@@ -2813,9 +2816,9 @@ const built = D.scenes.map((sc, k) => {
       const kh = vrKit(q, 'home'), ka = vrKit(q, 'away'), hw = q.home_win ?? 0, dr = q.draw ?? 0, aw = q.away_win ?? 0, tot = Math.max(1, hw + dr + aw), v = b.verdict || {}
       const city = b.city || '', cfs = Math.min(172, Math.floor(840 / (0.5 * Math.max(4, [...city].length))))
       const nm = Math.min(64, Math.floor(760 / (0.43 * [...(vrName(q, 'home') + vrName(q, 'away'))].length)))
-      const notes = (b.notes || []).map((n, j) => `<div class="nl" data-j="${j}">${html(typeof n === 'string' ? n : n.text)}</div>`).join('')
-      const pols = (b.pols || []).map((p, j) => { const kt = vrKit(q, p.side); return `<div class="pc-pol" data-j="${j}" style="left:${(b.pols.length === 1 ? 375 : j ? 590 : 160)}px"><i class="tape"></i><div class="im"${p.photo ? ` style="background-image:url('${html(p.photo)}')"` : ''}>${p.photo ? '' : badge(p.side === 'away' ? q.ba : q.bh)}</div><b>${html(p.name || '')}</b><small style="color:${vrTx(kt)}">${html(vrName(q, p.side))}${p.role ? ' · ' + html(p.role) : ''}</small><span>${html(p.stat || '')}</span></div>` }).join('')
-      const model = b.model === false ? '' : `<div class="l"><div class="nm">${html(b.model_label || 'On our numbers')}</div><div class="br"><i style="background:${kh.bg}" data-w="${n1(100 * hw / tot)}"></i><i style="background:#B8C6DD" data-w="${n1(100 * dr / tot)}"></i><i style="background:${clash(kh.bg, ka.bg) ? '#9FB0CC' : ka.bg}" data-w="${n1(100 * aw / tot)}"></i></div><div class="bl"><span>${hw}%</span><span>Draw ${dr}%</span><span>${aw}%</span></div></div>
+      const notes = (b.notes || []).map((n, j) => `<div class="nl" data-j="${j}">${pcNb(typeof n === 'string' ? n : n.text)}</div>`).join('')
+      const pols = (b.pols || []).map((p, j) => { const kt = vrKit(q, p.side); return `<div class="pc-pol" data-j="${j}" style="left:${(b.pols.length === 1 ? 375 : j ? 590 : 160)}px"><i class="tape"></i><div class="im"${p.photo ? ` style="background-image:url('${html(p.photo)}')"` : ''}>${p.photo ? '' : badge(p.side === 'away' ? q.ba : q.bh)}</div><b>${html(p.name || '')}</b><small style="color:${vrTx(kt)}">${html(vrName(q, p.side))}${p.role ? ' · ' + html(p.role) : ''}</small><span>${pcNb(p.stat || '')}</span></div>` }).join('')
+      const model = b.model === false ? '' : `<div class="l"><div class="nm">${html(b.model_label || 'On our numbers')}</div><div class="br"><i style="background:${kh.bg}" data-w="${n1(100 * hw / tot)}"></i><i style="background:#B8C6DD" data-w="${n1(100 * dr / tot)}"></i><i style="background:${clash(kh.bg, ka.bg) ? '#9FB0CC' : ka.bg}" data-w="${n1(100 * aw / tot)}"></i></div><div class="bl"><span><small>${html(vrName(q, 'home'))}</small>${hw}%</span><span><small>Draw</small>${dr}%</span><span><small>${html(vrName(q, 'away'))}</small>${aw}%</span></div></div>
         <div class="l xg">xG ${(+q.xg_home).toFixed(2)} – ${(+q.xg_away).toFixed(2)}</div>`
       el.innerHTML = `<div class="pc-desk"></div>${air}
         <div class="pc-hd"><div class="tp"><span>${html(b.left || 'Europa League')} · <b>${html(q.ko || q.kickoff || '')}</b></span><span>Postcard ${z(ti + 1)} / ${z(ties.length)}</span></div>
@@ -2825,14 +2828,14 @@ const built = D.scenes.map((sc, k) => {
           <div class="pc-b"><div class="dv"></div><div class="ms">${notes}<div class="sg">${html(b.sign || '— cmvng')}</div></div>
             <div class="stp"><div style="background:${kh.bg}">${badge(q.bh)}<small>${html(b.stamp || city)}</small></div></div>
             <div class="pm">${pcPostmark(b.pm_city || city, q.ko || '', b.date || '15 OCT 2026')}</div>${pcWaves()}
-            <div class="ad"><div class="l to"><small>To</small>${html(vrName(q, 'away'))}</div>${model}</div>
-            <div class="vs"><small>${html(b.verdict_label || 'Our call')}</small><b>${html(v.text || '')}</b></div>
+            <div class="ad"><div class="l to"><small>To</small>${html(vrName(q, 'away'))}</div>${model || (q.where ? `<div class="l to"><small>c/o</small>${html(String(q.where).split(',')[0])}</div><div class="l to"><small>In</small>${html(city)}</div>` : '')}</div>
+            <div class="vs"><small>${html(b.verdict_label || 'Our call')}</small><b>${html(v.text || '').replace(/^(.+?)\s+(don.t lose)$/i, '$1<br>$2')}</b></div>
           </div></div></div>${pols}`
     } else if (sc.type === 'pc_board') {
       const cols = b.cols || 3, W = cols === 3 ? 312 : 470, H = cols === 3 ? 238 : 232, gx = cols === 3 ? 336 : 490, x0 = cols === 3 ? 44 : 55, y0 = b.y0 ?? 330, gy = cols === 3 ? 262 : 258
       el.innerHTML = `<div class="pc-desk"></div>${air}<div class="pc-bt"><div class="k">${html(b.kicker || '')}</div><div class="t">${html(b.l1 || 'Also')} <span>${html(b.l2 || 'tonight')}</span></div></div>`
         + (b.cards || []).map((c, j) => { const p = D.picks[c.match] || M, col = j % cols, row = Math.floor(j / cols), rot = (((j * 37) % 7) - 3) * 0.7
-          return `<div class="pc-mini${cols === 2 ? ' big' : ''}" data-j="${j}" data-r="${rot}" style="left:${x0 + col * gx}px;top:${y0 + row * gy}px;width:${W}px;height:${H}px"><i class="pin"></i><div class="mt"><span class="cr">${badge(p.bh)}${badge(p.ba)}</span><span>${html(p.ko || '')}</span></div><b>${html(vrName(p, 'home'))} v ${html(vrName(p, 'away'))}</b><span class="cy">${html(c.city || '')}</span><span class="nt">${html(c.note || '')}</span></div>` }).join('')
+          return `<div class="pc-mini${cols === 2 ? ' big' : ''}" data-j="${j}" data-r="${rot}" style="left:${x0 + col * gx}px;top:${y0 + row * gy}px;width:${W}px;height:${H}px"><i class="pin"></i><div class="mt"><span class="cr">${badge(p.bh)}${badge(p.ba)}</span><span>${html(p.ko || '')}</span></div><b>${html(vrName(p, 'home'))} v ${html(vrName(p, 'away'))}</b><span class="cy">${html(c.city || '')}</span><span class="nt">${pcNb(c.note || '')}</span></div>` }).join('')
     } else if (sc.type === 'pc_end') {
       const rows = ties.map(t2 => { const p = D.picks[t2.data.match ?? 0] || M, v = t2.data.verdict || {}, kh = vrKit(p, 'home')
         return `<div style="border-left-color:${kh.bg}"><span class="cr">${badge(p.bh)}${badge(p.ba)}</span><b><small>${html(p.ko || '')} · ${html(t2.data.city || '')}</small>${html(v.short || v.text || '')}</b></div>` }).join('')
@@ -3640,7 +3643,7 @@ function draw(k, lt, sc) {
       $('.pc-f .ph', el).style.transform = `scale(${(1.1 - 0.08 * P(lt, 0, Math.max(0.5, tF), x => x)).toFixed(4)})`
       // the message writes itself in, line by line
       const nts = b.notes || []
-      $$('.pc-b .ms .nl', el).forEach((n, j) => { const at = nts[j]?.at ? vt(nts[j].at) : tF + 0.75 + j * 0.9, q2 = P(lt, at, at + 0.75, x => x); n.style.clipPath = `inset(-10px ${n1(100 * (1 - q2))}% -10px 0)`; n.style.opacity = lt >= at ? 1 : 0 })
+      $$('.pc-b .ms .nl', el).forEach((n, j) => { const at = Array.isArray(nts[j]?.at) ? vt(nts[j].at) : tF + 0.75 + j * 0.9, q2 = P(lt, at, at + 0.75, x => x); n.style.clipPath = `inset(-10px ${n1(100 * (1 - q2))}% -10px 0)`; n.style.opacity = lt >= at ? 1 : 0 })
       const sg = $('.pc-b .ms .sg', el); if (sg) sg.style.opacity = n1(P(lt, tV - 0.6, tV - 0.2))
       // the key men are taped on as they are named
       $$('.pc-pol', el).forEach((n, j) => { const p = (b.pols || [])[j] || {}, at = vt(p.at, [1, 0.3 + 0.3 * j]), q2 = P(lt, at, at + 0.45, E.outBack), r = j ? 4 : -4
