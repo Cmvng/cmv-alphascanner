@@ -1,0 +1,117 @@
+{
+ "music_track": 625,
+ "title_sub": "Europa League · Thursday 15 October · Lagos time",
+ "title_say": ["Postcards from Europe. Five Europa League ties, one postcard from each host city."],
+ "cold": {
+  "say": ["Lisbon, nineteen sixty-seven.", "Tonight, Celtic go back.", "Pierre Sage returns to Lyon, with the Conference League holders.", "And Marseille lost four in a row in September."],
+  "steps": [
+   {"big": "1967", "label": "Celtic win the European Cup · in Lisbon"},
+   {"big": "Lisbon", "label": "Benfica v Celtic · tonight", "tone": "hot"},
+   {"big": "Lyon", "label": "Pierre Sage's old club"},
+   {"big": "4", "label": "Marseille defeats in a row · September", "tone": "red", "glitch": true, "glitch_at": 0.55}
+  ]
+ },
+ "where": {
+  "lyon-crystal-palace": "Groupama Stadium, Lyon",
+  "salzburg-ac-milan": "Red Bull Arena, Salzburg",
+  "celta-juventus": "Abanca-Balaídos, Vigo",
+  "marseille-olympiacos": "Stade Vélodrome, Marseille",
+  "benfica-celtic": "Estádio da Luz, Lisbon"
+ },
+ "ties": {
+  "lyon-crystal-palace": {
+   "city": "Lyon", "stadium": "s_lyon.jpg", "chip": "Thu 15 Oct · 17:45",
+   "say": ["First, Lyon, at a quarter to six. Pierre Sage coached here until January last year, and now he brings Crystal Palace.",
+           "Palace are without Mateta, and have only one win in their last eight away games. Lyon are without Openda.",
+           "Our numbers: Lyon thirty-nine percent, Palace thirty-three.",
+           "Our call: Lyon don't lose."],
+   "notes": ["Sage coached Lyon until Jan 2025", "No Mateta for Palace, no Openda for Lyon", "Palace: 1 win in their last 8 away"],
+   "pols": [{"name": "Keito Nakamura", "side": "home", "role": "Forward", "stat": "Scored at Anderlecht on matchday 1", "photo": "p_keito_nakamura.jpg", "at": [1, 0.1]},
+            {"name": "Jørgen Strand Larsen", "side": "away", "role": "Striker", "stat": "4 goals this season", "photo": "p_j_rgen_strand_larsen.jpg", "at": [1, 0.45]}],
+   "verdict": {"text": "Lyon don't lose", "short": "Lyon don't lose"},
+   "credit": "Groupama Stadium, Lyon · Photo: Alexis Klein · CC BY-SA 4.0  ·  Keito Nakamura · Photo: Werner100359 · CC BY-SA 4.0  ·  Jørgen Strand Larsen · Photo: Bryan Berlin · CC BY-SA 4.0"
+  },
+  "salzburg-ac-milan": {
+   "city": "Salzburg", "stadium": "s_salzburg.jpg", "chip": "Thu 15 Oct · 17:45",
+   "say": ["Same time, in Salzburg: unbeaten in fifteen games.",
+           "Milan lost at home to Benfica on matchday one, and eighteen-year-old Camarda is expected to start.",
+           "Our numbers have Milan at forty-nine percent.",
+           "Our call: Milan don't lose."],
+   "notes": ["Salzburg: unbeaten in 15", "Milan lost 2–0 at home to Benfica", "Camarda, 18, set for a first start"],
+   "pols": [{"name": "Haris Tabaković", "side": "home", "role": "Striker", "stat": "Winner at Levski on matchday 1", "photo": "p_haris_tabakovic.jpg", "at": [1, 0.1]},
+            {"name": "Adrien Rabiot", "side": "away", "role": "Midfield", "stat": "3 goals this season", "photo": "p_adrien_rabiot.jpg", "at": [1, 0.5]}],
+   "verdict": {"text": "Milan don't lose", "short": "Milan don't lose"},
+   "credit": "Red Bull Arena, Salzburg · Photo: Arne Müseler · CC BY-SA 3.0 de  ·  Haris Tabaković · Photo: Werner100359 · CC BY-SA 4.0  ·  Adrien Rabiot · Photo: Bryan Berlin · CC BY-SA 4.0"
+  },
+  "celta-juventus": {
+   "city": "Vigo", "stadium": "s_celta.jpg", "chip": "Thu 15 Oct · 20:00",
+   "say": ["Eight o'clock, Vigo, and Iago Aspas is back after a month out.",
+           "Juventus are missing Yildiz, Locatelli and Thuram, but have kept four clean sheets in a row in Europe.",
+           "Our numbers: Juventus thirty-nine, Celta thirty-two.",
+           "Our call: Juventus don't lose."],
+   "notes": ["Aspas back after a month out", "Juve: no Yildiz, Locatelli, Thuram", "4 European clean sheets in a row"],
+   "pols": [{"name": "Iago Aspas", "side": "home", "role": "Captain", "stat": "Back after a month out", "photo": "p_iago_aspas.jpg", "at": [0, 0.55]},
+            {"name": "Francisco Conceição", "side": "away", "role": "Winger", "stat": "Scored against Atalanta on 20 Sep", "photo": "p_francisco_conceicao.jpg", "at": [1, 0.35]}],
+   "verdict": {"text": "Juventus don't lose", "short": "Juventus don't lose"},
+   "credit": "Abanca-Balaídos, Vigo · Photo: Jsmq · CC BY 3.0  ·  Iago Aspas · Photo: Harpagornis · CC BY-SA 4.0  ·  Francisco Conceição · Photo: Bryan Berlin · CC BY-SA 4.0"
+  },
+  "marseille-olympiacos": {
+   "city": "Marseille", "stadium": "s_marseille.jpg", "chip": "Thu 15 Oct · 20:00",
+   "say": ["Marseille: thirteenth in Ligue 1, and beaten four–one in Istanbul on matchday one.",
+           "Olympiacos have four wins in their last five, the derby included. No away fans are expected.",
+           "Our call: Olympiacos don't lose."],
+   "model": false, "flip_at": [1, 0],
+   "notes": ["OM lost 4 in a row in September", "Olympiacos: 4 wins in their last 5", "No away fans expected"],
+   "pols": [{"name": "Amine Gouiri", "side": "home", "role": "Striker", "stat": "Scored twice against Paris FC", "photo": "p_amine_gouiri.jpg", "at": [1, 0.1]},
+            {"name": "Remo Freuler", "side": "away", "role": "Midfield", "stat": "3 assists this season", "at": [1, 0.45]}],
+   "verdict": {"text": "Olympiacos don't lose", "short": "Olympiacos don't lose"},
+   "credit": "Stade Vélodrome, Marseille · Photo: Bernard Ddd · CC BY-SA 2.0  ·  Amine Gouiri · Photo: Supporterhéninois"
+  },
+  "benfica-celtic": {
+   "city": "Lisbon", "stadium": "s_benfica.jpg", "chip": "Thu 15 Oct · 20:00",
+   "say": ["And the last postcard: Lisbon, where Celtic won the European Cup in nineteen sixty-seven.",
+           "Benfica beat Milan, two–nil, at San Siro. Celtic lost at home to Ferencváros, and Carter-Vickers is out.",
+           "Our numbers: Benfica sixty-eight percent.",
+           "Our call: a Benfica win."],
+   "notes": ["Celtic won the European Cup here in 1967", "Benfica won 2–0 at Milan", "Celtic: no Carter-Vickers"],
+   "pols": [{"name": "Vangelis Pavlidis", "side": "home", "role": "Striker", "stat": "14 goals this season", "photo": "p_vangelis_pavlidis.jpg", "at": [1, 0.05]},
+            {"name": "Callum McGregor", "side": "away", "role": "Captain", "stat": "Celtic top the Premiership", "photo": "p_callum_mcgregor.jpg", "at": [1, 0.5]}],
+   "verdict": {"text": "A Benfica win", "short": "A Benfica win"},
+   "credit": "Estádio da Luz, Lisbon · Photo: Massimo Catarinella · CC BY 3.0  ·  Vangelis Pavlidis · Photo: Carlo Bruil Fotografie · CC BY 2.0  ·  Callum McGregor · Photo: Hameltion · CC BY-SA 4.0"
+  }
+ },
+ "boards": [
+  {"kicker": "Europa League · matchday 2 · Lagos time", "l1": "Also", "l2": "tonight", "cols": 3,
+   "say": ["The rest of the Europa League, pinned up.", "Sparta Prague bring five straight wins. Beşiktaş, who beat Marseille, visit Hoffenheim.", "And Torreense, from Portugal's second tier, host Sunderland in Leiria."],
+   "cards": [
+    {"slug": "nk-celje-ac-omonia-nicosia", "city": "Celje", "note": "Omonia beat Celta on MD1"},
+    {"slug": "union-gilloise-real-sociedad", "city": "Den Dreef, Leuven", "note": "Union won 3–0 in Plzeň"},
+    {"slug": "scu-torreense-sunderland-afc", "city": "Leiria", "note": "Second-tier cup winners"},
+    {"slug": "kks-lech-poznan-bayer-leverkusen", "city": "Poznań", "note": "Leverkusen without Kofane"},
+    {"slug": "alkmaar-hapoel-be-er-sheva-fc", "city": "Alkmaar", "note": "Hapoel without Biton"},
+    {"slug": "sparta-prague-lillestroem-sk", "city": "Prague", "note": "Sparta: five straight wins"},
+    {"slug": "hoffenheim-besiktas-istanbul", "city": "Sinsheim", "note": "Beşiktaş beat Marseille 4–1"},
+    {"slug": "bournemouth-sturm-graz", "city": "Bournemouth", "note": "Won 2–1 at Real Sociedad"},
+    {"slug": "ferencvarosi-budapest-viktoria-plzen", "city": "Budapest", "note": "Won 3–1 at Celtic on MD1"},
+    {"slug": "gnk-dinamo-zagreb-rsc-anderlecht", "city": "Zagreb", "note": "Anderlecht lost 2–1 to Lyon"},
+    {"slug": "jagiellonia-bialystok-fc-ararat-armenia", "city": "Białystok", "note": "Jagiellonia: lost four in a row"},
+    {"slug": "nec-nijmegen-pfc-levski-sofia", "city": "Nijmegen", "note": "NEC: winless in five"}
+   ],
+   "hl": [{"j": 5, "at": [1, 0.0], "to": [1, 0.42]}, {"j": 6, "at": [1, 0.42], "to": [2, 0.0]}, {"j": 2, "at": [2, 0.05]}]},
+  {"kicker": "Conference League · matchday 1 · Lagos time", "l1": "Opening", "l2": "night", "cols": 2,
+   "say": ["It's also opening night in the Conference League.", "Ajax go to Hajduk Split without Dolberg, and Getafe are back in Europe after six years."],
+   "cards": [
+    {"slug": "hnk-hajduk-split-ajax", "city": "Split", "note": "Ajax without Dolberg"},
+    {"slug": "pfc-cska-sofia-monaco", "city": "Sofia", "note": "Monaco without Minamino"},
+    {"slug": "cs-universitatea-craiova-getafe", "city": "Craiova", "note": "Getafe: first European trip in six years"},
+    {"slug": "panathinaikos-fk-borac-banja-luka", "city": "Athens", "note": "PAO lost the derby last time out"},
+    {"slug": "atalanta-pafos-fc", "city": "Bergamo", "note": "Atalanta without Hien and Kossounou"},
+    {"slug": "brighton-fk-kauno-zalgiris", "city": "Brighton", "note": "Brighton: four wins in a row"},
+    {"slug": "copenhagen-braga", "city": "Copenhagen", "note": "Braga lost to Sporting last time"},
+    {"slug": "freiburg-fk-jablonec", "city": "Freiburg", "note": "Jablonec knocked out Rangers"}
+   ],
+   "hl": [{"j": 0, "at": [1, 0.0], "to": [1, 0.5]}, {"j": 2, "at": [1, 0.5]}]}
+ ],
+ "end_kicker": "Europa League · Thursday 15 October",
+ "end_say": ["Five postcards, five calls. Follow for the results after full time."]
+}

@@ -277,3 +277,29 @@ on three workers.
   - Say "PSG", not "Paris Saint-Germain", which was heard as "Paris and German".
   - "goals in ten games" is heard as "and": use "from".
 - **Wikimedia:** search Commons by venue name with `commons_search.mjs`-style calls, slowly (it rate-limits). `resolveStadium` takes a team, not a venue, and matched La Cartuja to Camp Nou. Skip agency photos even when they are on Commons (a LUSA photo of Pepê was skipped).
+
+## Postcards from Europe (`pc_*`, each tie a postcard from the host city, 15 Oct 2026)
+
+Template: `postcards-2026-10-15.json`, built by `postcards-2026-10-15-build.py` from `postcards-2026-10-15-data.json`
+(all the words in one file: cold steps, each tie's say, notes, polaroids and verdict, both boards, the end).
+Sources: `postcards-2026-10-15-sources.md`. Europa League Thursday: five ties in depth, then the other 12 Europa League
+games and the Conference League's opening night (8 games) on two boards.
+
+- **A tie** (`pc_tie`), on a light-blue desk:
+  - **Front:** the card slides in, showing the stadium photo, "Greetings from" and the city (sized to fit) with a blue offset shadow, plus a kick-off chip.
+  - **The flip:** on `flip_at` (default: the start of line 2) the card turns over (rotateY 180, a page-turn sound).
+  - **Back, left:** the notes write themselves in by hand (Caveat, clip-path reveal, 0.9 s apart), signed "— cmvng".
+  - **Back, right:** a stamp (the home crest on the home kit colour), an SVG postmark with the city, kick-off time and date, and the address "To <away>".
+  - **The numbers:** the model bars fill along the address lines on `model_at`, each labelled with the team's short name.
+  - **Hidden model:** with `model: false` the bars are replaced by "c/o <stadium>" and "In <city>" lines, so the card never looks empty.
+  - **Polaroids:** the key men are taped on below the card as they are named (`pols[].at`). A man with no free photo gets the crest.
+  - **The call:** stamped across the message column on `verdict_at` ("Our call", in two lines when the text ends in "don't lose"), with a small shake.
+- **Boards** (`pc_board`): small pinned postcards in 3 columns (12 games) or 2 columns (8 games), dealt one by one. `hl: [{j, at, to}]` lifts a card and dims the rest while the voice names it.
+- **Cold open** (`pc_cold`): postcard backs drop onto a deep royal-blue desk, one per line, with the line's number in a white postmark ring below the cards (the same `steps` as `wo_cold`). On 15 Oct: "1967… Lisbon… Lyon… 4".
+- **Title** (`pc_title`, `drop: true`): "Postcards / from Europe" with a fan of the five fronts. **End** (`pc_end`): every call on a light page.
+- **Sound:** paper slides, a page-turn on the flip, pencil under the notes, tape for each polaroid, and a typewriter thud plus a bass hit for the stamp. A crowd bed sits under each tie, with a pin tap for every board card.
+- **Stills lessons (15 Oct):**
+  - Keep the cold-open number off the cards: light text on cream paper can't be read.
+  - Keep the verdict stamp inside the message column so it never covers the numbers.
+  - Wrap scores ("4–1") so they never break across a line (`pcNb`).
+- **Pronunciation:** IPA added for Aspas, Iago, Camarda, Openda, Mateta, Sage, Pierre, Torreense, Leiria and Ferencváros. The hear-back still writes Lyon as "Leon"; that is a spelling difference only.
