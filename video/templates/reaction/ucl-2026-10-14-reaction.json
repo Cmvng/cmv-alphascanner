@@ -1,0 +1,632 @@
+{
+ "mode": "review",
+ "title": "Our analysis vs the results: Champions League Wednesday, 14 Oct",
+ "competition": "UEFA Champions League",
+ "date": "2026-10-14",
+ "caption_style": "bold",
+ "voice_speed": 1.05,
+ "voice": "af_heart",
+ "presenter": {
+  "id": 28293,
+  "crop": "1000:1080:460:0",
+  "from": 0.5,
+  "credit": "Presenter (stand-in): Mixkit stock video"
+ },
+ "sound": "cinematic",
+ "voice_fx": "deep",
+ "music_drop": "rx_intro",
+ "music_vibe": [
+  "cinematic"
+ ],
+ "music_track": 546,
+ "media_dir": ".cache/media/reaction-2026-10-14-walkout",
+ "picks": [
+  {
+   "home": "Feyenoord",
+   "away": "Como",
+   "competition": "UEFA Champions League",
+   "kickoff": "17:45",
+   "home_win": 38,
+   "draw": 27,
+   "away_win": 35,
+   "xg_home": 1.42,
+   "xg_away": 1.36,
+   "form_home": "WLWWW",
+   "form_away": "WWWLD",
+   "scored_home": 3,
+   "scored_away": 1.9,
+   "conceded_home": 1.2,
+   "conceded_away": 0.8,
+   "home_short": "Feyenoord",
+   "away_short": "Como",
+   "where": "De Kuip, Rotterdam",
+   "kit": {
+    "home": {
+     "c": "#E2001A"
+    },
+    "away": {
+     "c": "#2E6DB4"
+    }
+   },
+   "ko": "17:45",
+   "stage": "Matchday 2",
+   "score_home": "3",
+   "score_away": "2",
+   "stadium": "/home/user/cmv-alphascanner/video/.cache/stadiums/ucl_dekuip.jpg",
+   "stadium_credit": "De Kuip, Rotterdam · Photo: StevenL · CC BY-SA 3.0",
+   "crest_home": "/home/user/cmv-alphascanner/video/.cache/crests/feyenoord.png",
+   "crest_away": "/home/user/cmv-alphascanner/video/.cache/crests/como_1907.png"
+  },
+  {
+   "home": "LASK",
+   "away": "Liverpool",
+   "competition": "UEFA Champions League",
+   "kickoff": "17:45",
+   "home_win": 48,
+   "draw": 24,
+   "away_win": 28,
+   "xg_home": 1.91,
+   "xg_away": 1.46,
+   "form_home": "WWLWW",
+   "form_away": "WDDLW",
+   "scored_home": 2.2,
+   "scored_away": 1.5,
+   "conceded_home": 1.4,
+   "conceded_away": 1.3,
+   "home_short": "LASK",
+   "away_short": "Liverpool",
+   "where": "Raiffeisen Arena, Linz",
+   "kit": {
+    "home": {
+     "c": "#F2F2F2",
+     "bg": "#111418"
+    },
+    "away": {
+     "c": "#C8102E"
+    }
+   },
+   "ko": "17:45",
+   "stage": "Matchday 2",
+   "score_home": "3",
+   "score_away": "6",
+   "stadium": "/home/user/cmv-alphascanner/video/.cache/stadiums/ucl_linz.jpg",
+   "stadium_credit": "Raiffeisen Arena, Linz · Photo: Werner100359 · CC BY-SA 4.0",
+   "crest_home": "/home/user/cmv-alphascanner/video/.cache/crests/lask_linz.png",
+   "crest_away": "/home/user/cmv-alphascanner/video/.cache/crests/liverpool.png"
+  },
+  {
+   "home": "Betis",
+   "away": "Porto",
+   "competition": "UEFA Champions League",
+   "kickoff": "20:00",
+   "home_win": 43,
+   "draw": 27,
+   "away_win": 30,
+   "xg_home": 1.47,
+   "xg_away": 1.21,
+   "form_home": "WLWWW",
+   "form_away": "WWWWW",
+   "scored_home": 1.9,
+   "scored_away": 2.1,
+   "conceded_home": 1.2,
+   "conceded_away": 0.6,
+   "record_home": [
+    8,
+    1,
+    1
+   ],
+   "record_away": [
+    9,
+    0,
+    1
+   ],
+   "games_home": 10,
+   "games_away": 10,
+   "ppg_home": 2.5,
+   "ppg_away": 2.7,
+   "home_short": "Betis",
+   "away_short": "Porto",
+   "where": "Estadio de La Cartuja, Seville",
+   "kit": {
+    "home": {
+     "c": "#00954C"
+    },
+    "away": {
+     "c": "#2F6FD6",
+     "bg": "#00428C",
+     "dado": "#00428C"
+    }
+   },
+   "ko": "20:00",
+   "stage": "Matchday 2",
+   "score_home": "3",
+   "score_away": "2",
+   "stadium": "/home/user/cmv-alphascanner/video/.cache/stadiums/ucl_cartuja.jpg",
+   "stadium_credit": "Estadio de La Cartuja, Seville · Photo: Валерий Дед · CC BY 3.0",
+   "crest_home": "/home/user/cmv-alphascanner/video/.cache/crests/betis.png",
+   "crest_away": "/home/user/cmv-alphascanner/video/.cache/crests/porto.png"
+  },
+  {
+   "home": "Shakhtar",
+   "away": "AEK Athens",
+   "competition": "UEFA Champions League",
+   "kickoff": "20:00",
+   "home_win": 27,
+   "draw": 27,
+   "away_win": 46,
+   "xg_home": 1.13,
+   "xg_away": 1.52,
+   "form_home": "WLWWW",
+   "form_away": "WWDWW",
+   "scored_home": 2.2,
+   "scored_away": 3.1,
+   "conceded_home": 0.5,
+   "conceded_away": 0.4,
+   "home_short": "Shakhtar",
+   "away_short": "AEK Athens",
+   "where": "Stamford Bridge, London",
+   "kit": {
+    "home": {
+     "c": "#F37021"
+    },
+    "away": {
+     "c": "#F5C400",
+     "bg": "#1A1A1A"
+    }
+   },
+   "ko": "20:00",
+   "stage": "Matchday 2",
+   "score_home": "3",
+   "score_away": "1",
+   "stadium": "/home/user/cmv-alphascanner/video/.cache/stadiums/ucl_bridge.jpg",
+   "stadium_credit": "Stamford Bridge, London · Photo: Richard Humphrey · CC BY-SA 2.0",
+   "crest_home": "/home/user/cmv-alphascanner/video/.cache/crests/shakhtar_d.png",
+   "crest_away": "/home/user/cmv-alphascanner/video/.cache/crests/aek_athens.png"
+  },
+  {
+   "home": "Bodø/Glimt",
+   "away": "Dortmund",
+   "competition": "UEFA Champions League",
+   "kickoff": "20:00",
+   "home_win": 36,
+   "draw": 22,
+   "away_win": 42,
+   "xg_home": 1.92,
+   "xg_away": 2.06,
+   "form_home": "LWLWW",
+   "form_away": "WWWWD",
+   "scored_home": 3,
+   "scored_away": 2.5,
+   "conceded_home": 1.6,
+   "conceded_away": 1,
+   "home_short": "Bodø/Glimt",
+   "away_short": "Dortmund",
+   "where": "Aspmyra Stadion, Bodø",
+   "kit": {
+    "home": {
+     "c": "#FFD200"
+    },
+    "away": {
+     "c": "#FDE100",
+     "bg": "#111111",
+     "dado": "#FDE100"
+    }
+   },
+   "ko": "20:00",
+   "stage": "Matchday 2",
+   "score_home": "1",
+   "score_away": "0",
+   "stadium": "/home/user/cmv-alphascanner/video/.cache/stadiums/ucl_aspmyra.jpg",
+   "stadium_credit": "Aspmyra Stadion, Bodø · Photo: Lars Røed Hansen · CC BY-SA 2.5",
+   "crest_home": "/home/user/cmv-alphascanner/video/.cache/crests/bodoe_glimt.png",
+   "crest_away": "/home/user/cmv-alphascanner/video/.cache/crests/borussia_dortmund.png"
+  },
+  {
+   "home": "Man City",
+   "away": "PSG",
+   "competition": "UEFA Champions League",
+   "kickoff": "20:00",
+   "home_win": 56,
+   "draw": 25,
+   "away_win": 19,
+   "xg_home": 1.76,
+   "xg_away": 0.97,
+   "form_home": "WWWWW",
+   "form_away": "LWWWW",
+   "scored_home": 2.4,
+   "scored_away": 2,
+   "conceded_home": 1,
+   "conceded_away": 1.2,
+   "home_short": "Man City",
+   "away_short": "PSG",
+   "where": "Etihad Stadium, Manchester",
+   "kit": {
+    "home": {
+     "c": "#6CABDD"
+    },
+    "away": {
+     "c": "#DA291C",
+     "bg": "#004170",
+     "dado": "#004170"
+    }
+   },
+   "ko": "20:00",
+   "stage": "Matchday 2",
+   "score_home": "2",
+   "score_away": "4",
+   "stadium": "/home/user/cmv-alphascanner/video/.cache/stadiums/ucl_etihad.jpg",
+   "stadium_credit": "Etihad Stadium, Manchester · Photo: Cléria De Souza · CC BY 2.0",
+   "crest_home": "/home/user/cmv-alphascanner/video/.cache/crests/man_city.png",
+   "crest_away": "/home/user/cmv-alphascanner/video/.cache/crests/psg.png"
+  },
+  {
+   "home": "Roma",
+   "away": "Real Madrid",
+   "competition": "UEFA Champions League",
+   "kickoff": "20:00",
+   "home_win": 31,
+   "draw": 28,
+   "away_win": 41,
+   "xg_home": 1.21,
+   "xg_away": 1.39,
+   "form_home": "WWWWW",
+   "form_away": "LWWWW",
+   "scored_home": 2.2,
+   "scored_away": 2.5,
+   "conceded_home": 0.6,
+   "conceded_away": 1.1,
+   "home_short": "Roma",
+   "away_short": "Real Madrid",
+   "where": "Stadio Olimpico, Rome",
+   "kit": {
+    "home": {
+     "c": "#C8364A",
+     "bg": "#8E1F2F",
+     "dado": "#8E1F2F"
+    },
+    "away": {
+     "c": "#FFFFFF",
+     "bg": "#D9DEE8",
+     "dado": "#F4F5F8"
+    }
+   },
+   "ko": "20:00",
+   "stage": "Matchday 2",
+   "score_home": "3",
+   "score_away": "4",
+   "stadium": "/home/user/cmv-alphascanner/video/.cache/stadiums/ucl_olimpico.jpg",
+   "stadium_credit": "Stadio Olimpico, Rome · Photo: Vincenzo.togni · CC BY-SA 4.0",
+   "crest_home": "/home/user/cmv-alphascanner/video/.cache/crests/roma.png",
+   "crest_away": "/home/user/cmv-alphascanner/video/.cache/crests/real_madrid.png"
+  }
+ ],
+ "review": {
+  "beats": [
+   {
+    "type": "rx_cold",
+    "tint": "blue",
+    "people": [
+     "Erling Haaland",
+     "Bradley Barcola",
+     "Donyell Malen",
+     "Antonio Rüdiger"
+    ],
+    "say": [
+     "This afternoon, we made seven calls.",
+     "Then nine goals in Linz.",
+     "In Rome, Real Madrid fell three–one behind.",
+     "So, how many did we get right?"
+    ],
+    "steps": [
+     {
+      "big": "7",
+      "label": "calls this afternoon"
+     },
+     {
+      "big": "9",
+      "label": "goals in Linz",
+      "tone": "hot"
+     },
+     {
+      "big": "3–1",
+      "label": "Real Madrid, behind in Rome",
+      "tone": "red"
+     },
+     {
+      "big": "?",
+      "label": "the results",
+      "tone": "hot",
+      "glitch": true
+     }
+    ],
+    "tail": 0.6
+   },
+   {
+    "type": "rx_intro",
+    "drop": true,
+    "title": "Our analysis",
+    "title2": "vs the results",
+    "say": [
+     "This afternoon's Champions League analysis, against tonight's results. Seven games. Let's see how we did."
+    ]
+   },
+   {
+    "type": "rx_take",
+    "match": 0,
+    "take": "**Feyenoord** don't lose at home",
+    "crests": [
+     "home"
+    ],
+    "people": [
+     "Gjivai Zechiël",
+     "Nico Paz"
+    ],
+    "say": [
+     "We start in Rotterdam, at a quarter to six. Our call: Feyenoord don't lose at home."
+    ]
+   },
+   {
+    "type": "rx_reveal",
+    "match": 0,
+    "n": 1,
+    "of": 1,
+    "ok": true,
+    "scorers": "Diao 18' · Zechiël 20' · Hadj Moussa 52' · Sánchez og 81' · Douvikas 90+3'",
+    "people": [
+     "Gjivai Zechiël"
+    ],
+    "say": [
+     "Three–two to Feyenoord! Como scored first, Zechiël levelled two minutes later, and Hadj Moussa put them ahead. Called it!"
+    ],
+    "tally_at": [
+     0,
+     0.917
+    ]
+   },
+   {
+    "type": "rx_take",
+    "match": 1,
+    "take": "**LASK** don't lose",
+    "crests": [
+     "home"
+    ],
+    "people": [
+     "Florian Flecker",
+     "Alexis Mac Allister"
+    ],
+    "say": [
+     "Same time, in Linz. Liverpool were missing three big names. Our call: LASK don't lose."
+    ]
+   },
+   {
+    "type": "rx_reveal",
+    "match": 1,
+    "n": 1,
+    "of": 2,
+    "ok": false,
+    "scorers": "Araújo 22' · Barcola 24' 37' 66' · Frimpong 51' · Koumas 72' · Ljubičić 63' · Flecker 74' 77'",
+    "people": [
+     "Bradley Barcola",
+     "Jeremie Frimpong"
+    ],
+    "say": [
+     "Six–three to Liverpool! Three–nil by half-time, and Barcola scored a hat-trick. LASK pulled three back late, but the damage was done. We missed this one."
+    ],
+    "tally_at": [
+     0,
+     0.876
+    ],
+    "sticker": {
+     "e": "😱",
+     "at": 0.5,
+     "x": 50,
+     "y": 790,
+     "r": -12
+    }
+   },
+   {
+    "type": "rx_take",
+    "match": 2,
+    "take": "A home win for **Betis**",
+    "crests": [
+     "home"
+    ],
+    "people": [
+     "Abde Ezzalzouli",
+     "Cucho Hernández"
+    ],
+    "say": [
+     "Eight o'clock, Seville. Our call: a home win for Betis."
+    ]
+   },
+   {
+    "type": "rx_reveal",
+    "match": 2,
+    "n": 2,
+    "of": 3,
+    "ok": true,
+    "scorers": "Abde 47' · Gabri Veiga 54' · Samu 61' · Cucho 74' · Isco 84' (pen)",
+    "people": [
+     "Abde Ezzalzouli",
+     "Cucho Hernández"
+    ],
+    "say": [
+     "Three–two to Betis! Porto turned it round, then Cucho Hernández levelled, and Isco settled it from the spot with six minutes left. Called it!"
+    ],
+    "tally_at": [
+     0,
+     0.929
+    ]
+   },
+   {
+    "type": "rx_take",
+    "match": 3,
+    "take": "Three points for **AEK**",
+    "crests": [
+     "away"
+    ],
+    "people": [
+     "Luka Jović",
+     "Arda Turan"
+    ],
+    "say": [
+     "Shakhtar hosted AEK at Stamford Bridge, their home this season. Our call: three points for AEK."
+    ]
+   },
+   {
+    "type": "rx_reveal",
+    "match": 3,
+    "n": 2,
+    "of": 4,
+    "ok": false,
+    "scorers": "Majer 28' · Pedrinho 34' (pen) · Vinícius Tobias 80' · Mendoza 86'",
+    "people": [
+     "Vinicius Tobias",
+     "Arda Turan"
+    ],
+    "say": [
+     "Three–one to Shakhtar. AEK scored first, then a penalty given by VAR, and two late goals turned it. A first Champions League win for Arda Turan as a coach. We missed."
+    ],
+    "tally_at": [
+     0,
+     0.94
+    ]
+   },
+   {
+    "type": "rx_take",
+    "match": 4,
+    "take": "**Dortmund** don't lose, with goals at both ends",
+    "crests": [
+     "away"
+    ],
+    "people": [
+     "Serhou Guirassy",
+     "Gregor Kobel"
+    ],
+    "say": [
+     "In Bodø, seven home wins in a row on the artificial pitch. Our call: Dortmund don't lose, with goals at both ends."
+    ]
+   },
+   {
+    "type": "rx_reveal",
+    "match": 4,
+    "n": 2,
+    "of": 5,
+    "ok": false,
+    "scorers": "Sjøvold 52'",
+    "people": [
+     "Sondre Auklend",
+     "Felix Nmecha"
+    ],
+    "say": [
+     "One–nil to Bodø Glimt. Sjøvold scored after the break. Dortmund never scored, so the extra read missed as well. We missed this one."
+    ],
+    "tally_at": [
+     0,
+     0.855
+    ],
+    "extra": {
+     "text": "Goals at both ends",
+     "ok": false,
+     "at": [
+      0,
+      0.42
+     ]
+    }
+   },
+   {
+    "type": "rx_take",
+    "match": 5,
+    "take": "A **City** win",
+    "crests": [
+     "home"
+    ],
+    "people": [
+     "Erling Haaland",
+     "Ousmane Dembélé"
+    ],
+    "say": [
+     "At the Etihad, City had just beaten Liverpool three–nil. Our call: a City win."
+    ]
+   },
+   {
+    "type": "rx_reveal",
+    "match": 5,
+    "n": 2,
+    "of": 6,
+    "ok": false,
+    "scorers": "Doué 13' · Dembélé 15' · Vitinha 32' · Haaland 53' 75' · Akliouche 62'",
+    "people": [
+     "Vitinha",
+     "Désiré Doué",
+     "Erling Haaland"
+    ],
+    "say": [
+     "Four–two to PSG. Two goals in two minutes, and three–nil up by half-time. Haaland scored twice, and now holds the club record for Champions League goals. We missed."
+    ],
+    "tally_at": [
+     0,
+     0.939
+    ],
+    "sticker": {
+     "e": "😳",
+     "at": 0.45,
+     "x": 50,
+     "y": 790,
+     "r": 10
+    }
+   },
+   {
+    "type": "rx_take",
+    "match": 6,
+    "take": "**Real Madrid** don't lose",
+    "crests": [
+     "away"
+    ],
+    "people": [
+     "Kylian Mbappé",
+     "Donyell Malen"
+    ],
+    "say": [
+     "And the big one. Mourinho, back in Rome, now with Real Madrid. Our call: Real Madrid don't lose."
+    ]
+   },
+   {
+    "type": "rx_reveal",
+    "match": 6,
+    "n": 3,
+    "of": 7,
+    "ok": true,
+    "scorers": "De Roon 20' · Mbappé 25' · Malen 51' 57' · Espí 83' · Endrick 85' · Rüdiger 90'",
+    "people": [
+     "Endrick",
+     "Antonio Rüdiger",
+     "Arda Güler",
+     "Kylian Mbappé"
+    ],
+    "say": [
+     "Four–three to Real Madrid! Three–one down with ten minutes left. Then Espí, Endrick, and Rüdiger in the ninetieth minute, the last two from Arda Güler corners. Called it!"
+    ],
+    "tally_at": [
+     0,
+     0.941
+    ],
+    "burst": {
+     "e": "🔥⚽🔥",
+     "at": 1.0
+    }
+   },
+   {
+    "type": "rx_outro",
+    "n": 3,
+    "of": 7,
+    "ok": false,
+    "sub": "on Wednesday night",
+    "follow": "Follow for the next analysis",
+    "say": [
+     "Three from seven. A tough night, saved by a comeback in Rome. Follow for the next analysis."
+    ]
+   }
+  ]
+ }
+}

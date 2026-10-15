@@ -62,6 +62,25 @@ with the proper analysis and you still marking yourself wrong."
   deleted temp files open, so free disk drops by ~2 GB mid-render and a full disk crashes a worker. If a render dies,
   `--resume --keep-segs 1,2` keeps the presenter frames and any finished segments.
 
+## Seven ties in one video (14 Oct 2026)
+
+Reference: `ucl-2026-10-14-reaction.json` (the seven Walk-Out ties, 3 from 7, 2:19). The config was generated from the
+analysis file by a short script, so the picks, kits and crests came straight across.
+- **Fit X (140 s):** 7 ties fit at the approved pace when each call line is one sentence and each result line is about
+  25 words. The first render was 141.5 s, so it cost a second render. The stills estimate ran about 6 s long (147.6 s
+  against 141.5 s), so trim until the estimate is under about 145 s before the first full render.
+- **Names on the cards:** the cards print `home` / `away` as they are. When the app's names are raw ("Bodoe/Glimt",
+  "Shakhtar D", "Como 1907"), set the proper name and point `crest_home` / `crest_away` at the cached crest
+  (`.cache/crests/<app name slug>.png`) so the badge doesn't change.
+- **Stickers:** `sticker: {x: 50, y: 790}` puts the emoji left of the presenter, below the score card. The old
+  `x: 760, y: 330` covered the away team's crest.
+- **Photos:** look at all of them on one sheet before rendering. Drop snapshots and photos where the player is a speck,
+  and leave out players with no free photo: the stadium carries their beat.
+- **Cover frame:** take it in the gap between the last result line and the outro (no caption, tally still up), and
+  check the presenter's eyes are open. Build the cover in scratch and copy it in after the render.
+- **Stills cost time here:** each stills run redoes the presenter cut-out (about 10 minutes), so check the photos and
+  names first and run one stills pass, not several.
+
 ## Prediction-market plays (Polymarket)
 
 `polymarket-2026-10-02.json` is the reference: the presenter, then one `pm_pick` card per app pick (the app's pick and confidence, the Polymarket question, our side lit green, the price and "$100 → $X"), a `pm_slate` and a `pm_outro`. The rules for converting picks are in `.claude/skills/cmvng-video/SKILL.md` ("Prediction-market plays"). Refresh prices with `python3 video/lib/pm_prices.py <file>` before rendering.

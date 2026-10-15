@@ -24,6 +24,50 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
+## 14 Oct: post-match, "Our analysis vs the results" (the 7 Walk-Out ties, 3 from 7, 2:19)
+
+- **The ask:** "I need today's post match analysis video".
+- **Before building:** applied the last three "Change next time" lines:
+  - from Primus: judged the length on the real render, not on the stills estimate;
+  - from the Walk-Out: no "an <name>"; the cover built in scratch and copied in after the render;
+  - from Axis: names tested through the voice and whisper before the first render, and no stray text in the cover
+    crop (the caption was moved out of it).
+- **What worked:**
+  - **Seven research agents in parallel**, one per tie, each with dated sources (UEFA's own match-data feeds when
+    uefa.com refused the fetch). Conflicts were left out: the Shakhtar attendance, whether Tobias's goal was an own goal.
+  - **Honest judging on the result:** 3 from 7, said plainly ("A tough night"), with the Bodø extra read on its chip.
+  - **The order tells the night:** the two early games, Betis, three misses in a row, then Real Madrid's comeback in
+    Rome as the finale.
+  - **The hear-back before the render** caught "Then Linz saw nine goals" heard as "Lint". It became "Then nine goals
+    in Linz". Eight names got IPA respellings (Sjøvold, Zechiël, Endrick, Espí, Turan, Moussa, Rüdiger, Cucho).
+  - The config was generated from the analysis file by a script, so the kits, crests and kick-off times matched it.
+- **Mistakes, and how they got through:**
+  1. **The first render was 141.5 s**, over X's 140 s. The stills estimate (147.6 s) already said it was long, and I
+     rendered anyway. Three lines were trimmed and the video rendered again (17 min).
+  2. **The emoji sticker covered the winning team's crest** (Liverpool, PSG). Its position was copied from the 13 Oct
+     file without looking. Found in the frame-by-frame check; it now sits left of the presenter.
+  3. **The app's raw names on the cards** ("Bodoe/Glimt", "Shakhtar D", "Como 1907"). Caught in the first stills.
+  4. **Two weak photos** (a blurry snapshot of Koumas, Valles as a speck) were dropped at the photo check.
+  5. **Two write-up errors, caught in proofreading:** "the away sides we trusted at Linz" (we backed LASK, the home
+     side) and the LASK goal order.
+  6. **The first cover frame** had the "Called it!" caption, and the next one caught the presenter mid-blink. The final
+     frame was picked in the gap between lines.
+  7. A second stills run cost 10 minutes, because every run redoes the presenter cut-out.
+- **Change next time:**
+  - For a presenter video, trim until the stills estimate is under about 145 s before the first full render.
+  - Never copy sticker positions: place the emoji clear of the score card (left of the presenter).
+  - Look at every card's team names in the first stills; set proper names with the app's crests.
+  - Proofread the write-up's summary lines against the calls table (home or away, who we backed).
+- **Final review:** 139.2 s (X without Premium and a Short), −14.7 LUFS, true peak −3.7 dB, the drop on the title
+  +9.8 dB. Music 546 "The Farewell" (approved, not in the last six). Heard back: spelling only (Feyenoord, Hadj Moussa,
+  Sjøvold, Haaland as "Holland"). Colour: ink 68%, orange 13%, blue 9%, red 5%. The dark share is the approved
+  presenter look: darkened photos and her suit. Every second checked frame by frame.
+- **Sent:**
+  - the 27.7 MB chat copy, the cover and thumbnail, the srt, the write-up, the post kit (with chapters) and the sources;
+  - a private download page for the full 153 MB file (18 parts; one served part's sha256 checked).
+
+---
+
 ## 14 Oct: explainer, Primus Labs, "Confidential, not hidden" (2:04, 3D glass)
 
 - **The ask:** "create me a video on this project", with four posts as sources (the 13 Oct Token2049 interview,
