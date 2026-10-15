@@ -24,6 +24,52 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
+## 15 Oct: post-match, "Our analysis vs the results" (the five Postcards ties, 5 from 5, 2:04)
+
+- **Before building:** applied the last three "Change next time" lines:
+  - from the 15 Oct analysis:
+    - `df -h /` before the render (cleared delivered intermediates first, to 5.4 GB);
+    - checked the second after the drop track's tagged drop: 586's real hit is at 17.35 s, not 16.96 s, so `music_drop_at` lands it on the title;
+    - no half-empty layout held for more than 3 s, checked on the frame-a-second sheet;
+  - from the 14 Oct post-match:
+    - trimmed until the stills estimate was well under 145 s (122 s);
+    - every card's names checked in the first stills, with the stickers placed left of the presenter;
+  - from Primus: the length judged on the real render (124.1 s).
+- **What worked:**
+  - **The postcards came back:**
+    - the cold open asks "how many arrived?";
+    - the other 20 scores sit on the same postcard boards as this afternoon's video, now with the full-time score on each card;
+    - the outro says "Five postcards, five delivered."
+  - **Two match feeds, both agreeing:** UEFA's match feed and ESPN's match data gave every score, scorer and minute for all 25 games within minutes of full time. Quotes came from a research agent and were each re-read on their own page before use. One fact came from them: Cissé's Opta record went into the voice.
+  - **The order:** four ties, then the boards, then Lisbon as the finale, so the tally reaches 4/4 before the boards and 5/5 at the end.
+  - **Drop +11.8 dB** on the title, the strongest of the week, after placing it on the track's real hit.
+- **Mistakes, and how they got through:**
+  1. **"Four–one to Benfica" was heard as "four went to Benfica"** in the hear-back: "one to" runs together into "went to". Now "Benfica beat Celtic, four–one!", with the score last.
+  2. **"Hajduk Split beat Ajax" was heard as "Bade Jack's".** Now "Ajax lost two–one at Hajduk Split."
+  3. **"Poznań":** the ń splits the word for the voice ("Pozna"). Now "in Poland".
+  4. **Nine names guessed wrong** by the voice before the say-check (Jhon as "Jay-hahn", Nakamura as "na-kuh-myoo-ruh", Woltemade, Muani, Tolisso, Nuamah, Pavlidis, Camilo, Hezze). All set in `SAY_IPA`.
+  5. **The intro crest wall held all 48 board crests** behind the title. Now `crests: 5` keeps it to the five ties.
+  6. **Board notes that could be misread:** "AZ's first win", "Dinamo's first win" and "NEC's first point" could each be false outside the league phase. Rewritten as plain readings of the score.
+  7. **A miscount in the write-up:** "nineteen goals" for 18. Recounted.
+  8. **Stadium lookups for 20 board games:** `stadiums: false` would have dropped the five stadium photos too. Now a single pick can carry `stadium: false`.
+- **Change next time:**
+  - Put the score last when it ends in "one" ("X beat Y, four–one"): "one to" is heard as "went to".
+  - Avoid "beat <name>" when the name starts with a vowel ("beat Ajax"): the words merge.
+  - Re-read any agent-found quote on its own page before using it word for word.
+  - Count goals from the table, not from memory.
+- **Final review:** 124.1 s (fits X and a YouTube Short), −14.7 LUFS, true peak −3.3 dB, the drop on the title +11.8 dB.
+  - **Music:** 586 "Charlotte", a measured candidate. All four approved tracks were in the last six.
+  - **Colour:** ink 65%, blue 14%, orange 13%. The approved presenter look: darkened photos and her suit.
+  - **Heard back:** spelling only (Leon for Lyon, Talieso, Alfa Josse, Valtamotta, Hezei, Besiktasz, John; 1967 written as digits).
+  - Every second checked frame by frame.
+- **Sent:**
+  - the 28.0 MB chat copy, the cover and thumbnail, the srt, the write-up (with verified quotes), the post kit (with chapters) and the sources;
+  - a private download page for the full 125.3 MB file (15 parts; the last part's served sha256 checked):
+    https://claude.ai/artifact/4UwRgGNNmrsZdxMB2UYgxr
+- **The owner's reaction:** (waiting)
+
+---
+
 ## 15 Oct: analysis, "Postcards from Europe" (5 Europa League ties in depth + 20 more on two boards, 2:11)
 
 - **Before building:** applied the last three "Change next time" lines:

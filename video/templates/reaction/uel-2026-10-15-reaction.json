@@ -1,0 +1,1113 @@
+{
+ "mode": "review",
+ "title": "Our analysis vs the results: Europa League Thursday, 15 Oct",
+ "competition": "UEFA Europa League",
+ "date": "2026-10-15",
+ "caption_style": "bold",
+ "voice_speed": 1.05,
+ "voice": "af_heart",
+ "presenter": {
+  "id": 28293,
+  "crop": "1000:1080:460:0",
+  "from": 0.5,
+  "credit": "Presenter (stand-in): Mixkit stock video"
+ },
+ "sound": "cinematic",
+ "voice_fx": "deep",
+ "music_drop": "rx_intro",
+ "music_vibe": [
+  "cinematic"
+ ],
+ "music_track": 586,
+ "music_drop_at": 17.33,
+ "media_dir": ".cache/media/analysis-2026-10-15-postcards",
+ "picks": [
+  {
+   "home": "Lyon",
+   "away": "Crystal Palace",
+   "competition": "UEFA Europa League",
+   "kickoff": "17:45",
+   "home_win": 39,
+   "draw": 28,
+   "away_win": 33,
+   "xg_home": 1.37,
+   "xg_away": 1.25,
+   "form_home": "WDWWL",
+   "form_away": "WLWDW",
+   "scored_home": 1.8,
+   "scored_away": 1.8,
+   "conceded_home": 0.8,
+   "conceded_away": 1.4,
+   "ko": "17:45",
+   "where": "Groupama Stadium, Lyon",
+   "stage": "Matchday 2",
+   "home_short": "Lyon",
+   "away_short": "Crystal Palace",
+   "kit": {
+    "home": {
+     "c": "#1C3F94"
+    },
+    "away": {
+     "c": "#C4122E"
+    }
+   },
+   "score_home": "3",
+   "score_away": "2",
+   "stadium": "/home/user/cmv-alphascanner/video/.cache/media/analysis-2026-10-15-postcards/s_lyon.jpg",
+   "stadium_credit": "Groupama Stadium, Lyon · Photo: Alexis Klein · CC BY-SA 4.0",
+   "crest_home": "/home/user/cmv-alphascanner/video/.cache/crests/lyon.png",
+   "crest_away": "/home/user/cmv-alphascanner/video/.cache/crests/crystal_palace.png"
+  },
+  {
+   "home": "Salzburg",
+   "away": "Milan",
+   "competition": "UEFA Europa League",
+   "kickoff": "17:45",
+   "home_win": 24,
+   "draw": 27,
+   "away_win": 49,
+   "xg_home": 1.03,
+   "xg_away": 1.56,
+   "form_home": "WWWWW",
+   "form_away": "WWLWL",
+   "scored_home": 2.4,
+   "scored_away": 1.6,
+   "conceded_home": 0.3,
+   "conceded_away": 1.3,
+   "ko": "17:45",
+   "where": "Red Bull Arena, Salzburg",
+   "stage": "Matchday 2",
+   "home_short": "Salzburg",
+   "away_short": "Milan",
+   "kit": {
+    "home": {
+     "c": "#D11F3B"
+    },
+    "away": {
+     "c": "#C8102E",
+     "bg": "#B00E28"
+    }
+   },
+   "score_home": "0",
+   "score_away": "4",
+   "stadium": "/home/user/cmv-alphascanner/video/.cache/media/analysis-2026-10-15-postcards/s_salzburg.jpg",
+   "stadium_credit": "Red Bull Arena, Salzburg · Photo: Arne Müseler · CC BY-SA 3.0 de",
+   "crest_home": "/home/user/cmv-alphascanner/video/.cache/crests/salzburg.png",
+   "crest_away": "/home/user/cmv-alphascanner/video/.cache/crests/ac_milan.png"
+  },
+  {
+   "home": "Celta Vigo",
+   "away": "Juventus",
+   "competition": "UEFA Europa League",
+   "kickoff": "20:00",
+   "home_win": 32,
+   "draw": 29,
+   "away_win": 39,
+   "xg_home": 1.16,
+   "xg_away": 1.29,
+   "form_home": "DLLDW",
+   "form_away": "WWDLW",
+   "scored_home": 0.9,
+   "scored_away": 1.7,
+   "conceded_home": 0.7,
+   "conceded_away": 0.9,
+   "ko": "20:00",
+   "where": "Abanca-Balaídos, Vigo",
+   "stage": "Matchday 2",
+   "home_short": "Celta Vigo",
+   "away_short": "Juventus",
+   "kit": {
+    "home": {
+     "c": "#6FB5E8",
+     "bg": "#5AA7E0"
+    },
+    "away": {
+     "c": "#1A1A1A"
+    }
+   },
+   "score_home": "1",
+   "score_away": "2",
+   "stadium": "/home/user/cmv-alphascanner/video/.cache/media/analysis-2026-10-15-postcards/s_celta.jpg",
+   "stadium_credit": "Abanca-Balaídos, Vigo · Photo: Jsmq · CC BY 3.0",
+   "crest_home": "/home/user/cmv-alphascanner/video/.cache/crests/celta.png",
+   "crest_away": "/home/user/cmv-alphascanner/video/.cache/crests/juventus.png"
+  },
+  {
+   "home": "Marseille",
+   "away": "Olympiacos",
+   "competition": "UEFA Europa League",
+   "kickoff": "20:00",
+   "home_win": 48,
+   "draw": 28,
+   "away_win": 24,
+   "xg_home": 1.53,
+   "xg_away": 1,
+   "form_home": "LWWWL",
+   "form_away": "DWWWD",
+   "scored_home": 1.4,
+   "scored_away": 1.4,
+   "conceded_home": 1.6,
+   "conceded_away": 0.5,
+   "ko": "20:00",
+   "where": "Stade Vélodrome, Marseille",
+   "stage": "Matchday 2",
+   "home_short": "Marseille",
+   "away_short": "Olympiacos",
+   "kit": {
+    "home": {
+     "c": "#2FAEE0",
+     "bg": "#1E9BD7"
+    },
+    "away": {
+     "c": "#D11E2D"
+    }
+   },
+   "score_home": "0",
+   "score_away": "1",
+   "stadium": "/home/user/cmv-alphascanner/video/.cache/media/analysis-2026-10-15-postcards/s_marseille.jpg",
+   "stadium_credit": "Stade Vélodrome, Marseille · Photo: Bernard Ddd · CC BY-SA 2.0",
+   "crest_home": "/home/user/cmv-alphascanner/video/.cache/crests/marseille.png",
+   "crest_away": "/home/user/cmv-alphascanner/video/.cache/crests/olympiacos.png"
+  },
+  {
+   "home": "Benfica",
+   "away": "Celtic",
+   "competition": "UEFA Europa League",
+   "kickoff": "20:00",
+   "home_win": 68,
+   "draw": 20,
+   "away_win": 12,
+   "xg_home": 2.06,
+   "xg_away": 0.78,
+   "form_home": "WWWLW",
+   "form_away": "WLLLW",
+   "scored_home": 3,
+   "scored_away": 1.5,
+   "conceded_home": 0.7,
+   "conceded_away": 1.3,
+   "ko": "20:00",
+   "where": "Estádio da Luz, Lisbon",
+   "stage": "Matchday 2",
+   "home_short": "Benfica",
+   "away_short": "Celtic",
+   "kit": {
+    "home": {
+     "c": "#E30613"
+    },
+    "away": {
+     "c": "#008C45"
+    }
+   },
+   "score_home": "4",
+   "score_away": "1",
+   "stadium": "/home/user/cmv-alphascanner/video/.cache/media/analysis-2026-10-15-postcards/s_benfica.jpg",
+   "stadium_credit": "Estádio da Luz, Lisbon · Photo: Massimo Catarinella · CC BY 3.0",
+   "crest_home": "/home/user/cmv-alphascanner/video/.cache/crests/benfica.png",
+   "crest_away": "/home/user/cmv-alphascanner/video/.cache/crests/celtic.png"
+  },
+  {
+   "home": "NK Celje",
+   "away": "AC Omonia Nicosia",
+   "competition": "UEFA Europa League",
+   "kickoff": "17:45",
+   "home_win": 19,
+   "draw": 22,
+   "away_win": 59,
+   "xg_home": 1.21,
+   "xg_away": 2.11,
+   "form_home": "LLLDW",
+   "form_away": "WDWWW",
+   "scored_home": 1,
+   "scored_away": 1.7,
+   "conceded_home": 1.2,
+   "conceded_away": 0.6,
+   "ko": "17:45",
+   "where": "",
+   "stage": "Matchday 2",
+   "home_short": "Celje",
+   "away_short": "Omonia",
+   "score_home": "0",
+   "score_away": "3",
+   "stadium": false
+  },
+  {
+   "home": "Union Gilloise",
+   "away": "Real Sociedad",
+   "competition": "UEFA Europa League",
+   "kickoff": "17:45",
+   "home_win": 67,
+   "draw": 19,
+   "away_win": 14,
+   "xg_home": 2.23,
+   "xg_away": 0.98,
+   "form_home": "WWWWD",
+   "form_away": "WLLWW",
+   "scored_home": 2.7,
+   "scored_away": 1.4,
+   "conceded_home": 0.6,
+   "conceded_away": 1.8,
+   "ko": "17:45",
+   "where": "",
+   "stage": "Matchday 2",
+   "home_short": "Union SG",
+   "away_short": "Real Sociedad",
+   "score_home": "1",
+   "score_away": "1",
+   "stadium": false
+  },
+  {
+   "home": "SCU Torreense",
+   "away": "Sunderland AFC",
+   "competition": "UEFA Europa League",
+   "kickoff": "17:45",
+   "home_win": 34,
+   "draw": 30,
+   "away_win": 36,
+   "xg_home": 1.15,
+   "xg_away": 1.21,
+   "form_home": "DDLLL",
+   "form_away": "DWLWL",
+   "scored_home": 0.9,
+   "scored_away": 0.9,
+   "conceded_home": 1.4,
+   "conceded_away": 1.3,
+   "ko": "17:45",
+   "where": "",
+   "stage": "Matchday 2",
+   "home_short": "Torreense",
+   "away_short": "Sunderland",
+   "score_home": "1",
+   "score_away": "2",
+   "stadium": false
+  },
+  {
+   "home": "KKS Lech Poznan",
+   "away": "Bayer Leverkusen",
+   "competition": "UEFA Europa League",
+   "kickoff": "17:45",
+   "home_win": 54,
+   "draw": 22,
+   "away_win": 24,
+   "xg_home": 2.21,
+   "xg_away": 1.47,
+   "form_home": "WLLWW",
+   "form_away": "WDWWW",
+   "scored_home": 3,
+   "scored_away": 2.6,
+   "conceded_home": 1.3,
+   "conceded_away": 1.3,
+   "ko": "17:45",
+   "where": "",
+   "stage": "Matchday 2",
+   "home_short": "Lech Poznań",
+   "away_short": "Leverkusen",
+   "score_home": "0",
+   "score_away": "4",
+   "stadium": false
+  },
+  {
+   "home": "Alkmaar",
+   "away": "Hapoel Be`er Sheva FC",
+   "competition": "UEFA Europa League",
+   "kickoff": "17:45",
+   "home_win": 46,
+   "draw": 27,
+   "away_win": 27,
+   "xg_home": 1.59,
+   "xg_away": 1.18,
+   "form_home": "WWWWW",
+   "form_away": "DWWLW",
+   "scored_home": 2.2,
+   "scored_away": 1.4,
+   "conceded_home": 0.9,
+   "conceded_away": 1.2,
+   "ko": "17:45",
+   "where": "",
+   "stage": "Matchday 2",
+   "home_short": "AZ",
+   "away_short": "Hapoel Be'er Sheva",
+   "score_home": "2",
+   "score_away": "1",
+   "stadium": false
+  },
+  {
+   "home": "Sparta Prague",
+   "away": "Lillestroem SK",
+   "competition": "UEFA Europa League",
+   "kickoff": "17:45",
+   "home_win": 47,
+   "draw": 24,
+   "away_win": 29,
+   "xg_home": 1.83,
+   "xg_away": 1.4,
+   "form_home": "LLWWL",
+   "form_away": "WWLDD",
+   "scored_home": 2.5,
+   "scored_away": 1.7,
+   "conceded_home": 1,
+   "conceded_away": 1.4,
+   "ko": "17:45",
+   "where": "",
+   "stage": "Matchday 2",
+   "home_short": "Sparta Prague",
+   "away_short": "Lillestrøm",
+   "score_home": "1",
+   "score_away": "1",
+   "stadium": false
+  },
+  {
+   "home": "Hoffenheim",
+   "away": "Besiktas Istanbul",
+   "competition": "UEFA Europa League",
+   "kickoff": "20:00",
+   "home_win": 23,
+   "draw": 21,
+   "away_win": 56,
+   "xg_home": 1.35,
+   "xg_away": 2.11,
+   "form_home": "LWLLL",
+   "form_away": "WWWLW",
+   "scored_home": 1.7,
+   "scored_away": 2.3,
+   "conceded_home": 2.2,
+   "conceded_away": 1,
+   "ko": "20:00",
+   "where": "",
+   "stage": "Matchday 2",
+   "home_short": "Hoffenheim",
+   "away_short": "Beşiktaş",
+   "score_home": "2",
+   "score_away": "3",
+   "stadium": false
+  },
+  {
+   "home": "Bournemouth",
+   "away": "Sturm Graz",
+   "competition": "UEFA Europa League",
+   "kickoff": "20:00",
+   "home_win": 70,
+   "draw": 20,
+   "away_win": 10,
+   "xg_home": 2.11,
+   "xg_away": 0.74,
+   "form_home": "WDWLL",
+   "form_away": "WWDLW",
+   "scored_home": 1.5,
+   "scored_away": 1.3,
+   "conceded_home": 1.6,
+   "conceded_away": 1,
+   "ko": "20:00",
+   "where": "",
+   "stage": "Matchday 2",
+   "home_short": "Bournemouth",
+   "away_short": "Sturm Graz",
+   "score_home": "3",
+   "score_away": "0",
+   "stadium": false
+  },
+  {
+   "home": "Ferencvarosi Budapest",
+   "away": "Viktoria Plzen",
+   "competition": "UEFA Europa League",
+   "kickoff": "20:00",
+   "home_win": 64,
+   "draw": 20,
+   "away_win": 16,
+   "xg_home": 2.18,
+   "xg_away": 1.05,
+   "form_home": "WWWWW",
+   "form_away": "WDLWD",
+   "scored_home": 2.5,
+   "scored_away": 1.8,
+   "conceded_home": 0.6,
+   "conceded_away": 1.9,
+   "ko": "20:00",
+   "where": "",
+   "stage": "Matchday 2",
+   "home_short": "Ferencváros",
+   "away_short": "Viktoria Plzeň",
+   "score_home": "2",
+   "score_away": "1",
+   "stadium": false
+  },
+  {
+   "home": "GNK Dinamo Zagreb",
+   "away": "RSC Anderlecht",
+   "competition": "UEFA Europa League",
+   "kickoff": "20:00",
+   "home_win": 33,
+   "draw": 27,
+   "away_win": 40,
+   "xg_home": 1.27,
+   "xg_away": 1.39,
+   "form_home": "WWDLW",
+   "form_away": "WLWWL",
+   "scored_home": 2.1,
+   "scored_away": 1.4,
+   "conceded_home": 1.4,
+   "conceded_away": 0.7,
+   "ko": "20:00",
+   "where": "",
+   "stage": "Matchday 2",
+   "home_short": "Dinamo Zagreb",
+   "away_short": "Anderlecht",
+   "score_home": "1",
+   "score_away": "0",
+   "stadium": false
+  },
+  {
+   "home": "Jagiellonia Bialystok",
+   "away": "FC Ararat-Armenia",
+   "competition": "UEFA Europa League",
+   "kickoff": "20:00",
+   "home_win": 31,
+   "draw": 26,
+   "away_win": 43,
+   "xg_home": 1.33,
+   "xg_away": 1.61,
+   "form_home": "WLLLL",
+   "form_away": "WWLWD",
+   "scored_home": 1.8,
+   "scored_away": 1.5,
+   "conceded_home": 1.7,
+   "conceded_away": 1,
+   "ko": "20:00",
+   "where": "",
+   "stage": "Matchday 2",
+   "home_short": "Jagiellonia",
+   "away_short": "Ararat-Armenia",
+   "score_home": "3",
+   "score_away": "1",
+   "stadium": false
+  },
+  {
+   "home": "NEC Nijmegen",
+   "away": "PFC Levski Sofia",
+   "competition": "UEFA Europa League",
+   "kickoff": "20:00",
+   "home_win": 24,
+   "draw": 24,
+   "away_win": 52,
+   "xg_home": 1.25,
+   "xg_away": 1.86,
+   "form_home": "LWLLW",
+   "form_away": "WWLWD",
+   "scored_home": 1.3,
+   "scored_away": 1.6,
+   "conceded_home": 2.3,
+   "conceded_away": 1.1,
+   "ko": "20:00",
+   "where": "",
+   "stage": "Matchday 2",
+   "home_short": "NEC",
+   "away_short": "Levski Sofia",
+   "score_home": "1",
+   "score_away": "1",
+   "stadium": false
+  },
+  {
+   "home": "HNK Hajduk Split",
+   "away": "Ajax",
+   "competition": "UEFA Conference League",
+   "kickoff": "17:45",
+   "home_win": 39,
+   "draw": 24,
+   "away_win": 37,
+   "xg_home": 1.82,
+   "xg_away": 1.76,
+   "form_home": "WWWLW",
+   "form_away": "LWWDD",
+   "scored_home": 2.1,
+   "scored_away": 3.1,
+   "conceded_home": 0.9,
+   "conceded_away": 1.7,
+   "ko": "17:45",
+   "where": "",
+   "stage": "Matchday 2",
+   "home_short": "Hajduk Split",
+   "away_short": "Ajax",
+   "score_home": "2",
+   "score_away": "1",
+   "stadium": false
+  },
+  {
+   "home": "PFC CSKA Sofia",
+   "away": "Monaco",
+   "competition": "UEFA Conference League",
+   "kickoff": "17:45",
+   "home_win": 47,
+   "draw": 24,
+   "away_win": 29,
+   "xg_home": 1.85,
+   "xg_away": 1.46,
+   "form_home": "DWLLW",
+   "form_away": "WWWLL",
+   "scored_home": 2.3,
+   "scored_away": 2.1,
+   "conceded_home": 1.3,
+   "conceded_away": 1.4,
+   "ko": "17:45",
+   "where": "",
+   "stage": "Matchday 2",
+   "home_short": "CSKA Sofia",
+   "away_short": "Monaco",
+   "score_home": "1",
+   "score_away": "2",
+   "stadium": false
+  },
+  {
+   "home": "CS Universitatea Craiova",
+   "away": "Getafe",
+   "competition": "UEFA Conference League",
+   "kickoff": "17:45",
+   "home_win": 73,
+   "draw": 17,
+   "away_win": 10,
+   "xg_home": 2.31,
+   "xg_away": 0.79,
+   "form_home": "DLWDD",
+   "form_away": "LLWWL",
+   "scored_home": 1.9,
+   "scored_away": 0.8,
+   "conceded_home": 0.6,
+   "conceded_away": 1.3,
+   "ko": "17:45",
+   "where": "",
+   "stage": "Matchday 2",
+   "home_short": "U Craiova",
+   "away_short": "Getafe",
+   "score_home": "1",
+   "score_away": "1",
+   "stadium": false
+  },
+  {
+   "home": "Panathinaikos",
+   "away": "FK Borac Banja Luka",
+   "competition": "UEFA Conference League",
+   "kickoff": "17:45",
+   "home_win": 62,
+   "draw": 23,
+   "away_win": 15,
+   "xg_home": 1.84,
+   "xg_away": 0.78,
+   "form_home": "WWWWL",
+   "form_away": "LWWWW",
+   "scored_home": 1.8,
+   "scored_away": 2,
+   "conceded_home": 0.6,
+   "conceded_away": 0.8,
+   "ko": "17:45",
+   "where": "",
+   "stage": "Matchday 2",
+   "home_short": "Panathinaikos",
+   "away_short": "Borac",
+   "score_home": "2",
+   "score_away": "1",
+   "stadium": false
+  },
+  {
+   "home": "Atalanta",
+   "away": "Pafos FC",
+   "competition": "UEFA Conference League",
+   "kickoff": "20:00",
+   "home_win": 28,
+   "draw": 32,
+   "away_win": 40,
+   "xg_home": 0.93,
+   "xg_away": 1.15,
+   "form_home": "WLLLW",
+   "form_away": "WDWLW",
+   "scored_home": 1,
+   "scored_away": 1.4,
+   "conceded_home": 1,
+   "conceded_away": 1,
+   "ko": "20:00",
+   "where": "",
+   "stage": "Matchday 2",
+   "home_short": "Atalanta",
+   "away_short": "Pafos",
+   "score_home": "3",
+   "score_away": "1",
+   "stadium": false
+  },
+  {
+   "home": "Brighton",
+   "away": "FK Kauno Zalgiris",
+   "competition": "UEFA Conference League",
+   "kickoff": "20:00",
+   "home_win": 91,
+   "draw": 7,
+   "away_win": 2,
+   "xg_home": 3.11,
+   "xg_away": 0.46,
+   "form_home": "DWWWW",
+   "form_away": "WWLWW",
+   "scored_home": 2.5,
+   "scored_away": 2,
+   "conceded_home": 1,
+   "conceded_away": 0.7,
+   "ko": "20:00",
+   "where": "",
+   "stage": "Matchday 2",
+   "home_short": "Brighton",
+   "away_short": "Kauno Žalgiris",
+   "score_home": "4",
+   "score_away": "0",
+   "stadium": false
+  },
+  {
+   "home": "Copenhagen",
+   "away": "Braga",
+   "competition": "UEFA Conference League",
+   "kickoff": "20:00",
+   "home_win": 50,
+   "draw": 28,
+   "away_win": 22,
+   "xg_home": 1.45,
+   "xg_away": 0.88,
+   "form_home": "WWWWL",
+   "form_away": "WLWDL",
+   "scored_home": 2.1,
+   "scored_away": 1,
+   "conceded_home": 0.8,
+   "conceded_away": 0.8,
+   "ko": "20:00",
+   "where": "",
+   "stage": "Matchday 2",
+   "home_short": "Copenhagen",
+   "away_short": "Braga",
+   "score_home": "3",
+   "score_away": "0",
+   "stadium": false
+  },
+  {
+   "home": "Freiburg",
+   "away": "FK Jablonec",
+   "competition": "UEFA Conference League",
+   "kickoff": "20:00",
+   "home_win": 75,
+   "draw": 18,
+   "away_win": 7,
+   "xg_home": 2.3,
+   "xg_away": 0.66,
+   "form_home": "WWWDW",
+   "form_away": "WLDWW",
+   "scored_home": 3,
+   "scored_away": 0.9,
+   "conceded_home": 1.1,
+   "conceded_away": 0.9,
+   "ko": "20:00",
+   "where": "",
+   "stage": "Matchday 2",
+   "home_short": "Freiburg",
+   "away_short": "Jablonec",
+   "score_home": "3",
+   "score_away": "2",
+   "stadium": false
+  }
+ ],
+ "review": {
+  "beats": [
+   {
+    "type": "rx_cold",
+    "tint": "blue",
+    "people": [
+     "Keito Nakamura",
+     "Gonçalo Ramos",
+     "Randal Kolo Muani",
+     "Vangelis Pavlidis"
+    ],
+    "say": [
+     "This afternoon, we sent five postcards.",
+     "Milan scored four in Salzburg.",
+     "Juventus won it in stoppage time.",
+     "So, how many arrived?"
+    ],
+    "steps": [
+     {
+      "big": "5",
+      "label": "postcards this afternoon"
+     },
+     {
+      "big": "4",
+      "label": "Milan goals in Salzburg",
+      "tone": "hot"
+     },
+     {
+      "big": "90+2'",
+      "label": "the winner in Vigo",
+      "tone": "red"
+     },
+     {
+      "big": "?",
+      "label": "the results",
+      "tone": "hot",
+      "glitch": true
+     }
+    ],
+    "tail": 0.6
+   },
+   {
+    "type": "rx_intro",
+    "drop": true,
+    "crests": 5,
+    "title": "Our analysis",
+    "title2": "vs the results",
+    "say": [
+     "This afternoon's Europa League postcards, against tonight's results. Five calls. Let's see how many arrived."
+    ]
+   },
+   {
+    "type": "rx_take",
+    "match": 0,
+    "take": "**Lyon** don't lose",
+    "crests": [
+     "home"
+    ],
+    "people": [
+     "Keito Nakamura",
+     "Corentin Tolisso"
+    ],
+    "say": [
+     "We start in Lyon, at a quarter to six, with Pierre Sage back at his old club. Our call: Lyon don't lose."
+    ]
+   },
+   {
+    "type": "rx_reveal",
+    "match": 0,
+    "n": 1,
+    "of": 1,
+    "ok": true,
+    "scorers": "Tolisso 8' · Nuamah 45+2' · Pino 50' · Šulc 76' · Kamada 81'",
+    "people": [
+     "Keito Nakamura",
+     "Ernest Nuamah",
+     "Corentin Tolisso"
+    ],
+    "say": [
+     "Three–two to Lyon! Tolisso and Nuamah put them two up, Palace pulled one back twice, and Nakamura, on our postcard, set up two. Called it!"
+    ],
+    "tally_at": [
+     0,
+     0.928
+    ]
+   },
+   {
+    "type": "rx_take",
+    "match": 1,
+    "take": "**Milan** don't lose",
+    "crests": [
+     "away"
+    ],
+    "people": [
+     "Adrien Rabiot",
+     "Haris Tabaković"
+    ],
+    "say": [
+     "Same time, in Salzburg, unbeaten in fifteen games. Our call: Milan don't lose."
+    ]
+   },
+   {
+    "type": "rx_reveal",
+    "match": 1,
+    "n": 2,
+    "of": 2,
+    "ok": true,
+    "scorers": "Cissé 15' 32' 49' · Gonçalo Ramos 72'",
+    "people": [
+     "Gonçalo Ramos",
+     "Adrien Rabiot"
+    ],
+    "say": [
+     "Four–nil to Milan! Alphadjo Cissé became the youngest Italian to score a hat-trick in Europe, and Gonçalo Ramos added a fourth. Called it!"
+    ],
+    "tally_at": [
+     0,
+     0.928
+    ],
+    "sticker": {
+     "e": "🎩",
+     "at": 0.3,
+     "x": 50,
+     "y": 790,
+     "r": -10
+    }
+   },
+   {
+    "type": "rx_take",
+    "match": 2,
+    "take": "**Juventus** don't lose",
+    "crests": [
+     "away"
+    ],
+    "people": [
+     "Iago Aspas",
+     "Francisco Conceição"
+    ],
+    "say": [
+     "Eight o'clock, Vigo. Juventus had kept four clean sheets in a row in Europe. Our call: Juventus don't lose."
+    ]
+   },
+   {
+    "type": "rx_reveal",
+    "match": 2,
+    "n": 3,
+    "of": 3,
+    "ok": true,
+    "scorers": "Hugo Álvarez 18' · Woltemade 58' · Kolo Muani 90+2'",
+    "people": [
+     "Randal Kolo Muani",
+     "Nick Woltemade"
+    ],
+    "say": [
+     "Two–one to Juventus! Celta scored first, Woltemade levelled, and Kolo Muani headed the winner in stoppage time. Called it! Three from three."
+    ],
+    "tally_at": [
+     0,
+     0.8
+    ],
+    "sticker": {
+     "e": "⏱️",
+     "at": 0.62,
+     "x": 50,
+     "y": 790,
+     "r": 10
+    }
+   },
+   {
+    "type": "rx_take",
+    "match": 3,
+    "take": "**Olympiacos** don't lose",
+    "crests": [
+     "away"
+    ],
+    "people": [
+     "Amine Gouiri"
+    ],
+    "say": [
+     "In Marseille, the home side had lost four in a row in September. Our call: Olympiacos don't lose."
+    ]
+   },
+   {
+    "type": "rx_reveal",
+    "match": 3,
+    "n": 4,
+    "of": 4,
+    "ok": true,
+    "scorers": "Hezze 42'",
+    "people": [],
+    "say": [
+     "One–nil to Olympiacos! Hezze headed in the only goal before half-time, and Marseille never found a way back. Called it! Four from four."
+    ],
+    "tally_at": [
+     0,
+     0.807
+    ]
+   },
+   {
+    "type": "pc_board",
+    "kicker": "Europa League · matchday 2 · full time",
+    "l1": "Also",
+    "l2": "tonight",
+    "cols": 3,
+    "cards": [
+     {
+      "match": 5,
+      "city": "Celje",
+      "note": "Omonia: three away goals"
+     },
+     {
+      "match": 6,
+      "city": "Den Dreef, Leuven",
+      "note": "Honours even in Leuven"
+     },
+     {
+      "match": 7,
+      "city": "Leiria",
+      "note": "Sunderland win in Leiria"
+     },
+     {
+      "match": 8,
+      "city": "Poznań",
+      "note": "Four for Leverkusen"
+     },
+     {
+      "match": 9,
+      "city": "Alkmaar",
+      "note": "Three points for AZ"
+     },
+     {
+      "match": 10,
+      "city": "Prague",
+      "note": "Sparta's winning run ends"
+     },
+     {
+      "match": 11,
+      "city": "Sinsheim",
+      "note": "Two wins from two for Beşiktaş"
+     },
+     {
+      "match": 12,
+      "city": "Bournemouth",
+      "note": "A clean sheet, and six points"
+     },
+     {
+      "match": 13,
+      "city": "Budapest",
+      "note": "Ferencváros still unbeaten"
+     },
+     {
+      "match": 14,
+      "city": "Zagreb",
+      "note": "Dinamo edge Anderlecht"
+     },
+     {
+      "match": 15,
+      "city": "Białystok",
+      "note": "The losing run is over"
+     },
+     {
+      "match": 16,
+      "city": "Nijmegen",
+      "note": "A point for NEC"
+     }
+    ],
+    "hl": [
+     {
+      "j": 6,
+      "at": [
+       1,
+       0.0
+      ],
+      "to": [
+       1,
+       0.55
+      ]
+     },
+     {
+      "j": 3,
+      "at": [
+       1,
+       0.55
+      ]
+     }
+    ],
+    "say": [
+     "Before the last postcard, the rest of the Europa League.",
+     "Beşiktaş beat Hoffenheim three–two, and Leverkusen scored four in Poland."
+    ]
+   },
+   {
+    "type": "pc_board",
+    "kicker": "Conference League · matchday 1 · full time",
+    "l1": "Opening",
+    "l2": "night",
+    "cols": 2,
+    "cards": [
+     {
+      "match": 17,
+      "city": "Split",
+      "note": "Ajax beaten in Split"
+     },
+     {
+      "match": 18,
+      "city": "Sofia",
+      "note": "Monaco win away"
+     },
+     {
+      "match": 19,
+      "city": "Craiova",
+      "note": "A point for Getafe"
+     },
+     {
+      "match": 20,
+      "city": "Athens",
+      "note": "Panathinaikos bounce back"
+     },
+     {
+      "match": 21,
+      "city": "Bergamo",
+      "note": "Three for Atalanta"
+     },
+     {
+      "match": 22,
+      "city": "Brighton",
+      "note": "Four, and a clean sheet"
+     },
+     {
+      "match": 23,
+      "city": "Copenhagen",
+      "note": "Braga beaten again"
+     },
+     {
+      "match": 24,
+      "city": "Freiburg",
+      "note": "Five goals in Freiburg"
+     }
+    ],
+    "hl": [
+     {
+      "j": 0,
+      "at": [
+       0,
+       0.45
+      ]
+     }
+    ],
+    "say": [
+     "And on the Conference League's opening night, Ajax lost two–one at Hajduk Split."
+    ]
+   },
+   {
+    "type": "rx_take",
+    "match": 4,
+    "take": "A **Benfica** win",
+    "crests": [
+     "home"
+    ],
+    "people": [
+     "Vangelis Pavlidis",
+     "Callum McGregor"
+    ],
+    "say": [
+     "And the last postcard: Lisbon, where Celtic won the European Cup in nineteen sixty-seven. Our call: a Benfica win."
+    ]
+   },
+   {
+    "type": "rx_reveal",
+    "match": 4,
+    "n": 5,
+    "of": 5,
+    "ok": true,
+    "scorers": "J. Durán 5' (pen) 36' · Bah 23' · C. Durán 63' · Pavlidis 89'",
+    "people": [
+     "Jhon Durán",
+     "Vangelis Pavlidis",
+     "Alexander Bah"
+    ],
+    "say": [
+     "Benfica beat Celtic, four–one! Jhon Durán scored twice, Celtic's Camilo Durán pulled one back, and Pavlidis, on our postcard, made it four. Called it! Five from five!"
+    ],
+    "tally_at": [
+     0,
+     0.843
+    ],
+    "burst": {
+     "e": "🔥⚽🔥",
+     "at": 1.0
+    }
+   },
+   {
+    "type": "rx_outro",
+    "n": 5,
+    "of": 5,
+    "ok": true,
+    "sub": "on Thursday night",
+    "follow": "Follow for the next analysis",
+    "say": [
+     "Five postcards, five delivered. A perfect night. Follow for the next analysis."
+    ]
+   }
+  ]
+ }
+}
