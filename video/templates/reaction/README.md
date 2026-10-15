@@ -81,6 +81,23 @@ analysis file by a short script, so the picks, kits and crests came straight acr
 - **Stills cost time here:** each stills run redoes the presenter cut-out (about 10 minutes), so check the photos and
   names first and run one stills pass, not several.
 
+## Five ties, then every other score on postcard boards (15 Oct 2026)
+
+Reference: `uel-2026-10-15-reaction.json` (the five "Postcards from Europe" ties, 5 from 5). It was generated from the
+analysis file by `uel-2026-10-15-reaction-build.py`.
+- **The rest of the night:** the analysis's `pc_board` screens come back with the full-time score on each card.
+  - Give each board pick `score_home` / `score_away`. The card then shows "Celje 0–3 Omonia" and "FT".
+  - Give each board pick `stadium: false`, so the renderer doesn't look up 20 stadium photos it never shows.
+  - The board notes say what the score means ("Sparta's winning run ends"), from the analysis's own facts.
+- **Order:** the four earlier ties, then the boards, then the finale, so the tally reaches 4/4 before the board and 5/5 at the end.
+- **Intro crests:** `crests: 5` on `rx_intro` shows only the five ties' crests; all 25 games' crests crowded the title.
+- **Voice traps found by the hear-back:**
+  - "four–one to" was heard as "four went to": put the score last ("Benfica beat Celtic, four–one!");
+  - "beat Ajax" was heard as "Bade Jack's": "Ajax lost two–one at Hajduk Split";
+  - the voice can't say "Poznań" (the ń splits the word): "in Poland".
+- **Music:** when the four approved tracks are all in the last six, use a measured candidate (586 "Charlotte" here).
+  Find the real hit by ear or by level (586's is at 17.35 s, not the tagged 16.96 s) and set `music_drop_at`.
+
 ## Prediction-market plays (Polymarket)
 
 `polymarket-2026-10-02.json` is the reference: the presenter, then one `pm_pick` card per app pick (the app's pick and confidence, the Polymarket question, our side lit green, the price and "$100 → $X"), a `pm_slate` and a `pm_outro`. The rules for converting picks are in `.claude/skills/cmvng-video/SKILL.md` ("Prediction-market plays"). Refresh prices with `python3 video/lib/pm_prices.py <file>` before rendering.
