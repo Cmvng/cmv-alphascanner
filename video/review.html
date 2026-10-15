@@ -2408,7 +2408,8 @@ const built = D.scenes.map((sc, k) => {
   } else if (sc.type === 'rx_cold') {
     el.innerHTML = `<div class="dark"></div><div class="bigc A"></div><div class="labc"></div>`; if (b.tint === 'blue') el.classList.add('blue')
   } else if (sc.type === 'rx_intro') {
-    el.innerHTML = `<div class="crw">${D.picks.map(q => badge(q.bh) + badge(q.ba)).join('')}</div><div class="big A">${html(b.title || 'Our takes')}<br><span>${html(b.title2 || 'vs the results')}</span></div>`
+    // crests: n shows only the first n picks (the ties we judge, not the board games after them)
+    el.innerHTML = `<div class="crw">${D.picks.slice(0, b.crests ?? D.picks.length).map(q => badge(q.bh) + badge(q.ba)).join('')}</div><div class="big A">${html(b.title || 'Our takes')}<br><span>${html(b.title2 || 'vs the results')}</span></div>`
   } else if (sc.type === 'rx_take' || sc.type === 'rx_reveal') {
     const q = D.picks[sc.i]
     const fx = `<div class="fx"><div class="t">${badge(q.bh)}<b>${html(q.home)}</b></div><div class="mid">${sc.type === 'rx_take' ? html(q.kickoff || '') : 'FT'}<span>${html(q.stage || q.competition || '')}</span></div><div class="t a">${badge(q.ba)}<b>${html(q.away)}</b></div></div>`
