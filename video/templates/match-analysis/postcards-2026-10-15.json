@@ -12,6 +12,7 @@
  "music_drop": "after_cold",
  "music_duck": 10,
  "music_track": 625,
+ "music_drop_at": 39.18,
  "stadiums": false,
  "media_dir": ".cache/media/analysis-2026-10-15-postcards",
  "review": {
@@ -78,8 +79,8 @@
       "stat": "Scored at Anderlecht on matchday 1",
       "photo": "p_keito_nakamura.jpg",
       "at": [
-       1,
-       0.1
+       0,
+       0.72
       ]
      },
      {
@@ -90,7 +91,7 @@
       "photo": "p_j_rgen_strand_larsen.jpg",
       "at": [
        1,
-       0.45
+       0.2
       ]
      }
     ],
@@ -105,6 +106,10 @@
      "Our call: Lyon don't lose."
     ],
     "credit": "Groupama Stadium, Lyon · Photo: Alexis Klein · CC BY-SA 4.0  ·  Keito Nakamura · Photo: Werner100359 · CC BY-SA 4.0  ·  Jørgen Strand Larsen · Photo: Bryan Berlin · CC BY-SA 4.0",
+    "flip_at": [
+     0,
+     0.29
+    ],
     "verdict_at": [
      3,
      0.0
@@ -231,8 +236,8 @@
       "stat": "Scored twice against Paris FC",
       "photo": "p_amine_gouiri.jpg",
       "at": [
-       1,
-       0.1
+       0,
+       0.85
       ]
      },
      {
@@ -242,7 +247,7 @@
       "stat": "3 assists this season",
       "at": [
        1,
-       0.45
+       0.3
       ]
      }
     ],
@@ -257,8 +262,8 @@
     ],
     "credit": "Stade Vélodrome, Marseille · Photo: Bernard Ddd · CC BY-SA 2.0  ·  Amine Gouiri · Photo: Supporterhéninois",
     "flip_at": [
-     1,
-     0
+     0,
+     0.41
     ],
     "model": false,
     "verdict_at": [
@@ -285,8 +290,8 @@
       "stat": "14 goals this season",
       "photo": "p_vangelis_pavlidis.jpg",
       "at": [
-       1,
-       0.05
+       0,
+       0.8
       ]
      },
      {
@@ -312,6 +317,10 @@
      "Our call: a Benfica win."
     ],
     "credit": "Estádio da Luz, Lisbon · Photo: Massimo Catarinella · CC BY 3.0  ·  Vangelis Pavlidis · Photo: Carlo Bruil Fotografie · CC BY 2.0  ·  Callum McGregor · Photo: Hameltion · CC BY-SA 4.0",
+    "flip_at": [
+     0,
+     0.35
+    ],
     "verdict_at": [
      3,
      0.0

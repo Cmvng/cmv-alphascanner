@@ -58,7 +58,7 @@ beats.append(dict(type='pc_end', l1="Tonight's", l2='postcards', kicker=DATA['en
 
 cfg = {'mode': 'review', 'title': 'Postcards from Europe: Europa League Thursday, 15 Oct', 'competition': 'UEFA Europa League', 'date': '2026-10-15',
   'sound': 'cinematic', 'voice_fx': 'deep', 'voice_speed': 1.05, 'music_vibe': ['cinematic'], 'music_drop': 'after_cold', 'music_duck': 10,
-  'music_track': DATA['music_track'], 'stadiums': False, 'media_dir': '.cache/media/analysis-2026-10-15-postcards',
+  'music_track': DATA['music_track'], **({'music_drop_at': DATA['music_drop_at']} if 'music_drop_at' in DATA else {}), 'stadiums': False, 'media_dir': '.cache/media/analysis-2026-10-15-postcards',
   'review': {'project': 'Postcards from Europe', 'beats': beats}, 'picks': picks}
 json.dump(cfg, open(O + 'analysis-2026-10-15-postcards.json', 'w'), ensure_ascii=False, indent=1)
 w = sum(len(' '.join(b['say']).split()) for b in beats)

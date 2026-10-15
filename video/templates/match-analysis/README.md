@@ -287,7 +287,9 @@ games and the Conference League's opening night (8 games) on two boards.
 
 - **A tie** (`pc_tie`), on a light-blue desk:
   - **Front:** the card slides in, showing the stadium photo, "Greetings from" and the city (sized to fit) with a blue offset shadow, plus a kick-off chip.
-  - **The flip:** on `flip_at` (default: the start of line 2) the card turns over (rotateY 180, a page-turn sound).
+  - **The flip:** on `flip_at` (default: the start of line 2) the card turns over (rotateY 180, a page-turn sound). Flip within
+    about 3 s: while the front shows, the bottom half of the screen is empty. With a long first line, set `flip_at` to the
+    phrase that the first note repeats (Lyon: "Pierre Sage coached…", at 0.29 of line 1), and tape the first polaroid on before line 2.
   - **Back, left:** the notes write themselves in by hand (Caveat, clip-path reveal, 0.9 s apart), signed "— cmvng".
   - **Back, right:** a stamp (the home crest on the home kit colour), an SVG postmark with the city, kick-off time and date, and the address "To <away>".
   - **The numbers:** the model bars fill along the address lines on `model_at`, each labelled with the team's short name.
@@ -302,4 +304,7 @@ games and the Conference League's opening night (8 games) on two boards.
   - Keep the cold-open number off the cards: light text on cream paper can't be read.
   - Keep the verdict stamp inside the message column so it never covers the numbers.
   - Wrap scores ("4–1") so they never break across a line (`pcNb`).
+- **Music 625 ("Fragments Of Bangkok"):** its tagged drop (35.95 s) is a lone hit, then silence, a hit and more silence;
+  the full groove starts at 39.18 s. Set `"music_drop_at": 39.18` so the title lands on the groove (+7.5 dB instead of +2.1 dB).
+  Before using any drop track, check the second after its tagged drop is sustained, not a single hit.
 - **Pronunciation:** IPA added for Aspas, Iago, Camarda, Openda, Mateta, Sage, Pierre, Torreense, Leiria and Ferencváros. The hear-back still writes Lyon as "Leon"; that is a spelling difference only.

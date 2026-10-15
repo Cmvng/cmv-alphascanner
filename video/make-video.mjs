@@ -181,6 +181,7 @@ if (cfg.music !== false) {
   try {
     const track = typeof cfg.music === 'string' && cfg.music !== 'auto' ? { file: cfg.music, start: cfg.music_start ?? 0, credit: '' } : pickTrack()
     if (track.url) track.file = await download(track.url, path.join(CACHE, 'music', path.basename(track.url)))
+    if (cfg.music_drop_at != null && track.drop != null) track.drop = cfg.music_drop_at     // a track whose tagged drop is only a lone hit: land the title on the full groove instead (625: 39.18 s)
     const bj = path.join(OUT, 'beats.json')
     await run(PY, [path.join(DIR, 'audio.py'), 'beats', track.file, String(track.start), bj])
     music = { ...track, ...JSON.parse(fs.readFileSync(bj, 'utf8')) }
