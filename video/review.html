@@ -1282,6 +1282,87 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#03060F}
 .stk{position:absolute;font-size:240px;line-height:1;filter:drop-shadow(0 20px 40px rgba(0,0,0,.55))}
 .pcl{position:absolute;font-size:90px;line-height:1}
 
+/* ten in a row (st_*, first used 16 Oct 2026): a predictions short built on a streak. A row of slots holds last
+   night's calls (green ticks) and tonight's (numbered, then the backed side's crest as each call lands). Each call: a
+   kit-colour versus card, one fact, our numbers, a 3-2-1 "make your call" countdown in a pause of the voice, then the
+   call stamped. Light page; royal blue under the cold open. Green only for calls that came in. */
+.st{overflow:hidden}
+.st .st-pg{position:absolute;inset:0;background:radial-gradient(90% 60% at 50% 40%,#EEF4FF 0%,#DCE9FB 62%,#C9DBF5 100%)}
+.st .st-pg::after{content:'';position:absolute;inset:0;background:repeating-linear-gradient(115deg,rgba(31,95,219,.035) 0 2px,transparent 2px 9px)}
+.st .st-row{position:absolute;left:0;right:0;display:flex;justify-content:center;gap:14px}
+.st .st-row i{position:relative;display:flex;align-items:center;justify-content:center;width:72px;height:72px;border-radius:50%;border:4px solid #A9BEDF;background:#fff;box-sizing:border-box;flex:none;font:400 32px/1 Anton;color:#8FA3C9;font-style:normal}
+.st .st-row i .badge{width:50px;height:50px;display:none}
+.st .st-row i em{font-style:normal}
+.st .st-row i.ok{background:#1E9E62;border-color:#1E9E62;color:#fff;font-size:38px}
+.st .st-row i.on .badge{display:block}
+.st .st-row i.on em{display:none}
+.st .st-row i.on{border-color:#1F5FDB}
+.st .st-row i.cur{border-color:#1F5FDB;color:#1F5FDB;box-shadow:0 0 0 8px rgba(31,95,219,.18)}
+.st .st-row.big i{width:84px;height:84px;font-size:38px}
+.st .st-row.big i .badge{width:60px;height:60px}
+/* the cold open: the slots on deep royal blue, one number per line */
+.st .st-cold{position:absolute;inset:0;background:radial-gradient(85% 60% at 50% 42%,#164AA6 0%,#0D3B8E 55%,#0A2C6E 100%)}
+.st .st-cold .st-row i{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.5);color:rgba(255,255,255,.65)}
+.st .st-cold .st-row i.ok{background:#1E9E62;border-color:#3DD68C;color:#fff}
+.st .st-cbig{position:absolute;left:0;right:0;top:690px;text-align:center;font:400 300px/1 Anton;color:#fff;white-space:nowrap}
+.st .st-cbig.hot{color:#9FD2FF}
+.st .st-cbig.green{color:#5BE39B}
+.st .st-cbig.red{color:#FF8A96}
+.st .st-clab{position:absolute;left:0;right:0;top:1030px;text-align:center;font:700 28px JBM;letter-spacing:7px;text-transform:uppercase;color:#DCE9FB}
+/* the title */
+.st .st-tt{position:absolute;left:50px;right:50px;top:250px;text-align:center}
+.st .st-tt .k{font:700 26px JBM;letter-spacing:6px;text-transform:uppercase;color:#1F5FDB}
+.st .st-tt .a{margin-top:18px;font:400 200px/.86 Anton;text-transform:uppercase;color:#0B1F4D}
+.st .st-tt .a span{color:#1F5FDB}
+.st .st-tt .b{margin-top:22px;font:800 36px Manrope;color:#41557D}
+.st .st-fx{position:absolute;left:80px;right:80px;top:960px;display:flex;flex-direction:column;gap:14px}
+.st .st-fx>div{display:flex;align-items:center;gap:14px;padding:14px 22px;border-radius:16px;background:#fff;box-shadow:0 10px 26px rgba(11,31,77,.14);font:800 30px Manrope;color:#0B1F4D;white-space:nowrap}
+.st .st-fx .badge{width:48px;height:48px;flex:none}
+.st .st-fx small{margin-left:auto;font:700 22px JBM;letter-spacing:2px;color:#1F5FDB}
+/* a call */
+.st .st-hd{position:absolute;left:60px;right:60px;top:166px;display:flex;justify-content:space-between;font:700 22px JBM;letter-spacing:4px;text-transform:uppercase;color:#1F5FDB}
+.st .st-hd b{color:#0B1F4D}
+.st .st-vs{position:absolute;left:40px;right:40px;top:226px;height:560px;border-radius:28px;overflow:hidden;box-shadow:0 30px 70px rgba(11,31,77,.3)}
+.st .st-vs::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.12),rgba(0,0,0,.14));pointer-events:none}
+.st .st-vs .t{position:absolute;top:0;bottom:0;width:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;z-index:1}
+.st .st-vs .t.h{left:0}
+.st .st-vs .t.a{right:0}
+.st .st-vs .cr{width:240px;height:240px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 14px 34px rgba(0,0,0,.3)}
+.st .st-vs .cr .badge{width:180px;height:180px}
+.st .st-vs .t b{font:400 58px/1 Anton;text-transform:uppercase;text-align:center;padding:0 16px;letter-spacing:1px}
+.st .st-vs .v{position:absolute;left:50%;top:50%;width:116px;height:116px;margin:-58px 0 0 -58px;border-radius:50%;background:#0B1F4D;color:#fff;font:400 52px/116px Anton;text-align:center;box-shadow:0 0 0 8px #fff;z-index:2}
+.st .st-fact{position:absolute;left:60px;right:60px;top:826px;padding:24px 30px 26px;border-radius:22px;background:#fff;box-shadow:0 16px 40px rgba(11,31,77,.16);font:800 38px/1.25 Manrope;color:#0B1F4D}
+.st .st-fact small{display:block;font:700 20px JBM;letter-spacing:4px;text-transform:uppercase;color:#1F5FDB;margin-bottom:10px}
+.st .st-num{position:absolute;left:60px;right:60px;top:1046px}
+.st .st-num .k{font:700 20px JBM;letter-spacing:4px;text-transform:uppercase;color:#41557D}
+.st .st-num .br{display:flex;height:34px;border-radius:10px;overflow:hidden;background:#C9D7EE;margin-top:10px}
+.st .st-num .br i{display:block;height:100%;width:0}
+.st .st-num .bl{display:flex;justify-content:space-between;margin-top:8px;font:800 24px Manrope;color:#0B1F4D}
+.st .st-num .bl small{display:block;font:700 13px JBM;letter-spacing:2px;color:#7A8CB0;text-transform:uppercase}
+.st .st-num .bl span:nth-child(2){text-align:center;color:#7A8CB0}
+.st .st-num .bl span:nth-child(3){text-align:right}
+.st .st-cd{position:absolute;left:0;right:0;top:1180px;display:flex;flex-direction:column;align-items:center;opacity:0}
+.st .st-cd .ring{width:190px;height:190px;border-radius:50%;background:#0B1F4D;color:#fff;font:400 116px/190px Anton;text-align:center;box-shadow:0 0 0 10px rgba(31,95,219,.25)}
+.st .st-cd small{margin-top:18px;font:700 24px JBM;letter-spacing:6px;text-transform:uppercase;color:#1F5FDB}
+.st .st-cv{position:absolute;left:60px;right:60px;top:1186px;padding:24px 30px 30px;border-radius:26px;text-align:center;opacity:0;box-shadow:0 26px 60px rgba(11,31,77,.35)}
+.st .st-cv small{display:block;font:700 24px JBM;letter-spacing:7px;text-transform:uppercase;opacity:.85}
+.st .st-cv b{display:block;margin-top:8px;font:400 100px/1 Anton;text-transform:uppercase;white-space:nowrap}
+/* the end: tonight's five waiting */
+.st .st-e1{position:absolute;left:50px;right:50px;top:250px;text-align:center;font:400 168px/.88 Anton;text-transform:uppercase;color:#0B1F4D}
+.st .st-e1 span{color:#1F5FDB}
+.st .st-ek{position:absolute;left:60px;right:60px;top:730px;text-align:center;font:800 40px/1.3 Manrope;color:#0B1F4D}
+.st .st-ek small{display:block;font:700 22px JBM;letter-spacing:5px;color:#1F5FDB;margin-bottom:12px;text-transform:uppercase}
+.st .st-cm{position:absolute;left:80px;right:80px;top:900px;padding:26px 30px;border-radius:24px;background:#fff;box-shadow:0 16px 40px rgba(11,31,77,.18);display:flex;align-items:center;gap:22px;font:800 36px/1.25 Manrope;color:#0B1F4D}
+.st .st-cm .em{font-size:64px;line-height:1}
+.st .st-fol{position:absolute;left:0;right:0;top:1120px;display:flex;flex-direction:column;align-items:center;gap:14px}
+.st .st-fol b{padding:18px 40px;border-radius:999px;background:#1F5FDB;color:#fff;font:800 38px Manrope;box-shadow:0 14px 30px rgba(31,95,219,.35)}
+.st .st-fol span{font:700 20px JBM;letter-spacing:5px;text-transform:uppercase;color:#41557D}
+#cap.stc .c{color:#0B1F4D;background:rgba(255,255,255,.95);padding:14px 30px 16px;border-radius:18px;text-shadow:none;box-shadow:0 14px 36px rgba(11,31,77,.22);font:800 44px/1.28 Manrope;letter-spacing:-.5px;-webkit-text-stroke:0;text-transform:none}
+#cap.stc .w.now{background:none;box-shadow:none;color:#1F5FDB;padding:0;margin:0 .13em}
+#cap.stc .w.next{opacity:1;color:#A9B7CF}
+#cap.stn .c{color:#fff;background:rgba(5,22,66,.5)}
+#cap.stn .w.now{color:#9FD2FF}
+#cap.stn .w.next{color:rgba(255,255,255,.5)}
 /* postcards from Europe (pc_*, first used 15 Oct 2026): each tie a postcard from the host city. The front is the
    stadium's photo with "Greetings from <city>"; it flips to the back, where the analysis is written by hand, the home
    crest is the stamp, the kick-off is the postmark, and our call is rubber-stamped across it. The rest of the night is
@@ -2309,6 +2390,9 @@ function mkBg(sc, k) {
   if (/^gl_/.test(sc.type)) {        // follow the sun draws its own sky; deep royal blue under the cold open
     const d = document.createElement('div'); d.className = 'bg none'; d.style.background = sc.type === 'gl_cold' ? '#0B2A6F' : '#D6E8FF'; d.style.filter = 'none'; $('#bgs').appendChild(d); return d
   }
+  if (/^st_/.test(sc.type)) {        // ten in a row draws its own page; deep royal blue under the cold open
+    const d = document.createElement('div'); d.className = 'bg none'; d.style.background = sc.type === 'st_cold' ? '#0D3B8E' : '#DCE9FB'; d.style.filter = 'none'; $('#bgs').appendChild(d); return d
+  }
   if (/^pc_/.test(sc.type)) {        // the postcards draw their own desk; deep royal blue under the cold open
     const d = document.createElement('div'); d.className = 'bg none'; d.style.background = sc.type === 'pc_cold' ? '#0D3B8E' : '#DCE9FB'; d.style.filter = 'none'; $('#bgs').appendChild(d); return d
   }
@@ -2803,6 +2887,30 @@ const built = D.scenes.map((sc, k) => {
         return `<div class="en-mc${j === cats.length - 1 && cats.length % 2 ? ' wide' : ''}" style="border-left-color:${kh.bg}"><div class="en-mt">${badge(p.bh)}${badge(p.ba)}<span>${html(p.ko || '')} · ${html(p.where || '')}</span></div><b>${html(v.short || v.text || '')}</b><span>${html(v.score ? 'Likeliest ' + v.score : '')}</span></div>` }).join('')
       el.innerHTML = `<div class="en-stage"></div>${enPhotoLayer(ph)}<div class="en-pg">${top(`<b>${html(b.when || '')}</b>`)}<div class="en-e1">${html(b.l1 || '')} <span>${html(b.l2 || '')}</span></div><div class="en-grid">${cards}</div>
         <div class="en-fol" style="top:${b.fol_top ?? 1260}px"><b>${html(b.follow || 'Follow for the post-match')}</b><span>Football, by the numbers</span></div></div>`
+    }
+  } else if (/^st_/.test(sc.type)) {
+    el.classList.add('st')
+    const calls = D.scenes.filter(x => x.type === 'st_call'), ci = calls.indexOf(sc), prev = D.cfg.streak_prev ?? 5, q = D.picks[b.match ?? 0] || M
+    const slot = (c, i) => { const cb = c.data || {}, q2 = D.picks[cb.match ?? 0] || M; return `<i data-i="${i}" data-c="${i - prev}">${badge(cb.side === 'away' ? q2.ba : q2.bh)}<em>${i + 1}</em></i>` }
+    const row = (top, big, cold) => `<div class="st-row${big ? ' big' : ''}" style="top:${top}px">${Array.from({ length: prev }, (_, i) => `<i class="${cold ? '' : 'ok'}" data-i="${i}" data-p="1">✓</i>`).join('')}${calls.map((c, j) => slot(c, prev + j)).join('')}</div>`
+    if (sc.type === 'st_cold') {
+      el.innerHTML = `<div class="st-cold"></div>${row(520, true, true)}<div class="st-cbig"></div><div class="st-clab"></div>`
+    } else if (sc.type === 'st_title') {
+      const fx = calls.map(c => { const p = D.picks[c.data.match ?? 0] || M; return `<div>${badge(p.bh)}${badge(p.ba)}<span>${html(vrName(p, 'home'))} v ${html(vrName(p, 'away'))}</span><small>${html(p.ko || p.kickoff || '')}</small></div>` }).join('')
+      el.innerHTML = `<div class="st-pg"></div><div class="st-tt"><div class="k">${html(b.kicker || '')}</div><div class="a">${html(b.l1 || 'Ten in')}<br><span>${html(b.l2 || 'a row?')}</span></div><div class="b">${html(b.sub || '')}</div></div>${row(800, false)}<div class="st-fx">${fx}</div>`
+    } else if (sc.type === 'st_call') {
+      const kh = vrKit(q, 'home'), ka = vrKit(q, 'away'), hw = q.home_win ?? 0, dr = q.draw ?? 0, aw = q.away_win ?? 0, tot = Math.max(1, hw + dr + aw)
+      const nm = s => { const n = vrName(q, s); return `<b style="color:${vrInk(s === 'away' ? ka.bg : kh.bg)};font-size:${Math.min(58, Math.floor(430 / (0.45 * Math.max(6, [...n].length))))}px">${html(n)}</b>` }
+      const kv = b.side === 'away' ? ka : kh, vtx = b.verdict || '', vfs = Math.min(100, Math.floor(860 / (0.44 * Math.max(8, [...vtx].length))))
+      const num = b.model === false ? '' : `<div class="st-num"><div class="k">${html(b.model_label || 'Our numbers')}</div><div class="br"><i style="background:${kh.bg}" data-w="${n1(100 * hw / tot)}"></i><i style="background:#B8C6DD" data-w="${n1(100 * dr / tot)}"></i><i style="background:${clash(kh.bg, ka.bg) ? '#9FB0CC' : ka.bg}" data-w="${n1(100 * aw / tot)}"></i></div><div class="bl"><span><small>${html(vrName(q, 'home'))}</small>${hw}%</span><span><small>Draw</small>${dr}%</span><span><small>${html(vrName(q, 'away'))}</small>${aw}%</span></div></div>`
+      el.innerHTML = `<div class="st-pg"></div>${row(64, false)}
+        <div class="st-hd"><span>${html(b.left || q.competition || '')} · <b>${html(q.ko || q.kickoff || '')}</b></span><span>Call ${prev + ci + 1} of ${prev + calls.length}</span></div>
+        <div class="st-vs" style="background:linear-gradient(105deg,${kh.bg} 0 50%,#FFFFFF 50% 50.5%,${ka.bg} 50.5% 100%)"><div class="t h"><div class="cr">${badge(q.bh)}</div>${nm('home')}</div><div class="v">V</div><div class="t a"><div class="cr">${badge(q.ba)}</div>${nm('away')}</div></div>
+        <div class="st-fact"><small>${html(b.fact_label || 'The story')}</small>${pcNb(b.fact || '')}</div>${num}
+        <div class="st-cd"><div class="ring">3</div><small>${html(b.count_label || 'Make your call')}</small></div>
+        <div class="st-cv" style="background:${kv.bg};color:${vrInk(kv.bg)}"><small>${html(b.verdict_label || 'Our call')}</small><b style="font-size:${vfs}px">${html(vtx)}</b></div>`
+    } else if (sc.type === 'st_end') {
+      el.innerHTML = `<div class="st-pg"></div><div class="st-e1">${html(b.l1 || 'Ten in')}<br><span>${html(b.l2 || 'a row?')}</span></div>${row(600, true)}<div class="st-ek"><small>${html(b.kicker || '')}</small>${html(b.text || '')}</div>${b.comment ? `<div class="st-cm"><span class="em">💬</span><span>${html(b.comment)}</span></div>` : ''}<div class="st-fol"><b>${html(b.follow || 'Follow for the results')}</b><span>${html(b.tag || 'Football, by the numbers')}</span></div>`
     }
   } else if (/^pc_/.test(sc.type)) {
     el.classList.add('pc')
@@ -3619,6 +3727,50 @@ function draw(k, lt, sc) {
       $$('.en-mc', el).forEach((d, i) => { const a = 0.6 + i * 0.12, q2 = P(lt, a, a + 0.4, E.outBack); d.style.opacity = lt >= a ? 1 : 0; d.style.transform = `scale(${n1(0.6 + 0.4 * q2)})` })
       rise([$('.en-fol', el)], lt, vrT(sc, sc.lines.length - 1, 0), 0, 30)
     }
+  } else if (/^st_/.test(sc.type)) {
+    const vt = (a, d) => vrT(sc, ...(a || d)), last = sc.lines.length - 1, prev = D.cfg.streak_prev ?? 5
+    const calls = D.scenes.filter(x => x.type === 'st_call'), ci = calls.indexOf(sc), slots = $$('.st-row i', el)
+    if (sc.type === 'st_cold') {
+      // one number per line; last night's slots tick green, then tonight's appear
+      const steps = b.steps || [], nl = sc.lines.filter(l => lt >= l[0] - 0.08).length, j = Math.max(0, Math.min(steps.length - 1, nl - 1)), st = steps[j] || {}
+      const big = $('.st-cbig', el), lab = $('.st-clab', el), a = S(sc, j)[0] ?? 0
+      if (big._j !== j) { big._j = j; big.textContent = st.big || ''; big.className = 'st-cbig' + (st.tone ? ' ' + st.tone : ''); lab.textContent = st.label || ''; big.style.fontSize = Math.min(300, Math.floor(980 / (0.5 * Math.max(1, [...(st.big || '')].length)))) + 'px' }
+      slam(big, lt, a - 0.05, 1.6, 0.26); lab.style.opacity = n1(P(lt, a + 0.15, a + 0.45))
+      if (st.glitch) { const g = glitch(big, lt, a + (st.glitch_at || 0.3)); if (g) big.style.transform += g }
+      const t0 = S(sc, 0)[0] ?? 0, tOk = S(sc, b.tick_line ?? 1)[0] ?? 1, tMore = S(sc, b.more_line ?? 2)[0] ?? 2
+      slots.forEach(n => { const i = +n.dataset.i, p = n.dataset.p === '1', at = p ? t0 + i * 0.1 : tMore + (i - prev) * 0.1, q2 = P(lt, at, at + 0.35, E.outBack)
+        n.style.opacity = n1(P(lt, at, at + 0.1)); n.style.transform = `scale(${n1(0.4 + 0.6 * q2)})`
+        if (p) { const tk = tOk + i * 0.22; n.classList.toggle('ok', lt >= tk); if (lt >= tk && lt < tk + 0.25) n.style.transform = `scale(${n1(1 + 0.25 * (1 - (lt - tk) / 0.25))})` } })
+    } else if (sc.type === 'st_title') {
+      slam($('.st-tt .a', el), lt, 0.05, 1.5, 0.3); rise([$('.st-tt .k', el), $('.st-tt .b', el)], lt, 0.35, 0.15, 24)
+      slots.forEach((n, i) => { const at = 0.6 + i * 0.07, q2 = P(lt, at, at + 0.35, E.outBack); n.style.opacity = n1(P(lt, at, at + 0.1)); n.style.transform = `scale(${n1(0.4 + 0.6 * q2)})` })
+      rise($$('.st-fx>div', el), lt, 1.0, 0.12, 40)
+    } else if (sc.type === 'st_call') {
+      const tL0 = (S(sc, 0)[0] ?? 0) + (S(sc, 0)[1] ?? 1), tL1 = S(sc, 1)[0] ?? tL0 + 1.5, tV = vt(b.verdict_at, [1, 0.35]), tM = vt(b.model_at, [0, 0.55])
+      $('.st-hd', el).style.opacity = n1(P(lt, 0.05, 0.4))
+      const vs = $('.st-vs', el), qi = P(lt, 0, 0.55, E.outBack); vs.style.opacity = n1(P(lt, 0, 0.15))
+      vs.style.transform = `translate3d(0,${n1(80 * (1 - qi))}px,0) scale(${n1(0.94 + 0.06 * qi)}) ${shake(lt, tV + 0.2, 8)}`
+      $$('.st-vs .cr', el).forEach((n, i) => { const at = 0.3 + i * 0.12, q2 = P(lt, at, at + 0.4, E.outBack); n.style.transform = `scale(${n1(0.5 + 0.5 * q2)})` })
+      const v = $('.st-vs .v', el), qv0 = P(lt, 0.45, 0.75, E.outBack); v.style.transform = `scale(${n1(qv0)}) rotate(${n1(-90 * (1 - qv0))}deg)`
+      rise([$('.st-fact', el)], lt, vt(b.fact_at, [0, 0.05]), 0, 40)
+      const nb = $('.st-num', el)
+      if (nb) { rise([nb], lt, tM - 0.2, 0, 30); $$('.st-num .br i', el).forEach((n, i) => { n.style.width = n1(+n.dataset.w * P(lt, tM + i * 0.1, tM + 0.7 + i * 0.1, E.outCubic)) + '%' }) }
+      // the countdown fills the pause after the first line: 3, 2, 1
+      const cd = $('.st-cd', el), ring = $('.st-cd .ring', el), gap = Math.max(0.6, tL1 - tL0), k3 = clamp((lt - tL0) / gap)
+      cd.style.opacity = n1(P(lt, tL0 - 0.05, tL0 + 0.1) * (1 - P(lt, tL1 - 0.05, tL1 + 0.12)))
+      const dg = 3 - Math.min(2, Math.floor(k3 * 3)); if (ring._d !== dg) { ring._d = dg; ring.textContent = dg }
+      ring.style.transform = lt >= tL0 && lt < tL1 ? `scale(${n1(1.18 - 0.18 * Math.min(1, ((k3 * 3) % 1) * 3))})` : ''
+      // our call, stamped; its slot in the streak fills with the crest
+      const cv = $('.st-cv', el), qc = P(lt, tV, tV + 0.22, E.outCubic)
+      cv.style.opacity = n1(P(lt, tV, tV + 0.05)); cv.style.transform = `scale(${n1(1.5 - 0.5 * qc)}) rotate(${n1(-3 * qc)}deg)`
+      slots.forEach(n => { const c = Number(n.dataset.c); if (n.dataset.p === '1' || Number.isNaN(c)) return
+        const done = c < ci || (c === ci && lt >= tV + 0.15); n.classList.toggle('on', done); n.classList.toggle('cur', c === ci && !done)
+        n.style.transform = c === ci && lt >= tV + 0.15 && lt < tV + 0.45 ? `scale(${n1(1 + 0.3 * (1 - (lt - tV - 0.15) / 0.3))})` : '' })
+    } else if (sc.type === 'st_end') {
+      rise([$('.st-e1', el)], lt, 0.05, 0, 30)
+      slots.forEach((n, i) => { if (n.dataset.p !== '1') n.classList.add('on'); const at = 0.3 + i * 0.07, q2 = P(lt, at, at + 0.35, E.outBack); n.style.opacity = n1(P(lt, at, at + 0.1)); n.style.transform = `scale(${n1(0.4 + 0.6 * q2)})` })
+      rise([$('.st-ek', el), $('.st-cm', el)], lt, 0.6, 0.25, 30); rise([$('.st-fol', el)], lt, vrT(sc, last, 0), 0, 30)
+    }
   } else if (/^pc_/.test(sc.type)) {
     const vt = (a, d) => vrT(sc, ...(a || d)), last = sc.lines.length - 1
     if (sc.type === 'pc_cold') {
@@ -4135,6 +4287,23 @@ function fxCinematic() {
     }
     if (sc.type === 'en_board') { add(T + 0.2, '2909', -9); D.scenes.filter(s => s.type === 'en_res').forEach((_, i) => add(T + vrT(sc, ...(b.stamps_at || [0, 0.6])) + i * 0.22, '1365', -14)) }
     if (sc.type === 'en_end') { add(T + 0.2, '2909', -8); add(T + 0.25, '2299', -8); enCats().forEach((_, i) => syn(T + 0.6 + i * 0.12, 'paper', 0.22)) }
+    // ten in a row: a heartbeat under the cold open, a tick for each slot of the streak, a whoosh for each card, the
+    // three countdown ticks in the voice's pause, and a hit on each call
+    if (sc.type === 'st_cold') {
+      add(T, '497', -14, { align: 'start', max: Math.max(1, sc.dur - 0.2) })
+      sc.lines.forEach((_, j) => add(at(j) - 0.04, '2909', j ? -14 : -9))
+      const tOk = T + (S(sc, b.tick_line ?? 1)[0] ?? 1)
+      for (let i = 0; i < (D.cfg.streak_prev ?? 5); i++) add(tOk + i * 0.22, '2857', -14)
+      if (next?.data?.drop) add(next.start, '2908', -6, { reverse: true, max: 2.6, align: 'end' })
+    }
+    if (sc.type === 'st_title') { add(T + 0.05, '2299', -8); add(T + 0.6, '3115', -18); D.scenes.filter(x => x.type === 'st_call').forEach((_, i) => add(T + 1.0 + i * 0.12, '2380', -18)) }
+    if (sc.type === 'st_call') {
+      const tL0 = T + (S(sc, 0)[0] ?? 0) + (S(sc, 0)[1] ?? 1), tL1 = T + (S(sc, 1)[0] ?? 1), tV = T + vrT(sc, ...(b.verdict_at || [1, 0.35]))
+      add(T + 0.02, '3115', -12); add(T + 0.08, '2097', -32, { align: 'start', max: sc.dur + 0.2 })
+      const gap = Math.max(0.6, tL1 - tL0); for (let i = 0; i < 3; i++) add(tL0 + i * gap / 3, '2857', -10)
+      add(tV, '2909', -7); add(tV + 0.02, '2299', -9); add(tV + 0.15, '2857', -16)
+    }
+    if (sc.type === 'st_end') { add(T + 0.2, '2909', -10); D.scenes.filter(x => x.type === 'st_call').forEach((_, i) => add(T + 0.3 + ((D.cfg.streak_prev ?? 5) + i) * 0.07, '2857', -20)) }
     // postcards: paper slides, a page-turn flip, tape on the polaroids, a pencil, the rubber stamp; pins on the board
     if (sc.type === 'pc_cold') {
       add(T, '497', -14, { align: 'start', max: Math.max(1, sc.dur - 0.2) })
@@ -4339,7 +4508,7 @@ window.renderAt = async function (t) {
 
   // cut flash, in time with the whoosh (memes cut hard: no flash)
   let fl = 0
-  for (let j = 1; j < D.scenes.length; j++) { const d = t - D.scenes[j].start, ty = D.scenes[j].type; if (d >= 0 && d < 0.3 && ty !== 'rv_meme' && !(/^(bp|vr|gl|ar|en|dw|tb|wo|pc)_/.test(ty) && !['bp_title', 'vr_title', 'gl_title', 'ar_title', 'en_title', 'dw_title', 'tb_title', 'wo_title', 'wo_end', 'pc_title', 'pc_end'].includes(ty))) fl = Math.max(fl, 0.5 * (1 - d / 0.3)) }
+  for (let j = 1; j < D.scenes.length; j++) { const d = t - D.scenes[j].start, ty = D.scenes[j].type; if (d >= 0 && d < 0.3 && ty !== 'rv_meme' && !(/^(bp|vr|gl|ar|en|dw|tb|wo|pc|st)_/.test(ty) && !['bp_title', 'vr_title', 'gl_title', 'ar_title', 'en_title', 'dw_title', 'tb_title', 'wo_title', 'wo_end', 'pc_title', 'pc_end', 'st_title', 'st_end'].includes(ty))) fl = Math.max(fl, 0.5 * (1 - d / 0.3)) }
   const hk = D.scenes.find(s => s.type === 'rv_hook'); if (hk && t - hk.start > 0.38 && t - hk.start < 0.7) fl = Math.max(fl, 0.7 * (1 - (t - hk.start - 0.38) / 0.32))
   $('#flash').style.opacity = fl
 
@@ -4354,15 +4523,16 @@ window.renderAt = async function (t) {
     const box = $('.c', capEl); box.style.opacity = clamp(q * 2); box.style.transform = `scale(${0.85 + 0.15 * q})`
     $$('.w', capEl).forEach((s, j) => { const w = c.words[j]; s.className = 'w' + (t >= w.t0 && t < w.t1 ? ' now' : t < w.t0 ? ' next' : '') })
   }
-  capEl.className = (D.cfg.caption_style === 'bold' ? 'bold' : '') + (BPg ? ' bpc' : '') + (VRg ? ' vrc' : '') + (/^tb_/.test(sc.type) ? ' tbc' + (sc.type === 'tb_cold' ? ' tbn' : '') : '') + (/^wo_/.test(sc.type) ? ' woc' + (sc.type === 'wo_cold' ? ' won' : '') : '') + (/^pc_/.test(sc.type) ? ' pcc' + (sc.type === 'pc_cold' ? ' pcn' : '') : '')
+  capEl.className = (D.cfg.caption_style === 'bold' ? 'bold' : '') + (BPg ? ' bpc' : '') + (VRg ? ' vrc' : '') + (/^tb_/.test(sc.type) ? ' tbc' + (sc.type === 'tb_cold' ? ' tbn' : '') : '') + (/^wo_/.test(sc.type) ? ' woc' + (sc.type === 'wo_cold' ? ' won' : '') : '') + (/^pc_/.test(sc.type) ? ' pcc' + (sc.type === 'pc_cold' ? ' pcn' : '') : '') + (/^st_/.test(sc.type) ? ' stc' + (sc.type === 'st_cold' ? ' stn' : '') : '')
   capEl.style.top = memeLike ? '1500px' : sc.pres ? (D.cfg.presenter?.box ? '1450px' : '1330px') : '1474px'
-  $('#hdr').style.display = /^(rx|pm|np|bp|vr|gl|ar|en|dw|tb|wo|pc)_/.test(sc.type) ? 'none' : ''
+  $('#hdr').style.display = /^(rx|pm|np|bp|vr|gl|ar|en|dw|tb|wo|pc|st)_/.test(sc.type) ? 'none' : ''
   if (NPg || BPg || VRg) capEl.style.top = '1478px'
   if (/^en_/.test(sc.type)) capEl.style.top = '1590px'
   if (sc.type === 'dw_game' || sc.type === 'dw_res') capEl.style.top = '1484px'
   if (sc.type === 'tb_game' || sc.type === 'tb_ft') capEl.style.top = '1330px'
   if (sc.type === 'wo_tie' || sc.type === 'wo_title') capEl.style.top = '1560px'
   if (/^wo_/.test(sc.type)) { $('#tint').style.opacity = 0; $('#vig').style.opacity = 0; $('#credit').textContent = b.credit || '' }
+  if (/^st_/.test(sc.type)) { capEl.style.top = sc.type === 'st_cold' ? '1420px' : '1560px'; $('#tint').style.opacity = 0; $('#vig').style.opacity = 0; $('#credit').textContent = b.credit || '' }
   if (/^pc_/.test(sc.type)) { capEl.style.top = sc.type === 'pc_cold' ? '1420px' : '1560px'; $('#tint').style.opacity = 0; $('#vig').style.opacity = 0; $('#credit').textContent = b.credit || '' }
   if (wait) await wait
 }
