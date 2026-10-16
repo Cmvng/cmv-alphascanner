@@ -124,3 +124,25 @@ Set `presenter` in the file. Every type sits at the bottom of the screen on the 
 ## Voice check: names and auto-captions
 
 Transcribe every line before sending. If a name could be misheard as a swear word, say it another way and keep the name on screen only. For example, "Alajbegović levelled" was heard as "…bitch levelled", so the line became "Bosnia levelled with ten minutes left". YouTube's auto-captions can limit ads on a video with swearing.
+
+## The streak carries over: "Ten in a row? The results" (16 Oct 2026)
+
+Template: `streak-2026-10-16-reaction.json`, built by `streak-2026-10-16-reaction-build.py`. Sources:
+`streak-2026-10-16-reaction-sources.md`. The results video for the morning's "Ten in a row?" streak short (`st_*`, see
+`templates/match-analysis/README.md`), 4 from 5: nine in a row, then Wolves won at Turf Moor.
+
+- **The streak row** (`cfg.streak = {prev, results}` plus `streak: {i, label}` on each `rx_reveal`): the same ten slots as
+  the predictions video replace the big "n/of" tally. Earlier calls are already ticked or crossed. This beat's slot pulses
+  in blue, then flips to ✓ or ✗ on the tally, under a running label ("6 in a row" … "Stopped at 9", red on a miss).
+  `rx_outro` takes `streak: {label}` and shows every result.
+- **One screen per result:** the first four games have no `rx_take`. The call rides on the score card as a chip,
+  `extra: {label: 'Our call', text, ok, yes: 'CALLED', no: 'MISSED', at}`, and the line says it: "In Frankfurt, we said
+  Frankfurt don't lose. They beat Cologne, one–nil…". Only the finale keeps the take-then-reveal build-up. That is
+  faster, and different enough from the 15 Oct run of screens to pass the variety check.
+- **The outro answers the morning's comment prompt:** "If you called Wolves, take a bow, and tell us in the comments."
+- **Lessons:**
+  - The class `.stk` was already the sticker emoji (`position:absolute`, 240 px). The row is `.srow`. Check a new class
+    name with `grep '\.name{'` before using it.
+  - The rx intro's crest wall now fits ten crests on one row (88 px, gap 10).
+  - Hear-back: "four–two" is heard as "for two" (say "by four goals to two"). "a Younes" merges (say "a goal from
+    Younes…"). "Bil Nsongo" is always heard as "Bill and Songo", so that line names the team instead.

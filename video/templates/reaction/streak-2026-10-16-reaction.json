@@ -1,0 +1,420 @@
+{
+ "mode": "review",
+ "title": "Ten in a row? The results: Friday 16 Oct",
+ "competition": "Friday football",
+ "date": "2026-10-16",
+ "caption_style": "bold",
+ "voice_speed": 1.05,
+ "voice": "af_heart",
+ "presenter": {
+  "id": 28293,
+  "crop": "1000:1080:460:0",
+  "from": 0.5,
+  "credit": "Presenter (stand-in): Mixkit stock video"
+ },
+ "sound": "cinematic",
+ "voice_fx": "deep",
+ "music_drop": "rx_intro",
+ "music_vibe": [
+  "cinematic"
+ ],
+ "music_track": 551,
+ "streak": {
+  "prev": 5,
+  "results": [
+   "ok",
+   "ok",
+   "ok",
+   "ok",
+   "no"
+  ]
+ },
+ "media_dir": ".cache/media/postmatch-2026-10-16-streak",
+ "picks": [
+  {
+   "home": "Frankfurt",
+   "away": "Cologne",
+   "competition": "Bundesliga",
+   "kickoff": "19:30",
+   "home_win": 53,
+   "draw": 25,
+   "away_win": 22,
+   "xg_home": 1.79,
+   "xg_away": 1.12,
+   "form_home": "WDLLD",
+   "form_away": "WLLDL",
+   "scored_home": 2.6,
+   "scored_away": 1.5,
+   "conceded_home": 2.4,
+   "conceded_away": 2.3,
+   "ko": "19:30",
+   "home_short": "Frankfurt",
+   "away_short": "Cologne",
+   "stadium": "/home/user/cmv-alphascanner/video/.cache/media/postmatch-2026-10-16-streak/eintracht_frankfurt.jpg",
+   "stage": "Bundesliga",
+   "score_home": "1",
+   "score_away": "0",
+   "stadium_credit": "Deutsche Bank Park · Photo: Davicilio20 · CC0",
+   "crest_home": "/home/user/cmv-alphascanner/video/.cache/crests/eintracht_frankfurt.png",
+   "crest_away": "/home/user/cmv-alphascanner/video/.cache/crests/cologne.png"
+  },
+  {
+   "home": "Frosinone",
+   "away": "Sassuolo",
+   "competition": "Serie A",
+   "kickoff": "19:45",
+   "home_win": 44,
+   "draw": 27,
+   "away_win": 29,
+   "xg_home": 1.48,
+   "xg_away": 1.18,
+   "form_home": "DWDWL",
+   "form_away": "DDWLD",
+   "scored_home": 1.5,
+   "scored_away": 1.67,
+   "conceded_home": 1.17,
+   "conceded_away": 1.67,
+   "ko": "19:45",
+   "home_short": "Frosinone",
+   "away_short": "Sassuolo",
+   "stadium": "/home/user/cmv-alphascanner/video/.cache/media/postmatch-2026-10-16-streak/frosinone_calcio.jpg",
+   "stage": "Serie A",
+   "score_home": "4",
+   "score_away": "2",
+   "stadium_credit": "Benito Stirpe Stadium · Photo: Simone Vacca (SEKAM) · CC BY-SA 4.0",
+   "crest_home": "/home/user/cmv-alphascanner/video/.cache/crests/frosinone.png",
+   "crest_away": "/home/user/cmv-alphascanner/video/.cache/crests/sassuolo.png"
+  },
+  {
+   "home": "Le Mans",
+   "away": "Toulouse",
+   "competition": "Ligue 1",
+   "kickoff": "19:45",
+   "home_win": 33,
+   "draw": 27,
+   "away_win": 40,
+   "xg_home": 1.24,
+   "xg_away": 1.36,
+   "form_home": "LDDWL",
+   "form_away": "DLDWD",
+   "scored_home": 1.67,
+   "scored_away": 1.5,
+   "conceded_home": 2,
+   "conceded_away": 1.83,
+   "ko": "19:45",
+   "home_short": "Le Mans",
+   "away_short": "Toulouse",
+   "stadium": "/home/user/cmv-alphascanner/video/.cache/media/postmatch-2026-10-16-streak/le_mans_fc.jpg",
+   "stage": "Ligue 1",
+   "score_home": "0",
+   "score_away": "3",
+   "stadium_credit": "Stade Marie-Marvingt · Photo: Le Mans · CC BY 3.0",
+   "crest_home": "/home/user/cmv-alphascanner/video/.cache/crests/le_mans_fc.png",
+   "crest_away": "/home/user/cmv-alphascanner/video/.cache/crests/toulouse.png"
+  },
+  {
+   "home": "Deportivo",
+   "away": "Levante",
+   "competition": "LaLiga",
+   "kickoff": "20:00",
+   "home_win": 41,
+   "draw": 28,
+   "away_win": 31,
+   "xg_home": 1.45,
+   "xg_away": 1.25,
+   "scored_home": 1.5,
+   "scored_away": 1.57,
+   "conceded_home": 1.38,
+   "conceded_away": 2.14,
+   "ko": "20:00",
+   "home_short": "Deportivo",
+   "away_short": "Levante",
+   "stadium": "/home/user/cmv-alphascanner/video/.cache/media/postmatch-2026-10-16-streak/deportivo_de_la_coruna.jpg",
+   "stage": "LaLiga",
+   "score_home": "1",
+   "score_away": "1",
+   "stadium_credit": "Abanca Riazor · Photo: Jenócrates · CC BY-SA 4.0",
+   "crest_home": "/home/user/cmv-alphascanner/video/.cache/crests/rc_deportivo_de_a_coruna.png",
+   "crest_away": "/home/user/cmv-alphascanner/video/.cache/crests/levante.png"
+  },
+  {
+   "home": "Burnley",
+   "away": "Wolves",
+   "competition": "Championship",
+   "kickoff": "20:00",
+   "home_win": 37,
+   "draw": 28,
+   "away_win": 35,
+   "xg_home": 1.3,
+   "xg_away": 1.26,
+   "form_home": "LDLLD",
+   "form_away": "DLWWW",
+   "scored_home": 1.5,
+   "scored_away": 1.6,
+   "conceded_home": 1.9,
+   "conceded_away": 1.3,
+   "ko": "20:00",
+   "home_short": "Burnley",
+   "away_short": "Wolves",
+   "stadium": "/home/user/cmv-alphascanner/video/.cache/media/postmatch-2026-10-16-streak/burnley_f_c.jpg",
+   "stage": "Championship",
+   "score_home": "1",
+   "score_away": "2",
+   "stadium_credit": "Turf Moor · Photo: Adam Haworth · CC BY 2.0",
+   "crest_home": "/home/user/cmv-alphascanner/video/.cache/crests/burnley.png",
+   "crest_away": "/home/user/cmv-alphascanner/video/.cache/crests/wolves.png"
+  }
+ ],
+ "review": {
+  "beats": [
+   {
+    "type": "rx_cold",
+    "tint": "blue",
+    "people": [
+     "Kristian Thorstvedt",
+     "Aron Dønnum",
+     "Jamie Vardy",
+     "Fer López"
+    ],
+    "say": [
+     "This morning, we asked: ten in a row?",
+     "Toulouse scored three at Le Mans.",
+     "Jamie Vardy scored at Turf Moor.",
+     "So, did we make it to ten?"
+    ],
+    "steps": [
+     {
+      "big": "10?",
+      "label": "the question this morning",
+      "tone": "hot"
+     },
+     {
+      "big": "3",
+      "label": "Toulouse goals at Le Mans"
+     },
+     {
+      "big": "20'",
+      "label": "Vardy at Turf Moor"
+     },
+     {
+      "big": "?",
+      "label": "the streak",
+      "tone": "hot",
+      "glitch": true
+     }
+    ],
+    "tail": 0.6
+   },
+   {
+    "type": "rx_intro",
+    "drop": true,
+    "crests": 5,
+    "title": "Ten in a row?",
+    "title2": "The results",
+    "say": [
+     "This morning's five calls, against tonight's results. Five came in last night. Let's see how far the streak goes."
+    ]
+   },
+   {
+    "type": "rx_reveal",
+    "match": 0,
+    "n": 1,
+    "of": 1,
+    "ok": true,
+    "scorers": "Ebnoutalib 77'",
+    "people": [],
+    "say": [
+     "In Frankfurt, we said Frankfurt don't lose. They beat Cologne, one–nil, with a goal from Younes Ebnoutalib, thirteen minutes from time. Called it! Six in a row."
+    ],
+    "tally_at": [
+     0,
+     0.85
+    ],
+    "streak": {
+     "i": 0,
+     "label": "6 in a row"
+    },
+    "extra": {
+     "label": "Our call",
+     "text": "Frankfurt don't lose",
+     "ok": true,
+     "yes": "CALLED",
+     "no": "MISSED",
+     "at": [
+      0,
+      0.05
+     ]
+    }
+   },
+   {
+    "type": "rx_reveal",
+    "match": 1,
+    "n": 2,
+    "of": 2,
+    "ok": true,
+    "scorers": "Calò 9' · Berardi 15' · Raimondo 26' 30' 57' · Thorstvedt 37'",
+    "people": [
+     "Kristian Thorstvedt"
+    ],
+    "say": [
+     "In Frosinone, we said Frosinone don't lose. They beat Sassuolo by four goals to two, and Antonio Raimondo scored a hat-trick. Called it! Seven in a row."
+    ],
+    "tally_at": [
+     0,
+     0.829
+    ],
+    "streak": {
+     "i": 1,
+     "label": "7 in a row"
+    },
+    "extra": {
+     "label": "Our call",
+     "text": "Frosinone don't lose",
+     "ok": true,
+     "yes": "CALLED",
+     "no": "MISSED",
+     "at": [
+      0,
+      0.05
+     ]
+    },
+    "sticker": {
+     "e": "🎩",
+     "at": 0.55,
+     "x": 50,
+     "y": 790,
+     "r": -10
+    }
+   },
+   {
+    "type": "rx_reveal",
+    "match": 2,
+    "n": 3,
+    "of": 3,
+    "ok": true,
+    "scorers": "Russell-Rowe 46' · Dønnum 59' · Tengstedt 87'",
+    "people": [
+     "Aron Dønnum"
+    ],
+    "say": [
+     "At Le Mans, we said Toulouse stay unbeaten. They won three–nil, with goals from Russell-Rowe, Dønnum and Tengstedt. Called it! Eight in a row."
+    ],
+    "tally_at": [
+     0,
+     0.817
+    ],
+    "streak": {
+     "i": 2,
+     "label": "8 in a row"
+    },
+    "extra": {
+     "label": "Our call",
+     "text": "Toulouse don't lose",
+     "ok": true,
+     "yes": "CALLED",
+     "no": "MISSED",
+     "at": [
+      0,
+      0.05
+     ]
+    }
+   },
+   {
+    "type": "rx_reveal",
+    "match": 3,
+    "n": 4,
+    "of": 4,
+    "ok": true,
+    "scorers": "Nsongo 63' · Requena 82'",
+    "people": [],
+    "say": [
+     "At Riazor, we said Deportivo don't lose. Deportivo went ahead in the second half, Levante levelled with eight minutes left, and one–all is enough. Called it! Nine in a row."
+    ],
+    "tally_at": [
+     0,
+     0.855
+    ],
+    "streak": {
+     "i": 3,
+     "label": "9 in a row"
+    },
+    "extra": {
+     "label": "Our call",
+     "text": "Deportivo don't lose",
+     "ok": true,
+     "yes": "CALLED",
+     "no": "MISSED",
+     "at": [
+      0,
+      0.05
+     ]
+    }
+   },
+   {
+    "type": "rx_take",
+    "match": 4,
+    "take": "**Burnley** don't lose",
+    "crests": [
+     "home"
+    ],
+    "people": [
+     "Jamie Vardy",
+     "Jacob Bruun Larsen"
+    ],
+    "say": [
+     "And the big one, for ten in a row. Burnley hadn't won at home in almost a year, and Wolves hadn't won at Turf Moor since twenty ten. Our call: Burnley don't lose."
+    ]
+   },
+   {
+    "type": "rx_reveal",
+    "match": 4,
+    "n": 4,
+    "of": 5,
+    "ok": false,
+    "scorers": "Vardy 20' · Fer López 39' · Chirewa 72'",
+    "people": [
+     "Jamie Vardy",
+     "Fer López",
+     "Tawanda Chirewa"
+    ],
+    "say": [
+     "Wolves beat Burnley, two–one. Jamie Vardy scored first, but Fer López and Tawanda Chirewa turned it around, and Wolves won at Turf Moor for the first time since twenty ten. We missed this one."
+    ],
+    "tally_at": [
+     0,
+     0.901
+    ],
+    "streak": {
+     "i": 4,
+     "label": "Stopped at 9"
+    },
+    "extra": {
+     "label": "Our call",
+     "text": "Burnley don't lose",
+     "ok": false,
+     "yes": "CALLED",
+     "no": "MISSED",
+     "at": [
+      0,
+      0.75
+     ]
+    }
+   },
+   {
+    "type": "rx_outro",
+    "n": 4,
+    "of": 5,
+    "ok": true,
+    "sub": "Four from five tonight",
+    "follow": "Follow for the next analysis",
+    "streak": {
+     "label": "9 in a row"
+    },
+    "say": [
+     "Four from five tonight, and nine in a row, until Wolves.",
+     "If you called Wolves, take a bow, and tell us in the comments. Follow for the next analysis."
+    ]
+   }
+  ]
+ }
+}

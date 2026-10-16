@@ -214,6 +214,15 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#03060F}
 .tal b.no{background:linear-gradient(180deg,#FFB4B4,#EF4444 55%,#991B1B);-webkit-background-clip:text;filter:drop-shadow(0 8px 0 #7F1D1D) drop-shadow(0 22px 40px rgba(0,0,0,.55))}
 .tal .emo{font-size:150px;vertical-align:40px;margin-left:16px}
 .nop .rs{top:330px}.nop .tal{top:780px}
+/* the streak row (cfg.streak + a beat's streak: {i, label}): earlier calls ticked green or crossed red, this one flips on the tally */
+.tal.stkw{top:104px}
+.tal .srow{display:flex;justify-content:center;gap:12px}
+.tal .srow i{width:76px;height:76px;border-radius:50%;border:4px solid rgba(255,255,255,.75);background:rgba(8,26,72,.62);display:flex;align-items:center;justify-content:center;font:400 34px/1 Anton;color:#fff;font-style:normal;box-shadow:0 8px 22px rgba(0,0,0,.4);box-sizing:border-box}
+.tal .srow i.ok{background:#1E9E62;border-color:#5BE39B}
+.tal .srow i.no{background:#D7263D;border-color:#FF8A96}
+.tal .srow i.cur{border-color:#4FB3FF;box-shadow:0 0 0 8px rgba(79,179,255,.45),0 8px 22px rgba(0,0,0,.4)}
+.tal.stkw b{display:block;margin-top:16px;font-size:122px;letter-spacing:2px}
+.rx_outro .tal.stkw{top:240px}
 /* cold open (rx_cold): one big number over dark black-and-white photos, before the title lands on the drop */
 .bg.cold{filter:grayscale(1) brightness(.5) contrast(1.2) !important}
 .rx_cold .dark{position:absolute;inset:0;background:#000;opacity:.35}
@@ -225,8 +234,8 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#03060F}
 .rx_cold .labc{position:absolute;left:60px;right:60px;top:960px;text-align:center;font:700 38px JBM;letter-spacing:7px;text-transform:uppercase;color:rgba(255,255,255,.88);text-shadow:0 4px 20px rgba(0,0,0,.8)}
 .rx_intro .big{position:absolute;left:40px;right:40px;top:520px;text-align:center;font-size:170px;line-height:.95;text-shadow:0 18px 60px rgba(0,0,0,.7)}
 .rx_intro .big span{color:#4FB3FF}
-.rx_intro .crw{position:absolute;left:60px;right:60px;top:300px;display:flex;justify-content:center;flex-wrap:wrap;gap:16px}
-.rx_intro .crw .badge{width:92px;height:92px}
+.rx_intro .crw{position:absolute;left:50px;right:50px;top:300px;display:flex;justify-content:center;flex-wrap:wrap;gap:10px}
+.rx_intro .crw .badge{width:88px;height:88px}
 .rx_outro .tal{top:250px}
 .rx_outro .sub{position:absolute;left:60px;right:60px;top:560px;text-align:center;font-size:96px;line-height:1;text-shadow:0 14px 40px rgba(0,0,0,.6)}
 .rx_outro .fol{position:absolute;left:0;right:0;top:690px;text-align:center}
@@ -1924,6 +1933,14 @@ function writeOn(n, lt, at, dur = 0.7) { if (!n) return; const q = P(lt, at, at 
 // ---- under review (vr_*): the review room. Each team in its own kit (pick.kit.{home,away}: {c, bg, ink}), else its crest colour
 const VRN = D.picks.length
 const vrInk = c => { const x = rgb(c); return x && 0.299 * x[0] + 0.587 * x[1] + 0.114 * x[2] > 170 ? '#0B1F4D' : '#FFFFFF' }
+// the streak row: cfg.streak = {prev, results: ['ok'|'no', …]}; slot i is this beat's call (all: every result shown)
+function stkRow(SK, i, all) {
+  const res = SK.results || [], prev = SK.prev ?? 0
+  return Array.from({ length: prev + res.length }, (_, j) => { if (j < prev) return '<i class="ok">✓</i>'
+    const k = j - prev, r = res[k]
+    if (all || k < i) return `<i class="${r}">${r === 'ok' ? '✓' : '✗'}</i>`
+    return k === i ? `<i class="cur" data-cur="1" data-r="${r}" data-n="${j + 1}">${j + 1}</i>` : `<i>${j + 1}</i>` }).join('')
+}
 function vrKit(q, side) {
   const k = q?.kit?.[side] || {}, bd = side === 'away' ? q?.ba : q?.bh, c = k.c || bd?.colour || (side === 'away' ? '#6E9BFF' : '#1F5FDB')
   return { c, bg: k.bg || c, ink: k.ink || vrInk(c) }
@@ -2510,8 +2527,8 @@ const built = D.scenes.map((sc, k) => {
     if (sc.type === 'rx_take') el.innerHTML = fx + `<div class="tk"><div class="hd"><span class="lg"><i style="height:16px"></i><i style="height:24px"></i><i style="height:32px"></i></span><b>cmvng</b><span>${html(b.tag || 'Match analysis · before kick-off')}</span></div>
       <div class="crs">${(b.crests || ['home', 'away']).map(x => badge(x === 'away' ? q.ba : q.bh)).join('')}</div><div class="tx"><small>${html(b.label || 'Our take')}</small>${emph(b.take || '')}</div></div>`
     else el.innerHTML = `<div class="rs"><div class="row">${badge(q.bh)}<div class="sc A">${q.score_home}<span>–</span>${q.score_away}</div>${badge(q.ba)}</div>
-      <div class="nm"><span>${html(q.home)}</span><span>${html(q.away)}</span></div><div class="ft">Full time${b.scorers ? ' · ' + html(b.scorers) : ''}</div>${b.extra ? `<div class="xr ${b.extra.ok ? 'ok' : 'no'}"><small>Extra read</small>${html(b.extra.text)}<i>${b.extra.ok ? 'YES' : 'NO'}</i></div>` : ''}</div>
-      <div class="tal"><b class="${b.ok === false ? 'no' : ''}">${b.n != null ? `${b.n}/${b.of}` : html(b.stamp || '')}</b><span class="emo">${b.ok === false ? '❌' : b.ok === 'half' ? '🤏' : '✅'}</span></div>`
+      <div class="nm"><span>${html(q.home)}</span><span>${html(q.away)}</span></div><div class="ft">Full time${b.scorers ? ' · ' + html(b.scorers) : ''}</div>${b.extra ? `<div class="xr ${b.extra.ok ? 'ok' : 'no'}"><small>${html(b.extra.label || 'Extra read')}</small>${html(b.extra.text)}<i>${html(b.extra.ok ? b.extra.yes || 'YES' : b.extra.no || 'NO')}</i></div>` : ''}</div>
+      ${b.streak && D.cfg.streak ? `<div class="tal stkw"><div class="srow">${stkRow(D.cfg.streak, b.streak.i, false)}</div><b class="${b.ok === false ? 'no' : ''}">${html(b.streak.label || '')}</b></div>` : `<div class="tal"><b class="${b.ok === false ? 'no' : ''}">${b.n != null ? `${b.n}/${b.of}` : html(b.stamp || '')}</b><span class="emo">${b.ok === false ? '❌' : b.ok === 'half' ? '🤏' : '✅'}</span></div>`}`
     if (!PRES) el.classList.add('nop')
   } else if (sc.type === 'pm_hook') {
     el.innerHTML = `<div class="crw">${D.picks.map(q => badge(q.bh) + badge(q.ba)).join('')}</div><div class="on"><span class="chip">${html(b.chip || '')}</span></div>
@@ -2554,7 +2571,7 @@ const built = D.scenes.map((sc, k) => {
     if (!PRES) el.classList.add('nop')
   } else if (sc.type === 'rx_outro') {
     if (!PRES) el.classList.add('nop')
-    el.innerHTML = `<div class="tal"><b class="${b.ok === false ? 'no' : ''}">${b.n}/${b.of}</b></div><div class="sub A" style="font-size:${oneLine(b.sub || 'on the night', 96)}px">${html(b.sub || 'on the night')}</div><div class="fol"><span class="chip">${html(b.follow || 'Follow for tomorrow\'s analysis')}</span></div>${b.warn ? `<div class="wrn"><span class="chip">${html(b.warn)}</span></div>` : ''}`
+    el.innerHTML = `${b.streak && D.cfg.streak ? `<div class="tal stkw"><div class="srow">${stkRow(D.cfg.streak, 0, true)}</div><b class="${b.ok === false ? 'no' : ''}">${html(b.streak.label || '')}</b></div>` : `<div class="tal"><b class="${b.ok === false ? 'no' : ''}">${b.n}/${b.of}</b></div>`}<div class="sub A" style="font-size:${oneLine(b.sub || 'on the night', 96)}px">${html(b.sub || 'on the night')}</div><div class="fol"><span class="chip">${html(b.follow || 'Follow for tomorrow\'s analysis')}</span></div>${b.warn ? `<div class="wrn"><span class="chip">${html(b.warn)}</span></div>` : ''}`
   } else if (sc.type === 'np_cold') {
     el.classList.add('np')
     el.innerHTML = `<div class="roll"></div><div class="press">${(b.steps || []).map(st => `<div class="ln ${st.tone || ''}">${html(st.text)}${st.label ? `<small>${html(st.label)}</small>` : ''}</div>`).join('')}</div>`
@@ -3269,7 +3286,12 @@ function draw(k, lt, sc) {
     const q = P(lt, 0, 0.35, E.outBack); $('.fx', el).style.transform = `translate3d(0,${(1 - q) * -200}px,0)`; $('.fx', el).style.opacity = clamp(q * 2)
     slam($('.tk', el), lt, 0.25, 1.25, 0.3)
   } else if (sc.type === 'rx_reveal') {
-    slam($('.rs', el), lt, 0.12, 1.4, 0.28); slam($('.tal', el), lt, tallyAt(sc), 2.2, 0.28); el.style.transform = shake(lt, tallyAt(sc) + 0.03, 20)
+    slam($('.rs', el), lt, 0.12, 1.4, 0.28); el.style.transform = shake(lt, tallyAt(sc) + 0.03, 20)
+    const tw = $('.tal.stkw', el), ta = tallyAt(sc)
+    if (tw) { rise([$('.srow', tw)], lt, 0.35, 0, 24); slam($('b', tw), lt, ta, 2.2, 0.28)
+      const c = $('.srow i[data-cur]', tw), on = lt >= ta
+      if (c) { c.classList.toggle('cur', !on); c.classList.toggle(c.dataset.r, on); c.textContent = on ? (c.dataset.r === 'ok' ? '✓' : '✗') : c.dataset.n; c.style.transform = on && lt < ta + 0.3 ? `scale(${n1(1 + 0.35 * (1 - (lt - ta) / 0.3))})` : '' }
+    } else slam($('.tal', el), lt, ta, 2.2, 0.28)
     const xr = $('.xr', el); if (xr) rise([xr], lt, b.extra?.at ? vrT(sc, ...b.extra.at) : 1.4, 0, 24, 0.4)
   } else if (sc.type === 'pm_hook') {
     $$('.crw .badge', el).forEach((x, j) => slam(x, lt, 0.05 + j * 0.04, 1.6, 0.22)); rise([$('.on', el)], lt, 0.3); slam($('.big', el), lt, 0.5, 1.8, 0.3); el.style.transform = shake(lt, 0.55, 16)

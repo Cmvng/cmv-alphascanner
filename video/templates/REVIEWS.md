@@ -24,6 +24,45 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
+## 16 Oct: post-match, "Ten in a row? The results" (4 from 5, nine in a row, 1:30)
+
+- **Before building:** applied the last three "Change next time" lines:
+  - stills at the start of each screen's first line;
+  - no first names that aren't in the sources (every name here is from ESPN's match data);
+  - the calls tested out loud ("Toulouse stay unbeaten");
+  - the results video brings the streak row back.
+- **What worked:**
+  - The streak row from the morning video carries the story: each slot flips green on "Called it", "Stopped at 9" lands
+    in red, and the outro shows the whole row with the red cross on the tenth.
+  - The cold open holds the answer back ("So, did we make it to ten?").
+  - Four results as single screens, each with an "Our call" chip, then the Burnley v Wolves finale with the full build-up.
+  - The outro answers the morning's comment prompt ("If you called Wolves, take a bow").
+- **Mistakes, and how they got through:**
+  - The first stills showed the row off-centre with its label on top of it: `.stk` was already the sticker class. Found
+    by measuring the layout in a browser; renamed `.srow`.
+  - The first structure (take plus reveal for all five) failed the variety check against 15 Oct: one change only.
+    Restructured to single-screen reveals.
+  - Hear-back: "streak" heard as "street", "four–two" as "for two", "a Younes" merged, and "Bil Nsongo" heard as
+    "Bill and Songo". All reworded before rendering.
+  - Disk dropped to 3.1 GB while the frames rendered (Chromium's temporary files). Freed 2 GB: chat copies of videos
+    before 14 Oct (their full-size versions stay), npm cache, published download parts, encode logs.
+- **Change next time:**
+  - Check a new CSS class name for clashes (`grep '\.name{'`) before using it.
+  - Free disk to 6 GB before a presenter render: it uses about 2 GB of temporary space while it runs.
+  - Run the variety check (`--say-check` prints it) before writing the lines, so a structure change costs nothing.
+- **Final review:** 89.6 s (X, Shorts, Reels), −15.0 LUFS, true peak −3.8 dB, the drop on the title +6.4 dB. Music 551
+  "Home" (a measured candidate, its first use: all four approved tracks and the 586 and 607 candidates were in the last
+  six). Colour: ink 66%, blue 14%, orange 11%, green 5% (the approved presenter look). Heard back: spelling only
+  (Ebeneu-Talib, frozenone, Dunham, Reothor, Turfmore, Chirawa, Fair Lopez; "to lose" for Toulouse). Every second checked
+  frame by frame.
+- **Sent:**
+  - the 24.1 MB chat copy, the cover and thumbnail, the srt, the write-up, the post kit (with chapters) and the sources;
+  - a private download page for the full 90.0 MB file (11 parts; the last part's served sha256 checked):
+    https://claude.ai/artifact/Y7hyFoYFutCrcMqi3Qs7m3
+- **The owner's reaction:** (waiting)
+
+---
+
 ## 16 Oct: predictions, "Ten in a row?" (five Friday league games as a streak short, 1:15)
 
 - **The ask:** today's predictions, made to go viral.

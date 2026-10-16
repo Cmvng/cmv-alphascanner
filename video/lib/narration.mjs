@@ -104,7 +104,10 @@ const SAY_IPA = {
   Pierre: 'pjˈɛɹ', Torreense: 'tɔːɹˈɛnsə', Leiria: 'leɪɹˈiːə', 'Ferencváros': 'fˈɛɹɛntsvɑːɹoʊʃ',
   // 15 Oct post-match
   Jhon: 'dʒˈɑːn', Hezze: 'hˈɛzeɪ', Woltemade: 'vˈɔltəmɑːdə', Camilo: 'kɑːmˈiːloʊ', Muani: 'muːˈɑːni', Nakamura: 'nɑːkɑːmˈʊɹə',
-  Nuamah: 'nuːˈɑːmə', Tolisso: 'tɔliˈsoʊ', Pavlidis: 'pɑːvlˈiːdɪs'
+  Nuamah: 'nuːˈɑːmə', Tolisso: 'tɔliˈsoʊ', Pavlidis: 'pɑːvlˈiːdɪs',
+  // 16 Oct post-match
+  Ebnoutalib: 'ˌɛbnuːtɑːlˈiːb', Younes: 'jˈuːnɛs', Raimondo: 'ɹaɪmˈɔndoʊ', Requena: 'ɹɛkˈeɪnə', Riazor: 'ɹiːəθˈɔːɹ',
+  Chirewa: 'tʃɪɹˈɛwə', Tawanda: 'tɑːwˈɑːndə', 'Dønnum': 'dˈʌnʊm', Nsongo: 'ənsˈɔŋɡoʊ', Fer: 'fˈɛɹ'
 }
 const IPA_RE = new RegExp(`(?<!\\p{L})(${Object.keys(SAY_IPA).join('|')})(['’]s)?(?!\\p{L})`, 'gu')
 // letter-aware edges: \b treats accented letters as non-letters, so "Doué" or "Çalhanoğlu" would never match
