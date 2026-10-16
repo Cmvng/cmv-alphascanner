@@ -308,3 +308,36 @@ games and the Conference League's opening night (8 games) on two boards.
   the full groove starts at 39.18 s. Set `"music_drop_at": 39.18` so the title lands on the groove (+7.5 dB instead of +2.1 dB).
   Before using any drop track, check the second after its tagged drop is sustained, not a single hit.
 - **Pronunciation:** IPA added for Aspas, Iago, Camarda, Openda, Mateta, Sage, Pierre, Torreense, Leiria and Ferencváros. The hear-back still writes Lyon as "Leon"; that is a spelling difference only.
+
+## Ten in a row? (`st_*`, a predictions short built on a streak, 16 Oct 2026)
+
+Template: `streak-2026-10-16.json`, built by `streak-2026-10-16-build.py` from the app's match previews
+(`node video/from-app.mjs preview --match <id> --out <folder>/pv_<id>.json`, then
+`python3 -I streak-2026-10-16-build.py <folder>`). Sources: `streak-2026-10-16-sources.md`. Friday's five league games
+after a 5-from-5 Thursday: the hook is the streak, and every screen asks the viewer to call the game first.
+
+- **The streak row** (top of every screen): `streak_prev` green ticks for the calls that came in, then one numbered slot per
+  `st_call`. A slot fills with the backed side's crest the moment its call is stamped. "Call N of 10" sits in the header.
+- **A call** (`st_call`):
+  - A kit-colour versus card: each half in the club's colour, crests on white discs.
+  - "The streaks": one fact card where two runs collide (`fact`).
+  - Our numbers: the app's bars (`model_at`).
+  - The poll: home, draw and away tiles (`poll_at`; `poll: false` hides it).
+  - The countdown: `pauses: [1.8, 0]` holds the voice after the first line ("…Your call?") while a 3-2-1 ring ticks.
+  - The stamp: on `verdict_at` our call lands in the backed side's kit colour, with a shake. The poll tiles it covers light
+    up in that colour and the others dim. "Don't lose" covers the side and the draw; set `covers` to override.
+- **Cold open** (`st_cold`, royal blue): one number per line (`steps`), the five slots ticking green on `tick_line`, tonight's
+  slots appearing on `more_line`. 16 Oct: "5 / 5/5 / +5 / 10?".
+- **Title** (`st_title`, `drop: true`): "Ten in / a row?", the row, and the five fixtures. **End** (`st_end`): the full row,
+  the comment prompt card (`comment`, the finale's game) and the follow pill.
+- **Sound:** a heartbeat under the cold open, a tick per green slot, a whoosh per card, pops for the poll, three ticks in the
+  countdown, and a hit on each stamp.
+- **Lessons (16 Oct):**
+  - On the first render the bottom half of each call screen sat empty for 4–7 s before the countdown. The poll fills it:
+    bars at 20% of the first line, poll at 40%.
+  - Keep the fact to two lines, or it runs into the numbers.
+  - "Toulouse don't lose" rhymes: the voice says "Toulouse stay unbeaten" while the stamp keeps "Toulouse don't lose".
+  - Kokoro can't say "Köln": every respelling was heard as "Curln", "Colne" or "Cone". Use "Cologne", the app's name, on
+    screen and in the voice.
+- **Post it before the first kick-off:** the poll and the countdown only work while the games are still to come. The results
+  video should bring the row back and tick (or cross) slots 6 to 10.

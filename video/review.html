@@ -1331,7 +1331,7 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#03060F}
 .st .st-vs .cr .badge{width:180px;height:180px}
 .st .st-vs .t b{font:400 58px/1 Anton;text-transform:uppercase;text-align:center;padding:0 16px;letter-spacing:1px}
 .st .st-vs .v{position:absolute;left:50%;top:50%;width:116px;height:116px;margin:-58px 0 0 -58px;border-radius:50%;background:#0B1F4D;color:#fff;font:400 52px/116px Anton;text-align:center;box-shadow:0 0 0 8px #fff;z-index:2}
-.st .st-fact{position:absolute;left:60px;right:60px;top:826px;padding:24px 30px 26px;border-radius:22px;background:#fff;box-shadow:0 16px 40px rgba(11,31,77,.16);font:800 38px/1.25 Manrope;color:#0B1F4D}
+.st .st-fact{position:absolute;left:60px;right:60px;top:826px;padding:22px 30px 24px;border-radius:22px;background:#fff;box-shadow:0 16px 40px rgba(11,31,77,.16);font:800 36px/1.24 Manrope;color:#0B1F4D}
 .st .st-fact small{display:block;font:700 20px JBM;letter-spacing:4px;text-transform:uppercase;color:#1F5FDB;margin-bottom:10px}
 .st .st-num{position:absolute;left:60px;right:60px;top:1046px}
 .st .st-num .k{font:700 20px JBM;letter-spacing:4px;text-transform:uppercase;color:#41557D}
@@ -1341,20 +1341,30 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#03060F}
 .st .st-num .bl small{display:block;font:700 13px JBM;letter-spacing:2px;color:#7A8CB0;text-transform:uppercase}
 .st .st-num .bl span:nth-child(2){text-align:center;color:#7A8CB0}
 .st .st-num .bl span:nth-child(3){text-align:right}
-.st .st-cd{position:absolute;left:0;right:0;top:1180px;display:flex;flex-direction:column;align-items:center;opacity:0}
-.st .st-cd .ring{width:190px;height:190px;border-radius:50%;background:#0B1F4D;color:#fff;font:400 116px/190px Anton;text-align:center;box-shadow:0 0 0 10px rgba(31,95,219,.25)}
-.st .st-cd small{margin-top:18px;font:700 24px JBM;letter-spacing:6px;text-transform:uppercase;color:#1F5FDB}
-.st .st-cv{position:absolute;left:60px;right:60px;top:1186px;padding:24px 30px 30px;border-radius:26px;text-align:center;opacity:0;box-shadow:0 26px 60px rgba(11,31,77,.35)}
+.st .st-cd{position:absolute;left:0;right:0;top:1356px;display:flex;flex-direction:column;align-items:center;opacity:0}
+.st .st-cd .ring{width:160px;height:160px;border-radius:50%;background:#0B1F4D;color:#fff;font:400 100px/160px Anton;text-align:center;box-shadow:0 0 0 10px rgba(31,95,219,.25)}
+.st .st-cd small{display:none}
+/* the poll: home, draw, away; the outcomes our call covers light up in the backed side's kit when it lands */
+.st .st-poll{position:absolute;left:60px;right:60px;top:1192px}
+.st .st-poll .k{font:700 20px JBM;letter-spacing:5px;text-transform:uppercase;color:#1F5FDB;text-align:center}
+.st .st-poll .ops{display:flex;gap:18px;margin-top:10px}
+.st .st-poll .op{flex:1;min-width:0;height:118px;border-radius:20px;background:#fff;box-shadow:0 12px 28px rgba(11,31,77,.14);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;font:800 27px Manrope;color:#0B1F4D;white-space:nowrap}
+.st .st-poll .op .ic{width:64px;height:64px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 3px rgba(11,31,77,.08)}
+.st .st-poll .op .ic .badge{width:50px;height:50px}
+.st .st-poll .op .x{font:400 46px/64px Anton;color:#7A8CB0}
+.st .st-poll .op.yes .x{color:inherit}
+.st .st-poll .op.yes{box-shadow:0 16px 34px rgba(11,31,77,.3)}
+.st .st-cv{position:absolute;left:60px;right:60px;top:1352px;padding:18px 30px 24px;border-radius:26px;text-align:center;opacity:0;box-shadow:0 26px 60px rgba(11,31,77,.35)}
 .st .st-cv small{display:block;font:700 24px JBM;letter-spacing:7px;text-transform:uppercase;opacity:.85}
 .st .st-cv b{display:block;margin-top:8px;font:400 100px/1 Anton;text-transform:uppercase;white-space:nowrap}
 /* the end: tonight's five waiting */
-.st .st-e1{position:absolute;left:50px;right:50px;top:250px;text-align:center;font:400 168px/.88 Anton;text-transform:uppercase;color:#0B1F4D}
+.st .st-e1{position:absolute;left:50px;right:50px;top:300px;text-align:center;font:400 168px/.88 Anton;text-transform:uppercase;color:#0B1F4D}
 .st .st-e1 span{color:#1F5FDB}
-.st .st-ek{position:absolute;left:60px;right:60px;top:730px;text-align:center;font:800 40px/1.3 Manrope;color:#0B1F4D}
+.st .st-ek{position:absolute;left:60px;right:60px;top:830px;text-align:center;font:800 40px/1.3 Manrope;color:#0B1F4D}
 .st .st-ek small{display:block;font:700 22px JBM;letter-spacing:5px;color:#1F5FDB;margin-bottom:12px;text-transform:uppercase}
-.st .st-cm{position:absolute;left:80px;right:80px;top:900px;padding:26px 30px;border-radius:24px;background:#fff;box-shadow:0 16px 40px rgba(11,31,77,.18);display:flex;align-items:center;gap:22px;font:800 36px/1.25 Manrope;color:#0B1F4D}
+.st .st-cm{position:absolute;left:80px;right:80px;top:1050px;padding:26px 30px;border-radius:24px;background:#fff;box-shadow:0 16px 40px rgba(11,31,77,.18);display:flex;align-items:center;gap:22px;font:800 36px/1.25 Manrope;color:#0B1F4D}
 .st .st-cm .em{font-size:64px;line-height:1}
-.st .st-fol{position:absolute;left:0;right:0;top:1120px;display:flex;flex-direction:column;align-items:center;gap:14px}
+.st .st-fol{position:absolute;left:0;right:0;top:1290px;display:flex;flex-direction:column;align-items:center;gap:14px}
 .st .st-fol b{padding:18px 40px;border-radius:999px;background:#1F5FDB;color:#fff;font:800 38px Manrope;box-shadow:0 14px 30px rgba(31,95,219,.35)}
 .st .st-fol span{font:700 20px JBM;letter-spacing:5px;text-transform:uppercase;color:#41557D}
 #cap.stc .c{color:#0B1F4D;background:rgba(255,255,255,.95);padding:14px 30px 16px;border-radius:18px;text-shadow:none;box-shadow:0 14px 36px rgba(11,31,77,.22);font:800 44px/1.28 Manrope;letter-spacing:-.5px;-webkit-text-stroke:0;text-transform:none}
@@ -2907,10 +2917,11 @@ const built = D.scenes.map((sc, k) => {
         <div class="st-hd"><span>${html(b.left || q.competition || '')} · <b>${html(q.ko || q.kickoff || '')}</b></span><span>Call ${prev + ci + 1} of ${prev + calls.length}</span></div>
         <div class="st-vs" style="background:linear-gradient(105deg,${kh.bg} 0 50%,#FFFFFF 50% 50.5%,${ka.bg} 50.5% 100%)"><div class="t h"><div class="cr">${badge(q.bh)}</div>${nm('home')}</div><div class="v">V</div><div class="t a"><div class="cr">${badge(q.ba)}</div>${nm('away')}</div></div>
         <div class="st-fact"><small>${html(b.fact_label || 'The story')}</small>${pcNb(b.fact || '')}</div>${num}
+        ${b.poll === false ? '' : `<div class="st-poll"><div class="k">${html(b.poll_label || 'Make your call')}</div><div class="ops">${[['home', `<div class="ic">${badge(q.bh)}</div>`, vrName(q, 'home')], ['draw', '<div class="x">X</div>', 'Draw'], ['away', `<div class="ic">${badge(q.ba)}</div>`, vrName(q, 'away')]].map(([k, ic, n]) => `<div class="op" data-k="${k}" data-bg="${kv.bg}" data-ink="${vrInk(kv.bg)}">${ic}<span>${html(n)}</span></div>`).join('')}</div></div>`}
         <div class="st-cd"><div class="ring">3</div><small>${html(b.count_label || 'Make your call')}</small></div>
         <div class="st-cv" style="background:${kv.bg};color:${vrInk(kv.bg)}"><small>${html(b.verdict_label || 'Our call')}</small><b style="font-size:${vfs}px">${html(vtx)}</b></div>`
     } else if (sc.type === 'st_end') {
-      el.innerHTML = `<div class="st-pg"></div><div class="st-e1">${html(b.l1 || 'Ten in')}<br><span>${html(b.l2 || 'a row?')}</span></div>${row(600, true)}<div class="st-ek"><small>${html(b.kicker || '')}</small>${html(b.text || '')}</div>${b.comment ? `<div class="st-cm"><span class="em">💬</span><span>${html(b.comment)}</span></div>` : ''}<div class="st-fol"><b>${html(b.follow || 'Follow for the results')}</b><span>${html(b.tag || 'Football, by the numbers')}</span></div>`
+      el.innerHTML = `<div class="st-pg"></div><div class="st-e1">${html(b.l1 || 'Ten in')}<br><span>${html(b.l2 || 'a row?')}</span></div>${row(680, true)}<div class="st-ek"><small>${html(b.kicker || '')}</small>${html(b.text || '')}</div>${b.comment ? `<div class="st-cm"><span class="em">💬</span><span>${html(b.comment)}</span></div>` : ''}<div class="st-fol"><b>${html(b.follow || 'Follow for the results')}</b><span>${html(b.tag || 'Football, by the numbers')}</span></div>`
     }
   } else if (/^pc_/.test(sc.type)) {
     el.classList.add('pc')
@@ -3755,6 +3766,14 @@ function draw(k, lt, sc) {
       rise([$('.st-fact', el)], lt, vt(b.fact_at, [0, 0.05]), 0, 40)
       const nb = $('.st-num', el)
       if (nb) { rise([nb], lt, tM - 0.2, 0, 30); $$('.st-num .br i', el).forEach((n, i) => { n.style.width = n1(+n.dataset.w * P(lt, tM + i * 0.1, tM + 0.7 + i * 0.1, E.outCubic)) + '%' }) }
+      // the poll pops in under the numbers; when our call lands, the outcomes it covers light up in the backed side's kit
+      const pl = $('.st-poll', el)
+      if (pl) { const tP = vt(b.poll_at, [0, 0.45]), cov = b.covers || (/don.t lose|unbeaten/i.test(b.verdict || '') ? [b.side || 'home', 'draw'] : [b.side || 'home']), on = lt >= tV + 0.1
+        rise([$('.st-poll .k', el)], lt, tP, 0, 20)
+        $$('.st-poll .op', el).forEach((n, i) => { const at = tP + 0.08 + i * 0.1, q2 = P(lt, at, at + 0.35, E.outBack), y = cov.includes(n.dataset.k)
+          n.style.opacity = n1(P(lt, at, at + 0.1) * (on && !y ? 0.35 : 1)); n.classList.toggle('yes', on && y)
+          n.style.background = on && y ? n.dataset.bg : ''; n.style.color = on && y ? n.dataset.ink : ''
+          const pop = on && y && lt < tV + 0.4 ? 1 + 0.08 * (1 - (lt - tV - 0.1) / 0.3) : 1; n.style.transform = `scale(${n1((0.6 + 0.4 * q2) * pop)})` }) }
       // the countdown fills the pause after the first line: 3, 2, 1
       const cd = $('.st-cd', el), ring = $('.st-cd .ring', el), gap = Math.max(0.6, tL1 - tL0), k3 = clamp((lt - tL0) / gap)
       cd.style.opacity = n1(P(lt, tL0 - 0.05, tL0 + 0.1) * (1 - P(lt, tL1 - 0.05, tL1 + 0.12)))
@@ -4300,6 +4319,7 @@ function fxCinematic() {
     if (sc.type === 'st_call') {
       const tL0 = T + (S(sc, 0)[0] ?? 0) + (S(sc, 0)[1] ?? 1), tL1 = T + (S(sc, 1)[0] ?? 1), tV = T + vrT(sc, ...(b.verdict_at || [1, 0.35]))
       add(T + 0.02, '3115', -12); add(T + 0.08, '2097', -32, { align: 'start', max: sc.dur + 0.2 })
+      if (b.poll !== false) { const tP = T + vrT(sc, ...(b.poll_at || [0, 0.45])); for (let i = 0; i < 3; i++) add(tP + 0.08 + i * 0.1, '2380', -18) }
       const gap = Math.max(0.6, tL1 - tL0); for (let i = 0; i < 3; i++) add(tL0 + i * gap / 3, '2857', -10)
       add(tV, '2909', -7); add(tV + 0.02, '2299', -9); add(tV + 0.15, '2857', -16)
     }
@@ -4532,7 +4552,7 @@ window.renderAt = async function (t) {
   if (sc.type === 'tb_game' || sc.type === 'tb_ft') capEl.style.top = '1330px'
   if (sc.type === 'wo_tie' || sc.type === 'wo_title') capEl.style.top = '1560px'
   if (/^wo_/.test(sc.type)) { $('#tint').style.opacity = 0; $('#vig').style.opacity = 0; $('#credit').textContent = b.credit || '' }
-  if (/^st_/.test(sc.type)) { capEl.style.top = sc.type === 'st_cold' ? '1420px' : '1560px'; $('#tint').style.opacity = 0; $('#vig').style.opacity = 0; $('#credit').textContent = b.credit || '' }
+  if (/^st_/.test(sc.type)) { capEl.style.top = sc.type === 'st_cold' ? '1420px' : sc.type === 'st_call' ? '1590px' : '1560px'; $('#tint').style.opacity = 0; $('#vig').style.opacity = 0; $('#credit').textContent = b.credit || '' }
   if (/^pc_/.test(sc.type)) { capEl.style.top = sc.type === 'pc_cold' ? '1420px' : '1560px'; $('#tint').style.opacity = 0; $('#vig').style.opacity = 0; $('#credit').textContent = b.credit || '' }
   if (wait) await wait
 }

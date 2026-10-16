@@ -24,6 +24,49 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
+## 16 Oct: predictions, "Ten in a row?" (five Friday league games as a streak short, 1:15)
+
+- **The ask:** today's predictions, made to go viral.
+- **Before building:** applied the last three "Change next time" lines:
+  - the new format's prefix went into the `lib/narration.mjs` regex in the same commit as the CSS;
+  - checked `df -h /` before each render (5.2 GB free);
+  - checked that 543's drop is sustained;
+  - checked every screen on the frame-a-second sheet for half-empty layouts.
+- **What worked:**
+  - The streak gives a reason to watch to the end, and to come back for the results: a row of ten slots, five green
+    ticks from last night, five numbered for tonight, each filled with the backed side's crest as its call lands.
+  - Every call is a small game for the viewer: two streaks that collide, a home, draw or away poll, a 3-2-1 countdown
+    in a pause of the voice, then our call stamped. The outcomes it covers light up in the club's colours.
+  - The finale is the comment prompt: Burnley haven't won at home in almost a year, and Wolves haven't won at Turf Moor
+    since 2010.
+  - The "don't lose" stamp works on any of the five kit colours, from Frankfurt black to Wolves gold.
+- **Mistakes, and how they got through:**
+  - First render: the bottom half of each call screen sat empty for 4–7 s before the countdown. The stills were taken at
+    the busy moments, so only the frame-a-second sheet showed it. Fixed with the poll (bars at 20% of the first line,
+    poll at 40%), then re-rendered.
+  - Three-line facts ran into the numbers. Cut to two lines.
+  - "Our call: Toulouse don't lose" rhymes and sounds like a tongue-twister. The voice now says "Toulouse stay unbeaten".
+  - Kokoro can't say "Köln" (heard as "Curln", "Colne", "Cone"): switched to "Cologne", the app's own name, everywhere.
+  - In the first draft of the write-up I wrote a Burnley absentee who isn't in the brief, and gave Wolves players first
+    names I had guessed. Caught on the read-through and replaced with the brief's surnames only.
+  - The post kit's first draft said "one streak ends tonight": a draw keeps both runs going. Reworded.
+- **Change next time:**
+  - Before the first full render, check stills at the start of each screen's first line, not only at its key moments.
+  - Never write a player's first name that isn't in the brief.
+  - Test "X don't lose" out loud for rhymes and merges with the team name.
+  - The results video should bring the row back and tick or cross slots 6 to 10.
+- **Final review:** 75.4 s (X, Shorts, Reels; over TikTok's 60 s sweet spot), −14.8 LUFS, true peak −4.0 dB, the drop on
+  the title +7.4 dB. Music 543 "A New Life" (approved, not in the last six). Colour: blue 47%, then the kit colours.
+  Heard back: spelling only (Frozenone, Lamon, De Portivo, and "to lose" for Toulouse, which sounds the same).
+  Every second checked frame by frame on both renders.
+- **Sent:**
+  - the 27.9 MB chat copy, the cover and thumbnail, the srt, the write-up, the post kit (with chapters) and the sources;
+  - a private download page for the full 38.7 MB file (5 parts; the last part's served sha256 checked):
+    https://claude.ai/artifact/98HQj3oeyNBdqFxEivGtuA
+- **The owner's reaction:** (waiting)
+
+---
+
 ## 15 Oct: post-match, "Our analysis vs the results" (the five Postcards ties, 5 from 5, 2:04)
 
 - **Before building:** applied the last three "Change next time" lines:

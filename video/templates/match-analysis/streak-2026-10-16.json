@@ -1,0 +1,390 @@
+{
+ "mode": "review",
+ "title": "Ten in a row? Five Friday calls, 16 Oct",
+ "competition": "Friday football",
+ "date": "2026-10-16",
+ "sound": "cinematic",
+ "voice": "af_heart",
+ "voice_fx": "deep",
+ "voice_speed": 1.05,
+ "music_vibe": [
+  "cinematic"
+ ],
+ "music_drop": "after_cold",
+ "music_duck": 10,
+ "music_track": 543,
+ "stadiums": false,
+ "streak_prev": 5,
+ "review": {
+  "project": "Ten in a row",
+  "beats": [
+   {
+    "type": "st_cold",
+    "tail": 0.6,
+    "tick_line": 1,
+    "more_line": 2,
+    "steps": [
+     {
+      "big": "5",
+      "label": "calls last night"
+     },
+     {
+      "big": "5/5",
+      "tone": "green",
+      "label": "all five came in"
+     },
+     {
+      "big": "+5",
+      "label": "tonight · Lagos time"
+     },
+     {
+      "big": "10?",
+      "tone": "hot",
+      "glitch": true,
+      "label": "the streak"
+     }
+    ],
+    "say": [
+     "Last night, we called five games.",
+     "All five came in.",
+     "Tonight, five more.",
+     "Ten in a row?"
+    ]
+   },
+   {
+    "type": "st_title",
+    "drop": true,
+    "kicker": "Friday · five games · Lagos time",
+    "l1": "Ten in",
+    "l2": "a row?",
+    "sub": "Make your call before ours lands",
+    "say": [
+     "Five games tonight. Make your call, before we show ours."
+    ]
+   },
+   {
+    "type": "st_call",
+    "match": 0,
+    "side": "home",
+    "left": "Bundesliga",
+    "fact_label": "The streaks",
+    "fact": "Cologne: no away league win in 15. Frankfurt: no home win in 6.",
+    "verdict": "Frankfurt don't lose",
+    "pauses": [
+     1.8,
+     0
+    ],
+    "fact_at": [
+     0,
+     0.02
+    ],
+    "model_at": [
+     0,
+     0.2
+    ],
+    "poll_at": [
+     0,
+     0.4
+    ],
+    "verdict_at": [
+     1,
+     0.3
+    ],
+    "say": [
+     "Cologne haven't won away in fifteen league games. Frankfurt haven't won at home in six. Your call?",
+     "Our call: Frankfurt don't lose."
+    ]
+   },
+   {
+    "type": "st_call",
+    "match": 1,
+    "side": "home",
+    "left": "Serie A",
+    "fact_label": "The streaks",
+    "fact": "Sassuolo: no away win since mid-February. Frosinone: 50 of 69 home points under Alvini.",
+    "verdict": "Frosinone don't lose",
+    "pauses": [
+     1.8,
+     0
+    ],
+    "fact_at": [
+     0,
+     0.02
+    ],
+    "model_at": [
+     0,
+     0.2
+    ],
+    "poll_at": [
+     0,
+     0.4
+    ],
+    "verdict_at": [
+     1,
+     0.3
+    ],
+    "say": [
+     "Sassuolo haven't won away since February. Frosinone have taken fifty of sixty-nine home points under Alvini. Your call?",
+     "Our call: Frosinone don't lose."
+    ]
+   },
+   {
+    "type": "st_call",
+    "match": 2,
+    "side": "away",
+    "left": "Ligue 1",
+    "fact_label": "The streaks",
+    "fact": "Le Mans: no home league defeat in over a year. Toulouse: unbeaten away.",
+    "verdict": "Toulouse don't lose",
+    "pauses": [
+     1.8,
+     0
+    ],
+    "fact_at": [
+     0,
+     0.02
+    ],
+    "model_at": [
+     0,
+     0.2
+    ],
+    "poll_at": [
+     0,
+     0.4
+    ],
+    "verdict_at": [
+     1,
+     0.3
+    ],
+    "say": [
+     "Le Mans haven't lost a home league game in over a year. Toulouse haven't lost away all season. Your call?",
+     "Our call: Toulouse stay unbeaten."
+    ]
+   },
+   {
+    "type": "st_call",
+    "match": 3,
+    "side": "home",
+    "left": "LaLiga",
+    "fact_label": "The streaks",
+    "fact": "Deportivo: four games without a win, and no win over Levante since March 2016.",
+    "verdict": "Deportivo don't lose",
+    "pauses": [
+     1.8,
+     0
+    ],
+    "fact_at": [
+     0,
+     0.02
+    ],
+    "model_at": [
+     0,
+     0.2
+    ],
+    "poll_at": [
+     0,
+     0.4
+    ],
+    "verdict_at": [
+     1,
+     0.3
+    ],
+    "say": [
+     "Deportivo haven't won in four, and haven't beaten Levante since 2016. Your call?",
+     "Our call: Deportivo don't lose."
+    ]
+   },
+   {
+    "type": "st_call",
+    "match": 4,
+    "side": "home",
+    "left": "Championship",
+    "fact_label": "The streaks",
+    "fact": "Burnley: no home league win in almost a year. Wolves: no win there since 2010.",
+    "verdict": "Burnley don't lose",
+    "pauses": [
+     1.8,
+     0
+    ],
+    "fact_at": [
+     0,
+     0.02
+    ],
+    "model_at": [
+     0,
+     0.2
+    ],
+    "poll_at": [
+     0,
+     0.4
+    ],
+    "verdict_at": [
+     1,
+     0.3
+    ],
+    "say": [
+     "And the big one. Burnley haven't won a home league game in almost a year. Wolves haven't won there since 2010. Your call?",
+     "Our call: Burnley don't lose."
+    ]
+   },
+   {
+    "type": "st_end",
+    "l1": "Ten in",
+    "l2": "a row?",
+    "kicker": "The results are next",
+    "text": "If all five come in, it's ten in a row.",
+    "comment": "Burnley or Wolves? Comment your call",
+    "follow": "Follow for the results",
+    "say": [
+     "Five calls tonight. If all five come in, that's ten in a row.",
+     "Comment your call on Burnley and Wolves, and follow for the results."
+    ]
+   }
+  ]
+ },
+ "picks": [
+  {
+   "home": "Eintracht Frankfurt",
+   "away": "Cologne",
+   "competition": "Bundesliga",
+   "kickoff": "19:30",
+   "home_win": 53,
+   "draw": 25,
+   "away_win": 22,
+   "xg_home": 1.79,
+   "xg_away": 1.12,
+   "form_home": "WDLLD",
+   "form_away": "WLLDL",
+   "scored_home": 2.6,
+   "scored_away": 1.5,
+   "conceded_home": 2.4,
+   "conceded_away": 2.3,
+   "ko": "19:30",
+   "home_short": "Frankfurt",
+   "away_short": "Cologne",
+   "kit": {
+    "home": {
+     "c": "#1C1C1C"
+    },
+    "away": {
+     "c": "#E3061B"
+    }
+   },
+   "stadium": false
+  },
+  {
+   "home": "Frosinone",
+   "away": "Sassuolo",
+   "competition": "Serie A",
+   "kickoff": "19:45",
+   "home_win": 44,
+   "draw": 27,
+   "away_win": 29,
+   "xg_home": 1.48,
+   "xg_away": 1.18,
+   "form_home": "DWDWL",
+   "form_away": "DDWLD",
+   "scored_home": 1.5,
+   "scored_away": 1.67,
+   "conceded_home": 1.17,
+   "conceded_away": 1.67,
+   "ko": "19:45",
+   "home_short": "Frosinone",
+   "away_short": "Sassuolo",
+   "kit": {
+    "home": {
+     "c": "#1450A3"
+    },
+    "away": {
+     "c": "#00A04A"
+    }
+   },
+   "stadium": false
+  },
+  {
+   "home": "Le Mans FC",
+   "away": "Toulouse",
+   "competition": "Ligue 1",
+   "kickoff": "19:45",
+   "home_win": 33,
+   "draw": 27,
+   "away_win": 40,
+   "xg_home": 1.24,
+   "xg_away": 1.36,
+   "form_home": "LDDWL",
+   "form_away": "DLDWD",
+   "scored_home": 1.67,
+   "scored_away": 1.5,
+   "conceded_home": 2,
+   "conceded_away": 1.83,
+   "ko": "19:45",
+   "home_short": "Le Mans",
+   "away_short": "Toulouse",
+   "kit": {
+    "home": {
+     "c": "#E30613"
+    },
+    "away": {
+     "c": "#5B2B87"
+    }
+   },
+   "stadium": false
+  },
+  {
+   "home": "RC Deportivo de A Coruna",
+   "away": "Levante",
+   "competition": "LaLiga",
+   "kickoff": "20:00",
+   "home_win": 41,
+   "draw": 28,
+   "away_win": 31,
+   "xg_home": 1.45,
+   "xg_away": 1.25,
+   "scored_home": 1.5,
+   "scored_away": 1.57,
+   "conceded_home": 1.38,
+   "conceded_away": 2.14,
+   "ko": "20:00",
+   "home_short": "Deportivo",
+   "away_short": "Levante",
+   "kit": {
+    "home": {
+     "c": "#1B5CB8"
+    },
+    "away": {
+     "c": "#B4053F"
+    }
+   },
+   "stadium": false
+  },
+  {
+   "home": "Burnley",
+   "away": "Wolves",
+   "competition": "Championship",
+   "kickoff": "20:00",
+   "home_win": 37,
+   "draw": 28,
+   "away_win": 35,
+   "xg_home": 1.3,
+   "xg_away": 1.26,
+   "form_home": "LDLLD",
+   "form_away": "DLWWW",
+   "scored_home": 1.5,
+   "scored_away": 1.6,
+   "conceded_home": 1.9,
+   "conceded_away": 1.3,
+   "ko": "20:00",
+   "home_short": "Burnley",
+   "away_short": "Wolves",
+   "kit": {
+    "home": {
+     "c": "#6C1D45"
+    },
+    "away": {
+     "c": "#FDB913"
+    }
+   },
+   "stadium": false
+  }
+ ]
+}
