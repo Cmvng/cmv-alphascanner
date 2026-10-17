@@ -1291,6 +1291,94 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#03060F}
 .stk{position:absolute;font-size:240px;line-height:1;filter:drop-shadow(0 20px 40px rgba(0,0,0,.55))}
 .pcl{position:absolute;font-size:90px;line-height:1}
 
+/* card battles (cb_*, first used 17 Oct 2026): each big game opens like a pack. Two cards dealt face down flip to the
+   clubs in their own colours and a shine sweeps across them; then the story, the app's numbers row by row (the better
+   side's value in its kit colour) and our call. The rest of the day on a binder page of small cards. Light page; royal
+   blue under the cold open. */
+.cb{overflow:hidden}
+.cb .cb-pg{position:absolute;inset:0;background:radial-gradient(90% 60% at 50% 35%,#EEF4FF 0%,#DCE9FB 60%,#C6D9F4 100%)}
+.cb .cb-pg::after{content:'';position:absolute;inset:0;background:repeating-linear-gradient(115deg,rgba(31,95,219,.035) 0 2px,transparent 2px 9px)}
+.cb .cd{position:absolute;perspective:1800px}
+.cb .cd .in{position:absolute;inset:0;transform-style:preserve-3d}
+.cb .cd .fc,.cb .cd .bk{position:absolute;inset:0;border-radius:30px;backface-visibility:hidden;-webkit-backface-visibility:hidden;overflow:hidden;box-shadow:0 26px 56px rgba(11,31,77,.32)}
+.cb .cd .bk{transform:rotateY(180deg);background:repeating-linear-gradient(45deg,#1F5FDB 0 16px,#174FC0 16px 32px)}
+.cb .cd .bk::before{content:'';position:absolute;inset:12px;border-radius:20px;box-shadow:inset 0 0 0 5px rgba(255,255,255,.85)}
+.cb .cd .bk .lg{position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);display:flex;align-items:flex-end;justify-content:center;gap:9px;font:400 54px/1 Anton;color:#fff;letter-spacing:1px}
+.cb .cd .bk .lg i{display:block;width:12px;border-radius:3px;background:#fff;transform:skewX(-11deg)}
+.cb .cd .fc::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.2),rgba(0,0,0,.24))}
+.cb .cd .fc::after{content:'';position:absolute;inset:12px;border-radius:20px;box-shadow:inset 0 0 0 4px rgba(255,255,255,.45)}
+.cb .cd .fc .sh{position:absolute;inset:0;background:linear-gradient(105deg,transparent 30%,rgba(255,255,255,.6) 48%,rgba(255,255,255,.15) 54%,transparent 68%);transform:translateX(-130%);z-index:2}
+.cb .cd .fc .tg{position:absolute;left:34px;top:30px;z-index:1;font:700 20px JBM;letter-spacing:4px;text-transform:uppercase;opacity:.9}
+.cb .cd .fc .cr{position:absolute;left:50%;top:84px;width:236px;height:236px;margin-left:-118px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 14px 34px rgba(0,0,0,.3);z-index:1}
+.cb .cd .fc .cr .badge{width:178px;height:178px}
+.cb .cd .fc .nm{position:absolute;left:20px;right:20px;top:352px;text-align:center;font:400 64px/1 Anton;text-transform:uppercase;z-index:1;white-space:nowrap}
+.cb .cd .fc .fm{position:absolute;left:0;right:0;bottom:44px;display:flex;justify-content:center;gap:10px;z-index:1}
+.cb .cd .fc .fm i{width:40px;height:40px;border-radius:50%;font:400 22px/40px Anton;text-align:center;font-style:normal;color:#fff;box-shadow:0 0 0 3px rgba(255,255,255,.8)}
+.cb .cd .fc .fm i.w{background:#1E9E62}.cb .cd .fc .fm i.d{background:#7A8CB0}.cb .cd .fc .fm i.l{background:#D7263D}
+.cb .cd .fc .fl{position:absolute;left:0;right:0;bottom:96px;text-align:center;font:700 18px JBM;letter-spacing:4px;text-transform:uppercase;opacity:.85;z-index:1}
+/* a battle */
+.cb .cb-hd{position:absolute;left:52px;right:52px;top:66px;display:flex;justify-content:space-between;font:700 22px JBM;letter-spacing:4px;text-transform:uppercase;color:#1F5FDB}
+.cb .cb-hd b{color:#0B1F4D}
+.cb .cb-vs{position:absolute;left:50%;top:372px;width:112px;height:112px;margin-left:-56px;border-radius:50%;background:#0B1F4D;color:#fff;font:400 50px/112px Anton;text-align:center;box-shadow:0 0 0 8px #fff,0 18px 40px rgba(11,31,77,.35);z-index:3}
+.cb .cb-st{position:absolute;left:50px;right:50px;top:758px;padding:20px 30px 22px;border-radius:24px;background:#fff;box-shadow:0 16px 40px rgba(11,31,77,.16);font:800 34px/1.22 Manrope;color:#0B1F4D}
+.cb .cb-st small,.cb .cb-nm .k small{display:block;font:700 20px JBM;letter-spacing:4px;text-transform:uppercase;color:#1F5FDB;margin-bottom:10px}
+.cb .cb-nm{position:absolute;left:50px;right:50px;top:986px;padding:20px 26px 14px;border-radius:24px;background:#fff;box-shadow:0 16px 40px rgba(11,31,77,.16)}
+.cb .cb-nm .k{display:flex;align-items:center;justify-content:space-between}
+.cb .cb-nm .k small{margin:0}
+.cb .cb-nm .k .badge{width:44px;height:44px}
+.cb .cb-nm .r{display:grid;grid-template-columns:150px 1fr 150px;align-items:center;gap:12px;height:70px;border-top:2px solid #EDF2FA}
+.cb .cb-nm .r:first-of-type{border-top:0}
+.cb .cb-nm .r span{text-align:center;font:700 22px JBM;letter-spacing:2px;text-transform:uppercase;color:#41557D}
+.cb .cb-nm .r span small{display:block;font:700 15px JBM;letter-spacing:2px;color:#8A9BBD;margin-top:3px}
+.cb .cb-nm .r b{justify-self:center;min-width:120px;padding:8px 14px;border-radius:14px;text-align:center;font:400 40px/1 Anton;color:#41557D;background:#EEF3FB}
+.cb .cb-cv{position:absolute;left:50px;right:50px;top:1372px;padding:18px 30px 22px;border-radius:26px;text-align:center;opacity:0;box-shadow:0 24px 56px rgba(11,31,77,.32)}
+.cb .cb-cv small{display:block;font:700 22px JBM;letter-spacing:7px;text-transform:uppercase;opacity:.85}
+.cb .cb-cv b{display:block;margin-top:8px;font:400 84px/1 Anton;text-transform:uppercase;white-space:nowrap}
+/* the cold open: five cards face down on royal blue, one number per line */
+.cb .cb-cold{position:absolute;inset:0;background:radial-gradient(85% 60% at 50% 42%,#164AA6 0%,#0D3B8E 55%,#0A2C6E 100%)}
+.cb .cb-cbig{position:absolute;left:0;right:0;top:790px;text-align:center;font:400 300px/1 Anton;color:#fff;white-space:nowrap}
+.cb .cb-cbig.hot{color:#9FD2FF}
+.cb .cb-cbig.red{color:#FF8A96}
+.cb .cb-clab{position:absolute;left:0;right:0;top:1120px;text-align:center;font:700 28px JBM;letter-spacing:7px;text-transform:uppercase;color:#DCE9FB}
+/* the title and the end: small cards in a fan */
+.cb .cb-tt{position:absolute;left:50px;right:50px;top:200px;text-align:center}
+.cb .cb-tt .k{font:700 26px JBM;letter-spacing:6px;text-transform:uppercase;color:#1F5FDB}
+.cb .cb-tt .a{margin-top:18px;font:400 210px/.86 Anton;text-transform:uppercase;color:#0B1F4D}
+.cb .cb-tt .a span{color:#1F5FDB}
+.cb .cb-tt .b{margin-top:22px;font:800 36px Manrope;color:#41557D}
+.cb .cd.sm .fc .cr{top:34px;width:118px;height:118px;margin-left:-59px}
+.cb .cd.sm .fc .cr .badge{width:88px;height:88px}
+.cb .cd.sm .fc .cr.b2{top:166px}
+.cb .cd.sm .fc .ko{position:absolute;left:0;right:0;bottom:26px;text-align:center;font:700 22px JBM;letter-spacing:2px;color:#fff;z-index:1}
+.cb .cd.sm .fc .cl{position:absolute;left:14px;right:14px;bottom:20px;text-align:center;font:400 30px/1.02 Anton;text-transform:uppercase;z-index:1}
+.cb .cd.sm .fc .fc2{position:absolute;inset:0}
+.cb .cd.sm .bk .lg{font-size:30px;gap:6px}
+.cb .cd.sm .bk .lg i{width:8px}
+.cb .cb-ek{position:absolute;left:60px;right:60px;top:1010px;text-align:center;font:800 40px/1.3 Manrope;color:#0B1F4D}
+.cb .cb-ek small{display:block;font:700 22px JBM;letter-spacing:5px;color:#1F5FDB;margin-bottom:12px;text-transform:uppercase}
+.cb .cb-cm{position:absolute;left:80px;right:80px;top:1150px;padding:24px 30px;border-radius:24px;background:#fff;box-shadow:0 16px 40px rgba(11,31,77,.18);display:flex;align-items:center;gap:22px;font:800 34px/1.25 Manrope;color:#0B1F4D}
+.cb .cb-cm .em{font-size:60px;line-height:1}
+.cb .cb-fol{position:absolute;left:0;right:0;top:1340px;display:flex;flex-direction:column;align-items:center;gap:14px}
+.cb .cb-fol b{padding:18px 40px;border-radius:999px;background:#1F5FDB;color:#fff;font:800 38px Manrope;box-shadow:0 14px 30px rgba(31,95,219,.35)}
+.cb .cb-fol span{font:700 20px JBM;letter-spacing:5px;text-transform:uppercase;color:#41557D}
+/* the binder page: the rest of the day as small cards */
+.cb .cb-bh{position:absolute;left:56px;right:56px;top:120px}
+.cb .cb-bh .k{font:700 22px JBM;letter-spacing:5px;text-transform:uppercase;color:#1F5FDB}
+.cb .cb-bh .a{margin-top:8px;font:400 110px/.9 Anton;text-transform:uppercase;color:#0B1F4D}
+.cb .cb-bh .a span{color:#1F5FDB}
+.cb .cb-bc{position:absolute;width:472px;height:236px;border-radius:22px;background:#fff;box-shadow:0 14px 34px rgba(11,31,77,.16);overflow:hidden}
+.cb .cb-bc .bd{position:absolute;left:0;right:0;top:0;height:84px}
+.cb .cb-bc .bd .badge{position:absolute;top:12px;width:60px;height:60px;border-radius:50%;background:#fff;box-shadow:0 0 0 4px #fff,0 6px 16px rgba(0,0,0,.25)}
+.cb .cb-bc .bd .ko{position:absolute;left:0;right:0;top:26px;text-align:center;font:700 22px JBM;letter-spacing:2px;color:#fff;text-shadow:0 2px 8px rgba(0,0,0,.4)}
+.cb .cb-bc .t{position:absolute;left:20px;right:20px;top:96px;font:800 27px Manrope;color:#0B1F4D;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cb .cb-bc .n{position:absolute;left:20px;right:20px;top:136px;font:700 22px/1.3 Manrope;color:#41557D}
+.cb .cb-bc .p{position:absolute;left:20px;bottom:14px;font:700 16px JBM;letter-spacing:2px;text-transform:uppercase;color:#1F5FDB}
+#cap.cbc .c{color:#0B1F4D;background:rgba(255,255,255,.95);padding:14px 30px 16px;border-radius:18px;text-shadow:none;box-shadow:0 14px 36px rgba(11,31,77,.22);font:800 44px/1.28 Manrope;letter-spacing:-.5px;-webkit-text-stroke:0;text-transform:none}
+#cap.cbc .w.now{background:none;box-shadow:none;color:#1F5FDB;padding:0;margin:0 .13em}
+#cap.cbc .w.next{opacity:1;color:#A9B7CF}
+#cap.cbn .c{color:#fff;background:rgba(5,22,66,.5)}
+#cap.cbn .w.now{color:#9FD2FF}
+#cap.cbn .w.next{color:rgba(255,255,255,.5)}
 /* ten in a row (st_*, first used 16 Oct 2026): a predictions short built on a streak. A row of slots holds last
    night's calls (green ticks) and tonight's (numbered, then the backed side's crest as each call lands). Each call: a
    kit-colour versus card, one fact, our numbers, a 3-2-1 "make your call" countdown in a pause of the voice, then the
@@ -2417,6 +2505,9 @@ function mkBg(sc, k) {
   if (/^gl_/.test(sc.type)) {        // follow the sun draws its own sky; deep royal blue under the cold open
     const d = document.createElement('div'); d.className = 'bg none'; d.style.background = sc.type === 'gl_cold' ? '#0B2A6F' : '#D6E8FF'; d.style.filter = 'none'; $('#bgs').appendChild(d); return d
   }
+  if (/^cb_/.test(sc.type)) {        // card battles draw their own table; deep royal blue under the cold open
+    const d = document.createElement('div'); d.className = 'bg none'; d.style.background = sc.type === 'cb_cold' ? '#0D3B8E' : '#DCE9FB'; d.style.filter = 'none'; $('#bgs').appendChild(d); return d
+  }
   if (/^st_/.test(sc.type)) {        // ten in a row draws its own page; deep royal blue under the cold open
     const d = document.createElement('div'); d.className = 'bg none'; d.style.background = sc.type === 'st_cold' ? '#0D3B8E' : '#DCE9FB'; d.style.filter = 'none'; $('#bgs').appendChild(d); return d
   }
@@ -2914,6 +3005,57 @@ const built = D.scenes.map((sc, k) => {
         return `<div class="en-mc${j === cats.length - 1 && cats.length % 2 ? ' wide' : ''}" style="border-left-color:${kh.bg}"><div class="en-mt">${badge(p.bh)}${badge(p.ba)}<span>${html(p.ko || '')} · ${html(p.where || '')}</span></div><b>${html(v.short || v.text || '')}</b><span>${html(v.score ? 'Likeliest ' + v.score : '')}</span></div>` }).join('')
       el.innerHTML = `<div class="en-stage"></div>${enPhotoLayer(ph)}<div class="en-pg">${top(`<b>${html(b.when || '')}</b>`)}<div class="en-e1">${html(b.l1 || '')} <span>${html(b.l2 || '')}</span></div><div class="en-grid">${cards}</div>
         <div class="en-fol" style="top:${b.fol_top ?? 1260}px"><b>${html(b.follow || 'Follow for the post-match')}</b><span>Football, by the numbers</span></div></div>`
+    }
+  } else if (/^cb_/.test(sc.type)) {
+    el.classList.add('cb')
+    const bts = D.scenes.filter(x => x.type === 'cb_battle'), bi = bts.indexOf(sc), q = D.picks[b.match ?? 0] || M
+    const back = (s = 1) => `<div class="bk"><div class="lg"><i style="height:${22 * s}px"></i><i style="height:${34 * s}px"></i><i style="height:${46 * s}px"></i>cmvng</div></div>`
+    const at = (x, y, w, h, r) => `left:${x}px;top:${y}px;width:${w}px;height:${h}px" data-r="${r || 0}`
+    // a small card: home crest over away crest and the kick-off (title), or the backed side and our call (end)
+    const mini = (p, x, y, w, h, r, call) => { const s = call?.side === 'away' ? 'away' : 'home', k = vrKit(p, call ? s : 'home')
+      const face = call ? `<div class="cr" style="top:46px;width:150px;height:150px;margin-left:-75px">${badge(s === 'away' ? p.ba : p.bh)}</div><div class="cl" style="color:${k.ink};font-size:${Math.min(30, Math.floor(160 / (0.45 * Math.max(5, [...call.text].length / 2))))}px">${html(call.text)}</div>`
+        : `<div class="cr">${badge(p.bh)}</div><div class="cr b2">${badge(p.ba)}</div><div class="ko" style="color:${vrInk(vrKit(p, 'away').bg)}">${html(p.ko || p.kickoff || '')}</div>`
+      return `<div class="cd sm" style="${at(x, y, w, h, r)}"><div class="in"><div class="fc" style="background:${call ? k.bg : 'linear-gradient(180deg,' + vrKit(p, 'home').bg + ' 0 50%,' + vrKit(p, 'away').bg + ' 50% 100%)'};color:${k.ink}"><div class="sh"></div>${face}</div>${back(0.62)}</div></div>` }
+    const fan = (n, y, w, h, gap, calls) => bts.slice(0, n).map((c, i) => { const p = D.picks[c.data.match ?? 0] || M, x = 540 + (i - (n - 1) / 2) * gap - w / 2
+      return mini(p, x, y + Math.abs(i - (n - 1) / 2) * 16, w, h, (i - (n - 1) / 2) * 5, calls ? { side: c.data.side, text: c.data.verdict || '' } : null) }).join('')
+    if (sc.type === 'cb_battle') {
+      const kh = vrKit(q, 'home'), ka = vrKit(q, 'away'), kv = b.side === 'away' ? ka : kh
+      const nmf = s => { const n = vrName(q, s); return Math.min(64, Math.floor(436 / (0.44 * Math.max(5, [...n].length)))) }
+      const fm = s => { const f = b.form === false ? '' : (s === 'away' ? q.form_away : q.form_home) || ''
+        return f ? `<div class="fl">Last five</div><div class="fm">${[...f].map(c => `<i class="${c.toLowerCase()}">${c}</i>`).join('')}</div>` : '' }
+      const card = (s, x) => { const k = s === 'away' ? ka : kh
+        return `<div class="cd big" style="${at(x, 130, 476, 600, s === 'away' ? 2 : -2)}"><div class="in"><div class="fc" style="background:${k.bg};color:${k.ink}"><div class="sh"></div><div class="tg">${s === 'away' ? 'Away' : 'Home'}</div>
+          <div class="cr">${badge(s === 'away' ? q.ba : q.bh)}</div><div class="nm" style="font-size:${nmf(s)}px">${html(vrName(q, s))}</div>${fm(s)}</div>${back()}</div></div>` }
+      const f1 = v => (+v).toFixed(1), f2 = v => (+v).toFixed(2), pc = v => Math.round(v) + '%'
+      const R = { scored: ['Goals a game', q.scored_home, q.scored_away, 1, f1], conceded: ['Conceded a game', q.conceded_home, q.conceded_away, -1, f1],
+        xg: ['Expected goals today', q.xg_home, q.xg_away, 1, f2], win: [`Win chance<small>draw ${pc(q.draw ?? 0)}</small>`, q.home_win, q.away_win, 1, pc] }
+      const rows = (b.rows || ['scored', 'conceded', 'xg', 'win']).map(k => R[k]).filter(r => r && r[1] != null && r[2] != null)
+        .map(([lab, h, a, dir, f]) => { const d = dir * (h - a), w = Math.abs(d) < 1e-9 ? '' : d > 0 ? 'home' : 'away'
+          return `<div class="r" data-w="${w}"><b data-s="home" data-bg="${kh.bg}" data-ink="${vrInk(kh.bg)}">${f(h)}</b><span>${lab}</span><b data-s="away" data-bg="${ka.bg}" data-ink="${vrInk(ka.bg)}">${f(a)}</b></div>` }).join('')
+      const vtx = b.verdict || '', vfs = Math.min(84, Math.floor(900 / (0.44 * Math.max(8, [...vtx].length))))
+      el.innerHTML = `<div class="cb-pg"></div>
+        <div class="cb-hd"><span>${html(b.left || q.competition || '')} · <b>${html(q.ko || q.kickoff || '')}</b></span><span>Battle ${bi + 1} of ${bts.length}</span></div>
+        ${card('home', 44)}${card('away', 560)}<div class="cb-vs">V</div>
+        <div class="cb-st"><small>${html(b.story_label || 'The story')}</small>${pcNb(b.story || '')}</div>
+        <div class="cb-nm"><div class="k">${badge(q.bh)}<small>${html(b.model_label || 'Our numbers')}</small>${badge(q.ba)}</div>${rows}</div>
+        <div class="cb-cv" style="background:${kv.bg};color:${vrInk(kv.bg)}"><small>${html(b.verdict_label || 'Our call')}</small><b style="font-size:${vfs}px">${html(vtx)}</b></div>`
+    } else if (sc.type === 'cb_cold') {
+      const nc = b.cards ?? 5
+      el.innerHTML = `<div class="cb-cold"></div>${Array.from({ length: nc }, (_, i) => { const c = i - (nc - 1) / 2
+        return `<div class="cd sm" style="${at(540 + c * 190 - 85, 300 + Math.abs(c) * 18, 170, 240, c * 6)}"><div class="in" style="transform:rotateY(180deg)"><div class="fc"></div>${back(0.55)}</div></div>` }).join('')}<div class="cb-cbig"></div><div class="cb-clab"></div>`
+    } else if (sc.type === 'cb_title') {
+      el.innerHTML = `<div class="cb-pg"></div><div class="cb-tt"><div class="k">${html(b.kicker || '')}</div><div class="a">${html(b.l1 || 'Card')}<br><span>${html(b.l2 || 'battles')}</span></div></div>
+        ${fan(bts.length, 790, 180, 330, 196)}<div class="cb-ek" style="top:1250px"><small>${html(b.sub_label || '')}</small>${html(b.sub || '')}</div>`
+    } else if (sc.type === 'cb_board') {
+      const cards = (b.cards || []).map((c, j) => { const p = D.picks[c.match] || M, kh = vrKit(p, 'home'), ka = vrKit(p, 'away'), col = j % 2, row = Math.floor(j / 2)
+        const hi = Math.max(p.home_win ?? 0, p.away_win ?? 0), fav = (p.away_win ?? 0) > (p.home_win ?? 0) ? vrName(p, 'away') : vrName(p, 'home')
+        return `<div class="cb-bc" data-j="${j}" style="left:${56 + col * 496}px;top:${330 + row * 258}px"><div class="bd" style="background:linear-gradient(105deg,${kh.bg} 0 50%,${ka.bg} 50% 100%)">
+          <span style="position:absolute;left:20px">${badge(p.bh)}</span><div class="ko">${html(p.ko || p.kickoff || '')}</div><span style="position:absolute;right:80px">${badge(p.ba)}</span></div>
+          <div class="t">${html(vrName(p, 'home'))} v ${html(vrName(p, 'away'))}</div><div class="n">${pcNb(c.note || '')}</div><div class="p">${b.model === false ? html(p.competition || '') : `Our numbers · ${html(fav)} ${hi}%`}</div></div>` }).join('')
+      el.innerHTML = `<div class="cb-pg"></div><div class="cb-bh"><div class="k">${html(b.kicker || '')}</div><div class="a">${html(b.l1 || 'Also')} <span>${html(b.l2 || 'today')}</span></div></div>${cards}`
+    } else if (sc.type === 'cb_end') {
+      el.innerHTML = `<div class="cb-pg"></div><div class="cb-tt" style="top:150px"><div class="k">${html(b.kicker || '')}</div><div class="a" style="font-size:150px">${html(b.l1 || 'Five')}<br><span>${html(b.l2 || 'battles')}</span></div></div>
+        ${fan(bts.length, 640, 180, 300, 196, true)}<div class="cb-ek"><small>${html(b.text_label || '')}</small>${html(b.text || '')}</div>${b.comment ? `<div class="cb-cm"><span class="em">💬</span><span>${html(b.comment)}</span></div>` : ''}<div class="cb-fol"><b>${html(b.follow || 'Follow for the results')}</b><span>${html(b.tag || 'Football, by the numbers')}</span></div>`
     }
   } else if (/^st_/.test(sc.type)) {
     el.classList.add('st')
@@ -3760,6 +3902,52 @@ function draw(k, lt, sc) {
       $$('.en-mc', el).forEach((d, i) => { const a = 0.6 + i * 0.12, q2 = P(lt, a, a + 0.4, E.outBack); d.style.opacity = lt >= a ? 1 : 0; d.style.transform = `scale(${n1(0.6 + 0.4 * q2)})` })
       rise([$('.en-fol', el)], lt, vrT(sc, sc.lines.length - 1, 0), 0, 30)
     }
+  } else if (/^cb_/.test(sc.type)) {
+    const vt = (a, d) => vrT(sc, ...(a || d)), last = sc.lines.length - 1
+    // a card is dealt (rises with a turn), then flips face up and a shine sweeps across it
+    const deal = (n, t0, dy = 300) => { const q = P(lt, t0, t0 + 0.5, E.outBack), r = +n.dataset.r || 0
+      n.style.opacity = n1(P(lt, t0, t0 + 0.12)); n.style.transform = `translate3d(0,${n1(dy * (1 - q))}px,0) rotate(${n1(r + 10 * Math.sign(r || 1) * (1 - q))}deg)` }
+    const flip = (n, t0, dur = 0.55) => { const q = P(lt, t0, t0 + dur, E.inOutSine), inn = $('.in', n); inn.style.transform = `rotateY(${n1(180 * (1 - q))}deg) scale(${n1(1 + 0.06 * Math.sin(Math.PI * q))})`
+      const sh = $('.sh', n); if (sh) sh.style.transform = `translateX(${n1(-130 + 260 * P(lt, t0 + dur, t0 + dur + 0.75, E.inOutSine))}%)` }
+    if (sc.type === 'cb_battle') {
+      const cds = $$('.cd.big', el), fa = b.flip_at ? vt(b.flip_at) : 0.45
+      cds.forEach((n, i) => { deal(n, 0.02 + i * 0.12); flip(n, fa + i * 0.22) })
+      slam($('.cb-vs', el), lt, fa + 0.75, 2.2, 0.26); $('.cb-hd', el).style.opacity = n1(P(lt, 0.05, 0.4))
+      rise([$('.cb-st', el)], lt, vt(b.story_at, [0, 0.12]), 0, 40)
+      const tM = vt(b.model_at, [0, 0.62]), rs = $$('.cb-nm .r', el), gap = b.row_gap ?? 0.45
+      rise([$('.cb-nm', el)], lt, tM - 0.25, 0, 30)
+      rs.forEach((r, i) => { const t0 = tM + i * gap, q = P(lt, t0, t0 + 0.35, E.outCubic); r.style.opacity = n1(q); r.style.transform = `translate3d(${n1(-30 * (1 - q))}px,0,0)`
+        const on = lt >= t0 + 0.25; $$('b', r).forEach(v => { const y = on && r.dataset.w === v.dataset.s; v.style.background = y ? v.dataset.bg : ''; v.style.color = y ? v.dataset.ink : ''
+          v.style.transform = y && lt < t0 + 0.55 ? `scale(${n1(1 + 0.18 * (1 - (lt - t0 - 0.25) / 0.3))})` : '' }) })
+      const tV = vt(b.verdict_at, [last, 0.3]), cv = $('.cb-cv', el), qc = P(lt, tV, tV + 0.22, E.outCubic)
+      cv.style.opacity = n1(P(lt, tV, tV + 0.05)); cv.style.transform = `scale(${n1(1.45 - 0.45 * qc)}) rotate(${n1(-2.5 * qc)}deg) ${shake(lt, tV + 0.2, 8)}`
+      // the backed side's card lifts when the call lands
+      cds.forEach(n => { const y = (n.querySelector('.tg')?.textContent === 'Away') === (b.side === 'away'), k = P(lt, tV, tV + 0.4, E.outBack)
+        if (lt >= tV) n.style.transform += ` translate3d(0,${n1(y ? -18 * k : 10 * k)}px,0) scale(${n1(y ? 1 + 0.03 * k : 1 - 0.04 * k)})`; n.style.filter = lt >= tV && !y ? `saturate(${n1(1 - 0.5 * k)}) brightness(${n1(1 - 0.12 * k)})` : '' })
+    } else if (sc.type === 'cb_cold') {
+      // one number per line over five cards face down; the last line is the twist
+      const steps = b.steps || [], nl = sc.lines.filter(l => lt >= l[0] - 0.08).length, j = Math.max(0, Math.min(steps.length - 1, nl - 1)), st = steps[j] || {}
+      const big = $('.cb-cbig', el), lab = $('.cb-clab', el), a = S(sc, j)[0] ?? 0
+      if (big._j !== j) { big._j = j; big.textContent = st.big || ''; big.className = 'cb-cbig' + (st.tone ? ' ' + st.tone : ''); lab.textContent = st.label || ''; big.style.fontSize = Math.min(300, Math.floor(980 / (0.5 * Math.max(1, [...(st.big || '')].length)))) + 'px' }
+      slam(big, lt, a - 0.05, 1.6, 0.26); lab.style.opacity = n1(P(lt, a + 0.15, a + 0.45))
+      if (st.glitch) { const g = glitch(big, lt, a + (st.glitch_at || 0.3)); if (g) big.style.transform += g }
+      const tl = S(sc, last)[0] ?? 3
+      $$('.cd', el).forEach((n, i) => { deal(n, (S(sc, 0)[0] ?? 0) + i * 0.14, 260); if (lt >= tl) n.style.transform += ' ' + shake(lt, tl + i * 0.03, 10) })
+    } else if (sc.type === 'cb_title') {
+      slam($('.cb-tt .a', el), lt, 0.05, 1.5, 0.3); rise([$('.cb-tt .k', el)], lt, 0.35, 0, 24)
+      $$('.cd', el).forEach((n, i) => { deal(n, 0.45 + i * 0.12); flip(n, 0.95 + i * 0.16, 0.45) })
+      rise([$('.cb-ek', el)], lt, 1.9, 0, 30)
+    } else if (sc.type === 'cb_board') {
+      rise([$('.cb-bh', el)], lt, 0.05, 0, 30)
+      const hl = (b.hl || []).map(h => ({ j: h.j, a: vt(h.at), z: h.to ? vt(h.to) : 1e9 })), cur = hl.find(h => lt >= h.a && lt < h.z)
+      $$('.cb-bc', el).forEach((n, i) => { const t0 = 0.35 + i * (b.deal_gap ?? 0.22), q = P(lt, t0, t0 + 0.45, E.outBack), lift = cur && cur.j === i ? P(lt, cur.a, cur.a + 0.3, E.outBack) : 0
+        n.style.opacity = n1(P(lt, t0, t0 + 0.1) * (cur && cur.j !== i ? 0.45 : 1)); n.style.zIndex = lift ? 5 : 1
+        n.style.transform = `translate3d(0,${n1(80 * (1 - q) - 14 * lift)}px,0) rotate(${n1((i % 2 ? 4 : -4) * (1 - q))}deg) scale(${n1(1 + 0.05 * lift)})` })
+    } else if (sc.type === 'cb_end') {
+      slam($('.cb-tt .a', el), lt, 0.05, 1.4, 0.3); rise([$('.cb-tt .k', el)], lt, 0.3, 0, 24)
+      $$('.cd', el).forEach((n, i) => { deal(n, 0.3 + i * 0.1); flip(n, 0.7 + i * 0.14, 0.4) })
+      rise([$('.cb-ek', el), $('.cb-cm', el)], lt, 1.3, 0.25, 30); rise([$('.cb-fol', el)], lt, vrT(sc, last, 0), 0, 30)
+    }
   } else if (/^st_/.test(sc.type)) {
     const vt = (a, d) => vrT(sc, ...(a || d)), last = sc.lines.length - 1, prev = D.cfg.streak_prev ?? 5
     const calls = D.scenes.filter(x => x.type === 'st_call'), ci = calls.indexOf(sc), slots = $$('.st-row i', el)
@@ -4328,6 +4516,24 @@ function fxCinematic() {
     }
     if (sc.type === 'en_board') { add(T + 0.2, '2909', -9); D.scenes.filter(s => s.type === 'en_res').forEach((_, i) => add(T + vrT(sc, ...(b.stamps_at || [0, 0.6])) + i * 0.22, '1365', -14)) }
     if (sc.type === 'en_end') { add(T + 0.2, '2909', -8); add(T + 0.25, '2299', -8); enCats().forEach((_, i) => syn(T + 0.6 + i * 0.12, 'paper', 0.22)) }
+    // card battles: a heartbeat under the cold open and a card slap per card; a swoosh and a page flick for each card
+    // dealt and turned; a select tick per stat row; a hit and a bass hit on each call
+    if (sc.type === 'cb_cold') {
+      add(T, '497', -14, { align: 'start', max: Math.max(1, sc.dur - 0.2) })
+      sc.lines.forEach((_, j) => add(at(j) - 0.04, '2909', j ? -14 : -9))
+      for (let i = 0; i < (b.cards ?? 5); i++) add(T + (S(sc, 0)[0] ?? 0) + i * 0.14, '2380', -16)
+      if (next?.data?.drop) add(next.start, '2908', -6, { reverse: true, max: 2.6, align: 'end' })
+    }
+    if (sc.type === 'cb_title') { add(T + 0.05, '2299', -8); D.scenes.filter(x => x.type === 'cb_battle').forEach((_, i) => { add(T + 0.45 + i * 0.12, '2380', -17); add(T + 0.95 + i * 0.16, '3115', -20) }) }
+    if (sc.type === 'cb_battle') {
+      const fa = b.flip_at ? vrT(sc, ...b.flip_at) : 0.45, tM = vrT(sc, ...(b.model_at || [0, 0.62])), tV = vrT(sc, ...(b.verdict_at || [sc.lines.length - 1, 0.3]))
+      add(T + 0.02, '2380', -13); add(T + 0.14, '2380', -15); add(T + fa, '3115', -14); add(T + fa + 0.22, '3115', -15); add(T + fa + 0.55, '2636', -24)
+      add(T + 0.08, '2097', -32, { align: 'start', max: sc.dur + 0.2 })
+      const nr = (b.rows || [1, 2, 3, 4]).length; for (let i = 0; i < nr; i++) add(T + tM + i * (b.row_gap ?? 0.45) + 0.25, '2573', -17)
+      add(T + tV, '2909', -7); add(T + tV + 0.02, '2299', -9)
+    }
+    if (sc.type === 'cb_board') (b.cards || []).forEach((_, i) => add(T + 0.35 + i * (b.deal_gap ?? 0.22), '2380', -18))
+    if (sc.type === 'cb_end') { add(T + 0.2, '2909', -10); D.scenes.filter(x => x.type === 'cb_battle').forEach((_, i) => add(T + 0.7 + i * 0.14, '3115', -20)) }
     // ten in a row: a heartbeat under the cold open, a tick for each slot of the streak, a whoosh for each card, the
     // three countdown ticks in the voice's pause, and a hit on each call
     if (sc.type === 'st_cold') {
@@ -4550,7 +4756,7 @@ window.renderAt = async function (t) {
 
   // cut flash, in time with the whoosh (memes cut hard: no flash)
   let fl = 0
-  for (let j = 1; j < D.scenes.length; j++) { const d = t - D.scenes[j].start, ty = D.scenes[j].type; if (d >= 0 && d < 0.3 && ty !== 'rv_meme' && !(/^(bp|vr|gl|ar|en|dw|tb|wo|pc|st)_/.test(ty) && !['bp_title', 'vr_title', 'gl_title', 'ar_title', 'en_title', 'dw_title', 'tb_title', 'wo_title', 'wo_end', 'pc_title', 'pc_end', 'st_title', 'st_end'].includes(ty))) fl = Math.max(fl, 0.5 * (1 - d / 0.3)) }
+  for (let j = 1; j < D.scenes.length; j++) { const d = t - D.scenes[j].start, ty = D.scenes[j].type; if (d >= 0 && d < 0.3 && ty !== 'rv_meme' && !(/^(bp|vr|gl|ar|en|dw|tb|wo|pc|st|cb)_/.test(ty) && !['bp_title', 'vr_title', 'gl_title', 'ar_title', 'en_title', 'dw_title', 'tb_title', 'wo_title', 'wo_end', 'pc_title', 'pc_end', 'st_title', 'st_end', 'cb_title', 'cb_end'].includes(ty))) fl = Math.max(fl, 0.5 * (1 - d / 0.3)) }
   const hk = D.scenes.find(s => s.type === 'rv_hook'); if (hk && t - hk.start > 0.38 && t - hk.start < 0.7) fl = Math.max(fl, 0.7 * (1 - (t - hk.start - 0.38) / 0.32))
   $('#flash').style.opacity = fl
 
@@ -4565,9 +4771,9 @@ window.renderAt = async function (t) {
     const box = $('.c', capEl); box.style.opacity = clamp(q * 2); box.style.transform = `scale(${0.85 + 0.15 * q})`
     $$('.w', capEl).forEach((s, j) => { const w = c.words[j]; s.className = 'w' + (t >= w.t0 && t < w.t1 ? ' now' : t < w.t0 ? ' next' : '') })
   }
-  capEl.className = (D.cfg.caption_style === 'bold' ? 'bold' : '') + (BPg ? ' bpc' : '') + (VRg ? ' vrc' : '') + (/^tb_/.test(sc.type) ? ' tbc' + (sc.type === 'tb_cold' ? ' tbn' : '') : '') + (/^wo_/.test(sc.type) ? ' woc' + (sc.type === 'wo_cold' ? ' won' : '') : '') + (/^pc_/.test(sc.type) ? ' pcc' + (sc.type === 'pc_cold' ? ' pcn' : '') : '') + (/^st_/.test(sc.type) ? ' stc' + (sc.type === 'st_cold' ? ' stn' : '') : '')
+  capEl.className = (D.cfg.caption_style === 'bold' ? 'bold' : '') + (BPg ? ' bpc' : '') + (VRg ? ' vrc' : '') + (/^tb_/.test(sc.type) ? ' tbc' + (sc.type === 'tb_cold' ? ' tbn' : '') : '') + (/^wo_/.test(sc.type) ? ' woc' + (sc.type === 'wo_cold' ? ' won' : '') : '') + (/^pc_/.test(sc.type) ? ' pcc' + (sc.type === 'pc_cold' ? ' pcn' : '') : '') + (/^st_/.test(sc.type) ? ' stc' + (sc.type === 'st_cold' ? ' stn' : '') : '') + (/^cb_/.test(sc.type) ? ' cbc' + (sc.type === 'cb_cold' ? ' cbn' : '') : '')
   capEl.style.top = memeLike ? '1500px' : sc.pres ? (D.cfg.presenter?.box ? '1450px' : '1330px') : '1474px'
-  $('#hdr').style.display = /^(rx|pm|np|bp|vr|gl|ar|en|dw|tb|wo|pc|st)_/.test(sc.type) ? 'none' : ''
+  $('#hdr').style.display = /^(rx|pm|np|bp|vr|gl|ar|en|dw|tb|wo|pc|st|cb)_/.test(sc.type) ? 'none' : ''
   if (NPg || BPg || VRg) capEl.style.top = '1478px'
   if (/^en_/.test(sc.type)) capEl.style.top = '1590px'
   if (sc.type === 'dw_game' || sc.type === 'dw_res') capEl.style.top = '1484px'
@@ -4575,6 +4781,7 @@ window.renderAt = async function (t) {
   if (sc.type === 'wo_tie' || sc.type === 'wo_title') capEl.style.top = '1560px'
   if (/^wo_/.test(sc.type)) { $('#tint').style.opacity = 0; $('#vig').style.opacity = 0; $('#credit').textContent = b.credit || '' }
   if (/^st_/.test(sc.type)) { capEl.style.top = sc.type === 'st_cold' ? '1420px' : sc.type === 'st_call' ? '1590px' : '1560px'; $('#tint').style.opacity = 0; $('#vig').style.opacity = 0; $('#credit').textContent = b.credit || '' }
+  if (/^cb_/.test(sc.type)) { capEl.style.top = sc.type === 'cb_cold' ? '1420px' : sc.type === 'cb_battle' ? '1594px' : '1560px'; $('#tint').style.opacity = 0; $('#vig').style.opacity = 0; $('#credit').textContent = b.credit || '' }
   if (/^pc_/.test(sc.type)) { capEl.style.top = sc.type === 'pc_cold' ? '1420px' : '1560px'; $('#tint').style.opacity = 0; $('#vig').style.opacity = 0; $('#credit').textContent = b.credit || '' }
   if (wait) await wait
 }

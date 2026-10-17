@@ -107,7 +107,9 @@ const SAY_IPA = {
   Nuamah: 'nuːˈɑːmə', Tolisso: 'tɔliˈsoʊ', Pavlidis: 'pɑːvlˈiːdɪs',
   // 16 Oct post-match
   Ebnoutalib: 'ˌɛbnuːtɑːlˈiːb', Younes: 'jˈuːnɛs', Raimondo: 'ɹaɪmˈɔndoʊ', Requena: 'ɹɛkˈeɪnə', Riazor: 'ɹiːəθˈɔːɹ',
-  Chirewa: 'tʃɪɹˈɛwə', Tawanda: 'tɑːwˈɑːndə', 'Dønnum': 'dˈʌnʊm', Nsongo: 'ənsˈɔŋɡoʊ', Fer: 'fˈɛɹ'
+  Chirewa: 'tʃɪɹˈɛwə', Tawanda: 'tɑːwˈɑːndə', 'Dønnum': 'dˈʌnʊm', Nsongo: 'ənsˈɔŋɡoʊ', Fer: 'fˈɛɹ',
+  // 17 Oct analysis
+  Aston: 'ˈæstən', Daniele: 'dɑːnjˈɛleɪ'
 }
 const IPA_RE = new RegExp(`(?<!\\p{L})(${Object.keys(SAY_IPA).join('|')})(['’]s)?(?!\\p{L})`, 'gu')
 // letter-aware edges: \b treats accented letters as non-letters, so "Doué" or "Çalhanoğlu" would never match
@@ -255,7 +257,7 @@ export function buildScenes(cfg, picks, recap) {
 // Post-match review / reaction: every screen is a beat written for this match (cfg.review.beats), so no two videos
 // run the same way. A beat: { type: hook|moment|meme|stats|read|table|ratings|cta, say: [lines], clip, sticker, burst, … }
 function buildReviewScenes(cfg) {
-  return (cfg.review?.beats || []).map(b => ({ type: (/^(rx|pm|np|bp|vr|gl|ar|en|dw|tb|wo|pc|st)_/.test(b.type) ? '' : 'rv_') + b.type, i: b.match ?? 0, say: (b.say || []).map(WS), data: b, hold: b.hold }))
+  return (cfg.review?.beats || []).map(b => ({ type: (/^(rx|pm|np|bp|vr|gl|ar|en|dw|tb|wo|pc|st|cb)_/.test(b.type) ? '' : 'rv_') + b.type, i: b.match ?? 0, say: (b.say || []).map(WS), data: b, hold: b.hold }))
 }
 
 // Motion-graphics explainer (any topic, e.g. how a product works): every screen is a beat in cfg.explainer.beats,
