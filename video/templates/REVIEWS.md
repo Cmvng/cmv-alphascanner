@@ -24,6 +24,47 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
+## 17 Oct: analysis, "Card battles" (Saturday's five biggest games + eight on a binder page, 1:51)
+
+- **Before building:** applied the last three "Change next time" lines:
+  - grepped every new class name for unscoped rules (none clash);
+  - disk at 6.7 GB before rendering;
+  - ran the variety check with the first say-check (passed);
+  - stills at the start of each screen;
+  - only first names that appear in the briefs ("Ryan" and "Harry" cut from the write-up);
+  - "don't lose" said out loud.
+- **What worked:**
+  - Each game opens like a pack: cards dealt face down, flipped to the clubs' own colours, a shine across them. Then the story,
+    the numbers row by row (the better side's value in its kit colour), and our call turning over from face down.
+  - Six research agents in parallel (five games, one board) gave dated "something has to give" pairs for every game.
+  - Form dots show only where the app's form matches real results; three teams' didn't, so those battles show none.
+  - The two level games (36–27–37) say so out loud: "Our numbers can't split them. So we go with the story."
+- **Mistakes, and how they got through:**
+  - `Array.from`'s callback has no third argument (the cold open broke the page). Caught on the first stills;
+    `node --check` can't see it.
+  - First render: the bottom of every battle sat empty until the call, and the first four seconds below the story too.
+    Fixed with the face-down call card and earlier numbers (38% of the first line).
+  - "Battle one" heard as "Battle won"; "Bayern" heard as "buy-in". Reworded before the render.
+  - The drop measured +2.4 dB: track 607's tag is 0.3 s before the hit, and the music sat about 6 dB under the cold-open voice.
+    `music_drop_at` 16.45, `music_level` 3 and a longer cold tail took it to +8.0 dB. That cost two extra renders: measure
+    the drop on the first render's numbers before checking frames.
+  - TheSportsDB retired its free key `3`; the crest lookup moved to `123`. Five crests were fetched and checked by eye.
+- **Change next time:**
+  - Run a page error check (`dbg.mjs`, pageerror with stack) on the first stills of any new format.
+  - Give every new format a filler for its empty bottom band from the first draft (a face-down call, a poll, a slot).
+  - For a new drop track, check the tag against the waveform and set `music_drop_at` before the first render.
+- **Final review:** 111.4 s (X, Shorts; over 90 s for Reels), −14.9 LUFS, true peak −3.6 dB, the drop on the title +8.0 dB.
+  Music 607 "Forest Walk" (a measured candidate; the approved four and 551 and 586 were in the last six). Colour: blue 61%,
+  red 18%, pink 11%, green 5%. Heard back: spelling only (Bettis, Iruola, "or" for "our", "zero" for "nil"). Every second of
+  the final render checked frame by frame.
+- **Sent:**
+  - the 27.9 MB chat copy, the cover and thumbnail, the srt, the write-up, the post kit (with chapters) and the sources;
+  - a private download page for the full 55.4 MB file (7 parts; the last part's served sha256 checked):
+    https://claude.ai/artifact/EvCP7NheU7qjcE8SQz9MAK
+- **The owner's reaction:** (waiting)
+
+---
+
 ## 16 Oct: post-match, "Ten in a row? The results" (4 from 5, nine in a row, 1:30)
 
 - **Before building:** applied the last three "Change next time" lines:

@@ -1,0 +1,544 @@
+{
+ "mode": "review",
+ "title": "Card battles: Saturday 17 Oct",
+ "competition": "Saturday football",
+ "date": "2026-10-17",
+ "sound": "cinematic",
+ "voice": "af_heart",
+ "voice_fx": "deep",
+ "voice_speed": 1.05,
+ "music_vibe": [
+  "cinematic"
+ ],
+ "music_drop": "after_cold",
+ "music_duck": 10,
+ "music_track": 607,
+ "music_drop_at": 16.45,
+ "music_level": 3,
+ "stadiums": false,
+ "review": {
+  "project": "Card battles",
+  "beats": [
+   {
+    "type": "cb_cold",
+    "tail": 0.95,
+    "steps": [
+     {
+      "big": "13",
+      "label": "big games today"
+     },
+     {
+      "big": "10/10",
+      "label": "Barcelona this season"
+     },
+     {
+      "big": "5/5",
+      "label": "Betis at home"
+     },
+     {
+      "big": "?",
+      "tone": "hot",
+      "glitch": true,
+      "label": "something has to give"
+     }
+    ],
+    "say": [
+     "Thirteen big games today.",
+     "Barcelona have won all ten this season.",
+     "Betis have won all five at home.",
+     "Something has to give."
+    ]
+   },
+   {
+    "type": "cb_title",
+    "drop": true,
+    "kicker": "Saturday 17 October · Lagos time",
+    "l1": "Card",
+    "l2": "battles",
+    "sub_label": "Plus",
+    "sub": "eight more games on the board",
+    "say": [
+     "Saturday's five biggest games, as card battles. Let's turn them over."
+    ]
+   },
+   {
+    "type": "cb_battle",
+    "match": 0,
+    "side": "away",
+    "left": "Premier League",
+    "story": "Everton: unbeaten in the league this season. Chelsea: one win in their last nine league visits to Everton.",
+    "verdict": "Chelsea don't lose",
+    "say": [
+     "First battle, at half past twelve. Everton are unbeaten in the league, and Chelsea have won just one of their last nine league visits there.",
+     "But Chelsea score two and a half goals a game, and our numbers lean their way, forty percent to thirty-three.",
+     "Our call: Chelsea don't lose."
+    ]
+   },
+   {
+    "type": "cb_battle",
+    "match": 1,
+    "side": "home",
+    "left": "Premier League",
+    "story": "Brentford: unbeaten in the league this season. Liverpool coach Andoni Iraola: no win in seven against Brentford.",
+    "verdict": "Brentford don't lose",
+    "say": [
+     "Second battle, at three o'clock. Brentford are unbeaten in the league, and Liverpool coach Andoni Iraola has never beaten them in seven attempts.",
+     "Our numbers can't split them, thirty-six percent to thirty-seven. So we go with the story.",
+     "Our call: Brentford don't lose."
+    ]
+   },
+   {
+    "type": "cb_battle",
+    "match": 2,
+    "side": "home",
+    "left": "Bundesliga",
+    "story": "Bayern: one defeat in their last 48 Bundesliga games. Leipzig: no points away from home this season.",
+    "verdict": "A Bayern win",
+    "say": [
+     "Then Bayern and Leipzig. Bayern have lost one of their last forty-eight Bundesliga games, and Leipzig have no points away from home this season.",
+     "Our numbers give Bayern Munich seventy-two percent, and Leipzig just ten.",
+     "Our call: a Bayern Munich win."
+    ],
+    "form": false
+   },
+   {
+    "type": "cb_battle",
+    "match": 3,
+    "side": "away",
+    "left": "Premier League",
+    "story": "Newcastle: unbeaten at home this season. Aston Villa: three away wins in a row.",
+    "verdict": "Villa don't lose",
+    "say": [
+     "At the same time, Newcastle are unbeaten at home this season. Aston Villa have won their last three away games.",
+     "Our numbers are level, thirty-six to thirty-seven, but Villa arrive after a six–nil win in Europe.",
+     "Our call: Villa don't lose."
+    ]
+   },
+   {
+    "type": "cb_battle",
+    "match": 4,
+    "side": "away",
+    "left": "LaLiga",
+    "story": "Betis: five home games, five wins. Barcelona: ten games, ten wins. At least one run ends today.",
+    "verdict": "Barcelona don't lose",
+    "say": [
+     "And the big one. Betis have won all five at home, and Barcelona have won all ten this season. At least one of those runs ends today.",
+     "Our numbers back Barcelona, sixty-two percent, with over two expected goals.",
+     "Our call: Barcelona don't lose."
+    ],
+    "form": false
+   },
+   {
+    "type": "cb_board",
+    "kicker": "Also today · Lagos time",
+    "l1": "Also",
+    "l2": "today",
+    "cards": [
+     {
+      "match": 5,
+      "note": "Atlético have won one of their last six against Espanyol."
+     },
+     {
+      "match": 6,
+      "note": "Venezia: six Serie A games, six defeats."
+     },
+     {
+      "match": 7,
+      "note": "Dortmund are unbeaten in the Bundesliga. Union are 16th."
+     },
+     {
+      "match": 8,
+      "note": "City can make it seven league wins from seven."
+     },
+     {
+      "match": 9,
+      "note": "PSG go for a fourth league win in a row."
+     },
+     {
+      "match": 10,
+      "note": "Inter are top, but without captain Lautaro Martínez."
+     },
+     {
+      "match": 11,
+      "note": "Daniele De Rossi returns to Rome as Genoa coach."
+     },
+     {
+      "match": 12,
+      "note": "Rangers have won seven in a row in all competitions."
+     }
+    ],
+    "hl": [
+     {
+      "j": 3,
+      "at": [
+       0,
+       0.3
+      ],
+      "to": [
+       1,
+       0
+      ]
+     },
+     {
+      "j": 6,
+      "at": [
+       1,
+       0.2
+      ]
+     }
+    ],
+    "say": [
+     "Also today, Manchester City go for seven league wins from seven, against Ipswich.",
+     "And Daniele De Rossi returns to Rome, as the Genoa coach."
+    ]
+   },
+   {
+    "type": "cb_end",
+    "kicker": "Saturday · our five calls",
+    "l1": "Five",
+    "l2": "battles",
+    "text_label": "Results tonight",
+    "text": "Five calls, judged on the result.",
+    "comment": "Which battle are you watching?",
+    "follow": "Follow for the results",
+    "say": [
+     "Five battles, five calls.",
+     "Which one are you watching? Tell us in the comments, and follow for the results."
+    ]
+   }
+  ]
+ },
+ "picks": [
+  {
+   "home": "Everton",
+   "away": "Chelsea",
+   "competition": "Premier League",
+   "kickoff": "12:30",
+   "home_win": 33,
+   "draw": 27,
+   "away_win": 40,
+   "xg_home": 1.27,
+   "xg_away": 1.39,
+   "form_home": "DDWWD",
+   "form_away": "LWDLW",
+   "scored_home": 1.33,
+   "scored_away": 2.5,
+   "conceded_home": 0.83,
+   "conceded_away": 2.17,
+   "ko": "12:30",
+   "home_short": "Everton",
+   "away_short": "Chelsea",
+   "kit": {
+    "home": {
+     "c": "#003399"
+    },
+    "away": {
+     "c": "#034694"
+    }
+   },
+   "stadium": false
+  },
+  {
+   "home": "Brentford",
+   "away": "Liverpool",
+   "competition": "Premier League",
+   "kickoff": "15:00",
+   "home_win": 36,
+   "draw": 27,
+   "away_win": 37,
+   "xg_home": 1.37,
+   "xg_away": 1.37,
+   "form_home": "DDWWD",
+   "form_away": "DWWLW",
+   "scored_home": 2,
+   "scored_away": 1.17,
+   "conceded_home": 1,
+   "conceded_away": 1.17,
+   "ko": "15:00",
+   "home_short": "Brentford",
+   "away_short": "Liverpool",
+   "kit": {
+    "home": {
+     "c": "#E30613"
+    },
+    "away": {
+     "c": "#C8102E"
+    }
+   },
+   "stadium": false
+  },
+  {
+   "home": "Bayern Munich",
+   "away": "RB Leipzig",
+   "competition": "Bundesliga",
+   "kickoff": "17:30",
+   "home_win": 72,
+   "draw": 18,
+   "away_win": 10,
+   "xg_home": 2.31,
+   "xg_away": 0.82,
+   "form_home": "DWWWW",
+   "form_away": "LWWLL",
+   "scored_home": 3.3,
+   "scored_away": 2.5,
+   "conceded_home": 1,
+   "conceded_away": 1.6,
+   "ko": "17:30",
+   "home_short": "Bayern",
+   "away_short": "Leipzig",
+   "kit": {
+    "home": {
+     "c": "#DC052D"
+    },
+    "away": {
+     "c": "#0C2043"
+    }
+   },
+   "stadium": false
+  },
+  {
+   "home": "Newcastle",
+   "away": "Aston Villa",
+   "competition": "Premier League",
+   "kickoff": "17:30",
+   "home_win": 36,
+   "draw": 27,
+   "away_win": 37,
+   "xg_home": 1.38,
+   "xg_away": 1.37,
+   "form_home": "DWLWL",
+   "form_away": "LWWDW",
+   "scored_home": 1.67,
+   "scored_away": 1,
+   "conceded_home": 2.17,
+   "conceded_away": 1.83,
+   "ko": "17:30",
+   "home_short": "Newcastle",
+   "away_short": "Aston Villa",
+   "kit": {
+    "home": {
+     "c": "#241F20"
+    },
+    "away": {
+     "c": "#670E36"
+    }
+   },
+   "stadium": false
+  },
+  {
+   "home": "Betis",
+   "away": "Barcelona",
+   "competition": "LaLiga",
+   "kickoff": "17:30",
+   "home_win": 18,
+   "draw": 20,
+   "away_win": 62,
+   "xg_home": 1.06,
+   "xg_away": 2.1,
+   "form_home": "WWLWW",
+   "form_away": "WWWWW",
+   "scored_home": 2,
+   "scored_away": 4.3,
+   "conceded_home": 1.3,
+   "conceded_away": 0.9,
+   "ko": "17:30",
+   "home_short": "Betis",
+   "away_short": "Barcelona",
+   "kit": {
+    "home": {
+     "c": "#00954C"
+    },
+    "away": {
+     "c": "#A50044"
+    }
+   },
+   "stadium": false
+  },
+  {
+   "home": "Espanyol",
+   "away": "Atletico Madrid",
+   "competition": "LaLiga",
+   "kickoff": "13:00",
+   "home_win": 20,
+   "draw": 25,
+   "away_win": 55,
+   "xg_home": 0.99,
+   "xg_away": 1.77,
+   "scored_home": 1.38,
+   "scored_away": 2.25,
+   "conceded_home": 1.38,
+   "conceded_away": 1,
+   "record_away": [
+    6,
+    1,
+    1
+   ],
+   "games_away": 8,
+   "ppg_away": 2.4,
+   "ko": "13:00",
+   "home_short": "Espanyol",
+   "away_short": "Atlético",
+   "kit": {},
+   "stadium": false
+  },
+  {
+   "home": "Venezia FC",
+   "away": "Napoli",
+   "competition": "Serie A",
+   "kickoff": "14:00",
+   "home_win": 22,
+   "draw": 26,
+   "away_win": 52,
+   "xg_home": 1,
+   "xg_away": 1.63,
+   "form_home": "LLLLL",
+   "form_away": "LWDWL",
+   "scored_home": 0.83,
+   "scored_away": 1.67,
+   "conceded_home": 2.67,
+   "conceded_away": 1,
+   "record_away": [
+    5,
+    1,
+    4
+   ],
+   "games_away": 10,
+   "ppg_away": 1.6,
+   "ko": "14:00",
+   "home_short": "Venezia",
+   "away_short": "Napoli",
+   "kit": {},
+   "stadium": false
+  },
+  {
+   "home": "Union Berlin",
+   "away": "Borussia Dortmund",
+   "competition": "Bundesliga",
+   "kickoff": "14:30",
+   "home_win": 19,
+   "draw": 24,
+   "away_win": 57,
+   "xg_home": 1.03,
+   "xg_away": 1.88,
+   "form_home": "DLLLW",
+   "form_away": "WWWDL",
+   "scored_home": 1,
+   "scored_away": 2.2,
+   "conceded_home": 3.4,
+   "conceded_away": 0.8,
+   "ko": "14:30",
+   "home_short": "Union Berlin",
+   "away_short": "Dortmund",
+   "kit": {},
+   "stadium": false
+  },
+  {
+   "home": "Man City",
+   "away": "Ipswich Town",
+   "competition": "Premier League",
+   "kickoff": "15:00",
+   "home_win": 82,
+   "draw": 13,
+   "away_win": 5,
+   "xg_home": 2.7,
+   "xg_away": 0.69,
+   "form_home": "WWWWL",
+   "form_away": "LWLLW",
+   "scored_home": 2.67,
+   "scored_away": 1.5,
+   "conceded_home": 0.83,
+   "conceded_away": 2,
+   "ko": "15:00",
+   "home_short": "Man City",
+   "away_short": "Ipswich",
+   "kit": {},
+   "stadium": false
+  },
+  {
+   "home": "Strasbourg",
+   "away": "PSG",
+   "competition": "Ligue 1",
+   "kickoff": "16:15",
+   "home_win": 20,
+   "draw": 23,
+   "away_win": 57,
+   "xg_home": 1.04,
+   "xg_away": 1.84,
+   "form_home": "WWDLL",
+   "form_away": "WWWWW",
+   "scored_home": 1.83,
+   "scored_away": 1.83,
+   "conceded_home": 2,
+   "conceded_away": 1.33,
+   "ko": "16:15",
+   "home_short": "Strasbourg",
+   "away_short": "PSG",
+   "kit": {},
+   "stadium": false
+  },
+  {
+   "home": "Bologna",
+   "away": "Inter",
+   "competition": "Serie A",
+   "kickoff": "17:00",
+   "home_win": 23,
+   "draw": 25,
+   "away_win": 52,
+   "xg_home": 1.07,
+   "xg_away": 1.73,
+   "form_home": "LDLDW",
+   "form_away": "LWDWL",
+   "scored_home": 0.83,
+   "scored_away": 3,
+   "conceded_home": 1.17,
+   "conceded_away": 1.33,
+   "ko": "17:00",
+   "home_short": "Bologna",
+   "away_short": "Inter",
+   "kit": {},
+   "stadium": false
+  },
+  {
+   "home": "Roma",
+   "away": "Genoa",
+   "competition": "Serie A",
+   "kickoff": "19:45",
+   "home_win": 68,
+   "draw": 20,
+   "away_win": 12,
+   "xg_home": 2.06,
+   "xg_away": 0.78,
+   "scored_home": 2.33,
+   "scored_away": 0.83,
+   "conceded_home": 0.5,
+   "conceded_away": 1.83,
+   "ko": "19:45",
+   "home_short": "Roma",
+   "away_short": "Genoa",
+   "kit": {},
+   "stadium": false
+  },
+  {
+   "home": "Dundee FC",
+   "away": "Rangers",
+   "competition": "Scottish Premiership",
+   "kickoff": "20:00",
+   "home_win": 19,
+   "draw": 25,
+   "away_win": 56,
+   "xg_home": 0.94,
+   "xg_away": 1.74,
+   "form_home": "LDLWW",
+   "form_away": "WWWWW",
+   "scored_home": 1.38,
+   "scored_away": 1.38,
+   "conceded_home": 1,
+   "conceded_away": 0.62,
+   "ko": "20:00",
+   "home_short": "Dundee",
+   "away_short": "Rangers",
+   "kit": {},
+   "stadium": false
+  }
+ ]
+}

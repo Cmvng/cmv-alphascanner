@@ -1,0 +1,214 @@
+{
+ "music_track": 607,
+ "short": {
+  "Man City": "Man City",
+  "Ipswich Town": "Ipswich",
+  "Atletico Madrid": "Atlético",
+  "Venezia FC": "Venezia",
+  "Borussia Dortmund": "Dortmund",
+  "Bayern Munich": "Bayern",
+  "RB Leipzig": "Leipzig",
+  "Dundee FC": "Dundee"
+ },
+ "kit": {
+  "Everton": {
+   "c": "#003399"
+  },
+  "Chelsea": {
+   "c": "#034694"
+  },
+  "Brentford": {
+   "c": "#E30613"
+  },
+  "Liverpool": {
+   "c": "#C8102E"
+  },
+  "Betis": {
+   "c": "#00954C"
+  },
+  "Barcelona": {
+   "c": "#A50044"
+  },
+  "Bayern Munich": {
+   "c": "#DC052D"
+  },
+  "RB Leipzig": {
+   "c": "#0C2043"
+  },
+  "Newcastle": {
+   "c": "#241F20"
+  },
+  "Aston Villa": {
+   "c": "#670E36"
+  }
+ },
+ "cold": {
+  "steps": [
+   {
+    "big": "13",
+    "label": "big games today"
+   },
+   {
+    "big": "10/10",
+    "label": "Barcelona this season"
+   },
+   {
+    "big": "5/5",
+    "label": "Betis at home"
+   },
+   {
+    "big": "?",
+    "tone": "hot",
+    "glitch": true,
+    "label": "something has to give"
+   }
+  ],
+  "say": [
+   "Thirteen big games today.",
+   "Barcelona have won all ten this season.",
+   "Betis have won all five at home.",
+   "Something has to give."
+  ],
+  "tail": 0.95
+ },
+ "title": {
+  "kicker": "Saturday 17 October · Lagos time",
+  "sub_label": "Plus",
+  "sub": "eight more games on the board",
+  "say": [
+   "Saturday's five biggest games, as card battles. Let's turn them over."
+  ]
+ },
+ "battles": [
+  {
+   "mid": "1261805",
+   "side": "away",
+   "verdict": "Chelsea don't lose",
+   "story": "Everton: unbeaten in the league this season. Chelsea: one win in their last nine league visits to Everton.",
+   "say": [
+    "First battle, at half past twelve. Everton are unbeaten in the league, and Chelsea have won just one of their last nine league visits there.",
+    "But Chelsea score two and a half goals a game, and our numbers lean their way, forty percent to thirty-three.",
+    "Our call: Chelsea don't lose."
+   ]
+  },
+  {
+   "mid": "1243609",
+   "side": "home",
+   "verdict": "Brentford don't lose",
+   "story": "Brentford: unbeaten in the league this season. Liverpool coach Andoni Iraola: no win in seven against Brentford.",
+   "say": [
+    "Second battle, at three o'clock. Brentford are unbeaten in the league, and Liverpool coach Andoni Iraola has never beaten them in seven attempts.",
+    "Our numbers can't split them, thirty-six percent to thirty-seven. So we go with the story.",
+    "Our call: Brentford don't lose."
+   ]
+  },
+  {
+   "mid": "1505154",
+   "side": "home",
+   "verdict": "A Bayern win",
+   "form": false,
+   "story": "Bayern: one defeat in their last 48 Bundesliga games. Leipzig: no points away from home this season.",
+   "say": [
+    "Then Bayern and Leipzig. Bayern have lost one of their last forty-eight Bundesliga games, and Leipzig have no points away from home this season.",
+    "Our numbers give Bayern Munich seventy-two percent, and Leipzig just ten.",
+    "Our call: a Bayern Munich win."
+   ]
+  },
+  {
+   "mid": "1243620",
+   "side": "away",
+   "verdict": "Villa don't lose",
+   "story": "Newcastle: unbeaten at home this season. Aston Villa: three away wins in a row.",
+   "say": [
+    "At the same time, Newcastle are unbeaten at home this season. Aston Villa have won their last three away games.",
+    "Our numbers are level, thirty-six to thirty-seven, but Villa arrive after a six–nil win in Europe.",
+    "Our call: Villa don't lose."
+   ]
+  },
+  {
+   "mid": "1352488",
+   "side": "away",
+   "verdict": "Barcelona don't lose",
+   "form": false,
+   "story": "Betis: five home games, five wins. Barcelona: ten games, ten wins. At least one run ends today.",
+   "say": [
+    "And the big one. Betis have won all five at home, and Barcelona have won all ten this season. At least one of those runs ends today.",
+    "Our numbers back Barcelona, sixty-two percent, with over two expected goals.",
+    "Our call: Barcelona don't lose."
+   ]
+  }
+ ],
+ "board": {
+  "kicker": "Also today · Lagos time",
+  "hl": [
+   {
+    "j": 3,
+    "at": [
+     0,
+     0.3
+    ],
+    "to": [
+     1,
+     0
+    ]
+   },
+   {
+    "j": 6,
+    "at": [
+     1,
+     0.2
+    ]
+   }
+  ],
+  "say": [
+   "Also today, Manchester City go for seven league wins from seven, against Ipswich.",
+   "And Daniele De Rossi returns to Rome, as the Genoa coach."
+  ],
+  "cards": [
+   {
+    "mid": "1033306",
+    "note": "Atlético have won one of their last six against Espanyol."
+   },
+   {
+    "mid": "1356805",
+    "note": "Venezia: six Serie A games, six defeats."
+   },
+   {
+    "mid": "1356809",
+    "note": "Dortmund are unbeaten in the Bundesliga. Union are 16th."
+   },
+   {
+    "mid": "1243611",
+    "note": "City can make it seven league wins from seven."
+   },
+   {
+    "mid": "1243618",
+    "note": "PSG go for a fourth league win in a row."
+   },
+   {
+    "mid": "1341623",
+    "note": "Inter are top, but without captain Lautaro Martínez."
+   },
+   {
+    "mid": "1352491",
+    "note": "Daniele De Rossi returns to Rome as Genoa coach."
+   },
+   {
+    "mid": "1505159",
+    "note": "Rangers have won seven in a row in all competitions."
+   }
+  ]
+ },
+ "end": {
+  "kicker": "Saturday · our five calls",
+  "text_label": "Results tonight",
+  "text": "Five calls, judged on the result.",
+  "comment": "Which battle are you watching?",
+  "say": [
+   "Five battles, five calls.",
+   "Which one are you watching? Tell us in the comments, and follow for the results."
+  ]
+ },
+ "music_drop_at": 16.45,
+ "music_level": 3
+}

@@ -1333,6 +1333,10 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#03060F}
 .cb .cb-nm .r b{justify-self:center;min-width:120px;padding:8px 14px;border-radius:14px;text-align:center;font:400 40px/1 Anton;color:#41557D;background:#EEF3FB}
 .cb .cb-cv{position:absolute;left:50px;right:50px;top:1372px;padding:18px 30px 22px;border-radius:26px;text-align:center;opacity:0;box-shadow:0 24px 56px rgba(11,31,77,.32)}
 .cb .cb-cv small{display:block;font:700 22px JBM;letter-spacing:7px;text-transform:uppercase;opacity:.85}
+/* our call waits face down in its slot and turns over when it is said */
+.cb .cb-cb{position:absolute;left:50px;right:50px;top:1372px;height:154px;border-radius:26px;background:repeating-linear-gradient(45deg,#1F5FDB 0 16px,#174FC0 16px 32px);box-shadow:0 20px 44px rgba(11,31,77,.28);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;font:400 64px/1 Anton;color:#fff;opacity:0}
+.cb .cb-cb::before{content:'';position:absolute;inset:10px;border-radius:18px;box-shadow:inset 0 0 0 4px rgba(255,255,255,.8)}
+.cb .cb-cb small{font:700 22px JBM;letter-spacing:7px;text-transform:uppercase}
 .cb .cb-cv b{display:block;margin-top:8px;font:400 84px/1 Anton;text-transform:uppercase;white-space:nowrap}
 /* the cold open: five cards face down on royal blue, one number per line */
 .cb .cb-cold{position:absolute;inset:0;background:radial-gradient(85% 60% at 50% 42%,#164AA6 0%,#0D3B8E 55%,#0A2C6E 100%)}
@@ -3038,6 +3042,7 @@ const built = D.scenes.map((sc, k) => {
         ${card('home', 44)}${card('away', 560)}<div class="cb-vs">V</div>
         <div class="cb-st"><small>${html(b.story_label || 'The story')}</small>${pcNb(b.story || '')}</div>
         <div class="cb-nm"><div class="k">${badge(q.bh)}<small>${html(b.model_label || 'Our numbers')}</small>${badge(q.ba)}</div>${rows}</div>
+        <div class="cb-cb"><small>${html(b.verdict_label || 'Our call')}</small>?</div>
         <div class="cb-cv" style="background:${kv.bg};color:${vrInk(kv.bg)}"><small>${html(b.verdict_label || 'Our call')}</small><b style="font-size:${vfs}px">${html(vtx)}</b></div>`
     } else if (sc.type === 'cb_cold') {
       const nc = b.cards ?? 5
@@ -3914,12 +3919,14 @@ function draw(k, lt, sc) {
       cds.forEach((n, i) => { deal(n, 0.02 + i * 0.12); flip(n, fa + i * 0.22) })
       slam($('.cb-vs', el), lt, fa + 0.75, 2.2, 0.26); $('.cb-hd', el).style.opacity = n1(P(lt, 0.05, 0.4))
       rise([$('.cb-st', el)], lt, vt(b.story_at, [0, 0.12]), 0, 40)
-      const tM = vt(b.model_at, [0, 0.62]), rs = $$('.cb-nm .r', el), gap = b.row_gap ?? 0.45
+      const tM = vt(b.model_at, [0, 0.38]), rs = $$('.cb-nm .r', el), gap = b.row_gap ?? 0.45
       rise([$('.cb-nm', el)], lt, tM - 0.25, 0, 30)
       rs.forEach((r, i) => { const t0 = tM + i * gap, q = P(lt, t0, t0 + 0.35, E.outCubic); r.style.opacity = n1(q); r.style.transform = `translate3d(${n1(-30 * (1 - q))}px,0,0)`
         const on = lt >= t0 + 0.25; $$('b', r).forEach(v => { const y = on && r.dataset.w === v.dataset.s; v.style.background = y ? v.dataset.bg : ''; v.style.color = y ? v.dataset.ink : ''
           v.style.transform = y && lt < t0 + 0.55 ? `scale(${n1(1 + 0.18 * (1 - (lt - t0 - 0.25) / 0.3))})` : '' }) })
       const tV = vt(b.verdict_at, [last, 0.3]), cv = $('.cb-cv', el), qc = P(lt, tV, tV + 0.22, E.outCubic)
+      const cbk = $('.cb-cb', el), tB = vt(b.story_at, [0, 0.12]) + 0.6, qo = P(lt, tV - 0.18, tV, E.inOutSine), qi = P(lt, tB, tB + 0.45, E.outBack)
+      cbk.style.opacity = n1(P(lt, tB, tB + 0.12) * (1 - P(lt, tV - 0.02, tV + 0.02))); cbk.style.transform = `translate3d(0,${n1(40 * (1 - qi))}px,0) perspective(900px) rotateX(${n1(90 * qo)}deg)`
       cv.style.opacity = n1(P(lt, tV, tV + 0.05)); cv.style.transform = `scale(${n1(1.45 - 0.45 * qc)}) rotate(${n1(-2.5 * qc)}deg) ${shake(lt, tV + 0.2, 8)}`
       // the backed side's card lifts when the call lands
       cds.forEach(n => { const y = (n.querySelector('.tg')?.textContent === 'Away') === (b.side === 'away'), k = P(lt, tV, tV + 0.4, E.outBack)
@@ -4526,9 +4533,9 @@ function fxCinematic() {
     }
     if (sc.type === 'cb_title') { add(T + 0.05, '2299', -8); D.scenes.filter(x => x.type === 'cb_battle').forEach((_, i) => { add(T + 0.45 + i * 0.12, '2380', -17); add(T + 0.95 + i * 0.16, '3115', -20) }) }
     if (sc.type === 'cb_battle') {
-      const fa = b.flip_at ? vrT(sc, ...b.flip_at) : 0.45, tM = vrT(sc, ...(b.model_at || [0, 0.62])), tV = vrT(sc, ...(b.verdict_at || [sc.lines.length - 1, 0.3]))
+      const fa = b.flip_at ? vrT(sc, ...b.flip_at) : 0.45, tM = vrT(sc, ...(b.model_at || [0, 0.38])), tV = vrT(sc, ...(b.verdict_at || [sc.lines.length - 1, 0.3]))
       add(T + 0.02, '2380', -13); add(T + 0.14, '2380', -15); add(T + fa, '3115', -14); add(T + fa + 0.22, '3115', -15); add(T + fa + 0.55, '2636', -24)
-      add(T + 0.08, '2097', -32, { align: 'start', max: sc.dur + 0.2 })
+      add(T + 0.08, '2097', -32, { align: 'start', max: sc.dur + 0.2 }); add(T + vrT(sc, ...(b.story_at || [0, 0.12])) + 0.6, '2380', -17)
       const nr = (b.rows || [1, 2, 3, 4]).length; for (let i = 0; i < nr; i++) add(T + tM + i * (b.row_gap ?? 0.45) + 0.25, '2573', -17)
       add(T + tV, '2909', -7); add(T + tV + 0.02, '2299', -9)
     }

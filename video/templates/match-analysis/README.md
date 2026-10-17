@@ -341,3 +341,38 @@ after a 5-from-5 Thursday: the hook is the streak, and every screen asks the vie
     screen and in the voice.
 - **Post it before the first kick-off:** the poll and the countdown only work while the games are still to come. The results
   video should bring the row back and tick (or cross) slots 6 to 10.
+
+## Card battles (`cb_*`, each big game opens like a pack of cards, 17 Oct 2026)
+
+Template: `cards-2026-10-17.json`, built by `cards-2026-10-17-build.py` from `cards-2026-10-17-data.json` (all the words: cold
+steps, each battle's story, lines and call, the board notes, the end) and the app's previews (`pv_<match>.json` in the same
+folder: `python3 -I cards-2026-10-17-build.py <folder>`). Sources: `cards-2026-10-17-sources.md`. A big Saturday: five
+games in depth, eight more on a binder page.
+
+- **A battle** (`cb_battle`, about 16 s), on the light-blue table:
+  - **The cards:** two cards are dealt face down (cmvng card backs), flip to the clubs in their own kit colours (`flip_at`),
+    and a shine sweeps across them. Each shows "Home" or "Away", the crest on a white disc, the name and, where the app's
+    form matches the real results, "Last five" as W/D/L dots in green, grey and red. Set `form: false` when it doesn't.
+  - **The story** (`story`, `story_at`): two runs that collide, from dated previews. Keep it to three lines at most.
+  - **Our numbers** (`model_at`, `row_gap`): goals a game, conceded a game, expected goals today and win chance (with the
+    draw under it). The better side's value fills with its kit colour. Pick the rows with `rows: ['scored', …]`.
+  - **Our call:** waits face down in its slot ("Our call ?") from just after the story, and turns over on `verdict_at`
+    (default: 30% into the last line), slammed in the backed side's kit colour. The backed card lifts and the other dims.
+- **Cold open** (`cb_cold`, royal blue): five cards face down, one number per line (`steps`, as in `st_cold`). 17 Oct:
+  "13 / 10/10 / 5/5 / ?".
+- **Title** (`cb_title`, `drop: true`): "Card / battles" and a fan of small cards (home crest over away crest, kick-off) that
+  flip face up on the drop. **Board** (`cb_board`): up to eight small cards in two columns, each with one note and "Our
+  numbers · <side> <x>%"; `hl` lifts one while the voice names it. **End** (`cb_end`): the calls as a fan of cards, the
+  comment prompt and the follow pill.
+- **Sound:** a card slap per card dealt, a swoosh per flip, a metal sweep on the shine, a select tick per row, and a hit
+  with a bass hit on each call.
+- **Lessons (17 Oct):**
+  - The first render left the bottom of each battle empty until the call. The face-down call card now fills it, and the
+    numbers come in at 38% of the first line.
+  - Number the battles "First battle", "Second battle": "Battle one" is heard as "Battle won".
+  - "Bayern" alone is heard as "buy-in" or "buyer". Say "Bayern Munich" in the lines that end on the name.
+  - Track 607's tagged drop (16.13 s) is 0.3 s before its real hit. Set `"music_drop_at": 16.45`.
+  - The app's form strings were wrong for Bayern, Leipzig and Betis. Check every card's form against dated results before
+    showing it.
+- **Crests:** TheSportsDB retired the free key `3`; `lib/badges.mjs` now uses `123`. The app also serves crests at
+  `cmvngpicks.com/app/team-logo?name=<app name>` (150 px; a grey letter placeholder when it has none).
