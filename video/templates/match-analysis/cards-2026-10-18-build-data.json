@@ -1,0 +1,82 @@
+{
+ "music_track": 546,
+ "short": {"Leeds United": "Leeds", "Nottingham Forest": "Forest", "AC Milan": "Milan", "Heart of Midlothian FC": "Hearts", "FC Groningen": "Groningen", "Como 1907": "Como", "Bayer Leverkusen": "Leverkusen"},
+ "kit": {
+  "Leeds United": {"c": "#1D428A"}, "Man Utd": {"c": "#DA291C"},
+  "Nottingham Forest": {"c": "#B3001B"}, "Arsenal": {"c": "#EF0107"},
+  "AC Milan": {"c": "#E2001A"}, "Atalanta": {"c": "#1E71B8"},
+  "Juventus": {"c": "#1A1A1A"}, "Lazio": {"c": "#87D8F7"},
+  "Real Madrid": {"c": "#00529F"}, "Sevilla": {"c": "#D81E05"}
+ },
+ "cold": {
+  "steps": [
+   {"big": "13", "label": "big games today"},
+   {"big": "8", "label": "Leeds unbeaten at Elland Road"},
+   {"big": "0", "label": "Man Utd away wins this season"},
+   {"big": "?", "tone": "hot", "glitch": true, "label": "and that's only the first battle"}
+  ],
+  "say": [
+   "Thirteen big games today.",
+   "Leeds are unbeaten in eight at Elland Road.",
+   "Manchester United haven't won away this season.",
+   "And that's only the first battle."
+  ],
+  "tail": 0.95
+ },
+ "title": {
+  "kicker": "Sunday 18 October · Lagos time",
+  "sub_label": "Plus",
+  "sub": "eight more games on the board",
+  "say": ["Sunday's five biggest games, as card battles. Let's turn them over."]
+ },
+ "battles": [
+  {"mid": "1243656", "side": "home", "verdict": "Leeds don't lose", "form": false,
+   "story": "Leeds: unbeaten in eight at Elland Road. Man Utd: no win in four away games this season.",
+   "say": ["First battle, at two o'clock. Leeds are unbeaten in eight at Elland Road, and Manchester United haven't won any of their four away games.",
+    "Our numbers lean to Leeds United, thirty-eight percent to thirty-four.",
+    "Our call: Leeds United don't lose."]},
+  {"mid": "1241995", "side": "away", "verdict": "Arsenal don't lose", "form": false,
+   "story": "Forest: two points above the drop zone, two defeats in a row. Arsenal: going for a third straight win.",
+   "say": ["Second battle, at half past four. Forest are two points above the drop zone, and have lost their last two. Arsenal are chasing a third straight win.",
+    "Our numbers give Arsenal sixty-one percent, and Forest just sixteen.",
+    "Our call: Arsenal don't lose."]},
+  {"mid": "1339496", "side": "home", "verdict": "Milan don't lose", "form": false,
+   "story": "Milan: unbeaten in six league games under Amorim. Against Atalanta: no win in their last six league meetings.",
+   "say": ["Then Milan and Atalanta. Milan are unbeaten in six league games under Amorim, but they haven't beaten Atalanta in their last six league meetings.",
+    "Our numbers still back Milan, forty-seven percent to twenty-six.",
+    "Our call: Milan don't lose."]},
+  {"mid": "1376252", "side": "home", "verdict": "Juventus don't lose", "form": false,
+   "story": "Lazio: no points dropped away from home. Juventus: one win in their last four league games.",
+   "say": ["At quarter to eight, Juventus host Lazio. Lazio haven't dropped a point away from home, and Juventus have one win in their last four league games.",
+    "But our numbers back Juventus, fifty-one percent to twenty-three.",
+    "Our call: Juventus don't lose."]},
+  {"mid": "1376254", "side": "home", "verdict": "A Real Madrid win", "form": false,
+   "story": "Sevilla: 15 games without a win against Real Madrid, with 13 defeats.",
+   "say": ["And the big one, at eight o'clock. Sevilla haven't beaten Real Madrid in fifteen games, and have lost thirteen of them.",
+    "Our numbers give Real Madrid seventy-three percent, and Sevilla just ten.",
+    "Our call: a Real Madrid win."]}
+ ],
+ "board": {
+  "kicker": "Also today · Lagos time",
+  "hl": [{"j": 4, "at": [0, 0.3], "to": [1, 0]}, {"j": 5, "at": [1, 0.2]}],
+  "say": ["Also today, Celtic host Hearts, after losing four of their last five.",
+   "And Ajax go to Groningen, without a win in three."],
+  "cards": [
+   {"mid": "1243655", "note": "Palace are unbeaten in their last four against Brighton."},
+   {"mid": "1347975", "note": "Angers have not beaten Marseille in nine meetings."},
+   {"mid": "1347974", "note": "Fiorentina are second from bottom, with one league win."},
+   {"mid": "1347976", "note": "Leverkusen go for five wins in a row. Freiburg are unbeaten in nine."},
+   {"mid": "1544298", "note": "Celtic have lost four of their last five games."},
+   {"mid": "1544302", "note": "Groningen are unbeaten in four. Ajax are winless in three."},
+   {"mid": "1339492", "note": "Lorient can beat Monaco for a third league game in a row."},
+   {"mid": "1376253", "note": "Nice haven't won a league game away from home since March."}
+  ]
+ },
+ "end": {
+  "kicker": "Sunday · our five calls",
+  "text_label": "Results tonight",
+  "text": "Five calls, judged on the result.",
+  "comment": "Which battle are you watching?",
+  "say": ["Five battles, five calls.", "Which one are you watching? Tell us in the comments, and follow for the results."]
+ }
+}

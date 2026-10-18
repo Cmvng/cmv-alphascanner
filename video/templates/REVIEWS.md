@@ -24,6 +24,33 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
+## 18 Oct: analysis, "Card battles" (Sunday's five biggest games + eight on a binder page, 1:47)
+
+- **The owner's ask:** the same template, to save credits. Yesterday's build script and data file were reused: only the
+  data changed (`--allow-same`), with one research agent for all 13 games plus one fetch to replace a dated board fact.
+- **Before building:** applied the last three "Change next time" lines: board sources were written down as each note was
+  written; the new names were checked by ear (Sevilla and Amorim got SAY_IPA entries); track 546 is approved with a
+  measured drop, so no `music_drop_at`.
+- **What worked:**
+  - About an hour from research to delivery, with no layout changes and one render (stills first, then the full render).
+  - The research agent checked the app's form against real results: none of the ten matched, so every card leaves form off.
+  - "Leeds" is heard as "leads", so the call lines say "Leeds United" (the cards still say Leeds).
+- **Mistakes, and how they got through:**
+  - The agent's Fiorentina note ("three home defeats to Como in a row") was about last season. Caught on reading the brief.
+    The preview was fetched and the note replaced with this season's table position.
+  - TheSportsDB's name search returned the wrong clubs for "Hearts" (Hearts of Oak) and nothing for "Nottingham Forest"
+    (only a netball team). Fixed with "Heart of Midlothian" and a lookup by team id (133720); every crest was checked on a
+    sheet by eye.
+- **Change next time:**
+  - Search TheSportsDB by full club name, and use `lookupteam.php?id=` when a search misses.
+  - Ask research agents to flag any fact from a past season.
+- **Final review:** 106.8 s (X, Shorts; over 90 s for Reels), −14.8 LUFS, true peak −3.7 dB, the drop on the title +6.8 dB.
+  Music 546 "The Farewell". Colour: blue 67%, red 26%. Heard back: "Leads" for Leeds and digits for numbers only.
+- **Sent:**
+  - the 28.0 MB chat copy, the cover and thumbnail, the srt, the write-up, the post kit (with chapters) and the sources;
+  - a private download page for the full 52.8 MB file (7 parts; a served part's sha256 checked):
+    https://claude.ai/artifact/RPXN1dQxVpbAE6nKbZJCq1
+
 ## 17 Oct: post-match, "Card battles: the results" (4 from 5, 1:11)
 
 - **The owner's ask:** "Use the same templates, cos my credits have almost finished." So no new format: the presenter
