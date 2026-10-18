@@ -24,6 +24,33 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
+## 17 Oct: post-match, "Card battles: the results" (4 from 5, 1:11)
+
+- **The owner's ask:** "Use the same templates, cos my credits have almost finished." So no new format: the presenter
+  template (`rx_*`) plus the Card battles binder page (`cb_board`), rendered with `--allow-same`, and one research agent
+  for both videos instead of six.
+- **Before building:** applied the last three "Change next time" lines: no new format, so no page-error check was needed. The
+  board already had its bottom band. Track 587 is approved with a known drop, so it needed no `music_drop_at`.
+- **What worked:**
+  - One small template change: when a pick has a score, `cb_board` shows it in the card's band, with "Full time ·
+    competition" underneath, so the same binder page works for results.
+  - ESPN's summary data settled every scorer, minute and red card (Brentford had two), plus Atlético's last five, which
+    confirmed "sixth straight win".
+- **Mistakes, and how they got through:**
+  - Two board notes ("Atlético's sixth straight win", "first time since 1942") went into the build before their sources
+    were written down. Both were confirmed after the render (ESPN's last five; Lega Serie A and Fantacalcio). Write the
+    source next to the note when the note is written.
+  - The thumbnail title overlapped the result list. Fixed at 138px before sending.
+- **Change next time:**
+  - Put each board note's source URL in the build script as a comment, beside the note.
+  - When reusing a template, still check every new name by ear (Neto, Muñoz and Lewis-Potter got SAY_IPA entries).
+- **Final review:** 71.3 s (X, Reels, Shorts), −14.8 LUFS, true peak −3.3 dB, the drop on the title +8.1 dB. Music 587
+  "Discover". Heard back: spelling only ("Natto", "Munyas", "zero" for "nil").
+- **Sent:**
+  - the 27.9 MB chat copy, the cover and thumbnail, the srt, the write-up, the post kit (with chapters) and the sources;
+  - a private download page for the full 60.7 MB file (8 parts; the last part's served sha256 checked):
+    https://claude.ai/artifact/2qbE4KvrLeM3thS9NwXHBi
+
 ## 17 Oct: analysis, "Card battles" (Saturday's five biggest games + eight on a binder page, 1:51)
 
 - **Before building:** applied the last three "Change next time" lines:

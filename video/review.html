@@ -3055,8 +3055,8 @@ const built = D.scenes.map((sc, k) => {
       const cards = (b.cards || []).map((c, j) => { const p = D.picks[c.match] || M, kh = vrKit(p, 'home'), ka = vrKit(p, 'away'), col = j % 2, row = Math.floor(j / 2)
         const hi = Math.max(p.home_win ?? 0, p.away_win ?? 0), fav = (p.away_win ?? 0) > (p.home_win ?? 0) ? vrName(p, 'away') : vrName(p, 'home')
         return `<div class="cb-bc" data-j="${j}" style="left:${56 + col * 496}px;top:${330 + row * 258}px"><div class="bd" style="background:linear-gradient(105deg,${kh.bg} 0 50%,${ka.bg} 50% 100%)">
-          <span style="position:absolute;left:20px">${badge(p.bh)}</span><div class="ko">${html(p.ko || p.kickoff || '')}</div><span style="position:absolute;right:80px">${badge(p.ba)}</span></div>
-          <div class="t">${html(vrName(p, 'home'))} v ${html(vrName(p, 'away'))}</div><div class="n">${pcNb(c.note || '')}</div><div class="p">${b.model === false ? html(p.competition || '') : `Our numbers · ${html(fav)} ${hi}%`}</div></div>` }).join('')
+          <span style="position:absolute;left:20px">${badge(p.bh)}</span><div class="ko"${p.score_home != null ? ' style="font-size:30px;top:20px"' : ''}>${html(p.score_home != null ? p.score_home + '–' + p.score_away : p.ko || p.kickoff || '')}</div><span style="position:absolute;right:80px">${badge(p.ba)}</span></div>
+          <div class="t">${html(vrName(p, 'home'))} v ${html(vrName(p, 'away'))}</div><div class="n">${pcNb(c.note || '')}</div><div class="p">${p.score_home != null ? 'Full time · ' + html(p.competition || '') : b.model === false ? html(p.competition || '') : `Our numbers · ${html(fav)} ${hi}%`}</div></div>` }).join('')
       el.innerHTML = `<div class="cb-pg"></div><div class="cb-bh"><div class="k">${html(b.kicker || '')}</div><div class="a">${html(b.l1 || 'Also')} <span>${html(b.l2 || 'today')}</span></div></div>${cards}`
     } else if (sc.type === 'cb_end') {
       el.innerHTML = `<div class="cb-pg"></div><div class="cb-tt" style="top:150px"><div class="k">${html(b.kicker || '')}</div><div class="a" style="font-size:150px">${html(b.l1 || 'Five')}<br><span>${html(b.l2 || 'battles')}</span></div></div>

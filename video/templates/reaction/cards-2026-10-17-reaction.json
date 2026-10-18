@@ -1,0 +1,666 @@
+{
+ "mode": "review",
+ "title": "Card battles, the results: Saturday 17 Oct",
+ "competition": "Saturday football",
+ "date": "2026-10-17",
+ "caption_style": "bold",
+ "voice_speed": 1.05,
+ "voice": "af_heart",
+ "presenter": {
+  "id": 28293,
+  "crop": "1000:1080:460:0",
+  "from": 3.0,
+  "credit": "Presenter (stand-in): Mixkit stock video"
+ },
+ "sound": "cinematic",
+ "voice_fx": "deep",
+ "music_drop": "rx_intro",
+ "music_vibe": [
+  "cinematic"
+ ],
+ "music_track": 587,
+ "stadiums": false,
+ "picks": [
+  {
+   "home": "Everton",
+   "away": "Chelsea",
+   "competition": "Premier League",
+   "kickoff": "12:30",
+   "home_win": 33,
+   "draw": 27,
+   "away_win": 40,
+   "xg_home": 1.27,
+   "xg_away": 1.39,
+   "form_home": "DDWWD",
+   "form_away": "LWDLW",
+   "scored_home": 1.33,
+   "scored_away": 2.5,
+   "conceded_home": 0.83,
+   "conceded_away": 2.17,
+   "ko": "12:30",
+   "home_short": "Everton",
+   "away_short": "Chelsea",
+   "stadium": false,
+   "score_home": "0",
+   "score_away": "2",
+   "stage": "Premier League",
+   "crest_home": "/home/user/cmv-alphascanner/video/.cache/crests/everton.png",
+   "crest_away": "/home/user/cmv-alphascanner/video/.cache/crests/chelsea.png"
+  },
+  {
+   "home": "Brentford",
+   "away": "Liverpool",
+   "competition": "Premier League",
+   "kickoff": "15:00",
+   "home_win": 36,
+   "draw": 27,
+   "away_win": 37,
+   "xg_home": 1.37,
+   "xg_away": 1.37,
+   "form_home": "DDWWD",
+   "form_away": "DWWLW",
+   "scored_home": 2,
+   "scored_away": 1.17,
+   "conceded_home": 1,
+   "conceded_away": 1.17,
+   "ko": "15:00",
+   "home_short": "Brentford",
+   "away_short": "Liverpool",
+   "stadium": false,
+   "score_home": "1",
+   "score_away": "2",
+   "stage": "Premier League",
+   "crest_home": "/home/user/cmv-alphascanner/video/.cache/crests/brentford.png",
+   "crest_away": "/home/user/cmv-alphascanner/video/.cache/crests/liverpool.png"
+  },
+  {
+   "home": "Bayern",
+   "away": "Leipzig",
+   "competition": "Bundesliga",
+   "kickoff": "17:30",
+   "home_win": 72,
+   "draw": 18,
+   "away_win": 10,
+   "xg_home": 2.31,
+   "xg_away": 0.82,
+   "form_home": "DWWWW",
+   "form_away": "LWWLL",
+   "scored_home": 3.3,
+   "scored_away": 2.5,
+   "conceded_home": 1,
+   "conceded_away": 1.6,
+   "ko": "17:30",
+   "home_short": "Bayern",
+   "away_short": "Leipzig",
+   "stadium": false,
+   "score_home": "6",
+   "score_away": "1",
+   "stage": "Bundesliga",
+   "crest_home": "/home/user/cmv-alphascanner/video/.cache/crests/bayern_munich.png",
+   "crest_away": "/home/user/cmv-alphascanner/video/.cache/crests/rb_leipzig.png"
+  },
+  {
+   "home": "Newcastle",
+   "away": "Aston Villa",
+   "competition": "Premier League",
+   "kickoff": "17:30",
+   "home_win": 36,
+   "draw": 27,
+   "away_win": 37,
+   "xg_home": 1.38,
+   "xg_away": 1.37,
+   "form_home": "DWLWL",
+   "form_away": "LWWDW",
+   "scored_home": 1.67,
+   "scored_away": 1,
+   "conceded_home": 2.17,
+   "conceded_away": 1.83,
+   "ko": "17:30",
+   "home_short": "Newcastle",
+   "away_short": "Aston Villa",
+   "stadium": false,
+   "score_home": "0",
+   "score_away": "1",
+   "stage": "Premier League",
+   "crest_home": "/home/user/cmv-alphascanner/video/.cache/crests/newcastle.png",
+   "crest_away": "/home/user/cmv-alphascanner/video/.cache/crests/aston_villa.png"
+  },
+  {
+   "home": "Betis",
+   "away": "Barcelona",
+   "competition": "LaLiga",
+   "kickoff": "17:30",
+   "home_win": 18,
+   "draw": 20,
+   "away_win": 62,
+   "xg_home": 1.06,
+   "xg_away": 2.1,
+   "form_home": "WWLWW",
+   "form_away": "WWWWW",
+   "scored_home": 2,
+   "scored_away": 4.3,
+   "conceded_home": 1.3,
+   "conceded_away": 0.9,
+   "ko": "17:30",
+   "home_short": "Betis",
+   "away_short": "Barcelona",
+   "stadium": false,
+   "score_home": "2",
+   "score_away": "5",
+   "stage": "LaLiga",
+   "crest_home": "/home/user/cmv-alphascanner/video/.cache/crests/betis.png",
+   "crest_away": "/home/user/cmv-alphascanner/video/.cache/crests/barcelona.png"
+  },
+  {
+   "home": "Espanyol",
+   "away": "Atletico Madrid",
+   "competition": "LaLiga",
+   "kickoff": "13:00",
+   "home_win": 20,
+   "draw": 25,
+   "away_win": 55,
+   "xg_home": 0.99,
+   "xg_away": 1.77,
+   "scored_home": 1.38,
+   "scored_away": 2.25,
+   "conceded_home": 1.38,
+   "conceded_away": 1,
+   "record_away": [
+    6,
+    1,
+    1
+   ],
+   "games_away": 8,
+   "ppg_away": 2.4,
+   "ko": "13:00",
+   "home_short": "Espanyol",
+   "away_short": "Atlético",
+   "kit": {},
+   "stadium": false,
+   "score_home": "0",
+   "score_away": "1",
+   "stage": "LaLiga",
+   "crest_home": "/home/user/cmv-alphascanner/video/.cache/crests/espanyol.png",
+   "crest_away": "/home/user/cmv-alphascanner/video/.cache/crests/atletico_madrid.png"
+  },
+  {
+   "home": "Venezia FC",
+   "away": "Napoli",
+   "competition": "Serie A",
+   "kickoff": "14:00",
+   "home_win": 22,
+   "draw": 26,
+   "away_win": 52,
+   "xg_home": 1,
+   "xg_away": 1.63,
+   "form_home": "LLLLL",
+   "form_away": "LWDWL",
+   "scored_home": 0.83,
+   "scored_away": 1.67,
+   "conceded_home": 2.67,
+   "conceded_away": 1,
+   "record_away": [
+    5,
+    1,
+    4
+   ],
+   "games_away": 10,
+   "ppg_away": 1.6,
+   "ko": "14:00",
+   "home_short": "Venezia",
+   "away_short": "Napoli",
+   "kit": {},
+   "stadium": false,
+   "score_home": "1",
+   "score_away": "0",
+   "stage": "Serie A",
+   "crest_home": "/home/user/cmv-alphascanner/video/.cache/crests/venezia_fc.png",
+   "crest_away": "/home/user/cmv-alphascanner/video/.cache/crests/napoli.png"
+  },
+  {
+   "home": "Union Berlin",
+   "away": "Borussia Dortmund",
+   "competition": "Bundesliga",
+   "kickoff": "14:30",
+   "home_win": 19,
+   "draw": 24,
+   "away_win": 57,
+   "xg_home": 1.03,
+   "xg_away": 1.88,
+   "form_home": "DLLLW",
+   "form_away": "WWWDL",
+   "scored_home": 1,
+   "scored_away": 2.2,
+   "conceded_home": 3.4,
+   "conceded_away": 0.8,
+   "ko": "14:30",
+   "home_short": "Union Berlin",
+   "away_short": "Dortmund",
+   "kit": {},
+   "stadium": false,
+   "score_home": "0",
+   "score_away": "0",
+   "stage": "Bundesliga",
+   "crest_home": "/home/user/cmv-alphascanner/video/.cache/crests/union_berlin.png",
+   "crest_away": "/home/user/cmv-alphascanner/video/.cache/crests/borussia_dortmund.png"
+  },
+  {
+   "home": "Man City",
+   "away": "Ipswich Town",
+   "competition": "Premier League",
+   "kickoff": "15:00",
+   "home_win": 82,
+   "draw": 13,
+   "away_win": 5,
+   "xg_home": 2.7,
+   "xg_away": 0.69,
+   "form_home": "WWWWL",
+   "form_away": "LWLLW",
+   "scored_home": 2.67,
+   "scored_away": 1.5,
+   "conceded_home": 0.83,
+   "conceded_away": 2,
+   "ko": "15:00",
+   "home_short": "Man City",
+   "away_short": "Ipswich",
+   "kit": {},
+   "stadium": false,
+   "score_home": "3",
+   "score_away": "2",
+   "stage": "Premier League",
+   "crest_home": "/home/user/cmv-alphascanner/video/.cache/crests/man_city.png",
+   "crest_away": "/home/user/cmv-alphascanner/video/.cache/crests/ipswich_town.png"
+  },
+  {
+   "home": "Strasbourg",
+   "away": "PSG",
+   "competition": "Ligue 1",
+   "kickoff": "16:15",
+   "home_win": 20,
+   "draw": 23,
+   "away_win": 57,
+   "xg_home": 1.04,
+   "xg_away": 1.84,
+   "form_home": "WWDLL",
+   "form_away": "WWWWW",
+   "scored_home": 1.83,
+   "scored_away": 1.83,
+   "conceded_home": 2,
+   "conceded_away": 1.33,
+   "ko": "16:15",
+   "home_short": "Strasbourg",
+   "away_short": "PSG",
+   "kit": {},
+   "stadium": false,
+   "score_home": "1",
+   "score_away": "3",
+   "stage": "Ligue 1",
+   "crest_home": "/home/user/cmv-alphascanner/video/.cache/crests/strasbourg.png",
+   "crest_away": "/home/user/cmv-alphascanner/video/.cache/crests/psg.png"
+  },
+  {
+   "home": "Bologna",
+   "away": "Inter",
+   "competition": "Serie A",
+   "kickoff": "17:00",
+   "home_win": 23,
+   "draw": 25,
+   "away_win": 52,
+   "xg_home": 1.07,
+   "xg_away": 1.73,
+   "form_home": "LDLDW",
+   "form_away": "LWDWL",
+   "scored_home": 0.83,
+   "scored_away": 3,
+   "conceded_home": 1.17,
+   "conceded_away": 1.33,
+   "ko": "17:00",
+   "home_short": "Bologna",
+   "away_short": "Inter",
+   "kit": {},
+   "stadium": false,
+   "score_home": "1",
+   "score_away": "3",
+   "stage": "Serie A",
+   "crest_home": "/home/user/cmv-alphascanner/video/.cache/crests/bologna.png",
+   "crest_away": "/home/user/cmv-alphascanner/video/.cache/crests/inter.png"
+  },
+  {
+   "home": "Roma",
+   "away": "Genoa",
+   "competition": "Serie A",
+   "kickoff": "19:45",
+   "home_win": 68,
+   "draw": 20,
+   "away_win": 12,
+   "xg_home": 2.06,
+   "xg_away": 0.78,
+   "scored_home": 2.33,
+   "scored_away": 0.83,
+   "conceded_home": 0.5,
+   "conceded_away": 1.83,
+   "ko": "19:45",
+   "home_short": "Roma",
+   "away_short": "Genoa",
+   "kit": {},
+   "stadium": false,
+   "score_home": "2",
+   "score_away": "0",
+   "stage": "Serie A",
+   "crest_home": "/home/user/cmv-alphascanner/video/.cache/crests/roma.png",
+   "crest_away": "/home/user/cmv-alphascanner/video/.cache/crests/genoa.png"
+  },
+  {
+   "home": "Dundee FC",
+   "away": "Rangers",
+   "competition": "Scottish Premiership",
+   "kickoff": "20:00",
+   "home_win": 19,
+   "draw": 25,
+   "away_win": 56,
+   "xg_home": 0.94,
+   "xg_away": 1.74,
+   "form_home": "LDLWW",
+   "form_away": "WWWWW",
+   "scored_home": 1.38,
+   "scored_away": 1.38,
+   "conceded_home": 1,
+   "conceded_away": 0.62,
+   "ko": "20:00",
+   "home_short": "Dundee",
+   "away_short": "Rangers",
+   "kit": {},
+   "stadium": false,
+   "score_home": "2",
+   "score_away": "2",
+   "stage": "Scottish Premiership",
+   "crest_home": "/home/user/cmv-alphascanner/video/.cache/crests/dundee_fc.png",
+   "crest_away": "/home/user/cmv-alphascanner/video/.cache/crests/rangers.png"
+  }
+ ],
+ "review": {
+  "beats": [
+   {
+    "type": "rx_cold",
+    "tint": "blue",
+    "people": [
+     "Luis Díaz",
+     "Lamine Yamal",
+     "Pedro Neto",
+     "Alexander Isak"
+    ],
+    "say": [
+     "Yesterday, we dealt five card battles.",
+     "Luis Díaz scored three for Bayern.",
+     "Barcelona scored five in Seville.",
+     "So, how many battles did we win?"
+    ],
+    "steps": [
+     {
+      "big": "5",
+      "label": "card battles yesterday"
+     },
+     {
+      "big": "3",
+      "label": "Díaz goals against Leipzig"
+     },
+     {
+      "big": "5",
+      "label": "Barcelona goals in Seville",
+      "tone": "hot"
+     },
+     {
+      "big": "?",
+      "label": "the results",
+      "tone": "hot",
+      "glitch": true
+     }
+    ],
+    "tail": 0.6
+   },
+   {
+    "type": "rx_intro",
+    "drop": true,
+    "crests": 5,
+    "title": "Card battles",
+    "title2": "The results",
+    "say": [
+     "Yesterday's five card battles, against the results. Let's turn them over."
+    ]
+   },
+   {
+    "type": "rx_reveal",
+    "match": 0,
+    "n": 1,
+    "of": 1,
+    "ok": true,
+    "scorers": "Pedro Neto 46' 90'",
+    "people": [
+     "Pedro Neto"
+    ],
+    "say": [
+     "At Everton, we said Chelsea don't lose. Pedro Neto scored twice, and Chelsea won two–nil. Called it! One from one."
+    ],
+    "tally_at": [
+     0,
+     0.789
+    ],
+    "extra": {
+     "label": "Our call",
+     "text": "Chelsea don't lose",
+     "ok": true,
+     "yes": "CALLED",
+     "no": "MISSED",
+     "at": [
+      0,
+      0.05
+     ]
+    }
+   },
+   {
+    "type": "rx_reveal",
+    "match": 1,
+    "n": 1,
+    "of": 2,
+    "ok": false,
+    "scorers": "Lewis-Potter 44' · Muñoz 62' · Isak 70'",
+    "people": [
+     "Alexander Isak"
+    ],
+    "say": [
+     "At Brentford, we said Brentford don't lose. They led through Lewis-Potter, but had a man sent off before half-time, and Muñoz and Isak turned it around. We missed this one."
+    ],
+    "tally_at": [
+     0,
+     0.89
+    ],
+    "extra": {
+     "label": "Our call",
+     "text": "Brentford don't lose",
+     "ok": false,
+     "yes": "CALLED",
+     "no": "MISSED",
+     "at": [
+      0,
+      0.05
+     ]
+    }
+   },
+   {
+    "type": "rx_reveal",
+    "match": 2,
+    "n": 2,
+    "of": 3,
+    "ok": true,
+    "scorers": "Díaz 12' 47' 69' · Pavlović 26' · Olise 34' · Kane 52' · Maksimović 90+1'",
+    "people": [
+     "Luis Díaz",
+     "Harry Kane"
+    ],
+    "say": [
+     "Bayern Munich beat Leipzig, six–one! Luis Díaz scored a hat-trick. Called it! Two from three."
+    ],
+    "tally_at": [
+     0,
+     0.72
+    ],
+    "extra": {
+     "label": "Our call",
+     "text": "A Bayern win",
+     "ok": true,
+     "yes": "CALLED",
+     "no": "MISSED",
+     "at": [
+      0,
+      0.05
+     ]
+    },
+    "sticker": {
+     "e": "🎩",
+     "at": 0.45,
+     "x": 50,
+     "y": 790,
+     "r": -10
+    }
+   },
+   {
+    "type": "rx_reveal",
+    "match": 3,
+    "n": 3,
+    "of": 4,
+    "ok": true,
+    "scorers": "Manzambi 36'",
+    "people": [],
+    "say": [
+     "Aston Villa beat Newcastle, one–nil, with a Manzambi header. Called it! Three from four."
+    ],
+    "tally_at": [
+     0,
+     0.693
+    ],
+    "extra": {
+     "label": "Our call",
+     "text": "Villa don't lose",
+     "ok": true,
+     "yes": "CALLED",
+     "no": "MISSED",
+     "at": [
+      0,
+      0.05
+     ]
+    }
+   },
+   {
+    "type": "rx_reveal",
+    "match": 4,
+    "n": 4,
+    "of": 5,
+    "ok": true,
+    "scorers": "Yamal 10' · Gómez 27' · Rodri 41' · Jesus 51' · Abde 53' · García 62' · Olmo 81'",
+    "people": [
+     "Lamine Yamal",
+     "Dani Olmo"
+    ],
+    "say": [
+     "And the big one. Barcelona won five–two in Seville, after Betis had a man sent off, for a ninth straight league win. Called it! Four from five!"
+    ],
+    "tally_at": [
+     0,
+     0.818
+    ],
+    "extra": {
+     "label": "Our call",
+     "text": "Barcelona don't lose",
+     "ok": true,
+     "yes": "CALLED",
+     "no": "MISSED",
+     "at": [
+      0,
+      0.05
+     ]
+    },
+    "burst": {
+     "e": "🔥⚽🔥",
+     "at": 1.0
+    }
+   },
+   {
+    "type": "cb_board",
+    "kicker": "Also yesterday · full time",
+    "l1": "Also",
+    "l2": "yesterday",
+    "model": false,
+    "cards": [
+     {
+      "match": 5,
+      "note": "Atlético's sixth straight win."
+     },
+     {
+      "match": 6,
+      "note": "Venezia beat Napoli for the first time since 1942."
+     },
+     {
+      "match": 7,
+      "note": "Dortmund stay unbeaten in the Bundesliga."
+     },
+     {
+      "match": 8,
+      "note": "City make it seven league wins from seven."
+     },
+     {
+      "match": 9,
+      "note": "PSG's fourth league win in a row."
+     },
+     {
+      "match": 10,
+      "note": "Inter win in Bologna without Lautaro."
+     },
+     {
+      "match": 11,
+      "note": "No happy return to Rome for De Rossi."
+     },
+     {
+      "match": 12,
+      "note": "Rangers' seven-game winning run ends."
+     }
+    ],
+    "hl": [
+     {
+      "j": 1,
+      "at": [
+       0,
+       0.3
+      ],
+      "to": [
+       1,
+       0
+      ]
+     },
+     {
+      "j": 3,
+      "at": [
+       1,
+       0.1
+      ]
+     }
+    ],
+    "say": [
+     "Also yesterday, Venezia beat Napoli for the first time since nineteen forty-two.",
+     "And Manchester City made it seven league wins from seven."
+    ]
+   },
+   {
+    "type": "rx_outro",
+    "n": 4,
+    "of": 5,
+    "ok": true,
+    "sub": "Four from five",
+    "follow": "Follow for today's card battles",
+    "say": [
+     "Four from five. Liverpool spoiled the set at Brentford.",
+     "Follow for today's card battles."
+    ]
+   }
+  ]
+ }
+}
