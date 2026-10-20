@@ -112,7 +112,9 @@ const SAY_IPA = {
   Aston: 'ˈæstən', Daniele: 'dɑːnjˈɛleɪ',
   // 17 Oct post-match
   'Díaz': 'dˈiːɑs', 'Lewis-Potter': 'lˈuːɪs pˈɒtɚ', Manzambi: 'mænzˈæmbi', 'Muñoz': 'muːnjˈɔs', Neto: 'nˈɛtoʊ', Venezia: 'vɛnˈɛtsiə',
-  Amorim: 'ˈæmɔːɹiːm', Sevilla: 'sɛvˈiːjə'
+  Amorim: 'ˈæmɔːɹiːm', Sevilla: 'sɛvˈiːjə',
+  // 20 Oct analysis
+  Baena: 'bɑːˈeɪnə', 'Demirović': 'dɛmˈiːɹoʊvɪtʃ', Digne: 'dˈiːnjə', Ekitike: 'ˌɛkiˈtiːkeɪ', Mendes: 'mˈɛndɛz', Neres: 'nˈɛɹɛs', Semenyo: 'sɛmˈɛnjoʊ', Koke: 'kˈoʊkeɪ', Sabah: 'sɑːbˈɑː'
 }
 const IPA_RE = new RegExp(`(?<!\\p{L})(${Object.keys(SAY_IPA).join('|')})(['’]s)?(?!\\p{L})`, 'gu')
 // letter-aware edges: \b treats accented letters as non-letters, so "Doué" or "Çalhanoğlu" would never match
