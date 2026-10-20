@@ -1,0 +1,980 @@
+{
+ "mode": "review",
+ "title": "The Tactics Board: Champions League Tuesday, 20 Oct",
+ "competition": "Football",
+ "date": "2026-10-20",
+ "sound": "cinematic",
+ "voice_fx": "deep",
+ "voice_speed": 1.05,
+ "music_vibe": [
+  "cinematic"
+ ],
+ "music_drop": "after_cold",
+ "music_duck": 10,
+ "stadiums": false,
+ "media_dir": ".cache/media/analysis-2026-10-20-tactics",
+ "music_track": 625,
+ "cover": {
+  "style": "tb",
+  "kicker": "Champions League · Tue 20 Oct",
+  "l1": "The Tactics",
+  "l2": "Board.",
+  "feature": [
+   4
+  ],
+  "n": 5,
+  "foot": "Five ties in depth · four at a glance"
+ },
+ "voice": "af_heart",
+ "review": {
+  "project": "The Tactics Board",
+  "beats": [
+   {
+    "type": "tb_cold",
+    "steps": [
+     {
+      "big": "9 ties",
+      "label": "Champions League · Tuesday · Lagos time"
+     },
+     {
+      "big": "11 from 11",
+      "label": "Barcelona, games won this season"
+     },
+     {
+      "big": "6 in a row",
+      "label": "PSG wins",
+      "tone": "sky"
+     },
+     {
+      "big": "Paris",
+      "label": "Tonight, they meet",
+      "tone": "red",
+      "glitch": true,
+      "glitch_at": 0.5
+     }
+    ],
+    "say": [
+     "Nine Champions League ties tonight.",
+     "Barcelona have won all eleven games this season.",
+     "PSG have six straight wins.",
+     "Tonight, they meet in Paris."
+    ],
+    "tail": 0.95
+   },
+   {
+    "type": "tb_title",
+    "l1": "The Tactics",
+    "l2": "Board.",
+    "left": "Champions League",
+    "mid": "Matchday 3",
+    "right": "Tue 20 Oct",
+    "sub": "Five ties in depth · four at a glance",
+    "say": [
+     "The tactics board: five ties, drawn up one by one."
+    ]
+   },
+   {
+    "type": "tb_game",
+    "match": 0,
+    "kicker": "Matchday 3 · Anfield, Liverpool",
+    "say": [
+     "We start at Anfield. Liverpool won their first two games; Villarreal beat Napoli last time out.",
+     "Szoboszlai, Frimpong and Ekitike are out. Isak has five league goals; Mikautadze leads Villarreal's attack.",
+     "Liverpool press high and attack down the left through Barcola; Villarreal wait, then break. Our numbers can't split them, but Villarreal have won one of six away games.",
+     "The verdict: Liverpool don't lose."
+    ],
+    "out_at": [
+     1,
+     0.0
+    ],
+    "arrows": [
+     {
+      "team": "home",
+      "kind": "press",
+      "label": "Liverpool press high",
+      "at": [
+       2,
+       0.036
+      ]
+     },
+     {
+      "team": "home",
+      "kind": "left",
+      "label": "Barcola down the left",
+      "at": [
+       2,
+       0.321
+      ]
+     },
+     {
+      "team": "away",
+      "kind": "counter",
+      "label": "Villarreal wait, then break",
+      "at": [
+       2,
+       0.393
+      ]
+     }
+    ],
+    "model_at": [
+     2,
+     0.536
+    ],
+    "verdict": {
+     "text": "Liverpool don't lose",
+     "short": "Liverpool don't lose"
+    },
+    "home": {
+     "form": "4-2-3-1",
+     "xi": [
+      "Alisson",
+      "Gomez",
+      "Jacquet",
+      "Van Dijk",
+      "Tsimikas",
+      "Gravenberch",
+      "Mac Allister",
+      "Gakpo",
+      "Wirtz",
+      "Barcola",
+      "Isak"
+     ],
+     "out": [
+      "Szoboszlai",
+      "Frimpong",
+      "Ekitike"
+     ],
+     "key": [
+      {
+       "i": 10,
+       "name": "Isak",
+       "stat": "5 Premier League goals in 6 games",
+       "at": [
+        1,
+        0.4
+       ],
+       "photo": "p_alexander_isak.jpg",
+       "credit": "Isak · Photo: Mikael Hervestad · CC BY-SA 4.0"
+      }
+     ]
+    },
+    "away": {
+     "form": "4-4-2",
+     "xi": [
+      "Junior",
+      "Mouriño",
+      "Navarro",
+      "Veiga",
+      "Romero",
+      "Saliba",
+      "Comesaña",
+      "Gueye",
+      "Moleiro",
+      "Moreno",
+      "Mikautadze"
+     ],
+     "out": [
+      "Pépé"
+     ],
+     "key": [
+      {
+       "i": 10,
+       "name": "Mikautadze",
+       "stat": "1 goal, 1 assist in 2 Champions League games",
+       "at": [
+        1,
+        0.733
+       ],
+       "photo": "p_georges_mikautadze.jpg",
+       "credit": "Mikautadze · Photo: Paté kroute"
+      }
+     ]
+    }
+   },
+   {
+    "type": "tb_game",
+    "match": 1,
+    "kicker": "Matchday 3 · Etihad Stadium, Manchester",
+    "say": [
+     "At the Etihad, City have won seven league games from seven, but lost at home to PSG.",
+     "Semenyo is out and Haaland is a doubt, so Foden may lead the line. Jović has four league goals.",
+     "AEK will sit deep and break through Jović and Varga, but they have never won away in the Champions League proper. Our numbers give City forty-five percent.",
+     "The verdict: a Manchester City win."
+    ],
+    "out_at": [
+     1,
+     0.0
+    ],
+    "arrows": [
+     {
+      "team": "away",
+      "kind": "block",
+      "label": "AEK sit deep",
+      "at": [
+       2,
+       0.111
+      ]
+     },
+     {
+      "team": "away",
+      "kind": "counter",
+      "label": "Jović and Varga on the break",
+      "at": [
+       2,
+       0.185
+      ]
+     }
+    ],
+    "model_at": [
+     2,
+     0.815
+    ],
+    "verdict": {
+     "text": "A Man City win",
+     "short": "A Man City win"
+    },
+    "home": {
+     "form": "4-2-3-1",
+     "xi": [
+      "Donnarumma",
+      "Khusanov",
+      "Dias",
+      "Guéhi",
+      "Gvardiol",
+      "Bouaddi",
+      "Anderson",
+      "Cherki",
+      "Fernández",
+      "Ndiaye",
+      "Foden"
+     ],
+     "out": [
+      "Semenyo",
+      "O'Reilly"
+     ],
+     "key": [
+      {
+       "i": 10,
+       "name": "Foden",
+       "stat": "Opened the scoring against Ipswich",
+       "at": [
+        1,
+        0.474
+       ],
+       "photo": "p_phil_foden.jpg",
+       "credit": "Foden · Photo: Steffen Prößdorf · CC BY-SA 4.0"
+      }
+     ]
+    },
+    "away": {
+     "form": "4-4-2",
+     "xi": [
+      "Brignoli",
+      "Rota",
+      "Moukoudi",
+      "Relvas",
+      "Pilios",
+      "Majer",
+      "Kairinen",
+      "Marin",
+      "Vitális",
+      "Varga",
+      "Jović"
+     ],
+     "out": [
+      "Strakosha"
+     ],
+     "key": [
+      {
+       "i": 10,
+       "name": "Jović",
+       "stat": "4 league goals in 6 games",
+       "at": [
+        1,
+        0.737
+       ],
+       "photo": "p_luka_jovic.jpg",
+       "credit": "Jović · Photo: Oleg Bkhambri (Voltmetro) · CC BY-SA 3.0"
+      }
+     ]
+    }
+   },
+   {
+    "type": "tb_game",
+    "match": 2,
+    "kicker": "Matchday 3 · MHPArena, Stuttgart",
+    "say": [
+     "In Stuttgart, the hosts have won both games, and Demirović already has four goals. Atlético have won six in a row.",
+     "Romero is out for Atlético. Baena has five goals and two assists in LaLiga.",
+     "Stuttgart press and run in behind; Atlético screen their back four and counter. Our numbers lean to Atlético, forty-five to thirty-one.",
+     "Atlético have lost their last five away games in Germany. Even so, the verdict: Atlético don't lose."
+    ],
+    "out_at": [
+     1,
+     0.0
+    ],
+    "arrows": [
+     {
+      "team": "home",
+      "kind": "press",
+      "label": "Stuttgart on the front foot",
+      "at": [
+       2,
+       0.048
+      ]
+     },
+     {
+      "team": "home",
+      "kind": "counter",
+      "label": "Runs in behind",
+      "at": [
+       2,
+       0.238
+      ]
+     },
+     {
+      "team": "away",
+      "kind": "block",
+      "label": "A screen for the back four",
+      "at": [
+       2,
+       0.333
+      ]
+     }
+    ],
+    "model_at": [
+     2,
+     0.667
+    ],
+    "verdict": {
+     "text": "Atlético don't lose",
+     "short": "Atlético don't lose"
+    },
+    "home": {
+     "form": "4-2-3-1",
+     "xi": [
+      "Bredlow",
+      "Vagnoman",
+      "Jeltsch",
+      "Chabot",
+      "Hendriks",
+      "Stiller",
+      "Prömel",
+      "El Khannouss",
+      "Undav",
+      "Führich",
+      "Demirović"
+     ],
+     "out": [
+      "Al-Dakhil",
+      "Diehl"
+     ],
+     "key": [
+      {
+       "i": 10,
+       "name": "Demirović",
+       "stat": "4 goals in 2 Champions League games",
+       "at": [
+        0,
+        0.429
+       ],
+       "photo": "stuttgart.png"
+      }
+     ]
+    },
+    "away": {
+     "form": "4-4-2",
+     "xi": [
+      "Oblak",
+      "Llorente",
+      "Pubill",
+      "Hancko",
+      "Grimaldo",
+      "Simeone",
+      "Barrios",
+      "Cardoso",
+      "Baena",
+      "Álvarez",
+      "Lee"
+     ],
+     "out": [
+      "Romero"
+     ],
+     "key": [
+      {
+       "i": 8,
+       "name": "Baena",
+       "stat": "5 goals, 2 assists in 9 LaLiga games",
+       "at": [
+        1,
+        0.357
+       ],
+       "photo": "p_alex_baena.jpg",
+       "credit": "Baena · Photo: Bryan Berlin · CC BY-SA 4.0"
+      }
+     ]
+    }
+   },
+   {
+    "type": "tb_game",
+    "match": 3,
+    "kicker": "Matchday 3 · Stadio Diego Armando Maradona, Naples",
+    "say": [
+     "Napoli have lost both games, and their last two in all competitions; Bodø Glimt have won four in a row.",
+     "Neres and Buongiorno are out. De Bruyne made five key passes in thirty-six minutes at Venezia; Sjøvold scored Bodø's winner against Dortmund.",
+     "Napoli lean on set pieces and De Bruyne between the lines; Bodø sit deep and break. Our numbers lean to Bodø Glimt, forty-two to thirty-six.",
+     "Napoli coach Allegri has lost eight of his last nine Champions League games. The verdict: Bodø Glimt don't lose."
+    ],
+    "out_at": [
+     1,
+     0.0
+    ],
+    "arrows": [
+     {
+      "team": "home",
+      "kind": "setpiece",
+      "label": "Set pieces",
+      "at": [
+       2,
+       0.12
+      ]
+     },
+     {
+      "team": "home",
+      "kind": "middle",
+      "label": "De Bruyne between the lines",
+      "at": [
+       2,
+       0.32
+      ]
+     },
+     {
+      "team": "away",
+      "kind": "block",
+      "label": "Bodø's low block",
+      "at": [
+       2,
+       0.52
+      ]
+     }
+    ],
+    "model_at": [
+     2,
+     0.68
+    ],
+    "verdict": {
+     "text": "Bodø/Glimt don't lose",
+     "short": "Bodø/Glimt don't lose"
+    },
+    "home": {
+     "form": "4-2-3-1",
+     "xi": [
+      "Meret",
+      "Di Lorenzo",
+      "Rrahmani",
+      "Marín",
+      "Olivera",
+      "Lobotka",
+      "McTominay",
+      "Politano",
+      "De Bruyne",
+      "Lang",
+      "Højlund"
+     ],
+     "out": [
+      "Neres",
+      "Buongiorno"
+     ],
+     "key": [
+      {
+       "i": 8,
+       "name": "De Bruyne",
+       "stat": "5 key passes in 36 minutes at Venezia",
+       "at": [
+        1,
+        0.227
+       ],
+       "photo": "p_kevin_de_bruyne.jpg",
+       "credit": "De Bruyne · Photo: Bryan Berlin · CC BY-SA 4.0"
+      }
+     ]
+    },
+    "away": {
+     "form": "4-3-3",
+     "xi": [
+      "Khaikin",
+      "Sjøvold",
+      "Gundersen",
+      "Aleesami",
+      "Bjørkan",
+      "Auklend",
+      "Berg",
+      "Fet",
+      "Blomberg",
+      "Helmersen",
+      "Hauge"
+     ],
+     "out": [
+      "Evjen",
+      "Mikkelsen"
+     ],
+     "key": [
+      {
+       "i": 1,
+       "name": "Sjøvold",
+       "stat": "Scored the winner against Dortmund",
+       "at": [
+        1,
+        0.727
+       ],
+       "photo": "bodoe_glimt.png"
+      }
+     ]
+    }
+   },
+   {
+    "type": "tb_game",
+    "match": 4,
+    "kicker": "Matchday 3 · Parc des Princes, Paris",
+    "say": [
+     "And the last board: Paris. Both won their first two games, and Barcelona have scored at least twice in every game this season.",
+     "Nuno Mendes is out, so Digne plays left-back. Dembélé leads the line, and Yamal has a goal and four assists in Europe.",
+     "PSG press high to unsettle Barcelona's build-up; Barcelona break fast, and Yamal against Digne is the duel. Our numbers back Barcelona, forty-nine to thirty-two.",
+     "The verdict: Barcelona don't lose."
+    ],
+    "out_at": [
+     1,
+     0.0
+    ],
+    "arrows": [
+     {
+      "team": "home",
+      "kind": "press",
+      "label": "PSG press high",
+      "at": [
+       2,
+       0.042
+      ]
+     },
+     {
+      "team": "away",
+      "kind": "counter",
+      "label": "Barcelona break fast",
+      "at": [
+       2,
+       0.375
+      ]
+     },
+     {
+      "team": "away",
+      "kind": "right",
+      "label": "Yamal v Digne",
+      "at": [
+       2,
+       0.667
+      ]
+     }
+    ],
+    "model_at": [
+     2,
+     0.75
+    ],
+    "verdict": {
+     "text": "Barcelona don't lose",
+     "short": "Barcelona don't lose"
+    },
+    "home": {
+     "form": "4-3-3",
+     "xi": [
+      "Safonov",
+      "Hakimi",
+      "Marquinhos",
+      "Pacho",
+      "Digne",
+      "Ruiz",
+      "Vitinha",
+      "Neves",
+      "Doué",
+      "Dembélé",
+      "Kvaratskhelia"
+     ],
+     "out": [
+      "Nuno Mendes"
+     ],
+     "key": [
+      {
+       "i": 9,
+       "name": "Dembélé",
+       "stat": "1 goal, 2 assists in 5 Ligue 1 games",
+       "at": [
+        1,
+        0.364
+       ],
+       "photo": "p_ousmane_dembele.jpg",
+       "credit": "Dembélé · Photo: Bryan Berlin · CC BY-SA 4.0"
+      }
+     ]
+    },
+    "away": {
+     "form": "4-2-3-1",
+     "xi": [
+      "J. García",
+      "Espart",
+      "Cubarsí",
+      "Martín",
+      "Cancelo",
+      "Pedri",
+      "Rodri",
+      "Yamal",
+      "López",
+      "Gordon",
+      "Raphinha"
+     ],
+     "out": [
+      "Koundé",
+      "Christensen",
+      "Eric García"
+     ],
+     "key": [
+      {
+       "i": 7,
+       "name": "Lamine Yamal",
+       "stat": "1 goal, 4 assists in 2 Champions League games",
+       "at": [
+        1,
+        0.591
+       ],
+       "photo": "p_lamine_yamal.jpg",
+       "credit": "Lamine Yamal · Photo: Bryan Berlin · CC BY-SA 4.0"
+      }
+     ]
+    }
+   },
+   {
+    "type": "cb_board",
+    "kicker": "Also tonight · Lagos time",
+    "l1": "Also",
+    "l2": "tonight",
+    "model": false,
+    "cards": [
+     {
+      "match": 5,
+      "note": "Sabah have won all five home games in Europe this season. Dortmund have lost four Champions League away games in a row."
+     },
+     {
+      "match": 6,
+      "note": "Fenerbahçe have scored 14 and conceded none in their last four league games."
+     },
+     {
+      "match": 7,
+      "note": "Slovan are the only team to lose their first ten Champions League games."
+     },
+     {
+      "match": 8,
+      "note": "Porto have won all eight league games, but have no Champions League points yet."
+     }
+    ],
+    "hl": [
+     {
+      "j": 0,
+      "at": [
+       0,
+       0.3
+      ],
+      "to": [
+       1,
+       0
+      ]
+     },
+     {
+      "j": 3,
+      "at": [
+       1,
+       0.2
+      ]
+     }
+    ],
+    "say": [
+     "Also tonight, Dortmund face Sabah, who have won all five home games in Europe.",
+     "And Porto, perfect in their league, still have no Champions League points."
+    ]
+   },
+   {
+    "type": "tb_end",
+    "mid": "Matchday 3",
+    "right": "Tue 20 Oct",
+    "l1": "Tonight's",
+    "l2": "verdicts",
+    "follow": "Follow for the post-match",
+    "say": [
+     "Five boards, five verdicts.",
+     "Follow for the post-match."
+    ],
+    "tail": 0.6
+   }
+  ]
+ },
+ "picks": [
+  {
+   "home": "Liverpool",
+   "away": "Villarreal",
+   "competition": "Champions League",
+   "kickoff": "20:00",
+   "home_win": 37,
+   "draw": 23,
+   "away_win": 40,
+   "xg_home": 1.73,
+   "xg_away": 1.77,
+   "form_home": "DWWDD",
+   "form_away": "LLLLD",
+   "scored_home": 2,
+   "scored_away": 1.6,
+   "conceded_home": 1.3,
+   "conceded_away": 1.5,
+   "ko": "20:00",
+   "home_short": "Liverpool",
+   "away_short": "Villarreal",
+   "kit": {
+    "home": {
+     "c": "#C8102E"
+    },
+    "away": {
+     "c": "#FFE667"
+    }
+   },
+   "stadium": false
+  },
+  {
+   "home": "Man City",
+   "away": "AEK Athens",
+   "competition": "Champions League",
+   "kickoff": "20:00",
+   "home_win": 45,
+   "draw": 23,
+   "away_win": 32,
+   "xg_home": 1.87,
+   "xg_away": 1.57,
+   "form_home": "WWWWW",
+   "form_away": "WWWDW",
+   "scored_home": 2.8,
+   "scored_away": 2.8,
+   "conceded_home": 1.1,
+   "conceded_away": 0.7,
+   "ko": "20:00",
+   "home_short": "Man City",
+   "away_short": "AEK",
+   "kit": {
+    "home": {
+     "c": "#6CABDD"
+    },
+    "away": {
+     "c": "#F5C400"
+    }
+   },
+   "stadium": false
+  },
+  {
+   "home": "Stuttgart",
+   "away": "Atletico Madrid",
+   "competition": "Champions League",
+   "kickoff": "20:00",
+   "home_win": 31,
+   "draw": 24,
+   "away_win": 45,
+   "xg_home": 1.5,
+   "xg_away": 1.86,
+   "form_home": "WWLWL",
+   "form_away": "WLLWD",
+   "scored_home": 1.8,
+   "scored_away": 2,
+   "conceded_home": 1.4,
+   "conceded_away": 1,
+   "ko": "20:00",
+   "home_short": "Stuttgart",
+   "away_short": "Atlético",
+   "kit": {
+    "home": {
+     "c": "#E32219"
+    },
+    "away": {
+     "c": "#262F61"
+    }
+   },
+   "stadium": false
+  },
+  {
+   "home": "Napoli",
+   "away": "Bodoe/Glimt",
+   "competition": "Champions League",
+   "kickoff": "20:00",
+   "home_win": 36,
+   "draw": 22,
+   "away_win": 42,
+   "xg_home": 1.83,
+   "xg_away": 1.94,
+   "form_home": "WDWLL",
+   "form_away": "LWWWW",
+   "scored_home": 1.2,
+   "scored_away": 2.7,
+   "conceded_home": 1.1,
+   "conceded_away": 1.5,
+   "ko": "20:00",
+   "home_short": "Napoli",
+   "away_short": "Bodø/Glimt",
+   "kit": {
+    "home": {
+     "c": "#12A0D7"
+    },
+    "away": {
+     "c": "#FFE600"
+    }
+   },
+   "stadium": false
+  },
+  {
+   "home": "PSG",
+   "away": "Barcelona",
+   "competition": "Champions League",
+   "kickoff": "20:00",
+   "home_win": 32,
+   "draw": 19,
+   "away_win": 49,
+   "xg_home": 2.59,
+   "xg_away": 2.97,
+   "form_home": "WLDDL",
+   "form_away": "WWWWW",
+   "scored_home": 2.4,
+   "scored_away": 4.3,
+   "conceded_home": 1.3,
+   "conceded_away": 1.1,
+   "ko": "20:00",
+   "home_short": "PSG",
+   "away_short": "Barcelona",
+   "kit": {
+    "home": {
+     "c": "#004170"
+    },
+    "away": {
+     "c": "#A50044"
+    }
+   },
+   "stadium": false
+  },
+  {
+   "home": "Sabah Masazir",
+   "away": "Borussia Dortmund",
+   "competition": "Champions League",
+   "kickoff": "17:45",
+   "home_win": 37,
+   "draw": 28,
+   "away_win": 35,
+   "xg_home": 1.36,
+   "xg_away": 1.33,
+   "form_home": "LWWWL",
+   "form_away": "WWWWL",
+   "scored_home": 2.2,
+   "scored_away": 2,
+   "conceded_home": 0.9,
+   "conceded_away": 0.9,
+   "ko": "17:45",
+   "home_short": "Sabah",
+   "away_short": "Dortmund",
+   "kit": {
+    "home": {
+     "c": "#E5007E"
+    },
+    "away": {
+     "c": "#FDE100"
+    }
+   },
+   "stadium": false
+  },
+  {
+   "home": "Fenerbahce Istanbul",
+   "away": "Slavia Prague",
+   "competition": "Champions League",
+   "kickoff": "17:45",
+   "home_win": 41,
+   "draw": 24,
+   "away_win": 35,
+   "xg_home": 1.78,
+   "xg_away": 1.67,
+   "form_home": "DLWWW",
+   "form_away": "WLWWD",
+   "scored_home": 2.4,
+   "scored_away": 2.1,
+   "conceded_home": 1.2,
+   "conceded_away": 0.9,
+   "ko": "17:45",
+   "home_short": "Fenerbahçe",
+   "away_short": "Slavia Prague",
+   "kit": {
+    "home": {
+     "c": "#0A2D6E"
+    },
+    "away": {
+     "c": "#E30613"
+    }
+   },
+   "stadium": false
+  },
+  {
+   "home": "Roma",
+   "away": "Slovan Bratislava",
+   "competition": "Champions League",
+   "kickoff": "20:00",
+   "home_win": 40,
+   "draw": 22,
+   "away_win": 38,
+   "xg_home": 1.94,
+   "xg_away": 1.89,
+   "form_home": "DWWWW",
+   "form_away": "DLLWL",
+   "scored_home": 2.2,
+   "scored_away": 2.2,
+   "conceded_home": 0.8,
+   "conceded_away": 1.9,
+   "ko": "20:00",
+   "home_short": "Roma",
+   "away_short": "Slovan",
+   "kit": {
+    "home": {
+     "c": "#8E1F2F"
+    },
+    "away": {
+     "c": "#4FA3E0"
+    }
+   },
+   "stadium": false
+  },
+  {
+   "home": "Porto",
+   "away": "PSV Eindhoven",
+   "competition": "Champions League",
+   "kickoff": "20:00",
+   "home_win": 51,
+   "draw": 26,
+   "away_win": 23,
+   "xg_home": 1.63,
+   "xg_away": 1.06,
+   "form_home": "WWWWW",
+   "form_away": "DWWWW",
+   "scored_home": 2.2,
+   "scored_away": 2.6,
+   "conceded_home": 0.9,
+   "conceded_away": 1.2,
+   "ko": "20:00",
+   "home_short": "Porto",
+   "away_short": "PSV",
+   "kit": {
+    "home": {
+     "c": "#003893"
+    },
+    "away": {
+     "c": "#E30613"
+    }
+   },
+   "stadium": false
+  }
+ ]
+}

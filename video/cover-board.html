@@ -95,7 +95,8 @@ function boardFT(x0, y0, h) {
   return `<div class="pt">${svg}${score}${note}</div>`
 }
 const res = p => { const b = fts.find(x => D.picks[x.match ?? 0] === p); return b?.call?.result }
-const pairs = D.picks.map(p => { const r = FT ? res(p) : null
+// cover.n: only the first n ties (the ones drawn up in depth)
+const pairs = D.picks.slice(0, C.n ?? D.picks.length).map(p => { const r = FT ? res(p) : null
   return `<div class="pair"${r ? ` style="box-shadow:0 0 0 5px ${r === 'called' ? '#1E9E62' : r === 'missed' ? '#D8434F' : '#8A97B0'},0 10px 24px rgba(16,52,130,.14)"` : ''}>${badge(p.bh)}${badge(p.ba)}</div>` }).join('')
 const tally = FT ? (() => { const c = fts.filter(b => b.call?.result === 'called').length, m = fts.filter(b => b.call?.result === 'missed').length
   return `<span style="color:#1E9E62">${c} called</span> · <span style="color:#D8434F">${m} missed</span>` })() : ''

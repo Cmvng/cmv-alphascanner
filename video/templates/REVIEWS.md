@@ -24,6 +24,43 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
+## 20 Oct: analysis, "The Tactics Board" (5 Champions League ties in depth + 4 on a board, 2:51)
+
+- **The ask:** "today's football extensive analysis for matches". It's Champions League Tuesday, so I reused the Tactics
+  Board, the most detailed format we have: predicted shapes, absentees, key men, arrows for how each side plays, our
+  numbers and the verdict. The other four ties went on the Card battles board, mixed into the same video.
+- **Before building:** applied the last three "Change next time" lines:
+  - TheSportsDB searched by full club name; Sabah came back as the Malaysian club and was fixed with the Azerbaijani league
+    list (Sabah Baku);
+  - research agents asked to flag past-season facts;
+  - each board note's source written next to it in the sources file.
+- **What worked:**
+  - Two research agents (three ties and two ties plus the board) returned predicted XIs, absentees, key stats and
+    how-they-play notes, each with a dated source.
+  - Two small template changes:
+    - `cb_board` with four or fewer games uses one wide column, so the page stays full;
+    - `cover-board.html` takes `cover.n` and `cover.foot`, so the crest row shows only the five in-depth ties.
+  - `[line, word]` timings in the data file: the build turns them into fractions, so every magnet and arrow lands on its word.
+  - Key men without a free photo (Demirović, Sjøvold) show the club crest instead of a blank magnet.
+- **Mistakes, and how they got through:**
+  - The first script ran 187 s by estimate. It was trimmed by 45 words before any render, to 171 s.
+  - "PSG have won six in a row" was heard as "one six": "won" before a number. Changed to "six straight wins".
+  - The first cover's nine crest pairs ran off both edges of the vertical cover and into the thumbnail's mini board. Fixed
+    with `cover.n` 5.
+  - I wrote a `//` comment after an open brace on the same line of code, which commented out the rest of the line. The
+    cover's page error caught it.
+- **Change next time:**
+  - Never put "won" right before a number in the voice; say "straight wins" or "wins in a row".
+  - Set `cover.n` whenever a video has more ties than it draws in depth.
+  - Put code comments on their own line when editing a one-line arrow function.
+- **Final review:** 171.5 s (YouTube Short; over X's 140 s without Premium), −15.0 LUFS, true peak −3.5 dB, the drop on
+  the title +7.8 dB. Music 625 "Fragments Of Bangkok". Heard back: name spellings only. Every board checked on the frame
+  sheet.
+- **Sent:**
+  - the 27.9 MB chat copy, the cover and thumbnail, the srt, the write-up, the post kit (with chapters) and the sources;
+  - a private download page for the full 47.6 MB file (6 parts; the last part's served sha256 checked):
+    https://claude.ai/artifact/HtSFz3JZPCgm7DtHNvvdxr
+
 ## 18 Oct: analysis, "Card battles" (Sunday's five biggest games + eight on a binder page, 1:47)
 
 - **The owner's ask:** the same template, to save credits. Yesterday's build script and data file were reused: only the
