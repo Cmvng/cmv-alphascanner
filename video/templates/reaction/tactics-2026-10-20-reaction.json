@@ -1,0 +1,561 @@
+{
+ "mode": "review",
+ "title": "The Tactics Board, full time: Champions League, 20 Oct",
+ "competition": "Champions League",
+ "date": "2026-10-20",
+ "caption_style": "bold",
+ "voice_speed": 1.05,
+ "voice": "af_heart",
+ "presenter": {
+  "id": 28293,
+  "crop": "1000:1080:460:0",
+  "from": 3.0,
+  "credit": "Presenter (stand-in): Mixkit stock video"
+ },
+ "sound": "cinematic",
+ "voice_fx": "deep",
+ "music_drop": "rx_intro",
+ "music_vibe": [
+  "cinematic"
+ ],
+ "music_track": 586,
+ "stadiums": false,
+ "picks": [
+  {
+   "home": "Liverpool",
+   "away": "Villarreal",
+   "competition": "Champions League",
+   "kickoff": "20:00",
+   "home_win": 37,
+   "draw": 23,
+   "away_win": 40,
+   "xg_home": 1.73,
+   "xg_away": 1.77,
+   "form_home": "DWWDD",
+   "form_away": "LLLLD",
+   "scored_home": 2,
+   "scored_away": 1.6,
+   "conceded_home": 1.3,
+   "conceded_away": 1.5,
+   "ko": "20:00",
+   "home_short": "Liverpool",
+   "away_short": "Villarreal",
+   "stadium": false,
+   "score_home": "4",
+   "score_away": "3",
+   "stage": "Champions League",
+   "crest_home": "/home/user/cmv-alphascanner/video/.cache/crests/liverpool.png",
+   "crest_away": "/home/user/cmv-alphascanner/video/.cache/crests/villarreal.png"
+  },
+  {
+   "home": "Man City",
+   "away": "AEK",
+   "competition": "Champions League",
+   "kickoff": "20:00",
+   "home_win": 45,
+   "draw": 23,
+   "away_win": 32,
+   "xg_home": 1.87,
+   "xg_away": 1.57,
+   "form_home": "WWWWW",
+   "form_away": "WWWDW",
+   "scored_home": 2.8,
+   "scored_away": 2.8,
+   "conceded_home": 1.1,
+   "conceded_away": 0.7,
+   "ko": "20:00",
+   "home_short": "Man City",
+   "away_short": "AEK",
+   "stadium": false,
+   "score_home": "5",
+   "score_away": "1",
+   "stage": "Champions League",
+   "crest_home": "/home/user/cmv-alphascanner/video/.cache/crests/man_city.png",
+   "crest_away": "/home/user/cmv-alphascanner/video/.cache/crests/aek_athens.png"
+  },
+  {
+   "home": "Stuttgart",
+   "away": "Atlético",
+   "competition": "Champions League",
+   "kickoff": "20:00",
+   "home_win": 31,
+   "draw": 24,
+   "away_win": 45,
+   "xg_home": 1.5,
+   "xg_away": 1.86,
+   "form_home": "WWLWL",
+   "form_away": "WLLWD",
+   "scored_home": 1.8,
+   "scored_away": 2,
+   "conceded_home": 1.4,
+   "conceded_away": 1,
+   "ko": "20:00",
+   "home_short": "Stuttgart",
+   "away_short": "Atlético",
+   "stadium": false,
+   "score_home": "1",
+   "score_away": "1",
+   "stage": "Champions League",
+   "crest_home": "/home/user/cmv-alphascanner/video/.cache/crests/stuttgart.png",
+   "crest_away": "/home/user/cmv-alphascanner/video/.cache/crests/atletico_madrid.png"
+  },
+  {
+   "home": "Napoli",
+   "away": "Bodø/Glimt",
+   "competition": "Champions League",
+   "kickoff": "20:00",
+   "home_win": 36,
+   "draw": 22,
+   "away_win": 42,
+   "xg_home": 1.83,
+   "xg_away": 1.94,
+   "form_home": "WDWLL",
+   "form_away": "LWWWW",
+   "scored_home": 1.2,
+   "scored_away": 2.7,
+   "conceded_home": 1.1,
+   "conceded_away": 1.5,
+   "ko": "20:00",
+   "home_short": "Napoli",
+   "away_short": "Bodø/Glimt",
+   "stadium": false,
+   "score_home": "4",
+   "score_away": "3",
+   "stage": "Champions League",
+   "crest_home": "/home/user/cmv-alphascanner/video/.cache/crests/napoli.png",
+   "crest_away": "/home/user/cmv-alphascanner/video/.cache/crests/bodoe_glimt.png"
+  },
+  {
+   "home": "PSG",
+   "away": "Barcelona",
+   "competition": "Champions League",
+   "kickoff": "20:00",
+   "home_win": 32,
+   "draw": 19,
+   "away_win": 49,
+   "xg_home": 2.59,
+   "xg_away": 2.97,
+   "form_home": "WLDDL",
+   "form_away": "WWWWW",
+   "scored_home": 2.4,
+   "scored_away": 4.3,
+   "conceded_home": 1.3,
+   "conceded_away": 1.1,
+   "ko": "20:00",
+   "home_short": "PSG",
+   "away_short": "Barcelona",
+   "stadium": false,
+   "score_home": "4",
+   "score_away": "2",
+   "stage": "Champions League",
+   "crest_home": "/home/user/cmv-alphascanner/video/.cache/crests/psg.png",
+   "crest_away": "/home/user/cmv-alphascanner/video/.cache/crests/barcelona.png"
+  },
+  {
+   "home": "Sabah Masazir",
+   "away": "Borussia Dortmund",
+   "competition": "Champions League",
+   "kickoff": "17:45",
+   "home_win": 37,
+   "draw": 28,
+   "away_win": 35,
+   "xg_home": 1.36,
+   "xg_away": 1.33,
+   "form_home": "LWWWL",
+   "form_away": "WWWWL",
+   "scored_home": 2.2,
+   "scored_away": 2,
+   "conceded_home": 0.9,
+   "conceded_away": 0.9,
+   "ko": "17:45",
+   "home_short": "Sabah",
+   "away_short": "Dortmund",
+   "kit": {
+    "home": {
+     "c": "#E5007E"
+    },
+    "away": {
+     "c": "#FDE100"
+    }
+   },
+   "stadium": false,
+   "score_home": "1",
+   "score_away": "2",
+   "stage": "Champions League",
+   "crest_home": "/home/user/cmv-alphascanner/video/.cache/crests/sabah_masazir.png",
+   "crest_away": "/home/user/cmv-alphascanner/video/.cache/crests/borussia_dortmund.png"
+  },
+  {
+   "home": "Fenerbahce Istanbul",
+   "away": "Slavia Prague",
+   "competition": "Champions League",
+   "kickoff": "17:45",
+   "home_win": 41,
+   "draw": 24,
+   "away_win": 35,
+   "xg_home": 1.78,
+   "xg_away": 1.67,
+   "form_home": "DLWWW",
+   "form_away": "WLWWD",
+   "scored_home": 2.4,
+   "scored_away": 2.1,
+   "conceded_home": 1.2,
+   "conceded_away": 0.9,
+   "ko": "17:45",
+   "home_short": "Fenerbahçe",
+   "away_short": "Slavia Prague",
+   "kit": {
+    "home": {
+     "c": "#0A2D6E"
+    },
+    "away": {
+     "c": "#E30613"
+    }
+   },
+   "stadium": false,
+   "score_home": "2",
+   "score_away": "2",
+   "stage": "Champions League",
+   "crest_home": "/home/user/cmv-alphascanner/video/.cache/crests/fenerbahce_istanbul.png",
+   "crest_away": "/home/user/cmv-alphascanner/video/.cache/crests/slavia_prague.png"
+  },
+  {
+   "home": "Roma",
+   "away": "Slovan Bratislava",
+   "competition": "Champions League",
+   "kickoff": "20:00",
+   "home_win": 40,
+   "draw": 22,
+   "away_win": 38,
+   "xg_home": 1.94,
+   "xg_away": 1.89,
+   "form_home": "DWWWW",
+   "form_away": "DLLWL",
+   "scored_home": 2.2,
+   "scored_away": 2.2,
+   "conceded_home": 0.8,
+   "conceded_away": 1.9,
+   "ko": "20:00",
+   "home_short": "Roma",
+   "away_short": "Slovan",
+   "kit": {
+    "home": {
+     "c": "#8E1F2F"
+    },
+    "away": {
+     "c": "#4FA3E0"
+    }
+   },
+   "stadium": false,
+   "score_home": "4",
+   "score_away": "0",
+   "stage": "Champions League",
+   "crest_home": "/home/user/cmv-alphascanner/video/.cache/crests/roma.png",
+   "crest_away": "/home/user/cmv-alphascanner/video/.cache/crests/slovan_bratislava.png"
+  },
+  {
+   "home": "Porto",
+   "away": "PSV Eindhoven",
+   "competition": "Champions League",
+   "kickoff": "20:00",
+   "home_win": 51,
+   "draw": 26,
+   "away_win": 23,
+   "xg_home": 1.63,
+   "xg_away": 1.06,
+   "form_home": "WWWWW",
+   "form_away": "DWWWW",
+   "scored_home": 2.2,
+   "scored_away": 2.6,
+   "conceded_home": 0.9,
+   "conceded_away": 1.2,
+   "ko": "20:00",
+   "home_short": "Porto",
+   "away_short": "PSV",
+   "kit": {
+    "home": {
+     "c": "#003893"
+    },
+    "away": {
+     "c": "#E30613"
+    }
+   },
+   "stadium": false,
+   "score_home": "0",
+   "score_away": "1",
+   "stage": "Champions League",
+   "crest_home": "/home/user/cmv-alphascanner/video/.cache/crests/porto.png",
+   "crest_away": "/home/user/cmv-alphascanner/video/.cache/crests/psv_eindhoven.png"
+  }
+ ],
+ "review": {
+  "beats": [
+   {
+    "type": "rx_cold",
+    "tint": "blue",
+    "people": [
+     "Alexis Mac Allister",
+     "Phil Foden",
+     "Scott McTominay",
+     "Lamine Yamal"
+    ],
+    "say": [
+     "Tonight, we drew up five tactics boards.",
+     "Liverpool came back from two goals down.",
+     "Phil Foden scored three.",
+     "So, how many verdicts held?"
+    ],
+    "steps": [
+     {
+      "big": "5",
+      "label": "tactics boards tonight"
+     },
+     {
+      "big": "2–0",
+      "label": "down, and Liverpool came back"
+     },
+     {
+      "big": "3",
+      "label": "Foden goals against AEK",
+      "tone": "hot"
+     },
+     {
+      "big": "?",
+      "label": "the verdicts",
+      "tone": "hot",
+      "glitch": true
+     }
+    ],
+    "tail": 0.6
+   },
+   {
+    "type": "rx_intro",
+    "drop": true,
+    "crests": 5,
+    "title": "The Tactics Board",
+    "title2": "Full time",
+    "say": [
+     "Tonight's five tactics boards, against the results. Let's check the verdicts."
+    ]
+   },
+   {
+    "type": "cb_board",
+    "kicker": "The other four · full time",
+    "l1": "The other",
+    "l2": "four",
+    "model": false,
+    "cards": [
+     {
+      "match": 5,
+      "note": "Guirassy scores twice, and Dortmund end a run of four away defeats."
+     },
+     {
+      "match": 6,
+      "note": "Kacor equalises for Slavia in the 90th minute."
+     },
+     {
+      "match": 7,
+      "note": "Four different scorers. Slovan have lost all three games."
+     },
+     {
+      "match": 8,
+      "note": "Til's goal leaves Porto without a point after three games."
+     }
+    ],
+    "hl": [
+     {
+      "j": 0,
+      "at": [
+       0,
+       0.3
+      ],
+      "to": [
+       1,
+       0
+      ]
+     },
+     {
+      "j": 3,
+      "at": [
+       1,
+       0.1
+      ]
+     }
+    ],
+    "say": [
+     "First, the other four. Guirassy scored twice as Dortmund won in Azerbaijan.",
+     "And Porto lost at home to PSV, so they still have no points after three games."
+    ]
+   },
+   {
+    "type": "rx_reveal",
+    "match": 0,
+    "n": 1,
+    "of": 1,
+    "ok": true,
+    "scorers": "Mikautadze 4' · Cardona 29' · Mac Allister 36' 65' · Araújo 45+2' · Wirtz 68' · Oluwaseyi 87'",
+    "people": [
+     "Alexis Mac Allister"
+    ],
+    "say": [
+     "At Anfield, we said Liverpool don't lose. They trailed by two goals, but Mac Allister scored twice, and Liverpool beat Villarreal, four–three. Called it! One from one."
+    ],
+    "tally_at": [
+     0,
+     0.856
+    ],
+    "extra": {
+     "label": "Our call",
+     "text": "Liverpool don't lose",
+     "ok": true,
+     "yes": "CALLED",
+     "no": "MISSED",
+     "at": [
+      0,
+      0.05
+     ]
+    }
+   },
+   {
+    "type": "rx_reveal",
+    "match": 1,
+    "n": 2,
+    "of": 2,
+    "ok": true,
+    "scorers": "Anderson 12' · Foden 34' 65' 76' · Pilios 52' · Cherki 57'",
+    "people": [
+     "Phil Foden"
+    ],
+    "say": [
+     "At the Etihad, we called a City win. Phil Foden scored a hat-trick, with Haaland rested, and City ran out five–one winners. Called it! Two from two."
+    ],
+    "tally_at": [
+     0,
+     0.838
+    ],
+    "extra": {
+     "label": "Our call",
+     "text": "A Man City win",
+     "ok": true,
+     "yes": "CALLED",
+     "no": "MISSED",
+     "at": [
+      0,
+      0.05
+     ]
+    },
+    "sticker": {
+     "e": "🎩",
+     "at": 0.4,
+     "x": 50,
+     "y": 790,
+     "r": -10
+    }
+   },
+   {
+    "type": "rx_reveal",
+    "match": 2,
+    "n": 3,
+    "of": 3,
+    "ok": true,
+    "scorers": "Leweling 36' · Álvarez 47' · Hjulmand red card 64'",
+    "people": [
+     "Julián Álvarez"
+    ],
+    "say": [
+     "In Stuttgart, we said Atlético don't lose. Álvarez cancelled out Leweling's goal, and ten-man Atlético held on for a one–one draw. Called it! Three from three."
+    ],
+    "tally_at": [
+     0,
+     0.824
+    ],
+    "extra": {
+     "label": "Our call",
+     "text": "Atlético don't lose",
+     "ok": true,
+     "yes": "CALLED",
+     "no": "MISSED",
+     "at": [
+      0,
+      0.05
+     ]
+    }
+   },
+   {
+    "type": "rx_reveal",
+    "match": 3,
+    "n": 3,
+    "of": 4,
+    "ok": false,
+    "scorers": "Politano 1' · Hauge 27' · McTominay 41' 75' · Helmersen 62' · Bjørtuft o.g. 88' · Fet 90+4'",
+    "people": [
+     "Scott McTominay"
+    ],
+    "say": [
+     "In Naples, we said Bodø Glimt don't lose. McTominay scored twice, and Napoli took a seven-goal thriller, four–three. We missed this one."
+    ],
+    "tally_at": [
+     0,
+     0.86
+    ],
+    "extra": {
+     "label": "Our call",
+     "text": "Bodø/Glimt don't lose",
+     "ok": false,
+     "yes": "CALLED",
+     "no": "MISSED",
+     "at": [
+      0,
+      0.05
+     ]
+    }
+   },
+   {
+    "type": "rx_reveal",
+    "match": 4,
+    "n": 3,
+    "of": 5,
+    "ok": false,
+    "scorers": "Doué 38' · Espart 55' · Hernández 72' · Yamal 79' · Vitinha 81' · Ruiz 86'",
+    "people": [
+     "Désiré Doué",
+     "Lamine Yamal"
+    ],
+    "say": [
+     "And the big one. We said Barcelona don't lose, but PSG scored three in the last twenty minutes and beat Barcelona, four–two. It's Barcelona's first defeat this season. We missed it."
+    ],
+    "tally_at": [
+     0,
+     0.928
+    ],
+    "extra": {
+     "label": "Our call",
+     "text": "Barcelona don't lose",
+     "ok": false,
+     "yes": "CALLED",
+     "no": "MISSED",
+     "at": [
+      0,
+      0.05
+     ]
+    },
+    "burst": {
+     "e": "🔥⚽🔥",
+     "at": 0.55
+    }
+   },
+   {
+    "type": "rx_outro",
+    "n": 3,
+    "of": 5,
+    "ok": true,
+    "sub": "Three from five",
+    "follow": "Follow for tomorrow's analysis",
+    "say": [
+     "Three from five. Napoli and PSG broke two of our boards.",
+     "Follow for tomorrow's Champions League analysis."
+    ]
+   }
+  ]
+ }
+}

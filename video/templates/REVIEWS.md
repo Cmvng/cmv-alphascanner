@@ -24,6 +24,34 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
+## 20 Oct: post-match, "The Tactics Board, full time" (3 from 5, 1:24)
+
+- **The ask:** "a video of the post match analysis". I used the approved presenter template (`rx_*`) with the binder-page
+  board for the four ties that had no verdict, built from the 17 Oct post-match script.
+- **Before building:** applied the last three "Change next time" lines: no "won" before a number in the voice, and the
+  cover's crest row was checked on the first shot.
+- **What worked:**
+  - ESPN's scoreboard and summaries, read at 22:19 Lagos, gave every scorer, minute, red card and own goal, plus recap lines
+    (Liverpool from two down; Foden's hat-trick with Haaland rested).
+  - The board moved to the front ("First, the other four"), so the five verdicts build to PSG v Barcelona.
+  - The drop hit +12.5 dB on the title (Mixkit 586).
+- **Mistakes, and how they got through:**
+  - Copying the 17 Oct build script kept its output path, so the first run wrote over `out/reaction-2026-10-17-cards.json`.
+    It was restored straight away from the committed template copy. Grep a copied script for the old date before running it.
+  - "They were two–nil down" was heard as "too nil". It's now "They trailed by two goals".
+  - The variety check still flagged the reused template after the reorder. I overrode it with `--allow-same` because the
+    owner asked on 18 Oct to reuse templates to save credits.
+  - "Bodø/Glimt" was cut off in the thumbnail's score row. It's shortened to "Bodø" there.
+- **Change next time:**
+  - After copying a build script, grep it for the old date and slug before the first run.
+  - Say "two goals down", never "two–nil down".
+- **Final review:** 84.4 s (X, Reels, Shorts), −15.1 LUFS, true peak −4.0 dB, drop +12.5 dB. Heard back: name spellings only
+  ("Ghirasi", "Holland" for Haaland, "Bode glimped").
+- **Sent:**
+  - the 28.1 MB chat copy, the cover and thumbnail, the srt, the write-up, the post kit (with chapters) and the sources;
+  - a private download page for the full 71.4 MB file (9 parts; the last part's served sha256 checked):
+    https://claude.ai/artifact/BvZhXp5bxqD3RjLRAUQDp6
+
 ## 20 Oct: analysis, "The Tactics Board" (5 Champions League ties in depth + 4 on a board, 2:51)
 
 - **The ask:** "today's football extensive analysis for matches". It's Champions League Tuesday, so I reused the Tactics
