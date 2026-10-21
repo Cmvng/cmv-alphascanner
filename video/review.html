@@ -3169,7 +3169,7 @@ const built = D.scenes.map((sc, k) => {
       el.innerHTML = `<div class="tb-room"></div><div class="tb-bd"></div><div class="tb-pg">${top(proj, `Board ${z(bi + 1)} / ${z(N)}`, `${html(q.ko || q.kickoff || '')} Lagos`)}
         <div class="tb-hd">${badge(q.bh)}<b style="color:${vrTx(kh)}">${html(vrName(q, 'home'))}</b><em>v</em><b style="color:${vrTx(ka)}">${html(vrName(q, 'away'))}</b>${badge(q.ba)}</div>
         <div class="tb-k">${html(b.kicker || '')}</div>${tbPitch(false)}${tbSide(q, b, 'away')}${tbSide(q, b, 'home')}
-        <div class="tb-mb"><small>${html(b.model_label || 'On our numbers')}</small>
+        <div class="tb-mb"${b.model === false ? ' style="display:none"' : ''}><small>${html(b.model_label || 'On our numbers')}</small>
           <div class="tb-ml"><span style="width:${n1(100 * hw / tot)}%"><b>${hw}%</b>${html(vrName(q, 'home'))}</span><span style="width:${n1(100 * dr / tot)}%"><b>${dr}%</b>Draw</span><span style="width:${n1(100 * aw / tot)}%"><b>${aw}%</b>${html(vrName(q, 'away'))}</span></div>
           <div class="tb-mr"><i style="width:${n1(100 * hw / tot)}%;background:${kh.bg}"></i><i style="width:${n1(100 * dr / tot)}%;background:#C9D5EA"></i><i style="width:${n1(100 * aw / tot)}%;background:${ka.bg}"></i></div></div>
         <div class="tb-vd"><small>${html(b.verdict_label || 'The verdict')}</small><b>${html(v.text || '')}</b><svg viewBox="0 0 640 40"><path pathLength="1" d="M6 24 C 120 8, 260 34, 400 18 S 600 14, 634 22"/></svg>
