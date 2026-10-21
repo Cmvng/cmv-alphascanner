@@ -1797,6 +1797,9 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#03060F}
 .tb_end .tb-fr .cr .badge{width:66px;height:66px}
 .tb_end .tb-fr>span{font-size:24px}
 .tb_end .tb-fr em{font-size:54px}
+/* more than six ties: compact rows, so the list clears the caption and the follow pill */
+.tb_title.tbd .tb-fx{gap:10px}.tb_title.tbd .tb-fr{padding:10px 18px}.tb_title.tbd .tb-fr b{font-size:30px}
+.tb_end.tbd .tb-fx{gap:12px}.tb_end.tbd .tb-fr{padding:12px 22px;border-radius:18px}.tb_end.tbd .tb-fr b{font-size:34px}.tb_end.tbd .tb-fr small{font-size:19px;margin-top:4px}.tb_end.tbd .tb-fr .cr .badge{width:54px;height:54px}
 .tb_end .tb-fol b{display:inline-block;font:800 30px Manrope;color:#fff;background:linear-gradient(90deg,#1F5FDB,#3D7BFF);padding:18px 34px;border-radius:999px;box-shadow:0 14px 34px rgba(31,95,219,.35)}
 /* the full-time board (tb_ft, 13 Oct post-match): the score in the header, balls in the nets, our call stamped */
 .tb_ft{--tb-ok:#1E9E62;--tb-no:#D8434F}
@@ -3162,6 +3165,7 @@ const built = D.scenes.map((sc, k) => {
     if (sc.type === 'tb_cold') {
       el.innerHTML = `<div class="tb-night"></div>${tbPitch(true)}<div class="tb-cbig"></div><div class="tb-clab"></div>`
     } else if (sc.type === 'tb_title') {
+      if (D.picks.length > 6) el.classList.add('tbd')
       const rows = D.picks.map(p => `<div class="tb-fr"><span>${html(p.ko || p.kickoff || '')}</span><span class="cr">${badge(p.bh)}${badge(p.ba)}</span><div><b>${html(vrName(p, 'home'))} v ${html(vrName(p, 'away'))}</b><small>${html(p.where || '')}</small></div></div>`).join('')
       el.innerHTML = `<div class="tb-room"></div><div class="tb-bd"></div><div class="tb-pg">${top(html(b.left || 'Champions League'), html(b.mid || ''), html(b.right || ''))}<div class="tb-t1"${b.l1_px ? ` style="font-size:${b.l1_px}px"` : ''}>${html(b.l1 || 'The Tactics')}</div><div class="tb-t2"${b.l2_px ? ` style="font-size:${b.l2_px}px"` : ''}>${html(b.l2 || 'Board.')}</div><div class="tb-sub">${html(b.sub || '')}</div><div class="tb-fx">${rows}</div></div>`
     } else if (sc.type === 'tb_game') {
@@ -3205,6 +3209,7 @@ const built = D.scenes.map((sc, k) => {
       $('.tb-pt svg', el).insertAdjacentHTML('afterbegin', `<rect class="tb-wash" x="10" y="10" width="600" height="435" fill="${ka.bg}" opacity="0"/><rect class="tb-wash" x="10" y="445" width="600" height="435" fill="${kh.bg}" opacity="0"/>`)
     } else if (sc.type === 'tb_end') {
       const mk = bs.some(s2 => s2.type === 'tb_ft'); if (mk) el.classList.add('tbmk')
+      if (bs.length > 6) el.classList.add('tbd')
       const rows = bs.map(s2 => { const d = s2.data || {}, p = D.picks[d.match ?? 0] || M, v = d.verdict || {}
         if (mk) { const c = d.call || {}, s0 = d.score || [0, 0], r = TB_RES(c.result)
           return `<div class="tb-fr"><span class="cr">${badge(p.bh)}${badge(p.ba)}</span><div><b>${html(vrName(p, 'home'))} ${s0[0]}–${s0[1]} ${html(vrName(p, 'away'))}</b><small>We said: ${html(c.short || c.text || '')}${c.score ? ` (${html(c.score)})` : ''}</small></div><i class="tb-ch ${r}">${TB_RES_TXT[r]}</i></div>` }
