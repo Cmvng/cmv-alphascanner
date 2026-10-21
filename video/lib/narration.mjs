@@ -114,7 +114,9 @@ const SAY_IPA = {
   'Díaz': 'dˈiːɑs', 'Lewis-Potter': 'lˈuːɪs pˈɒtɚ', Manzambi: 'mænzˈæmbi', 'Muñoz': 'muːnjˈɔs', Neto: 'nˈɛtoʊ', Venezia: 'vɛnˈɛtsiə',
   Amorim: 'ˈæmɔːɹiːm', Sevilla: 'sɛvˈiːjə',
   // 20 Oct analysis
-  Baena: 'bɑːˈeɪnə', 'Demirović': 'dɛmˈiːɹoʊvɪtʃ', Digne: 'dˈiːnjə', Ekitike: 'ˌɛkiˈtiːkeɪ', Mendes: 'mˈɛndɛz', Neres: 'nˈɛɹɛs', Semenyo: 'sɛmˈɛnjoʊ', Koke: 'kˈoʊkeɪ', Sabah: 'sɑːbˈɑː'
+  Baena: 'bɑːˈeɪnə', 'Demirović': 'dɛmˈiːɹoʊvɪtʃ', Digne: 'dˈiːnjə', Ekitike: 'ˌɛkiˈtiːkeɪ', Mendes: 'mˈɛndɛz', Neres: 'nˈɛɹɛs', Semenyo: 'sɛmˈɛnjoʊ', Koke: 'kˈoʊkeɪ', Sabah: 'sɑːbˈɑː',
+  // 21 Oct analysis
+  Giroud: 'ʒiːɹˈuː', Mbeumo: 'əmbˈɜːmoʊ', Zechiel: 'zˈɛkiːl', Pedrinho: 'pɛdɹˈiːnjoʊ', "Inter's": 'ˈɪntɛɹz'
 }
 const IPA_RE = new RegExp(`(?<!\\p{L})(${Object.keys(SAY_IPA).join('|')})(['’]s)?(?!\\p{L})`, 'gu')
 // letter-aware edges: \b treats accented letters as non-letters, so "Doué" or "Çalhanoğlu" would never match
