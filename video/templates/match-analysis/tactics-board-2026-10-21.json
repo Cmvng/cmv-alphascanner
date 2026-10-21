@@ -1,0 +1,1390 @@
+{
+ "mode": "review",
+ "title": "The Tactics Board: all nine games, Wednesday 21 Oct",
+ "competition": "Football",
+ "date": "2026-10-21",
+ "sound": "cinematic",
+ "voice_fx": "deep",
+ "voice_speed": 1.05,
+ "music_vibe": [
+  "cinematic"
+ ],
+ "music_drop": "after_cold",
+ "music_duck": 10,
+ "stadiums": false,
+ "media_dir": ".cache/media/analysis-2026-10-21-tactics",
+ "music_track": 543,
+ "cover": {
+  "style": "tb",
+  "kicker": "Wednesday · 21 Oct",
+  "l1": "The Tactics",
+  "l2": "Board.",
+  "feature": [
+   8
+  ],
+  "foot": "All nine games · drawn up one by one"
+ },
+ "voice": "af_heart",
+ "review": {
+  "project": "The Tactics Board",
+  "beats": [
+   {
+    "type": "tb_cold",
+    "steps": [
+     {
+      "big": "9 games",
+      "label": "Wednesday · Lagos time"
+     },
+     {
+      "big": "39",
+      "label": "Bayern home games unbeaten in this phase"
+     },
+     {
+      "big": "14",
+      "label": "Arsenal league-phase wins in a row",
+      "tone": "sky"
+     },
+     {
+      "big": "Munich",
+      "label": "Only one run survives",
+      "tone": "red",
+      "glitch": true,
+      "glitch_at": 0.5
+     }
+    ],
+    "say": [
+     "Nine big games today.",
+     "Bayern: thirty-nine home games unbeaten in this phase.",
+     "Arsenal have fourteen straight wins in it.",
+     "Only one run survives tonight."
+    ],
+    "tail": 0.95
+   },
+   {
+    "type": "tb_title",
+    "l1": "The Tactics",
+    "l2": "Board.",
+    "left": "Wednesday",
+    "mid": "All nine games",
+    "right": "Wed 21 Oct",
+    "sub": "Every game today · drawn up one by one",
+    "say": [
+     "The tactics board: all nine games."
+    ]
+   },
+   {
+    "type": "tb_game",
+    "match": 0,
+    "kicker": "Champions League · Matchday 3 · Stadio Sinigaglia, Como",
+    "say": [
+     "First, Como. United haven't won in six, or away all season.",
+     "Paz scored and assisted at Fiorentina; Fernandes's three goals came in one game.",
+     "Como press high; United break through Mbeumo. Our numbers lean to Como.",
+     "The verdict: Como don't lose."
+    ],
+    "out_at": [
+     1,
+     0.0
+    ],
+    "arrows": [
+     {
+      "team": "home",
+      "kind": "press",
+      "label": "Como press high",
+      "at": [
+       2,
+       0.083
+      ]
+     },
+     {
+      "team": "away",
+      "kind": "counter",
+      "label": "Mbeumo on the break",
+      "at": [
+       2,
+       0.333
+      ]
+     }
+    ],
+    "model_at": [
+     2,
+     0.667
+    ],
+    "verdict": {
+     "text": "Como don't lose",
+     "short": "Como don't lose"
+    },
+    "home": {
+     "form": "4-2-3-1",
+     "xi": [
+      "Butez",
+      "Smolčić",
+      "Kempf",
+      "Ramón",
+      "Valle",
+      "Milla",
+      "Da Cunha",
+      "Couto",
+      "Paz",
+      "Baturina",
+      "Douvikas"
+     ],
+     "out": [
+      "Diao",
+      "Chalobah",
+      "Kean"
+     ],
+     "key": [
+      {
+       "i": 8,
+       "name": "Paz",
+       "stat": "Scored and assisted in the 3–1 win at Fiorentina",
+       "at": [
+        1,
+        0.0
+       ],
+       "photo": "p_nico_paz.jpg",
+       "credit": "Paz · Photo: Bryan Berlin · CC BY-SA 4.0"
+      }
+     ]
+    },
+    "away": {
+     "form": "4-2-3-1",
+     "xi": [
+      "Lammens",
+      "Mazraoui",
+      "Maguire",
+      "De Ligt",
+      "Dalot",
+      "Santos",
+      "Baleba",
+      "Diallo",
+      "Tielemans",
+      "Fernandes",
+      "Mbeumo"
+     ],
+     "out": [
+      "Yoro",
+      "Šeško",
+      "Mainoo",
+      "Shaw"
+     ],
+     "key": [
+      {
+       "i": 9,
+       "name": "Fernandes",
+       "stat": "3 league goals, all in one game",
+       "at": [
+        1,
+        0.462
+       ],
+       "photo": "p_bruno_fernandes.jpg",
+       "credit": "Fernandes · Photo: Bryan Berlin · CC BY-SA 4.0"
+      }
+     ]
+    }
+   },
+   {
+    "type": "tb_game",
+    "match": 1,
+    "kicker": "Champions League · Matchday 3 · Stade Pierre-Mauroy, Lille",
+    "say": [
+     "Also at a quarter to six: Lille against Galatasaray, both without a point.",
+     "Giroud leads the line; Osimhen has six league goals.",
+     "Lille go down the left; Galatasaray press and counter. Our numbers can't split them.",
+     "Galatasaray have lost five straight away games. The verdict: Lille don't lose."
+    ],
+    "out_at": [
+     1,
+     0.0
+    ],
+    "arrows": [
+     {
+      "team": "home",
+      "kind": "left",
+      "label": "Lille down the left",
+      "at": [
+       2,
+       0.286
+      ]
+     },
+     {
+      "team": "away",
+      "kind": "press",
+      "label": "Galatasaray press",
+      "at": [
+       2,
+       0.429
+      ]
+     },
+     {
+      "team": "away",
+      "kind": "counter",
+      "label": "Osimhen on the counter",
+      "at": [
+       2,
+       0.571
+      ]
+     }
+    ],
+    "model_at": [
+     2,
+     0.714
+    ],
+    "verdict": {
+     "text": "Lille don't lose",
+     "short": "Lille don't lose"
+    },
+    "home": {
+     "form": "4-2-3-1",
+     "xi": [
+      "Özer",
+      "Goffi",
+      "Ngoy",
+      "Alexsandro",
+      "Perraud",
+      "André",
+      "Bentaleb",
+      "Bakwa",
+      "Mukau",
+      "Haraldsson",
+      "Giroud"
+     ],
+     "out": [
+      "Tiago Santos",
+      "Mbappé"
+     ],
+     "key": [
+      {
+       "i": 10,
+       "name": "Giroud",
+       "stat": "2 goals, 2 assists in 7 Ligue 1 games",
+       "at": [
+        1,
+        0.0
+       ],
+       "photo": "p_olivier_giroud.jpg",
+       "credit": "Giroud · Photo: Антон Зайцев · CC BY-SA 3.0"
+      }
+     ]
+    },
+    "away": {
+     "form": "4-2-3-1",
+     "xi": [
+      "Çakır",
+      "Sallai",
+      "Sánchez",
+      "Bardakcı",
+      "Elmalı",
+      "Torreira",
+      "Lemina",
+      "Akgün",
+      "Batrakov",
+      "Yılmaz",
+      "Osimhen"
+     ],
+     "out": [
+      "Leão"
+     ],
+     "key": [
+      {
+       "i": 10,
+       "name": "Osimhen",
+       "stat": "6 goals, 3 assists in 6 Süper Lig games",
+       "at": [
+        1,
+        0.444
+       ],
+       "photo": "p_victor_osimhen.jpg",
+       "credit": "Osimhen · Photo: Fédération Guinéenne Football"
+      }
+     ]
+    }
+   },
+   {
+    "type": "tb_game",
+    "match": 2,
+    "kicker": "LaLiga · Matchday 6, rearranged · Ciutat de València",
+    "say": [
+     "At seven, LaLiga: Levante haven't won in five; Athletic have drawn three straight.",
+     "Romero has three goals; Simón, four clean sheets.",
+     "Levante press high; Athletic flood the box. Our numbers lean to Levante.",
+     "The verdict: Levante don't lose."
+    ],
+    "out_at": [
+     1,
+     0.0
+    ],
+    "arrows": [
+     {
+      "team": "home",
+      "kind": "press",
+      "label": "Levante press high",
+      "at": [
+       2,
+       0.083
+      ]
+     },
+     {
+      "team": "away",
+      "kind": "middle",
+      "label": "Athletic flood the box",
+      "at": [
+       2,
+       0.333
+      ]
+     }
+    ],
+    "model_at": [
+     2,
+     0.667
+    ],
+    "verdict": {
+     "text": "Levante don't lose",
+     "short": "Levante don't lose"
+    },
+    "home": {
+     "form": "4-3-3",
+     "xi": [
+      "Ryan",
+      "Toljan",
+      "De la Fuente",
+      "Mandi",
+      "Sánchez",
+      "Olasagasti",
+      "Rey",
+      "Requena",
+      "García",
+      "Ratkov",
+      "Romero"
+     ],
+     "out": [
+      "Sotelo"
+     ],
+     "key": [
+      {
+       "i": 10,
+       "name": "Romero",
+       "stat": "3 goals in 8 games",
+       "at": [
+        1,
+        0.0
+       ],
+       "photo": "levante.png"
+      }
+     ]
+    },
+    "away": {
+     "form": "4-2-3-1",
+     "xi": [
+      "Simón",
+      "Areso",
+      "Álvarez",
+      "Laporte",
+      "Berchiche",
+      "Jauregizar",
+      "Ruiz de Galarreta",
+      "Navarro",
+      "Canales",
+      "Berenguer",
+      "Sannadi"
+     ],
+     "out": [
+      "Guruzeta",
+      "Sancet",
+      "Egiluz"
+     ],
+     "key": [
+      {
+       "i": 0,
+       "name": "Simón",
+       "stat": "4 clean sheets in 7 games",
+       "at": [
+        1,
+        0.5
+       ],
+       "photo": "p_unai_simon.jpg",
+       "credit": "Simón · Photo: Bryan Berlin · CC BY-SA 4.0"
+      }
+     ]
+    }
+   },
+   {
+    "type": "tb_game",
+    "match": 3,
+    "kicker": "Champions League · Matchday 3 · Villa Park, Birmingham",
+    "say": [
+     "At eight: Villa have eleven straight home wins; Viking drew three–all with Bayern.",
+     "Jackson has three Champions League goals; Tripić has a goal and two assists.",
+     "Villa go down the left; Viking press, and threaten from set pieces. Our numbers give Villa sixty-eight percent.",
+     "The verdict: a Villa win."
+    ],
+    "out_at": [
+     1,
+     0.0
+    ],
+    "arrows": [
+     {
+      "team": "home",
+      "kind": "left",
+      "label": "Villa down the left",
+      "at": [
+       2,
+       0.222
+      ]
+     },
+     {
+      "team": "away",
+      "kind": "press",
+      "label": "Viking press hard",
+      "at": [
+       2,
+       0.333
+      ]
+     },
+     {
+      "team": "away",
+      "kind": "setpiece",
+      "label": "Set pieces",
+      "at": [
+       2,
+       0.556
+      ]
+     }
+    ],
+    "model_at": [
+     2,
+     0.722
+    ],
+    "verdict": {
+     "text": "A Villa win",
+     "short": "A Villa win"
+    },
+    "home": {
+     "form": "4-2-3-1",
+     "xi": [
+      "Suzuki",
+      "Cash",
+      "Lindelöf",
+      "Torres",
+      "Mings",
+      "Kamara",
+      "Barkley",
+      "McGinn",
+      "Buendía",
+      "Mbaye",
+      "Jackson"
+     ],
+     "out": [
+      "Wan-Bissaka",
+      "Onana",
+      "Manzambi"
+     ],
+     "key": [
+      {
+       "i": 10,
+       "name": "Jackson",
+       "stat": "3 goals in 2 Champions League games",
+       "at": [
+        1,
+        0.0
+       ],
+       "photo": "p_nicolas_jackson.jpg",
+       "credit": "Jackson · Photo: Bryan Berlin · CC BY-SA 4.0"
+      }
+     ]
+    },
+    "away": {
+     "form": "4-3-3",
+     "xi": [
+      "Østbø",
+      "Heggheim",
+      "Stensness",
+      "Falchener",
+      "K. Haugen",
+      "Bjørdal",
+      "Bell",
+      "Askildsen",
+      "Tripić",
+      "Botheim",
+      "Christiansen"
+     ],
+     "out": [
+      "Roseth",
+      "D'Agostino",
+      "Berisha"
+     ],
+     "key": [
+      {
+       "i": 8,
+       "name": "Tripić",
+       "stat": "1 goal, 2 assists in the Champions League",
+       "at": [
+        1,
+        0.462
+       ],
+       "photo": "p_zlatko_tripic.jpg",
+       "credit": "Tripić · Photo: Northside · CC BY-SA 3.0"
+      }
+     ]
+    }
+   },
+   {
+    "type": "tb_game",
+    "match": 4,
+    "kicker": "Champions League · Matchday 3 · La Cartuja, Seville",
+    "say": [
+     "Betis won both games three–two; Feyenoord have five straight wins.",
+     "Zechiel has ten goal involvements; Parrott chases a second Champions League goal.",
+     "Betis are quick in transition; Feyenoord press high. Our numbers give Betis fifty-five percent.",
+     "The verdict: Betis don't lose."
+    ],
+    "out_at": [
+     1,
+     0.0
+    ],
+    "arrows": [
+     {
+      "team": "home",
+      "kind": "counter",
+      "label": "Betis quick in transition",
+      "at": [
+       2,
+       0.143
+      ]
+     },
+     {
+      "team": "away",
+      "kind": "press",
+      "label": "Feyenoord press high",
+      "at": [
+       2,
+       0.429
+      ]
+     }
+    ],
+    "model_at": [
+     2,
+     0.643
+    ],
+    "verdict": {
+     "text": "Betis don't lose",
+     "short": "Betis don't lose"
+    },
+    "home": {
+     "form": "4-3-3",
+     "xi": [
+      "Vallés",
+      "Ortiz",
+      "Bartra",
+      "Natan",
+      "Gómez",
+      "Bernal",
+      "Isco",
+      "Fornals",
+      "Antony",
+      "Parrott",
+      "Ezzalzouli"
+     ],
+     "out": [
+      "Firpo",
+      "Cucho Hernández"
+     ],
+     "key": [
+      {
+       "i": 9,
+       "name": "Parrott",
+       "stat": "1 Champions League goal so far",
+       "at": [
+        1,
+        0.417
+       ],
+       "photo": "p_troy_parrott.jpg",
+       "credit": "Parrott · Photo: Irish Football Fan TV · CC BY 3.0"
+      }
+     ]
+    },
+    "away": {
+     "form": "4-3-3",
+     "xi": [
+      "Ernst",
+      "Read",
+      "St. Juste",
+      "Watanabe",
+      "Marmol",
+      "Zechiel",
+      "Vanhoutte",
+      "Targhalline",
+      "Hadj Moussa",
+      "Ferri",
+      "Valente"
+     ],
+     "out": [
+      "Moder",
+      "Van Persie",
+      "Smal",
+      "Nieuwkoop"
+     ],
+     "key": [
+      {
+       "i": 5,
+       "name": "Zechiel",
+       "stat": "6 goals, 4 assists in 11 games",
+       "at": [
+        1,
+        0.0
+       ],
+       "photo": "p_gjivai_zechiel.jpg",
+       "credit": "Zechiel · Photo: Carlo Bruil Fotografie · CC BY 2.0"
+      }
+     ]
+    }
+   },
+   {
+    "type": "tb_game",
+    "match": 5,
+    "kicker": "Champions League · Matchday 3 · Jan Breydel Stadium, Bruges",
+    "say": [
+     "Brugge have five straight wins since losing to Villa.",
+     "Tresoldi has nine goals; Thauvin has five goals and seven assists.",
+     "Lens press high and leave space in behind.",
+     "The verdict: Brugge don't lose."
+    ],
+    "out_at": [
+     1,
+     0.0
+    ],
+    "arrows": [
+     {
+      "team": "away",
+      "kind": "press",
+      "label": "Lens press high",
+      "at": [
+       2,
+       0.125
+      ]
+     },
+     {
+      "team": "home",
+      "kind": "counter",
+      "label": "Space in behind",
+      "at": [
+       2,
+       0.625
+      ]
+     }
+    ],
+    "model_at": [
+     2,
+     0.9
+    ],
+    "verdict": {
+     "text": "Brugge don't lose",
+     "short": "Brugge don't lose"
+    },
+    "model": false,
+    "home": {
+     "form": "4-2-3-1",
+     "xi": [
+      "Sommer",
+      "Sabbe",
+      "Mechele",
+      "Spileers",
+      "Seys",
+      "Potts",
+      "Vetlesen",
+      "Forbs",
+      "Vanaken",
+      "Vergili",
+      "Tresoldi"
+     ],
+     "out": [
+      "Ordóñez"
+     ],
+     "key": [
+      {
+       "i": 10,
+       "name": "Tresoldi",
+       "stat": "9 goals in 12 games",
+       "at": [
+        1,
+        0.0
+       ],
+       "photo": "club_brugge.png"
+      }
+     ]
+    },
+    "away": {
+     "form": "3-4-2-1",
+     "xi": [
+      "Risser",
+      "Antonio",
+      "Ganiou",
+      "Baidoo",
+      "Abdulhamid",
+      "Cuisance",
+      "Haidara",
+      "Udol",
+      "Thauvin",
+      "Kadile",
+      "Ivanović"
+     ],
+     "out": [
+      "Nawrocki",
+      "Sima"
+     ],
+     "key": [
+      {
+       "i": 8,
+       "name": "Thauvin",
+       "stat": "5 goals, 7 assists in 10 games",
+       "at": [
+        1,
+        0.364
+       ],
+       "photo": "p_florian_thauvin.jpg",
+       "credit": "Thauvin · Photo: Антон Зайцев · CC BY-SA 3.0"
+      }
+     ]
+    }
+   },
+   {
+    "type": "tb_game",
+    "match": 6,
+    "kicker": "Champions League · Matchday 3 · San Siro, Milan",
+    "say": [
+     "Inter have lost four Champions League games in a row, a club record.",
+     "Lautaro is out, so Thuram leads the line; Pedrinho is Shakhtar's top scorer.",
+     "Inter's wing-backs push on; Shakhtar counter fast. Our numbers lean to Shakhtar.",
+     "Shakhtar are unbeaten in eight, but have never beaten Inter. The verdict: Shakhtar don't lose."
+    ],
+    "out_at": [
+     1,
+     0.0
+    ],
+    "arrows": [
+     {
+      "team": "home",
+      "kind": "left",
+      "label": "Inter's wing-backs push on",
+      "at": [
+       2,
+       0.083
+      ]
+     },
+     {
+      "team": "away",
+      "kind": "counter",
+      "label": "Shakhtar on the counter",
+      "at": [
+       2,
+       0.417
+      ]
+     }
+    ],
+    "model_at": [
+     2,
+     0.667
+    ],
+    "verdict": {
+     "text": "Shakhtar don't lose",
+     "short": "Shakhtar don't lose"
+    },
+    "home": {
+     "form": "3-5-2",
+     "xi": [
+      "J. Martínez",
+      "Akanji",
+      "Bastoni",
+      "Carlos Augusto",
+      "Diouf",
+      "Barella",
+      "Çalhanoğlu",
+      "Mkhitaryan",
+      "Dimarco",
+      "Thuram",
+      "Bonny"
+     ],
+     "out": [
+      "Lautaro",
+      "Stones",
+      "Pavard"
+     ],
+     "key": [
+      {
+       "i": 9,
+       "name": "Thuram",
+       "stat": "Leads the line with Lautaro out",
+       "at": [
+        1,
+        0.308
+       ],
+       "photo": "p_marcus_thuram.jpg",
+       "credit": "Thuram · Photo: Bryan Berlin · CC BY-SA 4.0"
+      }
+     ]
+    },
+    "away": {
+     "form": "4-1-4-1",
+     "xi": [
+      "Riznyk",
+      "Tobias",
+      "Bondar",
+      "Matvienko",
+      "Pedro Henrique",
+      "Ocheretko",
+      "Alisson",
+      "Pedrinho",
+      "Nazaryna",
+      "Newerton",
+      "Kauã Elias"
+     ],
+     "out": [
+      "Ghram",
+      "Eguinaldo"
+     ],
+     "key": [
+      {
+       "i": 7,
+       "name": "Pedrinho",
+       "stat": "Shakhtar's top scorer, with 3 goals",
+       "at": [
+        1,
+        0.615
+       ],
+       "photo": "shakhtar_d.png"
+      }
+     ]
+    }
+   },
+   {
+    "type": "tb_game",
+    "match": 7,
+    "kicker": "Champions League · Matchday 3 · Santiago Bernabéu, Madrid",
+    "say": [
+     "Real Madrid have won all six home games; Leipzig have lost their last four away.",
+     "Mbappé has eleven goals in eleven games; Nkunku, four goals and two assists.",
+     "Real are lethal in transition; Leipzig look for the pocket behind midfield. Our numbers give Real sixty-five percent.",
+     "The verdict: a Real Madrid win."
+    ],
+    "out_at": [
+     1,
+     0.0
+    ],
+    "arrows": [
+     {
+      "team": "home",
+      "kind": "counter",
+      "label": "Real lethal in transition",
+      "at": [
+       2,
+       0.111
+      ]
+     },
+     {
+      "team": "away",
+      "kind": "middle",
+      "label": "The pocket behind midfield",
+      "at": [
+       2,
+       0.5
+      ]
+     }
+    ],
+    "model_at": [
+     2,
+     0.722
+    ],
+    "verdict": {
+     "text": "A Real Madrid win",
+     "short": "A Real Madrid win"
+    },
+    "home": {
+     "form": "4-2-3-1",
+     "xi": [
+      "Courtois",
+      "Alexander-Arnold",
+      "Konaté",
+      "Huijsen",
+      "Carreras",
+      "Valverde",
+      "Tchouaméni",
+      "Diomande",
+      "Bellingham",
+      "Vinícius",
+      "Mbappé"
+     ],
+     "out": [
+      "Rodrygo",
+      "Mendy",
+      "Asencio"
+     ],
+     "key": [
+      {
+       "i": 10,
+       "name": "Mbappé",
+       "stat": "11 goals in 11 games",
+       "at": [
+        1,
+        0.0
+       ],
+       "photo": "p_kylian_mbappe.jpg",
+       "credit": "Mbappé · Photo: Bryan Berlin · CC BY-SA 4.0"
+      }
+     ]
+    },
+    "away": {
+     "form": "4-2-3-1",
+     "xi": [
+      "Vandevoordt",
+      "Baku",
+      "Orbán",
+      "Lukeba",
+      "Raum",
+      "Banzuzi",
+      "El Aynaoui",
+      "Gruda",
+      "Nkunku",
+      "Nusa",
+      "Rômulo"
+     ],
+     "out": [
+      "Ouédraogo",
+      "Guiu"
+     ],
+     "key": [
+      {
+       "i": 8,
+       "name": "Nkunku",
+       "stat": "4 goals, 2 assists",
+       "at": [
+        1,
+        0.538
+       ],
+       "photo": "p_christopher_nkunku.jpg",
+       "credit": "Nkunku · Photo: Steffen Prößdorf · CC BY-SA 4.0"
+      }
+     ]
+    }
+   },
+   {
+    "type": "tb_game",
+    "match": 8,
+    "kicker": "Champions League · Matchday 3 · Allianz Arena, Munich",
+    "say": [
+     "Last, Munich: Arsenal haven't conceded in Europe; Bayern just beat Leipzig six–one.",
+     "Olise, Musiala and Saliba are out; Kane and Saka lead the threat.",
+     "Both press high; Rice's set pieces are Arsenal's weapon.",
+     "The verdict: Bayern don't lose."
+    ],
+    "out_at": [
+     1,
+     0.0
+    ],
+    "arrows": [
+     {
+      "team": "home",
+      "kind": "press",
+      "label": "Both sides press high",
+      "at": [
+       2,
+       0.111
+      ]
+     },
+     {
+      "team": "away",
+      "kind": "setpiece",
+      "label": "Rice's set pieces",
+      "at": [
+       2,
+       0.444
+      ]
+     }
+    ],
+    "model_at": [
+     2,
+     0.9
+    ],
+    "verdict": {
+     "text": "Bayern don't lose",
+     "short": "Bayern don't lose"
+    },
+    "model": false,
+    "home": {
+     "form": "4-2-3-1",
+     "xi": [
+      "Neuer",
+      "Laimer",
+      "Upamecano",
+      "Tah",
+      "Davies",
+      "Pavlović",
+      "Kimmich",
+      "Karl",
+      "Saibari",
+      "Díaz",
+      "Kane"
+     ],
+     "out": [
+      "Olise",
+      "Musiala"
+     ],
+     "key": [
+      {
+       "i": 10,
+       "name": "Kane",
+       "stat": "3 goals in 2 Champions League games",
+       "at": [
+        1,
+        0.5
+       ],
+       "photo": "p_harry_kane.jpg",
+       "credit": "Kane · Photo: Bryan Berlin · CC BY-SA 4.0"
+      }
+     ]
+    },
+    "away": {
+     "form": "4-2-3-1",
+     "xi": [
+      "Raya",
+      "Timber",
+      "Konsa",
+      "Gabriel",
+      "Lewis-Skelly",
+      "Rice",
+      "Guimarães",
+      "Saka",
+      "Ødegaard",
+      "Madueke",
+      "Gyökeres"
+     ],
+     "out": [
+      "Saliba",
+      "Hincapié",
+      "Tzolis"
+     ],
+     "key": [
+      {
+       "i": 7,
+       "name": "Saka",
+       "stat": "Scored and assisted off the bench v Lille",
+       "at": [
+        1,
+        0.667
+       ],
+       "photo": "p_bukayo_saka.jpg",
+       "credit": "Saka · Photo: Bryan Berlin · CC BY-SA 4.0"
+      }
+     ]
+    }
+   },
+   {
+    "type": "tb_end",
+    "mid": "All nine games",
+    "right": "Wed 21 Oct",
+    "l1": "Tonight's",
+    "l2": "verdicts",
+    "follow": "Follow for the post-match",
+    "say": [
+     "Nine boards, nine verdicts.",
+     "Follow for the post-match."
+    ],
+    "tail": 0.6
+   }
+  ]
+ },
+ "picks": [
+  {
+   "home": "Como 1907",
+   "away": "Man Utd",
+   "competition": "Champions League",
+   "kickoff": "17:45",
+   "home_win": 40,
+   "draw": 27,
+   "away_win": 33,
+   "xg_home": 1.36,
+   "xg_away": 1.24,
+   "form_home": "WLDLW",
+   "form_away": "LDDLD",
+   "scored_home": 2.2,
+   "scored_away": 1.6,
+   "conceded_home": 1.2,
+   "conceded_away": 1.5,
+   "ko": "17:45",
+   "home_short": "Como",
+   "away_short": "Man Utd",
+   "kit": {
+    "home": {
+     "c": "#1C4E9C"
+    },
+    "away": {
+     "c": "#DA291C"
+    }
+   },
+   "stadium": false
+  },
+  {
+   "home": "Lille",
+   "away": "Galatasaray Istanbul",
+   "competition": "Champions League",
+   "kickoff": "17:45",
+   "home_win": 37,
+   "draw": 24,
+   "away_win": 39,
+   "xg_home": 1.59,
+   "xg_away": 1.63,
+   "form_home": "WLWLD",
+   "form_away": "WLWLW",
+   "scored_home": 1.2,
+   "scored_away": 1.9,
+   "conceded_home": 1.3,
+   "conceded_away": 1.8,
+   "record_home": [
+    4,
+    2,
+    4
+   ],
+   "games_home": 10,
+   "ppg_home": 1.4,
+   "ko": "17:45",
+   "home_short": "Lille",
+   "away_short": "Galatasaray",
+   "kit": {
+    "home": {
+     "c": "#E01E13"
+    },
+    "away": {
+     "c": "#FDB912"
+    }
+   },
+   "stadium": false
+  },
+  {
+   "home": "Levante",
+   "away": "Athletic Bilbao",
+   "competition": "LaLiga",
+   "kickoff": "19:00",
+   "home_win": 41,
+   "draw": 28,
+   "away_win": 31,
+   "xg_home": 1.36,
+   "xg_away": 1.18,
+   "form_home": "DLLDD",
+   "form_away": "WWDDD",
+   "scored_home": 1.5,
+   "scored_away": 1,
+   "conceded_home": 2,
+   "conceded_away": 0.86,
+   "ko": "19:00",
+   "home_short": "Levante",
+   "away_short": "Athletic",
+   "kit": {
+    "home": {
+     "c": "#0A3A7D"
+    },
+    "away": {
+     "c": "#EE2523"
+    }
+   },
+   "stadium": false
+  },
+  {
+   "home": "Aston Villa",
+   "away": "Viking FK",
+   "competition": "Champions League",
+   "kickoff": "20:00",
+   "home_win": 68,
+   "draw": 19,
+   "away_win": 13,
+   "xg_home": 2.18,
+   "xg_away": 0.89,
+   "form_home": "LWDLL",
+   "form_away": "WLDWW",
+   "scored_home": 1.9,
+   "scored_away": 2.9,
+   "conceded_home": 1.4,
+   "conceded_away": 1.2,
+   "clean_home": 3,
+   "shots_home": 16.1,
+   "sot_home": 6.4,
+   "ko": "20:00",
+   "home_short": "Aston Villa",
+   "away_short": "Viking",
+   "kit": {
+    "home": {
+     "c": "#670E36"
+    },
+    "away": {
+     "c": "#00446B"
+    }
+   },
+   "stadium": false
+  },
+  {
+   "home": "Betis",
+   "away": "Feyenoord",
+   "competition": "Champions League",
+   "kickoff": "20:00",
+   "home_win": 55,
+   "draw": 23,
+   "away_win": 22,
+   "xg_home": 1.88,
+   "xg_away": 1.12,
+   "form_home": "WWWLW",
+   "form_away": "LWDWD",
+   "scored_home": 2.1,
+   "scored_away": 3.4,
+   "conceded_home": 1.8,
+   "conceded_away": 1.7,
+   "record_home": [
+    7,
+    1,
+    2
+   ],
+   "games_home": 10,
+   "ppg_home": 2.2,
+   "ko": "20:00",
+   "home_short": "Betis",
+   "away_short": "Feyenoord",
+   "kit": {
+    "home": {
+     "c": "#00954C"
+    },
+    "away": {
+     "c": "#E30613"
+    }
+   },
+   "stadium": false
+  },
+  {
+   "home": "Club Brugge",
+   "away": "Lens",
+   "competition": "Champions League",
+   "kickoff": "20:00",
+   "home_win": 46,
+   "draw": 26,
+   "away_win": 28,
+   "xg_home": 1.57,
+   "xg_away": 1.18,
+   "form_home": "WWWWW",
+   "form_away": "DLWLW",
+   "scored_home": 2.3,
+   "scored_away": 1.8,
+   "conceded_home": 1,
+   "conceded_away": 1.5,
+   "ko": "20:00",
+   "home_short": "Club Brugge",
+   "away_short": "Lens",
+   "kit": {
+    "home": {
+     "c": "#005DAA"
+    },
+    "away": {
+     "c": "#E2001A"
+    }
+   },
+   "stadium": false
+  },
+  {
+   "home": "Inter",
+   "away": "Shakhtar D",
+   "competition": "Champions League",
+   "kickoff": "20:00",
+   "home_win": 33,
+   "draw": 24,
+   "away_win": 43,
+   "xg_home": 1.6,
+   "xg_away": 1.83,
+   "form_home": "LWWWD",
+   "form_away": "WDWLW",
+   "scored_home": 2.8,
+   "scored_away": 2,
+   "conceded_home": 1.8,
+   "conceded_away": 0.6,
+   "record_away": [
+    8,
+    1,
+    1
+   ],
+   "games_away": 10,
+   "ppg_away": 2.5,
+   "ko": "20:00",
+   "home_short": "Inter",
+   "away_short": "Shakhtar",
+   "kit": {
+    "home": {
+     "c": "#0068A8"
+    },
+    "away": {
+     "c": "#F26B1F"
+    }
+   },
+   "stadium": false
+  },
+  {
+   "home": "Real Madrid",
+   "away": "RB Leipzig",
+   "competition": "Champions League",
+   "kickoff": "20:00",
+   "home_win": 65,
+   "draw": 21,
+   "away_win": 14,
+   "xg_home": 2.08,
+   "xg_away": 0.89,
+   "form_home": "WWLWW",
+   "form_away": "LLWWL",
+   "scored_home": 2.7,
+   "scored_away": 2.5,
+   "conceded_home": 1.2,
+   "conceded_away": 1.9,
+   "record_home": [
+    8,
+    0,
+    2
+   ],
+   "games_home": 10,
+   "ppg_home": 2.4,
+   "ko": "20:00",
+   "home_short": "Real Madrid",
+   "away_short": "Leipzig",
+   "kit": {
+    "home": {
+     "c": "#00529F"
+    },
+    "away": {
+     "c": "#DD0741"
+    }
+   },
+   "stadium": false
+  },
+  {
+   "home": "Bayern Munich",
+   "away": "Arsenal",
+   "competition": "Champions League",
+   "kickoff": "20:00",
+   "home_win": 46,
+   "draw": 26,
+   "away_win": 28,
+   "xg_home": 1.57,
+   "xg_away": 1.18,
+   "form_home": "WDWWW",
+   "form_away": "WWWWW",
+   "scored_home": 3.6,
+   "scored_away": 1.9,
+   "conceded_home": 1,
+   "conceded_away": 0.7,
+   "ko": "20:00",
+   "home_short": "Bayern",
+   "away_short": "Arsenal",
+   "kit": {
+    "home": {
+     "c": "#DC052D"
+    },
+    "away": {
+     "c": "#063672"
+    }
+   },
+   "stadium": false
+  }
+ ]
+}

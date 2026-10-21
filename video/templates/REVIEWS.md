@@ -24,6 +24,39 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
+## 21 Oct: analysis, "The Tactics Board: all nine games" (8 Champions League ties + LaLiga, 2:59)
+
+- **The ask:** "do the analysis for all the matches, not some, cos I see you keep on doing only 5". Every big game today
+  got its own full board: all eight Champions League ties in the app plus Levante v Athletic. No game was left to a quick
+  board. The app also lists about 110 smaller games (J-League, amateur, women's leagues); the J-League kicked off at 11:00,
+  before a video could be ready.
+- **Before building:** applied the last three "Change next time" lines:
+  - copied scripts grepped for the old date;
+  - no "won" before a number;
+  - "two goals down" wording.
+- **What worked:**
+  - Three research agents (three games each) in parallel.
+  - Each board kept to about 45 spoken words, so nine boards fit in a Short. The boards still show the full predicted XIs,
+    absentees, key men and arrows.
+  - Brugge v Lens and Bayern v Arsenal came back from the app with identical numbers (a default). A new `model: false`
+    hides the numbers bar on those boards, and the verdict follows the research.
+  - Club crests stand in for the three key men with no free photo (Romero, Tresoldi, Pedrinho).
+- **Mistakes, and how they got through:**
+  - First script: 511 words, about 3:21. Trimmed twice before rendering, to 431 words.
+  - The first render's title list and end card were built for five rows. With nine, the last rows sat under the caption
+    and the follow pill. Caught on the frame sheet; fixed with compact rows (`.tbd`) above six ties, then re-rendered.
+  - The cover's crest row ran off the edges again with nine pairs. It now wraps onto two lines above six.
+  - Hear-back: "an Aston Villa win" was heard as "and Aston Villa". It's now "a Villa win". "Inter's" got its own
+    pronunciation entry.
+- **Change next time:**
+  - With more than five ties, take stills of the title card and the end card before the first full render.
+  - Never put "an" before a vowel-led club name in a verdict line.
+- **Final review:** 179.1 s (YouTube Short), −14.4 LUFS, true peak −4.0 dB, drop +8.4 dB. Music 543 "A New Life".
+- **Sent:**
+  - the 27.9 MB chat copy, the cover and thumbnail, the srt, the write-up, the post kit (with chapters) and the sources;
+  - a private download page for the full 55.1 MB file (7 parts; the last part's served sha256 checked):
+    https://claude.ai/artifact/YZWFPyJZsGEKZWSjFQ3zji
+
 ## 20 Oct: post-match, "The Tactics Board, full time" (3 from 5, 1:24)
 
 - **The ask:** "a video of the post match analysis". I used the approved presenter template (`rx_*`) with the binder-page

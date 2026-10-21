@@ -96,6 +96,7 @@ function boardFT(x0, y0, h) {
 }
 const res = p => { const b = fts.find(x => D.picks[x.match ?? 0] === p); return b?.call?.result }
 // cover.n: only the first n ties (the ones drawn up in depth)
+const MANY = D.picks.slice(0, C.n ?? D.picks.length).length > 6   // more than six ties: the crest row wraps onto two lines
 const pairs = D.picks.slice(0, C.n ?? D.picks.length).map(p => { const r = FT ? res(p) : null
   return `<div class="pair"${r ? ` style="box-shadow:0 0 0 5px ${r === 'called' ? '#1E9E62' : r === 'missed' ? '#D8434F' : '#8A97B0'},0 10px 24px rgba(16,52,130,.14)"` : ''}>${badge(p.bh)}${badge(p.ba)}</div>` }).join('')
 const tally = FT ? (() => { const c = fts.filter(b => b.call?.result === 'called').length, m = fts.filter(b => b.call?.result === 'missed').length
@@ -105,14 +106,14 @@ if (V) {
   st.innerHTML = `<div class="bd" style="left:40px;top:40px;right:40px;bottom:40px"></div>${brand(92, 96)}<div class="ab kick" style="right:92px;top:110px">${html(C.kicker || '')}</div>
     <div class="ab t1" style="left:0;right:0;text-align:center;top:214px${C.l1_px ? `;font-size:${C.l1_px}px` : ''}">${html(C.l1 || 'The Tactics')}</div><div class="ab t2" style="left:0;right:0;text-align:center;top:${C.l2_top ?? 344}px${C.l2_px ? `;font-size:${C.l2_px}px` : ''}">${html(C.l2 || 'Board.')}</div>
     ${FT ? boardFT(255, 690, 830) : board(255, 690, 830)}
-    <div class="ab row" style="left:60px;right:60px;top:1600px">${pairs}</div>
-    <div class="ab foot" style="left:0;right:0;top:1712px">${FT ? tally : html(C.foot || `${D.picks.length} ties · drawn up one by one`)}</div>`
+    <div class="ab row" style="left:60px;right:60px;top:${MANY ? 1530 : 1600}px;flex-wrap:wrap;row-gap:14px">${pairs}</div>
+    <div class="ab foot" style="left:0;right:0;top:${MANY ? 1770 : 1712}px">${FT ? tally : html(C.foot || `${D.picks.length} ties · drawn up one by one`)}</div>`
 } else {
   st.innerHTML = `<div class="bd" style="left:22px;top:22px;right:22px;bottom:22px"></div>${brand(64, 58)}<div class="ab kick" style="left:66px;top:132px;font-size:18px">${html(C.kicker || '')}</div>
     <div class="ab t1" style="left:60px;top:180px;font-size:${C.yt_l1_px ?? 100}px">${html(C.l1 || 'The Tactics')}</div><div class="ab t2" style="left:56px;top:${C.yt_l2_top ?? 278}px;font-size:${C.yt_l2_px ?? 224}px">${html(C.l2 || 'Board.')}</div>
-    <div class="ab row" style="left:60px;top:560px;justify-content:flex-start;gap:12px">${pairs}</div>
+    <div class="ab row" style="left:60px;right:500px;top:${MANY ? 528 : 560}px;justify-content:flex-start;gap:12px;flex-wrap:wrap">${pairs}</div>
     ${FT ? boardFT(800, 66, 590) : board(800, 66, 590)}`
-  document.querySelectorAll('.pair .badge').forEach(b => { b.style.width = b.style.height = '50px' })
+  document.querySelectorAll('.pair .badge').forEach(b => { b.style.width = b.style.height = MANY ? '40px' : '50px' })
 }
 window.ready = (async () => { await document.fonts.ready; await Promise.all([...document.images].map(i => i.decode().catch(() => {}))) })()
 </script>
