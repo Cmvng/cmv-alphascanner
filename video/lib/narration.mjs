@@ -119,7 +119,7 @@ const SAY_IPA = {
   Giroud: 'ʒiːɹˈuː', Mbeumo: 'əmbˈɜːmoʊ', Zechiel: 'zˈɛkiːl', Pedrinho: 'pɛdɹˈiːnjoʊ', "Inter's": 'ˈɪntɛɹz',
   // 22 Oct analysis
   AZ: 'ˌeɪzˈɛd', Celje: 'tsˈɛljɛ', Cisse: 'siːsˈeɪ', Dia: 'dˈiːə', Gent: 'ɡˈɛnt', Jablonec: 'jˈæblɔnɛts', Jagiellonia: 'jˌæɡjɛlˈɔnjə',
-  'Jutglà': 'dʒuːtɡlˈɑː', Juve: 'jˈuːveɪ', Lech: 'lˈɛk', Evanilson: 'ˌɛvənˈɪlsən', 'Vlahović': 'vlˈɑːhɔvɪtʃ', 'Wålemark': 'vˈoʊləmɑːɹk',
+  'Jutglà': 'dʒuːtɡlˈɑː', Juve: 'jˈuːveɪ', Lech: 'lˈɛx', Evanilson: 'ˌɛvənˈɪlsən', 'Vlahović': 'vlˈɑːhɔvɪtʃ', 'Wålemark': 'vˈoʊləmɑːɹk',
   Sadiki: 'sɑːdˈiːki', Salah: 'sˈɑːlə', 'Plzeň': 'pˈɪlzɛn', 'Poznań': 'pˈɔznæn', Piraeus: 'paɪɹˈiːəs', Trabzonspor: 'tɹˈɑːbzɔnspɔːɹ', Vigo: 'vˈiːɡoʊ', Graz: 'ɡɹˈɑːts',
   Nygren: 'nˈiːɡɹɛn', 'Lillestrøm': 'lˈɪləstɹʌm'
 }

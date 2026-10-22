@@ -24,6 +24,55 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
+## 22 Oct: analysis + review, "The Tactics Board: last night checked, tonight's 25 games" (2:57)
+
+- **The ask:** "video for today's football analysis and a short review from yesterday's games in the same video".
+  - It opens on last night's nine verdicts on one board, each card stamped ✓ Called or ✗ Missed (seven from nine).
+  - Then all 18 Europa League games and the seven biggest Conference League ties. Five are drawn up in full; the other
+    20 sit on three boards.
+- **Before building:** applied the last "Change next time" lines:
+  - stills of the boards before the first full render;
+  - no "an" before a vowel-led club name.
+- **What worked:**
+  - Reusing the Tactics Board template (`--allow-same`, as the owner asked on 18 Oct) kept the cost down.
+  - The board gained result stamps and a compact layout for more than eight cards.
+  - ESPN key events gave dated scorers and minutes for every result on the review board.
+- **Mistakes, and how they got through:**
+  - The result stamps didn't show on the first stills: their class `.rs` clashed with an existing global style. Renamed
+    to `cbr`.
+  - First draft: 188 s. Trimmed to 179.5 s before the first render.
+  - Hear-back on that render:
+    - "four–nil" was heard as "for now";
+    - "Lech" alone as "like", "let's" or "let";
+    - "Juve" as "UVA";
+    - "Celta" as "sell to";
+    - "Plzeň" as "Paulsen".
+
+    Fixes: the cold line says "by four goals", and the voice says "Lech Poznań", "Juventus" and "Celta Vigo" in full.
+    Plzeň now reads as "Pilsen", its English name. Each fix was tested through the voice and whisper first.
+  - The fuller names pushed the second render to 182.9 s. Its frame count showed it, so it was stopped early.
+    - Seven lines were trimmed (4.9 s of voice). The next render still came to 180.2 s: every screen's end snaps up to the
+      music beat (0.69 s), so voice savings shrink.
+    - Three more lines were trimmed, which also fixed a verdict that didn't match its card: "Braga end their slide"
+      became "Braga don't lose".
+    - The final length came from the renderer's own timing formula, with the recorded line durations (it reproduced
+      5405 frames exactly). That beats starting a render to read its frame count.
+  - The third render (2:57.4) still had "Lech Poznań start slowly" and the Lech verdict heard as "like Poznan".
+    - Tested /lɛk/, /lɛx/ and /lɛh/ in the exact failing lines: whisper's hearing of "Lech" depends on the words around it.
+    - The fix: /lɛx/, and the line now reads "The hosts start slowly… Our numbers still give Lech Poznań fifty-six
+      percent". Both versions were heard right with both pronunciations.
+    - The other heard-back differences are spellings of foreign names (Bishiktash, Yablonets, Seltavego). Those are fine.
+- **Change next time:**
+  - Say a club's full name the first time and in every verdict. Short forms (Juve, Lech, Celta) mishear.
+  - Never put "–nil" at the end of a spoken line. Say "by four goals".
+  - When a fix makes a line longer, time the changed lines and run the timing formula (LEAD + lines + GAP, the tail,
+    snapped up to the beat) before rendering again. Leave 1.5 s under 3:00.
+- **Final review:** 177.4 s (YouTube Short), −14.7 LUFS, true peak −3.4 dB, drop +8.5 dB. Music 551 "Home" (all four approved tracks are in the last six).
+- **Sent:** 
+  - the 27.9 MB chat copy, the cover and thumbnail, the srt, the write-up, the post kit (with chapters) and the sources;
+  - a private download page for the full 58.6 MB file (7 parts; the last part's served sha256 checked):
+    https://claude.ai/artifact/HQCpynxUfus2bnAn7ZPstQ
+
 ## 22 Oct: art series, Gamdom CUT 01 clean cut (0:35 + 0:15), after a second rejection
 
 - **The owner's choice:** "I like the second one, the short one… just that it's too short."

@@ -1,0 +1,1198 @@
+{
+ "music_track": 551,
+ "feature": 2,
+ "short": {
+  "AC Milan": "Milan",
+  "Besiktas Istanbul": "Beşiktaş",
+  "Crystal Palace": "Palace",
+  "Celta": "Celta Vigo",
+  "KKS Lech Poznan": "Lech Poznań",
+  "Sunderland AFC": "Sunderland",
+  "OFI Crete": "OFI",
+  "Bayer Leverkusen": "Leverkusen",
+  "Sparta Prague": "Sparta Prague",
+  "AC Omonia Nicosia": "Omonia",
+  "Lillestroem SK": "Lillestrøm",
+  "NK Celje": "Celje",
+  "Jagiellonia Bialystok": "Jagiellonia",
+  "RSC Anderlecht": "Anderlecht",
+  "Viktoria Plzen": "Plzeň",
+  "PFC Levski Sofia": "Levski",
+  "FC Ararat-Armenia": "Ararat-Armenia",
+  "Alkmaar": "AZ",
+  "GNK Dinamo Zagreb": "Dinamo Zagreb",
+  "NEC Nijmegen": "NEC",
+  "Ferencvarosi Budapest": "Ferencváros",
+  "SCU Torreense": "Torreense",
+  "Union Gilloise": "Union SG",
+  "Hapoel Be`er Sheva FC": "Be'er Sheva",
+  "FK Jablonec": "Jablonec",
+  "Crvena Zvezda": "Red Star",
+  "Heart of Midlothian FC": "Hearts",
+  "Real Sociedad": "Real Sociedad"
+ },
+ "kit": {
+  "Juventus": {
+   "c": "#1A1A1A"
+  },
+  "Rennes": {
+   "c": "#E30613"
+  },
+  "Bournemouth": {
+   "c": "#B50E12"
+  },
+  "AC Milan": {
+   "c": "#1B1B1B"
+  },
+  "Besiktas Istanbul": {
+   "c": "#111111"
+  },
+  "Crystal Palace": {
+   "c": "#1B458F"
+  },
+  "Celtic": {
+   "c": "#018749"
+  },
+  "Celta": {
+   "c": "#6BB3E6"
+  },
+  "Hoffenheim": {
+   "c": "#1961B5"
+  },
+  "Lyon": {
+   "c": "#14387F"
+  },
+  "KKS Lech Poznan": {
+   "c": "#00579C"
+  },
+  "Sunderland AFC": {
+   "c": "#EB172B"
+  },
+  "OFI Crete": {
+   "c": "#1A1A1A"
+  },
+  "Bayer Leverkusen": {
+   "c": "#E32221"
+  },
+  "Sturm Graz": {
+   "c": "#1A1A1A"
+  },
+  "Marseille": {
+   "c": "#2FAEE0"
+  },
+  "Olympiacos": {
+   "c": "#E41B13"
+  },
+  "Sparta Prague": {
+   "c": "#7A1426"
+  },
+  "AC Omonia Nicosia": {
+   "c": "#0B8E36"
+  },
+  "Benfica": {
+   "c": "#E2001A"
+  },
+  "Lillestroem SK": {
+   "c": "#E9B800"
+  },
+  "Real Sociedad": {
+   "c": "#0067B1"
+  },
+  "NK Celje": {
+   "c": "#E8A900"
+  },
+  "Salzburg": {
+   "c": "#D50032"
+  },
+  "Jagiellonia Bialystok": {
+   "c": "#E5C100"
+  },
+  "RSC Anderlecht": {
+   "c": "#4C2C92"
+  },
+  "Viktoria Plzen": {
+   "c": "#C8102E"
+  },
+  "PFC Levski Sofia": {
+   "c": "#0047AB"
+  },
+  "FC Ararat-Armenia": {
+   "c": "#C99A1E"
+  },
+  "Alkmaar": {
+   "c": "#E30613"
+  },
+  "GNK Dinamo Zagreb": {
+   "c": "#004A99"
+  },
+  "NEC Nijmegen": {
+   "c": "#C8102E"
+  },
+  "Ferencvarosi Budapest": {
+   "c": "#00843D"
+  },
+  "SCU Torreense": {
+   "c": "#3A5A98"
+  },
+  "Union Gilloise": {
+   "c": "#E5C100"
+  },
+  "Hapoel Be`er Sheva FC": {
+   "c": "#D2122E"
+  },
+  "Ajax": {
+   "c": "#D2122E"
+  },
+  "Atalanta": {
+   "c": "#1E71B8"
+  },
+  "Monaco": {
+   "c": "#E51B22"
+  },
+  "Freiburg": {
+   "c": "#1A1A1A"
+  },
+  "FK Jablonec": {
+   "c": "#00843D"
+  },
+  "Brighton": {
+   "c": "#0057B8"
+  },
+  "Braga": {
+   "c": "#DC052D"
+  },
+  "Gent": {
+   "c": "#0060A9"
+  },
+  "Crvena Zvezda": {
+   "c": "#D2142D"
+  },
+  "Copenhagen": {
+   "c": "#002D72"
+  },
+  "Trabzonspor": {
+   "c": "#00A9E0"
+  },
+  "Heart of Midlothian FC": {
+   "c": "#8B1A2E"
+  },
+  "Getafe": {
+   "c": "#005999"
+  },
+  "Lugano": {
+   "c": "#1A1A1A"
+  }
+ },
+ "crest": {
+  "FC Ararat-Armenia": "https://r2.thesportsdb.com/images/media/team/badge/g396se1596470244.png"
+ },
+ "cold": {
+  "steps": [
+   {
+    "big": "9 calls",
+    "label": "Last night · Wednesday"
+   },
+   {
+    "big": "25 games",
+    "label": "Tonight · Lagos time"
+   },
+   {
+    "big": "4–0, 4–0",
+    "label": "Lech Poznań's two Europa League games"
+   },
+   {
+    "big": "Sunderland",
+    "label": "Next into Poznań",
+    "tone": "red",
+    "glitch": true,
+    "glitch_at": 0.5
+   }
+  ],
+  "say": [
+   "Last night, we made nine calls.",
+   "Tonight, twenty-five games.",
+   "Lech Poznań lost both Europa games by four goals.",
+   "Sunderland are next."
+  ],
+  "tail": 0.95
+ },
+ "title": {
+  "left": "Thursday",
+  "mid": "Europa night",
+  "sub": "Last night checked · tonight's 25 drawn up",
+  "say": [
+   "Last night checked; tonight drawn up."
+  ],
+  "full": "The Tactics Board: last night checked, tonight's 25 games, Thursday 22 Oct",
+  "foot": "Last night checked · 25 games tonight"
+ },
+ "review": {
+  "kicker": "Wednesday 21 Oct · full time",
+  "l1": "Last",
+  "l2": "night",
+  "cards": [
+   {
+    "home": "Como 1907",
+    "score": [
+     4,
+     1
+    ],
+    "note": "Nico Paz scored twice",
+    "res": "hit"
+   },
+   {
+    "home": "Lille",
+    "score": [
+     2,
+     4
+    ],
+    "note": "We said Lille don't lose",
+    "res": "miss"
+   },
+   {
+    "home": "Levante",
+    "score": [
+     3,
+     1
+    ],
+    "note": "Brugué, twice in two minutes",
+    "res": "hit"
+   },
+   {
+    "home": "Aston Villa",
+    "score": [
+     3,
+     1
+    ],
+    "note": "Barkley and Buendía scored",
+    "res": "hit"
+   },
+   {
+    "home": "Betis",
+    "score": [
+     1,
+     0
+    ],
+    "note": "Isco's penalty settled it",
+    "res": "hit"
+   },
+   {
+    "home": "Club Brugge",
+    "score": [
+     3,
+     0
+    ],
+    "note": "Vanaken, Seys and Forbs",
+    "res": "hit"
+   },
+   {
+    "home": "Inter",
+    "score": [
+     1,
+     0
+    ],
+    "note": "We said Shakhtar don't lose",
+    "res": "miss"
+   },
+   {
+    "home": "Real Madrid",
+    "score": [
+     4,
+     1
+    ],
+    "note": "Mbappé and Güler on target",
+    "res": "hit"
+   },
+   {
+    "home": "Bayern Munich",
+    "score": [
+     2,
+     2
+    ],
+    "note": "Rice levelled on 82 minutes",
+    "res": "hit"
+   }
+  ],
+  "say": [
+   "First, last night's nine calls.",
+   "Como put four past Manchester United, Real Madrid four past Leipzig; Villa, Betis, Brugge and Levante won.",
+   "Bayern drew with Arsenal; we said Bayern don't lose.",
+   "Two missed: Galatasaray scored four in Lille, and ten-man Inter beat Shakhtar. Seven from nine."
+  ],
+  "hl": [
+   {
+    "j": 0,
+    "at": [
+     1,
+     "Como"
+    ]
+   },
+   {
+    "j": 7,
+    "at": [
+     1,
+     "Real"
+    ]
+   },
+   {
+    "j": 3,
+    "at": [
+     1,
+     "Villa"
+    ]
+   },
+   {
+    "j": 4,
+    "at": [
+     1,
+     "Betis"
+    ]
+   },
+   {
+    "j": 5,
+    "at": [
+     1,
+     "Brugge"
+    ]
+   },
+   {
+    "j": 2,
+    "at": [
+     1,
+     "Levante"
+    ],
+    "to": [
+     2,
+     "Bayern"
+    ]
+   },
+   {
+    "j": 8,
+    "at": [
+     2,
+     "Bayern"
+    ],
+    "to": [
+     3,
+     "Two"
+    ]
+   },
+   {
+    "j": 1,
+    "at": [
+     3,
+     "Galatasaray"
+    ]
+   },
+   {
+    "j": 6,
+    "at": [
+     3,
+     "ten-man"
+    ],
+    "to": [
+     3,
+     "Seven"
+    ]
+   }
+  ]
+ },
+ "games": [
+  {
+   "home": {
+    "form": "3-4-1-2",
+    "xi": [
+     "Vicario",
+     "Kalulu",
+     "Gatti",
+     "Kelly",
+     "Çelik",
+     "Sarr",
+     "Douglas Luiz",
+     "Cambiaso",
+     "McKennie",
+     "Kolo Muani",
+     "Woltemade"
+    ],
+    "out": [
+     "Yildiz",
+     "Locatelli",
+     "Thuram"
+    ],
+    "key": [
+     {
+      "i": 10,
+      "name": "Woltemade",
+      "wiki": "Nick Woltemade",
+      "stat": "Scored in both Europa League games",
+      "at": [
+       1,
+       "Woltemade"
+      ]
+     }
+    ]
+   },
+   "kicker": "Europa League · Matchday 3 · Allianz Stadium, Turin",
+   "say": [
+    "Quarter to six: Juventus lead the table but lost to Lazio on Saturday.",
+    "Woltemade has scored in both Europa games; Dia scored twice off the bench.",
+    "Juventus go wide against a Rennes back five. Our numbers: Juventus fifty-two percent.",
+    "The verdict: Juventus don't lose."
+   ],
+   "arrows": [
+    {
+     "team": "home",
+     "kind": "left",
+     "label": "Cambiaso down the left",
+     "at": [
+      2,
+      "wide"
+     ]
+    },
+    {
+     "team": "away",
+     "kind": "block",
+     "label": "A back five",
+     "at": [
+      2,
+      "back"
+     ]
+    }
+   ],
+   "model_at": [
+    2,
+    "numbers"
+   ],
+   "verdict": {
+    "text": "Juventus don't lose",
+    "short": "Juve don't lose"
+   },
+   "away": {
+    "form": "5-3-2",
+    "xi": [
+     "Samba",
+     "Reynolds",
+     "Aït Boudlal",
+     "Cresswell",
+     "Rouault",
+     "Nagida",
+     "Rongier",
+     "Camara",
+     "Thomasson",
+     "Al-Taamari",
+     "Dia"
+    ],
+    "out": [
+     "Lepaul"
+    ],
+    "key": [
+     {
+      "i": 10,
+      "name": "Dia",
+      "wiki": "Boulaye Dia",
+      "stat": "2 stoppage-time goals v Auxerre",
+      "at": [
+       1,
+       "Dia"
+      ]
+     }
+    ]
+   },
+   "team": "Juventus"
+  },
+  {
+   "home": {
+    "form": "4-2-3-1",
+    "xi": [
+     "Lis",
+     "Pereira",
+     "Skrzypczak",
+     "Yegbe",
+     "Gurgul",
+     "Kozubal",
+     "Murawski",
+     "Wålemark",
+     "Rodríguez",
+     "Palma",
+     "Ishak"
+    ],
+    "out": [
+     "Mońka",
+     "Sayyadmanesh",
+     "Gholizadeh"
+    ],
+    "key": [
+     {
+      "i": 7,
+      "name": "Wålemark",
+      "wiki": "Patrik Wålemark",
+      "stat": "11 goals in 19 games this season",
+      "at": [
+       1,
+       "Wålemark"
+      ]
+     }
+    ]
+   },
+   "kicker": "Europa League · Matchday 3 · Stadion Miejski, Poznań",
+   "say": [
+    "Also at quarter to six: Sunderland are two from two.",
+    "Wålemark has eleven goals; Sadiki scored the late winner in Portugal.",
+    "The hosts start slowly; Sunderland allow little. Our numbers still give Lech Poznań fifty-six percent.",
+    "The verdict: Lech Poznań don't lose."
+   ],
+   "arrows": [
+    {
+     "team": "home",
+     "kind": "middle",
+     "label": "Slow starts in Europe",
+     "at": [
+      2,
+      "slowly"
+     ]
+    },
+    {
+     "team": "away",
+     "kind": "block",
+     "label": "Sunderland allow little",
+     "at": [
+      2,
+      "little"
+     ]
+    }
+   ],
+   "model_at": [
+    2,
+    "numbers"
+   ],
+   "verdict": {
+    "text": "Lech don't lose",
+    "short": "Lech don't lose"
+   },
+   "away": {
+    "form": "4-2-3-1",
+    "xi": [
+     "Roefs",
+     "Hume",
+     "Danso",
+     "O'Nien",
+     "Methalie",
+     "Xhaka",
+     "Sadiki",
+     "Fofana",
+     "Rigg",
+     "Angulo",
+     "Tutierov"
+    ],
+    "out": [
+     "Brobbey",
+     "Ballard",
+     "Meunier"
+    ],
+    "key": [
+     {
+      "i": 6,
+      "name": "Sadiki",
+      "wiki": "Noah Sadiki",
+      "stat": "Late winner at Torreense",
+      "at": [
+       1,
+       "Sadiki"
+      ]
+     }
+    ]
+   },
+   "team": "KKS Lech Poznan"
+  },
+  {
+   "home": {
+    "form": "4-2-3-1",
+    "xi": [
+     "Petrović",
+     "Smith",
+     "Hill",
+     "Silva",
+     "Truffert",
+     "Adams",
+     "Cook",
+     "Rayan",
+     "Kluivert",
+     "Tavernier",
+     "Evanilson"
+    ],
+    "out": [
+     "Scott",
+     "Kroupi",
+     "Araujo"
+    ],
+    "key": [
+     {
+      "i": 10,
+      "name": "Evanilson",
+      "wiki": "Evanilson",
+      "stat": "Scored in each of his last three",
+      "at": [
+       1,
+       "Evanilson"
+      ]
+     }
+    ]
+   },
+   "kicker": "Europa League · Matchday 3 · Vitality Stadium, Bournemouth",
+   "say": [
+    "At eight: Bournemouth have won both, in their first European campaign.",
+    "Evanilson has scored in three straight games; Cisse, twenty today, hit a hat-trick in Salzburg.",
+    "Bournemouth go long to Evanilson; Milan carry the ball. Our numbers: Bournemouth forty-six percent.",
+    "The verdict: Bournemouth don't lose."
+   ],
+   "arrows": [
+    {
+     "team": "home",
+     "kind": "middle",
+     "label": "Long balls to Evanilson",
+     "at": [
+      2,
+      "long"
+     ]
+    },
+    {
+     "team": "away",
+     "kind": "right",
+     "label": "Milan carry it",
+     "at": [
+      2,
+      "carry"
+     ]
+    }
+   ],
+   "model_at": [
+    2,
+    "numbers"
+   ],
+   "verdict": {
+    "text": "Bournemouth don't lose",
+    "short": "Bournemouth don't lose"
+   },
+   "away": {
+    "form": "3-4-2-1",
+    "xi": [
+     "Maignan",
+     "Tomori",
+     "De Winter",
+     "Pavlović",
+     "Hutchinson",
+     "Rabiot",
+     "Jashari",
+     "Bartesaghi",
+     "Loftus-Cheek",
+     "Cisse",
+     "Camarda"
+    ],
+    "out": [
+     "Saelemaekers",
+     "Gabbia",
+     "Terracciano"
+    ],
+    "key": [
+     {
+      "i": 9,
+      "name": "Cisse",
+      "wiki": "Alphadjo Cissè",
+      "stat": "Hat-trick at Salzburg",
+      "at": [
+       1,
+       "Cisse"
+      ]
+     }
+    ]
+   },
+   "team": "Bournemouth"
+  },
+  {
+   "home": {
+    "form": "4-2-3-1",
+    "xi": [
+     "Nübel",
+     "Murillo",
+     "Agbadou",
+     "Topçu",
+     "Rıdvan Yılmaz",
+     "Ndidi",
+     "Salih Özcan",
+     "Fakılı",
+     "Olaitan",
+     "Trossard",
+     "Vlahović"
+    ],
+    "out": [
+     "Kökçü",
+     "Rashica",
+     "Keleş"
+    ],
+    "key": [
+     {
+      "i": 10,
+      "name": "Vlahović",
+      "wiki": "Dušan Vlahović",
+      "stat": "6 Süper Lig goals, the most in the squad",
+      "at": [
+       1,
+       "Vlahović"
+      ]
+     }
+    ]
+   },
+   "kicker": "Europa League · Matchday 3 · Tüpraş Stadium, Istanbul",
+   "say": [
+    "At eight in Istanbul: Beşiktaş have won all eight at home; Palace lost five–nil at Brighton.",
+    "Vlahović has six league goals; Pino has scored twice in the Europa League.",
+    "Beşiktaş counter, and Palace are weak at set pieces. Our numbers: Beşiktaş sixty-one percent.",
+    "The verdict: a Beşiktaş win."
+   ],
+   "arrows": [
+    {
+     "team": "home",
+     "kind": "counter",
+     "label": "Beşiktaş counter",
+     "at": [
+      2,
+      "counter"
+     ]
+    },
+    {
+     "team": "home",
+     "kind": "setpiece",
+     "label": "Set pieces",
+     "at": [
+      2,
+      "set"
+     ]
+    }
+   ],
+   "model_at": [
+    2,
+    "numbers"
+   ],
+   "verdict": {
+    "text": "A Beşiktaş win",
+    "short": "A Beşiktaş win"
+   },
+   "away": {
+    "form": "5-2-3",
+    "xi": [
+     "Benítez",
+     "Mingueza",
+     "Canvot",
+     "Richards",
+     "Disasi",
+     "Mitchell",
+     "Wharton",
+     "Kamada",
+     "Sarr",
+     "Strand Larsen",
+     "Pino"
+    ],
+    "out": [
+     "Tomiyasu",
+     "Timber",
+     "Henderson"
+    ],
+    "key": [
+     {
+      "i": 10,
+      "name": "Pino",
+      "wiki": "Yeremy Pino",
+      "stat": "2 goals in 2 Europa League games",
+      "at": [
+       1,
+       "Pino"
+      ]
+     }
+    ]
+   },
+   "team": "Besiktas Istanbul"
+  },
+  {
+   "home": {
+    "form": "4-2-3-1",
+    "xi": [
+     "Sinisalo",
+     "Donovan",
+     "Murray",
+     "Scales",
+     "Tierney",
+     "McGregor",
+     "Baur",
+     "Hassan",
+     "Nygren",
+     "Osmand",
+     "Durán"
+    ],
+    "out": [
+     "Carter-Vickers",
+     "Johnston",
+     "Trusty"
+    ],
+    "key": [
+     {
+      "i": 8,
+      "name": "Nygren",
+      "wiki": "Benjamin Nygren",
+      "stat": "6 Premiership goals, the most in the squad",
+      "at": [
+       1,
+       "Nygren"
+      ]
+     }
+    ]
+   },
+   "kicker": "Europa League · Matchday 3 · Celtic Park, Glasgow",
+   "say": [
+    "At Celtic Park: both on zero; O'Neill meets the club he beat on the way to Seville.",
+    "Nygren has six league goals; Jutglà leads the Celta Vigo attack.",
+    "Celtic press and score from corners; the visitors build from the back. Our numbers give them thirty-eight percent.",
+    "The verdict: Celta Vigo don't lose."
+   ],
+   "arrows": [
+    {
+     "team": "home",
+     "kind": "press",
+     "label": "Celtic press",
+     "at": [
+      2,
+      "press"
+     ]
+    },
+    {
+     "team": "home",
+     "kind": "setpiece",
+     "label": "Baur corners",
+     "at": [
+      2,
+      "corners"
+     ]
+    },
+    {
+     "team": "away",
+     "kind": "middle",
+     "label": "Build from the back",
+     "at": [
+      2,
+      "build"
+     ]
+    }
+   ],
+   "model_at": [
+    2,
+    "numbers"
+   ],
+   "verdict": {
+    "text": "Celta Vigo don't lose",
+    "short": "Celta don't lose"
+   },
+   "away": {
+    "form": "3-4-3",
+    "xi": [
+     "Radu",
+     "Javi Rodríguez",
+     "Lago",
+     "Alonso",
+     "Rueda",
+     "Moriba",
+     "Febas",
+     "Galán",
+     "Hugo González",
+     "Jutglà",
+     "Swedberg"
+    ],
+    "out": [
+     "Borja Iglesias",
+     "Starfelt",
+     "Román"
+    ],
+    "key": [
+     {
+      "i": 9,
+      "name": "Jutglà",
+      "wiki": "Ferran Jutglà",
+      "stat": "2 LaLiga goals this season",
+      "at": [
+       1,
+       "Jutglà"
+      ]
+     }
+    ]
+   },
+   "team": "Celtic"
+  }
+ ],
+ "boards": [
+  {
+   "kicker": "Europa League · Matchday 3 · 17:45",
+   "l1": "Early",
+   "l2": "kick-offs",
+   "cards": [
+    {
+     "home": "OFI Crete",
+     "note": "Leverkusen don't lose · no goal let in yet"
+    },
+    {
+     "home": "Sturm Graz",
+     "note": "Marseille don't lose · Sturm yet to score"
+    },
+    {
+     "home": "FC Ararat-Armenia",
+     "note": "AZ don't lose · Ararat let in seven in two"
+    },
+    {
+     "home": "GNK Dinamo Zagreb",
+     "note": "A Dinamo win · no goal conceded yet"
+    },
+    {
+     "home": "Ferencvarosi Budapest",
+     "note": "Ferencváros don't lose · six points from six"
+    },
+    {
+     "home": "Union Gilloise",
+     "note": "A Union win · moved to Düsseldorf"
+    }
+   ],
+   "say": [
+    "At quarter to six: Leverkusen don't lose in Crete; Marseille don't lose in Graz.",
+    "AZ don't lose in Armenia; Dinamo Zagreb win at home.",
+    "Ferencváros don't lose; Union win in Düsseldorf."
+   ],
+   "hl": [
+    {
+     "j": 0,
+     "at": [
+      0,
+      "Leverkusen"
+     ]
+    },
+    {
+     "j": 1,
+     "at": [
+      0,
+      "Marseille"
+     ]
+    },
+    {
+     "j": 2,
+     "at": [
+      1,
+      "AZ"
+     ]
+    },
+    {
+     "j": 3,
+     "at": [
+      1,
+      "Dinamo"
+     ]
+    },
+    {
+     "j": 4,
+     "at": [
+      2,
+      "Ferencváros"
+     ]
+    },
+    {
+     "j": 5,
+     "at": [
+      2,
+      "Union"
+     ]
+    }
+   ]
+  },
+  {
+   "kicker": "Europa League · Matchday 3 · 20:00",
+   "l1": "At",
+   "l2": "eight",
+   "cards": [
+    {
+     "home": "Hoffenheim",
+     "note": "Lyon don't lose · top of Ligue 1"
+    },
+    {
+     "home": "Olympiacos",
+     "note": "Sparta don't lose · without Mercado"
+    },
+    {
+     "home": "AC Omonia Nicosia",
+     "note": "Benfica don't lose · Pavlidis has eight"
+    },
+    {
+     "home": "Lillestroem SK",
+     "note": "Lillestrøm don't lose · Sociedad winless"
+    },
+    {
+     "home": "NK Celje",
+     "note": "A Salzburg win · Celje yet to score"
+    },
+    {
+     "home": "Jagiellonia Bialystok",
+     "note": "Jagiellonia don't lose · Anderlecht on zero"
+    },
+    {
+     "home": "Viktoria Plzen",
+     "note": "Levski don't lose · unbeaten in Bulgaria"
+    }
+   ],
+   "say": [
+    "At eight: Lyon don't lose at Hoffenheim, Sparta don't lose in Piraeus, and Benfica don't lose in Nicosia.",
+    "Lillestrøm don't lose to a winless Real Sociedad; Salzburg win in Celje.",
+    "Jagiellonia don't lose to Anderlecht, and Levski don't lose in Plzeň."
+   ],
+   "hl": [
+    {
+     "j": 0,
+     "at": [
+      0,
+      "Lyon"
+     ]
+    },
+    {
+     "j": 1,
+     "at": [
+      0,
+      "Sparta"
+     ]
+    },
+    {
+     "j": 2,
+     "at": [
+      0,
+      "Benfica"
+     ]
+    },
+    {
+     "j": 3,
+     "at": [
+      1,
+      "Lillestrøm"
+     ]
+    },
+    {
+     "j": 4,
+     "at": [
+      1,
+      "Salzburg"
+     ]
+    },
+    {
+     "j": 5,
+     "at": [
+      2,
+      "Jagiellonia"
+     ]
+    },
+    {
+     "j": 6,
+     "at": [
+      2,
+      "Levski"
+     ]
+    }
+   ]
+  },
+  {
+   "kicker": "Conference League · Matchday 2",
+   "l1": "Conference",
+   "l2": "League",
+   "cards": [
+    {
+     "home": "FK Jablonec",
+     "note": "A Brighton win · three clean sheets"
+    },
+    {
+     "home": "Crvena Zvezda",
+     "note": "Copenhagen don't lose · Bukari banned"
+    },
+    {
+     "home": "Trabzonspor",
+     "note": "A Trabzonspor win · Salah has nine"
+    },
+    {
+     "home": "Getafe",
+     "note": "Getafe don't lose · a first Conference season"
+    },
+    {
+     "home": "Ajax",
+     "note": "Atalanta don't lose · Ajax on zero"
+    },
+    {
+     "home": "Monaco",
+     "note": "Monaco don't lose · both on three points"
+    },
+    {
+     "home": "Braga",
+     "note": "Braga don't lose · Gent top in Belgium"
+    }
+   ],
+   "say": [
+    "In the Conference League: Brighton win in Jablonec; Copenhagen don't lose in Belgrade; Trabzonspor beat Hearts; Getafe don't lose to Lugano.",
+    "At eight: Atalanta don't lose in Amsterdam, Monaco don't lose to Freiburg, and Braga don't lose to Gent."
+   ],
+   "hl": [
+    {
+     "j": 0,
+     "at": [
+      0,
+      "Brighton"
+     ]
+    },
+    {
+     "j": 1,
+     "at": [
+      0,
+      "Copenhagen"
+     ]
+    },
+    {
+     "j": 2,
+     "at": [
+      0,
+      "Trabzonspor"
+     ]
+    },
+    {
+     "j": 3,
+     "at": [
+      0,
+      "Getafe"
+     ]
+    },
+    {
+     "j": 4,
+     "at": [
+      1,
+      "Atalanta"
+     ]
+    },
+    {
+     "j": 5,
+     "at": [
+      1,
+      "Monaco"
+     ]
+    },
+    {
+     "j": 6,
+     "at": [
+      1,
+      "Braga"
+     ]
+    }
+   ]
+  }
+ ],
+ "end": {
+  "say": [
+   "Twenty-five verdicts tonight.",
+   "Follow for the post-match."
+  ]
+ }
+}
