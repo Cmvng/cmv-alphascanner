@@ -1,0 +1,173 @@
+{
+ "total": 34.5,
+ "audio": "/tmp/claude-0/-home-user-cmv-alphascanner/9da965d5-a1fd-5015-a86d-55dc14de3b8c/scratchpad/gamdom/cut01b/aud/t1.wav",
+ "audio_fade": [
+  33.25,
+  0.3
+ ],
+ "text": [
+  {
+   "t0": 0.15,
+   "t1": 34.5,
+   "html": "<div class=\"a\">Drawing the Gamdom castle</div><div class=\"b\">SESSION 01</div>",
+   "pos": "hook",
+   "fade": 0.3
+  },
+  {
+   "t0": 0,
+   "t1": 1.45,
+   "html": "If it was easy,",
+   "pos": "cap"
+  },
+  {
+   "t0": 1.47,
+   "t1": 2.89,
+   "html": "everybody would do it.",
+   "pos": "cap"
+  },
+  {
+   "t0": 2.91,
+   "t1": 4.71,
+   "html": "If it didn't require discipline",
+   "pos": "cap"
+  },
+  {
+   "t0": 4.73,
+   "t1": 6.39,
+   "html": "and sacrifice,",
+   "pos": "cap"
+  },
+  {
+   "t0": 6.41,
+   "t1": 8.01,
+   "html": "everybody would do it.",
+   "pos": "cap"
+  },
+  {
+   "t0": 8.03,
+   "t1": 11.51,
+   "html": "So stop questioning why your path has been so difficult.",
+   "pos": "cap"
+  },
+  {
+   "t0": 11.53,
+   "t1": 12.43,
+   "html": "Stop questioning",
+   "pos": "cap"
+  },
+  {
+   "t0": 12.45,
+   "t1": 15.01,
+   "html": "why you're being tested every day.",
+   "pos": "cap"
+  },
+  {
+   "t0": 15.03,
+   "t1": 16.63,
+   "html": "You asked to be different,",
+   "pos": "cap"
+  },
+  {
+   "t0": 16.65,
+   "t1": 18.71,
+   "html": "so now you gotta move different.",
+   "pos": "cap"
+  },
+  {
+   "t0": 18.73,
+   "t1": 22.41,
+   "html": "That means doing the work that everybody else doesn't want to do.",
+   "pos": "cap"
+  },
+  {
+   "t0": 22.43,
+   "t1": 24.01,
+   "html": "That means putting in the time",
+   "pos": "cap"
+  },
+  {
+   "t0": 24.03,
+   "t1": 26.73,
+   "html": "that everybody else isn't willing to put in.",
+   "pos": "cap"
+  },
+  {
+   "t0": 26.75,
+   "t1": 28.23,
+   "html": "You asked for this life.",
+   "pos": "cap"
+  },
+  {
+   "t0": 28.25,
+   "t1": 30.45,
+   "html": "You said you wanted to be different.",
+   "pos": "cap"
+  },
+  {
+   "t0": 30.47,
+   "t1": 31.53,
+   "html": "You asked for more",
+   "pos": "cap"
+  },
+  {
+   "t0": 31.55,
+   "t1": 33.3,
+   "html": "to be on your plate.",
+   "pos": "cap"
+  },
+  {
+   "t0": 33.35,
+   "t1": 34.5,
+   "html": "#Gamdom100kRound2",
+   "pos": "tag",
+   "fade": 0.15
+  }
+ ],
+ "segments": [
+  {
+   "t0": 0.0,
+   "t1": 6.87,
+   "src": [
+    0.0,
+    6.967
+   ]
+  },
+  {
+   "t0": 6.87,
+   "t1": 10.6,
+   "src": [
+    6.967,
+    10.0
+   ]
+  },
+  {
+   "t0": 10.6,
+   "t1": 15.4,
+   "src": [
+    10.0,
+    14.333
+   ]
+  },
+  {
+   "t0": 15.4,
+   "t1": 18.7,
+   "src": [
+    14.333,
+    17.3
+   ]
+  },
+  {
+   "t0": 18.7,
+   "t1": 31.5,
+   "src": [
+    17.3,
+    26.8
+   ]
+  },
+  {
+   "t0": 31.5,
+   "t1": 34.5,
+   "hold": 26.76
+  }
+ ]
+}

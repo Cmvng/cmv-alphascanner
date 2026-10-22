@@ -24,6 +24,27 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
+## 22 Oct: art series, Gamdom CUT 01 clean cut (0:35 + 0:15), after a second rejection
+
+- **The owner's verdict on the colour redo:** "no need for you to change… the progress shot… You only tell the story with the templates… why did you change the color?… your slop AI transition sound… Look at the samples I sent you… night and day."
+- **What was wrong:**
+  - I kept treating their footage as raw material to restyle: a grade, a vignette, grain, embers, light leaks, flashes and freeze frames.
+  - I added my own sounds: whooshes, a swell, a boom.
+  - Their samples do none of that. They show the footage as it is, with the template's voice and plain text.
+- **The clean cut:**
+  - The original video 1:1 (no crop, no scale, no colour change), centred on black.
+  - The template 1 speech as the only sound, its lines in plain white serif under the footage.
+  - Straight cuts, the progress in order, the speed remapped so the first charcoal black lands on "difficult".
+  - The short uses template 4's own pattern: black screens with its lines, cut against the untouched footage on the track's hits.
+- **A mistake caught before sending:** ffmpeg's `overlay=format=auto` darkened the footage about 1.5 levels. It was measured against the source frame and fixed (mean difference now 0.08 out of 255).
+- **Change next time:**
+  - The owner's footage is never restyled.
+  - The template's sound and words are the story.
+  - Effects and sound design only when they ask for them.
+- **Sent:**
+  - the main (27.7 MB chat copy) and the short (8.8 MB, full quality);
+  - the private download page, updated to the full 35.0 MB clean file (5 parts; the last part's served sha256 checked): https://claude.ai/artifact/PUqDrvseWkUmp8fGeu8ExJ
+
 ## 22 Oct: art series, Gamdom CUT 01 redo, "If it was easy" (0:37) + short (0:16)
 
 - **The owner's verdict on the first CUT 01:**
@@ -58,6 +79,7 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
   - the new cover and thumbnail;
   - the post kit, with the "Use audio" fallback if an app mutes the copied sound;
   - the private download page, updated to the full 101.4 MB main file (12 parts; the last part's served sha256 checked): https://claude.ai/artifact/PUqDrvseWkUmp8fGeu8ExJ
+- **The owner's reaction:** rejected again (colour grade and added sounds). See the clean cut above.
 
 ## 22 Oct: art series, Gamdom CUT 01 "The dark comes first" (0:28, no voice)
 

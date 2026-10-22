@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+<!-- transparent text layer for the clean cuts: template lines in plain white serif, nothing else -->
+<head>
+<meta charset="utf-8">
+<style>
+@font-face{font-family:IS;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/instrument-serif-latin-400-normal.woff2) format('woff2')}
+@font-face{font-family:IS;font-style:italic;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/instrument-serif-latin-400-italic.woff2) format('woff2')}
+html,body{margin:0;width:1080px;height:1920px;background:transparent;overflow:hidden}
+.it{position:absolute;left:70px;right:70px;text-align:center;color:#fff;opacity:0}
+.hook{top:205px}
+.hook .a{font:italic 400 52px/1 IS,serif}
+.hook .b{font:400 22px/1 IS,serif;letter-spacing:9px;margin-top:16px;color:rgba(255,255,255,.8)}
+.cap{top:1548px;font:400 62px/1.14 IS,serif}
+.card{top:0;height:1920px;display:flex;align-items:center;justify-content:center;font:400 62px/1.16 IS,serif}
+.tag{top:1572px;font:400 40px/1 IS,serif;letter-spacing:4px;color:rgba(255,255,255,.9)}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+let ITEMS = []
+window.setSpec = spec => {
+  ITEMS = spec.text
+  document.getElementById('root').innerHTML = ITEMS.map((x, i) => `<div class="it ${x.pos}" id="i${i}">${x.html}</div>`).join('')
+  return document.fonts.load('62px IS').then(() => document.fonts.load('italic 52px IS')).then(() => document.fonts.ready).then(() => true)
+}
+const cl = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x))
+window.seek = t => {
+  ITEMS.forEach((x, i) => {
+    const f = x.fade ?? 0.08
+    const v = t < x.t0 || t >= x.t1 ? 0 : Math.min(cl((t - x.t0) / f), cl((x.t1 - t) / f))
+    document.getElementById('i' + i).style.opacity = v.toFixed(3)
+  })
+  return new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)))
+}
+</script>
+</body>
+</html>

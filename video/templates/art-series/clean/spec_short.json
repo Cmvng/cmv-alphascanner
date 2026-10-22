@@ -1,0 +1,148 @@
+{
+ "total": 15.4,
+ "audio": "/tmp/claude-0/-home-user-cmv-alphascanner/9da965d5-a1fd-5015-a86d-55dc14de3b8c/scratchpad/gamdom/cut01b/aud/t4.wav",
+ "audio_fade": [
+  14.75,
+  0.3
+ ],
+ "segments": [
+  {
+   "t0": 0.0,
+   "t1": 2.2
+  },
+  {
+   "t0": 2.2,
+   "t1": 2.76,
+   "src": [
+    4.2,
+    4.76
+   ]
+  },
+  {
+   "t0": 2.76,
+   "t1": 4.4
+  },
+  {
+   "t0": 4.4,
+   "t1": 4.86,
+   "src": [
+    6.7,
+    7.16
+   ]
+  },
+  {
+   "t0": 4.86,
+   "t1": 6.8
+  },
+  {
+   "t0": 6.8,
+   "t1": 7.22,
+   "src": [
+    9.95,
+    10.37
+   ]
+  },
+  {
+   "t0": 7.22,
+   "t1": 9.9
+  },
+  {
+   "t0": 9.9,
+   "t1": 11.8,
+   "src": [
+    13.0,
+    14.9
+   ]
+  },
+  {
+   "t0": 11.8,
+   "t1": 12.6,
+   "src": [
+    17.3,
+    18.1
+   ]
+  },
+  {
+   "t0": 12.6,
+   "t1": 13.3,
+   "src": [
+    20.0,
+    20.7
+   ]
+  },
+  {
+   "t0": 13.3,
+   "t1": 14.0,
+   "src": [
+    23.0,
+    23.7
+   ]
+  },
+  {
+   "t0": 14.0,
+   "t1": 15.4,
+   "src": [
+    25.4,
+    26.8
+   ]
+  }
+ ],
+ "text": [
+  {
+   "t0": 0.02,
+   "t1": 2.18,
+   "html": "I am not like everybody else.",
+   "pos": "card"
+  },
+  {
+   "t0": 2.78,
+   "t1": 4.38,
+   "html": "I don&rsquo;t want to be<br>like everybody else.",
+   "pos": "card"
+  },
+  {
+   "t0": 4.88,
+   "t1": 6.08,
+   "html": "I have something inside",
+   "pos": "card"
+  },
+  {
+   "t0": 6.12,
+   "t1": 6.78,
+   "html": "burning.",
+   "pos": "card"
+  },
+  {
+   "t0": 7.24,
+   "t1": 8.48,
+   "html": "I&rsquo;m supposed to be",
+   "pos": "card"
+  },
+  {
+   "t0": 8.52,
+   "t1": 9.88,
+   "html": "something different.",
+   "pos": "card"
+  },
+  {
+   "t0": 9.9,
+   "t1": 15.4,
+   "html": "<div class=\"a\">Drawing the Gamdom castle</div><div class=\"b\">SESSION 01</div>",
+   "pos": "hook",
+   "fade": 0.2
+  },
+  {
+   "t0": 10.09,
+   "t1": 12.4,
+   "html": "I have to be something different.",
+   "pos": "cap"
+  },
+  {
+   "t0": 14.2,
+   "t1": 15.4,
+   "html": "#Gamdom100kRound2",
+   "pos": "tag",
+   "fade": 0.15
+  }
+ ]
+}

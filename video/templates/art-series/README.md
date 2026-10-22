@@ -8,6 +8,29 @@
   - When the drawing is finished, the cuts are combined into the 30+ second reveal. Its end card carries "18+ · Play responsibly".
 - **The workflow:** the owner sends inspiration reels for each cut ("templates") along with the session's footage.
 
+## The owner's rules, second round (22 Oct): THE CLEAN CUT. Follow this first.
+
+The owner rejected the colour-graded redo too: *"there's no need for you to actually change the… progress shot… You only
+tell the story with the templates… why did you change the color? I sent you a video with the quality… I don't
+understand all this your slop AI transition sound… Look at the samples I sent you… different between night and day."*
+
+- **The footage stays exactly as the owner sent it.**
+  - No grade, no black-and-white, no vignette, grain, light leaks, embers, flashes, freezes or zooms.
+  - The square 1080 × 1080 video sits 1:1 in the middle of the 1080 × 1920 frame (y 420–1500), on black.
+  - Check it with `clean/cmp.py`: the mean difference from the source should stay under 0.5 out of 255.
+  - In ffmpeg, overlay with `format=yuv420` and convert the text to bt709 first. `format=auto` darkened the footage about 1.5 levels.
+- **The template tells the story.**
+  - Its soundtrack is the only sound: no whooshes, booms, swells or rumbles.
+  - Its lines go in plain white serif on the black: under the footage (template 1), or as full black screens (template 4).
+  - Cut straight, on the speech's phrases or the track's hits.
+  - The footage plays in order. Only its speed is remapped (piecewise), so the progress lands under the lines.
+- **Tools (`clean/`):**
+  - `specs.py` writes the spec: segments (`src`, `hold` or black) and text items (`cap`, `card`, `hook`, `tag`);
+  - `textlayer.mjs` renders the text as transparent PNG frames;
+  - `assemble.py` builds the cut straight from the owner's original file with one x264 encode (crf 14).
+
+Everything below the next heading is history. The look it describes was rejected too.
+
 ## The owner's rules (22 Oct, after rejecting the first CUT 01)
 
 *"Why did you not use any soundtrack for what I sent to you? I gave you templates… so people can actually extract
