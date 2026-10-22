@@ -60,6 +60,11 @@ Different is the floor; creative is the bar. Before building, write the concept 
 - **Split decision:** two choices on screen, the owner picks; the pause before the pick is the suspense.
 - **The live chart:** the price line draws itself while the owner talks, the levels they name snapping on.
 - **Before / after:** the same screen yesterday and today, wiped across.
+- **Camera explainer (the owner's reference, 22 Oct; spec in `talking-head/README.md`):**
+  - the owner to camera for the hook and the takeaway, jump-cut sentence by sentence, with a caption box;
+  - in between, about 45% of the running time on full-screen graphics while the voice continues: one canvas that
+    changes state, every element landing on the word that names it, old ideas dimming behind the new one;
+  - voice only, and a logo sting at the end.
 
 ## Crypto motion design (no presenter)
 - **The Keyhole (used 6 Oct, `explainer/fungolabs-keyhole-2026-10-06.json`):** a privacy product told as who gets to look:

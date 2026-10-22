@@ -5,6 +5,80 @@ it into a vertical video (and a 16:9 one with `--fmt wide`) in the house style. 
 (`eth-2026-09-30.edl.json`, site showcase) and 2 Oct 2026 (`eth-2026-10-02.edl.json`, the coin itself as the showcase,
 cleaned voice, face-cam patch).
 
+## Camera explainer: the owner to camera, then full-screen graphics (the owner's reference, 22 Oct 2026)
+
+The owner, 22 Oct: "A new video style… for video when I record myself and try to explain something." Use this for any
+recording where the owner talks to camera to explain an idea (no screen recording).
+
+**The reference:** a 48 s, 16:9 explainer on X, "Smart Followers vs Inner Circle" (a Kaito creator). It's kept in the
+session scratchpad as `ref_talk1/ref.mp4`.
+
+**Its shape:**
+
+| Time | What's on screen | What's said |
+|---|---|---|
+| 0–6.7 s (14%) | Creator to camera, 2 takes | the question hook, then "First off, they measure different things" |
+| 6.7–28.4 s (45%) | full-screen graphics, voice continues | the explanation, one idea per sentence |
+| 28.4–44.5 s (33%) | Creator to camera, 4 takes | what changes and why, then a question to the comments |
+| 44.6–48.3 s | logo end card with a short sound logo | none |
+
+**On camera:**
+- **Framing:** a phone on a stand, landscape, head and chest, face near the centre.
+- **The room:** a warm home room with depth behind (a lamp, a tree, a shelf), dim room light and a soft light on the face.
+- **Mic:** a visible clip-on mic. It reads as "creator", not "studio".
+- **Cuts:** every sentence is its own take, joined with a straight jump cut. The framing shifts a little each take, and
+  there are no transitions. The gaps between takes are trimmed to 0.3–0.8 s of true silence.
+- **Captions:** one clause at a time (4–8 words), white semibold sans, about 4% of the frame height, on a dark
+  translucent rounded box. They sit centred in the lower sixth, just above the mic. They don't animate word by word, and
+  there are no captions over the graphics.
+
+**The graphics (the half that does the explaining):**
+- **The canvas:** one canvas in the brand's colour, one accent colour, and a soft radial glow. The canvas changes
+  state; it never cuts.
+- **Type:**
+  - a wide display face for each idea's title;
+  - a tiny letter-spaced caps kicker above it ("ON X", "A SEPARATE CLASSIFICATION");
+  - small caps labels.
+- **Hero:** a "You" node in the middle. The viewer is the subject.
+- **Pace:** every element lands on the word that names it:
+  - the clusters on "crypto", "AI" and "stocks";
+  - lines drawing to "You" on "follow you";
+  - a counter ticking (91 → 128) on "how many".
+- **How ideas follow each other:** old parts dim behind the new idea. The second idea gets its own title and its own
+  symbol (rings, not a network). Then the two sit side by side ("own model", "own criteria"), and a counter with a
+  progress bar and tier bars shows that more of one doesn't mean a higher tier of the other.
+- **Timing:** each idea runs 3–5 s, and the graphics run 22 s in one stretch.
+
+**Sound:** the voice only. There's no music under it (true silence between takes), and a soft sound logo plays on the
+end card.
+
+**The script:** a question hook ("Wanna know why… changed?") → "First off" (the key distinction in one line) → the
+explanation, one sentence an idea → back on camera for what changes and why → a question to the comments ("Let's see
+who's had a badge update… we want to hear from you").
+
+### How we cut the owner's version
+- **Build:** a new `"layout": "camera"`. The camera is the whole frame, never cropped past the source.
+  - Alternate a small punch-in (100% / 108%) on the jump cuts, so cuts between takes look intentional.
+  - Use the caption box described above.
+- **Graphics:** a clip can carry `"cover": {kind, …}`. The camera picture is replaced by a full-screen graphic for that
+  clip's length while the owner's voice carries on. Each element is timed to a word of the clip (`at: word index`), as
+  in the explainer families.
+  - Build the graphics from what the owner says, one idea per sentence, about 45% of the running time.
+- **Colours (house rules):** the graphic canvas is light sky blue (or deep royal blue), never black. Accents are blue.
+  The subject keeps its own colours: a project's brand colour, a coin's colour. Green and red appear only where they
+  mean something (up or down, right or wrong).
+- **Sound:** follow the reference: clean voice (DeepFilterNet3, as above), no bed under the voice, and a short sting on
+  the end card. If the owner asks for music, use a very soft bed about 20 dB under the voice, with no drop.
+- **Formats:** 16:9 first (X, YouTube). For a 9:16 cut, the owner films in 4K landscape with the face centred, and we
+  crop 1215×2160. The graphics are redrawn for 9:16, not cropped.
+- **Ask the owner for:**
+  - a phone on a stand at eye level, 1x lens, landscape, 4K 30 fps, with exposure and focus locked;
+  - a clip-on mic;
+  - one sentence per take, with a one-second pause before and after (restart a sentence that goes wrong, and we keep
+    the best take);
+  - the original file, not a WhatsApp copy;
+  - the points they want drawn, if they have them (numbers, names, a link to the page they're explaining).
+
 ## Getting the video
 
 - **From an X post:** `python3 video/lib/fetch_x.py <post link> raw.mp4` (X re-compresses, so it is a little soft).
