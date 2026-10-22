@@ -1,5 +1,7 @@
 # Art series: hype cuts from the owner's drawing sessions (Gamdom #Gamdom100kRound2)
 
+**Read `PLAYBOOK.md` first.** It holds the rules, measurements and research from 22 Oct. Everything below is history and tools.
+
 ## The project
 - **The drawing:** 62 × 94 cm, landscape. The Gamdom logo and a castle, rising out of the ashes ("must fight back when kicked down").
 - **The challenge:** #Gamdom100kRound2 ends 5 November and needs a 30+ second video promoting Gamdom.
