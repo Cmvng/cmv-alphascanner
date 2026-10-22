@@ -5,6 +5,37 @@ Built on 22 Oct, after the owner rejected CUT 01 twice. It combines:
 - measurements of their four template reels;
 - three research briefs, with sources in `research/` (`01-speech-edits.md`, `02-art-progress.md`, `03-challenge.md`).
 
+## THE REFERENCE THE OWNER EXPECTS (22 Oct, a #Gamdom100k entry they sent: "This is the style I was expecting")
+`gamdom/ref1/ref.mp4`: 19.3 s, landscape 1920 × 1080, 30 fps. It's a hype edit, not a quiet speech edit.
+
+**The structure**
+1. **0–5.2 s, the hook:** a famous film speech clip, Churchill in Darkest Hour: "You cannot reason with a tiger when your head is in its mouth!"
+   - The scene is dark and moody; the clip is used as it is.
+   - Captions are big white sans-serif CAPS, ONE WORD at a time, centred, each word landing as it is spoken.
+2. **5.2 s, the drop:** on the last word ("MOUTH"), one inverted-colour (negative) flash frame. Then a loud hype beat hits, about 6 dB louder than the speech.
+3. **5.2–17 s, the montage:** the creator's own real-life footage in NATURAL colour (no grade), cut on the beat about every 0.3–1.2 s.
+   - The hero wears a green and black suit in Gamdom's colours.
+   - The montage moves through a mural wall, a boxing gym, punches, and the street.
+4. **The effects, all on the beat:**
+   - a 3D chrome-style title with an RGB glitch ("HONORABLE") over the first shot;
+   - speed ramps and whip pans with motion blur;
+   - a clone/duplicate of the hero for one beat;
+   - white rotoscope-silhouette flash frames;
+   - fast punch-ins.
+5. **The brand moment:** a Gamdom poster held up like a boxing ROUND CARD, with countdown numbers 1-2-3. The brand lives physically in the scene.
+
+**What it means for us**
+- The owner wants a TRENDING HYPE EDIT: a film-speech hook with one-word captions, a beat drop, real footage cut hard on the beat, a few beat-synced effects, and the brand inside the action.
+- "Slop" meant our synthetic whooshes and booms, and colour filters on their footage. The energy should come from the music track and the cutting, not from added SFX.
+- **Format:** landscape 16:9 suits X, where the challenge lives, and it suits the landscape drawing. A vertical cut is optional.
+- **Next cut:**
+  - a film-speech hook about getting knocked down and getting up, with one-word caps captions;
+  - the drop on a hype beat;
+  - the drawing's progress cut on the beat: time-lapse bursts, real-time charcoal close-ups, the artist's face and hands;
+  - one 3D title, speed ramps, and a negative flash on the drop;
+  - the Gamdom castle as the brand moment.
+- **Ask the owner for:** the film line and the beat they want (or approval of ours), and footage with movement (hand-held moments, the artist walking up to the paper, close-ups), not only a locked time-lapse.
+
 ## The brief in one paragraph
 The owner draws, and the template tells the story. Their footage is never restyled. The template's speech and music are the only sound, and its words are the text. The edit is straight cuts on the speech's pauses and the music's hits. The challenge organisers asked for **no AI** ("everything BUT ai… over saturated with ai slop"), with extra points for real, hand-made content. Our edit must look and feel hand-cut: no generated imagery, no stock effects, no AI voice.
 
