@@ -24,6 +24,36 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
+## 22 Oct: art series, Gamdom CUT 01 "The dark comes first" (0:28, no voice)
+
+- **The ask:** the owner is drawing a 62 × 94 cm Gamdom logo and castle for #Gamdom100kRound2 (ends 5 Nov). Each session
+  becomes a teaser cut, and the finished piece a 30+ s reveal. For the first session's time-lapse: "top notch… reflects a
+  story… crazy and badass… creates hype… take your time and create me the best."
+- **The idea:** the first session put charcoal black on the white paper before anything else. So the story is "the
+  dark comes first": four story cards on black (knocked down, stayed there, everything went dark, so that's where I
+  started), B&W ash-graded shots between them, then the challenge line ("fight back when kicked down") as a beat-cut
+  montage on the drop: KICKED / DOWN. / NOT / OUT. The castle and the letters only show as fragments.
+- **What worked:**
+  - The cracks on the first card, drawn on a sound-effect impact.
+  - The REC HUD and "CUT 01 / ??" as a series signature.
+  - The castle's ghost behind the end card.
+  - Cutting the montage to the track's measured beat (94.9 bpm, drop at 20.2 s), with 0.2 s of silence before it.
+- **Mistakes, and how they got through:**
+  - **The first mix was normalised with loudnorm.** It flattened the drop to the build's level, and was caught by
+    measuring RMS per second. Rebuilt with lower build effects and gain + `alimiter`.
+  - **The cracks crossed the first line's text.** Caught on stills; a black halo now sits behind every line.
+  - **"KICKED" over a light frame lacked punch.** Montage frames are now darkened (brightness 0.6) under a word.
+  - **Instagram links can't be fetched** (login wall). The owner sent screen recordings of the references instead.
+- **Change next time:**
+  - Measure the drop against the build (RMS per second) before muxing; never loudnorm a hype cut.
+  - Take stills of every card and montage word over their real frames before the full render.
+  - Keep the art hidden until the reveal: close crops only.
+- **Final check:** 27.6 s, 1080 × 1920, −14.1 LUFS, peak −1.1 dBFS; build about −20 dB RMS, drop about −10.
+  Music: "Thunder" by Arulo (Mixkit 318).
+- **Sent:** the 26.8 MB chat copy, the cover and thumbnail, and the post kit. Also a private download page for the
+  full 77.0 MB file (9 parts; the last part's served sha256 checked): https://claude.ai/artifact/PUqDrvseWkUmp8fGeu8ExJ
+  The build is saved in `video/templates/art-series/`.
+
 ## 21 Oct: analysis, "The Tactics Board: all nine games" (8 Champions League ties + LaLiga, 2:59)
 
 - **The ask:** "do the analysis for all the matches, not some, cos I see you keep on doing only 5". Every big game today

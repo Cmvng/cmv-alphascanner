@@ -1,0 +1,59 @@
+<!doctype html>
+<html>
+<!-- CUT 01 cover (1080x1920) and thumbnail (1280x720, ?thumb): the first black of the drawing in the same ash grade as the cut. -->
+<head>
+<meta charset="utf-8">
+<style>
+@font-face{font-family:Anton;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/anton-latin-400-normal.woff2) format('woff2')}
+@font-face{font-family:PF;font-style:italic;font-weight:700;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/playfair-display-latin-700-italic.woff2) format('woff2')}
+@font-face{font-family:JBM;font-weight:500;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/jetbrains-mono-latin-500-normal.woff2) format('woff2')}
+html,body{margin:0;background:#000;overflow:hidden}
+#st{position:relative;width:1080px;height:1920px;overflow:hidden;background:#000}
+.lay{position:absolute;inset:0}
+#im{position:absolute;filter:grayscale(1) contrast(1.55) brightness(.82)}
+#vig{background:radial-gradient(ellipse 80% 55% at 50% 36%,rgba(0,0,0,0) 28%,rgba(0,0,0,.6) 70%,rgba(0,0,0,.97) 100%)}
+#shade{background:linear-gradient(180deg,rgba(0,0,0,.35) 0%,rgba(0,0,0,0) 18%,rgba(0,0,0,0) 48%,rgba(0,0,0,.92) 72%,#000 100%)}
+#grain{background:url(grain/g3.png);background-size:100% 100%;mix-blend-mode:overlay;opacity:.25}
+#hud{font:500 24px JBM,monospace;letter-spacing:7px;color:rgba(255,255,255,.75)}
+#hud .tl{position:absolute;left:58px;top:74px}
+#hud .tr{position:absolute;right:58px;top:74px;display:flex;align-items:center;gap:14px}
+#hud .tr i{width:17px;height:17px;border-radius:50%;background:#E0242E;display:inline-block}
+#txt{position:absolute;left:0;right:0;bottom:250px;text-align:center}
+.lab{font:500 26px JBM,monospace;letter-spacing:10px;color:#9A9A9A;margin-bottom:40px}
+.big{font:italic 700 118px/1.06 PF,serif;color:#fff;text-shadow:0 0 30px #000}
+.tag{font:500 28px JBM,monospace;letter-spacing:6px;color:#8FA8C8;margin-top:54px}
+/* thumbnail */
+.thumb #st{width:1280px;height:720px}
+.thumb #vig{background:radial-gradient(ellipse 60% 85% at 28% 45%,rgba(0,0,0,0) 30%,rgba(0,0,0,.65) 72%,rgba(0,0,0,.97) 100%)}
+.thumb #shade{background:linear-gradient(90deg,rgba(0,0,0,0) 0%,rgba(0,0,0,0) 38%,rgba(0,0,0,.9) 60%,#000 100%)}
+.thumb #hud .tl{left:40px;top:38px}.thumb #hud .tr{right:40px;top:38px}
+.thumb #hud{font-size:20px}
+.thumb #txt{left:700px;right:50px;bottom:auto;top:0;height:720px;display:flex;flex-direction:column;justify-content:center;text-align:left}
+.thumb .lab{font-size:22px;margin-bottom:26px}
+.thumb .big{font-size:92px}
+.thumb .tag{font-size:22px;margin-top:34px}
+</style>
+</head>
+<body>
+<div id="st">
+  <img id="im" src="fr/0490.jpg">
+  <div id="vig" class="lay"></div>
+  <div id="shade" class="lay"></div>
+  <div id="grain" class="lay"></div>
+  <div id="hud" class="lay"><div class="tl">CUT 01</div><div class="tr"><i></i>REC</div></div>
+  <div id="txt"><div class="lab">CUT 01 / ??</div><div class="big">The dark<br>comes first.</div><div class="tag">#Gamdom100kRound2</div></div>
+</div>
+<script>
+const thumb = location.search.includes('thumb'), im = document.getElementById('im')
+if (thumb) {
+  document.body.classList.add('thumb')
+  // the square frame at 1280 wide; the black corner and the hand sit in the left half
+  Object.assign(im.style, { width: '1100px', height: '1100px', left: '-60px', top: '-30px' })
+} else {
+  // the square frame at 1920 tall, shifted so the black L and the hand fill the portrait window
+  Object.assign(im.style, { width: '1920px', height: '1920px', left: '-40px', top: '-120px' })
+}
+window.ready = document.fonts.ready.then(() => im.decode())
+</script>
+</body>
+</html>
