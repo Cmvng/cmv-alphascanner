@@ -26,6 +26,13 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ## 22 Oct: art series, Gamdom CUT 01 clean cut (0:35 + 0:15), after a second rejection
 
+- **The owner's choice:** "I like the second one, the short one… just that it's too short."
+  - Template 4's soundtrack is only 15 s.
+  - The long version (32.6 s) keeps the short untouched up to template 4's hit at 12.6 s.
+  - It then continues on template 1 from "You asked to be different": the two speeches meet on "different".
+  - It stays in the same pattern: lines on black screens, then the untouched footage with the next line under it.
+  - Built from `clean/spec_long.json`, with the joined soundtrack made by one ffmpeg `amix`.
+  - Sent at full quality (19.5 MB).
 - **The owner's verdict on the colour redo:** "no need for you to change… the progress shot… You only tell the story with the templates… why did you change the color?… your slop AI transition sound… Look at the samples I sent you… night and day."
 - **What was wrong:**
   - I kept treating their footage as raw material to restyle: a grade, a vignette, grain, embers, light leaks, flashes and freeze frames.

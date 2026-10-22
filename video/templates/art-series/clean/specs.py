@@ -1,6 +1,6 @@
 # the two clean-cut specs (main on template 1, short on template 4)
 import json, sys
-G, D = sys.argv[1], sys.argv[2]  # python3 specs.py <gamdom dir> <out dir>
+G, D = sys.argv[1], sys.argv[2]
 HOOK = '<div class="a">Drawing the Gamdom castle</div><div class="b">SESSION 01</div>'
 # main: template 1 speech, chunked like the template's own captions
 W = json.load(open(f'{G}/cut01b/aud/words_t1.json'))
@@ -42,3 +42,48 @@ short = {'total': 15.4, 'audio': f'{G}/cut01b/aud/t4.wav', 'audio_fade': [14.75,
 ]}
 json.dump(short, open(f'{D}/spec_short.json', 'w'), indent=1)
 for x in main['text']: print(f"{x['t0']:6.2f} {x['t1']:6.2f} {x['pos']:5} {x['html'][:70]}")
+
+# long: the short as it is up to the template 4 hit at 12.6 s, then template 1 from "You asked to be different",
+# in the same pattern (its lines on black screens, the untouched footage with the next line under it)
+HK = lambda a, b: {'t0': a, 't1': b, 'html': HOOK, 'pos': 'hook', 'fade': 0.1}
+CAP = lambda a, b, h: {'t0': a, 't1': b, 'html': h, 'pos': 'cap'}
+CARD = lambda a, b, h: {'t0': a, 't1': b, 'html': h, 'pos': 'card'}
+long_ = {'total': 32.6, 'audio': f'{D}/long_audio.wav', 'audio_fade': [31.0, 0.1], 'segments': [
+    {'t0': 0.00, 't1': 2.20}, {'t0': 2.20, 't1': 2.76, 'src': [4.20, 4.76]},
+    {'t0': 2.76, 't1': 4.40}, {'t0': 4.40, 't1': 4.86, 'src': [6.70, 7.16]},
+    {'t0': 4.86, 't1': 6.80}, {'t0': 6.80, 't1': 7.22, 'src': [9.95, 10.37]},
+    {'t0': 7.22, 't1': 9.90},
+    {'t0': 9.90, 't1': 11.80, 'src': [13.0, 14.9]}, {'t0': 11.80, 't1': 12.60, 'src': [17.3, 18.1]},
+    {'t0': 12.60, 't1': 14.30},
+    {'t0': 14.30, 't1': 16.38, 'src': [0.40, 2.48]},
+    {'t0': 16.38, 't1': 17.66},
+    {'t0': 17.66, 't1': 20.08, 'src': [4.80, 7.22]},
+    {'t0': 20.08, 't1': 21.68},
+    {'t0': 21.68, 't1': 24.40, 'src': [10.37, 12.90]},
+    {'t0': 24.40, 't1': 25.90},
+    {'t0': 25.90, 't1': 27.78, 'src': [18.10, 19.98]},
+    {'t0': 27.78, 't1': 29.20},
+    {'t0': 29.20, 't1': 31.10, 'src': [24.90, 26.80]},
+    {'t0': 31.10, 't1': 32.60, 'hold': 26.76},
+], 'text': [
+    CARD(0.02, 2.18, 'I am not like everybody else.'),
+    CARD(2.78, 4.38, 'I don&rsquo;t want to be<br>like everybody else.'),
+    CARD(4.88, 6.08, 'I have something inside'),
+    CARD(6.12, 6.78, 'burning.'),
+    CARD(7.24, 8.48, 'I&rsquo;m supposed to be'),
+    CARD(8.52, 9.88, 'something different.'),
+    HK(9.90, 12.60), CAP(10.09, 12.45, 'I have to be something different.'),
+    CARD(12.68, 14.28, 'You asked to be different,'),
+    HK(14.30, 16.38), CAP(14.32, 16.36, 'so now you gotta move different.'),
+    CARD(16.40, 17.64, 'That means doing the work'),
+    HK(17.66, 20.08), CAP(17.68, 20.06, 'that everybody else doesn&rsquo;t want to do.'),
+    CARD(20.10, 21.66, 'That means putting in the time'),
+    HK(21.68, 24.40), CAP(21.70, 24.38, 'that everybody else isn&rsquo;t willing to put in.'),
+    CARD(24.42, 25.88, 'You asked for this life.'),
+    HK(25.90, 27.78), CAP(25.92, 27.76, 'You said you wanted to be different.'),
+    CARD(27.80, 29.18, 'You asked for more'),
+    HK(29.20, 32.60), CAP(29.22, 30.95, 'to be on your plate.'),
+    {'t0': 31.05, 't1': 32.6, 'html': '#Gamdom100kRound2', 'pos': 'tag', 'fade': 0.15},
+]}
+json.dump(long_, open(f'{D}/spec_long.json', 'w'), indent=1)
+print('long', long_['total'])
