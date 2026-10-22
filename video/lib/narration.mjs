@@ -75,7 +75,7 @@ const SAY_IPA = {
   Augsburg: 'ˈaʊksbʊɹk', Bayern: 'bˈaɪɚn', Bournemouth: 'bˈɔːɹnməθ', Bukayo: 'buːkˈaɪoʊ', 'Calvert-Lewin': 'kˈælvɚt lˈuːɪn',
   Hajduk: 'hˈaɪdʊk', Havertz: 'hˈɑːfɚts', NEC: 'ˌɛnˌiːsˈiː', Hoffenheim: 'hˈɒfənhaɪm', Leverkusen: 'lˈeɪvɚkuːzən',
   Lorient: 'lɔːɹiˈɑːn', Havre: 'hˈɑːvɹə', Mans: 'mˈɑːn', Demichelis: 'dˌɛmɪtʃˈɛlɪs', 'Dembélé': 'dɑːmbeɪlˈeɪ', Xabi: 'ʃˈɑːbi',
-  Mainz: 'mˈaɪnts', Lille: 'lˈiːl', Bundesliga: 'bˈʊndəsliːɡə', 'Alavés': 'ˌɑːlɑːvˈɛs', Frosinone: 'fɹˌoʊzɪnˈoʊneɪ',
+  Mainz: 'mˈaɪnts', Lille: 'lˈiːl', Bundesliga: 'bˈʊndəsliːɡə', 'Alavés': 'ælævˈɛs', Frosinone: 'fɹˌoʊzɪnˈoʊneɪ',
   Genoa: 'dʒˈɛnoʊə', Getafe: 'hɛtˈɑːfeɪ', Raphinha: 'ɹɑːfˈiːnjə', Rayo: 'ɹˈaɪoʊ', 'Álvaro': 'ˈɑːlvɑːɹoʊ', Napoli: 'nˈɑːpoʊli',
   'Bernabéu': 'bɛɹnəbˈeɪuː', Huijsen: 'hˈaʊsən', Kylian: 'kˈiːliən', 'Militão': 'mɪlɪtˈaʊ', Mourinho: 'məɹˈiːnjoʊ', Rodrygo: 'ɹoʊdɹˈiːɡoʊ', Villarreal: 'vˌɪljəɹiˈɑːl', Kristiansund: 'kɹˈɪstjɑːnsʊn',
   // 11 Oct
@@ -121,7 +121,11 @@ const SAY_IPA = {
   AZ: 'ˌeɪzˈɛd', Celje: 'tsˈɛljɛ', Cisse: 'siːsˈeɪ', Dia: 'dˈiːə', Gent: 'ɡˈɛnt', Jablonec: 'jˈæblɔnɛts', Jagiellonia: 'jˌæɡjɛlˈɔnjə',
   'Jutglà': 'dʒuːtɡlˈɑː', Juve: 'jˈuːveɪ', Lech: 'lˈɛx', Evanilson: 'ˌɛvənˈɪlsən', 'Vlahović': 'vlˈɑːhɔvɪtʃ', 'Wålemark': 'vˈoʊləmɑːɹk',
   Sadiki: 'sɑːdˈiːki', Salah: 'sˈɑːlə', 'Plzeň': 'pˈɪlzɛn', 'Poznań': 'pˈɔznæn', Piraeus: 'paɪɹˈiːəs', Trabzonspor: 'tɹˈɑːbzɔnspɔːɹ', Vigo: 'vˈiːɡoʊ', Graz: 'ɡɹˈɑːts',
-  Nygren: 'nˈiːɡɹɛn', 'Lillestrøm': 'lˈɪləstɹʌm'
+  Nygren: 'nˈiːɡɹɛn', Maignan: 'mɛnjˈɑːn', Olaitan: 'oʊlaɪtˈɑːn', Baur: 'bˈaʊɚ', 'Lillestrøm': 'lˈɪləstɹʌm',
+  'Al-Faisaly': 'ɑːlfˈaɪsɑːli', Stade: 'stˈɑːd', Brestois: 'bɹɛstwˈɑː', 'Al-Ittihad': 'ælɪtɪhˈɑːd', Alanyaspor: 'ɑːlˈɑːnjɑːspɔːɹ', 'Boyé': 'boʊjˈeɪ', 'Brøndby': 'bɹˈɜːnbi',
+  Kortrijk: 'kˈɔːɹtɹaɪk', Mechelen: 'mˈɛxələn', 'Marítimo': 'mɑːɹˈiːtiːmoʊ', Turin: 'tjʊɹˈɪn', Wahi: 'wɑːˈiː', Varela: 'vɑːɹˈɛlɑː',
+  'Vitória': 'viːtˈɔːɹiə', Ajorque: 'ɑːʒˈɔːɹk', Delap: 'dˈɛlæp', Bochum: 'bˈoʊxʊm', Darmstadt: 'dˈɑːɹmʃtæt', Stuttgart: 'ʃtˈʊtɡɑːɹt',
+  'Borås': 'bˈuːɹoʊs', St: 'sˈeɪnt'
 }
 const IPA_RE = new RegExp(`(?<!\\p{L})(${Object.keys(SAY_IPA).join('|')})(['’]s)?(?!\\p{L})`, 'gu')
 // letter-aware edges: \b treats accented letters as non-letters, so "Doué" or "Çalhanoğlu" would never match

@@ -186,6 +186,15 @@ through and a "clean and mini cover". Each tie is one whiteboard. Reference: `ta
   - `tb_end` turns into the scorecard when the boards are `tb_ft`: each row has the real score, our call and a chip,
     then the tally. The cover takes `cover.mode: 'ft'` (the feature tie's goals in the nets, the score on the halfway
     line, crest pairs ringed green or red).
+- **Games the app doesn't cover (23 Oct: Friday's five top-league games had no app pages).** Build the pick by hand
+  (`OWN` in `tactics-board-2026-10-23-build.py`: home, away, kick-off, competition, kit, a TheSportsDB crest URL when the
+  name lookup falls back to a shield). Put `model: false` on the board, so no numbers show, and base the verdict on the
+  dated research. Board cards whose pick has no app numbers show the competition instead of "Our numbers".
+- **Check the app's league label before using its numbers.** On 23 Oct it listed "Bodø/Glimt v Haugesund" (a women's
+  league game) and two Moscow youth-league games among the day's matches. Leave those out.
+- **Six boards or more:** the end card switches to compact rows, so the last row clears the follow pill.
+- **Never say a name that auto-captions turn into a rude word.** "Brest" was heard as "breast" four times (23 Oct). Say
+  "in Brittany", "the hosts" or "Stade Brestois", and keep "Brest" on screen.
 
 ## Two cuts from one file
 

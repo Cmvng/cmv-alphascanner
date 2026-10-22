@@ -3072,7 +3072,7 @@ const built = D.scenes.map((sc, k) => {
         const rs = c.res ? `<div class="cbr ${c.res === 'hit' ? 'hit' : 'miss'}">${c.res === 'hit' ? '✓ Called' : '✗ Missed'}</div>` : ''
         return `<div class="cb-bc${dn ? ' dn' : ''}" data-j="${j}" style="left:${lone ? 304 : 56 + col * 496}px;top:${top0 + row * rh}px${one ? ';width:968px' : ''}">${rs}<div class="bd" style="background:linear-gradient(105deg,${kh.bg} 0 50%,${ka.bg} 50% 100%)">
           <span style="position:absolute;left:20px">${badge(p.bh)}</span><div class="ko"${p.score_home != null ? ' style="font-size:30px;top:20px"' : ''}>${html(p.score_home != null ? p.score_home + '–' + p.score_away : p.ko || p.kickoff || '')}</div><span style="position:absolute;right:80px">${badge(p.ba)}</span></div>
-          <div class="t">${html(vrName(p, 'home'))} v ${html(vrName(p, 'away'))}</div><div class="n">${pcNb(c.note || '')}</div><div class="p">${p.score_home != null ? 'Full time' + (c.res ? '' : ' · ' + html(p.competition || '')) : b.model === false ? html(p.competition || '') : `Our numbers · ${html(fav)} ${hi}%`}</div></div>` }).join('')
+          <div class="t">${html(vrName(p, 'home'))} v ${html(vrName(p, 'away'))}</div><div class="n">${pcNb(c.note || '')}</div><div class="p">${p.score_home != null ? 'Full time' + (c.res ? '' : ' · ' + html(p.competition || '')) : b.model === false || p.home_win == null ? html(p.competition || '') : `Our numbers · ${html(fav)} ${hi}%`}</div></div>` }).join('')
       el.innerHTML = `<div class="cb-pg"></div><div class="cb-bh"><div class="k">${html(b.kicker || '')}</div><div class="a">${html(b.l1 || 'Also')} <span>${html(b.l2 || 'today')}</span></div></div>${cards}`
     } else if (sc.type === 'cb_end') {
       el.innerHTML = `<div class="cb-pg"></div><div class="cb-tt" style="top:150px"><div class="k">${html(b.kicker || '')}</div><div class="a" style="font-size:150px">${html(b.l1 || 'Five')}<br><span>${html(b.l2 || 'battles')}</span></div></div>
@@ -3221,7 +3221,7 @@ const built = D.scenes.map((sc, k) => {
       $('.tb-pt svg', el).insertAdjacentHTML('afterbegin', `<rect class="tb-wash" x="10" y="10" width="600" height="435" fill="${ka.bg}" opacity="0"/><rect class="tb-wash" x="10" y="445" width="600" height="435" fill="${kh.bg}" opacity="0"/>`)
     } else if (sc.type === 'tb_end') {
       const mk = bs.some(s2 => s2.type === 'tb_ft'); if (mk) el.classList.add('tbmk')
-      if (bs.length > 6) el.classList.add('tbd')
+      if (bs.length > 5) el.classList.add('tbd')   // six boards or more: compact rows, so the last one clears the follow pill
       const rows = bs.map(s2 => { const d = s2.data || {}, p = D.picks[d.match ?? 0] || M, v = d.verdict || {}
         if (mk) { const c = d.call || {}, s0 = d.score || [0, 0], r = TB_RES(c.result)
           return `<div class="tb-fr"><span class="cr">${badge(p.bh)}${badge(p.ba)}</span><div><b>${html(vrName(p, 'home'))} ${s0[0]}–${s0[1]} ${html(vrName(p, 'away'))}</b><small>We said: ${html(c.short || c.text || '')}${c.score ? ` (${html(c.score)})` : ''}</small></div><i class="tb-ch ${r}">${TB_RES_TXT[r]}</i></div>` }

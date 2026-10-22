@@ -24,6 +24,72 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
+## 23 Oct: analysis, "The Tactics Board: Friday's 16 games" (6 in full + 10 on two boards, 2:37)
+
+- **The ask:** "a video of tomorrow's games", alongside the post-match (the entry below).
+- **The slate:**
+  - The app had no pages for Friday's Premier League, Bundesliga, Ligue 1, Serie A and LaLiga games. Those five boards
+    use `model: false`, and their verdicts follow three dated research briefs. The picks are built by hand (`OWN` in the
+    build).
+  - Al Nassr's game at 14:30 has the app's numbers and became the sixth full board.
+  - The app's own labels flagged three games: Bodø/Glimt v Haugesund is a women's league game, and the two Moscow games
+    are youth-league. All three are left out.
+- **What worked:**
+  - Kick-off order: Al Nassr, then the afternoon board, the five evening boards and the evening board.
+  - The hook ties two separate games together: Gladbach and Málaga, both still without a win, both play tonight.
+  - Seven crests fell back to shields by name. The TheSportsDB URLs were found by team search, or by the Saudi league list
+    for Al-Ittihad.
+- **Mistakes, and how they got through:**
+  - **"Brest" was heard as "breast" and "breasts"** in four lines. The pronunciation check can't catch it, because the
+    name is pronounced right. The lines now say "in Brittany", "the hosts" and "Stade Brestois"; "Brest" stays on screen.
+  - **"Alavés" was heard as "all of us".** Its entry, 'ˌɑːlɑːvˈɛs', had two stress marks. 'ælævˈɛs' is heard as
+    "Alavesse".
+  - "Al-Faisaly go through Mendy" was heard as "I'll feistily go…". It's now "The hosts go through Mendy", and the IPA is
+    'ɑːlfˈaɪsɑːli'.
+  - The end card was built for five rows. The sixth sat under the follow pill (on the stills), so compact rows now start
+    at six.
+- **Change next time:**
+  - Before rendering, read every club name aloud as an English word: Brest, Nice, Gent and the like. If one sounds like
+    a rude word, rephrase it.
+  - Check `SAY_IPA` entries for a second stress mark.
+- **Final review:** 157.0 s (YouTube Short), −14.6 LUFS, true peak −3.7 dB, drop +8.9 dB. Heard back: name spellings only.
+  Music 546 "The Farewell".
+- **Sent:**
+  - the 27.9 MB chat copy, the cover and thumbnail, the srt, the write-up, the post kit (with chapters) and the sources;
+  - a private download page for the full 49.7 MB file (6 parts; the last part's served sha256 checked):
+    https://claude.ai/artifact/JRcEPs1xrqoBKFmFZ8hvhA
+
+## 22 Oct: post-match, "The Tactics Board, full time" (4 from 5, 14 from 25, 1:48)
+
+- **The ask:** "post match analysis video alongside a video of tomorrow's games". This entry is the post-match; Friday's
+  analysis is the next entry up.
+- **Built from:** the 20 Oct presenter build (`rx_*`, reused to save credits).
+  - Three result boards open the video: 17:45, 20:00 and the Conference League. Their 20 cards are stamped with the
+    `cbr` stamps from this morning.
+  - Then the five full boards, building to Bournemouth 3–0 Milan.
+- **What worked:**
+  - ESPN summaries gave every scorer, penalty, own goal and red card for all 25 games, read at 23:50 Lagos.
+  - The verdicts were judged in code from a NEED list ("H1X", "A2X"…), and an assert checks the total (14). That avoids
+    miscounting 25 calls by hand.
+  - It's honest: "fourteen from twenty-five in all" is said in the outro and printed on the cover.
+- **Mistakes, and how they got through:**
+  - A board note said "Three second-half goals for Anderlecht", but one came on 21 minutes. It was caught by re-reading
+    the notes against the ESPN minutes before building.
+  - The cold open showed Maignan's photo behind "Real Sociedad goals". Its photos go one per line, in order; caught on
+    the stills and reordered.
+  - `make-cover.mjs` gave a pre-match "Today's 25 games" cover. Post-match covers come from the results page
+    (`templates/reaction/tactics-2026-10-22-reaction-cover.html`). On its thumbnail, "Lech Poznań" and "Bournemouth"
+    ran into the scores until the font was made smaller.
+- **Change next time:**
+  - Post-match cover: always the results page, never `make-cover.mjs`.
+  - Map cold-open photos to their lines before the stills.
+- **Final review:** 107.9 s, −14.6 LUFS, true peak −2.6 dB, drop +8.2 dB. Heard back: name spellings only (Bishiktash,
+  Yablonets, Bauer, "Ray also seated" for Real Sociedad). Music 607 "Forest Walk".
+- **Sent:**
+  - the 28.1 MB chat copy, the cover and thumbnail, the srt, the write-up, the post kit (with chapters) and the sources;
+  - a private download page for the full 77.8 MB file (10 parts; the last part's served sha256 checked):
+    https://claude.ai/artifact/YVzr5CVJgJa2ror7vrecwC
+
 ## 22 Oct: analysis + review, "The Tactics Board: last night checked, tonight's 25 games" (2:57)
 
 - **The ask:** "video for today's football analysis and a short review from yesterday's games in the same video".
