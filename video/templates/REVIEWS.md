@@ -24,6 +24,41 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
+## 22 Oct: art series, Gamdom CUT 01 redo, "If it was easy" (0:37) + short (0:16)
+
+- **The owner's verdict on the first CUT 01:**
+  - **Their words:** "bad… poor quality… terrible… Why did you not use any soundtrack for what I sent to you? I gave you templates… You don't even tell a clean story."
+  - **What went wrong:** all four of their template reels run on a spoken speech with a music bed. I had used a stock track and written my own lines instead.
+  - **The look:** black and white with crushed blacks.
+  - **Framing:** zooms up to 3.7× on the 1080 source.
+- **The redo:**
+  - **Main (0:37):** the template 1 speech ("If it was easy, everybody would do it…") with its music.
+    - Colour footage with a gentle warm grade.
+    - Captions revealed word by word in sync, with one script word per line.
+    - A hook at the top ("Drawing the Gamdom castle · Session 01").
+    - Freezes on the owner looking at the camera and looking down at the work.
+    - "Putting in the time" over the time-lapse.
+    - The whole session rushing into the castle sketch, then a boom and "The Gamdom castle is rising."
+  - **Short (0:16):** the template 4 speech ("I am not like everybody else…") in that template's own style: lines on black, cut against footage on the track's hits, "burning." in script over the first charcoal.
+- **Mistakes in the redo, caught before sending:**
+  - **Stray commas.** The caption markup's outer `map` had no `join('')`, so a row of commas sat behind every line. Seen on a zoomed still.
+  - **Script words cut short.** A line ending on its script word ("work", "time", "more") vanished 0.2 s later. Such lines now stay up at least 0.5 s.
+  - **A blurry freeze.** The only frame of the owner facing the camera is motion-blurred. It's denoised and sharpened, framed wider, and held for 0.84 s instead of 1.6 s.
+- **Change next time:**
+  - When the owner sends templates, their soundtrack and their editing style are the brief.
+  - Read the templates' audio first, and design the cut around it.
+  - Keep the footage in colour, and keep zooms ≤ 2.3×.
+  - Show the art clearly, in session order.
+- **Final check:**
+  - **Main:** 36.8 s, −13.9 LUFS, true peak −1.1 dBTP.
+  - **Short:** 16.2 s, −13.4 LUFS.
+  - Caption timing checked against the faster-whisper word times on stills at 20.25, 24.2 and 31.7 s.
+- **Sent:**
+  - the main (27.2 MB chat copy) and the short (23.8 MB, full quality);
+  - the new cover and thumbnail;
+  - the post kit, with the "Use audio" fallback if an app mutes the copied sound;
+  - the private download page, updated to the full 101.4 MB main file (12 parts; the last part's served sha256 checked): https://claude.ai/artifact/PUqDrvseWkUmp8fGeu8ExJ
+
 ## 22 Oct: art series, Gamdom CUT 01 "The dark comes first" (0:28, no voice)
 
 - **The ask:** the owner is drawing a 62 × 94 cm Gamdom logo and castle for #Gamdom100kRound2 (ends 5 Nov). Each session
@@ -50,6 +85,7 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
   - Keep the art hidden until the reveal: close crops only.
 - **Final check:** 27.6 s, 1080 × 1920, −14.1 LUFS, peak −1.1 dBFS; build about −20 dB RMS, drop about −10.
   Music: "Thunder" by Arulo (Mixkit 318).
+- **The owner's reaction:** rejected it ("bad… not it at all"). See the redo above.
 - **Sent:** the 26.8 MB chat copy, the cover and thumbnail, and the post kit. Also a private download page for the
   full 77.0 MB file (9 parts; the last part's served sha256 checked): https://claude.ai/artifact/PUqDrvseWkUmp8fGeu8ExJ
   The build is saved in `video/templates/art-series/`.

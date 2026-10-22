@@ -1,0 +1,205 @@
+<!doctype html>
+<html>
+<!-- Gamdom art series, CUT 01 (redo): the first session cut to the owner's template soundtrack ("If it was easy…").
+     Colour footage with a warm cinematic grade, captions revealed word by word in sync with the speech (one script
+     accent word per line, as in the templates), freeze frames on the two human moments, embers rising through the
+     whole cut, a time-lapse rush into the castle sketch, a boom, then the end card. window.seek(t) draws the frame at t. -->
+<head>
+<meta charset="utf-8">
+<style>
+@font-face{font-family:IS;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/instrument-serif-latin-400-normal.woff2) format('woff2')}
+@font-face{font-family:IS;font-style:italic;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/instrument-serif-latin-400-italic.woff2) format('woff2')}
+@font-face{font-family:GV;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/great-vibes-latin-400-normal.woff2) format('woff2')}
+html,body{margin:0;width:1080px;height:1920px;background:#000;overflow:hidden}
+#st{position:absolute;inset:0;overflow:hidden;background:#000}
+.lay{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+#foot img{position:absolute;left:0;top:0;width:1080px;height:1080px;transform-origin:0 0}
+#imB,#imC{opacity:0}
+#vig{background:radial-gradient(ellipse 78% 62% at 50% 46%,rgba(0,0,0,0) 42%,rgba(0,0,0,.38) 74%,rgba(0,0,0,.78) 100%)}
+#warm{background:linear-gradient(180deg,rgba(255,150,60,.06),rgba(0,0,0,0) 40%,rgba(20,30,40,.18));mix-blend-mode:soft-light}
+#grain{background-size:1080px 1920px;mix-blend-mode:overlay;opacity:.07}
+#leak{opacity:0;mix-blend-mode:screen}
+#flash{background:#fff;opacity:0}
+#black{background:#000;opacity:0}
+#embers i{position:absolute;left:0;top:0;border-radius:50%;mix-blend-mode:screen;
+  background:radial-gradient(circle,#fff6d8 0%,#ffc56a 22%,rgba(255,120,30,.75) 45%,rgba(255,80,0,0) 72%)}
+#capbg{background:radial-gradient(ellipse 62% 15% at 50% 65.5%,rgba(0,0,0,.5),rgba(0,0,0,.28) 55%,rgba(0,0,0,0) 100%);opacity:0}
+#cap{position:absolute;left:70px;right:70px;top:1258px;height:0}
+.ch{position:absolute;left:0;right:0;top:0;transform:translateY(-50%);display:flex;flex-wrap:wrap;justify-content:center;align-items:baseline;column-gap:.26em;
+  font:400 82px/1.08 IS,serif;color:#fff;text-align:center;text-shadow:0 2px 16px rgba(0,0,0,.6),0 0 40px rgba(0,0,0,.35);opacity:0}
+.ch span{display:inline-block;opacity:0}
+.ch .pu{font:400 82px/1 IS,serif;font-style:normal;margin-left:2px}
+.ch span.sc{font:400 124px/.8 GV,cursive;letter-spacing:0;margin:0 .04em;transform-origin:50% 70%;
+  text-shadow:0 2px 18px rgba(0,0,0,.55),0 0 26px rgba(255,140,50,.45)}
+#hook{position:absolute;left:0;right:0;top:132px;text-align:center;color:#fff;opacity:0;text-shadow:0 2px 14px rgba(0,0,0,.55)}
+#hook .a{font:italic 400 54px/1 IS,serif;letter-spacing:.2px}
+#hook .b{font:400 23px/1 IS,serif;letter-spacing:9px;margin-top:16px;color:rgba(255,255,255,.82)}
+#end{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:#fff}
+#end>div{opacity:0}
+#end .k{font:400 26px/1 IS,serif;letter-spacing:10px;color:rgba(255,255,255,.8);margin-bottom:46px}
+#end .t{font:400 104px/1 IS,serif;text-shadow:0 2px 24px rgba(0,0,0,.5)}
+#end .s{font:400 168px/1 GV,cursive;margin-top:-6px;padding:0 30px;text-shadow:0 0 34px rgba(255,140,50,.55),0 2px 20px rgba(0,0,0,.5)}
+#end .h{font:400 30px/1 IS,serif;letter-spacing:5px;color:rgba(255,255,255,.86);margin-top:58px}
+</style>
+</head>
+<body>
+<div id="st">
+  <div id="foot" class="lay"><img id="imC"><img id="imB"><img id="im"></div>
+  <div id="warm" class="lay"></div>
+  <div id="vig" class="lay"></div>
+  <div id="leak" class="lay"></div>
+  <div id="embers" class="lay"></div>
+  <div id="capbg" class="lay"></div>
+  <div id="hook"><div class="a">Drawing the Gamdom castle</div><div class="b">SESSION 01</div></div>
+  <div id="cap"></div>
+  <div id="end"><div class="k">SESSION 01 · 62 × 94 CM</div><div class="t">The Gamdom castle</div><div class="s">is rising.</div><div class="h">#Gamdom100kRound2</div></div>
+  <div id="flash" class="lay"></div>
+  <div id="black" class="lay"></div>
+  <div id="grain" class="lay"></div>
+</div>
+<script>
+const FPS = 30, FR = 'fg/', LASTFR = 805, SW = 1080, SH = 1080, VW = 1080, VH = 1920
+// the template speech, word by word (faster-whisper on the owner's template 1)
+const W = [["If",0.0,0.28],["it",0.28,0.46],["was",0.46,0.66],["easy,",0.66,1.14],["everybody",1.52,1.86],["would",1.86,2.42],["do",2.42,2.66],["it.",2.66,2.86],["If",2.96,3.18],["it",3.18,3.32],["didn't",3.32,3.54],["require",3.54,4.0],["discipline",4.0,4.78],["and",4.78,5.28],["sacrifice,",5.28,6.08],["everybody",6.46,6.84],["would",6.84,7.4],["do",7.4,7.66],["it.",7.66,7.86],["So",8.08,8.18],["stop",8.18,8.48],["questioning",8.48,9.04],["why",9.04,9.36],["your",9.36,9.58],["path",9.58,9.88],["has",9.88,10.1],["been",10.1,10.28],["so",10.28,10.56],["difficult.",10.56,11.1],["Stop",11.58,11.84],["questioning",11.84,12.5],["why",12.5,13.16],["you're",13.16,13.4],["being",13.4,13.62],["tested",13.62,14.08],["every",14.08,14.46],["day.",14.46,14.78],["You",15.08,15.32],["asked",15.32,15.72],["to",15.72,15.98],["be",15.98,16.2],["different,",16.2,16.62],["so",16.7,17.06],["now",17.06,17.28],["you",17.28,17.54],["gotta",17.54,17.74],["move",17.74,18.08],["different.",18.08,18.5],["That",18.78,18.98],["means",18.98,19.22],["doing",19.22,19.58],["the",19.58,19.8],["work",19.8,20.06],["that",20.06,20.48],["everybody",20.48,21.0],["else",21.0,21.36],["doesn't",21.36,21.72],["want",21.72,21.84],["to",21.84,21.98],["do.",21.98,22.24],["That",22.48,22.68],["means",22.68,22.92],["putting",22.92,23.3],["in",23.3,23.52],["the",23.52,23.7],["time",23.7,24.08],["that",24.08,24.54],["everybody",24.54,25.0],["else",25.0,25.32],["isn't",25.32,25.66],["willing",25.66,25.84],["to",25.84,26.12],["put",26.12,26.28],["in.",26.28,26.54],["You",26.8,27.08],["asked",27.08,27.5],["for",27.5,27.78],["this",27.78,27.98],["life.",27.98,28.3],["You",28.3,28.78],["said",28.78,29.1],["you",29.1,29.34],["wanted",29.34,29.48],["to",29.48,29.66],["be",29.66,29.86],["different.",29.86,30.18],["You",30.52,30.62],["asked",30.62,30.96],["for",30.96,31.26],["more",31.26,31.6],["to",31.6,32.04],["be",32.04,32.28],["on",32.28,32.52],["your",32.52,32.74],["plate.",32.74,33.12]]
+// caption chunks [first word, last word]; one script accent word per line, as in the templates
+const CH = [[0,3],[4,7],[8,14],[15,18],[19,22],[23,28],[29,31],[32,36],[37,41],[42,47],[48,52],[53,59],[60,65],[66,73],[74,78],[79,85],[86,89],[90,94]]
+const ACC = new Set([3,12,28,34,47,52,65,78,85,89])
+// shots: play (s0 source seconds, sp speed), hold (a frozen frame), rush (the whole session in a second); a → b is the move
+const SHOTS = [
+  { t0: 0.00, t1: 2.88, s0: 0.0, sp: 1.0, a: { cx: 480, cy: 560, h: 1080 }, b: { cx: 470, cy: 560, h: 960 } },
+  { t0: 2.88, t1: 5.20, s0: 3.3, sp: 1.0, a: { cx: 440, cy: 560, h: 1060 }, b: { cx: 430, cy: 540, h: 960 } },
+  { t0: 5.20, t1: 6.36, s0: 5.6, sp: 0.95, a: { cx: 420, cy: 470, h: 880 }, b: { cx: 420, cy: 470, h: 820 } },
+  { t0: 6.36, t1: 7.20, hold: 's0210.jpg', a: { cx: 640, cy: 540, h: 1080 }, b: { cx: 650, cy: 500, h: 970 }, flash: 1 },
+  { t0: 7.20, t1: 11.48, s0: 7.0, sp: 0.82, a: { cx: 400, cy: 500, h: 1040 }, b: { cx: 300, cy: 400, h: 860 } },
+  { t0: 11.48, t1: 14.98, s0: 10.5, sp: 0.97, a: { cx: 330, cy: 420, h: 900 }, b: { cx: 360, cy: 400, h: 840 } },
+  { t0: 14.98, t1: 16.62, hold: 430, a: { cx: 300, cy: 440, h: 1000 }, b: { cx: 300, cy: 400, h: 860 }, flash: 1 },
+  { t0: 16.62, t1: 18.68, s0: 14.4, sp: 1.36, a: { cx: 380, cy: 420, h: 1000 }, b: { cx: 400, cy: 400, h: 920 } },
+  { t0: 18.68, t1: 22.38, s0: 17.25, sp: 1.0, a: { cx: 420, cy: 540, h: 1080 }, b: { cx: 400, cy: 520, h: 960 }, fx: 'contrast(1.15)' },
+  { t0: 22.38, t1: 26.72, s0: 21.0, sp: 1.27, a: { cx: 540, cy: 560, h: 1080 }, b: { cx: 340, cy: 420, h: 820 }, fx: 'contrast(1.2)' },
+  { t0: 26.72, t1: 28.26, hold: 198, a: { cx: 420, cy: 470, h: 960 }, b: { cx: 430, cy: 460, h: 840 }, flash: 1 },
+  { t0: 28.26, t1: 30.42, hold: 448, a: { cx: 400, cy: 480, h: 1000 }, b: { cx: 390, cy: 460, h: 880 }, flash: 1 },
+  { t0: 30.42, t1: 31.62, rush: [1, 790], a: { cx: 540, cy: 540, h: 1080 }, b: { cx: 540, cy: 540, h: 1000 } },
+  { t0: 31.62, t1: 33.22, hold: 806, a: { cx: 520, cy: 540, h: 1080 }, b: { cx: 600, cy: 520, h: 900 }, fx: 'contrast(1.45) brightness(1.03) saturate(.9)' },
+]
+const END0 = 33.22, TOTAL = 36.8
+const LEAKS = [6.36, 14.98, 26.72, 30.42, 33.22]
+
+const $ = id => document.getElementById(id)
+const cl = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x))
+const ease = x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2
+const eo = x => 1 - Math.pow(1 - x, 3)
+const ramp = (t, a, b) => cl((t - a) / (b - a))
+let rs = 7; const rnd = () => (rs = (rs * 16807) % 2147483647) / 2147483647
+
+// captions
+$('cap').innerHTML = CH.map((c, i) => `<div class="ch" id="ch${i}">` +
+  W.slice(c[0], c[1] + 1).map((w, k) => `<span id="w${c[0] + k}"${ACC.has(c[0] + k) ? ' class="sc"' : ''}>${ACC.has(c[0] + k) ? w[0].replace(/[.,]$/, '') + (w[0].match(/[.,]$/) ? `<i class="pu">${w[0].slice(-1)}</i>` : '') : w[0]}</span>`).join('') + '</div>').join('')
+// a line that ends on its script word stays up long enough to read it
+const chOn = CH.map((c, i) => Math.max(W[c[0]][1] - 0.06, i && ACC.has(CH[i - 1][1]) ? W[CH[i - 1][1]][1] + 0.5 : 0))
+const chOff = CH.map((c, i) => Math.min(i + 1 < CH.length ? chOn[i + 1] : END0 - 0.02, W[c[1]][2] + 0.6))
+
+// embers: more of them as the cut goes on (rising from the ashes)
+rs = 19
+const EM = Array.from({ length: 190 }, (_, i) => {
+  const b = -4 + 41 * Math.sqrt(rnd())
+  return { b, life: 2.6 + rnd() * 3.2, x: rnd() * 1080, y0: 1960 + rnd() * 120 - (b < 0 ? rnd() * 1500 : 0), vy: 150 + rnd() * 240, sw: 15 + rnd() * 55, f: .6 + rnd() * 1.6, ph: rnd() * 6.3, s: 4 + rnd() * 12, o: .45 + rnd() * .55 }
+})
+$('embers').innerHTML = EM.map((e, i) => `<i id="e${i}" style="width:${e.s * 3}px;height:${e.s * 3}px"></i>`).join('')
+
+function src(n) { if (typeof n === 'string') return FR + n; return `${FR}${String(cl(Math.round(n), 1, LASTFR)).padStart(4, '0')}.jpg` }
+function load(img, s) { return new Promise(r => { if (img.dataset.src === s) return r(); img.dataset.src = s; img.onload = () => r(); img.onerror = () => r(); img.src = s }) }
+function place(sh, t, extra = 1) {
+  const k = ease(ramp(t, sh.t0, sh.t1))
+  let cx = sh.a.cx + (sh.b.cx - sh.a.cx) * k, cy = sh.a.cy + (sh.b.cy - sh.a.cy) * k, h = (sh.a.h + (sh.b.h - sh.a.h) * k) / extra
+  const w = h * VW / VH
+  cx = cl(cx, w / 2, SW - w / 2); cy = cl(cy, h / 2, SH - h / 2)
+  const sc = VH / h
+  return `translate(${(VW / 2 - cx * sc).toFixed(2)}px,${(VH / 2 - cy * sc).toFixed(2)}px) scale(${sc.toFixed(4)})`
+}
+
+window.seek = async function (t) {
+  const jobs = [], im = $('im'), imB = $('imB'), imC = $('imC')
+  const end = t >= END0
+  const sh = SHOTS.find(s => t >= s.t0 && t < s.t1)
+  imB.style.opacity = 0; imC.style.opacity = 0; im.style.filter = ''
+  if (sh) {
+    // a small push on every cut, a bigger one on the freeze frames
+    const punch = 1 + (sh.hold ? 0.06 : 0.025) * Math.pow(1 - ramp(t, sh.t0, sh.t0 + 0.35), 2)
+    const tf = place(sh, t, punch)
+    if (sh.rush) {
+      const q = ease(ramp(t, sh.t0, sh.t1)), n = sh.rush[0] + (sh.rush[1] - sh.rush[0]) * q, st = 9
+      im.style.transform = imB.style.transform = imC.style.transform = tf
+      jobs.push(load(im, src(n)), load(imB, src(n - st)), load(imC, src(n - 2 * st)))
+      imB.style.opacity = .55; imC.style.opacity = .35
+      const bl = 1.6 * Math.sin(Math.PI * ramp(t, sh.t0, sh.t1))
+      for (const e of [im, imB, imC]) e.style.filter = `blur(${bl.toFixed(2)}px)`
+    } else {
+      const n = sh.hold ? sh.hold : 1 + (sh.s0 + (t - sh.t0) * sh.sp) * FPS
+      im.style.transform = tf; jobs.push(load(im, src(n)))
+      im.style.filter = (sh.fx || '') + (sh.hold ? ` brightness(${(1.0 + 0.04 * (1 - ramp(t, sh.t0, sh.t0 + 0.5))).toFixed(3)})` : '')
+    }
+    $('flash').style.opacity = sh.flash ? (0.4 * Math.pow(1 - ramp(t, sh.t0, sh.t0 + 0.14), 1.6)).toFixed(3) : 0
+    $('foot').style.opacity = 1
+  } else if (end) {
+    // end card: the finished session, blurred and dark, still drifting
+    const q = ramp(t, END0, TOTAL)
+    im.style.transform = place({ t0: 0, t1: 1, a: { cx: 700, cy: 800, h: 560 }, b: { cx: 700, cy: 790, h: 500 } }, q)
+    im.style.filter = `blur(${(4 + 14 * ramp(t, END0, END0 + 0.6)).toFixed(1)}px) brightness(${(1 - 0.7 * ramp(t, END0, END0 + 0.5)).toFixed(3)}) saturate(.8)`
+    jobs.push(load(im, src(806)))
+    $('flash').style.opacity = (0.7 * Math.pow(1 - ramp(t, END0, END0 + 0.18), 1.5)).toFixed(3)
+  }
+  // fade up from black, fade out at the end
+  $('black').style.opacity = Math.max(1 - ramp(t, 0.0, 0.45), ramp(t, TOTAL - 0.6, TOTAL - 0.05)).toFixed(3)
+  // the hook at the top
+  $('hook').style.opacity = end ? 0 : (ramp(t, 0.35, 0.95) * (1 - ramp(t, END0 - 0.25, END0))).toFixed(3)
+  // captions: each word arrives as it is spoken
+  let capV = 0
+  CH.forEach((c, i) => {
+    const e = $('ch' + i), on = chOn[i], off = chOff[i]
+    const v = t < on || t >= off ? 0 : 1 - ramp(t, off - 0.12, off)
+    e.style.opacity = v.toFixed(3); capV = Math.max(capV, v)
+    if (!v) return
+    for (let k = c[0]; k <= c[1]; k++) {
+      const ws = W[k][1] - 0.05, q = eo(ramp(t, ws, ws + (ACC.has(k) ? 0.28 : 0.14)))
+      const el = $('w' + k)
+      el.style.opacity = q.toFixed(3)
+      el.style.filter = `blur(${((1 - q) * (ACC.has(k) ? 10 : 6)).toFixed(2)}px)`
+      el.style.transform = ACC.has(k) ? `translateY(${(14 + (1 - q) * 12).toFixed(1)}px) scale(${(1.18 - 0.18 * q).toFixed(3)})` : `translateY(${((1 - q) * 14).toFixed(1)}px)`
+    }
+  })
+  $('capbg').style.opacity = capV.toFixed(3)
+  // end card
+  if (end) {
+    const kids = $('end').children, at = [0.18, 0.32, 0.72, 1.3]
+    for (let i = 0; i < 4; i++) {
+      const q = eo(ramp(t, END0 + at[i], END0 + at[i] + (i === 2 ? 0.9 : 0.5))), e = kids[i]
+      e.style.opacity = q.toFixed(3)
+      if (i === 2) { e.style.clipPath = `inset(-20% ${((1 - q) * 100).toFixed(1)}% -20% 0)`; e.style.opacity = Math.min(1, q * 3).toFixed(3) }
+      else { e.style.filter = `blur(${((1 - q) * 10).toFixed(1)}px)`; e.style.transform = `translateY(${((1 - q) * 16).toFixed(1)}px)` }
+    }
+  } else for (const e of $('end').children) e.style.opacity = 0
+  // light leaks: a warm sweep across the frame on the big moments
+  const lk = LEAKS.find(a => t >= a - 0.05 && t < a + 0.6)
+  if (lk !== undefined) {
+    const q = ramp(t, lk - 0.05, lk + 0.6), x = -20 + 140 * q
+    $('leak').style.background = `radial-gradient(ellipse 55% 70% at ${x.toFixed(1)}% 40%,rgba(255,170,90,.85),rgba(255,90,30,.45) 40%,rgba(255,60,0,0) 75%)`
+    $('leak').style.opacity = (Math.sin(Math.PI * q) * 0.42).toFixed(3)
+  } else $('leak').style.opacity = 0
+  // embers
+  EM.forEach((m, i) => {
+    const e = $('e' + i), a = t - m.b
+    if (a < 0 || a > m.life) { e.style.opacity = 0; return }
+    const y = m.y0 - m.vy * a, x = m.x + m.sw * Math.sin(a * m.f + m.ph)
+    const fl = 0.65 + 0.35 * Math.sin(t * (9 + m.f * 5) + m.ph)
+    e.style.transform = `translate(${x.toFixed(1)}px,${y.toFixed(1)}px) scale(${(1 - 0.5 * a / m.life).toFixed(3)})`
+    e.style.opacity = (m.o * fl * Math.min(1, a / 0.3) * (1 - ramp(a, m.life * 0.6, m.life)) * (end ? 1 : 0.85)).toFixed(3)
+  })
+  $('grain').style.backgroundImage = `url(grain/g${Math.floor(t * FPS) % 8}.png)`
+  await Promise.all(jobs)
+  await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)))
+}
+window.TOTAL = TOTAL
+window.ready = document.fonts.load('82px IS').then(() => document.fonts.load('124px GV')).then(() => document.fonts.load('italic 54px IS')).then(() => document.fonts.ready)
+</script>
+</body>
+</html>

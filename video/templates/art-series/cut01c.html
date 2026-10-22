@@ -1,0 +1,178 @@
+<!doctype html>
+<html>
+<!-- Gamdom art series, CUT 01 short (15 s): the owner's template 4 soundtrack ("I am not like everybody else…") cut in
+     that template's own style: small serif lines on black, cut against the footage on the track's hits; "burning." in
+     script over the first charcoal with embers; a fast montage on the drive; the end card. window.seek(t) draws t. -->
+<head>
+<meta charset="utf-8">
+<style>
+@font-face{font-family:IS;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/instrument-serif-latin-400-normal.woff2) format('woff2')}
+@font-face{font-family:IS;font-style:italic;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/instrument-serif-latin-400-italic.woff2) format('woff2')}
+@font-face{font-family:GV;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/great-vibes-latin-400-normal.woff2) format('woff2')}
+html,body{margin:0;width:1080px;height:1920px;background:#000;overflow:hidden}
+#st{position:absolute;inset:0;overflow:hidden;background:#000}
+.lay{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+#foot img{position:absolute;left:0;top:0;width:1080px;height:1080px;transform-origin:0 0}
+#vig{background:radial-gradient(ellipse 78% 62% at 50% 46%,rgba(0,0,0,0) 42%,rgba(0,0,0,.38) 74%,rgba(0,0,0,.78) 100%)}
+#warm{background:linear-gradient(180deg,rgba(255,150,60,.06),rgba(0,0,0,0) 40%,rgba(20,30,40,.18));mix-blend-mode:soft-light}
+#grain{background-size:1080px 1920px;mix-blend-mode:overlay;opacity:.07}
+#flash{background:#fff;opacity:0}
+#black{background:#000;opacity:0}
+#embers i{position:absolute;left:0;top:0;border-radius:50%;mix-blend-mode:screen;
+  background:radial-gradient(circle,#fff6d8 0%,#ffc56a 22%,rgba(255,120,30,.75) 45%,rgba(255,80,0,0) 72%)}
+.card{position:absolute;left:90px;right:90px;top:0;height:1920px;display:flex;align-items:center;justify-content:center;text-align:center;
+  font:400 64px/1.15 IS,serif;color:#f2f2f2;opacity:0}
+#burn{position:absolute;left:0;right:0;top:0;height:1920px;display:flex;align-items:center;justify-content:center;
+  font:400 210px/1 GV,cursive;color:#fff;opacity:0;text-shadow:0 0 40px rgba(255,140,50,.75),0 0 90px rgba(255,90,20,.45),0 4px 24px rgba(0,0,0,.6)}
+#cap{position:absolute;left:70px;right:70px;top:1300px;text-align:center;font:400 70px/1.12 IS,serif;color:#fff;opacity:0;
+  text-shadow:0 2px 16px rgba(0,0,0,.65),0 0 40px rgba(0,0,0,.4)}
+#cap span{display:inline-block;opacity:0;margin:0 .12em}
+#cap span.sc{font:400 112px/.8 GV,cursive;text-shadow:0 2px 18px rgba(0,0,0,.55),0 0 26px rgba(255,140,50,.45)}
+#capbg{background:radial-gradient(ellipse 62% 13% at 50% 68%,rgba(0,0,0,.5),rgba(0,0,0,.28) 55%,rgba(0,0,0,0) 100%);opacity:0}
+#hook{position:absolute;left:0;right:0;top:132px;text-align:center;color:#fff;opacity:0;text-shadow:0 2px 14px rgba(0,0,0,.55)}
+#hook .a{font:italic 400 54px/1 IS,serif}
+#hook .b{font:400 23px/1 IS,serif;letter-spacing:9px;margin-top:16px;color:rgba(255,255,255,.82)}
+#end{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:#fff}
+#end>div{opacity:0}
+#end .k{font:400 26px/1 IS,serif;letter-spacing:10px;color:rgba(255,255,255,.8);margin-bottom:46px}
+#end .t{font:400 104px/1 IS,serif;text-shadow:0 2px 24px rgba(0,0,0,.5)}
+#end .s{font:400 168px/1 GV,cursive;margin-top:-6px;padding:0 30px;text-shadow:0 0 34px rgba(255,140,50,.55),0 2px 20px rgba(0,0,0,.5)}
+#end .h{font:400 30px/1 IS,serif;letter-spacing:5px;color:rgba(255,255,255,.86);margin-top:58px}
+</style>
+</head>
+<body>
+<div id="st">
+  <div id="foot" class="lay"><img id="im"></div>
+  <div id="warm" class="lay"></div>
+  <div id="vig" class="lay"></div>
+  <div id="embers" class="lay"></div>
+  <div id="cards" class="lay"></div>
+  <div id="burn">burning.</div>
+  <div id="capbg" class="lay"></div>
+  <div id="cap"></div>
+  <div id="hook"><div class="a">Drawing the Gamdom castle</div><div class="b">SESSION 01</div></div>
+  <div id="end"><div class="k">SESSION 01 · 62 × 94 CM</div><div class="t">The Gamdom castle</div><div class="s">is rising.</div><div class="h">#Gamdom100kRound2</div></div>
+  <div id="flash" class="lay"></div>
+  <div id="black" class="lay"></div>
+  <div id="grain" class="lay"></div>
+</div>
+<script>
+const FPS = 30, FR = 'fg/', LASTFR = 805, SW = 1080, SH = 1080, VW = 1080, VH = 1920
+// lines on black, as in the template: [start, end, text]
+const CARDS = [
+  [0.00, 2.20, 'I am not like everybody else.'],
+  [2.76, 4.40, 'I don&rsquo;t want to be<br>like everybody else.'],
+  [4.86, 6.10, 'I have something inside'],
+  [7.22, 8.50, 'I&rsquo;m supposed to be'],
+  [8.50, 9.90, 'something different.'],
+]
+// the last line over the footage, word by word (template 4 speech timings)
+const CW = [['I', 10.14], ['have', 10.34], ['to', 10.54], ['be', 10.72], ['something', 10.94], ['different.', 11.32]]
+const CAP0 = 10.08, CAP1 = 11.8
+// footage shots, cut on the track's hits
+const SHOTS = [
+  { t0: 2.20, t1: 2.76, s0: 5.6, sp: 1.0, a: { cx: 420, cy: 480, h: 900 }, b: { cx: 420, cy: 470, h: 840 }, flash: 1 },
+  { t0: 4.40, t1: 4.86, hold: 's0210.jpg', a: { cx: 640, cy: 540, h: 1080 }, b: { cx: 650, cy: 520, h: 1000 }, flash: 1 },
+  { t0: 6.10, t1: 7.22, s0: 10.0, sp: 1.2, a: { cx: 300, cy: 380, h: 900 }, b: { cx: 310, cy: 360, h: 760 }, flash: 1, burn: 1 },
+  { t0: 9.90, t1: 11.80, s0: 14.4, sp: 1.45, a: { cx: 380, cy: 420, h: 1000 }, b: { cx: 400, cy: 400, h: 900 }, flash: 1 },
+  { t0: 11.80, t1: 12.60, s0: 17.3, sp: 1.0, a: { cx: 420, cy: 540, h: 1000 }, b: { cx: 420, cy: 520, h: 900 }, flash: 1, fx: 'contrast(1.15)' },
+  { t0: 12.60, t1: 13.30, s0: 20.0, sp: 1.0, a: { cx: 360, cy: 520, h: 960 }, b: { cx: 360, cy: 500, h: 880 }, flash: 1, fx: 'contrast(1.2)' },
+]
+const END0 = 13.30, TOTAL = 16.2
+
+const $ = id => document.getElementById(id)
+const cl = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x))
+const ease = x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2
+const eo = x => 1 - Math.pow(1 - x, 3)
+const ramp = (t, a, b) => cl((t - a) / (b - a))
+let rs = 23; const rnd = () => (rs = (rs * 16807) % 2147483647) / 2147483647
+
+$('cards').innerHTML = CARDS.map((c, i) => `<div class="card" id="c${i}">${c[2]}</div>`).join('')
+$('cap').innerHTML = CW.map((w, i) => `<span id="w${i}"${i === CW.length - 1 ? ' class="sc"' : ''}>${w[0]}</span>`).join('')
+const EM = Array.from({ length: 120 }, () => {
+  const b = -4 + 20 * Math.sqrt(rnd())
+  return { b, life: 2.4 + rnd() * 2.8, x: rnd() * 1080, y0: 1960 + rnd() * 120 - (b < 0 ? rnd() * 1500 : 0), vy: 160 + rnd() * 260, sw: 15 + rnd() * 55, f: .6 + rnd() * 1.6, ph: rnd() * 6.3, s: 4 + rnd() * 12, o: .45 + rnd() * .55 }
+})
+$('embers').innerHTML = EM.map((e, i) => `<i id="e${i}" style="width:${e.s * 3}px;height:${e.s * 3}px"></i>`).join('')
+
+function src(n) { if (typeof n === 'string') return FR + n; return `${FR}${String(cl(Math.round(n), 1, LASTFR)).padStart(4, '0')}.jpg` }
+function load(img, s) { return new Promise(r => { if (img.dataset.src === s) return r(); img.dataset.src = s; img.onload = () => r(); img.onerror = () => r(); img.src = s }) }
+function place(sh, t, extra = 1) {
+  const k = ease(ramp(t, sh.t0, sh.t1))
+  let cx = sh.a.cx + (sh.b.cx - sh.a.cx) * k, cy = sh.a.cy + (sh.b.cy - sh.a.cy) * k, h = (sh.a.h + (sh.b.h - sh.a.h) * k) / extra
+  const w = h * VW / VH
+  cx = cl(cx, w / 2, SW - w / 2); cy = cl(cy, h / 2, SH - h / 2)
+  const sc = VH / h
+  return `translate(${(VW / 2 - cx * sc).toFixed(2)}px,${(VH / 2 - cy * sc).toFixed(2)}px) scale(${sc.toFixed(4)})`
+}
+
+window.seek = async function (t) {
+  const jobs = [], im = $('im'), end = t >= END0
+  const sh = SHOTS.find(s => t >= s.t0 && t < s.t1)
+  im.style.filter = ''
+  if (sh) {
+    const punch = 1 + 0.05 * Math.pow(1 - ramp(t, sh.t0, sh.t0 + 0.3), 2)
+    im.style.transform = place(sh, t, punch)
+    const n = sh.hold ? sh.hold : 1 + (sh.s0 + (t - sh.t0) * sh.sp) * FPS
+    jobs.push(load(im, src(n)))
+    im.style.filter = (sh.fx || '') + (sh.burn ? ` brightness(${(0.8).toFixed(2)})` : '')
+    $('foot').style.opacity = 1
+    $('flash').style.opacity = sh.flash ? (0.4 * Math.pow(1 - ramp(t, sh.t0, sh.t0 + 0.12), 1.6)).toFixed(3) : 0
+  } else if (end) {
+    const q = ramp(t, END0, TOTAL)
+    im.style.transform = place({ t0: 0, t1: 1, a: { cx: 520, cy: 540, h: 1080 }, b: { cx: 560, cy: 520, h: 960 } }, q)
+    im.style.filter = `contrast(1.3) blur(${(12 * ramp(t, END0 + 0.5, END0 + 1.1)).toFixed(1)}px) brightness(${(1 - 0.68 * ramp(t, END0 + 0.5, END0 + 1.0)).toFixed(3)}) saturate(.85)`
+    jobs.push(load(im, src(806)))
+    $('foot').style.opacity = 1
+    $('flash').style.opacity = (0.5 * Math.pow(1 - ramp(t, END0, END0 + 0.15), 1.5)).toFixed(3)
+  } else { $('foot').style.opacity = 0; $('flash').style.opacity = 0 }
+  $('black').style.opacity = ramp(t, TOTAL - 0.6, TOTAL - 0.05).toFixed(3)
+  // the hook only on footage, never on the black lines
+  $('hook').style.opacity = (sh || (end && t < END0 + 0.5)) ? (1 - ramp(t, END0, END0 + 0.4)).toFixed(3) : 0
+  // lines on black
+  CARDS.forEach((c, i) => {
+    const e = $('c' + i), v = t < c[0] || t >= c[1] ? 0 : Math.min(ramp(t, c[0] + 0.02, c[0] + 0.16), 1 - ramp(t, c[1] - 0.08, c[1]))
+    e.style.opacity = v.toFixed(3)
+  })
+  // "burning." over the first charcoal
+  const bv = sh && sh.burn ? eo(ramp(t, 6.1, 6.4)) * (1 - ramp(t, 7.1, 7.22)) : 0
+  $('burn').style.opacity = bv.toFixed(3)
+  $('burn').style.transform = `scale(${(1.12 - 0.12 * eo(ramp(t, 6.1, 6.5))).toFixed(3)})`
+  $('burn').style.filter = `blur(${((1 - eo(ramp(t, 6.1, 6.35))) * 10).toFixed(1)}px)`
+  // the last line over the footage, word by word
+  const cv = t >= CAP0 && t < CAP1 ? 1 - ramp(t, CAP1 - 0.1, CAP1) : 0
+  $('cap').style.opacity = cv.toFixed(3); $('capbg').style.opacity = cv.toFixed(3)
+  CW.forEach((w, i) => {
+    const q = eo(ramp(t, w[1] - 0.05, w[1] + (i === CW.length - 1 ? 0.26 : 0.12))), e = $('w' + i)
+    e.style.opacity = q.toFixed(3); e.style.filter = `blur(${((1 - q) * 6).toFixed(1)}px)`
+    e.style.transform = `translateY(${((1 - q) * 14 + (i === CW.length - 1 ? 12 : 0)).toFixed(1)}px)`
+  })
+  // end card
+  if (end) {
+    const kids = $('end').children, at = [0.55, 0.68, 1.0, 1.45]
+    for (let i = 0; i < 4; i++) {
+      const q = eo(ramp(t, END0 + at[i], END0 + at[i] + (i === 2 ? 0.8 : 0.45))), e = kids[i]
+      e.style.opacity = q.toFixed(3)
+      if (i === 2) { e.style.clipPath = `inset(-20% ${((1 - q) * 100).toFixed(1)}% -20% 0)`; e.style.opacity = Math.min(1, q * 3).toFixed(3) }
+      else { e.style.filter = `blur(${((1 - q) * 10).toFixed(1)}px)`; e.style.transform = `translateY(${((1 - q) * 16).toFixed(1)}px)` }
+    }
+  } else for (const e of $('end').children) e.style.opacity = 0
+  // embers: a few on the black lines, a burst on "burning.", most at the end
+  const boost = sh && sh.burn ? 1 : 0
+  EM.forEach((m, i) => {
+    const e = $('e' + i), a = t - m.b
+    if (a < 0 || a > m.life) { e.style.opacity = 0; return }
+    const y = m.y0 - m.vy * a * (1 + boost * .6), x = m.x + m.sw * Math.sin(a * m.f + m.ph)
+    const fl = 0.65 + 0.35 * Math.sin(t * (9 + m.f * 5) + m.ph)
+    e.style.transform = `translate(${x.toFixed(1)}px,${y.toFixed(1)}px) scale(${(1 - 0.5 * a / m.life).toFixed(3)})`
+    e.style.opacity = (m.o * fl * Math.min(1, a / 0.3) * (1 - ramp(a, m.life * 0.6, m.life)) * (sh || end ? 0.9 : 0.5)).toFixed(3)
+  })
+  $('grain').style.backgroundImage = `url(grain/g${Math.floor(t * FPS) % 8}.png)`
+  await Promise.all(jobs)
+  await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)))
+}
+window.TOTAL = TOTAL
+window.ready = document.fonts.load('64px IS').then(() => document.fonts.load('124px GV')).then(() => document.fonts.load('italic 54px IS')).then(() => document.fonts.ready)
+</script>
+</body>
+</html>
