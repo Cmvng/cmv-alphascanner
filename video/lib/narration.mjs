@@ -116,7 +116,12 @@ const SAY_IPA = {
   // 20 Oct analysis
   Baena: 'bɑːˈeɪnə', 'Demirović': 'dɛmˈiːɹoʊvɪtʃ', Digne: 'dˈiːnjə', Ekitike: 'ˌɛkiˈtiːkeɪ', Mendes: 'mˈɛndɛz', Neres: 'nˈɛɹɛs', Semenyo: 'sɛmˈɛnjoʊ', Koke: 'kˈoʊkeɪ', Sabah: 'sɑːbˈɑː',
   // 21 Oct analysis
-  Giroud: 'ʒiːɹˈuː', Mbeumo: 'əmbˈɜːmoʊ', Zechiel: 'zˈɛkiːl', Pedrinho: 'pɛdɹˈiːnjoʊ', "Inter's": 'ˈɪntɛɹz'
+  Giroud: 'ʒiːɹˈuː', Mbeumo: 'əmbˈɜːmoʊ', Zechiel: 'zˈɛkiːl', Pedrinho: 'pɛdɹˈiːnjoʊ', "Inter's": 'ˈɪntɛɹz',
+  // 22 Oct analysis
+  AZ: 'ˌeɪzˈɛd', Celje: 'tsˈɛljɛ', Cisse: 'siːsˈeɪ', Dia: 'dˈiːə', Gent: 'ɡˈɛnt', Jablonec: 'jˈæblɔnɛts', Jagiellonia: 'jˌæɡjɛlˈɔnjə',
+  'Jutglà': 'dʒuːtɡlˈɑː', Juve: 'jˈuːveɪ', Lech: 'lˈɛk', Evanilson: 'ˌɛvənˈɪlsən', 'Vlahović': 'vlˈɑːhɔvɪtʃ', 'Wålemark': 'vˈoʊləmɑːɹk',
+  Sadiki: 'sɑːdˈiːki', Salah: 'sˈɑːlə', 'Plzeň': 'pˈɪlzɛn', 'Poznań': 'pˈɔznæn', Piraeus: 'paɪɹˈiːəs', Trabzonspor: 'tɹˈɑːbzɔnspɔːɹ', Vigo: 'vˈiːɡoʊ', Graz: 'ɡɹˈɑːts',
+  Nygren: 'nˈiːɡɹɛn', 'Lillestrøm': 'lˈɪləstɹʌm'
 }
 const IPA_RE = new RegExp(`(?<!\\p{L})(${Object.keys(SAY_IPA).join('|')})(['’]s)?(?!\\p{L})`, 'gu')
 // letter-aware edges: \b treats accented letters as non-letters, so "Doué" or "Çalhanoğlu" would never match
