@@ -1377,6 +1377,15 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#03060F}
 .cb .cb-bc .t{position:absolute;left:20px;right:20px;top:96px;font:800 27px Manrope;color:#0B1F4D;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .cb .cb-bc .n{position:absolute;left:20px;right:20px;top:136px;font:700 22px/1.3 Manrope;color:#41557D}
 .cb .cb-bc .p{position:absolute;left:20px;bottom:14px;font:700 16px JBM;letter-spacing:2px;text-transform:uppercase;color:#1F5FDB}
+.cb .cb-bc .rs{position:absolute;right:14px;bottom:10px;z-index:2;padding:6px 12px;border-radius:10px;font:800 17px Manrope;letter-spacing:.3px;color:#fff}
+.cb .cb-bc .rs.hit{background:#1E9E5A}
+.cb .cb-bc .rs.miss{background:#D64545}
+.cb .cb-bc.dn{height:212px}
+.cb .cb-bc.dn .bd{height:72px}
+.cb .cb-bc.dn .bd .badge{top:8px;width:54px;height:54px}
+.cb .cb-bc.dn .t{top:82px;font-size:25px}
+.cb .cb-bc.dn .n{top:118px;font-size:21px}
+.cb .cb-bc.dn .p{bottom:12px;font-size:15px}
 #cap.cbc .c{color:#0B1F4D;background:rgba(255,255,255,.95);padding:14px 30px 16px;border-radius:18px;text-shadow:none;box-shadow:0 14px 36px rgba(11,31,77,.22);font:800 44px/1.28 Manrope;letter-spacing:-.5px;-webkit-text-stroke:0;text-transform:none}
 #cap.cbc .w.now{background:none;box-shadow:none;color:#1F5FDB;padding:0;margin:0 .13em}
 #cap.cbc .w.next{opacity:1;color:#A9B7CF}
@@ -3055,12 +3064,15 @@ const built = D.scenes.map((sc, k) => {
       el.innerHTML = `<div class="cb-pg"></div><div class="cb-tt"><div class="k">${html(b.kicker || '')}</div><div class="a">${html(b.l1 || 'Card')}<br><span>${html(b.l2 || 'battles')}</span></div></div>
         ${fan(bts.length, 790, 180, 330, 196)}<div class="cb-ek" style="top:1250px"><small>${html(b.sub_label || '')}</small>${html(b.sub || '')}</div>`
     } else if (sc.type === 'cb_board') {
-      const one = (b.cards || []).length <= 4   // four or fewer: one wide column, so the page stays full
+      const nc = (b.cards || []).length, one = nc <= 4   // four or fewer: one wide column, so the page stays full
+      const dn = nc > 8, rh = dn ? 224 : 258, top0 = dn ? 318 : 330   // nine or ten: compact cards, so five rows clear the captions
       const cards = (b.cards || []).map((c, j) => { const p = D.picks[c.match] || M, kh = vrKit(p, 'home'), ka = vrKit(p, 'away'), col = one ? 0 : j % 2, row = one ? j : Math.floor(j / 2)
         const hi = Math.max(p.home_win ?? 0, p.away_win ?? 0), fav = (p.away_win ?? 0) > (p.home_win ?? 0) ? vrName(p, 'away') : vrName(p, 'home')
-        return `<div class="cb-bc" data-j="${j}" style="left:${56 + col * 496}px;top:${330 + row * 258}px${one ? ';width:968px' : ''}"><div class="bd" style="background:linear-gradient(105deg,${kh.bg} 0 50%,${ka.bg} 50% 100%)">
+        const lone = !one && nc % 2 && j === nc - 1   // the last card of an odd board sits in the middle
+        const rs = c.res ? `<div class="rs ${c.res === 'hit' ? 'hit' : 'miss'}">${c.res === 'hit' ? '✓ Called' : '✗ Missed'}</div>` : ''
+        return `<div class="cb-bc${dn ? ' dn' : ''}" data-j="${j}" style="left:${lone ? 304 : 56 + col * 496}px;top:${top0 + row * rh}px${one ? ';width:968px' : ''}">${rs}<div class="bd" style="background:linear-gradient(105deg,${kh.bg} 0 50%,${ka.bg} 50% 100%)">
           <span style="position:absolute;left:20px">${badge(p.bh)}</span><div class="ko"${p.score_home != null ? ' style="font-size:30px;top:20px"' : ''}>${html(p.score_home != null ? p.score_home + '–' + p.score_away : p.ko || p.kickoff || '')}</div><span style="position:absolute;right:80px">${badge(p.ba)}</span></div>
-          <div class="t">${html(vrName(p, 'home'))} v ${html(vrName(p, 'away'))}</div><div class="n">${pcNb(c.note || '')}</div><div class="p">${p.score_home != null ? 'Full time · ' + html(p.competition || '') : b.model === false ? html(p.competition || '') : `Our numbers · ${html(fav)} ${hi}%`}</div></div>` }).join('')
+          <div class="t">${html(vrName(p, 'home'))} v ${html(vrName(p, 'away'))}</div><div class="n">${pcNb(c.note || '')}</div><div class="p">${p.score_home != null ? 'Full time' + (c.res ? '' : ' · ' + html(p.competition || '')) : b.model === false ? html(p.competition || '') : `Our numbers · ${html(fav)} ${hi}%`}</div></div>` }).join('')
       el.innerHTML = `<div class="cb-pg"></div><div class="cb-bh"><div class="k">${html(b.kicker || '')}</div><div class="a">${html(b.l1 || 'Also')} <span>${html(b.l2 || 'today')}</span></div></div>${cards}`
     } else if (sc.type === 'cb_end') {
       el.innerHTML = `<div class="cb-pg"></div><div class="cb-tt" style="top:150px"><div class="k">${html(b.kicker || '')}</div><div class="a" style="font-size:150px">${html(b.l1 || 'Five')}<br><span>${html(b.l2 || 'battles')}</span></div></div>
