@@ -1,0 +1,29 @@
+{
+  "episode": "Matchday Myths 01: El Clásico (Barcelona v Real Madrid, 25 Oct 2026)",
+  "elevenlabs_flow": "Matchday Myths 01: El Clásico",
+  "still_model": {"model_id": "gpt-image-2.5-sunburst", "params": {"aspect_ratio": "9:16", "resolution": "2K", "quality": "high"}, "credits_each": 275},
+  "video_model": {"model_id": "kling-3-pro", "params": {"duration_secs": 5, "aspect_ratio": "9:16", "resolution": "1080p", "generate_audio": false}, "credits_each": 3394},
+  "voice": {"model_id": "eleven_v4", "voice_id": "acrqYoDVmcpJemOxjC39", "name": "Obsidian - A Dark Fantasy Storyteller", "credits_two_takes": 1266},
+  "style_suffix": "Style: photoreal cinematic film still, moonlit night, deep navy and steel-blue palette with warm fire accents, volumetric mist, anamorphic lens, subtle film grain. No text, no letters, no logos, no crests.",
+  "shots": [
+    {"id": "k1/v1", "role": "Barcelona: the armada (9 wins)",
+     "still": "A fleet of nine tall wooden warships with huge striped sails in deep blue and garnet red sails across a dark open sea at night under a full moon. Lanterns glow on the decks, silver moonlight glitters on the waves, white spray bursts at the bows. Seen from low over the water just behind the last ship, the fleet stretching toward a distant rocky coastline.",
+     "motion": "The fleet sails forward through the dark night sea. Sails billow, waves roll and spray bursts at the bows, lanterns sway. Camera: slow push-in low over the water, following the ships toward the coast, then settles."},
+    {"id": "k2/v2", "role": "39 goals: the victory beacons",
+     "still": "A long ancient stone harbour wall above a dark sea at night. A row of iron fire beacons stands along the wall, every one burning with tall orange flames, the nearest beacon large and in sharp focus. Plain pennants in deep blue and garnet red snap in the wind. Far out on the moonlit water, the striped sails of a fleet.",
+     "motion": "The beacon flames roar and flicker in the wind, embers drift up, the pennants snap. Camera: slow sideways tracking shot along the wall, then settles."},
+    {"id": "k3/v3", "role": "Real Madrid: the white kingdom with a crown",
+     "still": "A vast white marble citadel on a mountain peak at night, its tallest tower ringed by a glowing golden crown of light floating above the battlements. Storm clouds edged silver by a full moon. Low angle from the winding mountain road below, torches lining the road up to the gates.",
+     "motion": "Storm clouds drift behind the citadel, the golden crown of light pulses brighter, torch flames flicker. Camera: slow upward push-in toward the crowned tower, then settles."},
+    {"id": "k4/v4", "role": "the white army marches",
+     "still": "An army of knights in polished white plate armour with gold trim marching four abreast down a winding mountain road at night, carrying burning torches and tall plain white banners edged in gold, the column stretching back toward the white citadel on the peak. Aerial three-quarter view.",
+     "motion": "The knights march steadily downhill in step, torches swaying, banners rippling. Camera: slow aerial tracking shot moving forward with the column, then settles."},
+    {"id": "k5/v5", "role": "the stand-off",
+     "still": "A misty clifftop field above the sea at night. On the left, a line of knights in white plate armour with gold trim; on the right, a line of warriors in deep blue and garnet red cloaks holding round shields. Both sides stand still, facing each other across an empty strip of grass, a huge full moon low between them. Wide symmetrical shot from ground level.",
+     "motion": "Mist drifts across the empty strip of grass between the two still lines; cloaks and banners move in the wind; nobody steps forward. Camera: slow push-in toward the gap and the moon, then settles."},
+    {"id": "k6/v6", "role": "the seer reads the prophecy",
+     "still": "Inside a dark ancient stone chamber, the weathered hands of an old hooded seer hover over a wide carved stone bowl of still water that glows soft blue. The reflection of a full moon floats on the surface. Two candles flicker. Macro close-up.",
+     "motion": "The seer's fingers lower slowly; one fingertip touches the water, a ripple spreads across the moon's reflection and the blue glow brightens. Camera: very slow push-in, then settles. (The touch lands at about 3.3 s.)"}
+  ],
+  "narration": "[slow, low, like an ancient legend] Nine battles. Nine victories. [pause] Thirty-nine goals. No army in Spain has stopped them. [pause] The record for a start like this belongs to one kingdom. Real Madrid, in nineteen sixty-eight. [pause] Now Real Madrid march on Barcelona, to guard it. One more win, and the record is Barcelona's alone. [pause] But on Tuesday, in Paris, the armada bled. [pause] The seer reads the water. Raphinha has twelve goals. Real Madrid come without Vinícius. [whispering] The prophecy... [normal, slow] the armada does not fall. [pause] Sunday, nine p.m., Lagos time. Follow, and see if the prophecy holds."
+}
