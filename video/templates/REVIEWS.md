@@ -24,6 +24,39 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
+## 23 Oct: Matchday Myths 01, "El Clásico" (AI film, 0:48)
+
+- **What worked:**
+  - The story: Barcelona's 9 from 9 equals the record start, which belongs to Real Madrid, the team they face. The
+    claim was checked on FC Barcelona's own page.
+  - The owner saw the stills on a storyboard before any video credits were spent.
+  - All six Kling shots were usable first time, so nothing was re-run. Total spend: 23,279 credits, as quoted.
+  - The seer's fingertip touches the water on "not fall".
+  - The record line lands on the music's drop.
+  - The end card is a moonlit blue, not black.
+- **Mistakes, and how they got through:**
+  1. **Quoted about 6,000 credits per Myth before pricing it.** The real cost is about 23,000. Corrected before any
+     spend, but the guess should never have been given.
+  2. **The display fonts drew empty boxes.** `manrope-latin-ext-*` holds only accented characters. Caught on the cover
+     check; use `manrope-latin-800`.
+  3. **The end card sat on a near-black frame** (the seer, darkened). Caught on the stills. It now uses the stand-off
+     still in moonlit blue.
+  4. **The mix sometimes stopped at 8.9 s.** asplit/atrim and amix "longest" raced. The narration is now built as
+     separate inputs, and every stream is padded to exactly 47.6 s; three rebuilds in a row matched.
+  5. **The first mix buried words.** Hear-back on the final audio misheard four lines: "reads the water" → "leads the
+     war", "Vinícius" → "the season", "Lagos time" → "Lagostar", and the whispered "The prophecy" was lost.
+     Fixed:
+     - the music is lower and ducks harder (ratio 8);
+     - the voice is compressed and 3.5 dB up;
+     - the "prophecy" hit moved into the silence after the word;
+     - two whooshes moved off words.
+     The second hear-back got every word.
+- **Change next time:**
+  - Price with `estimate_only` before naming any number.
+  - Run hear-back on the final mix, not just the clean voice. Whispers need the music right down.
+  - Keep effects in the silences.
+- **The owner's reaction:** (waiting)
+
 ## 23 Oct: analysis, "The Tactics Board: Friday's 16 games" (6 in full + 10 on two boards, 2:37)
 
 - **The ask:** "a video of tomorrow's games", alongside the post-match (the entry below).

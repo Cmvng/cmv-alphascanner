@@ -7,6 +7,7 @@ from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
 S, OUT = sys.argv[1], sys.argv[2]
 STILLS = [float(x) for x in sys.argv[sys.argv.index('--stills') + 1].split(',')] if '--stills' in sys.argv else None
+REDO = {int(x) for x in sys.argv[sys.argv.index('--redo') + 1].split(',')} if '--redo' in sys.argv else set()  # segments to rebuild
 D, W = f'{S}/myth01_dl', f'{S}/myth01/work'
 REPO = '/home/user/cmv-alphascanner/video'
 FPS, WID, HEI, END = 24, 1080, 1920, 47.6
@@ -43,12 +44,12 @@ def build_base():
         n = round(t1 * FPS) - round(t0 * FPS)
         dur, out = n / FPS, f'{W}/seg{i:02d}.mp4'
         parts.append(out)
-        if src == 'end':        # the last frame of the seer, held, darkened, blurred and slowly pushed in
-            last = f'{W}/seer_last.png'
-            run(['ffmpeg', '-y', '-sseof', '-0.05', '-i', f'{D}/v6.mp4', '-frames:v', '1', last])
+        if os.path.exists(out) and i not in REDO:
+            continue
+        if src == 'end':        # the stand-off still under the prophecy card: moonlit blue, softly blurred, slowly pushed in
             vf = (f"scale=1296:2304,zoompan=z='1+0.0009*on':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d={n}:s={WID}x{HEI}:fps={FPS},"
-                  "gblur=sigma=10,eq=brightness=-0.10:saturation=0.85,vignette=PI/4,format=yuv420p")
-            run(['ffmpeg', '-y', '-loop', '1', '-i', last, '-vf', vf, '-frames:v', str(n), '-c:v', 'libx264', '-crf', '14',
+                  "gblur=sigma=6,eq=brightness=0.03:saturation=1.05,colorchannelmixer=bb=1.12,vignette=PI/6,format=yuv420p")
+            run(['ffmpeg', '-y', '-loop', '1', '-i', f'{D}/k5.png', '-vf', vf, '-frames:v', str(n), '-c:v', 'libx264', '-crf', '14',
                  '-preset', 'veryfast', '-r', str(FPS), out])
             continue
         span = b - a
@@ -76,27 +77,32 @@ def build_audio():
     sfx = f'{REPO}/.cache/sfx'
     ins = ['-i', f'{D}/vo2.mp3', '-ss', '26.004', '-i', f'{REPO}/.cache/music/625.mp3']
     hits = [  # (file, at, volume)
-        ('2297', 0.0, 0.45), ('2909', 0.22, 0.6), ('2908', 9.93, 0.55), ('1492', 25.52, 0.3), ('1492', 28.68, 0.25),
-        ('1143', 35.95, 0.55), ('2299', 39.2, 0.8), ('1492', 40.95, 0.25)]
+        ('2297', 0.0, 0.4), ('2909', 0.0, 0.5), ('2908', 9.93, 0.5), ('1492', 25.45, 0.22),
+        ('1143', 37.2, 0.45), ('2299', 39.2, 0.7), ('1492', 40.6, 0.12)]
     for h, _, _ in hits:
         ins += ['-i', f'{sfx}/{h}.mp3']
+    # every stream is padded or cut to exactly END seconds before mixing: asplit/atrim and amix "longest" raced and the
+    # mix sometimes stopped when the first narration part ended (8.9 s)
+    pad = f'apad=whole_dur={END},atrim=0:{END}'
+    fmt = 'aformat=sample_rates=48000:channel_layouts=stereo'
     bounds = [0.0] + CUTS + [99.0]
-    fc = [f'[0:a]aformat=sample_rates=48000:channel_layouts=stereo,asplit={len(bounds) - 1}' +
-          ''.join(f'[s{i}]' for i in range(len(bounds) - 1))]
+    vins, vfc = [], []
     for i in range(len(bounds) - 1):
+        vins += ['-ss', str(bounds[i]), '-to', str(bounds[i + 1]), '-i', f'{D}/vo2.mp3']
         ms = round(T(bounds[i]) * 1000)
-        fc.append(f'[s{i}]atrim={bounds[i]}:{bounds[i + 1]},asetpts=PTS-STARTPTS,adelay={ms}|{ms}[v{i}]')
-    fc.append(''.join(f'[v{i}]' for i in range(len(bounds) - 1)) + f'amix=inputs={len(bounds) - 1}:normalize=0,volume=1.0[vo]')
-    fc.append('[vo]asplit=2[vom][vok]')
-    fc.append(f'[1:a]aformat=sample_rates=48000:channel_layouts=stereo,atrim=0:{END},volume=0.42,'
-              f'afade=t=in:d=0.6,afade=t=out:st={END - 2.6}:d=2.6[mus]')
-    fc.append(f'[mus][vok]sidechaincompress=threshold=0.04:ratio=5:attack=15:release=450,apad=whole_dur={END}[duck]')
+        vfc.append(f'[{i}:a]{fmt},adelay={ms}|{ms},{pad}[v{i}]')
+    vfc.append(''.join(f'[v{i}]' for i in range(len(bounds) - 1)) + f'amix=inputs={len(bounds) - 1}:normalize=0:duration=first[vo]')
+    run(['ffmpeg', '-y', *vins, '-filter_complex', ';'.join(vfc), '-map', '[vo]', f'{W}/vo_gapped.wav'])
+    ins[1] = f'{W}/vo_gapped.wav'
+    fc = [f'[0:a]{fmt},highpass=f=70,acompressor=threshold=0.1:ratio=3:attack=5:release=120,volume=1.5,{pad},asplit=2[vom][vok]',
+          f'[1:a]{fmt},volume=0.30,afade=t=in:d=0.6,afade=t=out:st={END - 2.6}:d=2.6,{pad}[mus]',
+          f'[mus][vok]sidechaincompress=threshold=0.02:ratio=8:attack=10:release=500,{pad}[duck]']
     for k, (h, at, vol) in enumerate(hits):
         ms = round(at * 1000)
         extra = ',afade=t=out:st=8.0:d=1.8' if h == '2297' else ''
-        fc.append(f'[{k + 2}:a]aformat=sample_rates=48000:channel_layouts=stereo,volume={vol}{extra},adelay={ms}|{ms}[x{k}]')
+        fc.append(f'[{k + 2}:a]{fmt},volume={vol}{extra},adelay={ms}|{ms},{pad}[x{k}]')
     fc.append('[vom][duck]' + ''.join(f'[x{k}]' for k in range(len(hits))) +
-              f'amix=inputs={len(hits) + 2}:normalize=0:duration=longest,atrim=0:{END},loudnorm=I=-14:TP=-1.5:LRA=11,aresample=48000[out]')
+              f'amix=inputs={len(hits) + 2}:normalize=0:duration=first,loudnorm=I=-14:TP=-1.5:LRA=11,aresample=48000,{pad}[out]')
     run(['ffmpeg', '-y', *ins, '-filter_complex', ';'.join(fc), '-map', '[out]', '-ac', '2', f'{W}/audio.wav'])
 
 
@@ -226,9 +232,9 @@ def draw_card(base, t):
     def ctext(y, s, f, col):
         d.text((WID / 2 - f.getlength(s) / 2, y0 + y), s, font=f, fill=col + (int(255 * k),))
     ctext(48, 'THE PROPHECY', font(MAN8, 36), BLUE)
-    ctext(110, 'BARCELONA', font(ANTON, 150), WHITE)
-    ctext(290, "DON'T LOSE", font(ANTON, 150), WHITE)
-    d.line((240, y0 + 478, 840, y0 + 478), fill=BLUE + (int(160 * k),), width=2)
+    ctext(98, 'BARCELONA', font(ANTON, 150), WHITE)
+    ctext(268, "DON'T LOSE", font(ANTON, 150), WHITE)
+    d.line((240, y0 + 482, 840, y0 + 482), fill=BLUE + (int(160 * k),), width=2)
     ctext(500, 'Barcelona v Real Madrid', font(MAN6, 40), WHITE)
     ctext(548, 'Sunday 25 Oct · 9 p.m. Lagos', font(MAN6, 34), BLUE_L)
     if t >= 44.0:
