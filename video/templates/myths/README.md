@@ -43,6 +43,11 @@ Episode 01: El Clásico, `clasico-2026-10-25-*`.
 | Item | Credits |
 |---|---|
 | A 9:16 2K still (GPT Image 2.5) | 275 |
+| A 9:16 2K still (Seedream 5 Lite), used for stylised real players | 212 |
+| A 9:16 2K still (Seedream 5 Pro) | 818 |
+| A 4 s 1080p shot (Veo 3.1 Lite) | 1,212 |
+| A 5 s shot (Kling 2.5 Turbo) | 2,121 |
+| A 10 s multi-shot (Kling 3.0 Pro) | 6,787 |
 | A 5 s 1080p Kling 3.0 Pro shot, no audio | 3,394 |
 | Narration, two takes of ~600 characters | 1,266 |
 
