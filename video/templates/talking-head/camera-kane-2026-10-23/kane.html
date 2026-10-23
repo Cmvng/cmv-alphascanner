@@ -187,14 +187,15 @@ $('ph_back').src = PH.kane_back; $('m2_ph').src = PH.kane; $('v_ph').src = PH.ka
 
 // stat cards (one card, content changes state)
 const STATS = [
-  { id: 'bund', a: EV.c_bund, b: EV.c_ucl - .05, name: 'Bundesliga', cols: [['36', 'GOALS', EV.c_bund_g], ['31', 'GAMES', EV.c_bund_m], ['5', 'ASSISTS', EV.c_bund_a]] },
-  { id: 'ucl', a: EV.c_ucl, b: EV.c_pok - .05, name: 'Champions League', cols: [['14', 'GOALS', EV.c_ucl_g], ['13', 'GAMES', EV.c_ucl_m], ['2', 'ASSISTS', EV.c_ucl_a]] },
-  { id: 'pok', a: EV.c_pok, b: EV.c_eng - .05, name: 'DFB-Pokal', cols: [['10', 'GOALS', EV.c_pok_g], ['6', 'GAMES', EV.c_pok_m]], chip: ['Hat-trick in the final, 3-0 v Stuttgart', EV.c_pok_x] },
+  { id: 'bund', a: EV.c_bund, b: EV.c_ucl - .24, name: 'Bundesliga', cols: [['36', 'GOALS', EV.c_bund_g], ['31', 'GAMES', EV.c_bund_m], ['5', 'ASSISTS', EV.c_bund_a]] },
+  { id: 'ucl', a: EV.c_ucl, b: EV.c_pok - .24, name: 'Champions League', cols: [['14', 'GOALS', EV.c_ucl_g], ['13', 'GAMES', EV.c_ucl_m], ['2', 'ASSISTS', EV.c_ucl_a]] },
+  { id: 'pok', a: EV.c_pok, b: EV.c_eng - .24, name: 'DFB-Pokal', cols: [['10', 'GOALS', EV.c_pok_g], ['6', 'GAMES', EV.c_pok_m]], chip: ['Hat-trick in the final, 3-0 v Stuttgart', EV.c_pok_x] },
   { id: 'eng', a: EV.c_eng, b: EV.lg_in, name: 'England', cols: [['12', 'GOALS', EV.c_eng_g], ['14', 'GAMES', EV.c_eng_m]], chip: ['6 of them at the World Cup', EV.c_eng_x] },
 ]
 let h = ''
 for (const s of STATS) {
   h += `<div class="abs" id="s_${s.id}" style="inset:0"><div class="k">${s.name}</div><div class="kr">2025-26</div>`
+  h += `<div class="abs" id="s_${s.id}_t" style="left:38px;top:104px;font-weight:800;font-size:84px;letter-spacing:-.01em">${s.name}<div style="font-weight:600;font-size:30px;color:rgba(255,255,255,.62);margin-top:6px">Harry Kane, 2025-26</div></div>`
   s.cols.forEach((c, i) => { h += `<div class="st" id="s_${s.id}_${i}" style="left:${40 + i * 310}px"><div class="n">${c[0]}</div><div class="l">${c[1]}</div></div>` })
   if (s.chip) h += `<div class="chip" id="s_${s.id}_x" style="left:660px;top:104px;width:282px;white-space:normal;border-radius:24px;line-height:1.3;padding:16px 20px">${s.chip[0]}</div>`
   h += '</div>'
@@ -338,6 +339,7 @@ window.render = function (t) {
     css(el, 'opacity', (t < s.a ? 0 : t > s.b + .2 ? 0 : Math.min(p, 1 - o)).toFixed(3))
     css(el, 'transform', `translateX(${((1 - p) * 40 - o * 40).toFixed(1)}px)`)
     s.cols.forEach((c, i) => pop($(`s_${s.id}_${i}`), t, c[2] - .05, .26, 18))
+    css(`s_${s.id}_t`, 'opacity', (1 - eo((t - (s.cols[0][2] - .25)) / .2)).toFixed(3))
     if (s.chip) pop($(`s_${s.id}_x`), t, s.chip[1], .3)
   }
   C('tc_cmp', EV.cmp_in - .05, EV.cmp_out)

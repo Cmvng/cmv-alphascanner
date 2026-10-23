@@ -35,7 +35,8 @@ for gi, g in enumerate(GROUPS):
             continue
         a = max(P[start][0] - PRE, (prev_end(start) + P[start][0]) / 2)
         b = min(P[i][1] + POST, (P[i][1] + next_start(i)) / 2)
-        pieces.append({'s': round(a, 3), 'e': round(b, 3), 'g': gi})
+        a, b = round(a * 30) / 30, round(b * 30) / 30          # on the 30 fps frame grid: picture and sound cut alike
+        pieces.append({'s': round(a, 4), 'e': round(b, 4), 'g': gi})
         if not last: start = g[k + 1]
 o = 0.0
 for p in pieces:
@@ -73,7 +74,7 @@ E = {
  'pt_pass': 82.00, 'pt_assist': 84.14, 'pt_score': 85.60, 'pt_def': 88.18, 'pt_mid': 89.02, 'pt_att': 90.00,
  'mb_in': 91.26, 'mb_team': 95.52, 'mb_country': 96.74, 'mb_out': 99.4,
  'ya_in': 100.06, 'ya_country': 101.34, 'ya_team': 102.40, 'ya_ball': 104.04, 'ya_liga': 110.16, 'ya_out': 110.9,
- 'hk_in': 111.38, 'hk_bund': 117.36, 'hk_best': 119.64, 'hk_out': 121.1,
+ 'hk_in': 111.38, 'hk_bund': 114.02, 'hk_best': 119.64, 'hk_out': 121.1,
  'm2_in': 123.06, 'm2_out': 128.5,
  'cr_in': 128.79, 'cr_day': 130.28, 'cr_london': 136.66,
  'v_in': 154.36, 'end': 165.44,
@@ -116,7 +117,7 @@ edges = []
 for p in pieces:
     edges += [(p['s'], round(db(p['s']), 1)), (p['e'], round(db(p['e']), 1))]
 loud = [e for e in edges if e[1] > -45]
-json.dump({'pieces': pieces, 'spans': spans, 'ev': ev, 'caps': caps, 'end': round(END, 3), 'endcard': 3.0}, open(f'{K}/plan.json', 'w'), indent=1)
-print(f'{len(pieces)} pieces, {END:.2f} s + 3.0 s end card = {END + 3:.2f} s')
+json.dump({'pieces': pieces, 'spans': spans, 'ev': ev, 'caps': caps, 'end': round(END, 3), 'endcard': 2.6}, open(f'{K}/plan.json', 'w'), indent=1)
+print(f'{len(pieces)} pieces, {END:.2f} s + 2.6 s end card = {END + 2.6:.2f} s')
 print('loud edges:', loud)
 for p in pieces: print(f"  {p['s']:7.2f}-{p['e']:7.2f} -> {p['o']:7.2f}  g{p['g']} z{p['zoom']}")

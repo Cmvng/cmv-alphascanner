@@ -24,6 +24,39 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
+## 23 Oct: the owner's recording, "Why Harry Kane wins the Ballon d'Or" (camera explainer, 2:19.9)
+
+- **What worked:**
+  - The first use of the camera-explainer style from the owner's 22 Oct reference. Stat cards sit in the empty ceiling
+    above the owner's head, each number landing on the word that names it. Full-screen graphics carry the proof:
+    - the Limitless market;
+    - the real 30-day swing chart, Kane 48 v Yamal 47 on 6 Oct;
+    - the ledger counting to 73 on "73 goals";
+    - the pitch;
+    - the ceremony card.
+  - All nine of the owner's stats were checked by a research agent with dated sources, and all were right.
+  - Market prices came straight from the public Limitless API (`/markets/<slug>` and `/historical-price`), the hour
+    of recording included.
+  - The edit is 2:19.9, inside X's 2:20. The cuts were a self-correction, two rambling stretches, one repeat, and
+    one claim that isn't strictly true.
+  - The hear-back of the final mix was clean, with no clipped words.
+- **Mistakes, and how they got through:**
+  1. **The picture drifted about 0.1 s against the voice by the end, and the end card was missing.** The cut points
+     weren't on the 30 fps frame grid: each video trim rounded to whole frames while the audio didn't. A `tpad` after
+     `concat` silently did nothing. Caught on the first render by comparing durations: video 2:17.27, audio 2:20.36.
+     Fixed by snapping every cut to the frame grid, using `trim=start_frame/end_frame` and `atrim=start_sample`, and
+     padding the end card at render time.
+  2. **The first full render was 0.27 s over 2:20.** It had a 3.0 s end card; now 2.6 s.
+  3. **Stat cards sat empty for 2–4 s before their first number.** Each now shows the competition name large until
+     the number lands.
+- **Change next time:**
+  - Snap cuts to the frame grid from the start, and check the base, mix and final durations before sending.
+  - Fill a card from the moment it appears.
+  - Check numbers the owner swallows. Three models heard "at 7%" for the owner's "77%"; the caption says 77% and the
+    owner was told.
+
+---
+
 ## 23 Oct: Matchday Myths 01, "El Clásico" (AI film, 0:48)
 
 - **What worked:**
