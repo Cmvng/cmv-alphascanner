@@ -1,6 +1,6 @@
 """Base camera video and the sound mix for the Kane edit.
 python3 -I build_av.py <kane dir> <raw.mp4> <music.mp3>  ->  base.mp4, voice.wav, mix.wav"""
-import json, subprocess, sys
+import json, os, subprocess, sys
 K, RAW, MUS = sys.argv[1:4]
 plan = json.load(open(f'{K}/plan.json'))
 PH = json.load(open(f'{K}/phrases.json'))
@@ -32,6 +32,10 @@ for i, (a, b, zz) in enumerate(segs):
 fc.append(''.join(f'[v{i}]' for i in range(n)) + f'concat=n={n}:v=1:a=0,format=yuv420p[v]')
 if '--audio-only' not in sys.argv: subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', RAW, '-filter_complex', ';'.join(fc), '-map', '[v]', '-c:v', 'libx264',
                 '-preset', 'medium', '-crf', '16', '-r', '30', f'{K}/base.mp4'], check=True)
+if '--audio-only' not in sys.argv:            # the end card's frames, in a pass of their own (tpad after concat in one graph did nothing)
+    subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', f'{K}/base.mp4', '-vf', f'tpad=stop_mode=clone:stop_duration={EC + 0.5}',
+                    '-c:v', 'libx264', '-preset', 'fast', '-crf', '16', f'{K}/base_pad.mp4'], check=True)
+    os.replace(f'{K}/base_pad.mp4', f'{K}/base.mp4')
 json.dump([{'s': a, 'e': b, 'zoom': zz} for a, b, zz in segs], open(f'{K}/segs.json', 'w'), indent=0)
 
 # voice: the cleaned voice, cut on the same pieces with 8 ms fades at every edge, then a gentle level chain

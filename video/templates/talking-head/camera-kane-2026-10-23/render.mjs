@@ -27,7 +27,7 @@ if (si > 0) {
   await b.close(); process.exit(0)
 }
 const ff = spawn('ffmpeg', ['-v', 'error', '-y', '-i', `${K}/base.mp4`, '-f', 'image2pipe', '-framerate', String(FPS), '-c:v', 'png', '-i', '-',
-  '-i', `${K}/mix.wav`, '-filter_complex', `[0:v]tpad=stop_mode=clone:stop_duration=${plan.endcard + 1}[b];[b][1:v]overlay=0:0:eof_action=pass,format=yuv420p[v]`, '-map', '[v]', '-map', '2:a', '-t', TOT.toFixed(3),
+  '-i', `${K}/mix.wav`, '-filter_complex', '[0:v][1:v]overlay=0:0:eof_action=pass,format=yuv420p[v]', '-map', '[v]', '-map', '2:a', '-t', TOT.toFixed(3),
   '-c:v', 'libx264', '-preset', 'medium', '-crf', '18', '-r', String(FPS), '-c:a', 'aac', '-b:a', '192k', '-movflags', '+faststart', out],
   { stdio: ['pipe', 'inherit', 'inherit'] })
 let prev = null, buf = null, shots = 0, t0 = Date.now()

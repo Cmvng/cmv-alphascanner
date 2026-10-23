@@ -44,8 +44,10 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
   1. **The picture drifted about 0.1 s against the voice by the end, and the end card was missing.** The cut points
      weren't on the 30 fps frame grid: each video trim rounded to whole frames while the audio didn't. A `tpad` after
      `concat` silently did nothing. Caught on the first render by comparing durations: video 2:17.27, audio 2:20.36.
-     Fixed by snapping every cut to the frame grid, using `trim=start_frame/end_frame` and `atrim=start_sample`, and
-     padding the end card at render time.
+     Fixed by snapping every cut to the frame grid, using `trim=start_frame/end_frame` and `atrim=start_sample`.
+     Moving `tpad` into the render's overlay graph failed the same way. The container said 2:19.87, but the video
+     track stopped at 2:17.5, and only counting the frames showed it. Now the base is padded in its own ffmpeg pass,
+     and every render's video frames are counted, not just its duration.
   2. **The first full render was 0.27 s over 2:20.** It had a 3.0 s end card; now 2.6 s.
   3. **Stat cards sat empty for 2–4 s before their first number.** Each now shows the competition name large until
      the number lands.
