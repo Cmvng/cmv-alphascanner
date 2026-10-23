@@ -79,6 +79,37 @@ who's had a badge update… we want to hear from you").
   - the original file, not a WhatsApp copy;
   - the points they want drawn, if they have them (numbers, names, a link to the page they're explaining).
 
+### First use: the Kane / Ballon d'Or recording (23 Oct 2026, vertical, 2:20)
+
+Files: `camera-kane-2026-10-23/`. The owner filmed a selfie, 782×1920 at 30 fps, with the face in the lower half and a
+bare ceiling above it. That gave the layout:
+
+- **The camera fills the frame:** a crop of the source's lower 1,390 px, scaled to 1080×1920. The empty ceiling becomes
+  the place for **top cards**, stats that land on the word that names them while the owner stays on screen.
+- **Captions sit low**, over the chest, on a dark rounded box.
+- **Full-screen graphics take about a third of the time**, on a royal-blue canvas:
+  - the market card;
+  - the swing chart;
+  - the season ledger counting to 73;
+  - a pitch;
+  - the ceremony card.
+
+**The pipeline:**
+1. `plan.py` takes whole phrases from `phrases.py`, drops false starts and repeats, compresses pauses over 0.4 s, and
+   checks that every edge is below -45 dB. It maps every event and caption from source time to output time.
+2. `build_av.py` builds the camera base: jump-cut punch-ins at 1.0/1.07 around a face anchor, plus a light grade. It
+   also builds the voice, cleaned with DF3 and with 8 ms fades at each cut, and the soft music bed with its drop on the
+   first stat card.
+3. `kane.html` draws every frame from `render(t)`. `render.mjs` screenshots it with a transparent background and pipes
+   the frames to ffmpeg over the base. A frame that hasn't changed is reused: about a third of the frames are drawn.
+   The render takes about 12 minutes.
+
+**What the owner's words needed:**
+- One self-correction cut ("31 goals, 36 goals").
+- Two rambling stretches cut to fit X's 2:20.
+- One claim trimmed: "the first time away from France" isn't strictly true, because FIFA's Ballon d'Or galas were
+  held in Zurich.
+
 ## Getting the video
 
 - **From an X post:** `python3 video/lib/fetch_x.py <post link> raw.mp4` (X re-compresses, so it is a little soft).

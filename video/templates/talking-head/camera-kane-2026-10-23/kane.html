@@ -1,0 +1,358 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Kane overlay</title>
+<style>
+@font-face{font-family:Anton;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/anton-latin-400-normal.woff2)}
+@font-face{font-family:Manrope;font-weight:600;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-600-normal.woff2)}
+@font-face{font-family:Manrope;font-weight:800;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-800-normal.woff2)}
+:root{--sky:#4FB3FF;--blue:#3D7BFF;--deep:#1F5FDB;--navy:#071A4F;--green:#2BD46A;--mute:rgba(255,255,255,.62)}
+*{box-sizing:border-box}
+html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:transparent;font-family:Manrope,sans-serif;color:#fff}
+.abs{position:absolute}
+.k{font-weight:800;font-size:25px;letter-spacing:.2em;text-transform:uppercase;color:var(--sky)}
+.anton{font-family:Anton,sans-serif;font-weight:400;line-height:.92}
+/* full-screen canvas */
+#full{position:absolute;inset:0;opacity:0;background:radial-gradient(1100px 900px at 50% 34%,#1B52C9 0%,#0D2E8C 46%,#06194F 100%)}
+#full:after{content:"";position:absolute;inset:0;background:radial-gradient(700px 520px at 50% 18%,rgba(79,179,255,.18),transparent 70%);pointer-events:none}
+.scene{position:absolute;inset:0;opacity:0}
+.foot{position:absolute;left:70px;right:70px;font-weight:600;font-size:23px;color:rgba(255,255,255,.58);line-height:1.45}
+/* market */
+.mrow{position:absolute;left:60px;width:960px;border-radius:30px;background:rgba(255,255,255,.065);border:1.5px solid rgba(255,255,255,.12)}
+.mrow img{position:absolute;border-radius:50%;object-fit:cover;object-position:50% 18%;border:3px solid rgba(255,255,255,.25)}
+.mrow .nm{position:absolute;font-weight:800;color:#fff}
+.mrow .sb{position:absolute;font-weight:600;color:var(--mute)}
+.mrow .tr{position:absolute;height:14px;border-radius:7px;background:rgba(255,255,255,.13);overflow:hidden}
+.mrow .fl{height:100%;border-radius:7px;background:rgba(255,255,255,.55);width:0}
+.mrow .pc{position:absolute;right:40px;text-align:right}
+.mrow.hero{background:linear-gradient(150deg,rgba(79,179,255,.22),rgba(61,123,255,.10));border-color:rgba(79,179,255,.55)}
+.mrow.hero .fl{background:linear-gradient(90deg,#3D7BFF,#4FB3FF)}
+.mrow.hero img{border-color:var(--sky)}
+/* top cards over the camera */
+.card{position:absolute;left:50px;width:980px;top:64px;border-radius:34px;opacity:0;
+  background:linear-gradient(160deg,rgba(16,48,140,.95),rgba(7,26,79,.95));border:1.5px solid rgba(255,255,255,.14);
+  box-shadow:0 22px 60px rgba(4,16,48,.38)}
+.card .k{position:absolute;left:40px;top:30px}
+.card .kr{position:absolute;right:40px;top:30px;font-weight:800;font-size:25px;letter-spacing:.16em;color:rgba(255,255,255,.55)}
+.st{position:absolute;top:78px;width:300px;text-align:left}
+.st .n{font-family:Anton;font-size:150px;line-height:1;color:#fff}
+.st .l{font-weight:800;font-size:24px;letter-spacing:.18em;color:rgba(255,255,255,.66);margin-top:2px}
+.st.g .n{color:#fff}
+.chip{position:absolute;left:40px;border-radius:40px;padding:11px 22px;font-weight:800;font-size:25px;background:rgba(79,179,255,.18);border:1.5px solid rgba(79,179,255,.55);color:#fff;white-space:nowrap}
+.pp{position:absolute;border-radius:50%;object-fit:cover;object-position:50% 16%;border:3px solid rgba(255,255,255,.28)}
+.tline{position:absolute;left:250px;right:36px;font-weight:600;font-size:31px;line-height:1.25;color:#fff}
+.tline b{display:block;font-weight:800;font-size:21px;letter-spacing:.18em;color:var(--sky);margin-bottom:4px}
+.tick{color:var(--green);font-weight:800}
+.dash{color:rgba(255,255,255,.55)}
+/* captions */
+#cap{position:absolute;left:0;right:0;bottom:112px;text-align:center;opacity:0}
+#cap span{display:inline-block;max-width:930px;padding:13px 28px 15px;border-radius:20px;background:rgba(8,16,44,.68);
+  font-weight:800;font-size:44px;line-height:1.24;color:#fff}
+/* ledger */
+.lrow{position:absolute;left:70px;width:940px;height:84px;border-bottom:1.5px solid rgba(255,255,255,.12)}
+.lrow .a{position:absolute;left:0;top:22px;font-weight:800;font-size:34px}
+.lrow .b{position:absolute;right:120px;top:4px;font-family:Anton;font-size:66px;line-height:1}
+.lrow .c{position:absolute;right:0;top:26px;width:110px;text-align:right;font-weight:600;font-size:28px;color:var(--mute)}
+</style></head>
+<body>
+<div id="full">
+  <!-- MARKET + CHART -->
+  <div class="scene" id="sc_market">
+    <div class="abs k" style="left:70px;top:196px">Limitless · Ballon d'Or Winner 2026</div>
+    <div class="abs" id="mk_t1" style="left:68px;top:240px;font-weight:800;font-size:70px;letter-spacing:-.01em">The Ballon d'Or race</div>
+    <div class="abs" id="mk_t2" style="left:68px;top:240px;font-weight:800;font-size:70px;letter-spacing:-.01em;opacity:0">A couple of weeks ago,<br>it was level</div>
+    <div id="rows">
+      <div class="mrow hero" id="r_kane" style="top:400px;height:250px">
+        <img id="ph_kane" style="left:34px;top:40px;width:170px;height:170px">
+        <div class="nm" style="left:236px;top:46px;font-size:54px">Harry Kane</div>
+        <div class="sb" style="left:238px;top:116px;font-size:27px">Bayern Munich · England</div>
+        <div class="tr" style="left:238px;top:172px;width:400px"><div class="fl" id="f_kane"></div></div>
+        <div class="pc anton" id="p_kane" style="top:56px;font-size:146px;color:var(--sky)">0%</div>
+      </div>
+      <div class="mrow" id="r_yamal" style="top:674px;height:180px">
+        <img id="ph_yamal" style="left:34px;top:28px;width:124px;height:124px">
+        <div class="nm" style="left:190px;top:34px;font-size:42px">Lamine Yamal</div>
+        <div class="sb" style="left:192px;top:88px;font-size:25px">Barcelona · Spain</div>
+        <div class="tr" style="left:192px;top:132px;width:480px"><div class="fl" id="f_yamal"></div></div>
+        <div class="pc anton" id="p_yamal" style="top:34px;font-size:112px">16%</div>
+      </div>
+      <div class="mrow" id="r_mbappe" style="top:878px;height:180px">
+        <img id="ph_mbappe" style="left:34px;top:28px;width:124px;height:124px">
+        <div class="nm" style="left:190px;top:34px;font-size:42px">Kylian Mbappé</div>
+        <div class="sb" style="left:192px;top:88px;font-size:25px">Real Madrid · France</div>
+        <div class="tr" style="left:192px;top:132px;width:480px"><div class="fl" id="f_mbappe"></div></div>
+        <div class="pc anton" id="p_mbappe" style="top:34px;font-size:112px">7%</div>
+      </div>
+      <div class="mrow" id="r_messi" style="top:1082px;height:180px">
+        <img id="ph_messi" style="left:34px;top:28px;width:124px;height:124px">
+        <div class="nm" style="left:190px;top:34px;font-size:42px">Lionel Messi</div>
+        <div class="sb" style="left:192px;top:88px;font-size:25px">Inter Miami · Argentina</div>
+        <div class="tr" style="left:192px;top:132px;width:480px"><div class="fl" id="f_messi"></div></div>
+        <div class="pc anton" id="p_messi" style="top:34px;font-size:112px">2%</div>
+      </div>
+    </div>
+    <svg id="chart" class="abs" style="left:40px;top:440px;opacity:0" width="1000" height="980" viewBox="0 0 1000 980"></svg>
+    <div class="foot" id="mk_foot" style="top:1690px">Limitless market “Ballon d'Or Winner 2026”. Harry Kane YES at 76.5¢<br>at 14:08 Lagos, 23 Oct 2026. Not financial advice.</div>
+    <div class="foot" style="top:1800px;font-size:19px;color:rgba(255,255,255,.42)">Photos: Bryan Berlin, CC BY-SA 4.0, via Wikimedia Commons</div>
+  </div>
+
+  <!-- LEDGER -->
+  <div class="scene" id="sc_ledger">
+    <div class="abs" style="left:0;top:0;width:1080px;height:700px;overflow:hidden">
+      <img id="ph_back" style="width:1080px;height:700px;object-fit:cover;object-position:50% 30%">
+      <div class="abs" style="inset:0;background:linear-gradient(180deg,rgba(6,25,79,.0) 40%,rgba(9,36,110,.85) 85%,#0B2D88 100%)"></div>
+      <div class="abs" style="right:24px;top:14px;font-weight:600;font-size:18px;color:rgba(255,255,255,.7)">Photo: Bryan Berlin, CC BY-SA 4.0</div>
+    </div>
+    <div class="abs k" style="left:70px;top:640px">Harry Kane · 2025-26 · club and country</div>
+    <div class="abs anton" id="lg_n" style="left:62px;top:690px;font-size:330px;color:#fff;text-shadow:0 0 60px rgba(79,179,255,.45)">0</div>
+    <div class="abs" style="left:520px;top:780px">
+      <div style="font-weight:800;font-size:64px;letter-spacing:.06em">GOALS</div>
+      <div id="lg_65" style="font-weight:800;font-size:46px;color:var(--sky);opacity:0">in 65 games</div>
+    </div>
+    <div id="lrows"></div>
+    <div class="chip" id="lg_chip" style="left:70px;top:1640px;font-size:27px;line-height:1.35;white-space:normal;width:940px;border-radius:26px;padding:18px 26px;opacity:0">
+      The second-best season since 2000.<br><span style="font-weight:600;color:rgba(255,255,255,.8)">Only Messi scored more: 82 in 2011-12.</span></div>
+  </div>
+
+  <!-- PITCH -->
+  <div class="scene" id="sc_pitch">
+    <div class="abs k" style="left:70px;top:150px">Harry Kane · 2025-26</div>
+    <div class="abs" style="left:68px;top:192px;font-weight:800;font-size:70px;letter-spacing:-.01em">A more rounded player</div>
+    <svg id="pitch" class="abs" style="left:110px;top:360px" width="860" height="1330" viewBox="0 0 860 1330"></svg>
+  </div>
+
+  <!-- CEREMONY -->
+  <div class="scene" id="sc_cer">
+    <div class="abs k" id="cr_k" style="left:0;right:0;text-align:center;top:470px">The Ballon d'Or ceremony</div>
+    <div class="abs anton" id="cr_mon" style="left:0;right:0;text-align:center;top:540px;font-size:230px">MONDAY</div>
+    <div class="abs anton" id="cr_date" style="left:0;right:0;text-align:center;top:770px;font-size:150px;color:var(--sky)">26 OCTOBER</div>
+    <div class="abs" id="cr_time" style="left:0;right:0;text-align:center;top:940px;font-weight:800;font-size:46px;letter-spacing:.04em">9 PM LAGOS · 8 PM UK</div>
+    <div class="abs" id="cr_line" style="left:340px;width:400px;top:1050px;height:2px;background:rgba(255,255,255,.25)"></div>
+    <div class="abs anton" id="cr_lon" style="left:0;right:0;text-align:center;top:1100px;font-size:120px">LONDON PALLADIUM</div>
+    <div class="abs" id="cr_chip" style="left:0;right:0;text-align:center;top:1260px">
+      <span class="chip" style="position:static;display:inline-block;font-size:30px">The first Ballon d'Or ever held in London</span></div>
+  </div>
+
+  <!-- END CARD -->
+  <div class="scene" id="sc_end">
+    <div class="abs" style="left:0;right:0;text-align:center;top:690px;font-weight:800;font-size:58px;color:rgba(255,255,255,.85)">Follow</div>
+    <div class="abs anton" style="left:0;right:0;text-align:center;top:770px;font-size:140px;color:var(--sky)">@i_am_vickyd</div>
+    <div class="abs" style="left:0;right:0;text-align:center;top:955px;font-weight:600;font-size:38px;color:rgba(255,255,255,.8)">for more football, by the numbers</div>
+    <div class="foot" style="top:1700px;text-align:center;font-size:21px">Not financial advice · Market data: Limitless, 23 Oct 2026<br>Photos: Bryan Berlin, CC BY-SA 4.0, via Wikimedia Commons</div>
+  </div>
+</div>
+
+<!-- TOP CARDS -->
+<div class="card" id="tc_title" style="height:262px">
+  <div class="k">Ballon d'Or 2026 · Monday 26 Oct</div>
+  <div class="abs" style="left:38px;top:74px;font-weight:800;font-size:66px;line-height:1.08;letter-spacing:-.01em">Why Harry Kane wins<br>the Ballon d'Or</div>
+</div>
+<div class="card" id="tc_stat" style="height:330px">
+  <div id="stats"></div>
+</div>
+<div class="card" id="tc_cmp" style="height:360px">
+  <div class="k">The contenders</div>
+  <div id="cmp"></div>
+</div>
+<div class="card" id="tc_mb" style="height:300px"></div>
+<div class="card" id="tc_ya" style="height:372px"></div>
+<div class="card" id="tc_hk" style="height:372px"></div>
+<div class="card" id="tc_m2" style="height:250px">
+  <div class="k">Limitless · Ballon d'Or Winner 2026</div>
+  <img class="pp" id="m2_ph" style="left:40px;top:80px;width:140px;height:140px;border-color:var(--sky)">
+  <div class="abs" style="left:210px;top:92px;font-weight:800;font-size:50px">Harry Kane</div>
+  <div class="abs" style="left:212px;top:176px;width:400px;height:14px;border-radius:7px;background:rgba(255,255,255,.13);overflow:hidden"><div id="m2_f" style="height:100%;width:0;background:linear-gradient(90deg,#3D7BFF,#4FB3FF)"></div></div>
+  <div class="abs anton" id="m2_p" style="right:40px;top:70px;font-size:160px;color:var(--sky)">77%</div>
+</div>
+<div class="card" id="tc_v" style="height:250px">
+  <div class="k">My verdict</div>
+  <img class="pp" id="v_ph" style="left:40px;top:80px;width:140px;height:140px;border-color:var(--sky)">
+  <div class="abs" style="left:210px;top:86px;font-weight:800;font-size:64px">Harry Kane</div>
+  <div class="abs" style="left:212px;top:166px;font-weight:600;font-size:32px;color:var(--mute)">to win the Ballon d'Or 2026</div>
+</div>
+<div id="cap"><span id="capt"></span></div>
+
+<script src="data.js"></script>
+<script>
+const P = window.PLAN, EV = P.ev, END = P.end, EC = P.endcard, TOT = END + EC
+const $ = id => document.getElementById(id)
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x))
+const eo = x => 1 - Math.pow(1 - clamp(x), 3)
+const eio = x => { x = clamp(x); return x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2 }
+let SIG = []
+function css(el, k, v) { if (typeof el === 'string') el = $(el); el.style[k] = v; SIG.push(v) }
+function vis(t, a, b, fi = .32, fo = .22) { if (t < a || t > b) return 0; return Math.min(eo((t - a) / fi), eo((b - t) / fo)) }
+function pop(el, t, at, d = .28, dy = 16) { const p = eo((t - at) / d); css(el, 'opacity', p.toFixed(3)); css(el, 'transform', `translateY(${((1 - p) * dy).toFixed(1)}px) scale(${(.92 + .08 * p).toFixed(3)})`) }
+function cardShow(el, t, a, b) { const v = vis(t, a, b, .34, .22); const p = eo((t - a) / .34); css(el, 'opacity', v.toFixed(3)); css(el, 'transform', `translateY(${((1 - p) * -26).toFixed(1)}px)`) }
+for (const k of ['kane', 'yamal', 'mbappe', 'messi']) $('ph_' + k).src = PH[k]
+$('ph_back').src = PH.kane_back; $('m2_ph').src = PH.kane; $('v_ph').src = PH.kane
+
+// stat cards (one card, content changes state)
+const STATS = [
+  { id: 'bund', a: EV.c_bund, b: EV.c_ucl - .05, name: 'Bundesliga', cols: [['36', 'GOALS', EV.c_bund_g], ['31', 'GAMES', EV.c_bund_m], ['5', 'ASSISTS', EV.c_bund_a]] },
+  { id: 'ucl', a: EV.c_ucl, b: EV.c_pok - .05, name: 'Champions League', cols: [['14', 'GOALS', EV.c_ucl_g], ['13', 'GAMES', EV.c_ucl_m], ['2', 'ASSISTS', EV.c_ucl_a]] },
+  { id: 'pok', a: EV.c_pok, b: EV.c_eng - .05, name: 'DFB-Pokal', cols: [['10', 'GOALS', EV.c_pok_g], ['6', 'GAMES', EV.c_pok_m]], chip: ['Hat-trick in the final, 3-0 v Stuttgart', EV.c_pok_x] },
+  { id: 'eng', a: EV.c_eng, b: EV.lg_in, name: 'England', cols: [['12', 'GOALS', EV.c_eng_g], ['14', 'GAMES', EV.c_eng_m]], chip: ['6 of them at the World Cup', EV.c_eng_x] },
+]
+let h = ''
+for (const s of STATS) {
+  h += `<div class="abs" id="s_${s.id}" style="inset:0"><div class="k">${s.name}</div><div class="kr">2025-26</div>`
+  s.cols.forEach((c, i) => { h += `<div class="st" id="s_${s.id}_${i}" style="left:${40 + i * 310}px"><div class="n">${c[0]}</div><div class="l">${c[1]}</div></div>` })
+  if (s.chip) h += `<div class="chip" id="s_${s.id}_x" style="left:660px;top:104px;width:282px;white-space:normal;border-radius:24px;line-height:1.3;padding:16px 20px">${s.chip[0]}</div>`
+  h += '</div>'
+}
+$('stats').innerHTML = h
+
+// ledger rows
+const LR = [['Bundesliga', 36, 31], ['Champions League', 14, 13], ['DFB-Pokal', 10, 6], ['Supercup', 1, 1], ['England', 12, 14]]
+$('lrows').innerHTML = LR.map((r, i) => `<div class="lrow" id="lr${i}" style="top:${1150 + i * 92}px"><div class="a">${r[0]}</div><div class="b">${r[1]}</div><div class="c">in ${r[2]}</div></div>`).join('')
+
+// contenders
+$('cmp').innerHTML = [['yamal', 'Lamine Yamal', 90], ['mbappe', 'Kylian Mbappé', 400], ['kane', 'Harry Kane', 710]].map(([k, n, x]) =>
+  `<div class="abs" id="cm_${k}" style="left:${x - 60}px;top:76px;width:300px;text-align:center"><img class="pp" style="position:relative;width:190px;height:190px;${k === 'kane' ? 'border:5px solid var(--sky);box-shadow:0 0 40px rgba(79,179,255,.55)' : ''}" src="${PH[k]}"><div style="font-weight:800;font-size:30px;margin-top:10px">${n}</div></div>`).join('')
+
+// trophy cards
+function tcard(id, ph, name, rows, chip) {
+  let s = `<img class="pp" src="${ph}" style="left:40px;top:44px;width:180px;height:180px"><div class="abs" style="left:250px;top:34px;font-weight:800;font-size:46px">${name}</div>`
+  rows.forEach((r, i) => { s += `<div class="tline" id="${id}_r${i}" style="top:${104 + i * 86}px"><b>${r[0]}</b>${r[1]}</div>` })
+  if (chip) s += `<div class="chip" id="${id}_x" style="left:250px;top:292px">${chip}</div>`
+  $(id).innerHTML = s
+}
+const T = '<span class="tick">✓</span>'
+tcard('tc_mb', PH.mbappe, 'Kylian Mbappé', [['Real Madrid', '<span class="dash">No trophies</span>'], ['France', '<span class="dash">4th at the World Cup</span>']])
+tcard('tc_ya', PH.yamal, 'Lamine Yamal', [['Spain', `World Cup winners ${T}`], ['Barcelona', `LaLiga champions ${T}`]], 'World Cup Golden Ball: Rodri')
+tcard('tc_hk', PH.kane, 'Harry Kane', [['Bayern Munich', `Bundesliga ${T} DFB-Pokal ${T} Supercup ${T}`], ['England', '3rd at the World Cup']], `European Golden Shoe ${T}`)
+
+// chart
+const SER = window.SERIES, CW = 1000, X0 = 110, X1 = 900, Y0 = 760, Y1 = 120
+const cx = d => X0 + (X1 - X0) * d / 29.04, cy = p => Y0 - (Y0 - Y1) * p
+function path(arr) { return arr.map((p, i) => `${i ? 'L' : 'M'}${cx(SER.days[i]).toFixed(1)},${cy(p).toFixed(1)}`).join('') }
+let g = ''
+for (const v of [0, .25, .5, .75, 1]) g += `<line x1="${X0}" x2="${X1}" y1="${cy(v)}" y2="${cy(v)}" stroke="rgba(255,255,255,${v ? .12 : .3})" stroke-width="2"/><text x="${X0 - 18}" y="${cy(v) + 9}" text-anchor="end" font-family="Manrope" font-weight="800" font-size="25" fill="rgba(255,255,255,.5)">${v * 100}%</text>`
+for (const [d, l] of [[0, '24 SEP'], [8, '2 OCT'], [15, '9 OCT'], [22, '16 OCT'], [29.04, '23 OCT']]) g += `<text x="${cx(d)}" y="${Y0 + 48}" text-anchor="middle" font-family="Manrope" font-weight="800" font-size="24" letter-spacing="2" fill="rgba(255,255,255,.55)">${l}</text>`
+const iL = SER.days.indexOf(12)
+g += `<g id="lvl" opacity="0"><line x1="${cx(12)}" x2="${cx(12)}" y1="${Y1 - 10}" y2="${Y0}" stroke="rgba(255,255,255,.55)" stroke-width="2.5" stroke-dasharray="8 9"/>
+ <rect x="${cx(12) - 190}" y="${Y1 - 104}" width="380" height="84" rx="20" fill="rgba(7,26,79,.92)" stroke="rgba(255,255,255,.3)" stroke-width="2"/>
+ <text x="${cx(12)}" y="${Y1 - 70}" text-anchor="middle" font-family="Manrope" font-weight="800" font-size="22" letter-spacing="3" fill="#4FB3FF">6 OCT · LEVEL</text>
+ <text x="${cx(12)}" y="${Y1 - 36}" text-anchor="middle" font-family="Manrope" font-weight="800" font-size="27" fill="#fff">Kane 48% · Yamal 47%</text></g>`
+g += `<path id="ln_y" d="${path(SER.yamal)}" fill="none" stroke="rgba(255,255,255,.8)" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>`
+g += `<path id="ln_k" d="${path(SER.kane)}" fill="none" stroke="#4FB3FF" stroke-width="9" stroke-linejoin="round" stroke-linecap="round" style="filter:drop-shadow(0 0 10px rgba(79,179,255,.6))"/>`
+const lk = SER.kane.at(-1), ly = SER.yamal.at(-1)
+g += `<g id="tod" opacity="0"><circle cx="${cx(29.04)}" cy="${cy(lk)}" r="13" fill="#4FB3FF"/><circle cx="${cx(29.04)}" cy="${cy(ly)}" r="11" fill="#fff"/>
+ <text x="${cx(29.04) - 24}" y="${cy(lk) - 30}" text-anchor="end" font-family="Anton" font-size="62" fill="#4FB3FF">KANE 77%</text>
+ <text x="${cx(29.04) - 24}" y="${cy(ly) + 64}" text-anchor="end" font-family="Anton" font-size="50" fill="#fff">YAMAL 16%</text></g>`
+g += `<g font-family="Manrope" font-weight="800" font-size="26"><rect x="${X0}" y="${Y0 + 96}" width="40" height="9" rx="4" fill="#4FB3FF"/><text x="${X0 + 54}" y="${Y0 + 108}" fill="#fff">Harry Kane</text>
+ <rect x="${X0 + 280}" y="${Y0 + 96}" width="40" height="9" rx="4" fill="rgba(255,255,255,.8)"/><text x="${X0 + 334}" y="${Y0 + 108}" fill="#fff">Lamine Yamal</text>
+ <text x="${X1}" y="${Y0 + 108}" text-anchor="end" fill="rgba(255,255,255,.5)">Chance to win, by day</text></g>`
+$('chart').innerHTML = g
+const LK = $('ln_k').getTotalLength(), LY = $('ln_y').getTotalLength()
+$('ln_k').style.strokeDasharray = LK; $('ln_y').style.strokeDasharray = LY
+
+// pitch (attack is up)
+let pg = `<rect x="10" y="10" width="840" height="1300" rx="18" fill="rgba(255,255,255,.035)" stroke="rgba(255,255,255,.4)" stroke-width="3"/>`
+const thirds = [['att', 'ATTACK', 10], ['mid', 'MIDFIELD', 443], ['def', 'DEFENCE', 877]]
+for (const [k, l, y] of thirds) pg += `<rect id="th_${k}" x="13" y="${y + 3}" width="834" height="427" fill="#4FB3FF" opacity="0"/><text id="tl_${k}" x="40" y="${y + 60}" font-family="Manrope" font-weight="800" font-size="30" letter-spacing="4" fill="rgba(255,255,255,.35)">${l}</text>`
+pg += `<line x1="10" x2="850" y1="660" y2="660" stroke="rgba(255,255,255,.4)" stroke-width="3"/><circle cx="430" cy="660" r="110" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="3"/>
+ <rect x="230" y="10" width="400" height="200" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="3"/><rect x="330" y="10" width="200" height="74" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="3"/>
+ <rect x="230" y="1110" width="400" height="200" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="3"/><rect x="330" y="1236" width="200" height="74" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="3"/>
+ <rect id="goal" x="370" y="-6" width="120" height="16" rx="4" fill="#fff" opacity=".6"/>`
+const KP = [430, 520], LW = [180, 330], RN = [610, 250], GL = [430, 18]
+const arrow = (id, a, b, lab, lx, ly) => `<g id="${id}" opacity="0"><line id="${id}_l" x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}" stroke="#4FB3FF" stroke-width="7" stroke-linecap="round" stroke-dasharray="1 0"/>
+  <circle cx="${b[0]}" cy="${b[1]}" r="10" fill="#4FB3FF"/><text x="${lx}" y="${ly}" font-family="Manrope" font-weight="800" font-size="34" letter-spacing="3" fill="#fff">${lab}</text></g>`
+pg += `<circle cx="${LW[0]}" cy="${LW[1]}" r="26" fill="rgba(255,255,255,.55)"/><circle cx="${RN[0]}" cy="${RN[1]}" r="26" fill="rgba(255,255,255,.55)"/>`
+pg += arrow('a_pass', KP, LW, 'PASS', 120, 440)
+pg += `<g id="a_assist" opacity="0"><line id="a_assist_l" x1="${KP[0]}" y1="${KP[1]}" x2="${RN[0]}" y2="${RN[1]}" stroke="#4FB3FF" stroke-width="7" stroke-linecap="round"/>
+  <line id="a_assist_l2" x1="${RN[0]}" y1="${RN[1]}" x2="${GL[0] + 30}" y2="${GL[1] + 6}" stroke="rgba(255,255,255,.8)" stroke-width="5" stroke-dasharray="10 10"/>
+  <text x="640" y="380" font-family="Manrope" font-weight="800" font-size="34" letter-spacing="3" fill="#fff">ASSIST</text></g>`
+pg += arrow('a_shot', KP, GL, 'GOAL', 470, 150)
+for (const [k, y] of [['def', 1090], ['mid', 760], ['att', 300]]) pg += `<g id="gh_${k}" opacity="0"><circle cx="${k === 'att' ? 300 : 430}" cy="${y}" r="38" fill="#fff" opacity=".9"/><text x="${k === 'att' ? 300 : 430}" y="${y + 13}" text-anchor="middle" font-family="Anton" font-size="38" fill="#0B2D88">9</text></g>`
+pg += `<g id="kdot"><circle cx="${KP[0]}" cy="${KP[1]}" r="46" fill="#fff" style="filter:drop-shadow(0 0 18px rgba(79,179,255,.8))"/><text x="${KP[0]}" y="${KP[1] + 17}" text-anchor="middle" font-family="Anton" font-size="50" fill="#0B2D88">9</text></g>`
+$('pitch').innerHTML = pg
+const LEN = {}; for (const id of ['a_pass_l', 'a_assist_l', 'a_assist_l2', 'a_shot_l']) { LEN[id] = $(id).getTotalLength(); $(id).style.strokeDasharray = LEN[id] }
+
+function span(id) { return P.spans.find(s => s.id === id) }
+function inSpan(t) { for (const s of P.spans) if (t >= s.o0 && t < s.o1) return s.id; return t >= END ? 'end' : null }
+
+window.render = function (t) {
+  SIG = []
+  // full-screen canvas: a quick 0.16 s fade at span edges
+  let fv = 0, cur = inSpan(t)
+  for (const s of P.spans) fv = Math.max(fv, vis(t, s.o0, s.o1, .16, .16))
+  if (t >= END) fv = eo((t - END) / .3)
+  css('full', 'opacity', fv.toFixed(3))
+  const sc = { market: 'sc_market', ledger: 'sc_ledger', pitch: 'sc_pitch', ceremony: 'sc_cer', end: 'sc_end' }
+  for (const [k, id] of Object.entries(sc)) {
+    const s = k === 'end' ? { o0: END, o1: TOT + 1 } : span(k)
+    css(id, 'opacity', (t >= s.o0 - .2 && t < s.o1 + .2) ? '1' : '0')
+  }
+  // MARKET
+  const ch = eio((t - EV.ch_in) / .6)
+  css('mk_t1', 'opacity', (1 - ch).toFixed(3)); css('mk_t2', 'opacity', ch.toFixed(3))
+  const rowsIn = { kane: EV.mk_kane, yamal: EV.mk_yamal, mbappe: EV.mk_mbappe, messi: EV.mk_messi }
+  const pct = { kane: 77, yamal: 16, mbappe: 7, messi: 2 }
+  for (const [k, at] of Object.entries(rowsIn)) {
+    const p = eo((t - at) / .4)
+    css('r_' + k, 'opacity', (p * (1 - ch)).toFixed(3))
+    css('r_' + k, 'transform', `translateY(${((1 - p) * 30 - ch * 40).toFixed(1)}px)`)
+    let v = pct[k]
+    if (k === 'kane') { const q = eo((t - (EV.mk_kane + .5)) / (EV.mk_77 + .15 - EV.mk_kane - .5)); v = Math.round(77 * q) }
+    else v = Math.round(pct[k] * eo((t - at) / .7))
+    $('p_' + k).textContent = v + '%'; SIG.push(v)
+    css('f_' + k, 'width', (v).toFixed(1) + '%')
+  }
+  css('chart', 'opacity', ch.toFixed(3))
+  const dk = eio((t - EV.ch_draw) / 3.8)
+  css('ln_k', 'strokeDashoffset', (LK * (1 - dk)).toFixed(1)); css('ln_y', 'strokeDashoffset', (LY * (1 - dk)).toFixed(1))
+  $('lvl').setAttribute('opacity', eo((t - EV.ch_level) / .35).toFixed(3)); SIG.push($('lvl').getAttribute('opacity'))
+  $('tod').setAttribute('opacity', eo((t - EV.ch_today) / .35).toFixed(3)); SIG.push($('tod').getAttribute('opacity'))
+  // LEDGER
+  const lgA = EV.lg_in
+  LR.forEach((r, i) => pop($('lr' + i), t, lgA + .1 + i * .16, .3, 20))
+  const q = eo((t - (lgA + .25)) / (EV.lg_73 + .1 - lgA - .25)); const n = Math.round(73 * q)
+  $('lg_n').textContent = n; SIG.push(n)
+  pop($('lg_65'), t, EV.lg_65); pop($('lg_chip'), t, EV.lg_x, .35, 24)
+  // PITCH
+  const ln = (id, at, d = .55) => { const p = eio((t - at) / d); css(id, 'strokeDashoffset', (LEN[id] * (1 - p)).toFixed(1)) }
+  const dim = eo((t - (EV.pt_def - .2)) / .3)
+  for (const [id, at] of [['a_pass', EV.pt_pass], ['a_assist', EV.pt_assist], ['a_shot', EV.pt_score]]) {
+    $(id).setAttribute('opacity', (eo((t - at) / .2) * (1 - .7 * dim)).toFixed(3)); SIG.push($(id).getAttribute('opacity'))
+  }
+  ln('a_pass_l', EV.pt_pass); ln('a_assist_l', EV.pt_assist); ln('a_assist_l2', EV.pt_assist + .5, .45); ln('a_shot_l', EV.pt_score, .45)
+  const gp = eo((t - EV.pt_score - .4) / .2) * (1 - eo((t - EV.pt_score - 1.1) / .5))
+  $('goal').setAttribute('opacity', (.6 + .4 * gp).toFixed(3)); SIG.push($('goal').getAttribute('opacity'))
+  $('kdot').setAttribute('opacity', (1 - .75 * dim).toFixed(3)); SIG.push($('kdot').getAttribute('opacity'))
+  for (const [k, at] of [['def', EV.pt_def], ['mid', EV.pt_mid], ['att', EV.pt_att]]) {
+    const p = eo((t - at) / .3)
+    $('th_' + k).setAttribute('opacity', (.22 * p).toFixed(3)); $('tl_' + k).setAttribute('fill', p > .5 ? '#fff' : 'rgba(255,255,255,.35)')
+    $('gh_' + k).setAttribute('opacity', p.toFixed(3)); SIG.push(k + p.toFixed(3))
+  }
+  // CEREMONY
+  pop($('cr_k'), t, EV.cr_in, .3); pop($('cr_mon'), t, EV.cr_day - .1, .35, 30); pop($('cr_date'), t, EV.cr_day + .25, .35, 30)
+  pop($('cr_time'), t, EV.cr_day + .6, .35); pop($('cr_line'), t, EV.cr_day + .8, .3)
+  pop($('cr_lon'), t, EV.cr_london, .35, 30); pop($('cr_chip'), t, EV.cr_london + .45, .35)
+  // TOP CARDS (camera only)
+  const cam = cur === null ? 1 : 0
+  const C = (id, a, b) => { cardShow($(id), t, a, b); if (!cam) css(id, 'opacity', '0') }
+  C('tc_title', -1, span('market').o0 - .05)
+  C('tc_stat', EV.c_bund, EV.lg_in)
+  for (const s of STATS) {
+    const el = $('s_' + s.id); const p = eo((t - s.a) / .3), o = eo((t - s.b) / .2)
+    css(el, 'opacity', (t < s.a ? 0 : t > s.b + .2 ? 0 : Math.min(p, 1 - o)).toFixed(3))
+    css(el, 'transform', `translateX(${((1 - p) * 40 - o * 40).toFixed(1)}px)`)
+    s.cols.forEach((c, i) => pop($(`s_${s.id}_${i}`), t, c[2] - .05, .26, 18))
+    if (s.chip) pop($(`s_${s.id}_x`), t, s.chip[1], .3)
+  }
+  C('tc_cmp', EV.cmp_in - .05, EV.cmp_out)
+  pop($('cm_yamal'), t, EV.cmp_yamal - .1); pop($('cm_mbappe'), t, EV.cmp_mbappe - .1); pop($('cm_kane'), t, EV.cmp_kane - .1, .35, 22)
+  C('tc_mb', EV.mb_in - .05, EV.mb_out); pop($('tc_mb_r0'), t, EV.mb_team - .05); pop($('tc_mb_r1'), t, EV.mb_country - .05)
+  C('tc_ya', EV.ya_in - .05, EV.ya_out); pop($('tc_ya_r0'), t, EV.ya_country - .05); pop($('tc_ya_r1'), t, EV.ya_team - .05); pop($('tc_ya_x'), t, EV.ya_ball)
+  C('tc_hk', EV.hk_in - .05, EV.hk_out); pop($('tc_hk_r0'), t, EV.hk_bund - .05); pop($('tc_hk_r1'), t, EV.hk_bund + .5); pop($('tc_hk_x'), t, EV.hk_best)
+  C('tc_m2', EV.m2_in - .05, EV.m2_out)
+  const m2 = eo((t - EV.m2_in - .1) / .9); css('m2_f', 'width', (77 * m2).toFixed(1) + '%')
+  C('tc_v', EV.v_in - .05, END)
+  // CAPTIONS (camera only)
+  const c = P.caps.find(c => t >= c.o0 && t < c.o1)
+  if (c && cam) { if ($('capt').textContent !== c.t) $('capt').textContent = c.t; css('cap', 'opacity', '1'); SIG.push(c.t) } else css('cap', 'opacity', '0')
+  return SIG.join('|')
+}
+window.READY = document.fonts.ready.then(() => Promise.all([...document.images].map(i => i.decode().catch(() => 0))))
+</script>
+</body></html>
