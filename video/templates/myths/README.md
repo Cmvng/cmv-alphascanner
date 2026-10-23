@@ -13,7 +13,19 @@ Episode 01: El Clásico, `clasico-2026-10-25-*`.
 ## The format
 1. **One game, one myth.** Each club becomes a symbol drawn from its colours, nickname or crest motif: Barcelona an
    armada with blue-and-garnet sails, Real Madrid a white kingdom with a crown, Torino a bull, Gladbach the Foals.
-   - **Never** generate real players' faces.
+   - **Real players and coaches appear as stylised characters** (the owner's choice, 23 Oct: "Stylised Wil be
+     better"). Ep. 01 used none; from the saga format on they carry the story.
+   - **Likeness comes from a real Wikimedia photo used as a face reference**, never from the prompt alone. Without one,
+     Mourinho and Raphinha were not recognisable. Use Seedream 5 Lite with the photo on its "images" port, 212 credits
+     a still. Credit the photo in `sources.md`, and use the original upload URL, because some thumbnail sizes return
+     400.
+   - **What the 23 Oct look test showed:**
+     - Mourinho and Mbappé were clearly recognisable.
+     - Raphinha had the right hair and beard, but his face came out too broad. Frame the face larger and give it two
+       takes.
+     - A reference pulls the still towards photoreal. Ask for the game-cinematic look in the prompt.
+     - Bows and arrows come out wrong (the string through the face). Avoid close-ups of drawn bows.
+   - **On YouTube, tick "altered or synthetic content"** for any video with realistic AI versions of real people.
    - **Never** show club crests in AI scenes. Real names are said and shown in the captions only.
 2. **The story comes from dated facts.** Find the one true fact that makes a legend. In Ep. 01: Barcelona's 9 from 9
    equals the record start, which belongs to Real Madrid, the team they face.
