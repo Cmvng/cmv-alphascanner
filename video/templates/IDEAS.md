@@ -66,6 +66,33 @@ Different is the floor; creative is the bar. Before building, write the concept 
     changes state, every element landing on the word that names it, old ideas dimming behind the new one;
   - voice only, and a logo sting at the end.
 
+## Faceless story channel (the owner's plan, 23 Oct: David's crypto journey in still images)
+- **POV Finance (the owner loves it: "relatable"):** one hero in the same signature outfit in every frame, bright
+  daylight scenes, a "YOU" arrow, and each thumbnail tells the story in one picture (the hero calm, others reacting).
+- **Global Tribe Tales (@globaltribetales, the owner, 23 Oct: "clean and well done").** A Nigerian channel with 7 videos
+  and 2.2K subscribers. Two of its videos broke out within weeks: 405K and 264K views (Sep 2026). What it does:
+  - **Long form:** 30–36 minutes of AI narration over AI stills, about 4,500 words.
+  - **Soft 3D look done well:** warm daylight interiors and exact Nigerian detail (gele, lace, coral beads, plastic
+    chairs under a canopy). The acting is big and clear on every face. Our dark, moody soft-3D sample failed for the
+    opposite reasons.
+  - **Thumbnails with no text** (the one with text did worst). Two to four characters, and one moment of humiliation or
+    injustice: the mother and sister laughing and pointing at the crying bride, the men laughing inside while the wife
+    is locked out.
+  - **Titles name an injustice, then promise a payoff:** "He Locked His Wife Outside To Look Tough For His Friends… What
+    She Did Next Left Him Shaking"; "Her Family Refused to Attend Her Wedding... But 10 Years Later, They Were Left
+    Speechless".
+  - **The script (405K video):**
+    - It opens on the payoff scene in dialogue (the invitation read aloud), then "This is the story of Amara." and a
+      flashback.
+    - Characters speak in their own voices, not only the narrator.
+    - Specific places, money and objects: Awka, Onitsha buses, two pots of jollof, the family WhatsApp group.
+    - A quotable line every few minutes ("Nobody claps for the first year of a small beginning.").
+    - The arc: struggle, a near-collapse, recovery, then a slow reconciliation. The ending mirrors the opening (the
+      four empty chairs, then four chairs filled), followed by the moral and a subscribe ask.
+  - **For David:** take the formula, never their stories, since copying stories is reused content. For example, "They
+    Laughed When He Put His Last $47 Into Crypto… 3 Years Later, They Were Left Speechless", with the cold open on the
+    payoff, a voice for each character and a mirrored ending.
+
 ## Crypto motion design (no presenter)
 - **The Keyhole (used 6 Oct, `explainer/fungolabs-keyhole-2026-10-06.json`):** a privacy product told as who gets to look:
   a crowd of pixel eyes, a card that turns to ciphertext, a wipe handle between the public's view and the holder's.
