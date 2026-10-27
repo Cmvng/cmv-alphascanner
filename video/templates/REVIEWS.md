@@ -59,7 +59,17 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
   - Run a two-line voice test of every brand name next to "said" or "says" before the full render.
   - New families: prefix every class with the family name from the start.
   - Keep a swell into a drop quiet and short: under 1.5 s, at −10 dB or lower.
-- **The owner's reaction:** (waiting)
+- **The owner's reaction:** rejected the voice. "I don't like the way it sounds… I thought we have better sounds, better
+  voice… I don't like the way the voice person sounds. It sounds so rubbish." The video used the house voice (Kokoro
+  `af_heart` with the `deep` effect) on the owner's own first-person opinion script.
+  - **Why it failed:** the house voice is a free local voice made for reading numbers in analysis videos. A first-person
+    opinion ("I don't buy it", "in my opinion") needs a voice that sounds like a real creator, and the pitch-down effect
+    makes it sound processed.
+  - **What I did:** sent seven free ElevenLabs voice previews, numbered (American and Nigerian men, one woman). The full
+    voice-over costs about 1,520 credits per take, and a sample of the opening costs 165. The owner's own recording is
+    free.
+  - **Change next time:** a script the owner wrote in the first person gets the owner's own voice or a voice the owner
+    has picked, never the house voice by default. Send a 10-second sample before relying on it.
 
 ---
 
