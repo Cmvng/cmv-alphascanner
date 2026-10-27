@@ -1,0 +1,241 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Primus overlay v2 (real screens)</title>
+<style>
+@font-face{font-family:Anton;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/anton-latin-400-normal.woff2)}
+@font-face{font-family:Manrope;font-weight:600;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-600-normal.woff2)}
+@font-face{font-family:Manrope;font-weight:800;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-800-normal.woff2)}
+@font-face{font-family:Mono;font-weight:700;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/jetbrains-mono-latin-700-normal.woff2)}
+/* every screen here is a capture of the real Primus site; our layer is only the frame, the outlines and the notes */
+:root{--ink:#161616;--mute:#525252;--or:#FD4C00;--or2:#FF7A33;--green:#24A148;--gbg:#E8F5EC}
+*{box-sizing:border-box}
+html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:transparent;font-family:Manrope,sans-serif;color:var(--ink)}
+.abs{position:absolute}
+.mono{font-family:Mono,monospace;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
+/* floating screen cards above the head */
+.fl{position:absolute;left:45px;width:990px;opacity:0;transform-origin:50% 0;border-radius:26px;overflow:hidden;background:#fff;
+  box-shadow:0 34px 80px rgba(18,24,48,.38),0 0 0 1.5px rgba(0,0,0,.06)}
+.fl img.sh{position:absolute;display:block;max-width:none}
+.glow{position:absolute;border:3.5px solid var(--or);border-radius:16px;opacity:0;box-shadow:0 0 0 6px rgba(253,76,0,.16),0 0 28px rgba(253,76,0,.45)}
+.pill{position:absolute;height:44px;padding:0 18px;border-radius:22px;font-weight:800;font-size:22px;line-height:41px;white-space:nowrap;opacity:0;border:1.5px solid;box-shadow:0 6px 18px rgba(0,0,0,.12)}
+.p-ok{color:#fff;background:var(--green);border-color:var(--green)}
+.p-no{color:#525252;background:#fff;border-color:#d4d4d4}
+.note{position:absolute;height:62px;padding:0 26px;border-radius:31px;font-weight:800;font-size:28px;line-height:59px;white-space:nowrap;opacity:0;
+  background:#fff;border:1.5px solid #e6e6e6;box-shadow:0 14px 34px rgba(18,24,48,.22)}
+.note b{color:var(--or)}
+/* full-screen walkthrough: the real page, tilted and drifting, the camera moving over it */
+#full{position:absolute;inset:0;opacity:0;overflow:hidden;background:linear-gradient(180deg,#F3F8FF 0%,#E5EFFF 60%,#D9E7FF 100%)}
+#full:before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(31,95,219,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(31,95,219,.06) 1px,transparent 1px);background-size:60px 60px}
+.vp{position:absolute;left:40px;top:372px;width:1000px;height:1240px;perspective:2200px}
+.tilt{position:absolute;inset:0;transform-style:preserve-3d}
+.stage{position:absolute;left:0;top:0;width:1440px;height:1330px;transform-origin:0 0;border-radius:18px;overflow:hidden;
+  box-shadow:0 40px 100px rgba(18,24,48,.35)}
+.stage img{position:absolute;left:0;top:0;width:1440px;height:1330px;max-width:none}
+.vig{position:absolute;inset:0;pointer-events:none;background:radial-gradient(120% 90% at 50% 50%,transparent 62%,rgba(229,239,255,.85) 100%)}
+/* the page fades out under the note and the captions, so no page text shows behind them */
+#ffade{position:absolute;left:0;right:0;top:1380px;bottom:0;pointer-events:none;background:linear-gradient(180deg,rgba(221,234,255,0) 0%,#DCE9FF 130px,#DCE9FF 100%)}
+#fhead{position:absolute;left:45px;top:96px;width:990px;height:236px;border-radius:30px;background:rgba(255,255,255,.96);z-index:3;opacity:0;
+  box-shadow:0 26px 70px rgba(18,24,48,.30),0 0 0 1.5px rgba(0,0,0,.05)}
+.fk{position:absolute;left:44px;top:40px;font-size:26px;color:var(--or)}
+.ft{position:absolute;left:40px;top:82px;font-weight:800;font-size:92px;line-height:1;letter-spacing:-.02em;white-space:nowrap}
+.ft span{color:var(--or)}
+.big{font-family:Anton,sans-serif;font-weight:400;line-height:.9}
+/* end card on the real landing page */
+#endc{position:absolute;inset:0;opacity:0;overflow:hidden}
+/* captions */
+#cap{position:absolute;left:0;right:0;bottom:104px;text-align:center;opacity:0}
+#cap span{display:inline-block;max-width:960px;padding:13px 28px 15px;border-radius:20px;background:rgba(12,16,28,.74);
+  font-weight:800;font-size:44px;line-height:1.24;color:#fff}
+#cap b{color:var(--or2);font-weight:800}
+</style></head>
+<body>
+<div id="full">
+  <div id="fhead"><div class="mono fk" id="fk"></div><div class="ft" id="ft"></div></div>
+  <div class="vp"><div class="tilt" id="tilt"><div class="stage" id="stage"><img id="stA"><img id="stB" style="opacity:0"><div id="smarks"></div></div></div></div>
+  <div class="vig"></div>
+  <div id="ffade"></div>
+  <div class="note" id="f_note" style="left:0;top:1520px"></div>
+</div>
+<div id="floats"></div>
+<div id="kin"></div>
+<div id="endc">
+  <img id="end_bg" src="file:///home/user/cmv-alphascanner/video/out/brand/primus/site/points-home.png" style="position:absolute;height:1920px;left:-1620px;top:0">
+  <div class="abs" style="inset:0;background:linear-gradient(180deg,rgba(255,96,0,.0) 0%,rgba(255,90,0,.15) 45%,rgba(214,62,0,.82) 72%,rgba(190,52,0,.92) 100%)"></div>
+  <div class="abs mono" style="left:70px;top:150px;font-size:30px;color:#fff">Live now on Primus Points</div>
+  <div class="abs" style="left:66px;top:194px;font-weight:800;font-size:104px;line-height:1;letter-spacing:-.02em;color:#fff">Proof of<br>Nomad Life</div>
+  <div class="fl" id="end_store" style="top:440px;opacity:1"></div>
+  <div class="abs" style="left:70px;top:1395px;width:940px;font-weight:800;font-size:38px;line-height:1.3;color:#fff;text-shadow:0 2px 14px rgba(120,30,0,.35)" id="end_ext">You need the Primus Chrome extension:<br>it makes the zkTLS proof right in your browser.</div>
+  <div class="abs" style="left:70px;top:1565px;font-family:Mono,monospace;font-weight:700;font-size:36px;color:#fff" id="end_h">@i_am_vickyd</div>
+</div>
+<div id="cap"><span id="capt"></span></div>
+<div style="position:absolute;left:-9999px;top:0;width:10px;height:10px;overflow:hidden"><img src="file:///home/user/cmv-alphascanner/video/out/brand/primus/site/dash-nomad.png"><img src="file:///home/user/cmv-alphascanner/video/out/brand/primus/site/dash-pnl.png"><img src="file:///home/user/cmv-alphascanner/video/out/brand/primus/site/dash-ai.png"><img src="file:///home/user/cmv-alphascanner/video/out/brand/primus/site/dash-trade.png"><img src="file:///home/user/cmv-alphascanner/video/out/brand/primus/site/dash-identity.png"><img src="file:///home/user/cmv-alphascanner/video/out/brand/primus/site/dash-platform.png"></div>
+
+<script src="data.js"></script>
+<script src="rects.js"></script>
+<script>
+const P = window.PLAN, EV = P.ev, END = P.end, EC = P.endcard, TOT = END + EC
+const SITE = 'file:///home/user/cmv-alphascanner/video/out/brand/primus/site/'
+const SH = { nomad: 'dash-nomad.png', pnl: 'dash-pnl.png', ai: 'dash-ai.png', trade: 'dash-trade.png', identity: 'dash-identity.png', platform: 'dash-platform.png' }
+const R = window.RECTS
+const $ = id => document.getElementById(id)
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x))
+const eo = x => 1 - Math.pow(1 - clamp(x), 3)
+const eio = x => { x = clamp(x); return x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2 }
+const eback = x => { x = clamp(x); const c = 1.7; return 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2) }
+let SIG = []
+function css(el, k, v) { if (typeof el === 'string') el = $(el); if (el.style[k] !== v) el.style[k] = v; SIG.push(v) }
+function vis(t, a, b, fi = .32, fo = .22) { if (t < a || t > b) return 0; return Math.min(eo((t - a) / fi), eo((b - t) / fo)) }
+const PANEL = [401, 562, 898, 440], PANEL_S = [401, 562, 898, 378]
+const card = (shot, name) => R[shot].cards[name]
+const verifyBtn = r => [r[0] + r[2] - 104, r[1] + r[3] - 40, 92, 28]
+
+// ---- floating cards: a crop of a real capture, 990 px wide, tilted, above the head
+const FLOATS = [
+  { id: 'f_land', src: SITE + 'points-home.png', iw: 1440, crop: [0, 70, 1440, 760], a: .15, b: EV.t_in, top: 58, marks: [] },
+  { id: 'f_new', src: SITE + SH.nomad, iw: 1440, crop: [120, 600, 920, 128], a: EV.h_new - .2, b: EV.t_in, top: 440, marks: [
+    { k: 'glow', r: [141, 621, 259, 92], at: EV.h_new }, { k: 'glow', r: R.nomad.weeks['Proof of Nomad Life'], at: EV.h_new + .35 }] },
+  { id: 'f_nomad', shot: 'nomad', crop: PANEL_S, a: EV.n_in, b: EV.n_out, marks: [
+    { k: 'glow', r: card('nomad', 'Discord'), at: EV.n_discord }, { k: 'glow', r: card('nomad', 'GitHub'), at: EV.n_github }, { k: 'glow', r: card('nomad', 'LinkedIn'), at: EV.n_linkedin }] },
+  { id: 'f_pts', src: SITE + SH.nomad, iw: 1440, crop: [140, 155, 1160, 244], a: EV.p_in, b: EV.p_out, top: 58, marks: [] },
+  { id: 'f_pnl', shot: 'pnl', crop: PANEL_S, a: EV.l_in, b: EV.l_out, marks: [
+    { k: 'glow', r: card('pnl', 'fomo'), at: EV.l_fomo, pill: ['p-ok', '✓ Verified'] }, { k: 'glow', r: card('pnl', 'Hyperliquid'), at: EV.l_hl, pill: ['p-no', "Don't use it"] },
+    { k: 'glow', r: card('pnl', 'Polymarket'), at: EV.l_pm, pill: ['p-no', 'Skipped'] }] },
+  { id: 'f_ai', shot: 'ai', crop: PANEL_S, a: EV.a_in, b: EV.a_out, marks: [{ k: 'glow', r: card('ai', 'OpenAI'), at: EV.a_openai, pill: ['p-ok', '✓ Verified'] }] },
+  { id: 'f_trade', shot: 'trade', crop: PANEL_S, a: EV.r_in, b: EV.r_out, marks: [] },
+  { id: 'f_plat', shot: 'platform', crop: [401, 562, 898, 230], a: EV.f_in, b: EV.f_out, marks: [
+    { k: 'glow', r: card('platform', 'X'), at: EV.f_x, pill: ['p-ok', '✓'] }, { k: 'glow', r: card('platform', 'GitHub'), at: EV.f_gh, pill: ['p-ok', '✓'] }] },
+  { id: 'f_id', shot: 'identity', crop: [401, 562, 898, 340], a: EV.i_in, b: EV.i_out, marks: [
+    { k: 'glow', r: card('identity', 'X'), at: EV.i_x, pill: ['p-ok', '✓'] }, { k: 'glow', r: card('identity', 'TikTok'), at: EV.i_tt, pill: ['p-no', 'Not yet'] },
+    { k: 'glow', r: card('identity', 'Spotify'), at: EV.i_sp, pill: ['p-no', 'Not yet'] }, { k: 'glow', r: card('identity', 'Naver'), at: EV.i_nv, pill: ['p-no', "Don't use"] },
+    { k: 'glow', r: card('identity', 'Google'), at: EV.i_g, pill: ['p-ok', '✓'] }, { k: 'glow', r: card('identity', 'Luma'), at: EV.i_lu, pill: ['p-no', "Don't use"] }] },
+]
+let fh = ''
+for (const f of FLOATS) {
+  const src = f.src || SITE + SH[f.shot], [cx, cy, cw, ch] = f.crop, s = 990 / cw
+  f.s = s; f.h = ch * s; f.top = f.top ?? 58
+  fh += `<div class="fl" id="${f.id}" style="top:${f.top}px;height:${f.h.toFixed(0)}px"><img class="sh" src="${src}" style="width:${(1440 * s).toFixed(1)}px;left:${(-cx * s).toFixed(1)}px;top:${(-cy * s).toFixed(1)}px">`
+  f.marks.forEach((m, i) => {
+    const [x, y, w, h] = m.r
+    fh += `<div class="glow" id="${f.id}_g${i}" style="left:${((x - cx) * s - 3).toFixed(1)}px;top:${((y - cy) * s - 3).toFixed(1)}px;width:${(w * s + 6).toFixed(1)}px;height:${(h * s + 6).toFixed(1)}px;border-radius:${(12 * s).toFixed(0)}px"></div>`
+    if (m.pill) fh += `<div class="pill ${m.pill[0]}" id="${f.id}_p${i}" style="right:${((cx + cw - x - w) * s + 14).toFixed(1)}px;top:${((y - cy) * s + 12).toFixed(1)}px">${m.pill[1]}</div>`
+  })
+  fh += '</div>'
+}
+$('floats').innerHTML = fh
+// notes under the cards (the owner's own words), and the kinetic numbers
+$('kin').innerHTML = `
+  <div class="abs" id="k_pts" style="left:70px;top:300px;opacity:0"><div class="big" id="k_pn" style="font-size:190px">0</div><div class="mono" style="font-size:24px;color:var(--mute)">Points</div></div>
+  <div class="abs" id="k_rec" style="left:470px;top:300px;opacity:0"><div class="big" id="k_rn" style="font-size:190px;color:var(--green)">0</div><div class="mono" style="font-size:24px;color:var(--mute)">Records verified</div></div>
+  <div class="note" id="n_ai" style="left:45px;top:500px">Not on the list yet: <b id="n_cl">Claude</b><span id="n_gk" style="opacity:0"> · <b>Grok</b></span></div>
+  <div class="note" id="n_tr1" style="left:45px;top:500px">No exchange account on this laptop</div>
+  <div class="note" id="n_tr2" style="left:45px;top:500px">I use <b>OKX Wallet</b><span id="n_rb" style="opacity:0"> and <b>Rabby</b></span></div>
+  <div class="abs" id="k_gas" style="left:70px;top:150px;opacity:0"><div class="mono" style="font-size:28px;color:var(--or)">Gas per task</div>
+    <div style="margin-top:14px;white-space:nowrap"><span class="big" id="k_g1" style="font-size:200px;display:inline-block;opacity:0">$0.10</span><span class="big" id="k_or" style="font-size:90px;color:#8d8d8d;margin:0 26px;opacity:0">or</span><span class="big" id="k_g2" style="font-size:200px;display:inline-block;opacity:0">$0.20</span></div>
+    <div class="mono" id="k_gn" style="font-size:22px;color:var(--mute);margin-top:12px;opacity:0">My estimate · very cheap</div></div>`
+// end card: the real Chrome Web Store listing, cropped
+$('end_store').innerHTML = `<img class="sh" src="${SITE}chrome-store.png" style="width:${1440 * 990 / 740}px;left:${-110 * 990 / 740}px;top:${-215 * 990 / 740}px">`
+$('end_store').style.height = (640 * 990 / 740).toFixed(0) + 'px'
+
+// ---- full-screen walkthroughs: camera keys are [time, rect] in page pixels; marks live on the page
+const VW = 1000, VH = 1240
+const WALKS = [
+  { a: P.spans[0].o0, b: P.spans[0].o1, shot: 'nomad', kick: 'New on Primus Points', title: 'Proof of <span>Nomad Life</span>', tAt: EV.t_proof,
+    keys: [[P.spans[0].o0, [300, 380, 900, 600]], [EV.t_proof - .3, [400, 600, 640, 300]], [P.spans[0].o1, [130, 600, 560, 300]]],
+    marks: [{ r: R.nomad.weeks['Proof of Nomad Life'], at: EV.t_proof }, { r: [141, 621, 259, 92], at: EV.t_ara }] },
+  { a: EV.g_in, b: EV.w_in, shot: 'trade', kick: 'Agentic Ara', title: 'Proof of Trade', tAt: EV.g_in + .2,
+    keys: [[EV.g_in, [400, 560, 900, 460]], [EV.g_bn - .2, [415, 660, 440, 280]], [EV.g_okx - .15, [846, 660, 440, 280]], [EV.g_by - .1, [415, 660, 440, 280]], [EV.g_bg - .1, [846, 660, 440, 280]], [EV.g_out, [410, 640, 880, 320]]],
+    marks: ['Binance', 'OKX', 'Bybit', 'Bitget'].map((n, i) => ({ r: card('trade', n), at: [EV.g_bn, EV.g_okx, EV.g_by, EV.g_bg][i] })),
+    note: ['0 of 4 verified', EV.g_none] },
+  { a: EV.w_in, b: EV.gas_in, shot: 'nomad', kick: 'Just showed up on Primus', title: 'Check it out <span>and verify</span>', tAt: EV.w_in + .4,
+    keys: [[EV.w_in, [100, 130, 1240, 900]], [EV.w_in + 1.4, [130, 590, 560, 320]], [EV.w_check - .5, [440, 660, 520, 260]], [EV.gas_in, [500, 670, 420, 210]]],
+    marks: [{ r: [141, 621, 259, 92], at: EV.w_in + 1.0 }, { r: verifyBtn(card('nomad', 'Discord')), at: EV.w_check, rad: 8 }],
+    note: ['The older tasks are still open too', EV.w_in + 1.9] },
+]
+function camAt(w, t) {
+  const k = w.keys; let i = 0
+  while (i < k.length - 2 && t > k[i + 1][0]) i++
+  const [t0, r0] = k[i], [t1, r1] = k[Math.min(i + 1, k.length - 1)]
+  const u = eio((t - t0) / Math.max(.01, t1 - t0))
+  const r = r0.map((v, j) => v + (r1[j] - v) * u)
+  const s = VW / r[2]                                   // fit the width: the page fills the frame above and below the focus
+  let x = VW / 2 - (r[0] + r[2] / 2) * s, y = VH / 2 - (r[1] + r[3] / 2) * s
+  const pw = 1440 * s, ph = 1330 * s
+  x = pw > VW ? clamp(x, VW - pw, 0) : (VW - pw) / 2      // no empty strip at the page's edges
+  y = ph > VH ? clamp(y, VH - ph, 0) : (VH - ph) / 2
+  return { s, x, y }
+}
+let curWalk = null
+function setWalk(w) {
+  if (curWalk === w) return; curWalk = w
+  $('stA').src = SITE + SH[w.shot]
+  $('fk').textContent = w.kick; $('ft').innerHTML = w.title
+  $('smarks').innerHTML = w.marks.map((m, i) => `<div class="glow" id="sm${i}" style="left:${m.r[0] - 4}px;top:${m.r[1] - 4}px;width:${m.r[2] + 8}px;height:${m.r[3] + 8}px;border-radius:${m.rad || 14}px"></div>`).join('')
+  if (w.note) $('f_note').textContent = w.note[0]
+}
+const glowAt = (el, t, at, s = 1) => {
+  if (t < at) { css(el, 'opacity', '0'); return }
+  const p = eo((t - at) / .22), k = 1 - .55 * eo((t - at - .9) / .7)
+  css(el, 'opacity', (p * k + (1 - k) * .0).toFixed(3)); css(el, 'transform', `scale(${(1.06 - .06 * p).toFixed(3)})`)
+  css(el, 'borderWidth', (3.5 / s).toFixed(2) + 'px')
+}
+const stamp = (el, t, at) => { const p = clamp((t - at) / .28); css(el, 'opacity', eo(p).toFixed(3)); css(el, 'transform', `scale(${(.6 + .4 * eback(p)).toFixed(3)})`) }
+const pop = (el, t, at, d = .3, dy = 14) => { const p = eo((t - at) / d); css(el, 'opacity', p.toFixed(3)); css(el, 'transform', `translateY(${((1 - p) * dy).toFixed(1)}px)`) }
+function capAt(t) { for (const c of P.caps) if (t >= c.o0 && t < c.o1) return c; return null }
+
+window.render = function (t) {
+  SIG = []
+  // full-screen walkthroughs
+  let w = WALKS.find(x => t >= x.a - .2 && t < x.b + .2)
+  let fv = 0; for (const x of WALKS) fv = Math.max(fv, vis(t, x.a, x.b, .2, .2))
+  css('full', 'opacity', fv.toFixed(3))
+  if (w) {
+    setWalk(w)
+    const c = camAt(w, clamp(t, w.a, w.b))
+    css('stage', 'transform', `translate(${c.x.toFixed(1)}px,${c.y.toFixed(1)}px) scale(${c.s.toFixed(4)})`)
+    const dr = Math.sin((t - w.a) * .9)
+    css('tilt', 'transform', `rotateX(${(5 + 1.2 * dr).toFixed(2)}deg) rotateY(${(-4 + 1.6 * Math.cos((t - w.a) * .7)).toFixed(2)}deg)`)
+    w.marks.forEach((m, i) => glowAt($('sm' + i), t, m.at, c.s))
+    pop($('fhead'), t, w.tAt - .3, .3, -16); pop($('ft'), t, w.tAt, .35, 22)
+    if (w.note) { stamp($('f_note'), t, w.note[1]); css('f_note', 'left', ((1080 - $('f_note').offsetWidth) / 2).toFixed(0) + 'px') } else css('f_note', 'opacity', '0')
+    SIG.push(w.a)
+  }
+  // floating cards
+  for (const f of FLOATS) {
+    const el = $(f.id), v = vis(t, f.a, f.b, .36, .26)
+    if (v <= 0) { css(el, 'opacity', '0'); continue }
+    const p = eo((t - f.a) / .5), out = 1 - vis(t, -1e9, f.b, 0, .26)
+    const dr = Math.sin((t - f.a) * .8)
+    css(el, 'opacity', v.toFixed(3))
+    css(el, 'transform', `perspective(1800px) translateY(${((1 - p) * -50 - out * 40).toFixed(1)}px) rotateX(${(7 + (1 - p) * 14 + .8 * dr).toFixed(2)}deg) rotateY(${(-4 + 1.2 * Math.cos((t - f.a) * .6)).toFixed(2)}deg) scale(${(.94 + .06 * p).toFixed(3)})`)
+    f.marks.forEach((m, i) => { glowAt($(`${f.id}_g${i}`), t, m.at); if (m.pill) stamp($(`${f.id}_p${i}`), t, m.at + .15) })
+  }
+  // kinetic numbers and notes
+  const ptsV = vis(t, EV.p_in + .3, EV.p_out, .3, .24)
+  css('k_pts', 'opacity', ptsV.toFixed(3)); css('k_rec', 'opacity', (ptsV * eo((t - EV.p_rec + .5) / .3)).toFixed(3))
+  const n90 = Math.round(90 * eo((t - EV.p_in - .4) / (EV.p_90 + .3 - EV.p_in - .4))); $('k_pn').textContent = n90; SIG.push(n90)
+  const n9 = Math.round(9 * eo((t - EV.p_rec + .4) / .7)); $('k_rn').textContent = n9; SIG.push(n9)
+  const nv = (id, a, b) => { const v = vis(t, a, b, .3, .22); const p = eo((t - a) / .3); css(id, 'opacity', v.toFixed(3)); css(id, 'transform', `translateY(${((1 - p) * 14).toFixed(1)}px)`) }
+  nv('n_ai', EV.a_claude - .1, EV.a_out); css('n_gk', 'opacity', eo((t - EV.a_grok) / .3).toFixed(3))
+  nv('n_tr1', EV.r_none, EV.r_okx - .15); nv('n_tr2', EV.r_okx, EV.r_out); css('n_rb', 'opacity', eo((t - EV.r_rabby) / .3).toFixed(3))
+  const fT = FLOATS.find(f => f.id === 'f_trade'), fA = FLOATS.find(f => f.id === 'f_ai')
+  for (const id of ['n_ai']) css(id, 'top', (fA.top + fA.h + 26).toFixed(0) + 'px')
+  for (const id of ['n_tr1', 'n_tr2']) css(id, 'top', (fT.top + fT.h + 26).toFixed(0) + 'px')
+  css('k_gas', 'opacity', vis(t, EV.gas_in, END + .1, .3, .2).toFixed(3))
+  stamp($('k_g1'), t, EV.gas_1); pop($('k_or'), t, EV.gas_2 - .3, .25, 8); stamp($('k_g2'), t, EV.gas_2); pop($('k_gn'), t, EV.gas_meh - .4, .3, 8)
+  // end card on the real landing page
+  const ev = t >= END ? eo((t - END) / .35) : 0
+  css('endc', 'opacity', ev.toFixed(3))
+  if (t >= END - .05) {
+    css('end_bg', 'transform', `scale(${(1.0 + .03 * clamp((t - END) / EC)).toFixed(4)})`)
+    const sp = eo((t - END - .25) / .5)
+    css('end_store', 'transform', `perspective(1800px) translateY(${((1 - sp) * 60).toFixed(1)}px) rotateX(${(6 + (1 - sp) * 10).toFixed(2)}deg) rotateY(-4deg)`)
+    pop($('end_ext'), t, END + .6, .35, 14); pop($('end_h'), t, END + .9, .35, 14)
+  }
+  // captions
+  const c = t < END ? capAt(t) : null
+  css('cap', 'opacity', c ? Math.min(eo((t - c.o0) / .12), eo((c.o1 - t) / .08)).toFixed(3) : '0')
+  if (c) { const h = c.t.replace(/\*([^*]+)\*/g, '<b>$1</b>'); if ($('capt').innerHTML !== h) $('capt').innerHTML = h; SIG.push(c.t) }
+  return SIG.join('|')
+}
+window.READY = Promise.all([document.fonts.ready, ...[...document.images].map(i => i.complete ? 1 : new Promise(r => { i.onload = i.onerror = r }))])
+</script>
+</body></html>

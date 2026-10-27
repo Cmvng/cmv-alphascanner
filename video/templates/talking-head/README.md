@@ -129,6 +129,18 @@ The owner talked through their Primus Points dashboard.
   the browser can't open it, and list it in `sources.md`.
 - **Pipeline:** `plan.py` (kept stretches cut at the quietest point near each edge, pauses closed up, cues and
   captions on word times), `build_av.py`, `primus.html` (the cards), `render.mjs`, `srt.py`, `review.py`, `cover.mjs`.
+- **v2, the approved way: the real screens (the owner rejected the rebuilt cards).**
+  - `capture_dashboard.mjs` draws the project's real dashboard with its own public code, through Node-fetched requests
+    (TLS verified). It skips only the client-side redirect that sends a logged-out visitor away; no wallet, no login,
+    no clicks on actions. It screenshots every tab at 2× in a window as tall as the page, and writes each card's
+    position to `rects.json`.
+  - `primus2.html` uses those captures:
+    - cropped real panels float tilted above the head, with a glow on the card being named and the owner's ✓ / "Not
+      yet" tags;
+    - full-screen walkthroughs (camera keys are page rectangles, fit to the width and clamped at the page edges), with
+      a white title panel and a solid fade under the captions;
+    - an end card on the project's real landing page and its Chrome Web Store listing.
+  - Never rebuild an app's UI as our own cards. The owner's own numbers go on as tags over the public screen.
 
 ## Getting the video
 

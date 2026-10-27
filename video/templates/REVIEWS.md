@@ -24,6 +24,48 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
+## 27 Oct: Primus "Proof of Nomad Life" v2, on the real screens (camera + real dashboard, 1:40)
+
+Files: `talking-head/camera-primus-2026-10-27/` (`primus2.html`, `capture_dashboard.mjs`). The same cut and mix as v1.
+The owner rejected v1's rebuilt cards: "use the actual graphic from the website itself… It can be 90%. It can be 100%".
+When I asked for a screen recording, they replied: "Stop giving me excuses… If I can do it myself without connecting a
+wallet, you can also do it."
+
+- **What worked:**
+  - **The real dashboard, without a wallet.** points.primuslabs.xyz/home is drawn by the app's own public code. The only
+    thing stopping a logged-out visitor is one client-side redirect back to "/" (`P||a(lR("/",et))}` in
+    `index-DN6KAs4W.js`). Skipping that line in the local copy (`capture_dashboard.mjs`) shows the dashboard, with no
+    account data. It clicks each sidebar and week tab and screenshots every one at 2×. It also writes each card's position to
+    `dash-rects.json`, so the glow outlines land exactly on the real Discord, OKX… cards.
+  - **The Eliza style, on Primus's screens:**
+    - real panels cropped and floating tilted above the head;
+    - a glow on each item as it's named, with ✓ / "Not yet" tags in the owner's words;
+    - three full-screen walkthroughs: the camera keys are page rectangles, the frame fits the width, and it is clamped
+      so no empty edge shows.
+  - **An end card on Primus's own landing hero** plus the real Chrome Web Store listing of the extension.
+- **Mistakes, and how they got through:**
+  1. **v1 wasn't built on the real screens at all.** I took "the dashboard needs a wallet" as fact without reading
+     how the app decides. The redirect was in the code I had already downloaded for the labels.
+  2. **Captured tabs reverted to the first one.** A full-page screenshot resizes the window and the app re-renders its
+     default tab. Fixed with a window as tall as the page (1440×1330) and normal screenshots.
+  3. **Stills and the review sheet caught:**
+     - the walkthrough title hidden under the page (now a white title panel);
+     - an empty title panel early (it now pops in 0.3 s before its words);
+     - the end text over the store card;
+     - the store crop showing a "Switch to Chrome" banner;
+     - the cover photo cutting off the head;
+     - after the first full render: page text ("Shield in Vault…") behind the "0 of 4 verified" note and the captions
+       (now a solid fade under the bottom of each walkthrough), and the end line touching the store card (moved down 65 px).
+- **Change next time:**
+  - **For any app video, capture the real screens first.** Read the bundle for the route and for what gates it. A
+    client-side redirect is not a login: skip it locally, read-only, with no wallet and no clicks on actions.
+  - Ask the owner for a recording only when the screen really needs their account (their own numbers). Even then,
+    show the public screen and add their numbers as tags.
+  - Put a solid fade behind captions on any full-screen page view. Real pages have text everywhere.
+- **The owner's reaction:** (waiting)
+
+---
+
 ## 27 Oct: the owner's recording, Primus "Proof of Nomad Life" (camera + app cards, 1:40)
 
 Files: `talking-head/camera-primus-2026-10-27/`. The owner sent a 2:02 selfie (1080×1920 after rotation, no screen

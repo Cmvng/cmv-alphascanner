@@ -15,21 +15,23 @@ body:before{content:"";position:fixed;inset:0;background-image:linear-gradient(r
 .ic{display:inline-flex;align-items:center;gap:14px;background:#fff;border:1.5px solid #e6e6e6;border-radius:24px;font-weight:800;box-shadow:0 10px 28px rgba(10,22,54,.08)}
 .ic img{border-radius:14px;object-fit:contain}
 .photo{position:absolute;background:url(face.jpg) center/cover;box-shadow:0 26px 70px rgba(10,22,54,.28)}
+.shot{position:absolute;overflow:hidden;border-radius:30px;background:#fff;box-shadow:0 30px 80px rgba(18,24,48,.36),0 0 0 1.5px rgba(0,0,0,.06)}
+.shot img{position:absolute;max-width:none}
 </style></head>
 <body>
 <div id="v" style="display:none;width:1080px;height:1920px;position:relative">
   <img class="abs" src="file:///home/user/cmv-alphascanner/video/out/brand/primus/mark.svg" style="left:84px;top:120px;width:110px;height:110px">
   <div class="abs k" style="left:220px;top:150px;font-size:30px">New on Primus Points</div>
   <div class="abs t" style="left:80px;top:270px;font-size:150px">Proof of<br><span>Nomad Life</span></div>
-  <div class="abs" style="left:84px;top:610px;display:flex;gap:18px" id="vi"></div>
-  <div class="photo" style="left:84px;top:780px;width:912px;height:1050px;border-radius:44px;background-position:50% 78%;background-size:960px auto"></div>
+  <div class="photo" style="left:84px;top:1050px;width:912px;height:790px;border-radius:44px;background-position:50% 57%;background-size:912px auto"></div>
+  <div class="shot" style="left:60px;top:560px;width:960px;height:440px;transform:perspective(1800px) rotateX(6deg) rotateY(-4deg)"><img src="file:///home/user/cmv-alphascanner/video/out/brand/primus/site/dash-nomad.png" style="width:1539px;left:-428px;top:-601px"></div>
 </div>
 <div id="h" style="display:none;width:1280px;height:720px;position:relative">
   <div class="photo" style="left:40px;top:40px;width:520px;height:640px;border-radius:36px;background-position:50% 66%;background-size:600px auto"></div>
   <img class="abs" src="file:///home/user/cmv-alphascanner/video/out/brand/primus/mark.svg" style="left:610px;top:70px;width:84px;height:84px">
   <div class="abs k" style="left:712px;top:96px;font-size:24px">New on Primus Points</div>
   <div class="abs t" style="left:606px;top:186px;font-size:104px">Proof of<br><span>Nomad Life</span></div>
-  <div class="abs" style="left:610px;top:450px;display:flex;flex-direction:column;gap:14px" id="hi"></div>
+  <div class="shot" style="left:600px;top:420px;width:640px;height:262px;border-radius:22px;transform:perspective(1600px) rotateX(5deg) rotateY(-5deg)"><img src="file:///home/user/cmv-alphascanner/video/out/brand/primus/site/dash-nomad.png" style="width:1026px;left:-286px;top:-401px"></div>
 </div>
 <script>
 const ICO = 'file:///home/user/cmv-alphascanner/video/out/brand/primus/points/'
