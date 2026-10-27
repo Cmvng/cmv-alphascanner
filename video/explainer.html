@@ -1065,6 +1065,104 @@ svg.pti{display:block}
 .pr .ax-tag{text-transform:none;letter-spacing:.4px;font-size:25px}
 .pr .pr-iv .cap{top:28px;bottom:auto}
 .pr .ax-h.cw{font-size:88px;letter-spacing:-3px}
+/* ---- follow the money (ad_*), 27 Oct: where the airdrop money went. Users in green (money to you), builders in ink,
+   each project in its own logo; the page is the house sky blue, the cold open deep royal blue */
+.ad{--grn:#1FA866;--grn2:#7BE0AE;--ink:#0B1B33;--mut:#5A6B85;--red:#D2393A}
+.ad .deep{position:absolute;inset:0;background:radial-gradient(110% 75% at 50% 45%,#1F5FDB 0%,#0E3D96 45%,#072A6B 100%)}
+.ad .dark{position:absolute;inset:0;background:#041A45;opacity:0;z-index:40}
+.ad .ttl{position:absolute;left:60px;right:60px;top:208px;font:400 92px/.96 Anton;text-transform:uppercase;letter-spacing:1px;color:var(--ink);opacity:0}
+.ad .ttl em{font-style:normal;color:#1F5FDB}
+.ad .kick{position:absolute;left:62px;top:168px;font:700 22px JBM;letter-spacing:4px;text-transform:uppercase;color:#1F5FDB;opacity:0}
+.ad .card{position:absolute;background:#FFFFFF;border-radius:30px;border:2px solid #FFFFFF;box-shadow:0 26px 70px rgba(31,95,219,.2)}
+.ad .src{font:700 17px/1.3 JBM;letter-spacing:1.5px;text-transform:uppercase;color:var(--mut)}
+.ad .lg{border-radius:50%;object-fit:cover;box-shadow:0 8px 24px rgba(11,27,51,.18)}
+.ad .stamp{position:absolute;font:400 104px/1 Anton;text-transform:uppercase;padding:10px 34px 14px;border:10px solid currentColor;border-radius:22px;opacity:0;white-space:nowrap;background:rgba(255,255,255,.92)}
+.ad .chipx{display:inline-flex;align-items:center;gap:10px;padding:12px 22px;border-radius:999px;background:#FFFFFF;border:2px solid rgba(11,27,51,.12);color:var(--ink);font:700 24px JBM;letter-spacing:2px;text-transform:uppercase;box-shadow:0 10px 30px rgba(31,95,219,.15)}
+.ad .chipx.g{background:var(--grn);border-color:var(--grn);color:#FFFFFF}
+.ad .chipx.b{background:#1F5FDB;border-color:#1F5FDB;color:#FFFFFF}
+.ad .chipx.r{background:var(--red);border-color:var(--red);color:#FFFFFF}
+.ad .chipx s{text-decoration-thickness:4px}
+/* the cold open: the post */
+.ad .ghost{position:absolute;width:420px;height:210px;border-radius:24px;background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.16);opacity:0}
+.ad .ghost i{display:block;height:14px;border-radius:7px;background:rgba(255,255,255,.22);margin:26px 30px 0}
+.ad .ghost i+i{width:60%}
+.ad .post{left:70px;top:330px;width:940px;padding:40px 46px 34px;color:#0F1419;opacity:0;z-index:5}
+.ad .post .hd{display:flex;align-items:center;gap:22px}
+.ad .post .hd img{width:104px;height:104px;border-radius:50%}
+.ad .post .hd b{display:block;font:800 40px Manrope;letter-spacing:-.5px}
+.ad .post .hd span{display:block;font:600 32px Manrope;color:#536471;margin-top:2px}
+.ad .post .hd .x{margin-left:auto;font:800 56px Manrope;color:#0F1419}
+.ad .post .tx{margin-top:26px;font:600 42px/1.27 Manrope;letter-spacing:-.4px}
+.ad .post .tx p{margin:0 0 24px}
+.ad .post .tx .adpk{position:relative;display:inline-block}
+.ad .post .tx .adpk .ln{position:absolute;left:-6px;right:-6px;top:52%;height:12px;border-radius:6px;background:var(--red);transform-origin:left center;transform:scaleX(0)}
+.ad .post .ft{font:600 30px Manrope;color:#536471;border-top:2px solid #EFF3F4;padding-top:20px}
+.ad .qq{position:absolute;left:0;right:0;top:1270px;text-align:center;font:400 250px/1 Anton;color:#FFFFFF;opacity:0;z-index:6;text-shadow:0 20px 60px rgba(4,26,69,.6)}
+/* the money pipe */
+.ad svg.pipe{position:absolute;left:0;top:0;width:1080px;height:1920px}
+.ad .node{position:absolute;width:250px;height:250px;margin:-125px 0 0 -125px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#FFFFFF,#E4EEFF 70%);border:6px solid #1F5FDB;box-shadow:0 30px 70px rgba(31,95,219,.3);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.ad .node b{font:400 92px/1 Anton;color:#1F5FDB}
+.ad .node span{font:700 22px JBM;letter-spacing:3px;text-transform:uppercase;color:var(--ink);margin-top:6px}
+.ad .cup{position:absolute;width:420px;height:250px;margin-left:-210px;border-radius:26px 26px 60px 60px;background:#FFFFFF;border:5px solid var(--ink);box-shadow:0 24px 60px rgba(31,95,219,.18);overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.ad .cup .fill{position:absolute;left:0;right:0;bottom:0;height:0;background:var(--grn2)}
+.ad .cup.b .fill{background:#BCD0EE}
+.ad .cup b{position:relative;font:400 64px/1 Anton;text-transform:uppercase;color:var(--ink)}
+.ad .cup span{position:relative;font:700 20px/1.35 JBM;letter-spacing:2px;text-transform:uppercase;color:var(--mut);margin-top:8px}
+.ad .cup.g{border-color:var(--grn)}
+.ad .cup.g b{color:var(--grn)}
+.ad .valve{position:absolute;width:150px;height:150px;margin:-75px 0 0 -75px;opacity:0;z-index:3}
+.ad .big{position:absolute;left:50px;right:50px;text-align:center;font:400 128px/.95 Anton;text-transform:uppercase;color:var(--ink);opacity:0;z-index:8}
+.ad .big em{font-style:normal;color:var(--grn)}
+.ad .big.w{color:#FFFFFF;text-shadow:0 14px 50px rgba(4,26,69,.55)}
+/* bars */
+.ad .adbars{position:absolute;left:0;right:0;top:0;height:1920px}
+.ad .adbar{position:absolute;bottom:540px;border-radius:22px 22px 6px 6px;background:var(--grn);box-shadow:0 20px 50px rgba(31,168,102,.3);height:0}
+.ad .adbar.k{background:var(--ink);box-shadow:0 20px 50px rgba(11,27,51,.25)}
+.ad .adbar .v{position:absolute;left:-40px;right:-40px;bottom:100%;margin-bottom:16px;text-align:center;font:400 76px/1 Anton;color:var(--ink);opacity:0}
+.ad .adbar .v small{display:block;font:700 19px JBM;letter-spacing:2px;color:var(--mut);margin-top:8px}
+.ad .adbar img{position:absolute;left:50%;top:18px;width:84px;height:84px;margin-left:-42px;border-radius:50%;border:4px solid #FFFFFF;opacity:0}
+.ad .yr{position:absolute;top:1394px;text-align:center;font:400 52px/1 Anton;color:var(--ink);opacity:0}
+.ad .yr .src{display:block;margin-top:10px;font-size:15px;letter-spacing:1px}
+.ad .base{position:absolute;left:70px;right:70px;top:1378px;height:6px;border-radius:3px;background:rgba(11,27,51,.2)}
+.ad .hlc{left:530px;top:420px;width:480px;padding:34px 34px 30px;opacity:0;z-index:6}
+.ad .hlc .hd{display:flex;align-items:center;gap:18px;font:800 38px Manrope;color:var(--ink)}
+.ad .hlc .hd img{width:84px;height:84px;border-radius:22px}
+.ad .hlc .ring{position:relative;width:300px;height:300px;margin:22px auto 6px}
+.ad .hlc .ring svg{width:300px;height:300px;transform:rotate(-90deg)}
+.ad .hlc .ring b{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font:400 96px Anton;color:#0E8F7A}
+.ad .hlc .lb{text-align:center;font:800 30px Manrope;color:var(--ink)}
+.ad .hlc .row{display:flex;justify-content:center;margin-top:18px}
+.ad .hlc .src{text-align:center;margin-top:16px}
+.ad .chips{position:absolute;left:0;right:0;display:flex;justify-content:center;gap:16px;flex-wrap:wrap}
+/* the coin field */
+.ad .field{position:absolute;left:110px;top:520px;width:860px;height:560px}
+.ad .field i{position:absolute;width:22px;height:22px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#B9F5D2,#36C27B 70%);box-shadow:0 2px 4px rgba(11,27,51,.2);opacity:0}
+.ad .cnt{position:absolute;left:0;right:0;top:1120px;text-align:center;opacity:0}
+.ad .cnt b{display:block;font:400 190px/1 Anton;color:var(--ink)}
+.ad .cnt span{display:block;font:800 34px Manrope;color:var(--ink);margin-top:6px}
+.ad .cnt .src{margin-top:12px}
+.ad .pumplg{position:absolute;left:465px;top:360px;width:150px;height:150px;opacity:0}
+/* the promises */
+.ad .pc{left:70px;width:940px;padding:34px 40px 32px;opacity:0}
+.ad .pc .hd{display:flex;align-items:center;gap:20px}
+.ad .pc .hd img{width:92px;height:92px;border-radius:24px}
+.ad .pc .hd b{display:block;font:800 38px Manrope;color:var(--ink)}
+.ad .pc .hd span{display:block;font:700 22px JBM;letter-spacing:2px;text-transform:uppercase;color:var(--mut);margin-top:4px}
+.ad .pc .q{margin-top:20px;font:800 44px/1.2 Manrope;letter-spacing:-.6px;color:var(--ink)}
+.ad .pc .q i{font-style:normal;color:#1F5FDB}
+.ad .pc .src{margin-top:14px}
+.ad .pc .rw{display:flex;align-items:center;gap:18px;margin-top:22px;opacity:0}
+.ad .days{display:flex;align-items:baseline;gap:16px}
+.ad .days b{font:400 120px/1 Anton;color:var(--ink)}
+.ad .days span{font:800 34px/1.1 Manrope;color:var(--ink)}
+.ad .track{flex:1;height:18px;border-radius:9px;background:#E7EEF9;overflow:hidden}
+.ad .track i{display:block;height:100%;width:0;background:repeating-linear-gradient(-45deg,#1F5FDB 0 18px,#5B8DEF 18px 36px)}
+.ad .tog{display:inline-flex;align-items:center;gap:16px;font:800 34px Manrope;color:var(--ink);white-space:nowrap}
+.ad .tog .sw{position:relative;width:120px;height:66px;border-radius:33px;background:#C9D4E5}
+.ad .tog .sw i{position:absolute;left:6px;top:6px;width:54px;height:54px;border-radius:50%;background:#FFFFFF;box-shadow:0 4px 10px rgba(11,27,51,.25)}
+.ad .tog .st{font:700 24px JBM;letter-spacing:2px;color:#1F5FDB;white-space:nowrap}
+.ad .opn{position:absolute;left:0;right:0;display:flex;justify-content:center;opacity:0}
+.ad .pc .nt{font:700 25px/1.35 Manrope;color:var(--mut);border-left:6px solid #1F5FDB;padding-left:18px}
 </style>
 </head>
 <body>
@@ -3909,6 +4007,198 @@ function fxPR(add, sc, T, next) {
   if (ty === 'end') { const ta = at('not', ln(0, 0.55)); add(ta - 0.9, '2908', -6); add(ta - 0.9, '2299', -8); add(ta + 0.2, '2636', -12) }
 }
 
+// ---------------------------------------------------------------- follow the money (ad_*), 27 Oct: an opinion piece
+// ("Airdrops have not peaked"). One device carries the argument: a pipe from crypto's money splits to users (airdrops,
+// green) and builders (fees and token sales, ink); the valve turns and the same coins change cups. Around it: the real
+// post it answers, year bars on one scale, a coin field, and two promise cards with a running day count.
+const AD_PATH = ['M540 826 C540 960 280 990 280 1140', 'M540 826 C540 960 800 990 800 1140']
+const AD_NC = 7
+const adPipe = (o = {}) => `<svg class="pipe" viewBox="0 0 1080 1920">
+    ${AD_PATH.map((d, i) => `<path d="${d}" fill="none" stroke="#D3E0F4" stroke-width="66" stroke-linecap="round"/><path class="fl f${i}" d="${d}" fill="none" stroke="${i ? '#0B1B33' : '#1FA866'}" stroke-width="30" stroke-linecap="round" stroke-dasharray="30 26"/>`).join('')}
+    ${[0, 1].map(i => Array.from({ length: AD_NC }, () => `<circle class="cn c${i}" r="16" fill="#F7CE4A" stroke="#B9871A" stroke-width="3.5" opacity="0"/>`).join('')).join('')}</svg>
+  <div class="node" style="left:540px;top:700px"><b>$</b><span>${html(o.node || 'Crypto')}</span></div>
+  <div class="cup g" style="left:280px;top:1140px"><div class="fill"></div><b>${html(o.l || 'Users')}</b><span>${html(o.ls || 'airdrops')}</span></div>
+  <div class="cup b" style="left:800px;top:1140px"><div class="fill"></div><b>${html(o.r || 'Builders')}</b><span>${html(o.rs || 'fees · token sales')}</span></div>
+  <svg class="valve" style="left:540px;top:930px" viewBox="-75 -75 150 150"><circle r="60" fill="#FFFFFF" stroke="#1F5FDB" stroke-width="10"/><g class="vh"><rect x="-9" y="-6" width="18" height="70" rx="9" fill="#1F5FDB"/><circle cy="62" r="13" fill="#1F5FDB"/></g><circle r="16" fill="#1F5FDB"/></svg>`
+function adFlow(el, lt, fl, fr, lvl = [0, 0], valve = null) {     // the pipe's state: flow (0..1) per branch, cup levels, the valve
+  const ps = $$('path.fl', el), f = [fl, fr]
+  ps.forEach((p, i) => { p.style.strokeWidth = (4 + 30 * f[i]).toFixed(1); p.style.opacity = f[i] > 0.02 ? 1 : 0; p.style.strokeDashoffset = (-lt * 150).toFixed(1) })
+  ;[0, 1].forEach(i => {
+    const p = ps[i], len = p.getTotalLength()
+    $$('circle.c' + i, el).forEach((c, k) => {
+      const s = (lt * 0.45 + k / AD_NC) % 1, pt = p.getPointAtLength(s * len), on = clamp((f[i] - k / AD_NC) * AD_NC)
+      c.setAttribute('cx', pt.x.toFixed(1)); c.setAttribute('cy', pt.y.toFixed(1)); c.setAttribute('opacity', (on * clamp(s * 8) * clamp((1 - s) * 8)).toFixed(2))
+    })
+  })
+  $$('.cup .fill', el).forEach((n, i) => { n.style.height = `${(100 * clamp(lvl[i])).toFixed(1)}%` })
+  const v = $('.valve', el)
+  if (valve == null) v.style.opacity = 0
+  else { v.style.opacity = 1; $('.vh', v).setAttribute('transform', `rotate(${valve.toFixed(1)})`) }
+}
+const adTxt = (n, s) => { if (n && n.textContent !== s) n.textContent = s }
+const adFmt = v => Math.round(v).toLocaleString('en-US')
+
+function buildAD(el, sc, b) {
+  el.classList.add('ad')
+  const ty = sc.type.slice(6), K = s => s ? `<div class="kick">${html(s)}</div>` : '', TT = (a, c) => `<div class="ttl">${html(a || '')}${c ? `<br><em>${html(c)}</em>` : ''}</div>`
+  if (ty === 'cold') {
+    const p = b.post || {}, para = (s, j) => {
+      const k = j === 0 && p.peak ? s.indexOf(p.peak) : -1
+      return `<p>${k < 0 ? html(s) : `${html(s.slice(0, k))}<span class="adpk">${html(p.peak)}<span class="ln"></span></span>${html(s.slice(k + p.peak.length))}`}</p>`
+    }
+    const gh = [[40, 210, -6], [620, 190, 5], [-80, 1290, 4], [700, 1330, -5], [330, 120, 2], [380, 1480, -3]]
+    el.innerHTML = `<div class="deep"></div>${gh.map(([x, y, r]) => `<div class="ghost" style="left:${x}px;top:${y}px;transform:rotate(${r}deg)"><i></i><i></i></div>`).join('')}
+      <div class="card post"><div class="hd"><img src="${html(p.avatar || '')}"><div><b>${html(p.name || '')}</b><span>@${html(p.handle || '')}</span></div><div class="x">𝕏</div></div>
+        <div class="tx">${(p.paras || []).map(para).join('')}</div><div class="ft">${html(p.foot || '')}</div></div>
+      <div class="qq">??</div><div class="dark"></div>`
+  } else if (ty === 'title') {
+    el.innerHTML = `${K(b.kick)}${TT(b.title, b.title2)}${adPipe(b.pipe || {})}`
+  } else if (ty === 'users') {
+    const ys = b.years || [], h = b.hl || {}, sc_ = b.scale || 60, xs = [230, 540, 850]
+    el.innerHTML = `${K(b.kick)}${TT(b.title)}<div class="base"></div>
+      <div class="adbars">${ys.map((y, i) => `<div class="adbar" data-h="${(y.v * sc_).toFixed(0)}" style="left:${xs[i] - 105}px;width:210px"><div class="v">${html(y.label)}<small>${html(y.note || '')}</small></div></div>
+        <div class="yr" style="left:${xs[i] - 150}px;width:300px">${html(y.y)}<span class="src">${html(y.src || '')}</span></div>`).join('')}</div>
+      <svg class="pipe" viewBox="0 0 1080 1920"><path class="fall" d="" fill="none" stroke="#D2393A" stroke-width="10" stroke-linecap="round" stroke-dasharray="22 18" opacity="0"/></svg>
+      <div class="card hlc"><div class="hd"><img src="${html(h.logo || '')}">${html(h.name || '')}</div>
+        <div class="ring"><svg viewBox="0 0 300 300"><circle cx="150" cy="150" r="120" fill="none" stroke="#E7EEF9" stroke-width="44"/><circle class="arc" cx="150" cy="150" r="120" fill="none" stroke="#5FE3C7" stroke-width="44" stroke-dasharray="0 754"/></svg><b>0%</b></div>
+        <div class="lb">${html(h.lb || '')}</div><div class="row"><span class="chipx"><s>${html(h.chip || '')}</s></span></div><div class="src">${html(h.src || '')}</div></div>
+      <div class="stamp" style="left:${b.stamp_x || 470}px;top:${b.stamp_y || 640}px;color:#D2393A;transform:rotate(-7deg)">${html(b.stamp || 'It dropped.')}</div>`
+  } else if (ty === 'build') {
+    const c = b.coins || {}, bs = b.bars || [], sc_ = b.scale || 420, xs = bs.length === 3 ? [230, 540, 850] : [165, 415, 665, 915], bw = bs.length === 3 ? 210 : 184
+    const dots = Array.from({ length: c.dots || 460 }, (_, i) => { const col = i % 23, row = Math.floor(i / 23); return `<i style="left:${col * 37 + (row % 2) * 18}px;top:${row * 28}px"></i>` }).join('')
+    el.innerHTML = `${K(b.kick)}${TT(b.title)}<img class="pumplg lg" src="${html(c.logo || '')}"><div class="field">${dots}</div>
+      <div class="cnt"><b>0</b><span>${html(c.label || '')}</span><div class="src">${html(c.src || '')}</div></div>
+      <div class="base" style="opacity:0"></div>
+      <div class="adbars">${bs.map((x, i) => `<div class="adbar${x.users ? '' : ' k'}" data-h="${(x.v * sc_).toFixed(0)}" style="left:${xs[i] - bw / 2}px;width:${bw}px">${x.logo ? `<img src="${html(x.logo)}">` : ''}<div class="v">${html(x.label)}<small>${html(x.note || '')}</small></div></div>
+        <div class="yr" style="left:${xs[i] - 125}px;width:250px;font-size:34px">${html(x.who || '')}<span class="src">${html(x.src || '')}</span></div>`).join('')}</div>`
+  } else if (ty === 'promise') {
+    const a = b.a || {}, c = b.b || {}
+    el.innerHTML = `<div class="card pc pa" style="top:150px"><div class="hd"><img src="${html(a.logo || '')}"><div><b>${html(a.name || '')}</b><span>${html(a.when || '')}</span></div></div>
+        <div class="q">${a.hi && (a.quote || '').includes(a.hi) ? html(a.quote.slice(0, a.quote.indexOf(a.hi))) + `<i>${html(a.hi)}</i>` + html(a.quote.slice(a.quote.indexOf(a.hi) + a.hi.length)) : html(a.quote || '')}</div><div class="src">${html(a.src || '')}</div>
+        <div class="rw r0"><span class="chipx b">${html(a.ico || '')}</span><span class="src">${html(a.ico_src || '')}</span></div>
+        <div class="rw r1"><div class="days"><b>0</b><span>${html(a.days_lb || '')}</span></div></div><div class="rw r2"><div class="track"><i></i></div></div></div>
+      <div class="card pc pb" style="top:${b.b_top || 930}px"><div class="hd"><img src="${html(c.logo || '')}"><div><b>${html(c.name || '')}</b><span>${html(c.when || '')}</span></div></div>
+        <div class="q">${html(c.quote || '')}</div><div class="src">${html(c.src || '')}</div>
+        ${c.note ? `<div class="rw rn"><div class="nt">${html(c.note)}</div></div>` : ''}<div class="rw r0"><div class="tog"><div class="sw"><i></i></div>${html(c.fee || 'Fees')}<span class="st">OFF</span></div></div><div class="src" style="margin-top:8px">${html(c.fee_src || '')}</div></div>
+      <div class="big" style="top:${b.big_top || 1395}px;font-size:96px">${html(b.big || 'Make this make sense')}</div>`
+  } else if (ty === 'same' || ty === 'end') {
+    el.innerHTML = `${K(b.kick)}${TT(b.title, b.title2)}${adPipe(b.pipe || {})}
+      <div class="big b1" style="top:${b.big_top || 150}px">${b.big || ''}</div>
+      <div class="opn" style="top:${b.opn_top || 1440}px"><span class="chipx ${ty === 'end' ? 'g' : 'r'}">${html(b.chip || '')}</span></div>
+      ${ty === 'end' ? `<div class="chips" style="top:1440px;opacity:0">${(b.chips || []).map(c => `<span class="chipx">${html(c)}</span>`).join('')}<span class="chipx b">${html(b.follow || 'Follow for more')}</span></div>` : ''}`
+  }
+}
+
+function drawAD(el, lt, sc, b) {
+  const ty = sc.type.slice(6), kick = $('.kick', el), ttl = $('.ttl', el)
+  if (ty !== 'cold' && ty !== 'promise') { rise([kick], lt, 0.05, 0, 20); rise([ttl], lt, 0.1, 0, 30) }
+  if (ty === 'cold') {
+    // "I keep reading posts saying airdrops have peaked." / "I don't buy it." → silence → the drop
+    const tPosts = WT(sc, 0, /posts/i, 0.35), tPeak = WT(sc, 0, /peaked/i, 0.8), tBuy = WT(sc, 1, /buy/i, 0.5), end = L(sc, sc.lines.length - 1, 1)
+    $$('.ghost', el).forEach((g, i) => { const a = tPosts - 0.1 + i * 0.07; g.style.opacity = 0.9 * P(lt, a, a + 0.4); g.style.translate = `0 ${(-14 * lt).toFixed(1)}px` })
+    const post = $('.post', el), q = P(lt, 0.05, 0.75, E.outCubic)
+    post.style.opacity = clamp(lt / 0.3); post.style.transform = `translate3d(0,${(1 - q) * 90}px,0) rotate(${-1.2 * q}deg) scale(${1 + 0.035 * P(lt, 0.8, end + 1, E.inOutSine)})`
+    const pk = $('.post .adpk', el); if (pk) pk.style.background = lt >= tPeak - 0.1 ? `rgba(142,197,255,${(0.55 * P(lt, tPeak - 0.1, tPeak + 0.2)).toFixed(2)})` : ''
+    const ln = $('.post .adpk .ln', el); if (ln) ln.style.transform = `scaleX(${P(lt, tBuy - 0.05, tBuy + 0.3, E.outCubic).toFixed(3)})`
+    slam($('.qq', el), lt, tBuy + 0.25, 2.3, 0.3)
+    el.style.transform = shake(lt, tBuy + 0.27, 16)
+    $('.dark', el).style.opacity = 0.62 * P(lt, end + 0.1, sc.dur, E.inOutSine)
+  } else if (ty === 'title') {
+    slam(ttl, lt, 0, 1.7, 0.32)
+    const on = P(lt, 0.35, 1.4, E.outCubic)
+    adFlow(el, lt, on, on, [0.45 * on, 0.45 * on])
+    pop($('.node', el), lt, 0.15, 0.4); $$('.cup', el).forEach((n, i) => pop(n, lt, 0.5 + i * 0.12, 0.6))
+    el.style.transform = shake(lt, 0.03, 22)
+  } else if (ty === 'users') {
+    const bars = $$('.adbar', el), yrs = $$('.yr', el), hl = $('.hlc', el)
+    const tB = [WT(sc, 0, /2024/, 0.05) - 0.1, WT(sc, 2, /2025/, 0.05) - 0.1, WT(sc, 3, /counted|tracker/i, 0.3)]
+    const tH = WT(sc, 1, /hyperliquid/i, 0.05) - 0.15, tHo = L(sc, 2, 0) - 0.35, tD = WT(sc, 4, /dropped/i, 0.4)
+    bars.forEach((n, i) => { const q = P(lt, tB[i], tB[i] + 0.9, E.outCubic); n.style.height = `${(+n.dataset.h * q).toFixed(1)}px`
+      const v = $('.v', n); v.style.opacity = clamp((lt - tB[i] - 0.5) / 0.25); rise([yrs[i]], lt, tB[i], 0, 20) })
+    hl.style.opacity = clamp((lt - tH) / 0.2) * (1 - clamp((lt - tHo) / 0.3)); hl.style.transform = `translate3d(${(1 - P(lt, tH, tH + 0.5, E.outCubic)) * 80 + 500 * P(lt, tHo, tHo + 0.4)}px,0,0)`
+    const pc = (b.hl || {}).pct || 31, qa = P(lt, tH + 0.3, tH + 1.3, E.outCubic)
+    $('.arc', hl).setAttribute('stroke-dasharray', `${(7.54 * pc * qa).toFixed(1)} 754`); adTxt($('.ring b', hl), `${Math.round(pc * qa)}%`)
+    const ss = $('.hlc .row s', el); if (ss) ss.style.textDecorationColor = lt >= WT(sc, 1, /vc|allocation/i, 0.8) ? '#D2393A' : 'transparent'
+    // "it dropped": a falling dashed line across the bar tops, then the stamp
+    const fall = $('path.fall', el), top = i => 1380 - +bars[i].dataset.h - 6, xs = [230, 540, 850]
+    fall.setAttribute('d', `M${xs[0]} ${top(0)} L${xs[1]} ${top(1)} L${xs[2]} ${top(2)}`)
+    const qf = P(lt, tD - 0.5, tD + 0.3, E.inOutSine); fall.setAttribute('opacity', qf > 0 ? 1 : 0); const fl = fall.getTotalLength(); fall.style.strokeDasharray = `${(fl * qf).toFixed(1)} ${fl}`
+    slam($('.stamp', el), lt, tD + 0.05, 2.2, 0.28, 'rotate(-7deg)')
+    el.style.transform = shake(lt, tD + 0.08, 12)
+  } else if (ty === 'build') {
+    const c = b.coins || {}, dots = $$('.field i', el), cnt = $('.cnt', el), tF = WT(sc, 1, /launch|coins/i, 0.1) - 0.1, tF1 = Math.min(L(sc, 1, 0.95), tF + 2.6)
+    const tO = L(sc, 2, 0) - 0.3, tBar = (b.bars || []).length === 3 ? [L(sc, 2, 0), WT(sc, 2, /revenue|1\.3/i, 0.4), WT(sc, 3, /axiom/i, 0.1)] : [L(sc, 2, 0), WT(sc, 2, /revenue|1\.3/i, 0.3), WT(sc, 2, /creators|650/i, 0.7), WT(sc, 3, /axiom/i, 0.1)]
+    const out = 1 - clamp((lt - tO) / 0.35)
+    pop($('.pumplg', el), lt, tF - 0.2, 0.5); $('.pumplg', el).style.opacity *= out
+    dots.forEach((d, i) => { const a = tF + (tF1 - tF) * hsh(i, 3) ** 0.8; d.style.opacity = clamp((lt - a) / 0.08) * out; d.style.transform = `scale(${0.4 + 0.6 * P(lt, a, a + 0.25, E.outBack)})` })
+    cnt.style.opacity = clamp((lt - tF) / 0.2) * out; adTxt($('b', cnt), adFmt((c.n || 46000) * P(lt, tF, tF1, E.outCubic)))
+    $('.base', el).style.opacity = clamp((lt - tO) / 0.3)
+    const bars = $$('.adbar', el), yrs = $$('.yr', el)
+    bars.forEach((n, i) => { const q = P(lt, tBar[i], tBar[i] + 0.8, E.outCubic); n.style.height = `${(+n.dataset.h * q).toFixed(1)}px`
+      $('.v', n).style.opacity = clamp((lt - tBar[i] - 0.45) / 0.25); const im = $('img', n); if (im) im.style.opacity = clamp((lt - tBar[i] - 0.3) / 0.2); rise([yrs[i]], lt, tBar[i], 0, 20) })
+  } else if (ty === 'promise') {
+    const pa = $('.pa', el), pb = $('.pb', el), a = b.a || {}
+    const tA = 0.05, tI = WT(sc, 1, /ico|600/i, 0.5) - 0.1, tD = L(sc, 2, 0), tD1 = tD + Math.min(2.0, S(sc, 2)[1] * 0.75), tB = L(sc, 3, 0) - 0.15, tFee = WT(sc, 4, /fees/i, 0.8), tM = L(sc, 5, 0) - 0.05
+    rise([pa], lt, tA, 0, 60); rise([pb], lt, tB, 0, 60)
+    const r = n => $(n, pa); rise([r('.r0')], lt, tI, 0, 20); rise([r('.r1'), r('.r2')], lt, tD - 0.15, 0.05, 20)
+    const qd = P(lt, tD, tD1, x => x); adTxt($('.days b', pa), adFmt((a.days || 474) * qd)); $('.track i', pa).style.width = `${(100 * qd).toFixed(1)}%`
+    slam($('.r0 .chipx', pa), lt, tI, 1.8, 0.26)
+    rise([$('.rn', pb)], lt, WT(sc, 4, /october/i, 0.2) + 0.1, 0, 20); rise([$('.r0', pb)], lt, WT(sc, 4, /fees/i, 0.8) - 0.4, 0, 20)
+    const on = lt >= tFee, sw = $('.tog .sw', pb), k = P(lt, tFee, tFee + 0.25, E.outCubic)
+    sw.style.background = on ? '#1F5FDB' : '#C9D4E5'; $('i', sw).style.transform = `translateX(${(54 * k).toFixed(1)}px)`; adTxt($('.tog .st', pb), on ? ((b.b || {}).fee_on || 'ON') : 'OFF')
+    const big = $('.big', el); slam(big, lt, tM, 1.9, 0.3)
+    const tilt = P(lt, tM, tM + 0.5, E.outCubic); pa.style.rotate = `${(-2.5 * tilt).toFixed(2)}deg`; pb.style.rotate = `${(2.5 * tilt).toFixed(2)}deg`
+    el.style.transform = shake(lt, tM + 0.05, 12)
+  } else if (ty === 'same') {
+    // "The money is there." / "...the same money that would have been airdrops..." / "Airdrops have not peaked." / "...greedy and extractive."
+    const tS = WT(sc, 1, /same/i, 0.3), tA = WT(sc, 1, /airdrops/i, 0.6), tN = L(sc, 2, 0) - 0.1, tG = WT(sc, 3, /greedy/i, 0.5)
+    const shift = P(lt, tA - 0.3, tA + 1.0, E.inOutSine)
+    adFlow(el, lt, 0.85 * (1 - shift), 0.55 + 0.45 * shift, [0.55 * (1 - shift), 0.4 + 0.5 * shift], 35 - 70 * shift)
+    adTxt($('.node span', el), lt >= tS ? 'Same money' : ((b.pipe || {}).node || 'Crypto'))
+    $('.node', el).style.borderColor = lt >= tS ? '#F7CE4A' : ''
+    const b1 = $('.big.b1', el); slam(b1, lt, tN, 1.8, 0.3); ttl.style.opacity *= 1 - clamp((lt - tN + 0.2) / 0.2); kick.style.opacity *= 1 - clamp((lt - tN + 0.2) / 0.2)
+    $$('.cup', el)[1].style.borderColor = lt >= tG ? '#D2393A' : ''
+    rise([$('.opn', el)], lt, tG - 0.2, 0, 20)
+  } else if (ty === 'end') {
+    const tI = WT(sc, 0, /invested/i, 0.5), tE = L(sc, 1, 0) - 0.1, back = P(lt, tI - 0.2, tI + 1.0, E.inOutSine)
+    adFlow(el, lt, 0.1 + 0.9 * back, 1 - 0.65 * back, [0.1 + 0.75 * back, 0.85 - 0.35 * back], -35 + 70 * back)
+    const fade = P(lt, tE, tE + 0.6, E.inOutSine)
+    $$('svg.pipe, .node, .cup, .valve', el).forEach(n => { n.style.opacity = (n.classList.contains('valve') ? +n.style.opacity : 1) * (1 - 0.88 * fade); n.style.filter = fade > 0 ? `blur(${(6 * fade).toFixed(1)}px)` : '' })
+    ttl.style.opacity *= 1 - fade; kick.style.opacity *= 1 - fade
+    const b1 = $('.big.b1', el); slam(b1, lt, tE + 0.1, 1.7, 0.32)
+    rise([$('.opn', el)], lt, WT(sc, 1, /ethos/i, 0.7) - 0.1, 0, 20)
+    rise([$('.chips', el)], lt, L(sc, 1, 1) + 0.15, 0, 30)
+  }
+}
+
+function fxAD(add, sc, T, next) {
+  const b = sc.data || {}, ty = sc.type.slice(6), w = (j, re, f) => T + WT(sc, j, re, f), at = (j, f = 0) => T + L(sc, j, f)
+  if (ty === 'cold') {
+    add(T, '497', -13, { align: 'start', max: Math.max(1, sc.dur - 0.2) }); add(T, '2297', -18, { align: 'start', max: Math.max(1, sc.dur - 0.4) })
+    add(T + 0.1, '3115', -13); [0, 1, 2].forEach(i => add(w(0, /posts/i, 0.35) + i * 0.14, '3124', -17, { pan: i % 2 ? 0.3 : -0.3 }))
+    const tB = w(1, /buy/i, 0.5); add(tB - 0.02, '1365', -7); add(tB + 0.25, '2909', -6); add(tB + 0.25, '2299', -8)
+    if (next?.data?.drop) add(next.start, '2908', -6, { reverse: true, max: 2.6, align: 'end' })
+  }
+  if (ty === 'title') add(T + 0.5, '3124', -14)
+  if (ty === 'users') {
+    ;[w(0, /2024/, 0.05), w(2, /2025/, 0.05), w(3, /counted|tracker/i, 0.3)].forEach(t => { add(t - 0.1, '3115', -13); add(t + 0.45, '2573', -12) })
+    add(w(1, /hyperliquid/i, 0.05) - 0.1, '3124', -12); add(w(1, /vc|allocation/i, 0.8), '2577', -12)
+    const tD = w(4, /dropped/i, 0.4); add(tD - 0.4, '2636', -14); add(tD + 0.05, '1365', -6); add(tD + 0.05, '2299', -9)
+  }
+  if (ty === 'build') {
+    const tF = w(1, /launch|coins/i, 0.1); add(tF - 0.1, '2573', -12); for (let k = 0; k < 9; k++) add(tF + 0.1 + k * 0.26, '2577', -20 + (k % 2) * 2)
+    ;((b.bars || []).length === 3 ? [at(2, 0), w(2, /revenue|1\.3/i, 0.4), w(3, /axiom/i, 0.1)] : [at(2, 0), w(2, /revenue|1\.3/i, 0.3), w(2, /creators|650/i, 0.7), w(3, /axiom/i, 0.1)]).forEach(t => { add(t - 0.05, '3115', -14); add(t + 0.5, '2573', -12) })
+  }
+  if (ty === 'promise') {
+    add(T + 0.05, '3124', -12); add(w(1, /ico|600/i, 0.5) - 0.1, '1365', -8)
+    const tD = at(2, 0); for (let k = 0; k < 8; k++) add(tD + k * 0.24, '2857', -16)
+    add(at(3, 0) - 0.15, '3124', -12); add(w(4, /fees/i, 0.8), '2577', -9); add(w(4, /fees/i, 0.8) + 0.05, '2573', -12)
+    const tM = at(5, 0); add(tM - 0.05, '2909', -6); add(tM - 0.05, '2299', -8)
+  }
+  if (ty === 'same') { add(w(1, /airdrops/i, 0.6) - 0.3, '3117', -14, { max: 1.4 }); add(at(2, 0) - 0.1, '1143', -7, { align: 'peak' }); add(w(3, /greedy/i, 0.5), '2951', -12) }
+  if (ty === 'end') { add(w(0, /invested/i, 0.5) - 0.2, '3117', -14, { max: 1.4 }); const tE = at(1, 0); add(tE, '2908', -8); add(tE, '2299', -10); add(at(1, 1) + 0.15, '3124', -12) }
+}
+
 // ---------------------------------------------------------------- build each screen
 const built = D.scenes.map(sc => {
   const el = document.createElement('div'), b = sc.data || {}
@@ -3921,6 +4211,7 @@ const built = D.scenes.map(sc => {
   else if (sc.type.startsWith('ex_vx_')) buildVX(el, sc, b)
   else if (sc.type.startsWith('ex_ax_')) buildAX(el, sc, b)
   else if (sc.type.startsWith('ex_pr_')) buildPR(el, sc, b)
+  else if (sc.type.startsWith('ex_ad_')) buildAD(el, sc, b)
   else if (sc.type === 'ex_cold') {
     const legs = b.legs || []
     el.innerHTML = `<div class="dim"></div><div class="amt2"><div class="v">${html(b.from || '$10')}</div><div class="lb"></div></div>
@@ -4001,6 +4292,7 @@ function draw(k, lt, sc) {
   if (sc.type.startsWith('ex_vx_')) return drawVX(el, lt, sc, b)
   if (sc.type.startsWith('ex_ax_')) return drawAX(el, lt, sc, b)
   if (sc.type.startsWith('ex_pr_')) return drawPR(el, lt, sc, b)
+  if (sc.type.startsWith('ex_ad_')) return drawAD(el, lt, sc, b)
   if (sc.type === 'ex_cold') {
     // lines: "Ten dollars." / "One ticket." / "$172 back, if every leg lands." / "Or nothing at all." → silence → the drop
     const v = $('.amt2 .v', el), lb = $('.amt2 .lb', el), ct = $('.ct', el), cks = $$('.ck', el)
@@ -4130,7 +4422,7 @@ function fxCinematic() {
   const ev = [], add = (t, sfx, db, o = {}) => ev.push({ t: +Math.max(0, t).toFixed(3), sfx, db, ...o }), syn = (t, type, gain) => ev.push({ t: +Math.max(0, t).toFixed(3), type, ...(gain ? { gain } : {}) })
   D.scenes.forEach((sc, k) => {
     const T = sc.start, b = sc.data || {}, at = (j, f = 0) => T + L(sc, j, f), next = D.scenes[k + 1]
-    const drop = (sc.type === 'ex_hook' || /^ex_(kh|pt|cf|nd|ax|pr)_/.test(sc.type)) && b.drop
+    const drop = (sc.type === 'ex_hook' || /^ex_(kh|pt|cf|nd|ax|pr|ad)_/.test(sc.type)) && b.drop
     if (sc.type.startsWith('ex_kh_')) fxKH(add, sc, T, next)
     if (sc.type.startsWith('ex_pt_')) fxPT(add, sc, T, next)
     if (sc.type.startsWith('ex_cf_')) fxCF(add, sc, T, next)
@@ -4139,7 +4431,8 @@ function fxCinematic() {
     if (sc.type.startsWith('ex_vx_')) fxVX(add, sc, T, next, syn)
     if (sc.type.startsWith('ex_ax_')) fxAX(add, sc, T, next)
     if (sc.type.startsWith('ex_pr_')) fxPR(add, sc, T, next)
-    if (k > 0 && !drop && !/^ex_(hy|vx)_/.test(sc.type)) add(T, k % 2 ? '1492' : '2636', k % 2 ? -12 : -14, { align: 'peak' })
+    if (sc.type.startsWith('ex_ad_')) fxAD(add, sc, T, next)
+    if (k > 0 && !drop && !/^ex_(hy|vx|ad)_/.test(sc.type)) add(T, k % 2 ? '1492' : '2636', k % 2 ? -12 : -14, { align: 'peak' })
     if (sc.type === 'ex_cold') {
       add(T, '497', -13, { align: 'start', max: Math.max(1, sc.dur - 0.2) })                // heartbeat under the cold open
       add(at(0) - 0.03, '2909', -1); add(at(0) - 0.03, '2299', -4)                        // "Ten dollars."

@@ -1,0 +1,306 @@
+{
+  "mode": "explainer",
+  "title": "Airdrops have not peaked",
+  "competition": "Explainer",
+  "date": "2026-10-27",
+  "picks": [],
+  "voice": "af_heart",
+  "voice_fx": "deep",
+  "voice_speed": 1.0,
+  "sound": "cinematic",
+  "caption_style": "bold",
+  "music_track": 720,
+  "music_drop": "ad_title",
+  "explainer": {
+    "theme": "sky",
+    "foot": "Opinion · figures from dated public trackers · not financial advice",
+    "chapters": {
+      "ex_ad_title": "Follow the money",
+      "ex_ad_users": "To users",
+      "ex_ad_build": "The other side",
+      "ex_ad_promise": "The promises",
+      "ex_ad_same": "The money",
+      "ex_ad_end": "The ethos"
+    },
+    "beats": [
+      {
+        "type": "ad_cold",
+        "post": {
+          "avatar": "../brand/airdrops/post/avatar.jpg",
+          "name": "HEADBOY 🦇🔊",
+          "handle": "NDIDI_GRAM",
+          "peak": "have peaked",
+          "paras": [
+            "Airdrops have peaked, and even launching a token for crypto startups doesn’t seem right.",
+            "This year recorded the lowest number of airdrops received by users, the lowest number of TGEs, and the highest number of projects shutting down."
+          ],
+          "foot": "Oct 27, 2026 · on X"
+        },
+        "say": [
+          "I keep reading posts saying airdrops have peaked.",
+          "I don't buy it."
+        ],
+        "pauses": [
+          0.35
+        ],
+        "tail": 0.9
+      },
+      {
+        "type": "ad_title",
+        "drop": true,
+        "kick": "Airdrops have peaked??",
+        "title": "Where did the",
+        "title2": "airdrop money go?",
+        "pipe": {
+          "node": "Crypto",
+          "l": "Users",
+          "ls": "airdrops",
+          "r": "Builders",
+          "rs": "fees · token sales"
+        },
+        "say": [
+          "So let's follow the money."
+        ],
+        "tail": 0.6
+      },
+      {
+        "type": "ad_users",
+        "kick": "Airdrops to users · different trackers",
+        "title": "Year by year",
+        "scale": 60,
+        "years": [
+          {
+            "y": "2024",
+            "v": 15,
+            "label": "$15B",
+            "note": "paid out",
+            "src": "Dropstab via Bitcoin.com News · Jan 2025"
+          },
+          {
+            "y": "2025",
+            "v": 4.5,
+            "label": "$4.5B",
+            "note": "top 5, each at its peak",
+            "src": "Decrypt · Dec 2025"
+          },
+          {
+            "y": "2026",
+            "v": 0.809,
+            "label": "$809M",
+            "note": "51 drops · 4 chains · Jan–Sep",
+            "src": "Bitquery · Sep 2026"
+          }
+        ],
+        "hl": {
+          "logo": "../brand/airdrops/hyperliquid_x.jpg",
+          "name": "Hyperliquid",
+          "pct": 31,
+          "lb": "of supply to users",
+          "chip": "VCs: 0%",
+          "src": "Hyper Foundation via The Block · Nov 2024"
+        },
+        "stamp": "It dropped.",
+        "say": [
+          {
+            "say": "In twenty twenty-four, airdrops paid out around fifteen billion dollars.",
+            "show": "In 2024, airdrops paid out around $15 billion."
+          },
+          {
+            "say": "Hyperliquid alone gave thirty-one percent of its supply to users. No V C allocation.",
+            "show": "Hyperliquid alone gave 31% of its supply to users. No VC allocation."
+          },
+          {
+            "say": "In twenty twenty-five, the top five airdrops did about four and a half billion, at peak.",
+            "show": "In 2025, the top five airdrops did about $4.5 billion, at peak."
+          },
+          {
+            "say": "This year, one tracker counted fifty-one big airdrops on four chains. Around eight hundred and nine million.",
+            "show": "This year, one tracker counted 51 big airdrops on four chains. Around $809 million."
+          },
+          "So yes, it dropped. A lot."
+        ],
+        "pauses": [
+          0.2,
+          0.2,
+          0.2,
+          0.35
+        ],
+        "tail": 0.7
+      },
+      {
+        "type": "ad_build",
+        "kick": "Meanwhile",
+        "title": "The other side",
+        "coins": {
+          "n": 46034,
+          "dots": 460,
+          "logo": "../brand/airdrops/pumpfun.jpg",
+          "label": "new coins on Pump.fun on 26 Oct",
+          "src": "pumpdata.fun · 7-day average 46,200"
+        },
+        "scale": 420,
+        "bars": [
+          {
+            "v": 0.809,
+            "label": "$809M",
+            "note": "airdrops · 2026",
+            "who": "Users",
+            "users": true,
+            "src": "Bitquery"
+          },
+          {
+            "v": 1.38,
+            "label": "$1.38B",
+            "note": "revenue · since Mar 2024",
+            "who": "Pump",
+            "logo": "../brand/airdrops/pumpfun.jpg",
+            "src": "DefiLlama · 26 Oct"
+          },
+          {
+            "v": 0.782,
+            "label": "$782M",
+            "note": "fees paid · all time",
+            "who": "Axiom",
+            "logo": "../brand/airdrops/axiom.jpg",
+            "src": "DefiLlama · 26 Oct"
+          }
+        ],
+        "say": [
+          "But look at the other side.",
+          {
+            "say": "Pump fun launches around forty-six thousand coins a day.",
+            "show": "Pump.fun launches around 46,000 coins a day."
+          },
+          {
+            "say": "Pump has made over one point three billion dollars in revenue.",
+            "show": "Pump has made over $1.3 billion in revenue."
+          },
+          {
+            "say": "And Axiom users have paid about seven hundred and eighty-two million in fees.",
+            "show": "And Axiom users have paid about $782 million in fees."
+          }
+        ],
+        "pauses": [
+          0.15,
+          0.3,
+          0.2
+        ],
+        "tail": 0.8
+      },
+      {
+        "type": "ad_promise",
+        "a": {
+          "logo": "../brand/airdrops/pumpfun.jpg",
+          "name": "Pump.fun on X",
+          "when": "9 July 2025",
+          "quote": "“$PUMP is launching through an Initial Coin Offering on Saturday, July 12th. airdrop coming soon.”",
+          "hi": "airdrop coming soon.",
+          "src": "@Pumpfun via Protos",
+          "ico": "ICO · $600M · 12 Jul 2025",
+          "ico_src": "The Block",
+          "days": 475,
+          "days_lb": "days later. Still no airdrop for users."
+        },
+        "b": {
+          "logo": "../brand/airdrops/polymarket.jpg",
+          "name": "Polymarket CMO Matthew Modabber",
+          "when": "23 Oct 2025 · Degenz Live",
+          "quote": "“There will be a token, there will be an airdrop.”",
+          "src": "The Block · 24 Oct 2025",
+          "note": "Help page, Jun 2026: “Polymarket has not announced plans for any airdrop.”",
+          "fee": "Taker fees",
+          "fee_on": "ON · 2026",
+          "fee_src": "Polymarket docs · most markets"
+        },
+        "big": "Make this make sense",
+        "say": [
+          {
+            "say": "In July twenty twenty-five, Pump fun announced its token sale, and said: airdrop coming soon.",
+            "show": "In July 2025, Pump.fun announced its token sale, and said: “airdrop coming soon.”"
+          },
+          {
+            "say": "The sale raised six hundred million dollars.",
+            "show": "The sale raised $600 million."
+          },
+          {
+            "say": "Four hundred and seventy-five days later, still no airdrop for users.",
+            "show": "475 days later, still no airdrop for users."
+          },
+          {
+            "say": "Polymarket's C M O said: there will be a token, there will be an airdrop.",
+            "show": "Polymarket's CMO said: “There will be a token, there will be an airdrop.”"
+          },
+          "That was October last year. This year, they started charging taker fees on most markets.",
+          "Make this make sense."
+        ],
+        "pauses": [
+          0.2,
+          0.3,
+          0.45,
+          0.2,
+          0.35
+        ],
+        "tail": 0.8,
+        "b_top": 860,
+        "big_top": 1450
+      },
+      {
+        "type": "ad_same",
+        "kick": "In my opinion",
+        "title": "The money is there",
+        "pipe": {
+          "node": "Crypto",
+          "l": "Users",
+          "ls": "airdrops",
+          "r": "Builders",
+          "rs": "fees · token sales"
+        },
+        "big": "Airdrops have<br><em>not</em> peaked.",
+        "big_top": 190,
+        "chip": "Opinion",
+        "say": [
+          "The money is there.",
+          "In my opinion, it's the same money that would have been airdrops in previous cycles.",
+          "Airdrops have not peaked.",
+          "I think we just have devs and builders who have become greedy and extractive."
+        ],
+        "pauses": [
+          0.3,
+          0.35,
+          0.2
+        ],
+        "tail": 0.6
+      },
+      {
+        "type": "ad_end",
+        "kick": "What if",
+        "title": "It went back in",
+        "pipe": {
+          "node": "Crypto",
+          "l": "The space",
+          "ls": "users · builders",
+          "r": "Extracted",
+          "rs": "fees · token sales"
+        },
+        "big": "Airdrops have<br><em>not</em> peaked.",
+        "big_top": 560,
+        "chip": "The core ethos of crypto",
+        "chips": [
+          "Opinion",
+          "Not financial advice"
+        ],
+        "follow": "Follow for more",
+        "say": [
+          "If the money being extracted from crypto was invested back into the space, we'd be in a better place.",
+          "And no, airdrops have not peaked, because that's the core ethos of crypto."
+        ],
+        "pauses": [
+          0.35
+        ],
+        "tail": 2.4,
+        "opn_top": 1320
+      }
+    ],
+    "field": "dots"
+  }
+}
