@@ -80,6 +80,55 @@ Follow `README.md` for the cutting. On top of it:
 - **Length:** up to 2:20 for X without Premium. If the owner talks for longer, cut to the strongest 2:20 and keep the
   full cut for YouTube.
 
+## CapCut's techniques, and how we do each one here
+
+Researched on 27 Oct 2026. Most of the guidance comes from CapCut's and other vendors' own pages, so treat it as
+practice, not proof. The full brief with sources is `brief.md` in the session scratchpad. We render with ffmpeg and
+HTML, so each technique is rebuilt here, not clicked.
+
+| CapCut tool | What good use looks like | Our version |
+|---|---|---|
+| Keyframed zoom, "smooth zoom" | A push of 8–15% that starts as the voice names the thing and settles before the click. About three per 30 s, one action each. | Scale 1.00→1.12 with an ease-out over 0.35 s, held for at least the phrase. Record the screen at 1440p or more so it stays sharp. |
+| Jump-cut punch-in | Alternate medium and close shots of 10–20% on talking-head cuts. | Already in `build_av.py` (1.0 / 1.07 around the face anchor). |
+| Auto captions with keyword highlight | 3–7 words a chunk, sparing emphasis. Keep clear of the bottom 20–25%, the top 10–15% and the right edge. | Word-synced captions (`word_times.py`), the spoken word in the brand colour, chest height. Never the bouncy all-caps yellow look. |
+| Remove filler words and pauses | Flags um, uh and repeats for review. | `plan.py` keeps whole phrases, drops false starts and compresses pauses over 0.4 s. |
+| Speed ramp | Speed up typing and waiting. | 2–4× on loading and typing, with a small "4×" badge. |
+| Mask spotlight | A blurred copy underneath, with the sharp area showing through a feathered mask. | Blur and dim the screen except a rounded rectangle on the item named, plus a glow outline. |
+| Motion tracking | Text or an arrow that follows an object for a short clip. | Keyframe the outline per frame from the recording's cursor or tap position. |
+| Background removal or chroma key | The creator cut out over a screenshot looks planned. Keep the area behind the face quiet. | Use when the owner films in front of a plain wall. Matting a busy room looks cheap. |
+| Split screen or picture-in-picture | Use a split when both matter, and a picture-in-picture face when the screen leads. Keep faces off the divider and text in the inner 80%. | The `duo` and `desk` layouts. |
+| Phone or device mockups | The app inside a phone frame sliding in. | Draw the phone frame in HTML, so there are no template watermarks. |
+| Zoom on click (Screen Studio style) | Zoom on each click, settle quickly, and add motion blur to the moves. iPhone recordings don't show taps, so add tap circles. | Ripple circles at each tap, plus the push-in above. |
+| Voice enhance | Removes clicks and echo. | DeepFilterNet3 (`df_enhance.py`). |
+| Auto reframe 16:9→9:16 | Paid since April 2026, and it can crop out the key UI. | Redraw for 9:16 by hand; never blind-crop the app. |
+| Script to video, AI B-roll | AI clips get details wrong. Kaito Studio can void rewards for AI-generated content, and Superteam bans AI-only entries. | Never for a contest entry. Use real screens and the real person. |
+
+## What contests and projects say they judge
+- **Published rubrics** (Superteam bounties, Flare):
+  - Busha: clarity, storytelling, pacing, accuracy and engagement, and the creator must have used the product.
+  - Bayse (a prediction market): clarity, accuracy, visual flow, audio and lighting, and an app walkthrough.
+  - Solana Summit: creativity 25%, emotion and vibe 25%, relevance 20%, execution 15%, community impact 15%.
+  - Flare: creativity 30%, education 25%, visual quality 25%, engagement 20%.
+- **Kaito Studio** (it replaced Yaps in Jan 2026): brands pick the creators. The terms ask for original content, and
+  rewards can be voided for AI-generated or bot-boosted posts, or for a post edited or deleted mid-campaign.
+- **Prediction markets:** the Wall Street Journal found creators faking winning Polymarket bets on a look-alike site (June
+  2026). Only ever show the owner's real positions, and say when a video is paid.
+- **X:**
+  - Length: 2:20 without Premium.
+  - Ranking: the open-sourced ranker scores video watch time and dwell.
+  - Format: the October 2026 "Video Kickstart Bonus" (invite-only) pays for original, watermark-free vertical videos under
+    3 minutes.
+  - Captions: burn in our own rather than rely on X's.
+
+## Never (what experienced editors call cheap)
+- Glitch, shake and transition packs.
+- A sound effect on every cut.
+- Every caption word bouncing.
+- Zooms "for energy", or zooming while the viewer is reading.
+- One-click templates ("audiences smell the template").
+- AI B-roll with wrong details.
+- An unchecked auto reframe that crops off the button being explained.
+
 ## What to ask the owner to record (send this before a project video)
 
 1. **Camera:**

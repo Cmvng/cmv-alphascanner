@@ -5,6 +5,10 @@ it into a vertical video (and a 16:9 one with `--fmt wide`) in the house style. 
 (`eth-2026-09-30.edl.json`, site showcase) and 2 Oct 2026 (`eth-2026-10-02.edl.json`, the coin itself as the showcase,
 cleaned voice, face-cam patch).
 
+**For a crypto project (an app, a campaign, a launch), read `crypto-creator-style.md` first:** the contest-winning
+creator style (Eliza, geek, the Kaito creator), CapCut's techniques and how we rebuild each one, what judges score,
+and what to ask the owner to record.
+
 ## Camera explainer: the owner to camera, then full-screen graphics (the owner's reference, 22 Oct 2026)
 
 The owner, 22 Oct: "A new video style… for video when I record myself and try to explain something." Use this for any

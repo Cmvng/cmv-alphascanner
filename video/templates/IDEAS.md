@@ -54,6 +54,7 @@ Different is the floor; creative is the bar. Before building, write the concept 
 ## The owner's own recordings (crypto, Polymarket)
 - The two creators' look (4 Oct): the owner full frame, screens floating in as tilted cards, numbers popping out,
   white list cards, full-screen walkthroughs with the owner in a corner.
+  Measured frame by frame on 26 Oct, with the Kaito creator who onboarded them: `talking-head/crypto-creator-style.md`.
 - The TikTok ideas (5 Oct): kinetic words on white or black for the key beats ("CANCEL", "$14"), our own redrawn UI
   that builds (a combo slip leg by leg, a button tapped), handwritten notes and arrows, numbered tiles, a cliffhanger end.
 - **The receipt:** the combo or ticket prints out like a receipt, line by line, the payout at the bottom.
