@@ -114,6 +114,22 @@ bare ceiling above it. That gave the layout:
 - One claim trimmed: "the first time away from France" isn't strictly true, because FIFA's Ballon d'Or galas were
   held in Zurich.
 
+### Second use: a project dashboard, Primus "Proof of Nomad Life" (27 Oct 2026, vertical, 1:40)
+
+Files: `camera-primus-2026-10-27/`. A full-frame 1080×1920 selfie (the face at y 660–1620), with no screen recording.
+The owner talked through their Primus Points dashboard.
+
+- **Layout:** the whole frame is the camera, with punch-ins (1.0/1.07) around the face. White cards in the project's
+  own look drop into the empty top (y 58–580), one per thing the owner names. There are two short full-screen moments
+  on the light sky page: the title on the music's drop, and a map of the tasks near the end.
+- **A checklist that fills as the owner talks:** green "✓ Verified", grey "Skipped", "Don't use it" or "Not yet". The
+  row being named gets an orange outline that settles.
+- **The project's real labels without a screenshot:** the points app's public JavaScript (fetched with curl) held
+  the section and tab names, every card's line, the icon files and the colours. Use that when the page needs a login or
+  the browser can't open it, and list it in `sources.md`.
+- **Pipeline:** `plan.py` (kept stretches cut at the quietest point near each edge, pauses closed up, cues and
+  captions on word times), `build_av.py`, `primus.html` (the cards), `render.mjs`, `srt.py`, `review.py`, `cover.mjs`.
+
 ## Getting the video
 
 - **From an X post:** `python3 video/lib/fetch_x.py <post link> raw.mp4` (X re-compresses, so it is a little soft).

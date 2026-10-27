@@ -1,0 +1,43 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Primus cover</title>
+<style>
+@font-face{font-family:Manrope;font-weight:800;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-800-normal.woff2)}
+@font-face{font-family:Mono;font-weight:700;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/jetbrains-mono-latin-700-normal.woff2)}
+:root{--ink:#161616;--or:#FD4C00}
+*{box-sizing:border-box}
+html,body{margin:0;overflow:hidden;font-family:Manrope,sans-serif;color:var(--ink);
+  background:linear-gradient(180deg,#F4F8FF 0%,#E6F0FF 60%,#DCE9FF 100%)}
+body:before{content:"";position:fixed;inset:0;background-image:linear-gradient(rgba(31,95,219,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(31,95,219,.07) 1px,transparent 1px);background-size:60px 60px}
+.abs{position:absolute}
+.k{font-family:Mono,monospace;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--or)}
+.t{font-weight:800;letter-spacing:-.02em;line-height:1.0}
+.t span{color:var(--or)}
+.ic{display:inline-flex;align-items:center;gap:14px;background:#fff;border:1.5px solid #e6e6e6;border-radius:24px;font-weight:800;box-shadow:0 10px 28px rgba(10,22,54,.08)}
+.ic img{border-radius:14px;object-fit:contain}
+.photo{position:absolute;background:url(face.jpg) center/cover;box-shadow:0 26px 70px rgba(10,22,54,.28)}
+</style></head>
+<body>
+<div id="v" style="display:none;width:1080px;height:1920px;position:relative">
+  <img class="abs" src="file:///home/user/cmv-alphascanner/video/out/brand/primus/mark.svg" style="left:84px;top:120px;width:110px;height:110px">
+  <div class="abs k" style="left:220px;top:150px;font-size:30px">New on Primus Points</div>
+  <div class="abs t" style="left:80px;top:270px;font-size:150px">Proof of<br><span>Nomad Life</span></div>
+  <div class="abs" style="left:84px;top:610px;display:flex;gap:18px" id="vi"></div>
+  <div class="photo" style="left:84px;top:780px;width:912px;height:1050px;border-radius:44px;background-position:50% 78%;background-size:960px auto"></div>
+</div>
+<div id="h" style="display:none;width:1280px;height:720px;position:relative">
+  <div class="photo" style="left:40px;top:40px;width:520px;height:640px;border-radius:36px;background-position:50% 66%;background-size:600px auto"></div>
+  <img class="abs" src="file:///home/user/cmv-alphascanner/video/out/brand/primus/mark.svg" style="left:610px;top:70px;width:84px;height:84px">
+  <div class="abs k" style="left:712px;top:96px;font-size:24px">New on Primus Points</div>
+  <div class="abs t" style="left:606px;top:186px;font-size:104px">Proof of<br><span>Nomad Life</span></div>
+  <div class="abs" style="left:610px;top:450px;display:flex;flex-direction:column;gap:14px" id="hi"></div>
+</div>
+<script>
+const ICO = 'file:///home/user/cmv-alphascanner/video/out/brand/primus/points/'
+const L = [['discord.svg', 'Discord'], ['linkedin.png', 'LinkedIn'], ['github.png', 'GitHub']]
+const mode = location.hash.slice(1) || 'v'
+document.getElementById(mode).style.display = 'block'
+document.getElementById('vi').innerHTML = L.map(([f, n]) => `<div class="ic" style="padding:12px 24px 12px 12px;font-size:36px"><img src="${ICO + f}" style="width:70px;height:70px">${n}</div>`).join('')
+document.getElementById('hi').innerHTML = L.map(([f, n]) => `<div class="ic" style="padding:8px 20px 8px 8px;font-size:30px;width:300px"><img src="${ICO + f}" style="width:56px;height:56px">${n}</div>`).join('')
+window.READY = Promise.all([document.fonts.ready, ...[...document.images].map(i => i.complete ? 1 : new Promise(r => { i.onload = i.onerror = r }))])
+</script>
+</body></html>

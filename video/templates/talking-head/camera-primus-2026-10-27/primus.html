@@ -1,0 +1,274 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Primus overlay</title>
+<style>
+@font-face{font-family:Anton;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/anton-latin-400-normal.woff2)}
+@font-face{font-family:Manrope;font-weight:600;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-600-normal.woff2)}
+@font-face{font-family:Manrope;font-weight:800;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-800-normal.woff2)}
+@font-face{font-family:Mono;font-weight:700;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/jetbrains-mono-latin-700-normal.woff2)}
+/* Primus's own app colours (points.primuslabs.xyz): ink, grey, line, orange, cream, green for verified; our page is sky blue */
+:root{--ink:#161616;--mute:#525252;--soft:#8d8d8d;--line:#e0e0e0;--or:#FD4C00;--or2:#FF7A33;--cream:#F7F2E9;--green:#24A148;
+  --gbg:#E8F5EC;--page:#E9F2FF;--sky:#4FB3FF;--blue:#1F5FDB}
+*{box-sizing:border-box}
+html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:transparent;font-family:Manrope,sans-serif;color:var(--ink)}
+.abs{position:absolute}
+.mono{font-family:Mono,monospace;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
+/* full-screen canvas (light, house sky blue) */
+#full{position:absolute;inset:0;opacity:0;background:linear-gradient(180deg,#F4F8FF 0%,#E6F0FF 55%,#DCE9FF 100%)}
+#full:before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(31,95,219,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(31,95,219,.07) 1px,transparent 1px);background-size:60px 60px}
+#full:after{content:"";position:absolute;inset:0;background:radial-gradient(720px 560px at 50% 30%,rgba(253,76,0,.07),transparent 70%)}
+.scene{position:absolute;inset:0;opacity:0}
+/* top cards over the camera: white, like the Primus app */
+.card{position:absolute;left:44px;width:992px;top:58px;border-radius:36px;opacity:0;background:#fff;border:1.5px solid #ececec;
+  box-shadow:0 24px 64px rgba(10,22,54,.28)}
+.hd{position:absolute;left:36px;top:30px;right:36px;height:96px}
+.hd .mk{position:absolute;left:0;top:4px;width:84px;height:84px}
+.hd .kk{position:absolute;left:104px;top:6px;font-size:22px;color:var(--or)}
+.hd .tt{position:absolute;left:104px;top:36px;font-weight:800;font-size:50px;letter-spacing:-.01em;white-space:nowrap}
+.hd .ti{position:absolute;left:0;top:4px;width:84px;height:84px;border-radius:22px;background:var(--or);display:flex;align-items:center;justify-content:center}
+.row{position:absolute;left:28px;right:28px;height:104px;border-radius:24px;border:2px solid transparent}
+.row .ic{position:absolute;left:14px;top:14px;width:76px;height:76px;border-radius:18px;background:#fff;border:1.5px solid var(--line);overflow:hidden;display:flex;align-items:center;justify-content:center}
+.row .ic img{width:100%;height:100%;object-fit:contain}
+.row .nm{position:absolute;left:110px;top:12px;font-weight:800;font-size:34px;white-space:nowrap}
+.row .ds{position:absolute;left:110px;top:56px;font-weight:600;font-size:25px;color:var(--mute);white-space:nowrap}
+.pill{position:absolute;right:16px;top:28px;height:50px;padding:0 22px;border-radius:25px;font-weight:800;font-size:24px;line-height:47px;white-space:nowrap;opacity:0;border:1.5px solid}
+.p-ok{color:var(--green);background:var(--gbg);border-color:rgba(36,161,72,.55)}
+.p-no{color:#6f6f6f;background:#f4f4f4;border-color:#dcdcdc}
+.p-go{color:var(--or);background:#fff;border-color:rgba(253,76,0,.6)}
+.chip{position:absolute;height:58px;padding:0 24px;border-radius:29px;font-weight:800;font-size:26px;line-height:55px;white-space:nowrap;opacity:0;border:1.5px solid}
+.c-cream{background:var(--cream);border-color:#e6dccb;color:var(--ink)}
+.c-blue{background:#EAF3FF;border-color:rgba(31,95,219,.35);color:var(--blue)}
+.big{font-family:Anton,sans-serif;font-weight:400;line-height:.9}
+.lab{font-size:22px;color:var(--mute)}
+/* captions */
+#cap{position:absolute;left:0;right:0;bottom:104px;text-align:center;opacity:0}
+#cap span{display:inline-block;max-width:960px;padding:13px 28px 15px;border-radius:20px;background:rgba(12,16,28,.72);
+  font-weight:800;font-size:44px;line-height:1.24;color:#fff}
+#cap b{color:var(--or2);font-weight:800}
+</style></head>
+<body>
+<div id="full">
+  <!-- TITLE: Proof of Nomad Life -->
+  <div class="scene" id="sc_title">
+    <img class="abs" src="file:///home/user/cmv-alphascanner/video/out/brand/primus/word.svg" style="left:390px;top:300px;width:300px" id="tl_word">
+    <div class="abs" id="tl_icon" style="left:420px;top:470px;width:240px;height:240px;border-radius:60px;background:var(--or);box-shadow:0 26px 70px rgba(253,76,0,.35);display:flex;align-items:center;justify-content:center">
+      <svg width="150" height="150" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="4" cy="4" r="2"/><path d="m14 5 3-3 3 3"/><path d="m14 10 3-3 3 3"/><path d="M17 14V2"/><path d="M17 14H7l-5 8h20Z"/><path d="M8 14v8"/><path d="m9 14 5 8"/></svg>
+    </div>
+    <div class="abs mono" id="tl_k" style="left:0;right:0;top:770px;text-align:center;font-size:30px;color:var(--or)">New on Primus Points</div>
+    <div class="abs" id="tl_t" style="left:0;right:0;top:830px;text-align:center;font-weight:800;font-size:128px;line-height:1.02;letter-spacing:-.02em">Proof of<br><span style="color:var(--or)">Nomad Life</span></div>
+    <div class="abs" id="tl_ara" style="left:0;right:0;top:1130px;text-align:center"><span style="display:inline-block;padding:14px 30px;border-radius:40px;background:#fff;border:1.5px solid #e6dccb;font-weight:800;font-size:32px">Agentic Ara <span style="color:var(--or)">· NEW</span></span></div>
+  </div>
+  <!-- WEEKS: the four Agentic Ara tasks -->
+  <div class="scene" id="sc_weeks">
+    <img class="abs" src="file:///home/user/cmv-alphascanner/video/out/brand/primus/mark.svg" style="left:84px;top:196px;width:96px;height:96px">
+    <div class="abs mono" style="left:206px;top:200px;font-size:26px;color:var(--or)">Primus Points</div>
+    <div class="abs" style="left:204px;top:230px;font-weight:800;font-size:66px;letter-spacing:-.01em">Agentic Ara</div>
+    <div id="wrows"></div>
+    <div class="chip c-cream" id="w_old" style="left:84px;top:1218px;height:66px;line-height:63px;font-size:30px">The older tasks are still open</div>
+    <div class="abs" id="w_go" style="left:84px;top:1316px;opacity:0;height:84px;padding:0 40px;border-radius:42px;background:var(--or);color:#fff;font-weight:800;font-size:38px;line-height:84px;box-shadow:0 18px 44px rgba(253,76,0,.32)">Check your dashboard and verify</div>
+  </div>
+  <!-- END CARD -->
+  <div class="scene" id="sc_end">
+    <img class="abs" src="file:///home/user/cmv-alphascanner/video/out/brand/primus/mark.svg" style="left:470px;top:250px;width:140px;height:140px">
+    <div class="abs mono" style="left:0;right:0;top:440px;text-align:center;font-size:30px;color:var(--or)">Live now on Primus Points</div>
+    <div class="abs" style="left:0;right:0;top:494px;text-align:center;font-weight:800;font-size:96px;line-height:1.04;letter-spacing:-.02em">Proof of<br>Nomad Life</div>
+    <div id="erows"></div>
+    <div class="abs" style="left:110px;right:110px;top:1300px;text-align:center;font-weight:600;font-size:31px;line-height:1.45;color:var(--mute)">You need the Primus Chrome extension:<br>it makes the zkTLS proof right in your browser.</div>
+    <div class="abs" style="left:0;right:0;top:1470px;text-align:center;font-family:Mono,monospace;font-weight:700;font-size:34px;color:var(--blue)">@i_am_vickyd</div>
+  </div>
+</div>
+
+<!-- TOP CARDS -->
+<div class="card" id="c_hook" style="height:290px">
+  <img class="abs" src="file:///home/user/cmv-alphascanner/video/out/brand/primus/mark.svg" style="left:36px;top:34px;width:84px;height:84px">
+  <div class="abs mono" style="left:140px;top:40px;font-size:22px;color:var(--or)">Primus Points</div>
+  <div class="abs" style="left:140px;top:68px;font-weight:800;font-size:50px;white-space:nowrap">3 new tasks to verify</div>
+  <div class="abs" id="h_new" style="right:36px;top:46px;height:60px;padding:0 24px;border-radius:30px;background:var(--or);color:#fff;font-weight:800;font-size:30px;line-height:60px">NEW</div>
+  <div id="h_icons"></div>
+</div>
+<div class="card" id="c_nomad" style="height:500px">
+  <div class="hd"><div class="ti"><svg width="54" height="54" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="4" cy="4" r="2"/><path d="m14 5 3-3 3 3"/><path d="m14 10 3-3 3 3"/><path d="M17 14V2"/><path d="M17 14H7l-5 8h20Z"/><path d="M8 14v8"/><path d="m9 14 5 8"/></svg></div>
+    <div class="kk mono">Agentic Ara · New</div><div class="tt">Proof of Nomad Life</div></div>
+  <div id="n_rows"></div>
+</div>
+<div class="card" id="c_pts" style="height:330px">
+  <img class="abs" src="file:///home/user/cmv-alphascanner/video/out/brand/primus/mark.svg" style="left:36px;top:34px;width:84px;height:84px">
+  <div class="abs mono" style="left:140px;top:40px;font-size:22px;color:var(--or)">My dashboard</div>
+  <div class="abs" style="left:140px;top:68px;font-weight:800;font-size:50px">Primus Points</div>
+  <div class="abs" style="left:60px;top:150px"><div class="big" id="p_n" style="font-size:150px">0</div><div class="mono lab" style="margin-top:4px">Points</div></div>
+  <div class="abs" id="p_r" style="left:520px;top:150px;opacity:0"><div class="big" id="p_rn" style="font-size:150px;color:var(--green)">0</div><div class="mono lab" style="margin-top:4px">Records verified</div></div>
+</div>
+<div class="card" id="c_pnl" style="height:500px"><div class="hd" id="hd_pnl"></div><div id="l_rows"></div></div>
+<div class="card" id="c_ai" style="height:500px"><div class="hd" id="hd_ai"></div><div id="a_rows"></div>
+  <div class="abs mono lab" id="a_wl" style="left:40px;top:404px;opacity:0;font-size:21px;color:var(--soft)">Not on the list yet</div>
+  <div class="chip c-blue" id="a_claude" style="left:372px;top:390px">Claude</div>
+  <div class="chip c-blue" id="a_grok" style="left:544px;top:390px">Grok</div>
+</div>
+<div class="card" id="c_trade" style="height:470px"><div class="hd" id="hd_trade"></div><div id="r_rows"></div>
+  <div class="chip c-cream" id="r_none" style="left:40px;top:262px">No exchange account on this laptop</div>
+  <div class="abs mono lab" id="r_use" style="left:40px;top:372px;opacity:0;font-size:21px;color:var(--soft)">I use</div>
+  <div class="chip c-blue" id="r_okx" style="left:150px;top:358px">OKX Wallet</div>
+  <div class="chip c-blue" id="r_rabby" style="left:362px;top:358px">Rabby</div>
+</div>
+<div class="card" id="c_plat" style="height:390px"><div class="hd" id="hd_plat"></div><div id="f_rows"></div></div>
+<div class="card" id="c_id" style="height:520px"><div class="hd" id="hd_id"></div><div id="i_grid"></div></div>
+<div class="card" id="c_ag" style="height:430px"><div class="hd" id="hd_ag"></div><div id="g_icons"></div>
+  <div class="abs" id="g_none" style="left:0;right:0;top:340px;text-align:center;opacity:0"><span style="display:inline-block;height:60px;padding:0 28px;border-radius:30px;background:#f4f4f4;border:1.5px solid #dcdcdc;color:#6f6f6f;font-weight:800;font-size:28px;line-height:57px">0 of 4 verified</span></div>
+</div>
+<div class="card" id="c_gas" style="height:330px">
+  <img class="abs" src="file:///home/user/cmv-alphascanner/video/out/brand/primus/mark.svg" style="left:36px;top:34px;width:84px;height:84px">
+  <div class="abs mono" style="left:140px;top:40px;font-size:22px;color:var(--or)">Gas per task</div>
+  <div class="abs" style="left:140px;top:68px;font-weight:800;font-size:50px">Very cheap</div>
+  <div class="abs big" id="gas_a" style="left:60px;top:160px;font-size:130px;opacity:0">$0.10</div>
+  <div class="abs big" id="gas_or" style="left:370px;top:200px;font-size:60px;color:var(--soft);opacity:0">or</div>
+  <div class="abs big" id="gas_b" style="left:470px;top:160px;font-size:130px;opacity:0">$0.20</div>
+  <div class="abs mono lab" id="gas_n" style="right:40px;top:286px;opacity:0;font-size:20px;color:var(--soft)">My estimate</div>
+</div>
+<div id="cap"><span id="capt"></span></div>
+
+<script src="data.js"></script>
+<script>
+const P = window.PLAN, EV = P.ev, END = P.end, EC = P.endcard, TOT = END + EC
+const ICO = 'file:///home/user/cmv-alphascanner/video/out/brand/primus/points/'
+const MARK = 'file:///home/user/cmv-alphascanner/video/out/brand/primus/mark.svg'
+const $ = id => document.getElementById(id)
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x))
+const eo = x => 1 - Math.pow(1 - clamp(x), 3)
+const eback = x => { x = clamp(x); const c = 1.7; return 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2) }
+let SIG = []
+function css(el, k, v) { if (typeof el === 'string') el = $(el); if (el.style[k] !== v) el.style[k] = v; SIG.push(v) }
+function vis(t, a, b, fi = .32, fo = .22) { if (t < a || t > b) return 0; return Math.min(eo((t - a) / fi), eo((b - t) / fo)) }
+function pop(el, t, at, d = .3, dy = 16) { const p = eo((t - at) / d); css(el, 'opacity', p.toFixed(3)); css(el, 'transform', `translateY(${((1 - p) * dy).toFixed(1)}px)`) }
+function stamp(el, t, at) { const p = clamp((t - at) / .28); css(el, 'opacity', eo(p).toFixed(3)); css(el, 'transform', `scale(${(.7 + .3 * eback(p)).toFixed(3)})`) }
+function cardShow(el, t, a, b) { const v = vis(t, a, b, .34, .24); const p = eo((t - a) / .34); css(el, 'opacity', v.toFixed(3)); css(el, 'transform', `translateY(${((1 - p) * -28).toFixed(1)}px)`) }
+function glow(el, t, at) {          // the row being talked about: an orange outline that settles to a faint one
+  if (t < at) { css(el, 'borderColor', 'transparent'); css(el, 'boxShadow', 'none'); css(el, 'background', 'transparent'); return }
+  const k = 1 - .65 * eo((t - at - .9) / .8)
+  css(el, 'borderColor', `rgba(253,76,0,${(.85 * k).toFixed(3)})`); css(el, 'boxShadow', `0 0 0 ${(7 * k).toFixed(1)}px rgba(253,76,0,${(.12 * k).toFixed(3)})`)
+  css(el, 'background', `rgba(255,122,51,${(.06 * k).toFixed(3)})`)
+}
+const SVG = {   // the Agentic Ara tab icons, as drawn in the app (lucide)
+  tent: '<circle cx="4" cy="4" r="2"/><path d="m14 5 3-3 3 3"/><path d="m14 10 3-3 3 3"/><path d="M17 14V2"/><path d="M17 14H7l-5 8h20Z"/><path d="M8 14v8"/><path d="m9 14 5 8"/>',
+  pnl: '<path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 18V6"/>',
+  bot: '<path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/>',
+  trade: '<path d="M9 5v4"/><rect width="4" height="6" x="7" y="9" rx="1"/><path d="M9 15v2"/><path d="M17 3v2"/><rect width="4" height="8" x="15" y="5" rx="1"/><path d="M17 13v3"/><path d="M3 3v16a2 2 0 0 0 2 2h16"/>',
+  user: '<circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1"/>',
+  act: '<path d="M22 12h-4l-3 9L9 3l-3 9H2"/>',
+}
+const svg = (k, s, c, w = 2) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round">${SVG[k]}</svg>`
+function head(id, icon, kicker, title) { $(id).innerHTML = `<div class="ti">${svg(icon, 54, '#fff')}</div><div class="kk mono">${kicker}</div><div class="tt">${title}</div>` }
+function rows(id, list, top = 150) {
+  $(id).innerHTML = list.map((r, i) => `<div class="row" id="${r.id}" style="top:${top + i * 112}px"><div class="ic"><img src="${ICO + r.ic}"></div>
+    <div class="nm">${r.nm}</div><div class="ds">${r.ds}</div>${r.pill ? `<div class="pill ${r.pill[0]}" id="${r.id}_p">${r.pill[1]}</div>` : ''}</div>`).join('')
+}
+const OK = ['p-ok', '✓ Verified'], NOPE = t => ['p-no', t]
+
+// hook: the three new tasks' logos
+$('h_icons').innerHTML = [['discord.svg', 'Discord'], ['linkedin.png', 'LinkedIn'], ['github.png', 'GitHub']].map(([f, n], i) =>
+  `<div class="abs" id="hi${i}" style="left:${40 + i * 315}px;top:160px;width:296px;height:96px;border-radius:24px;background:#fafafa;border:1.5px solid #ececec">
+   <img src="${ICO + f}" style="position:absolute;left:14px;top:12px;width:72px;height:72px;border-radius:16px;object-fit:contain"><div style="position:absolute;left:102px;top:28px;font-weight:800;font-size:32px">${n}</div></div>`).join('')
+// Proof of Nomad Life: the three cards as the app words them
+rows('n_rows', [
+  { id: 'nr0', ic: 'discord.svg', nm: 'Discord', ds: 'Verify your active timezone', pill: ['p-go', 'Verify Now →'] },
+  { id: 'nr1', ic: 'github.png', nm: 'GitHub', ds: 'Verify your project group participation', pill: ['p-go', 'Verify Now →'] },
+  { id: 'nr2', ic: 'linkedin.png', nm: 'LinkedIn', ds: 'Verify your location & remote availability', pill: ['p-go', 'Verify Now →'] },
+])
+head('hd_pnl', 'pnl', 'Agentic Ara', 'Proof of PnL')
+rows('l_rows', [
+  { id: 'lr0', ic: 'fomo.svg', nm: 'fomo', ds: 'Verify your last 30d PnL', pill: OK },
+  { id: 'lr1', ic: 'hyperliquid.svg', nm: 'Hyperliquid', ds: 'Verify your last 30d PnL', pill: NOPE("Don't use it") },
+  { id: 'lr2', ic: 'polymarket.svg', nm: 'Polymarket', ds: 'Verify your last 30d PnL', pill: NOPE('Skipped') },
+])
+head('hd_ai', 'bot', 'Agentic Ara', 'Proof of AI Affinity')
+rows('a_rows', [{ id: 'ar0', ic: 'openai.svg', nm: 'OpenAI', ds: 'Verify your last 30d message count', pill: OK }])
+$('a_rows').innerHTML += `<div class="abs" id="ar_more" style="left:42px;top:276px;height:84px">` + [['cursor.svg', 'Cursor'], ['minimax.svg', 'MiniMax'], ['deepseek.svg', 'DeepSeek']].map(([f, n], i) =>
+  `<div class="abs" style="left:${i * 300}px;top:0;width:280px;height:84px;border-radius:22px;background:#fafafa;border:1.5px solid #ececec;opacity:.75">
+   <img src="${ICO + f}" style="position:absolute;left:12px;top:10px;width:62px;height:62px;border-radius:14px;object-fit:contain"><div style="position:absolute;left:88px;top:24px;font-weight:800;font-size:28px;color:var(--mute)">${n}</div></div>`).join('') + '</div>'
+head('hd_trade', 'trade', 'Agentic Ara', 'Proof of Trade')
+$('r_rows').innerHTML = `<div class="abs" style="left:40px;top:150px;width:912px;height:90px">` + [['binance.svg', 'Binance'], ['okx.svg', 'OKX'], ['bybit.svg', 'Bybit'], ['bitget.svg', 'Bitget']].map(([f, n], i) =>
+  `<div class="abs" style="left:${i * 230}px;top:0;width:214px;height:90px;border-radius:22px;background:#fafafa;border:1.5px solid #ececec">
+   <img src="${ICO + f}" style="position:absolute;left:12px;top:12px;width:64px;height:64px;border-radius:14px;object-fit:contain"><div style="position:absolute;left:88px;top:26px;font-weight:800;font-size:28px">${n}</div></div>`).join('') +
+  `</div><div class="abs" style="left:40px;top:250px;font-weight:600;font-size:25px;color:var(--mute);opacity:0" id="r_ds">Verify your KYC & VIP level</div>`
+head('hd_plat', 'act', 'Primus Points', 'Platform Activities')
+rows('f_rows', [
+  { id: 'fr0', ic: 'x.png', nm: 'X', ds: 'Verify your followers', pill: OK },
+  { id: 'fr1', ic: 'github.png', nm: 'GitHub', ds: 'Verify your last year contributions', pill: OK },
+])
+head('hd_id', 'user', 'Primus Points', 'Identity Profile')
+const ID = [['ig0', 'x.png', 'X', OK], ['ig1', 'tiktok.png', 'TikTok', NOPE('Not yet')], ['ig2', 'spotify.png', 'Spotify', NOPE('Not yet')],
+  ['ig3', 'naver.png', 'Naver', NOPE("Don't use")], ['ig4', 'google.png', 'Google', OK], ['ig5', 'luma.png', 'Luma', NOPE("Don't use")]]
+$('i_grid').innerHTML = ID.map(([id, f, n, p], i) => `<div class="abs" id="${id}" style="left:${36 + (i % 2) * 466}px;top:${150 + Math.floor(i / 2) * 116}px;width:452px;height:102px;border-radius:24px;background:#fafafa;border:2px solid #ececec">
+  <img src="${ICO + f}" style="position:absolute;left:14px;top:14px;width:72px;height:72px;border-radius:16px;object-fit:contain"><div style="position:absolute;left:102px;top:30px;font-weight:800;font-size:32px">${n}</div>
+  <div class="pill ${p[0]}" id="${id}_p" style="top:24px;right:14px;font-size:22px;padding:0 16px;height:52px;line-height:49px">${p[1]}</div></div>`).join('')
+head('hd_ag', 'trade', 'Agentic Ara', 'Proof of Trade')
+$('g_icons').innerHTML = [['binance.svg', 'Binance'], ['okx.svg', 'OKX'], ['bybit.svg', 'Bybit'], ['bitget.svg', 'Bitget']].map(([f, n], i) =>
+  `<div class="abs" id="gi${i}" style="left:${52 + i * 232}px;top:150px;width:196px;text-align:center"><img src="${ICO + f}" style="width:128px;height:128px;border-radius:30px;object-fit:contain;border:1.5px solid #ececec;background:#fff">
+   <div style="font-weight:800;font-size:30px;margin-top:8px">${n}</div></div>`).join('')
+// weeks list (full screen), newest first, as the app's tabs
+const WK = [['tent', 'Proof of Nomad Life', ['discord.svg', 'linkedin.png', 'github.png'], true], ['pnl', 'Proof of PnL', ['polymarket.svg', 'fomo.svg', 'hyperliquid.svg']],
+  ['bot', 'Proof of AI Affinity', ['openai.svg', 'cursor.svg', 'minimax.svg', 'deepseek.svg']], ['trade', 'Proof of Trade', ['binance.svg', 'okx.svg', 'bybit.svg', 'bitget.svg']]]
+$('wrows').innerHTML = WK.map(([ic, n, logos, hot], i) => `<div class="abs" id="wk${i}" style="left:84px;top:${360 + i * 206}px;width:912px;height:186px;border-radius:34px;background:#fff;border:${hot ? '3px solid var(--or)' : '1.5px solid #e6e6e6'};box-shadow:0 14px 40px rgba(10,22,54,.10)">
+  <div class="abs" style="left:28px;top:28px;width:92px;height:92px;border-radius:24px;background:${hot ? 'var(--or)' : 'var(--cream)'};display:flex;align-items:center;justify-content:center">${svg(ic, 56, hot ? '#fff' : '#161616')}</div>
+  <div class="abs" style="left:144px;top:30px;font-weight:800;font-size:44px;white-space:nowrap">${n}</div>
+  ${hot ? '<div class="abs" style="right:28px;top:32px;height:50px;padding:0 20px;border-radius:25px;background:var(--or);color:#fff;font-weight:800;font-size:26px;line-height:50px">NEW</div>' : ''}
+  <div class="abs" style="left:144px;top:96px">${logos.map((f, j) => `<img src="${ICO + f}" style="position:absolute;left:${j * 72}px;top:0;width:60px;height:60px;border-radius:14px;object-fit:contain;border:1.5px solid #ececec;background:#fff">`).join('')}</div></div>`).join('')
+$('erows').innerHTML = [['discord.svg', 'Discord', 'your active timezone'], ['linkedin.png', 'LinkedIn', 'your location & remote availability'], ['github.png', 'GitHub', 'your project group participation']].map(([f, n, d], i) =>
+  `<div class="abs" style="left:110px;top:${770 + i * 150}px;width:860px;height:126px;border-radius:30px;background:#fff;border:1.5px solid #e6e6e6;box-shadow:0 12px 34px rgba(10,22,54,.08)">
+   <img src="${ICO + f}" style="position:absolute;left:22px;top:22px;width:82px;height:82px;border-radius:18px;object-fit:contain"><div style="position:absolute;left:128px;top:18px;font-weight:800;font-size:36px">${n}</div>
+   <div style="position:absolute;left:128px;top:68px;font-weight:600;font-size:27px;color:var(--mute)">Verify ${d}</div></div>`).join('')
+
+function span(id) { return P.spans.find(s => s.id === id) }
+function capAt(t) { for (const c of P.caps) if (t >= c.o0 && t < c.o1) return c; return null }
+
+window.render = function (t) {
+  SIG = []
+  // full-screen canvas
+  let fv = 0
+  for (const s of P.spans) fv = Math.max(fv, vis(t, s.o0, s.o1, .18, .18))
+  if (t >= END) fv = eo((t - END) / .3)
+  css('full', 'opacity', fv.toFixed(3))
+  for (const [k, id] of [['title', 'sc_title'], ['weeks', 'sc_weeks']]) { const s = span(k); css(id, 'opacity', (t >= s.o0 - .2 && t < s.o1 + .2) ? '1' : '0') }
+  css('sc_end', 'opacity', t >= END - .05 ? '1' : '0')
+  // TITLE
+  const ts = span('title')
+  pop($('tl_word'), t, ts.o0 + .05, .3, 14); stamp($('tl_icon'), t, ts.o0 + .15)
+  pop($('tl_k'), t, EV.t_proof - .35, .3); pop($('tl_t'), t, EV.t_proof, .35, 30); pop($('tl_ara'), t, EV.t_ara, .3, 20)
+  // WEEKS
+  const ws = span('weeks')
+  WK.forEach((_, i) => pop($('wk' + i), t, ws.o0 + .15 + i * .22, .34, 30))
+  pop($('w_old'), t, ws.o0 + 1.4, .3, 16); stamp($('w_go'), t, EV.w_check)
+  // TOP CARDS
+  cardShow($('c_hook'), t, .15, ts.o0)
+  for (let i = 0; i < 3; i++) pop($('hi' + i), t, .7 + i * .25, .3, 14)
+  const nb = clamp((t - EV.h_new) / .5); css('h_new', 'transform', `scale(${(1 + .14 * Math.sin(Math.PI * nb)).toFixed(3)})`)
+  cardShow($('c_nomad'), t, EV.n_in, EV.n_out)
+  ;[['nr0', EV.n_discord], ['nr1', EV.n_github], ['nr2', EV.n_linkedin]].forEach(([id, at]) => { pop($(id), t, at - .1, .3, 18); glow($(id), t, at); stamp($(id + '_p'), t, at + .5) })
+  cardShow($('c_pts'), t, EV.p_in, EV.p_out)
+  const n90 = Math.round(90 * eo((t - EV.p_in - .3) / (EV.p_90 + .3 - EV.p_in - .3))); $('p_n').textContent = n90; SIG.push(n90)
+  pop($('p_r'), t, EV.p_rec - .5, .3); const n9 = Math.round(9 * eo((t - EV.p_rec + .4) / .7)); $('p_rn').textContent = n9; SIG.push(n9)
+  cardShow($('c_pnl'), t, EV.l_in, EV.l_out)
+  ;[['lr0', EV.l_fomo], ['lr1', EV.l_hl], ['lr2', EV.l_pm]].forEach(([id, at]) => { glow($(id), t, at); stamp($(id + '_p'), t, at + .15) })
+  cardShow($('c_ai'), t, EV.a_in, EV.a_out)
+  glow($('ar0'), t, EV.a_openai); stamp($('ar0_p'), t, EV.a_openai + .2)
+  pop($('a_wl'), t, EV.a_claude - .2, .3, 10); stamp($('a_claude'), t, EV.a_claude); stamp($('a_grok'), t, EV.a_grok)
+  cardShow($('c_trade'), t, EV.r_in, EV.r_out)
+  pop($('r_ds'), t, EV.r_in + .4, .3, 8); stamp($('r_none'), t, EV.r_none)
+  css('r_ds', 'opacity', ((t >= EV.r_none ? 0 : 1) * eo((t - EV.r_in - .4) / .3)).toFixed(3))
+  pop($('r_use'), t, EV.r_okx - .2, .3, 10); stamp($('r_okx'), t, EV.r_okx); stamp($('r_rabby'), t, EV.r_rabby)
+  cardShow($('c_plat'), t, EV.f_in, EV.f_out)
+  ;[['fr0', EV.f_x], ['fr1', EV.f_gh]].forEach(([id, at]) => { glow($(id), t, at); stamp($(id + '_p'), t, at + .15) })
+  cardShow($('c_id'), t, EV.i_in, EV.i_out)
+  ;[['ig0', EV.i_x], ['ig1', EV.i_tt], ['ig2', EV.i_sp], ['ig3', EV.i_nv], ['ig4', EV.i_g], ['ig5', EV.i_lu]].forEach(([id, at]) => { glow($(id), t, at); stamp($(id + '_p'), t, at + .1) })
+  cardShow($('c_ag'), t, EV.g_in, EV.g_out)
+  ;[EV.g_bn, EV.g_okx, EV.g_by, EV.g_bg].forEach((at, i) => stamp($('gi' + i), t, at - .1))
+  stamp($('g_none'), t, EV.g_none)
+  cardShow($('c_gas'), t, EV.gas_in, END + .05)
+  stamp($('gas_a'), t, EV.gas_1); pop($('gas_or'), t, EV.gas_2 - .3, .25, 8); stamp($('gas_b'), t, EV.gas_2); pop($('gas_n'), t, EV.gas_2 + .5, .3, 8)
+  // captions
+  const c = t < END ? capAt(t) : null
+  css('cap', 'opacity', c ? Math.min(eo((t - c.o0) / .12), eo((c.o1 - t) / .08)).toFixed(3) : '0')
+  if (c) { const h = c.t.replace(/\*([^*]+)\*/g, '<b>$1</b>'); if ($('capt').innerHTML !== h) $('capt').innerHTML = h; SIG.push(c.t) }
+  return SIG.join('|')
+}
+window.READY = Promise.all([document.fonts.ready, ...[...document.images].map(i => i.complete ? 1 : new Promise(r => { i.onload = i.onerror = r }))])
+</script>
+</body></html>

@@ -24,6 +24,43 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
+## 27 Oct: the owner's recording, Primus "Proof of Nomad Life" (camera + app cards, 1:40)
+
+Files: `talking-head/camera-primus-2026-10-27/`. The owner sent a 2:02 selfie (1080×1920 after rotation, no screen
+recording) walking through their Primus Points dashboard, plus the post text, and asked: "in the video you highlight
+the stuffs I am talking about".
+
+- **What worked:**
+  - **Primus's real wording, read from their app.** No post or page described the new task, and the logged-in
+    dashboard is private. The points app's public JavaScript held the section name ("Agentic Ara"), the four tabs in
+    order, every card's exact line ("Verify your active timezone"…), the "Verify Now" button, the icon files and the
+    colours. Every card on screen uses those, so nothing is guessed.
+  - **The empty ceiling became the card space.** The face sits at y 660–1620, so cards up to 520 px tall fit at
+    the top and never cover it. Captions go over the shirt.
+  - **A checklist that fills as he talks:** green ticks for verified, grey "Skipped", "Don't use it" or "Not yet".
+    The row he names gets an orange outline that settles.
+  - **Hard words heard with the larger model** (distil-large-v3): "fomo" (small.en wrote "for more"), "Naver"
+    ("Neva"), "Bybit and Bitget" ("buy, Bit, and Bit"), "or Grok" ("crop but", "Grokbot").
+  - Cut 22 s of fillers and one repeat, each at the quietest point near the chosen edge. The hear-back of the final
+    mix has no clipped word. −14.5 LUFS. The render took 5 minutes (a third of the frames are drawn).
+- **Mistakes, and how they got through:**
+  1. **The browser couldn't open the points app** (ERR_CERT_AUTHORITY_INVALID through the proxy, even with the full
+     Chromium). Reading the JavaScript with curl, which trusts the proxy's CA, gave the same facts. Don't disable
+     verification to screenshot.
+  2. **Two cuts weren't silent at first** (−34 dB at "Yeah, so", −30 dB before "So basically"). The loudness profile
+     showed a 40 ms gap before "today" and a pause after "So", so the cuts moved there.
+  3. **Stills caught an overlap:** the AI card's "Not on the list yet" label ran into the Claude chip, and the end
+     card set the handle in capitals. Both were fixed before the full render.
+  4. **The first cover was a tight crop** (mouth open, teeth); it was widened, using a calmer frame.
+- **Change next time:**
+  - When a project's page can't be screenshotted, read its public JavaScript for the real labels, then build the
+    cards in their colours and say so in the sources.
+  - Print the loudness profile at every chosen cut before the plan; whisper's word edges are often 0.1–0.2 s off.
+  - Ask the owner for a short screen recording of the dashboard next time: real screens beat rebuilt cards.
+- **The owner's reaction:** (waiting)
+
+---
+
 ## 27 Oct: the owner's script, "Airdrops have not peaked" (opinion explainer, 1:48, new `ad_*` family)
 
 - **What worked:**

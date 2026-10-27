@@ -1,0 +1,389 @@
+{
+ "pieces": [
+  {
+   "s": 0.6,
+   "e": 10.8,
+   "o": 0.0
+  },
+  {
+   "s": 10.9667,
+   "e": 12.7667,
+   "o": 10.2
+  },
+  {
+   "s": 13.0,
+   "e": 15.7,
+   "o": 12.0
+  },
+  {
+   "s": 16.1333,
+   "e": 20.8333,
+   "o": 14.7
+  },
+  {
+   "s": 21.0,
+   "e": 27.1667,
+   "o": 19.4
+  },
+  {
+   "s": 27.3333,
+   "e": 31.4667,
+   "o": 25.567
+  },
+  {
+   "s": 31.6667,
+   "e": 34.0667,
+   "o": 29.7
+  },
+  {
+   "s": 34.2333,
+   "e": 39.2333,
+   "o": 32.1
+  },
+  {
+   "s": 39.3667,
+   "e": 43.8,
+   "o": 37.1
+  },
+  {
+   "s": 44.1,
+   "e": 48.4,
+   "o": 41.533
+  },
+  {
+   "s": 48.8667,
+   "e": 56.7,
+   "o": 45.833
+  },
+  {
+   "s": 56.9667,
+   "e": 65.1,
+   "o": 53.667
+  },
+  {
+   "s": 65.7667,
+   "e": 68.7333,
+   "o": 61.8
+  },
+  {
+   "s": 70.8333,
+   "e": 75.4333,
+   "o": 64.767
+  },
+  {
+   "s": 76.3667,
+   "e": 78.9667,
+   "o": 69.367
+  },
+  {
+   "s": 85.7333,
+   "e": 89.6667,
+   "o": 71.967
+  },
+  {
+   "s": 89.8333,
+   "e": 92.6333,
+   "o": 75.9
+  },
+  {
+   "s": 94.3333,
+   "e": 95.6667,
+   "o": 78.7
+  },
+  {
+   "s": 99.2,
+   "e": 103.6333,
+   "o": 80.033
+  },
+  {
+   "s": 106.8333,
+   "e": 112.3667,
+   "o": 84.467
+  },
+  {
+   "s": 112.9,
+   "e": 119.9,
+   "o": 90.0
+  }
+ ],
+ "spans": [
+  {
+   "id": "title",
+   "o0": 8.52,
+   "o1": 12.15
+  },
+  {
+   "id": "weeks",
+   "o0": 84.467,
+   "o1": 89.984
+  }
+ ],
+ "ev": {
+  "hook": 0.0,
+  "h_primus": 1.6,
+  "h_new": 7.4,
+  "t_in": 8.56,
+  "t_proof": 9.92,
+  "t_ara": 11.133,
+  "n_in": 12.2,
+  "n_discord": 13.66,
+  "n_tz": 15.767,
+  "n_github": 17.927,
+  "n_linkedin": 22.26,
+  "n_loc": 22.7,
+  "n_out": 25.3,
+  "p_in": 25.5,
+  "p_90": 27.194,
+  "p_rec": 30.473,
+  "p_out": 31.433,
+  "l_in": 31.733,
+  "l_fomo": 34.767,
+  "l_hl": 35.867,
+  "l_pm": 39.293,
+  "l_out": 40.933,
+  "a_in": 41.213,
+  "a_openai": 44.653,
+  "a_claude": 48.366,
+  "a_grok": 50.966,
+  "a_out": 51.266,
+  "r_in": 51.566,
+  "r_none": 54.56,
+  "r_okx": 59.88,
+  "r_rabby": 61.54,
+  "r_out": 64.483,
+  "f_in": 64.767,
+  "f_x": 67.614,
+  "f_gh": 68.574,
+  "f_out": 69.234,
+  "i_in": 69.367,
+  "i_x": 71.16,
+  "i_tt": 72.614,
+  "i_sp": 73.274,
+  "i_nv": 74.694,
+  "i_g": 76.707,
+  "i_lu": 77.847,
+  "i_out": 78.7,
+  "g_in": 78.947,
+  "g_bn": 80.753,
+  "g_okx": 81.453,
+  "g_by": 81.973,
+  "g_bg": 82.493,
+  "g_none": 83.133,
+  "g_out": 84.466,
+  "w_in": 84.467,
+  "w_check": 88.514,
+  "gas_in": 90.0,
+  "gas_1": 92.74,
+  "gas_2": 94.2,
+  "gas_meh": 96.24
+ },
+ "caps": [
+  {
+   "o0": 0.0,
+   "o1": 2.52,
+   "t": "Today, I'm checking out *Primus Labs*"
+  },
+  {
+   "o0": 2.52,
+   "o1": 6.06,
+   "t": "and checking out what's currently going on."
+  },
+  {
+   "o0": 6.06,
+   "o1": 8.56,
+   "t": "And I see they added something *new*."
+  },
+  {
+   "o0": 8.56,
+   "o1": 9.9,
+   "t": "They added a category called"
+  },
+  {
+   "o0": 9.9,
+   "o1": 12.3,
+   "t": "*Proof of Nomad Life*."
+  },
+  {
+   "o0": 12.3,
+   "o1": 14.08,
+   "t": "You can connect your *Discord*"
+  },
+  {
+   "o0": 14.08,
+   "o1": 17.327,
+   "t": "to verify your active time zone."
+  },
+  {
+   "o0": 17.327,
+   "o1": 18.867,
+   "t": "You can connect your *GitHub*"
+  },
+  {
+   "o0": 18.867,
+   "o1": 21.2,
+   "t": "on Proof of Nomad Life."
+  },
+  {
+   "o0": 21.2,
+   "o1": 23.3,
+   "t": "You can connect your *LinkedIn*"
+  },
+  {
+   "o0": 23.3,
+   "o1": 25.5,
+   "t": "also on Proof of Nomad Life."
+  },
+  {
+   "o0": 25.5,
+   "o1": 28.234,
+   "t": "So currently, I have *90 points*,"
+  },
+  {
+   "o0": 28.234,
+   "o1": 31.733,
+   "t": "verified *nine records*."
+  },
+  {
+   "o0": 31.733,
+   "o1": 35.447,
+   "t": "On Proof of PnL, I only verified *fomo*."
+  },
+  {
+   "o0": 35.447,
+   "o1": 36.467,
+   "t": "I don't use Hyperliquid,"
+  },
+  {
+   "o0": 36.467,
+   "o1": 41.213,
+   "t": "and I don't want to verify my Polymarket account on this."
+  },
+  {
+   "o0": 41.213,
+   "o1": 43.733,
+   "t": "On Proof of AI Affinity,"
+  },
+  {
+   "o0": 43.733,
+   "o1": 47.606,
+   "t": "I verified my *OpenAI*, the one I use."
+  },
+  {
+   "o0": 47.606,
+   "o1": 50.686,
+   "t": "If Claude was available, I'd verify it,"
+  },
+  {
+   "o0": 50.686,
+   "o1": 51.546,
+   "t": "or Grok."
+  },
+  {
+   "o0": 51.546,
+   "o1": 54.18,
+   "t": "On Proof of Trade,"
+  },
+  {
+   "o0": 54.18,
+   "o1": 56.04,
+   "t": "I don't have any exchange on my laptop."
+  },
+  {
+   "o0": 56.04,
+   "o1": 58.72,
+   "t": "I don't use a regular exchange."
+  },
+  {
+   "o0": 58.72,
+   "o1": 63.533,
+   "t": "I use *OKX Wallet* or *Rabby*."
+  },
+  {
+   "o0": 63.533,
+   "o1": 64.767,
+   "t": "I don't really use this. So,"
+  },
+  {
+   "o0": 64.767,
+   "o1": 66.754,
+   "t": "I've done my Platform Activities:"
+  },
+  {
+   "o0": 66.754,
+   "o1": 69.367,
+   "t": "verified my *X* account and my *GitHub*."
+  },
+  {
+   "o0": 69.367,
+   "o1": 70.62,
+   "t": "For the identity,"
+  },
+  {
+   "o0": 70.62,
+   "o1": 71.974,
+   "t": "I've verified my *X* account."
+  },
+  {
+   "o0": 71.974,
+   "o1": 74.354,
+   "t": "I've not verified my TikTok or Spotify."
+  },
+  {
+   "o0": 74.354,
+   "o1": 76.067,
+   "t": "I don't use Naver."
+  },
+  {
+   "o0": 76.067,
+   "o1": 77.487,
+   "t": "I've verified my *Google*."
+  },
+  {
+   "o0": 77.487,
+   "o1": 78.807,
+   "t": "I don't use Luma."
+  },
+  {
+   "o0": 78.807,
+   "o1": 80.043,
+   "t": "And for the agentic task,"
+  },
+  {
+   "o0": 80.043,
+   "o1": 82.913,
+   "t": "which involves Binance, OKX, Bybit and Bitget,"
+  },
+  {
+   "o0": 82.913,
+   "o1": 84.634,
+   "t": "I've not verified any of them."
+  },
+  {
+   "o0": 84.634,
+   "o1": 88.234,
+   "t": "It's a *new task* that just showed up on Primus,"
+  },
+  {
+   "o0": 88.234,
+   "o1": 90.0,
+   "t": "so you need to check it out and verify."
+  },
+  {
+   "o0": 90.0,
+   "o1": 91.9,
+   "t": "And gas is very cheap:"
+  },
+  {
+   "o0": 91.9,
+   "o1": 95.96,
+   "t": "about *$0.10* or *$0.20* per task."
+  },
+  {
+   "o0": 95.96,
+   "o1": 97.0,
+   "t": "So it's not really much."
+  }
+ ],
+ "end": 97.0,
+ "endcard": 3.2
+}
