@@ -70,6 +70,18 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
     free.
   - **Change next time:** a script the owner wrote in the first person gets the owner's own voice or a voice the owner
     has picked, never the house voice by default. Send a 10-second sample before relying on it.
+  - **The redo (same day):** the owner picked Lara (6 of 7) and said "Use the credits and get me the video". One
+    ElevenLabs v4 take of the whole script (1,518 credits, 98 s), cut into the 24 lines with `lib/split_take.py` and
+    rendered through the new `"voice": "dir:…"` input with no voice effect. 1:50, drop +10.5 dB, every line heard back
+    on the final mix. Same visuals, same wording.
+    - **Caught before sending:** the first cut put "A lot." at the start of the next line ("A lot. But look at the
+      other side."). The hear-back only counted missing words, not extra ones. It now scores both and moves a cut to a
+      nearby pause when that fits better.
+    - **Caught before sending:** the mix came out at −15.7 LUFS (the new voice is quieter than the house voice).
+      Raised 3.3 dB with a gentle limiter on the audio only: −14.1 LUFS, true peak −1.8 dB.
+    - **Change next time:** with a recorded voice, check the loudness of the render and fix it before sending, and
+      make the mix stage aim for −14 LUFS on its own.
+  - **The owner's reaction to the redo:** (waiting)
 
 ---
 
