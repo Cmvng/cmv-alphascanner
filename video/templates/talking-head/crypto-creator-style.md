@@ -61,6 +61,45 @@ Frame sheets and transcripts: the session scratchpad, `cr_an/` (`eliza_*.jpg`, `
 7. **A signature:** Eliza's coin, geek's hoodie and room, the same seat and light every video. People recognise the
    creator before the caption.
 
+## The Kaito creator's newer video, "We have a spending problem" (sent 27 Oct)
+
+A Kaito Studio promo: 9:16, 0:53, 155 words (176 wpm; 197 wpm while talking). It's the same creator, mic and Kaito
+cube as the 22 Oct reference, but the video is built differently. Frame sheets and transcript: `her_work/` in the
+session scratchpad.
+
+| Time | Beat | What's on screen |
+|---|---|---|
+| 0:00 | Hook: "We have a spending problem and it's called paying creators." | Her face, the headline typing on word by word above her head |
+| 0:03 | Proof in two numbers | Counters roll above her head: "OVER $123,000 in just 3 weeks", "THAT'S 226" creators |
+| 0:14 | How it works | Full-screen motion graphics in Kaito teal on black: a campaign card goes LIVE, the brief wires to five creator avatars, three content types stack (explainer, educational post, creative breakdown) |
+| 0:24 | The turn: "And here where it gets interesting" | Big type over her head |
+| 0:26 | One real example | The creator's explainer as a thumbnail, then the real Kaito Studio earnings screen with a glowing outline; the counter rolls $1,825 → $3,500 |
+| 0:31 | "That's just one example" | Real reward cards of other creators, tilted and stacked (400 USDC, 1,200 USDC; one card is named Eliza) |
+| 0:37 | Three steps | Her room cut away: she sits on black, low in the frame, with ① ② ③ landing above her |
+| 0:48 | Call to action | The real "Join the Kaito Studio" sign-up card above her head |
+| 0:50 | Sign-off | "Make it. Post it. Earn it.": three beats, the last word in teal |
+
+**What's new against her 22 Oct video:**
+- **Vertical,** with the type above her head in the same frame, instead of cutting away to full-screen graphics.
+- **Rolling counters** for every number.
+- **Real product screens as proof:** the earnings screen, other creators' rewards, the sign-up card. Her 22 Oct video
+  only had abstract graphics.
+- **The background removed for the second half,** so she and the type share one clean canvas.
+
+**What stayed the same:**
+- Kaito teal on black.
+- The mic with the Kaito cube: her signature.
+- Voice only, with no music bed. The pauses hold only her room and the tail of her voice.
+
+**Weak spots:** the audio is quiet (−24.7 LUFS, about 10 dB under most Shorts). The file is 720p at 20 fps, which may
+be X's download copy.
+
+**For the owner:**
+- The shape works for any campaign video: the brag-as-problem hook, two numbers, how it works, one real payout, three
+  steps, a three-beat sign-off.
+- For Kaito Studio entries, use the owner's own face and voice, not an AI voice. Kaito's terms let them void rewards
+  for AI-generated content.
+
 ## How we cut the owner's version
 
 Follow `README.md` for the cutting. On top of it:
