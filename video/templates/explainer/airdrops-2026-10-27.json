@@ -151,38 +151,46 @@
           {
             "v": 1.38,
             "label": "$1.38B",
-            "note": "revenue · since Mar 2024",
+            "note": "revenue",
             "who": "Pump",
             "logo": "../brand/airdrops/pumpfun.jpg",
-            "src": "DefiLlama · 26 Oct"
+            "src": "DefiLlama"
+          },
+          {
+            "v": 0.657,
+            "label": "$657M",
+            "note": "fees · since mid-2025",
+            "who": "Coin creators",
+            "logo": "../brand/airdrops/pumpfun.jpg",
+            "src": "DefiLlama"
           },
           {
             "v": 0.782,
             "label": "$782M",
-            "note": "fees paid · all time",
+            "note": "fees paid",
             "who": "Axiom",
             "logo": "../brand/airdrops/axiom.jpg",
-            "src": "DefiLlama · 26 Oct"
+            "src": "DefiLlama"
           }
         ],
         "say": [
           "But look at the other side.",
           {
-            "say": "Pump fun launches around forty-six thousand coins a day.",
-            "show": "Pump.fun launches around 46,000 coins a day."
+            "say": "Pump fun launches around forty-six thousand coins every single day.",
+            "show": "Pump.fun launches around 46,000 coins every single day."
           },
           {
-            "say": "Pump has made over one point three billion dollars in revenue.",
-            "show": "Pump has made over $1.3 billion in revenue."
+            "say": "Pump has made over one point three billion in revenue, and coin creators have taken over six hundred and fifty million in fees.",
+            "show": "Pump has made over $1.3 billion in revenue, and coin creators have taken over $650 million in fees."
           },
           {
-            "say": "And Axiom users have paid about seven hundred and eighty-two million in fees.",
-            "show": "And Axiom users have paid about $782 million in fees."
+            "say": "Axiom users have paid about seven hundred and eighty-two million in fees.",
+            "show": "Axiom users have paid about $782 million in fees."
           }
         ],
         "pauses": [
           0.15,
-          0.3,
+          0.25,
           0.2
         ],
         "tail": 0.8
@@ -199,7 +207,7 @@
           "ico": "ICO · $600M · 12 Jul 2025",
           "ico_src": "The Block",
           "days": 475,
-          "days_lb": "days later. Still no airdrop for users."
+          "days_lb": "days later. Still no airdrop."
         },
         "b": {
           "logo": "../brand/airdrops/polymarket.jpg",
@@ -215,22 +223,22 @@
         "big": "Make this make sense",
         "say": [
           {
-            "say": "In July twenty twenty-five, Pump fun announced its token sale, and said: airdrop coming soon.",
-            "show": "In July 2025, Pump.fun announced its token sale, and said: “airdrop coming soon.”"
+            "say": "Pump fun said airdrop coming soon in July twenty twenty-five.",
+            "show": "Pump.fun said “airdrop coming soon” in July 2025."
           },
           {
-            "say": "The sale raised six hundred million dollars.",
-            "show": "The sale raised $600 million."
+            "say": "They sold their token in a six hundred million dollar I C O instead.",
+            "show": "They sold their token in a $600 million ICO instead."
           },
           {
-            "say": "Four hundred and seventy-five days later, still no airdrop for users.",
-            "show": "475 days later, still no airdrop for users."
+            "say": "Four hundred and seventy-five days later, still no airdrop.",
+            "show": "475 days later, still no airdrop."
           },
           {
             "say": "Polymarket's C M O said: there will be a token, there will be an airdrop.",
             "show": "Polymarket's CMO said: “There will be a token, there will be an airdrop.”"
           },
-          "That was October last year. This year, they started charging taker fees on most markets.",
+          "That was October last year. And they started charging fees this year.",
           "Make this make sense."
         ],
         "pauses": [
@@ -262,7 +270,7 @@
           "The money is there.",
           "In my opinion, it's the same money that would have been airdrops in previous cycles.",
           "Airdrops have not peaked.",
-          "I think we just have devs and builders who have become greedy and extractive."
+          "We just have devs and builders who have become greedy and extractive."
         ],
         "pauses": [
           0.3,
