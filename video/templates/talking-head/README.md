@@ -141,6 +141,18 @@ The owner talked through their Primus Points dashboard.
       a white title panel and a solid fade under the captions;
     - an end card on the project's real landing page and its Chrome Web Store listing.
   - Never rebuild an app's UI as our own cards. The owner's own numbers go on as tags over the public screen.
+- **v3, after the owner found errors in v2 (`primus3.html`):**
+  - **Floats are a window on the page** (`keys: [time, [x, y, w]]`, arriving at the word). They zoom to the card being
+    named: 2.1× for one card, 1.7× for two. Text must be ≥ 24 px at 1080 wide; a whole panel is only an establishing
+    shot of ≤1.5 s.
+  - **Timing:** anything named stays ≥ 1 s. When names come faster than ~1 s apart, hold one view and light the cards
+    instead of moving the camera.
+  - **Walkthroughs:** the page fills the frame (top bar kept out, tilt included), with a short fade only under the
+    captions. Notes sit inside the title panel.
+  - **Captures:** `FONTS=` loads any font the page names but never loads, and the tools print `MISSING FONTS`.
+  - **Before sending:**
+    - `review.py` writes `review-full-NN.jpg` (every 0.5 s). Look at every sheet.
+    - `python3 -P -E hearback.py <work>` checks every caption against what is heard.
 
 ## Getting the video
 

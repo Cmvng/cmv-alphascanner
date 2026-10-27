@@ -15,12 +15,67 @@ next video… and where you made some mistakes and what you take from it."*
    - stretches where nothing moves;
    - the colour mix: it flags a video that is nearly all one colour.
 2. **Look at the sheet and read the review before sending.** Fix what it flags, or say why not.
+   - **Then look at every `full-NN.jpg`** (every half second; camera edits: `review-full-NN.jpg` from the edit's
+     `review.py`). The one-frame-a-line sheet misses what happens between lines: a wrong font, text too small for a
+     phone, a note up for 0.3 s, a camera that jumps, a graphic clipped as it enters (Primus v2, 27 Oct: the owner found
+     these, I hadn't). Watching the summary alone is not a check.
 3. **Write an entry here** in the same format: what worked, the mistakes and how they got through, what changes next
    time. Add the owner's reaction when it comes.
 4. **Before starting a video, read the "Change next time" lines of the last three entries.** Do them.
 
 Speech-to-text can't hear a wrong stress (it wrote "Ethereum" for a wrong-sounding "ee-ther-REE-um"). So the
 pronunciation list (`say-check.txt`, printed before the voice is recorded) is read by eye, every time.
+
+---
+
+## 27 Oct: Primus "Proof of Nomad Life" v3: the errors v2 shipped with (1:40)
+
+The owner, after v2: "I can notice some issues, some errors with the videos, like some obvious errors… didn't you cross
+check these things?" They were right. v2 was checked on 48 thumbnails (216 px, one every ~2 s) plus 6 full-size frames,
+and never watched full size in motion. The first check at 2 fps, full size, found 11 errors:
+
+- **What was wrong:**
+  1. **The landing page in Times.** Its CSS names "Play" and "Public Sans" but never loads them. Fixed with `FONTS=` in
+     `site_shot.mjs` and `capture_dashboard.mjs`, which now print `MISSING FONTS` for any visible text in a font that
+     didn't load.
+  2. **Unreadable screens.** Whole panels at 1.14× gave about 13 px text on a 1080 frame. Floats are now a window on the
+     page that zooms to the card being named (2.1× for one card, 1.7× for two) and follows the speech (`keys`, arriving at
+     the word).
+  3. **"90 points" on an unrelated promo banner.** Moved next to the real task list. The app's own points dialog opens only
+     for a connected wallet. Forcing it open would fake an account screen, so it isn't used.
+  4. **Things named at the end of a panel were on screen for 0.3–0.5 s** (Grok, GitHub ✓, Luma). A panel now stays up for
+     ≥1 s after its last mark.
+  5. **A note didn't match the words** ("and Rabby" when he said "or").
+  6. **A camera that jumped four times in 1.7 s.** Never key a camera move per word when the names come faster than
+     ~1 s apart: hold one view and light the cards.
+  7. **Walkthroughs:**
+     - an empty bottom quarter (a fade over 540 px);
+     - the page's dark top bar at the top edge (from the page's top and from the tilt);
+     - an empty title panel for 0.3 s;
+     - notes over page text.
+  8. **Slow crossfades that showed panels as grey ghosts over the face.**
+  9. **Two screens stacked at 0:07.**
+  10. **A label alone for 3 s** before the gas numbers.
+  11. **End card:** a card clipped at the frame edge as it entered, and an empty bottom third.
+- **Why it got through:** the summary sheet. At 216 px a serif font, 13 px text and a 0.3 s note all look fine, and one
+  frame every 2 s skips transitions. I sent v2 on the summary alone.
+- **Change from now on (built into the tools):**
+  - `review.py` now always writes `review-full-NN.jpg`, every 0.5 s at 324 px, 20 a sheet. Look at every sheet before
+    sending, and check the transitions and the first and last half second of every graphic.
+  - `hearback.py` checks every caption against what the speech model hears in its window.
+  - Text on screen ≥ 24 px at 1080 wide. A real screen shown whole is an establishing shot (≤1.5 s); then zoom in.
+  - Anything named stays on screen ≥ 1 s. Notes repeat the owner's exact words.
+- **The same check on the first v3 render found six more, all fixed before sending:**
+  - "9 records" landed 2 s after its caption;
+  - three panels sat zoomed out for 2–3 s before zooming in (now ~1 s);
+  - X's tick left with the pan to GitHub after 0.4 s;
+  - a 0.3 s gap between "Very cheap" and "$0.10";
+  - the store card poked past the frame as it entered;
+  - the cover's dashboard card touched the title.
+  
+  The contact sheet itself misled once: two frames side by side read as "Lincord". The sheets now have gaps between
+  frames.
+- **The owner's reaction:** (waiting)
 
 ---
 

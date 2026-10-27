@@ -33,6 +33,17 @@ p.on('pageerror', e => console.log('PAGE ERROR', e.message.slice(0, 200)))
 await p.goto(url, { waitUntil: 'load', timeout: 90000 }).catch(e => console.log('goto', e.message.split('\n')[0]))
 await p.waitForTimeout(8000)
 console.log('patched', patched, 'at', p.url())
+// fonts the page names but never loads would show as a fallback (Times) in the capture: FONTS="Play:wght@400;700,..."
+if (process.env.FONTS) {
+  for (const f of process.env.FONTS.split(',')) await p.addStyleTag({ url: `https://fonts.googleapis.com/css2?family=${f}&display=block` })
+  await p.evaluate(async () => { await document.fonts.ready; await Promise.all([...document.fonts].filter(f => f.status !== 'loaded').map(f => f.load().catch(() => 0))) })
+  await p.waitForTimeout(1500)
+}
+const fontCheck = () => p.evaluate(() => {
+  const loaded = new Set([...document.fonts].filter(f => f.status === 'loaded').map(f => f.family.replace(/["']/g, '')))
+  const fams = new Set(); for (const el of document.querySelectorAll('body *')) if (el.childElementCount === 0 && el.textContent.trim() && el.getBoundingClientRect().width > 0) fams.add(getComputedStyle(el).fontFamily.split(',')[0].replace(/["']/g, '').trim())
+  return [...fams].filter(f => !loaded.has(f))
+})
 // the positions (page pixels at 1x) of everything the edit points at
 const rects = () => p.evaluate(() => {
   const R = el => { const r = el.getBoundingClientRect(); return [Math.round(r.x + scrollX), Math.round(r.y + scrollY), Math.round(r.width), Math.round(r.height)] }
@@ -51,6 +62,7 @@ const rects = () => p.evaluate(() => {
 const shots = {}
 async function snap(name) {
   await p.waitForTimeout(1800)
+  const miss = await fontCheck(); if (miss.length) console.log('MISSING FONTS in', name, '(pass them in FONTS):', miss.join(', '))
   await p.screenshot({ path: `${outDir}/${name}.png` })
   shots[name] = await rects(); console.log('shot', name, Object.keys(shots[name].cards).join(', '))
 }

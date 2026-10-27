@@ -5,6 +5,7 @@
 #
 # Writes <slug>/review/review.md and review/sheet.jpg:
 #   - a frame at every spoken line, in order (look at every one: layout, overlaps, colour, what moves);
+#   - review/full-NN.jpg: every half second (look at every sheet: what happens between the lines);
 #   - the voice heard back by speech-to-text against the script (wrong words, numbers heard as money);
 #   - the pronunciation check (say-check.txt: the stressed syllable of every unusual word);
 #   - sound: loudness, true peak, and how hard the drop hits;
@@ -50,6 +51,13 @@ if frames:
     subprocess.run([FF, '-loglevel', 'error', '-y', '-framerate', '1', '-i', os.path.join(R, 'f%03d.jpg'),
                     '-vf', f'tile={cols}x{(len(frames) + cols - 1) // cols}:padding=6:color=white', '-frames:v', '1', os.path.join(R, 'sheet.jpg')])
     for f in frames: os.remove(f)
+# 1b. every half second, 20 frames a sheet (cell j of full-NN.jpg is at (20*NN + j) / 2 s). The sheet above misses
+# what lives between lines: a wrong font, text too small to read, a note that is up for 0.3 s, a jumping camera, a
+# graphic that is clipped as it comes in (Primus v2, 27 Oct). Look at every one.
+for f in os.listdir(R):
+    if f.startswith('full-'): os.remove(os.path.join(R, f))
+run([FF, '-loglevel', 'error', '-y', '-i', MP4, '-vf', "fps=2,scale='if(gt(a,1),576,324)':-2,tile=5x4:padding=14:color=white", '-start_number', '0', os.path.join(R, 'full-%02d.jpg')])
+full_sheets = len([f for f in os.listdir(R) if f.startswith('full-')])
 
 # ---------------------------------------------------------------- 2. the voice heard back
 ONES = 'zero one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen'.split()
@@ -200,7 +208,8 @@ if long_caps: flags.append(f'{len(long_caps)} caption chunk(s) over 34 character
 say = ''
 try: say = open(os.path.join(OUT, 'say-check.txt')).read().strip()
 except Exception: pass
-md = [f'# Review: {SLUG}', '', f'Look at `review/sheet.jpg` (one frame per spoken line, in order: {len(frames)} frames) before anything else.', '']
+md = [f'# Review: {SLUG}', '', f'Look at `review/sheet.jpg` (one frame per spoken line, in order: {len(frames)} frames) before anything else.',
+      f'Then look at every `review/full-NN.jpg` ({full_sheets} sheets, every half second, cell j of sheet NN = (20*NN + j)/2 s): fonts, small text, short-lived notes, transitions, clipped graphics.', '']
 md += ['## Needs a look', ''] + ([f'- {x}' for x in flags] or ['- Nothing flagged. Still watch it through once with sound.']) + ['']
 md += ['## Numbers', ''] + [f'- {x}' for x in notes] + ['']
 md += ['## Pace per screen', '', '| # | screen | seconds | words/s | voice cover |', '|---|---|---|---|---|']
