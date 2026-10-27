@@ -24,6 +24,45 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
+## 27 Oct: the owner's script, "Airdrops have not peaked" (opinion explainer, 1:48, new `ad_*` family)
+
+- **What worked:**
+  - One device carries the argument: a money pipe from crypto to users (green) and builders (ink), whose valve swings the
+    same coins from one cup to the other, then back at the end.
+  - It answers a real post. NDIDI_GRAM's post from the same morning was fetched word for word (fxtwitter's `/2/profile/<handle>/statuses`)
+    and redrawn as an X card, with "have peaked" struck through on "I don't buy it".
+  - Every number is on one scale with its source under it. The kicker says "different trackers", because 2024, 2025 and
+    2026 aren't measured the same way.
+  - The day counter rolls to 475 while the voice says it, and the fees toggle flips on "fees".
+  - The final checks are clean: 1:48, −14.6 LUFS, true peak −1.7 dB, the drop +8.2 dB. The voice heard back matches the
+    script, apart from how the same words were written.
+- **Mistakes, and how they got through:**
+  1. **I edited the owner's wording after my own fact-check, and the owner pushed back:** "It has been fact checked… Make sure
+     you do this well." I had softened "every single day", "a $600 million ICO instead" and "started charging fees this
+     year", and dropped the $650M creator fees because DefiLlama's API doesn't break them out. All of those lines were
+     defensible as written. I restored them, cost: one render thrown away. Only the day count moved on (474 to 475, the
+     posting day).
+  2. **The first stills drew the bar charts from the top of the screen.** The page already has `.bar`, `.bars` and `.pk`
+     classes, for the Limitless app bar and the Packs. Caught by the stills check. The family now uses `ad`-prefixed
+     names.
+  3. **"Pump fun said" was heard as "Pump funds said"**, and so was "Pump dot fun said". A two-line voice test found a
+     wording that works: "In July 2025, Pump dot fun said: airdrop coming soon."
+  4. **The first render's drop rose only 5.1 dB.** The reverse swell into it (−6 dB, 2.6 s) and the "??" hit filled the
+     silence. Now the swell is −11 dB and 1.4 s, and the hit −9 dB: +8.2 dB.
+  5. **A caption left one word alone ("side.").** The renderer's five-word chunks now never leave a single word for the next
+     chunk.
+  6. **The second render didn't start** ("video/daily.sh: No such file") because a relative path ran from the wrong
+     directory. Background renders now use absolute paths.
+- **Change next time:**
+  - When the owner says a script is fact-checked, keep their wording. Check the numbers, change only what is wrong, and
+    report nuances (the PADRE payout, taker-only fees) in the write-up instead of the script.
+  - Run a two-line voice test of every brand name next to "said" or "says" before the full render.
+  - New families: prefix every class with the family name from the start.
+  - Keep a swell into a drop quiet and short: under 1.5 s, at −10 dB or lower.
+- **The owner's reaction:** (waiting)
+
+---
+
 ## 23 Oct: the owner's recording, "Why Harry Kane wins the Ballon d'Or" (camera explainer, 2:19.9)
 
 - **What worked:**
