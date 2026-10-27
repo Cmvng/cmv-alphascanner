@@ -57,7 +57,17 @@ the stuffs I am talking about".
     cards in their colours and say so in the sources.
   - Print the loudness profile at every chosen cut before the plan; whisper's word edges are often 0.1–0.2 s off.
   - Ask the owner for a short screen recording of the dashboard next time: real screens beat rebuilt cards.
-- **The owner's reaction:** (waiting)
+- **The owner's reaction:** rejected the cards. "It's not showing the actual graphics of the website… use the actual
+  graphic from the website itself… This is actually like still like 60%. It can be 90%. It can be 100%."
+  - **Why it failed:** rebuilt cards, however faithful the labels, read as our graphics, not Primus's. The references
+    the owner sent (Eliza above all) show the real app: real screens floating above the head, tilted, with a glowing
+    outline on the exact item named.
+  - **What's possible:** `video/lib/site_shot.mjs` now loads public pages through Node, so the browser needs no TLS
+    of its own (the points app's landing page and the extension's Chrome Web Store page are captured). The task
+    dashboard only shows after a wallet connects, so the owner's own screens can only come from the owner.
+  - **The rule from now on:** for any app or website video, use the real screens: the owner's screen recording or
+    screenshots, or a capture of the public page. Never rebuild an app's UI as our own cards. If the real screen is
+    behind a login, ask for a screen recording before editing, not after.
 
 ---
 
