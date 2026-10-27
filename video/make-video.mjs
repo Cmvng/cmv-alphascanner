@@ -275,7 +275,7 @@ scenes.forEach((sc, k) => {
     timed.forEach((w, i) => {
       chunk.push(w)
       const end = i === timed.length - 1, brk = /[,.;:?!]$/.test(w.w) && chunk.length >= 2
-      if (end || chunk.length >= 5 || brk) { captions.push({ start: chunk[0].t0, end: chunk.at(-1).t1, words: chunk }); chunk = [] }
+      if (end || (chunk.length >= 5 && timed.length - 1 - i !== 1) || brk) { captions.push({ start: chunk[0].t0, end: chunk.at(-1).t1, words: chunk }); chunk = [] }     // never leave one word alone on the next chunk
     })
     st += d + GAP + (sc.data?.pauses?.[j] ?? 0)          // a beat can hold a dramatic pause after a line
     return s

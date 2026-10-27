@@ -335,3 +335,35 @@ chain every wallet is clear glass, and the product frosts it, so the money stays
   trimming to 2:19 took cutting about 40 words. Keep a project video under 2:20 for X without Premium.
 - **Voice:** "invested too" was heard as "two" (now "also invested"). "BNB" was heard as "B&B", so say "B N B". "PADO"
   was heard as "Potto", so say "Pah-doe". "zee kay T L S" reads well for zkTLS.
+
+## Another format: follow the money (`ad_*`, the owner's opinion piece "Airdrops have not peaked", 27 Oct 2026)
+
+Template: `airdrops-2026-10-27.json`. Sources: `airdrops-2026-10-27-sources.md`. Cover and thumbnail: `airdrops-cover-2026-10-27.html`
+(shot by `airdrops-cover-2026-10-27.mjs`). The owner sent a finished script, with on-screen notes and a source for every number,
+in reply to a post. The video keeps their words. One device carries the argument: **a pipe from crypto's money splits into
+users (airdrops, green) and builders (fees and token sales, ink), and a valve swings the same coins from one cup to the other.**
+
+- **Scenes:**
+  - `ad_cold`: the real post it answers, redrawn as an X card (`post`: avatar, name, handle, paragraphs word for word, and
+    `peak`, the phrase to strike). Blank ghost cards fan out on "posts"; the phrase gets a blue highlight, then a red strike
+    on "buy", then a big "??".
+  - `ad_title` (drop): the question and the pipe, both branches flowing.
+  - `ad_users`: year bars on one scale (`scale` px per $1B), each cued to its year. A Hyperliquid card with a ring that
+    counts to 31%. On "dropped", a dashed red line falls across the bar tops, then a stamp lands. The kicker says the
+    trackers differ, because the three numbers measure different things.
+  - `ad_build`: a field of 460 coin dots with a counter (46,034), then the builders' bars on one scale beside the users' 2026
+    bar, with each project's logo on its bar.
+  - `ad_promise`: two promise cards. One quotes the post with its phrase in blue (`hi`), an ICO chip, and a day counter with
+    a striped bar. The other quotes the CMO, adds a help-page line (`note`) and a fees toggle that flips on "fees". Then "Make
+    this make sense" lands and both cards tilt.
+  - `ad_same` / `ad_end`: the pipe again. The valve swings to builders on "airdrops" and the users' cup drains; then it swings
+    back on "invested" and the pipe blurs behind the end line.
+- **No whoosh on the cuts** (the owner dislikes them). The pipe's coins move along the real SVG paths (`getPointAtLength`).
+- **Name clashes:** `.bar`, `.bars` and `.pk` already exist in this page (the Limitless app bar and the Packs). The family
+  uses `adbar`, `adbars` and `adpk`, and the first stills had the bars drawn from the top of the screen until the rename.
+- **Voice:** "Pump fun said" was heard as "Pump funds said", and so was "Pump dot fun said". "In July 2025, Pump dot fun said:
+  airdrop coming soon." is clear. Say "Pump dot fun", "V C", "I C O" and "C M O".
+- **The drop:** keep the swell into it short and quiet (max 1.4 s at −11 dB) and the "??" hit at −9 dB, so the drop lands
+  out of near-silence. The first render rose only 5 dB.
+- **Facts:** the owner's numbers were checked again against the pages on the day. The owner's wording was kept wherever the
+  facts allow it (the owner, 27 Oct: "It has been fact checked"). Only the day count was moved on to the posting day.

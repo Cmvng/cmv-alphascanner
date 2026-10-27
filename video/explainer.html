@@ -4176,8 +4176,8 @@ function fxAD(add, sc, T, next) {
   if (ty === 'cold') {
     add(T, '497', -13, { align: 'start', max: Math.max(1, sc.dur - 0.2) }); add(T, '2297', -18, { align: 'start', max: Math.max(1, sc.dur - 0.4) })
     add(T + 0.1, '3115', -13); [0, 1, 2].forEach(i => add(w(0, /posts/i, 0.35) + i * 0.14, '3124', -17, { pan: i % 2 ? 0.3 : -0.3 }))
-    const tB = w(1, /buy/i, 0.5); add(tB - 0.02, '1365', -7); add(tB + 0.25, '2909', -6); add(tB + 0.25, '2299', -8)
-    if (next?.data?.drop) add(next.start, '2908', -6, { reverse: true, max: 2.6, align: 'end' })
+    const tB = w(1, /buy/i, 0.5); add(tB - 0.02, '1365', -7); add(tB + 0.25, '2909', -9); add(tB + 0.25, '2299', -10)
+    if (next?.data?.drop) add(next.start, '2908', -11, { reverse: true, max: 1.4, align: 'end' })     // a short, quiet swell, so the drop lands out of near-silence
   }
   if (ty === 'title') add(T + 0.5, '3124', -14)
   if (ty === 'users') {
