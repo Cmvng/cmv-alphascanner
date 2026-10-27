@@ -46,7 +46,7 @@ def letters(t):
     return len(re.sub(r'[^A-Za-z]', '', t))
 
 
-def cut(take, sentences, out_dir):
+def cut(take, sentences, out_dir=None):
     a = read(take)
     sil, db = silences(a)
     loud = np.where(db >= np.percentile(db, 95) - 38)[0]
@@ -87,40 +87,79 @@ def cut(take, sentences, out_dir):
     for k in range(N - 2, 0, -1):
         chosen.append(back[k][chosen[-1]])
     chosen = chosen[::-1]
-    edges = [t0 - 0.05] + [mids[c] for c in chosen] + [t1 + 0.05]
-    os.makedirs(out_dir, exist_ok=True)
-    report = []
-    for k, s in enumerate(sentences):
-        seg = a[int(max(edges[k], 0) * SR): int(edges[k + 1] * SR)]
-        write(os.path.join(out_dir, s['id'] + '.wav'), seg)
-        report.append((s['id'], edges[k], edges[k + 1]))
-    return report
+    return a, mids, chosen, t0, t1
 
 
-def hear(out_dir, sentences):
-    """Whisper each piece; list the ones whose words don't match their line."""
+NUMS = set('one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen '
+           'eighteen nineteen twenty thirty forty fifty sixty seventy eighty ninety hundred thousand million billion '
+           'percent dollars point and'.split())                         # whisper writes these as digits
+
+
+def words(t):
+    t = re.sub(r"'s\b", '', t.lower())
+    return [x for x in re.sub(r"[^a-z ]", ' ', t).split() if len(x) > 2 and x not in NUMS]
+
+
+def match(text, heard):
+    """How well a piece's words fit its line, both ways: none missing (recall) and none extra (precision)."""
+    want, got = words(text), words(heard)
+    if not want: return 1.0
+    r = sum(1 for x in want if x in got) / len(want)
+    p = sum(1 for x in got if x in want) / max(len(got), 1)
+    return 2 * p * r / (p + r) if p + r else 0.0
+
+
+def refine(take, sentences, mids, chosen, t0, t1):
+    """Whisper hears each piece; a cut next to a piece that doesn't fit its line moves to a nearby pause if that fits better."""
     from faster_whisper import WhisperModel
     m = WhisperModel('small.en', device='cpu', compute_type='int8')
-    nums = set('one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen '
-               'eighteen nineteen twenty thirty forty fifty sixty seventy eighty ninety hundred thousand million billion '
-               'percent dollars point and'.split())                    # whisper writes these as digits
-    norm = lambda t: [x for x in re.sub(r"[^a-z' ]", ' ', t.lower()).split() if len(x) > 2 and x not in nums]
-    bad = []
-    for s in sentences:
-        segs, _ = m.transcribe(os.path.join(out_dir, s['id'] + '.wav'), beam_size=5)
-        heard = ' '.join(x.text.strip() for x in segs)
-        want, got = norm(s['text']), set(norm(heard))
-        score = sum(1 for x in want if x in got) / max(len(want), 1)
-        print(f"  {s['id']:6} {score:4.0%}  {heard}")
-        if score < 0.6: bad.append(s['id'])
-    return bad
+    raw = subprocess.run([FF, '-v', 'error', '-i', take, '-f', 'f32le', '-ac', '1', '-ar', '16000', '-'], capture_output=True, check=True).stdout
+    a16 = np.frombuffer(raw, dtype=np.float32)
+    memo = {}
+
+    def heard(x, y):
+        if (x, y) not in memo:
+            segs, _ = m.transcribe(a16[int(max(x, 0) * 16000): int(y * 16000)], beam_size=5)
+            memo[(x, y)] = ' '.join(z.text.strip() for z in segs)
+        return memo[(x, y)]
+
+    N = len(sentences)
+    edge = lambda ch, k: t0 - 0.05 if k == 0 else t1 + 0.05 if k == N else mids[ch[k - 1]]
+    fit = lambda ch, k: match(sentences[k]['text'], heard(edge(ch, k), edge(ch, k + 1)))
+    for _ in range(3):
+        moved = False
+        for b in range(N - 1):                                         # cut b sits between line b and line b + 1
+            here = fit(chosen, b) + fit(chosen, b + 1)
+            if here > 1.9: continue
+            lo = chosen[b - 1] + 1 if b else 0
+            hi = chosen[b + 1] - 1 if b + 1 < N - 1 else len(mids) - 1
+            for c in range(max(lo, chosen[b] - 3), min(hi, chosen[b] + 3) + 1):
+                if c == chosen[b]: continue
+                alt = chosen[:b] + [c] + chosen[b + 1:]
+                v = fit(alt, b) + fit(alt, b + 1)
+                if v > here + 0.05: chosen, here, moved = alt, v, True
+        if not moved: break
+    return chosen, [(sentences[k]['id'], fit(chosen, k), heard(edge(chosen, k), edge(chosen, k + 1))) for k in range(N)]
+
+
+def write_lines(a, sentences, edges, out_dir):
+    os.makedirs(out_dir, exist_ok=True)
+    for k, s in enumerate(sentences):
+        write(os.path.join(out_dir, s['id'] + '.wav'), a[int(max(edges[k], 0) * SR): int(edges[k + 1] * SR)])
 
 
 if __name__ == '__main__':
     take, sent, out = sys.argv[1:4]
     sentences = json.load(open(sent))
-    for sid, a, b in cut(take, sentences, out):
-        print(f'{sid:6} {a:7.2f} → {b:7.2f}  ({b - a:4.2f} s)')
+    a, mids, chosen, t0, t1 = cut(take, sentences, out)
+    bad = []
     if '--no-hear' not in sys.argv:
-        bad = hear(out, sentences)
-        print('every piece matches its line' if not bad else f'CHECK THESE: {", ".join(bad)}')
+        chosen, rep = refine(take, sentences, mids, chosen, t0, t1)
+        for sid, f, h in rep:
+            print(f'  {sid:6} {f:4.0%}  {h}')
+            if f < 0.75: bad.append(sid)
+    edges = [t0 - 0.05] + [mids[c] for c in chosen] + [t1 + 0.05]
+    write_lines(a, sentences, edges, out)
+    for k, s in enumerate(sentences):
+        print(f"{s['id']:6} {edges[k]:7.2f} → {edges[k + 1]:7.2f}  ({edges[k + 1] - edges[k]:4.2f} s)")
+    print('every piece matches its line' if not bad else f'CHECK THESE BY EAR: {", ".join(bad)}')
