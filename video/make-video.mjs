@@ -229,7 +229,9 @@ if (voiceOn) {
   try {
     let voice = cfg.voice
     const models = path.join(CACHE, 'kokoro')
-    if (voice.endsWith('.onnx')) {
+    if (voice.startsWith('dir:')) {                    // lines recorded elsewhere (ElevenLabs, the owner): <dir>/<line id>.wav
+      if (!fs.existsSync(voice.slice(4))) throw new Error(`voice folder not found: ${voice.slice(4)}`)
+    } else if (voice.endsWith('.onnx')) {
       if (!fs.existsSync(voice)) throw new Error(`voice file not found: ${voice}`)
     } else {
       console.log('Getting the voice model (one time, ~350 MB)…')

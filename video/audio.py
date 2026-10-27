@@ -63,11 +63,18 @@ def speak(sentences_file, voice, out_dir, speed='1.0', models_dir='.', fx=None):
     os.makedirs(out_dir, exist_ok=True)
     out = {}
     items = json.load(open(sentences_file))
-    if voice.endswith('.onnx'):                                   # Piper voice file
+    if voice.startswith('dir:'):                                  # lines recorded elsewhere (ElevenLabs, the owner): <id>.wav
+        src = voice[4:]
+        def say(text, sid):
+            f = next((os.path.join(src, sid + e) for e in ('.wav', '.mp3', '.m4a') if os.path.exists(os.path.join(src, sid + e))), None)
+            if not f:
+                raise FileNotFoundError(f'no recorded line {sid} in {src}')
+            return read_any(f, SR, 1)[:, 0]
+    elif voice.endswith('.onnx'):                                 # Piper voice file
         from piper import PiperVoice, SynthesisConfig
         pv = PiperVoice.load(voice)
         cfg = SynthesisConfig(length_scale=1 / float(speed))
-        def say(text):
+        def say(text, sid=None):
             path = os.path.join(out_dir, '_tmp.wav')
             with wave.open(path, 'wb') as w:
                 pv.synthesize_wav(text, w, syn_config=cfg)
@@ -85,7 +92,7 @@ def speak(sentences_file, voice, out_dir, speed='1.0', models_dir='.', fx=None):
         # a name written [Name](/ipa/) is spoken from its phonemes exactly (the G2P guesses many names wrong:
         # "Olise" as AH-lize, "Doué" as dow-AY); the rest of the line is phonemized as usual
         IPA = re.compile(r'\[([^\]]+)\]\(/([^/)]+)/\)')
-        def say(text):
+        def say(text, sid=None):
             if IPA.search(text):
                 parts, pos = [], 0
                 for m in IPA.finditer(text):
@@ -98,7 +105,7 @@ def speak(sentences_file, voice, out_dir, speed='1.0', models_dir='.', fx=None):
             a = np.asarray(a, dtype=np.float32)
             return np.interp(np.arange(int(len(a) * SR / sr)) * sr / SR, np.arange(len(a)), a).astype(np.float32)
     for s in items:
-        a = trim(say(s['text']), SR)
+        a = trim(say(s['text'], s['id']), SR)
         if fx:
             a = voice_fx(a, fx)
         a = a / (np.abs(a).max() + 1e-9) * 0.89

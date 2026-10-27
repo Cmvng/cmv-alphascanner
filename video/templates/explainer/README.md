@@ -19,6 +19,13 @@ bash video/daily.sh render video/out/explainer-<topic>.json
 | `music_track` | `720` or `370` | a "drop" track from `lib/music.json`: 720 "New Bass 01" (deep tech bass) or 370 "Sparta" (dark trap). The owner liked both |
 | `music_drop` | `hook` | the track's drop lands on the cut into that screen; the music stops just after the last line before it, so the drop hits out of silence |
 
+**A script the owner wrote in the first person** (their opinion, "I don't buy it") never gets this house voice: on 27 Oct
+the owner called it "so rubbish" on the airdrops video. Use the owner's own recording or a voice the owner picked
+(ElevenLabs "Lara", 27 Oct). Recorded lines go in with `"voice": "dir:<folder>"` and `"voice_fx": false`, one
+`<line id>.wav` per line (`s0_0`, `s0_1`… as in the render's `sentences.json`). One take of the whole script is cut into
+lines with `python3 -P -E video/lib/split_take.py take.mp3 <render>/sentences.json <folder>`, which hears every piece
+back.
+
 ## The opening (cold open → drop)
 
 1. `cold`: a dark screen, one number, one ticket. Short lines with dramatic `pauses` ("$10." / "One ticket." / "$172 back,
