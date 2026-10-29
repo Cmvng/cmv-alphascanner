@@ -54,14 +54,15 @@ P = [
     dict(id='f6a', mode='bagel', shot='b_event', a=[262.11, 267.28], dur=3.34,
          cap='So I will go to here, I\'ll go to *totals*,|I\'ll click on *4.5*, I\'ll click,|I will add it to my *combo pick*.'),
     dict(id='f6b', mode='bagel', shot='b_event_sel', dur=2.3),
-    dict(id='f8', mode='bagel', shot='b_home', dur=1.4),
+    dict(id='f8', mode='bagel', shot='b_home_2', dur=1.4),
     dict(id='f10', mode='bagel', shot='b_nores_benfica', a=[311.21, 313.01], pad=.4, cap='I can\'t find this match.'),
-    dict(id='f12', mode='bagel', shot='b_home', a=[345.97, 348.12], pad=.3, cap='So under *4.5 goals*,'),
+    dict(id='f12', mode='bagel', shot='b_home_3', a=[345.97, 348.12], pad=.3, cap='So under *4.5 goals*,'),
     dict(id='f14', mode='bagel', shot='b_nores_shabana', a=[370.50, 372.40], pad=.4, cap='It\'s not there.'),
-    dict(id='f16', mode='bagel', shot='b_home', a=[386.11, 390.32], pad=.3, cap='Okay, I think I can find it.|Under 4.5 goals, good, good.|I can find this game.'),
+    dict(id='f16', mode='bagel', shot='b_home_4', a=[386.11, 390.32], pad=.3, cap='Okay, I think I can find it.|Under 4.5 goals, good, good.|I can find this game.'),
     dict(id='f17', mode='cmvng', shot='c_safer', a=[437.84, 440.52], pad=.3, cap='What is this, for crying out loud.'),
     dict(id='f18', mode='cmvng', shot='c_safer', a=[443.70, 445.29], pad=.3, cap='It is what it is.'),
-    dict(id='f20', mode='bagel', shot='b_home', a=[462.94, 466.19], pad=.4, cap='It said totals to be over *1.5 goals*.'),
+    dict(id='f20', mode='bagel', shot='b_home_4', a=[462.94, 466.19], dur=1.9, cap='It said totals to be over *1.5 goals*.'),
+    dict(id='f20b', mode='bagel', shot='b_home', dur=1.75),
     dict(id='g1', mode='bagel', shot='b_home', a=[478.77, 480.10], pad=.6, chapter=('Step 3 · Bagel', 'Place the combo'), cap='It\'s now complete.'),
     dict(id='g2', mode='bagel', shot='b_stake', a=[482.09, 485.56], pad=.4, cap='So I\'ll just click here,|I\'ll just click on *$5* to buy,'),
     dict(id='g3', mode='bagel', shot='b_home_placed', a=[492.15, 494.29], pad=1.0, cap='My combo pick has been played.'),
@@ -225,7 +226,7 @@ def at(pid, dt):
 
 
 EV = [                                               # three reactions, as stickers (the owner's pick, 29 Oct)
-    dict(k='sticker', id='sob', t0=at('f3', 1.65), dur=3.0, from_=0.3, x=300, y=1075, w=470, rot=-4, note="I can't find this game"),
+    dict(k='sticker', id='sob', t0=at('f3', 1.65), dur=2.15, from_=0.3, x=300, y=1075, w=470, rot=-4, note="I can't find this game"),
     dict(k='sticker', id='itsover', t0=at('f17', 1.41), dur=2.8, from_=0.0, x=480, y=860, w=520, rot=4, note='for crying out loud'),
     dict(k='sticker', id='grin', t0=at('g3', 0), dur=3.2, from_=0.3, x=280, y=940, w=520, rot=-3, note='My combo pick has been played'),
 ]
@@ -259,7 +260,7 @@ STAMPS = [                                           # each stays 1.5 s from the
     dict(t0=at('f12', .2), ok=True, text='Brentford v Forest · Under 4.5', y=700),
     dict(t0=at('f14', .1), ok=False, text='Shabana v Migori Youth', y=270),
     dict(t0=at('f16', 2.9), ok=True, text='Guijuelo v Sporting Gijón · Under 4.5', y=700),
-    dict(t0=at('f20', 1.9), ok=True, text='Frosinone v Lecce · Over 1.5', y=700),
+    dict(t0=at('f20b', .03), ok=True, text='Frosinone v Lecce · Over 1.5', y=700),
 ]
 def mode_end(t):
     """Start of the first piece after time t that shows another app (a stamp ends with its screen)."""
@@ -269,7 +270,7 @@ def mode_end(t):
 
 for i, x in enumerate(STAMPS):
     x['t1'] = min(x['t0'] + 1.5, STAMPS[i + 1]['t0'] - .05) if i + 1 < len(STAMPS) else x['t0'] + 1.5
-    x['t1'] = min(x['t1'], mode_end(x['t0']))
+    x['t1'] = min(x['t1'], mode_end(x['t0']), next(q['o1'] for q in pieces if q['o0'] <= x['t0'] < q['o1']))   # ends with its screen
 for s in STAMPS:
     s['t0'], s['t1'] = round(s['t0'], 3), round(s['t1'], 3)
 # the slip (cmvng, legs and odds) and the combo (Bagel, picks and the multiplier), as each screen shows them
@@ -277,7 +278,7 @@ TRACK = [dict(t=at('e3', 0), kind='SLIP', text='4 legs · 2.01'), dict(t=at('e4b
          dict(t=at('e6b', 0), kind='SLIP', text='8 legs · 2.49'), dict(t=at('f1', 0), kind='COMBO', text='0 picks'),
          dict(t=at('f6b', .7), kind='COMBO', text='1 pick'), dict(t=at('f8', .1), kind='COMBO', text='2 picks'),
          dict(t=at('f12', .2), kind='COMBO', text='3 picks · 1.33x'), dict(t=at('f16', 2.9), kind='COMBO', text='4 picks · 1.57x'),
-         dict(t=at('f20', 1.9), kind='COMBO', text='5 picks · 1.79x'), dict(t=at('g1', 0), kind='COMBO', text='5 picks · 2.06x'),
+         dict(t=at('f20b', 0), kind='COMBO', text='5 picks · 1.79x'), dict(t=at('g1', 0), kind='COMBO', text='5 picks · 2.06x'),
          dict(t=at('g2', 0), kind='COMBO', text='5 picks · 2.02x')]
 for x in TRACK:
     x['t'] = round(x['t'], 3)
