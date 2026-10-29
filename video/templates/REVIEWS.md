@@ -114,6 +114,22 @@ creative, and reactions that are "visibly evident". The edit:
     - Never substitute a lookalike for a real screen.
     - When the real screen can't be captured, say so plainly once, with the best real option, before building.
     - Fewer, surer versions. Ask the one question that decides the approach first.
+- **The posted v3, watched after upload: "the screen recording part is actually like almost bigger than the screen".**
+  - **What went wrong:** every Bagel shot was zoomed about 2.06× into the phone, and the stake screen 3×. So the app
+    overflowed its card:
+    - the search bar was cut at the top;
+    - logos were cut at the sides ("UPERLIG");
+    - rows were cut at the bottom;
+    - the text was oversized.
+
+    It looked like a screen recording blown up past the frame, not an app shown on a phone.
+  - **How it got through:** I chased the 24 px text rule by zooming, and checked marks and numbers, never whether the
+    whole app screen sat inside the frame.
+  - **Change next time:**
+    - Show an app screen whole (its full width, top bar to bottom edge) inside a phone or card frame, like a real
+      in-app showcase.
+    - Zoom only for a short push-in on the thing being named, then back out.
+    - In the check, every app shot has all four edges of the app visible.
 
 ---
 
