@@ -1,0 +1,30 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Primus v3 with the owner's video reactions</title>
+<style>
+@font-face{font-family:Manrope;font-weight:800;src:url(../../assets/fonts/manrope-latin-800-normal.woff2)}
+html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:transparent;font-family:Manrope,sans-serif}
+/* v3's caption, copied from camera-primus-2026-10-27/primus3.html, drawn over a cutaway */
+#cap{position:absolute;left:0;right:0;bottom:104px;text-align:center;opacity:0;z-index:2}
+#cap span{display:inline-block;max-width:960px;padding:13px 28px 15px;border-radius:20px;background:rgba(12,16,28,.74);font-weight:800;font-size:44px;line-height:1.24;color:#fff}
+#cap b{color:#FF7A33;font-weight:800}
+</style>
+<!-- render: node render.mjs "primus.html#<the edit's frames folder>/" out.mp4 --dur 100.2 --base primus-v3.mp4 -->
+<script src="../../out/vreact/lib.js"></script>
+<script>window.VR_ROOT = '../../out/vreact/'; window.VR_BASE = 'file://' + decodeURIComponent(location.hash.slice(1))</script>
+<script src="primus-events.js"></script>
+<script src="vr.js"></script>
+</head><body>
+<div id="cap"><span id="capt"></span></div>
+<script>
+document.body.appendChild(VR.canvas)
+const eo = p => 1 - Math.pow(1 - Math.min(1, Math.max(0, p)), 3)
+// v3's caption at time t, with v3's fades, shown only while a reaction covers the frame
+window.VR_CAPS = (t, on) => {
+  const c = on ? VR_CAPLIST.find(c => t >= c.o0 && t < c.o1) : null, el = document.getElementById('cap')
+  el.style.opacity = c ? Math.min(eo((t - c.o0) / .12), eo((c.o1 - t) / .08)).toFixed(3) : '0'
+  if (c) { const h = c.t.replace(/\*([^*]+)\*/g, '<b>$1</b>'); const s = document.getElementById('capt'); if (s.innerHTML !== h) s.innerHTML = h }
+}
+window.READY = document.fonts.ready.then(() => true)
+window.render = t => VR.draw(t)
+</script>
+</body></html>

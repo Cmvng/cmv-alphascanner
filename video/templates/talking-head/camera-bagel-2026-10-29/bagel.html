@@ -1,0 +1,360 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Bagel: the combo hunt</title>
+<style>
+@font-face{font-family:Anton;src:url(../../../assets/fonts/anton-latin-400-normal.woff2)}
+@font-face{font-family:Manrope;font-weight:600;src:url(../../../assets/fonts/manrope-latin-600-normal.woff2)}
+@font-face{font-family:Manrope;font-weight:800;src:url(../../../assets/fonts/manrope-latin-800-normal.woff2)}
+@font-face{font-family:Mono;font-weight:700;src:url(../../../assets/fonts/jetbrains-mono-latin-700-normal.woff2)}
+/* every screen is the owner's own recording; our layer is the frame, the camera moves, the tracker, the notes and the
+   owner's reaction videos. Captions are the top layer. */
+html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:#E6F0FF;font-family:Manrope,sans-serif}
+canvas{position:absolute;left:0;top:0}
+#cap{position:absolute;left:0;right:0;bottom:104px;text-align:center;opacity:0;z-index:5}
+#cap span{display:inline-block;max-width:960px;text-wrap:balance;padding:13px 28px 15px;border-radius:20px;background:rgba(12,16,28,.76);font-weight:800;font-size:44px;line-height:1.24;color:#fff}
+#cap b{color:#4FB3FF;font-weight:800}
+</style>
+<!-- render: node ../../reactions/render.mjs "$PWD/bagel.html#<source frames dir>/" out.mp4 --dur <s> --audio mix.wav --noreuse -->
+<script src="../../../out/vreact/lib.js"></script>
+<script src="plan.js"></script>
+</head><body>
+<canvas id="cv" width="1080" height="1920"></canvas>
+<div id="cap"><span id="capt"></span></div>
+<script>
+const W = 1080, H = 1920, FPS = 30, P = window.PLAN
+const SRC = 'file://' + decodeURIComponent(location.hash.slice(1)), VR = '../../../out/vreact/'
+const SKY = '#4FB3FF', BLUE = '#1F5FDB', NAVY = '#0B1F4D', GREEN = '#1E9E62', RED = '#D8434F', BAGEL_Y = '#F6E051'
+const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v))
+const eo = p => 1 - Math.pow(1 - clamp(p), 3)
+const eio = p => (p = clamp(p), p < .5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2)
+const back = p => { p = clamp(p); const c = 1.5; return 1 + (c + 1) * Math.pow(p - 1, 3) + c * Math.pow(p - 1, 2) }
+const pad = (n, k) => String(n).padStart(k, '0')
+const lerp = (a, b, p) => a + (b - a) * p
+const cv = document.getElementById('cv'), g = cv.getContext('2d')
+const off = document.createElement('canvas'); off.width = W; off.height = H; const og = off.getContext('2d')
+
+// ---- images: decoded once, a short cache
+const cache = new Map()
+function img(src) {
+  let p = cache.get(src)
+  if (!p) {
+    const im = new Image(); im.src = src
+    p = im.decode().then(() => im, () => { console.error('missing image ' + src); return null })
+    cache.set(src, p)
+    if (cache.size > 160) cache.delete(cache.keys().next().value)
+  }
+  return p
+}
+const srcFrame = n => img(`${SRC}f_${pad(n, 6)}.jpg`)
+const clipFrame = (id, kind, i) => img(`${VR}${id}/${kind}/f_${pad(clamp(i, 1, window.VLIB[id].n), 4)}.${kind === 'cut' ? 'webp' : 'jpg'}`)
+
+// ---- the timeline: which piece of the recording is on screen at output time t, and which source frame
+function pieceAt(t) { for (const p of P.pieces) if (t >= p.o0 && t < p.o1) return p; return P.pieces[P.pieces.length - 1] }
+function srcIndex(p, t) {
+  if (p.hold != null) return Math.round(p.hold * FPS)
+  const s = p.v0 + (t - p.o0) * p.sp, n = Math.round(s * FPS)
+  const k = p.step || 1, n0 = Math.round(p.v0 * FPS)
+  return n0 + Math.floor((n - n0) / k) * k                         // fast pieces keep every k-th frame only
+}
+
+// ---- keyframed values: keys [[t, a, b, c, (move seconds)]]; each move ends on its key's time
+function keyed(keys, t, ease = .5) {
+  if (!keys || !keys.length) return null
+  let cur = keys[0].slice(1, 4)
+  for (let i = 1; i < keys.length; i++) {
+    const k = keys[i], e = k[4] != null ? k[4] : ease
+    if (t >= k[0]) { cur = k.slice(1, 4); continue }
+    if (e > 0 && t > k[0] - e) { const q = eio((t - (k[0] - e)) / e); return cur.map((v, j) => lerp(v, k[j + 1], q)) }
+    break
+  }
+  return cur
+}
+
+// ---- drawing helpers
+function rr(c, x, y, w, h, r) { c.beginPath(); c.roundRect(x, y, w, h, r) }
+function pill(c, x, y, h, text, { bg = '#fff', fg = NAVY, font = '800 30px Manrope', padX = 22, icon = null, iconW = 0, border = null, align = 'left' } = {}) {
+  c.font = font; const tw = c.measureText(text).width, w = tw + padX * 2 + (icon ? iconW + 12 : 0)
+  if (align === 'right') x -= w; else if (align === 'center') x -= w / 2
+  c.save(); c.shadowColor = 'rgba(10,30,80,.18)'; c.shadowBlur = 18; c.shadowOffsetY = 6
+  c.fillStyle = bg; rr(c, x, y, w, h, h / 2); c.fill(); c.restore()
+  if (border) { c.strokeStyle = border; c.lineWidth = 3; rr(c, x + 1.5, y + 1.5, w - 3, h - 3, h / 2 - 1.5); c.stroke() }
+  let tx = x + padX
+  if (icon) { c.drawImage(icon, tx, y + (h - iconW) / 2, iconW, iconW); tx += iconW + 12 }
+  c.fillStyle = fg; c.textBaseline = 'middle'; c.fillText(text, tx, y + h / 2 + 1)
+  return w
+}
+
+// ---- the scene
+const BG = (() => {                                                   // the light sky page with a soft grid
+  const b = document.createElement('canvas'); b.width = W; b.height = H; const c = b.getContext('2d')
+  const gr = c.createLinearGradient(0, 0, 0, H); gr.addColorStop(0, '#F1F7FF'); gr.addColorStop(.55, '#E3EEFF'); gr.addColorStop(1, '#D5E5FF')
+  c.fillStyle = gr; c.fillRect(0, 0, W, H)
+  c.strokeStyle = 'rgba(31,95,219,.07)'; c.lineWidth = 1.5
+  for (let x = 0; x <= W; x += 60) { c.beginPath(); c.moveTo(x, 0); c.lineTo(x, H); c.stroke() }
+  for (let y = 0; y <= H; y += 60) { c.beginPath(); c.moveTo(0, y); c.lineTo(W, y); c.stroke() }
+  return b
+})()
+let ICON = {}
+
+// the camera: a window [sx, sy] (source centre) at zoom z, drawn into the card rect
+function camRect(card, cam) { const [sx, sy, z] = cam, w = card.w / z, h = card.h / z; return [sx - w / 2, sy - h / 2, w, h] }
+function toOut(card, cam, [x, y, w, h]) { const [rx, ry] = camRect(card, cam), z = cam[2]; return [card.x + (x - rx) * z, card.y + (y - ry) * z, w * z, h * z] }
+
+const CAMCARD = { x: 103, y: 148, w: 873, h: 1553 }
+async function drawCamera(c, p, t, im) {                              // the owner on camera, in a rounded card
+  const z = p.zoom || 1, k = CAMCARD, AX = 540, AY = 760              // punch-in anchor: between the eyes and the mouth
+  const sw = 608 / z, sh = 1080 / z, sx = AX - (AX - 236) / z, sy = AY - AY / z
+  c.save(); c.shadowColor = 'rgba(18,40,96,.30)'; c.shadowBlur = 70; c.shadowOffsetY = 28
+  c.fillStyle = '#fff'; rr(c, k.x - 8, k.y - 8, k.w + 16, k.h + 16, 52); c.fill(); c.restore()
+  c.save(); rr(c, k.x, k.y, k.w, k.h, 44); c.clip()
+  c.drawImage(im, sx, sy, sw, sh, k.x, k.y, k.w, k.h)
+  c.restore()
+}
+
+function cardAt(t) {                                                   // the phone card: its rect at time t, with any slide
+  const base = { x: 60, y: 340, w: 960, h: 1310 }
+  for (const e of P.events) if (e.k === 'behind' && t >= e.t0 - .4 && t < e.t1 + .4) {
+    const pe = Math.min(eio((t - e.t0 + .4) / .4), eio((e.t1 + .4 - t) / .4))
+    base.y += e.drop * pe
+  }
+  return base
+}
+
+async function drawPhone(c, p, t, im, figure) {
+  const card = cardAt(t)
+  const cam = keyed(p.cam, t) || [296, 400, 2.06]
+  // the app tab above the card
+  const app = p.mode
+  if (!P.chapters.some(ch => t >= ch.t0 - .3 && t < ch.t1 + .3)) {
+    pill(c, card.x + 6, card.y - 66, 52, app === 'bagel' ? 'Bagel' : 'cmvng', { icon: app === 'bagel' ? ICON.bagel : ICON.cmvng, iconW: 34, font: '800 28px Manrope', padX: 16 })
+  }
+  if (figure) await figure(c, card)                                    // the owner rising from behind the card
+  c.save()
+  c.shadowColor = 'rgba(18,40,96,.30)'; c.shadowBlur = 70; c.shadowOffsetY = 28
+  c.fillStyle = '#fff'; rr(c, card.x, card.y, card.w, card.h, 44); c.fill()
+  c.restore()
+  c.save(); rr(c, card.x, card.y, card.w, card.h, 44); c.clip()
+  const [rx, ry, rw, rh] = camRect(card, cam)
+  c.drawImage(im, rx, ry, rw, rh, card.x, card.y, card.w, card.h)
+  // marks on the real screen: glowing outlines in source pixels
+  for (const m of P.marks) if (t >= m.t0 && t < m.t1) {
+    const a = Math.min(eo((t - m.t0) / .25), eo((m.t1 - t) / .2)), [x, y, w, h] = toOut(card, cam, m.r)
+    c.save(); c.globalAlpha = a; c.strokeStyle = BLUE; c.lineWidth = 6; c.shadowColor = 'rgba(79,179,255,.9)'; c.shadowBlur = 24
+    rr(c, x - 6, y - 6, w + 12, h + 12, 18); c.stroke(); c.restore()
+  }
+  c.restore()
+  c.strokeStyle = 'rgba(11,31,77,.08)'; c.lineWidth = 2; rr(c, card.x + 1, card.y + 1, card.w - 2, card.h - 2, 43); c.stroke()
+  // fast-forward badge
+  if (p.step > 1 || p.sp > 1.6) {
+    const label = '▶▶ ' + Math.round(p.sp) + '×'
+    pill(c, card.x + card.w - 18, card.y + 22, 56, label, { bg: NAVY, fg: '#fff', font: '800 30px Mono', padX: 20, align: 'right' })
+  }
+  return card
+}
+
+async function drawBoth(c, p, t, im) {                                 // both phones, the establishing shot
+  const k = keyed(p.cam, t) || [0]
+  const card = { x: 40, y: 560, w: 1000, h: 857 }
+  c.save(); c.shadowColor = 'rgba(18,40,96,.30)'; c.shadowBlur = 70; c.shadowOffsetY = 28
+  c.fillStyle = '#111'; rr(c, card.x, card.y, card.w, card.h, 40); c.fill(); c.restore()
+  c.save(); rr(c, card.x, card.y, card.w, card.h, 40); c.clip()
+  c.drawImage(im, 56, 0, 968, 830, card.x, card.y, card.w, card.h); c.restore()
+  const a = clamp((t - p.o0) / .3)
+  c.globalAlpha = a
+  pill(c, card.x + 250, card.y - 84, 60, 'Bagel', { icon: ICON.bagel, iconW: 40, font: '800 32px Manrope', align: 'center' })
+  pill(c, card.x + 750, card.y - 84, 60, 'cmvng', { icon: ICON.cmvng, iconW: 40, font: '800 32px Manrope', align: 'center' })
+  c.globalAlpha = 1
+}
+
+// ---- overlays bound to the scene
+function drawTracker(c, t) {
+  if (t < P.trackFrom || t >= P.trackTo) return
+  const s = [...P.tracker].reverse().find(x => t >= x.t); if (!s) return
+  const pop = 1 + .14 * (1 - eo((t - s.t) / .35))
+  c.font = '800 32px Manrope'; const tw = c.measureText(s.text).width
+  c.font = '700 24px Mono'; const kw = c.measureText(s.kind).width
+  const w = tw + kw + 70, x = 1020 - w, y = 266, h = 60
+  c.save(); c.translate(1020, y + h / 2); c.scale(pop, pop); c.translate(-1020, -(y + h / 2))
+  c.shadowColor = 'rgba(10,30,80,.22)'; c.shadowBlur = 18; c.shadowOffsetY = 6
+  c.fillStyle = NAVY; rr(c, x, y, w, h, h / 2); c.fill(); c.shadowColor = 'transparent'
+  c.textBaseline = 'middle'; c.fillStyle = SKY; c.font = '700 24px Mono'; c.fillText(s.kind, x + 26, y + h / 2 + 1)
+  c.fillStyle = '#fff'; c.font = '800 32px Manrope'; c.fillText(s.text, x + 26 + kw + 18, y + h / 2 + 2)
+  c.restore()
+}
+function drawStamps(c, t, card) {
+  for (const s of P.stamps) if (t >= s.t0 && t < s.t1) {
+    const a = Math.min(eo((t - s.t0) / .2), eo((s.t1 - t) / .2)), sc = .8 + .2 * back((t - s.t0) / .3)
+    const ok = s.ok, y = card.y + (s.y || 150)
+    c.save(); c.globalAlpha = a; c.translate(540, y); c.scale(sc, sc); c.rotate((ok ? -2 : 2) * Math.PI / 180); c.translate(-540, -y)
+    c.font = '800 34px Manrope'; const w1 = c.measureText(s.text).width
+    c.font = '700 24px Mono'; const lab = ok ? '✓ ADDED' : '✗ NOT FOUND', w0 = c.measureText(lab).width
+    const w = Math.max(w1, w0) + 64, x = 540 - w / 2
+    c.shadowColor = 'rgba(10,30,80,.25)'; c.shadowBlur = 26; c.shadowOffsetY = 10
+    c.fillStyle = '#fff'; rr(c, x, y - 62, w, 124, 26); c.fill(); c.shadowColor = 'transparent'
+    c.strokeStyle = ok ? GREEN : RED; c.lineWidth = 5; rr(c, x + 2.5, y - 59.5, w - 5, 119, 24); c.stroke()
+    c.fillStyle = ok ? GREEN : RED; c.textBaseline = 'middle'; c.textAlign = 'center'; c.font = '700 24px Mono'; c.fillText(lab, 540, y - 22)
+    c.fillStyle = NAVY; c.font = '800 34px Manrope'; c.fillText(s.text, 540, y + 22)
+    c.restore(); c.textAlign = 'left'
+  }
+}
+function drawChapter(c, t) {
+  for (const s of P.chapters) if (t >= s.t0 && t < s.t1) {
+    const a = Math.min(eo((t - s.t0) / .25), eo((s.t1 - t) / .25))
+    c.save(); c.globalAlpha = a
+    c.fillStyle = BLUE; c.font = '700 28px Mono'; c.textBaseline = 'alphabetic'; c.fillText(s.kicker.toUpperCase(), 66, 132)
+    c.fillStyle = NAVY; c.font = '400 92px Anton'; c.fillText(s.title.toUpperCase(), 60, 236)
+    c.restore()
+  }
+}
+async function drawFloats(c, t) {                                      // real screens floating above the owner's head
+  for (const f of P.floats) if (t >= f.t0 && t < f.t1) {
+    const im = await srcFrame(Math.round(f.at * FPS)); if (!im) continue
+    const pin = eo((t - f.t0) / .4), pout = eo((f.t1 - t) / .3), a = Math.min(pin, pout)
+    const [x, y, w, h] = f.out, [sx, sy, sw, sh] = f.crop
+    c.save(); c.globalAlpha = a; c.translate(x + w / 2, y + h / 2 + 60 * (1 - pin)); c.rotate((f.rot || 0) * Math.PI / 180)
+    c.shadowColor = 'rgba(10,22,54,.38)'; c.shadowBlur = 60; c.shadowOffsetY = 26
+    c.fillStyle = '#fff'; rr(c, -w / 2, -h / 2, w, h, 30); c.fill(); c.shadowColor = 'transparent'
+    rr(c, -w / 2, -h / 2, w, h, 30); c.clip(); c.drawImage(im, sx, sy, sw, sh, -w / 2, -h / 2, w, h)
+    c.restore()
+  }
+  for (const ch of P.chips) if (t >= ch.t0 && t < ch.t1) {
+    const a = Math.min(eo((t - ch.t0) / .2), eo((ch.t1 - t) / .2)), sc = .7 + .3 * back((t - ch.t0) / .3)
+    c.save(); c.globalAlpha = a; c.translate(ch.x, ch.y); c.scale(sc, sc)
+    pill(c, 0, -34, 68, ch.text, { font: '800 36px Manrope', icon: ch.icon ? ICON[ch.icon] : null, iconW: 44, align: 'center', bg: ch.bg || '#fff', fg: ch.fg || NAVY })
+    c.restore()
+  }
+}
+function drawTitle(c, p, t, im) {
+  const a = clamp((t - p.o0) / .2)
+  c.drawImage(BG, 0, 0)
+  if (im) { c.save(); c.filter = 'blur(14px)'; c.globalAlpha = .35; c.drawImage(im, 56, 0, 968, 830, -120, 420, 1320, 1132); c.restore() }
+  const T = P.title, k = (t - p.o0)
+  c.save(); c.globalAlpha = a
+  const ix = 540 - 210, iy = 560
+  const sc = .6 + .4 * back(k / .45)
+  c.translate(540, iy + 70); c.scale(sc, sc); c.translate(-540, -(iy + 70))
+  if (ICON.logo) c.drawImage(ICON.logo, 540 - 260, iy, 520, 173)
+  c.restore()
+  c.save(); c.textAlign = 'center'; c.textBaseline = 'alphabetic'
+  T.lines.forEach((ln, i) => {
+    const p2 = eo((k - .25 - i * .18) / .35); c.globalAlpha = p2
+    c.fillStyle = ln.color || NAVY; c.font = `400 ${ln.size}px Anton`; c.fillText(ln.text.toUpperCase(), 540, ln.y + 40 * (1 - p2))
+  })
+  c.restore()
+  if (T.sub) {
+    const p3 = eo((k - .7) / .35)
+    c.save(); c.globalAlpha = p3; c.textAlign = 'center'; c.fillStyle = '#51607E'; c.font = '600 46px Manrope'
+    c.fillText(T.sub, 540, 1290 + 30 * (1 - p3)); c.restore()
+  }
+}
+function drawEnd(c, p, t) {
+  const k = t - p.o0, a = clamp(k / .3)
+  const gr = c.createLinearGradient(0, 0, 0, H); gr.addColorStop(0, '#1A3DB4'); gr.addColorStop(.6, '#0B2A8C'); gr.addColorStop(1, '#081F6E')
+  c.fillStyle = gr; c.fillRect(0, 0, W, H)
+  c.save(); c.globalAlpha = a; c.textAlign = 'center'
+  if (ICON.fav) c.drawImage(ICON.fav, 540 - 90, 470, 180, 180)
+  c.fillStyle = '#fff'; c.font = '400 118px Anton'; c.fillText('BUILD YOUR COMBO', 540, 800)
+  c.fillStyle = SKY; c.font = '400 118px Anton'; c.fillText('ON BAGEL', 540, 930)
+  c.fillStyle = '#fff'; c.font = '800 42px Manrope'; c.fillText(P.end.line, 540, 1060)
+  c.font = '700 44px Mono'; c.fillText('@i_am_vickyd', 540, 1250)
+  c.fillStyle = 'rgba(255,255,255,.75)'; c.font = '700 26px Mono'; c.fillText(P.end.fine, 540, 1340)
+  c.restore(); c.textAlign = 'left'
+}
+
+// ---- the owner's video reactions (the vr.js look: white frame, blue ring, a pop; real speed, the room)
+const clipAt = (e, t) => clamp(Math.round(((e.from || 0) + (t - e.t0)) * FPS) + 1, 1, window.VLIB[e.id].n)
+function crop(c, im, cx, cy, ch, x, y, w, h) {
+  ch = Math.min(ch, 1920, 1080 * h / w); const cw = ch * w / h
+  c.drawImage(im, clamp(cx - cw / 2, 0, 1080 - cw), clamp(cy - ch / 2, 0, 1920 - ch), cw, ch, x, y, w, h)
+}
+const focusOf = e => e.focus || [window.VLIB[e.id].face[0], window.VLIB[e.id].face[1], window.VLIB[e.id].face[2] * 1.15]
+// snap zooms inside a window: [[seconds in, zoom], ...], each snapping in over 4 frames (no sound)
+const snapZoom = (e, t) => { let z = 1; for (const [dt, z1] of e.snap || []) z = lerp(z, z1, eo((t - e.t0 - dt) / (4 / FPS))); return z }
+async function rCam(c, e, t) {
+  const [x, y, w, h] = e.box, r = 40, [ax, ay] = e.anchor || [.5, .5]
+  const pin = clamp((t - e.t0) / .24), pout = clamp((e.t1 - t) / .18)
+  const s = pout < 1 ? .9 + .1 * eo(pout) : .78 + .22 * back(pin), a = Math.min(clamp(pin * 3), pout)
+  const im = await clipFrame(e.id, 'full', clipAt(e, t)); if (!im) return
+  const px = x + w * ax, py = y + h * ay
+  c.save(); c.globalAlpha = a; c.translate(px, py); c.rotate((e.rot || 0) * Math.PI / 180); c.scale(s, s); c.translate(-px, -py)
+  c.shadowColor = 'rgba(10,30,80,.42)'; c.shadowBlur = 54; c.shadowOffsetY = 22
+  c.fillStyle = SKY; rr(c, x - 7, y - 7, w + 14, h + 14, r + 7); c.fill(); c.shadowColor = 'transparent'
+  c.fillStyle = '#fff'; rr(c, x, y, w, h, r); c.fill()
+  const b = 10; rr(c, x + b, y + b, w - 2 * b, h - 2 * b, r - b); c.clip()
+  const [cx, cy, ch] = focusOf(e); crop(c, im, cx, cy, ch / snapZoom(e, t), x + b, y + b, w - 2 * b, h - 2 * b)
+  c.restore()
+}
+async function rCut(c, e, t) {
+  const im = await clipFrame(e.id, 'full', clipAt(e, t)); if (!im) return
+  const [z0, z1] = e.push || [1, 1.07], z = z0 + (z1 - z0) * eo((t - e.t0) / (e.t1 - e.t0)), [fx, fy] = e.focus || window.VLIB[e.id].face
+  const w = 1080 / z, h = 1920 / z
+  c.drawImage(im, clamp(fx - w / 2, 0, 1080 - w), clamp(fy - h / 2, 0, 1920 - h), w, h, 0, 0, W, H)
+}
+const duetOpen = (e, t) => Math.min(e.open ? 1 : eio((t - e.t0) / .34), eio((e.t1 - t) / .3))
+async function rDuet(c, e, t) {                                        // the reaction's half; the scene shift is applied by the caller
+  const pe = duetOpen(e, t), half = e.half || 960, top = e.side === 'top'
+  const P0 = top ? half * pe : H - half * pe
+  const im = await clipFrame(e.id, 'full', clipAt(e, t)); if (!im) return
+  const [cx, cy, ch] = focusOf(e)
+  c.save(); c.beginPath(); top ? c.rect(0, 0, W, P0) : c.rect(0, P0, W, H - P0); c.clip()
+  crop(c, im, cx, cy, e.focus ? e.focus[2] : ch, 0, top ? P0 - half : P0, W, half); c.restore()
+  const sh = top ? c.createLinearGradient(0, P0 + 34, 0, P0) : c.createLinearGradient(0, P0 - 34, 0, P0)
+  sh.addColorStop(0, 'rgba(10,30,80,0)'); sh.addColorStop(1, 'rgba(10,30,80,.3)')
+  c.fillStyle = sh; c.fillRect(0, top ? P0 : P0 - 34, W, 34)
+  c.fillStyle = '#fff'; c.fillRect(0, P0 - 5, W, 10)
+  c.fillStyle = SKY; c.fillRect(0, top ? P0 - 10 : P0 + 5, W, 5)
+}
+const duetShift = t => {
+  for (const e of P.events) if (e.k === 'duet' && t >= e.t0 && t < e.t1) return (e.shift || 0) * duetOpen(e, t)
+  return 0
+}
+function behindFigure(e, t) {                                          // the cut-out owner rising from behind the card
+  return async (c, card) => {
+    const pe = Math.min(back((t - e.t0) / .38), eo((e.t1 - t) / .3))
+    const im = await clipFrame(e.id, 'cut', clipAt(e, t)); if (!im) return
+    const { sc, at: [px, py] } = e, X = e.x || 540, Y = card.y + (e.dy || 60) + 700 * (1 - pe)
+    c.save(); c.shadowColor = 'rgba(10,30,80,.35)'; c.shadowBlur = 40; c.shadowOffsetY = 12
+    c.drawImage(im, X - px * sc, Y - py * sc, 1080 * sc, 1920 * sc); c.restore()
+  }
+}
+
+// ---- captions (DOM, top layer)
+function capAt(t) { for (const c of P.caps) if (t >= c.o0 && t < c.o1) return c; return null }
+
+// ---- one frame
+window.render = async t => {
+  const p = pieceAt(t)
+  const im = p.mode === 'end' ? null : await srcFrame(srcIndex(p, t))
+  og.clearRect(0, 0, W, H)
+  const bh = P.events.find(e => e.k === 'behind' && t >= e.t0 && t < e.t1)
+  if (p.mode === 'cam') { if (im) await drawCamera(og, p, t, im); await drawFloats(og, t) }
+  else if (p.mode === 'title') drawTitle(og, p, t, im)
+  else if (p.mode === 'end') drawEnd(og, p, t)
+  else {
+    og.drawImage(BG, 0, 0)
+    if (p.mode === 'both') { if (im) await drawBoth(og, p, t, im) }
+    else if (im) {
+      const card = await drawPhone(og, p, t, im, bh ? behindFigure(bh, t) : null)
+      drawStamps(og, t, card)
+    }
+    drawTracker(og, t); drawChapter(og, t)
+  }
+  g.clearRect(0, 0, W, H)
+  const sh = duetShift(t)
+  g.drawImage(off, 0, -sh)
+  for (const e of P.events) if (t >= e.t0 && t < e.t1) {
+    if (e.k === 'rcam') await rCam(g, e, t)
+    else if (e.k === 'cut') await rCut(g, e, t)
+    else if (e.k === 'duet') await rDuet(g, e, t)
+  }
+  // captions
+  const c = capAt(t), el = document.getElementById('cap')
+  el.style.opacity = c ? Math.min(eo((t - c.o0) / .1), eo((c.o1 - t) / .08)).toFixed(3) : '0'
+  if (c) { const h = c.t.replace(/\*([^*]+)\*/g, '<b>$1</b>'); const s = document.getElementById('capt'); if (s.innerHTML !== h) s.innerHTML = h }
+  return 'f' + Math.round(t * FPS)
+}
+async function loadIcon(k, src) { const im = new Image(); im.src = src; await im.decode().catch(() => console.error('missing ' + src)); ICON[k] = im }
+window.READY = Promise.all([document.fonts.ready, ...['400 92px Anton', '800 32px Manrope', '600 30px Manrope', '700 24px Mono'].map(f => document.fonts.load(f)),
+  loadIcon('bagel', '../../../out/brand/bagel/favicon.svg'), loadIcon('fav', '../../../out/brand/bagel/favicon.svg'),
+  loadIcon('logo', '../../../out/brand/bagel/logo-horizontal.svg'), loadIcon('cmvng', 'cmvng-mark.svg')]).then(() => true)
+</script>
+</body></html>

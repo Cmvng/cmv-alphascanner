@@ -67,18 +67,26 @@ Different is the floor; creative is the bar. Before building, write the concept 
     changes state, every element landing on the word that names it, old ideas dimming behind the new one;
   - voice only, and a logo sting at the end.
 
-## The owner's reaction stickers (29 Oct 2026): a signature layer for every video
-Nine silent clips of the owner's own face are cut out as die-cut stickers (`reactions/`, study in
-`video/out/reactions-demo/reaction-study.md`). One of them answers the moment: funny, shocking, painful, doubtful. Eleven
-angles, each with a demo:
-- **On a finished video:** the corner sticker, the inner voice (the small you judging the big you), the peek from the
-  edge, behind the caption bar, and the one-per-video interrupt.
-- **Built for the angle:** the chart reacts (faces ride a real price line and stay as pins), the verdict stamp (CALLED IT
-  / MISSED IT with your face), the caption swap (a face replaces a word), the combo (a flipbook of faces on one trade),
-  the mood bubble (a face-cam for screen recordings) and the thumbnail.
+## The owner's video reactions (29 Oct 2026): a signature for every video
+Nine silent clips of the owner reacting in their room, 5–8 s each (`reactions/`, study in
+`reactions/study-video-reactions.md`). When a line is funny, shocking, painful or doubtful, one of them plays as **video**:
+real speed, the room, the whole reaction, big enough to watch. The owner rejected the first version, small die-cut
+stickers ("they are videos… it's a video reaction").
 
-Use them in every kind of video. Keep the style locked and vary the angle: the faces are the constant, how they come in
-is what changes.
+Five formats, the layouts viewers know from reaction videos:
+- **the Reaction Cam** (a framed window in free space);
+- **the Duet** (a split: the content slides up and the reaction rises into the bottom half, or a band across the top
+  over a camera video);
+- **the Cutaway** (the reaction shot, full screen, 1.2–1.5 s);
+- **the Freeze** (the frame holds while the reaction plays);
+- **From Behind** (the cut-out owner rises from behind a chart card).
+
+Two moves: the react-first hook, and its payoff later in the video. Demos: Held Too Long (7 Oct) and Primus v3 (27 Oct).
+
+Next angles:
+- **the co-host:** the owner's reactions answer the presenter in our football videos;
+- **the always-on reaction cam** (needs a "neutral, watching" clip);
+- **the reply:** a claim on screen, then the reaction.
 
 ## Faceless story channel (the owner's plan, 23 Oct: David's crypto journey in still images)
 - **POV Finance (the owner loves it: "relatable"):** one hero in the same signature outfit in every frame, bright

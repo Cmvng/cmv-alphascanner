@@ -28,6 +28,54 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
+## 29 Oct: the owner's recording, Bagel "How to build a combo" (8:44 cut to 2:15, with video reactions)
+
+The owner's 8:44 recording: their camera intro, then Bagel and cmvngpicks.com side by side. The brief: shorter,
+creative, and reactions that are "visibly evident". The edit:
+- six video reactions:
+  - Jaw Drop in a split screen;
+  - Side-Eye as a band across the top;
+  - Wait, What? in a window with snap zooms;
+  - The Sob in a window;
+  - It's Over as a full-screen cut;
+  - The Grin in a split screen.
+- an OCR follow camera on the slip, a slip and combo tracker, ✓ ADDED and ✗ NOT FOUND stamps, and three chapters.
+`video/templates/talking-head/camera-bagel-2026-10-29/`.
+
+- **What worked:**
+  - **Cuts at silences** in the cleaned voice's energy took 8:44 to 2:15 with the words intact (one exception below).
+  - **The follow camera:** the slip lines, read by OCR every 0.5 s, drive it, so the newest leg stays in view as the
+    slip grows from 4 legs to 8.
+  - **Reactions sized to the owner's note:** each is 2–5.7 s, half screen, full screen or a window about half the
+    frame wide.
+  - **The bigger speech model settled a doubtful line.** large-v3 heard "you can find Everton's match", and the screen
+    confirms the search found it. medium and small had heard "can't".
+- **Mistakes the full check of the first render found (all fixed before sending):**
+  1. **A clipped word.** d2 ended inside a stretch of speech, so "football app" lost "app". The hear-back flagged it: a
+     0.75 s caption with 25% of its words heard.
+  2. **Outlines:**
+     - the ask-box outline sat on the label row, not the text box;
+     - "Under 84%" stayed up 0.9 s after its panel closed.
+  3. **Numbers too small.** On the stake screen, "Max payout $10.1" and "2.02x" were about 18 px. Now zoomed to 3×,
+     about 34 px.
+  4. **A navy strip along the top of the floating market card:** the crop took in the banner above it.
+  5. **The tracker's "SLIP" and "COMBO" labels were 22 px,** under the 24 px rule.
+  6. **"Push higher" twice in a row** (its own line, then the montage's voice-over). Now one take plays, over the press
+     itself.
+  7. **Two stretches where only the captions moved** (0:20–0:28 and 0:32–0:39). Now they have a Polymarket name chip,
+     and the $5 stake screen floating up as a preview of where the video goes.
+- **How they got through the plan:** the outlines and crops were placed from OCR boxes and small sheets, and the cut
+  point came from the transcript's word times. Now in the tools:
+  - `vr_review.py` makes 10 fps sheets of every mark, stamp, chip, float and chapter (`ov-NN.jpg`);
+  - every cut is checked against the energy minimum.
+- **Change next time:**
+  - Measure each outline on a full-size crop of the element the owner acts on, and end it when that screen changes.
+  - Check every number on screen is at least 24 px, and zoom until it is.
+  - Run large-v3 on each caption the hear-back flags before settling the words.
+- **The owner's reaction:** (waiting)
+
+---
+
 ## 29 Oct: the owner's reaction stickers (a library, a study, two demos)
 
 The owner sent nine silent reaction clips (4K vertical, plain wall) and asked for "a serious creative study". The idea:
@@ -61,7 +109,37 @@ explainer or the owner on camera.
   - Check a reaction video at 10 fps across each reaction window, plus the 2 fps sheets of the real render, never stills
     alone.
   - Measure layouts from full-size frames only.
-- **The owner's reaction:** (waiting)
+- **The owner's reaction:** the idea was wrong. "They are videos, so it basically is like a video reaction… You need to
+  understand the creative idea so that you don't mix everything up and just like do one part." And later: "the reaction
+  was not visibly evident, like it was just like too fast, it was not really showing too well on the screen." Reworked
+  as video reactions (next entry).
+
+---
+
+## 29 Oct: the reactions reworked as video reactions (engine, study, two demos)
+
+The owner's clips are reaction videos, not stickers: the owner in their room, reacting. So each one now plays as the
+video it is, at real speed with the room, and big. `video/templates/reactions/vr.js` draws five formats:
+- the Reaction Cam (a framed window);
+- the Duet (a split screen);
+- the Cutaway (a full-screen cut with a push-in);
+- the Freeze;
+- From Behind (the cut-out rising behind a card).
+
+`study-video-reactions.md` is the new study. The demos are Held Too Long (10 reactions in 5:14) and Primus (5 in 1:40),
+in `video/out/vreact-demo/`. They were parked when the owner sent the Bagel recording.
+
+- **Mistakes, and how they got through:**
+  1. **The events regex read the whole file,** so the review tool saw no events. It now stops at the first `\n]`.
+  2. **The frame diff flagged two unchanged moments** (92 s, 109 s). Decoding both videos at a fixed fps paired
+     different frames. It now takes every 15th frame by number from each.
+  3. **`render.mjs --base` re-encoded the base video's audio.** It copies it now.
+  4. **Primus:**
+     - two windows sat under the captions and were raised;
+     - the Sob covered the Claude chip, so it became a band across the top;
+     - two reactions moved to the word they answer.
+- **Change next time:** a reaction is on screen 2–6 s at half or full screen, or as a window about half the frame
+  wide (520 px or more). Shorter or smaller doesn't read on a phone (the owner's "not visibly evident").
 
 ---
 

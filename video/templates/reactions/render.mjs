@@ -38,8 +38,9 @@ args.push('-f', 'image2pipe', '-framerate', String(FPS), '-c:v', 'png', '-i', '-
 if (AUDIO) args.push('-i', AUDIO)
 if (BASE) args.push('-filter_complex', '[0:v][1:v]overlay=0:0:eof_action=pass,format=yuv420p[v]', '-map', '[v]', '-map', '0:a?')
 else args.push('-map', '0:v', ...(AUDIO ? ['-map', '1:a'] : []), '-pix_fmt', 'yuv420p')
-args.push('-t', DUR.toFixed(3), '-c:v', 'libx264', '-preset', 'medium', '-crf', '18', '-r', String(FPS), '-c:a', 'aac', '-b:a', '192k',
-  '-movflags', '+faststart', out)
+// over a base, its sound is copied as it is (no second encode); otherwise the --audio file is encoded
+args.push('-t', DUR.toFixed(3), '-c:v', 'libx264', '-preset', 'medium', '-crf', '18', '-r', String(FPS),
+  ...(BASE ? ['-c:a', 'copy'] : ['-c:a', 'aac', '-b:a', '192k']), '-movflags', '+faststart', out)
 const ff = spawn('ffmpeg', args, { stdio: ['pipe', 'inherit', 'inherit'] })
 let prev = null, buf = null, shots = 0, t0 = Date.now()
 for (let f = 0; f < N; f++) {

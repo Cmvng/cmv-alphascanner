@@ -1,0 +1,15 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Held Too Long with the owner's video reactions</title>
+<style>html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:transparent}</style>
+<!-- render: node render.mjs "held.html#<the edit's frames folder>/" out.mp4 --dur 314.4 --base held-too-long-vertical.mp4 -->
+<script src="../../out/vreact/lib.js"></script>
+<script>window.VR_ROOT = '../../out/vreact/'; window.VR_BASE = 'file://' + decodeURIComponent(location.hash.slice(1))</script>
+<script src="held-events.js"></script>
+<script src="vr.js"></script>
+</head><body>
+<script>
+document.body.appendChild(VR.canvas)
+window.READY = Promise.resolve(true)
+window.render = t => VR.draw(t)
+</script>
+</body></html>
