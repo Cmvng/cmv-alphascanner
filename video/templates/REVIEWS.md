@@ -72,7 +72,28 @@ creative, and reactions that are "visibly evident". The edit:
   - Measure each outline on a full-size crop of the element the owner acts on, and end it when that screen changes.
   - Check every number on screen is at least 24 px, and zoom until it is.
   - Run large-v3 on each caption the hear-back flags before settling the words.
-- **The owner's reaction:** (waiting)
+- **The owner's reaction:** not impressed.
+  - "There are too many reactions."
+  - The hook's reaction had no clear point.
+  - "I liked it when the reaction was like a sticker."
+  - "The quality is even bad."
+  - "It took forever."
+- **v3, the same day:**
+  - three die-cut stickers, at 470–540 px and about 3 s each;
+  - no reaction in the hook;
+  - the recording's frames upscaled 2× with Lanczos and an unsharp mask;
+  - a higher-quality master (CRF 17).
+
+  The softness comes mostly from the source: a 1080×1080 CapCut export with two phones side by side, about 470 px a
+  phone. I asked for the original screen recordings.
+- **Lessons:**
+  - The owner's earlier "they are videos" meant the stickers should move and be visible, not that the sticker look
+    was wrong. Ask what they liked before rebuilding a format.
+  - Fewer reactions: three in 2:15, only on the strongest lines.
+  - A reaction needs a reason the viewer can see. A face over the hook, before the viewer knows the stakes, reads as
+    noise.
+  - A long build (two full renders and their checks) must not hide behind silence. Tell the owner early what's coming
+    and when.
 
 ---
 
