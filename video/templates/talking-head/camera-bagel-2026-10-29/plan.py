@@ -71,11 +71,13 @@ P = [
     dict(id='f12', mode='bagel', v=[345.97, 348.12], cam=[[345.97, *B(345)]], cap='So under *4.5 goals*,'),
     dict(id='f13', mode='bagel', v=[348.12, 370.50], sp=18, cam=[[348.12, *B(345)]]),
     dict(id='f14', mode='bagel', v=[370.50, 372.40], cam=[[370.50, *B(345)]], cap='It\'s not there.'),
-    dict(id='f15', mode='bagel', v=[372.40, 386.11], sp=12, cam=[[372.40, *B(345)]]),
+    # holds: Bagel's search briefly lists political markets (Israel, Iran, Ukraine) while "gijon" and "lecce" are typed;
+    # those frames hold the frame before them
+    dict(id='f15', mode='bagel', v=[372.40, 386.11], sp=12, cam=[[372.40, *B(345)]], holds=[[382.7, 384.38]]),
     dict(id='f16', mode='bagel', v=[386.11, 390.32], cam=[[386.11, *B(345)]], cap='Okay, I think I can find it.|Under 4.5 goals, good, good.|I can find this game.'),
     dict(id='f17', mode='cmvng', v=[437.84, 440.52], cam=[[437.84, *C(740)]], cap='What is this, for crying out loud.'),
     dict(id='f18', mode='cmvng', v=[443.70, 445.29], cam=[[443.70, *C(780)]], cap='It is what it is.'),
-    dict(id='f19', mode='bagel', v=[445.29, 462.94], sp=12, cam=[[445.29, *B(345)]]),
+    dict(id='f19', mode='bagel', v=[445.29, 462.94], sp=12, cam=[[445.29, *B(345)]], holds=[[454.0, 457.68]]),
     dict(id='f20', mode='bagel', v=[462.94, 466.19], cam=[[462.94, *B(345)]], cap='It said totals to be over *1.5 goals*.'),
     # ---- step 3: place it
     dict(id='g1', mode='bagel', v=[476.90, 480.10], sp=1, cam=[[476.90, *B(512)]], chapter=('Step 3 · Bagel', 'Place the combo'),
@@ -124,6 +126,8 @@ for p in P:
             q['camsrc'] = p['cam']
         if p.get('follow'):
             q['follow'] = True
+        if p.get('holds'):
+            q['holds'] = p['holds']
         if sp == 1 and not p.get('a') and not p.get('vo') and p.get('cap') is not None:
             voice.append(dict(a=[a, b], o0=t))
         pieces.append(q)
@@ -274,8 +278,15 @@ STAMPS = [                                            # each stays 1.5 s from th
     dict(t0=out_time(389.0, 'f16'), ok=True, text='Guijuelo v Sporting Gijón · Under 4.5', y=1080),
     dict(t0=out_time(464.8, 'f20'), ok=True, text='Frosinone v Lecce · Over 1.5', y=1080),
 ]
+def mode_end(t):
+    """Start of the first piece after time t that shows another app (a stamp ends with its screen)."""
+    i = next(i for i, q in enumerate(pieces) if q['o0'] <= t < q['o1'])
+    return next((q['o0'] for q in pieces[i + 1:] if q['mode'] != pieces[i]['mode']), DUR)
+
+
 for i, x in enumerate(STAMPS):
     x['t1'] = min(x['t0'] + 1.5, STAMPS[i + 1]['t0'] - .05) if i + 1 < len(STAMPS) else x['t0'] + 1.5
+    x['t1'] = min(x['t1'], mode_end(x['t0']))
 for s in STAMPS:
     s['t0'], s['t1'] = round(s['t0'], 3), round(s['t1'], 3)
 # the slip (cmvng, legs and odds) and the combo (Bagel, picks and the multiplier), as each screen shows them

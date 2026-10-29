@@ -51,7 +51,9 @@ const clipFrame = (id, kind, i) => img(`${VR}${id}/${kind}/f_${pad(clamp(i, 1, w
 function pieceAt(t) { for (const p of P.pieces) if (t >= p.o0 && t < p.o1) return p; return P.pieces[P.pieces.length - 1] }
 function srcIndex(p, t) {
   if (p.hold != null) return Math.round(p.hold * FPS)
-  const s = p.v0 + (t - p.o0) * p.sp, n = Math.round(s * FPS)
+  let s = p.v0 + (t - p.o0) * p.sp
+  for (const [a, b] of p.holds || []) if (s >= a && s < b) s = a - 1e-3      // hold the frame before a range
+  const n = Math.round(s * FPS)
   const k = p.step || 1, n0 = Math.round(p.v0 * FPS)
   return n0 + Math.floor((n - n0) / k) * k                         // fast pieces keep every k-th frame only
 }

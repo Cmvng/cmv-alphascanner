@@ -64,3 +64,7 @@ PW=<playwright> node ../../reactions/render.mjs "$PWD/bagel.html#<work>/src/" ou
     chips, floats and chapters).
 - **Zoom until the numbers read.** At 2.06× the stake screen's "Max payout $10.1" was about 18 px. At 3× it's about
   34 px.
+- **Watch the fast-forwards for what the app shows by itself.** Typing "gijon" and "lecce" into Bagel's search briefly
+  listed political markets (Israel, Iran, Ukraine) for 0.2–0.35 s. `holds` on a fast piece keeps the frame before such
+  a range. The frames were found by OCR of the kept frames; patched into the render with stills, so nothing re-timed.
+- **A stamp ends with its app's screen** (`mode_end` in plan.py): the Guijuelo stamp ran 0.18 s into cmvng.
