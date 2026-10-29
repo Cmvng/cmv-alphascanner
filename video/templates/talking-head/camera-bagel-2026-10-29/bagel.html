@@ -359,7 +359,7 @@ function capAt(t) { for (const c of P.caps) if (t >= c.o0 && t < c.o1) return c;
 // ---- one frame
 window.render = async t => {
   const p = pieceAt(t)
-  const im = p.mode === 'end' ? null : await srcFrame(srcIndex(p, t))
+  const im = p.mode === 'end' ? null : p.shot ? await img(p.shot) : await srcFrame(srcIndex(p, t))
   og.clearRect(0, 0, W, H)
   const bh = P.events.find(e => e.k === 'behind' && t >= e.t0 && t < e.t1)
   if (p.mode === 'cam') { if (im) await drawCamera(og, p, t, im); await drawFloats(og, t); drawIntro(og, t) }

@@ -1,0 +1,215 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Bagel and cmvng screens, redrawn</title>
+<style>
+/* The owner's screens from the 29 Oct recording, redrawn sharp at the card's shape (430x587 css, rendered at 1080x1474):
+   the same games, prices and buttons as the recording (video/templates/talking-head/camera-bagel-2026-10-29/sources.md).
+   Bagel's own font (Montserrat, from bagel.win); cmvng's (Manrope). One state per #hash. */
+@font-face{font-family:Mont;font-weight:400;src:url(../../../assets/fonts/montserrat/Montserrat-Regular.woff2)}
+@font-face{font-family:Mont;font-weight:500;src:url(../../../assets/fonts/montserrat/Montserrat-Medium.woff2)}
+@font-face{font-family:Mont;font-weight:600;src:url(../../../assets/fonts/montserrat/Montserrat-SemiBold.woff2)}
+@font-face{font-family:Mont;font-weight:700;src:url(../../../assets/fonts/montserrat/Montserrat-Bold.woff2)}
+@font-face{font-family:Mont;font-weight:800;src:url(../../../assets/fonts/montserrat/Montserrat-ExtraBold.woff2)}
+@font-face{font-family:Manrope;font-weight:600;src:url(../../../assets/fonts/manrope-latin-600-normal.woff2)}
+@font-face{font-family:Manrope;font-weight:800;src:url(../../../assets/fonts/manrope-latin-800-normal.woff2)}
+@font-face{font-family:Mono;font-weight:700;src:url(../../../assets/fonts/jetbrains-mono-latin-700-normal.woff2)}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:430px;height:587px;overflow:hidden;background:#fff}
+.s{display:none;position:relative;width:430px;height:587px;overflow:hidden;font-family:Mont,sans-serif;color:#111;background:#fff}
+.row{display:flex;align-items:center}
+/* Bagel */
+.sb{margin:10px 12px;height:44px;border:2px solid #F2D84B;border-radius:22px;display:flex;align-items:center;padding:0 14px;gap:12px;font-size:15px;font-weight:500;box-shadow:0 0 0 3px rgba(242,216,75,.25)}
+.sb .ph{color:#9a9a9a}.sb .q{text-decoration:underline;color:#222}.sb .x{margin-left:auto;width:22px;height:22px;border-radius:50%;background:#111;color:#fff;font-size:13px;display:flex;align-items:center;justify-content:center}
+.arrow{font-size:20px;color:#222}
+.h2{font-weight:700;font-size:17px;margin:18px 14px 10px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:0 14px}
+.chip{border:1px solid #e9e9e9;border-radius:16px;padding:6px 12px;font-size:13px;font-weight:600;display:flex;align-items:center;gap:6px;background:#fff}
+.dot{width:14px;height:14px;border-radius:4px;display:inline-block}
+.card{margin:10px 12px;border:1px solid #eee;border-radius:16px;padding:12px 14px;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.03)}
+.mt{font-weight:700;font-size:15.5px;line-height:1.25}
+.sub{font-size:11.5px;color:#8b8b8b;margin-top:3px}
+.oc{display:flex;align-items:center;justify-content:space-between;margin-top:9px;font-size:13px;font-weight:600}
+.pct{border:1px solid #e6e6e6;border-radius:14px;padding:4px 12px;font-weight:800;font-size:14px;min-width:52px;text-align:center}
+.pct small{font-size:9px;font-weight:700}
+.foot{display:flex;gap:12px;margin-top:10px;font-size:11.5px;font-weight:600;color:#333}
+.hdr{display:flex;align-items:center;justify-content:center;gap:8px;font-weight:700;font-size:17px;height:52px;position:relative}
+.hdr .l{position:absolute;left:14px;font-size:20px}.hdr .r{position:absolute;right:14px;width:34px;height:34px;border-radius:50%;border:1px solid #e7e7e7;display:flex;align-items:center;justify-content:center;font-size:16px}
+.cicon{width:18px;height:16px;display:inline-flex;gap:2px}.cicon i{display:block;width:4px;border-radius:2px;background:linear-gradient(#7fd0f0,#9b6cf0)}
+.score{display:flex;align-items:center;justify-content:space-between;margin:6px 18px 4px}
+.score .t{text-align:left;font-size:12px;font-weight:700}.score .t small{display:block;color:#9a9a9a;font-weight:500;font-size:10.5px}
+.score .n{font-weight:800;font-size:26px;letter-spacing:2px}
+.mrow{margin:8px 12px;border-radius:12px;background:#f6f6f6;padding:12px 14px;font-weight:600;font-size:14.5px;display:flex;justify-content:space-between}
+.lines{display:flex;gap:6px;margin:10px 14px 4px;font-size:12px;font-weight:600;color:#666}
+.lines span{padding:5px 8px;border-radius:8px}.lines .on{background:#111;color:#fff}
+.ou{display:flex;gap:10px;margin:10px 14px}.ou div{flex:1;border:1px solid #e2e2e2;border-radius:18px;padding:9px 0;text-align:center;font-weight:700;font-size:14px}
+.ou .y{background:#F6E051;border-color:#F6E051}
+.tabs{display:flex;gap:8px;margin:2px 12px 8px}.tabs span{border:1px solid #eee;border-radius:10px;padding:6px 10px;font-size:12.5px;font-weight:600}.tabs .on{background:#111;color:#fff}
+.leagues{display:flex;gap:10px;margin:6px 12px}.leagues div{width:62px;text-align:center;font-size:10px;font-weight:600;color:#444}
+.leagues b{display:block;width:56px;height:56px;border-radius:14px;margin:0 auto 4px;background:#f3f3f3}
+.combo{position:absolute;left:0;right:0;bottom:0;background:#fff;border-top:1px solid #eee;box-shadow:0 -6px 20px rgba(0,0,0,.08);border-radius:18px 18px 0 0;padding:12px 14px 16px}
+.toast{position:absolute;top:58px;left:50%;transform:translateX(-50%);background:#fff;border:1px solid #e6e6e6;border-radius:12px;padding:8px 16px;font-weight:700;font-size:14px;box-shadow:0 6px 18px rgba(0,0,0,.12);white-space:nowrap}
+.big{font-weight:800;font-size:72px;text-align:center;margin-top:120px}
+.mp{text-align:center;font-size:15px;font-weight:600;color:#333;margin-top:4px}.mp b{color:#22B573}.mx{text-align:center;color:#B13CE0;font-weight:800;font-size:16px;margin-top:4px}
+.keys{position:absolute;left:0;right:0;bottom:16px;display:grid;grid-template-columns:repeat(3,1fr);row-gap:18px;text-align:center;font-size:26px;font-weight:600}
+.quick{position:absolute;left:0;right:0;bottom:150px;display:flex;justify-content:space-around;font-size:14px;font-weight:700}
+.yb{background:#F6E051;border-radius:20px;padding:10px 0;text-align:center;font-weight:800;font-size:14px;flex:1}
+/* cmvng */
+.cm{font-family:Manrope,sans-serif;background:#f4f7fd}
+.cm .top{display:flex;align-items:center;gap:8px;padding:12px 16px;font-weight:800;font-size:17px;background:#fff;border-bottom:1px solid #e6ebf5}
+.bars{display:inline-flex;gap:2px;align-items:flex-end}.bars i{display:block;width:4px;background:#1F5FDB;border-radius:1px}
+.slip{margin:12px;background:#fff;border:1px solid #e1e8f5;border-radius:16px;padding:6px 14px 14px}
+.leg{display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-bottom:1px solid #eef2f9}
+.leg .ic{width:20px;height:20px;border-radius:50%;flex:none;margin-top:2px}
+.leg .tx{flex:1}.leg .nm{font-weight:800;font-size:13px}.leg .mk{font-weight:600;font-size:12px;color:#1F5FDB}.leg .nt{font-size:10.5px;color:#8a94a8;font-weight:600}
+.leg .od{font-family:Mono;font-size:13px;font-weight:700}.leg .sw{font-size:10.5px;color:#8a94a8;margin-left:8px;font-weight:600}
+.tot{display:flex;justify-content:space-between;margin-top:10px;font-weight:800;font-size:13px}.tot b{font-family:Mono}
+.code{display:flex;align-items:center;justify-content:space-between;border:1px solid #dfe6f3;border-radius:12px;padding:9px 12px;margin-top:10px;font-family:Mono;font-weight:700;font-size:17px;letter-spacing:1px}
+.copy{background:#1F5FDB;color:#fff;font-family:Manrope;font-weight:800;font-size:12px;border-radius:14px;padding:6px 14px;letter-spacing:0}
+.btns{display:flex;gap:8px;margin-top:10px}.btns span{border:1px solid #cfdaf0;border-radius:14px;padding:6px 14px;font-size:12px;font-weight:800;color:#1F5FDB}
+.note{color:#C9821A;font-size:11.5px;font-weight:700;margin:10px 2px 2px;line-height:1.35}
+.bdg{display:inline-flex;align-items:center;justify-content:center;border-radius:50%;font-weight:800;font-size:11px;flex:none;letter-spacing:.3px}
+.compact .bubble{display:none}.compact .leg{padding:5px 0}.compact .leg .nm{font-size:12px}.compact .leg .mk{font-size:11px}.compact .leg .ic{width:16px;height:16px}.compact .code{padding:6px 12px;font-size:15px}
+.bubble{margin:10px 14px 0 auto;width:max-content;background:#1F5FDB;color:#fff;font-weight:700;font-size:12px;border-radius:14px 14px 4px 14px;padding:7px 12px}
+</style></head>
+<body>
+
+<!-- ============ Bagel ============ -->
+<div class="s" id="b_search">
+  <div class="sb"><span class="arrow">←</span><span class="ph">Search for markets, topics or people…</span></div>
+  <div class="row" style="justify-content:space-between;margin-right:14px"><div class="h2">Recent searches</div><span style="font-size:16px">🗑</span></div>
+  <div class="chips"><span class="chip">porto</span><span class="chip">liverpool</span><span class="chip">migori</span></div>
+  <div class="h2">Trending</div>
+  <div class="chips">
+    <span class="chip"><i class="dot" style="background:#E8414B"></i>La Liga</span><span class="chip"><i class="dot" style="background:#3D195B"></i>Premier League</span>
+    <span class="chip"><i class="dot" style="background:#F7931A;border-radius:50%"></i>Bitcoin</span><span class="chip"><i class="dot" style="background:#E5A823"></i>CS2</span>
+    <span class="chip"><i class="dot" style="background:#C89B3C"></i>LoL</span><span class="chip"><i class="dot" style="background:#111"></i>NBA</span>
+    <span class="chip"><i class="dot" style="background:#A2231D"></i>Dota 2</span><span class="chip"><i class="dot" style="background:#1B3C8C"></i>ATP</span>
+    <span class="chip"><i class="dot" style="background:#2EC27E"></i>WTA</span><span class="chip"><i class="dot" style="background:#FF4655"></i>Valorant</span>
+    <span class="chip"><i class="dot" style="background:#222"></i>IPOs</span><span class="chip"><i class="dot" style="background:#E34B3E;width:5px"></i>Temperature</span>
+  </div>
+</div>
+
+<div class="s" id="b_nores">
+  <div class="sb"><span class="arrow">←</span><span class="q" data-q>Al-Hazm</span><span class="x">✕</span></div>
+  <div style="text-align:center;margin-top:120px;font-size:56px">🔍</div>
+  <div style="text-align:center;font-weight:700;font-size:17px;margin-top:10px">No results found</div>
+  <div style="text-align:center;color:#8b8b8b;font-size:13.5px;margin-top:6px;line-height:1.4">Try searching with a different<br>keyword.</div>
+</div>
+
+<div class="s" id="b_results">
+  <div class="sb"><span class="arrow">←</span><span class="q">everton</span><span class="x">✕</span></div>
+  <div class="card" data-mark="evecard">
+    <div class="row" style="gap:12px"><span class="bdg" style="background:#00843D;color:#fff;width:46px;height:46px">EFL</span>
+      <div><div class="mt">Everton FC vs. Newcastle<br>United FC</div><div class="sub">8:45 PM</div></div></div>
+    <div class="oc"><span>EVE</span><span class="pct">44<small>%</small></span></div>
+    <div class="oc"><span>NEW</span><span class="pct">31<small>%</small></span></div>
+    <div class="oc"><span>Draw</span><span class="pct">28<small>%</small></span></div>
+    <div class="foot"><span>🔵 $2.4k</span><span>🏆 EFL Cup</span></div>
+  </div>
+  <div class="card">
+    <div class="mt">Newcastle United FC vs.<br>Everton FC</div><div class="sub">Nov 02 9:00 PM</div>
+    <div class="oc"><span>NEW</span><span class="pct">42<small>%</small></span></div>
+    <div class="oc"><span>EVE</span><span class="pct">33<small>%</small></span></div>
+  </div>
+</div>
+
+<div class="s" id="b_event">
+  <div class="hdr"><span class="l">←</span><span class="cicon"><i style="height:10px"></i><i style="height:16px"></i><i style="height:12px"></i></span>Build a Combo</div>
+  <div class="score"><div class="t"><span class="bdg" data-b style="background:#274488;color:#fff;width:38px;height:38px">EFC</span><br>EVE<small>Everton FC</small></div>
+    <div class="n">0 - 0</div>
+    <div class="t" style="text-align:right"><span style="display:flex;justify-content:flex-end"><span class="bdg" style="background:#111;color:#fff;width:38px;height:38px">NUFC</span></span>NEW<small>Newcastle United FC</small></div></div>
+  <div class="mrow"><span>Moneyline</span><span>›</span></div>
+  <div class="mrow"><span>Spreads</span><span>›</span></div>
+  <div class="mrow" style="display:block;padding-bottom:6px" data-mark="totals"><div class="row" style="justify-content:space-between"><span>Totals</span><span>⌄</span></div>
+    <div style="font-size:13px;margin-top:10px;font-weight:700">🟩 O/U 4.5</div>
+    <div class="lines"><span>0.5</span><span>1.5</span><span>2.5</span><span>3.5</span><span class="on" data-mark="l45">4.5</span><span>5.5</span><span>6.5</span><span>7.5</span></div>
+    <div style="font-size:11px;color:#8b8b8b;font-weight:600;margin:4px 2px 0">$1,200 Vol.</div>
+    <div class="ou" style="margin:10px 0 6px"><div>Over 18%</div><div data-mark="under" data-sel>Under 84%</div></div>
+  </div>
+  <div class="mrow"><span>Both Teams to Score</span><span>›</span></div>
+</div>
+
+<div class="s" id="b_home">
+  <div class="hdr"><span class="l">←</span><span class="cicon"><i style="height:10px"></i><i style="height:16px"></i><i style="height:12px"></i></span>Build a Combo<span class="r">⌕</span></div>
+  <div class="toast" data-toast style="display:none">✅ Combo Order Placed</div>
+  <div class="tabs"><span>🔴 Live</span><span class="on">⚽ Soccer</span><span>🎮 Esports</span><span>🏀 Basketball</span></div>
+  <div class="leagues"><div><b style="background:#111"></b>All</div><div><b style="background:#3D195B"></b>Premier…</div><div><b style="background:#E8414B"></b>La Liga</div><div><b style="background:#1B2F8A"></b>UCL</div><div><b style="background:#D20515"></b>Bundesli…</div></div>
+  <div class="h2" style="font-size:16px;margin-top:12px">Starting Soon<br>Today</div>
+  <div class="card"><div class="row" style="gap:12px"><span class="bdg" style="background:#1B2F8A;color:#fff;width:40px;height:40px">ACL</span>
+    <div><div class="mt">BG Tampines Rovers vs. PKR<br>Svay Rieng</div><div class="sub">11:00 AM</div></div></div>
+    <div class="oc"><span>TAM</span><span class="pct">36<small>%</small></span></div><div class="oc"><span>SVR</span><span class="pct">42<small>%</small></span></div></div>
+  <div class="combo" data-combo data-mark="combobar"><div class="row" style="justify-content:space-between;font-weight:700;font-size:15px"><span><span class="cicon"><i style="height:10px"></i><i style="height:16px"></i><i style="height:12px"></i></span> Combo 5 picks</span><span style="font-size:13px">Clear ✕</span></div>
+    <div style="font-size:12.5px;font-weight:600;margin-top:8px">🟩 Everton FC vs. Newcastle United FC: O/U 4.5</div><div style="font-size:11px;font-weight:700;color:#555;margin-top:2px">Under 84%</div></div>
+</div>
+
+<div class="s" id="b_stake">
+  <div class="hdr" style="text-decoration:underline"><span class="cicon"><i style="height:10px"></i><i style="height:16px"></i><i style="height:12px"></i></span>Combo 5 picks<span class="r" style="border:0">✕</span></div>
+  <div data-mark="stake" style="width:220px;margin:0 auto;padding-bottom:6px"><div class="big">$5</div><div class="mp">Max payout <b>$10.1</b></div><div class="mx">2.02x</div></div>
+  <div class="quick"><span>+$10</span><span>+$25</span><span>+$50</span><span>Max</span></div>
+  <div class="keys"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span></div>
+</div>
+
+<div class="s" id="b_pos">
+  <div style="margin:16px 14px 0;border-radius:16px;background:#fff;border:1px solid #eee;padding:14px">
+    <div class="row" style="justify-content:space-between;font-size:12.5px;color:#888;font-weight:600"><span>Portfolio</span><span>🔵 Available: <b style="color:#111">$20</b></span></div>
+    <div style="font-weight:800;font-size:28px;margin-top:4px">$29.66</div>
+    <div class="row" style="gap:10px;margin-top:12px"><span class="yb">Add Funds</span><span class="yb">Withdraw</span></div></div>
+  <div class="row" style="gap:16px;margin:16px 16px 6px;font-size:13px;font-weight:700;color:#999"><span style="color:#111;background:#f1f1f1;border-radius:10px;padding:5px 10px">Positions</span><span>Open</span><span>History</span></div>
+  <div class="card" data-mark="pos" style="padding-bottom:14px"><div class="row" style="justify-content:space-between;font-weight:800;font-size:15px"><span><span class="cicon"><i style="height:10px"></i><i style="height:16px"></i><i style="height:12px"></i></span> 5 Pick Combo</span><span style="color:#B13CE0">2.02x</span></div>
+    <div style="font-size:12.5px;font-weight:600;margin-top:10px">CD Guijuelo vs. Real Sporting de Gijón: O/U 4.5</div><div style="font-size:11px;font-weight:700;color:#555">Under</div>
+    <div style="font-size:12.5px;font-weight:600;margin-top:8px">Everton FC vs. Newcastle United FC: O/U 4.5</div><div style="font-size:11px;font-weight:700;color:#555">Under</div>
+    <div style="font-size:12.5px;font-weight:600;margin-top:8px">Frosinone Calcio vs. US Lecce: O/U 1.5</div><div style="font-size:11px;font-weight:700;color:#555">Over</div>
+    <div style="text-align:right;font-size:12px;font-weight:700;margin-top:10px">$4.82 <span style="color:#aaa">Max payout</span> $9.77</div></div>
+</div>
+
+<!-- ============ cmvng ============ -->
+<div class="s cm" id="c_slip">
+  <div class="top"><span class="bars"><i style="height:8px"></i><i style="height:12px"></i><i style="height:16px"></i></span>cmvng</div>
+  <div data-bubble class="bubble">I want 2 odds from big teams</div>
+  <div class="slip" data-mark="slip"><div data-note class="note" style="display:none"></div><div data-legs></div>
+    <div class="tot" data-mark="tot"><span data-n>4 legs</span><b data-odds>2.01 odds</b></div>
+    <div class="code"><span data-code>S6ST3Q</span><span class="copy">Copy</span></div>
+    <div class="btns"><span data-mark="push">Push higher</span><span data-mark="safer">Safer</span></div></div>
+</div>
+
+<script>
+const LEGS = {
+  khaleej: ['#1E8C3A', 'Al-Khaleej Club vs Al-Hazm', 'Under 4.5 Goals', 'Big game · 92% on our numbers · Thu 15:35', '1.12'],
+  midt: ['#B7121F', 'FC Midtjylland vs Odense Boldklub', 'Double Chance: FC Midtjylland or Draw', 'Big game · 92% on our numbers · Thu 19:30', '1.18'],
+  everton: ['#274488', 'Everton vs Newcastle', 'Under 4.5 Goals', 'Big game · 91% on our numbers · Thu 20:45', '1.18'],
+  voluntari: ['#D9A21B', 'SC FC Voluntari vs CS Universitatea Craiova', 'CS Universitatea Craiova (Draw No Bet)', 'Big game · 92% on our numbers · Thu 18:00', '1.29'],
+  leverkusen: ['#E32221', 'Bayer Leverkusen vs Stuttgart', 'Over 1.5 Goals', 'Big game · 85% on our numbers · Sat 15:30', '1.09'],
+  benfica: ['#E2001A', 'Benfica vs Gil Vicente Barcelos', 'Double Chance: Benfica or Draw', "Big game · the read's own bet · 80% on our numbers", '1.09'],
+  antigua: ['#7A7A7A', 'Antigua GFC vs Deportivo San Pedro', 'Double Chance: Antigua GFC or Draw', 'Smaller league · 91% on our numbers · Fri 21:00', '1.09'],
+  hougang: ['#F2A900', 'Hougang United FC vs Young Lions FC', 'Over 1.5 Goals', "Smaller league · the read's own bet · 99% on our numbers", '1.09'],
+  shabana: ['#5A2D82', 'Shabana FC vs Migori Youth FC', 'Under 3.5 Goals', '', '1.13'],
+}
+const SLIPS = {
+  c_slip4: { legs: ['khaleej', 'midt', 'everton', 'voluntari'], n: '4 legs', odds: '2.01 odds', code: 'S6ST3Q', bubble: 'I want 2 odds from big teams' },
+  c_slip8: { legs: ['khaleej', 'midt', 'everton', 'voluntari', 'leverkusen', 'benfica', 'antigua', 'hougang'], n: '8 legs', odds: '2.84 odds', code: 'NRQ3SJ', bubble: 'push higher', note: 'Added Hougang United FC vs Young Lions FC (Over 1.5 Goals @1.09) to push it higher' },
+  c_safer: { legs: ['khaleej', 'midt', 'everton', 'leverkusen', 'benfica', 'antigua', 'hougang', 'shabana'], n: '8 legs', odds: '2.49 odds', code: 'PXGEPV', bubble: 'safer',
+             note: 'Safer: SK Artis Brno vs FC Zlin @1.29 out, Shabana FC vs Migori Youth FC @1.13 in' },
+}
+window.show = (id, opts = {}) => {
+  document.querySelectorAll('.s').forEach(e => e.style.display = 'none')
+  const base = SLIPS[id] ? 'c_slip' : id.replace(/_sel$|_placed$|_0$/, '').replace(/^b_nores.*/, 'b_nores')
+  const el = document.getElementById(base); el.style.display = 'block'
+  if (SLIPS[id]) {
+    const S = SLIPS[id]
+    el.querySelector('[data-legs]').innerHTML = S.legs.map(k => { const [c, nm, mk, nt, od] = LEGS[k]
+      return `<div class="leg" data-leg="${k}"><i class="ic" style="background:${c}"></i><div class="tx"><div class="nm">${nm}</div><div class="mk">${mk}</div></div><span class="od">${od}</span><span class="sw">Swap</span></div>` }).join('')
+    el.querySelector('[data-n]').textContent = S.n; el.querySelector('[data-odds]').textContent = S.odds; el.querySelector('[data-code]').textContent = S.code
+    el.querySelector('[data-bubble]').textContent = S.bubble; el.classList.toggle('compact', S.legs.length > 5)
+    const nt = el.querySelector('[data-note]'); nt.style.display = S.note ? 'block' : 'none'; nt.textContent = S.note || ''
+  }
+  if (base === 'b_nores') el.querySelector('[data-q]').textContent = opts.q || 'Al-Hazm'
+  if (base === 'b_event') el.querySelector('[data-sel]').classList.toggle('y', id.endsWith('_sel'))
+  if (base === 'b_home') { el.querySelector('[data-toast]').style.display = id.endsWith('_placed') ? 'block' : 'none'; el.querySelector('[data-combo]').style.display = id.endsWith('_0') ? 'none' : 'block' }
+  // rects of the marked elements, in output pixels (x 1080/430)
+  const k = 1080 / 430, R = {}
+  el.querySelectorAll('[data-mark]').forEach(m => { const r = m.getBoundingClientRect(); R[m.dataset.mark] = [r.x * k, r.y * k, r.width * k, r.height * k].map(v => Math.round(v)) })
+  el.querySelectorAll('[data-leg]').forEach(m => { const r = m.getBoundingClientRect(); R['leg_' + m.dataset.leg] = [r.x * k, r.y * k, r.width * k, r.height * k].map(v => Math.round(v)) })
+  return R
+}
+window.READY = document.fonts.ready.then(() => Promise.all(['400 16px Mont', '600 16px Mont', '700 16px Mont', '800 16px Mont', '800 16px Manrope', '600 16px Manrope', '700 16px Mono'].map(f => document.fonts.load(f))))
+</script>
+</body></html>

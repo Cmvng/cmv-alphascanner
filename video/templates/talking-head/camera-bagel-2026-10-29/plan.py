@@ -34,57 +34,38 @@ P = [
          cap='if potentially *Polymarket* does an airdrop,|the market linked to your Bagel|will be eligible for the airdrop,'),
     dict(id='c4c', mode='cam', v=[45.32, 48.13], cap='based on the mathematics and semantics and whatever.'),
     dict(id='c5', mode='cam', v=[48.53, 57.37], cap='So in this video, basically, I\'m going to be telling you,|like, showing you how I make a *combo pick*|using my own prediction app and using *Bagel*.'),
-    # ---- the two apps
-    dict(id='d1', mode='both', v=[61.95, 63.00], a=[61.95, 63.84], a_at=0.0, cap='I am currently on the Bagel app,'),
-    dict(id='d1b', mode='bagel', v=[63.00, 63.84], cam=[[63.00, *B(400)]]),
-    dict(id='d2', mode='cmvng', v=[90.54, 93.25], cam=[[90.54, *C(310, 2.15)]], cap='Now this is on the right side of my screen,|it\'s actually my football app.'),
-    # ---- step 1: the slip, built by the owner's own app
-    dict(id='e1', mode='cmvng', v=[95.53, 99.21], cam=[[95.53, *C(310, 2.15)]], chapter=('Step 1 · cmvng', 'Build the slip'),
+    # ---- from here the screens are redrawn sharp from the recording (screens.html, shots.mjs): the same games, prices
+    # and buttons; the voice is the owner's, from the same spans
+    dict(id='d1', mode='bagel', shot='b_home_0', a=[61.95, 63.84], pad=.2, cap='I am currently on the Bagel app,'),
+    dict(id='d2', mode='cmvng', shot='c_home', a=[90.54, 93.25], pad=.3, cap='Now this is on the right side of my screen,|it\'s actually my football app.'),
+    dict(id='e1', mode='cmvng', shot='c_builder', a=[95.53, 99.21], pad=.3, chapter=('Step 1 · cmvng', 'Build the slip'),
          cap='So basically, like, I want to actually, like,|build *two odds* for today, so I\'ll…'),
-    dict(id='e2', mode='cmvng', v=[99.40, 124.0], sp=10, cam=[[99.40, *C(300, 2.2)], [117.6, *C(300, 2.2)], [120.5, *C(400, 2.2), 1.0]]),
-    dict(id='e3', mode='cmvng', v=[146.09, 152.13], cam=[[146.09, *C(760, 2.2)]],
+    dict(id='e3', mode='cmvng', shot='c_slip4', a=[146.09, 152.13], pad=.2,
          cap='So basically, like, these are the games,|but basically, like, I do not know this team.|The only team I know is only Everton versus Newcastle.'),
-    # the owner says "push higher" four times as the slip grows; one take plays, over the press itself and on into the
-    # montage (the line has no pause after "higher" to cut at)
-    dict(id='e4', mode='cmvng', v=[152.50, 153.92], cam=[[152.50, *C(760, 2.2)]], vo=[158.35, 161.84], vo_at=0.35,
+    dict(id='e4a', mode='cmvng', shot='c_slip4', a=[158.35, 161.84], a_at=.35, dur=1.45,
          cap='I\'ll press *push higher*.|I only want teams that I know of to be there.'),
-    dict(id='e5', mode='cmvng', v=[153.92, 178.90], sp=5, follow=True),
-    dict(id='e6', mode='cmvng', v=[181.90, 187.00], follow=True,
+    dict(id='e4b', mode='cmvng', shot='c_slip8', dur=2.75),
+    dict(id='e6', mode='cmvng', shot='c_slip8', a=[181.90, 187.00], pad=.1,
          cap='Now basically, I want to make this to be as safe as possible.|Like, I want to make this slip as safe as possible.'),
-    dict(id='e7', mode='cmvng', v=[187.00, 196.90], sp=5, follow=True),
-    # ---- step 2: find each game on Bagel
-    dict(id='f1', mode='bagel', v=[200.63, 202.97], cam=[[200.63, *B(345)]], chapter=('Step 2 · Bagel', 'Find each game'),
-         cap='on Bagel, I\'ll just click on search,'),
-    dict(id='f2', mode='bagel', v=[202.97, 213.40], sp=7, cam=[[202.97, *B(345)]]),
-    dict(id='f3', mode='bagel', v=[213.40, 216.63], cam=[[213.40, *B(345)]], cap='Okay, now that\'s the problem with this thing:|I can\'t find this game.'),
-    dict(id='f4', mode='bagel', v=[216.63, 258.78], sp=20, cam=[[216.63, *B(345)]]),
-    dict(id='f5', mode='bagel', v=[258.78, 261.72], cam=[[258.78, *B(345)]], cap='Everton versus Newcastle.|Okay, you can find Everton\'s match.'),
-    dict(id='f6', mode='bagel', v=[262.11, 267.28], cam=[[262.11, *B(345)]], cap='So I will go to here, I\'ll go to *totals*,|I\'ll click on *4.5*, I\'ll click,|I will add it to my *combo pick*.'),
-    dict(id='f7', mode='bagel', v=[267.28, 285.40], sp=12, cam=[[267.28, *B(345)]]),
-    dict(id='f8', mode='bagel', v=[285.40, 287.48], sp=1, cam=[[285.40, *B(345)]]),
-    dict(id='f9', mode='bagel', v=[287.48, 311.21], sp=18, cam=[[287.48, *B(345)]]),
-    dict(id='f10', mode='bagel', v=[311.21, 313.01], cam=[[311.21, *B(345)]], cap='I can\'t find this match.'),
-    dict(id='f11', mode='bagel', v=[313.01, 345.97], sp=20, cam=[[313.01, *B(345)]]),
-    dict(id='f12', mode='bagel', v=[345.97, 348.12], cam=[[345.97, *B(345)]], cap='So under *4.5 goals*,'),
-    dict(id='f13', mode='bagel', v=[348.12, 370.50], sp=18, cam=[[348.12, *B(345)]]),
-    dict(id='f14', mode='bagel', v=[370.50, 372.40], cam=[[370.50, *B(345)]], cap='It\'s not there.'),
-    # holds: Bagel's search briefly lists political markets (Israel, Iran, Ukraine) while "gijon" and "lecce" are typed;
-    # those frames hold the frame before them
-    dict(id='f15', mode='bagel', v=[372.40, 386.11], sp=12, cam=[[372.40, *B(345)]], holds=[[382.7, 384.38]]),
-    dict(id='f16', mode='bagel', v=[386.11, 390.32], cam=[[386.11, *B(345)]], cap='Okay, I think I can find it.|Under 4.5 goals, good, good.|I can find this game.'),
-    dict(id='f17', mode='cmvng', v=[437.84, 440.52], cam=[[437.84, *C(740)]], cap='What is this, for crying out loud.'),
-    dict(id='f18', mode='cmvng', v=[443.70, 445.29], cam=[[443.70, *C(780)]], cap='It is what it is.'),
-    dict(id='f19', mode='bagel', v=[445.29, 462.94], sp=12, cam=[[445.29, *B(345)]], holds=[[454.0, 457.68]]),
-    dict(id='f20', mode='bagel', v=[462.94, 466.19], cam=[[462.94, *B(345)]], cap='It said totals to be over *1.5 goals*.'),
-    # ---- step 3: place it
-    dict(id='g1', mode='bagel', v=[476.90, 480.10], sp=1, cam=[[476.90, *B(512)]], chapter=('Step 3 · Bagel', 'Place the combo'),
-         a=[478.77, 480.10], a_at=1.87, cap='It\'s now complete.'),
-    dict(id='g2', mode='bagel', v=[482.09, 485.56], cam=[[482.09, 290, 349, 3.0]], cap='So I\'ll just click here,|I\'ll just click on *$5* to buy,'),
-    dict(id='g3', mode='bagel', v=[490.40, 491.60], cam=[[490.40, *B(345)]], a=[492.15, 494.29], a_at=0.3, cap='My combo pick has been played.'),
-    dict(id='g4', mode='bagel', v=[491.60, 492.84], hold=491.60, cam=[[491.60, *B(345)]]),
-    # ---- the end
-    dict(id='h1', mode='bagel', v=[506.0, 509.0], sp=1, cam=[[506.0, *B(512)]], a=[515.84, 522.12], a_at=0.0, vdur=6.28,
-         cap='And I hope you actually enjoyed this video|and explore *Bagel* today. Peace.'),
+    dict(id='e6b', mode='cmvng', shot='c_safer', dur=1.6),
+    dict(id='f1', mode='bagel', shot='b_search', a=[200.63, 202.97], pad=.3, chapter=('Step 2 · Bagel', 'Find each game'), cap='on Bagel, I\'ll just click on search,'),
+    dict(id='f3', mode='bagel', shot='b_nores', a=[213.40, 216.63], pad=.6, cap='Okay, now that\'s the problem with this thing:|I can\'t find this game.'),
+    dict(id='f5', mode='bagel', shot='b_results', a=[258.78, 261.72], pad=.2, cap='Everton versus Newcastle.|Okay, you can find Everton\'s match.'),
+    dict(id='f6a', mode='bagel', shot='b_event', a=[262.11, 267.28], dur=3.34,
+         cap='So I will go to here, I\'ll go to *totals*,|I\'ll click on *4.5*, I\'ll click,|I will add it to my *combo pick*.'),
+    dict(id='f6b', mode='bagel', shot='b_event_sel', dur=2.3),
+    dict(id='f8', mode='bagel', shot='b_home', dur=1.4),
+    dict(id='f10', mode='bagel', shot='b_nores_benfica', a=[311.21, 313.01], pad=.4, cap='I can\'t find this match.'),
+    dict(id='f12', mode='bagel', shot='b_home', a=[345.97, 348.12], pad=.3, cap='So under *4.5 goals*,'),
+    dict(id='f14', mode='bagel', shot='b_nores_shabana', a=[370.50, 372.40], pad=.4, cap='It\'s not there.'),
+    dict(id='f16', mode='bagel', shot='b_home', a=[386.11, 390.32], pad=.3, cap='Okay, I think I can find it.|Under 4.5 goals, good, good.|I can find this game.'),
+    dict(id='f17', mode='cmvng', shot='c_safer', a=[437.84, 440.52], pad=.3, cap='What is this, for crying out loud.'),
+    dict(id='f18', mode='cmvng', shot='c_safer', a=[443.70, 445.29], pad=.3, cap='It is what it is.'),
+    dict(id='f20', mode='bagel', shot='b_home', a=[462.94, 466.19], pad=.4, cap='It said totals to be over *1.5 goals*.'),
+    dict(id='g1', mode='bagel', shot='b_home', a=[478.77, 480.10], pad=.6, chapter=('Step 3 · Bagel', 'Place the combo'), cap='It\'s now complete.'),
+    dict(id='g2', mode='bagel', shot='b_stake', a=[482.09, 485.56], pad=.4, cap='So I\'ll just click here,|I\'ll just click on *$5* to buy,'),
+    dict(id='g3', mode='bagel', shot='b_home_placed', a=[492.15, 494.29], pad=1.0, cap='My combo pick has been played.'),
+    dict(id='h1', mode='bagel', shot='b_pos', a=[515.84, 522.12], pad=.3, cap='And I hope you actually enjoyed this video|and explore *Bagel* today. Peace.'),
     dict(id='end', mode='end', dur=3.0),
 ]
 
@@ -98,12 +79,21 @@ def gaps(a, b, mn=.42):
 
 
 # ---- build the output timeline
+SHOTS = '../../../out/bagel-2026-10-29/clean/shots/'
+RECTS = json.load(open(os.path.join(HERE, '../../../out/bagel-2026-10-29/clean/shots/rects.json')))
 pieces, t, voice = [], 0.0, []
 for p in P:
     mode = p['mode']
     if mode in ('title', 'end'):
         pieces.append(dict(id=p['id'], mode=mode, o0=t, o1=t + p['dur'], v0=p.get('hold', 0), hold=p.get('hold'), sp=1))
         t += p['dur']; continue
+    if p.get('shot'):                                # a redrawn screen, full card; its voice from the span a
+        dur = p.get('dur') or (p['a'][1] - p['a'][0] + p.get('a_at', 0) + p.get('pad', 0))
+        pieces.append(dict(id=p['id'], mode=mode, o0=t, o1=t + dur, v0=-1, v1=-1, sp=1, step=1, hold=None,
+                           shot=SHOTS + p['shot'] + '.png', cam=[[round(t, 3), 540, 737, 0.889, .5]]))
+        if p.get('a'):
+            voice.append(dict(a=p['a'], o0=t + p.get('a_at', 0)))
+        t += dur; continue
     v0, v1 = p['v']; sp = p.get('sp', 1)
     spans = [(v0, v1)]
     if p.get('tight'):
@@ -229,13 +219,15 @@ for q in pieces:
         q.pop('camsrc', None)
 
 # ---- the owner's video reactions (output times from the words they answer)
+def at(pid, dt):
+    q = next(q for q in pieces if q['id'] == pid)
+    return round(q['o0'] + dt if dt >= 0 else q['o1'] + dt, 3)
+
+
 EV = [                                               # three reactions, as stickers (the owner's pick, 29 Oct)
-    dict(k='sticker', id='sob', t0=round(out_time(215.05, 'f3'), 3), dur=3.0, from_=0.3, x=300, y=1075, w=470, rot=-4,
-         note="I can't find this game"),
-    dict(k='sticker', id='itsover', t0=round(out_time(439.25, 'f17'), 3), dur=2.8, from_=0.0, x=480, y=860, w=520, rot=4,
-         note='for crying out loud'),
-    dict(k='sticker', id='grin', t0=round(voice_time(492.15) - .05, 3), dur=3.2, from_=0.3, x=280, y=940, w=520, rot=-3,
-         note='My combo pick has been played'),
+    dict(k='sticker', id='sob', t0=at('f3', 1.65), dur=3.0, from_=0.3, x=300, y=1075, w=470, rot=-4, note="I can't find this game"),
+    dict(k='sticker', id='itsover', t0=at('f17', 1.41), dur=2.8, from_=0.0, x=480, y=860, w=520, rot=4, note='for crying out loud'),
+    dict(k='sticker', id='grin', t0=at('g3', 0), dur=3.2, from_=0.3, x=280, y=940, w=520, rot=-3, note='My combo pick has been played'),
 ]
 for e in EV:
     if 'dur' in e:
@@ -243,28 +235,31 @@ for e in EV:
     e['from'] = e.pop('from_')
 
 # ---- marks on the real screens [x, y, w, h] in recording pixels, and the stamps and the tracker
-MARKS = [
-    dict(t0=out_time(97.0, 'e1'), t1=out_time(99.2, 'e1'), r=[566, 263, 432, 49]),                 # the ask box
-    dict(t0=out_time(150.6, 'e3'), t1=out_time(152.1, 'e3'), r=[572, 572, 400, 48]),               # Everton v Newcastle
-    dict(t0=out_time(152.6, 'e4'), t1=out_time(153.9, 'e4'), r=[575, 768, 84, 26]),                # Push higher
-    dict(t0=out_time(185.6, 'e6'), t1=out_time(186.95, 'e6'), r=[660, 907, 46, 23]),               # Safer ("as safe as possible")
-    dict(t0=out_time(262.9, 'f6'), t1=out_time(263.8, 'f6'), r=[68, 425, 445, 46]),                # Totals
-    dict(t0=out_time(264.2, 'f6'), t1=out_time(265.3, 'f6'), r=[311, 525, 50, 36]),                # 4.5
-    dict(t0=out_time(265.4, 'f6'), t1=out_time(266.3, 'f6'), r=[296, 615, 196, 50]),               # Under 84% (the panel closes at 266.35)
-    dict(t0=out_time(482.6, 'g2'), t1=out_time(485.5, 'g2'), r=[212, 288, 156, 130]),              # $5, max payout, 2.02x
-    dict(t0=out_time(490.6, 'g3'), t1=out_time(491.6, 'g3') + 1.2, r=[196, 60, 218, 38]),              # Combo Order Placed
+MARKS = [                                            # outlines on the redrawn screens (rects from screens.html)
+    dict(t0=at('e3', 4.0), t1=at('e3', -.05), r=RECTS['c_slip4']['leg_everton']),
+    dict(t0=at('e4a', .3), t1=at('e4a', -.02), r=RECTS['c_slip4']['push']),
+    dict(t0=at('e4b', .2), t1=at('e4b', -.05), r=RECTS['c_slip8']['tot']),
+    dict(t0=at('e6', -1.7), t1=at('e6', -.02), r=RECTS['c_slip8']['safer']),
+    dict(t0=at('e6b', .1), t1=at('e6b', -.05), r=RECTS['c_safer']['tot']),
+    dict(t0=at('f5', .5), t1=at('f5', -.05), r=RECTS['b_results']['evecard']),
+    dict(t0=at('f6a', .8), t1=at('f6a', 1.9), r=RECTS['b_event']['totals']),
+    dict(t0=at('f6a', 2.0), t1=at('f6a', -.02), r=RECTS['b_event']['l45']),
+    dict(t0=at('f6b', 0), t1=at('f6b', 1.3), r=RECTS['b_event_sel']['under']),
+    dict(t0=at('g1', .2), t1=at('g1', -.05), r=RECTS['b_home']['combobar']),
+    dict(t0=at('g2', .6), t1=at('g2', -.05), r=RECTS['b_stake']['stake']),
+    dict(t0=at('h1', .3), t1=at('h1', 3.6), r=RECTS['b_pos']['pos']),
 ]
 for m in MARKS:
     m['t0'], m['t1'] = round(m['t0'], 3), round(m['t1'], 3)
-STAMPS = [                                            # each stays 1.5 s from the moment it marks
-    dict(t0=out_time(216.0, 'f3'), ok=False, text='Al-Khaleej v Al-Hazm', y=270),
-    dict(t0=out_time(266.7, 'f6'), ok=True, text='Everton v Newcastle · Under 4.5', y=1080),
-    dict(t0=out_time(285.6, 'f8'), ok=True, text='Leverkusen v Stuttgart · Over 1.5', y=1080),
-    dict(t0=out_time(311.4, 'f10'), ok=False, text='Benfica v Gil Vicente', y=1080),
-    dict(t0=out_time(346.2, 'f12'), ok=True, text='Brentford v Forest · Under 4.5', y=1080),
-    dict(t0=out_time(370.6, 'f14'), ok=False, text='Shabana v Migori Youth', y=270),
-    dict(t0=out_time(389.0, 'f16'), ok=True, text='Guijuelo v Sporting Gijón · Under 4.5', y=1080),
-    dict(t0=out_time(464.8, 'f20'), ok=True, text='Frosinone v Lecce · Over 1.5', y=1080),
+STAMPS = [                                           # each stays 1.5 s from the moment it marks
+    dict(t0=at('f3', 2.6), ok=False, text='Al-Khaleej v Al-Hazm', y=270),
+    dict(t0=at('f6b', .7), ok=True, text='Everton v Newcastle · Under 4.5', y=1000),
+    dict(t0=at('f8', .1), ok=True, text='Leverkusen v Stuttgart · Over 1.5', y=700),
+    dict(t0=at('f10', .2), ok=False, text='Benfica v Gil Vicente', y=270),
+    dict(t0=at('f12', .2), ok=True, text='Brentford v Forest · Under 4.5', y=700),
+    dict(t0=at('f14', .1), ok=False, text='Shabana v Migori Youth', y=270),
+    dict(t0=at('f16', 2.9), ok=True, text='Guijuelo v Sporting Gijón · Under 4.5', y=700),
+    dict(t0=at('f20', 1.9), ok=True, text='Frosinone v Lecce · Over 1.5', y=700),
 ]
 def mode_end(t):
     """Start of the first piece after time t that shows another app (a stamp ends with its screen)."""
@@ -278,13 +273,12 @@ for i, x in enumerate(STAMPS):
 for s in STAMPS:
     s['t0'], s['t1'] = round(s['t0'], 3), round(s['t1'], 3)
 # the slip (cmvng, legs and odds) and the combo (Bagel, picks and the multiplier), as each screen shows them
-TRACK = [dict(t=out_time(146.1, 'e3'), kind='SLIP', text='4 legs · 2.01'), dict(t=out_time(154.5, 'e5'), kind='SLIP', text='5 legs · 2.19'),
-         dict(t=out_time(159.5, 'e5'), kind='SLIP', text='6 legs · 2.39'), dict(t=out_time(165.0, 'e5'), kind='SLIP', text='7 legs · 2.61'),
-         dict(t=out_time(169.5, 'e5'), kind='SLIP', text='8 legs · 2.84'), dict(t=out_time(188.5, 'e7'), kind='SLIP', text='8 legs · 2.49'),
-         dict(t=out_time(200.63, 'f1'), kind='COMBO', text='0 picks'), dict(t=out_time(266.7, 'f6'), kind='COMBO', text='1 pick'),
-         dict(t=out_time(285.6, 'f8'), kind='COMBO', text='2 picks'), dict(t=out_time(346.2, 'f12'), kind='COMBO', text='3 picks · 1.33x'),
-         dict(t=out_time(389.0, 'f16'), kind='COMBO', text='4 picks · 1.57x'), dict(t=out_time(462.0, 'f19'), kind='COMBO', text='5 picks · 1.79x'),
-         dict(t=out_time(476.9, 'g1'), kind='COMBO', text='5 picks · 2.06x'), dict(t=out_time(482.09, 'g2'), kind='COMBO', text='5 picks · 2.02x')]
+TRACK = [dict(t=at('e3', 0), kind='SLIP', text='4 legs · 2.01'), dict(t=at('e4b', 0), kind='SLIP', text='8 legs · 2.84'),
+         dict(t=at('e6b', 0), kind='SLIP', text='8 legs · 2.49'), dict(t=at('f1', 0), kind='COMBO', text='0 picks'),
+         dict(t=at('f6b', .7), kind='COMBO', text='1 pick'), dict(t=at('f8', .1), kind='COMBO', text='2 picks'),
+         dict(t=at('f12', .2), kind='COMBO', text='3 picks · 1.33x'), dict(t=at('f16', 2.9), kind='COMBO', text='4 picks · 1.57x'),
+         dict(t=at('f20', 1.9), kind='COMBO', text='5 picks · 1.79x'), dict(t=at('g1', 0), kind='COMBO', text='5 picks · 2.06x'),
+         dict(t=at('g2', 0), kind='COMBO', text='5 picks · 2.02x')]
 for x in TRACK:
     x['t'] = round(x['t'], 3)
 CHAPTERS = []

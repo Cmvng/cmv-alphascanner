@@ -12,6 +12,7 @@ const require = createRequire(import.meta.url)
 const { chromium } = require(process.env.PW)
 const [page_, out] = process.argv.slice(2)
 const arg = k => { const i = process.argv.indexOf(k); return i > 0 ? process.argv[i + 1] : null }
+const RANGE = arg('--range')               // a,b: render frames a..b-1 only (video, no sound), to run in parallel
 const DUR = +arg('--dur'), BASE = arg('--base'), AUDIO = arg('--audio'), STILLS = arg('--stills'), NOREUSE = process.argv.includes('--noreuse')
 const FPS = 30, N = Math.round(DUR * FPS)
 const b = await chromium.launch({ args: ['--allow-file-access-from-files', '--force-color-profile=srgb'] })
@@ -43,7 +44,8 @@ args.push('-t', DUR.toFixed(3), '-c:v', 'libx264', '-preset', 'medium', '-crf', 
   ...(BASE ? ['-c:a', 'copy'] : ['-c:a', 'aac', '-b:a', '192k']), '-movflags', '+faststart', out)
 const ff = spawn('ffmpeg', args, { stdio: ['pipe', 'inherit', 'inherit'] })
 let prev = null, buf = null, shots = 0, t0 = Date.now()
-for (let f = 0; f < N; f++) {
+const [F0, F1] = RANGE ? RANGE.split(',').map(Number) : [0, N]
+for (let f = F0; f < Math.min(F1, N); f++) {
   const sig = await p.evaluate(t => window.render(t), f / FPS)
   if (NOREUSE || sig !== prev || !buf) { buf = await shot(); prev = sig; shots++ }
   if (!ff.stdin.write(buf)) await new Promise(r => ff.stdin.once('drain', r))
