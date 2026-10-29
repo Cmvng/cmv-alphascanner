@@ -154,6 +154,10 @@ The owner talked through their Primus Points dashboard.
     - `review.py` writes `review-full-NN.jpg` (every 0.5 s). Look at every sheet.
     - `python3 -P -E hearback.py <work>` checks every caption against what is heard.
 
+## The owner's reaction stickers (29 Oct 2026)
+Every camera edit can carry the owner's own reaction stickers: corner, inner voice, peek, behind the caption, interrupt.
+See `../reactions/README.md`. Render them as a layer over the finished edit with `../reactions/render.mjs --base`.
+
 ## Getting the video
 
 - **From an X post:** `python3 video/lib/fetch_x.py <post link> raw.mp4` (X re-compresses, so it is a little soft).

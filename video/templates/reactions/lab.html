@@ -1,0 +1,198 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Reaction lab: the angles</title>
+<style>
+@font-face{font-family:Anton;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/anton-latin-400-normal.woff2)}
+@font-face{font-family:Manrope;font-weight:600;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-600-normal.woff2)}
+@font-face{font-family:Manrope;font-weight:800;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-800-normal.woff2)}
+@font-face{font-family:Mono;font-weight:700;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/jetbrains-mono-latin-700-normal.woff2)}
+:root{--bg:#E9F2FF;--ink:#0B1F4D;--mute:#51607E;--blue:#1F5FDB;--sky:#4FB3FF;--line:#C9D9F2;--green:#1E9E62;--red:#D8434F}
+*{box-sizing:border-box}
+html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:transparent;font-family:Manrope,sans-serif;color:var(--ink)}
+.sec{position:absolute;inset:0;opacity:0}
+.page{background:var(--bg);background-image:linear-gradient(rgba(31,95,219,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(31,95,219,.07) 1px,transparent 1px);background-size:60px 60px}
+.abs{position:absolute}
+.kick{position:absolute;left:70px;top:120px;font-family:Mono,monospace;font-weight:700;font-size:28px;letter-spacing:.14em;text-transform:uppercase;color:var(--blue)}
+.ttl{position:absolute;left:66px;top:168px;font-family:Anton,sans-serif;font-size:120px;line-height:.95;text-transform:uppercase;letter-spacing:.01em}
+.ttl span{color:var(--blue)}
+.sub{position:absolute;left:70px;font-weight:600;font-size:30px;color:var(--mute)}
+.card{position:absolute;background:#fff;border-radius:34px;box-shadow:0 30px 70px rgba(11,31,77,.16),0 0 0 1.5px rgba(11,31,77,.05)}
+.chip{display:inline-block;font-family:Mono,monospace;font-weight:700;font-size:24px;letter-spacing:.12em;text-transform:uppercase;padding:10px 18px;border-radius:999px;background:#EAF1FF;color:var(--blue)}
+.big{font-family:Anton,sans-serif;text-transform:uppercase;line-height:.95}
+.rx-stamp{position:absolute;left:-40px;bottom:40px;padding:10px 26px 6px;border:8px solid;border-radius:18px;font-family:Anton,sans-serif;font-size:84px;letter-spacing:.03em;opacity:0;background:rgba(255,255,255,.9);white-space:nowrap}
+.rx-stamp.ok{color:var(--green);border-color:var(--green)}.rx-stamp.no{color:var(--red);border-color:var(--red)}
+.rx-label{position:absolute;left:50%;transform:translateX(-50%);bottom:-170px;font-family:Anton,sans-serif;font-size:130px;text-transform:uppercase;white-space:nowrap;color:var(--ink)}
+.pin{position:absolute;width:92px;height:92px;border-radius:50%;border:6px solid #fff;overflow:hidden;background:var(--sky);box-shadow:0 8px 18px rgba(11,31,77,.3);opacity:0}
+.pin img{position:absolute;left:-14px;top:-4px;width:120px}
+.plab{position:absolute;font-family:Mono,monospace;font-weight:700;font-size:24px;color:var(--ink);opacity:0;white-space:nowrap}
+.grid img{position:absolute}
+.nm{position:absolute;font-weight:800;font-size:30px;text-align:center;width:300px;color:var(--ink)}
+.foot{position:absolute;left:70px;bottom:64px;font-family:Mono,monospace;font-weight:700;font-size:22px;letter-spacing:.06em;color:var(--mute)}
+.lbl5{position:absolute;left:50%;transform:translateX(-50%);top:1618px;white-space:nowrap}
+</style></head>
+<body>
+<!-- 0 · the library -->
+<div class="sec page" id="s0">
+  <div class="kick">Your reaction library</div>
+  <div class="ttl">Nine faces.<br><span>One signature.</span></div>
+  <div class="grid" id="grid"></div>
+</div>
+<!-- 1 · the chart reacts (Kraken daily closes, UTC) -->
+<div class="sec page" id="s1">
+  <div class="kick">Angle · The chart reacts</div>
+  <div class="ttl" style="font-size:100px">Bitcoin,<br><span>the last 30 days</span></div>
+  <div class="card" style="left:40px;top:470px;width:1000px;height:1060px"></div>
+  <svg class="abs" id="chart" style="left:40px;top:470px" width="1000" height="1060"></svg>
+  <div id="pins"></div>
+  <div class="abs big" id="btc_line" style="left:70px;top:1565px;font-size:78px;opacity:0;width:960px">“Bitcoin might go up today…”</div>
+  <div class="foot">Daily close, USD · Kraken XBT/USD · 30 Sep – 29 Oct 2026 (29 Oct so far)</div>
+</div>
+<!-- 2 · the verdict stamp -->
+<div class="sec page" id="s2">
+  <div class="kick">Angle · The verdict stamp</div>
+  <div class="ttl">Called it.<br><span>Or missed it.</span></div>
+  <div class="card" id="v1" style="left:60px;top:500px;width:960px;height:520px;opacity:0">
+    <div class="abs" style="left:56px;top:56px"><span class="chip">Our call · Sat 17 Oct</span></div>
+    <div class="abs big" style="left:56px;top:140px;font-size:104px">Chelsea<br>don’t lose</div>
+    <div class="abs" id="v1r" style="left:56px;top:372px;font-weight:800;font-size:44px;line-height:1.3;opacity:0">Everton 0–2 Chelsea<br><span style="color:var(--mute);font-weight:600;font-size:32px">Neto 46’, 90’</span></div>
+  </div>
+  <div class="card" id="v2" style="left:60px;top:500px;width:960px;height:520px;opacity:0">
+    <div class="abs" style="left:56px;top:56px"><span class="chip">Our call · Sat 17 Oct</span></div>
+    <div class="abs big" style="left:56px;top:140px;font-size:104px">Brentford<br>don’t lose</div>
+    <div class="abs" id="v2r" style="left:56px;top:390px;font-weight:800;font-size:44px;opacity:0">Brentford 1–2 Liverpool</div>
+  </div>
+  <div class="foot">Results: ESPN match data, 17 Oct 2026 · our calls from the 17 Oct analysis</div>
+</div>
+<!-- 3 · the caption swap -->
+<div class="sec page" id="s3">
+  <div class="kick">Angle · The caption swap</div>
+  <div class="ttl" style="font-size:96px">The face<br><span>replaces the word</span></div>
+  <div class="abs big" id="cs1" style="left:70px;top:600px;font-size:136px;line-height:1.3;width:950px">Chelsea might<br><span id="w_lose" style="display:inline-block">lose</span> today</div>
+  <div class="abs big" id="cs2" style="left:70px;top:1110px;font-size:136px;line-height:1.3;width:950px;opacity:0">Bitcoin might<br>go up <span id="w_up" style="display:inline-block;width:200px">&nbsp;</span></div>
+  <div class="foot">The owner’s own example lines</div>
+</div>
+<!-- 4 · the combo -->
+<div class="sec page" id="s4">
+  <div class="kick">Angle · The combo</div>
+  <div class="ttl" style="font-size:100px">Four faces,<br><span>one trade</span></div>
+</div>
+<!-- 5 · the mood bubble, over a real screen recording (the base video shows here) -->
+<div class="sec" id="s5">
+  <div class="lbl5"><span class="chip" style="background:#fff;box-shadow:0 8px 20px rgba(11,31,77,.2)">Angle · The mood bubble, on a screen recording</span></div>
+</div>
+<!-- 6 · the thumbnail -->
+<div class="sec page" id="s6">
+  <div class="kick">Angle · Your face on the thumbnail</div>
+  <div class="ttl" style="font-size:100px">Two faces<br><span>tell the story</span></div>
+  <div class="card" id="thumb" style="left:40px;top:560px;width:1000px;height:562px;overflow:hidden;background:linear-gradient(135deg,#1F5FDB,#4FB3FF);opacity:0">
+    <div class="abs big" style="left:44px;top:70px;font-size:120px;color:#fff;text-shadow:0 6px 18px rgba(0,0,0,.18)">Bitcoin:<br>up or<br>down?</div>
+    <img id="th1" class="abs" style="right:150px;top:110px;width:330px;transform:rotate(-6deg);filter:drop-shadow(0 14px 24px rgba(0,0,0,.3))">
+    <img id="th2" class="abs" style="right:-10px;top:200px;width:300px;transform:rotate(7deg);filter:drop-shadow(0 14px 24px rgba(0,0,0,.3))">
+  </div>
+  <div class="sub" style="top:1170px;width:940px">Your own faces instead of famous memes: no copyright, and people learn to recognise you.</div>
+</div>
+<!-- 7 · recap -->
+<div class="sec page" id="s7">
+  <div class="kick">Pick your favourites</div>
+  <div class="ttl" style="font-size:96px">In this reel</div>
+  <div class="abs" style="left:70px;top:300px;font-weight:800;font-size:46px;line-height:1.55">1 · The chart reacts<br>2 · The verdict stamp<br>3 · The caption swap<br>4 · The combo<br>5 · The mood bubble<br>6 · The thumbnail</div>
+  <div class="abs big" style="left:66px;top:820px;font-size:96px">In your <span style="color:var(--blue)">Primus video</span></div>
+  <div class="abs" style="left:70px;top:940px;font-weight:800;font-size:46px;line-height:1.55">7 · The corner sticker<br>8 · The inner voice<br>9 · The peek<br>10 · Behind the caption<br>11 · The interrupt</div>
+</div>
+<div id="rxroot" style="position:absolute;inset:0"></div>
+
+<script>const RX_BASE = 'file:///home/user/cmv-alphascanner/video/out/reactions/'</script>
+<script src="file:///home/user/cmv-alphascanner/video/out/reactions/lib.js"></script>
+<script src="stickers.js"></script>
+<script>
+const $ = id => document.getElementById(id)
+const { eo, back, clamp } = RX
+// the screen recording (section 5) ends before the source's own fade to the camera, and the thumbnail cuts in hard
+const SEC = [[0, 3.2], [3.2, 13.6], [13.6, 20.4], [20.4, 25.2], [25.2, 29.6], [29.6, 32.95], [32.95, 36.8], [36.8, 39.0]]
+const TOT = 39.0
+const IDS = ['grin', 'jawdrop', 'waitwhat', 'yikes', 'itsover', 'lol', 'sideeye', 'sob', 'wail']
+const peak = id => RX_BASE + id + '/peak.png'
+
+// 0 · the grid of nine
+let gh = ''
+IDS.forEach((id, i) => {
+  const c = i % 3, r = Math.floor(i / 3), x = 40 + c * 340, y = 470 + r * 450
+  const gw = 360 * RLIB[id].w / RLIB[id].h
+  gh += `<img id="g${i}" src="${peak(id)}" style="left:${x + 20 + (300 - gw) / 2}px;top:${y}px;height:360px;opacity:0;filter:${RX.SHADOW}"><div class="nm" id="gn${i}" style="left:${x + 20}px;top:${y + 375}px;opacity:0">${RLIB[id].name}</div>`
+})
+$('grid').innerHTML = gh
+
+// 1 · the chart: Kraken XBT/USD daily closes, 30 Sep – 29 Oct 2026 (29 Oct is the day so far)
+const CL = [83564.7, 84849.1, 84503.7, 84740.0, 86510.4, 85751.5, 85542.1, 83276.1, 81683.8, 82559.4, 82912.7, 83675.6, 81737.1, 83101.2,
+  81576.4, 82133.7, 81500.8, 81382.0, 82001.7, 81843.7, 82936.1, 84022.5, 81315.9, 81086.2, 80771.9, 80048.5, 80001.9, 80800.9, 81287.1, 79870.1]
+const DAYS = CL.map((_, i) => { const d = new Date(Date.UTC(2026, 8, 30 + i)); return d.getUTCDate() + ' ' + ['Sep', 'Oct'][d.getUTCMonth() - 8] })
+const CX0 = 100, CX1 = 950, CY0 = 160, CY1 = 900, LO = 79000, HI = 87500        // inside the chart card
+const px = i => CX0 + (CX1 - CX0) * i / (CL.length - 1), py = v => CY1 - (CY1 - CY0) * (v - LO) / (HI - LO)
+let grid = ''
+for (const v of [80000, 82000, 84000, 86000]) grid += `<line x1="${CX0}" x2="${CX1}" y1="${py(v)}" y2="${py(v)}" stroke="#DCE7F8" stroke-width="2"/><text x="${CX0 - 14}" y="${py(v) + 9}" text-anchor="end" font-family="Mono" font-size="24" fill="#51607E">${v / 1000}K</text>`
+for (const i of [0, 7, 14, 21, 29]) grid += `<text x="${px(i)}" y="${CY1 + 52}" text-anchor="middle" font-family="Mono" font-size="24" fill="#51607E">${DAYS[i]}</text>`
+const dPath = CL.map((v, i) => (i ? 'L' : 'M') + px(i).toFixed(1) + ' ' + py(v).toFixed(1)).join(' ')
+$('chart').innerHTML = grid + `<path id="cpath" d="${dPath}" fill="none" stroke="#1F5FDB" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/><circle id="tip" r="12" fill="#1F5FDB" stroke="#fff" stroke-width="5"/>`
+const PLEN = $('cpath').getTotalLength()
+// the line's progress (in days) over time, holding at each reaction
+const DRAW = [[3.6, 0], [4.6, 4], [5.95, 4], [6.55, 8], [7.85, 8], [8.95, 21], [10.25, 21], [10.65, 26], [11.65, 26], [11.95, 29], [13.6, 29]]
+function dayAt(t) {
+  if (t <= DRAW[0][0]) return 0
+  for (let k = 1; k < DRAW.length; k++) if (t < DRAW[k][0]) { const [a, da] = DRAW[k - 1], [b, db] = DRAW[k]; return da + (db - da) * RX.eo((t - a) / (b - a)) }
+  return 29
+}
+const CARD = { x: 40, y: 470 }
+const RIDES = [[4, 'grin', 4.65, 5.95, '$86.5K'], [8, 'itsover', 6.55, 7.85, '$81.7K'], [21, 'jawdrop', 8.95, 10.25, '$84.0K'], [26, 'sob', 10.65, 11.65, '$80.0K'], [29, 'sideeye', 11.95, 13.6, 'today']]
+let ph = ''
+RIDES.forEach(([i, id], k) => {
+  const x = CARD.x + px(i), y = CARD.y + py(CL[i])
+  ph += `<div class="pin" id="pin${k}" style="left:${x - 46}px;top:${y - 46}px"><img src="${peak(id)}"></div><div class="plab" id="pl${k}" style="left:${x - 50}px;top:${y + (k % 2 ? 58 : -86)}px">${RIDES[k][4]}</div>`
+})
+$('pins').innerHTML = ph
+
+// the stickers
+const EVS = []
+RIDES.forEach(([i, id, t0, t1]) => {
+  const x = CARD.x + px(i), y = CARD.y + py(CL[i]), w = 230, h = w * RLIB[id].h / RLIB[id].w
+  EVS.push({ k: 'sticker', id, t0, t1, x: Math.min(1080 - w - 20, Math.max(20, x - w / 2)), y: y - h - 40, w, rot: (i % 2 ? 6 : -6) })
+})
+EVS.push({ k: 'stamp', id: 'grin', t0: 15.0, t1: 16.95, x: 640, y: 700, w: 340, rot: 6, label: 'CALLED IT', ok: true })
+EVS.push({ k: 'stamp', id: 'sob', t0: 18.3, t1: 20.4, x: 640, y: 700, w: 340, rot: 6, label: 'MISSED IT', ok: false })
+EVS.push({ k: 'chain', ids: ['grin', 'jawdrop', 'itsover', 'wail'], t0: 25.5, t1: 29.6, dt: 1.02, x: 260, y: 520, w: 560, rot: 0, labels: ['I bought', 'It pumped', 'It dumped', 'I sold'] })
+EVS.push({ k: 'bubble', t0: 29.75, t1: 32.95, x: 50, y: 1180, d: 270, seq: [[29.75, 'waitwhat'], [31.05, 'jawdrop'], [32.35, 'grin']] })
+// 3 · caption swap: the sticker takes the word's place (positions read from the laid-out text)
+const lose = $('w_lose').getBoundingClientRect(), up = $('w_up').getBoundingClientRect()
+const SW = 196, SHH = SW * RLIB.sob.h / RLIB.sob.w
+EVS.push({ k: 'sticker', id: 'sob', t0: 21.5, t1: 25.2, x: lose.left + lose.width / 2 - SW / 2, y: lose.top + lose.height / 2 - SHH / 2, w: SW, rot: -6 })
+EVS.push({ k: 'sticker', id: 'sideeye', t0: 23.4, t1: 25.2, x: up.left, y: up.top + up.height / 2 - SHH / 2, w: SW, rot: 6, from: .55 })
+RX.mount($('rxroot'), EVS)
+
+// every value set this frame goes into the signature: the renderer reuses the last frame when the signature repeats
+let SIGV = []
+const css = (el, k, v) => { if (typeof el === 'string') el = $(el); if (el.style[k] !== v) el.style[k] = v; SIGV.push(v) }
+const pop = (el, t, at, d = .3, dy = 14) => { const p = eo((t - at) / d); css(el, 'opacity', p.toFixed(3)); css(el, 'transform', `translateY(${((1 - p) * dy).toFixed(1)}px)`) }
+window.render = async function (t) {
+  SIGV = []; const sig = []
+  SEC.forEach(([a, b], i) => { const v = t >= a && t < b ? Math.min(1, (t - a) / .18 + (i === 0 || i === 6 ? 1 : 0)) : 0; css('s' + i, 'opacity', v.toFixed(3)); sig.push(v.toFixed(2)) })
+  // 0
+  IDS.forEach((id, i) => { const p = clamp((t - .5 - i * .14) / .22); css('g' + i, 'opacity', p > 0 ? '1' : '0'); css('g' + i, 'transform', `rotate(${i % 2 ? 4 : -4}deg) scale(${(p > 0 ? back(p) : 0).toFixed(3)})`); css('gn' + i, 'opacity', eo((t - .7 - i * .14) / .2).toFixed(3)) })
+  // 1
+  const dd = dayAt(t), L = PLEN * dd / 29
+  css('cpath', 'strokeDasharray', `${PLEN}`); css('cpath', 'strokeDashoffset', (PLEN - L).toFixed(1))
+  const tp = $('cpath').getPointAtLength(Math.max(.01, L)); $('tip').setAttribute('cx', tp.x.toFixed(1)); $('tip').setAttribute('cy', tp.y.toFixed(1)); sig.push(dd.toFixed(3))
+  RIDES.forEach(([i, id, t0, t1], k) => { const p = clamp((t - t1 + .05) / .25); css('pin' + k, 'opacity', p > 0 ? '1' : '0'); css('pin' + k, 'transform', `scale(${(p > 0 ? back(p) : 0).toFixed(3)})`); css('pl' + k, 'opacity', eo((t - t0 - .1) / .25).toFixed(3)) })
+  pop($('btc_line'), t, 12.05, .35, 18)
+  // 2
+  css('v1', 'opacity', t >= 13.75 && t < 16.95 ? eo((t - 13.75) / .25).toFixed(3) : '0'); pop($('v1r'), t, 14.45)
+  css('v2', 'opacity', t >= 16.95 ? eo((t - 16.95) / .25).toFixed(3) : '0'); pop($('v2r'), t, 17.75)
+  // 3
+  css('w_lose', 'opacity', t < 21.45 ? '1' : '0'); pop($('cs2'), t, 22.7, .35, 18)
+  const r = await RX.draw(EVS, t)
+  return sig.join('|') + '#' + SIGV.join('|') + r
+}
+window.READY = Promise.all([document.fonts.ready, ...[...document.images].map(i => i.complete ? 1 : new Promise(r => { i.onload = i.onerror = r }))])
+$('th1').src = peak('sideeye'); $('th2').src = peak('jawdrop')
+// the thumbnail pops in
+const _r = window.render
+window.render = async t => { const r = await _r(t); const p = clamp((t - 33.25) / .3); css('thumb', 'opacity', p.toFixed(3)); css('thumb', 'transform', `translateY(${((1 - eo(p)) * 30).toFixed(1)}px)`); return r + p.toFixed(3) }
+</script>
+</body></html>

@@ -28,6 +28,43 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
+## 29 Oct: the owner's reaction stickers (a library, a study, two demos)
+
+The owner sent nine silent reaction clips (4K vertical, plain wall) and asked for "a serious creative study". The idea:
+the clips become a signature layer of stickers that react to moments in every video, whether a screen recording, an
+explainer or the owner on camera.
+
+- **What worked:**
+  - **Robust Video Matting** (ONNX, CPU, about 0.35 s a frame at 1080×1920) cut the owner out cleanly from the plain
+    wall: hair and beard hold steady from frame to frame.
+  - **A bust curve plus a white die-cut border** makes the stickers look printed. Each one plays the real clip, never a
+    still.
+  - **Built on real material:**
+    - Six reactions on the real Primus v3 video (restored byte-exact from the download page). A frame diff confirmed
+      the rest of the video is unchanged.
+    - The angles reel uses real data: Kraken's daily Bitcoin closes, and our own 17 Oct calls with ESPN results.
+- **Mistakes, and how they got through:**
+  1. **ffmpeg swallowed the job list.** In a `while read` loop, the decoder read the heredoc from stdin, so only the
+     first sticker built. Every ffmpeg in the tools now runs with `-nostdin`.
+  2. **I mis-measured the caption line from a scaled sheet.** I read y from a contact sheet shown at 90% and "corrected"
+     the caption top to 1560. The behind-the-caption sticker was then cut in mid-air. The full-size still caught it, and
+     the line is 1733 (one line) or 1679 (two lines). Measure from a full-size frame, never from a sheet.
+  3. **A class collision.** The sticker's container got the stamp label's class name (`rx-stamp`), so it drew a tall
+     bordered box. Container classes are now `rxk-<kind>`.
+  4. **Stuck frames in the first reel render.** The renderer reuses a frame when the page's signature repeats, and the
+     grid and cards didn't report their changes. The library grid never showed and the verdict cards froze half-faded.
+     Stills can't catch this, because each one is drawn alone. The 2 fps sheets of the real render did. Every value the
+     page sets now goes into the signature, and `render.mjs --noreuse` draws every frame for short pieces.
+  5. **The first It's Over sticker** cut straight across the raised forearms. It now has a `tall` shape for raised arms.
+- **Change next time:**
+  - Check a new sticker on the library sheet at full size.
+  - Check a reaction video at 10 fps across each reaction window, plus the 2 fps sheets of the real render, never stills
+    alone.
+  - Measure layouts from full-size frames only.
+- **The owner's reaction:** (waiting)
+
+---
+
 ## 27 Oct: Primus "Proof of Nomad Life" v3: the errors v2 shipped with (1:40)
 
 The owner, after v2: "I can notice some issues, some errors with the videos, like some obvious errors… didn't you cross

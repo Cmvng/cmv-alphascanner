@@ -1,0 +1,23 @@
+{
+  "about": "The owner's own silent reaction clips (29 Oct 2026, 4K vertical, plain wall, grey T-shirt). Built into die-cut stickers by video/lib/react_matte.py then react_sticker.py into video/out/reactions/<id>/ (f_0001.png... at 30 fps, peak.png, meta.json). in/out/peak are seconds in the source clip.",
+  "reactions": [
+    {"id": "grin", "name": "The Grin", "feel": "proud, told you so, good news", "use": ["a call that came off", "a pump", "a cheap fee or a bonus", "a smug I-was-right"],
+     "src": "https://www.dropbox.com/scl/fi/8wsd1agdp0pfcrs89kes1/20261029_092128.mp4?rlkey=5mxn6jxu1kqmz0xges85cisoc&dl=1", "in": 0.4, "out": 4.0, "peak": 1.5},
+    {"id": "jawdrop", "name": "Jaw Drop", "feel": "amazed, impressed, no way", "use": ["a big number", "a launch or reveal", "a stunning goal or comeback"],
+     "src": "https://www.dropbox.com/scl/fi/2wqugse8fklpyysle8f8d/20261029_092144.mp4?rlkey=jj3ht1kb7m4cfz3mrxy1snbnu&dl=1", "in": 0.3, "out": 4.0, "peak": 1.5},
+    {"id": "waitwhat", "name": "Wait, What?", "feel": "disbelief, confused, excuse me", "use": ["a number that sounds wrong", "a rule nobody explained", "a self-own (only 90 points?)"],
+     "src": "https://www.dropbox.com/scl/fi/6h7qu3r8du08lmlnn12pj/20261029_092156.mp4?rlkey=3f2i7u4vwbanq0udj1fi4b0xq&dl=1", "in": 0.2, "out": 4.0, "peak": 2.0},
+    {"id": "yikes", "name": "Yikes", "feel": "cringe, awkward, that's going to hurt", "use": ["high fees", "a bad entry", "a team's awful away form"],
+     "src": "https://www.dropbox.com/scl/fi/ddgrsx0nsfjx61z5t1nxc/20261029_092209.mp4?rlkey=flb3tx3x3ojr4mclvo4zz4xzq&dl=1", "in": 0.3, "out": 4.0, "peak": 1.5},
+    {"id": "itsover", "name": "It's Over", "feel": "disaster, panic, hands on head", "use": ["a liquidation or a dump", "a 90th-minute goal against", "missing a deadline"],
+     "src": "https://www.dropbox.com/scl/fi/c0b6jlpzhlzfi7zlymcb7/20261029_092224.mp4?rlkey=il9yhpshrxgbt99wk298yxx5u&dl=1", "in": 0.4, "out": 5.0, "peak": 2.0},
+    {"id": "lol", "name": "LOL", "feel": "hilarious, ridiculous", "use": ["an absurd claim", "a meme coin's name", "an own goal"],
+     "src": "https://www.dropbox.com/scl/fi/qixmpjj1uow1m3tv5y0pr/20261029_092239.mp4?rlkey=u4x5g8his1shx96zrwjr0o39o&dl=1", "in": 0.2, "out": 4.5, "peak": 1.5},
+    {"id": "sideeye", "name": "Side-Eye", "feel": "suspicious, not convinced, sure buddy", "use": ["a bold prediction (Bitcoin might go up today)", "a sketchy project", "a promise that sounds too good"],
+     "src": "https://www.dropbox.com/scl/fi/mhgctkf422bptl6dyxls6/20261029_092251.mp4?rlkey=5wsezyrrzv4nofoxi4y33ziv6&dl=1", "in": 1.5, "out": 5.4, "peak": 2.4},
+    {"id": "sob", "name": "The Sob", "feel": "sad, gutted, a small loss", "use": ["a call that missed", "my favourite isn't on the list", "Chelsea might lose today"],
+     "src": "https://www.dropbox.com/scl/fi/vhth5jz8omeyiddbbtqqg/20261029_092343.mp4?rlkey=1qv3i5ax5zp1mmba24qhtwpgv&dl=1", "in": 0.3, "out": 4.0, "peak": 1.5},
+    {"id": "wail", "name": "The Wail", "feel": "devastated, then angry", "use": ["the bottom of a crash", "a heavy defeat", "rugged"],
+     "src": "https://www.dropbox.com/scl/fi/5fowi5kf5ff6ldd5okltl/20261029_092329.mp4?rlkey=8koef4hnw5t72vr1dt25217ll&dl=1", "in": 0.75, "out": 3.5, "peak": 1.6}
+  ]
+}

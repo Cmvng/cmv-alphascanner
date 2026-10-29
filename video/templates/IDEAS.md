@@ -67,6 +67,19 @@ Different is the floor; creative is the bar. Before building, write the concept 
     changes state, every element landing on the word that names it, old ideas dimming behind the new one;
   - voice only, and a logo sting at the end.
 
+## The owner's reaction stickers (29 Oct 2026): a signature layer for every video
+Nine silent clips of the owner's own face are cut out as die-cut stickers (`reactions/`, study in
+`video/out/reactions-demo/reaction-study.md`). One of them answers the moment: funny, shocking, painful, doubtful. Eleven
+angles, each with a demo:
+- **On a finished video:** the corner sticker, the inner voice (the small you judging the big you), the peek from the
+  edge, behind the caption bar, and the one-per-video interrupt.
+- **Built for the angle:** the chart reacts (faces ride a real price line and stay as pins), the verdict stamp (CALLED IT
+  / MISSED IT with your face), the caption swap (a face replaces a word), the combo (a flipbook of faces on one trade),
+  the mood bubble (a face-cam for screen recordings) and the thumbnail.
+
+Use them in every kind of video. Keep the style locked and vary the angle: the faces are the constant, how they come in
+is what changes.
+
 ## Faceless story channel (the owner's plan, 23 Oct: David's crypto journey in still images)
 - **POV Finance (the owner loves it: "relatable"):** one hero in the same signature outfit in every frame, bright
   daylight scenes, a "YOU" arrow, and each thumbnail tells the story in one picture (the hero calm, others reacting).
