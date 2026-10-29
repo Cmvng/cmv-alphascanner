@@ -1,0 +1,269 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Seven effects on the owner's recordings (sample reel)</title>
+<style>
+@font-face{font-family:Anton;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/anton-latin-400-normal.woff2)}
+@font-face{font-family:Manrope;font-weight:600;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-600-normal.woff2)}
+@font-face{font-family:Manrope;font-weight:800;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-800-normal.woff2)}
+@font-face{font-family:Mono;font-weight:700;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/jetbrains-mono-latin-700-normal.woff2)}
+/* Layers, back to front: the camera (base.mp4) or a restyled copy of its frame (#bg), the effect's back layer, the owner
+   cut out (#me, pixel-aligned), the effect's front layer, the label and the caption. Every screen is a real capture;
+   every number is Cournot's own (as of 28 Oct 2026). Blue house colours; Primus orange where the subject is Primus. */
+:root{--navy:#0B1F4D;--blue:#1F5FDB;--sky:#4FB3FF;--ice:#E6F0FF;--or:#FD4C00;--or2:#FF7A33;--ok:#22B573}
+*{box-sizing:border-box}
+html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:transparent;font-family:Manrope,sans-serif;color:#fff}
+.L{position:absolute;inset:0;overflow:hidden}
+.abs{position:absolute}
+.mono{font-family:Mono,monospace;font-weight:700;letter-spacing:.16em;text-transform:uppercase}
+.anton{font-family:Anton,sans-serif;text-transform:uppercase;line-height:.88}
+.fx{position:absolute;inset:0;opacity:0;isolation:isolate}   /* keeps each layer's z-order inside it (back cards stay under the cut-out) */
+img.full{position:absolute;left:0;top:0;width:1080px;height:1920px}
+/* frosted glass: a blurred copy of the same frame behind each card */
+.glass{position:absolute;border-radius:34px;overflow:hidden;box-shadow:0 30px 70px rgba(8,20,60,.35),inset 0 0 0 1.5px rgba(255,255,255,.55)}
+.glass>img.fr{position:absolute;width:1080px;height:1920px;filter:blur(22px) saturate(1.25) brightness(1.12)}
+.glass>.tint{position:absolute;inset:0;background:linear-gradient(160deg,rgba(255,255,255,.34),rgba(255,255,255,.14))}
+.glass>.in{position:absolute;inset:0;padding:28px 32px}
+.k{font-family:Mono,monospace;font-weight:700;font-size:24px;letter-spacing:.16em;text-transform:uppercase;color:var(--navy)}
+.big{font-weight:800;font-size:42px;line-height:1.12;color:var(--navy);margin-top:12px}
+/* orbit cards */
+.oc{position:absolute;left:0;top:0;width:380px;border-radius:22px;overflow:hidden;background:#fff;box-shadow:0 26px 60px rgba(8,20,60,.42),0 0 0 1.5px rgba(255,255,255,.7)}
+.oc img{display:block;width:380px}
+/* labels and captions */
+#lab{position:absolute;left:0;right:0;top:56px;text-align:center;z-index:8}
+#lab span{display:inline-block;padding:12px 24px;border-radius:30px;background:rgba(11,31,77,.78);font-family:Mono,monospace;font-weight:700;font-size:26px;letter-spacing:.14em;text-transform:uppercase;color:#fff}
+#lab b{color:var(--sky)}
+#cap{position:absolute;left:0;right:0;bottom:104px;text-align:center;z-index:9}
+#cap span{display:inline-block;max-width:960px;padding:13px 28px 15px;border-radius:20px;background:rgba(12,16,28,.76);font-weight:800;font-size:44px;line-height:1.24;color:#fff}
+#cap b{color:var(--or2);font-weight:800}
+/* checklist rows */
+.row{position:absolute;left:34px;right:34px;height:104px;display:flex;align-items:center;gap:24px;border-top:1.5px solid rgba(11,31,77,.14)}
+.tick{width:58px;height:58px;border-radius:29px;border:4px solid rgba(11,31,77,.35);flex:none;position:relative}
+.tick.on{border-color:var(--ok);background:var(--ok)}
+.tick.on:after{content:"";position:absolute;left:17px;top:7px;width:14px;height:28px;border:solid #fff;border-width:0 6px 6px 0;transform:rotate(45deg)}
+.rt{font-weight:800;font-size:40px;color:var(--navy);flex:1}
+.rt.dim{color:rgba(11,31,77,.42)}
+.tag{font-family:Mono,monospace;font-weight:700;font-size:24px;letter-spacing:.08em;color:rgba(11,31,77,.55)}
+/* split page */
+#sp{position:absolute;left:0;top:0;width:1080px;height:1920px;background:linear-gradient(180deg,#F4F8FF,#E2EDFF)}
+#sp:before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(31,95,219,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(31,95,219,.07) 1px,transparent 1px);background-size:60px 60px}
+.st{position:absolute;left:70px;width:940px;height:170px;border-top:2px solid rgba(11,31,77,.14)}
+.sv{position:absolute;left:0;top:18px;font-family:Anton,sans-serif;font-size:128px;line-height:1;color:var(--navy);font-variant-numeric:tabular-nums}
+.sl{position:absolute;left:455px;top:40px;width:485px;font-weight:800;font-size:36px;line-height:1.2;color:#51607E}
+/* timeline */
+.trk{position:absolute;left:30px;right:30px;height:70px}
+.clip{position:absolute;top:0;height:70px;border-radius:14px;background:rgba(79,179,255,.22);border:2px solid rgba(79,179,255,.45);font-weight:800;font-size:26px;line-height:66px;padding:0 16px;color:rgba(230,240,255,.55);white-space:nowrap;overflow:hidden}
+.cl{position:absolute;top:0;font-weight:800;font-size:28px;line-height:70px;color:rgba(230,240,255,.55);white-space:nowrap}
+.cl.on{color:#fff}
+.clip.on{background:linear-gradient(90deg,var(--blue),var(--sky));border-color:#BFE3FF;color:#fff;box-shadow:0 0 26px rgba(79,179,255,.7)}
+#grid{position:absolute;inset:0;opacity:0;background:linear-gradient(180deg,#0B1F4D,#123A99);z-index:10}
+</style></head>
+<body>
+<svg width="0" height="0" style="position:absolute"><filter id="duo" color-interpolation-filters="sRGB">
+  <feColorMatrix type="matrix" values=".2126 .7152 .0722 0 0  .2126 .7152 .0722 0 0  .2126 .7152 .0722 0 0  0 0 0 1 0"/>
+  <feComponentTransfer><feFuncR type="linear" slope="1.25" intercept="-.1"/><feFuncG type="linear" slope="1.25" intercept="-.1"/><feFuncB type="linear" slope="1.25" intercept="-.1"/></feComponentTransfer>
+  <feComponentTransfer><feFuncR type="table" tableValues=".043 .86"/><feFuncG type="table" tableValues=".122 .92"/><feFuncB type="table" tableValues=".30 1"/></feComponentTransfer>
+</filter></svg>
+
+<!-- restyled frame (documentary, split, timeline) -->
+<div class="L" id="bgL"><img class="full" id="bg"></div>
+
+<!-- 1 words behind -->
+<div class="fx" id="fx_behind">
+  <div class="L" style="background:linear-gradient(180deg,rgba(11,31,77,.62) 0%,rgba(20,58,150,.42) 45%,rgba(20,58,150,.18) 100%)"></div>
+  <div class="abs mono" id="b_k" style="left:0;right:0;top:270px;text-align:center;font-size:30px;letter-spacing:.22em;color:#CFE3FF">Prediction markets</div>
+  <div class="abs anton" style="left:0;right:0;top:350px;text-align:center">
+    <div id="b_l1" style="font-size:300px;line-height:.86;color:#fff;text-shadow:0 0 40px rgba(79,179,255,.55)">Who</div>
+    <div id="b_l2" style="margin-top:18px;font-size:360px;line-height:.86;color:var(--or)">won?</div>
+  </div>
+</div>
+
+<!-- 2 glass cards (some tucked behind the head) -->
+<div class="fx" id="fx_glass">
+  <div class="glass" id="g1" style="left:56px;top:196px;width:470px;height:236px"><img class="fr"><div class="tint"></div><div class="in">
+    <div class="k" style="color:var(--or)">● Primus Labs</div><div class="big">Verification &amp; privacy layer, built with zkTLS and FHE</div></div></div>
+  <div class="glass" id="g2" style="left:556px;top:196px;width:470px;height:236px"><img class="fr"><div class="tint"></div><div class="in">
+    <div class="k">● Cournot</div><div class="big">AI oracle that settles prediction markets</div></div></div>
+  <div class="glass" id="g3" style="left:150px;top:520px;width:260px;height:440px"><img class="fr"><div class="tint"></div><div class="in" style="text-align:center">
+    <div class="k" style="color:var(--or)">Oct</div><div class="anton" style="font-size:190px;color:var(--navy);margin-top:6px">29</div><div class="k" style="font-size:24px;letter-spacing:.06em;margin-top:8px">Announced</div></div></div>
+  <div class="glass" id="g4" style="left:660px;top:520px;width:280px;height:440px"><img class="fr"><div class="tint"></div><div class="in" style="text-align:center;padding:28px 20px">
+    <svg width="190" height="190" viewBox="0 0 190 190" style="display:block;margin:6px auto 0"><circle cx="95" cy="95" r="78" fill="none" stroke="rgba(11,31,77,.16)" stroke-width="16"/>
+      <circle id="g4r" cx="95" cy="95" r="78" fill="none" stroke="#1F5FDB" stroke-width="16" stroke-linecap="round" stroke-dasharray="490" stroke-dashoffset="490" transform="rotate(-90 95 95)"/>
+      <text x="95" y="108" text-anchor="middle" font-family="Manrope" font-weight="800" font-size="40" fill="#0B1F4D">zkTLS</text></svg>
+    <div class="k" style="font-size:24px;letter-spacing:.04em;margin-top:10px">Proof of source</div></div></div>
+</div>
+
+<!-- 3 orbit: real screens circle the head; back copies sit under the cut-out, front copies over it -->
+<div class="fx" id="fx_orbitB"></div>
+
+<!-- 4 documentary: the frame in navy duotone, an orange disc behind the owner -->
+<div class="fx" id="fx_doc">
+  <div class="abs" id="d_disc" style="left:150px;top:640px;width:780px;height:780px;border-radius:50%;background:var(--or)"></div>
+</div>
+
+<!-- 5 checklist: a glass panel, its lower edge tucked behind the head -->
+<div class="fx" id="fx_check">
+  <div class="glass" id="ck" style="left:60px;top:300px;width:960px;height:600px"><img class="fr"><div class="tint" style="background:linear-gradient(160deg,rgba(255,255,255,.62),rgba(255,255,255,.40))"></div><div class="in" style="padding:0">
+    <div class="abs" style="left:34px;top:30px"><span class="k" style="color:var(--or)">✳ Cournot</span><span class="k" style="margin-left:18px;color:rgba(11,31,77,.6)">How a market settles</span></div>
+    <div class="abs k" id="ck_n" style="right:34px;top:30px;color:rgba(11,31,77,.6)">0 of 4</div>
+    <div class="row" style="top:96px"><div class="tick" id="t0"></div><div class="rt" id="r0">Reads the market's own rules</div><div class="tag">rules</div></div>
+    <div class="row" style="top:200px"><div class="tick" id="t1"></div><div class="rt" id="r1">Collects evidence from sources</div><div class="tag">sources</div></div>
+    <div class="row" style="top:304px"><div class="tick" id="t2"></div><div class="rt" id="r2">AI reaches a verdict</div><div class="tag">verdict</div></div>
+    <div class="row" style="top:408px"><div class="tick" id="t3"></div><div class="rt" id="r3">zkTLS proof checked</div><div class="tag" style="color:var(--or)">Primus</div></div>
+  </div></div>
+</div>
+
+<!-- the owner, cut out -->
+<div class="L"><img class="full" id="me"></div>
+
+<!-- front layers -->
+<div class="fx" id="fx_orbitF"></div>
+<div class="fx" id="fx_docF">
+  <div class="abs mono" style="left:600px;top:200px;font-size:24px;color:#CFE3FF;letter-spacing:.14em">Primus Labs × Cournot</div>
+  <div class="abs anton" style="right:60px;top:250px;text-align:right;font-size:150px;color:#fff;line-height:.9">
+    <div id="d_w0">The</div><div id="d_w1">fundamental</div><div id="d_w2">part.</div></div>
+  <div class="abs" id="d_name" style="left:56px;top:1430px"><div style="display:inline-block;background:var(--or);padding:12px 24px;font-weight:800;font-size:46px;color:#fff">@i_am_vickyd</div></div>
+  <div class="abs" id="d_follow" style="left:690px;top:840px;padding:16px 34px;border-radius:40px;background:var(--blue);font-weight:800;font-size:40px;color:#fff;box-shadow:0 14px 30px rgba(8,20,60,.4)">+ Follow</div>
+</div>
+<div class="fx" id="fx_split">
+  <div id="sp">
+    <div class="abs mono" style="left:70px;top:150px;font-size:26px;color:var(--or)">Cournot · live in production</div>
+    <div class="abs" style="left:66px;top:196px;font-weight:800;font-size:76px;color:var(--navy);letter-spacing:-.01em">In numbers</div>
+    <div class="st" style="top:320px"><div class="sv" id="s0">6,494</div><div class="sl">markets resolved</div></div>
+    <div class="st" style="top:490px"><div class="sv" id="s1">99.71%</div><div class="sl">correct before any dispute</div></div>
+    <div class="st" style="top:660px"><div class="sv" id="s2">&lt;8 min</div><div class="sl">median time to settle</div></div>
+    <div class="abs" style="left:70px;top:850px;font-weight:600;font-size:26px;color:#51607E">Cournot's own figures, as of 28 Oct 2026</div>
+    <div class="abs" style="left:40px;top:920px;width:1000px;height:930px;border-radius:40px;overflow:hidden;box-shadow:0 30px 80px rgba(8,20,60,.35)"><img id="sp_me" style="position:absolute;left:0;top:-640px;width:1000px;height:1778px"></div>
+  </div>
+</div>
+<div class="fx" id="fx_time">
+  <div class="L" style="background:linear-gradient(180deg,rgba(11,31,77,.78) 0%,rgba(18,58,153,.5) 40%,rgba(18,58,153,.12) 70%,rgba(18,58,153,0) 100%)"></div>
+  <div class="abs mono" style="left:60px;top:150px;font-size:28px;color:#fff"><span style="color:#FF5A5A">●</span> REC <span id="tc">00:00</span></div>
+  <div class="abs anton" style="left:56px;top:196px;font-size:150px;color:#fff">In this video</div>
+  <div class="abs" style="left:62px;top:342px;font-weight:800;font-size:34px;color:var(--sky)">How I build a combo on Bagel</div>
+  <div class="abs" style="left:40px;top:420px;width:1000px;height:350px;border-radius:30px;background:rgba(6,16,44,.72);box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.18)">
+    <div class="abs mono" style="left:30px;top:24px;font-size:24px;letter-spacing:.02em;color:rgba(230,240,255,.65)">0:00</div>
+    <div class="abs mono" style="left:313px;top:24px;font-size:24px;letter-spacing:.02em;color:rgba(230,240,255,.65)">0:45</div>
+    <div class="abs mono" style="left:489px;top:24px;font-size:24px;letter-spacing:.02em;color:rgba(230,240,255,.65)">1:11</div>
+    <div class="abs mono" style="left:792px;top:24px;font-size:24px;letter-spacing:.02em;color:rgba(230,240,255,.65)">1:56</div>
+    <div class="trk" style="top:70px"><div class="clip" id="c0" style="left:303px;width:176px"></div><div class="cl" id="l0" style="left:315px">1 · My app builds the slip</div></div>
+    <div class="trk" style="top:154px"><div class="clip" id="c1" style="left:479px;width:303px"></div><div class="cl" id="l1" style="left:491px">2 · Find each game on Bagel</div></div>
+    <div class="trk" style="top:238px"><div class="clip" id="c2" style="left:782px;width:101px"></div><div class="cl" id="l2" style="right:232px;text-align:right">3 · Place the combo</div></div>
+    <div class="abs" id="ph" style="left:30px;top:60px;width:4px;height:264px;background:#FF5A5A;box-shadow:0 0 12px rgba(255,90,90,.8)"></div>
+  </div>
+</div>
+
+<div id="lab"><span id="labt"></span></div>
+<div id="cap"><span id="capt"></span></div>
+<div id="pre" style="position:absolute;left:-9999px;width:10px;height:10px;overflow:hidden"></div>
+
+<script src="reel_data.js"></script>
+<script>
+const R = window.REEL, E = R.ev, END = R.end, FPS = 30
+const DIR = decodeURIComponent(location.hash.slice(1))                  // fx_reel.html#<work dir>/  (src/ and m/ frames)
+const $ = id => document.getElementById(id)
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x)), eo = x => 1 - Math.pow(1 - clamp(x), 3)
+const eback = x => { x = clamp(x); const c = 1.6; return 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2) }
+let SIG = []
+function css(el, k, v) { if (typeof el === 'string') el = $(el); if (el.style[k] !== v) el.style[k] = v; SIG.push(v) }
+const pop = (el, t, at, d = .35, dy = 30) => { const p = eo((t - at) / d); css(el, 'opacity', p.toFixed(3)); css(el, 'transform', `translateY(${((1 - p) * dy).toFixed(1)}px) scale(${(.94 + .06 * eback((t - at) / d)).toFixed(3)})`) }
+const LAB = { behind: ['1', 'Words behind you'], glass: ['2', 'Glass cards'], orbit: ['3', 'Orbit'], doc: ['4', 'Documentary'],
+  check: ['5', 'Checklist'], split: ['6', 'Numbers split'], timeline: ['7', 'Timeline'] }
+const MATTE = new Set(['behind', 'glass', 'orbit', 'doc', 'check'])
+// orbit cards: real captures (Cournot's site, docs and announcement)
+const OC = ['o_medium', 'o_auth', 'o_res', 'o_quote', 'o_cover']
+for (const side of ['B', 'F']) $('fx_orbit' + side).innerHTML = OC.map(n => `<div class="oc" id="${n}${side}"><img src="cards/${n}.png"></div>`).join('')
+const seg = t => R.segs.find(s => t >= s.o && t < s.o + (s.b - s.a)) || null
+async function setImg(el, src) { if (el.getAttribute('src') !== src) { el.src = src; try { await el.decode() } catch (e) {} } }
+window.render = async t => {
+  SIG = []
+  const s = t < END ? seg(t) : null, id = s ? s.id : null, f = Math.min(Math.round(t * FPS), Math.round(END * FPS) - 1)
+  const fsrc = DIR + 'src/f_' + String(f + 1).padStart(5, '0') + '.jpg'
+  for (const x of ['behind', 'glass', 'orbitB', 'orbitF', 'doc', 'docF', 'check', 'split', 'time']) css('fx_' + x, 'opacity', '0')
+  // which layers need the frame or the cut-out
+  const needBg = id === 'doc'
+  css('bgL', 'opacity', needBg ? '1' : '0'); if (needBg) await setImg($('bg'), fsrc)
+  css('bg', 'filter', id === 'doc' ? 'url(#duo)' : 'none')
+  const useMe = id && MATTE.has(id)
+  css('me', 'opacity', useMe ? '1' : '0'); css('me', 'filter', id === 'doc' ? 'url(#duo)' : 'none')
+  if (useMe) await setImg($('me'), DIR + 'm/m_' + String(f + 1).padStart(5, '0') + '.png')
+  const L = id ? LAB[id] : null
+  css('lab', 'opacity', L ? '1' : '0'); if (L) { const h = `<b>${L[0]}/7</b> · ${L[1]}`; if ($('labt').innerHTML !== h) $('labt').innerHTML = h; SIG.push(h) }
+  const lt = s ? t - s.o : 0
+  if (id === 'behind') {
+    css('fx_behind', 'opacity', eo(lt / .5).toFixed(3))
+    const a = eo((lt - .15) / .45), b = eo((lt - .45) / .45), push = 1 + .05 * clamp(lt / 4)
+    css('b_l1', 'opacity', a.toFixed(3)); css('b_l1', 'transform', `translateY(${((1 - a) * 60).toFixed(1)}px) scale(${push.toFixed(4)})`)
+    css('b_l2', 'opacity', b.toFixed(3)); css('b_l2', 'transform', `translateY(${((1 - b) * 80).toFixed(1)}px) scale(${push.toFixed(4)})`)
+    const hit = t >= E.won ? Math.exp(-(t - E.won) * 5) : 0
+    css('b_l2', 'textShadow', `0 0 ${(60 + 90 * hit).toFixed(0)}px rgba(253,76,0,${(.55 + .4 * hit).toFixed(2)})`)
+    css('b_k', 'opacity', eo((lt - .7) / .4).toFixed(3))
+  }
+  if (id === 'glass') {
+    css('fx_glass', 'opacity', '1')
+    for (const g of ['g1', 'g2', 'g3', 'g4']) { const im = $(g).querySelector('img.fr'); await setImg(im, fsrc)
+      const r = $(g).style; css(im, 'left', -parseFloat(r.left) + 'px'); css(im, 'top', -parseFloat(r.top) + 'px') }
+    pop($('g3'), t, s.o + .35); pop($('g1'), t, E.g_primus - .1); pop($('g2'), t, E.g_part - .1); pop($('g4'), t, E.g_cournot - .45)
+    css('g4r', 'strokeDashoffset', (490 * (1 - eo((t - E.g_cournot + .2) / 1.0))).toFixed(1))
+  }
+  if (id === 'orbit') {
+    css('fx_orbitB', 'opacity', '1'); css('fx_orbitF', 'opacity', '1')
+    // a ring round the head, tilted so its near side passes ABOVE the head (the face stays clear) and its far side goes
+    // down behind the shoulders, where the cut-out hides it
+    // the crossing (dz = 0) sits at y 780, beside the crown where the head is narrowest (top 817, 360-727 wide at 880),
+    // so a card changes layer in clear air, never over the head
+    const cx = 540, cy = 780, rx = 410, ry = 470, n = OC.length
+    OC.forEach((nm, i) => {
+      const th = Math.PI / 2 + 2 * Math.PI * i / n + 2 * Math.PI * lt / 7, dz = Math.sin(th)        // dz > 0: near side, high
+      const x = cx + rx * Math.cos(th), y = cy - ry * dz, sc = .7 + .26 * (dz + 1) / 2
+      const hh = ($(nm + 'B').offsetHeight || 260) / 2
+      const tr = `translate(${(x - 190).toFixed(1)}px,${(y - hh).toFixed(1)}px) scale(${sc.toFixed(3)}) rotate(${(-8 * Math.cos(th)).toFixed(2)}deg)`
+      const fin = eo((lt - .1 * i) / .45)
+      for (const side of ['B', 'F']) { const el = $(nm + side), show = side === 'F' ? dz > 0 : dz <= 0
+        css(el, 'opacity', show ? fin.toFixed(3) : '0'); css(el, 'transform', tr); css(el, 'zIndex', String(Math.round(dz * 100) + 200)) }
+    })
+  }
+  if (id === 'doc') {
+    css('fx_doc', 'opacity', '1'); css('fx_docF', 'opacity', '1')
+    const dp = eback((lt - .05) / .4); css('d_disc', 'transform', `scale(${(.6 + .4 * dp).toFixed(3)})`); css('d_disc', 'opacity', eo(lt / .25).toFixed(3))
+    ;['d_w0', 'd_w1', 'd_w2'].forEach((w, i) => { const at = E.d_in + .05 + .22 * i, p = clamp((t - at) / .14)
+      css(w, 'opacity', (t >= at ? 1 : 0).toFixed(0)); css(w, 'transform', `scale(${(1.35 - .35 * eo(p)).toFixed(3)})`); css(w, 'transformOrigin', '100% 50%') })
+    pop($('d_name'), t, E.d_in + .9, .3, 20); pop($('d_follow'), t, E.d_why - .1, .3, 20)
+  }
+  if (id === 'check') {
+    css('fx_check', 'opacity', '1')
+    const im = $('ck').querySelector('img.fr'); await setImg(im, fsrc); css(im, 'left', '-60px'); css(im, 'top', '-300px')
+    pop($('ck'), t, s.o + .1, .45, -30)
+    const at = [E.c_rules, E.c_evid, E.c_verdict, E.c_zk]; let n = 0
+    at.forEach((a, i) => { const on = t >= a; if (on) n++; $('t' + i).className = 'tick' + (on ? ' on' : ''); $('r' + i).className = 'rt' + (on ? '' : ' dim'); SIG.push(on)
+      const p = on ? clamp((t - a) / .25) : 0; css('t' + i, 'transform', `scale(${(1 + .25 * Math.sin(Math.PI * p)).toFixed(3)})`) })
+    if ($('ck_n').textContent !== n + ' of 4') $('ck_n').textContent = n + ' of 4'
+  }
+  if (id === 'split') {
+    css('fx_split', 'opacity', eo(lt / .25).toFixed(3)); await setImg($('sp_me'), fsrc)
+    // the real figures pop in whole (a count-up would show numbers Cournot never reported)
+    ;['s0', 's1', 's2'].forEach((k, i) => { const at = E.s_in + .25 + .45 * i, p = clamp((t - at) / .3)
+      css(k, 'opacity', (t >= at ? 1 : 0).toFixed(0)); css(k, 'transform', `scale(${(1.1 - .1 * eo(p)).toFixed(3)})`); css(k, 'transformOrigin', '0 60%')
+      css(k, 'color', p >= 1 ? '#1F5FDB' : '#0B1F4D') })
+  }
+  if (id === 'timeline') {
+    css('fx_time', 'opacity', eo(lt / .3).toFixed(3))
+    const d = s.b - s.a, sec = Math.floor(lt); $('tc').textContent = '00:' + String(sec).padStart(2, '0'); SIG.push(sec)
+    // the playhead creeps, then jumps to each chapter as the owner names it (the ruler is the Bagel video's real 2:15)
+    const stops = [[s.o, 30], [E.t_app, 303], [E.t_bagel, 479], [E.t_combo2, 782]]
+    const at = (k, tt) => stops[k][1] + (k === 0 ? 160 * clamp((tt - s.o) / (stops[1][0] - s.o)) : 0)   // where stop k's playhead is at tt
+    let ph = 30; for (let k = 0; k < stops.length; k++) { if (t < stops[k][0]) break
+      const nx = stops[k + 1], g0 = nx ? nx[0] - .35 : 1e9
+      ph = t < g0 ? at(k, t) : at(k, g0) + (nx[1] - at(k, g0)) * eo((t - g0) / .35) }
+    css('ph', 'left', ph.toFixed(1) + 'px')
+    ;[[0, E.t_app], [1, E.t_bagel], [2, E.t_combo2]].forEach(([i, a]) => { const on = t >= a; $('c' + i).className = 'clip' + (on ? ' on' : ''); $('l' + i).className = 'cl' + (on ? ' on' : ''); SIG.push(on) })
+  }
+  // captions
+  const c = t < END ? R.caps.find(c => t >= c.o0 && t < c.o1) : null
+  css('cap', 'opacity', c ? Math.min(eo((t - c.o0) / .12), eo((c.o1 - t) / .08)).toFixed(3) : '0')
+  if (c) { const h = c.t.replace(/\*([^*]+)\*/g, '<b>$1</b>'); if ($('capt').innerHTML !== h) $('capt').innerHTML = h; SIG.push(c.t) }
+  SIG.push(f, id)
+  return SIG.join('|')
+}
+window.READY = Promise.all([document.fonts.load('400 100px Anton'), document.fonts.load('800 40px Manrope'), document.fonts.load('600 26px Manrope'),
+  document.fonts.load('700 26px Mono'), ...OC.map(n => new Promise(r => { const i = new Image(); i.onload = i.onerror = r; i.src = 'cards/' + n + '.png' }))])
+</script>
+</body></html>
