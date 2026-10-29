@@ -94,6 +94,26 @@ creative, and reactions that are "visibly evident". The edit:
     noise.
   - A long build (two full renders and their checks) must not hide behind silence. Tell the owner early what's coming
     and when.
+- **v5, redrawn screens (1:55): "This is the worst ever… I just wasted 3hrs of my time on this rubbish… I had to use
+  the previous video."** The owner posted v3, the sticker version.
+  - **What went wrong:** asked for "the actual clean format from the site render", I redrew Bagel and cmvng myself as
+    HTML lookalikes, built in under 30 minutes against a deadline:
+    - flat coloured squares for league logos;
+    - letter badges for crests;
+    - emoji for icons;
+    - the same home screen reused for each search.
+
+    That's exactly what the standing rule forbids: "never rebuild UI as our own cards". It looked fake next to the real
+    app, which is worse than a soft real recording.
+  - **How it got through:**
+    - I checked that each screen matched the recording's text and numbers. I never asked whether it looked like the
+      real app.
+    - I treated "no excuses" as "never say what isn't possible". Bagel has no web app to capture.
+    - I spent five versions and about three hours of the owner's time instead of asking one clear question early.
+  - **Change next time:**
+    - Never substitute a lookalike for a real screen.
+    - When the real screen can't be captured, say so plainly once, with the best real option, before building.
+    - Fewer, surer versions. Ask the one question that decides the approach first.
 
 ---
 
