@@ -77,16 +77,27 @@ Five formats, the layouts viewers know from reaction videos:
 - **the Reaction Cam** (a framed window in free space);
 - **the Duet** (a split: the content slides up and the reaction rises into the bottom half, or a band across the top
   over a camera video);
-- **the Cutaway** (the reaction shot, full screen, 1.2–1.5 s);
+- **the Cutaway** (the reaction shot, full screen, about 2 s);
 - **the Freeze** (the frame holds while the reaction plays);
 - **From Behind** (the cut-out owner rises from behind a chart card).
 
 Two moves: the react-first hook, and its payoff later in the video. Demos: Held Too Long (7 Oct) and Primus v3 (27 Oct).
+First real use: the Bagel combo video (29 Oct), with six reactions at 2–6 s each, big. The owner's note on the first
+demo was "not visibly evident… too fast", so that is the floor now.
 
 Next angles:
 - **the co-host:** the owner's reactions answer the presenter in our football videos;
 - **the always-on reaction cam** (needs a "neutral, watching" clip);
 - **the reply:** a claim on screen, then the reaction.
+- **eight more formats** from the second round of research (in the study):
+  - the Snap Zoom (used on Wait, What? in Bagel);
+  - the Frame Break (hands burst out of the window's top edge);
+  - the Comment Reply;
+  - the Me-When Card;
+  - the Escalation Stack;
+  - the Glance (Side-Eye's two looks light up the claim, then the fine print);
+  - the Instant Replay with a telestrator;
+  - the Clone (a second you in the room).
 
 ## Faceless story channel (the owner's plan, 23 Oct: David's crypto journey in still images)
 - **POV Finance (the owner loves it: "relatable"):** one hero in the same signature outfit in every frame, bright
