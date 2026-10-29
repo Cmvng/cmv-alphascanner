@@ -28,6 +28,43 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
+## 29 Oct: the owner's recording, Primus Labs × Cournot "Who decides who won?" (1:57 cut to 1:15 + end card)
+
+The owner's 1:57 selfie and post text about Primus Labs and Cournot, an AI oracle that settles prediction markets. The
+brief: "do your proper research and make this video a 10/10". This edit follows the approved Primus "Proof of Nomad Life"
+flow: the owner talking from the first frame, with real pages floating above the head.
+`video/templates/talking-head/camera-cournot-2026-10-29/`.
+
+- **What worked:**
+  - **The hook moved first.** "A prediction market is only as good as the way it decides who won" was at 0:32 of the
+    recording.
+  - **Research from dated sources only.** Every claim in the owner's post was checked against cournot.ai (figures "as of
+    October 28, 2026"), Cournot's docs and its 29 Oct announcement. The announcement's own line, "Primus verifies the
+    source. Cournot verifies whether the evidence satisfies the market", sits next to the owner's simpler wording.
+  - **Real pages only,** captured read-only. cournot.ai draws nothing until its intro has run, so the capture scrolls the
+    page through first.
+  - **The music's drop on "partnership"** (543, from 15.73 s in), the bed in its own pass.
+- **Mistakes the full check of the first render found (all fixed before sending):**
+  1. **Six cards cut through a line of text or a button at their bottom edge** (the Resolution Oracle paragraph, the
+     Medium "Follow" button, the zkTLS definition, the Medium "why", the docs bullet, the Sentinel rule). Each window
+     now ends in the white space between lines, measured with OCR line boxes.
+  2. **Four outlines crossed the second line of the sentence they mark** ("…not votes.", "…the entire evidence
+     bundle.", "…and live with Myriad.", "…proof of its origin."). Each now covers every line of its sentence.
+  3. **The "Rules → evidence → verdict" walkthrough zoomed the page until its text touched both frame edges,** and the
+     stats grid's tiles were cut at the sides. This is the same mistake as the posted Bagel cut. Walkthroughs now keep
+     the page's full width, so its own margins show.
+  4. **The Proof of Authenticity card's top was hidden under cournot.ai's sticky tab bar.** I re-captured it lower in
+     the viewport, where it is whole and still in its active state.
+- **How they got through the plan:** the windows were set by eye on small sheets, and the 24 px text rule pulled the
+  zoom up. Neither checks whether a card ends cleanly.
+- **Change next time:**
+  - Set every window from the capture's measured line boxes (`lines.py`), not by eye. A window ends in a gap between
+    lines and starts above a heading.
+  - Size every outline to the full sentence.
+  - Walkthroughs and floats show a page's full width unless it is a short push-in on one named thing.
+
+---
+
 ## 29 Oct: the owner's recording, Bagel "How to build a combo" (8:44 cut to 2:15, with video reactions)
 
 The owner's 8:44 recording: their camera intro, then Bagel and cmvngpicks.com side by side. The brief: shorter,

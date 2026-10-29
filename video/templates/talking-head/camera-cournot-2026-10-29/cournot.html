@@ -1,0 +1,241 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Primus and Cournot overlay (real screens over the owner's camera)</title>
+<style>
+@font-face{font-family:Anton;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/anton-latin-400-normal.woff2)}
+@font-face{font-family:Manrope;font-weight:600;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-600-normal.woff2)}
+@font-face{font-family:Manrope;font-weight:800;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-800-normal.woff2)}
+@font-face{font-family:Mono;font-weight:700;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/jetbrains-mono-latin-700-normal.woff2)}
+/* every screen is a capture of the real page (cournot.ai, docs.cournot.ai, Cournot's Medium post, primuslabs.xyz and
+   its docs, 29 Oct 2026). Our layer is only the frame, the outlines, a few notes in the owner's own words and two of
+   the owner's reaction stickers. Captions stay on top. */
+:root{--ink:#161616;--mute:#525252;--or:#FD4C00;--or2:#FF7A33}
+*{box-sizing:border-box}
+html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:transparent;font-family:Manrope,sans-serif;color:var(--ink)}
+.abs{position:absolute}
+.mono{font-family:Mono,monospace;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
+/* floating screens above the head: a window on a real capture */
+.fl{position:absolute;opacity:0;transform-origin:50% 0;border-radius:26px;overflow:hidden;background:#fff;
+  box-shadow:0 34px 80px rgba(18,24,48,.38),0 0 0 1.5px rgba(0,0,0,.06)}
+.pg{position:absolute;left:0;top:0;transform-origin:0 0}
+.pg img{position:absolute;left:0;top:0;max-width:none;display:block}
+.glow{position:absolute;border:4px solid var(--or);border-radius:14px;opacity:0;box-shadow:0 0 0 4px rgba(253,76,0,.16),0 0 18px rgba(253,76,0,.45)}
+.note{position:absolute;padding:0 30px;height:70px;border-radius:35px;font-weight:800;font-size:34px;line-height:67px;white-space:nowrap;opacity:0;
+  background:#fff;border:1.5px solid #e6e6e6;box-shadow:0 14px 34px rgba(18,24,48,.24)}
+.note b{color:var(--or)}
+/* full-screen walkthrough on the light page */
+#full{position:absolute;inset:0;opacity:0;overflow:hidden;background:#E5EFFF}
+#full:before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(31,95,219,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(31,95,219,.06) 1px,transparent 1px);background-size:60px 60px}
+.vp{position:absolute;left:-20px;top:0;width:1120px;height:1680px;perspective:2200px}
+.tilt{position:absolute;inset:0;transform-style:preserve-3d}
+.stage{position:absolute;left:0;top:0;transform-origin:0 0;border-radius:22px;overflow:hidden;box-shadow:0 40px 100px rgba(18,24,48,.35);background:#fff}
+.stage img{position:absolute;left:0;top:0;max-width:none}
+#ffade{position:absolute;left:0;right:0;top:1580px;bottom:0;pointer-events:none;background:linear-gradient(180deg,rgba(229,239,255,0) 0%,#E5EFFF 90px,#E5EFFF 100%)}
+#fhead{position:absolute;left:45px;top:96px;width:990px;height:236px;border-radius:30px;background:rgba(255,255,255,.97);z-index:3;opacity:0;
+  box-shadow:0 26px 70px rgba(18,24,48,.30),0 0 0 1.5px rgba(0,0,0,.05)}
+.fk{position:absolute;left:44px;top:40px;font-size:26px;color:var(--or)}
+.ft{position:absolute;left:40px;top:82px;font-weight:800;font-size:88px;line-height:1;letter-spacing:-.02em;white-space:nowrap}
+.ft span{color:var(--or)}
+.fn{position:absolute;left:44px;top:194px;font-weight:800;font-size:32px;color:var(--mute);opacity:0;white-space:nowrap}
+.fn:before{content:"";display:inline-block;width:14px;height:14px;border-radius:7px;background:var(--or);margin-right:14px;vertical-align:4px}
+/* the owner's reaction stickers (die-cut, playing) */
+.stk{position:absolute;opacity:0;transform-origin:50% 80%;filter:drop-shadow(0 18px 30px rgba(10,30,80,.36)) drop-shadow(0 3px 6px rgba(10,30,80,.2))}
+#endc{position:absolute;inset:0;opacity:0;overflow:hidden;background:linear-gradient(180deg,#F4F8FF 0%,#E6F0FF 60%,#DCE9FF 100%)}
+#endc:before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(31,95,219,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(31,95,219,.07) 1px,transparent 1px);background-size:60px 60px}
+#cap{position:absolute;left:0;right:0;bottom:104px;text-align:center;opacity:0;z-index:9}
+#cap span{display:inline-block;max-width:960px;padding:13px 28px 15px;border-radius:20px;background:rgba(12,16,28,.76);font-weight:800;font-size:44px;line-height:1.24;color:#fff}
+#cap b{color:var(--or2);font-weight:800}
+</style></head>
+<body>
+<div id="full">
+  <div class="vp"><div class="tilt" id="tilt"><div class="stage" id="stage"><img id="stA"><div id="smarks"></div></div></div></div>
+  <div id="ffade"></div>
+  <div id="fhead"><div class="mono fk" id="fk"></div><div class="ft" id="ft"></div><div class="fn" id="fn"></div></div>
+</div>
+<div id="floats"></div>
+<div id="notes"></div>
+<div id="stks"></div>
+<div id="endc">
+  <div class="abs mono" style="left:72px;top:150px;font-size:30px;color:var(--or)">Announced 29 Oct 2026</div>
+  <div class="abs" style="left:66px;top:196px;font-family:Anton,sans-serif;font-size:150px;line-height:.92;color:#0B1F4D;text-transform:uppercase">Primus<br><span style="color:var(--or)">× Cournot</span></div>
+  <div class="fl" id="end_cov" style="left:60px;top:520px;width:960px;height:540px;opacity:1"><img src="file:///home/user/cmv-alphascanner/video/out/cournot-2026-10-29/site/medium-cover.png" style="width:960px;height:540px;display:block"></div>
+  <div class="abs" id="end_l1" style="left:70px;top:1130px;width:940px;font-weight:800;font-size:40px;line-height:1.3;color:#0B1F4D;opacity:0">The proof shows the data came from the source, <span style="color:var(--or)">not that the source was right.</span></div>
+  <div class="abs" id="end_l2" style="left:70px;top:1290px;width:940px;font-weight:800;font-size:36px;line-height:1.3;color:#51607E;opacity:0">Private credit is still marked “coming soon” on Cournot’s site.</div>
+  <div class="abs" id="end_h" style="left:70px;top:1440px;font-family:Mono,monospace;font-weight:700;font-size:42px;color:#0B1F4D;opacity:0">Follow for more · @i_am_vickyd</div>
+  <div class="abs" id="end_f" style="left:70px;top:1520px;width:940px;font-family:Mono,monospace;font-weight:700;font-size:24px;line-height:1.5;color:#51607E;opacity:0">Figures: Cournot's own, as of 28 Oct 2026 · Not financial advice</div>
+</div>
+<div id="cap"><span id="capt"></span></div>
+<div style="position:absolute;left:-9999px;top:0;width:10px;height:10px;overflow:hidden" id="pre"></div>
+
+<script src="file:///home/user/cmv-alphascanner/video/out/reactions/lib.js"></script>
+<script src="data.js"></script>
+<script>
+const P = window.PLAN, END = P.end, EC = P.endcard, TOT = END + EC, EV = P.ev
+const SITE = 'file:///home/user/cmv-alphascanner/video/out/cournot-2026-10-29/site/'
+const RX = 'file:///home/user/cmv-alphascanner/video/out/reactions/'
+const IMW = 1290                                        // every capture is 1290 px wide (a 430 px phone screen at 3x)
+const $ = id => document.getElementById(id)
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x))
+const eo = x => 1 - Math.pow(1 - clamp(x), 3)
+const eio = x => { x = clamp(x); return x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2 }
+const eback = x => { x = clamp(x); const c = 1.7; return 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2) }
+let SIG = []
+function css(el, k, v) { if (typeof el === 'string') el = $(el); if (el.style[k] !== v) el.style[k] = v; SIG.push(v) }
+function vis(t, a, b, fi = .32, fo = .22) { if (t < a || t > b) return 0; return Math.min(eo((t - a) / fi), eo((b - t) / fo)) }
+const pop = (el, t, at, d = .3, dy = 14) => { const p = eo((t - at) / d); css(el, 'opacity', p.toFixed(3)); css(el, 'transform', `translateY(${((1 - p) * dy).toFixed(1)}px)`) }
+
+// ---- floating screens. A float shows a window [x, y, w] of a capture (capture px); keys: [time, window] = the view
+// arrives there at that time, moving over the 0.6 s before it. Marks: outlines in capture px, lit at a time.
+const FW = 1000, FLEFT = 40, FTOP = 60
+const FLOATS = [
+  { id: 'f_res', src: 'home-resolution.png', fh: 460, a: .1, b: EV.i_primus - .45, keys: [[.1, [0, 935, 1290]]],
+    marks: [{ r: [52, 1296, 1080, 196], at: EV.hook_won }] },
+  { id: 'f_prim', src: 'primus-hero.png', fh: 700, a: EV.i_primus - .35, b: EV.i_part - .25, keys: [[EV.i_primus - .35, [0, 455, 1290]]], marks: [] },
+  { id: 'f_med', src: 'medium-top.png', fh: 612, a: EV.i_part - .2, b: EV.zk_in - .15, keys: [[EV.i_part - .2, [0, 370, 1290]], [EV.i_cournot - .1, [0, 1343, 1290]]],
+    marks: [{ r: [52, 396, 1060, 455], at: EV.i_part + .25 }] },
+  { id: 'f_zk', src: 'zktls-def.png', fh: 608, a: EV.zk_in - .05, b: EV.why_in - .15, keys: [[EV.zk_in - .05, [0, 215, 1290]]],
+    marks: [{ r: [40, 397, 1202, 230], at: EV.zk_prove }] },
+  { id: 'f_why', src: 'medium-why.png', fh: 470, a: EV.why_in - .05, b: EV.v_in - .2, keys: [[EV.why_in - .05, [0, 287, 1290]]],
+    marks: [{ r: [52, 317, 1110, 165], at: EV.why_in + .3 }, { r: [50, 548, 1124, 338], at: EV.part_in }] },
+  { id: 'f_det', src: 'pipe-3-determinism.png', fh: 699, a: EV.v_in - .1, b: EV.v_rec - .05, keys: [[EV.v_in - .1, [80, 889, 1130]]], marks: [] },
+  { id: 'f_log', src: 'pipe-2-logic.png', fh: 699, a: EV.v_rec - .15, b: EV.v_primus - .15, keys: [[EV.v_rec - .15, [80, 412, 1130]]], marks: [] },
+  { id: 'f_quo', src: 'medium-quote.png', fh: 520, a: EV.v_primus - .1, b: EV.c_in - .15, keys: [[EV.v_primus - .1, [0, 230, 1290]]],
+    marks: [{ r: [58, 425, 1180, 150], at: EV.v_primus + .6 }] },
+  { id: 'f_por', src: 'por-prov.png', fh: 260, a: EV.c_in - .05, b: EV.w2_in - .1, keys: [[EV.c_in - .05, [0, 314, 1290]]],
+    marks: [{ r: [116, 557, 1078, 78], at: EV.c_without }] },
+  { id: 'f_auth', src: 'pipe-1-authenticity-b.png', fh: 699, a: EV.a_zk - .05, b: EV.a_proof - .15, keys: [[EV.a_zk - .05, [80, 1051, 1130]]], marks: [] },
+  { id: 'f_fs', src: 'fastslow-sentinel.png', fh: 310, a: EV.a_valid - .1, b: EV.a_out, keys: [[EV.a_valid - .1, [0, 193, 1290]]],
+    marks: [{ r: [112, 430, 1078, 146], at: EV.a_valid + .35 }] },
+  { id: 'f_42', src: 'home-resolution.png', fh: 360, a: EV.e_here - .1, b: EV.e_gg - .1, keys: [[EV.e_here - .1, [0, 1545, 1290]]],
+    marks: [{ r: [54, 1800, 1162, 160], at: EV.e_here + .1 }] },
+]
+let fhtml = ''
+for (const f of FLOATS) {
+  fhtml += `<div class="fl" id="${f.id}" style="left:${FLEFT}px;top:${FTOP}px;width:${FW}px;height:${f.fh}px"><div class="pg" id="${f.id}_pg"><img src="${SITE}${f.src}" style="width:${IMW}px">`
+  f.marks.forEach((m, i) => { const [x, y, w, h] = m.r; fhtml += `<div class="glow" id="${f.id}_g${i}" style="left:${x}px;top:${y}px;width:${w}px;height:${h}px"></div>` })
+  fhtml += '</div></div>'
+}
+$('floats').innerHTML = fhtml
+function camF(f, t) {
+  const k = f.keys
+  if (t <= k[0][0]) return k[0][1]
+  for (let i = 1; i < k.length; i++) {
+    const [ti, ri] = k[i], [tp, rp] = k[i - 1]
+    if (t < ti) { const D = Math.min(.6, ti - tp), u = eio((t - (ti - D)) / D); return rp.map((v, j) => v + (ri[j] - v) * u) }
+  }
+  return k[k.length - 1][1]
+}
+const glowAt = (el, t, at, s = 1) => {
+  if (t < at) { css(el, 'opacity', '0'); return }
+  const p = eo((t - at) / .22), k = 1 - .45 * eo((t - at - 1.1) / .7)
+  css(el, 'opacity', (p * k).toFixed(3)); css(el, 'transform', `scale(${(1.05 - .05 * p).toFixed(3)})`); css(el, 'borderWidth', (4 / s).toFixed(2) + 'px')
+}
+
+// ---- notes: the owner's own words (from their post), under a float
+const NOTES = [
+  { id: 'n_date', html: 'Cournot\'s post · <b>29 Oct</b>', top: FTOP + 612 + 22, a: EV.i_part + .5, b: EV.zk_in - .15 },
+  { id: 'n_bundle', html: 'One bad proof throws out <b>the whole bundle</b>', top: FTOP + 310 + 22, a: EV.a_valid + .9, b: EV.a_out },
+]
+$('notes').innerHTML = NOTES.map(n => `<div class="note" id="${n.id}" style="left:${FLEFT}px;top:${n.top}px">${n.html}</div>`).join('')
+
+// ---- full-screen walkthroughs: keys [time, [x, y, w, h]] in capture px; the width fits the frame. Keep w at the full
+// 1290 so the page keeps its own margins (a narrower window zooms the text into the frame's edges: Bagel, 29 Oct)
+const VW = 1120, VH = 1680, FY = 1040
+const WALKS = [
+  { a: EV.a_in, b: EV.a_zk - .05, src: 'home-resolution-c.png', ph: 1996, top: 380, kick: 'Cournot · how a market settles', title: 'Rules → evidence → <span>verdict</span>', tAt: EV.a_in + .2,
+    keys: [[EV.a_in, [0, 200, 1290, 900]], [EV.a_rules - .3, [0, 600, 1290, 560]], [EV.a_verdict + .8, [0, 620, 1290, 560]]],
+    marks: [{ r: [62, 772, 645, 68], at: EV.a_rules }, { r: [700, 772, 530, 68], at: EV.a_evid }, { r: [552, 850, 390, 62], at: EV.a_verdict }] },
+  { a: EV.nb_in, b: EV.e_here - .05, src: 'home-stats-c.png', ph: 2586, top: 390, kick: 'Cournot · live in production', title: 'In <span>numbers</span>', tAt: EV.nb_in + .2,
+    note: ["Cournot's own figures, as of 28 Oct 2026", EV.nb_in + 1.0],
+    keys: [[EV.nb_in, [0, 0, 1290, 1240]], [EV.e_here, [0, 20, 1290, 1220]]],
+    marks: [{ r: [664, 0, 552, 326], at: EV.nb_in + .5 }, { r: [74, 364, 552, 352], at: EV.nb_in + 1.5 }, { r: [74, 754, 552, 352], at: EV.nb_in + 2.6 }] },
+]
+function camAt(w, t) {
+  const k = w.keys; let i = 0
+  while (i < k.length - 2 && t > k[i + 1][0]) i++
+  const [t0, r0] = k[i], [t1, r1] = k[Math.min(i + 1, k.length - 1)]
+  const u = eio((t - t0) / Math.max(.01, t1 - t0)), r = r0.map((v, j) => v + (r1[j] - v) * u)
+  const s = VW / r[2]
+  let x = VW / 2 - (r[0] + r[2] / 2) * s, y = FY - (r[1] + r[3] / 2) * s
+  const pw = IMW * s, ph = w.ph * s
+  x = pw > VW ? clamp(x, VW - pw, 0) : (VW - pw) / 2
+  y = Math.min(w.top || 0, Math.max(VH - ph, y))           // a page may start below the title panel (top), never leave a gap at its end
+  return { s, x, y }
+}
+let curWalk = null
+function setWalk(w) {
+  if (curWalk === w) return; curWalk = w
+  $('stA').src = SITE + w.src; $('stA').style.width = IMW + 'px'
+  $('stage').style.width = IMW + 'px'; $('stage').style.height = w.ph + 'px'
+  $('fk').textContent = w.kick; $('ft').innerHTML = w.title; $('fn').textContent = w.note ? w.note[0] : ''
+  $('fhead').style.height = w.note ? '262px' : '236px'
+  let fs = 88; $('ft').style.fontSize = fs + 'px'; while ($('ft').scrollWidth > 905 && fs > 50) { fs -= 2; $('ft').style.fontSize = fs + 'px' }   // the title fits the panel
+  $('smarks').innerHTML = w.marks.map((m, i) => `<div class="glow" id="sm${i}" style="left:${m.r[0]}px;top:${m.r[1]}px;width:${m.r[2]}px;height:${m.r[3]}px"></div>`).join('')
+}
+
+// ---- the owner's reaction stickers (video/out/reactions, die-cut, ping-pong so a long hold never jumps)
+const STK = [
+  { id: 'waitwhat', a: EV.a_proof - .05, b: EV.a_valid - .2, x: 70, y: 150, w: 500, rot: -5 },
+  { id: 'grin', a: EV.e_gg, b: END + .05, x: 520, y: 140, w: 500, rot: 4 },
+]
+$('stks').innerHTML = STK.map((s, i) => `<img class="stk" id="stk${i}" style="left:${s.x}px;top:${s.y}px;width:${s.w}px">`).join('')
+const stkFrame = (id, lt) => { const m = window.RLIB[id], n = m.frames, per = 2 * (n - 1); let i = Math.floor(lt * 30); i = ((i % per) + per) % per; if (i >= n) i = per - i
+  return `${RX}${id}/f_${String(i + 1).padStart(4, '0')}.png` }
+$('pre').innerHTML = [...new Set(FLOATS.map(f => f.src).concat(WALKS.map(w => w.src)))].map(s => `<img src="${SITE}${s}">`).join('') +
+  STK.map(s => Array.from({ length: window.RLIB[s.id].frames }, (_, i) => `<img src="${RX}${s.id}/f_${String(i + 1).padStart(4, '0')}.png">`).join('')).join('')
+
+function capAt(t) { for (const c of P.caps) if (t >= c.o0 && t < c.o1) return c; return null }
+window.render = function (t) {
+  SIG = []
+  // full-screen walkthroughs
+  const w = WALKS.find(x => t >= x.a - .2 && t < x.b + .2)
+  let fv = 0; for (const x of WALKS) fv = Math.max(fv, vis(t, x.a, x.b, .22, .22))
+  css('full', 'opacity', fv.toFixed(3))
+  if (w) {
+    setWalk(w)
+    const c = camAt(w, clamp(t, w.a, w.b))
+    css('stage', 'transform', `translate(${c.x.toFixed(1)}px,${c.y.toFixed(1)}px) scale(${c.s.toFixed(4)})`)
+    css('tilt', 'transform', `rotateX(${(3 + .8 * Math.sin((t - w.a) * .9)).toFixed(2)}deg) rotateY(${(-2.5 + 1 * Math.cos((t - w.a) * .7)).toFixed(2)}deg)`)
+    w.marks.forEach((m, i) => glowAt($('sm' + i), t, m.at, c.s))
+    pop($('fhead'), t, w.tAt - .3, .3, -16); pop($('ft'), t, w.tAt - .2, .3, 18)
+    if (w.note) pop($('fn'), t, w.note[1], .3, 10); else css('fn', 'opacity', '0')
+    SIG.push(w.a)
+  }
+  // floating screens
+  for (const f of FLOATS) {
+    const el = $(f.id), v = vis(t, f.a, f.b, .18, .14)
+    if (v <= 0) { css(el, 'opacity', '0'); continue }
+    const p = eo((t - f.a) / .42), out = 1 - vis(t, -1e9, f.b, 0, .14)
+    css(el, 'opacity', v.toFixed(3))
+    css(el, 'transform', `perspective(1800px) translateY(${((1 - p) * -40 - out * 30).toFixed(1)}px) rotateX(${(5 + (1 - p) * 10 + .6 * Math.sin((t - f.a) * .8)).toFixed(2)}deg) rotateY(${(-3 + 1 * Math.cos((t - f.a) * .6)).toFixed(2)}deg) scale(${(.95 + .05 * p - .03 * out).toFixed(3)})`)
+    const [x, y, ww] = camF(f, t), s = FW / ww
+    css(f.id + '_pg', 'transform', `translate(${(-x * s).toFixed(1)}px,${(-y * s).toFixed(1)}px) scale(${s.toFixed(4)})`)
+    f.marks.forEach((m, i) => glowAt($(`${f.id}_g${i}`), t, m.at, s))
+  }
+  for (const n of NOTES) { const v = vis(t, n.a, n.b, .25, .14); const p = eo((t - n.a) / .3); css(n.id, 'opacity', v.toFixed(3)); css(n.id, 'transform', `translateY(${((1 - p) * 14).toFixed(1)}px)`) }
+  // stickers: pop in (0 -> 110% -> 100% in 0.22 s), play, pop out
+  STK.forEach((s, i) => {
+    const el = $('stk' + i)
+    if (t < s.a || t > s.b) { css(el, 'opacity', '0'); return }
+    const lt = t - s.a, pin = clamp(lt / .22), pout = clamp((s.b - t) / .14)
+    const sc = (pin < 1 ? 1 + 3.2 * Math.pow(pin - 1, 3) + 2.2 * Math.pow(pin - 1, 2) : 1) * (.85 + .15 * pout)
+    const src = stkFrame(s.id, lt); if (el.getAttribute('src') !== src) el.setAttribute('src', src); SIG.push(src)
+    css(el, 'opacity', Math.min(clamp(pin * 5), pout).toFixed(3)); css(el, 'transform', `rotate(${s.rot}deg) scale(${sc.toFixed(3)})`)
+  })
+  // end card: the announcement's cover, the owner's two caveats from their post, the handle
+  const ev = t >= END ? eo((t - END) / .35) : 0
+  css('endc', 'opacity', ev.toFixed(3))
+  if (t >= END - .05) {
+    const sp = eo((t - END - .2) / .5)
+    css('end_cov', 'transform', `perspective(1800px) translateY(${((1 - sp) * 60).toFixed(1)}px) rotateX(${(4 + (1 - sp) * 4).toFixed(2)}deg) rotateY(-2deg) scale(${(.96 + .04 * sp).toFixed(3)})`)
+    pop($('end_l1'), t, END + .5, .35, 14); pop($('end_l2'), t, END + .8, .35, 14); pop($('end_h'), t, END + 1.1, .35, 14); pop($('end_f'), t, END + 1.3, .35, 10)
+  }
+  // captions
+  const c = t < END ? capAt(t) : null
+  css('cap', 'opacity', c ? Math.min(eo((t - c.o0) / .12), eo((c.o1 - t) / .08)).toFixed(3) : '0')
+  if (c) { const h = c.t.replace(/\*([^*]+)\*/g, '<b>$1</b>'); if ($('capt').innerHTML !== h) $('capt').innerHTML = h; SIG.push(c.t) }
+  return SIG.join('|')
+}
+window.READY = Promise.all([document.fonts.ready, ...['400 100px Anton', '800 40px Manrope', '700 24px Mono'].map(f => document.fonts.load(f)),
+  ...[...document.images].map(i => i.complete ? 1 : new Promise(r => { i.onload = i.onerror = r }))])
+</script>
+</body></html>
