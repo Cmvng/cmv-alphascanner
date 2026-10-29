@@ -213,13 +213,14 @@ function drawChapter(c, t) {
 }
 async function drawFloats(c, t) {                                      // real screens floating above the owner's head
   for (const f of P.floats) if (t >= f.t0 && t < f.t1) {
-    const im = await srcFrame(Math.round(f.at * FPS)); if (!im) continue
+    const im = f.img ? await img(f.img) : await srcFrame(Math.round(f.at * FPS)); if (!im) continue
     const pin = eo((t - f.t0) / .4), pout = eo((f.t1 - t) / .3), a = Math.min(pin, pout)
     const [x, y, w, h] = f.out, [sx, sy, sw, sh] = f.crop
     c.save(); c.globalAlpha = a; c.translate(x + w / 2, y + h / 2 + 60 * (1 - pin)); c.rotate((f.rot || 0) * Math.PI / 180)
     c.shadowColor = 'rgba(10,22,54,.38)'; c.shadowBlur = 60; c.shadowOffsetY = 26
     c.fillStyle = '#fff'; rr(c, -w / 2, -h / 2, w, h, 30); c.fill(); c.shadowColor = 'transparent'
-    rr(c, -w / 2, -h / 2, w, h, 30); c.clip(); srcDraw(c, im, sx, sy, sw, sh, -w / 2, -h / 2, w, h)
+    rr(c, -w / 2, -h / 2, w, h, 30); c.clip()
+    if (f.img) c.drawImage(im, sx, sy, sw, sh, -w / 2, -h / 2, w, h); else srcDraw(c, im, sx, sy, sw, sh, -w / 2, -h / 2, w, h)
     c.restore()
   }
   for (const ch of P.chips) if (t >= ch.t0 && t < ch.t1) {
@@ -251,6 +252,21 @@ function drawTitle(c, p, t, im) {
     c.save(); c.globalAlpha = p3; c.textAlign = 'center'; c.fillStyle = '#51607E'; c.font = '600 46px Manrope'
     c.fillText(T.sub, 540, 1290 + 30 * (1 - p3)); c.restore()
   }
+}
+function drawIntro(c, t) {                                            // the title over the camera at the start
+  const I = P.intro; if (!I || t < I.t0 || t >= I.t1) return
+  const k = t - I.t0, out = eo((I.t1 - t) / .3)
+  c.save(); c.globalAlpha = out
+  const p0 = eo(k / .35); c.globalAlpha = out * p0
+  pill(c, 540, 268 + 20 * (1 - p0), 72, 'Bagel', { icon: ICON.bagel, iconW: 48, font: '800 38px Manrope', align: 'center' })
+  c.textAlign = 'center'; c.textBaseline = 'alphabetic'
+  I.lines.forEach((ln, i) => {
+    const q = eo((k - .15 - i * .15) / .35); c.globalAlpha = out * q
+    c.font = `400 ${i ? 150 : 118}px Anton`; c.lineWidth = 14; c.strokeStyle = '#fff'; c.lineJoin = 'round'
+    const y = 470 + i * 150 + 30 * (1 - q); c.strokeText(ln.toUpperCase(), 540, y)
+    c.fillStyle = i ? BLUE : NAVY; c.fillText(ln.toUpperCase(), 540, y)
+  })
+  c.restore(); c.textAlign = 'left'
 }
 function drawEnd(c, p, t) {
   const k = t - p.o0, a = clamp(k / .3)
@@ -346,7 +362,7 @@ window.render = async t => {
   const im = p.mode === 'end' ? null : await srcFrame(srcIndex(p, t))
   og.clearRect(0, 0, W, H)
   const bh = P.events.find(e => e.k === 'behind' && t >= e.t0 && t < e.t1)
-  if (p.mode === 'cam') { if (im) await drawCamera(og, p, t, im); await drawFloats(og, t) }
+  if (p.mode === 'cam') { if (im) await drawCamera(og, p, t, im); await drawFloats(og, t); drawIntro(og, t) }
   else if (p.mode === 'title') drawTitle(og, p, t, im)
   else if (p.mode === 'end') drawEnd(og, p, t)
   else {

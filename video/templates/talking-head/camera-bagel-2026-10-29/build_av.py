@@ -24,10 +24,13 @@ fa.append(''.join(labels) + f'amix=inputs={len(vp)}:normalize=0:duration=longest
 subprocess.run(['ffmpeg', '-nostdin', '-v', 'error', '-y', '-i', VOICE, '-filter_complex', ';'.join(fa), '-map', '[vo]', '-ar', str(SR), '-ac', '1',
                 f'{K}/voice.wav'], check=True)
 
-# music: from (drop - title time) so the drop lands on the title, then the loop bars again until the end
-title = next(p['o0'] for p in plan['pieces'] if p['mode'] == 'title')
-off = DROP - title
-segs, t = [(off, LOOP[1])], LOOP[1] - off
+# music: from (drop - drop time) so the drop lands on the plan's music_drop_at (else the title), then the loop bars
+# again until the end; a drop later than the track's own lead-in starts the music after a silence
+title = plan.get('music_drop_at') or next(p['o0'] for p in plan['pieces'] if p['mode'] == 'title')
+off, lead = DROP - title, 0.0
+if off < 0:
+    off, lead = 0.0, -off
+segs, t = [(off, LOOP[1])], lead + LOOP[1] - off
 while t < TOT:
     segs.append(LOOP); t += LOOP[1] - LOOP[0]
 # the bed in a pass of its own: with the split, trims and concat in the same graph as the sidechain, the music
@@ -35,7 +38,7 @@ while t < TOT:
 fm = [f'[0:a]asplit={len(segs)}' + ''.join(f'[m{i}]' for i in range(len(segs)))]
 for i, (a, b) in enumerate(segs):
     fm.append(f'[m{i}]atrim={a:.3f}:{b:.3f},asetpts=PTS-STARTPTS[n{i}]')
-fm.append(''.join(f'[n{i}]' for i in range(len(segs))) + f'concat=n={len(segs)}:v=0:a=1,atrim=0:{TOT:.3f},aresample={SR},'
+fm.append(''.join(f'[n{i}]' for i in range(len(segs))) + f'concat=n={len(segs)}:v=0:a=1,adelay={round(lead * 1000)}:all=1,atrim=0:{TOT:.3f},aresample={SR},'
           f'volume={plan.get("music_level", 0.12)},afade=t=out:st={TOT - 2.6:.3f}:d=2.6[mu]')
 subprocess.run(['ffmpeg', '-nostdin', '-v', 'error', '-y', '-i', MUS, '-filter_complex', ';'.join(fm), '-map', '[mu]', '-ar', str(SR), '-ac', '2',
                 f'{K}/bed.wav'], check=True)
@@ -43,4 +46,4 @@ mix = ('[0:a]asplit=2[vk][vm];[1:a][vk]sidechaincompress=threshold=0.03:ratio=7:
        '[vm][md]amix=inputs=2:duration=first:normalize=0,loudnorm=I=-14:TP=-1.5:LRA=11[out]')
 subprocess.run(['ffmpeg', '-nostdin', '-v', 'error', '-y', '-i', f'{K}/voice.wav', '-i', f'{K}/bed.wav', '-filter_complex', mix, '-map', '[out]',
                 '-ar', str(SR), '-ac', '2', f'{K}/mix.wav'], check=True)
-print(f'{len(vp)} voice pieces; music from {off:.2f} s, drop on the title at {title:.2f} s, {len(segs)} segments; total {TOT:.2f} s')
+print(f'{len(vp)} voice pieces; music from {off:.2f} s, drop at {title:.2f} s, after {lead:.2f} s of no music, {len(segs)} segments; total {TOT:.2f} s')

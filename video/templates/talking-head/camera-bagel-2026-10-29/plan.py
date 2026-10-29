@@ -23,10 +23,7 @@ B = lambda sy, z=2.06: [296, sy, z]
 C = lambda sy, z=2.2: [781, sy, z]
 
 P = [
-    # ---- the hook: yesterday's 7-pick combo, one pick to win (Jaw Drop in a duet)
-    dict(id='hook', mode='bagel', v=[74.35, 80.37], tight=True, cam=[[74.35, *B(512)]],
-         cap='And yesterday I took a combo pick,|and currently it\'s now remaining one pick to win.'),
-    dict(id='title', mode='title', dur=2.1, hold=88.0),
+    # it starts with the owner talking (the owner, 29 Oct: "There's no need for that first scene"); the title is drawn over the camera
     # ---- what Bagel is (the owner on camera)
     dict(id='c1', mode='cam', v=[0.03, 3.35], cap='So basically, today I\'m going to be exploring *Bagel*,'),
     dict(id='c2', mode='cam', v=[6.51, 9.06], cap='an app available on *iOS* and'),
@@ -247,8 +244,6 @@ for e in EV:
 
 # ---- marks on the real screens [x, y, w, h] in recording pixels, and the stamps and the tracker
 MARKS = [
-    dict(t0=out_time(74.9, 'hook'), t1=out_time(76.2, 'hook'), r=[80, 652, 424, 40]),             # yesterday's 7 Pick Combo
-    dict(t0=out_time(77.50, 'hook'), t1=out_time(80.30, 'hook') + .1, r=[62, 676, 400, 60]),      # Kalmar v GAIS: the one to win
     dict(t0=out_time(97.0, 'e1'), t1=out_time(99.2, 'e1'), r=[566, 263, 432, 49]),                 # the ask box
     dict(t0=out_time(150.6, 'e3'), t1=out_time(152.1, 'e3'), r=[572, 572, 400, 48]),               # Everton v Newcastle
     dict(t0=out_time(152.6, 'e4'), t1=out_time(153.9, 'e4'), r=[575, 768, 84, 26]),                # Push higher
@@ -300,16 +295,18 @@ for p in P:
 for i, c in enumerate(CHAPTERS):
     c['t1'] = round(min(c['t0'] + 3.2, CHAPTERS[i + 1]['t0'] if i + 1 < len(CHAPTERS) else 1e9), 3)
 # floats over the owner's head (real screens: [x, y, w, h] out, crop [sx, sy, sw, sh] of frame `at`) and name chips
-FLOATS = [dict(t0=out_time(15.6, 'c3'), t1=out_time(19.6, 'c3'), at=62.6, crop=[70, 413, 446, 207], out=[150, 214, 780, 362], rot=-2),
-          dict(t0=out_time(50.78, 'c5'), t1=out_time(54.05, 'c5'), at=484.5, crop=[170, 270, 240, 160], out=[230, 236, 620, 413], rot=2)]
+CLEAN = '../../../out/bagel-2026-10-29/clean/'
+FLOATS = [  # img floats: crop in the image's own pixels
+    dict(t0=out_time(7.0, 'c2'), t1=out_time(11.1, 'c2b'), img=CLEAN + 'appstore_page.png', crop=[0, 0, 1296, 700], out=[160, 150, 760, 410], rot=-1.5),
+    dict(t0=out_time(15.6, 'c3'), t1=out_time(19.6, 'c3'), img=CLEAN + 'as_polymarket.png', crop=[0, 0, 1284, 1150], out=[230, 170, 620, 555], rot=-2),
+    dict(t0=out_time(37.3, 'c4b'), t1=out_time(44.9, 'c4b'), img=CLEAN + 'as_polymarket.png', crop=[0, 120, 1284, 440], out=[130, 230, 820, 281], rot=2),   # "Same Polymarket perks"
+    dict(t0=out_time(50.78, 'c5'), t1=out_time(54.05, 'c5'), img=CLEAN + 'as_combo.png', crop=[0, 0, 1242, 1110], out=[230, 170, 620, 554], rot=-2),
+    dict(t0=out_time(54.14, 'c5'), t1=out_time(56.5, 'c5'), img=CLEAN + 'cmv_home.png', crop=[40, 0, 1170, 950], out=[190, 170, 700, 568], rot=2)]
 for f in FLOATS:
     f['t0'], f['t1'] = round(f['t0'], 3), round(f['t1'], 3)
-CHIPS = [dict(t0=out_time(2.50, 'c1'), t1=out_time(3.3, 'c1') + 1.2, text='Bagel', icon='bagel', x=540, y=420),
-         dict(t0=out_time(37.30, 'c4b'), t1=out_time(38.95, 'c4b'), text='Polymarket', x=540, y=430),
-         dict(t0=out_time(8.05, 'c2'), t1=out_time(11.1, 'c2b'), text='iOS', x=380, y=430),
-         dict(t0=out_time(10.05, 'c2b'), t1=out_time(11.1, 'c2b') + .3, text='Android', x=700, y=430),
-         dict(t0=out_time(55.1, 'c5'), t1=out_time(57.3, 'c5') + .2, text='cmvng', icon='cmvng', x=360, y=430),
-         dict(t0=out_time(56.6, 'c5'), t1=out_time(57.3, 'c5') + .2, text='Bagel', icon='bagel', x=720, y=430)]
+CHIPS = [dict(t0=out_time(8.05, 'c2'), t1=out_time(11.1, 'c2b'), text='iOS', x=380, y=640),
+         dict(t0=out_time(10.05, 'c2b'), t1=out_time(11.1, 'c2b') + .3, text='Android', x=700, y=640),
+         dict(t0=out_time(56.6, 'c5'), t1=out_time(57.3, 'c5') + .2, text='Bagel', icon='bagel', x=540, y=430)]
 for c in CHIPS:
     c['t0'], c['t1'] = round(c['t0'], 3), round(c['t1'], 3)
 
@@ -319,6 +316,8 @@ plan = dict(dur=round(DUR, 3), pieces=pieces, voice=voice, caps=caps, events=EV,
             trackFrom=trackFrom, trackTo=trackTo, chapters=CHAPTERS, floats=FLOATS, chips=CHIPS,
             title=dict(lines=[dict(text='How to build', size=150, y=980), dict(text='a combo', size=190, y=1160, color='#1F5FDB')],
                        sub='with my own app, cmvng'),
+            intro=dict(t0=0.2, t1=3.2, kicker='Bagel · combo picks', lines=['How to build', 'a combo']),
+            music_drop_at=CHAPTERS[0]['t0'],
             end=dict(line='Follow to see if they land', fine='18+ · Not financial advice · Only where Bagel is available'),
             music_level=0.12)
 json.dump(plan, open(f'{K}/plan.json', 'w'), indent=1)

@@ -19,7 +19,8 @@ for p in plan['pieces']:
     n0, n1, k = round(p['v0'] * FPS), round(p['v1'] * FPS), p.get('step', 1)
     need.update(range(n0, n1 + 1, k))
 for f in plan['floats']:
-    need.add(round(f['at'] * FPS))
+    if 'at' in f:
+        need.add(round(f['at'] * FPS))
 todo = sorted(need - have)
 # group into runs of a constant stride, then one ffmpeg per run
 runs = []

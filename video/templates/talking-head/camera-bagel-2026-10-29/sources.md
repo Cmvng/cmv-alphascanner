@@ -46,4 +46,13 @@ The owner's recording, 8:44: `lv_0_20261029101715.mp4`, a CapCut export from the
 ## Sound
 
 - The owner's voice, cleaned with DeepFilterNet3.
-- The music is "Sparta" by Arulo (Mixkit 370, the Mixkit free licence; approved for explainers, not in the last six). It plays from 26.35 s, so its drop lands on the title.
+- The music is "Sparta" by Arulo (Mixkit 370, the Mixkit free licence; approved for explainers, not in the last six). In v4 it starts at the track's beginning 5.86 s in, so its drop lands on Step 1 (0:37); the first seconds are your voice alone.
+
+## Clean screens (v4)
+
+These are captured read-only on 29 Oct 2026 and stored in `video/out/bagel-2026-10-29/clean/`:
+- **Bagel's App Store page,** at a phone width of 430 px ×3: https://apps.apple.com/us/app/bagel-predict-on-easy-mode/id6760811152.
+- **Bagel's own App Store screenshots** at full size (1284×2778 and 1242×2688): "100% Polymarket: Same markets. Same
+  Polymarket perks" and "Combo Predictions: Combine multiple markets into one prediction".
+- **cmvngpicks.com's home page,** signed out. The builder's "ask in words" needs a signed-in Pro account, so the
+  slip-building steps stay from the owner's recording.
