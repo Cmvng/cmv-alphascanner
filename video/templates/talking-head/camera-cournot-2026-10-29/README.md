@@ -73,3 +73,18 @@ python3 -I review.py <work> out.mp4; python3 -I ten.py <work>/plan.json out.mp4 
 - **The first render's cards cut through text, and its walkthrough zoomed past the page's edges.** Every window now comes
   from `lines.py`'s line boxes: it ends in a gap between lines, and each outline covers all of its sentence's lines.
   Walkthroughs keep the page's full 1290 px width, so the page keeps its own margins.
+
+## Text behind the owner (a test, 29 Oct, from the owner's "7 video effects" reference)
+`fx_behind.html` puts the hook's words behind the owner's head. The layers, back to front:
+1. the camera;
+2. a royal-blue wash on the room;
+3. "WHO WON?";
+4. the owner cut out;
+5. the caption.
+
+To build the cut-out frames:
+- `video/lib/react_matte.py` on the stretch, then `m_####.png`;
+- the camera's own pixels inside the body, the matte's colour at the edges.
+
+Then `node render.mjs "$PWD/fx_behind.html#<frames dir>/" <work> out.mp4`, with a work dir holding that stretch's
+base.mp4, mix.wav and plan.json.

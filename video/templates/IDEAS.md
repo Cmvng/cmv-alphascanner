@@ -99,6 +99,41 @@ Next angles:
   - the Instant Replay with a telestrator;
   - the Clone (a second you in the room).
 
+## Reference from the owner, 29 Oct: "7 video effects you can use in Claude" (@favoritetechgal, 0:26, 9:16)
+One selfie clip and seven effects, each shown as `/effects <name>` typed in the Claude app. Each effect rises out of an
+orange dot-matrix dissolve, then plays full screen. Music only, no voice. The ending is a lead magnet: comment "claude"
+and get all seven. A grid shows every effect, plus "1 clip, 7 edits".
+- **The trick under most of them is a matte.** The presenter is cut out, so graphics sit behind her and in front of
+  her:
+  - "CLAUDE" behind her head;
+  - a pink circle behind her;
+  - a checklist panel behind her raised hand;
+  - reel cards orbiting behind and in front.
+
+  We have the same matting (`video/lib/react_matte.py`, Robust Video Matting, about 0.3 s a frame). It works on the
+  owner's camera: on 29 Oct a 4 s test put "WHO WON?" behind the owner's head in the Cournot hook, with clean hair
+  edges as they moved (`talking-head/camera-cournot-2026-10-29/fx_behind.html`).
+- **The seven, and our version of each** (house rules: blue or light, the subject's own colours, real screens only):
+  1. **glass-widgets:** frosted cards float round the presenter (a "7 effects" counter, a 4K render ring, a bar chart
+     of top reels, a "Post 2 reels tonight" date card). Ours: frosted chips with the video's real numbers (6494
+     resolutions, 99.71%), never invented UI.
+  2. **documentary:** black and white, a big magenta circle behind her, stamped condensed type ("ONE CLIP. 7 EFFECTS.
+     ZERO APPS."), a name tag and a "+ Follow" pill. Ours: a blue (or project-colour) circle behind the owner, Anton
+     stamps of the hook, the @i_am_vickyd tag.
+  3. **orbit:** small copies of her own reels circle her head in 3D, passing behind and in front. Ours: the real page
+     captures orbit the owner's head. This is the approved "screens above the head" flow, given depth.
+  4. **kallaway-split:** the top half is a cream chart page ("My top 7 reels by views", bars growing), the bottom half
+     the clip in a rounded card. Ours: a real chart of the video's own figures in the top half.
+  5. **spotlight:** the room darkened, the presenter lit, a neon word behind her head. Ours: a royal-blue wash on the
+     room (never black), the hook's words behind the head (tested 29 Oct).
+  6. **checklist:** a glass panel ticks off "Found you in every frame, Cut you out, Put the text behind you, Graded the
+     colour, Rendered in 4K", partly hidden by her hand. Ours: the video's own steps ticking (e.g. Cournot: rules,
+     evidence, verdict, zkTLS proof).
+  7. **timeline:** a red grade, "AUTO-EDIT" with a REC timecode, an editing timeline whose playhead runs under her. Ours:
+     only in blue, as a chapter device, sparingly.
+- **What to take:** the depth (graphics behind the owner) is the signature. Use one or two per video on the strongest
+  lines, like the stickers, never all seven at once. The "/effects" typing frame is their format, not ours.
+
 ## Faceless story channel (the owner's plan, 23 Oct: David's crypto journey in still images)
 - **POV Finance (the owner loves it: "relatable"):** one hero in the same signature outfit in every frame, bright
   daylight scenes, a "YOU" arrow, and each thumbnail tells the story in one picture (the hero calm, others reacting).

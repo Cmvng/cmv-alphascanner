@@ -1,0 +1,49 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Text behind the owner (sample)</title>
+<style>
+@font-face{font-family:Anton;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/anton-latin-400-normal.woff2)}
+@font-face{font-family:Manrope;font-weight:800;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-800-normal.woff2)}
+@font-face{font-family:Mono;font-weight:700;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/jetbrains-mono-latin-700-normal.woff2)}
+/* layers, back to front: the camera (base.mp4), a royal-blue wash on the room, the title, the owner cut out (matte
+   frames, pixel-aligned with the camera), the caption. The owner sits in front of the words. */
+html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:transparent}
+#wash{position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,31,77,.62) 0%,rgba(20,58,150,.42) 45%,rgba(20,58,150,.18) 100%);opacity:0}
+#t{position:absolute;left:0;right:0;top:350px;text-align:center;font-family:Anton,sans-serif;text-transform:uppercase;line-height:.86;letter-spacing:.01em}
+#t div{display:block;will-change:transform,opacity}
+#l1{font-size:300px;color:#fff;text-shadow:0 0 40px rgba(79,179,255,.55)}
+#l2{margin-top:18px;font-size:360px;color:#FD4C00;text-shadow:0 0 60px rgba(253,76,0,.55)}
+#k{position:absolute;left:0;right:0;top:270px;text-align:center;font-family:Mono,monospace;font-weight:700;font-size:30px;letter-spacing:.22em;color:#CFE3FF;opacity:0}
+#me{position:absolute;left:0;top:0;width:1080px;height:1920px}
+#cap{position:absolute;left:0;right:0;bottom:104px;text-align:center}
+#cap span{display:inline-block;max-width:960px;padding:13px 28px 15px;border-radius:20px;background:rgba(12,16,28,.76);font-family:Manrope,sans-serif;font-weight:800;font-size:44px;line-height:1.24;color:#fff}
+#cap b{color:#FF7A33}
+</style></head>
+<body>
+<div id="wash"></div>
+<div id="k">Prediction markets</div>
+<div id="t"><div id="l1">Who</div><div id="l2">won?</div></div>
+<img id="me">
+<div id="cap"><span id="capt"></span></div>
+<script>
+const MD = 'file://' + decodeURIComponent(location.hash.slice(1))           // the cut-out frames' folder: fx_behind.html#<dir>/
+const WON = 3.37                                        // "who won" in the owner's line
+const CAPS = [[0, 1.97, 'A prediction market is only as good'], [1.97, 4.2, 'as the way it decides <b>who won</b>.']]
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x)), eo = x => 1 - Math.pow(1 - clamp(x), 3)
+const $ = id => document.getElementById(id)
+window.render = async t => {
+  const f = Math.min(126, Math.floor(t * 30) + 1)
+  const im = $('me'), src = MD + 'm_' + String(f).padStart(4, '0') + '.png'; if (im.getAttribute('src') !== src) { im.src = src; await im.decode() }
+  $('wash').style.opacity = eo(t / .5).toFixed(3)
+  const a = eo((t - .15) / .45), b = eo((t - .45) / .45), push = 1 + .05 * clamp(t / 4.2)
+  $('l1').style.opacity = a.toFixed(3); $('l1').style.transform = `translateY(${((1 - a) * 60).toFixed(1)}px) scale(${push.toFixed(4)})`
+  $('l2').style.opacity = b.toFixed(3); $('l2').style.transform = `translateY(${((1 - b) * 80).toFixed(1)}px) scale(${push.toFixed(4)})`
+  const hit = t >= WON ? Math.exp(-(t - WON) * 5) : 0       // the word lands: a flash of the orange glow
+  $('l2').style.textShadow = `0 0 ${(60 + 90 * hit).toFixed(0)}px rgba(253,76,0,${(.55 + .4 * hit).toFixed(2)})`
+  $('k').style.opacity = eo((t - .7) / .4).toFixed(3)
+  const c = CAPS.find(c => t >= c[0] && t < c[1]); $('capt').innerHTML = c ? c[2] : ''
+  return f + '|' + t.toFixed(3)
+}
+window.READY = Promise.all([document.fonts.load('400 100px Anton'), document.fonts.load('800 40px Manrope'), document.fonts.load('700 30px Mono')])
+  .then(() => new Promise(r => { const i = $('me'); i.onload = r; i.src = MD + 'm_0001.png' }))
+</script>
+</body></html>
