@@ -232,20 +232,13 @@ for q in pieces:
         q.pop('camsrc', None)
 
 # ---- the owner's video reactions (output times from the words they answer)
-EV = [
-    dict(k='duet', id='jawdrop', t0=0.0, t1=round(out_time(80.30, 'hook') + .1, 3), from_=0.3, side='bottom', half=1000, shift=600, open=True,
-         focus=[500, 1290, 1000], note='yesterday... one pick to win'),
-    dict(k='duet', id='sideeye', t0=round(out_time(47.55, 'c4c') - (4.75 - 1.85), 3), dur=3.85, from_=1.85, side='top', half=640,
-         focus=[470, 1250, 640], note='based on the mathematics (first look), and whatever (second look)'),
-    dict(k='rcam', id='waitwhat', t0=round(out_time(148.90, 'e3'), 3), dur=3.1, from_=0.4, box=[500, 1090, 520, 560], anchor=[1, 1], rot=2,
-         snap=[[0.8, 1.35], [1.6, 1.8]],
-         note='I do not know this team'),
-    dict(k='rcam', id='sob', t0=round(out_time(215.05, 'f3'), 3), dur=3.3, from_=0.4, box=[270, 1090, 540, 560], anchor=[.5, 1], rot=-2,
+EV = [                                               # three reactions, as stickers (the owner's pick, 29 Oct)
+    dict(k='sticker', id='sob', t0=round(out_time(215.05, 'f3'), 3), dur=3.0, from_=0.3, x=300, y=1075, w=470, rot=-4,
          note="I can't find this game"),
-    dict(k='cut', id='itsover', t0=round(out_time(439.25, 'f17'), 3), dur=2.0, from_=0.0, push=[1.0, 1.07], focus=[540, 1080],
+    dict(k='sticker', id='itsover', t0=round(out_time(439.25, 'f17'), 3), dur=2.8, from_=0.0, x=480, y=860, w=520, rot=4,
          note='for crying out loud'),
-    dict(k='duet', id='grin', t0=round(voice_time(492.15) - .05, 3), dur=3.4, from_=0.3, side='bottom', half=960, shift=0,
-         focus=[526, 1140, 960], note='My combo pick has been played'),
+    dict(k='sticker', id='grin', t0=round(voice_time(492.15) - .05, 3), dur=3.2, from_=0.3, x=280, y=940, w=520, rot=-3,
+         note='My combo pick has been played'),
 ]
 for e in EV:
     if 'dur' in e:
