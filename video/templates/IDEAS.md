@@ -99,6 +99,81 @@ Next angles:
   - the Instant Replay with a telestrator;
   - the Clone (a second you in the room).
 
+## References from the owner, 3 Nov: two talking-head styles found over the weekend
+**A. Ola Ξlixir (@thegreatola), "AI changed my life in under a year" (0:52, 9:16).** One take at a desk mic in a neon room.
+The edit illustrates the words he speaks.
+- **An icon over the head for each noun as he says it,** 1–2 s each, with the word as a small label under it:
+  - a sun;
+  - a code editor typing, then a "Live" card;
+  - a megaphone ("marketing") and fanned cards ("products");
+  - stacked cubes ("building") and a robot arm on a conveyor ("automation");
+  - an Idea → Plan → Build → Test loop ("my workflow");
+  - an app grid ("everything");
+  - Then and Now photos, and a rocket ("opportunity").
+- **A flashback, built in three moves:**
+  1. On "Over a year ago" the video cuts to black and white, and a split-flap title scrambles into "OVER A YEAR AGO".
+  2. A cartoon of him scratches his head with question marks, and "not knowing how to code" appears in red, then is
+     struck through.
+  3. A blur flash brings the colour back on "Today".
+- **Captions:**
+  - word by word at chest height, the current word bright and the next ones dim;
+  - key phrases jump to big bold ("the AI world", "left behind", "build together");
+  - a tilted red stamp: "NOT GETTING LEFT BEHIND".
+- **His own X post cards stack in** ("What I'm building with AI", "How I built it", "What I learned this week") on
+  "I'm going to be sharing content".
+- **The close:**
+  - a blur transition and a darker vignette;
+  - AI, Crypto, Building and Marketing app tiles orbit his head, behind and in front of him, each popping big when
+    named;
+  - a profile card whose Follow button a cursor clicks into "Following", with a sparkle, on "follow along".
+- **Sound:** voice-led, with a quiet bed (the floor between words is about −39 dB), −14 LUFS.
+
+**B. @sollunix, "Pump.fun vs StonkFun: where your fee goes" (1:16, 16:9, 60 fps).** A data breakdown, every number with
+its source.
+- **Cold open:**
+  - he is cut out over the two brands' colours (pump.fun green, StonkFun blue), with both logos huge behind his head;
+  - a date chip, "SEP 5 – OCT 4, 2026", names the window the numbers cover;
+  - a light flash takes it into the real room.
+- **Captions:**
+  - one to three words, with the key word in caps and colour: brand colour for names, a highlight for numbers;
+  - an inline Solana logo beside "SOL".
+- **A dark glass card top right builds line by line with the voice:** volume, fees, then the rival's figures, with
+  "Dune · Sep 5–Oct 4" on every card.
+- **A full-screen data room** (dark green grid):
+  - the fee percentages as racing bars;
+  - real Dune charts with their credits;
+  - a "2.5× MORE" tag between them.
+- **The backstory:**
+  - a "◀◀ REWIND" VHS glitch with a "JUL 23 2026" stamp;
+  - real screenshots on a Jul 23 → Sep 9 timeline (StonkFun's launch page, Pump.fun's X post) with the key words
+    highlighted.
+- **"Every $100 traded":** a stacked bar splits into 54¢ creator / 30¢ pump.fun / 15¢ LPs, against $1.81 holders /
+  68¢ StonkFun, over a dimmed cash photo.
+- **The twist and the verdict:** "Here's the part nobody looked at" leads to a chart since Oct 4 with a "PAID MORE"
+  chip. The verdict card reads "Most of the fees go to: pump.fun → CREATORS, StonkFun → HOLDERS".
+- **The end:** the same Follow → Following click.
+- **Sound:** a music bed under the voice (the floor is about −28 dB), −14 LUFS.
+
+**What we take, in house style.** Blue or the subject's own colours, never their yellow; real logos and screens only;
+numbers from dated sources.
+1. **An icon over the head on each key noun** (A). It's our approved "screens above the head" flow at a faster beat:
+   the project's real logo, a real screen, or one simple blue icon, each 1–2 s with its word.
+2. **The flashback** (A) for any before/after story:
+   - black and white;
+   - a split-flap date;
+   - the old problem struck through;
+   - a blur flash back to colour on "today".
+3. **The brand cold open** (B): our "words behind you" matte, with the two brands' colours and logos behind the
+   owner's head, plus a date chip for the window the numbers cover (e.g. Primus orange × Cournot).
+4. **A data card that builds with the voice, with its source on it** (B). Numbers pop in whole: a count-up shows
+   figures nobody reported (29 Oct lesson).
+5. **"◀◀ REWIND" with a date stamp** for a backstory (B). It's a fresh transition, not a whoosh.
+6. **The split bar** ("every $100", "every proof") for how something is shared out (B). Crypto only, never for
+   betting.
+7. **Follow → Following, a cursor click on the owner's real @i_am_vickyd card,** on their own "follow" line (both).
+8. **Key-word captions** (B): short chunks with one word in caps and colour. Try them against our full-line captions
+   and ask which the owner prefers.
+
 ## Reference from the owner, 29 Oct: "7 video effects you can use in Claude" (@favoritetechgal, 0:26, 9:16)
 One selfie clip and seven effects, each shown as `/effects <name>` typed in the Claude app. Each effect rises out of an
 orange dot-matrix dissolve, then plays full screen. Music only, no voice. The ending is a lead magnet: comment "claude"
