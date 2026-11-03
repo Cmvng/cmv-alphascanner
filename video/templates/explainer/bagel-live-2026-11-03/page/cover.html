@@ -1,0 +1,37 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Bagel cover</title>
+<style>
+@font-face{font-family:Inter;font-weight:600;src:url(fonts/inter-latin-600-normal.woff2)}
+@font-face{font-family:Inter;font-weight:800;src:url(fonts/inter-latin-800-normal.woff2)}
+:root{--ink:#0F1013;--hl:#F6E051;--lab:#6885AE}
+html,body{margin:0;overflow:hidden;font-family:Inter,sans-serif;color:var(--ink)}
+body{background:linear-gradient(135deg,#FDFEFF 0%,#F1F6FF 45%,#DCEBFF 100%)}
+.abs{position:absolute}
+.hl{background-image:linear-gradient(var(--hl),var(--hl));background-repeat:no-repeat;background-position:0 86%;background-size:100% 42%;padding:0 8px;margin:0 -8px}
+.me{filter:drop-shadow(6px 0 0 #fff) drop-shadow(-6px 0 0 #fff) drop-shadow(0 6px 0 #fff) drop-shadow(0 -6px 0 #fff) drop-shadow(0 26px 40px rgba(40,70,130,.3))}
+.ph{border-radius:44px;box-shadow:0 34px 70px rgba(40,70,130,.28)}
+.chip{display:inline-block;padding:0 30px;height:70px;line-height:66px;border-radius:35px;background:#fff;border:2px solid #CFE0F7;font-weight:600;font-size:34px;color:#2C4B76}
+#v,#t{display:none;position:relative;overflow:hidden}
+body.v #v{display:block;width:1080px;height:1920px}
+body.t #t{display:block;width:1280px;height:720px}
+</style></head>
+<body>
+<div id="v">
+  <img class="abs" src="img/bagel-logo-900.png" style="left:80px;top:96px;width:330px">
+  <div class="abs" style="left:80px;top:250px;font-weight:800;font-size:112px;line-height:118px;letter-spacing:-.025em">make the call<br>while the game<br>is <span class="hl">still on</span></div>
+  <div class="abs" style="left:80px;top:640px"><span class="chip">no need to wait till full time</span></div>
+  <img class="abs ph" src="img/step2-phone-card.png" style="left:80px;top:830px;width:450px">
+  <img class="abs me" src="file:///home/user/cmv-alphascanner/video/out/vreact/jawdrop/cut/f_0080.webp" style="left:390px;top:800px;width:780px">
+  <div class="abs" style="left:84px;top:740px;font-weight:600;font-size:30px;color:var(--lab)">18+ · Not financial advice</div>
+</div>
+<div id="t">
+  <img class="abs" src="img/bagel-logo-900.png" style="left:56px;top:50px;width:230px">
+  <div class="abs" style="left:56px;top:170px;font-weight:800;font-size:84px;line-height:90px;letter-spacing:-.025em">make the call<br>while the game<br>is <span class="hl">still on</span></div>
+  <img class="abs ph" src="img/step2-phone-card.png" style="left:930px;top:70px;width:300px;border-radius:30px">
+  <img class="abs me" src="file:///home/user/cmv-alphascanner/video/out/vreact/jawdrop/cut/f_0080.webp" style="left:560px;top:30px;width:470px">
+</div>
+<script>
+document.body.className = location.hash.slice(1) || 'v'
+window.READY = Promise.all([document.fonts.load('800 80px Inter'), document.fonts.load('600 30px Inter'), ...[...document.images].map(i => i.complete ? 1 : new Promise(r => { i.onload = i.onerror = r }))])
+</script>
+</body></html>

@@ -28,6 +28,53 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
+## 3 Nov: the owner's script and pictures, Bagel "Make the call while the game is on" (Lara, 1:39, 16:9)
+
+The owner's six-scene script about @bagel_win, with revised Scenes 2, 3 and 5, and four step pictures of their own
+(Live, the price, Sell, Limit). The brief: "use some of my reaction videos with this… take your time and do this well".
+- **Voice:** Lara, one take, 1,465 credits.
+- **Pictures:** I made the hook, "if you're new", the example and the close in the same look as the owner's.
+- **Reactions:** four of the owner's, each on its line.
+
+`video/templates/explainer/bagel-live-2026-11-03/`.
+
+- **What worked:**
+  - **The owner's pictures, animated, not rebuilt.** Each picture is a clean fitted background plus its own pieces,
+    cut with alpha. The headline, subtext, chips and phone enter on the words. At rest the frame is the picture to
+    within 2–3 levels, so nothing in them was redrawn.
+  - **A pause cut into the take** (0.6 s before "If you're new"), so the music's hit lands on Bagel's logo out of a
+    breath, not under a word. It was −16.3 LUFS with a weak drop; one gain plus a limiter gave −14.5 LUFS and about
+    +12 dB at the drop.
+  - **The example as a chart that branches both ways,** with the owner's Jaw Drop on $14 and Yikes on $4. It comes
+    back stamped "just my example" for the heads-up.
+  - **Short snippets settled the doubts.** The whole-take transcript wrote "$20" for "20 cents" and invented a closing
+    line (its words had zero length). large-v3 on short snippets heard both right. The hear-back on the final mix flagged 0 of 42 captions.
+- **Mistakes the checks found (all fixed before sending):**
+  1. **The first frame was blank:** the hook's pieces started at opacity 0. They now start already in.
+  2. **Layout faults in the stills:**
+     - the scoreboard wrapped;
+     - the Live pill was too small;
+     - the "if you're new" phone overlapped the label;
+     - the close's right half was empty;
+     - the 70¢ and $0 labels collided with the lines.
+  3. **v1 had near-empty frames at four scene changes** (5.5, 26.0, 83.0, 92.0 s). Crossfading them overlapped the text.
+     The fix: phones dissolve, and text swaps in 0.2 s.
+  4. **v2 still had two near-empty frames,** at 42.5 s and 83.3 s, where a phone faded out before the chart came in. The
+     2 fps sheet showed only a ghost; exact stills at each change showed it. The chart now enters 0.25 s earlier, above
+     the phone.
+  5. **The endpoint pulse scaled the whole group,** pushing "$20" into the "my example" pill. Now only the dots pulse.
+     The popping "just my example" stamp also clipped the chart title; it now sits 18 px higher.
+  6. **The srt capitalised every cue.** Now only sentence starts are capitalised.
+- **How they got through:** transitions were planned per piece, never as "what is on screen at this exact frame". A
+  2 fps sheet samples a 0.3 s gap by luck.
+- **Change next time:**
+  - Render exact stills at every scene change (−0.2, −0.1, 0, +0.1, +0.2 s) before the full render. Something must
+    be on screen at full strength in every one.
+  - Pulse or scale marks, never groups that hold text.
+  - Size a popping element's clearance for its overshoot, not its rest size.
+
+---
+
 ## 29 Oct: the owner's recording, Primus Labs × Cournot "Who decides who won?" (1:57 cut to 1:15 + end card)
 
 The owner's 1:57 selfie and post text about Primus Labs and Cournot, an AI oracle that settles prediction markets. The
