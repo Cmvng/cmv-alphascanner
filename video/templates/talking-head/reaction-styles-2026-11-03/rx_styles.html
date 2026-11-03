@@ -1,0 +1,272 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Weekend styles on the owner's reactions (sample reel)</title>
+<style>
+@font-face{font-family:Anton;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/anton-latin-400-normal.woff2)}
+@font-face{font-family:Manrope;font-weight:600;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-600-normal.woff2)}
+@font-face{font-family:Manrope;font-weight:800;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-800-normal.woff2)}
+@font-face{font-family:Mono;font-weight:700;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/jetbrains-mono-latin-700-normal.woff2)}
+/* Only the owner's reaction clips (video/out/vreact: full frames and cut-outs, frame-aligned). Layers, back to front:
+   the frame (or a brand backdrop), the effect's back layer, the owner cut out, the effect's front layer, the label and
+   the key-word captions. Every fact is Cournot's or Primus's own (29 Oct announcement, cournot.ai as of 28 Oct, docs).
+   Blue house colours, Primus orange where the subject is Primus, red only for "rejected". */
+:root{--navy:#0B1F4D;--blue:#1F5FDB;--sky:#4FB3FF;--or:#FD4C00;--or2:#FF7A33;--ok:#22B573;--no:#FF4D5E}
+*{box-sizing:border-box}
+html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:#000;font-family:Manrope,sans-serif;color:#fff}
+.L{position:absolute;inset:0;overflow:hidden}
+.abs{position:absolute}
+.fx{position:absolute;inset:0;opacity:0;isolation:isolate}
+img.full{position:absolute;left:0;top:0;width:1080px;height:1920px}
+.mono{font-family:Mono,monospace;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
+.anton{font-family:Anton,sans-serif;text-transform:uppercase;line-height:.9}
+/* label and captions */
+#lab{position:absolute;left:0;right:0;top:44px;text-align:center;z-index:20}
+#lab span{display:inline-block;padding:10px 22px;border-radius:28px;background:rgba(11,31,77,.72);font-family:Mono,monospace;font-weight:700;font-size:24px;letter-spacing:.14em;text-transform:uppercase;color:#fff}
+#lab b{color:var(--sky)}
+#cap{position:absolute;left:40px;right:40px;top:1470px;text-align:center;z-index:21}
+#capt{display:inline-block;font-weight:800;font-size:66px;line-height:1.12;color:#fff;text-shadow:0 4px 18px rgba(0,0,0,.7),0 0 3px rgba(0,0,0,.9);transform-origin:50% 60%}
+#capt b{font-weight:800}
+.k1{color:var(--sky)}.k2{color:var(--or2)}.k3{color:var(--no)}
+/* 1 brand open */
+#bd{position:absolute;inset:0}
+#bdL{position:absolute;inset:0;background:linear-gradient(160deg,#123A99 0%,#0B1F4D 70%);clip-path:polygon(0 0,62% 0,38% 100%,0 100%)}
+#bdR{position:absolute;inset:0;background:linear-gradient(200deg,#FF7A33 0%,#FD4C00 60%,#D43F00 100%);clip-path:polygon(62% 0,100% 0,100% 100%,38% 100%)}
+#bd:after{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.06) 1px,transparent 1px);background-size:60px 60px}
+.chip{display:inline-block;padding:12px 24px;border-radius:30px;background:rgba(6,16,44,.6);box-shadow:inset 0 0 0 2px rgba(255,255,255,.35);font-family:Mono,monospace;font-weight:700;font-size:26px;letter-spacing:.16em;color:#fff}
+/* 2 icon tiles */
+.tile{position:absolute;left:390px;top:250px;width:300px;height:300px;border-radius:64px;display:flex;align-items:center;justify-content:center;opacity:0;
+  box-shadow:0 30px 70px rgba(6,16,44,.45),inset 0 0 0 3px rgba(255,255,255,.35)}
+.tl{position:absolute;left:0;right:0;top:580px;text-align:center;opacity:0}
+.tl span{display:inline-block;padding:10px 24px;border-radius:26px;background:rgba(6,16,44,.66);font-family:Mono,monospace;font-weight:700;font-size:30px;letter-spacing:.12em;color:#fff}
+/* 3 flashback */
+.flap{display:inline-block;width:74px;height:104px;margin:0 4px;border-radius:10px;background:#141414;box-shadow:inset 0 -52px 0 #1d1d1d,0 8px 18px rgba(0,0,0,.5);
+  font-family:Mono,monospace;font-weight:700;font-size:72px;line-height:104px;text-align:center;color:#f2f2f2;vertical-align:top}
+.flap.sp{background:transparent;box-shadow:none;width:28px}
+#strike{position:absolute;height:9px;border-radius:5px;background:var(--no);box-shadow:0 0 12px rgba(255,77,94,.7);transform-origin:0 50%}
+/* 4 data card */
+#card{position:absolute;left:470px;top:180px;width:570px;border-radius:30px;padding:26px 30px 22px;opacity:0;background:rgba(8,20,52,.72);
+  box-shadow:0 30px 70px rgba(0,0,0,.45),inset 0 0 0 1.5px rgba(255,255,255,.22);backdrop-filter:blur(8px)}
+.crow{display:flex;align-items:baseline;gap:18px;border-top:1.5px solid rgba(255,255,255,.14);padding:14px 0 10px;opacity:0}
+.cv{font-family:Anton,sans-serif;font-size:76px;line-height:1;color:var(--sky);min-width:230px}
+.cl{font-weight:800;font-size:28px;line-height:1.2;color:#DCE8FF}
+/* 5 rewind */
+#scan{position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(0,0,0,.18) 0 2px,transparent 2px 5px);mix-blend-mode:multiply}
+.band{position:absolute;left:0;right:0;height:26px;background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.55),rgba(255,255,255,.2),rgba(255,255,255,.6),rgba(255,255,255,0))}
+#stamp{position:absolute;left:0;right:0;top:360px;text-align:center;opacity:0}
+#stamp>span{display:inline-block;padding:14px 34px 6px;border:8px solid var(--no);border-radius:18px;font-family:Anton,sans-serif;font-size:132px;line-height:1;color:var(--no);
+  background:rgba(255,255,255,.08);text-shadow:0 0 18px rgba(255,77,94,.45);transform:rotate(-7deg)}
+.src{font-weight:600;font-size:26px;color:#E6EEFF;text-shadow:0 2px 8px rgba(0,0,0,.8)}
+/* 6 bundle */
+.blk{position:absolute;top:330px;width:138px;height:150px;border-radius:22px;background:var(--ok);display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;
+  box-shadow:0 18px 36px rgba(0,0,0,.35),inset 0 0 0 2px rgba(255,255,255,.3)}
+.blk i{font-style:normal;font-weight:800;font-size:64px;line-height:1;color:#fff}
+.blk u{text-decoration:none;font-family:Mono,monospace;font-weight:700;font-size:22px;letter-spacing:.08em;color:#fff;margin-top:6px}
+/* 7 orbit and follow */
+.ot{position:absolute;left:0;top:0;width:260px;height:260px;border-radius:58px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;
+  box-shadow:0 22px 50px rgba(6,16,44,.5),inset 0 0 0 3px rgba(255,255,255,.35)}
+.ot u{text-decoration:none;font-weight:800;font-size:31px;color:#fff;text-align:center;line-height:1.1}
+#prof{position:absolute;left:110px;top:230px;width:860px;height:170px;border-radius:85px;background:rgba(8,20,52,.86);opacity:0;
+  box-shadow:0 26px 60px rgba(0,0,0,.45),inset 0 0 0 1.5px rgba(255,255,255,.22)}
+#prof img{position:absolute;left:22px;top:22px;width:126px;height:126px;border-radius:63px}
+#pbtn{position:absolute;right:30px;top:45px;height:80px;padding:0 36px;border-radius:40px;background:#fff;color:var(--navy);font-weight:800;font-size:36px;line-height:80px}
+#pbtn.on{background:var(--blue);color:#fff}
+#cur{position:absolute;left:0;top:0;width:70px;opacity:0;filter:drop-shadow(0 6px 10px rgba(0,0,0,.5))}
+.spk{position:absolute;width:14px;height:14px;border-radius:7px;background:var(--sky);opacity:0}
+/* transitions */
+#flash{position:absolute;inset:0;background:#fff;opacity:0;z-index:30}
+</style></head>
+<body>
+<div class="L" id="bgL"><img class="full" id="bg"></div>
+
+<div class="fx" id="fx_brand">
+  <div id="bd"><div id="bdL"></div><div id="bdR"></div></div>
+  <img class="abs" id="b_ic1" src="img/cournot-icon-white.png" style="left:70px;top:440px;height:420px">
+  <img class="abs" id="b_ic2" src="img/primus-icon-white.png" style="left:620px;top:440px;height:400px">
+</div>
+<div class="fx" id="fx_time"><img class="full" id="rgbR" style="mix-blend-mode:screen;opacity:.45;filter:sepia(1) saturate(9) hue-rotate(-50deg)"><img class="full" id="rgbC" style="mix-blend-mode:screen;opacity:.45;filter:sepia(1) saturate(9) hue-rotate(150deg)"><div id="scan"></div><div class="band" id="bn1"></div><div class="band" id="bn2"></div></div>
+<div class="fx" id="fx_orbitB"></div>
+
+<div class="L"><img class="full" id="me"></div>
+
+<div class="fx" id="fx_orbitF"></div>
+<div class="fx" id="fx_brandF">
+  <div class="abs" style="left:0;right:0;top:126px;text-align:center"><span class="chip" id="b_date">ANNOUNCED · 29 OCT 2026</span></div>
+  <img class="abs" id="b_w1" src="img/cournot-white.png" style="left:80px;top:232px;width:360px">
+  <div class="abs anton" id="b_x" style="left:490px;top:212px;width:100px;text-align:center;font-size:100px;color:#fff">×</div>
+  <img class="abs" id="b_w2" src="img/primus-white.png" style="left:650px;top:226px;width:330px">
+</div>
+<div class="fx" id="fx_icons">
+  <div class="tile" id="ti0" style="background:#fff"><img src="img/cournot-icon-navy.png" style="height:200px"></div>
+  <div class="tile" id="ti1" style="background:linear-gradient(160deg,#4FB3FF,#1F5FDB)">
+    <svg width="190" height="190" viewBox="0 0 190 190"><rect x="18" y="110" width="30" height="58" rx="6" fill="#fff"/><rect x="62" y="80" width="30" height="88" rx="6" fill="#fff"/><rect x="106" y="50" width="30" height="118" rx="6" fill="#fff"/>
+      <circle cx="150" cy="52" r="30" fill="#22B573" stroke="#fff" stroke-width="6"/><path d="M136 52 l10 10 l18 -20" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+  <div class="tile" id="ti2" style="background:linear-gradient(160deg,#FF7A33,#FD4C00)"><img src="img/primus-icon-white.png" style="height:180px"></div>
+  <div class="tl" id="tl0"><span>AI ORACLE</span></div><div class="tl" id="tl1"><span>PREDICTION MARKETS</span></div><div class="tl" id="tl2"><span>zkTLS PROOF</span></div>
+</div>
+<div class="fx" id="fx_flash">
+  <div class="L" style="background:radial-gradient(ellipse at 50% 55%,rgba(0,0,0,0) 45%,rgba(0,0,0,.6) 100%)"></div>
+  <div class="abs" id="flapRow" style="left:0;right:0;top:200px;text-align:center"></div>
+  <div class="abs" id="fl2" style="left:0;right:0;top:1560px;text-align:center;font-weight:800;font-size:66px;color:var(--no);text-shadow:0 4px 18px rgba(0,0,0,.7);opacity:0">taken at face value</div>
+  <div id="strike" style="top:1600px"></div>
+</div>
+<div class="fx" id="fx_today">
+  <div class="abs anton" id="td" style="left:0;right:0;top:250px;text-align:center;font-size:210px;color:#fff;text-shadow:0 0 40px rgba(79,179,255,.65)">Today</div>
+  <div id="card">
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:12px"><img src="img/cournot-icon-white.png" style="height:44px"><span class="mono" style="font-size:24px;color:#BFD6FF">Cournot · so far</span></div>
+    <div class="crow" id="cr0"><div class="cv">6,494</div><div class="cl">markets resolved</div></div>
+    <div class="crow" id="cr1"><div class="cv">99.71%</div><div class="cl">correct before any dispute</div></div>
+    <div class="crow" id="cr2"><div class="cv">&lt;8 min</div><div class="cl">median to settle</div></div>
+    <div class="src" id="cft" style="margin-top:8px;font-size:24px;opacity:0">cournot.ai · as of 28 Oct 2026</div>
+  </div>
+</div>
+<div class="fx" id="fx_rewind">
+  <div class="abs" id="rw" style="left:40px;top:120px"><span class="chip" style="font-size:34px;background:rgba(0,0,0,.55)">◀◀ REWIND</span></div>
+  <div id="stamp"><span>INADMISSIBLE</span><div style="margin-top:26px"><span class="src" style="display:inline-block;padding:8px 18px;border-radius:20px;background:rgba(6,16,44,.72)">docs.cournot.ai · Proof of Reasoning</span></div></div>
+</div>
+<div class="fx" id="fx_bundle">
+  <div class="abs" style="left:0;right:0;top:252px;text-align:center"><span class="chip" style="background:rgba(6,16,44,.78)">EVIDENCE BUNDLE</span></div>
+  <div id="blks"></div>
+  <div class="abs" id="bout" style="left:0;right:0;top:520px;text-align:center;opacity:0"><span class="anton" style="display:inline-block;padding:10px 26px;border-radius:16px;background:var(--no);font-size:84px;color:#fff;box-shadow:0 18px 36px rgba(0,0,0,.4)">Whole bundle: out</span>
+    <div style="margin-top:16px"><span class="src" style="display:inline-block;padding:8px 18px;border-radius:20px;background:rgba(6,16,44,.72)">docs.cournot.ai · fast and slow paths</span></div></div>
+</div>
+<div class="fx" id="fx_follow">
+  <div id="prof"><img src="img/avatar.png"><div class="abs" style="left:174px;top:56px;font-weight:800;font-size:50px">@i_am_vickyd</div><div id="pbtn">Follow</div></div>
+  <svg id="cur" viewBox="0 0 70 92"><path d="M6 4 L6 74 L24 58 L36 86 L48 80 L36 54 L60 54 Z" fill="#fff" stroke="#0B1F4D" stroke-width="5" stroke-linejoin="round"/></svg>
+  <div id="spks"></div>
+</div>
+
+<div id="lab"><span id="labt"></span></div>
+<div id="cap"><span id="capt"></span></div>
+<div id="flash"></div>
+
+<script src="reel_data.js"></script>
+<script>
+const R = window.REEL, END = R.end, FPS = 30
+const $ = id => document.getElementById(id)
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x)), eo = x => 1 - Math.pow(1 - clamp(x), 3)
+const eback = x => { x = clamp(x); const c = 1.7; return 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2) }
+let SIG = []
+function css(el, k, v) { if (typeof el === 'string') el = $(el); if (el.style[k] !== v) el.style[k] = v; SIG.push(v) }
+const pop = (el, t, at, d = .3, dy = 24, s0 = .9) => { const p = eo((t - at) / d), q = eback((t - at) / d); css(el, 'opacity', (t >= at ? Math.min(1, p * 1.4) : 0).toFixed(3))
+  css(el, 'transform', `translateY(${((1 - p) * dy).toFixed(1)}px) scale(${(s0 + (1 - s0) * q).toFixed(3)})`) }
+async function setImg(el, src) { if (el.getAttribute('src') !== src) { el.src = src; try { await el.decode() } catch (e) {} } }
+const seg = t => R.segs.find(s => t >= s.o && t < s.o + s.n / FPS) || null
+// key-word captions (reel seconds); *word* = key word, colour class after |
+const CAPS = []
+const C = (id, a, b, txt, k = 'k1') => { const s = R.segs.find(x => x.id === id); CAPS.push({ a: s.o + a, b: s.o + b, h: txt.replace(/\*([^*]+)\*/g, `<b class="${k}">$1</b>`) }) }
+C('brand', .25, 1.55, '*PRIMUS LABS*', 'k2'); C('brand', 1.55, 3.7, '× *COURNOT*')
+C('icons', .1, 1.95, 'an *AI ORACLE*'); C('icons', 1.95, 3.8, 'that settles *PREDICTION MARKETS*'); C('icons', 3.8, 5.6, 'evidence checked with *zkTLS*', 'k2')
+C('flash', .9, 3.7, 'before: a screenshot,')
+C('today', .45, 2.3, 'evidence can carry proof of its *ORIGIN*'); C('today', 2.3, 5.57, 'Cournot *SO FAR*')
+C('rewind', .15, 1.8, 'evidence *WITHOUT* a valid proof?'); C('rewind', 2.3, 5.57, "Cournot's docs: *INADMISSIBLE*", 'k3')
+C('bundle', .1, 1.86, '*ONE* bad proof', 'k3'); C('bundle', 1.86, 3.73, 'throws out the *WHOLE BUNDLE*', 'k3')
+C('follow', .15, 3.0, 'AI oracles meet *zkTLS*', 'k2'); C('follow', 3.0, 5.57, 'follow for *MORE*')
+// split-flap title
+const FLAP = 'BEFORE ZKTLS', GLY = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
+$('flapRow').innerHTML = [...FLAP].map((ch, i) => `<span class="flap${ch === ' ' ? ' sp' : ''}" id="fp${i}"></span>`).join('')
+// bundle blocks
+$('blks').innerHTML = Array.from({ length: 6 }, (_, i) => `<div class="blk" id="bk${i}" style="left:${85 + i * 152}px"><i id="bki${i}">✓</i><u>proof</u></div>`).join('')
+// orbit tiles (two copies: behind and in front of the cut-out)
+const OT = [['#fff', '<img src="img/cournot-icon-navy.png" style="height:96px">', 'AI oracle', '#0B1F4D'], ['linear-gradient(160deg,#FF7A33,#FD4C00)', '<img src="img/primus-icon-white.png" style="height:92px">', 'zkTLS', '#fff'],
+  ['linear-gradient(160deg,#4FB3FF,#1F5FDB)', '<svg width="96" height="96" viewBox="0 0 190 190"><rect x="18" y="110" width="30" height="58" rx="6" fill="#fff"/><rect x="62" y="80" width="30" height="88" rx="6" fill="#fff"/><rect x="106" y="50" width="30" height="118" rx="6" fill="#fff"/><circle cx="150" cy="52" r="30" fill="#22B573" stroke="#fff" stroke-width="6"/></svg>', 'Prediction markets', '#fff'],
+  ['linear-gradient(160deg,#123A99,#0B1F4D)', '<svg width="92" height="92" viewBox="0 0 100 100"><path d="M50 8 L92 30 L8 30 Z" fill="#fff"/><rect x="16" y="36" width="12" height="40" fill="#fff"/><rect x="44" y="36" width="12" height="40" fill="#fff"/><rect x="72" y="36" width="12" height="40" fill="#fff"/><rect x="8" y="82" width="84" height="10" fill="#fff"/></svg>', 'Private credit · soon', '#fff']]
+for (const side of ['B', 'F']) $('fx_orbit' + side).innerHTML = OT.map((o, i) => `<div class="ot" id="ot${i}${side}" style="background:${o[0]}">${o[1]}<u style="color:${o[3]}">${o[2]}</u></div>`).join('')
+$('spks').innerHTML = Array.from({ length: 10 }, (_, i) => `<div class="spk" id="sp${i}"></div>`).join('')
+
+window.render = async t => {
+  SIG = []
+  const s = t < END ? seg(t) : null, id = s ? s.id : null, lt = s ? t - s.o : 0
+  const f = Math.min(Math.round(t * FPS), R.frames.length - 1), fr = R.frames[f] || [null, 0]
+  for (const x of ['brand', 'brandF', 'icons', 'flash', 'today', 'time', 'rewind', 'bundle', 'orbitB', 'orbitF', 'follow']) css('fx_' + x, 'opacity', '0')
+  const n4 = String(fr[1]).padStart(4, '0')
+  const full = fr[0] ? `${R.V}${fr[0]}/full/f_${n4}.jpg` : '', cut = fr[0] ? `${R.V}${fr[0]}/cut/f_${n4}.webp` : ''
+  const needMe = id === 'brand' || id === 'follow'
+  css('bgL', 'opacity', fr[0] && id !== 'brand' ? '1' : '0'); if (fr[0] && id !== 'brand') await setImg($('bg'), full)
+  css('me', 'opacity', needMe ? '1' : '0'); if (needMe) await setImg($('me'), cut)
+  css('bg', 'filter', id === 'flash' ? 'grayscale(1) contrast(1.18) brightness(.86)' : 'none')
+  // label
+  const k = R.segs.findIndex(x => x.id === id), L = s && s.label ? `<b>${k + 1}/7</b> · ${s.label}` : ''
+  css('lab', 'opacity', L ? '1' : '0'); if ($('labt').innerHTML !== L) $('labt').innerHTML = L
+  // light flash between segments: up over the last 0.22 s, down over the first 0.2 s of the next
+  let fl = 0
+  if (s && (id === 'brand' || id === 'flash')) fl = Math.max(fl, .85 * eo((lt - (s.n / FPS - .22)) / .22))
+  if (s && (id === 'icons' || id === 'today')) fl = Math.max(fl, .85 * (1 - eo(lt / .22)))
+  css('flash', 'opacity', fl.toFixed(3))
+  if (id === 'brand') {
+    css('fx_brand', 'opacity', '1'); css('fx_brandF', 'opacity', '1')
+    const push = 1 + .04 * clamp(lt / 3.7)
+    ;[['b_ic1', .1], ['b_ic2', .45]].forEach(([e, a]) => { const p = eback((lt - a) / .35); css(e, 'opacity', (lt >= a ? 1 : 0).toFixed(0)); css(e, 'transform', `scale(${((1.5 - .5 * p) * push).toFixed(3)})`) })
+    pop($('b_w1'), t, s.o + .25, .3); pop($('b_x'), t, s.o + .55, .3); pop($('b_w2'), t, s.o + .6, .3); pop($('b_date'), t, s.o + .9, .3, 14)
+  }
+  if (id === 'icons') {
+    css('fx_icons', 'opacity', '1')
+    const at = [.1, 1.95, 3.8]
+    at.forEach((a, i) => { const nx = at[i + 1] ?? 99, on = lt >= a, out = clamp((lt - nx) / .25), p = eback((lt - a) / .32)
+      const sc = on ? (.4 + .6 * p) * (1 - .5 * out) : 0, bob = 6 * Math.sin((lt - a) * 3)
+      css('ti' + i, 'opacity', (on ? 1 - out : 0).toFixed(3)); css('ti' + i, 'transform', `translateY(${(bob - 120 * out).toFixed(1)}px) scale(${sc.toFixed(3)}) rotate(${(-4 + 8 * i / 2).toFixed(1)}deg)`)
+      css('tl' + i, 'opacity', (on ? Math.min(eo((lt - a - .12) / .2), 1 - out) : 0).toFixed(3)) })
+  }
+  if (id === 'flash') {
+    css('fx_flash', 'opacity', '1')
+    ;[...FLAP].forEach((ch, i) => { if (ch === ' ') return; const settle = .2 + .06 * i, el = $('fp' + i)
+      const g = lt < settle ? GLY[(Math.floor(lt * 30) * 7 + i * 13) % GLY.length] : ch; if (el.textContent !== g) el.textContent = g; SIG.push(g)
+      css(el, 'opacity', (lt > .05 ? 1 : 0).toFixed(0)) })
+    css('fl2', 'opacity', eo((lt - 1.6) / .25).toFixed(3))
+    const w = 640, x0 = 540 - w / 2; css('strike', 'left', x0 + 'px'); css('strike', 'width', w + 'px')
+    css('strike', 'transform', `scaleX(${eo((lt - 2.3) / .4).toFixed(3)})`); css('strike', 'opacity', lt >= 2.3 ? '1' : '0')
+  }
+  if (id === 'today') {
+    css('fx_today', 'opacity', '1')
+    const p = eback((lt - .05) / .35), out = clamp((lt - 1.7) / .3)
+    css('td', 'opacity', (lt >= .05 ? 1 - out : 0).toFixed(3)); css('td', 'transform', `scale(${((.6 + .4 * p) * (1 - .2 * out)).toFixed(3)})`)
+    pop($('card'), t, s.o + 2.0, .35, -20, .94)
+    ;['cr0', 'cr1', 'cr2'].forEach((c, i) => pop($(c), t, s.o + 2.25 + .6 * i, .25, 10, .96)); pop($('cft'), t, s.o + 2.25, .3, 6, 1)
+  }
+  if (id === 'rewind') {
+    css('fx_rewind', 'opacity', '1')
+    const [r0, r1] = s.rewind, inR = lt >= r0 && lt < r1
+    css('fx_time', 'opacity', inR ? '1' : '0')
+    if (inR) { await setImg($('rgbR'), full); await setImg($('rgbC'), full); const j = Math.sin(lt * 90) * 10
+      css('rgbR', 'transform', `translateX(${(12 + j).toFixed(1)}px)`); css('rgbC', 'transform', `translateX(${(-12 - j).toFixed(1)}px)`)
+      css('bn1', 'top', ((lt * 2600) % 1920).toFixed(0) + 'px'); css('bn2', 'top', ((lt * 3700 + 700) % 1920).toFixed(0) + 'px') }
+    css('bg', 'filter', inR ? 'contrast(1.25) saturate(.7) blur(1.2px)' : 'none')
+    css('rw', 'opacity', inR ? (Math.floor(lt * 8) % 2 ? '1' : '.35') : '0')
+    const sa = r1 + .3; css('stamp', 'opacity', (lt >= sa ? 1 : 0).toFixed(0))
+    css('stamp', 'transform', `scale(${(lt >= sa ? 1.6 - .6 * eo((lt - sa) / .16) : 1.6).toFixed(3)})`)
+  }
+  if (id === 'bundle') {
+    css('fx_bundle', 'opacity', '1')
+    for (let i = 0; i < 6; i++) { const el = $('bk' + i), a = .1 + .07 * i; pop(el, t, s.o + a, .25, 20, .7)
+      const bad = i === 3 ? lt >= 1.0 : lt >= 1.86 + .06 * Math.abs(i - 3)
+      css(el, 'background', bad ? 'var(--no)' : 'var(--ok)'); const g = bad ? '✗' : '✓'; if ($('bki' + i).textContent !== g) $('bki' + i).textContent = g; SIG.push(g)
+      if (i === 3 && lt >= 1.0 && lt < 1.3) css(el, 'transform', `rotateY(${(180 * (1 - eo((lt - 1.0) / .3))).toFixed(1)}deg)`) }
+    pop($('bout'), t, s.o + 2.3, .3, 16, .85)
+  }
+  if (id === 'follow') {
+    css('fx_orbitB', 'opacity', '1'); css('fx_orbitF', 'opacity', '1'); css('fx_follow', 'opacity', '1')
+    // the ring's crossing (dz = 0) sits at y 680, beside the crown (head top 686, 414-611 wide at y 720)
+    const cx = 540, cy = 680, rx = 410, ry = 430, n = OT.length, gone = clamp((lt - 3.0) / .3)
+    OT.forEach((o, i) => { const th = Math.PI / 2 + 2 * Math.PI * i / n + 2 * Math.PI * lt / 6, dz = Math.sin(th)
+      const x = cx + rx * Math.cos(th), y = cy - ry * dz, sc = (.8 + .2 * (dz + 1) / 2) * (1 - .6 * gone), fin = eo((lt - .08 * i) / .35) * (1 - gone)
+      const tr = `translate(${(x - 130).toFixed(1)}px,${(y - 130).toFixed(1)}px) scale(${sc.toFixed(3)}) rotate(${(-6 * Math.cos(th)).toFixed(2)}deg)`
+      for (const side of ['B', 'F']) { const el = $('ot' + i + side), show = side === 'F' ? dz > 0 : dz <= 0
+        css(el, 'opacity', show ? fin.toFixed(3) : '0'); css(el, 'transform', tr); css(el, 'zIndex', String(Math.round(dz * 100) + 200)) } })
+    pop($('prof'), t, s.o + 3.0, .35, -24, .9)
+    const c0 = 3.25, c1 = 3.8, click = 3.9, p = eo((lt - c0) / (c1 - c0))
+    const bx = 110 + 860 - 30 - 110, by = 230 + 85                                    // the Follow button's middle
+    css('cur', 'opacity', lt >= c0 && lt < 5.0 ? '1' : '0')
+    css('cur', 'transform', `translate(${(1000 + (bx - 1000) * p).toFixed(1)}px,${(700 + (by - 700) * p).toFixed(1)}px) scale(${(lt >= click && lt < click + .12 ? .86 : 1).toFixed(2)})`)
+    const on = lt >= click + .05; $('pbtn').className = on ? 'on' : ''; const tx = on ? '✓ Following' : 'Follow'; if ($('pbtn').textContent !== tx) $('pbtn').textContent = tx; SIG.push(tx)
+    for (let i = 0; i < 10; i++) { const a = 2 * Math.PI * i / 10, q = clamp((lt - click) / .5)
+      css('sp' + i, 'opacity', (lt >= click && q < 1 ? 1 - q : 0).toFixed(3)); css('sp' + i, 'transform', `translate(${(bx + Math.cos(a) * (30 + 110 * eo(q))).toFixed(1)}px,${(by + Math.sin(a) * (20 + 70 * eo(q))).toFixed(1)}px)`) }
+  }
+  // captions
+  const c = t < END ? CAPS.find(c => t >= c.a && t < c.b) : null
+  css('cap', 'opacity', c ? Math.min(eo((t - c.a) / .1), eo((c.b - t) / .08)).toFixed(3) : '0')
+  if (c) { if ($('capt').innerHTML !== c.h) $('capt').innerHTML = c.h; css('capt', 'transform', `scale(${(1.12 - .12 * eo((t - c.a) / .14)).toFixed(3)})`); SIG.push(c.h) }
+  SIG.push(f, id)
+  return SIG.join('|')
+}
+window.READY = Promise.all([document.fonts.load('400 100px Anton'), document.fonts.load('800 40px Manrope'), document.fonts.load('600 26px Manrope'), document.fonts.load('700 26px Mono'),
+  ...[...document.images].map(i => i.complete ? 1 : new Promise(r => { i.onload = i.onerror = r }))])
+</script>
+</body></html>
