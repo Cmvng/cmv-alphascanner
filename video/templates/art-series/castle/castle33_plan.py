@@ -73,7 +73,7 @@ photo(t_c, TOTAL, 'm_casino', [0.5, 0.5, 1.0], [0.5, 0.44, 0.86], 'lin', dim=[[O
 say(t_c + 0.2, O[8] - 0.08, 'dateb', '16.10.2026'); say(24.10, O[8] - 0.08, 'big', 'Gamdom is back.')
 # ---- gamdom.com on "you can try it": two cinematic shots
 cine += [dict(t0=O[8], t1=bt(O[8], 2), img='img/s_koth.jpg', keys=[[0, 0, -40, 60, 16, 6], [1, 0, -20, 300, 9, 3]]),
-         dict(t0=bt(O[8], 2), t1=E, img='img/s_home.jpg', keys=[[0, -260, 130, 360, 22, 5], [1, -90, 100, 140, 12, 3]])]
+         dict(t0=bt(O[8], 2), t1=E, img='img/s_home.jpg', keys=[[0, -120, 130, 330, 20, 5], [1, -40, 100, 140, 11, 3]])]
 say(O[8] + 0.06, bt(O[8], 2) - 0.03, 'cap', 'King of the Hill')
 say(bt(O[8], 2) + 0.06, E - 0.03, 'cap', 'Casino · Sports')
 text.append(dict(k='end', t0=E, t1=TOTAL, e2=bt(E, 3), e3=bt(E, 5)))
