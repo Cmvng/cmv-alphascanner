@@ -1,0 +1,197 @@
+<!doctype html>
+<html>
+<!-- The unveil (Gamdom #Gamdom100kRound2): the finished piece veiled in the centre, the progress clips cut on the beat
+     at the sides, then on the drop the clips break into a photomosaic of the piece that turns into the real photo.
+     Everything here is the owner's footage and photo, type and CSS: no generated imagery. -->
+<head>
+<meta charset="utf-8">
+<style>
+@font-face{font-family:Anton;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/anton-latin-400-normal.woff2)}
+@font-face{font-family:IS;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/instrument-serif-latin-400-normal.woff2)}
+@font-face{font-family:IS;font-style:italic;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/instrument-serif-latin-400-italic.woff2)}
+@font-face{font-family:Man;font-weight:600;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-600-normal.woff2)}
+@font-face{font-family:Man;font-weight:800;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-800-normal.woff2)}
+:root{--g:#00FF87;--ink:#060909}
+html,body{margin:0;width:1920px;height:1080px;overflow:hidden;background:var(--ink)}
+#stage{position:absolute;inset:0;overflow:hidden;background:radial-gradient(1200px 800px at 50% 52%,#0d2224 0%,#070c0c 60%,#040606 100%)}
+.abs{position:absolute}
+img.fit{position:absolute;left:0;top:0;width:100%;height:100%;object-fit:cover}
+#full,#artfull,#endcard{opacity:0}
+#full{position:absolute;inset:0;z-index:6;background:#000}
+#artfull{position:absolute;inset:0;z-index:5;overflow:hidden}
+#afimg{position:absolute;left:0;top:0;transform-origin:0 0}
+/* the wall */
+.panel{position:absolute;top:190px;width:394px;height:700px;overflow:hidden;border-radius:6px;box-shadow:0 30px 60px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.08);opacity:0;z-index:3;background:#111}
+.panel img{position:absolute;left:50%;top:50%;width:108%;height:108%;transform:translate(-50%,-50%)}
+#pL{left:30px}#pR{left:1496px}
+.plab{position:absolute;top:900px;left:460px;width:1000px;text-align:center;white-space:nowrap;font:600 26px/1.3 Man,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.78);opacity:0;z-index:3}
+
+#cbox{position:absolute;left:460px;top:210px;width:1000px;height:660px;z-index:2;opacity:0;transform-origin:50% 50%}
+#cart{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+#cframe{position:absolute;inset:-1px;border:1.5px solid rgba(0,255,135,.35);box-shadow:0 0 40px rgba(0,255,135,.08)}
+#mos{position:absolute;left:0;top:0;width:1920px;height:1080px;z-index:4;pointer-events:none}
+.tile{position:absolute;background-image:url(img/mosaic.jpg);background-size:1000px 660px;opacity:0;will-change:transform}
+/* type */
+.it{position:absolute;opacity:0;z-index:8;pointer-events:none}
+.chip{left:64px;top:56px;font:600 24px/1 Man,sans-serif;letter-spacing:.22em;text-transform:uppercase;color:#fff;padding:14px 22px;border-radius:30px;background:rgba(0,0,0,.45);border:1px solid rgba(255,255,255,.22)}
+.chip i{display:inline-block;width:10px;height:10px;border-radius:5px;background:var(--g);margin-right:14px;box-shadow:0 0 12px var(--g)}
+.word{left:0;top:0;width:1920px;height:1080px;display:flex;align-items:center;justify-content:center}
+.word span{font:400 170px/1 Anton,sans-serif;text-transform:uppercase;color:#fff;letter-spacing:.01em;display:inline-block}
+.line{left:460px;top:210px;width:1000px;height:660px;display:flex;align-items:center;justify-content:center;text-align:center}
+.line span{font:400 66px/1.12 IS,serif;color:#fff;text-shadow:0 2px 24px rgba(0,0,0,.8)}
+.line2{left:0;width:1920px;top:860px;text-align:center}
+.line2 span{font:400 64px/1.1 IS,serif;color:#fff;text-shadow:0 2px 20px rgba(0,0,0,.85)}
+.title{left:0;top:770px;width:1920px;text-align:center}
+.title .stack{position:relative;display:inline-block}
+.title .t{font:400 168px/1 Anton,sans-serif;text-transform:uppercase;letter-spacing:.02em;white-space:nowrap}
+.title .face{position:relative;color:transparent;background:linear-gradient(180deg,#fff 0%,#e7ecef 30%,#9aa4ac 49%,#59626a 51%,#c9d1d6 64%,#f6f8f9 82%,#aab2b8 100%);-webkit-background-clip:text;background-clip:text;
+  filter:drop-shadow(0 1px 0 #3a4046) drop-shadow(0 2px 0 #30353a) drop-shadow(0 3px 0 #272b2f) drop-shadow(0 4px 0 #1f2226) drop-shadow(0 5px 0 #181a1d) drop-shadow(0 6px 0 #111315) drop-shadow(0 18px 30px rgba(0,0,0,.7))}
+.title .ghost{position:absolute;left:0;top:0;mix-blend-mode:screen;opacity:.85}
+.title .r{color:#ff1f4b}.title .c{color:#00e5ff}
+#endcard{position:absolute;inset:0;z-index:9;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(180deg,rgba(0,0,0,.25),rgba(0,0,0,.82) 60%)}
+#endcard .tag{font:400 132px/1 Anton,sans-serif;color:#fff;letter-spacing:.02em}
+#endcard .tag b{font-weight:400;color:var(--g)}
+#endcard .h{margin-top:30px;font:800 40px/1 Man,sans-serif;color:#fff}
+#endcard .rg{margin-top:26px;font:600 26px/1 Man,sans-serif;letter-spacing:.22em;color:rgba(255,255,255,.8);text-transform:uppercase}
+#stage.neg{filter:invert(1)}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="cbox"><img id="cart"><div id="cframe"></div></div>
+  <div class="panel" id="pL"><img id="iL"></div><div class="panel" id="pR"><img id="iR"></div>
+  <div class="plab" id="lab"></div>
+  <div id="mos"></div>
+  <div id="artfull"><img id="afimg"></div>
+  <div id="full"><img class="fit" id="ifull"></div>
+  <div id="texts"></div>
+  <div id="endcard"><div class="tag" id="ectag"></div><div class="h" id="echandle"></div><div class="rg" id="ecsub"></div></div>
+</div>
+<script src="plan_data.js"></script>
+<script src="img/tiles.js"></script>
+<script>
+const P = window.PLAN, TL = window.TILES, FPS = P.fps, $ = id => document.getElementById(id)
+const cl = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x)), eo = x => 1 - Math.pow(1 - cl(x), 3), eio = x => { x = cl(x); return x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2 }
+const lerp = (a, b, u) => a + (b - a) * u, hash = n => { const s = Math.sin(n * 12.9898) * 43758.5453; return s - Math.floor(s) }
+let SIG = []
+const css = (el, k, v) => { if (typeof el === 'string') el = $(el); if (el.style[k] !== v) el.style[k] = v; SIG.push(v) }
+async function setImg(el, src) { if (el.getAttribute('src') !== src) { el.src = src; try { await el.decode() } catch (e) {} } SIG.push(src) }
+const CB = { x: 460, y: 210, w: 1000, h: 660 }, PAN = { L: { x: 30, y: 190, w: 394, h: 700 }, R: { x: 1496, y: 190, w: 394, h: 700 } }
+const [AW, AH] = P.art_wh
+// ---- build the static parts
+$('cart').src = P.art; $('afimg').src = P.art
+$('ectag').innerHTML = P.tag.replace(/(round\s*2)$/i, '<b>$1</b>').toUpperCase().replace('<B>', '<b>').replace('</B>', '</b>')
+$('echandle').textContent = P.handle || ''
+const TX = P.text
+$('texts').innerHTML = TX.map((x, i) => {
+  if (x.k === 'chip') return `<div class="it chip" id="x${i}"><i></i>${x.text}</div>`
+  if (x.k === 'word') return `<div class="it word" id="x${i}"><span>${x.text}</span></div>`
+  if (x.k === 'line') return `<div class="it line" id="x${i}"><span>${x.text}</span></div>`
+  if (x.k === 'line2') return `<div class="it line2" id="x${i}"><span>${x.text}</span></div>`
+  if (x.k === 'title') return `<div class="it title" id="x${i}"><div class="stack" id="xs${i}"><div class="t ghost r" id="xr${i}">${x.text}</div><div class="t ghost c" id="xc${i}">${x.text}</div><div class="t face" id="xf${i}">${x.text}</div></div></div>`
+  return `<div class="it" id="x${i}"></div>`
+}).join('')
+const tiles = TL.tiles.map((t, i) => { const d = document.createElement('div'); d.className = 'tile'; d.style.width = t.w + 'px'; d.style.height = t.h + 'px'
+  d.style.backgroundPosition = `-${t.x}px -${t.y}px`; $('mos').appendChild(d); return d })
+const segAt = (slot, t) => P.segs.find(s => s.slot === slot && t >= s.t0 && t < s.t1)
+const frameOf = (s, t) => `${s.dir}/${String(Math.min(s.n, Math.max(1, Math.floor((t - s.t0) * FPS + 1e-6) + 1))).padStart(4, '0')}.jpg`
+// art crops: [cx, cy, w] as fractions of the piece (centre and width) -> a transform that fills the frame with it
+function artTransform(c, el) {
+  const w = c[2] * AW, h = w * 1080 / 1920, s = 1920 / w
+  const x = c[0] * AW - w / 2, y = c[1] * AH - h / 2
+  return `scale(${(s).toFixed(5)}) translate(${(-x).toFixed(2)}px,${(-y).toFixed(2)}px)`
+}
+window.render = async t => {
+  SIG = []
+  const D = P.drop, [b0, b1] = P.build, [w0, w1] = P.wave, [g0, g1] = P.grow
+  // ---- full-screen footage (hook, hero clips, the rush, the end)
+  const fs = segAt('full', t)
+  css('full', 'opacity', fs ? '1' : '0')
+  if (fs) { await setImg($('ifull'), frameOf(fs, t))
+    const pu = fs.kind === 'hero' || fs.kind === 'rush' ? 1 + .05 * (1 - eo((t - fs.t0) / .2)) : 1
+    css('ifull', 'transform', `scale(${pu.toFixed(4)})`) }
+  // ---- art crops in the hero, and the piece full after the grow
+  const ac = segAt('artcrop', t), af = P.art_full && t >= P.art_full[0] && t < P.art_full[1]
+  css('artfull', 'opacity', ac || af ? '1' : '0')
+  if (ac) { const u = eio((t - ac.t0) / (ac.t1 - ac.t0)); const c = ac.crop0.map((v, k) => lerp(v, ac.crop1[k], u)); css('afimg', 'transform', artTransform(c)) }
+  else if (af) { // the whole sheet, contained, with a slow push
+    const u = (t - P.art_full[0]) / (P.art_full[1] - P.art_full[0]), z = 1 + .035 * eio(u)
+    const s = Math.min(1920 / AW, 1080 / AH) * z, x = (1920 - AW * s) / 2, y = (1080 - AH * s) / 2
+    css('afimg', 'transform', `translate(${x.toFixed(2)}px,${y.toFixed(2)}px) scale(${s.toFixed(5)})`) }
+  // ---- the wall
+  const inWall = t >= b0 && t < g1 + .05
+  const ein = eo((t - b0) / .5)
+  for (const k of ['L', 'R']) {
+    const s = segAt(k, t) || (t >= b1 && t < D ? P.segs.filter(x => x.slot === k && x.t0 < b1).slice(-1)[0] : null)
+    const fly = t >= b1 ? eio((t - b1) / ((D - b1) * .7)) : 0
+    const pan = PAN[k], tx = (CB.x + CB.w / 2) - (pan.x + pan.w / 2), ty = (CB.y + CB.h / 2) - (pan.y + pan.h / 2)
+    const op = inWall && t < D ? ein * (1 - fly) : 0
+    css('p' + k, 'opacity', op.toFixed(3))
+    css('p' + k, 'transform', `translate(${((k === 'L' ? -80 : 80) * (1 - ein) + tx * fly * .6).toFixed(1)}px,${(ty * fly * .6).toFixed(1)}px) scale(${(1 - .55 * fly).toFixed(3)})`)
+    if (s && op > 0) { await setImg($('i' + k), frameOf(s, t > s.t1 ? s.t1 - .001 : t))
+      const pu = 1 + .06 * (1 - eo((t - s.t0) / .18)); css('i' + k, 'transform', `translate(-50%,-50%) scale(${pu.toFixed(4)})`)
+      if (k === 'L' && $('lab').textContent !== (s.label || '')) $('lab').textContent = s.label || ''; SIG.push(s.label) }
+  }
+  css('lab', 'opacity', (inWall && t < b1 ? ein : 0).toFixed(3))
+  // the centre: veiled through the build (it clears a little as the sessions go by), dark under the mosaic, then the real photo
+  const vb = cl((t - b0) / Math.max(.01, b1 - b0))
+  let blur = lerp(34, 14, vb), bri = lerp(.12, .3, vb)
+  if (t >= b1) { const q = cl((t - b1) / (D - b1)); bri = lerp(.3, .04, q) }
+  const unveiled = t >= D
+  css('cart', 'filter', unveiled ? 'none' : `blur(${blur.toFixed(1)}px) brightness(${bri.toFixed(3)})`)
+  const gu = eio((t - g0) / (g1 - g0))
+  // grow from the centre box to the whole sheet contained in the frame
+  const sFull = Math.min(1920 / AW, 1080 / AH), fw = AW * sFull, fh = AH * sFull
+  const bw = lerp(CB.w, fw, gu), bh = lerp(CB.h, fh, gu), bx = lerp(CB.x, (1920 - fw) / 2, gu), by = lerp(CB.y, (1080 - fh) / 2, gu)
+  css('cbox', 'left', bx.toFixed(1) + 'px'); css('cbox', 'top', by.toFixed(1) + 'px'); css('cbox', 'width', bw.toFixed(1) + 'px'); css('cbox', 'height', bh.toFixed(1) + 'px')
+  css('cbox', 'opacity', (inWall ? ein : 0).toFixed(3)); css('cframe', 'opacity', (1 - gu).toFixed(3))
+  css('cbox', 'transform', `scale(${(1.04 - .04 * ein).toFixed(4)})`)
+  // ---- the photomosaic: tiles fly in from the panels, hold, then melt into the real photo from the centre out
+  const flyOn = t >= b1 && t < w1 + .05
+  css('mos', 'opacity', flyOn ? '1' : '0')
+  if (flyOn) {
+    const F = D - b1
+    tiles.forEach((el, i) => {
+      const T = TL.tiles[i], pan = PAN[T.side]
+      const sx = pan.x + T.u * pan.w, sy = pan.y + T.v * pan.h, ex = CB.x + T.x, ey = CB.y + T.y
+      const a = b1 + T.d * F * .45, p = eio((t - a) / (F * .5))
+      const dist = Math.hypot((T.x + T.w / 2) / TL.box[0] - .5, (T.y + T.h / 2) / TL.box[1] - .5) / .71
+      const wa = w0 + dist * (w1 - w0) * .65, wo = t < w0 ? 1 : 1 - cl((t - wa) / ((w1 - w0) * .3))
+      const op = (t < a ? 0 : Math.min(1, (t - a) / .08)) * wo
+      const x = lerp(sx, ex, p), y = lerp(sy, ey, p), r = (1 - p) * (hash(i) - .5) * 50, sc = lerp(.55, 1, p)
+      el.style.opacity = op.toFixed(3); el.style.transform = `translate(${x.toFixed(1)}px,${y.toFixed(1)}px) rotate(${r.toFixed(1)}deg) scale(${sc.toFixed(3)})`
+    })
+    SIG.push(Math.round(t * FPS))
+  }
+  // ---- the negative frame on the drop
+  const neg = t >= D && t < D + 1 / FPS
+  $('stage').classList.toggle('neg', neg); SIG.push(neg)
+  // ---- type
+  for (let i = 0; i < TX.length; i++) {
+    const x = TX[i], el = $('x' + i)
+    if (!el || x.k === 'end') continue
+    const on = t >= x.t0 && t < x.t1, fi = x.k === 'word' ? 0 : x.k === 'title' ? 0 : .15, fo = x.k === 'word' || x.k === 'title' ? 0 : .12
+    const op = on ? Math.min(fi ? cl((t - x.t0) / fi) : 1, fo ? cl((x.t1 - t) / fo) : 1) : 0
+    css(el, 'opacity', op.toFixed(3))
+    if (!on) continue
+    if (x.k === 'word') { const s = 1 + .22 * (1 - eo((t - x.t0) / .12)); css(el.firstChild, 'transform', `scale(${s.toFixed(3)})`) }
+    if (x.k === 'title') {
+      const p = eo((t - x.t0) / .18), s = 1 + .5 * (1 - p), st = $('xs' + i)
+      css(st, 'transform', `scale(${s.toFixed(3)})`); css(st, 'filter', `blur(${(14 * (1 - p)).toFixed(1)}px)`)
+      let g = 0; for (const b of (x.glitch || [])) { const d = t - b; if (d >= 0 && d < .2) g = Math.max(g, 1 - d / .2) }
+      const j = Math.round(t * FPS), dx = 4 + 26 * g * (hash(j) - .2)
+      css('xr' + i, 'transform', `translate(${(-dx).toFixed(1)}px,${(g * 6 * (hash(j + 3) - .5)).toFixed(1)}px)`)
+      css('xc' + i, 'transform', `translate(${dx.toFixed(1)}px,${(g * 6 * (hash(j + 7) - .5)).toFixed(1)}px)`)
+      css('xf' + i, 'transform', g > 0 ? `translateX(${(g * 18 * (hash(j + 5) - .5)).toFixed(1)}px)` : 'none')
+    }
+  }
+  const ec = TX.find(x => x.k === 'end')
+  css('endcard', 'opacity', ec && t >= ec.t0 && t < ec.t1 ? cl((t - ec.t0) / .3).toFixed(3) : '0')
+  if (ec) { $('ecsub').textContent = ec.sub || '' }
+  return SIG.join('|')
+}
+window.READY = Promise.all([document.fonts.load('170px Anton'), document.fonts.load('66px IS'), document.fonts.load('600 24px Man'), document.fonts.load('800 40px Man'),
+  ...[...document.images].map(i => i.complete ? 1 : new Promise(r => { i.onload = i.onerror = r }))])
+</script>
+</body>
+</html>
