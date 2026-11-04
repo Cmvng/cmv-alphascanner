@@ -28,6 +28,48 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
+## 4 Nov: the owner's drawing, the Gamdom castle film (#Gamdom100kRound2 entry, 1:18, 16:9)
+
+The owner's 62 × 94 cm charcoal piece:
+- GAMDOM in cracked stone, with an eye inside the letters;
+- a tear falling into the ruins;
+- a castle rising with its flags.
+
+They sent their 59 s CapCut compilation of the sessions, six 4000 px close-ups and the finished photo. The brief: the
+artwork tells the story that promotes the platform, the piece unveiled in the centre with the progress at the sides,
+"badass music", cinematic, a masterclass. `video/templates/art-series/castle/`.
+
+- **The road there (the owner's frustration, worth keeping):**
+  - The first plans were mine, not theirs: my concepts, a Round 1 board when they had asked about Round 2, and a
+    promotion plan that never showed Gamdom.
+  - What worked was what they had asked for from the start. The real Round 2 entries came from the 363 replies under
+    Steve's post, ranked by likes. I recorded the site myself instead of asking them to. Their own concept was built
+    as given.
+- **What worked:**
+  - **The drawing read as the story.** Each line names what the camera is on, in the order the drawing tells it.
+  - **The mosaic of the owner's own frames** turns into the real photo on the music's two stabs.
+  - **The drawn castle cuts to Gamdom's real castle logo.** The real site is shown whole, so the promotion is part
+    of the story, not pasted on at the end.
+  - **Every cut is on a beat** of the hardest drop in the library (625).
+  - **Every picture is real.** The owner's generated room mockups were left out of a "no AI" entry.
+- **Mistakes the checks found (fixed before sending):**
+  1. **The drawing vanished under "MUST FIGHT BACK" for 0.9 s** (a leftover time limit from the template). The full
+     2 fps sheet caught it.
+  2. **White lines on white paper** ("They hit the name.", "…to this."). Fixed with a ramped shade at the foot of the
+     frame.
+  3. **Wrong panel labels:** the eye time-lapse was labelled "the tear" and "the ruins".
+  4. **A black frame between CapCut parts** opened the tools panel. A panel framed on the back of the owner's head was
+     nearly black.
+  5. **The cold open used the eye and the tear,** the same shots as the read later. It now opens on the smoke and a
+     tight eye.
+  6. **The Gamdom splash logo was too small at 1×.** It was recaptured at 2.5× and shown at 3×.
+- **Change next time:**
+  - When the owner gives a concept, build theirs first and put mine beside it, never instead of it.
+  - Research the exact contest they name, ranked by the measure they name (likes), and link every example.
+  - Never ask the owner for something I can get myself, such as a public site recording.
+
+---
+
 ## 3 Nov: the owner's script and pictures, Bagel "Make the call while the game is on" (Lara, 1:39, 16:9)
 
 The owner's six-scene script about @bagel_win, with revised Scenes 2, 3 and 5, and four step pictures of their own

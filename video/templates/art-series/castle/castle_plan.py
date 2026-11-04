@@ -22,7 +22,7 @@ clips = {'proc': {'path': P}, 'home': {'path': f'{A}/site/home.mp4'}, 'orig': {'
 # where the real picture sits inside each part of the owner's 59 s compilation (measured with cropdetect)
 R = {'A': [0, 420, 1080, 1080], 'B': [166, 0, 748, 1920], 'C': [0, 94, 1080, 1732], 'D': [0, 656, 1080, 608], 'E': [0, 0, 1080, 1920],
      'F': [6, 0, 1068, 1920], 'G': [0, 420, 1080, 1080]}
-FX = {'A': .33}                                 # the first-black clip: keep the artist's arm and the black in the panel
+FX = {'A': .33, 'D': .26}                                 # the first-black clip: keep the artist's arm and the black in the panel
 segs, text = [], []
 def photo(t0, t1, img, c0, c1, ease='inout', fade=0): segs.append(dict(slot='photo', t0=t0, t1=t1, img=img, crop0=c0, crop1=c1, ease=ease, fade=fade))
 def line(t0, t1, s, k='line'): text.append(dict(k=k, t0=round(t0, 3), t1=round(t1, 3), text=s))
@@ -37,9 +37,9 @@ b0, b1 = o1, round(D - 0.75, 3)
 wb = [b for b in beats if b0 - 1e-3 <= b < b1 - 0.3]
 cuts = wb[::2]
 order = [  # (part, source from, to, label, speed): the sessions in the order they were drawn
-    ('A', 0.4, 4.6, 'THE FIRST BLACK', 1.0), ('B', 5.4, 10.3, 'THE NAME', 1.0), ('C', 11.0, 17.0, 'THE EYE', 1.0),
-    ('E', 37.15, 40.5, 'THE TOOLS', 1.0), ('C', 17.0, 23.0, 'THE TEAR', 1.0), ('D', 29.5, 36.2, 'HOURS AT THE WALL', 1.0),
-    ('C', 23.0, 28.8, 'THE RUINS', 1.0), ('F', 41.0, 44.8, 'THE CASTLE', 1.0), ('F', 44.8, 48.6, 'THE STONES', 1.0),
+    ('A', 0.4, 4.6, 'THE FIRST BLACK', 1.0), ('B', 5.4, 10.3, 'THE FIRST LETTERS', 1.0), ('C', 11.0, 17.0, 'THE NAME', 1.0),
+    ('E', 37.15, 40.5, 'THE TOOLS', 1.0), ('C', 17.0, 23.0, 'THE EYE', 1.0), ('D', 29.5, 36.2, 'HOURS AT THE WALL', 1.0),
+    ('C', 23.0, 28.8, 'LASH BY LASH', 1.0), ('F', 41.0, 44.8, 'THE RUINS', 1.0), ('F', 44.8, 48.6, 'THE CASTLE', 1.0),
     ('G', 49.4, 56.8, 'THE LAST LINES', 1.0)]
 for j, a in enumerate(cuts):
     part, s0, s1, lab, sp = order[min(len(order) - 1, j * len(order) // len(cuts))]
@@ -100,7 +100,7 @@ t_tag = round(END_STAB - 2.72, 3)
 segs.append(dict(slot='box', clip='proc', t0=t_cred, t1=t_tag, src=49.6, speed=1.0, rect=R['G']))
 text.append(dict(k='credit', t0=t_cred + 0.15, t1=t_tag - 0.05, lines=['Drawn by hand', '@i_am_vickyd', 'Charcoal on paper · 62 × 94 cm', 'Every frame real · no AI']))
 photo(t_tag, TOTAL, 'p_final', [0.5, 0.5, 1.0], [0.5, 0.5, 0.96], 'out')
-segs[-1]['contain'] = True; segs[-1]['dim'] = [t_tag, END_STAB, 0.55]
+segs[-1]['contain'] = True; segs[-1]['dim'] = [t_tag, END_STAB, 0.5, 0.74]
 line(t_tag + 0.15, END_STAB - 0.05, 'Must fight back when kicked down.', 'line')
 text.append(dict(k='end', t0=END_STAB, t1=TOTAL, text='#Gamdom100kRound2', code='Code STEVE', sub='18+ | Gamble responsibly'))
 plan = dict(fps=30, W=1920, H=1080, total=TOTAL, drop=D, drop2=D2, full=D3, build=[b0, b1], fly=[b1, D], wave=[D2, round(D2 + 1.0, 3)],

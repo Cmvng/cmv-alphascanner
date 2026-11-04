@@ -62,6 +62,7 @@ html,body{margin:0;width:1920px;height:1080px;overflow:hidden;background:var(--i
 .title .ghost{position:absolute;left:0;top:0;mix-blend-mode:screen;opacity:.8}
 .title .r{color:#ff1f4b}.title .c{color:#00e5ff}
 #tgrad{position:absolute;left:0;right:0;bottom:0;height:420px;background:linear-gradient(180deg,rgba(0,0,0,0),rgba(0,0,0,.72));z-index:7;opacity:0}
+#lgrad{position:absolute;left:0;right:0;bottom:0;height:330px;background:linear-gradient(180deg,rgba(0,0,0,0),rgba(0,0,0,.42) 45%,rgba(0,0,0,.66));z-index:7;opacity:0;transition:none}
 .credit{left:1180px;width:640px;top:150px;height:660px;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;text-align:left;gap:20px}
 .credit .k{font:600 24px/1 Man,sans-serif;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.7)}
 .credit .h{font:400 92px/1 Anton,sans-serif;color:#fff;letter-spacing:.01em}
@@ -89,7 +90,7 @@ html,body{margin:0;width:1920px;height:1080px;overflow:hidden;background:var(--i
   <div id="mos"></div>
   <div id="scr"><img id="iscr"></div>
   <div id="box"><img id="ibox"></div>
-  <div id="tgrad"></div>
+  <div id="tgrad"></div><div id="lgrad"></div>
   <div id="texts"></div>
   <div id="end"><div class="tag" id="etag"></div><div class="code" id="ecode"></div><div class="rg" id="esub"></div></div>
 </div>
@@ -140,12 +141,16 @@ window.render = async t => {
   if (ps) { const im = PH[ps.img], u = (t - ps.t0) / (ps.t1 - ps.t0)
     css(im, 'transform', photoXf(ps, u, im.naturalWidth, im.naturalHeight))
     const fi = ps.fade ? cl((t - ps.t0) / ps.fade) : 1; css('photos', 'opacity', fi.toFixed(3)) }
-  css('dim', 'opacity', ps && ps.dim ? (ps.dim[2] * eo((t - ps.dim[0]) / .6)).toFixed(3) : '0')
+  css('dim', 'opacity', ps && ps.dim ? (t < ps.dim[1] ? ps.dim[2] * eo((t - ps.dim[0]) / .6) : lerp(ps.dim[2], ps.dim[3], eo((t - ps.dim[1]) / .25))).toFixed(3) : '0')
+  // a soft shade at the foot of the frame whenever a line sits on a picture, so white type reads on the white paper
+  let lineV = 0
+  for (const x of TX) if (x.k === 'line' || x.k === 'date') lineV = Math.max(lineV, Math.min(cl((t - x.t0 + .2) / .25), cl((x.t1 + .2 - t) / .25)))
+  css('lgrad', 'opacity', (ps || segAt('box', t) ? lineV : 0).toFixed(3))
   // ---- the real logo
   const st = segAt('still', t); css('still', 'opacity', st ? '1' : '0')
   if (st) css('still', 'transform', `scale(${(2.9 + .15 * eo((t - st.t0) / (st.t1 - st.t0))).toFixed(4)})`)   // Gamdom's own splash: its logo, large
   // ---- the wall
-  const inWall = t >= b0 && t < g1 + 2.5 && t < P.art_full[1]
+  const inWall = t >= b0 && t < P.art_full[1]
   const ein = eo((t - b0) / .5)
   css('wall', 'opacity', t >= b0 && t < D ? ein.toFixed(3) : '0')
   let lab = ''
