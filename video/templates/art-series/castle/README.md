@@ -45,8 +45,8 @@ The mix is one gain to −14 LUFS plus a limiter, with no loudnorm. The final fi
   "the ruins".
 - **A CapCut compilation hides black frames between parts.** Measure them (mean luma per 0.1 s) and start each part
   after them.
-- **Don't show generated scenes in a "no AI" entry.** The owner's room mockups stay out; the laptop one also shows a
-  fake Gamdom page with the wrong logo.
+- **The owner's images are theirs to use.** The 1:18 left their frame mockups out over the "no AI" bonus. They wanted
+  them in, so the 31-second cut uses them all. The one fix is Gamdom's real logo on the laptop image.
 
 ## The 31-second entry cut (after the owner's notes, 4 Nov)
 
