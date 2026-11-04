@@ -71,6 +71,12 @@ html,body{margin:0;width:1920px;height:1080px;overflow:hidden;background:var(--i
 #al{background:var(--loss);box-shadow:0 0 18px rgba(239,68,68,.7)} #al span{color:var(--loss);right:calc(100% + 26px)}
 #aw:after{content:'';position:absolute;right:-14px;top:-8px;border:16px solid transparent;border-left:18px solid var(--win);border-right:none}
 #al:after{content:'';position:absolute;left:-14px;top:-8px;border:16px solid transparent;border-right:18px solid var(--loss);border-left:none}
+/* the owner's video reactions: the edit slides left and shrinks, the clip plays in a panel on the right (above the captions) */
+#edit{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
+#rx{position:absolute;right:0;top:0;width:538px;height:930px;overflow:hidden;border-bottom-left-radius:26px;background:#0b0f16;opacity:0;z-index:15;
+  box-shadow:-3px 0 0 0 var(--sky),0 0 40px rgba(79,179,255,.45)}
+#rxi{position:absolute;left:0;top:0;transform-origin:0 0}
+#rxn{position:absolute;left:18px;top:18px;font:800 22px/1 Man,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#fff;padding:9px 14px;border-radius:20px;background:rgba(6,20,51,.7);box-shadow:0 0 0 1px rgba(79,179,255,.6)}
 /* captions */
 #cap{position:absolute;left:110px;width:1700px;top:948px;text-align:center;font:800 46px/1.18 Man,sans-serif;color:#fff;text-shadow:0 2px 18px rgba(0,10,40,.9);z-index:20}
 #cap b{color:var(--sky);font-weight:800}
@@ -83,7 +89,7 @@ html,body{margin:0;width:1920px;height:1080px;overflow:hidden;background:var(--i
 </style>
 </head>
 <body>
-<div id="stage"><div id="grid"></div><div id="beam"></div><div id="lays"></div><div id="cap"></div></div>
+<div id="stage"><div id="grid"></div><div id="beam"></div><div id="edit"><div id="lays"></div></div><div id="rx"><img id="rxi"></div><div id="cap"></div></div>
 <script>
 // ---- timing: take seconds -> video seconds (a 0.6 s pause cut in at 10.0 s, the voice 0.2 s in)
 const T = s => s + 0.2 + (s >= 10.0 ? 0.6 : 0), END = 107.6, FPS = 30
@@ -108,6 +114,14 @@ const SC = [
     list: [[89.4, 'Credit line not live yet'], [91.22, 'Terms not out yet'], [92.46, 'Points: no confirmed value'], [95.74, 'Your own Grok bot, same rules'], [99.4, 'Paper money: you only risk time']] },
   { k: 'end', t0: 102.7, t1: 999 },
 ]
+const RX = [
+  { id: 'sideeye', t0: 0.2, t1: 3.7, from: 0.6 },      // "…just because you say you're a good trader" (sure, buddy)
+  { id: 'jawdrop', t0: 45.2, t1: 49.55, from: 0.3 },   // "Team wins… so $200"
+  { id: 'yikes', t0: 49.55, t1: 52.4, from: 0.4 },     // "Team loses, $0"
+  { id: 'itsover', t0: 87.45, t1: 90.1, from: 0.0 },   // "at 20%, it closes everything" (hands land on "closes")
+  { id: 'grin', t0: 103.6, t1: 107.6, from: 0.3 },     // "my link is in the post, anyways…"
+]
+const VROOT = 'file:///home/user/cmv-alphascanner/video/out/vreact/'
 const CAP = [
   [0.00, 3.45, "Nobody gives you money to trade just because you say you're a good trader…"], [3.56, 5.75, 'you need a <b>record</b> that proves it.'],
   [6.14, 8.0, '<b>@agenticscredit</b> is building around that,'], [8.16, 9.98, 'and I tried it. Let me show you.'],
@@ -220,6 +234,22 @@ window.render = async t => {
     }
     if (s.k === 'end') { const st = T(s.t0); ['#end img', '#end .h', '#end .l', '#end .f'].forEach((q, j) => { const e = document.querySelector(q), p = eo((t - st - .15 * j) / .35); css(e, 'opacity', (t >= st + .15 * j ? p : 0).toFixed(3)); css(e, 'transform', `translateY(${(24 * (1 - p)).toFixed(1)}px)`) }) }
   }
+  // ---- the owner's reaction: the edit slides left and shrinks into 1382 x 778, the clip fills the panel on the right
+  const rx = RX.find(r => t >= r.t0 - .35 && t < r.t1 + .3)
+  let d = 0
+  for (const r of RX) d = Math.max(d, t < r.t0 - .35 || t > r.t1 + .3 ? 0 : Math.min(eio((t - r.t0 + .35) / .35), eio((r.t1 + .3 - t) / .3)))
+  const sc = 1 - .28 * d
+  css($('edit'), 'transform', `translate(0px,${(76 * d).toFixed(1)}px) scale(${sc.toFixed(4)})`)
+  css($('rx'), 'opacity', d > 0 ? '1' : '0'); css($('rx'), 'transform', `translateX(${(560 * (1 - d)).toFixed(1)}px)`)
+  if (rx) {
+    const L = window.VLIB[rx.id], k = Math.max(0, Math.min(L.n - 1, Math.round((rx.from + Math.max(0, t - rx.t0)) * FPS))) + 1
+    const src = `${VROOT}${rx.id}/full/f_${String(k).padStart(4, '0')}.jpg`
+    const im = $('rxi'); if (im.getAttribute('src') !== src) { im.src = src; try { await im.decode() } catch (e) {} } SIG.push(src)
+    // show 1400 px of the 1920 px frame's height round the face, so the head and shoulders fill the panel
+    const [cx, cy] = L.face, hs = 1400, z = 930 / hs, ws = 538 / z
+    const x0 = Math.max(0, Math.min(1080 - ws, cx - ws / 2)), y0 = Math.max(0, Math.min(1920 - hs, cy - hs * .42))
+    css(im, 'transform', `scale(${z.toFixed(4)}) translate(${(-x0).toFixed(1)}px,${(-y0).toFixed(1)}px)`)
+  }
   // captions: the phrase being said, in on its first word, out as the next starts
   const c = CAP.find(x => t >= T(x[0]) - .05 && t < T(x[1]) + .1)
   const html = c ? c[2] : ''
@@ -227,7 +257,7 @@ window.render = async t => {
   SIG.push(html); css($('cap'), 'opacity', c ? Math.min(1, (t - T(c[0]) + .05) / .12).toFixed(3) : '0')
   return SIG.join('|')
 }
-window.READY = Promise.all([document.fonts.load('80px Anton'), document.fonts.load('800 40px Man'), document.fonts.load('600 26px Man'), document.fonts.load('700 30px Mono'),
+window.READY = Promise.all([new Promise(r => { if (window.VLIB) return r(); const sc = document.createElement('script'); sc.src = VROOT + 'lib.js'; sc.onload = sc.onerror = r; document.head.appendChild(sc) }), document.fonts.load('80px Anton'), document.fonts.load('800 40px Man'), document.fonts.load('600 26px Man'), document.fonts.load('700 30px Mono'),
   ...[...document.images].map(i => i.decode ? i.decode().catch(() => 0) : 1)])
 </script>
 </body>

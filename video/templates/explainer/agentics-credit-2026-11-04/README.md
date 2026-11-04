@@ -42,3 +42,20 @@ The voice is Lara (ElevenLabs eleven_v4, voice_id vChnJZ1Cu89g2XXumPfT): one tak
   - the "losses" and "wins" labels collided;
   - the cover's headline wrapped off the bottom.
 - **Fact-check:** everything matches their docs and dated posts, except the risk numbers. The owner's dashboard says 12% halves and 20% closes, while their docs list 5%, 7.5% and 12% (likely the agent limits). The video keeps the owner's line, because it is what their screen shows, and the post kit says so.
+
+## Second version: the owner's video reactions (same day)
+
+The owner: "You could have put my reaction videos into this video… Or reaction sticker anyone".
+
+- **Five video reactions,** not stickers, as the owner asked on 29 Oct. They come from `video/out/vreact/<id>/full`
+  and play at real speed, with the room.
+- **Each one lands on its line:**
+  - Side-Eye on "just because you say you're a good trader";
+  - Jaw Drop on "$200", then Yikes on "$0";
+  - It's Over on "closes everything";
+  - the Grin on the end card.
+- **The layout:**
+  - the edit (`#edit`) eases to 0.72 and slides into the left 1382 × 778;
+  - the clip fills a 538 × 930 panel on the right, above the captions, cropped to 1,400 px of the frame round the face;
+  - nothing being explained is covered, and the captions stay clear.
+- **That's 2.8 a minute,** per the reaction rules (two or three a minute, one meaning per face).

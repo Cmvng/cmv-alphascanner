@@ -50,6 +50,11 @@ of their app screenshots. `video/templates/explainer/agentics-credit-2026-11-04/
 - **Result:** the hear-back flagged 0 of 39 captions. −14.5 LUFS, 27.4 MB.
 - **Change next time:** draw a coordinate grid on each screenshot before placing rings. It took one pass instead of
   guessing.
+- **Then the owner's note:** "You could have put my reaction videos into this video… Or reaction sticker anyone".
+  - Five video reactions were added on their lines: Side-Eye, Jaw Drop, Yikes, It's Over and the Grin.
+  - Each plays in a right-hand panel while the edit shrinks left, so nothing explained is covered.
+  - **Change next time:** when the owner sends a script for a video in their name, put their reactions in from the
+    first cut. Bagel had them, and this one should have too.
 
 ---
 
