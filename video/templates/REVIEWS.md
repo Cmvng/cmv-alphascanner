@@ -70,7 +70,19 @@ artwork tells the story that promotes the platform, the piece unveiled in the ce
   - **The story:** one camera move carries it from the fall to the rise.
   - **Their images:** the frame images on the beat, ending in the Gamdom casino.
   - **The laptop image** got Gamdom's real logo in place of a spade.
+- **Then the second cut of the entry (32 s, same day):** the owner kept the frames sequence. They said the opening
+  didn't promote Gamdom or tell the story, and the stock track was "very poor": use the music from their samples.
+  - **The music:** the rap track from their 29 Oct effects-reel sample. It's 151 bpm; beats.py had read 101, the
+    dotted pulse. Two bars repeat on the beat to reach 32 s, and "Gamdom is back" lands on "back and better".
+  - **Gamdom's story in Gamdom's words:** their 13 Oct "we're offline" post, as X's own embed renders it.
+  - **The site shown whole:** gamdom.com recorded in a phone-sized window to fit the wall's portrait panel. Before,
+    it was cut into slivers.
+  - **The live site after "Gamdom is back",** on the line "you can try it".
+  - **Fixed:** a panel labelled "THE EYE" was showing the letters being drawn.
 - **Change next time:**
+  - When the owner has sent sample reels, cut to their music first (the 22 Oct playbook rule). The stock track was
+    the first thing they rejected here.
+  - A real screen cut to a portrait sliver isn't whole. Record it in the panel's shape.
   - Use every image the owner sends unless they agree to drop it. Say the risk once, then follow their call.
   - Never zoom a photo past its own pixels.
   - When the owner gives a concept, build theirs first and put mine beside it, never instead of it.

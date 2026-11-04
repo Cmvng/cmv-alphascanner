@@ -1,0 +1,268 @@
+<!doctype html>
+<html>
+<!-- The Gamdom castle film, the entry's second cut (#Gamdom100kRound2, 32.2 s). Every picture is real: the owner's drawing, sessions
+     and frame images; Gamdom's own post (the public embed, rendered as is); gamdom.com recorded read-only, logged out, shown whole.
+     The page adds only camera moves, type and the cuts. -->
+<head>
+<meta charset="utf-8">
+<style>
+@font-face{font-family:Anton;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/anton-latin-400-normal.woff2)}
+@font-face{font-family:IS;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/instrument-serif-latin-400-normal.woff2)}
+@font-face{font-family:IS;font-style:italic;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/instrument-serif-latin-400-italic.woff2)}
+@font-face{font-family:Man;font-weight:600;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-600-normal.woff2)}
+@font-face{font-family:Man;font-weight:800;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-800-normal.woff2)}
+@font-face{font-family:Mono;font-weight:700;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/jetbrains-mono-latin-700-normal.woff2)}
+:root{--g:#00E676;--ink:#050707}
+html,body{margin:0;width:1920px;height:1080px;overflow:hidden;background:var(--ink)}
+#stage{position:absolute;inset:0;overflow:hidden;background:var(--ink)}
+.lay{position:absolute;inset:0;overflow:hidden;opacity:0}
+.ph{position:absolute;left:0;top:0;transform-origin:0 0;opacity:0}
+#dim{position:absolute;inset:0;background:#000;opacity:0;z-index:2}
+#still{position:absolute;left:0;top:0;width:1920px;height:1080px;opacity:0;z-index:2;transform-origin:960px 540px}
+/* the wall */
+#wall{z-index:3;background:radial-gradient(1100px 760px at 50% 50%,#0c1b18 0%,#060909 62%,#030404 100%)}
+.panel{position:absolute;top:190px;width:394px;height:700px;overflow:hidden;border-radius:6px;box-shadow:0 30px 60px rgba(0,0,0,.65),0 0 0 1px rgba(255,255,255,.09);background:#0b0b0b;opacity:0}
+.panel img{position:absolute;left:50%;top:50%;width:426px;height:756px;transform:translate(-50%,-50%)}
+#pL{left:30px}#pR{left:1496px}
+#labL,#labR{position:absolute;width:394px;top:914px;text-align:center;white-space:nowrap;font:600 24px/1 Man,sans-serif;letter-spacing:.18em;color:rgba(255,255,255,.86);opacity:0}
+#labL{left:30px}#labR{left:1496px}
+#labR::before{content:'';display:inline-block;width:9px;height:9px;border-radius:5px;background:var(--g);margin:0 12px 3px 0;box-shadow:0 0 10px var(--g)}
+/* Gamdom's own post, the real embed as rendered */
+#tw{position:absolute;left:360px;top:270px;width:1200px;height:541px;border-radius:27px;overflow:hidden;z-index:6;opacity:0;box-shadow:0 30px 90px rgba(0,0,0,.7),0 0 0 1px rgba(255,255,255,.18)}
+#tw img{width:1200px;height:541px;display:block}
+#cbox{position:absolute;overflow:hidden;z-index:4;opacity:0;background:#000}
+#cart{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+#cframe{position:absolute;inset:0;border:1.5px solid rgba(0,230,118,.38);box-shadow:inset 0 0 60px rgba(0,0,0,.35)}
+#mos{position:absolute;inset:0;z-index:5;pointer-events:none;opacity:0}
+.tile{position:absolute;left:0;top:0;background-image:url(img/mosaic.jpg);opacity:0}
+.big{left:0;width:1920px;top:846px}
+.big span{display:inline-block;font:400 132px/1 Anton,sans-serif;text-transform:uppercase;letter-spacing:.02em;color:#fff;text-shadow:0 6px 36px rgba(0,0,0,.85),0 2px 8px rgba(0,0,0,.7)}
+#elogo{height:100px;display:block}
+#end .hd{font:600 26px/1 Man,sans-serif;letter-spacing:.06em;color:rgba(255,255,255,.78)}
+.dateb{left:0;width:1920px;top:780px}
+.dateb span{font:700 32px/1 Mono,monospace;letter-spacing:.32em;color:var(--g);text-shadow:0 0 18px rgba(0,0,0,.9)}
+/* the site, floating */
+#scr{position:absolute;left:120px;top:24px;width:1680px;height:946px;border-radius:14px;overflow:hidden;z-index:3;opacity:0;
+  box-shadow:0 0 0 1px rgba(0,230,118,.45),0 0 70px rgba(0,230,118,.16),0 40px 90px rgba(0,0,0,.7)}
+#scr img{width:1680px;height:946px;display:block}
+/* a clip in a box (blank page, the rush, the artist at the wall) */
+#box{position:absolute;top:150px;width:1000px;height:660px;overflow:hidden;border-radius:6px;z-index:3;opacity:0;box-shadow:0 30px 70px rgba(0,0,0,.7),0 0 0 1px rgba(255,255,255,.1)}
+#box img{position:absolute;left:50%;top:50%;width:1040px;height:686px;transform:translate(-50%,-50%)}
+/* type */
+.it{position:absolute;opacity:0;z-index:8;pointer-events:none;text-align:center}
+.line{left:0;width:1920px;top:930px}
+.line span{font:400 66px/1.05 IS,serif;color:#fff;text-shadow:0 2px 26px rgba(0,0,0,.95),0 0 8px rgba(0,0,0,.8)}
+.vline{left:460px;width:1000px;top:210px;height:660px;display:flex;align-items:center;justify-content:center}
+.vline span{font:400 70px/1.08 IS,serif;color:#fff;text-shadow:0 2px 30px rgba(0,0,0,.9)}
+.date{left:0;width:1920px;top:870px}
+.date span{font:700 32px/1 Mono,monospace;letter-spacing:.32em;color:var(--g);text-shadow:0 0 18px rgba(0,0,0,.9)}
+.date2{left:0;width:1920px;top:330px}
+.date2 span{font:700 30px/1 Mono,monospace;letter-spacing:.32em;color:var(--g)}
+.cap2{left:0;width:1920px;top:690px}
+.cap2 span{font:400 84px/1 IS,serif;color:#fff}
+.cap{left:0;width:1920px;top:992px}
+.cap span{font:400 54px/1 Anton,sans-serif;letter-spacing:.04em;text-transform:uppercase;color:#fff}
+.cap span i{display:inline-block;width:12px;height:12px;border-radius:6px;background:var(--g);margin:0 22px 10px 0;box-shadow:0 0 14px var(--g)}
+.chip{left:56px;top:48px;text-align:left}
+.chip span{display:inline-block;font:600 24px/1 Man,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#fff;padding:13px 20px;border-radius:28px;background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.22)}
+.chip span i{display:inline-block;width:9px;height:9px;border-radius:5px;background:var(--g);margin-right:13px;box-shadow:0 0 10px var(--g)}
+.title{left:0;width:1920px;top:820px}
+.title .stack{position:relative;display:inline-block}
+.title .t{font:400 172px/1 Anton,sans-serif;text-transform:uppercase;letter-spacing:.02em;white-space:nowrap}
+.title .face{position:relative;color:transparent;background:linear-gradient(180deg,#fff 0%,#e7ecef 30%,#9aa4ac 49%,#59626a 51%,#c9d1d6 64%,#f6f8f9 82%,#aab2b8 100%);-webkit-background-clip:text;background-clip:text;
+  filter:drop-shadow(0 1px 0 #3a4046) drop-shadow(0 2px 0 #30353a) drop-shadow(0 3px 0 #272b2f) drop-shadow(0 4px 0 #1f2226) drop-shadow(0 5px 0 #181a1d) drop-shadow(0 6px 0 #111315) drop-shadow(0 22px 34px rgba(0,0,0,.85))}
+.title .ghost{position:absolute;left:0;top:0;mix-blend-mode:screen;opacity:.8}
+.title .r{color:#ff1f4b}.title .c{color:#00e5ff}
+#tgrad{position:absolute;left:0;right:0;bottom:0;height:420px;background:linear-gradient(180deg,rgba(0,0,0,0),rgba(0,0,0,.72));z-index:7;opacity:0}
+#lgrad{position:absolute;left:0;right:0;bottom:0;height:330px;background:linear-gradient(180deg,rgba(0,0,0,0),rgba(0,0,0,.42) 45%,rgba(0,0,0,.66));z-index:7;opacity:0;transition:none}
+.credit{left:1180px;width:640px;top:150px;height:660px;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;text-align:left;gap:20px}
+.credit .k{font:600 24px/1 Man,sans-serif;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.7)}
+.credit .h{font:400 92px/1 Anton,sans-serif;color:#fff;letter-spacing:.01em}
+.credit .m{font:400 46px/1.1 IS,serif;color:#fff}
+.credit .g{font:700 24px/1 Mono,monospace;letter-spacing:.2em;color:var(--g);text-transform:uppercase}
+#end{position:absolute;inset:0;z-index:9;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:34px;opacity:0}
+#end .tag{font:400 150px/1 Anton,sans-serif;color:#fff;letter-spacing:.02em;text-shadow:0 6px 40px rgba(0,0,0,.8)}
+#end .tag b{font-weight:400;color:var(--g)}
+#end .code{font:800 42px/1 Man,sans-serif;color:#fff;letter-spacing:.14em;text-transform:uppercase;padding:18px 34px;border-radius:44px;border:2px solid var(--g);background:rgba(0,0,0,.55)}
+#end .code b{color:var(--g)}
+#end .rg{font:600 26px/1 Man,sans-serif;letter-spacing:.26em;color:rgba(255,255,255,.86);text-transform:uppercase}
+#stage.neg{filter:invert(1)}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div class="lay" id="photos" style="z-index:1"></div>
+  <img id="still">
+  <div id="dim"></div>
+  <div class="lay" id="wall">
+    <div class="panel" id="pL"><img id="iL"></div><div class="panel" id="pR"><img id="iR"></div>
+    <div id="labL"></div><div id="labR"></div>
+  </div>
+  <div id="cbox"><img id="cart"><div id="cframe"></div></div>
+  <div id="mos"></div>
+  <div id="scr"><img id="iscr"></div>
+  <div id="box"><img id="ibox"></div>
+  <div id="tw"><img id="itw"></div>
+  <div id="tgrad"></div><div id="lgrad"></div>
+  <div id="texts"></div>
+  <div id="end"><img id="elogo" src="img/glogo.png"><div class="tag" id="etag"></div><div class="code" id="ecode"></div><div class="rg" id="esub"></div><div class="hd" id="ehd"></div></div>
+</div>
+<script src="plan_data.js"></script>
+<script src="img/tiles.js"></script>
+<script>
+const P = window.PLAN, TL = window.TILES, FPS = P.fps, $ = id => document.getElementById(id)
+const cl = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x)), eo = x => 1 - Math.pow(1 - cl(x), 3), eio = x => { x = cl(x); return x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2 }
+const lerp = (a, b, u) => a + (b - a) * u, hash = n => { const s = Math.sin(n * 12.9898) * 43758.5453; return s - Math.floor(s) }
+let SIG = []
+const css = (el, k, v) => { if (typeof el === 'string') el = $(el); if (el.style[k] !== v) el.style[k] = v; SIG.push(v) }
+async function setImg(el, src) { if (el.getAttribute('src') !== src) { el.src = src; try { await el.decode() } catch (e) {} } SIG.push(src) }
+const CB = { x: 460, y: 210, w: 1000, h: 660 }, PAN = { L: { x: 30, y: 190, w: 394, h: 700 }, R: { x: 1496, y: 190, w: 394, h: 700 } }
+const [AW, AH] = P.art_wh
+// ---- static parts
+const PH = {}
+for (const s of P.segs) if (s.slot === 'photo' && !PH[s.img]) { const im = document.createElement('img'); im.className = 'ph'; im.src = `img/${s.img}.jpg`; $('photos').appendChild(im); PH[s.img] = im }
+$('cart').src = P.art
+const MB = { x: P.mos_box[0], y: P.mos_box[1], w: P.mos_box[2], h: P.mos_box[3] }
+const TX = P.text
+$('texts').innerHTML = TX.map((x, i) => {
+  if (x.k === 'chip') return `<div class="it chip" id="x${i}"><span><i></i>${x.text}</span></div>`
+  if (x.k === 'cap') return `<div class="it cap" id="x${i}"><span><i></i>${x.text}</span></div>`
+  if (x.k === 'title') return `<div class="it title" id="x${i}"><div class="stack" id="xs${i}"><div class="t ghost r" id="xr${i}">${x.text}</div><div class="t ghost c" id="xc${i}">${x.text}</div><div class="t face" id="xf${i}">${x.text}</div></div></div>`
+  if (x.k === 'credit') return `<div class="it credit" id="x${i}"><div class="k">${x.lines[0]}</div><div class="h">${x.lines[1]}</div><div class="m">${x.lines[2]}</div><div class="g">${x.lines[3]}</div></div>`
+  if (x.k === 'end') return `<div class="it" id="x${i}"></div>`
+  return `<div class="it ${x.k}" id="x${i}"><span>${x.text}</span></div>`
+}).join('')
+const E = TX.find(x => x.k === 'end')
+$('etag').innerHTML = '#GAMDOM100K<b>ROUND2</b>'; $('ecode').innerHTML = 'Code <b>STEVE</b>'; $('esub').textContent = '18+ | Gamble responsibly'
+$('ehd').textContent = 'Charcoal on paper · drawn by hand · @i_am_vickyd'
+const tiles = TL.tiles.map(t => { const d = document.createElement('div'); d.className = 'tile'; d.style.width = (t.w + .6) + 'px'; d.style.height = (t.h + .6) + 'px'
+  d.style.backgroundPosition = `-${t.x}px -${t.y}px`; d.style.backgroundSize = `${TL.box[0]}px ${TL.box[1]}px`; $('mos').appendChild(d); return d })
+const segAt = (slot, t) => P.segs.find(s => s.slot === slot && t >= s.t0 && t < s.t1)
+const frameOf = (s, t) => `${s.dir}/${String(Math.min(s.n, Math.max(1, Math.floor((t - s.t0) * FPS + 1e-6) + 1))).padStart(4, '0')}.jpg`
+function photoXf(s, u, iw, ih) {
+  let c
+  if (s.keys) {   // a camera path: [u, cx, cy, w] keyframes, eased between each pair
+    const K = s.keys; let i = 0; while (i < K.length - 2 && u > K[i + 1][0]) i++
+    const a = K[i], b = K[i + 1], k = eio((u - a[0]) / (b[0] - a[0])); c = [1, 2, 3].map(j => lerp(a[j], b[j], k))
+  } else { const k = s.ease === 'out' ? eo(u) : s.ease === 'lin' ? u : eio(u); c = s.crop0.map((v, j) => lerp(v, s.crop1[j], k)) }
+  if (s.contain) {   // c[2] is the share of the whole-sheet view; the view is kept inside the sheet once it is smaller than it
+    const sc = Math.min(1920 / iw, 1080 / ih) / c[2], vw = 1920 / sc, vh = 1080 / sc
+    let cx = c[0] * iw, cy = c[1] * ih
+    if (vw < iw) cx = cl(cx, vw / 2, iw - vw / 2); if (vh < ih) cy = cl(cy, vh / 2, ih - vh / 2)
+    return `translate(${(960 - cx * sc).toFixed(2)}px,${(540 - cy * sc).toFixed(2)}px) scale(${sc.toFixed(5)})` }
+  const vw = c[2] * iw, vh = vw * 1080 / 1920, sc = 1920 / vw
+  const x0 = cl(c[0] * iw - vw / 2, 0, iw - vw), y0 = cl(c[1] * ih - vh / 2, 0, ih - vh)
+  return `scale(${sc.toFixed(5)}) translate(${(-x0).toFixed(2)}px,${(-y0).toFixed(2)}px)`
+}
+window.render = async t => {
+  SIG = []
+  const D = P.drop, D3 = P.full, [b0, b1] = P.build, [w0, w1] = P.wave, [g0, g1] = P.grow
+  // ---- photos (the drawing)
+  const ps = segAt('photo', t)
+  css('photos', 'opacity', ps ? '1' : '0')
+  for (const [k, im] of Object.entries(PH)) css(im, 'opacity', ps && ps.img === k ? '1' : '0')
+  if (ps) { const im = PH[ps.img], u = (t - ps.t0) / (ps.t1 - ps.t0)
+    css(im, 'transform', photoXf(ps, u, im.naturalWidth, im.naturalHeight))
+    const fi = ps.fade ? cl((t - ps.t0) / ps.fade) : 1; css('photos', 'opacity', fi.toFixed(3)) }
+  let dv = 0
+  if (ps && ps.dim) for (const [d0, lv] of ps.dim) if (t >= d0) dv = lerp(dv, lv, eo((t - d0) / .4))
+  css('dim', 'opacity', dv.toFixed(3))
+  // a soft shade at the foot of the frame whenever a line sits on a picture, so white type reads on the white paper
+  let lineV = 0
+  for (const x of TX) if (x.k === 'line' || x.k === 'date' || x.k === 'big' || x.k === 'dateb') lineV = Math.max(lineV, Math.min(cl((t - x.t0 + .2) / .25), cl((x.t1 + .2 - t) / .25)))
+  css('lgrad', 'opacity', (ps || segAt('box', t) ? lineV : 0).toFixed(3))
+  // ---- the real logo
+  // ---- the wall
+  const inWall = t >= b0 && t < P.art_full[1]
+  const ein = eo((t - b0) / .18)    // the wall snaps in on its accent
+  css('wall', 'opacity', t >= b0 && t < D ? ein.toFixed(3) : '0')
+  const lab = { L: '', R: '' }
+  for (const k of ['L', 'R']) {
+    const s = segAt(k, t) || (t >= b1 && t < D ? P.segs.filter(x => x.slot === k && x.t0 < b1).slice(-1)[0] : null)
+    const fly = t >= b1 ? eio((t - b1) / ((D - b1) * .7)) : 0
+    const pan = PAN[k], tx = (CB.x + CB.w / 2) - (pan.x + pan.w / 2), ty = (CB.y + CB.h / 2) - (pan.y + pan.h / 2)
+    const op = t >= b0 && t < D ? ein * (1 - fly) : 0
+    css('p' + k, 'opacity', op.toFixed(3))
+    css('p' + k, 'transform', `translate(${((k === 'L' ? -80 : 80) * (1 - ein) + tx * fly * .6).toFixed(1)}px,${(ty * fly * .6).toFixed(1)}px) scale(${(1 - .55 * fly).toFixed(3)})`)
+    if (s && op > 0) { await setImg($('i' + k), frameOf(s, t > s.t1 ? s.t1 - .001 : t))
+      css('i' + k, 'transform', `translate(-50%,-50%) scale(${(1 + .06 * (1 - eo((t - s.t0) / .18))).toFixed(4)})`)
+      lab[k] = s.label || '' }
+  }
+  for (const k of ['L', 'R']) { const el = $('lab' + k); if (el.textContent !== lab[k]) el.textContent = lab[k]; SIG.push(lab[k])
+    css(el, 'opacity', (t >= b0 && t < b1 ? ein : 0).toFixed(3)) }
+  // the centre: veiled through the wall, black under the mosaic, the real photo on the second stab, then it grows to the whole sheet
+  const vb = cl((t - b0) / Math.max(.01, b1 - b0))
+  let blur = lerp(30, 12, vb), bri = lerp(.12, .32, vb)
+  if (t >= b1) bri = lerp(.32, .03, cl((t - b1) / (D - b1)))
+  css('cart', 'filter', t >= D ? 'none' : `blur(${blur.toFixed(1)}px) brightness(${bri.toFixed(3)})`)
+  const sF = Math.min(1920 / AW, 1080 / AH), fw = AW * sF, fh = AH * sF
+  const gu = eio((t - g0) / (g1 - g0)), push = t > g1 ? 1 + .035 * eio((t - g1) / (P.art_full[1] - g1)) : 1
+  const bw = lerp(CB.w, fw, gu) * push, bh = lerp(CB.h, fh, gu) * push
+  const bx = lerp(CB.x + CB.w / 2, 960, gu) - bw / 2, by = lerp(CB.y + CB.h / 2, 540, gu) - bh / 2
+  css('cbox', 'left', bx.toFixed(1) + 'px'); css('cbox', 'top', by.toFixed(1) + 'px'); css('cbox', 'width', bw.toFixed(1) + 'px'); css('cbox', 'height', bh.toFixed(1) + 'px')
+  css('cbox', 'opacity', inWall ? ein.toFixed(3) : '0'); css('cframe', 'opacity', (1 - gu).toFixed(3))
+  css('cart', 'objectFit', gu > 0 ? 'contain' : 'cover')
+  // ---- the mosaic: tiles fly in from the panels, land on the stab, melt into the photo from the centre out on the second stab
+  const flyOn = t >= b1 && t < w1 + .05
+  css('mos', 'opacity', flyOn ? '1' : '0')
+  if (flyOn) {
+    const F = D - b1
+    tiles.forEach((el, i) => {
+      const T = TL.tiles[i], pan = PAN[T.side]
+      const sx = pan.x + T.u * pan.w, sy = pan.y + T.v * pan.h, ex = MB.x + T.x, ey = MB.y + T.y
+      const a = b1 + T.d * F * .45, p = eio((t - a) / (F * .5))
+      const dist = Math.hypot((T.x + T.w / 2) / TL.box[0] - .5, (T.y + T.h / 2) / TL.box[1] - .5) / .71
+      const wa = w0 + dist * (w1 - w0) * .65, wo = t < w0 ? 1 : 1 - cl((t - wa) / ((w1 - w0) * .3))
+      const op = (t < a ? 0 : Math.min(1, (t - a) / .08)) * wo
+      el.style.opacity = op.toFixed(3); el.style.transform = `translate(${lerp(sx, ex, p).toFixed(1)}px,${lerp(sy, ey, p).toFixed(1)}px) rotate(${((1 - p) * (hash(i) - .5) * 50).toFixed(1)}deg) scale(${lerp(.55, 1, p).toFixed(3)})`
+    })
+    SIG.push(Math.round(t * FPS))
+  }
+  const neg = t >= D && t < D + 1 / FPS
+  $('stage').classList.toggle('neg', neg); SIG.push(neg)
+  // ---- the site, floating whole
+  const sc = segAt('screen', t); css('scr', 'opacity', sc ? '1' : '0')
+  if (sc) { await setImg($('iscr'), frameOf(sc, t)); css('scr', 'transform', `scale(${(1.025 - .025 * eo((t - sc.t0) / .25)).toFixed(4)})`) }
+  // ---- Gamdom's own post
+  const tw = (P.tweets || []).find(x => t >= x.t0 && t < x.t1)
+  css('tw', 'opacity', tw ? eo((t - tw.t0) / .12).toFixed(3) : '0')
+  if (tw) { await setImg($('itw'), tw.img); const p = eo((t - tw.t0) / .16)
+    css('tw', 'transform', `scale(${(1.16 - .16 * p + .025 * cl((t - tw.t0) / (tw.t1 - tw.t0))).toFixed(4)})`); css('tw', 'filter', `blur(${(9 * (1 - p)).toFixed(1)}px)`) }
+  // ---- a clip in a box
+  const bx2 = segAt('box', t); css('box', 'opacity', bx2 ? '1' : '0')
+  if (bx2) { await setImg($('ibox'), frameOf(bx2, t)); css('box', 'left', (bx2.src > 40 ? 120 : 460) + 'px'); css('box', 'top', (bx2.src > 40 ? 210 : 150) + 'px') }
+  // ---- type
+  for (let i = 0; i < TX.length; i++) {
+    const x = TX[i], el = $('x' + i)
+    if (!el || x.k === 'end') continue
+    const on = t >= x.t0 && t < x.t1, hard = x.k === 'title' || x.k === 'cap'
+    const fi = hard ? 0 : .22, fo = hard ? 0 : .18
+    const op = on ? Math.min(fi ? cl((t - x.t0) / fi) : 1, fo ? cl((x.t1 - t) / fo) : 1) : 0
+    css(el, 'opacity', op.toFixed(3))
+    if (!on) continue
+    if (x.k === 'title') {
+      const p = eo((t - x.t0) / .18), s = 1 + .5 * (1 - p), stck = $('xs' + i)
+      css(stck, 'transform', `scale(${s.toFixed(3)})`); css(stck, 'filter', `blur(${(14 * (1 - p)).toFixed(1)}px)`)
+      let g = 0; for (const b of (x.glitch || [])) { const d = t - b; if (d >= 0 && d < .2) g = Math.max(g, 1 - d / .2) }
+      const j = Math.round(t * FPS), dx = 4 + 24 * g * (hash(j) - .2)
+      css('xr' + i, 'transform', `translate(${(-dx).toFixed(1)}px,${(g * 6 * (hash(j + 3) - .5)).toFixed(1)}px)`)
+      css('xc' + i, 'transform', `translate(${dx.toFixed(1)}px,${(g * 6 * (hash(j + 7) - .5)).toFixed(1)}px)`)
+      css('xf' + i, 'transform', g > 0 ? `translateX(${(g * 16 * (hash(j + 5) - .5)).toFixed(1)}px)` : 'none')
+    }
+    if (x.k === 'cap') css(el.firstChild, 'transform', `translateY(${(14 * (1 - eo((t - x.t0) / .2))).toFixed(1)}px)`)
+    if (x.k === 'big') css(el.firstChild, 'transform', `scale(${(1 + .16 * (1 - eo((t - x.t0) / .16))).toFixed(3)})`)
+  }
+  const ti = TX.find(x => x.k === 'title'); css('tgrad', 'opacity', ti && t >= ti.t0 && t < ti.t1 ? '1' : '0')
+  // ---- the end card on the last hit
+  const ep = t >= E.t0 ? 1 : 0, es = 1 + .14 * (1 - eo((t - E.t0) / .22))
+  css('end', 'opacity', ep ? '1' : '0'); css('etag', 'transform', `scale(${es.toFixed(3)})`)
+  css('elogo', 'opacity', eo((t - E.t0) / .25).toFixed(3)); css('elogo', 'transform', `translateY(${(18 * (1 - eo((t - E.t0) / .3))).toFixed(1)}px)`)
+  const pop = (id, at) => { css(id, 'opacity', eo((t - at) / .18).toFixed(3)); css(id, 'transform', `scale(${(1 + .12 * (1 - eo((t - at) / .2))).toFixed(3)})`) }
+  pop('ecode', E.e2); pop('esub', E.e3); css('ehd', 'opacity', eo((t - E.e3 - .35) / .3).toFixed(3))
+  return SIG.join('|')
+}
+window.READY = Promise.all([document.fonts.load('170px Anton'), document.fonts.load('66px IS'), document.fonts.load('600 24px Man'), document.fonts.load('800 40px Man'), document.fonts.load('700 28px Mono'),
+  ...[...document.images].map(i => i.decode ? i.decode().catch(() => 0) : 1)])
+</script>
+</body>
+</html>

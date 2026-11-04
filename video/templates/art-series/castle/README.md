@@ -68,3 +68,32 @@ form showing the process; the story and the artwork itself must come through.
   - Gamdom's logo on the end card.
 - **Definition rule:** no crop narrower than about 1,900 source px. At 4000 px, the contain share is ≥ 0.41.
 - **`cover30.html`:** the cover and thumbnail, from the owner's GAMDOM gallery image.
+
+## The 32-second entry, second cut (after the owner's notes, 4 Nov)
+
+The owner's notes on the 31-second cut:
+- keep the frames sequence;
+- the opening didn't promote Gamdom or tell the story;
+- the Mixkit track was "very poor": use the music from the samples they sent.
+
+- **The music: the rap track from the owner's 29 Oct effects-reel sample.**
+  - Measured: 151 bpm, with a big accent every two bars (3.17885 s, from 1.485 s). Each rap line sits between two accents, so there's a vocal gap on every accent.
+  - The reel carries 25.87 s of it. `splice32.py` repeats two bars on the beat: source 0–23.40, then 17.0423–25.867. The low-passed beat matches to 0.999 there, and a transcript across the splice reads "…can't be ignored / back and better, this is me but reinforced".
+  - The mix is one gain to −14 LUFS plus the limiter.
+- **The lyrics carry the cuts.**
+  - "I've seen it all" on the drawn eye.
+  - "back and better" under the climb to the castle, and again under "GAMDOM IS BACK".
+  - "you can try it" over the live site.
+  - "out of favors, I just did it" under the end card.
+- **The story in Gamdom's own words:** their 13 Oct post, rendered from X's public embed by `tweet_embed.cjs` (`platform.twitter.com/embed/Tweet.html?id=…`, light theme), shown whole over the cracked letters.
+- **gamdom.com in the wall, whole:** `rec_phone.cjs` records the site logged out in a phone-sized window (412 × 732, plain load), so a page fits the portrait panel without cropping. Each panel is labelled with what it shows.
+- **After "Gamdom is back":** the desktop site, whole, in the floating screen (Originals, King of the Hill), then the end card.
+- **`castle32.html`:**
+  - `tweets` (the post overlay);
+  - labels under both panels;
+  - `dim` as a list of `[t, level]` steps.
+
+**Lessons**
+- **A beat tracker can lock onto the dotted pulse.** On a syncopated trap beat, beats.py reported 101 bpm, two thirds of the real 151. Check the onset autocorrelation for the two-bar cycle and fold the onsets over it before cutting.
+- **Splice a song where the instrumental repeats.** Cross-correlate the low-passed beat two cycles apart: the peak gives the exact spacing, to a few ms. Then choose the cut point where both sides already sound alike.
+- **A site cut to a portrait sliver isn't "whole".** Record it in a phone-sized window instead.
