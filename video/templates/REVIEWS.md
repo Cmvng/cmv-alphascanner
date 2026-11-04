@@ -28,6 +28,31 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
+## 4 Nov: the owner's script and pictures, Agentics Credit "I tried it" (Lara, 1:48, 16:9)
+
+The owner's eight-scene, first-person script about @agenticscredit came with four of the project's own images and two
+of their app screenshots. `video/templates/explainer/agentics-credit-2026-11-04/`.
+
+- **Voice:** Lara, one take, 1,726 credits. It was priced first and the owner approved it.
+- **Music:** Mixkit 720 "New Bass 01". The bass drops on the pause before "If you're new"; the loop bars cover the take.
+- **What worked:**
+  - **A new format,** different from Bagel: their images float as cards on a blue stage, the owner's screens are shown
+    whole, and a camera moves to each number as Lara says it, with a ring.
+  - **The $100 example as a worked card,** and the ACS scale beside their own 300–850 image. The "losses pull harder
+    than wins" line is shown as a long red arrow against a short green one, with no invented numbers.
+  - **The fact-check before the voice:** everything held except the risk numbers. The owner's screen (12% and 20%) and
+    the docs (5%, 7.5% and 12%) differ, so the screen's line stays and the post kit says so.
+- **Mistakes the checks found (fixed before sending):**
+  - **Layout faults in the stills:** the name chip sat on the caption, the "580+" label overflowed its box, the
+    "losses" and "wins" labels collided, and the cover's headline wrapped off the bottom.
+  - **Mis-hearings in the long transcript:** "Agentech's credit" and "closes every time. Everything." Short snippets
+    showed that both were the transcriber's mistakes, not Lara's.
+- **Result:** the hear-back flagged 0 of 39 captions. −14.5 LUFS, 27.4 MB.
+- **Change next time:** draw a coordinate grid on each screenshot before placing rings. It took one pass instead of
+  guessing.
+
+---
+
 ## 4 Nov: the owner's drawing, the Gamdom castle film (#Gamdom100kRound2 entry, 1:18, 16:9)
 
 The owner's 62 × 94 cm charcoal piece:

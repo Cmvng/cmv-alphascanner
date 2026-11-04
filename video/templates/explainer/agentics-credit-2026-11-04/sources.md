@@ -1,0 +1,21 @@
+# Sources (checked 4 Nov 2026)
+
+- **The owner's screenshots** (4 Nov 2026):
+  - the dashboard: equity $9,999.65, $9,300.00 available, $699.65 in 5 open positions; Risk headroom "12% halves your size · 20% closes everything";
+  - the positions: five YES positions for 2026-11-04 (Como, Porto, Liverpool, Arsenal, Real Madrid), plus the note on closing early and on settling at $1 or $0.
+- **agentics.credit/docs:**
+  - "You trade real Polymarket markets with $10,000 of paper capital";
+  - "every closed trade updates your ACS";
+  - "The ACS runs 300-850";
+  - "Is real capital deployed right now? No."
+- **agentics.credit/how-it-works:** "outsized losses pull the score down faster than wins push it up"; it lists the risk limits as 5% / 7.5% / 12%.
+- **X @agenticscredit:**
+  - 30 Oct 2026: "requires no deposit", and "580+ join the funding waitlist" (https://x.com/agenticscredit/status/2116168249645867316);
+  - 9 Sep 2026: "Connect your Grok Bot and build your ACS score";
+  - 19 Oct 2026: "Points are not a promise of an allocation."
+- **Their images:**
+  - 4 Nov: https://x.com/agenticscredit/status/2117980199035793622
+  - 28 Sep: https://x.com/agenticscredit/status/2104571831944380902
+  - 26 Oct: https://x.com/agenticscredit/status/2114718694458990628
+- **Voice:** ElevenLabs "Lara" (vChnJZ1Cu89g2XXumPfT, eleven_v4), the owner's pick.
+- **Music:** "New Bass 01" by Lily J, Mixkit 720, Mixkit Stock Music Free License.

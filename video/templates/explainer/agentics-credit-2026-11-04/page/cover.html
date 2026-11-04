@@ -1,0 +1,35 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Agentics cover</title>
+<style>
+@font-face{font-family:Anton;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/anton-latin-400-normal.woff2)}
+@font-face{font-family:Man;font-weight:800;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-800-normal.woff2)}
+html,body{margin:0;overflow:hidden;background:#061433}
+#v,#t{display:none;position:relative;overflow:hidden;background:radial-gradient(1200px 1000px at 50% 40%,#123f99 0%,#0a2766 48%,#061433 100%)}
+body.v #v{display:block;width:1080px;height:1920px} body.t #t{display:block;width:1280px;height:720px}
+.g{position:absolute;inset:0;background-image:linear-gradient(rgba(120,170,255,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(120,170,255,.07) 1px,transparent 1px);background-size:60px 60px}
+.card{position:absolute;border-radius:24px;overflow:hidden;box-shadow:0 0 0 1px rgba(255,255,255,.16),0 40px 90px rgba(0,8,30,.6),0 0 80px rgba(79,179,255,.2)}
+.card img{display:block;width:100%;height:100%;object-fit:cover}
+.h{position:absolute;left:0;right:0;text-align:center;font:400 1px/1 Anton,sans-serif;color:#fff;text-transform:uppercase;letter-spacing:.01em;text-shadow:0 6px 30px rgba(0,10,40,.8)}
+.h b{font-weight:400;color:#4FB3FF}
+.chip{position:absolute;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:16px;padding:12px 26px 12px 14px;border-radius:40px;background:#070a0d;box-shadow:0 0 0 1px rgba(255,255,255,.18),0 0 30px rgba(43,217,130,.25);white-space:nowrap}
+.chip img{border-radius:8px}.chip span{font:800 1px/1 Man,sans-serif;color:#fff}
+</style></head><body>
+<div id="v"><div class="g"></div>
+  <div class="chip" style="top:120px"><img src="img/logo.png" style="height:64px"><span style="font-size:52px">@agenticscredit</span></div>
+  <div class="card" style="left:70px;top:300px;width:940px;height:529px"><img src="img/collateral.jpg"></div>
+  <div class="card" style="left:190px;top:900px;width:700px;height:554px"><img src="img/dash.jpg"></div>
+  <div class="h" style="top:1500px;font-size:110px">You need a</div>
+  <div class="h" style="top:1612px;font-size:150px"><b>record</b></div>
+  <div class="h" style="top:1768px;font-size:100px">that proves it</div>
+</div>
+<div id="t"><div class="g"></div>
+  <div class="card" style="left:690px;top:70px;width:540px;height:428px"><img src="img/dash.jpg"></div>
+  <div class="chip" style="top:40px;left:330px"><img src="img/logo.png" style="height:44px"><span style="font-size:34px">@agenticscredit</span></div>
+  <div class="h" style="top:140px;left:56px;right:600px;font-size:88px;text-align:left">You need a</div>
+  <div class="h" style="top:236px;left:56px;right:600px;font-size:150px;text-align:left"><b>record</b></div>
+  <div class="h" style="top:394px;left:56px;right:600px;font-size:88px;text-align:left">that proves it</div>
+  <div class="h" style="top:580px;left:56px;right:56px;font-size:50px;text-align:left;color:#cfe3ff">I tried it with $10,000 in paper money</div>
+</div>
+<script>document.body.className = location.hash.slice(1) || 'v'
+window.READY = Promise.all([document.fonts.load('80px Anton'), document.fonts.load('800 40px Man'), ...[...document.images].map(i => i.decode().catch(() => 0))])</script>
+</body></html>
