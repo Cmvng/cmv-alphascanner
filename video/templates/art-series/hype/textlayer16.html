@@ -1,0 +1,90 @@
+<!doctype html>
+<html>
+<!-- the hype cut's text layer (1920x1080, transparent): one-word caps on the speech, a chrome title with an RGB glitch,
+     small lines, and the end card. Everything is type and CSS: no generated imagery. -->
+<head>
+<meta charset="utf-8">
+<style>
+@font-face{font-family:Anton;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/anton-latin-400-normal.woff2) format('woff2')}
+@font-face{font-family:IS;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/instrument-serif-latin-400-normal.woff2) format('woff2')}
+@font-face{font-family:Mont;font-weight:800;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-800-normal.woff2) format('woff2')}
+@font-face{font-family:Mont;font-weight:600;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-600-normal.woff2) format('woff2')}
+:root{--g:#00FF87}
+html,body{margin:0;width:1920px;height:1080px;background:transparent;overflow:hidden}
+.it{position:absolute;left:0;top:0;width:1920px;height:1080px;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none}
+.word span{font:400 170px/1 Anton,sans-serif;color:#fff;letter-spacing:.01em;text-transform:uppercase;
+  text-shadow:0 6px 30px rgba(0,0,0,.55),0 2px 6px rgba(0,0,0,.6);display:inline-block}
+.word.low{align-items:flex-end}.word.low span{margin-bottom:120px;font-size:120px}
+.line span{font:400 64px/1.15 IS,serif;color:#fff;text-align:center;text-shadow:0 2px 14px rgba(0,0,0,.6)}
+.line.low{align-items:flex-end}.line.low span{margin-bottom:96px}
+.small{align-items:flex-start;justify-content:flex-start}
+.small span{margin:64px 0 0 80px;font:600 30px/1.3 Mont,sans-serif;color:rgba(255,255,255,.92);letter-spacing:.18em;text-transform:uppercase;text-shadow:0 2px 10px rgba(0,0,0,.6)}
+/* the chrome title: a silver gradient face, a stepped dark extrusion, and red/cyan ghosts that tear on the beats */
+.title .stack{position:relative;display:inline-block}
+.title .t{font:400 210px/1 Anton,sans-serif;text-transform:uppercase;letter-spacing:.02em;white-space:nowrap}
+.title .face{position:relative;color:transparent;background:linear-gradient(180deg,#ffffff 0%,#e7ecef 30%,#9aa4ac 49%,#59626a 51%,#c9d1d6 64%,#f6f8f9 82%,#aab2b8 100%);
+  -webkit-background-clip:text;background-clip:text;filter:drop-shadow(0 1px 0 #3a4046) drop-shadow(0 2px 0 #30353a) drop-shadow(0 3px 0 #272b2f) drop-shadow(0 4px 0 #1f2226) drop-shadow(0 5px 0 #181a1d) drop-shadow(0 6px 0 #111315) drop-shadow(0 18px 30px rgba(0,0,0,.65))}
+.title .ghost{position:absolute;left:0;top:0;mix-blend-mode:screen;opacity:.85}
+.title .r{color:#ff1f4b}.title .c{color:#00e5ff}
+.title .tear{position:absolute;left:0;top:0;color:transparent;background:inherit}
+.title .glow{position:absolute;left:6%;right:6%;top:100%;height:6px;margin-top:22px;border-radius:3px;background:var(--g);box-shadow:0 0 30px 8px rgba(0,255,135,.55);opacity:0}
+.end{flex-direction:column}
+.end .tag{font:400 120px/1 Anton,sans-serif;color:#fff;letter-spacing:.02em;text-shadow:0 4px 24px rgba(0,0,0,.6)}
+.end .tag b{font-weight:400;color:var(--g)}
+.end .rg{margin-top:34px;font:600 30px/1 Mont,sans-serif;color:rgba(255,255,255,.85);letter-spacing:.2em}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+let ITEMS = []
+const cl = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x))
+const eo = x => 1 - Math.pow(1 - cl(x), 3)
+const hash = n => { const s = Math.sin(n * 12.9898) * 43758.5453; return s - Math.floor(s) }
+function html(x, i) {
+  if (x.k === 'word') return `<div class="it word ${x.pos || ''}" id="i${i}"><span>${x.text}</span></div>`
+  if (x.k === 'line') return `<div class="it line ${x.pos || ''}" id="i${i}"><span>${x.text}</span></div>`
+  if (x.k === 'small') return `<div class="it small" id="i${i}"><span>${x.text}</span></div>`
+  if (x.k === 'end') return `<div class="it end" id="i${i}"><div class="tag">${x.text}</div><div class="rg">${x.sub || '18+ | GAMBLE RESPONSIBLY'}</div></div>`
+  if (x.k === 'title') return `<div class="it title" id="i${i}"><div class="stack" id="s${i}">
+      <div class="t ghost r" id="r${i}">${x.text}</div><div class="t ghost c" id="c${i}">${x.text}</div>
+      <div class="t face" id="f${i}">${x.text}</div><div class="glow" id="g${i}"></div></div></div>`
+}
+window.setSpec = spec => {
+  ITEMS = spec.items
+  document.getElementById('root').innerHTML = ITEMS.map(html).join('')
+  return Promise.all([document.fonts.load('170px Anton'), document.fonts.load('64px IS'), document.fonts.load('800 30px Mont'), document.fonts.load('600 30px Mont')]).then(() => document.fonts.ready).then(() => true)
+}
+// seek(t) sets every item for time t and returns a signature, so unchanged frames are not re-captured
+window.seek = t => {
+  const sig = []
+  ITEMS.forEach((x, i) => {
+    const el = document.getElementById('i' + i), on = t >= x.t0 && t < x.t1
+    const fin = x.fin ?? (x.k === 'word' ? 0 : .12), fout = x.fout ?? 0
+    let op = on ? Math.min(fin ? cl((t - x.t0) / fin) : 1, fout ? cl((x.t1 - t) / fout) : 1) : 0
+    el.style.opacity = op.toFixed(3); sig.push(op.toFixed(3))
+    if (!on) return
+    if (x.k === 'word') {          // lands on its word: a quick scale-down pop
+      const p = eo((t - x.t0) / (x.pop ?? .12)), s = 1 + (x.big ?? .22) * (1 - p)
+      el.firstChild.style.transform = `scale(${s.toFixed(3)})`; sig.push(s.toFixed(3))
+    }
+    if (x.k === 'title') {         // slams in from big and soft, then holds; tears on each listed beat
+      const p = eo((t - x.t0) / (x.slam ?? .18)), s = 1 + .5 * (1 - p)
+      const st = document.getElementById('s' + i); st.style.transform = `scale(${s.toFixed(3)})`; st.style.filter = `blur(${(14 * (1 - p)).toFixed(1)}px)`
+      let g = 0; for (const b of (x.glitch || [])) { const d = t - b; if (d >= 0 && d < .2) g = Math.max(g, 1 - d / .2) }
+      const j = Math.round(t * 30), dx = (x.rgb ?? 4) + 26 * g * (hash(j) - .2)
+      document.getElementById('r' + i).style.transform = `translate(${(-dx).toFixed(1)}px,${(g * 6 * (hash(j + 3) - .5)).toFixed(1)}px)`
+      document.getElementById('c' + i).style.transform = `translate(${dx.toFixed(1)}px,${(g * 6 * (hash(j + 7) - .5)).toFixed(1)}px)`
+      const f = document.getElementById('f' + i)
+      if (g > 0) { const y0 = Math.floor(hash(j + 11) * 70), y1 = Math.min(100, y0 + 8 + Math.floor(hash(j + 13) * 22))
+        f.style.clipPath = ''; f.style.transform = `translateX(${(g * 18 * (hash(j + 5) - .5)).toFixed(1)}px)` }
+      else f.style.transform = ''
+      const gl = document.getElementById('g' + i); gl.style.opacity = (x.line ? cl((t - x.t0 - .15) / .25) * .9 : 0).toFixed(2)
+      sig.push(s.toFixed(3), dx.toFixed(1), g.toFixed(2))
+    }
+  })
+  return new Promise(r => requestAnimationFrame(() => requestAnimationFrame(() => r(sig.join('|')))))
+}
+</script>
+</body>
+</html>
