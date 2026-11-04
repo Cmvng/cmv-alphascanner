@@ -47,7 +47,8 @@ for c, r in cells:
     k = int(np.argmin(d)); use[k] += 1
     tile = np.asarray(Image.fromarray(pool[k]).resize((x1 - x0, y1 - y0), Image.LANCZOS)).astype(np.float32)
     tgt = cell.astype(np.float32).mean((0, 1))
-    tile = tile * .7 + (tile - tile.mean((0, 1)) + tgt) * .3
+    kp = cfg.get('mosaic_pull', .3)                             # how far each tile is pulled to its cell's tone
+    tile = tile * (1 - kp) + (tile - tile.mean((0, 1)) + tgt) * kp
     out[y0:y1, x0:x1] = np.clip(tile, 0, 255).astype(np.uint8)
     side = 'L' if c < COLS / 2 else 'R'
     tiles.append({'c': c, 'r': r, 'x': x0 / SC, 'y': y0 / SC, 'w': (x1 - x0) / SC, 'h': (y1 - y0) / SC,
