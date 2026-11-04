@@ -59,3 +59,16 @@ The owner: "You could have put my reaction videos into this video… Or reaction
   - the clip fills a 538 × 930 panel on the right, above the captions, cropped to 1,400 px of the frame round the face;
   - nothing being explained is covered, and the captions stay clear.
 - **That's 2.8 a minute,** per the reaction rules (two or three a minute, one meaning per face).
+
+## Third version: stickers (same day)
+
+The owner: "I like the reaction when it's in sticker form… It makes it look more real".
+
+- **The same five reactions on the same lines,** now as the die-cut animated stickers from `video/out/reactions/<id>/`
+  (`window.RLIB`).
+- **Size and placement:** each sticker is 520 px wide, with its foot at y 905 above the captions, in the right-hand
+  space the shrunken edit leaves.
+- **Motion:**
+  - it pops in with an overshoot over 0.22 s, tilted ±3–4°;
+  - it bobs gently and ping-pongs through its frames;
+  - it shrinks out over 0.16 s.

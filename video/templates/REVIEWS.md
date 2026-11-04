@@ -55,6 +55,10 @@ of their app screenshots. `video/templates/explainer/agentics-credit-2026-11-04/
   - Each plays in a right-hand panel while the edit shrinks left, so nothing explained is covered.
   - **Change next time:** when the owner sends a script for a video in their name, put their reactions in from the
     first cut. Bagel had them, and this one should have too.
+- **Then: "I like the reaction when it's in sticker form… It makes it look more real".** The same five reactions,
+  on the same lines, are now the die-cut animated stickers, 520 px wide, in the space the shrunken edit leaves.
+  - **Change next time:** for the owner's explainers, use the stickers. The video formats suit their own talking-head
+    recordings.
 
 ---
 
