@@ -1,0 +1,38 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Castle cover 30</title>
+<style>
+@font-face{font-family:Anton;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/anton-latin-400-normal.woff2)}
+@font-face{font-family:Man;font-weight:600;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-600-normal.woff2)}
+:root{--g:#00E676}
+html,body{margin:0;overflow:hidden;background:#050707;color:#fff}
+#v,#t{display:none;position:relative;overflow:hidden;background:#050707}
+body.v #v{display:block;width:1080px;height:1920px}
+body.t #t{display:block;width:1280px;height:720px}
+.abs{position:absolute}
+.shade{left:0;right:0;bottom:0;background:linear-gradient(180deg,rgba(0,0,0,0),rgba(0,0,0,.78) 55%,rgba(0,0,0,.9))}
+.ttl{font:400 1px/1 Anton,sans-serif;text-transform:uppercase;letter-spacing:.02em;color:transparent;background:linear-gradient(180deg,#fff 0%,#e7ecef 30%,#9aa4ac 49%,#59626a 51%,#c9d1d6 64%,#f6f8f9 82%,#aab2b8 100%);-webkit-background-clip:text;background-clip:text;
+  filter:drop-shadow(0 2px 0 #30353a) drop-shadow(0 4px 0 #1f2226) drop-shadow(0 6px 0 #111315) drop-shadow(0 20px 30px rgba(0,0,0,.8));white-space:nowrap;text-align:center;left:0;right:0}
+.tag{font:400 1px/1 Anton,sans-serif;color:#fff;letter-spacing:.02em;text-align:center;left:0;right:0}.tag b{font-weight:400;color:var(--g)}
+.k{font:600 1px/1 Man,sans-serif;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.88);text-align:center;left:0;right:0}
+.k i{display:inline-block;border-radius:50%;background:var(--g);box-shadow:0 0 12px var(--g);vertical-align:middle}
+</style></head>
+<body>
+<div id="v">
+  <img class="abs" src="img/m_gallery.jpg" style="height:1920px;left:-1173px;top:20px">
+  <div class="abs shade" style="height:820px"></div>
+  <div class="abs k" style="top:1330px;font-size:28px"><i style="width:11px;height:11px;margin-right:15px"></i>Charcoal on paper · 62 × 94 cm · by hand</div>
+  <div class="abs ttl" style="top:1400px;font-size:150px">Must fight</div>
+  <div class="abs ttl" style="top:1560px;font-size:150px">back</div>
+  <div class="abs tag" style="top:1760px;font-size:74px">#GAMDOM100K<b>ROUND2</b></div>
+</div>
+<div id="t">
+  <img class="abs" src="img/m_gallery.jpg" style="width:1280px;left:0;top:0">
+  <div class="abs shade" style="height:300px"></div>
+  <div class="abs ttl" style="top:560px;font-size:104px">Must fight back</div>
+  <div class="abs k" style="top:680px;font-size:16px"><i style="width:8px;height:8px;margin-right:10px"></i>Drawn by hand · #Gamdom100kRound2</div>
+</div>
+<script>
+document.body.className = location.hash.slice(1) || 'v'
+window.READY = Promise.all([document.fonts.load('80px Anton'), document.fonts.load('600 20px Man'), ...[...document.images].map(i => i.decode().catch(() => 0))])
+</script>
+</body></html>
