@@ -7,7 +7,7 @@ read with its own matrix, written as full-range BT.601 JPEG, which the browser d
 import json, os, subprocess, sys
 plan = json.load(open(sys.argv[1])); PAGE = sys.argv[2]
 FPS = plan['fps']
-SLOT = {'L': (426, 756), 'R': (426, 756), 'screen': (1680, 946), 'box': (1040, 686), 'full': (1920, 1080)}
+SLOT = {'L': (426, 756), 'R': (426, 756), 'screen': (1680, 946), 'box': (1040, 686), 'full': (1920, 1080), 'orb': (300, 534)}
 
 def probe(p):
     r = subprocess.run(['ffprobe', '-v', 'error', '-select_streams', 'v:0', '-show_entries', 'stream=width,height,color_space,color_transfer',

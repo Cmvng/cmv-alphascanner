@@ -1,0 +1,227 @@
+<!doctype html>
+<html>
+<!-- The Gamdom castle film, the entry's third cut (#Gamdom100kRound2, 32.2 s), staged as the owner asked: the framed piece
+     centre stage with their sessions revolving round it, and gamdom.com as cinematic shots between. Every picture is real:
+     the owner's drawing, sessions and frame images; Gamdom's own post (X's public embed); gamdom.com recorded read-only,
+     logged out. The page adds only the staging, the camera, the type and the cuts. -->
+<head>
+<meta charset="utf-8">
+<style>
+@font-face{font-family:Anton;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/anton-latin-400-normal.woff2)}
+@font-face{font-family:IS;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/instrument-serif-latin-400-normal.woff2)}
+@font-face{font-family:IS;font-style:italic;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/instrument-serif-latin-400-italic.woff2)}
+@font-face{font-family:Man;font-weight:600;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-600-normal.woff2)}
+@font-face{font-family:Man;font-weight:800;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-800-normal.woff2)}
+@font-face{font-family:Mono;font-weight:700;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/jetbrains-mono-latin-700-normal.woff2)}
+:root{--g:#00E676;--ink:#050707}
+html,body{margin:0;width:1920px;height:1080px;overflow:hidden;background:var(--ink)}
+#stage{position:absolute;inset:0;overflow:hidden;background:var(--ink)}
+.lay{position:absolute;inset:0;overflow:hidden;opacity:0}
+.ph{position:absolute;left:0;top:0;transform-origin:0 0;opacity:0}
+#dim{position:absolute;inset:0;background:#000;opacity:0;z-index:2}
+/* the orbit: the framed piece centre stage, under a spotlight, the owner's sessions revolving round it */
+#orb{z-index:3;perspective:1700px;perspective-origin:960px 540px;
+  background:radial-gradient(700px 1000px at 50% 0%,rgba(255,249,232,.15),rgba(255,249,232,0) 72%),
+             radial-gradient(1300px 380px at 50% 104%,rgba(0,230,118,.17),rgba(0,230,118,0) 70%),
+             radial-gradient(1500px 900px at 50% 48%,#0c1513 0%,#050808 58%,#020303 100%)}
+#ocam{position:absolute;left:960px;top:540px;width:0;height:0;transform-style:preserve-3d}
+#ofr{position:absolute;left:-368px;top:-268px;width:736px;height:536px;box-sizing:border-box;border:28px solid #0b0c0c;background:#f2f0e9;padding:40px;
+  box-shadow:0 0 0 1px rgba(255,255,255,.10),0 0 0 3px #000,0 44px 100px rgba(0,0,0,.78),0 0 140px rgba(0,230,118,.12),inset 0 5px 16px rgba(0,0,0,.32)}
+#ofimg{display:block;width:600px;height:400px;object-fit:cover;box-shadow:0 0 0 1px rgba(0,0,0,.2),0 2px 6px rgba(0,0,0,.25)}
+#ofgl{position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.09),rgba(255,255,255,0) 38%,rgba(0,0,0,.16));pointer-events:none}
+.opan{position:absolute;left:-100px;top:-178px;width:200px;height:356px;border-radius:12px;overflow:hidden;background:#0b0b0b;
+  box-shadow:0 0 0 1px rgba(255,255,255,.16),0 0 28px rgba(0,230,118,.24),0 26px 54px rgba(0,0,0,.62)}
+.opan img{display:block;width:200px;height:356px}
+#oflash{position:absolute;inset:0;background:radial-gradient(900px 700px at 50% 50%,rgba(255,255,255,.95),rgba(255,255,255,0) 70%);opacity:0;z-index:5;pointer-events:none}
+/* gamdom.com: a still screen under a moving camera */
+#cine{z-index:4;perspective:1500px;perspective-origin:960px 500px;
+  background:radial-gradient(1100px 560px at 50% 106%,rgba(0,230,118,.22),rgba(0,230,118,0) 70%),radial-gradient(1500px 900px at 50% 40%,#0a1310,#030505 76%)}
+#cpl{position:absolute;left:160px;top:80px;width:1600px;height:900px;border-radius:16px;overflow:hidden;transform-origin:800px 450px;
+  box-shadow:0 0 0 1px rgba(0,230,118,.55),0 0 90px rgba(0,230,118,.24),0 50px 120px rgba(0,0,0,.85)}
+#cpl img{display:block;width:1600px;height:900px}
+#csw{position:absolute;left:-40%;top:0;width:180%;height:100%;background:linear-gradient(105deg,rgba(255,255,255,0) 44%,rgba(255,255,255,.13) 50%,rgba(255,255,255,0) 56%);pointer-events:none}
+/* Gamdom's own post, the real embed as rendered */
+#tw{position:absolute;left:360px;top:270px;width:1200px;height:541px;border-radius:27px;overflow:hidden;z-index:6;opacity:0;box-shadow:0 30px 90px rgba(0,0,0,.7),0 0 0 1px rgba(255,255,255,.18)}
+#tw img{width:1200px;height:541px;display:block}
+/* type */
+.it{position:absolute;opacity:0;z-index:8;pointer-events:none;text-align:center}
+.line{left:0;width:1920px;top:930px}
+.line span{font:400 66px/1.05 IS,serif;color:#fff;text-shadow:0 2px 26px rgba(0,0,0,.95),0 0 8px rgba(0,0,0,.8)}
+.vline{left:460px;width:1000px;top:210px;height:660px;display:flex;align-items:center;justify-content:center}
+.vline span{font:400 70px/1.08 IS,serif;color:#fff;text-shadow:0 2px 30px rgba(0,0,0,.9)}
+.date{left:0;width:1920px;top:870px}
+.date span{font:700 32px/1 Mono,monospace;letter-spacing:.32em;color:var(--g);text-shadow:0 0 18px rgba(0,0,0,.9)}
+.date2{left:0;width:1920px;top:330px}
+.date2 span{font:700 30px/1 Mono,monospace;letter-spacing:.32em;color:var(--g)}
+.cap2{left:0;width:1920px;top:690px}
+.cap2 span{font:400 84px/1 IS,serif;color:#fff}
+.cap{left:0;width:1920px;top:992px}
+.cap span{font:400 54px/1 Anton,sans-serif;letter-spacing:.04em;text-transform:uppercase;color:#fff}
+.cap span i{display:inline-block;width:12px;height:12px;border-radius:6px;background:var(--g);margin:0 22px 10px 0;box-shadow:0 0 14px var(--g)}
+.chip{left:56px;top:48px;text-align:left}
+.chip span{display:inline-block;font:600 24px/1 Man,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#fff;padding:13px 20px;border-radius:28px;background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.22)}
+.chip span i{display:inline-block;width:9px;height:9px;border-radius:5px;background:var(--g);margin-right:13px;box-shadow:0 0 10px var(--g)}
+.title{left:0;width:1920px;top:820px}
+.title .stack{position:relative;display:inline-block}
+.title .t{font:400 172px/1 Anton,sans-serif;text-transform:uppercase;letter-spacing:.02em;white-space:nowrap}
+.title .face{position:relative;color:transparent;background:linear-gradient(180deg,#fff 0%,#e7ecef 30%,#9aa4ac 49%,#59626a 51%,#c9d1d6 64%,#f6f8f9 82%,#aab2b8 100%);-webkit-background-clip:text;background-clip:text;
+  filter:drop-shadow(0 1px 0 #3a4046) drop-shadow(0 2px 0 #30353a) drop-shadow(0 3px 0 #272b2f) drop-shadow(0 4px 0 #1f2226) drop-shadow(0 5px 0 #181a1d) drop-shadow(0 6px 0 #111315) drop-shadow(0 22px 34px rgba(0,0,0,.85))}
+.title .ghost{position:absolute;left:0;top:0;mix-blend-mode:screen;opacity:.8}
+.title .r{color:#ff1f4b}.title .c{color:#00e5ff}
+#tgrad{position:absolute;left:0;right:0;bottom:0;height:420px;background:linear-gradient(180deg,rgba(0,0,0,0),rgba(0,0,0,.72));z-index:7;opacity:0}
+#lgrad{position:absolute;left:0;right:0;bottom:0;height:330px;background:linear-gradient(180deg,rgba(0,0,0,0),rgba(0,0,0,.42) 45%,rgba(0,0,0,.66));z-index:7;opacity:0;transition:none}
+.credit{left:1180px;width:640px;top:150px;height:660px;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;text-align:left;gap:20px}
+.credit .k{font:600 24px/1 Man,sans-serif;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.7)}
+.credit .h{font:400 92px/1 Anton,sans-serif;color:#fff;letter-spacing:.01em}
+.credit .m{font:400 46px/1.1 IS,serif;color:#fff}
+.credit .g{font:700 24px/1 Mono,monospace;letter-spacing:.2em;color:var(--g);text-transform:uppercase}
+#end{position:absolute;inset:0;z-index:9;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:34px;opacity:0}
+#end .tag{font:400 150px/1 Anton,sans-serif;color:#fff;letter-spacing:.02em;text-shadow:0 6px 40px rgba(0,0,0,.8)}
+#end .tag b{font-weight:400;color:var(--g)}
+#end .code{font:800 42px/1 Man,sans-serif;color:#fff;letter-spacing:.14em;text-transform:uppercase;padding:18px 34px;border-radius:44px;border:2px solid var(--g);background:rgba(0,0,0,.55)}
+#end .code b{color:var(--g)}
+#end .rg{font:600 26px/1 Man,sans-serif;letter-spacing:.26em;color:rgba(255,255,255,.86);text-transform:uppercase}
+#stage.neg{filter:invert(1)}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div class="lay" id="photos" style="z-index:1"></div>
+  <div id="dim"></div>
+  <div class="lay" id="orb"><div id="ocam"><div id="ofr"><img id="ofimg"><div id="ofgl"></div></div></div><div id="oflash"></div></div>
+  <div class="lay" id="cine"><div id="cpl"><img id="icpl"><div id="csw"></div></div></div>
+  <div id="tw"><img id="itw"></div>
+  <div id="tgrad"></div><div id="lgrad"></div>
+  <div id="texts"></div>
+  <div id="end"><img id="elogo" src="img/glogo.png"><div class="tag" id="etag"></div><div class="code" id="ecode"></div><div class="rg" id="esub"></div><div class="hd" id="ehd"></div></div>
+</div>
+<script src="plan_data.js"></script>
+<script>
+const P = window.PLAN, FPS = P.fps, $ = id => document.getElementById(id)
+const cl = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x)), eo = x => 1 - Math.pow(1 - cl(x), 3), eio = x => { x = cl(x); return x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2 }
+const lerp = (a, b, u) => a + (b - a) * u, hash = n => { const s = Math.sin(n * 12.9898) * 43758.5453; return s - Math.floor(s) }
+let SIG = []
+const css = (el, k, v) => { if (typeof el === 'string') el = $(el); if (el.style[k] !== v) el.style[k] = v; SIG.push(v) }
+async function setImg(el, src) { if (el.getAttribute('src') !== src) { el.src = src; try { await el.decode() } catch (e) {} } SIG.push(src) }
+// ---- static parts
+const PH = {}
+for (const s of P.segs) if (s.slot === 'photo' && !PH[s.img]) { const im = document.createElement('img'); im.className = 'ph'; im.src = `img/${s.img}.jpg`; $('photos').appendChild(im); PH[s.img] = im }
+$('ofimg').src = P.art
+const OB = P.orbit, PAN = [], PIM = []
+for (let i = 0; i < OB.n; i++) { const d = document.createElement('div'); d.className = 'opan'; const im = document.createElement('img'); d.appendChild(im); $('ocam').appendChild(d); PAN.push(d); PIM.push(im) }
+const TX = P.text
+$('texts').innerHTML = TX.map((x, i) => {
+  if (x.k === 'chip') return `<div class="it chip" id="x${i}"><span><i></i>${x.text}</span></div>`
+  if (x.k === 'cap') return `<div class="it cap" id="x${i}"><span><i></i>${x.text}</span></div>`
+  if (x.k === 'title') return `<div class="it title" id="x${i}"><div class="stack" id="xs${i}"><div class="t ghost r" id="xr${i}">${x.text}</div><div class="t ghost c" id="xc${i}">${x.text}</div><div class="t face" id="xf${i}">${x.text}</div></div></div>`
+  if (x.k === 'end') return `<div class="it" id="x${i}"></div>`
+  return `<div class="it ${x.k}" id="x${i}"><span>${x.text}</span></div>`
+}).join('')
+const E = TX.find(x => x.k === 'end')
+$('etag').innerHTML = '#GAMDOM100K<b>ROUND2</b>'; $('ecode').innerHTML = 'Code <b>STEVE</b>'; $('esub').textContent = '18+ | Gamble responsibly'
+$('ehd').textContent = 'Charcoal on paper · drawn by hand · @i_am_vickyd'
+const segAt = (slot, t) => P.segs.find(s => s.slot === slot && t >= s.t0 && t < s.t1)
+const frameOf = (s, t) => `${s.dir}/${String(Math.min(s.n, Math.max(1, Math.floor((t - s.t0) * FPS + 1e-6) + 1))).padStart(4, '0')}.jpg`
+function photoXf(s, u, iw, ih) {
+  let c
+  if (s.keys) { const K = s.keys; let i = 0; while (i < K.length - 2 && u > K[i + 1][0]) i++
+    const a = K[i], b = K[i + 1], k = eio((u - a[0]) / (b[0] - a[0])); c = [1, 2, 3].map(j => lerp(a[j], b[j], k))
+  } else { const k = s.ease === 'out' ? eo(u) : s.ease === 'lin' ? u : eio(u); c = s.crop0.map((v, j) => lerp(v, s.crop1[j], k)) }
+  if (s.contain) { const sc = Math.min(1920 / iw, 1080 / ih) / c[2], vw = 1920 / sc, vh = 1080 / sc
+    let cx = c[0] * iw, cy = c[1] * ih
+    if (vw < iw) cx = cl(cx, vw / 2, iw - vw / 2); if (vh < ih) cy = cl(cy, vh / 2, ih - vh / 2)
+    return `translate(${(960 - cx * sc).toFixed(2)}px,${(540 - cy * sc).toFixed(2)}px) scale(${sc.toFixed(5)})` }
+  const vw = c[2] * iw, vh = vw * 1080 / 1920, sc = 1920 / vw
+  const x0 = cl(c[0] * iw - vw / 2, 0, iw - vw), y0 = cl(c[1] * ih - vh / 2, 0, ih - vh)
+  return `scale(${sc.toFixed(5)}) translate(${(-x0).toFixed(2)}px,${(-y0).toFixed(2)}px)`
+}
+// the push ends with the drawing at the title's first view (share 0.84 of the whole-sheet view): 3.21x the 600 px picture
+const PERSP = 1700, PUSH_S = (Math.min(1920 / P.art_wh[0], 1080 / P.art_wh[1]) / 0.84) * P.art_wh[0] / 600, PUSH_Z = PERSP * (1 - 1 / PUSH_S)
+window.render = async t => {
+  SIG = []
+  // ---- photos (the drawing, the frame images)
+  const ps = segAt('photo', t)
+  css('photos', 'opacity', ps ? '1' : '0')
+  for (const [k, im] of Object.entries(PH)) css(im, 'opacity', ps && ps.img === k ? '1' : '0')
+  if (ps) { const im = PH[ps.img], u = (t - ps.t0) / (ps.t1 - ps.t0)
+    css(im, 'transform', photoXf(ps, u, im.naturalWidth, im.naturalHeight))
+    const fi = ps.fade ? cl((t - ps.t0) / ps.fade) : 1; css('photos', 'opacity', fi.toFixed(3)) }
+  let dv = 0
+  if (ps && ps.dim) for (const [d0, lv] of ps.dim) if (t >= d0) dv = lerp(dv, lv, eo((t - d0) / .4))
+  css('dim', 'opacity', dv.toFixed(3))
+  let lineV = 0
+  for (const x of TX) if (x.k === 'line' || x.k === 'date' || x.k === 'big' || x.k === 'dateb') lineV = Math.max(lineV, Math.min(cl((t - x.t0 + .2) / .25), cl((x.t1 + .2 - t) / .25)))
+  css('lgrad', 'opacity', (ps ? lineV : 0).toFixed(3))
+  // ---- the orbit
+  const [p1, p2] = OB.passes, [f0, f1] = OB.fly, [q0, q1] = OB.push
+  const inOrb = (t >= p1[0] && t < p1[1]) || (t >= p2[0] && t < q1)
+  css('orb', 'opacity', inOrb ? '1' : '0')
+  if (inOrb) {
+    let tilt, yaw, dz
+    if (t < p1[1]) { const u = (t - p1[0]) / (p1[1] - p1[0]); tilt = lerp(-15, -11, u); yaw = lerp(-11, 5, u); dz = lerp(-220, -40, eio(u)) }
+    else if (t < q0) { const u = (t - p2[0]) / (q0 - p2[0]); tilt = lerp(-11, -8, u); yaw = lerp(9, -2, u); dz = lerp(-10, 140, eio(u)) }
+    else { const u = eio((t - q0) / (q1 - q0)); tilt = lerp(-8, 0, u); yaw = lerp(-2, 0, u); dz = lerp(140, PUSH_Z, u) }
+    css('ocam', 'transform', `translateZ(${dz.toFixed(1)}px) rotateX(${tilt.toFixed(3)}deg) rotateY(${yaw.toFixed(3)}deg)`)
+    css('ofimg', 'filter', `brightness(${(t < f1 ? lerp(.8, .92, cl((t - p1[0]) / (f1 - p1[0]))) : 1).toFixed(3)})`)
+    css('oflash', 'opacity', (t >= f1 ? Math.max(0, 1 - (t - f1) / .35) * .8 : 0).toFixed(3))
+    const W = 2 * Math.PI / 7
+    for (let i = 0; i < OB.n; i++) {
+      const el = PAN[i]
+      if (t >= f1) { css(el, 'opacity', '0'); continue }
+      const th = 2 * Math.PI * i / OB.n + W * (t - p1[0]), fu = t >= f0 ? eio((t - f0) / (f1 - f0)) : 0
+      const Rr = 880 * (1 - fu), x = Rr * Math.sin(th), z = Rr * Math.cos(th), y = (40 + 26 * Math.sin(th * 2 + i)) * (1 - fu), f = (Math.cos(th) + 1) / 2
+      css(el, 'transform', `translate3d(${x.toFixed(1)}px,${y.toFixed(1)}px,${z.toFixed(1)}px) rotateY(${(-yaw).toFixed(3)}deg) rotateX(${(-tilt).toFixed(3)}deg) scale(${(1 - .82 * fu).toFixed(3)})`)
+      css(el, 'filter', `brightness(${(.4 + .6 * f).toFixed(3)}) blur(${((1 - f) * 2.6).toFixed(2)}px)`)
+      css(el, 'opacity', (1 - cl((fu - .55) / .45)).toFixed(3))
+      const s = P.segs.find(x => x.slot === 'orb' && x.pi === i && t >= x.t0 && t < x.t1) || P.segs.filter(x => x.slot === 'orb' && x.pi === i && x.t0 <= t).slice(-1)[0]
+      if (s) await setImg(PIM[i], frameOf(s, Math.min(t, s.t1 - .001)))
+    }
+  }
+  $('stage').classList.toggle('neg', t >= P.drop && t < P.drop + 1 / FPS); SIG.push(t >= P.drop && t < P.drop + 1 / FPS)
+  // ---- gamdom.com, a still screen under a moving camera
+  const cn = (P.cine || []).find(x => t >= x.t0 && t < x.t1)
+  css('cine', 'opacity', cn ? '1' : '0')
+  if (cn) { await setImg($('icpl'), cn.img); const u = (t - cn.t0) / (cn.t1 - cn.t0), k = eio(u), K = cn.keys, v = [1, 2, 3, 4, 5].map(j => lerp(K[0][j], K[1][j], k))
+    css('cpl', 'transform', `translate3d(${v[0].toFixed(1)}px,${v[1].toFixed(1)}px,${v[2].toFixed(1)}px) rotateY(${v[3].toFixed(3)}deg) rotateX(${v[4].toFixed(3)}deg)`)
+    css('cpl', 'opacity', eo((t - cn.t0) / .1).toFixed(3)); css('csw', 'transform', `translateX(${lerp(-38, 38, u).toFixed(2)}%)`) }
+  // ---- Gamdom's own post: slams in on the accent, tilted, settling as it holds
+  const tw = (P.tweets || []).find(x => t >= x.t0 && t < x.t1)
+  css('tw', 'opacity', tw ? eo((t - tw.t0) / .12).toFixed(3) : '0')
+  if (tw) { await setImg($('itw'), tw.img); const p = eo((t - tw.t0) / .16), u = cl((t - tw.t0) / (tw.t1 - tw.t0))
+    css('tw', 'transform', `perspective(1400px) rotateX(${lerp(9, 3, u).toFixed(3)}deg) rotateY(${lerp(-13, -4, u).toFixed(3)}deg) scale(${(1.16 - .16 * p + .03 * u).toFixed(4)})`)
+    css('tw', 'filter', `blur(${(9 * (1 - p)).toFixed(1)}px)`) }
+  // ---- type
+  for (let i = 0; i < TX.length; i++) {
+    const x = TX[i], el = $('x' + i)
+    if (!el || x.k === 'end') continue
+    const on = t >= x.t0 && t < x.t1, hard = x.k === 'title' || x.k === 'cap'
+    const fi = hard ? 0 : .22, fo = hard ? 0 : .18
+    const op = on ? Math.min(fi ? cl((t - x.t0) / fi) : 1, fo ? cl((x.t1 - t) / fo) : 1) : 0
+    css(el, 'opacity', op.toFixed(3))
+    if (!on) continue
+    if (x.k === 'title') {
+      const p = eo((t - x.t0) / .18), s = 1 + .5 * (1 - p), stck = $('xs' + i)
+      css(stck, 'transform', `scale(${s.toFixed(3)})`); css(stck, 'filter', `blur(${(14 * (1 - p)).toFixed(1)}px)`)
+      let g = 0; for (const b of (x.glitch || [])) { const d = t - b; if (d >= 0 && d < .2) g = Math.max(g, 1 - d / .2) }
+      const j = Math.round(t * FPS), dx = 4 + 24 * g * (hash(j) - .2)
+      css('xr' + i, 'transform', `translate(${(-dx).toFixed(1)}px,${(g * 6 * (hash(j + 3) - .5)).toFixed(1)}px)`)
+      css('xc' + i, 'transform', `translate(${dx.toFixed(1)}px,${(g * 6 * (hash(j + 7) - .5)).toFixed(1)}px)`)
+      css('xf' + i, 'transform', g > 0 ? `translateX(${(g * 16 * (hash(j + 5) - .5)).toFixed(1)}px)` : 'none')
+    }
+    if (x.k === 'cap') css(el.firstChild, 'transform', `translateY(${(14 * (1 - eo((t - x.t0) / .2))).toFixed(1)}px)`)
+    if (x.k === 'big') css(el.firstChild, 'transform', `scale(${(1 + .16 * (1 - eo((t - x.t0) / .16))).toFixed(3)})`)
+  }
+  const ti = TX.find(x => x.k === 'title'); css('tgrad', 'opacity', ti && t >= ti.t0 && t < ti.t1 ? '1' : '0')
+  // ---- the end card
+  const ep = t >= E.t0 ? 1 : 0, es = 1 + .14 * (1 - eo((t - E.t0) / .22))
+  css('end', 'opacity', ep ? '1' : '0'); css('etag', 'transform', `scale(${es.toFixed(3)})`)
+  css('elogo', 'opacity', eo((t - E.t0) / .25).toFixed(3)); css('elogo', 'transform', `translateY(${(18 * (1 - eo((t - E.t0) / .3))).toFixed(1)}px)`)
+  const pop = (id, at) => { css(id, 'opacity', eo((t - at) / .18).toFixed(3)); css(id, 'transform', `scale(${(1 + .12 * (1 - eo((t - at) / .2))).toFixed(3)})`) }
+  pop('ecode', E.e2); pop('esub', E.e3); css('ehd', 'opacity', eo((t - E.e3 - .35) / .3).toFixed(3))
+  return SIG.join('|')
+}
+window.READY = Promise.all([document.fonts.load('170px Anton'), document.fonts.load('66px IS'), document.fonts.load('600 24px Man'), document.fonts.load('800 40px Man'), document.fonts.load('700 28px Mono'),
+  ...[...document.images].map(i => i.decode ? i.decode().catch(() => 0) : 1)])
+</script>
+</body>
+</html>

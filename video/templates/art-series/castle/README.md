@@ -97,3 +97,24 @@ The owner's notes on the 31-second cut:
 - **A beat tracker can lock onto the dotted pulse.** On a syncopated trap beat, beats.py reported 101 bpm, two thirds of the real 151. Check the onset autocorrelation for the two-bar cycle and fold the onsets over it before cutting.
 - **Splice a song where the instrumental repeats.** Cross-correlate the low-passed beat two cycles apart: the peak gives the exact spacing, to a few ms. Then choose the cut point where both sides already sound alike.
 - **A site cut to a portrait sliver isn't "whole".** Record it in a phone-sized window instead.
+
+## The third cut: the owner's staging (4 Nov)
+
+The owner's notes on the second cut: it looked boring next to the other entries. They described the staging they wanted:
+"the artwork in a frame will be in the center, then the various progressions will be around, like it will be revolving
+around". The site should be "not scrolling… like a cinematic shot in between". Steve's brief: "make a 30+ second video
+promoting gamdom". His post closes with "Must fight back when kicked down."
+
+- **`castle33_plan.py` and `castle33.html`:** the same track, accents, fall, read, frames sequence, casino and end card
+  as the second cut. Two parts are new:
+  - **The orbit.** The finished photo sits in a CSS 3D frame: a black border, a white mat and a spotlight. Eight
+    session clips (slot `orb`, 300 × 534) revolve round it in a preserve-3d scene and face the camera:
+    - each panel's brightness and blur follow its depth;
+    - two passes use different sessions;
+    - on the accent the panels fly into the frame, the light comes on, and the camera pushes through the frame. It
+      stops at the view the title photo starts from (share 0.84), so the cut to the photo is seamless.
+  - **Cinematic site shots (`cine`).** Sharp stills of gamdom.com (`s_*.jpg`, 3200 × 1800, logged out, plain load) on a
+    3D plane: two eased keys of x, y, z, rotateY and rotateX, a light sweep and a green rim. Originals sits between the
+    passes; King of the Hill and Casino · Sports come on "you can try it".
+- **Lesson:** when the owner describes the staging, build that staging. A flat wall of panels was "boring", while the
+  same footage revolving round the framed piece is the shot they pictured.

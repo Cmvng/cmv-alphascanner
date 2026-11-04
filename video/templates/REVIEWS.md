@@ -79,10 +79,17 @@ artwork tells the story that promotes the platform, the piece unveiled in the ce
     it was cut into slivers.
   - **The live site after "Gamdom is back",** on the line "you can try it".
   - **Fixed:** a panel labelled "THE EYE" was showing the letters being drawn.
+- **Then the third cut (same day):** the owner found it boring and described their staging:
+  - **The piece:** framed, centre stage.
+  - **The progressions:** revolving round it. It's now a 3D orbit of eight sessions with two passes. The sessions fly
+    into the frame and the camera pushes through it into the drawing.
+  - **The site:** "a cinematic shot", not scrolling. Sharp stills now sit on angled screens under a moving camera.
 - **Change next time:**
   - When the owner has sent sample reels, cut to their music first (the 22 Oct playbook rule). The stock track was
     the first thing they rejected here.
   - A real screen cut to a portrait sliver isn't whole. Record it in the panel's shape.
+  - When the owner describes a staging ("in the center… revolving around"), build exactly that first. A safer flat
+    layout reads as boring next to the other entries.
   - Use every image the owner sends unless they agree to drop it. Say the risk once, then follow their call.
   - Never zoom a photo past its own pixels.
   - When the owner gives a concept, build theirs first and put mine beside it, never instead of it.
