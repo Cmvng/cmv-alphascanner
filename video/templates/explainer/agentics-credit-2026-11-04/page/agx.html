@@ -117,7 +117,7 @@ const RX = [
   { id: 'sideeye', t0: 0.2, t1: 3.7, rot: -4 },     // "…just because you say you're a good trader" (sure, buddy)
   { id: 'jawdrop', t0: 45.2, t1: 49.55, rot: 4 },   // "Team wins… so $200"
   { id: 'yikes', t0: 49.55, t1: 52.4, rot: -4 },    // "Team loses, $0"
-  { id: 'itsover', t0: 87.45, t1: 90.1, rot: 3 },   // "at 20%, it closes everything"
+  { id: 'itsover', t0: 87.45, t1: 90.1, rot: 3, w: 450 },   // "at 20%, it closes everything" (taller: raised arms)
   { id: 'grin', t0: 103.6, t1: 107.6, rot: -3 },    // "my link is in the post, anyways…"
 ]
 const SROOT = 'file:///home/user/cmv-alphascanner/video/out/reactions/'
@@ -245,7 +245,8 @@ window.render = async t => {
     let i = Math.floor(lt * FPS); i = ((i % per) + per) % per; if (i >= L.frames) i = per - i          // ping-pong through the sticker's frames
     const src = `${SROOT}${sr.id}/f_${String(i + 1).padStart(4, '0')}.png`
     if (im.getAttribute('src') !== src) { im.src = src; try { await im.decode() } catch (e) {} } SIG.push(src)
-    const h = 520 * L.h / L.w, pin = cl(lt / .22), pout = cl((sr.t1 - t) / .16)
+    const sw = sr.w || 520, h = sw * L.h / L.w, pin = cl(lt / .22), pout = cl((sr.t1 - t) / .16)
+    css(im, 'width', sw + 'px'); css(im, 'left', (1651 - sw / 2) + 'px')
     const sc = (pin < 1 ? 1 + 3.2 * Math.pow(pin - 1, 3) + 2.2 * Math.pow(pin - 1, 2) : 1) * (.85 + .15 * pout)
     css(im, 'top', (905 - h).toFixed(1) + 'px'); css(im, 'opacity', Math.min(cl(pin * 5), pout).toFixed(3))
     css(im, 'transform', `rotate(${sr.rot}deg) scale(${sc.toFixed(3)}) translateY(${(4 * Math.sin(lt * 1.6)).toFixed(1)}px)`)
