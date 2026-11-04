@@ -47,3 +47,24 @@ The mix is one gain to −14 LUFS plus a limiter, with no loudnorm. The final fi
   after them.
 - **Don't show generated scenes in a "no AI" entry.** The owner's room mockups stay out; the laptop one also shows a
   fake Gamdom page with the wrong logo.
+
+## The 31-second entry cut (after the owner's notes, 4 Nov)
+
+The owner's notes: use the frame images they sent; the zoomed photos lacked definition; the entry is 30 s, with the long
+form showing the process; the story and the artwork itself must come through.
+
+- **`prep30.py`:**
+  - The photo's levels are set to the owner's own mockups (paper about 236, charcoal about 30), levels and white balance only.
+  - The mockups are saved as JPEGs. On the laptop one, the fake spade logo is replaced with Gamdom's real logo.
+  - Gamdom's logo is cut out with alpha.
+- **`castle30_plan.py`:** music from 25.274 s. The cold open runs 2 bars, the wall 2.6 bars. The mosaic lands on the
+  stab, MUST FIGHT BACK on the full hit, then one camera move, the frame images two beats each, the casino, and the
+  end card on the downbeat after the drum run (53.197).
+- **`castle30.html`:**
+  - camera paths (`keys`), with the view clamped inside the sheet;
+  - a full-screen mosaic box;
+  - the right panel shows the live site;
+  - big Anton beats;
+  - Gamdom's logo on the end card.
+- **Definition rule:** no crop narrower than about 1,900 source px. At 4000 px, the contain share is ≥ 0.41.
+- **`cover30.html`:** the cover and thumbnail, from the owner's GAMDOM gallery image.

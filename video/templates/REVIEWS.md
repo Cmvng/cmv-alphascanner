@@ -63,7 +63,16 @@ artwork tells the story that promotes the platform, the piece unveiled in the ce
   5. **The cold open used the eye and the tear,** the same shots as the read later. It now opens on the smoke and a
      tight eye.
   6. **The Gamdom splash logo was too small at 1×.** It was recaptured at 2.5× and shown at 3×.
+- **Then the 31-second entry (same day):** the owner wanted their frame images used, sharper photos ("the distinction
+  is not properly shown") and 30 seconds.
+  - **Sharper photos:** the photo is levelled to their own mockups. No crop goes past the source pixels; the 1:18 had
+    zoomed a 1,120 px crop to 1,920, which looked soft.
+  - **The story:** one camera move carries it from the fall to the rise.
+  - **Their images:** the frame images on the beat, ending in the Gamdom casino.
+  - **The laptop image** got Gamdom's real logo in place of a spade.
 - **Change next time:**
+  - Use every image the owner sends unless they agree to drop it. Say the risk once, then follow their call.
+  - Never zoom a photo past its own pixels.
   - When the owner gives a concept, build theirs first and put mine beside it, never instead of it.
   - Research the exact contest they name, ranked by the measure they name (likes), and link every example.
   - Never ask the owner for something I can get myself, such as a public site recording.
