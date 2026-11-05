@@ -1,0 +1,193 @@
+<!doctype html>
+<html>
+<!-- Primus, "Show your hand" (5 Nov 2026), the owner's first-person script in Lara's voice. Format: the deal. Each picture
+     (Primus's own images and the owner's two designed frames) is dealt onto a light table like a playing card; a camera
+     inside the card moves to what Lara names, with rings. At the end the earlier cards fan out under the last one and turn
+     face down: show your hand, not your whole deck. The owner's reaction stickers pop in on the right. -->
+<head>
+<meta charset="utf-8">
+<style>
+@font-face{font-family:Anton;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/anton-latin-400-normal.woff2)}
+@font-face{font-family:Man;font-weight:600;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-600-normal.woff2)}
+@font-face{font-family:Man;font-weight:800;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-800-normal.woff2)}
+:root{--navy:#0B1F44;--blue:#1F5FDB;--sky:#4FB3FF;--org:#FF5A00}
+html,body{margin:0;width:1920px;height:1080px;overflow:hidden;background:#EAF1FB}
+#stage{position:absolute;inset:0;overflow:hidden;background:radial-gradient(1400px 900px at 50% 38%,#F7FAFE 0%,#E8F0FB 55%,#D6E3F5 100%)}
+#grid{position:absolute;inset:0;background-image:linear-gradient(rgba(31,95,219,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(31,95,219,.05) 1px,transparent 1px);background-size:60px 60px}
+#edit{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
+#table{position:absolute;left:0;top:0;width:1920px;height:1080px;perspective:2400px}
+/* a card: white border, the picture inside under a moving camera */
+.card{position:absolute;left:326px;top:96px;width:1268px;height:726px;transform-style:preserve-3d;transform-origin:50% 60%;opacity:0}
+.face,.back{position:absolute;inset:0;border-radius:22px;backface-visibility:hidden;-webkit-backface-visibility:hidden;overflow:hidden}
+.face{background:#fff;box-shadow:0 0 0 1px rgba(11,31,68,.10),0 30px 70px rgba(11,31,68,.22),0 6px 16px rgba(11,31,68,.10)}
+.view{position:absolute;left:14px;top:14px;width:1240px;height:698px;border-radius:12px;overflow:hidden}
+.pic{position:absolute;left:0;top:0;transform-origin:0 0}
+.pic img{display:block}
+.back{transform:rotateY(180deg);background:#FBF4EC;box-shadow:0 0 0 1px rgba(11,31,68,.10),0 30px 70px rgba(11,31,68,.22)}
+.back:before{content:'';position:absolute;inset:26px;border-radius:14px;border:6px solid var(--org);
+  background:repeating-linear-gradient(45deg,rgba(255,90,0,.10) 0 18px,rgba(255,90,0,0) 18px 36px)}
+.back img{position:absolute;left:50%;top:50%;width:200px;height:200px;transform:translate(-50%,-50%);border-radius:50%}
+.ring{position:absolute;border:4px solid var(--blue);border-radius:12px;box-shadow:0 0 0 5px rgba(31,95,219,.16),0 0 26px rgba(31,95,219,.45);opacity:0}
+.tap{position:absolute;border-radius:50%;border:4px solid var(--blue);opacity:0}
+/* a pill naming the tech */
+.pill{position:absolute;left:356px;top:58px;display:flex;align-items:center;gap:14px;padding:12px 24px 12px 14px;border-radius:40px;background:#fff;
+  box-shadow:0 0 0 2px var(--org),0 14px 30px rgba(11,31,68,.18);font:800 34px/1 Man,sans-serif;color:var(--navy);opacity:0;z-index:9}
+.pill i{width:20px;height:20px;border-radius:50%;background:var(--org)}
+/* the handle chip */
+#handle{position:absolute;left:50%;top:756px;transform:translateX(-50%);display:flex;align-items:center;gap:16px;padding:12px 28px 12px 12px;border-radius:44px;background:#fff;
+  box-shadow:0 0 0 2px var(--org),0 18px 40px rgba(11,31,68,.22);opacity:0;z-index:9}
+#handle img{height:56px;width:56px;border-radius:50%}
+#handle span{font:800 42px/1 Man,sans-serif;color:var(--navy)}
+/* stickers */
+#stk{position:absolute;left:1391px;width:520px;opacity:0;z-index:15;transform-origin:50% 85%;filter:drop-shadow(0 16px 26px rgba(11,31,68,.32))}
+/* captions */
+#cap{position:absolute;left:110px;width:1700px;top:930px;text-align:center;font:800 46px/1.18 Man,sans-serif;color:var(--navy);z-index:20}
+#cap b{color:var(--blue);font-weight:800}
+/* the end */
+#end{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:34px;opacity:0;z-index:12}
+#end .w{height:116px}
+#end .h{font:800 64px/1 Man,sans-serif;color:var(--navy)}
+#end .q{font:400 92px/1.05 Anton,sans-serif;color:var(--navy);letter-spacing:.01em;text-transform:uppercase;text-align:center}
+#end .q b{font-weight:400;color:var(--org)}
+#end .f{font:600 26px/1 Man,sans-serif;letter-spacing:.18em;text-transform:uppercase;color:rgba(11,31,68,.6)}
+</style>
+</head>
+<body>
+<div id="stage"><div id="grid"></div>
+  <div id="edit"><div id="table"></div><div id="handle"><img src="img/icon.png"><span>@primus_labs</span></div><div id="pills"></div></div>
+  <img id="stk"><div id="end"><img class="w" src="img/wordmark.png"><div class="h">@primus_labs</div><div class="q">Show your hand.<br><b>Not your whole deck.</b></div><div class="f">Their line · 12 Oct 2026</div></div>
+  <div id="cap"></div></div>
+<script>
+// ---- timing: take seconds -> video seconds (a 0.6 s pause cut in at 7.0 s, the voice 0.2 s in)
+const T = s => s + 0.2 + (s >= 7.0 ? 0.6 : 0), END = 72.0, FPS = 30
+const R = (x, y, w, h) => ({ x, y, w, h })
+// the cards, in take seconds; keys: [t, [fx, fy, zoom]] (null = whole); rings: [from, to, rect in picture pixels]
+const CARDS = [
+  { src: 'img/p1.jpg', w: 1672, h: 941, t0: 0, rot: -2.2, keys: [[0, null], [2.4, [1040, 470, 1.55]], [3.95, null]],
+    rings: [[3.22, 3.95, R(850, 305, 382, 392)]] },
+  { src: 'img/p2.jpg', w: 1377, h: 768, t0: 7.0, rot: 1.6, keys: [[7.0, null], [13.6, [705, 360, 1.55]], [18.2, [430, 370, 1.55]]],
+    rings: [[14.32, 18.2, R(738, 258, 86, 190)], [19.34, 22.3, R(236, 176, 372, 392)]] },
+  { src: 'img/p3.jpg', w: 1920, h: 1080, t0: 22.3, rot: -1.4, keys: [[22.3, null], [28.4, [960, 175, 1.5]], [33.95, [514, 560, 1.75]], [38.55, [1400, 560, 1.75]]],
+    rings: [[30.04, 33.9, R(944, 124, 628, 78)], [35.58, 38.6, R(126, 440, 420, 250)], [40.04, 41.45, R(1018, 458, 322, 118)]] },
+  { src: 'img/p4.jpg', w: 1414, h: 676, t0: 41.45, rot: 1.8, keys: [[41.45, null], [42.75, [990, 215, 1.45]], [45.3, [300, 160, 1.6]], [47.05, [690, 420, 1.55]]],
+    rings: [[42.9, 45.3, R(636, 76, 716, 280)], [45.46, 47.1, R(48, 84, 294, 126)], [47.18, 49.4, R(526, 268, 238, 322)]] },
+  { src: 'img/p5.jpg', w: 1920, h: 1080, t0: 49.4, rot: -1.6, keys: [[49.4, null], [50.9, [1450, 540, 1.5]], [52.65, [470, 540, 1.5]], [57.45, [960, 990, 2.4]]],
+    rings: [[51.04, 52.7, R(1238, 428, 424, 168)], [53.44, 57.5, R(300, 418, 350, 282)], [57.62, 61.5, R(736, 998, 446, 44)]] },
+  { src: 'img/p6.jpg', w: 2560, h: 1440, t0: 61.5, rot: 1.2, keys: [[61.5, null], [62.9, [1285, 590, 1.45]], [64.25, null]], rings: [] },
+]
+const PILLS = [[13.72, 18.2, 'zkTLS'], [18.78, 22.3, 'FHE']]
+const FAN = 64.3, FLIP = 66.12, ENDT = T(68.6)
+const RX = [   // the owner's reaction stickers, in take seconds
+  { id: 'stare', t0: 0.4, t1: 4.4, rot: -4 },      // "apps keep asking for your full statement…"
+  { id: 'ugh', t0: 34.14, t1: 38.6, rot: 4 },      // "upload a statement, and they get every trade…"
+  { id: 'nervous', t0: 38.6, t1: 41.4, rot: -4 },  // "connect the account, and they can keep reading it"
+  { id: 'nah', t0: 52.78, t1: 57.5, rot: 3, w: 450 },  // "not the 47 trades, the $8,200 or your login"
+]
+const SROOT = 'file:///home/user/cmv-alphascanner/video/out/reactions/'
+const CAP = [
+  [0.0, 3.95, 'Apps keep asking for your <b>full statement</b> when they only need <b>one answer</b>…'], [4.5, 6.95, 'and <b>@primus_labs</b> is building around that…'],
+  [7.26, 12.95, "If you're new, Primus is a privacy and verification layer for confidential onchain finance."],
+  [13.72, 18.25, '<b>zkTLS</b> proves data came from a website without showing the rest of the page,'],
+  [18.3, 22.4, 'and <b>FHE</b> lets apps use your numbers while they stay locked.'],
+  [22.62, 25.4, 'Most apps treat your data like <b>free storage</b>…'], [25.52, 28.5, "Say a platform only needs to know you're an <b>active trader</b>."],
+  [28.6, 33.95, 'Your exchange shows <b>47 trades</b>, about <b>$8,200</b> in volume.'],
+  [34.14, 38.6, 'Upload a statement, and they get <b>every trade</b>, the timing and your balance.'],
+  [38.8, 41.4, 'Connect the account, and they can <b>keep reading it</b>.'],
+  [41.5, 45.3, 'With Primus, you make a <b>proof</b> from the exchange page itself.'],
+  [45.46, 49.3, 'The data stays on the site, and the app only gets <b>what it asked for</b>.'],
+  [49.44, 52.65, 'So all they get is… <b>active trader, yes</b>.'], [52.78, 57.5, 'Not the 47 trades, the $8,200 or your login.'],
+  [57.62, 61.5, 'Those numbers are just <b>my example</b>, and which apps use it is up to them…'],
+  [61.66, 64.2, "So privacy isn't hiding everything."], [64.3, 67.75, "It's <b>proving what's needed</b>, and keeping the rest <b>confidential</b>…"],
+  [67.88, 68.75, 'anyways…'],
+]
+// ---- build
+const $ = id => document.getElementById(id)
+const cl = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x)), eo = x => 1 - Math.pow(1 - cl(x), 3), eio = x => { x = cl(x); return x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2 }
+const eback = x => { x = cl(x); const c = 1.4; return 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2) }
+const lerp = (a, b, u) => a + (b - a) * u
+let SIG = []
+const css = (el, k, v) => { if (el.style[k] !== v) el.style[k] = v; SIG.push(v) }
+const VW = 1240, VH = 698
+CARDS.forEach((c, i) => {
+  const d = document.createElement('div'); d.className = 'card'; d.style.zIndex = String(10 + i)
+  const fit = Math.min(VW / c.w, VH / c.h)
+  c.fit = fit
+  d.innerHTML = `<div class="face"><div class="view" style="background:${i === 3 ? '#F6F2E9' : i === 1 ? '#FAE3D3' : '#fff'}"><div class="pic"><img src="${c.src}" width="${c.w}" height="${c.h}"></div></div></div><div class="back"><img src="img/icon.png"></div>`
+  $('table').appendChild(d); c.el = d; c.pic = d.querySelector('.pic')
+  c.ringEls = c.rings.map(r => { const e = document.createElement('div'); e.className = 'ring'; const b = r[2], p = 6
+    Object.assign(e.style, { left: (b.x - p) + 'px', top: (b.y - p) + 'px', width: (b.w + 2 * p) + 'px', height: (b.h + 2 * p) + 'px' }); c.pic.appendChild(e); return e })
+})
+$('pills').innerHTML = PILLS.map((p, i) => `<div class="pill" id="pl${i}"><i></i>${p[2]}</div>`).join('')
+function cam(c, t) {
+  const whole = [c.w / 2, c.h / 2, 1]
+  const K = c.keys.map(k => [T(k[0]), k[1] || whole])
+  let v = K[0][1]
+  for (let j = 1; j < K.length; j++) if (t >= K[j][0]) { const u = eio((t - K[j][0]) / .9); v = K[j - 1][1].map((x, q) => lerp(x, K[j][1][q], u)) }
+  const sc = c.fit * v[2], w = c.w * sc, h = c.h * sc
+  let x = VW / 2 - v[0] * sc, y = VH / 2 - v[1] * sc
+  x = w <= VW ? (VW - w) / 2 : cl(x, VW - w, 0); y = h <= VH ? (VH - h) / 2 : cl(y, VH - h, 0)
+  return `translate(${x.toFixed(1)}px,${y.toFixed(1)}px) scale(${sc.toFixed(5)})`
+}
+// fan positions for the five earlier cards at the end, round a pivot under the table
+const FANA = [-26, -16, 16, 26, -6]
+window.render = async t => {
+  SIG = []
+  const top = CARDS.reduce((k, c, i) => t >= T(c.t0) - .01 ? i : k, 0)
+  const fan = cl((t - T(FAN)) / .9), flip = cl((t - T(FLIP)) / .7), endp = eo((t - ENDT) / .5)
+  CARDS.forEach((c, i) => {
+    const a = T(c.t0), el = c.el
+    if (t < (i === 0 ? a - .42 : a) || (i < top - 2 && fan <= 0)) { css(el, 'opacity', '0'); return }
+    // the deal: in from the top right, turning to its tilt, with a small overshoot
+    const p = cl((t - (i === 0 ? a - .42 : a)) / .55), pe = eback(p)
+    let x = lerp(980, 0, eo(p)), y = lerp(-620, 0, eo(p)), r = lerp(c.rot + 24, c.rot, pe), s = 1, ry = 0, z = 0, br = 1
+    const depth = top - i                                   // 0 = the top card
+    if (depth > 0) { x += -26 * depth; y += 16 * depth; r += -1.2 * depth; br = 1 - .07 * depth }
+    if (fan > 0 && i < 5) {                                  // the hand: the earlier cards fan out, then turn face down
+      const ang = FANA[i] * eio(fan), u = eio(fan)
+      x = lerp(x, Math.sin(ang * Math.PI / 180) * 820, u); y = lerp(y, 60 + (1 - Math.cos(ang * Math.PI / 180)) * 820, u)
+      r = lerp(r, ang, u); s = lerp(1, .62, u); ry = 180 * eio(flip); br = 1
+    }
+    if (i === 5 && fan > 0) { s = lerp(1, .78, eio(fan)); y = lerp(0, -40, eio(fan)) }
+    if (endp > 0) { const u = endp; s *= 1 - .25 * u; y += 140 * u }
+    css(el, 'opacity', (1 - endp).toFixed(3))
+    css(el, 'transform', `translate(${x.toFixed(1)}px,${y.toFixed(1)}px) rotate(${r.toFixed(2)}deg) rotateY(${ry.toFixed(1)}deg) scale(${s.toFixed(4)})`)
+    css(el, 'filter', br < 1 ? `brightness(${br.toFixed(3)})` : 'none')
+    css(el, 'zIndex', String(fan > 0 && i < 5 ? 5 + [0, 1, 3, 4, 2][i] : 10 + i))
+    css(c.pic, 'transform', cam(c, t))
+    c.ringEls.forEach((e, j) => { const rr = c.rings[j], st = T(rr[0]), en = T(rr[1]); const q = t >= st && t < en ? Math.min(eo((t - st) / .25), cl((en - t) / .2)) : 0
+      css(e, 'opacity', q.toFixed(3)); css(e, 'transform', `scale(${(1 + .2 * (1 - eo((t - st) / .3))).toFixed(3)})`) })
+  })
+  PILLS.forEach((pl, i) => { const a = T(pl[0]), b = T(pl[1]), e = $('pl' + i), q = t >= a && t < b ? Math.min(eo((t - a) / .3), cl((b - t) / .25)) : 0
+    css(e, 'opacity', q.toFixed(3)); css(e, 'transform', `translateY(${(16 * (1 - eo((t - a) / .3))).toFixed(1)}px)`) })
+  { const a = T(4.85), b = T(6.95), q = t >= a && t < b + .3 ? Math.min(eo((t - a) / .3), cl((b + .3 - t) / .3)) : 0
+    css($('handle'), 'opacity', q.toFixed(3)); css($('handle'), 'transform', `translateX(-50%) scale(${(1 + .14 * (1 - eo((t - a) / .3))).toFixed(3)})`) }
+  css($('end'), 'opacity', endp.toFixed(3)); css($('end'), 'transform', `translateY(${(24 * (1 - endp)).toFixed(1)}px)`)
+  // ---- the owner's reaction sticker: the edit slides left and shrinks, the sticker pops in on the right
+  let d = 0
+  for (const r of RX) { const a = T(r.t0), b = T(r.t1); d = Math.max(d, t < a - .35 || t > b + .3 ? 0 : Math.min(eio((t - a + .35) / .35), eio((b + .3 - t) / .3))) }
+  css($('edit'), 'transform', `translate(0px,${(60 * d).toFixed(1)}px) scale(${(1 - .28 * d).toFixed(4)})`)
+  const sr = RX.find(r => t >= T(r.t0) && t < T(r.t1)), im = $('stk')
+  if (sr) {
+    const L = window.RLIB[sr.id], lt = t - T(sr.t0), per = 2 * (L.frames - 1)
+    let i = Math.floor(lt * FPS); i = ((i % per) + per) % per; if (i >= L.frames) i = per - i
+    const src = `${SROOT}${sr.id}/f_${String(i + 1).padStart(4, '0')}.png`
+    if (im.getAttribute('src') !== src) { im.src = src; try { await im.decode() } catch (e) {} } SIG.push(src)
+    const sw = sr.w || 520, h = sw * L.h / L.w, pin = cl(lt / .22), pout = cl((T(sr.t1) - t) / .16)
+    const sc = (pin < 1 ? 1 + 3.2 * Math.pow(pin - 1, 3) + 2.2 * Math.pow(pin - 1, 2) : 1) * (.85 + .15 * pout)
+    css(im, 'width', sw + 'px'); css(im, 'left', (1651 - sw / 2) + 'px'); css(im, 'top', (905 - h).toFixed(1) + 'px')
+    css(im, 'opacity', Math.min(cl(pin * 5), pout).toFixed(3))
+    css(im, 'transform', `rotate(${sr.rot}deg) scale(${sc.toFixed(3)}) translateY(${(4 * Math.sin(lt * 1.6)).toFixed(1)}px)`)
+  } else css(im, 'opacity', '0')
+  // ---- captions
+  const c = CAP.find(x => t >= T(x[0]) - .05 && t < T(x[1]) + .1)
+  const html = c ? c[2] : ''
+  if ($('cap').innerHTML !== html) $('cap').innerHTML = html
+  SIG.push(html); css($('cap'), 'opacity', c && endp < .5 ? Math.min(1, (t - T(c[0]) + .05) / .12).toFixed(3) : '0')
+  return SIG.join('|')
+}
+window.READY = Promise.all([new Promise(r => { if (window.RLIB) return r(); const sc = document.createElement('script'); sc.src = SROOT + 'lib.js'; sc.onload = sc.onerror = r; document.head.appendChild(sc) }),
+  document.fonts.load('80px Anton'), document.fonts.load('800 40px Man'), document.fonts.load('600 26px Man'),
+  ...[...document.images].map(i => i.decode ? i.decode().catch(() => 0) : 1)])
+</script>
+</body>
+</html>

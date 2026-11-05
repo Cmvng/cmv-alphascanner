@@ -28,6 +28,42 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
+## 5 Nov: the owner's script and pictures, Primus "Show your hand" (Lara, 1:12, 16:9), and nine new reactions
+
+The owner's six-scene, first-person script about @primus_labs came with:
+- four of Primus's own images;
+- two designed frames;
+- a stray Google screenshot about a grant, which matched no scene and was left out;
+- nine new reaction clips.
+
+`video/templates/explainer/primus-proof-2026-11-05/`.
+
+- **Credits:** ElevenLabs refused the first call (1,302 needed, 1,070 left); nothing was charged. The owner chose a
+  trimmed script, approved the text, and one take cost 1,046 credits.
+- **What worked:**
+  - **A new format from the project's own line:** the deal. Pictures land as playing cards, a camera inside each moves
+    to what is said, and at the end the earlier cards fan out and flip face down. "Show your hand. Not your whole deck."
+  - **Four reaction stickers on their lines,** three of them from today's clips.
+  - **Fact-check before spending:** every claim matched the docs. "The data stays on the site" is loosely put (it
+    reaches the user's browser), so the kit says so.
+- **Mistakes the stills caught (fixed before the render):**
+  - the first two frames were empty;
+  - the headline zoom cut the line and its ring missed "47";
+  - the footnote was unreadable;
+  - the wordmark had a cream box;
+  - the thumbnail headline wrapped into its subline.
+- **Mistakes the full-render sheets caught (fixed, re-rendered):**
+  - the Ace zoom cut the headline in half at the frame edge;
+  - the @primus_labs chip landed on the headline because the camera was still pulling back. A camera move starts at its
+    key and runs 0.9 s, so a move must start 0.9 s before anything placed on the whole picture.
+- **The new reactions:** nine die-cut stickers (Stare, Wince, No Way!, Ugh, Shook, Crack-Up, Nervous, Nah, Hmm). The
+  sticker builder was restored, with `k=` for close-up clips.
+- **Change next time:**
+  - Check the ElevenLabs balance before promising a take: run an estimate and compare it with what's left.
+  - Make any first card visible on frame one.
+
+---
+
 ## 4 Nov: the owner's script and pictures, Agentics Credit "I tried it" (Lara, 1:48, 16:9)
 
 The owner's eight-scene, first-person script about @agenticscredit came with four of the project's own images and two

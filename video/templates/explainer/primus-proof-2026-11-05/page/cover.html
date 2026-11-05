@@ -1,0 +1,33 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Primus cover</title>
+<style>
+@font-face{font-family:Anton;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/anton-latin-400-normal.woff2)}
+@font-face{font-family:Man;font-weight:800;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-800-normal.woff2)}
+html,body{margin:0;overflow:hidden;background:#EAF1FB}
+#v,#t{display:none;position:relative;overflow:hidden;background:radial-gradient(1200px 1000px at 50% 40%,#F7FAFE 0%,#E8F0FB 55%,#D6E3F5 100%)}
+body.v #v{display:block;width:1080px;height:1920px} body.t #t{display:block;width:1280px;height:720px}
+.g{position:absolute;inset:0;background-image:linear-gradient(rgba(31,95,219,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(31,95,219,.05) 1px,transparent 1px);background-size:60px 60px}
+.card{position:absolute;border-radius:22px;overflow:hidden;background:#fff;padding:12px;box-shadow:0 0 0 1px rgba(11,31,68,.1),0 30px 70px rgba(11,31,68,.22)}
+.card img{display:block;width:100%;height:100%;object-fit:cover;border-radius:12px}
+.h{position:absolute;left:0;right:0;text-align:center;font:400 1px/1 Anton,sans-serif;color:#0B1F44;text-transform:uppercase;letter-spacing:.01em}
+.h b{font-weight:400;color:#FF5A00}
+.chip{position:absolute;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:16px;padding:12px 28px 12px 12px;border-radius:44px;background:#fff;box-shadow:0 0 0 2px #FF5A00,0 18px 40px rgba(11,31,68,.2);white-space:nowrap}
+.chip img{border-radius:50%}.chip span{font:800 1px/1 Man,sans-serif;color:#0B1F44}
+</style></head><body>
+<div id="v"><div class="g"></div>
+  <div class="chip" style="top:120px"><img src="img/icon.png" style="height:64px;width:64px"><span style="font-size:50px">@primus_labs</span></div>
+  <div class="card" style="left:90px;top:300px;width:876px;height:493px;transform:rotate(-3deg)"><img src="img/p5.jpg"></div>
+  <div class="card" style="left:130px;top:860px;width:836px;height:470px;transform:rotate(2.5deg)"><img src="img/p1.jpg"></div>
+  <div class="h" style="top:1470px;font-size:120px">They only need</div>
+  <div class="h" style="top:1600px;font-size:150px"><b>one answer</b></div>
+</div>
+<div id="t"><div class="g"></div>
+  <div class="card" style="left:676px;top:120px;width:540px;height:304px;transform:rotate(2.5deg)"><img src="img/p5.jpg"></div>
+  <div class="chip" style="top:40px;left:330px"><img src="img/icon.png" style="height:46px;width:46px"><span style="font-size:34px">@primus_labs</span></div>
+  <div class="h" style="top:160px;left:56px;right:640px;font-size:84px;text-align:left;white-space:nowrap">They only need</div>
+  <div class="h" style="top:258px;left:56px;right:560px;font-size:118px;text-align:left;white-space:nowrap"><b>one answer</b></div>
+  <div class="h" style="top:470px;left:56px;right:56px;font-size:56px;text-align:left;white-space:nowrap">Not your whole statement</div>
+</div>
+<script>document.body.className = location.hash.slice(1) || 'v'
+window.READY = Promise.all([document.fonts.load('80px Anton'), document.fonts.load('800 40px Man'), ...[...document.images].map(i => i.decode().catch(() => 0))])</script>
+</body></html>

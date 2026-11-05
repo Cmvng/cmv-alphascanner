@@ -12,8 +12,14 @@
 flash), and big enough to watch. It goes in the layouts viewers know from reaction videos: a reaction cam, a split
 screen, a cutaway.
 
-**Never go back to stickers.** The first version (commit 7ad483f) cut the face out with a white die-cut border at
-about 25% of the frame width, for about 1 s. The owner rejected it.
+**Stickers are back, done big (the owner, 4 Nov: "I like the reaction when it's in sticker form… It makes it look
+more real").** The first sticker version (commit 7ad483f) was rejected because the stickers were small (about 25% of the
+frame width) and on screen for only about 1 s.
+- **In explainers (the owner's script with Lara), use the die-cut animated sticker:** 450–520 px wide, 2.5–4.5 s, on
+  the word it answers. It pops in on the right while the edit shrinks left, so nothing explained or captioned is covered.
+- **In the owner's own talking-head recordings,** the video formats below still apply.
+- **Builders:** `video/lib/react_sticker.py` (restored from 7ad483f). It takes `k=1.1` for close-up clips, and
+  `video/lib/react_lib.py` writes `video/out/reactions/lib.js`.
 
 The study, with the research and sources, is in `study-video-reactions.md`. The owner got it with two demos:
 - your 7 Oct screen recording "Held Too Long", with 10 reactions;
@@ -82,3 +88,23 @@ The study, with the research and sources, is in `study-video-reactions.md`. The 
 6. **One meaning per face** (Side-Eye = "sure, buddy", the Grin = it came off), so viewers learn the vocabulary.
 7. **No added sound** unless the owner picks one. Never a whoosh.
 8. **Only inside videos with the owner's voice.** YouTube doesn't pay for "mostly non-verbal reactions".
+
+## The 5 Nov clips (nine more, stickers only)
+
+The owner filmed these close up, at home against a white wall. All nine are in `library.json` with their in, out and
+peak points:
+
+| Sticker | Meaning |
+|---|---|
+| The Stare | unimpressed, "really?" |
+| The Wince | ouch, awkward |
+| No Way! | the outburst peaks at 3.3 s |
+| Ugh | disgust or cringe |
+| Shook | shocked |
+| Crack-Up | laughing |
+| Nervous | uh-oh |
+| Nah | a finger wag; built "tall" so the hand stays in |
+| Hmm | a hand on the chin |
+
+No Way! and Shook are built with `k=1.12` so the chin and beard stay in. They play from `video/out/reactions/<id>/`
+(gitignored).
