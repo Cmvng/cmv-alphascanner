@@ -4,9 +4,9 @@
 # take 8.62 s); the beat stops for the pause and comes back on "If you're new". The bed is ducked under the voice, then
 # one gain to -14 LUFS plus a limiter.      bash mix.sh <work dir> <take.wav> <403.mp3>
 set -euo pipefail
-W=$1; TAKE=$2; MUS=$3; TOT=79.6
-CUT=51.6; GAP=0.6; VO=0.2
-DROP=$(python3 -I -c "print(round(8.62 + $VO - 0.05, 3))")   # the drop on the first slam
+W=$1; TAKE=$2; MUS=$3; TOT=${TOT:-79.6}
+CUT=${CUT:-51.6}; GAP=0.6; VO=0.2; SLAM=${SLAM:-8.62}
+DROP=$(python3 -I -c "print(round($SLAM + $VO - 0.05, 3))")   # the drop on the first slam
 OFF=$(python3 -I -c "print(round(14.769 - $DROP, 3))")       # where the track starts
 S0=$(python3 -I -c "print(round($CUT + $VO - 0.06, 3))"); S1=$(python3 -I -c "print(round($CUT + $VO + $GAP, 3))")
 ffmpeg -v error -y -i "$TAKE" -ar 48000 -ac 1 "$W/take48.wav"

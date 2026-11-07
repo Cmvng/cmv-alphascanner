@@ -230,6 +230,12 @@ video… not a case whereby it just shows up and goes away").** Before placing a
   - **Mix the grey T-shirt and shirtless sets** across the video, but keep one set per appearance.
 - Engine: `video/lib/react_flow.js`. Worked example: `explainer/primus-proof-2026-11-05/page/primus-flow.html`.
 
+**Narrator update (7 Nov, after "this voice sounded like a robot"):**
+- Use `video/lib/voice/chatterbox_voice.py` (Chatterbox-Turbo, MIT, its built-in voice).
+- **Never edit the voice's pitch or tempo.** The delivery-profile edits made it robotic.
+- Hear-back every take and re-record any misheard sentence.
+- The house_voice.py delivery engine below is retired.
+
 **The narrator voice (the owner, 7 Nov: "I don't want to be using ElevenLabs again… use that same voice pattern").**
 - **"Lara" is a real woman's paid ElevenLabs library voice.** Never clone or imitate its sound, never train on its
   audio, and never call our voice "Lara".

@@ -1,4 +1,22 @@
-# The house voice: free and commercial-use, carrying the measured delivery
+# The house voice: free and commercial-use
+
+## 7 Nov update: no more delivery edits, Chatterbox-Turbo is the narrator
+The owner on the Bagel picks video (Kokoro with the delivery profile): "this voice sounded like a robot".
+- **The cause was our own editing:**
+  - every phrase was forced into the same pitch shape;
+  - the take was synthesised in about 30 separate pieces, joined with exact digital silences.
+- **The base voices themselves are close to ElevenLabs Multilingual v2 in public blind arenas** (Kokoro about 30 Elo behind,
+  Phonon ahead on Artificial Analysis). They are far below ElevenLabs v3 and v4.
+- **Rule: never edit pitch or tempo again.** Use the model's own delivery, with plain sentence pauses and loudness only.
+- **Narrator from now on: `chatterbox_voice.py`.** This is Resemble AI Chatterbox-Turbo (MIT) in its built-in voice, with no
+  cloning. It runs on CPU at about 1.6–2× real time (80 s of audio takes about 2–2.5 min). Install notes are in the script header:
+  keep torch CPU, or pip pulls the 3 GB CUDA build.
+- **Always hear-back the take** (faster-whisper medium.en). Re-record any sentence that is misheard; a sentence can be
+  spliced back in. In one take, "Unbeaten in three" was heard as "I'm beaten in three", so it was re-recorded as "Three games
+  unbeaten".
+- **Runners-up, both plain:** Kokoro af_heart and Phonon Zoey. A/B reel: `video/out/voice-samples-2026-11-07/voice-test-reel-2026-11-07.mp3`.
+
+## Before 7 Nov (kept for the record; the delivery edits below are retired)
 
 The owner, 7 Nov 2026: "I don't want to be using ElevenLabs again… study the voice pattern… use that same voice pattern
 for my videos."

@@ -101,7 +101,7 @@ plan = {
 }
 # captions: chunks at punctuation, at most 7 words; key words blue
 KEY = {'$2.84', '$31.23', 'Bagel', 'Bagel,', 'Bagel.', 'Fulham.', 'Fulham,', 'Hotspur.', 'Tottenham', 'Tottenham,', 'Arsenal.', 'Arsenal,', 'Manchester',
-       'City.', 'City,', 'chain.', 'nothing.', '11', 'Combo.', 'Build', 'Combo', 'combo', 'bar', 'Buy,', 'payout.', 'Swipe', 'positions.', 'lose.', '18', 'post.', 'holds.', 'brave', 'every', 'single', 'Three', 'Unbeaten'}
+       'City.', 'City,', 'chain.', 'nothing.', '11', 'Combo.', 'Build', 'Combo', 'combo', 'bar', 'Buy,', 'payout.', 'Swipe', 'positions.', 'lose.', '18', 'post.', 'holds.', 'brave', 'every', 'single', 'Three', 'unbeaten,'}
 caps, cur = [], []
 def flush():
     global cur
