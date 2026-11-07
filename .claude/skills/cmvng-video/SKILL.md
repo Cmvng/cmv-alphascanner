@@ -216,6 +216,26 @@ When the owner asks for "the Polymarket video" or "prediction market plays", cop
 When the owner asks for an explainer ("explain Packs", "a video on how X works"), copy
 `video/templates/explainer/limitless-packs-2026-10-03.json` and read `video/templates/explainer/README.md`.
 
+**The owner's reaction stickers must FLOW with the video (the owner, 7 Nov: "intertwined… progressing with the
+video… not a case whereby it just shows up and goes away").** Before placing any reaction, read
+`video/templates/reactions/PLAYBOOK.md`.
+- He is a character in the scene: already there and listening before the moment, and the face changes in place
+  0.2 s after the trigger word (CTC word times from `video/lib/align_words.py`).
+- Each reaction is tied to one word and one on-screen thing, which reacts back.
+- He has a home in the layout that fits the video's concept. Never shrink the edit for him.
+- Entrances and exits need a reason (peek, duck, pushed). The reactions form an arc, 2–3 a minute.
+- Engine: `video/lib/react_flow.js`. Worked example: `explainer/primus-proof-2026-11-05/page/primus-flow.html`.
+
+**The narrator voice (the owner, 7 Nov: "I don't want to be using ElevenLabs again… use that same voice pattern").**
+- **"Lara" is a real woman's paid ElevenLabs library voice.** Never clone or imitate its sound, never train on its
+  audio, and never call our voice "Lara".
+- **What we keep is her measured delivery:** `video/templates/voice/lara-delivery/` (analysis.md, profile.json, and
+  measure.py to compare any take with it).
+- **The house voice applies that delivery to a free, commercially licensed engine:** `video/lib/voice/` (see its
+  README).
+- **First-person scripts:** use the house voice, or the owner's own voice. ElevenLabs only if he asks.
+- **Write scripts by analysis.md's "How to write a script for this delivery".**
+
 - **Sound:** keep the approved settings: `af_heart` with `voice_fx: "deep"` at speed 1.0, `sound: "cinematic"`, a drop
   track (`music_track` 720 or 370) with `music_drop: "hook"`, and a cold open before the drop. The owner called the plain
   voice and soundtrack "basic"; this is the fix.

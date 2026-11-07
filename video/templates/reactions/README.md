@@ -15,8 +15,11 @@ screen, a cutaway.
 **Stickers are back, done big (the owner, 4 Nov: "I like the reaction when it's in sticker form… It makes it look
 more real").** The first sticker version (commit 7ad483f) was rejected because the stickers were small (about 25% of the
 frame width) and on screen for only about 1 s.
-- **In explainers (the owner's script with Lara), use the die-cut animated sticker:** 450–520 px wide, 2.5–4.5 s, on
-  the word it answers. It pops in on the right while the edit shrinks left, so nothing explained or captioned is covered.
+- **In explainers, use the die-cut animated sticker AS A CHARACTER, by `PLAYBOOK.md` (the owner, 7 Nov: "flows with
+  the video… not a case whereby it just shows up and goes away").** Read the playbook before placing any reaction. The
+  4–5 Nov method (pop in on the right on the caption line while the whole edit shrinks to 72%, then pop out) is retired:
+  it is the "shows up and goes away" the owner rejected. Engine: `video/lib/react_flow.js`; word times:
+  `video/lib/align_words.py`.
 - **In the owner's own talking-head recordings,** the video formats below still apply.
 - **Builders:** `video/lib/react_sticker.py` (restored from 7ad483f). It takes `k=1.1` for close-up clips, and
   `video/lib/react_lib.py` writes `video/out/reactions/lib.js`.

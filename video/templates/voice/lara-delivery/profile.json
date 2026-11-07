@@ -1,0 +1,1018 @@
+{
+ "voice": "Lara - Natural, Relatable and Engaging (ElevenLabs eleven_v4 library voice, voice_id vChnJZ1Cu89g2XXumPfT)",
+ "scope": "Delivery only: pace, pauses, melody, emphasis, energy, phrasing, script style. Not timbre; do not clone the voice.",
+ "takes": [
+  {
+   "label": "primus",
+   "audio": "../prx/in/take.mp3",
+   "duration_s": 69.12,
+   "aligner": "ctc"
+  },
+  {
+   "label": "agentics",
+   "audio": "../agx/in/take.mp3",
+   "duration_s": 105.68,
+   "aligner": "ctc"
+  },
+  {
+   "label": "bagel",
+   "audio": "../bgx/voice/dl/take.mp3",
+   "duration_s": 95.44,
+   "aligner": "ctc"
+  }
+ ],
+ "measured_with": "templates/voice/lara-delivery/measure.py",
+ "verified": {
+  "date": "2026-11-07",
+  "by": "independent re-measurement of Primus + Agentics (not measure.py logic): ffmpeg silencedetect -60 dBFS per-sample + own RMS VAD; own DP word-gap alignment (island duration + whisper edges, no script-punctuation prior); librosa pyin 65-500 Hz with own periodicity/near-silence cleaning; own syllable counter. Work files: scratchpad/voice_verify/. measure.py re-run on Primus reproduces voice/prx.json exactly (14,803 values identical).",
+  "confirmed": {
+   "script_words_per_min": "158.3 / 166.6 (identical)",
+   "articulation_syll_per_s": "4.55 / 4.56 vs 4.51 / 4.59 (within 1%); syllables 279 / 415 vs 278 / 418",
+   "pauses_ms_two_take_pool": "full stop 375 vs 375, new topic 466 vs 465, ellipsis 396 vs 390, colon 344 vs 337, comma 206 vs 205 when paused with p_pause 0.605 vs 0.605; 67 shared pauses differ by a median 5-6 ms",
+   "unpunctuated_pauses": "4 of 392 gaps >= 80 ms (theirs 3): get [119] every, app [83] only, so [82] $200 (a /t/ closure), $1 [329] or",
+   "f0": "median 216.1 / 205.2 Hz vs 212.4 / 204.1 (+0.5-1.7%); p5-p95 range 11.7 / 11.8 st vs 11.84 / 11.88; sd 3.74 / 3.79 vs 3.66 / 3.65 st (+2-4%)",
+   "emphasis": "10 sample phrases: same F0-peak word in 9/10 with own word times, 10/10 with CTC times; same energy-peak word 10/10. 70 phrases: first content word holds the F0 peak 54-64% (theirs 56%), last content word 10% (13%), contrast 32-36% (35%), numbers 28% (30%) with energy-peak lift 2.7 (2.3), project names 3/3",
+   "loudness": "-19.9 / -20.0 LUFS, true peak -1.0 / -0.9 dBTP"
+  },
+  "corrected_or_qualified": {
+   "whisper_timing": "Whisper large-v3 word starts are 0.15-0.16 s early overall (median vs CTC, not 0.18-0.20) but 0.39-0.40 s early on the first word after a pause >= 150 ms, where 42-53% are more than 0.4 s early (checked against silence ends; CTC onsets sit within 7 ms of them). Phrase starts, where reactions land, need CTC times or whisper + 0.4 s, not + 0.2 s.",
+   "final_contour_probs_full_stop": "LOW CONFIDENCE, do not use as synthesis targets. Fall/level/rise shares depend on the contour method: a 300 ms pre-pause window gave fall 0.33 / level 0.56 / rise 0.11; the CTC last word with pyin gave fall 0.09 / level 0.52 / rise 0.39, the rises being re-voiced tails after creak. 39-45% of full-stop finals are too aperiodic for pyin to track. Robust target: 0.67 (own) to 0.74 (measure.py, same two takes) of full stops end low or creaky. 'Upspeak 15%' is not reproducible.",
+   "comma_micro_gap": "The 82% share of commas with a >= 30 ms gap holds only for frame-energy dips (re-measured 0.87 / 0.96 at -50 dB re p95); with true near-silence (per-sample < -60 dBFS) it is 0.40 / 0.83. Read it as an energy dip, not a silence.",
+   "emphasis_st_reference": "emphasis st values are word p90 F0 against the phrase frame median, so function words already sit +1.3 st. Lift over function words: numbers about +1.9 st, contrast +2.0, names +2.7, project names +5.",
+   "takes_audio_paths": "takes[].audio are relative to scratchpad/voice/, not to this folder."
+  },
+  "values_changed": "none; the numbers above are notes, the measured values are unchanged"
+ },
+ "units": "ms for pauses; st = semitones (pitch re the take median); dB re the take; stretch = duration / expected for its syllables",
+ "rate": {
+  "articulation_syll_per_s": {
+   "mean": 4.51,
+   "sentence_sd": 0.67,
+   "sentence_p10": 3.74,
+   "sentence_p90": 5.42
+  },
+  "syllables_per_s_incl_pauses": 3.94,
+  "script_words_per_min": 166.3,
+  "pause_share_of_time": 0.132,
+  "sentence_rate_cv": 0.147,
+  "phrase_rate_factor": {
+   "list_items": 0.991,
+   "asides": 1.076,
+   "key_lines": 1.014,
+   "with_number": 0.982,
+   "with_name": 0.988,
+   "plain": 1.007,
+   "sentence_first_phrase": 0.995,
+   "later_phrase": 1.004,
+   "short_1_3_units": 0.959,
+   "long_7plus_units": 1.024,
+   "hook_first_sentence": 0.989,
+   "parenthesis": 1.211
+  },
+  "word_rate_vs_rest_of_phrase": {
+   "number_amount": 1.17,
+   "name": 0.987,
+   "contrast": 1.165,
+   "verb": 0.923,
+   "content": 0.884,
+   "function": 1.492,
+   "project": 0.921,
+   "multi_syllable_content": 1.121,
+   "multi_syllable_number": 1.345
+  },
+  "number_name_duration_factor": {
+   "numbers_vs_multisyllable_content": 0.833,
+   "names_vs_content": 0.896,
+   "note": "per-syllable duration of numbers / names mid-phrase vs comparable content words; 1 = same, < 1 = faster, > 1 = slowed"
+  },
+  "pre_pause_lengthening": {
+   "stretch_ratio": 1.747,
+   "same_word_ratio": 1.311,
+   "by_class": {
+    "ellipsis": 1.586,
+    "new_topic": 1.701,
+    "sentence": 1.531,
+    "colon_dash": 1.878,
+    "comma": 1.634
+   },
+   "one_syllable_word_s": {
+    "pre": 0.43,
+    "mid": 0.19
+   }
+  }
+ },
+ "pauses_ms": {
+  "ellipsis": {
+   "n_boundaries": 10,
+   "p_pause": 1.0,
+   "mean": 368.0,
+   "sd": 65.0,
+   "median": 382.0,
+   "p10": 290.0,
+   "p90": 445.0,
+   "p_gap_ge30": 1.0,
+   "gap_mean_incl_zero": 368.0
+  },
+  "new_topic": {
+   "n_boundaries": 18,
+   "p_pause": 1.0,
+   "mean": 424.0,
+   "sd": 88.0,
+   "median": 418.0,
+   "p10": 337.0,
+   "p90": 510.0,
+   "p_gap_ge30": 1.0,
+   "gap_mean_incl_zero": 424.0
+  },
+  "sentence": {
+   "n_boundaries": 43,
+   "p_pause": 1.0,
+   "mean": 368.0,
+   "sd": 56.0,
+   "median": 365.0,
+   "p10": 310.0,
+   "p90": 432.0,
+   "p_gap_ge30": 1.0,
+   "gap_mean_incl_zero": 368.0
+  },
+  "colon_dash": {
+   "n_boundaries": 3,
+   "p_pause": 1.0,
+   "mean": 305.0,
+   "sd": 57.0,
+   "median": 330.0,
+   "p10": 258.0,
+   "p90": 342.0,
+   "p_gap_ge30": 1.0,
+   "gap_mean_incl_zero": 305.0
+  },
+  "comma": {
+   "n_boundaries": 63,
+   "p_pause": 0.524,
+   "mean": 210.0,
+   "sd": 87.0,
+   "median": 200.0,
+   "p10": 107.0,
+   "p90": 317.0,
+   "p_gap_ge30": 0.825,
+   "gap_mean_incl_zero": 126.0
+  },
+  "before_number_name": {
+   "n_boundaries": 64,
+   "p_pause": 0.016,
+   "mean": 80.0,
+   "sd": 0.0,
+   "median": 80.0,
+   "p10": 80.0,
+   "p90": 80.0,
+   "p_gap_ge30": 0.141,
+   "gap_mean_incl_zero": 8.0
+  },
+  "none": {
+   "n_boundaries": 544,
+   "p_pause": 0.004,
+   "mean": 220.0,
+   "sd": 148.0,
+   "median": 220.0,
+   "p10": 136.0,
+   "p90": 304.0,
+   "p_gap_ge30": 0.051,
+   "gap_mean_incl_zero": 3.0
+  },
+  "ellipsis_mid_sentence": {
+   "mean": 353.0,
+   "sd": 62.0,
+   "median": 350.0,
+   "n": 6,
+   "p_pause": null
+  },
+  "ellipsis_sentence_end": {
+   "mean": 390.0,
+   "sd": 71.0,
+   "median": 412.0,
+   "n": 4,
+   "p_pause": null
+  },
+  "comma_in_list": {
+   "mean": 207.0,
+   "sd": 81.0,
+   "median": 200.0,
+   "n": 9,
+   "p_pause": 0.562
+  },
+  "comma_not_list": {
+   "mean": 211.0,
+   "sd": 91.0,
+   "median": 198.0,
+   "n": 24,
+   "p_pause": 0.511
+  },
+  "comma_before_number_name": {
+   "mean": 248.0,
+   "sd": 8.0,
+   "median": 250.0,
+   "n": 3,
+   "p_pause": null
+  },
+  "any_paragraph": {
+   "mean": 439.0,
+   "sd": 84.0,
+   "median": 425.0,
+   "n": 13
+  },
+  "any_new_topic": {
+   "mean": 424.0,
+   "sd": 81.0,
+   "median": 425.0,
+   "n": 21
+  },
+  "any_sentence_end": {
+   "mean": 385.0,
+   "sd": 70.0,
+   "median": 370.0,
+   "n": 65
+  }
+ },
+ "breaths_per_min": 0.0,
+ "pitch": {
+  "median_hz": 211.2,
+  "range_p5_p95_st": 11.96,
+  "sd_st": 3.68,
+  "phrase_onset_st": 0.83,
+  "phrase_peak_st": 7.41,
+  "phrase_end_st": -1.92,
+  "phrase_peak_position": 0.235,
+  "phrase_range_st": 10.48,
+  "declination_st_per_s": {
+   "median": -3.75,
+   "sd": 8.95
+  },
+  "sentence_reset_st": {
+   "mean": 4.74,
+   "sd": 3.59,
+   "at_new_topic": 5.71
+  },
+  "final_contours": {
+   "full_stop": {
+    "fall": 0.508,
+    "level": 0.18,
+    "fall-rise": 0.082,
+    "rise": 0.148,
+    "rise-fall": 0.082,
+    "n": 61,
+    "p_low_or_creaky_end": 0.77,
+    "p_creaky_end": 0.246,
+    "final_delta_st_median": -1.95,
+    "end_vs_phrase_median_st": -2.92
+   },
+   "comma": {
+    "level": 0.095,
+    "rise-fall": 0.19,
+    "rise": 0.095,
+    "fall-rise": 0.254,
+    "fall": 0.365,
+    "n": 63,
+    "p_low_or_creaky_end": 0.54,
+    "p_creaky_end": 0.206,
+    "final_delta_st_median": -1.64,
+    "end_vs_phrase_median_st": -1.16
+   },
+   "ellipsis_mid": {
+    "fall-rise": 0.333,
+    "level": 0.333,
+    "rise": 0.167,
+    "rise-fall": 0.167,
+    "n": 6,
+    "p_low_or_creaky_end": 0.5,
+    "p_creaky_end": 0.0,
+    "final_delta_st_median": -0.22,
+    "end_vs_phrase_median_st": -1.3
+   },
+   "ellipsis_end": {
+    "fall": 0.5,
+    "rise": 0.25,
+    "level": 0.25,
+    "n": 4,
+    "p_low_or_creaky_end": 0.75,
+    "p_creaky_end": 0.25,
+    "final_delta_st_median": -1.47,
+    "end_vs_phrase_median_st": -3.0
+   },
+   "colon_dash": {
+    "fall": 1.0,
+    "n": 3,
+    "p_low_or_creaky_end": 1.0,
+    "p_creaky_end": 0.0,
+    "final_delta_st_median": -2.47,
+    "end_vs_phrase_median_st": -6.68
+   },
+   "list_item": {
+    "rise": 0.308,
+    "fall": 0.231,
+    "rise-fall": 0.231,
+    "fall-rise": 0.231,
+    "n": 13,
+    "p_low_or_creaky_end": 0.231,
+    "p_creaky_end": 0.0,
+    "final_delta_st_median": 0.31,
+    "end_vs_phrase_median_st": 0.03
+   },
+   "no_punct_pause": {
+    "fall": 1.0,
+    "n": 1,
+    "p_low_or_creaky_end": 1.0,
+    "p_creaky_end": 0.0,
+    "final_delta_st_median": -2.79,
+    "end_vs_phrase_median_st": -2.62
+   },
+   "take_end": {
+    "fall": 1.0,
+    "n": 3,
+    "p_low_or_creaky_end": 1.0,
+    "p_creaky_end": 0.0,
+    "final_delta_st_median": -8.3,
+    "end_vs_phrase_median_st": -3.26
+   }
+  },
+  "upspeak_rate_full_stops": 0.148
+ },
+ "emphasis": {
+  "by_category": {
+   "number_amount": {
+    "n": 37,
+    "p_is_phrase_f0_peak": 0.297,
+    "lift_f0_peak": 1.78,
+    "lift_energy_peak": 2.27,
+    "f0_st": {
+     "mean": 3.17,
+     "sd": 3.57
+    },
+    "db": 1.75,
+    "stretch": 1.066
+   },
+   "name": {
+    "n": 23,
+    "p_is_phrase_f0_peak": 0.348,
+    "lift_f0_peak": 2.09,
+    "lift_energy_peak": 1.3,
+    "f0_st": {
+     "mean": 3.99,
+     "sd": 4.03
+    },
+    "db": 2.59,
+    "stretch": 1.149
+   },
+   "contrast": {
+    "n": 49,
+    "p_is_phrase_f0_peak": 0.347,
+    "lift_f0_peak": 2.08,
+    "lift_energy_peak": 1.71,
+    "f0_st": {
+     "mean": 3.29,
+     "sd": 4.27
+    },
+    "db": 1.29,
+    "stretch": 1.076
+   },
+   "verb": {
+    "n": 109,
+    "p_is_phrase_f0_peak": 0.156,
+    "lift_f0_peak": 0.94,
+    "lift_energy_peak": 1.32,
+    "f0_st": {
+     "mean": 1.95,
+     "sd": 3.73
+    },
+    "db": 0.88,
+    "stretch": 1.123
+   },
+   "content": {
+    "n": 160,
+    "p_is_phrase_f0_peak": 0.188,
+    "lift_f0_peak": 1.12,
+    "lift_energy_peak": 0.94,
+    "f0_st": {
+     "mean": 1.65,
+     "sd": 3.76
+    },
+    "db": -0.1,
+    "stretch": 1.285
+   },
+   "function": {
+    "n": 318,
+    "p_is_phrase_f0_peak": 0.104,
+    "lift_f0_peak": 0.62,
+    "lift_energy_peak": 0.64,
+    "f0_st": {
+     "mean": 1.29,
+     "sd": 3.24
+    },
+    "db": -0.68,
+    "stretch": 0.704
+   },
+   "project": {
+    "n": 6,
+    "p_is_phrase_f0_peak": 0.667,
+    "lift_f0_peak": 4.0,
+    "lift_energy_peak": 2.0,
+    "f0_st": {
+     "mean": 6.3,
+     "sd": 5.42
+    },
+    "db": 3.38,
+    "stretch": 1.121
+   },
+   "key_marked": {
+    "n": 53,
+    "p_is_phrase_f0_peak": 0.151,
+    "lift_f0_peak": 0.91,
+    "lift_energy_peak": 1.36,
+    "f0_st": {
+     "mean": 0.86,
+     "sd": 3.49
+    },
+    "db": 0.38,
+    "stretch": 1.121
+   }
+  },
+  "position": {
+   "first_content_word_is_f0_peak": 0.557,
+   "last_content_word_is_f0_peak": 0.134,
+   "f0_peak_word_position_median": 0.25
+  },
+  "nucleus": {
+   "f0_st": 5.93,
+   "db": 3.29,
+   "stretch": 1.2
+  },
+  "f0_and_energy_peak_same_word": 0.457
+ },
+ "energy": {
+  "loudness_lufs": -19.87,
+  "take_loudness": [
+   {
+    "integrated_lufs": -19.9,
+    "lra_lu": 2.6,
+    "true_peak_dbtp": -1.0
+   },
+   {
+    "integrated_lufs": -20.0,
+    "lra_lu": 2.6,
+    "true_peak_dbtp": -0.9
+   },
+   {
+    "integrated_lufs": -19.7,
+    "lra_lu": 2.9,
+    "true_peak_dbtp": 0.0
+   }
+  ],
+  "phrase_db_range_db": {
+   "mean": 30.58,
+   "sd": 6.28
+  },
+  "phrase_content_word_peak_range_db": 5.0,
+  "phrase_final_word_drop_db": {
+   "mean": -4.86,
+   "sd": 3.18
+  },
+  "final_drop_by_boundary_db": {
+   "ellipsis": -3.63,
+   "new_topic": -6.75,
+   "sentence": -5.24,
+   "colon_dash": -8.03,
+   "comma": -4.05
+  },
+  "phrase_last200ms_drop_db": -10.39,
+  "phrase_level_sd_db": 1.25,
+  "creaky_end_rate": 0.206,
+  "voice_quality_mean": {
+   "hnr_db_mean": 17.95,
+   "jitter_local_pct": 1.77,
+   "shimmer_local_pct": 7.36,
+   "tilt_db_per_octave": -6.15,
+   "alpha_ratio_db": -7.9,
+   "hammarberg_db": 18.85,
+   "centroid_hz_median": 420.0
+  }
+ },
+ "tokens": {
+  "money_percent": {
+   "n": 28,
+   "stretch_median": 1.276,
+   "f0_st_vs_phrase_median": 1.766,
+   "p_pause_before": 0.071,
+   "spoken": [
+    "$0 -> zero.",
+    "$1 -> $1,",
+    "$1 -> $1.",
+    "$10,000 -> $10,000",
+    "$100 -> $100",
+    "$14 -> $14,",
+    "$20 -> $20.",
+    "$200 -> $200.",
+    "$4 -> $4.",
+    "$700 -> $700",
+    "$8,200 -> $8,200",
+    "$8,200 -> $8,200,",
+    "$9 -> $9.",
+    "$9,300 -> $9,300",
+    "0.5% -> 0.5%.",
+    "0.50 -> 50 cents.",
+    "1% -> 1%",
+    "12% -> 12%,",
+    "20% -> 20%,",
+    "48% -> 48%",
+    "48% -> 48%,",
+    "cents -> cents",
+    "cents -> cents,",
+    "cents -> cents.",
+    "percent -> percent."
+   ]
+  },
+  "plain_numbers": {
+   "n": 14,
+   "stretch_median": 1.051,
+   "f0_st_vs_phrase_median": 2.757,
+   "p_pause_before": 0.071,
+   "spoken": [
+    "0.50 -> 50 cents.",
+    "20 -> $20.",
+    "20 -> 20",
+    "200 -> 200",
+    "300 -> 300",
+    "45 -> 45",
+    "47 -> 47",
+    "48 -> 48",
+    "5 -> five",
+    "580 -> 580",
+    "70 -> 70",
+    "850 -> 850,"
+   ]
+  },
+  "acronyms": {
+   "n": 6,
+   "spoken": [
+    "ACS -> ACS.",
+    "F.H.E. -> FHE",
+    "NBA -> NBA,",
+    "OK -> okay",
+    "ZK-TLS -> ZKTLS"
+   ],
+   "stretch_median": 1.413
+  },
+  "handles": [
+   {
+    "written": "@agenticscredit",
+    "said": "Agentech's credit",
+    "pause_before_ms": 515.0,
+    "f0_st_vs_phrase": 10.77
+   }
+  ],
+  "anyways": [
+   {
+    "pause_before_ms": 435.0,
+    "dur_s": 0.71
+   },
+   {
+    "pause_before_ms": 425.0,
+    "dur_s": 0.63
+   }
+  ],
+  "so_openers": {
+   "n": 4,
+   "pause_before_ms_median": 335.0,
+   "pause_after_ms_median": 0.0,
+   "f0_st_vs_phrase_median": 2.761
+  },
+  "ellipses": {
+   "n": 10,
+   "pause_ms_median": 382.5,
+   "contours": {
+    "rise-fall": 1,
+    "level": 3,
+    "fall-rise": 2,
+    "rise": 2,
+    "fall": 2
+   },
+   "final_drop_db_median": -4.225
+  },
+  "aside_vs_main": {
+   "aside": {
+    "f0_med_st": 1.56,
+    "db_mean": -6.37,
+    "rate": 4.88
+   },
+   "main": {
+    "f0_med_st": 0.19,
+    "db_mean": -5.65,
+    "rate": 4.53
+   }
+  }
+ },
+ "tts_targets": {
+  "note": "The few numbers a synthesis pipeline needs; everything above is the evidence.",
+  "break_ms": {
+   "sentence": 365.0,
+   "new_topic_or_paragraph": 425.0,
+   "ellipsis": 382.0,
+   "colon_dash": 330.0,
+   "comma": {
+    "p_break": 0.524,
+    "ms_when_break": 200.0,
+    "otherwise_micro_gap_ms": "30-80"
+   },
+   "comma_before_number_or_name": 250.0,
+   "unpunctuated_word_gap": 0
+  },
+  "pause_sd_ms": {
+   "sentence": 56.0,
+   "new_topic": 88.0,
+   "ellipsis": 65.0,
+   "comma": 87.0
+  },
+  "articulation_syll_per_s": 4.51,
+  "script_words_per_min": 166.3,
+  "final_word_stretch_before_pause": 1.747,
+  "aside_rate_factor": 1.076,
+  "parenthesis_rate_factor": 1.211,
+  "numbers_names_slow_down": "none (spoken at or above the rate of other content words); mark them with pitch and level instead",
+  "f0": {
+   "range_p5_p95_st": 11.96,
+   "sd_st": 3.68,
+   "phrase_peak_st_above_median": 7.41,
+   "phrase_peak_position": 0.235,
+   "phrase_end_st": -1.92,
+   "declination_st_per_s": -3.75,
+   "sentence_reset_st": 4.74,
+   "reference_median_hz": 211.2,
+   "keep_target_voice_median": true
+  },
+  "final_contour_probs": {
+   "full_stop": {
+    "fall": 0.508,
+    "level": 0.18,
+    "fall-rise": 0.082,
+    "rise": 0.148,
+    "rise-fall": 0.082,
+    "p_low_or_creaky_end": 0.77
+   },
+   "comma": {
+    "level": 0.095,
+    "rise-fall": 0.19,
+    "rise": 0.095,
+    "fall-rise": 0.254,
+    "fall": 0.365,
+    "p_low_or_creaky_end": 0.54
+   },
+   "ellipsis_mid": {
+    "fall-rise": 0.333,
+    "level": 0.333,
+    "rise": 0.167,
+    "rise-fall": 0.167,
+    "p_low_or_creaky_end": 0.5
+   },
+   "ellipsis_end": {
+    "fall": 0.5,
+    "rise": 0.25,
+    "level": 0.25,
+    "p_low_or_creaky_end": 0.75
+   },
+   "colon_dash": {
+    "fall": 1.0,
+    "p_low_or_creaky_end": 1.0
+   },
+   "list_item": {
+    "rise": 0.308,
+    "fall": 0.231,
+    "rise-fall": 0.231,
+    "fall-rise": 0.231,
+    "p_low_or_creaky_end": 0.231
+   }
+  },
+  "emphasis_st_db": {
+   "number_amount": {
+    "st": 3.17,
+    "db": 1.75,
+    "p_peak": 0.297
+   },
+   "name": {
+    "st": 3.99,
+    "db": 2.59,
+    "p_peak": 0.348
+   },
+   "contrast": {
+    "st": 3.29,
+    "db": 1.29,
+    "p_peak": 0.347
+   },
+   "verb": {
+    "st": 1.95,
+    "db": 0.88,
+    "p_peak": 0.156
+   },
+   "content": {
+    "st": 1.65,
+    "db": -0.1,
+    "p_peak": 0.188
+   },
+   "function": {
+    "st": 1.29,
+    "db": -0.68,
+    "p_peak": 0.104
+   },
+   "project": {
+    "st": 6.3,
+    "db": 3.38,
+    "p_peak": 0.667
+   },
+   "key_marked": {
+    "st": 0.86,
+    "db": 0.38,
+    "p_peak": 0.151
+   }
+  },
+  "emphasis_rule": "pitch peak on the first content word of the phrase (or a project name / number / contrast word in it), then a steady fall",
+  "phrase_final_drop_db": -4.86,
+  "phrase_level_sd_db": 1.25,
+  "creaky_end_rate": 0.206,
+  "raw_voice_loudness_lufs": -19.87,
+  "breaths_per_min": 0.0
+ },
+ "script_style": {
+  "primus": {
+   "words": 182,
+   "sentences": 17,
+   "words_per_sentence": {
+    "n": 17,
+    "mean": 10.71,
+    "sd": 4.36,
+    "median": 11.0,
+    "p10": 6.8,
+    "p90": 15.0
+   },
+   "ellipses": 6,
+   "ellipses_mid_sentence": 2,
+   "ellipses_per_100w": 3.3,
+   "commas_per_sentence": 0.88,
+   "questions": 0,
+   "colons_dashes": 0,
+   "parentheses": 0,
+   "you_per_100w": 4.95,
+   "i_my_per_100w": 0.55,
+   "contractions_per_100w": 2.75,
+   "openers": {
+    "so": 2,
+    "apps": 1,
+    "if you're new": 1,
+    "zk-tls": 1,
+    "and": 1,
+    "most": 1,
+    "say": 1,
+    "your": 1,
+    "upload": 1,
+    "connect": 1,
+    "with": 1,
+    "the": 1,
+    "not": 1,
+    "those": 1,
+    "it's": 1
+   },
+   "numbers_as_digits": 4,
+   "numbers_as_words": 0,
+   "money_tokens": [
+    "$8,200",
+    "$8,200"
+   ],
+   "handles": [],
+   "acronyms": [
+    "F.H.E.",
+    "ZK-TLS"
+   ],
+   "captions_or_paragraphs": 6,
+   "words_per_caption": {
+    "n": 6,
+    "mean": 30.33,
+    "sd": 12.85,
+    "median": 29.0,
+    "p10": 17.5,
+    "p90": 44.5
+   }
+  },
+  "agentics": {
+   "words": 293,
+   "sentences": 22,
+   "words_per_sentence": {
+    "n": 22,
+    "mean": 13.32,
+    "sd": 6.36,
+    "median": 14.0,
+    "p10": 4.2,
+    "p90": 21.9
+   },
+   "ellipses": 3,
+   "ellipses_mid_sentence": 2,
+   "ellipses_per_100w": 1.02,
+   "commas_per_sentence": 1.05,
+   "questions": 0,
+   "colons_dashes": 2,
+   "parentheses": 1,
+   "you_per_100w": 6.83,
+   "i_my_per_100w": 2.05,
+   "contractions_per_100w": 4.44,
+   "openers": {
+    "i": 2,
+    "team": 2,
+    "nobody": 1,
+    "@agenticscredit": 1,
+    "let": 1,
+    "if you're new": 1,
+    "no": 1,
+    "this": 1,
+    "each": 1,
+    "let's say": 1,
+    "just": 1,
+    "you": 1,
+    "hold": 1,
+    "now": 1,
+    "it": 1
+   },
+   "numbers_as_digits": 17,
+   "numbers_as_words": 0,
+   "money_tokens": [
+    "$10,000",
+    "$700",
+    "$9,300",
+    "$100",
+    "$1",
+    "$200",
+    "$0",
+    "$1",
+    "$0",
+    "12%",
+    "20%"
+   ],
+   "handles": [
+    "@agenticscredit"
+   ],
+   "acronyms": [
+    "ACS"
+   ],
+   "captions_or_paragraphs": 39,
+   "words_per_caption": {
+    "n": 39,
+    "mean": 7.51,
+    "sd": 3.42,
+    "median": 7.0,
+    "p10": 3.8,
+    "p90": 12.0
+   }
+  },
+  "bagel": {
+   "words": 273,
+   "sentences": 29,
+   "words_per_sentence": {
+    "n": 29,
+    "mean": 9.41,
+    "sd": 5.26,
+    "median": 9.0,
+    "p10": 3.0,
+    "p90": 16.6
+   },
+   "ellipses": 3,
+   "ellipses_mid_sentence": 2,
+   "ellipses_per_100w": 1.1,
+   "commas_per_sentence": 0.86,
+   "questions": 0,
+   "colons_dashes": 1,
+   "parentheses": 0,
+   "you_per_100w": 6.96,
+   "i_my_per_100w": 1.47,
+   "contractions_per_100w": 5.86,
+   "openers": {
+    "open": 3,
+    "that's": 3,
+    "so": 2,
+    "if": 2,
+    "chelsea": 2,
+    "you're": 1,
+    "on": 1,
+    "let": 1,
+    "if you're new": 1,
+    "pick": 1,
+    "let's say": 1,
+    "now": 1,
+    "your": 1,
+    "hold": 1,
+    "and yeah": 1
+   },
+   "numbers_as_digits": 15,
+   "numbers_as_words": 1,
+   "money_tokens": [
+    "48%",
+    "48%",
+    "$1",
+    "$9",
+    "$14",
+    "$4",
+    "$20",
+    "1%",
+    "0.5%"
+   ],
+   "handles": [],
+   "acronyms": [
+    "NBA",
+    "OK"
+   ],
+   "captions_or_paragraphs": 42,
+   "words_per_caption": {
+    "n": 42,
+    "mean": 6.5,
+    "sd": 2.32,
+    "median": 7.0,
+    "p10": 3.0,
+    "p90": 9.0
+   }
+  }
+ },
+ "per_take": {
+  "primus": {
+   "articulation_syll_per_s": 4.51,
+   "script_words_per_min": 158.3,
+   "pause_share_of_time": 0.117,
+   "f0_median_hz": 212.4,
+   "f0_range_p5_p95_st": 11.84,
+   "f0_sd_st": 3.66,
+   "lufs": -19.9,
+   "pause_ms_median": {
+    "ellipsis": 435.0,
+    "new_topic": 485.0,
+    "sentence": 365.0,
+    "comma": 110.0,
+    "before_number_name": null,
+    "none": 115.0
+   },
+   "p_pause": {
+    "ellipsis": 1.0,
+    "new_topic": 1.0,
+    "sentence": 1.0,
+    "comma": 0.4,
+    "before_number_name": 0.0,
+    "none": 0.007
+   }
+  },
+  "agentics": {
+   "articulation_syll_per_s": 4.59,
+   "script_words_per_min": 166.6,
+   "pause_share_of_time": 0.14,
+   "f0_median_hz": 204.1,
+   "f0_range_p5_p95_st": 11.88,
+   "f0_sd_st": 3.65,
+   "lufs": -20.0,
+   "pause_ms_median": {
+    "ellipsis": 350.0,
+    "new_topic": 465.0,
+    "sentence": 385.0,
+    "colon_dash": 338.0,
+    "comma": 245.0,
+    "before_number_name": 80.0,
+    "none": 325.0
+   },
+   "p_pause": {
+    "ellipsis": 1.0,
+    "new_topic": 1.0,
+    "sentence": 1.0,
+    "colon_dash": 1.0,
+    "comma": 0.739,
+    "before_number_name": 0.042,
+    "none": 0.005
+   }
+  },
+  "bagel": {
+   "articulation_syll_per_s": 4.42,
+   "script_words_per_min": 171.9,
+   "pause_share_of_time": 0.133,
+   "f0_median_hz": 217.2,
+   "f0_range_p5_p95_st": 12.16,
+   "f0_sd_st": 3.74,
+   "lufs": -19.7,
+   "pause_ms_median": {
+    "ellipsis": 290.0,
+    "new_topic": 368.0,
+    "sentence": 335.0,
+    "colon_dash": 240.0,
+    "comma": 175.0,
+    "before_number_name": null,
+    "none": null
+   },
+   "p_pause": {
+    "ellipsis": 1.0,
+    "new_topic": 1.0,
+    "sentence": 1.0,
+    "colon_dash": 1.0,
+    "comma": 0.4,
+    "before_number_name": 0.0,
+    "none": 0.0
+   }
+  }
+ }
+}
