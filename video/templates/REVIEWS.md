@@ -64,6 +64,17 @@ voice pattern for my videos".
   wide).
 - **Voice:** "Lara" is a real woman's paid library voice (ElevenLabs Voice Library, professional clone). So we keep her
   measured delivery (`voice/lara-delivery/`) and apply it to a free, commercially licensed voice; never her sound.
+- **The owner's verdicts (7 Nov):**
+  - **"What about the previous reaction videos.. And the reaction have to fit the context of the video":**
+    - every past clip and recording was mined;
+    - the nine 29 Oct clips were rebuilt at full length (`*_full`);
+    - a context map (checked by a second reviewer) and a "Fit the context" procedure were added to the playbook;
+    - both re-cuts were corrected: Jaw Drop on an example cut; Yikes on a loss (it reads as a smile) changed; Nervous
+      moved to "keep reading"; Nah moved off the voice;
+    - the Agentics re-cut uses the earlier grey T-shirt clips.
+  - **"Why is this taking so long?":** we ran the voice builds, four mining agents and two renders on 4 shared cores
+    at once, so each took 3–4× longer. Run heavy jobs one at a time.
+  - **Voice:** he chose the free house voice (Kokoro af_heart with the measured delivery) over paying for Lara.
 - **Change next time:**
   - Plan the reaction track with the script, not after the edit.
   - Ask the owner for the missing clips: a neutral watching clip, looks, points, nod and shake, in the same shirt and

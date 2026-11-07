@@ -233,7 +233,9 @@ video… not a case whereby it just shows up and goes away").** Before placing a
   measure.py to compare any take with it).
 - **The house voice applies that delivery to a free, commercially licensed engine:** `video/lib/voice/` (see its
   README).
-- **First-person scripts:** use the house voice, or the owner's own voice. ElevenLabs only if he asks.
+- **The owner's choice (7 Nov): the free house voice, part 2 of the A/B reel.** That is Kokoro **af_heart** with the
+  delivery profile: `video/lib/voice/house_voice.py --voice af_heart`. Use it for every first-person script. No more
+  ElevenLabs credits unless he asks again.
 - **Write scripts by analysis.md's "How to write a script for this delivery".**
 
 - **Sound:** keep the approved settings: `af_heart` with `voice_fx: "deep"` at speed 1.0, `sound: "cinematic"`, a drop

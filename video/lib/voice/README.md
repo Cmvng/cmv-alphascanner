@@ -50,6 +50,10 @@ On the unseen football text, Zoey house did best (0.83). Clarity was 0–2.8% wo
 
 **Listening reel:** `video/out/voice-samples-2026-11-07/ab-reel.mp3`, with the running order in `ab-reel.txt`.
 
+**The owner's choice (7 Nov): the free house voice, part 2 of the reel (Kokoro af_heart with the delivery).** He
+was offered Lara on ElevenLabs (credits), this voice, or a mix, and chose this one. It is the default narrator from
+now on.
+
 ## Use
 
 ```bash
