@@ -28,6 +28,28 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
+## 7 Nov: Bagel, "my top picks for today" (THE CHAIN, 79.6 s, the owner's 4-pick combo plus how anyone can build one)
+
+- **What worked:**
+  - The money is the hook in the first second: "$2.84 → $31.23", with the payout counting up as it's said.
+  - The track's drop lands on the first team slam, and the beat stops for the pause before "If you're new".
+  - The owner's real slip is shown whole, under a camera that moves with the words, with rings on each pick, on Cost and
+    Max payout, on Add Funds, on Yes and on the 5.37x.
+  - The house voice was right first take, and its word times were already accurate (CTC median error −0.01 s).
+- **Speed (the owner's complaint from the morning):**
+  - From script to delivered video was about 25 minutes. Heavy jobs ran one at a time: voice, then the Agentics render
+    finishing, then stills, then the full render, then the hear-back.
+  - The research (two agents) ran while the earlier render finished.
+- **Mistakes, and how they got through:**
+  1. **The "It's Over" sticker shrank about 20% on the Agentics re-cut.** Its forced eye row (600) was on the shoulders,
+     not the eyes, so the head was measured too wide and drawn too small. The full-size swap check caught it. The fix was
+     the real eye row (565, head width 320) and a re-render.
+  2. **The hear-back flags names in bold captions as misses.** `<b>` turns into a stray "b" token. These were false alarms
+     (every name was heard correctly). Fixed on 7 Nov: hearback.py now strips the tags.
+- **Change next time:**
+  - When a face needs a forced eye row, check the measured width against the idle head at full size before rendering.
+  - The cmvngpicks.com app timed out all morning, so the app's model couldn't be quoted. These were the owner's own picks.
+
 ## 7 Nov: reactions that flow with the video (research, playbook, engine, Primus re-cut) and the narrator's delivery
 
 **The owner:** reactions should be "intertwined… progressing with the video… flows with the video… not a case whereby it
