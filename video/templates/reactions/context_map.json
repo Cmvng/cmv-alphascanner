@@ -1,0 +1,801 @@
+{
+ "about": "What each reaction means and when it fits (7 Nov 2026). Built by a context-map agent looking at every sticker at ~360 / 200 / 120 px, then checked by a second agent; 'second_opinion' holds its corrections, which override where they differ. Use with PLAYBOOK.md 'Fit the context'.",
+ "reactions": {
+  "grin": {
+   "name": "The Grin",
+   "set": "grey",
+   "sticker_dir": "video/out/reactions/grin (108 f, clip 0.4-4.0 s)",
+   "full_arc": "grin_full (218 f, 0-7.27 s): the grin is already on at 0.0 s, so the full arc adds length, not an onset",
+   "reads_at_sticker_size": "Reads as named: a big, warm, happy grin. Clear at 120-180 px. It is the only clean 'good' face in either set.",
+   "misread_risk": "low",
+   "misread_as": "none (at most 'cheeky' rather than 'proud')",
+   "min_width_px": 300,
+   "meaning": "good news for us; told you so; proud",
+   "valence": "positive",
+   "fits": [
+    "a call that came off",
+    "the payoff of the video",
+    "a cheap fee or a bonus that is the point of the line",
+    "the sign-off / end-card callback",
+    "the good branch of a worked example, as a flash only (<=1.2 s)"
+   ],
+   "examples": {
+    "crypto": [
+     "I called it at $0.40. It's $1.10 today.",
+     "The airdrop landed: 1,200 tokens for a few test trades."
+    ],
+    "football": [
+     "Told you Saka would score. 1-0 Arsenal.",
+     "Both picks came in, the double pays 3.40."
+    ]
+   },
+   "never": [
+    "any loss, cost or risk to the viewer (reads as gloating)",
+    "someone else's misfortune",
+    "a held reaction on an even-money example (flash only)",
+    "a suspicious claim (it would look like you believe it)"
+   ],
+   "intensity": 2,
+   "role": "payoff",
+   "motion": "soft: small bounce / lean in",
+   "buildup": {
+    "has": false,
+    "detail": "held from the first frame of the raw clip; enter it with the squash swap from the listening face"
+   },
+   "use_frames": "all",
+   "avoid_frames": "none",
+   "notes": "Use it as the end callback when it was also the payoff face earlier (same meaning both times)."
+  },
+  "jawdrop": {
+   "name": "Jaw Drop",
+   "set": "grey",
+   "sticker_dir": "video/out/reactions/jawdrop (111 f, 0.3-4.0 s)",
+   "full_arc": "jawdrop_full (233 f): mouth open and hand on chin from 0.0 s; no onset",
+   "reads_at_sticker_size": "Reads as shocked / amazed (open mouth, hand on chin). The valence is ambiguous: 'wow' or 'oh no' is decided entirely by what is on screen.",
+   "misread_risk": "medium",
+   "misread_as": "the wrong valence (wow vs oh no) if the stimulus is not obviously green or red; looks fake with no visible trigger",
+   "min_width_px": 340,
+   "meaning": "genuinely surprising reveal",
+   "valence": "ambiguous (set by the stimulus)",
+   "fits": [
+    "a real reveal the viewer could not predict",
+    "a huge number that is the point of the section",
+    "a stunning goal or comeback",
+    "a shocking on-chain fact"
+   ],
+   "examples": {
+    "crypto": [
+     "TVL went from $2M to $300M in one week.",
+     "One wallet was holding 40% of the whole supply."
+    ],
+    "football": [
+     "From 3-0 down, they won it 4-3 in stoppage time.",
+     "A 35-yard volley, straight into the top corner."
+    ]
+   },
+   "never": [
+    "even-money or 'let's say' examples ($100 at 0.50 -> $200)",
+    "routine numbers being read out",
+    "a predictable result",
+    "the setup line before the number is on screen",
+    "a calm teaching section"
+   ],
+   "intensity": 2,
+   "role": "react (hard, surprise)",
+   "motion": "hard: small recoil back",
+   "buildup": {
+    "has": false,
+    "detail": "no onset in the raw clip; must cut in on the reveal itself"
+   },
+   "use_frames": "all",
+   "avoid_frames": "none",
+   "notes": "Needs an unmistakable trigger landing on screen at the same instant; the 4 Nov use gasped at an empty box.",
+   "second_opinion": "Intensity 2: no eye widening; hand on chin = speechless. Fits speechless disbelief at an outrageous claim. Never on examples."
+  },
+  "waitwhat": {
+   "name": "Wait, What?",
+   "set": "grey",
+   "sticker_dir": "video/out/reactions/waitwhat (114 f, 0.2-4.0 s)",
+   "full_arc": "waitwhat_full (163 f): the frown is on from 0.0 s; no onset",
+   "reads_at_sticker_size": "Reads smaller than its name: a serious, sceptical frown with wide eyes. At 120 px it is close to a stern neutral face; 'confused disbelief' only shows at 240 px and up.",
+   "misread_risk": "medium",
+   "misread_as": "plain serious / stern neutral (under-reads, never wrong-valence)",
+   "min_width_px": 260,
+   "meaning": "hold on, that doesn't sound right",
+   "valence": "doubt (mildly negative)",
+   "fits": [
+    "a number that sounds wrong",
+    "a rule nobody explained / the catch",
+    "the small print",
+    "a claim to doubt in the grey set (alt to Side-Eye)"
+   ],
+   "examples": {
+    "crypto": [
+     "The fee isn't 1%. It's 1% per day.",
+     "Losses pull your score down faster than wins push it up."
+    ],
+    "football": [
+     "They sold their top scorer the day before the deadline.",
+     "The ref gave a penalty for that?"
+    ]
+   },
+   "never": [
+    "good news or the payoff",
+    "a real shock (too small)",
+    "a definition the viewer must learn (it makes the teaching look confusing)"
+   ],
+   "intensity": 1,
+   "role": "react (soft, doubt)",
+   "motion": "hard-lite: small lean back",
+   "buildup": {
+    "has": false,
+    "detail": "held; the change from the Side-Eye neutral is small, so give it a squash swap and a lean back"
+   },
+   "use_frames": "all",
+   "avoid_frames": "none",
+   "notes": "Good grey stand-in for 'the catch'.",
+   "second_opinion": "Reads at 200 px as wide eyes, brows raised and knitted: alarmed 'wait, what?'; worried at 120 px (fine on risky lines). Not neutral."
+  },
+  "yikes": {
+   "name": "Yikes",
+   "set": "grey",
+   "sticker_dir": "video/out/reactions/yikes (111 f, 0.3-4.0 s)",
+   "full_arc": "yikes_full (182 f): teeth bared from 0.0 s; no onset",
+   "reads_at_sticker_size": "Yikes reads as a big toothy GRIN. The furrowed brow and squint that make it a cringe are lost below ~300 px; at 120-180 px it is nearly the same face as The Grin.",
+   "misread_risk": "high",
+   "misread_as": "a happy grin / laughing",
+   "min_width_px": 360,
+   "meaning": "cringe, awkward, that's going to hurt",
+   "valence": "negative (cringe)",
+   "fits": [
+    "a self-own told as a joke",
+    "awkward, comic bad decisions",
+    "awful form, said with a wry tone"
+   ],
+   "examples": {
+    "crypto": [
+     "I bought the top. Exactly the top.",
+     "He went 50x long on a meme coin, with his rent money."
+    ],
+    "football": [
+     "They haven't won away from home since August.",
+     "The keeper tried to dribble past the striker."
+    ]
+   },
+   "never": [
+    "a straight loss to the viewer ($0, 'they lost the match')",
+    "a rug or hack with real victims",
+    "a serious risk warning",
+    "anything below ~420 px"
+   ],
+   "intensity": 2,
+   "role": "react (hard, cringe)",
+   "motion": "hard: recoil away",
+   "buildup": {
+    "has": false,
+    "detail": "held from 0.0 s"
+   },
+   "use_frames": "all",
+   "avoid_frames": "none",
+   "notes": "Only safe where a grimace-grin is the intended joke. For a plain loss in the grey set use Sob (minor) or Wail (major).",
+   "second_opinion": "Min 360 px: at 360 an 'eek' grimace, at 200 px or less a grin."
+  },
+  "itsover": {
+   "name": "It's Over",
+   "set": "grey",
+   "sticker_dir": "video/out/reactions/itsover (138 f, 0.4-5.0 s; 548x792, tall)",
+   "full_arc": "itsover_full (255 f): hands fly up and land on the head over frames 1-24 (0-0.8 s), held to ~7.4 s (frame ~225), drop 226-238 (motion blur), short neutral tail 240-255",
+   "reads_at_sticker_size": "Reads clearly as 'disaster / oh no' because of the hands on the head; the face alone is only a mild wide-eyed 'oh'. The gesture carries it at any size.",
+   "misread_risk": "low",
+   "misread_as": "none, if the crop keeps the hands (needs headroom above the face)",
+   "min_width_px": 380,
+   "meaning": "it's over; the worst outcome",
+   "valence": "negative (disaster)",
+   "fits": [
+    "the single biggest loss of the video",
+    "liquidation / close-out",
+    "a late goal against",
+    "relegation / elimination"
+   ],
+   "examples": {
+    "crypto": [
+     "At 20% down, it closes everything.",
+     "The bridge was drained: $120M gone overnight."
+    ],
+    "football": [
+     "95th minute... they equalise.",
+     "Relegated on the last day, on goal difference."
+    ]
+   },
+   "never": [
+    "anything minor",
+    "a worked example",
+    "a second time in the same video",
+    "with no visible trigger"
+   ],
+   "intensity": 3,
+   "role": "hero",
+   "motion": "hard: recoil, then hold",
+   "buildup": {
+    "has": true,
+    "detail": "use itsover_full from frame ~1-12 so the hands RISE on the line and LAND on the key word (frame ~24 = landed)"
+   },
+   "use_frames": "itsover_full 1-225 (arc) or sticker 1-138 (already landed)",
+   "avoid_frames": "itsover_full 226-255 (hands drop with heavy blur, then an oddly framed neutral)",
+   "notes": "Once per video. Tall shape: plan the anchor so the hands are not cropped by a card.",
+   "second_opinion": "No neutral onset: hands already in the air at frame 1 (floating islands 1-5), clasp the head ~20; mouth open 1-8. Chin cut at the mouth, keep the bottom edge behind a card. Football: reads as 'so close'; for a defeat use Wail."
+  },
+  "lol": {
+   "name": "LOL",
+   "set": "grey",
+   "sticker_dir": "video/out/reactions/lol (129 f, 0.2-4.5 s)",
+   "full_arc": "lol_full (174 f): laughing from 0.0 s; no onset",
+   "reads_at_sticker_size": "Reads as named: a big open-mouth laugh. Unmistakable at 120 px.",
+   "misread_risk": "low",
+   "misread_as": "none (but it reads as mocking if the line is someone's real loss)",
+   "min_width_px": 300,
+   "meaning": "that's ridiculous / hilarious",
+   "valence": "positive (amused)",
+   "fits": [
+    "an absurd line",
+    "a silly name or roadmap",
+    "an own goal / a comic fail",
+    "laughing at myself"
+   ],
+   "examples": {
+    "crypto": [
+     "The token is literally called $DOGWIFHAT2.",
+     "Their roadmap's next step is 'vibes'."
+    ],
+    "football": [
+     "An own goal from the halfway line.",
+     "He celebrated before the ball crossed the line... and it didn't."
+    ]
+   },
+   "never": [
+    "a real loss to the viewer",
+    "a scam with victims",
+    "a safety warning",
+    "the payoff of a serious explainer"
+   ],
+   "intensity": 2,
+   "role": "payoff (absurd)",
+   "motion": "soft: bounce",
+   "buildup": {
+    "has": false,
+    "detail": "laughing from the first frame"
+   },
+   "use_frames": "all",
+   "avoid_frames": "none",
+   "notes": "Laughter lands at the phrase boundary (after the punchline), not mid-sentence."
+  },
+  "sideeye": {
+   "name": "Side-Eye",
+   "set": "grey",
+   "sticker_dir": "video/out/reactions/sideeye (117 f, 1.5-5.4 s)",
+   "full_arc": "sideeye_full (242 f): neutral 1-57 (0-1.9 s, the grey listening idle); look to SCREEN-LEFT 60-100 (2.0-3.3 s, head turns left, eyes cut left); centre 101-145; look to SCREEN-RIGHT 148-182 (4.9-6.0 s); neutral again 185-242 (6.1-8.0 s)",
+   "reads_at_sticker_size": "Reads as suspicion only IN MOTION and aimed at something; a still frame of the look reads as just a turned head. The neutral parts read as calm listening.",
+   "misread_risk": "medium",
+   "misread_as": "looking away / distracted, if not aimed at the claim on screen",
+   "min_width_px": 340,
+   "meaning": "sure, buddy; I don't buy it",
+   "valence": "suspicious",
+   "fits": [
+    "a bold claim or prediction",
+    "a promise that sounds too good",
+    "a 'trust me'",
+    "a sketchy project"
+   ],
+   "examples": {
+    "crypto": [
+     "They say it's a guaranteed 30% APY.",
+     "Trust me, this one won't rug."
+    ],
+    "football": [
+     "He says they'll win the league this year.",
+     "The tipster calls it a 'certain' over 3.5."
+    ]
+   },
+   "never": [
+    "a fact the narrator endorses",
+    "the product's own feature you are recommending (looks like you doubt your own point)",
+    "losses"
+   ],
+   "intensity": 1,
+   "role": "look",
+   "motion": "the head turn IS the motion; place the sticker so the look points at the claim (left look for a sticker right of the thing, right look for one left of it)",
+   "buildup": {
+    "has": true,
+    "detail": "neutral -> look; land frame ~65 (eyes cut) on the claim word"
+   },
+   "use_frames": "sideeye_full 1-57 + 185-242 as listening idle; 58-104 (left look) or 145-185 (right look) as the beat",
+   "avoid_frames": "the trimmed sticker ends mid-right-look (frame 111+); use the full arc",
+   "notes": "The only grey listening material (about 3.8 s total, loop ping-pong).",
+   "second_opinion": "Look 1 (60-100) = head turned away with a sideways glance: dismissive. Look 2 (148-182) = head and eyes toward screen-right and down: 'eyeing it'. The neutral reads serious, slightly sceptical."
+  },
+  "sob": {
+   "name": "The Sob",
+   "set": "grey",
+   "sticker_dir": "video/out/reactions/sob (111 f, 0.3-4.0 s)",
+   "full_arc": "sob_full (193 f): the crying face from 0.0 s; no onset",
+   "reads_at_sticker_size": "Reads as a pained, sour squint with a down-turned mouth: 'gutted' or 'ouch'. It does not read as crying (no tears, no open mouth) and can pass for disgust.",
+   "misread_risk": "medium",
+   "misread_as": "disgust / sour",
+   "min_width_px": 320,
+   "meaning": "sad, gutted; a small loss",
+   "valence": "negative (sad)",
+   "fits": [
+    "a call that missed",
+    "the losing branch of an example, as a flash",
+    "a small personal disappointment"
+   ],
+   "examples": {
+    "crypto": [
+     "My airdrop: zero tokens.",
+     "I sold at $0.30. It's $0.90 now."
+    ],
+    "football": [
+     "Our first pick lost 1-0.",
+     "My favourite isn't even in the starting XI."
+    ]
+   },
+   "never": [
+    "catastrophes (too small: use Wail / It's Over)",
+    "suspicious claims",
+    "jokes"
+   ],
+   "intensity": 2,
+   "role": "react (sad)",
+   "motion": "soft: small slump down",
+   "buildup": {
+    "has": false,
+    "detail": "held from 0.0 s"
+   },
+   "use_frames": "all",
+   "avoid_frames": "none",
+   "notes": "As a flash (<=1 s) it counts as intensity 1: right for '$0' in a worked example."
+  },
+  "wail": {
+   "name": "The Wail",
+   "set": "grey",
+   "sticker_dir": "video/out/reactions/wail (83 f, 0.75-3.52 s)",
+   "full_arc": "wail_full (173 f): grimace with bared teeth 5-35 (0.15-1.15 s), the open-mouth wail 38-62 (1.25-2.05 s), then an angry / crying frown 63-173 (a brief teeth grimace ~108-122)",
+   "reads_at_sticker_size": "The wail (1.25-2.05 s) reads unmistakably as anguish and the frown after it as gutted / angry. BUT its first second (bared-teeth grimace) reads as a grin at sticker size.",
+   "misread_risk": "medium",
+   "misread_as": "a grin during the grimace onset (sticker frames 1-9, full 5-35)",
+   "min_width_px": 360,
+   "meaning": "devastated, then angry",
+   "valence": "negative (devastated)",
+   "fits": [
+    "the bottom of a crash",
+    "a second stop loss",
+    "a heavy defeat",
+    "rugged"
+   ],
+   "examples": {
+    "crypto": [
+     "And then it went to zero. Rugged.",
+     "Second stop loss in one day."
+    ],
+    "football": [
+     "We lost 5-0. At home.",
+     "Missed the penalty that would have won the final."
+    ]
+   },
+   "never": [
+    "anything minor",
+    "hypotheticals",
+    "comic lines (reads as real anguish)",
+    "twice in a video",
+    "alongside It's Over in the same video"
+   ],
+   "intensity": 3,
+   "role": "hero",
+   "motion": "hard: recoil",
+   "buildup": {
+    "has": true,
+    "detail": "start at wail_full ~36 so the scream opens on the word; the frown (63+) is a usable 'gutted' hold"
+   },
+   "use_frames": "wail_full 36-107 and 123-173; sticker 12-83",
+   "avoid_frames": "wail_full 1-35 and 108-122; sticker 1-9 (grimace reads as a grin)",
+   "notes": "Alternative hero to It's Over for losses that already happened.",
+   "second_opinion": "Onset 1-35 reads as a pained grimace at 200 px+ (grin only ~120 px). Frames 63-107 = an angry glare: the grey set's 'annoyed' face at intensity 2. 'Never with It's Over' covers only the scream (38-62)."
+  },
+  "stare": {
+   "name": "The Stare",
+   "set": "shirtless",
+   "sticker_dir": "video/out/reactions/stare (123 f, 0.1-4.2 s)",
+   "full_arc": null,
+   "reads_at_sticker_size": "Reads as neutral, attentive and a little worried (raised brows, slight pout), NOT as 'unimpressed'. It is a listening face; the deadpan 'really?' only comes from context.",
+   "misread_risk": "low",
+   "misread_as": "concerned / sad if held on a happy line",
+   "min_width_px": 300,
+   "meaning": "listening; deadpan 'really?' by context",
+   "valence": "neutral",
+   "fits": [
+    "the default listening face between beats (shirtless set)",
+    "teaching beats",
+    "a mild complaint",
+    "a weak excuse said flatly"
+   ],
+   "examples": {
+    "crypto": [
+     "Most apps treat your data like free storage.",
+     "They want a 2% fee... for 'convenience'."
+    ],
+    "football": [
+     "The manager says the team is 'in a good place'.",
+     "They've drawn six of their last seven."
+    ]
+   },
+   "never": [
+    "good news / payoff (reads concerned)",
+    "big shocks (too flat)",
+    "a reaction to a joke"
+   ],
+   "intensity": 0,
+   "role": "listen",
+   "motion": "breathing only; lean toward the thing",
+   "buildup": {
+    "has": false,
+    "detail": "a held face; loop ping-pong"
+   },
+   "use_frames": "idle 40-110; deadpan 1-30",
+   "avoid_frames": "115-123 (head pulls back, scale and lighting jump; frame 123 visibly smaller)",
+   "notes": "The only shirtless listening face.",
+   "second_opinion": "Mildly negative (glum, concerned), not neutral. Listening loop 40-110; frames 1-30 raise the brows ('really?') for a deliberate deadpan beat; 115-123 jump."
+  },
+  "wince": {
+   "name": "The Wince",
+   "set": "shirtless",
+   "sticker_dir": "video/out/reactions/wince (144 f, 0.2-5.0 s)",
+   "full_arc": null,
+   "reads_at_sticker_size": "Wince reads as a GRIN. Frames 1-30 (0.2-1.2 s) are a genuine warm smile; from ~1.3 s the eyes squeeze, but at 120-180 px that reads as laughing with eyes shut, not pain. The forehead lines that say 'ouch' need 450 px and up.",
+   "misread_risk": "high",
+   "misread_as": "a happy grin / laughing",
+   "min_width_px": 450,
+   "meaning": "ouch, that stings (comic); or, frames 1-30 only, a warm smile",
+   "valence": "ambiguous (reads positive)",
+   "fits": [
+    "a self-inflicted, comic ouch",
+    "frames 1-30: a sign-off smile in the shirtless set"
+   ],
+   "examples": {
+    "crypto": [
+     "I paid $80 in gas for a $20 mint.",
+     "(frames 1-30) Link's in the post, anyways."
+    ],
+    "football": [
+     "He hit the post, then the bar, then his own keeper.",
+     "(frames 1-30) Two from two. See you tomorrow."
+    ]
+   },
+   "never": [
+    "a straight loss or defeat (reads as a grin)",
+    "harm to others",
+    "rugs / hacks",
+    "a long hold meant as a smile (the squeeze phase plays)"
+   ],
+   "intensity": 2,
+   "role": "react (comic ouch) / payoff (smile window)",
+   "motion": "hard: recoil (ouch); soft (smile)",
+   "buildup": {
+    "has": true,
+    "detail": "smile (1-30) -> eye squeeze (35-55) -> held grimace-grin; one eye closes more near the end"
+   },
+   "use_frames": "smile 1-25",
+   "avoid_frames": "35-55 when used as a smile",
+   "notes": "The playbook's 'a loss' use does not survive the size test.",
+   "second_opinion": "Smile = frames 1-25 (brow knits ~30). At 360 px with a clearly comic-bad stimulus 45-144 can read as cringe; at 200 px 50/50. Never on a straight loss."
+  },
+  "noway": {
+   "name": "No Way!",
+   "set": "shirtless",
+   "sticker_dir": "video/out/reactions/noway (75 f, 2.1-4.6 s)",
+   "full_arc": null,
+   "reads_at_sticker_size": "The peak (frames 28-44, 3.0-3.55 s) reads unmistakably as an outraged shout. The start (1-12) is a sceptical frown with moving lips; the tail (66-75) is a grimace that reads as a smirk.",
+   "misread_risk": "low",
+   "misread_as": "talking (frames 1-12); smirking (66-75)",
+   "min_width_px": 320,
+   "meaning": "are you serious?! outraged disbelief",
+   "valence": "negative (outrage)",
+   "fits": [
+    "an outrageous ask",
+    "the worst version of the problem",
+    "a crazy price or decision",
+    "a rule that makes no sense"
+   ],
+   "examples": {
+    "crypto": [
+     "Connect the account, and they can keep reading it.",
+     "They want 20% of your tokens just to list you."
+    ],
+    "football": [
+     "A red card for THAT?",
+     "£150M for a 19-year-old with ten league games."
+    ]
+   },
+   "never": [
+    "examples",
+    "mild surprises",
+    "good news",
+    "calm teaching sections",
+    "anything the script says in a normal voice that is not the problem's peak"
+   ],
+   "intensity": 3,
+   "role": "react (hard, outrage)",
+   "motion": "lean IN toward the thing (outrage), then settle",
+   "buildup": {
+    "has": true,
+    "detail": "frown (1-12) -> eyes widen (15-25) -> shout peak 37 (3.3 s); start ~15 so the eyes widen on the word and the shout lands 0.2 s after"
+   },
+   "use_frames": "15-62",
+   "avoid_frames": "1-12 under key voice-over words (lips move); 66-75 (smirk)",
+   "notes": "The shirtless set's strongest 'bad' face after Shook; give it the problem's climax.",
+   "second_opinion": "The peak is a wide-eyed shout: shock ('WHAT?!'), valence decided by the stimulus. Its peak ~ Shook frame 10: count them as one face per video."
+  },
+  "ugh": {
+   "name": "Ugh",
+   "set": "shirtless",
+   "sticker_dir": "video/out/reactions/ugh (135 f, 0.2-4.7 s)",
+   "full_arc": null,
+   "reads_at_sticker_size": "Reads as named at 180 px and up: eyes squeezed shut, nose scrunched, can't look. At 120 px it can look like straining or sleepy. Static the whole clip.",
+   "misread_risk": "low",
+   "misread_as": "straining / eyes shut (very small sizes only)",
+   "min_width_px": 300,
+   "meaning": "disgust; can't look",
+   "valence": "negative (disgust)",
+   "fits": [
+    "someone taking more than they should",
+    "oversharing your data",
+    "a dump on launch",
+    "a terrible take or dive"
+   ],
+   "examples": {
+    "crypto": [
+     "Upload a statement, and they get every trade, the timing and your balance.",
+     "The team dumped 30% of the supply on launch day."
+    ],
+    "football": [
+     "That was the worst penalty I've seen all season.",
+     "Diving in the box. Again."
+    ]
+   },
+   "never": [
+    "good news",
+    "jokes",
+    "neutral numbers",
+    "risks that haven't happened yet (use Nervous)"
+   ],
+   "intensity": 2,
+   "role": "react (hard, disgust)",
+   "motion": "hard: recoil away",
+   "buildup": {
+    "has": false,
+    "detail": "held, static; keep the hold <=2 s or it reads as a frozen photo"
+   },
+   "use_frames": "all",
+   "avoid_frames": "none",
+   "notes": "Its library 'use' list already names oversharing data."
+  },
+  "shook": {
+   "name": "Shook",
+   "set": "shirtless",
+   "sticker_dir": "video/out/reactions/shook (102 f, 0.1-3.5 s)",
+   "full_arc": null,
+   "reads_at_sticker_size": "Reads as named: wide eyes, open mouth, brows up: shocked, scared. Clear at 120 px. Leans toward fear, so it cannot carry a happy surprise.",
+   "misread_risk": "low",
+   "misread_as": "fear rather than amazement",
+   "min_width_px": 300,
+   "meaning": "shocked, horrified",
+   "valence": "negative (shock)",
+   "fits": [
+    "a huge loss revealed",
+    "a shocking stat",
+    "a hack or exploit",
+    "a hero beat in the shirtless set"
+   ],
+   "examples": {
+    "crypto": [
+     "The audit missed it: a $50M exploit.",
+     "One wallet holds 60% of the supply."
+    ],
+    "football": [
+     "8-2.",
+     "Their keeper was sent off in the 3rd minute."
+    ]
+   },
+   "never": [
+    "good news (reads as fear)",
+    "examples",
+    "routine numbers"
+   ],
+   "intensity": 3,
+   "role": "react (hard) / hero",
+   "motion": "hard: recoil away",
+   "buildup": {
+    "has": false,
+    "detail": "already shocked at frame 1"
+   },
+   "use_frames": "1-27, 43-102",
+   "avoid_frames": "28-42 (1.0-1.5 s, head-move motion blur)",
+   "notes": "The shirtless hero.",
+   "second_opinion": "Motion blur 28-42; frame 60 soft."
+  },
+  "crackup": {
+   "name": "Crack-Up",
+   "set": "shirtless",
+   "sticker_dir": "video/out/reactions/crackup (153 f, 0.2-5.3 s)",
+   "full_arc": null,
+   "reads_at_sticker_size": "Reads as named: laughing. A grin (1-20) opens into a laugh (25-45, some blur), then a squinting laugh held. The head bobs a lot.",
+   "misread_risk": "low",
+   "misread_as": "none",
+   "min_width_px": 300,
+   "meaning": "that's hilarious",
+   "valence": "positive (amused)",
+   "fits": [
+    "a ridiculous claim",
+    "a funny fail",
+    "a joke landing",
+    "laughing at myself"
+   ],
+   "examples": {
+    "crypto": [
+     "Their whitepaper is three pages, and one is the cover.",
+     "He tried to front-run himself."
+    ],
+    "football": [
+     "He missed an open goal from one yard.",
+     "The mascot has more goals than their striker this season."
+    ]
+   },
+   "never": [
+    "real losses",
+    "scams with victims",
+    "serious warnings",
+    "closing a serious explainer"
+   ],
+   "intensity": 2,
+   "role": "payoff (absurd)",
+   "motion": "soft: bounce; keep away from text (the head bobs)",
+   "buildup": {
+    "has": true,
+    "detail": "short: smile -> laugh; start ~15 so the laugh opens on the punchline"
+   },
+   "use_frames": "15-153",
+   "avoid_frames": "31-46 if a still is needed (blur)",
+   "notes": "There is no clean 'win' grin in the shirtless set; this is laughter, not pride.",
+   "second_opinion": "Avoid 110-130 (head cut square at the right temple). Frames 0-20 = a proud, closed grin (good news / told you so)."
+  },
+  "nervous": {
+   "name": "Nervous",
+   "set": "shirtless",
+   "sticker_dir": "video/out/reactions/nervous (105 f, 0.1-3.6 s)",
+   "full_arc": null,
+   "reads_at_sticker_size": "Reads as a forced, cheesy grin at 120-180 px; the wide eyes that make it 'eek' only win at about 400 px and up. Held, no change.",
+   "misread_risk": "medium",
+   "misread_as": "a happy / cheesy grin",
+   "min_width_px": 300,
+   "meaning": "uh-oh; this could go wrong",
+   "valence": "negative (risk)",
+   "fits": [
+    "a risk that hasn't happened yet",
+    "a nervous wait",
+    "high leverage",
+    "a market about to turn"
+   ],
+   "examples": {
+    "crypto": [
+     "It's 50x leverage, and funding just flipped negative.",
+     "The unlock is tomorrow: 25% of the supply."
+    ],
+    "football": [
+     "1-0 up, ten minutes left, down to ten men.",
+     "The bet needs a clean sheet, and they've conceded in every game."
+    ]
+   },
+   "never": [
+    "an actual loss (too soft, and reads as a grin)",
+    "good news",
+    "any width below ~400 px",
+    "the peak of an escalating problem (it de-escalates)"
+   ],
+   "intensity": 2,
+   "role": "react (soft, risk)",
+   "motion": "soft: lean in; the thing pulses",
+   "buildup": {
+    "has": false,
+    "detail": "held from frame 1"
+   },
+   "use_frames": "1-60 ping-pong",
+   "avoid_frames": "none",
+   "notes": "Pair with an obviously risky stimulus (a red bar, a countdown).",
+   "second_opinion": "Frames 1-60 read as 'eek' (brows up, clenched teeth) even at 120-200 px; from frame 75 the eyes narrow into a cheesy grin. Use 1-60 ping-pong."
+  },
+  "nah": {
+   "name": "Nah",
+   "set": "shirtless",
+   "sticker_dir": "video/out/reactions/nah (141 f, 1.9-6.6 s; 548x792)",
+   "full_arc": null,
+   "reads_at_sticker_size": "Reads as him TALKING and waving: the lips move through the whole clip, not just before frame 30. The finger-wag only reads as 'no' where the finger is up and sharp (frames 108-141, 5.5-6.6 s); the first burst (9-42) is a blur.",
+   "misread_risk": "medium",
+   "misread_as": "speaking / waving hello",
+   "min_width_px": 360,
+   "meaning": "not that; don't do this",
+   "valence": "rejection (good when it rejects the bad thing)",
+   "fits": [
+    "rejecting a myth",
+    "what the app does NOT get",
+    "don't do this"
+   ],
+   "examples": {
+    "crypto": [
+     "You never need to send them your seed phrase.",
+     "Not the 47 trades, the $8,200 or your login."
+    ],
+    "football": [
+     "Don't back the favourite at 1.10.",
+     "No. That was never a penalty."
+    ]
+   },
+   "never": [
+    "something the narrator recommends doing",
+    "under a number while it is read (the moving lips compete)",
+    "good news"
+   ],
+   "intensity": 2,
+   "role": "gesture",
+   "motion": "soft: lean in; the target shakes 'no' with the wag",
+   "buildup": {
+    "has": true,
+    "detail": "talking -> wag burst 1 (9-42, blurred) -> talking (43-79) -> wag burst 2 (80-141), finger clearly up 108-141"
+   },
+   "use_frames": "116-141 (gaps in the voice only)",
+   "avoid_frames": "40-41 and 101-102 (detached fingertip islands with an outline, floating beside the head)",
+   "notes": "Fix or skip the speck frames before any reuse.",
+   "second_opinion": "Detached slivers at 13, 40-41, 87, 101-102, 113-115: the clean wag is 116-141. A still raised finger reads 'listen / one sec': 'no' only in motion. Lips move throughout: only in voice gaps."
+  },
+  "hmm": {
+   "name": "Hmm",
+   "set": "shirtless",
+   "sticker_dir": "video/out/reactions/hmm (84 f, 0.1-2.9 s)",
+   "full_arc": null,
+   "reads_at_sticker_size": "Reads as a smug, knowing smile with the hand on the chin: 'I see what you did there' / 'clever', NOT puzzled. At 120 px it reads as pleased.",
+   "misread_risk": "medium",
+   "misread_as": "pleased / approving",
+   "min_width_px": 320,
+   "meaning": "intrigued; that's clever",
+   "valence": "positive-curious",
+   "fits": [
+    "the clever part of the mechanism",
+    "an intriguing question the next line answers",
+    "a smart move"
+   ],
+   "examples": {
+    "crypto": [
+     "Here's the clever part: the data never leaves the site.",
+     "So how does it prove it without showing the page?"
+    ],
+    "football": [
+     "Interesting: they press higher away from home.",
+     "He moved the left-back into midfield, and it worked."
+    ]
+   },
+   "never": [
+    "doubt at a bold claim (reads as approval)",
+    "confusion about a bad thing",
+    "losses or risks"
+   ],
+   "intensity": 1,
+   "role": "react (soft, thinking / clever)",
+   "motion": "soft: lean in",
+   "buildup": {
+    "has": false,
+    "detail": "held, short (2.8 s); ping-pong for longer"
+   },
+   "use_frames": "all",
+   "avoid_frames": "none",
+   "notes": "The closest shirtless face to a confident sign-off apart from Wince 1-30."
+  }
+ }
+}

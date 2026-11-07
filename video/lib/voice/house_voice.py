@@ -41,8 +41,9 @@ DEFAULT_PROFILE = os.path.join(HERE, '..', '..', 'templates', 'voice', 'lara-del
 KNOBS = dict(
     rate=4.51,             # target articulation, syllables/s (profile); rate_trim corrects our syllable proxy
     rate_trim=0.93,
-    final_stretch=1.55,    # duration factor on the pre-pause word's last rhyme (Kokoro already lengthens some)
-    final_pre_stretch=1.05,  # rest of the pre-pause word
+    final_stretch=1.55,    # pre-pause word: vowel + sonorants of the last rhyme (Kokoro already lengthens some)
+    final_obstruent_stretch=1.1,  # pre-pause word: stops/fricatives of the last rhyme (stretched stops go silent)
+    final_pre_stretch=1.05,  # pre-pause word: the rest of it
     aside_speed=1.15,      # asides / parentheses faster
     number_speed=1.08,     # numbers spoken at or above the rate of other content words
     pause_jitter=0.6,      # deterministic pause jitter, fraction of the profile sd
@@ -50,14 +51,16 @@ KNOBS = dict(
     comma_min_words=4,     # comma pauses when the clause before has >= this many words, or before a number/name
     micro_gap_frames=2,    # 50 ms micro gap at commas that do not pause
     model_pause_cap_ms=250,  # pause length the model itself sees (rest is inserted as exact silence)
-    tail_keep_ms=30, head_keep_ms=20,  # faded pads kept around each real word edge (below the edge threshold)
+    tail_keep_ms=60, head_keep_ms=20,  # faded pads kept around each real word edge (below the edge threshold)
     edge_db=48.0,          # word edge = envelope this far under the chunk's p95 frame
     last_phone_cap=4.0,    # frames; Kokoro parks the punctuation pause inside the last phoneme
+    last_fric_cap=6.0,     # frames; fricatives / affricates need more (a capped ʤ in 'storage' was heard as 'store-it')
     space_cap=2.0,         # frames; word gap where there is no punctuation
     # pitch template, semitones re the voice's own median (profile: onset .83, peak 7.41 @ .235, end -1.92)
-    onset_st=2.0, peak_st=6.2, later_phrase_drop_st=1.3, end_stop_st=-3.8, end_comma_st=-1.3,
+    onset_st=2.0, peak_st=5.8, later_phrase_drop_st=1.3, end_stop_st=-4.2, end_comma_st=-1.3,
     end_ellipsis_mid_st=1.2, end_colon_st=-3.0, question_rise_st=4.0, aside_drop_st=1.5,
     resid_scale=1.25,      # keep the model's own local movement, slightly enlarged
+    onset_resid=0.3,       # ... and this much at the start of each phrase
     final_resid=0.3,       # ... but only this much of it at the end of a falling / level / question phrase
     post_peak_frac=0.3, mid_st=1.5,  # after the peak: quick fall to mid_st over this share of the rest, then slow decline
     template_mix=0.7,      # 1 = profile template replaces the model's phrase trend, 0 = model trend kept
@@ -65,14 +68,21 @@ KNOBS = dict(
     template_smooth_ms=60,
     range_scale=1.08,      # whole contour (template + model movement) around the voice median
     phrase_offset_sd=1.0,  # deterministic phrase-to-phrase level variation, st
-    creak_share=0.3, creak_st=-5.0,  # share of full stops ending in a low tail, and its depth
+    creak_share=0.4, creak_st=-5.0,  # share of full stops ending in a low tail, and its depth
     sent_rate_sd=0.08,     # deterministic sentence-to-sentence rate variation
+    anchor_adj=dict(project=0.5, name=-1.5, number=-1.0, contrast=-1.0),  # peak st by the anchor's word class
     emph_st=dict(project=1.0, name=0.0, number=0.5, contrast=0.0),  # extra bumps on non-anchor words
     emph_db=dict(project=3.0, name=2.0, number=1.75, contrast=1.0),
     final_word_db=-0.5,    # phrase-final word gain (Kokoro already drops ~5 dB on its own)
     lufs=-20.0,
     lead_ms=150, trail_ms=350,
 )
+
+# Per-voice calibration (each voice has its own natural range, final drop and lengthening; measured with measure.py)
+VOICE_PRESETS = {
+    'af_heart': {},
+    'af_bella': dict(range_scale=1.2, resid_scale=1.5, peak_st=6.8, final_word_db=4.0, final_stretch=1.35),
+}
 
 OPENERS = ["if you're new", 'so', 'now', 'by the way', 'btw', "let's say", 'say', 'anyways', 'anyway', 'and yeah', 'okay',
            'ok', "here's", 'but here', 'first', 'next', 'finally', 'also', 'plus', 'then', 'and now', 'with', 'but']
@@ -90,6 +100,8 @@ eighteen nineteen twenty thirty forty fifty sixty seventy eighty ninety hundred 
 percent""".split())
 VOWELS = set('aeiouæɑɐɒɔəɚɛɜɝɪʊʌᵊɨʉAIOWYQ')
 PUNCT = set(',.!?…:;—–-')
+SONOR = set('lmnŋɹwjᵊ')
+FRIC = set('ʤʧszʃʒfvθð')
 
 
 def h01(*key):
@@ -307,7 +319,8 @@ def plan_chunks(chunks, preds, K, tt):
             # (it also parks unpunctuated pauses there, e.g. after "layer" or "F.H.E."; the profile has none)
             if w['ph_pos']:
                 lp = w['ph_pos'][-1]
-                pr['dur'][lp] = min(pr['dur'][lp], K['last_phone_cap'])
+                cap = K['last_fric_cap'] if ch['lab'][lp - 1][2] in FRIC else K['last_phone_cap']
+                pr['dur'][lp] = min(pr['dur'][lp], cap)
                 if not w['punct']:
                     for p in w['sp_pos']: pr['dur'][p] = min(pr['dur'][p], K['space_cap'])
         for wi, w in enumerate(wl):
@@ -329,8 +342,10 @@ def plan_chunks(chunks, preds, K, tt):
             for p in w['ph_pos']: fac[p] *= f
             if w['pause_before_next'] and w['ph_pos']:
                 lastv = w['vow'][-1] if w['vow'] else w['ph_pos'][0]
-                for p in w['ph_pos']:
-                    fac[p] *= K['final_stretch'] if p >= lastv else K['final_pre_stretch']
+                for p in w['ph_pos']:   # the rhyme's vowel and sonorants carry the lengthening; stretched stops go silent
+                    c = ch['lab'][p - 1][2]
+                    if p >= lastv: fac[p] *= K['final_stretch'] if (c in VOWELS or c in SONOR) else K['final_obstruent_stretch']
+                    else: fac[p] *= K['final_pre_stretch']
         pr['fac'] = fac; pr['speech'] = speech
     # global scale to the target articulation rate
     syl = sum(w['syl'] for ch in chunks for w in ch['words'])
@@ -471,6 +486,7 @@ def edit_f0(ch, F0, med_hz, K):
             peak -= K['aside_drop_st'] + 0.5; onset -= K['aside_drop_st']
         if nw <= 2:
             peak -= 1.5
+        peak += K['anchor_adj'].get(anchor['cat'], 0.0)
         sent_end = k == len(phs) - 1
         end, shape = contour_choice(ch, k, ph[-1], sent_end, K)
         # last word span
@@ -487,6 +503,11 @@ def edit_f0(ch, F0, med_hz, K):
         ys = [onset, peak, mid, end]
         temp = np.interp(t, xs, ys)
         rw = np.full(len(t), K['resid_scale'])
+        # onset: the template sets the level (the model's own onset dip is mostly removed over the first word)
+        fv = vidx[vidx < 2 * ph[0]['f0'][1]]
+        if len(fv) >= 3:
+            n0 = int(fv[-1]) + 1 - a
+            rw[:n0] = K['onset_resid'] + (K['resid_scale'] - K['onset_resid']) * np.linspace(0, 1, n0)
         # final word shape, over the voiced part of the last word
         lv = vidx[vidx >= la]
         if len(lv) >= 4:
@@ -587,7 +608,7 @@ def normalise(audio, target):
 
 # ------------------------------------------------------------------ main render paths
 def render_house(text, voice, profile, projects, knobs, log=print):
-    K = json.loads(json.dumps(KNOBS)); K.update(knobs or {})
+    K = json.loads(json.dumps(KNOBS)); K.update(VOICE_PRESETS.get(voice, {})); K.update(knobs or {})
     tt = profile['tts_targets']
     if 'rate' not in (knobs or {}): K['rate'] = tt.get('articulation_syll_per_s', K['rate'])
     t0 = time.time()
@@ -629,7 +650,7 @@ def render_house(text, voice, profile, projects, knobs, log=print):
                 spans[i][1] = mid; spans[i + 1][0] = mid
         # real edges at pauses (inside the chunk) and at the chunk edges, from the energy envelope
         def real_end(i, limit):
-            a_, b_ = max(0, spans[i][1] - int(0.25 * SR)), min(len(audio), spans[i][1] + int(0.25 * SR), limit)
+            a_, b_ = max(0, spans[i][0]), min(len(audio), spans[i][1] + int(0.25 * SR), limit)
             fr = np.flatnonzero(e[a_ // EH:b_ // EH] > thr)
             return a_ + (fr[-1] + 1) * EH if len(fr) else spans[i][1]
         def real_start(i, limit):
@@ -649,6 +670,9 @@ def render_house(text, voice, profile, projects, knobs, log=print):
         wi0 = 0
         for (sa, we, ms, last_i) in bounds:
             sb = min(len(audio), we + tail_k)
+            if os.environ.get('HV_DEBUG'):
+                print('cut', ci, wl[last_i]['text'], 'nominal_end', spans[last_i][1] / SR, 'real_end', we / SR, 'thr', round(thr, 1),
+                      'tail_db', np.round(e[we // EH - 4: we // EH + 30: 2] - np.percentile(e, 95), 0).tolist(), file=sys.stderr)
             seg = audio[sa:sb].astype(np.float32).copy()
             fi = min(head_k, len(seg) // 4); fo = min(tail_k, len(seg) // 4)
             if fi: seg[:fi] *= fade(fi, True)

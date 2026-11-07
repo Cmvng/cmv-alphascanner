@@ -85,6 +85,66 @@ Plan the reactions like a script:
 - **Leave room for the big one:** on a verdict line ("and they lost the match") the script leaves a 0.4–1 s beat. The
   face *is* the moment, and the next line comes in over its tail.
 
+## Fit the context (the owner, 7 Nov: "the reaction have to fit the context of the video")
+
+A reaction is right only if it matches **what the line means to the viewer** and **how big it is**. The trigger word on
+its own doesn't decide it. The full procedure is in `context_procedure.txt`. What each clip means, how it reads at
+sticker size and what it must never be used for is in `context_map.json` (checked by a second reviewer).
+
+1. **Read the whole sentence and the next one.** Then classify the line: good, bad, risky, suspicious (a claim to doubt),
+   absurd, surprising, teaching, rejection or payoff.
+   - **Who does it happen to?**
+     - The viewer: empathy.
+     - A bad actor: judgement.
+     - Nobody, a hypothetical: teaching.
+   - **Softeners drop it a level:** "let's say", "just an example", "paper money". Look ahead for a softener that comes
+     after the line.
+   - **Phrased against its meaning:**
+     - "Not the 47 trades…" is a payoff, not a rejection.
+     - "Team loses, $0" inside an example is teaching, not a loss.
+     - "at 20% it closes everything" is a risky rule, not an event.
+2. **How big is it?** 1 = minor, 2 = major (the point of a section), 3 = hero (the single biggest moment, with a beat
+   left in the script). When unsure, go lower.
+   - A warning with its stimulus on screen may take the hero slot once, even with a softener.
+   - A level-2 face flashed for 1.2 s or less, then back to listening, counts as 1.
+3. **The thing must be on screen.** Without it, stay listening, or use a look or a lean.
+4. **Pick by how the face reads at the size it's shown, not by its name.** Watched on a phone, 360 px looks like about
+   200 px. At that size:
+   - **These read as a smile, so never put them on a loss, a cost or a risk:** Yikes, The Wince (except its first
+     second), Nervous after frame 60, Hmm.
+   - **The Stare reads glum and concerned,** so it's a listening or doubt face.
+   - **Side-Eye** reads only while it's moving.
+   - **It's Over** reads only through the hands.
+   - **Nah and No Way move their lips,** so they go only in gaps in the voice, never over words.
+5. **Never over-react.**
+   - No Jaw Drop, Shook, No Way, It's Over or Wail on an example, a predictable number, or before the number appears.
+   - A routine fee, score or definition gets the listening face.
+   - Laughs only on lines meant to be funny.
+   - It's Over or Wail, never both in one video.
+6. **Know whose claim it is.**
+   - Never doubt the owner's own claims, picks, "I tried it" or link.
+   - Doubt only third-party marketing or tipsters.
+   - At most one positive face on a sponsor's claim, so it never looks like shilling. The end-card callback repeats
+     that same face.
+7. **Football vs crypto.**
+   - React to the pick's outcome, never to a team.
+   - Banter-level exaggeration fits a missed football pick.
+   - A crypto loss with real victims gets Sob or Ugh, never a laugh, and never a grin at a viewer's lost bet.
+8. **One outfit per video** (grey T-shirt set or shirtless set), and one face for one meaning.
+
+**What the check changed in our own videos:**
+- **Agentics:**
+  - Jaw Drop on "$200" was cut (an even-money example). It became a 1 s grin flash on "$200".
+  - Yikes on "Team loses, $0" read as a happy grin. It became a 1 s Sob flash before the "Just an example" stamp.
+- **Primus:**
+  - Nervous moved from "the account" to "keep reading", frames 1–60 only.
+  - The end card was Wince's eye-squeeze. It became a callback of the payoff grin, and "active trader, yes" now gets
+    that grin.
+  - Nah moved off the voice, into the gap after "login".
+
+**Every post kit gets a reaction sheet,** one row per reaction: the line, what it means and how big it is, the thing on
+screen, the clip and frames, and why it fits.
+
 ## Your example: "…and they lost the match"
 
 1. During "and they…", you're already on the scoreboard card's edge, listening (The Stare), leaning toward the score.
@@ -98,16 +158,24 @@ Plan the reactions like a script:
 
 | Clip | Role | Use it for | Notes |
 |---|---|---|---|
-| The Stare | **listening / skeptical** | the default face between beats; deadpan "really?" | the most reusable: context sets its meaning |
-| Side-Eye | reaction with a built-in **look** | a bold claim | two real looks; aim them at the claim |
-| Hmm | thinking | "wait, how does that work?" | short (2.8 s) |
-| Nervous | soft, uh-oh | a risk you can't see yet | can read as a smile at small size; keep it 380 px+ |
-| Ugh | hard, disgust | someone taking more than they should | pair it with a recoil |
-| Wince | hard, ouch / or a grin when it settles | a loss; also a closing grin | the eyes squeeze at about 1.3 s |
-| Shook / Jaw Drop | hard, shock | a real reveal only | needs an unmistakable trigger, or it reads fake |
-| Nah | soft, a pointing **gesture** | "not that", "don't do this" | start at frame 30 (skips the lip movement), so the wag lands on the key words |
-| It's Over / The Wail | hero moments | the single biggest loss | once per video at most |
-| Crack-Up / LOL / The Grin | payoff | the joke landing, the win, the callback at the end | |
+| Clip (set) | Role | Use it for | How it really reads at sticker size |
+|---|---|---|---|
+| The Stare (shirtless) | **listening** | the default face between beats | glum and concerned. Loop frames 40–110; frames 1–30 are a "really?" brow raise |
+| Side-Eye full (grey) | **listening + look** | idle on frames 0–50; a claim to doubt (look 1, frames 58–104, toward screen-left) | reads only in motion; the neutral reads sceptical |
+| Hmm (shirtless) | smug "clever" | a clever line | not "puzzled": reads as a pleased smirk |
+| Nervous (shirtless) | soft, "eek" | the risk getting real | frames 1–60 only; later it turns into a cheesy grin |
+| Ugh (shirtless) | hard, disgust | someone taking more than they need | about 2 s, then back to listening |
+| Wait, What? full (grey) | hard, alarmed | a number or rule that sounds wrong | 260 px or more |
+| Wince (shirtless) | first second = warm smile | a small smile only | after that it's an eye-squeeze; never on a loss |
+| Sob full (grey) | hard, pained | a small loss (a flash for examples) | reads as a sour squint more than crying |
+| Yikes (grey) | eek / grin | only at 360 px or more | reads as a grin when small: never on a loss |
+| Jaw Drop (grey) | speechless | an outrageous claim | never on examples |
+| Shook / No Way (shirtless) | shock | a real reveal only | the same face, so use one per video. No Way's lips move |
+| Nah (shirtless) | gesture: "not that" | the payoff phrased as a no | frames 116–141, in a gap in the voice only (the lips move) |
+| It's Over full (grey) | hero | the single worst outcome, a warning | from frame 1, so the hands land 0.2 s after the word. In football it reads "so close" |
+| The Wail full (grey) | hero / angry glare | a crash or a defeat; frames 63–107 = annoyed | never with It's Over in the same video |
+| Crack-Up (shirtless) | payoff | frames 0–20 = proud grin; the full laugh only for a joke | avoid frames 110–130 |
+| The Grin / LOL (grey) | payoff | a win, the sign-off callback; LOL only for a joke | |
 
 ## The two modes
 
@@ -127,7 +195,26 @@ Plan the reactions like a script:
 - [ ] 2–3 a minute; never over a number, a screen or text.
 - [ ] The deletion test: remove the sticker and something else on screen changes.
 
-## What to record next (makes the flow much stronger)
+## Your previous clips come first (the owner, 7 Nov: "What about the previous reaction videos..")
+
+We use everything already recorded before asking for anything new. The 7 Nov mining of all your clips and recordings
+found:
+- **Grey T-shirt set (29 Oct):**
+  - **Side-Eye full:** a 1.9 s neutral start (the listening idle, frames 0–50), a look to screen-left (58–104), another
+    neutral stretch, a look to screen-right (148–182), and a neutral settle (185–242).
+  - **The other six clips** (grin, jawdrop, waitwhat, yikes, lol, sob) start already at their peak. They work by swapping
+    in from the listening face.
+  - **Wail and It's Over** have real build-ups.
+  - **Full-length versions** of all nine are in the library as `*_full`.
+- **Shirtless set (5 Nov):**
+  - The Stare is the listening idle.
+  - No Way, Wince and Crack-Up have real onsets. Crack-Up's first second is a proud grin.
+- **Cournot recording (shirtless):** three short real listening clips (about 1–2 s each) and a ready-made sceptic arc
+  (furrow, eye-roll, frown, glare). Use them as listening and doubt faces; they still need matting.
+- **Bagel recording (grey):** only about 60 s of new face footage (the face-cam after 62 s is The Grin looping), so
+  little new.
+
+## Nice to have, not required: what would add even more
 
 Silent, the same T-shirt and the same white wall, phone at head height, 6–8 s each. Start neutral, react, then settle
 back:

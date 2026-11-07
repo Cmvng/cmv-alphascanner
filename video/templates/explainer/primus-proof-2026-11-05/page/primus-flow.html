@@ -76,8 +76,8 @@ const CARDS = [
     rings: [[30.04, 33.9, R(944, 124, 628, 78)], [35.58, 38.6, R(126, 440, 420, 250)], [40.04, 41.45, R(1018, 458, 322, 118)]] },
   { src: 'img/p4.jpg', w: 1414, h: 676, t0: 41.45, rot: 1.8, keys: [[41.45, null], [42.75, [990, 215, 1.45]], [45.3, [300, 160, 1.6]], [47.05, [690, 420, 1.55]]],
     rings: [[42.9, 45.3, R(636, 76, 716, 280)], [45.46, 47.1, R(48, 84, 294, 126)], [47.18, 49.4, R(526, 268, 238, 322)]] },
-  { src: 'img/p5.jpg', w: 1920, h: 1080, t0: 49.4, rot: -1.6, keys: [[49.4, null], [50.9, [1450, 540, 1.5]], [52.65, [470, 540, 1.5]], [57.45, [960, 990, 2.4]]],
-    rings: [[51.04, 52.7, R(1238, 428, 424, 168)], [53.44, 57.5, R(300, 418, 350, 282)], [57.62, 61.5, R(736, 998, 446, 44)]] },
+  { src: 'img/p5.jpg', w: 1920, h: 1080, t0: 49.4, rot: -1.6, keys: [[49.4, null], [50.9, [1450, 540, 1.5]], [52.65, [470, 540, 1.5]], [58.15, [960, 990, 2.4]]],
+    rings: [[51.04, 52.7, R(1238, 428, 424, 168)], [53.44, 58.45, R(300, 418, 350, 282)], [58.3, 61.5, R(736, 998, 446, 44)]] },
   { src: 'img/p6.jpg', w: 2560, h: 1440, t0: 61.5, rot: 1.2, keys: [[61.5, null], [62.9, [1285, 590, 1.45]], [64.25, null]], rings: [] },
 ]
 const PILLS = [[13.72, 18.2, 'zkTLS'], [18.78, 22.3, 'FHE']]
@@ -93,23 +93,26 @@ function edgeAnchor(t) {                            // left-bottom of the sticke
   return { x: xe - 38, y: yb, rot: CARDS[k].rot * .6, hide: [-400, 14], z: 9 }
 }
 const FLOW = {
-  width: 360, idle: { id: 'stare', a: 0, b: 100, speed: .7 },
+  width: 360, idle: { id: 'stare', a: 40, b: 110, speed: .7 },   // 40-110: frames 1-30 raise the brows ("really?"), keep that out of the idle
   segments: [
     { from: 0.45, to: DEAL(1) - .12, anchor: edgeAnchor, lean: -1.5,          // the hook: already there, deadpan
       looks: [{ at: 'one answer', deg: -4, dur: 1.0 }] },                      // leans toward the Ace
-    { from: DEAL(2) + LAND, to: DEAL(3) - .12, anchor: edgeAnchor, lean: -1.5,
+    { from: DEAL(2) + LAND, to: DEAL(3) + .1, anchor: edgeAnchor, lean: -1.5,   // the next card flies in over him, then he slides away behind it
       beats: [
-        { at: 'every trade', id: 'ugh', kind: 'hard', away: 1, hold: 3.4 },    // the card shudders back
-        { at: 'the account', id: 'nervous', kind: 'soft', away: 1, hold: 2.5 }, // ducks nervously as the next card comes
+        { at: 'every trade', id: 'ugh', kind: 'hard', away: 1, hold: 2.0 },    // someone taking more than they need; the card shudders back
+        { at: 'they can keep', id: 'nervous', kind: 'soft', away: 1, offset: .05, to: 60, tail: 30, hold: 1.2 }, // "eek" (frames 1-60) on "keep reading", ring pulses
       ] },
     { from: DEAL(4) + LAND, to: DEAL(5) - .12, anchor: edgeAnchor, lean: -1.5,
-      beats: [{ at: { phrase: 'not', after: 53 }, id: 'nah', kind: 'soft', away: 1, from: 30, hold: 3.8, tail: 10 }] }, // the wag lands on "or your login"
+      beats: [
+        { at: 'active trader yes', id: 'crackup', kind: 'soft', away: 1, from: 0, to: 20, tail: 14, hold: 1.1 },  // the payoff: a proud grin (Crack-Up's first second), flashed
+        { at: 'your login', id: 'nah', kind: 'soft', away: 1, offset: .05, from: 116, to: 141, tail: 10, hold: 0.85 }, // the clean wag, in the gap after the list (his lips move, so never over the voice)
+      ] },
   ],
 }
 const FLOW_END = {
   width: 330, idle: { id: 'stare', a: 0, b: 100, speed: .7 },
   segments: [{ from: 68.85, anchor: () => ({ x: 1532, y: 1066, rot: 0, hide: [0, 470], z: 13 }), lean: -2,
-    beats: [{ at: 69.15, id: 'wince', kind: 'soft', away: 1, offset: 0, hold: 9 }] }],
+    beats: [{ at: 69.15, id: 'crackup', kind: 'soft', away: 1, offset: 0, from: 0, to: 20, tail: 14, speed: .8, hold: 9 }] }],   // callback of the payoff grin
 }
 const SROOT = 'file:///home/user/cmv-alphascanner/video/out/reactions/'
 const CAP = [
@@ -192,7 +195,7 @@ window.render = async t => {
     c.ringEls.forEach((e, j) => { const rr = c.rings[j], st = T(rr[0]), en = T(rr[1]); const q = t >= st && t < en ? Math.min(eo((t - st) / .25), cl((en - t) / .2)) : 0
       let sc = 1 + .2 * (1 - eo((t - st) / .3)), tx = 0
       if (RF && i === 2 && j === 2) sc += .05 * Math.abs(ReactFlow.kick(t, RF.peakT(1), { delay: .08, dur: .5, cycles: 1.5 }))
-      if (RF && i === 4 && j === 1) { const w0 = RF.peakT(2) + (106 - 30) / FPS, w1 = w0 + 1.15        // the wag frames of Nah
+      if (RF && i === 4 && j === 1) { const w0 = RF.beats[3].vt, w1 = w0 + (141 - 116) / FPS        // shakes "no" with the wag
         if (t >= w0 && t < w1) { const x = (t - w0) / (w1 - w0); tx = 6 * Math.sin(2 * Math.PI * 3 * x) * Math.sin(Math.PI * x) } }
       css(e, 'opacity', q.toFixed(3)); css(e, 'transform', `translateX(${tx.toFixed(1)}px) scale(${sc.toFixed(3)})`) })
   })

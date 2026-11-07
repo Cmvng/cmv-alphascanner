@@ -1,0 +1,129 @@
+PICKING A REACTION THAT FITS THE LINE  (7 Nov 2026; goes with context_map.json and PLAYBOOK.md)
+
+The face must match what the line MEANS TO THE VIEWER, at the SIZE we show it, in the video's wardrobe set.
+Judge each clip by how it reads at sticker size (see "reads_at_sticker_size" in context_map.json), not by its name.
+
+STEP 0. SET AND BUDGET (once per video)
+  - One wardrobe set per video, never mixed:
+      GREY T-shirt  = grin, jawdrop, waitwhat, yikes, itsover, lol, sideeye, sob, wail (+ their _full arcs) + Bagel recording
+      SHIRTLESS     = stare, wince, noway, ugh, shook, crackup, nervous, nah, hmm + Cournot recording
+  - Budget: 2-3 reactions a minute; at most ONE intensity-3 face per video; at most two intensity-2+ faces in any 30 s.
+  - First list every candidate line in the script, then rank them. The biggest moment gets the strongest face; the rest
+    get their honest size or nothing.
+
+STEP 1. WHAT DOES THE LINE MEAN TO THE VIEWER?  Read the whole sentence and the next one, never just the keyword.
+  Put it in exactly one class:
+    GOOD          a win, a gain, a fair or cheap thing, a feature that protects you
+    BAD           a loss, a cost, someone taking more than they should
+    RISKY         something that could go wrong but hasn't (a rule, leverage, access that continues)
+    SUSPICIOUS    a bold claim, a promise, "trust me", a prediction: a claim to doubt
+    ABSURD        silly, ironic, a self-own, a joke
+    SURPRISING    information the viewer could not predict (note whether it is good or bad)
+    TEACHING      a definition, how it works, the mechanics of an example, a number being read out
+    REJECTION     "not this", "you don't need X", "don't do this"
+    PAYOFF        the solution lands, the verdict, the sign-off ("anyways")
+  Then check three things:
+    a. Who is it happening to?  The viewer or narrator (empathy), a third party or bad actor (judgement), or nobody
+       (a hypothetical: teaching).
+    b. Does the script soften it?  "Let's say", "just an example", "my example", "paper money", "testnet" -> the line is
+       TEACHING with a flavour, and drops one intensity level.
+    c. Is it phrased against its meaning?  "Not the 47 trades, the $8,200 or your login" is a GOOD payoff phrased as a
+       REJECTION; "Team loses, $0" inside a worked example is TEACHING, not a loss; "at 20% it closes everything" is a
+       RISKY rule, not an event.
+  Football: our side scores = GOOD; a goal against = BAD; a pundit's or tipster's certainty = SUSPICIOUS; a stat read
+  out = TEACHING unless it is the point of the segment.
+
+STEP 2. HOW BIG IS IT?
+    1 minor   a detail, one number among several, one step of a mechanism, an example's branch
+    2 major   the point of a section: the problem stated, the catch, the solution
+    3 hero    the single biggest moment of the video, where the script leaves a 0.4-1 s beat
+  - Unsure -> go one lower.
+  - Climax bonus: the ONE biggest beat of the video may go one level above its size (max 3), once.
+  - Softened lines (Step 1b) drop one level. A hypothetical never reaches 3 unless it is that one climax AND it is the
+    video's warning to the viewer.
+  - Flash rule: an intensity-2 face shown for <=1.2 s and returned to listening counts as 1. Intensity-3 faces cannot be
+    flashed down: they read big however short.
+
+STEP 3. IS THERE A VISIBLE STIMULUS AT THAT INSTANT?
+  The number, card, stamp, score or bar must be on screen, near the sticker, when the face changes.
+  - No stimulus -> cap at 1 (listening face, a look, a lean) or skip. "You can't fake intensity."
+  - The stimulus must also settle the valence for faces that don't (Jaw Drop: green +900% vs red candle).
+
+STEP 4. TONE AND ARC
+  - Calm explainer: routine beats cap at 2; the climax may be 3. Hype or match reaction: 3 allowed on the biggest moment.
+  - The problem escalates: each BAD/RISKY beat is >= the one before (never hard -> soft while the script says it gets
+    worse). TEACHING beats never escalate.
+  - The payoff is the only big positive face; the end card is a callback of an earlier face WITH THE SAME MEANING.
+  - One face, one meaning per video. Spacing: >=5 s between reactions, >=2 s inside a deliberate chain.
+
+STEP 5. PICK
+  Look up meaning x size in the table below for the video's set. A candidate must pass all of:
+    a. its READ at sticker size matches the meaning (context_map "reads_at_sticker_size", "misread_as")
+    b. its intensity equals the line's size (after Steps 2-3). Never one above.
+    c. it reads at the planned width (context_map "min_width_px")
+    d. its usable frames ("use_frames") can put the change 0.2 s after the trigger word ends, for the hold you need
+    e. it is not already used in this video with another meaning
+  Nothing passes -> stay in the listening face (lean or look toward the thing) or skip. Silence beats a wrong face.
+
+STEP 6. FRAMES
+  Clips with a build-up: start in the neutral part so the onset rides into the word:
+    Side-Eye full 58-104 (left look) or 145-185 (right look); It's Over full from 1-12 (hands land ~24);
+    No Way 15-62 (shout peak 37); Wail full 36+ (scream 38-62); Crack-Up 15+; Nah 80-141 (finger up 108+);
+    Wince 1-30 for a smile only.
+  Held clips (Grin, Jaw Drop, Wait What, Yikes, LOL, Sob, Stare, Ugh, Shook, Nervous, Hmm): swap in place from the listening
+  face (2 f squash + 4 f settle).
+  Listening loops: grey = sideeye_full 1-57 and 185-242; shirtless = stare 1-110. Never loop past stare frame 112.
+
+LOOKUP TABLE (meaning x size -> clip; "-" = stay listening / skip)
+  meaning        size  GREY                                   SHIRTLESS
+  TEACHING       any   - (listening + lean to the thing)      - (Stare + lean)
+  SUSPICIOUS     1     Side-Eye (aimed at the claim)          Stare held as deadpan (lean back)
+  SUSPICIOUS     2     Side-Eye (both looks) or Wait, What?   Stare deadpan + lean back (this set has no side-look)
+  the catch      1-2   Wait, What?                            Stare deadpan / Nervous (>=400 px)
+  RISKY          1     - or Wait, What?                        Nervous (>=400 px, thing pulses)
+  RISKY          2     Wait, What? (Yikes only >=420 px,       Nervous (>=400 px) or No Way if it is the problem's peak
+                       comic tone)
+  RISKY climax   3     It's Over (full arc)                   Shook / No Way
+  BAD            1     Sob flash (<=1 s)                      Ugh flash (<=1.2 s)
+  BAD            2     Sob held; Wail frown (full 63-107)     Ugh; No Way (outrageous)
+  BAD hero       3     It's Over (rule / close-out / late     Shook (revealed) / No Way (outrageous)
+                       goal) or Wail (a loss that happened)
+  SURPRISING     3     Jaw Drop (valence shown on screen)     Shook (bad only)
+  SURPRISING     <3    -                                      -
+  GOOD           1     Grin flash (<=1.2 s) or -              Hmm (if clever) or Wince 1-30 flash
+  GOOD / PAYOFF  2     Grin                                   Wince 1-30 (slow ping-pong) or Hmm
+  ABSURD         2     LOL                                    Crack-Up
+  REJECTION      2     - (no grey gesture; Side-Eye at most)  Nah (80-141, target shakes "no")
+  CLEVER / ?     1     -                                      Hmm
+  END CARD       -     callback, usually Grin                 callback; else Wince 1-30 or Hmm
+
+OVER-REACTION RULES
+  1. No Jaw Drop, Shook, No Way, It's Over or Wail on an even-money or "let's say" example ($100 at 0.50 -> $200 is the
+     expected payout, not news), on a number the viewer can predict, or on the setup line before the number appears.
+  2. No intensity-3 face on a rule or hypothetical unless it is the video's single climax AND the stimulus is on screen.
+  3. Paper money, demo, testnet, "just an example" -> one level down.
+  4. A routine fee, a normal score update, a definition -> the listening face.
+  5. One intensity-3 per video; one It's Over OR one Wail, never both.
+  6. Laughter (LOL, Crack-Up) only when the line is meant to be funny; never at a real loss, a scam's victims or a
+     warning, and not as the close of a serious explainer.
+  7. A static face (Ugh, Sob, Stare, Nervous) held over ~2 s starts to read as a photo: return to listening.
+
+MISREAD RULES
+  1. Faces that read as a SMILE at sticker size: Yikes, Wince (all of it), Nervous below ~400 px, Hmm, the Wail onset
+     (wail_full 1-35, sticker 1-9), the No Way tail (66-75). Never on a loss, a cost, a risk to the viewer, a rug or a
+     defeat: viewers read gloating.
+  2. Faces that read as NEUTRAL: Stare, and Wait What below ~240 px. They carry listening or doubt, never a big reaction.
+  3. Moving lips read as him SPEAKING: Nah (all of it), No Way 1-12, Wail full frame 1. Keep them off the voice-over's key
+     word unless the gesture is the point.
+  4. Side-Eye reads only in motion and only when the look points at the thing; place the sticker so it does.
+  5. Jaw Drop has no valence of its own; Shook leans to fear (never for good news); Sob can read as disgust.
+  6. It's Over reads from the hands: never crop them under a card.
+  7. Check the planned width against "min_width_px". Below it, swap the clip; don't hope.
+
+QUICK TEST BEFORE SHIPPING
+  Say the line, then say the face's READ (not its name) as a reply: "Team loses, $0" -> "ha, nice" (Yikes) fails;
+  -> "aw" (Sob flash) passes. "$200" -> "WHAT?!" (Jaw Drop) fails: the reply is bigger than the news.
+
+SET GAPS (what mining the Cournot / Bagel recordings should look for)
+  GREY: a rejection gesture (head shake / wag), disgust, a thinking or "clever" face, a calm risk face, more listening.
+  SHIRTLESS: a clean closed-mouth win smile, a small sad loss (Sob-like), a side-look, a nod, a hands-on-head hero.
