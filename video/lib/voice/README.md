@@ -1,5 +1,10 @@
 # The house voice: free and commercial-use
 
+## The owner's decision (7 Nov, later): Lara on ElevenLabs is the narrator
+He heard the free voices (the house voice, then Chatterbox-Turbo) and rejected both. He tops up his ElevenLabs credits, and
+Lara (`vChnJZ1Cu89g2XXumPfT`, `eleven_v4`) is used through the connector, one take per video. The free engines below
+are fallbacks only.
+
 ## 7 Nov update: no more delivery edits, Chatterbox-Turbo is the narrator
 The owner on the Bagel picks video (Kokoro with the delivery profile): "this voice sounded like a robot".
 - **The cause was our own editing:**

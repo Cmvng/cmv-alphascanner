@@ -230,6 +230,12 @@ video… not a case whereby it just shows up and goes away").** Before placing a
   - **Mix the grey T-shirt and shirtless sets** across the video, but keep one set per appearance.
 - Engine: `video/lib/react_flow.js`. Worked example: `explainer/primus-proof-2026-11-05/page/primus-flow.html`.
 
+**Narrator decision (the owner, 7 Nov, after rejecting the free voices twice): Lara on ElevenLabs.**
+- Voice id `vChnJZ1Cu89g2XXumPfT`, model `eleven_v4`, through the ElevenLabs connector. The owner pays the credits.
+- Use **one take** (`generations_count: 1`, about 1,200 credits for 80 s) unless he asks for more.
+- If a take fails for quota, tell him the credits left, and give him the subscription link: elevenlabs.io/app/subscription.
+- The free voices below are fallbacks only, used when he says so.
+
 **Narrator update (7 Nov, after "this voice sounded like a robot"):**
 - Use `video/lib/voice/chatterbox_voice.py` (Chatterbox-Turbo, MIT, its built-in voice).
 - **Never edit the voice's pitch or tempo.** The delivery-profile edits made it robotic.
