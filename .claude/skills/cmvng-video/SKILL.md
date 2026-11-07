@@ -223,7 +223,11 @@ video… not a case whereby it just shows up and goes away").** Before placing a
   0.2 s after the trigger word (CTC word times from `video/lib/align_words.py`).
 - Each reaction is tied to one word and one on-screen thing, which reacts back.
 - He has a home in the layout that fits the video's concept. Never shrink the edit for him.
-- Entrances and exits need a reason (peek, duck, pushed). The reactions form an arc, 2–3 a minute.
+- Entrances and exits need a reason (peek, duck, pushed).
+- **Clean and simple (the owner, 7 Nov: "too many reactions… looking too disjointed").**
+  - At most 3 reactions in a video: 1–2 in the body plus the sign-off.
+  - No listening sticker parked on screen through whole scenes.
+  - **Mix the grey T-shirt and shirtless sets** across the video, but keep one set per appearance.
 - Engine: `video/lib/react_flow.js`. Worked example: `explainer/primus-proof-2026-11-05/page/primus-flow.html`.
 
 **The narrator voice (the owner, 7 Nov: "I don't want to be using ElevenLabs again… use that same voice pattern").**

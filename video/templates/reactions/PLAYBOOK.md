@@ -1,5 +1,23 @@
 # How your reactions flow with the video
 
+## Clean and simple first (the owner, 7 Nov, after the Bagel picks video)
+
+> "The videos do not need to have too many reactions… It does not have to have too many reactions. You have to be clean
+> and simple… if you have too many reactions, it makes it to be looking too disjointed." And: "I have two separate
+> reaction videos. I don't know why you're not mixing them together."
+
+This rule overrides everything below where they differ:
+- **Few reactions.** Use **1–2 in the body of a video under 90 s**, plus the end-card sign-off at most. Hard cap: 3 in total.
+  Pick only the biggest moments, the ones where a face adds something the words don't.
+- **No constant presence.** Don't keep a listening sticker on screen through whole scenes. Come in about 0.5–1 s before
+  the moment, react, and leave. The empty layout is the default.
+- **Mix both sets.** The grey T-shirt set (29 Oct) and the shirtless set (5 Nov) are one library. Choose the clip that fits
+  the moment best, from either set. Within a single appearance, keep to one set: no in-place swap from grey to shirtless.
+  A new entrance can use the other set.
+- **Simple motion.** One clean entrance, the face change, one clean exit. No chains of swaps, looks and recoils.
+- The 7 Nov Bagel picks video had a listening idle on screen for 36 s and four faces in 80 s. The owner called it
+  disjointed. That is the example of what not to do.
+
 The owner, 7 Nov 2026: "I need it to be in a way whereby it moves from being a video reaction sticker to… flow with the
 concept of the video… intertwined… progressing with the video… connects with the video. Not a case whereby it just shows
 up and goes away."
@@ -78,7 +96,7 @@ Some fixed points:
 ### 6. Give the reactions an arc
 Plan the reactions like a script:
 - **The arc:** skeptical → the problem gets worse (escalate) → the payoff → a callback of an earlier face at the end.
-- **Budget:** **2–3 reactions a minute**, at least 2 s apart inside a chain and 5 s apart otherwise.
+- **Budget:** **1–2 in the body plus the sign-off, at most 3 in total** (clean and simple, owner 7 Nov). Keep them at least 10 s apart.
 - **The strongest face** goes to the climax.
 - **One face, one meaning** per video.
 
@@ -134,7 +152,7 @@ sticker size and what it must never be used for is in `context_map.json` (checke
    - React to the pick's outcome, never to a team.
    - Banter-level exaggeration fits a missed football pick.
    - A crypto loss with real victims gets Sob or Ugh, never a laugh, and never a grin at a viewer's lost bet.
-8. **One outfit per video** (grey T-shirt set or shirtless set), and one face for one meaning.
+8. **Mix both outfits** across a video (owner, 7 Nov), but keep one outfit per appearance, and one face for one meaning.
 
 **What the check changed in our own videos:**
 - **Agentics:**
@@ -196,7 +214,7 @@ screen, the clip and frames, and why it fits.
 - [ ] Each entrance and exit has a reason (peek, duck, pushed, ride, slap).
 - [ ] You lean toward the thing, and the thing reacts back.
 - [ ] There is an arc: escalation, a payoff and a callback.
-- [ ] 2–3 a minute; never over a number, a screen or text.
+- [ ] At most 3 in total (1–2 in the body plus the sign-off); never over a number, a screen or text.
 - [ ] The deletion test: remove the sticker and something else on screen changes.
 
 ## Your previous clips come first (the owner, 7 Nov: "What about the previous reaction videos..")
@@ -256,7 +274,7 @@ back:
   | Usual hold | 1–2 s, or until the next beat |
   | Exit | 0.26 s, at a phrase boundary or as something passes over |
   | Breathing | about 1% over 2.6 s |
-  | Budget | 2–3 a minute |
+  | Budget | at most 3 per video (1–2 in the body plus the sign-off) |
 
 - **Sound (no whooshes):** motion is silent. Only contact makes a sound: a soft tap when a card lands on you, and a
   slap when a sticker sticks. For the big face, dip the music 3–6 dB or leave a short silence.

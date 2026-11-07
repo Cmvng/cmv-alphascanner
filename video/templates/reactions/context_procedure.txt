@@ -1,13 +1,16 @@
 PICKING A REACTION THAT FITS THE LINE  (7 Nov 2026; goes with context_map.json and PLAYBOOK.md)
 
-The face must match what the line MEANS TO THE VIEWER, at the SIZE we show it, in the video's wardrobe set.
+The face must match what the line MEANS TO THE VIEWER, at the SIZE we show it.
 Judge each clip by how it reads at sticker size (see "reads_at_sticker_size" in context_map.json), not by its name.
 
 STEP 0. SET AND BUDGET (once per video)
-  - One wardrobe set per video, never mixed:
+  - BOTH sets are one library (owner, 7 Nov: "I have two separate reaction videos... why you're not mixing them"):
       GREY T-shirt  = grin, jawdrop, waitwhat, yikes, itsover, lol, sideeye, sob, wail (+ their _full arcs) + Bagel recording
       SHIRTLESS     = stare, wince, noway, ugh, shook, crackup, nervous, nah, hmm + Cournot recording
-  - Budget: 2-3 reactions a minute; at most ONE intensity-3 face per video; at most two intensity-2+ faces in any 30 s.
+    Pick the best-fitting clip from either set. Keep one set within a single appearance (no grey->shirtless swap in place).
+  - Budget (owner, 7 Nov: "clean and simple... too many reactions... looks disjointed"): AT MOST 3 per video,
+    1-2 in the body plus the sign-off; at least 10 s apart; at most ONE intensity-3 face per video.
+    No listening sticker parked on screen through scenes: come in just before the moment, react, leave.
   - First list every candidate line in the script, then rank them. The biggest moment gets the strongest face; the rest
     get their honest size or nothing.
 
