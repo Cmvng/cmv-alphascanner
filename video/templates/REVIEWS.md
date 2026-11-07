@@ -28,6 +28,49 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
+## 7 Nov: reactions that flow with the video (research, playbook, engine, Primus re-cut) and the narrator's delivery
+
+**The owner:** reactions should be "intertwined… progressing with the video… flows with the video… not a case whereby it
+just shows up and goes away". Also: "I don't want to be using ElevenLabs again… study the voice pattern… use that same
+voice pattern for my videos".
+
+- **Research:** an 8-agent workflow covered:
+  - film and animation craft for reaction shots;
+  - how creators build in faces and avatars;
+  - an audit of our stickers;
+  - Lara's delivery, measured over 270 s of takes and independently re-measured;
+  - open TTS models, with each licence checked at the primary source;
+  - ElevenLabs' terms.
+- **The audit's verdict on the 4–5 Nov stickers.** Each was a separate, identical event:
+  - timed to the caption line, not to the moment (Jaw Drop gasped 2.7 s before "$200" appeared);
+  - the face arrived already at its peak;
+  - the whole edit shrank to 72% for 18–25% of each video;
+  - one fixed spot, no gaze or contact, no arc.
+
+  His first brief (29 Oct) already asked for "flows with the video". We had tuned size, count and duration, never flow.
+- **The answer:**
+  - `reactions/PLAYBOOK.md` sets seven rules: listen then react on the word; two anchors (a word and a thing); a home in
+    the layout and never a shrink; physical entrances and exits; lean toward the thing as it reacts back; an arc at 2–3
+    a minute; never over information.
+  - `video/lib/react_flow.js` is the engine.
+  - `video/lib/align_words.py` gives CTC word times. Whisper is about 0.4 s early on the first word after a pause.
+- **Demo: the Primus re-cut** (`primus-flow.html`, same take, no credits).
+  - He is a card player peeking out from behind the hand. He ducks behind the deck as each card flies in, and stays
+    hidden during the definitions and the diagram.
+  - Ugh lands on "every trade" and the card shudders back. Nervous lands on "the account" as its ring pulses.
+  - The finger-wag lands on "or your login" while the blurred numbers shake "no". On the end card he comes back with a
+    grin.
+- **Fixed from the sheets:** the card edge clipped his cheek. Now only the shoulder tucks behind the card (38 px, 360 px
+  wide).
+- **Voice:** "Lara" is a real woman's paid library voice (ElevenLabs Voice Library, professional clone). So we keep her
+  measured delivery (`voice/lara-delivery/`) and apply it to a free, commercially licensed voice; never her sound.
+- **Change next time:**
+  - Plan the reaction track with the script, not after the edit.
+  - Ask the owner for the missing clips: a neutral watching clip, looks, points, nod and shake, in the same shirt and
+    wall.
+
+---
+
 ## 5 Nov: the owner's script and pictures, Primus "Show your hand" (Lara, 1:12, 16:9), and nine new reactions
 
 The owner's six-scene, first-person script about @primus_labs came with:

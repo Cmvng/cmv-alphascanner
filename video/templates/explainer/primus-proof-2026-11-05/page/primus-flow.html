@@ -86,14 +86,14 @@ const FAN = 64.3, FLIP = 66.12, ENDT = T(68.6)
 //      skeptical listening -> Ugh at "every trade" -> Nervous at "the account" -> the finger-wag "not the 47 trades… or your login"
 //      -> hides behind the hand before it turns face down -> back on the end card with a grin (callback)
 const DEAL = i => CARDS[i].t0, LAND = .62          // a card lands about 0.55 s after its deal starts
-function edgeAnchor(t) {                            // left-bottom of the sticker, tucked 70 px behind the top card's right edge
+function edgeAnchor(t) {                            // left-bottom of the sticker: only the shoulder (38 px) tucks behind the top card's right edge
   const k = CARDS.reduce((m, c, i) => t >= T(c.t0) - .01 ? i : m, 0), r = CARDS[k].rot * Math.PI / 180
   const yb = 790, ym = yb - 240                     // stays above the card's bottom-right corner, so hiding behind it hides all of him
   const ly = (ym - 531.6 - 634 * Math.sin(r)) / Math.cos(r), xe = 960 + 634 * Math.cos(r) - ly * Math.sin(r)
-  return { x: xe - 70, y: yb, rot: CARDS[k].rot * .6, hide: [-400, 14], z: 9 }
+  return { x: xe - 38, y: yb, rot: CARDS[k].rot * .6, hide: [-400, 14], z: 9 }
 }
 const FLOW = {
-  width: 380, idle: { id: 'stare', a: 0, b: 100, speed: .7 },
+  width: 360, idle: { id: 'stare', a: 0, b: 100, speed: .7 },
   segments: [
     { from: 0.45, to: DEAL(1) - .12, anchor: edgeAnchor, lean: -1.5,          // the hook: already there, deadpan
       looks: [{ at: 'one answer', deg: -4, dur: 1.0 }] },                      // leans toward the Ace
