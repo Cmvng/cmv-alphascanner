@@ -20,5 +20,6 @@ for r in lib['reactions']:
     fd = os.path.join(d, 'full')
     nfull = len([f for f in os.listdir(fd) if f.endswith('.jpg')]) if os.path.isdir(fd) else 0
     out[r['id']] = {'frames': m['frames'], 'w': m['w'], 'h': m['h'], 'full': nfull, 'name': r['name']}
+    if 'face' in m: out[r['id']]['face'] = {k: m['face'][k] for k in ('cx', 'cy', 'w')}   # react_face.py: keeps the head steady across swaps
 open(os.path.join(LIB, 'lib.js'), 'w').write('window.RLIB = ' + json.dumps(out) + '\n')
 print(json.dumps(out))

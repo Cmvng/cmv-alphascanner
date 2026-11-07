@@ -58,10 +58,14 @@ Some fixed points:
 - **Enter:** peek out from behind the thing, rise from the edge, or slap on like a sticker.
 - **Leave:** duck behind the card as the next one flies in, get pushed off by the next graphic, or ride away with the
   card you're stuck to.
-- **The change of face:** a quick squash, a small overshoot, then settle.
+- **The change of face:** a small, even pop (about 3–4%) on the swap. **Never squash or stretch a real face**: it looks
+  distorted (the owner, 7 Nov). Keep the head the same size and in the same place across swaps. The clips were filmed at
+  different distances, so `video/lib/react_face.py` measures each one's eye row and head width, and the engine scales
+  every clip to match the listening face.
+- **Check every swap at full size before sending.** At thumbnail size the size jump and stretch can't be seen.
 - **Hard reactions** (Ugh, Wince, Shook) **recoil away** from the bad thing. **Soft reactions** (Nervous, Hmm, Nah) **lean
   in**.
-- **Between beats:** you breathe slightly. You never freeze, and you never bob mechanically.
+- **Between beats:** you drift a couple of pixels. You never freeze, and you never scale or bob mechanically.
 
 ### 5. Look at it, and it reacts back
 - **Lean:** lean toward the thing you react to. A face on the right leans left.

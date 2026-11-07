@@ -7,8 +7,11 @@
      about 6 frames after the word ends) and to an on-screen ELEMENT (the page's anchor() puts the sticker against it,
      and the page uses peakT() to make the element react back).
    - Physics: entering and leaving are moves with a reason (peek out from behind something, duck behind it as a card
-     flies over). The swap has a squash and overshoot, hard reactions recoil away from the content, soft ones lean in,
-     and the idle state breathes.
+     flies over). The swap is a small UNIFORM pop, hard reactions recoil away from the content, soft ones lean in, and
+     the idle state drifts gently. Never squash or stretch a real face: it reads as distortion (owner, 7 Nov).
+   - Steady head: every clip is scaled and placed so the FACE keeps the listening clip's size and position (eye row,
+     head width at eye level, from video/lib/react_face.py via lib.js "face"). The clips were filmed at different
+     distances; without this the head jumped up to ~30% on each swap.
    - It never shrinks the page to make room: the layout gives it a home (the anchor).
 
    Usage (in a page rendered frame by frame):
@@ -108,16 +111,20 @@
       }
       const src = frameOf(id, fi)
       if (img.getAttribute('src') !== src) { img.src = src; try { await img.decode() } catch (e) {} }
-      // ---- motion
-      const L = lib[id], w = (B && B.w) || S.w || width, h = w * L.h / L.w
-      const p = S.anchor(t)
-      let sx = 1, sy = 1, rot = (S.lean || 0) + (p.rot || 0), dx = 0, dy = 0
-      // swap: squash, then overshoot and settle (2 f + 4 f)
+      // ---- size and place: the idle clip at the segment's width; any other clip scaled so its face matches the idle face
+      const L = lib[id], LI = lib[idle.id], p = S.anchor(t)
+      const wI = S.w || width, sI = wI / LI.w, hI = wI * LI.h / LI.w
+      let w = wI, h = hI, ox = 0, oy = 0, fx = 50, fy = 90
+      if (L.face && LI.face) {
+        const sC = sI * (LI.face.w / L.face.w)
+        w = L.w * sC; h = L.h * sC
+        ox = LI.face.cx * sI - L.face.cx * sC; oy = LI.face.cy * sI - L.face.cy * sC   // face point stays where the idle's is
+        fx = 100 * L.face.cx / L.w; fy = 100 * L.face.cy / L.h                         // rotate / pop around the face
+      } else if (B && B.w) { w = B.w; h = w * L.h / L.w }
+      let sc = 1, rot = (S.lean || 0) + (p.rot || 0), dx = 0, dy = 0
+      // swap: a small uniform pop (no squash: stretching a real face looks distorted)
       const q = (t - change) / SWAP
-      if (q >= 0 && q < 1) {
-        if (q < 0.33) { const k = Math.sin(Math.PI * q / 0.33); sx += 0.055 * k; sy -= 0.06 * k }
-        else { const k = (q - 0.33) / 0.67; const s = 1 + 0.035 * Math.sin(Math.PI * k) * (1 - k); sx *= s; sy *= s }
-      }
+      if (q >= 0 && q < 1) sc *= 1 + 0.035 * Math.sin(Math.PI * q) * (1 - 0.5 * q)
       if (B) {
         const lt = t - B.vt
         if (B.kind === 'hard') {                                   // recoil away from the content, then come back
@@ -128,19 +135,19 @@
         }
       }
       for (const l of S.looks) { const lt = t - l.vt; if (lt >= 0 && lt < l.dur + 0.5) rot += l.deg * Math.min(eio(lt / 0.35), 1 - eio((lt - l.dur) / 0.5)) }
-      // breathing (a moving hold), and the flinch while ducking
+      // a gentle drift while it holds (position only), and a small uniform dip while ducking
       const br = Math.sin(2 * Math.PI * t / 2.6)
-      sy *= 1 + 0.010 * br; dy += -2 * br
-      sx *= 1 + 0.05 * duckSquash; sy *= 1 - 0.07 * duckSquash
+      dy += -2.5 * br
+      sc *= 1 - 0.03 * duckSquash
       const hx = p.hide ? p.hide[0] * (1 - u) : 0, hy = p.hide ? p.hide[1] * (1 - u) : 0
-      const left = p.x + hx + dx, top = p.y - h + hy + dy
+      const left = p.x + ox + hx + dx, top = p.y - hI + oy + hy + dy
       const st = img.style
       const set = (k, v) => { if (st[k] !== v) st[k] = v }
       set('width', w + 'px'); set('left', left.toFixed(1) + 'px'); set('top', top.toFixed(1) + 'px')
       set('opacity', String(p.opacity == null ? 1 : p.opacity)); if (p.z != null) set('zIndex', String(p.z))
-      set('transformOrigin', '50% 90%')
-      set('transform', `rotate(${rot.toFixed(2)}deg) scale(${sx.toFixed(4)},${sy.toFixed(4)})`)
-      return `rf:${src}|${left.toFixed(1)}|${top.toFixed(1)}|${rot.toFixed(2)}|${sx.toFixed(4)}|${sy.toFixed(4)}`
+      set('transformOrigin', `${fx.toFixed(1)}% ${fy.toFixed(1)}%`)
+      set('transform', `rotate(${rot.toFixed(2)}deg) scale(${sc.toFixed(4)})`)
+      return `rf:${src}|${left.toFixed(1)}|${top.toFixed(1)}|${w.toFixed(1)}|${rot.toFixed(2)}|${sc.toFixed(4)}`
     }
     // the video time a beat's reaction lands (for the element reacting back)
     const peakT = i => allBeats[i].vt + (allBeats[i].peakAfter == null ? 0.07 : allBeats[i].peakAfter)
