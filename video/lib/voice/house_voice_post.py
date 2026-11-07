@@ -38,7 +38,8 @@ MODEL = 'hf://gradium/phonon-31m-en'
 SR = 24000
 
 KNOBS = dict(
-    voice='Zoey', quant='q8', duration_delta=0.2, temperature=0.3, seed=4242424242424242,
+    voice='Zoey', quant='q8', duration_delta=None,   # None = VOICE_DD[voice]
+    temperature=0.3, seed=4242424242424242,
     # pauses (ms) - None = take it from profile tts_targets
     comma_min_words=4, micro_gap_ms=50, ellipsis_ms=dict(mid=340, end=375), none_gap_max_ms=30, pause_jitter_sd=0.4, lead_ms=250, tail_ms=500,
     # duration
@@ -50,16 +51,22 @@ KNOBS = dict(
     contour_weight=0.8, resid_scale=1.7, smooth_ms=260, onset_first_st=-0.5, onset_later_st=-0.5,
     peak_st=9.0, accent_half_min=0.12, accent_width=0.8, accent_attract=['project', 'number'],
     accent_cat_scale=dict(project=0.6, name=0.4, number=0.85, contrast=0.8), later_peak_drop_st=1.5, short_phrase_peak_scale=0.6, peak_pos_default=0.24, peak_pos_max=0.5,
-    end_st=dict(sentence=-3.0, new_topic=-3.0, question=-2.0, colon_dash=-4.0, ellipsis_mid=1.0, ellipsis_end=-2.5,
-                comma=-0.5, end=-3.0),
-    held_final=dict(comma=1.0, ellipsis_mid=1.5),
+    end_st=dict(sentence=-3.0, new_topic=-3.0, question=-2.0, colon_dash=-4.0, ellipsis_mid=0.0, ellipsis_end=-2.5,
+                comma=-1.5, end=-3.0),
+    held_final=dict(comma=0.5, ellipsis_mid=1.0),
     final_dip_st=dict(sentence=-3.0, new_topic=-3.0, end=-3.0, colon_dash=-3.0, ellipsis_end=-2.0),   # boundaries whose last word is held level then lifts (st)
     emph_st=dict(project=2.5, name=1.0, number=2.0, contrast=1.5, content=1.0),
     emph_db=dict(project=2.5, name=2.0, number=1.5, contrast=1.0, content=0.0),
-    final_word_db=1.0, tail_trim_db=-35.0, max_shift_st=8.0, f0_floor=90, f0_ceil=520,
+    final_word_db=1.0, tail_trim_db=-35.0, max_shift_st=8.0, ceiling_over_peak_st=2.5, f0_floor=90, f0_ceil=520,
     # loudness
+    # lexicon fixes for the synth text only (alignment and measuring still use the script words)
+    rewrites={'Primus': 'Prymus'},
     sentence_level_even=True, lufs=-20.0, true_peak=-1.0, out_sr=48000,
 )
+
+# base pace per catalog voice: duration_delta that puts the articulation near 4.5 syl/s after the edits
+# (Zoey measured; the others scaled from their dd=0 rate: +/-0.3 dd = +/-13 % length)
+VOICE_DD = dict(Zoey=0.2, Harper=0.13, Delia=0.07, Everly=0.03, Juniper=-0.05, Hadley=-0.12)
 
 SIL_DB = -50.0          # same silence threshold as measure.py (frame energy re the take's 95th-percentile frame)
 HOP = 0.005
@@ -79,6 +86,12 @@ def _measure():
 
 def load_profile(path=PROFILE):
     return json.load(open(path))
+
+
+def apply_rewrites(text, rw):
+    for a, b in (rw or {}).items():
+        text = re.sub(r'\b' + re.escape(a) + r'\b', b, text)
+    return text
 
 
 # ------------------------------------------------------------------ 1. script plan
@@ -120,7 +133,7 @@ def plan_script(path, project=None, knobs=None):
                 j -= 1
             nxt = toks[i + 1]
             before_nn = nxt['is_number'] or nxt['is_amount'] or nxt['is_name'] or nxt['is_project']
-            if before_nn: return tt.get('comma_before_number_name', 250) + jit * 30, 'comma'
+            if before_nn: return tt.get('comma_before_number_or_name', tt.get('comma_before_number_name', 250)) + jit * 30, 'comma'
             if i - j + 1 >= k['comma_min_words']: return tt['comma']['ms_when_break'] + jit * sd.get('comma', 80) * 0.5, 'comma'
             return float(k['micro_gap_ms']), 'comma_micro'
         return None, c                                                      # none / before_number_name: no pause
@@ -144,7 +157,7 @@ def plan_script(path, project=None, knobs=None):
                 tr = tr.replace('…', '.' if q == len(words) - 1 else ',')
                 tr = re.sub(r'[.,]{2,}', lambda m: m.group(0)[0], tr)
             parts.append(w['lead'] + w['core'] + tr)
-        st_text = ' '.join(parts)
+        st_text = apply_rewrites(' '.join(parts), k['rewrites'])
         if st_text and st_text[0].islower(): st_text = st_text[0].upper() + st_text[1:]
         if not re.search(r'[.!?]$', st_text): st_text += '.'
         out.append(dict(sent=sid, words=words, text=st_text, aside=toks[idx[0]]['aside'],
@@ -337,10 +350,13 @@ def targets(x, sr, plan, spans, med_st, k, prof):
         lw0 = max(lw0, s0 + 0.1)
         T[a:b] = On + (E - On) * (np.minimum(tt, lw0) - s0) / max(lw0 - s0, 1e-3)
         dip = k['final_dip_st'].get(cls)
-        if dip and len(idx) >= 2:                             # low end: extra fall over the last 40 % of the last word
+        if dip:                             # low end: extra fall over the last half of the voicing
             lw = spans[idx[-1]]
-            r = np.clip((tt - (lw[0] + 0.6 * (lw[1] - lw[0]))) / max(0.4 * (lw[1] - lw[0]), 1e-3), 0, 1)
-            T[a:b] += dip * r
+            vv = np.where(~np.isnan(o[int(lw[0] / HOP):min(n, int(lw[1] / HOP) + 1)]))[0]
+            if len(vv) >= 4:
+                v0, v1 = (int(lw[0] / HOP) + vv[len(vv) // 2]) * HOP, (int(lw[0] / HOP) + vv[-1]) * HOP
+                r = np.clip((tt - v0) / max(v1 - v0, 1e-3), 0, 1)
+                T[a:b] += dip * r
         if hold is not None:                                  # small lift over the last 40 % of the held word
             r = np.clip((tt - (lw0 + 0.6 * (e0 - lw0))) / max(0.4 * (e0 - lw0), 1e-3), 0, 1)
             T[a:b] += hold * r * (tt >= lw0)
@@ -348,6 +364,7 @@ def targets(x, sr, plan, spans, med_st, k, prof):
         if pw is not None:
             wd = spans[pw][1] - spans[pw][0]
             half = max(k['accent_half_min'], k['accent_width'] * wd)
+            tp = max(tp, s0 + 0.9 * half)                     # the rise starts at the onset, not before it
             Bp = On + (E - On) * (min(tp, lw0) - s0) / max(lw0 - s0, 1e-3)
             A = max(0.0, P - Bp) * k['accent_cat_scale'].get(words[pw]['cat'], 1.0)
             u = np.clip((tt - tp) / half, -1, 1)
@@ -373,7 +390,14 @@ def targets(x, sr, plan, spans, med_st, k, prof):
                     m0 = ia + int(0.3 * (ib - ia))
                     dur[m0:ib] *= g
     w = k['contour_weight']
-    new = np.where(np.isnan(T), sm, (1 - w) * sm + w * T) + k['resid_scale'] * (o - sm) + np.maximum(acc, bump)
+    rs = np.full(n, k['resid_scale'])
+    for idx in phrases_of(plan):                              # no residual boost on the first 100 ms of a phrase
+        a = int(spans[idx[0]][0] / HOP)
+        m = min(n - a, int(0.1 / HOP))
+        if m > 0: rs[a:a + m] = 1.0 + (k['resid_scale'] - 1.0) * np.linspace(0, 1, m)
+    new = np.where(np.isnan(T), sm, (1 - w) * sm + w * T) + rs * (o - sm) + np.maximum(acc, bump)
+    ceil_ = (k['peak_st'] if k['peak_st'] is not None else P0) + k['ceiling_over_peak_st']
+    new = np.where(new > ceil_ - 1, ceil_ - 1 + np.tanh(new - ceil_ + 1), new)   # soft ceiling
     new = o + np.clip(new - o, -k['max_shift_st'], k['max_shift_st'])
     new[np.isnan(o)] = np.nan
     return dict(o=o, new=new, dur=dur, gain=gain, tf=tf)
@@ -475,6 +499,7 @@ def render(script, out, voice=None, plain=False, knobs=None, project=None, work=
     t_start = time.time()
     k = json.loads(json.dumps(KNOBS)); k.update(knobs or {})
     if voice: k['voice'] = voice
+    if k['duration_delta'] is None: k['duration_delta'] = VOICE_DD.get(k['voice'], 0.0)
     prof = load_profile()
     work = work or tempfile.mkdtemp(prefix='hvpost_')
     os.makedirs(work, exist_ok=True)
@@ -488,7 +513,7 @@ def render(script, out, voice=None, plain=False, knobs=None, project=None, work=
         # plain = the script text as written, one call per paragraph
         raw = open(script).read()
         pt = [re.sub(r'\s+', ' ', s).strip() for s in re.split(r'\n\s*\n', raw) if s.strip()]
-        items = [dict(text=t, out=os.path.join(work, f'para{i}.wav')) for i, t in enumerate(pt)]
+        items = [dict(text=apply_rewrites(t, k['rewrites']), out=os.path.join(work, f'para{i}.wav')) for i, t in enumerate(pt)]
         kk = dict(k, duration_delta=0.0)
         t0 = time.time(); synth(items, k['voice'], kk, work); meta['synth_s'] = round(time.time() - t0, 2)
         ys = [sf.read(it['out'])[0] for it in items]
@@ -523,18 +548,24 @@ def render(script, out, voice=None, plain=False, knobs=None, project=None, work=
         allnew = np.concatenate([g['new'] for g in tgs])
         shift = -float(np.nanmedian(allnew))                     # keep the voice's own median
         meta['median_hz'] = round(100 * 2 ** (med_st / 12), 1); meta['template_shift_st'] = round(shift, 2)
+        dl = np.concatenate([(g['new'] + shift - g['o']) for g in tgs]); dl = dl[~np.isnan(dl)]
+        meta['pitch_edit_st'] = dict(abs_p50=round(float(np.percentile(np.abs(dl), 50)), 2),
+                                     abs_p95=round(float(np.percentile(np.abs(dl), 95)), 2),
+                                     up_max=round(float(dl.max()), 2), down_max=round(float(dl.min()), 2))
+        dd_ = np.concatenate([g['dur'] for g in tgs])
+        meta['duration_factor'] = dict(min=round(float(dd_.min()), 2), max=round(float(dd_.max()), 2))
         ys = []
         for x, p, sp, tg in zip(xs, plans, spans, tgs):
             y, grid, tout = psola(x, SR, tg, med_st, shift, k)
             y = apply_gain(y, SR, tg['gain'], tg['tf'], grid, tout)
             sp_out = [(float(np.interp(a, grid, tout)), float(np.interp(b, grid, tout))) for a, b in sp]
-            y = set_gaps(y, SR, ref, p, sp_out, k)
-            y, _ = trim(y, SR, ref, margin=0.0)
             d = frame_db(y, SR) - ref                            # crisp sentence end: drop the long breathy decay
             last_on = int(sp_out[-1][0] / HOP)
             ab = np.where(d[last_on:] > k['tail_trim_db'])[0]
             if len(ab):
                 y = fade(y[:min(len(y), int(((last_on + ab[-1] + 1) * HOP + 0.015) * SR))], SR, 12, 'out')
+            y = set_gaps(y, SR, ref, p, sp_out, k)               # interior pauses only: the tail is untouched
+            y, _ = trim(y, SR, ref, margin=0.0)
             ys.append(fade(y, SR, 3))
         meta['post_s'] = round(time.time() - t0, 2)
         if k['sentence_level_even']:                             # even loudness: active-speech RMS per sentence
