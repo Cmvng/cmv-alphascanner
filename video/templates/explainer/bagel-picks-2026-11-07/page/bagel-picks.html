@@ -49,12 +49,12 @@ html,body{margin:0;width:1920px;height:1080px;overflow:hidden;background:#EAF1FB
 #intro .chips{display:flex;gap:20px}
 #intro .chip{font:800 36px/1 Man,sans-serif;color:var(--navy);background:#fff;padding:18px 28px;border-radius:40px;box-shadow:0 0 0 2px rgba(31,95,219,.35),0 14px 30px rgba(11,31,68,.12)}
 /* steps */
-.step{position:absolute;left:1230px;width:640px;display:flex;align-items:center;gap:22px;opacity:0}
+.step{position:absolute;left:700px;width:1100px;display:flex;align-items:center;gap:22px;opacity:0}
 .step .n{flex:none;width:76px;height:76px;border-radius:50%;background:var(--blue);color:#fff;font:400 46px/76px Anton,sans-serif;text-align:center}
-.step .t{font:800 38px/1.18 Man,sans-serif;color:var(--navy)}
+.step .t{font:800 46px/1.18 Man,sans-serif;color:var(--navy)}
 .step .t b{color:var(--blue)}
 /* the warning + the end */
-#warn{position:absolute;left:1230px;top:700px;width:640px;font:800 34px/1.25 Man,sans-serif;color:var(--navy);opacity:0}
+#warn{position:absolute;left:700px;top:700px;width:1100px;font:800 34px/1.25 Man,sans-serif;color:var(--navy);opacity:0}
 #warn b{color:#B91C1C}
 #end{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:30px;opacity:0}
 #end img{height:120px}
@@ -62,7 +62,7 @@ html,body{margin:0;width:1920px;height:1080px;overflow:hidden;background:#EAF1FB
 #end .l{font:800 44px/1 Man,sans-serif;color:var(--blue);padding:16px 30px;border-radius:40px;box-shadow:0 0 0 3px var(--blue)}
 #end .f{font:600 28px/1 Man,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:rgba(11,31,68,.62)}
 /* the owner's real recording of Bagel, in a phone frame (how-to) */
-#phone{position:absolute;left:330px;top:40px;border-radius:46px;background:#0B1F44;padding:14px;opacity:0;
+#phone{position:absolute;left:150px;top:26px;border-radius:46px;background:#0B1F44;padding:14px;opacity:0;
   box-shadow:0 0 0 2px rgba(11,31,68,.25),0 30px 70px rgba(11,31,68,.28)}
 #phone .scr{position:relative;overflow:hidden;border-radius:34px;background:#000}
 #phone img{position:absolute;left:0;top:0;transform-origin:0 0}
@@ -187,6 +187,12 @@ window.render = async t => {
       const src = `img/clips/${c.id}/f_${String(i + 1).padStart(4, '0')}.jpg`
       if ($('ph').getAttribute('src') !== src) { $('ph').src = src; try { await $('ph').decode() } catch (e) {} }
       SIG.push(src); css($('ph'), 'width', W.toFixed(0) + 'px')
+      // optional zoom into part of the screen: c.zoom = [cx, cy, z] in box px, easing in c.zd s after the clip starts
+      let zt = 'none'
+      if (c.zoom) { const z = 1 + (c.zoom[2] - 1) * eio((t - T(c.t0) - (c.zd || .5)) / .6)
+        const x = Math.min(0, Math.max(W - W * z, W / 2 - c.zoom[0] * sc * z)), y = Math.min(0, Math.max(H - H * z, H / 2 - c.zoom[1] * sc * z))
+        zt = `translate(${x.toFixed(1)}px,${y.toFixed(1)}px) scale(${z.toFixed(4)})` }
+      css($('ph'), 'transform', zt)
       const cap = c.cap || ''; if ($('phcap').textContent !== cap) $('phcap').textContent = cap
     }
     P.taps.forEach(tp => { if (!tp.el) { tp.el = document.createElement('div'); tp.el.className = 'tap'; $('scr').appendChild(tp.el) }
@@ -197,6 +203,8 @@ window.render = async t => {
   // end card
   const ep = eo((t - T(S.end[0])) / .5); css($('end'), 'opacity', (t >= T(S.end[0]) ? ep : 0).toFixed(3)); css($('end'), 'transform', `translateY(${(24 * (1 - ep)).toFixed(1)}px)`)
   if (RF) { SIG.push(await RF.render(t)); SIG.push(await RF2.render(t)) }
+  // captions (during the how-to they sit in the right column, beside the phone)
+  { const hw = P.phone && t >= T(P.phone.scene[0]) && t < T(P.phone.scene[1]); css($('cap'), 'left', hw ? '640px' : '110px'); css($('cap'), 'width', hw ? '1200px' : '1700px') }
   // captions
   const c = P.caps.find(x => t >= T(x[0]) - .05 && t < T(x[1]) + .1), html = c ? c[2] : ''
   if ($('cap').innerHTML !== html) $('cap').innerHTML = html
