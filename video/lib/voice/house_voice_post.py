@@ -77,8 +77,8 @@ KNOBS = dict(
 )
 
 # base pace per catalog voice: duration_delta that puts the articulation near 4.5 syl/s after the edits
-# (Zoey measured; the others scaled from their dd=0 rate: +/-0.3 dd = +/-13 % length)
-VOICE_DD = dict(Zoey=0.2, Harper=0.13, Delia=0.07, Everly=0.03, Juniper=-0.05, Hadley=-0.12)
+# (Zoey and Harper measured; the others scaled from their dd=0 rate: +/-0.3 dd = +/-13 % length)
+VOICE_DD = dict(Zoey=0.2, Harper=0.24, Delia=0.07, Everly=0.03, Juniper=-0.05, Hadley=-0.12)
 
 SIL_DB = -50.0          # same silence threshold as measure.py (frame energy re the take's 95th-percentile frame)
 HOP = 0.005

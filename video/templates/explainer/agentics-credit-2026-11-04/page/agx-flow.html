@@ -140,13 +140,13 @@ const FLOWS = {
     { from: 45.05, to: 48.95, anchor: () => ({ x: 290 + 36 - 290, y: 785, rot: 0, hide: [330, 10] }), lean: 1.5,       // behind TEAM WINS (left)
       beats: [{ at: { phrase: 'Team wins', after: 44 }, id: 'grin_full', kind: 'soft', away: -1, from: 8, hold: 3.6 }] },
     { from: 49.3, to: 52.6, anchor: () => ({ x: 1630 - 36, y: 785, rot: 0, hide: [-340, 10] }), lean: -1.5,             // behind TEAM LOSES (right)
-      beats: [{ at: { phrase: 'zero', after: 50 }, id: 'sob_full', kind: 'hard', away: 1, from: 6, hold: 1.0 }] },       // then "just an example": back to listening
+      beats: [{ at: { phrase: 'zero', after: 50 }, id: 'sob_full', kind: 'hard', away: 1, from: 6, hold: 0.6 }] },       // the stamp lands, he's back to calm
   ] },
   acs: { width: 240, idle: IDLE, segments: [{ from: 70.85, to: 80.25, anchor: t => ({ x: markerX(t) - 120, y: 528, rot: 0, hide: [0, -430] }), lean: 0,
     looks: [{ at: '580 and above', deg: 4, dur: 2.2 }],                                                                  // looks over at the waitlist line
     beats: [{ at: 'faster', id: 'waitwhat_full', kind: 'hard', away: -1, from: 6, hold: 2.4 }] }] },                     // yanked back, then "wait, what?"
   risk: { width: 360, idle: IDLE, segments: [{ from: 81.0, to: 89.15, anchor: screenEdge, lean: -1.5,
-    beats: [{ at: { phrase: 'At 20%', after: 86 }, id: 'itsover_full', kind: 'hard', away: 1, from: 0, hold: 2.5 }] }] }, // hands land on "closes everything"
+    beats: [{ at: { phrase: 'At 20%', after: 86 }, id: 'itsover_full', kind: 'hard', away: 1, from: 12, hold: 2.5 }] }] }, // hands land on "closes everything"
   end: { width: 320, idle: IDLE, segments: [{ from: 103.1, anchor: () => ({ x: 1540, y: 1062, rot: 0, hide: [0, 460] }), lean: -2,
     beats: [{ at: 'link is in the post', id: 'grin_full', kind: 'soft', away: 1, from: 8, hold: 9 }] }] },
 }
@@ -259,7 +259,8 @@ window.render = async t => {
       if (RFS[1] && t >= T(48.8) + .3) { const k = ReactFlow.kick(t, RFS[1].peakT(1), { delay: .1, dur: .42, cycles: 3 }); css($('ocl'), 'transform', `translateX(${(7 * k).toFixed(1)}px) rotate(${(.4 * k).toFixed(2)}deg)`) }
       if (RFS[1] && t >= T(44.42) + .3) { const k = Math.abs(ReactFlow.kick(t, RFS[1].peakT(0), { delay: .1, dur: .5, cycles: 1 })); css($('ocw'), 'transform', `scale(${(1 + .03 * k).toFixed(4)})`) }
       css($('vw'), 'opacity', (t >= T(47.12) ? eo((t - T(47.12)) / .25) : 0).toFixed(3))
-      const p = eo((t - T(50.9)) / .25); css($('stamp'), 'opacity', (t >= T(50.9) ? p : 0).toFixed(3)); css($('stamp'), 'transform', `scale(${(1 + .4 * (1 - p)).toFixed(3)})`)
+      const SJ = 51.34   // the stamp lands on the spoken "Just an example" (aligned), after his sob
+      const p = eo((t - T(SJ)) / .25); css($('stamp'), 'opacity', (t >= T(SJ) ? p : 0).toFixed(3)); css($('stamp'), 'transform', `scale(${(1 + .4 * (1 - p)).toFixed(3)})`)
     }
     if (s.k === 'acs') {
       css($('acsc'), 'transform', `perspective(2200px) rotateY(${lerp(6, 2, u).toFixed(2)}deg) scale(${lerp(1, 1.04, eio(u)).toFixed(4)})`)
