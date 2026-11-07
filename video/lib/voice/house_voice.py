@@ -41,7 +41,7 @@ DEFAULT_PROFILE = os.path.join(HERE, '..', '..', 'templates', 'voice', 'lara-del
 KNOBS = dict(
     rate=4.51,             # target articulation, syllables/s (profile); rate_trim corrects our syllable proxy
     rate_trim=0.93,
-    final_stretch=1.4,    # duration factor on the pre-pause word's last rhyme (Kokoro already lengthens some)
+    final_stretch=1.55,    # duration factor on the pre-pause word's last rhyme (Kokoro already lengthens some)
     final_pre_stretch=1.05,  # rest of the pre-pause word
     aside_speed=1.15,      # asides / parentheses faster
     number_speed=1.08,     # numbers spoken at or above the rate of other content words
@@ -55,14 +55,18 @@ KNOBS = dict(
     last_phone_cap=4.0,    # frames; Kokoro parks the punctuation pause inside the last phoneme
     space_cap=2.0,         # frames; word gap where there is no punctuation
     # pitch template, semitones re the voice's own median (profile: onset .83, peak 7.41 @ .235, end -1.92)
-    onset_st=2.0, peak_st=6.6, later_phrase_drop_st=1.3, end_stop_st=-3.8, end_comma_st=-1.3,
+    onset_st=2.0, peak_st=6.2, later_phrase_drop_st=1.3, end_stop_st=-3.8, end_comma_st=-1.3,
     end_ellipsis_mid_st=1.2, end_colon_st=-3.0, question_rise_st=4.0, aside_drop_st=1.5,
     resid_scale=1.25,      # keep the model's own local movement, slightly enlarged
     final_resid=0.3,       # ... but only this much of it at the end of a falling / level / question phrase
-    post_peak_frac=0.3, mid_st=1.0,  # after the peak: quick fall to mid_st over this share of the rest, then slow decline
+    post_peak_frac=0.3, mid_st=1.5,  # after the peak: quick fall to mid_st over this share of the rest, then slow decline
     template_mix=0.7,      # 1 = profile template replaces the model's phrase trend, 0 = model trend kept
     final_fall_st=4.0,     # extra fall across the last word of falling phrases
     template_smooth_ms=60,
+    range_scale=1.08,      # whole contour (template + model movement) around the voice median
+    phrase_offset_sd=1.0,  # deterministic phrase-to-phrase level variation, st
+    creak_share=0.3, creak_st=-5.0,  # share of full stops ending in a low tail, and its depth
+    sent_rate_sd=0.08,     # deterministic sentence-to-sentence rate variation
     emph_st=dict(project=1.0, name=0.0, number=0.5, contrast=0.0),  # extra bumps on non-anchor words
     emph_db=dict(project=3.0, name=2.0, number=1.75, contrast=1.0),
     final_word_db=-0.5,    # phrase-final word gain (Kokoro already drops ~5 dB on its own)
@@ -319,7 +323,7 @@ def plan_chunks(chunks, preds, K, tt):
                 clause = 0
             w['pause_before_next'] = w['bclass'] in ('ellipsis_mid', 'colon_dash', 'comma', 'comma_before_number_name', 'end')
             # speed factors
-            f = 1.0
+            f = 1.0 / (1 + max(-0.15, min(0.15, K['sent_rate_sd'] * hgauss(ch['sent']['text'], 'rate'))))
             if w['aside']: f /= K['aside_speed']
             if w['cat'] == 'number': f /= K['number_speed']
             for p in w['ph_pos']: fac[p] *= f
@@ -424,13 +428,13 @@ def contour_choice(ch, ph_i, last_w, sent_end, K):
         if '…' in p: return K['end_ellipsis_mid_st'], 'level' if h01(key) < 0.5 else 'rise'
         if ':' in p or '—' in p or ';' in p: return K['end_colon_st'], 'fall'
         u = h01(key)
-        return K['end_comma_st'], ('fall' if u < 0.4 else 'rise' if u < 0.65 else 'level')
+        return K['end_comma_st'], ('fall' if u < 0.25 else 'rise' if u < 0.6 else 'level')
     ep = ch['sent']['end_punct']
     if ep == '?': return K['end_comma_st'], 'qrise'
     u = h01(key)
     if ep == '…':
         return K['end_stop_st'] + 0.6, ('fall' if u < 0.6 else 'level')
-    return K['end_stop_st'], ('fall' if u < 0.65 else 'level')   # the model adds its own rises on top
+    return K['end_stop_st'], ('creak' if u < K['creak_share'] else 'fall' if u < 0.68 else 'level')   # the model adds its own rises
 
 
 def edit_f0(ch, F0, med_hz, K):
@@ -489,16 +493,20 @@ def edit_f0(ch, F0, med_hz, K):
             la_, lb_ = int(lv[0]), int(lv[-1]) + 1
             u = np.clip((t[la_ - a:] - la_) / max(1, lb_ - la_), 0, 1)
             sl = slice(la_ - a, None)
-            if shape in ('fall', 'level', 'qrise'):   # the model's own end movement must not undo the class contour
+            if shape in ('fall', 'creak', 'level', 'qrise'):   # the model's own end movement must not undo the class contour
                 rw[sl] = K['resid_scale'] + (K['final_resid'] - K['resid_scale']) * np.clip(u * 2, 0, 1)
-            if shape == 'fall':
+            if shape in ('fall', 'creak'):
                 temp[sl] += K['final_fall_st'] * (0.5 - u)
+            if shape == 'creak':   # low, fry-like tail on the last ~90 ms of voicing
+                nt = min(len(u), int(0.09 / 0.0125))
+                temp[len(temp) - nt:] += np.linspace(0, K['creak_st'], nt) if nt > 1 else 0
             elif shape == 'rise':
                 temp[sl] += 2.2 * (u - 0.4)
             elif shape == 'qrise':
                 temp[sl] += K['question_rise_st'] * (u ** 1.5) - 0.5
         temp = smooth(temp, max(1, int(K['template_smooth_ms'] / 12.5)))
         new = K['template_mix'] * temp + (1 - K['template_mix']) * trend + rw * resid
+        new = new * K['range_scale'] + K['phrase_offset_sd'] * max(-1.5, min(1.5, hgauss(ch['sent']['text'], k, 'off')))
         # emphasis bumps on other emphasised words
         for w in ph:
             if w is anchor: continue

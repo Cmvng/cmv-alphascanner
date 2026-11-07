@@ -17,14 +17,22 @@ Pipeline (house):
   2. One Phonon call per sentence (q8; mid-sentence ellipsis sent as a comma so the melody stays up), duration_delta
      sets the base pace. Run in the TTS venv (HOUSE_TTS_PY) as a subprocess.
   3. Word spans: CTC forced alignment (measure.py's wav2vec2 aligner) on the known text.
-  4. Per sentence, Praat Manipulation (TD-PSOLA overlap-add):
-       pitch    new = (1-w)*smooth(orig) + w*template + resid_scale*(orig-smooth) + emphasis bumps
-                template per phrase: onset -> early peak on the first content / emphasised word -> steady fall to an
-                end value by boundary (stop low, colon lower, comma/ellipsis-mid held up), all in st re the voice's
-                own median (the median is kept: a global shift puts the output median back on the voice's).
-       duration pre-pause word lengthened by a ramp (mean factor final_stretch); asides x 1/aside_rate.
-     then gains (emphasis +dB, phrase-final word dB), then pauses cut/inserted to exact lengths.
-  5. Sentences joined with exact silences per boundary class; whole take normalised to -20 LUFS (true peak <= -1).
+  4. Per sentence, Praat Manipulation (TD-PSOLA overlap-add), all pitch in st re the voice's own median:
+       pitch    new = (1-w)*smooth(orig) + w*baseline + resid_scale*(orig-smooth) + max(accent, emphasis bumps)
+                baseline per phrase: onset -> end value by boundary (stop / colon low with an extra dip over the
+                last voiced half of the last word; comma / mid-ellipsis held level with a small lift).
+                accent: the early peak, a raised-cosine pitch accent on the first project/number word in the first
+                half of the phrase, else the first content word, reaching ~peak_st (scaled per word class).
+                A soft ceiling, a +/- max_shift_st clamp, and a global shift that keeps the voice's median.
+       duration the word before a pause: first 30 % untouched, the rest scaled so the word's mean factor is
+                final_stretch[boundary] (Phonon already lengthens these words, so most values are <= 1);
+                asides x 1/aside_rate.
+     then gains (emphasis +dB, phrase-final word dB), a crisp phrase end (decay below tail_trim_db dropped),
+     and every word gap that needs one cut / filled to the exact pause.
+  5. Sentences evened in level, joined with exact silences per boundary class, normalised to -20 LUFS (TP <= -1).
+
+  Synth cache: sentences are cached in --work by (text, voice, pace, seed), alignment by the sentence set, so
+  re-renders that only change post knobs take a few seconds.
 """
 import argparse, hashlib, json, math, os, re, subprocess, sys, tempfile, time
 
@@ -40,8 +48,10 @@ SR = 24000
 KNOBS = dict(
     voice='Zoey', quant='q8', duration_delta=None,   # None = VOICE_DD[voice]
     temperature=0.3, seed=4242424242424242,
-    # pauses (ms) - None = take it from profile tts_targets
-    comma_min_words=4, micro_gap_ms=50, ellipsis_ms=dict(mid=340, end=375), none_gap_max_ms=30, pause_jitter_sd=0.4, lead_ms=250, tail_ms=500,
+    # pauses (ms): sentence / new topic / colon / comma from profile tts_targets; comma pause only when the clause
+    # before has >= comma_min_words words or a number / name follows, else micro_gap_ms; deterministic jitter
+    comma_min_words=4, micro_gap_ms=50, ellipsis_ms=dict(mid=340, end=375), none_gap_max_ms=30, pause_jitter_sd=0.4,
+    lead_ms=250, tail_ms=500,
     # duration
     # mean duration factor of the word before a pause, by boundary (Phonon already lengthens a lot; measured)
     final_stretch=dict(sentence=1.05, new_topic=0.85, question=0.9, ellipsis_mid=1.0, ellipsis_end=1.0, colon_dash=1.0,
@@ -50,17 +60,19 @@ KNOBS = dict(
     # pitch (st re the voice median)
     contour_weight=0.8, resid_scale=1.7, smooth_ms=260, onset_first_st=-0.5, onset_later_st=-0.5,
     peak_st=9.0, accent_half_min=0.12, accent_width=0.8, accent_attract=['project', 'number'],
-    accent_cat_scale=dict(project=0.6, name=0.4, number=0.85, contrast=0.8), later_peak_drop_st=1.5, short_phrase_peak_scale=0.6, peak_pos_default=0.24, peak_pos_max=0.5,
+    accent_cat_scale=dict(project=0.6, name=0.4, number=0.85, contrast=0.8), later_peak_drop_st=1.5,
+    short_phrase_peak_scale=0.6, peak_pos_default=0.24, peak_pos_max=0.5,
     end_st=dict(sentence=-3.0, new_topic=-3.0, question=-2.0, colon_dash=-4.0, ellipsis_mid=0.0, ellipsis_end=-2.5,
                 comma=-1.5, end=-3.0),
-    held_final=dict(comma=0.5, ellipsis_mid=1.0),
-    final_dip_st=dict(sentence=-3.0, new_topic=-3.0, end=-3.0, colon_dash=-3.0, ellipsis_end=-2.0),   # boundaries whose last word is held level then lifts (st)
+    held_final=dict(comma=0.5, ellipsis_mid=1.0),     # boundaries whose last word is held level, then lifts (st)
+    final_dip_st=dict(sentence=-3.0, new_topic=-3.0, end=-3.0, colon_dash=-3.0, ellipsis_end=-2.0),  # low end (st)
     emph_st=dict(project=2.5, name=1.0, number=2.0, contrast=1.5, content=1.0),
     emph_db=dict(project=2.5, name=2.0, number=1.5, contrast=1.0, content=0.0),
+    # energy: phrase-final word gain (Phonon's last words already sit ~5.7 dB down, the target is -4.9 dB)
     final_word_db=1.0, tail_trim_db=-35.0, max_shift_st=8.0, ceiling_over_peak_st=2.5, f0_floor=90, f0_ceil=520,
-    # loudness
     # lexicon fixes for the synth text only (alignment and measuring still use the script words)
     rewrites={'Primus': 'Prymus'},
+    # loudness
     sentence_level_even=True, lufs=-20.0, true_peak=-1.0, out_sr=48000,
 )
 
@@ -404,10 +416,12 @@ def targets(x, sr, plan, spans, med_st, k, prof):
 
 
 # ------------------------------------------------------------------ 4b. PSOLA
-def psola(x, sr, tg, med_st, shift_st, k):
+def psola(x, sr, tg, med_st, shift_st, k, seed=1):
     """Praat Manipulation with the new pitch tier and duration tier; returns y and the in->out time map."""
     import numpy as np, parselmouth
     from parselmouth.praat import call
+    # Praat's overlap-add randomises unvoiced stretches: seed it per sentence so renders are reproducible
+    parselmouth.praat.run(f'random_initializeWithSeedUnsafelyButPredictably ({int(seed) % 2147483647})')
     snd = parselmouth.Sound(x, sr)
     dur_s = len(x) / sr
     man = call(snd, 'To Manipulation', 0.01, k['f0_floor'] - 15, k['f0_ceil'])
@@ -506,11 +520,7 @@ def render(script, out, voice=None, plain=False, knobs=None, project=None, work=
     plans = plan_script(script, project, k)
     meta = dict(script=script, voice=k['voice'], plain=plain, knobs=k, model=MODEL, sentences=len(plans))
     if plain:
-        paras = {}
-        for p in plans: paras.setdefault(p['para'], []).append(p)
-        items = [dict(text=' '.join(re.sub(r'\.$', '.', q['text']) for q in ps), out=os.path.join(work, f'para{i}.wav'))
-                 for i, ps in sorted(paras.items())]
-        # plain = the script text as written, one call per paragraph
+        # plain = the script text as written (lexicon rewrites only), one call per paragraph, default pace
         raw = open(script).read()
         pt = [re.sub(r'\s+', ' ', s).strip() for s in re.split(r'\n\s*\n', raw) if s.strip()]
         items = [dict(text=apply_rewrites(t, k['rewrites']), out=os.path.join(work, f'para{i}.wav')) for i, t in enumerate(pt)]
@@ -556,7 +566,7 @@ def render(script, out, voice=None, plain=False, knobs=None, project=None, work=
         meta['duration_factor'] = dict(min=round(float(dd_.min()), 2), max=round(float(dd_.max()), 2))
         ys = []
         for x, p, sp, tg in zip(xs, plans, spans, tgs):
-            y, grid, tout = psola(x, SR, tg, med_st, shift, k)
+            y, grid, tout = psola(x, SR, tg, med_st, shift, k, seed=int(hashlib.md5(p['text'].encode()).hexdigest()[:7], 16))
             y = apply_gain(y, SR, tg['gain'], tg['tf'], grid, tout)
             sp_out = [(float(np.interp(a, grid, tout)), float(np.interp(b, grid, tout))) for a, b in sp]
             d = frame_db(y, SR) - ref                            # crisp sentence end: drop the long breathy decay

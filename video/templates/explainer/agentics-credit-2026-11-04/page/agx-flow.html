@@ -1,0 +1,294 @@
+<!doctype html>
+<html>
+<!-- Agentics Credit, the owner's first-person script (4 Nov 2026, Lara). Every picture is real: Agentics Credit's own images
+     and the owner's two app screenshots, shown whole, with a camera that moves to what Lara names. The page adds the blue
+     stage, the rings, the captions, the maths card and the ACS scale. Times in SC are take seconds; T() maps them to video.
+     FLOW CUT (7 Nov): the owner's earlier (29 Oct, grey T-shirt) reactions as a character with a home in each scene, never
+     shrinking the edit: he peeks from behind the opening card and side-eyes the "good trader" claim; on the maths card he
+     hides behind the TEAM WINS box (grin), then pops out from behind TEAM LOSES ($0); on the ACS scale he RIDES the score
+     marker and gets yanked back when losses pull it down; on the risk bar It's Over lands on "it closes everything"; he
+     comes back on the end card. Engine: video/lib/react_flow.js; rules: video/templates/reactions/PLAYBOOK.md. -->
+<head>
+<meta charset="utf-8">
+<style>
+@font-face{font-family:Anton;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/anton-latin-400-normal.woff2)}
+@font-face{font-family:Man;font-weight:600;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-600-normal.woff2)}
+@font-face{font-family:Man;font-weight:800;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-800-normal.woff2)}
+@font-face{font-family:Mono;font-weight:700;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/jetbrains-mono-latin-700-normal.woff2)}
+:root{--sky:#4FB3FF;--blue:#3D7BFF;--deep:#1F5FDB;--win:#22C55E;--loss:#EF4444;--ink:#061433}
+html,body{margin:0;width:1920px;height:1080px;overflow:hidden;background:var(--ink)}
+#stage{position:absolute;inset:0;overflow:hidden;
+  background:radial-gradient(1300px 900px at 50% 38%,#123f99 0%,#0a2766 46%,#061433 100%)}
+#grid{position:absolute;inset:-60px;background-image:linear-gradient(rgba(120,170,255,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(120,170,255,.07) 1px,transparent 1px);background-size:60px 60px}
+#beam{position:absolute;left:-40%;top:0;width:60%;height:100%;background:linear-gradient(100deg,rgba(255,255,255,0),rgba(150,200,255,.07),rgba(255,255,255,0));pointer-events:none}
+.lay{position:absolute;inset:0;opacity:0}
+/* an official image, floating */
+.card{position:absolute;border-radius:22px;overflow:hidden;box-shadow:0 0 0 1px rgba(255,255,255,.16),0 40px 90px rgba(0,8,30,.6),0 0 80px rgba(79,179,255,.18);transform-origin:50% 50%}
+.card img{display:block;width:100%;height:100%;object-fit:cover}
+/* a screen of the owner's, whole, under a moving camera */
+.sv{position:absolute;left:370px;top:40px;width:1180px;height:850px;border-radius:24px;overflow:hidden;background:#0b0f16;
+  box-shadow:0 0 0 1px rgba(255,255,255,.16),0 40px 90px rgba(0,8,30,.6),0 0 80px rgba(79,179,255,.18)}
+.si{position:absolute;left:0;top:0;transform-origin:0 0}
+.si img{display:block}
+.ring{position:absolute;border:3px solid var(--sky);border-radius:10px;box-shadow:0 0 0 4px rgba(79,179,255,.18),0 0 24px rgba(79,179,255,.65);opacity:0}
+.tap{position:absolute;border-radius:50%;border:3px solid #fff;opacity:0}
+/* lists beside a card */
+.list{position:absolute;left:1330px;top:150px;width:520px;display:flex;flex-direction:column;gap:22px}
+.li{display:flex;align-items:center;gap:18px;font:800 38px/1.12 Man,sans-serif;color:#fff;opacity:0;padding:18px 22px;border-radius:18px;background:rgba(6,20,51,.55);box-shadow:0 0 0 1px rgba(150,200,255,.22)}
+.li i{flex:none;width:34px;height:34px;border-radius:50%;background:var(--sky);box-shadow:0 0 16px rgba(79,179,255,.8);position:relative}
+.li i:after{content:'';position:absolute;left:12px;top:6px;width:8px;height:15px;border:solid #061433;border-width:0 4px 4px 0;transform:rotate(45deg)}
+.li.warn i{background:#fff;box-shadow:0 0 16px rgba(255,255,255,.6)}
+.li.warn i:after{left:15px;top:6px;width:4px;height:13px;border:none;background:#061433;transform:none;box-shadow:0 18px 0 -0px #061433}
+.li.warn i:before{content:'';position:absolute;left:15px;top:23px;width:4px;height:4px;background:#061433;border-radius:2px}
+/* the handle chip */
+#handle{position:absolute;left:50%;top:812px;transform:translateX(-50%);display:flex;align-items:center;gap:16px;padding:12px 26px 12px 14px;border-radius:40px;background:#070a0d;box-shadow:0 0 0 1px rgba(255,255,255,.18),0 0 30px rgba(43,217,130,.25);opacity:0}
+#handle img{height:46px;border-radius:8px}
+#handle span{font:800 40px/1 Man,sans-serif;color:#fff}
+/* the maths card */
+#math .tk{position:absolute;left:560px;top:120px;width:800px;height:170px;border-radius:24px;background:rgba(6,20,51,.7);box-shadow:0 0 0 2px rgba(79,179,255,.6),0 0 40px rgba(79,179,255,.3);display:flex;align-items:center;justify-content:center;gap:26px;font:800 64px/1 Man,sans-serif;color:#fff}
+#math .tk b{color:var(--sky);font-weight:800}
+#math .tk em{font-style:normal;font:700 30px/1 Mono,monospace;letter-spacing:.12em;color:rgba(255,255,255,.75);padding:10px 14px;border-radius:10px;background:rgba(79,179,255,.18)}
+#math .sh{position:absolute;left:0;width:1920px;top:330px;text-align:center;font:400 120px/1 Anton,sans-serif;color:#fff;letter-spacing:.01em}
+#math .sh b{font-weight:400;color:var(--sky)}
+#math .oc{position:absolute;top:520px;width:640px;height:270px;border-radius:26px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;background:rgba(6,20,51,.72)}
+#math .oc .h{font:800 34px/1 Man,sans-serif;letter-spacing:.16em;text-transform:uppercase}
+#math .oc .m{font:700 40px/1 Mono,monospace;color:rgba(255,255,255,.85)}
+#math .oc .v{font:400 110px/1 Anton,sans-serif}
+#ocw{left:290px;box-shadow:0 0 0 2px rgba(34,197,94,.75),0 0 40px rgba(34,197,94,.3)} #ocw .h,#ocw .v{color:var(--win)}
+#ocl{left:990px;box-shadow:0 0 0 2px rgba(239,68,68,.75),0 0 40px rgba(239,68,68,.3)} #ocl .h,#ocl .v{color:var(--loss)}
+#stamp{position:absolute;left:0;width:1920px;top:812px;text-align:center}
+#stamp span{display:inline-block;font:800 36px/1 Man,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#fff;padding:14px 26px;border:3px solid #fff;border-radius:14px;transform:rotate(-3deg);background:rgba(6,20,51,.6)}
+/* the ACS scale */
+#acsH{position:absolute;left:900px;top:118px;font:400 96px/1 Anton,sans-serif;color:#fff;letter-spacing:.01em;opacity:0}
+#acsH b{font-weight:400;color:var(--sky)}
+#bar{position:absolute;left:900px;top:540px;width:900px;height:22px;border-radius:11px;background:rgba(255,255,255,.12);box-shadow:inset 0 0 0 1px rgba(255,255,255,.18);overflow:visible}
+#barf{position:absolute;left:0;top:0;height:22px;border-radius:11px;background:linear-gradient(90deg,#1F5FDB,#4FB3FF);width:0}
+.tick{position:absolute;top:44px;transform:translateX(-50%);font:700 40px/1 Mono,monospace;color:#fff;opacity:0}
+.tick:before{content:'';position:absolute;left:50%;top:-30px;width:3px;height:22px;background:#fff;transform:translateX(-50%)}
+#t580{color:var(--sky)} #t580:before{background:var(--sky);box-shadow:0 0 12px var(--sky)}
+#wl{position:absolute;top:-128px;height:96px;border-radius:14px;background:rgba(79,179,255,.18);box-shadow:0 0 0 2px var(--sky),0 0 30px rgba(79,179,255,.4);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:#fff;opacity:0;white-space:nowrap}
+#wl b{font:800 38px/1 Man,sans-serif;color:#fff}
+#wl span{font:600 26px/1 Man,sans-serif;color:rgba(255,255,255,.88)}
+#mk{position:absolute;top:-14px;width:26px;height:50px;margin-left:-13px;border-radius:13px;background:#fff;box-shadow:0 0 20px rgba(255,255,255,.7);opacity:0}
+.arr{position:absolute;top:120px;height:16px;border-radius:8px;opacity:0}
+.arr span{position:absolute;top:-10px;font:800 32px/1 Man,sans-serif;white-space:nowrap}
+#aw{background:var(--win);box-shadow:0 0 18px rgba(34,197,94,.7)} #aw span{color:var(--win);left:calc(100% + 26px)}
+#al{background:var(--loss);box-shadow:0 0 18px rgba(239,68,68,.7)} #al span{color:var(--loss);right:calc(100% + 26px)}
+#aw:after{content:'';position:absolute;right:-14px;top:-8px;border:16px solid transparent;border-left:18px solid var(--win);border-right:none}
+#al:after{content:'';position:absolute;left:-14px;top:-8px;border:16px solid transparent;border-right:18px solid var(--loss);border-left:none}
+/* the owner's video reactions: the edit slides left and shrinks, the clip plays in a panel on the right (above the captions) */
+#edit{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
+.stk{position:absolute;left:0;top:0;width:360px;opacity:0;filter:drop-shadow(0 16px 26px rgba(0,8,30,.55))}
+#rxn{position:absolute;left:18px;top:18px;font:800 22px/1 Man,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#fff;padding:9px 14px;border-radius:20px;background:rgba(6,20,51,.7);box-shadow:0 0 0 1px rgba(79,179,255,.6)}
+/* captions */
+#cap{position:absolute;left:110px;width:1700px;top:948px;text-align:center;font:800 46px/1.18 Man,sans-serif;color:#fff;text-shadow:0 2px 18px rgba(0,10,40,.9);z-index:20}
+#cap b{color:var(--sky);font-weight:800}
+/* the end */
+#end{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:30px}
+#end img{height:120px;border-radius:16px;box-shadow:0 0 0 1px rgba(255,255,255,.2),0 0 40px rgba(43,217,130,.3)}
+#end .h{font:400 130px/1 Anton,sans-serif;color:#fff;letter-spacing:.01em}
+#end .l{font:800 44px/1 Man,sans-serif;color:var(--sky);padding:16px 30px;border-radius:40px;box-shadow:0 0 0 2px var(--sky)}
+#end .f{font:600 26px/1 Man,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.8)}
+</style>
+</head>
+<body>
+<div id="stage"><div id="grid"></div><div id="beam"></div><div id="edit"><div id="lays"></div></div><div id="cap"></div></div>
+<script>
+// ---- timing: take seconds -> video seconds (a 0.6 s pause cut in at 10.0 s, the voice 0.2 s in)
+const T = s => s + 0.2 + (s >= 10.0 ? 0.6 : 0), END = 107.6, FPS = 30
+const R = (x, y, w, h) => ({ x, y, w, h })
+// the owner's screens: rings in screenshot pixels
+const DASH = { src: 'img/dash.jpg', w: 683, h: 541 }, POS = { src: 'img/pos.jpg', w: 823, h: 744 }
+const SC = [
+  { k: 'img', src: 'img/collateral.jpg', t0: 0, t1: 10.0, box: [330, 40, 1260, 709], push: [1.0, 1.06], tilt: [-4, 1] },
+  { k: 'img', src: 'img/nodeposit.jpg', t0: 10.0, t1: 20.7, box: [70, 120, 1200, 675], push: [1.0, 1.05], tilt: [3, -1],
+    list: [[11.62, 'Telegram app'], [13.38, 'Real Polymarket markets'], [14.76, 'Paper money'], [15.62, 'No deposit'], [17.38, 'Every closed trade builds your ACS']] },
+  { k: 'scr', scr: DASH, t0: 20.7, t1: 32.6, keys: [[20.7, null], [22.15, [300, 232, 2.35]], [24.6, [300, 240, 2.35]], [28.75, [270, 245, 2.35]]],
+    rings: [[22.24, 24.6, R(150, 199, 156, 42)], [24.76, 28.7, R(258, 239, 148, 22)], [28.84, 32.6, R(150, 239, 108, 22)]] },
+  { k: 'scr', scr: POS, t0: 32.6, t1: 38.85, keys: [[32.6, null], [34.85, [348, 362, 2.05]]],
+    rings: [[34.98, 38.85, R(216, 304, 220, 30)], [36.64, 38.85, R(178, 347, 74, 26)]] },
+  { k: 'math', t0: 38.85, t1: 52.8 },
+  { k: 'scr', scr: POS, t0: 52.8, t1: 63.4, keys: [[52.8, [348, 362, 2.05]], [54.95, [440, 360, 2.6]], [58.95, [345, 716, 2.05]]],
+    rings: [[55.08, 58.9, R(444, 334, 69, 48)], [59.12, 63.4, R(164, 700, 360, 44)]], taps: [[55.62, 478, 358]] },
+  { k: 'acs', t0: 63.4, t1: 80.5 },
+  { k: 'scr', scr: DASH, t0: 80.5, t1: 89.3, keys: [[80.5, null], [81.9, [318, 378, 2.4]]],
+    rings: [[82.82, 89.3, R(148, 391, 102, 21)], [86.6, 89.3, R(378, 391, 108, 21)]] },
+  { k: 'img', src: 'img/market.jpg', t0: 89.3, t1: 102.7, box: [70, 120, 1200, 675], push: [1.0, 1.05], tilt: [3, -1], warn: true,
+    list: [[89.4, 'Credit line not live yet'], [91.22, 'Terms not out yet'], [92.46, 'Points: no confirmed value'], [95.74, 'Your own Grok bot, same rules'], [99.4, 'Paper money: you only risk time']] },
+  { k: 'end', t0: 102.7, t1: 999 },
+]
+// ---- the owner as a character (react_flow.js). Times are take seconds or phrases looked up in the aligned words.
+//      Arc: doubts the claim -> plays along with the maths (a mild grin, a mock sob, then "just an example") -> rides his own score
+//      and gets yanked by a loss -> the one big moment, It's Over on "it closes everything" -> a grin on the end card.
+const IDLE = { id: 'sideeye_full', a: 0, b: 50, speed: .6 }          // his neutral, listening face (the first 1.7 s of Side-Eye)
+const SCN = i => SC[i]
+function cardEdge(t) {                                                 // the opening card, pushed in over the scene
+  const s = SCN(0), u = cl((t - T(s.t0)) / (T(s.t1) - T(s.t0))), push = lerp(s.push[0], s.push[1], eio(u))
+  return { x: 960 + 630 * push - 36, y: 394.5 + 354.5 * push - 14, rot: 0, hide: [-380, 10] }
+}
+const screenEdge = () => ({ x: 1550 - 38, y: 880, rot: 0, hide: [-400, 14] })   // the right edge of the owner's phone screen
+const MK = { M0: 520, lA: 71.16, wA: 72.92 }                                    // the ACS marker (as in the scene code)
+function markerX(t) {
+  let m = MK.M0; const lA = T(MK.lA), wA = T(MK.wA)
+  if (t >= lA) m = lerp(MK.M0, MK.M0 - 90, eio((t - lA) / .6)); if (t >= wA) m = lerp(MK.M0 - 90, MK.M0 - 60, eio((t - wA) / .6))
+  return 900 + (m - 300) / 550 * 900
+}
+const FLOWS = {
+  card: { width: 330, idle: IDLE, segments: [{ from: 0.5, to: 9.6, anchor: cardEdge, lean: -1.5,
+    beats: [{ at: 'good trader', id: 'sideeye_full', kind: 'soft', away: 1, from: 58, to: 104, hold: 1.7 }] }] },   // the look lands on the claim
+  math: { width: 290, idle: IDLE, segments: [
+    { from: 45.05, to: 48.95, anchor: () => ({ x: 290 + 36 - 290, y: 785, rot: 0, hide: [330, 10] }), lean: 1.5,       // behind TEAM WINS (left)
+      beats: [{ at: { phrase: 'Team wins', after: 44 }, id: 'grin_full', kind: 'soft', away: -1, from: 8, hold: 3.6 }] },
+    { from: 49.3, to: 52.6, anchor: () => ({ x: 1630 - 36, y: 785, rot: 0, hide: [-340, 10] }), lean: -1.5,             // behind TEAM LOSES (right)
+      beats: [{ at: { phrase: 'zero', after: 50 }, id: 'sob_full', kind: 'hard', away: 1, from: 6, hold: 1.0 }] },       // then "just an example": back to listening
+  ] },
+  acs: { width: 240, idle: IDLE, segments: [{ from: 70.85, to: 80.25, anchor: t => ({ x: markerX(t) - 120, y: 528, rot: 0, hide: [0, -430] }), lean: 0,
+    looks: [{ at: '580 and above', deg: 4, dur: 2.2 }],                                                                  // looks over at the waitlist line
+    beats: [{ at: 'faster', id: 'waitwhat_full', kind: 'hard', away: -1, from: 6, hold: 2.4 }] }] },                     // yanked back, then "wait, what?"
+  risk: { width: 360, idle: IDLE, segments: [{ from: 81.0, to: 89.15, anchor: screenEdge, lean: -1.5,
+    beats: [{ at: { phrase: 'At 20%', after: 86 }, id: 'itsover_full', kind: 'hard', away: 1, from: 0, hold: 2.5 }] }] }, // hands land on "closes everything"
+  end: { width: 320, idle: IDLE, segments: [{ from: 103.1, anchor: () => ({ x: 1540, y: 1062, rot: 0, hide: [0, 460] }), lean: -2,
+    beats: [{ at: 'link is in the post', id: 'grin_full', kind: 'soft', away: 1, from: 8, hold: 9 }] }] },
+}
+const SROOT = 'file:///home/user/cmv-alphascanner/video/out/reactions/'
+const CAP = [
+  [0.00, 3.45, "Nobody gives you money to trade just because you say you're a good trader…"], [3.56, 5.75, 'you need a <b>record</b> that proves it.'],
+  [6.14, 8.0, '<b>@agenticscredit</b> is building around that,'], [8.16, 9.98, 'and I tried it. Let me show you.'],
+  [10.12, 12.32, "If you're new, it's a <b>Telegram app</b>"], [12.36, 15.5, 'where you trade real <b>Polymarket</b> markets with <b>paper money</b>.'],
+  [15.62, 17.0, '<b>No deposit</b> to start,'], [17.1, 20.3, 'and every trade you close builds a score called <b>ACS</b>.'],
+  [20.84, 22.1, 'This is my account.'], [22.24, 24.6, 'I got <b>$10,000</b> in paper money.'],
+  [24.76, 28.75, 'I put about <b>$700</b> of it into 5 football matches for today,'], [28.84, 32.45, 'so <b>$9,300</b> is still sitting free.'],
+  [32.78, 36.5, 'Each one is a yes or no market, like <b>"will Liverpool win"</b>,'], [36.64, 38.8, 'and the price is basically <b>the odds</b>.'],
+  [39.0, 42.55, "Let's say you put <b>$100</b> on yes at <b>0.50</b>,"], [42.66, 44.1, "that's <b>200 shares</b>."],
+  [44.42, 48.4, 'Team wins, each share pays $1, so <b>$200</b>.'], [48.8, 50.7, 'Team loses, <b>$0</b>.'],
+  [50.9, 52.75, '(just an example to show the maths)'], [52.9, 54.95, "You don't have to wait for full time,"],
+  [55.08, 58.9, 'you can hit <b>Close</b> and it sells at whatever the price is right then.'], [59.12, 63.35, 'Hold till the end and it settles at exactly <b>$1 or $0</b>.'],
+  [63.56, 65.15, 'Now the part that matters:'], [65.28, 67.4, 'your trades build your <b>ACS</b>.'],
+  [67.74, 70.6, 'It runs from <b>300 to 850</b>,'], [70.74, 73.85, 'and losses pull it down <b>faster</b> than wins push it up,'],
+  [73.9, 75.7, "so you can't just spam bets."], [76.16, 80.45, '<b>580 and above</b> puts you on the waitlist for a future trading credit line.'],
+  [80.66, 82.7, "By the way, there's a <b>risk bar</b> here:"], [82.82, 86.45, 'if the account drops <b>12%</b>, it halves your trade size,'],
+  [86.6, 89.25, 'at <b>20%</b>, it closes everything.'], [89.4, 91.05, "The credit isn't live yet,"],
+  [91.22, 92.4, "the terms aren't out,"], [92.46, 94.4, 'and the points have no confirmed value.'],
+  [94.66, 98.3, "If you're techy, you can even connect your own <b>Grok</b> trading bot,"], [98.38, 99.3, 'same rules.'],
+  [99.4, 102.65, "It's paper money, so the only thing you're risking is <b>time</b>…"], [102.78, 104.4, 'my link is in the post,'], [104.54, 105.6, 'anyways…'],
+]
+// ---- build the layers
+const $ = id => document.getElementById(id)
+const cl = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x)), eo = x => 1 - Math.pow(1 - cl(x), 3), eio = x => { x = cl(x); return x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2 }
+const lerp = (a, b, u) => a + (b - a) * u
+let SIG = []
+const css = (el, k, v) => { if (el.style[k] !== v) el.style[k] = v; SIG.push(v) }
+const L = $('lays')
+SC.forEach((s, i) => {
+  const d = document.createElement('div'); d.className = 'lay'; d.id = 'L' + i; L.appendChild(d); s.el = d
+  if (s.k === 'img') {
+    const c = document.createElement('div'); c.className = 'card'; Object.assign(c.style, { left: s.box[0] + 'px', top: s.box[1] + 'px', width: s.box[2] + 'px', height: s.box[3] + 'px' })
+    c.innerHTML = `<img src="${s.src}">`; d.appendChild(c); s.card = c
+    if (s.list) { const l = document.createElement('div'); l.className = 'list'; l.innerHTML = s.list.map(x => `<div class="li${s.warn ? ' warn' : ''}"><i></i><span>${x[1]}</span></div>`).join(''); d.appendChild(l); s.lis = [...l.children] }
+    if (i === 0) { const h = document.createElement('div'); h.id = 'handle'; h.innerHTML = '<img src="img/logo.png"><span>@agenticscredit</span>'; d.appendChild(h) }
+  }
+  if (s.k === 'scr') {
+    const v = document.createElement('div'); v.className = 'sv'; const si = document.createElement('div'); si.className = 'si'
+    si.innerHTML = `<img src="${s.scr.src}" width="${s.scr.w}" height="${s.scr.h}">`; v.appendChild(si); d.appendChild(v); s.si = si
+    s.ringEls = (s.rings || []).map(r => { const e = document.createElement('div'); e.className = 'ring'; const b = r[2], p = 5
+      Object.assign(e.style, { left: (b.x - p) + 'px', top: (b.y - p) + 'px', width: (b.w + 2 * p) + 'px', height: (b.h + 2 * p) + 'px' }); si.appendChild(e); return e })
+    s.tapEls = (s.taps || []).map(tp => { const e = document.createElement('div'); e.className = 'tap'; si.appendChild(e); return e })
+  }
+  if (s.k === 'math') d.innerHTML = `<div id="math"><div class="tk" id="tk">$100 on <b>YES</b> at <em>0.50</em></div><div class="sh" id="sh">= <b>200</b> SHARES</div>
+    <div class="oc" id="ocw"><div class="h">Team wins</div><div class="m">200 × $1</div><div class="v" id="vw">$200</div></div>
+    <div class="oc" id="ocl"><div class="h">Team loses</div><div class="m">200 × $0</div><div class="v" id="vl">$0</div></div>
+    <div id="stamp"><span>Just an example</span></div></div>`
+  if (s.k === 'acs') d.innerHTML = `<div class="card" id="acsc" style="left:110px;top:110px;width:680px;height:680px"><img src="img/acs.jpg"></div>
+    <div id="acsH">Your <b>ACS</b></div>
+    <div id="bar"><div id="barf"></div><div class="tick" id="t300" style="left:0">300</div><div class="tick" id="t580" style="left:${(580 - 300) / 550 * 900}px">580</div><div class="tick" id="t850" style="left:900px">850</div>
+      <div id="mk"></div><div class="arr" id="al"><span>losses</span></div><div class="arr" id="aw"><span>wins</span></div>
+      <div id="wl" style="left:${(580 - 300) / 550 * 900}px;width:${900 - (580 - 300) / 550 * 900}px"><b>580 and above</b><span>waitlist for a future credit line</span></div></div>`
+  if (s.k === 'end') d.innerHTML = `<div id="end"><img src="img/logo.png"><div class="h">@agenticscredit</div><div class="l">My link is in the post</div><div class="f">Paper money · Not financial advice</div></div>`
+})
+// the owner's sticker for each scene: behind the card / screen / boxes (first child), or in front of the ACS bar (last child)
+function stk(parent, first) { const im = document.createElement('img'); im.className = 'stk'; first ? parent.insertBefore(im, parent.firstChild) : parent.appendChild(im); return im }
+const RFS = []
+function flowInit() {
+  const base = { lib: window.RLIB, root: SROOT, fps: FPS, T, words: (window.WORDS || []).map(w => ({ s: w[0], e: w[1], w: w[2] })) }
+  RFS.push(ReactFlow.create({ ...base, ...FLOWS.card, img: stk(SC[0].el, true) }))
+  RFS.push(ReactFlow.create({ ...base, ...FLOWS.math, img: stk($('math'), true) }))
+  RFS.push(ReactFlow.create({ ...base, ...FLOWS.acs, img: stk(SC[6].el, false) }))
+  RFS.push(ReactFlow.create({ ...base, ...FLOWS.risk, img: stk(SC[7].el, true) }))
+  RFS.push(ReactFlow.create({ ...base, ...FLOWS.end, img: stk(SC[9].el, false) }))
+}
+// the camera on a screen: [t, [fx, fy, scale] | null = whole]; the view stays inside the screenshot
+const VW = 1180, VH = 850
+function camAt(s, t) {
+  const K = s.keys.map(k => [T(k[0]), k[1] || [s.scr.w / 2, s.scr.h / 2, Math.min(VW / s.scr.w, VH / s.scr.h)]])
+  let i = 0; while (i < K.length - 1 && t >= K[i + 1][0]) i++
+  let c = K[i][1]
+  if (i < K.length - 1 || true) { const a = K[i], b = K[i + 1]; if (b && t > a[0]) { /* hold until the move starts */ } }
+  // moves take 0.9 s from each key's time
+  for (let j = 1; j < K.length; j++) { if (t >= K[j][0]) { const u = eio((t - K[j][0]) / .9); c = K[j - 1][1].map((v, q) => lerp(v, K[j][1][q], u)) } }
+  let [fx, fy, sc] = c
+  const w = s.scr.w * sc, h = s.scr.h * sc
+  let x = VW / 2 - fx * sc, y = VH / 2 - fy * sc
+  x = w <= VW ? (VW - w) / 2 : cl(x, VW - w, 0); y = h <= VH ? (VH - h) / 2 : cl(y, VH - h, 0)
+  return `translate(${x.toFixed(1)}px,${y.toFixed(1)}px) scale(${sc.toFixed(4)})`
+}
+$('cap').innerHTML = ''
+window.render = async t => {
+  SIG = []
+  css($('beam'), 'transform', `translateX(${((t * 0.06) % 2.2 * 100).toFixed(1)}%)`)
+  for (const s of SC) {
+    const a = T(s.t0), b = s.t1 >= 999 ? 1e9 : T(s.t1), on = t >= a - .3 && t < b + .3
+    const op = on ? Math.min(cl((t - a + .3) / .35), cl((b + .3 - t) / .35)) : 0
+    css(s.el, 'opacity', op.toFixed(3)); if (!on) continue
+    const u = cl((t - a) / (b - a))
+    if (s.k === 'img') {
+      css(s.card, 'transform', `perspective(2200px) rotateY(${lerp(s.tilt[0], s.tilt[1], u).toFixed(2)}deg) scale(${lerp(s.push[0], s.push[1], eio(u)).toFixed(4)})`)
+      if (s.lis) s.lis.forEach((e, j) => { const st = T(s.list[j][0]), p = eo((t - st) / .3); css(e, 'opacity', (t >= st ? p : 0).toFixed(3)); css(e, 'transform', `translateX(${(40 * (1 - p)).toFixed(1)}px)`) })
+      const h = s.el.querySelector('#handle'); if (h) { const st = T(6.14), p = eo((t - st) / .3); css(h, 'opacity', (t >= st ? p : 0).toFixed(3)); css(h, 'transform', `translateX(-50%) scale(${(1 + .15 * (1 - p)).toFixed(3)})`) }
+    }
+    if (s.k === 'scr') {
+      css(s.si, 'transform', camAt(s, t))
+      s.ringEls.forEach((e, j) => { const r = s.rings[j], st = T(r[0]), en = T(r[1]); const p = t >= st && t < en ? Math.min(eo((t - st) / .25), cl((en - t) / .2)) : 0
+        let k = 0; if (RFS[3] && s === SC[7] && j === 1) k = ReactFlow.kick(t, RFS[3].peakT(0) + .45, { delay: .08, dur: .45, cycles: 3 })   // the hands land
+        css(e, 'opacity', p.toFixed(3)); css(e, 'transform', `translateX(${(6 * k).toFixed(1)}px) scale(${(1 + .25 * (1 - eo((t - st) / .3))).toFixed(3)})`) })
+      s.tapEls.forEach((e, j) => { const [st, x, y] = s.taps[j], d = t - T(st); const p = d >= 0 && d < .7 ? d / .7 : -1, r = 10 + 40 * Math.max(0, p)
+        css(e, 'opacity', (p >= 0 ? 1 - p : 0).toFixed(3)); Object.assign(e.style, { left: (x - r) + 'px', top: (y - r) + 'px', width: 2 * r + 'px', height: 2 * r + 'px' }) })
+    }
+    if (s.k === 'math') {
+      const pop = (id, st, dy = 30) => { const p = eo((t - T(st)) / .3); css($(id), 'opacity', (t >= T(st) ? p : 0).toFixed(3)); css($(id), 'transform', `translateY(${(dy * (1 - p)).toFixed(1)}px) scale(${(1 + .08 * (1 - p)).toFixed(3)})`) }
+      pop('tk', 39.0); pop('sh', 42.66); pop('ocw', 44.42, 50); pop('ocl', 48.8, 50)
+      if (RFS[1] && t >= T(48.8) + .3) { const k = ReactFlow.kick(t, RFS[1].peakT(1), { delay: .1, dur: .42, cycles: 3 }); css($('ocl'), 'transform', `translateX(${(7 * k).toFixed(1)}px) rotate(${(.4 * k).toFixed(2)}deg)`) }
+      if (RFS[1] && t >= T(44.42) + .3) { const k = Math.abs(ReactFlow.kick(t, RFS[1].peakT(0), { delay: .1, dur: .5, cycles: 1 })); css($('ocw'), 'transform', `scale(${(1 + .03 * k).toFixed(4)})`) }
+      css($('vw'), 'opacity', (t >= T(47.12) ? eo((t - T(47.12)) / .25) : 0).toFixed(3))
+      const p = eo((t - T(50.9)) / .25); css($('stamp'), 'opacity', (t >= T(50.9) ? p : 0).toFixed(3)); css($('stamp'), 'transform', `scale(${(1 + .4 * (1 - p)).toFixed(3)})`)
+    }
+    if (s.k === 'acs') {
+      css($('acsc'), 'transform', `perspective(2200px) rotateY(${lerp(6, 2, u).toFixed(2)}deg) scale(${lerp(1, 1.04, eio(u)).toFixed(4)})`)
+      const fade = (id, st) => css($(id), 'opacity', (t >= T(st) ? eo((t - T(st)) / .3) : 0).toFixed(3))
+      fade('acsH', 65.28); fade('t300', 67.74); fade('t850', 69.14); fade('t580', 76.16)
+      css($('barf'), 'width', (900 * eio((t - T(67.74)) / 1.6)).toFixed(1) + 'px')
+      // the marker, then a loss pulls it back further than a win pushes it on
+      const M0 = 520, x = v => (v - 300) / 550 * 900
+      let m = M0; const lA = T(71.16), wA = T(72.92)
+      if (t >= lA) m = lerp(M0, M0 - 90, eio((t - lA) / .6)); if (t >= wA) m = lerp(M0 - 90, M0 - 60, eio((t - wA) / .6))
+      css($('mk'), 'opacity', (t >= T(70.74) ? eo((t - T(70.74)) / .3) : 0).toFixed(3)); css($('mk'), 'left', x(m).toFixed(1) + 'px')
+      css($('al'), 'opacity', (t >= lA ? eo((t - lA) / .3) : 0).toFixed(3)); Object.assign($('al').style, { left: x(M0 - 90) + 'px', width: x(M0) - x(M0 - 90) + 'px' })
+      css($('aw'), 'opacity', (t >= wA ? eo((t - wA) / .3) : 0).toFixed(3)); Object.assign($('aw').style, { left: x(M0 - 90) + 'px', width: x(M0 - 60) - x(M0 - 90) + 'px', top: '190px' })
+      const p = eo((t - T(76.16)) / .35); css($('wl'), 'opacity', (t >= T(76.16) ? p : 0).toFixed(3)); css($('wl'), 'transform', `translateY(${(20 * (1 - p)).toFixed(1)}px)`)
+    }
+    if (s.k === 'end') { const st = T(s.t0); ['#end img', '#end .h', '#end .l', '#end .f'].forEach((q, j) => { const e = document.querySelector(q), p = eo((t - st - .15 * j) / .35); css(e, 'opacity', (t >= st + .15 * j ? p : 0).toFixed(3)); css(e, 'transform', `translateY(${(24 * (1 - p)).toFixed(1)}px)`) }) }
+  }
+  // ---- the owner, as a character in each scene (react_flow.js); nothing shrinks to make room
+  for (const rf of RFS) SIG.push(await rf.render(t))
+  // captions: the phrase being said, in on its first word, out as the next starts
+  const c = CAP.find(x => t >= T(x[0]) - .05 && t < T(x[1]) + .1)
+  const html = c ? c[2] : ''
+  if ($('cap').innerHTML !== html) $('cap').innerHTML = html
+  SIG.push(html); css($('cap'), 'opacity', c ? Math.min(1, (t - T(c[0]) + .05) / .12).toFixed(3) : '0')
+  return SIG.join('|')
+}
+const load = src => new Promise(r => { const sc = document.createElement('script'); sc.src = src; sc.onload = sc.onerror = r; document.head.appendChild(sc) })
+window.READY = Promise.all([Promise.all([window.RLIB ? 1 : load(SROOT + 'lib.js'), load('file:///home/user/cmv-alphascanner/video/lib/react_flow.js'), load('words_agx.js')]).then(flowInit), document.fonts.load('80px Anton'), document.fonts.load('800 40px Man'), document.fonts.load('600 26px Man'), document.fonts.load('700 30px Mono'),
+  ...[...document.images].map(i => i.decode ? i.decode().catch(() => 0) : 1)])
+</script>
+</body>
+</html>
