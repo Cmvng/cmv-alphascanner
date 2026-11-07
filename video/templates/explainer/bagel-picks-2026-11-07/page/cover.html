@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+<!-- Cover (1080x1920, #v) and thumbnail (1280x720, #t) for the Bagel 4-pick video (7 Nov 2026). node ../cover.mjs cover.html <out> -->
+<head><meta charset="utf-8">
+<style>
+@font-face{font-family:Anton;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/anton-latin-400-normal.woff2)}
+@font-face{font-family:Man;font-weight:800;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-800-normal.woff2)}
+html,body{margin:0;overflow:hidden;background:#EAF1FB}
+#s{position:absolute;inset:0;background:radial-gradient(1400px 1000px at 50% 30%,#F7FAFE 0%,#E3ECFA 60%,#CFDDF3 100%);overflow:hidden}
+#s:before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(31,95,219,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(31,95,219,.05) 1px,transparent 1px);background-size:60px 60px}
+.k{position:absolute;font:400 1px/1 Anton,sans-serif;color:#0B1F44}
+.k b{color:#1F5FDB;font-weight:400}
+.money{position:absolute;font:400 1px/1 Anton,sans-serif;color:#0B1F44;white-space:nowrap}
+.money b{color:#1F5FDB;font-weight:400}.money i{font-style:normal;color:rgba(11,31,68,.35)}
+.lk{position:absolute;display:flex;align-items:center;gap:20px;background:#fff;border-radius:22px;box-shadow:0 0 0 2px rgba(11,31,68,.08),0 16px 36px rgba(11,31,68,.14);overflow:hidden}
+.lk .bar{align-self:stretch;width:20px;flex:none}
+.lk .nm{font:400 1px/1 Anton,sans-serif;color:#0B1F44;white-space:nowrap}
+.lk .y{margin-left:auto;margin-right:22px;font:800 30px/1 Man,sans-serif;color:#15803D;background:#DCFCE7;padding:10px 16px;border-radius:14px}
+.logo{position:absolute}
+.me{position:absolute;filter:drop-shadow(0 18px 26px rgba(11,31,68,.30))}
+</style></head>
+<body><div id="s"></div>
+<script>
+const v = location.hash !== '#t', W = v ? 1080 : 1280, H = v ? 1920 : 720
+document.documentElement.style.width = document.body.style.width = W + 'px'; document.documentElement.style.height = document.body.style.height = H + 'px'
+const s = document.getElementById('s'), add = (h) => { const d = document.createElement('div'); d.innerHTML = h; const e = d.firstChild; s.appendChild(e); return e }
+const TEAMS = [['Fulham', '#111111'], ['Tottenham Hotspur', '#132257'], ['Arsenal', '#EF0107'], ['Manchester City', '#6CABDD']]
+const ME = 'file:///home/user/cmv-alphascanner/video/out/reactions/crackup/f_0012.png'
+const pos = (e, o) => Object.assign(e.style, o)
+if (v) {
+  pos(add('<img class="logo" src="img/logo-horizontal.svg">'), { left: '70px', top: '90px', height: '96px' })
+  pos(add('<div class="k">MY 4 PICKS<br><b>TODAY</b></div>'), { left: '70px', top: '240px', fontSize: '190px', lineHeight: '0.98' })
+  pos(add('<div class="money">$2.84 <i>→</i> <b>$31.23</b></div>'), { left: '70px', top: '650px', fontSize: '150px' })
+  TEAMS.forEach((t, i) => pos(add(`<div class="lk"><div class="bar" style="background:${t[1]}"></div><div class="nm" style="font-size:46px">${t[0]}</div><div class="y" style="font-size:26px;padding:8px 13px">Yes</div></div>`), { left: '70px', top: (880 + i * 140) + 'px', width: '500px', height: '112px' }))
+  pos(add(`<img class="me" src="${ME}">`), { right: '30px', bottom: '0px', width: '470px' })
+  pos(add('<div class="k" style="font:800 30px/1.3 Man,sans-serif;color:rgba(11,31,68,.62);letter-spacing:.1em">18+ · REAL MONEY<br>NOT FINANCIAL ADVICE</div>'), { left: '70px', bottom: '90px' })
+} else {
+  pos(add('<img class="logo" src="img/logo-horizontal.svg">'), { left: '56px', top: '44px', height: '64px' })
+  pos(add('<div class="k">MY 4 PICKS <b>TODAY</b></div>'), { left: '56px', top: '140px', fontSize: '118px' })
+  TEAMS.forEach((t, i) => pos(add(`<div class="lk"><div class="bar" style="background:${t[1]}"></div><div class="nm" style="font-size:34px">${t[0]}</div><div class="y" style="font-size:20px;padding:6px 10px;margin-right:14px">Yes</div></div>`), { left: (56 + (i % 2) * 410) + 'px', top: (300 + Math.floor(i / 2) * 96) + 'px', width: '390px', height: '80px' }))
+  pos(add('<div class="money">$2.84 <i>→</i> <b>$31.23</b></div>'), { left: '56px', top: '518px', fontSize: '120px' })
+  pos(add(`<img class="me" src="${ME}">`), { right: '20px', bottom: '0px', width: '400px' })
+}
+window.READY = Promise.all([document.fonts.load('80px Anton'), document.fonts.load('800 30px Man'), ...[...document.images].map(i => i.decode().catch(() => 0))])
+</script>
+</body></html>
