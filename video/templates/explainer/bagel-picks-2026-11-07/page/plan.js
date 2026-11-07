@@ -78,26 +78,9 @@ window.PLAN = {
    ]
   }
  ],
- "steps": [
-  [
-   53.08,
-   "Open <b>Build a Combo</b>, search a team"
-  ],
-  [
-   58.22,
-   "Tap a price: it joins<br>the <b>combo bar</b>"
-  ],
-  [
-   63.76,
-   "Tap <b>Buy</b>, set your stake,<br>check <b>Max payout</b>"
-  ],
-  [
-   68.56,
-   "<b>Swipe</b> to place it"
-  ]
- ],
+ "steps": [],
  "warnT": 71.92,
- "warnHtml": "<b>All four must win.</b> One loss and the combo pays $0. Only stake what you can afford to lose.<br><span style=\"font-size:26px;letter-spacing:.08em;color:rgba(11,31,68,.62)\">18+ · ONLY WHERE BAGEL IS AVAILABLE · NOT FINANCIAL ADVICE</span>",
+ "warnHtml": "<b>All four must win.</b> One loss and the combo pays $0. Only stake what you can afford to lose.<br><span style=\"display:block;margin-top:40px;font-size:30px;letter-spacing:.12em;color:rgba(11,31,68,.62)\">18+ · ONLY WHERE BAGEL IS AVAILABLE · NOT FINANCIAL ADVICE</span>",
  "rings": [
   {
    "t": [
@@ -257,10 +240,10 @@ window.PLAN = {
   ],
   "slip": [
    12.68,
-   49.599999999999994
+   49.3
   ],
   "steps": [
-   49.8,
+   49.25,
    77.34
   ],
   "end": [
@@ -268,101 +251,181 @@ window.PLAN = {
    999
   ]
  },
- "phone": {
-  "box": [
-   0,
-   0,
-   470,
-   1080
-  ],
-  "h": 1000,
+ "howto": {
   "scene": [
-   49.699999999999996,
-   77.14
+   49.31,
+   71.77
+  ],
+  "steps": [
+   {
+    "t": 49.699999999999996,
+    "n": 1,
+    "head": "Open<br><b>Build a Combo.</b>",
+    "sub": "Every match starting soon, in one list. <b>Soccer</b> is one tap."
+   },
+   {
+    "t": 55.74,
+    "n": 2,
+    "head": "Search the team.<br><b>Open the match.</b>",
+    "sub": "Each match shows its prices: <b>who wins, totals, both teams to score.</b>"
+   },
+   {
+    "t": 58.22,
+    "n": 3,
+    "head": "Tap a price.<br>It joins your<br><b>combo bar.</b>",
+    "sub": "Every game you add drops into the bar: <b>Combo 2 picks, 3 picks…</b>"
+   },
+   {
+    "t": 63.76,
+    "n": 4,
+    "head": "Tap <b>Buy.</b><br>Set your stake.",
+    "sub": "Check the <b>Max payout</b> before you go."
+   },
+   {
+    "t": 68.56,
+    "n": 5,
+    "head": "<b>Swipe</b><br>to place it.",
+    "sub": "It shows up in <b>Positions</b>."
+   }
+  ],
+  "shots": [
+   {
+    "t": 49.699999999999996,
+    "img": "f_197.0.png",
+    "cam": [
+     235,
+     300,
+     1.0
+    ],
+    "ring": [
+     100,
+     8,
+     250,
+     44
+    ]
+   },
+   {
+    "t": 55.74,
+    "img": "f_257.6.png",
+    "cam": [
+     235,
+     300,
+     1.0
+    ],
+    "ring": [
+     8,
+     8,
+     450,
+     50
+    ]
+   },
+   {
+    "t": 56.72,
+    "img": "f_262.0.png",
+    "cam": [
+     235,
+     380,
+     1.0
+    ],
+    "ring": [
+     10,
+     366,
+     450,
+     60
+    ]
+   },
+   {
+    "t": 58.22,
+    "img": "f_286.4.png",
+    "cam": [
+     235,
+     700,
+     1.0
+    ],
+    "ring": [
+     30,
+     628,
+     170,
+     44
+    ]
+   },
+   {
+    "t": 61.98,
+    "img": "f_479.8.png",
+    "cam": [
+     235,
+     780,
+     1.0
+    ],
+    "ring": [
+     10,
+     700,
+     450,
+     46
+    ]
+   },
+   {
+    "t": 63.76,
+    "img": "f_479.8.png",
+    "cam": [
+     235,
+     780,
+     1.0
+    ],
+    "ring": [
+     345,
+     1036,
+     118,
+     40
+    ]
+   },
+   {
+    "t": 65.46,
+    "img": "f_483.6.png",
+    "cam": [
+     235,
+     330,
+     1.25
+    ],
+    "ring": [
+     140,
+     356,
+     190,
+     66
+    ]
+   },
+   {
+    "t": 68.56,
+    "img": "f_490.0.png",
+    "cam": [
+     235,
+     300,
+     1.0
+    ],
+    "ring": [
+     110,
+     58,
+     250,
+     40
+    ]
+   },
+   {
+    "t": 69.56,
+    "img": "f_507.8.png",
+    "cam": [
+     235,
+     600,
+     1.0
+    ],
+    "ring": [
+     12,
+     524,
+     446,
+     44
+    ]
+   }
   ]
  },
- "clips": [
-  {
-   "id": "A",
-   "t0": 52.93,
-   "n": 96,
-   "from": 0,
-   "speed": 1.0
-  },
-  {
-   "id": "B",
-   "t0": 55.59,
-   "n": 96,
-   "from": 20,
-   "speed": 1.2
-  },
-  {
-   "id": "C",
-   "t0": 56.57,
-   "n": 84,
-   "from": 0,
-   "speed": 1.2
-  },
-  {
-   "id": "D",
-   "t0": 58.07,
-   "n": 90,
-   "from": 15,
-   "speed": 1.0
-  },
-  {
-   "id": "E",
-   "t0": 61.83,
-   "n": 186,
-   "from": 105,
-   "speed": 1.0
-  },
-  {
-   "id": "F",
-   "t0": 63.61,
-   "n": 252,
-   "from": 15,
-   "speed": 1.3,
-   "zoom": [
-    235,
-    360,
-    1.75
-   ],
-   "zd": 1.2
-  },
-  {
-   "id": "G",
-   "t0": 68.41,
-   "n": 70,
-   "from": 0,
-   "speed": 1.0,
-   "zoom": [
-    235,
-    150,
-    1.7
-   ],
-   "zd": 0.05
-  },
-  {
-   "id": "H",
-   "t0": 69.41,
-   "n": 102,
-   "from": 45,
-   "speed": 1.0
-  }
- ],
- "taps": [
-  {
-   "t": 59.47,
-   "x": 125,
-   "y": 648
-  },
-  {
-   "t": 63.46,
-   "x": 394,
-   "y": 1062
-  }
- ],
  "sroot": "file:///home/user/cmv-alphascanner/video/out/reactions/",
  "flow": {
   "width": 400,

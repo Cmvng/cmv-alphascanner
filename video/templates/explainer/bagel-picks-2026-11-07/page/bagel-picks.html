@@ -54,7 +54,7 @@ html,body{margin:0;width:1920px;height:1080px;overflow:hidden;background:#EAF1FB
 .step .t{font:800 46px/1.18 Man,sans-serif;color:var(--navy)}
 .step .t b{color:var(--blue)}
 /* the warning + the end */
-#warn{position:absolute;left:700px;top:700px;width:1100px;font:800 34px/1.25 Man,sans-serif;color:var(--navy);opacity:0}
+#warn{position:absolute;left:260px;top:330px;width:1400px;text-align:center;font:800 64px/1.25 Man,sans-serif;color:var(--navy);opacity:0}
 #warn b{color:#B91C1C}
 #end{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:30px;opacity:0}
 #end img{height:120px}
@@ -69,6 +69,21 @@ html,body{margin:0;width:1920px;height:1080px;overflow:hidden;background:#EAF1FB
 .tap{position:absolute;width:84px;height:84px;margin:-42px 0 0 -42px;border-radius:50%;border:6px solid #fff;
   background:rgba(31,95,219,.45);box-shadow:0 0 0 4px var(--blue),0 8px 24px rgba(11,31,68,.4);opacity:0}
 #phcap{position:absolute;left:0;right:0;bottom:-58px;text-align:center;font:800 26px/1 Man,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:rgba(11,31,68,.55)}
+/* how-to: one step per scene, the real Bagel screen large in a phone (P.howto) */
+#hw{position:absolute;inset:0;opacity:0}
+#hw .logo{position:absolute;left:110px;top:90px;height:64px}
+#hw .prog{position:absolute;left:110px;top:200px;display:flex;gap:14px}
+#hw .prog i{width:70px;height:10px;border-radius:6px;background:rgba(31,95,219,.18)}#hw .prog i.on{background:#1F5FDB}
+#hw .num{position:absolute;left:110px;top:270px;font:800 34px/1 Man,sans-serif;letter-spacing:.14em;color:#1F5FDB}
+#hw .hd{position:absolute;left:104px;top:330px;width:960px;font:400 104px/1.04 Anton,sans-serif;color:#0B1F44}
+#hw .hd b{color:#1F5FDB;font-weight:400}
+#hw .sb{position:absolute;left:110px;top:690px;width:860px;font:600 42px/1.3 Man,sans-serif;color:rgba(11,31,68,.72)}
+#hw .sb b{font-weight:800;color:#0B1F44}
+#hw .ph{position:absolute;left:1120px;top:40px;width:700px;height:1000px;border-radius:64px;background:#0B1F44;padding:18px;box-sizing:border-box;box-shadow:0 40px 90px rgba(11,31,68,.30)}
+#hw .scr{position:relative;width:100%;height:100%;border-radius:48px;overflow:hidden;background:#fff}
+#hw .scr img{position:absolute;left:0;top:0;width:470px;transform-origin:0 0}
+#hw .src{position:absolute;right:120px;bottom:8px;font:600 20px/1 Man,sans-serif;color:rgba(11,31,68,.45)}
+#hw .rg{position:absolute;border:6px solid #1F5FDB;border-radius:22px;box-shadow:0 0 0 8px rgba(31,95,219,.18),0 0 30px rgba(31,95,219,.5);opacity:0}
 /* stickers */
 .stk{position:absolute;left:0;top:0;width:360px;opacity:0;filter:drop-shadow(0 14px 22px rgba(11,31,68,.30))}
 /* captions */
@@ -83,6 +98,10 @@ html,body{margin:0;width:1920px;height:1080px;overflow:hidden;background:#EAF1FB
   <img class="stk" id="stk"><div id="card"><div id="view"><div id="pic"><img src="img/slip.jpg" width="968" height="2174"></div></div></div>
   <div id="links"></div><div id="meter"><div><div class="lbl" id="ml">Combo</div><div class="x" id="mx">1 pick</div></div><div class="pay" id="mpay"></div></div>
   <div id="phone"><div class="scr" id="scr"><img id="ph"></div><div id="phcap"></div></div>
+  <div id="hw"><img class="logo" src="img/logo-horizontal.svg"><div class="prog" id="hwp"></div><div class="num" id="hwn"></div>
+    <div class="hd" id="hwh"></div><div class="sb" id="hws"></div>
+    <div class="ph"><div class="scr" id="hwscr"><img id="hwa"><img id="hwb"><div class="rg" id="hwr"></div></div></div>
+    <div class="src">Real screens: my Bagel app (29 Oct)</div></div>
   <div id="steps"></div><div id="warn"></div>
   <div id="end"><img src="img/logo-horizontal.svg"><div class="h">@bagel_win</div><div class="l">My link is in the post</div><div class="f">18+ · Real money · Not financial advice</div></div>
   <img class="stk" id="stk2">
@@ -201,11 +220,34 @@ window.render = async t => {
       css(tp.el, 'left', (tp.x * sc).toFixed(1) + 'px'); css(tp.el, 'top', (tp.y * sc).toFixed(1) + 'px')
       css(tp.el, 'opacity', q.toFixed(3)); css(tp.el, 'transform', `scale(${(t < a ? 1.3 - .3 * eo((t - a + .35) / .35) : 1 - .25 * Math.sin(Math.PI * cl((t - a) / .25))).toFixed(3)})`) })
   }
+  // how-to (P.howto): steps [{t, n, head, sub}] and shots [{t, img, cam:[cx,cy,z], ring:[x,y,w,h]}] in screenshot px (470x1080)
+  if (P.howto) {
+    const H = P.howto, a0 = T(H.scene[0]), a1 = T(H.scene[1])
+    const vin = cl((t - a0) / .45), vout = cl((t - a1) / .4)
+    css($('hw'), 'opacity', (t >= a0 ? vin * (1 - vout) : 0).toFixed(3))
+    let st = H.steps[0]; for (const k of H.steps) if (t >= T(k.t)) st = k
+    const stIn = eo((t - T(st.t)) / .4)
+    if ($('hwn').textContent !== `STEP ${st.n} OF ${H.steps.length}`) { $('hwn').textContent = `STEP ${st.n} OF ${H.steps.length}`; $('hwh').innerHTML = st.head; $('hws').innerHTML = st.sub
+      $('hwp').innerHTML = H.steps.map(k => `<i class="${k.n <= st.n ? 'on' : ''}"></i>`).join('') }
+    SIG.push(st.n); css($('hwh'), 'transform', `translateX(${(-40 * (1 - stIn)).toFixed(1)}px)`); css($('hwh'), 'opacity', (t >= a0 ? stIn : 0).toFixed(3))
+    css($('hws'), 'opacity', (t >= a0 ? eo((t - T(st.t) - .15) / .4) : 0).toFixed(3))
+    let i = 0; for (let j = 0; j < H.shots.length; j++) if (t >= T(H.shots[j].t)) i = j
+    const cur = H.shots[i], prev = H.shots[Math.max(0, i - 1)], f = i ? cl((t - T(cur.t)) / .3) : 1
+    const W = 664, Hh = 964, place = (img, sh, k) => {
+      const z0 = W / 470, z = z0 * sh.cam[2] * (1 + .04 * eo(k)), x = Math.min(0, Math.max(W - 470 * z, W / 2 - sh.cam[0] * z)), y = Math.min(0, Math.max(Hh - 1080 * z, Hh / 2 - sh.cam[1] * z))
+      const src = 'img/steps/' + sh.img; if (img.getAttribute('src') !== src) img.src = src
+      img.style.transform = `translate(${x.toFixed(1)}px,${y.toFixed(1)}px) scale(${z.toFixed(4)})`; return { x, y, z } }
+    const pc = place($('hwb'), cur, cl((t - T(cur.t)) / 2.5)); place($('hwa'), prev, 1)
+    css($('hwb'), 'opacity', f.toFixed(3)); SIG.push(cur.img)
+    if (cur.ring) { const r = cur.ring, q = cl((t - T(cur.t) - .35) / .25)
+      Object.assign($('hwr').style, { left: (pc.x + r[0] * pc.z - 10).toFixed(1) + 'px', top: (pc.y + r[1] * pc.z - 10).toFixed(1) + 'px', width: (r[2] * pc.z + 20).toFixed(1) + 'px', height: (r[3] * pc.z + 20).toFixed(1) + 'px' })
+      css($('hwr'), 'opacity', q.toFixed(3)); css($('hwr'), 'transform', `scale(${(1 + .12 * (1 - eo(q))).toFixed(3)})`) } else css($('hwr'), 'opacity', '0')
+  }
   // end card
   const ep = eo((t - T(S.end[0])) / .5); css($('end'), 'opacity', (t >= T(S.end[0]) ? ep : 0).toFixed(3)); css($('end'), 'transform', `translateY(${(24 * (1 - ep)).toFixed(1)}px)`)
   if (RF) { SIG.push(await RF.render(t)); SIG.push(await RF2.render(t)) }
   // captions (during the how-to they sit in the right column, beside the phone)
-  { const hw = P.phone && t >= T(P.phone.scene[0]) && t < T(P.phone.scene[1]); css($('cap'), 'left', hw ? '640px' : '110px'); css($('cap'), 'width', hw ? '1200px' : '1700px') }
+  { const hw = P.howto && t >= T(P.howto.scene[0]) && t < T(P.howto.scene[1]); css($('cap'), 'left', hw ? '110px' : '110px'); css($('cap'), 'width', hw ? '960px' : '1700px'); css($('cap'), 'textAlign', hw ? 'left' : 'center') }
   // captions
   const c = P.caps.find(x => t >= T(x[0]) - .05 && t < T(x[1]) + .1), html = c ? c[2] : ''
   if ($('cap').innerHTML !== html) $('cap').innerHTML = html
