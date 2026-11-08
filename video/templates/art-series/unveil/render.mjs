@@ -12,9 +12,10 @@ const plan = JSON.parse(fs.readFileSync(planPath, 'utf8')), FPS = plan.fps, N = 
 // a chunk for the parallel render: FROM=<frame> TO=<frame> VIDEO_ONLY=1
 const F0 = +(process.env.FROM || 0), F1 = Math.min(N, +(process.env.TO || N)), VO = !!process.env.VIDEO_ONLY
 const b = await chromium.launch({ args: ['--allow-file-access-from-files', '--force-color-profile=srgb'] })
-const p = await b.newPage({ viewport: { width: 1920, height: 1080 }, deviceScaleFactor: 1 })
+const VW = +(process.env.VIEW_W || 1920), VH = +(process.env.VIEW_H || 1080), HASH = process.env.HASH || ''   // other frame sizes: VIEW_W/VIEW_H, page variant: HASH (e.g. #45)
+const p = await b.newPage({ viewport: { width: VW, height: VH }, deviceScaleFactor: 1 })
 p.on('pageerror', e => console.log('PAGE ERROR', e.message))
-await p.goto('file://' + page_); await p.evaluate(() => window.READY)
+await p.goto('file://' + page_ + HASH); await p.evaluate(() => window.READY)
 if (out === '--stills') {
   fs.mkdirSync(a5, { recursive: true })
   for (const t of a4.split(',').map(Number)) { await p.evaluate(t => window.render(t), t); await p.screenshot({ path: `${a5}/still_${t.toFixed(2)}.png` }) }

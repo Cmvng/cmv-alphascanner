@@ -17,7 +17,7 @@ document.documentElement.style.width = document.body.style.width = W + 'px'; doc
 const s = document.getElementById('s'), add = (h, o) => { const d = document.createElement('div'); d.innerHTML = h; const e = d.firstChild; Object.assign(e.style, o || {}); s.appendChild(e); return e }
 const ph = (img, x, y, w, rot) => add(`<img class="ph" src="img/${img}">`, { left: x + 'px', top: y + 'px', width: w + 'px', transform: `rotate(${rot}deg)` })
 if (v) {
-  ph('phone4.png', -150, 1060, 520, -12); ph('phone3.png', 710, 1060, 520, 12); ph('phone2.png', 280, 960, 520, 0)
+  ph('phone1.png', -150, 1060, 520, -12); ph('phone5.png', 710, 1060, 520, 12); ph('phone2.png', 280, 960, 520, 0)   // no notification card or dated market on the cover
   add('<img src="img/Bagel_Icon_round.svg">', { position: 'absolute', left: '470px', top: '800px', width: '140px', filter: 'drop-shadow(0 12px 18px rgba(0,0,0,.4))' })
   add('<div class="pix">PREDICT ON</div>', { position: 'absolute', left: '0', width: '1080px', top: '170px', textAlign: 'center', fontSize: '50px', color: '#9FD3FF' })
   add('<div class="pix">EASY<br>MODE</div>', { position: 'absolute', left: '0', width: '1080px', top: '270px', textAlign: 'center', fontSize: '170px', lineHeight: '1.08', textShadow: '12px 12px 0 #1F5FDB' })
