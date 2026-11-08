@@ -29,7 +29,7 @@ html,body{margin:0;width:1920px;height:1080px;overflow:hidden;background:#0A2A78
 #ball{position:absolute;left:0;top:0;width:0;height:0;transform-style:preserve-3d}
 #ball i{position:absolute;left:-13px;top:-26px;width:26px;height:26px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,#d8dde8 60%,#9aa3b5);box-shadow:0 6px 10px rgba(0,0,0,.5)}
 /* flat overlays */
-.flag{position:absolute;left:0;right:0;top:120px;text-align:center;font:400 170px/1 Anton,sans-serif;letter-spacing:.06em;opacity:0;color:#fff;text-shadow:0 10px 40px rgba(0,0,0,.45)}
+.flag{position:absolute;left:0;right:0;top:150px;text-align:center;font:400 170px/1 Anton,sans-serif;letter-spacing:.06em;opacity:0;color:#fff;text-shadow:0 10px 40px rgba(0,0,0,.45)}
 .panel{position:absolute;opacity:0}
 .card{background:rgba(255,255,255,.97);border-radius:28px;box-shadow:0 30px 70px rgba(0,0,0,.35);color:var(--navy)}
 .ttl{font:400 120px/1 Anton,sans-serif;color:#fff;text-shadow:0 10px 30px rgba(0,0,0,.35)}
@@ -56,6 +56,7 @@ html,body{margin:0;width:1920px;height:1080px;overflow:hidden;background:#0A2A78
 .stk{position:absolute;left:0;top:0;width:360px;opacity:0;filter:drop-shadow(0 14px 22px rgba(0,0,0,.4));z-index:20}
 #cap{position:absolute;left:110px;width:1700px;top:968px;text-align:center;font:800 46px/1.18 Man,sans-serif;color:#fff;z-index:30;text-shadow:0 3px 14px rgba(0,0,0,.6)}
 #cap b{color:#9FD3FF;font-weight:800}
+#cap .cp{background:rgba(8,26,74,.86);padding:4px 20px 8px;border-radius:16px;-webkit-box-decoration-break:clone;box-decoration-break:clone;line-height:1.42}
 </style>
 </head>
 <body>
@@ -134,7 +135,8 @@ window.render = async t => {
       css(p.el, 'transform', `translate3d(${(x * PX).toFixed(1)}px,${(y * PX).toFixed(1)}px,0) rotateZ(${(-spin).toFixed(2)}deg) rotateX(${(-tilt).toFixed(2)}deg)`)
       const hi = (p.hi || []).some(w => t >= T(w[0]) && t < T(w[1]))
       css(p.g, 'transform', `scale(${((hi ? 1.25 : 1) * (.85 + .15 * on)).toFixed(3)})`); css(p.el, 'opacity', on.toFixed(3))
-      css(p.g, 'filter', hi ? 'drop-shadow(0 0 16px #4FB3FF) drop-shadow(0 0 6px #fff)' : 'none'); css(p.nm, 'opacity', (P.names && t >= T(P.names[0]) && t < T(P.names[1])) || hi ? '1' : '0') })
+      css(p.g, 'filter', hi ? 'drop-shadow(0 0 16px #4FB3FF) drop-shadow(0 0 6px #fff)' : 'none'); const nmOn = p.lab ? p.lab.some(w => t >= T(w[0]) && t < T(w[1])) : (P.names && t >= T(P.names[0]) && t < T(P.names[1]))
+      css(p.nm, 'opacity', nmOn || hi ? '1' : '0') })
     if (P.ball) { const [x, y] = keyAt(P.ball, t, .5); css($('ball'), 'transform', `translate3d(${(x * PX).toFixed(1)}px,${(y * PX).toFixed(1)}px,0) rotateZ(${(-spin).toFixed(2)}deg) rotateX(${(-tilt).toFixed(2)}deg)`)
       css($('ball'), 'opacity', (P.ballOn ? vis(P.ballOn[0], P.ballOn[1], t, .2, .2) : 1).toFixed(3)) }
     arrows.forEach(a => { const s = T(a.t0), e = T(a.t1), u = cl((t - s) / (a.draw || .6)), out = cl((t - e) / .3)
@@ -151,7 +153,7 @@ window.render = async t => {
   panels.forEach(p => { const q = vis(p.t0, p.t1, t, .4, .35); css(p.el, 'opacity', q.toFixed(3)); css(p.el, 'transform', `translateY(${(40 * (1 - eo(q))).toFixed(1)}px)`)
     if (p.bars) p.el.querySelectorAll('.tr i').forEach((b, i) => { const u = eo(cl((t - T(p.t0) - .3 - i * .15) / .8)); b.style.width = (u * +b.dataset.w).toFixed(1) + '%' }) })
   if (RF) SIG.push(await RF.render(t)); if (RF2) SIG.push(await RF2.render(t))
-  const c = (P.caps || []).find(x => t >= T(x[0]) - .05 && t < T(x[1]) + .1), html = c ? c[2] : ''
+  const c = (P.caps || []).find(x => t >= T(x[0]) - .05 && t < T(x[1]) + .1), html = c ? `<span class="cp">${c[2]}</span>` : ''
   if ($('cap').innerHTML !== html) $('cap').innerHTML = html
   SIG.push(html); css($('cap'), 'opacity', c ? Math.min(1, (t - T(c[0]) + .05) / .12).toFixed(3) : '0')
   return SIG.join('|')

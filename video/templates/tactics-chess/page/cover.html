@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+<!-- Cover (1080x1920, #v) and thumbnail (1280x720, #t) for a chessboard video. Content from cover.js (window.COVER):
+     {img: clean board frame 1920x1080, kick, title (html, <b> = blue), sub, chips: [[text, colour], ...], face: sticker png}. -->
+<head><meta charset="utf-8"><style>
+@font-face{font-family:Anton;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/anton-latin-400-normal.woff2)}
+@font-face{font-family:Man;font-weight:800;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-800-normal.woff2)}
+html,body{margin:0;overflow:hidden;background:#0A2A78}
+#s{position:absolute;inset:0;overflow:hidden;background:radial-gradient(1200px 900px at 50% 35%,#2156D6 0%,#123A9E 55%,#081F5E 100%)}
+.bd{position:absolute;object-fit:cover}
+.sh{position:absolute;inset:0}
+.k{position:absolute;font:800 1px/1 Man,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#9FD3FF}
+.t{position:absolute;font:400 1px/.98 Anton,sans-serif;color:#fff;text-shadow:0 8px 30px rgba(0,0,0,.4)}.t b{color:#9FD3FF;font-weight:400}
+.u{position:absolute;font:800 1px/1.2 Man,sans-serif;color:rgba(255,255,255,.92)}
+.ch{position:absolute;display:flex}
+.ch i{display:block;border-radius:18%;color:#fff;font-style:normal;font-family:Anton;text-align:center;box-shadow:0 10px 24px rgba(0,0,0,.35)}
+.me{position:absolute;filter:drop-shadow(0 18px 26px rgba(0,0,0,.4))}
+</style></head><body><div id="s"></div>
+<script src="cover.js"></script>
+<script>
+const C = window.COVER, v = location.hash !== '#t', W = v ? 1080 : 1280, H = v ? 1920 : 720
+document.documentElement.style.width = document.body.style.width = W + 'px'; document.documentElement.style.height = document.body.style.height = H + 'px'
+const s = document.getElementById('s'), add = (h, o) => { const d = document.createElement('div'); d.innerHTML = h; const e = d.firstChild; Object.assign(e.style, o || {}); s.appendChild(e); return e }
+const chips = (x, y, sz, gap) => add(`<div class="ch" style="gap:${gap}px">${C.chips.map(([t, c]) => `<i style="width:${sz}px;height:${sz}px;font-size:${sz * .66}px;line-height:${sz}px;background:${c}">${t}</i>`).join('')}</div>`, { left: x + 'px', top: y + 'px' })
+if (v) {
+  add(`<img class="bd" src="${C.img}">`, { left: '-180px', top: '700px', width: '1440px', height: '810px' })
+  add('<div class="sh"></div>', { background: 'linear-gradient(180deg,#0A2A78 0%,rgba(10,42,120,0) 40%,rgba(10,42,120,0) 78%,#081F5E 100%)' })
+  add(`<div class="k">${C.kick}</div>`, { left: '70px', top: '150px', fontSize: '34px' })
+  add(`<div class="t">${C.title}</div>`, { left: '64px', top: '206px', width: '960px', fontSize: '190px' })
+  add(`<div class="u">${C.sub}</div>`, { left: '70px', top: '1540px', width: '600px', fontSize: '46px' })
+  chips(70, 1700, Math.min(96, (940 - 14 * (C.chips.length - 1)) / C.chips.length), 14)
+  add(`<img class="me" src="${C.face}">`, { right: '30px', top: '1180px', height: '520px' })
+} else {
+  add(`<img class="bd" src="${C.img}">`, { left: '330px', top: '40px', width: '1180px', height: '664px' })
+  add('<div class="sh"></div>', { background: 'linear-gradient(90deg,#0A2A78 0%,#0A2A78 40%,rgba(10,42,120,.6) 55%,rgba(10,42,120,0) 72%)' })
+  add(`<div class="k">${C.kick}</div>`, { left: '50px', top: '58px', fontSize: '24px' })
+  add(`<div class="t">${C.title}</div>`, { left: '46px', top: '96px', width: '720px', fontSize: '150px' })
+  chips(50, 560, Math.min(58, (640 - 10 * (C.chips.length - 1)) / C.chips.length), 10)
+  add(`<img class="me" src="${C.face}">`, { right: '10px', bottom: '-10px', height: '440px' })
+}
+window.READY = Promise.all([document.fonts.load('80px Anton'), document.fonts.load('800 40px Man'), ...[...document.images].map(i => i.decode().catch(() => 0))])
+</script></body></html>
