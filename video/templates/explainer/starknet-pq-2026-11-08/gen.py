@@ -56,8 +56,8 @@ plan = {
              'segments': [{'from': round(S('two researchers') - .2, 3), 'to': round(E('involved.') + .4, 3), 'ANCHOR': 'brk', 'lean': -2,
                            'beats': [{'at': {'phrase': 'within an hour', 'nth': 1}, 'id': 'shook', 'kind': 'hard', 'away': 1, 'from': 0, 'to': 27, 'tail': 10, 'hold': 2.6}]}]},
     'flow2': {'width': 360, 'idle': {'id': 'sideeye_full', 'a': 0, 'b': 50, 'speed': 0.6},
-              'segments': [{'from': round(sw - .5, 3), 'to': round(E('network-wide upgrade.') + .45, 3), 'ANCHOR': 'acct', 'lean': -2,
-                            'beats': [{'at': 'network-wide upgrade', 'id': 'grin_full', 'kind': 'soft', 'away': 1, 'hold': 1.6}]}]},
+              'segments': [{'from': round(sw - .7, 3), 'to': round(E('network-wide upgrade.') + .12, 3), 'ANCHOR': 'acct', 'lean': -2,
+                            'beats': [{'at': 'signature method', 'id': 'grin_full', 'kind': 'soft', 'away': 1, 'hold': 4.0}]}]},
 }
 KEY = {'hour?', 'Starknet?', 'Starknet,', 'NIST,', 'Sike.', 'Sike', 'hour,', 'core', 'quantum', 'half', 'switch', 'contract', 'signature', 'network-wide', 'hash',
        'Shor\'s', 'Falcon-512', 'Falcon', 'mainnet.', 'demo.', 'preparing.', 'today.', 'live,', 'Ethereum.', 'switch', 'wallet'}

@@ -350,17 +350,17 @@ window.PLAN = {
   },
   "segments": [
    {
-    "from": 47.38,
-    "to": 51.67,
+    "from": 47.18,
+    "to": 51.34,
     "anchor": t => ({ x: 1330, y: 800, rot: 0, hide: [640, 0], z: 20 }),
     "lean": -2,
     "beats": [
      {
-      "at": "network-wide upgrade",
+      "at": "signature method",
       "id": "grin_full",
       "kind": "soft",
       "away": 1,
-      "hold": 1.6
+      "hold": 4.0
      }
     ]
    }

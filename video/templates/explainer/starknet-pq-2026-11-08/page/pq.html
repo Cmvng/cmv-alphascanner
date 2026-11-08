@@ -109,7 +109,7 @@ html,body{margin:0;width:1920px;height:1080px;overflow:hidden;background:#EAF1FB
     <div class="mid" style="top:670px" id="bk2">An ordinary processor. <b>No quantum computer involved.</b></div>
     <div class="src">Castryck &amp; Decru, KU Leuven: "An efficient key recovery attack on SIDH", IACR ePrint 2022/975, 30 July 2022</div>
   </div>
-  <div class="sc" id="half"><div class="split" id="sp1" style="left:180px"><div class="k">HALF THE JOB</div><div class="h">Pick a good algorithm.</div></div>
+  <div class="sc" id="half"><div class="big" id="hq" style="top:330px">Even maths built for<br><b>the quantum age</b> can fail.</div><div class="split" id="sp1" style="left:180px"><div class="k">HALF THE JOB</div><div class="h">Pick a good algorithm.</div></div>
     <div class="split" id="sp2" style="left:980px"><div class="k">THE OTHER HALF</div><div class="h">Switch fast when one breaks.</div></div></div>
   <div class="sc" id="acct"><div class="card"><div class="hd"><div class="t">Your Starknet account</div><div class="s">A SMART CONTRACT WITH ITS OWN SIGNATURE CHECK</div></div>
       <div class="lbl">SIGNATURE CHECK</div><div class="slot"><div class="tile" id="t1"><span>ECDSA</span><small>on the STARK curve<br>(elliptic-curve maths)</small></div>
@@ -184,6 +184,7 @@ window.render = async t => {
   css($('bk2'), 'opacity', pop(t, P.brk.noq, .3).toFixed(3))
   // ---- the lesson
   css($('half'), 'opacity', vis(S.half[0], S.half[1], t).toFixed(3))
+  css($('hq'), 'opacity', (pop(t, S.half[0], .35) * (1 - cl((t - T(P.half.a) + .3) / .3))).toFixed(3))
   css($('sp1'), 'opacity', pop(t, P.half.a, .35).toFixed(3)); css($('sp2'), 'opacity', pop(t, P.half.b, .35).toFixed(3))
   $('sp2').classList.toggle('on', t >= T(P.half.b) + .25); $('sp1').style.transform = `translateY(${(30 * (1 - pop(t, P.half.a, .35))).toFixed(1)}px)`
   css($('sp2'), 'transform', `translateY(${(30 * (1 - pop(t, P.half.b, .35))).toFixed(1)}px) scale(${(1 + .03 * Math.sin(Math.PI * cl((t - T(P.half.b) - .25) / .4))).toFixed(3)})`)
