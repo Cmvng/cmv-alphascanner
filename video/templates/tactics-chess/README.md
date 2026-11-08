@@ -43,7 +43,7 @@ The owner asked for "a tactical breakdown… using chessboard pieces" (8 Nov 202
    - `Take.S`/`E` phrase lookups;
    - captions;
    - `piece()`;
-   - `write()`, which also clears a card 0.4 s before the next one starts, so cards never cross-fade over each other.
+   - `write()`, which also makes each card fade out fully before the next fades in, and ends a flag before a card that comes after it. Small corner chips (`chip: 1`) are ignored.
 5. **Mix:** `TOT=… CUT=… DROPT=… bash mix.sh <dir> <take.wav> <track.mp3>`. The pause is cut in after the cold open, and the track's drop lands on it.
 6. **Check:** render stills (`render16.mjs --stills`) and look at every scene. Then render in full (`art-series/unveil/render_par.sh`) and make 1 fps frame sheets.
 7. **Deliver:**

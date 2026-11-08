@@ -28,6 +28,30 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
+## 8 Nov: tactical breakdowns on a chessboard, Real Madrid "8 in a row" (88.7 s) and Forest 3-1 Man City (93.2 s)
+
+- **What worked:**
+  - A new format: the pitch is a chessboard, the players are pieces in their club's colours, and goals are CHECK / CHECKMATE.
+  - Lara took one take each. Every score, formation and name was read right ("4-2-3-1", "3-1", "4-3").
+  - The research gave every fact a dated source, and the late-goal and goal totals were re-counted from the match table.
+  - Two reactions per video, one from each set.
+- **Mistakes, and how they got through (all caught before delivery):**
+  1. **The wrong keeper in the Clásico scene.** The board used the latest XI (Courtois), but Lunin played the Clásico.
+     The research notes said so, and I only saw it while writing the sources. Now names are hidden when a scene shows
+     a different match from the XI on the board.
+  2. **A player named without a source.** The duel before Forest's third goal was labelled "Enzo". That was the
+     researcher's inference from an Opta line, not a reported fact. The piece now has no label.
+  3. **Cards cross-fading over each other** (the Rome score 3-1 to 3-4, goal chips, title-to-card handoffs). The 1 fps
+     frame sheet showed them. `chesslib.write()` now makes a card fade out fully before the next fades in, and ends a CHECK or CHECKMATE flag before a card that starts after it.
+  4. **Light-blue caption names over the light board** were unreadable. Captions now sit on a navy pill.
+  5. **"48 to 26" lost its "to"** in a caption: the word had no time and was dropped. Every script word is now kept.
+  6. **Three restarts of the City render** for the fixes above. That cost about 5 minutes. Read the sources file
+     against the board before the first full render.
+- **Change next time:**
+  - Write `sources.md` before rendering, and check every label on the board against it.
+  - Make the 1 fps frame sheet from stills first: render a still every 2 s and check every handoff before the full render.
+- **The owner's reaction:** (pending)
+
 ## 7 Nov: Bagel, "my top picks for today" (THE CHAIN, 79.6 s, the owner's 4-pick combo plus how anyone can build one)
 
 - **What worked:**

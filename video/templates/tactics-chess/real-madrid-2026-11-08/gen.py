@@ -136,7 +136,7 @@ panels.append({'t0': t_38, 't1': E('better chances.') + .4, 'bars': 1, 'style': 
 panels.append({'t0': t_wb2, 't1': end_ball, 'style': C(90, 70),
                'html': '<div class="card" style="padding:24px 34px;max-width:620px"><div class="kick" style="color:#1F5FDB">With the ball</div><div style="font:400 64px/1.05 Anton,sans-serif;margin-top:10px">IT STARTS IN THE MIDDLE</div></div>'})
 panels.append({'t0': t_nw - .1, 't1': t_en + 1.0, 'style': C(90, 56), 'html': '<div style="display:inline-block" class="card"><div style="padding:16px 34px;font:400 52px/1 Anton,sans-serif">THE CLÁSICO WINNER · <span style="color:#1F5FDB">87\'</span></div></div>'})
-panels.append({'t0': t_9 - .05, 't1': t_7 + .35, 'style': C(90, 110),
+panels.append({'t0': S('goals for Mbappé') - .05, 't1': t_7 + .35, 'style': C(90, 110),
                'html': '<div class="card" style="padding:30px 40px;width:520px"><div class="kick" style="color:#1F5FDB">Kylian Mbappé · the run</div>'
                        '<div style="display:flex;align-items:baseline;gap:22px;margin-top:14px"><span style="font:400 170px/1 Anton,sans-serif;color:#1F5FDB">9</span><span style="font:800 34px/1.2 Man,sans-serif">goals</span></div>'
                        '<div style="display:flex;align-items:baseline;gap:22px"><span style="font:400 170px/1 Anton,sans-serif;color:#1F5FDB">7</span><span style="font:800 34px/1.2 Man,sans-serif">straight games<br>with a goal</span></div></div>'})

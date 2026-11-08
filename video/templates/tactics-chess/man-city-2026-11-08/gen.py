@@ -133,15 +133,15 @@ panels.append({'t0': t_cm, 't1': t_pick - .1, 'bars': 1, 'style': C(90, 50),
                'html': '<div class="card" style="width:720px;padding:26px 36px"><div style="display:flex;justify-content:space-between;font:400 40px/1 Anton,sans-serif;margin-bottom:4px">'
                        f'<span>CITY</span><span style="color:{RED}">FOREST</span></div>' + stat('Passes', '753', '206', 78, 22) + stat('Possession', '78%', '22%', 78, 22)
                        + '<div style="font:800 28px/1.3 Man,sans-serif;margin-top:14px;color:rgba(11,31,68,.7)">Forest ran <b style="color:#DD0000">about 6 km more</b></div></div>'})
-goal = lambda n, m, t0, t1, txt: {'t0': t0, 't1': t1, 'style': C(90, 56),
+goal = lambda n, m, t0, t1, txt: {'t0': t0, 't1': t1, 'chip': 1, 'style': C(90, 56),
                                   'html': f'<div style="display:inline-block" class="card"><div style="padding:16px 34px;font:400 52px/1 Anton,sans-serif">GOAL {n} · {m}\' · <span style="color:{RED}">{txt}</span></div></div>'}
 panels.append({'t0': t_pick, 't1': t_g1 - .1, 'html': '<div class="ttl" style="font-size:100px">FOREST PICK <b>THEIR MOMENTS</b></div>', 'style': {**full, 'top': '70px'}})
 panels.append(goal(1, 6, t_g1, t_g2 - .1, 'CUNHA'))
 panels.append(goal(2, 18, t_g2, t_ch - .4, 'DELAP'))
-panels.append({'t0': t_ch - .35, 't1': t_but - .1, 'style': C(90, 56),
+panels.append({'t0': t_ch - .35, 't1': t_but - .1, 'chip': 1, 'style': C(90, 56),
                'html': f'<div style="display:inline-block" class="card"><div style="padding:16px 34px;font:400 52px/1 Anton,sans-serif">52\' · <span style="color:#2F7FC1">CHERKI</span> · 2-1</div></div>'})
 panels.append(goal(3, 73, t_but, t_31 + .9, 'DELAP'))
-panels.append({'t0': t_mq - .1, 't1': t_pat - .1, 'style': C(260, 150),
+panels.append({'t0': S('on the duels') - .1, 't1': t_pat - .1, 'style': C(260, 150),
                'html': '<div class="card" style="padding:40px 56px;width:1300px"><div class="kick" style="color:#1F5FDB">Enzo Maresca · on the duels and second balls</div>'
                        '<div style="font:400 124px/1 Anton,sans-serif;margin-top:16px;white-space:nowrap">“WE LOST <span style="color:#DD0000">ALL OF THEM.</span>”</div>'
                        f'<div style="display:flex;gap:16px;margin-top:26px"><div style="padding:14px 22px;border-radius:16px;background:#F1F4FA;font:800 30px/1 Man,sans-serif">Interceptions: <b style="color:{RED}">Forest 11</b> · City 1</div></div></div>'})
@@ -172,7 +172,7 @@ KEY = {'cunha', 'gvardiol', 'josko', 'ndiaye', 'iliman', 'anderson', 'elliot', '
        'haaland', 'erling', 'semenyo', 'antoine', 'transitions', 'twonil', 'twoone', 'threeone'}
 plan = {'vo': 0.2, 'cut': cut, 'gap': 0.6, 'end': END, 'sroot': 'file:///home/user/cmv-alphascanner/video/out/reactions/',
         'teams': {'A': {'color': SKY, 'ink': '#0B1F44'}, 'B': {'color': RED, 'ink': '#FFFFFF'}},
-        'boardOn': [t_af + .2, t_fix - .2], 'names': [t_fs, t_inj], 'cam': cam, 'pieces': pieces, 'ball': ball, 'ballOn': ball_on,
+        'boardOn': [t_af + .2, t_fix - .6], 'names': [t_fs, t_inj], 'cam': cam, 'pieces': pieces, 'ball': ball, 'ballOn': ball_on,
         'arrows': arrows, 'marks': marks, 'flags': flags, 'panels': panels, 'caps': tk.caps(KEY),
         'flow': {'width': 340, 'idle': {'id': 'stare', 'a': 40, 'b': 110, 'speed': 0.7},
                  'segments': [{'from': round(t_g1 - .1, 3), 'to': round(t_g2 - .25, 3), 'ANCHOR': 'g1', 'lean': -2,

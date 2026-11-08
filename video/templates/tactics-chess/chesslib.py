@@ -52,16 +52,21 @@ def piece(pid, team, role, label, keys, on=None, hi=None, lab=None):
     return p
 
 
-def handoffs(panels, lead=.4):
-    """A card that ends as another starts clears first (no two cards cross-fading over each other)."""
+def handoffs(panels, flags=(), lead=.75):
+    """A card that ends as another starts is gone before the next fades in (cards fade in over .4 s and out over .35 s),
+    and a CHECK / CHECKMATE flag ends before a card that starts after it."""
     for A in panels:
         for B in panels:
             if A is not B and A['t0'] < B['t0'] - .5 and abs(A['t1'] - B['t0']) < .45:
                 A['t1'] = round(max(A['t0'] + .3, min(A['t1'], B['t0'] - lead)), 3)
+    for f in flags:
+        for B in panels:
+            if not B.get('chip') and f['t'] < B['t0'] < f['t'] + f.get('dur', 1.4) + .4:   # small corner chips don't collide
+                f['dur'] = round(max(.7, B['t0'] - .45 - f['t']), 2)
 
 
 def write(plan, out_dir, take, anchors=None):
-    handoffs(plan.get('panels', []))
+    handoffs(plan.get('panels', []), plan.get('flags', []))
     js = json.dumps(plan, indent=1, ensure_ascii=False)
     for k, v in (anchors or {}).items(): js = js.replace(f'"ANCHOR": "{k}"', f'"anchor": {v}')
     open(f'{out_dir}/plan.js', 'w').write('// generated (take seconds; the page maps to video time)\nwindow.PLAN = ' + js + '\n')
