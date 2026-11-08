@@ -1,0 +1,165 @@
+<!doctype html>
+<html>
+<!-- THE CHESSBOARD: a football tactical breakdown played out on a chessboard (house template, 8 Nov 2026).
+     The pitch is a tilted chessboard; every player is a chess piece in his team's colours (keeper = king, defenders =
+     rooks, midfielders = knights, wide players = bishops, striker = queen). Pieces glide between keyframes, the ball
+     moves with them, arrows show passes / runs / pressing, open squares light up like legal moves, and chances and goals
+     are called "CHECK" and "CHECKMATE". Panels (title, scoreline, stats, form) sit over the board.
+     Everything timed lives in plan.js (window.PLAN), in take seconds; T() maps to video time. -->
+<head>
+<meta charset="utf-8">
+<style>
+@font-face{font-family:Anton;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/anton-latin-400-normal.woff2)}
+@font-face{font-family:Man;font-weight:600;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-600-normal.woff2)}
+@font-face{font-family:Man;font-weight:800;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-800-normal.woff2)}
+:root{--navy:#0B1F44;--blue:#1F5FDB;--sky:#4FB3FF}
+html,body{margin:0;width:1920px;height:1080px;overflow:hidden;background:#0A2A78}
+#stage{position:absolute;inset:0;overflow:hidden;background:radial-gradient(1500px 1000px at 50% 30%,#2156D6 0%,#123A9E 50%,#081F5E 100%)}
+/* the board in 3D */
+#persp{position:absolute;left:0;top:0;width:1920px;height:1080px;perspective:1700px;perspective-origin:960px 260px}
+#cam{position:absolute;left:960px;top:560px;width:0;height:0;transform-style:preserve-3d}
+#board{position:absolute;left:-630px;top:-408px;width:1260px;height:816px;transform-style:preserve-3d;border-radius:10px;
+  box-shadow:0 0 0 18px #0A1A40,0 0 0 22px rgba(159,211,255,.35),0 60px 120px rgba(0,0,0,.5)}
+#sq{position:absolute;inset:0;border-radius:6px;overflow:hidden}
+#lines,#ov{position:absolute;inset:0;overflow:visible}
+.pc{position:absolute;left:0;top:0;width:0;height:0;transform-style:preserve-3d}
+.pc .g{position:absolute;left:-50px;bottom:0;width:100px;text-align:center;font:110px/1 FreeSerif,'DejaVu Sans',serif;transform-origin:50% 100%}
+.pc .sh{position:absolute;left:-30px;top:-10px;width:60px;height:20px;border-radius:50%;background:rgba(11,31,68,.35);filter:blur(3px)}
+.pc .nm{position:absolute;left:-100px;width:200px;text-align:center;font:800 24px/1 Man,sans-serif;color:#0B1F44;text-shadow:0 0 6px #fff,0 0 3px #fff;white-space:nowrap}
+#ball{position:absolute;left:0;top:0;width:0;height:0;transform-style:preserve-3d}
+#ball i{position:absolute;left:-13px;top:-26px;width:26px;height:26px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,#d8dde8 60%,#9aa3b5);box-shadow:0 6px 10px rgba(0,0,0,.5)}
+/* flat overlays */
+.flag{position:absolute;left:0;right:0;top:120px;text-align:center;font:400 170px/1 Anton,sans-serif;letter-spacing:.06em;opacity:0;color:#fff;text-shadow:0 10px 40px rgba(0,0,0,.45)}
+.panel{position:absolute;opacity:0}
+.card{background:rgba(255,255,255,.97);border-radius:28px;box-shadow:0 30px 70px rgba(0,0,0,.35);color:var(--navy)}
+.ttl{font:400 120px/1 Anton,sans-serif;color:#fff;text-shadow:0 10px 30px rgba(0,0,0,.35)}
+.ttl b{color:#9FD3FF;font-weight:400}
+.kick{font:800 30px/1 Man,sans-serif;letter-spacing:.18em;color:#9FD3FF;text-transform:uppercase}
+.score{display:flex;align-items:center;gap:34px;padding:26px 44px}
+.score .t{font:400 64px/1 Anton,sans-serif}
+.score .n{font:400 110px/1 Anton,sans-serif}
+.score .bar{width:16px;height:90px;border-radius:8px}
+.stat{display:grid;grid-template-columns:180px 1fr 180px;align-items:center;gap:20px;margin:16px 0}
+.stat .v{font:400 58px/1 Anton,sans-serif;text-align:center}
+.stat .l{font:800 26px/1 Man,sans-serif;letter-spacing:.14em;text-transform:uppercase;text-align:center;color:rgba(11,31,68,.6)}
+.stat .tr{height:16px;border-radius:8px;background:#E3EAF5;position:relative;overflow:hidden;margin-top:12px}
+.stat .tr i{position:absolute;top:0;bottom:0}
+.form{display:flex;gap:26px}
+.form .m{width:340px;padding:28px 30px;border-radius:26px;background:#fff;box-shadow:0 26px 60px rgba(0,0,0,.3);color:var(--navy)}
+.form .m .r{display:inline-block;font:400 44px/1 Anton,sans-serif;color:#fff;background:#B91C1C;border-radius:12px;padding:8px 16px}
+.form .m .r.w{background:#15803D}
+.form .m .o{margin-top:18px;font:400 52px/1.05 Anton,sans-serif}
+.form .m .d{margin-top:12px;font:800 24px/1.3 Man,sans-serif;color:rgba(11,31,68,.6)}
+.note{position:absolute;padding:22px 30px;border-radius:22px;background:rgba(255,255,255,.96);color:var(--navy);font:800 38px/1.2 Man,sans-serif;box-shadow:0 20px 50px rgba(0,0,0,.3);opacity:0;max-width:640px}
+.note b{color:var(--blue)}
+.note .k{display:block;font:800 22px/1 Man,sans-serif;letter-spacing:.16em;color:rgba(11,31,68,.55);margin-bottom:10px;text-transform:uppercase}
+.stk{position:absolute;left:0;top:0;width:360px;opacity:0;filter:drop-shadow(0 14px 22px rgba(0,0,0,.4));z-index:20}
+#cap{position:absolute;left:110px;width:1700px;top:968px;text-align:center;font:800 46px/1.18 Man,sans-serif;color:#fff;z-index:30;text-shadow:0 3px 14px rgba(0,0,0,.6)}
+#cap b{color:#9FD3FF;font-weight:800}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="persp"><div id="cam"><div id="board"><canvas id="sq" width="1260" height="816"></canvas>
+    <svg id="lines" viewBox="0 0 1260 816"></svg><svg id="ov" viewBox="0 0 1260 816"></svg><div id="pcs"></div><div id="ball"><i></i></div></div></div></div>
+  <div id="panels"></div>
+  <div class="flag" id="flag"></div>
+  <img class="stk" id="stk"><img class="stk" id="stk2">
+  <div id="cap"></div>
+</div>
+<script src="plan.js"></script>
+<script>
+const P = window.PLAN, T = s => s + P.vo + (s >= P.cut ? P.gap : 0), FPS = 30
+const $ = id => document.getElementById(id)
+const cl = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x)), eo = x => 1 - Math.pow(1 - cl(x), 3), eio = x => { x = cl(x); return x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2 }
+const eback = x => { x = cl(x); const c = 1.6; return 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2) }
+let SIG = []
+const css = (el, k, v) => { if (el.style[k] !== v) el.style[k] = v; SIG.push(v) }
+const PX = 12, BW = 105 * PX, BH = 68 * PX   // 12 px per metre
+// ---- the board: chess squares (a 15 x 10 grid of 7 m x 6.8 m squares) + pitch lines
+{ const c = $('sq').getContext('2d'), nx = 15, ny = 10, w = BW / nx, h = BH / ny
+  for (let i = 0; i < nx; i++) for (let j = 0; j < ny; j++) { c.fillStyle = (i + j) % 2 ? ((P.palette && P.palette.dark) || '#C5D3EC') : ((P.palette && P.palette.light) || '#F3F6FC'); c.fillRect(i * w, j * h, w + 1, h + 1) }
+  const g = c.createRadialGradient(BW / 2, BH / 2, 100, BW / 2, BH / 2, 760); g.addColorStop(0, 'rgba(255,255,255,0)'); g.addColorStop(1, 'rgba(11,31,68,.16)'); c.fillStyle = g; c.fillRect(0, 0, BW, BH)
+  const L = (P.palette && P.palette.lines) || 'rgba(11,31,68,.55)', m = v => v * PX
+  const s = `<g fill="none" stroke="${L}" stroke-width="4">
+    <rect x="${m(.6)}" y="${m(.6)}" width="${m(103.8)}" height="${m(66.8)}"/><line x1="${m(52.5)}" y1="${m(.6)}" x2="${m(52.5)}" y2="${m(67.4)}"/>
+    <circle cx="${m(52.5)}" cy="${m(34)}" r="${m(9.15)}"/><rect x="${m(.6)}" y="${m(13.84)}" width="${m(16.5)}" height="${m(40.32)}"/><rect x="${m(87.9)}" y="${m(13.84)}" width="${m(16.5)}" height="${m(40.32)}"/>
+    <rect x="${m(.6)}" y="${m(24.84)}" width="${m(5.5)}" height="${m(18.32)}"/><rect x="${m(98.9)}" y="${m(24.84)}" width="${m(5.5)}" height="${m(18.32)}"/>
+    <path d="M ${m(17.1)} ${m(26.7)} A ${m(9.15)} ${m(9.15)} 0 0 1 ${m(17.1)} ${m(41.3)}"/><path d="M ${m(87.9)} ${m(26.7)} A ${m(9.15)} ${m(9.15)} 0 0 0 ${m(87.9)} ${m(41.3)}"/></g>
+    <circle cx="${m(52.5)}" cy="${m(34)}" r="5" fill="${L}"/><rect x="${m(-1.4)}" y="${m(30.34)}" width="${m(2)}" height="${m(7.32)}" fill="#0B1F44"/><rect x="${m(104.4)}" y="${m(30.34)}" width="${m(2)}" height="${m(7.32)}" fill="#0B1F44"/>`
+  $('lines').innerHTML = s }
+const GLYPH = { K: '♚', Q: '♛', R: '♜', B: '♝', N: '♞', P: '♟' }
+// ---- pieces
+const pieces = (P.pieces || []).map(p => { const e = document.createElement('div'); e.className = 'pc'; const tm = P.teams[p.team]
+  e.innerHTML = `<div class="sh"></div><div class="g" style="color:${tm.color};-webkit-text-stroke:3px ${tm.ink};text-shadow:0 6px 10px rgba(0,0,0,.45)">${GLYPH[p.role]}</div><div class="nm" style="top:14px">${p.label}</div>`
+  $('pcs').appendChild(e); return { ...p, el: e, g: e.querySelector('.g'), nm: e.querySelector('.nm') } })
+function keyAt(keys, t, dur = .9) {   // keys [[t, x, y], ...]: glide to each key over dur (or key[3])
+  let v = [keys[0][1], keys[0][2]]
+  for (let j = 1; j < keys.length; j++) { const a = T(keys[j][0]); if (t < a) break; const d = keys[j][3] || dur, u = eio((t - a) / d); v = [v[0] + (keys[j][1] - v[0]) * u, v[1] + (keys[j][2] - v[1]) * u] }
+  return v
+}
+function vis(a, b, t, fi = .35, fo = .3) { return t >= T(a) - fi && t < T(b) + fo ? Math.min(cl((t - T(a) + fi) / fi), cl((T(b) + fo - t) / fo)) : 0 }
+// ---- overlays on the board plane: arrows, marks (open squares, zones)
+const NS = 'http://www.w3.org/2000/svg'
+const defs = `<defs>${['pass', 'run', 'shot', 'press', 'gap'].map(k => `<marker id="ah_${k}" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="${{ pass: '#0B1F44', run: '#1F5FDB', shot: '#1F5FDB', press: '#E5484D', gap: '#1F5FDB' }[k]}"/></marker>`).join('')}</defs>`
+$('ov').innerHTML = defs
+const arrows = (P.arrows || []).map(a => { const p = document.createElementNS(NS, 'path'); const col = { pass: '#0B1F44', run: '#1F5FDB', shot: '#1F5FDB', press: '#E5484D', gap: '#1F5FDB' }[a.kind]
+  p.setAttribute('fill', 'none'); p.setAttribute('stroke', col); p.setAttribute('stroke-width', a.kind === 'shot' ? 12 : 7); p.setAttribute('stroke-linecap', 'round')
+  if (a.kind === 'run' || a.kind === 'gap') p.setAttribute('stroke-dasharray', '18 14'); p.setAttribute('marker-end', `url(#ah_${a.kind})`)
+  const [x1, y1] = a.from.map(v => v * PX), [x2, y2] = a.to.map(v => v * PX), bend = (a.bend || 0) * PX, mx = (x1 + x2) / 2 - (y2 - y1) / Math.hypot(x2 - x1, y2 - y1 || 1) * bend, my = (y1 + y2) / 2 + (x2 - x1) / Math.hypot(x2 - x1, y2 - y1 || 1) * bend
+  p.setAttribute('d', `M${x1} ${y1} Q${mx} ${my} ${x2} ${y2}`); p.style.filter = 'drop-shadow(0 3px 4px rgba(11,31,68,.35))'; $('ov').appendChild(p); a.el = p; a.len = p.getTotalLength(); return a })
+const marks = (P.marks || []).map(m => { let e
+  if (m.kind === 'zone') { e = document.createElementNS(NS, 'rect'); e.setAttribute('x', m.x * PX); e.setAttribute('y', m.y * PX); e.setAttribute('width', m.w * PX); e.setAttribute('height', m.h * PX); e.setAttribute('rx', 14)
+    e.setAttribute('fill', m.fill || 'rgba(229,72,77,.18)'); e.setAttribute('stroke', m.stroke || '#E5484D'); e.setAttribute('stroke-width', 5); e.setAttribute('stroke-dasharray', '16 10') }
+  else if (m.kind === 'dot') { e = document.createElementNS(NS, 'circle'); e.setAttribute('cx', m.x * PX); e.setAttribute('cy', m.y * PX); e.setAttribute('r', 16); e.setAttribute('fill', m.fill || 'rgba(31,95,219,.75)') }
+  else { e = document.createElementNS(NS, 'circle'); e.setAttribute('cx', m.x * PX); e.setAttribute('cy', m.y * PX); e.setAttribute('r', (m.r || 3) * PX); e.setAttribute('fill', 'none'); e.setAttribute('stroke', m.stroke || '#1F5FDB'); e.setAttribute('stroke-width', 7) }
+  $('ov').appendChild(e); m.el = e; return m })
+// ---- flat panels
+const panels = (P.panels || []).map(p => { const d = document.createElement('div'); d.className = 'panel'; d.innerHTML = p.html; Object.assign(d.style, p.style || {}); $('panels').appendChild(d); p.el = d; return p })
+let RF = null, RF2 = null
+function flowInit() {
+  if (!P.flow) return
+  const base = { lib: window.RLIB, root: P.sroot, fps: FPS, T, words: (window.WORDS || []).map(w => ({ s: w[0], e: w[1], w: w[2] })) }
+  RF = ReactFlow.create({ ...base, ...P.flow, img: $('stk') }); if (P.flow2) RF2 = ReactFlow.create({ ...base, ...P.flow2, img: $('stk2') })
+}
+window.render = async t => {
+  SIG = []
+  // board camera: [t, cx, cy (metres), zoom, tilt deg, spin deg]
+  { const K = P.cam; let v = K[0].slice(1)
+    for (let j = 1; j < K.length; j++) { const a = T(K[j][0]); if (t < a) break; const u = eio((t - a) / (K[j][6] || 1.2)); v = v.map((x, q) => x + (K[j][q + 1] - x) * u) }
+    const [cx, cy, z, tilt, spin] = v; window.TILT = tilt
+    css($('cam'), 'transform', `scale(${z.toFixed(4)}) rotateX(${tilt.toFixed(2)}deg) rotateZ(${spin.toFixed(2)}deg) translate(${((52.5 - cx) * PX).toFixed(1)}px,${((34 - cy) * PX).toFixed(1)}px)`)
+    const bo = vis(P.boardOn[0], P.boardOn[1], t, .5, .5); css($('persp'), 'opacity', bo.toFixed(3))
+    pieces.forEach(p => { const [x, y] = keyAt(p.keys, t), on = p.on ? vis(p.on[0], p.on[1], t, .3, .3) : 1
+      css(p.el, 'transform', `translate3d(${(x * PX).toFixed(1)}px,${(y * PX).toFixed(1)}px,0) rotateZ(${(-spin).toFixed(2)}deg) rotateX(${(-tilt).toFixed(2)}deg)`)
+      const hi = (p.hi || []).some(w => t >= T(w[0]) && t < T(w[1]))
+      css(p.g, 'transform', `scale(${((hi ? 1.25 : 1) * (.85 + .15 * on)).toFixed(3)})`); css(p.el, 'opacity', on.toFixed(3))
+      css(p.g, 'filter', hi ? 'drop-shadow(0 0 16px #4FB3FF) drop-shadow(0 0 6px #fff)' : 'none'); css(p.nm, 'opacity', (P.names && t >= T(P.names[0]) && t < T(P.names[1])) || hi ? '1' : '0') })
+    if (P.ball) { const [x, y] = keyAt(P.ball, t, .5); css($('ball'), 'transform', `translate3d(${(x * PX).toFixed(1)}px,${(y * PX).toFixed(1)}px,0) rotateZ(${(-spin).toFixed(2)}deg) rotateX(${(-tilt).toFixed(2)}deg)`)
+      css($('ball'), 'opacity', (P.ballOn ? vis(P.ballOn[0], P.ballOn[1], t, .2, .2) : 1).toFixed(3)) }
+    arrows.forEach(a => { const s = T(a.t0), e = T(a.t1), u = cl((t - s) / (a.draw || .6)), out = cl((t - e) / .3)
+      css(a.el, 'strokeDashoffset', '0'); a.el.style.strokeDasharray = (a.kind === 'run' || a.kind === 'gap') ? '18 14' : `${a.len} ${a.len}`
+      if (!(a.kind === 'run' || a.kind === 'gap')) css(a.el, 'strokeDashoffset', (a.len * (1 - eo(u))).toFixed(1))
+      css(a.el, 'opacity', (t >= s ? (a.kind === 'run' || a.kind === 'gap' ? eo(u) : 1) * (1 - out) : 0).toFixed(3)) })
+    marks.forEach(m => { const q = vis(m.t0, m.t1, t, .3, .3), pulse = m.kind === 'dot' ? 1 + .15 * Math.sin((t - T(m.t0)) * 6) : 1
+      css(m.el, 'opacity', q.toFixed(3)); if (m.kind === 'dot') m.el.setAttribute('r', (16 * pulse).toFixed(1)) }) }
+  // flags: CHECK / CHECKMATE
+  { const f = (P.flags || []).filter(x => t >= T(x.t) - .05 && t < T(x.t) + (x.dur || 1.4)).pop()
+    const tx = f ? f.text : ''; if ($('flag').textContent !== tx) $('flag').textContent = tx
+    const q = f ? Math.min(eback(cl((t - T(f.t)) / .35)), cl((T(f.t) + (f.dur || 1.4) - t) / .3)) : 0
+    css($('flag'), 'opacity', cl(q).toFixed(3)); css($('flag'), 'transform', `scale(${(.7 + .3 * q).toFixed(3)})`); if (f) css($('flag'), 'color', f.color || '#FFFFFF') }
+  panels.forEach(p => { const q = vis(p.t0, p.t1, t, .4, .35); css(p.el, 'opacity', q.toFixed(3)); css(p.el, 'transform', `translateY(${(40 * (1 - eo(q))).toFixed(1)}px)`)
+    if (p.bars) p.el.querySelectorAll('.tr i').forEach((b, i) => { const u = eo(cl((t - T(p.t0) - .3 - i * .15) / .8)); b.style.width = (u * +b.dataset.w).toFixed(1) + '%' }) })
+  if (RF) SIG.push(await RF.render(t)); if (RF2) SIG.push(await RF2.render(t))
+  const c = (P.caps || []).find(x => t >= T(x[0]) - .05 && t < T(x[1]) + .1), html = c ? c[2] : ''
+  if ($('cap').innerHTML !== html) $('cap').innerHTML = html
+  SIG.push(html); css($('cap'), 'opacity', c ? Math.min(1, (t - T(c[0]) + .05) / .12).toFixed(3) : '0')
+  return SIG.join('|')
+}
+const load = src => new Promise(r => { const sc = document.createElement('script'); sc.src = src; sc.onload = sc.onerror = r; document.head.appendChild(sc) })
+window.READY = Promise.all([Promise.all([load(P.sroot + 'lib.js'), load('file:///home/user/cmv-alphascanner/video/lib/react_flow.js'), load('words.js')]).then(flowInit),
+  document.fonts.load('80px Anton'), document.fonts.load('800 40px Man'), document.fonts.load('600 26px Man'), document.fonts.load('110px FreeSerif'),
+  ...[...document.images].map(i => i.decode ? i.decode().catch(() => 0) : 1)])
+</script>
+</body>
+</html>
