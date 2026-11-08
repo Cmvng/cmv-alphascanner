@@ -45,11 +45,15 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
      frame sheet showed them. `chesslib.write()` now makes a card fade out fully before the next fades in, and ends a CHECK or CHECKMATE flag before a card that starts after it.
   4. **Light-blue caption names over the light board** were unreadable. Captions now sit on a navy pill.
   5. **"48 to 26" lost its "to"** in a caption: the word had no time and was dropped. Every script word is now kept.
-  6. **Three restarts of the City render** for the fixes above. That cost about 5 minutes. Read the sources file
+  6. **Reactions cut short.** Each reaction's segment ended at the next scene, so the sticker slid out about 0.3 s
+     after its beat ("No way!" and "Yikes" barely showed). The full-size frame check at each swap caught it. Each
+     segment now runs about 2.4 s past its beat, into the next scene, with the sticker in a corner that scene doesn't use.
+  7. **Restarts of the City render** for the fixes above. That cost about 5 minutes. Read the sources file
      against the board before the first full render.
 - **Change next time:**
   - Write `sources.md` before rendering, and check every label on the board against it.
   - Make the 1 fps frame sheet from stills first: render a still every 2 s and check every handoff before the full render.
+  - Check each reaction at full size about 1 s after its beat word: the peak must be on screen.
 - **The owner's reaction:** (pending)
 
 ## 7 Nov: Bagel, "my top picks for today" (THE CHAIN, 79.6 s, the owner's 4-pick combo plus how anyone can build one)
