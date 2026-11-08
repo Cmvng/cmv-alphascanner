@@ -1,0 +1,9 @@
+Why was a post-quantum algorithm broken by a normal computer chip within an hour? And what does that mean for Starknet?
+In July 2022, NIST, the US standards body, picked the first algorithms to protect against quantum computers. But four more were still being tested, including one called Sike.
+Less than a month later, two researchers in Belgium broke Sike within an hour, on one core of a normal processor. No quantum computer involved.
+So even maths built for the quantum age can fail, sometimes in ways nobody saw coming. Picking a good algorithm is only half the job. The other half is how fast you can switch when one breaks.
+On Starknet, every account is a smart contract with its own signature check. So an account can switch to a different signature method, without a network-wide upgrade. And the proofs run on hash functions, instead of the elliptic curve maths that Shor's algorithm threatens.
+As of the hub's 3 November 2026 update, a Falcon-512 account has been demonstrated on Starknet mainnet. And Falcon is one of the signature algorithms NIST picked in that same July 2022 announcement.
+But it is a demo. Existing accounts do not change by themselves, and each owner chooses when to move. Starknet is preparing. It is not claiming to be quantum safe today.
+The quantum hub shows what is live, and what still depends on Ethereum.
+If the maths protecting your wallet ever broke, how fast would you want to switch it?

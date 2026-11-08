@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+<!-- Cover (1080x1920, #v) and thumbnail (1280x720, #t) for the Starknet post-quantum video (8 Nov 2026). -->
+<head><meta charset="utf-8"><style>
+@font-face{font-family:Anton;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/anton-latin-400-normal.woff2)}
+@font-face{font-family:Man;font-weight:800;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-800-normal.woff2)}
+html,body{margin:0;overflow:hidden}
+#s{position:absolute;inset:0;background:radial-gradient(1200px 900px at 50% 35%,#1E4FC8 0%,#123A9E 55%,#0A2A78 100%)}
+.t{position:absolute;font:400 1px/1 Anton,sans-serif;color:#fff}.t b{color:#9FD3FF;font-weight:400}
+.s{position:absolute;font:800 1px/1.2 Man,sans-serif;color:rgba(255,255,255,.9)}.s b{color:#EC796B}
+.lock{position:absolute}
+.lock .sh{position:absolute;border-style:solid;border-color:#DCE6F7;border-bottom:none;box-sizing:border-box}
+.lock .bd{position:absolute;border-radius:28px;background:linear-gradient(160deg,#fff,#C9D8F2);display:flex;align-items:center;justify-content:center;font-family:Anton;color:#0B1F44}
+.half{position:absolute;inset:0}
+.me{position:absolute;filter:drop-shadow(0 18px 26px rgba(0,0,0,.35))}
+</style></head><body><div id="s"></div>
+<script>
+const v = location.hash !== '#t', W = v ? 1080 : 1280, H = v ? 1920 : 720
+document.documentElement.style.width = document.body.style.width = W + 'px'; document.documentElement.style.height = document.body.style.height = H + 'px'
+const s = document.getElementById('s'), add = h => { const d = document.createElement('div'); d.innerHTML = h; const e = d.firstChild; s.appendChild(e); return e }, pos = (e, o) => Object.assign(e.style, o)
+const lock = (x, y, k) => { const w = 300 * k, h = 380 * k
+  const half = (clip, dx, dy, r) => `<div class="half" style="clip-path:${clip};transform:translate(${dx * k}px,${dy * k}px) rotate(${r}deg)"><div class="sh" style="left:${60 * k}px;top:0;width:${180 * k}px;height:${200 * k}px;border-width:${30 * k}px;border-radius:${110 * k}px ${110 * k}px 0 0"></div><div class="bd" style="left:0;top:${150 * k}px;width:${w}px;height:${230 * k}px;font-size:${72 * k}px">SIKE</div></div>`
+  return pos(add(`<div class="lock" style="width:${w}px;height:${h}px">${half('polygon(0 0,52% 0,44% 100%,0 100%)', -40, 20, -12)}${half('polygon(52% 0,100% 0,100% 100%,44% 100%)', 40, 30, 14)}</div>`), { left: x + 'px', top: y + 'px' }) }
+const ME = 'file:///home/user/cmv-alphascanner/video/out/reactions/shook/f_0014.png'
+if (v) {
+  lock(330, 150, 1.25)
+  pos(add('<div class="t">BROKEN<br>IN <b>AN HOUR.</b></div>'), { left: '70px', top: '720px', fontSize: '200px', lineHeight: '0.96' })
+  pos(add('<div class="t" style="color:#fff">ON A NORMAL CHIP.</div>'), { left: '70px', top: '1120px', fontSize: '112px' })
+  pos(add('<div class="s">What it means for <b>Starknet</b></div>'), { left: '70px', top: '1245px', fontSize: '56px' })
+  pos(add(`<img class="me" src="${ME}">`), { right: '20px', bottom: '0px', width: '430px' })
+} else {
+  lock(50, 150, 0.95)
+  pos(add('<div class="t">BROKEN IN<br><b>AN HOUR.</b></div>'), { left: '400px', top: '70px', fontSize: '128px', lineHeight: '0.98' })
+  pos(add('<div class="t">ON A NORMAL CHIP.</div>'), { left: '400px', top: '350px', fontSize: '70px' })
+  pos(add('<div class="s">What it means for <b>Starknet</b></div>'), { left: '400px', top: '460px', fontSize: '40px' })
+  pos(add(`<img class="me" src="${ME}">`), { right: '0px', bottom: '0px', width: '300px' })
+}
+window.READY = Promise.all([document.fonts.load('80px Anton'), document.fonts.load('800 30px Man'), ...[...document.images].map(i => i.decode().catch(() => 0))])
+</script></body></html>

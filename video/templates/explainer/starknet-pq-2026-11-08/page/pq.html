@@ -1,0 +1,226 @@
+<!doctype html>
+<html>
+<!-- Starknet and the post-quantum break (8 Nov 2026), the owner's script, voiced by Lara. Concept: THE LOCK.
+     A "quantum-proof" lock (Sike) breaks on one ordinary chip in about an hour; the lesson is how fast you can change the
+     lock; a Starknet account is a door whose lock can be swapped (ECDSA out, Falcon-512 in) without rebuilding the house.
+     Real pages (NIST's 5 Jul 2022 announcement, the Starknet quantum hub) are shown whole under a camera with rings.
+     Two reactions only (clean and simple): Shook (shirtless) on the break, The Grin (grey) on the swap. -->
+<head>
+<meta charset="utf-8">
+<style>
+@font-face{font-family:Anton;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/anton-latin-400-normal.woff2)}
+@font-face{font-family:Man;font-weight:600;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-600-normal.woff2)}
+@font-face{font-family:Man;font-weight:800;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-800-normal.woff2)}
+:root{--navy:#0B1F44;--blue:#1F5FDB;--sky:#4FB3FF;--sn:#EC796B;--snd:#0C0C4F}
+html,body{margin:0;width:1920px;height:1080px;overflow:hidden;background:#EAF1FB}
+#stage{position:absolute;inset:0;overflow:hidden;background:radial-gradient(1400px 900px at 50% 38%,#F7FAFE 0%,#E8F0FB 55%,#D6E3F5 100%)}
+#grid{position:absolute;inset:0;background-image:linear-gradient(rgba(31,95,219,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(31,95,219,.05) 1px,transparent 1px);background-size:60px 60px}
+.sc{position:absolute;inset:0;opacity:0}
+/* the cold open is deep royal blue */
+#hook{background:radial-gradient(1200px 800px at 50% 45%,#1E4FC8 0%,#123A9E 55%,#0A2A78 100%)}
+#hook .q1{position:absolute;left:0;right:0;top:640px;text-align:center;font:400 104px/1 Anton,sans-serif;color:#fff;letter-spacing:.01em}
+#hook .q1 b{color:#9FD3FF;font-weight:400}
+#hook .q2{position:absolute;left:0;right:0;top:790px;text-align:center;font:800 54px/1 Man,sans-serif;color:rgba(255,255,255,.9)}
+#hook .q2 b{color:var(--sn)}
+.chip{position:absolute;display:flex;align-items:center;gap:22px;padding:20px 30px;border-radius:26px;background:#0B1F44;color:#fff;font:800 40px/1 Man,sans-serif;box-shadow:0 18px 40px rgba(0,0,0,.25)}
+.chip svg{width:56px;height:56px}
+#timer{position:absolute;left:1240px;top:170px;font:400 120px/1 Anton,sans-serif;color:#fff;letter-spacing:.02em}
+#timer small{display:block;font:800 26px/1 Man,sans-serif;letter-spacing:.16em;color:rgba(255,255,255,.7);margin-top:14px}
+/* lock */
+.lock{position:absolute;width:300px;height:380px}
+.lock .sh{position:absolute;left:60px;top:0;width:180px;height:200px;border:30px solid #DCE6F7;border-bottom:none;border-radius:110px 110px 0 0;box-sizing:border-box}
+.lock .bd{position:absolute;left:0;top:150px;width:300px;height:230px;border-radius:34px;background:linear-gradient(160deg,#FFFFFF,#C9D8F2);box-shadow:0 20px 40px rgba(0,0,0,.28);display:flex;align-items:center;justify-content:center;font:400 72px/1 Anton,sans-serif;color:var(--navy)}
+.half{position:absolute;inset:0;overflow:hidden}
+/* browser card for real pages */
+.br{position:absolute;left:150px;top:44px;width:1620px;height:860px;border-radius:26px;background:#fff;overflow:hidden;box-shadow:0 0 0 1px rgba(11,31,68,.10),0 30px 70px rgba(11,31,68,.22)}
+.br .bar{position:absolute;left:0;top:0;right:0;height:62px;background:#F1F4F9;border-bottom:1px solid rgba(11,31,68,.08);display:flex;align-items:center;gap:12px;padding:0 24px}
+.br .bar i{width:16px;height:16px;border-radius:50%;background:#D4DAE5}
+.br .url{margin-left:18px;flex:1;height:38px;border-radius:19px;background:#fff;display:flex;align-items:center;padding:0 22px;font:800 24px/1 Man,sans-serif;color:rgba(11,31,68,.75);box-shadow:inset 0 0 0 1px rgba(11,31,68,.1)}
+.br .vw{position:absolute;left:0;top:62px;right:0;bottom:0;overflow:hidden;background:#fff}
+.br .vw img{position:absolute;left:0;top:0;transform-origin:0 0}
+.ring{position:absolute;border:6px solid var(--blue);border-radius:16px;box-shadow:0 0 0 7px rgba(31,95,219,.18),0 0 26px rgba(31,95,219,.5);opacity:0}
+.ring.or{border-color:var(--sn);box-shadow:0 0 0 7px rgba(236,121,107,.22),0 0 26px rgba(236,121,107,.55)}
+.panel{position:absolute;left:190px;right:190px;bottom:200px;padding:30px 40px;border-radius:24px;background:rgba(255,255,255,.97);box-shadow:0 20px 50px rgba(11,31,68,.25);opacity:0}
+.panel .lb{font:800 26px/1 Man,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:rgba(11,31,68,.55);margin-bottom:18px}
+.panel .row{display:flex;gap:18px;flex-wrap:wrap}
+.pill{font:800 38px/1 Man,sans-serif;color:var(--navy);padding:14px 22px;border-radius:16px;background:#EEF3FB}
+.pill.hot{background:var(--navy);color:#fff}
+.pill.blue{background:var(--blue);color:#fff}
+/* designed cards */
+.big{position:absolute;left:0;right:0;text-align:center;font:400 120px/1.02 Anton,sans-serif;color:var(--navy)}
+.big b{color:var(--blue);font-weight:400}
+.mid{position:absolute;left:0;right:0;text-align:center;font:800 46px/1.25 Man,sans-serif;color:rgba(11,31,68,.75)}
+.mid b{color:var(--navy)}
+.src{position:absolute;left:0;right:0;bottom:150px;text-align:center;font:600 26px/1 Man,sans-serif;color:rgba(11,31,68,.55)}
+.date{position:absolute;width:420px;height:300px;border-radius:30px;background:#fff;box-shadow:0 22px 50px rgba(11,31,68,.18);text-align:center}
+.date .m{height:86px;border-radius:30px 30px 0 0;background:var(--navy);color:#fff;font:800 40px/86px Man,sans-serif;letter-spacing:.14em}
+.date .d{font:400 150px/200px Anton,sans-serif;color:var(--navy)}
+.date .y{position:absolute;left:0;right:0;bottom:16px;font:800 28px/1 Man,sans-serif;color:rgba(11,31,68,.5)}
+.split{position:absolute;top:230px;width:760px;height:520px;border-radius:32px;background:#fff;box-shadow:0 22px 50px rgba(11,31,68,.16);padding:56px 60px;box-sizing:border-box}
+.split .k{font:800 30px/1 Man,sans-serif;letter-spacing:.16em;color:rgba(11,31,68,.5)}
+.split .h{margin-top:36px;font:400 92px/1.04 Anton,sans-serif;color:var(--navy)}
+.split.on{background:var(--navy)}.split.on .k{color:#9FD3FF}.split.on .h{color:#fff}
+/* the account */
+#acct .card{position:absolute;left:250px;top:150px;width:1000px;height:640px;border-radius:36px;background:#fff;box-shadow:0 26px 60px rgba(11,31,68,.2);overflow:hidden}
+#acct .hd{height:150px;background:linear-gradient(120deg,var(--snd),#29296E);color:#fff;padding:0 54px;display:flex;flex-direction:column;justify-content:center}
+#acct .hd .t{font:400 64px/1 Anton,sans-serif}
+#acct .hd .s{margin-top:12px;font:800 28px/1 Man,sans-serif;color:#FFC2B8;letter-spacing:.06em}
+#acct .lbl{position:absolute;left:54px;top:210px;font:800 30px/1 Man,sans-serif;letter-spacing:.14em;color:rgba(11,31,68,.55)}
+#acct .slot{position:absolute;left:54px;top:270px;width:892px;height:190px;border-radius:26px;border:4px dashed rgba(31,95,219,.35);overflow:hidden}
+.tile{position:absolute;left:24px;top:22px;width:836px;height:140px;border-radius:20px;display:flex;align-items:center;gap:30px;padding:0 34px;box-sizing:border-box;font:400 66px/1 Anton,sans-serif}
+.tile small{font:800 28px/1.2 Man,sans-serif;display:block}
+#t1{background:#EEF3FB;color:var(--navy)}#t1 small{color:rgba(11,31,68,.6)}
+#t2{background:var(--blue);color:#fff}#t2 small{color:rgba(255,255,255,.85)}
+#acct .ok{position:absolute;left:54px;top:500px;display:flex;align-items:center;gap:18px;font:800 40px/1 Man,sans-serif;color:var(--navy);opacity:0}
+#acct .ok i{width:52px;height:52px;border-radius:50%;background:var(--blue);color:#fff;font:800 34px/52px Man,sans-serif;font-style:normal;text-align:center}
+/* caveat */
+.cv{position:absolute;left:250px;right:250px;display:flex;align-items:center;gap:26px;padding:28px 36px;border-radius:24px;background:#fff;box-shadow:0 16px 40px rgba(11,31,68,.14);font:800 50px/1.15 Man,sans-serif;color:var(--navy);opacity:0}
+.cv i{flex:none;width:64px;height:64px;border-radius:50%;background:var(--navy);color:#fff;font:400 40px/64px Anton,sans-serif;font-style:normal;text-align:center}
+/* end */
+#end .q{position:absolute;left:150px;right:150px;top:220px;text-align:center;font:400 104px/1.06 Anton,sans-serif;color:var(--navy)}
+#end .q b{color:var(--blue);font-weight:400}
+#end .u{position:absolute;left:0;right:0;top:640px;text-align:center}
+#end .u span{display:inline-block;font:800 48px/1 Man,sans-serif;color:var(--blue);padding:18px 34px;border-radius:44px;box-shadow:0 0 0 4px var(--blue)}
+#end .f{position:absolute;left:0;right:0;top:770px;text-align:center;font:600 28px/1 Man,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:rgba(11,31,68,.55)}
+.stk{position:absolute;left:0;top:0;width:360px;opacity:0;filter:drop-shadow(0 14px 22px rgba(11,31,68,.30));z-index:20}
+#cap{position:absolute;left:110px;width:1700px;top:958px;text-align:center;font:800 46px/1.18 Man,sans-serif;color:var(--navy);z-index:30}
+#cap b{color:var(--blue);font-weight:800}
+#cap.dk{color:#fff}#cap.dk b{color:#9FD3FF}
+</style>
+</head>
+<body>
+<div id="stage"><div id="grid"></div>
+  <div class="sc" id="hook">
+    <div class="lock" id="lk" style="left:380px;top:150px"><div class="half" id="lkA" style="clip-path:polygon(0 0,52% 0,44% 100%,0 100%)"><div class="sh"></div><div class="bd">SIKE</div></div>
+      <div class="half" id="lkB" style="clip-path:polygon(52% 0,100% 0,100% 100%,44% 100%)"><div class="sh"></div><div class="bd">SIKE</div></div></div>
+    <div class="chip" id="cpu" style="left:760px;top:410px"><svg viewBox="0 0 24 24" fill="none" stroke="#9FD3FF" stroke-width="2"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"/></svg>1 core · normal chip</div>
+    <div id="timer">00:00:00<small>TIME TO BREAK IT</small></div>
+    <div class="q1">Broken in <b>an hour.</b> On a normal chip.</div>
+    <div class="q2">What does that mean for <b>Starknet?</b></div>
+  </div>
+  <div class="sc" id="nist"><div class="br"><div class="bar"><i></i><i></i><i></i><div class="url">nist.gov · NIST Announces First Four Quantum-Resistant Cryptographic Algorithms</div></div><div class="vw" id="vw_nist"><img src="img/nist.jpg" width="2880" height="5700"></div></div>
+    <div class="panel" id="pn1"><div class="lb">Picked (5 July 2022)</div><div class="row"><span class="pill">CRYSTALS-Kyber</span><span class="pill">CRYSTALS-Dilithium</span><span class="pill blue">FALCON</span><span class="pill">SPHINCS+</span></div>
+      <div class="lb" style="margin-top:26px">Still being tested</div><div class="row"><span class="pill">BIKE</span><span class="pill">Classic McEliece</span><span class="pill">HQC</span><span class="pill hot" id="sikep">SIKE</span></div></div></div>
+  <div class="sc" id="brk">
+    <div class="date" style="left:300px;top:150px"><div class="m">JULY</div><div class="d">5</div><div class="y">NIST picks · 2022</div></div>
+    <div class="date" style="left:1200px;top:150px" id="d2"><div class="m" style="background:var(--blue)">JULY</div><div class="d">30</div><div class="y">Sike broken · 2022</div></div>
+    <div class="mid" style="top:250px;left:760px;right:760px;font:400 64px/1 Anton,sans-serif;color:rgba(11,31,68,.45)" id="arw">→</div>
+    <div class="big" style="top:520px" id="bk1">About <b>1 hour</b> · <b>1 core</b></div>
+    <div class="mid" style="top:670px" id="bk2">An ordinary processor. <b>No quantum computer involved.</b></div>
+    <div class="src">Castryck &amp; Decru, KU Leuven: "An efficient key recovery attack on SIDH", IACR ePrint 2022/975, 30 July 2022</div>
+  </div>
+  <div class="sc" id="half"><div class="split" id="sp1" style="left:180px"><div class="k">HALF THE JOB</div><div class="h">Pick a good algorithm.</div></div>
+    <div class="split" id="sp2" style="left:980px"><div class="k">THE OTHER HALF</div><div class="h">Switch fast when one breaks.</div></div></div>
+  <div class="sc" id="acct"><div class="card"><div class="hd"><div class="t">Your Starknet account</div><div class="s">A SMART CONTRACT WITH ITS OWN SIGNATURE CHECK</div></div>
+      <div class="lbl">SIGNATURE CHECK</div><div class="slot"><div class="tile" id="t1"><span>ECDSA</span><small>on the STARK curve<br>(elliptic-curve maths)</small></div>
+      <div class="tile" id="t2"><span>FALCON-512</span><small>post-quantum<br>(picked by NIST)</small></div></div>
+      <div class="ok" id="ok"><i>✓</i>No network-wide upgrade</div></div></div>
+  <div class="sc" id="arch"><div class="br"><div class="bar"><i></i><i></i><i></i><div class="url">quantum.starkware.co/architecture</div></div><div class="vw" id="vw_arch"><img src="img/arch.jpg" width="2880" height="1800"></div></div></div>
+  <div class="sc" id="reg"><div class="br"><div class="bar"><i></i><i></i><i></i><div class="url" id="u_reg">quantum.starkware.co/roadmap</div></div><div class="vw" id="vw_reg"><img id="im_reg" src="img/rm_reg.jpg" width="2880" height="1800"></div></div>
+    <div class="panel" id="pn2" style="bottom:190px;left:520px;right:520px;text-align:center"><div class="lb">Falcon</div><div class="row" style="justify-content:center"><span class="pill blue">Picked by NIST · 5 July 2022</span></div></div></div>
+  <div class="sc" id="cav">
+    <div class="cv" id="c1" style="top:150px"><i>1</i>It is a demo.</div>
+    <div class="cv" id="c2" style="top:300px"><i>2</i>Existing accounts do not change by themselves.</div>
+    <div class="cv" id="c3" style="top:450px"><i>3</i>Each owner chooses when to move.</div>
+    <div class="big" style="top:640px;font-size:96px" id="c4">Preparing. <b>Not claiming quantum safe today.</b></div></div>
+  <div class="sc" id="hub"><div class="br"><div class="bar"><i></i><i></i><i></i><div class="url">quantum.starkware.co</div></div><div class="vw" id="vw_hub"><img id="im_hub" src="img/hub.jpg" width="2880" height="2456"></div></div></div>
+  <div class="sc" id="end"><div class="q">If the maths protecting your wallet ever broke, <b>how fast would you want to switch it?</b></div>
+    <div class="u"><span>quantum.starkware.co</span></div><div class="f">@Starknet · Not financial advice</div></div>
+  <img class="stk" id="stk"><img class="stk" id="stk2">
+  <div id="cap"></div></div>
+<script src="plan.js"></script>
+<script>
+const P = window.PLAN, T = s => s + P.vo + (s >= P.cut ? P.gap : 0), FPS = 30
+const $ = id => document.getElementById(id)
+const cl = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x)), eo = x => 1 - Math.pow(1 - cl(x), 3), eio = x => { x = cl(x); return x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2 }
+const eback = x => { x = cl(x); const c = 1.5; return 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2) }
+let SIG = []
+const css = (el, k, v) => { if (el.style[k] !== v) el.style[k] = v; SIG.push(v) }
+const S = P.scenes
+const vis = (a, b, t, fi = .35, fo = .3) => t >= T(a) - fi && t < T(b) + fo ? Math.min(cl((t - T(a) + fi) / fi), cl((T(b) + fo - t) / fo)) : 0
+const pop = (t, a, d = .35) => t >= T(a) ? eo((t - T(a)) / d) : 0
+// real pages: camera keys [t, cx, cy, z] in image px (z relative to fit-width), rings [t0, t1, [x,y,w,h], cls]
+const VW = 1620, VH = 798
+function cam(id, keys, t, iw, ih, img) {
+  let v = keys[0].slice(1)
+  for (let j = 1; j < keys.length; j++) if (t >= T(keys[j][0])) { const u = eio((t - T(keys[j][0])) / .9); v = keys[j - 1].slice(1).map((x, q) => x + (keys[j][q + 1] - x) * u) }
+  const z = (VW / iw) * v[2], x = Math.min(0, Math.max(VW - iw * z, VW / 2 - v[0] * z)), y = Math.min(0, Math.max(VH - ih * z, VH / 2 - v[1] * z))
+  css(img, 'transform', `translate(${x.toFixed(1)}px,${y.toFixed(1)}px) scale(${z.toFixed(5)})`); return { x, y, z }
+}
+function rings(vw, list, t, c) {
+  list.forEach(r => { if (!r.el) { r.el = document.createElement('div'); r.el.className = 'ring ' + (r[3] || ''); vw.appendChild(r.el) }
+    const a = T(r[0]), b = T(r[1]), q = t >= a && t < b ? Math.min(eo((t - a) / .25), cl((b - t) / .2)) : 0, B = r[2], p = 10
+    Object.assign(r.el.style, { left: (c.x + B[0] * c.z - p).toFixed(1) + 'px', top: (c.y + B[1] * c.z - p).toFixed(1) + 'px', width: (B[2] * c.z + 2 * p).toFixed(1) + 'px', height: (B[3] * c.z + 2 * p).toFixed(1) + 'px' })
+    css(r.el, 'opacity', q.toFixed(3)); css(r.el, 'transform', `scale(${(1 + .1 * (1 - eo((t - a) / .3))).toFixed(3)})`) })
+}
+let RF = null, RF2 = null
+function flowInit() {
+  const base = { lib: window.RLIB, root: P.sroot, fps: FPS, T, words: (window.WORDS || []).map(w => ({ s: w[0], e: w[1], w: w[2] })) }
+  RF = ReactFlow.create({ ...base, ...P.flow, img: $('stk') }); RF2 = ReactFlow.create({ ...base, ...P.flow2, img: $('stk2') })
+}
+window.render = async t => {
+  SIG = []
+  // ---- hook (cold open): the lock, one core, a clock racing to an hour; the lock splits on "within an hour"
+  css($('hook'), 'opacity', vis(S.hook[0], S.hook[1], t, .01, .35).toFixed(3))
+  { const a = T(P.hk.clock[0]), b = T(P.hk.clock[1]), u = eio(cl((t - a) / (b - a)))
+    const secs = Math.round(u * 3600), hh = String(Math.floor(secs / 3600)).padStart(2, '0'), mm = String(Math.floor(secs / 60) % 60).padStart(2, '0'), ss = String(secs % 60).padStart(2, '0')
+    const tx = `${hh}:${mm}:${ss}<small>TIME TO BREAK IT</small>`; if ($('timer').innerHTML !== tx) $('timer').innerHTML = tx; SIG.push(tx)
+    css($('timer'), 'opacity', pop(t, P.hk.clock[0] - .2, .3).toFixed(3))
+    const k = cl((t - T(P.hk.crack)) / .5), kk = eback(k)
+    css($('lkA'), 'transform', `translate(${(-60 * kk).toFixed(1)}px,${(30 * k).toFixed(1)}px) rotate(${(-14 * kk).toFixed(2)}deg)`)
+    css($('lkB'), 'transform', `translate(${(60 * kk).toFixed(1)}px,${(40 * k).toFixed(1)}px) rotate(${(16 * kk).toFixed(2)}deg)`)
+    css($('lk'), 'opacity', (pop(t, 0, .4)).toFixed(3)); css($('cpu'), 'opacity', pop(t, P.hk.cpu, .3).toFixed(3)); css($('cpu'), 'transform', `translateY(${(30 * (1 - pop(t, P.hk.cpu, .3))).toFixed(1)}px)`)
+    css(document.querySelector('#hook .q1'), 'opacity', pop(t, P.hk.q1, .3).toFixed(3)); css(document.querySelector('#hook .q2'), 'opacity', pop(t, P.hk.q2, .3).toFixed(3)) }
+  // ---- NIST page
+  css($('nist'), 'opacity', vis(S.nist[0], S.nist[1], t).toFixed(3))
+  { const c = cam('nist', P.nist.cam, t, 2880, 5700, document.querySelector('#vw_nist img')); rings($('vw_nist'), P.nist.rings, t, c)
+    const q = vis(P.nist.panel[0], P.nist.panel[1], t, .3, .3); css($('pn1'), 'opacity', q.toFixed(3)); css($('pn1'), 'transform', `translateY(${(40 * (1 - eo(q))).toFixed(1)}px)`)
+    css($('sikep'), 'transform', `scale(${(1 + .14 * Math.sin(Math.PI * cl((t - T(P.nist.sike)) / .35))).toFixed(3)})`) }
+  // ---- the break
+  css($('brk'), 'opacity', vis(S.brk[0], S.brk[1], t).toFixed(3))
+  css($('d2'), 'opacity', pop(t, P.brk.d2, .35).toFixed(3)); css($('d2'), 'transform', `scale(${(.85 + .15 * eback(cl((t - T(P.brk.d2)) / .4))).toFixed(3)})`)
+  css($('arw'), 'opacity', pop(t, P.brk.d2 - .2, .3).toFixed(3))
+  css($('bk1'), 'opacity', pop(t, P.brk.hour, .3).toFixed(3)); css($('bk1'), 'transform', `scale(${(.9 + .1 * eback(cl((t - T(P.brk.hour)) / .35))).toFixed(3)})`)
+  css($('bk2'), 'opacity', pop(t, P.brk.noq, .3).toFixed(3))
+  // ---- the lesson
+  css($('half'), 'opacity', vis(S.half[0], S.half[1], t).toFixed(3))
+  css($('sp1'), 'opacity', pop(t, P.half.a, .35).toFixed(3)); css($('sp2'), 'opacity', pop(t, P.half.b, .35).toFixed(3))
+  $('sp2').classList.toggle('on', t >= T(P.half.b) + .25); $('sp1').style.transform = `translateY(${(30 * (1 - pop(t, P.half.a, .35))).toFixed(1)}px)`
+  css($('sp2'), 'transform', `translateY(${(30 * (1 - pop(t, P.half.b, .35))).toFixed(1)}px) scale(${(1 + .03 * Math.sin(Math.PI * cl((t - T(P.half.b) - .25) / .4))).toFixed(3)})`)
+  // ---- the account: the lock swaps
+  css($('acct'), 'opacity', vis(S.acct[0], S.acct[1], t).toFixed(3))
+  { const sw = eio(cl((t - T(P.acct.swap)) / .7)); css($('t1'), 'transform', `translateX(${(-960 * sw).toFixed(1)}px)`); css($('t2'), 'transform', `translateX(${(960 * (1 - sw)).toFixed(1)}px)`)
+    css($('ok'), 'opacity', pop(t, P.acct.ok, .35).toFixed(3)) }
+  // ---- architecture page, register, hub
+  css($('arch'), 'opacity', vis(S.arch[0], S.arch[1], t).toFixed(3))
+  { const c = cam('arch', P.arch.cam, t, 2880, 1800, document.querySelector('#vw_arch img')); rings($('vw_arch'), P.arch.rings, t, c) }
+  css($('reg'), 'opacity', vis(S.reg[0], S.reg[1], t).toFixed(3))
+  { let sh = P.reg.shots[0]; for (const s of P.reg.shots) if (t >= T(s.t)) sh = s
+    const im = $('im_reg'); if (im.getAttribute('src') !== 'img/' + sh.img) { im.src = 'img/' + sh.img; im.setAttribute('height', sh.h); try { await im.decode() } catch (e) {} }
+    P.reg.shots.forEach(o => { if (o !== sh) o.rings.forEach(r => r.el && css(r.el, 'opacity', '0')) })
+    const c = cam('reg', sh.cam, t, 2880, sh.h, im); rings($('vw_reg'), sh.rings, t, c); SIG.push(sh.img)
+    const q = vis(P.reg.panel[0], P.reg.panel[1], t, .3, .3); css($('pn2'), 'opacity', q.toFixed(3)) }
+  css($('cav'), 'opacity', vis(S.cav[0], S.cav[1], t).toFixed(3))
+  P.cav.forEach((a, i) => { const e = $('c' + (i + 1)); css(e, 'opacity', pop(t, a, .35).toFixed(3)); css(e, 'transform', `translateX(${(-40 * (1 - pop(t, a, .35))).toFixed(1)}px)`) })
+  css($('hub'), 'opacity', vis(S.hub[0], S.hub[1], t).toFixed(3))
+  { let sh = P.hub.shots[0]; for (const s of P.hub.shots) if (t >= T(s.t)) sh = s
+    const im = $('im_hub'); if (im.getAttribute('src') !== 'img/' + sh.img) { im.src = 'img/' + sh.img; im.setAttribute('height', sh.h); try { await im.decode() } catch (e) {} }
+    P.hub.shots.forEach(o => { if (o !== sh) o.rings.forEach(r => r.el && css(r.el, 'opacity', '0')) })
+    const c = cam('hub', sh.cam, t, 2880, sh.h, im); rings($('vw_hub'), sh.rings, t, c); SIG.push(sh.img) }
+  // ---- end
+  const ep = pop(t, S.end[0], .5); css($('end'), 'opacity', (t >= T(S.end[0]) ? ep : 0).toFixed(3))
+  if (RF) { SIG.push(await RF.render(t)); SIG.push(await RF2.render(t)) }
+  // captions (white on the royal-blue cold open)
+  const c = P.caps.find(x => t >= T(x[0]) - .05 && t < T(x[1]) + .1), html = c ? c[2] : ''
+  if ($('cap').innerHTML !== html) $('cap').innerHTML = html
+  $('cap').classList.toggle('dk', t < T(S.hook[1]) + .1)
+  SIG.push(html); css($('cap'), 'opacity', c ? Math.min(1, (t - T(c[0]) + .05) / .12).toFixed(3) : '0')
+  return SIG.join('|')
+}
+const load = src => new Promise(r => { const sc = document.createElement('script'); sc.src = src; sc.onload = sc.onerror = r; document.head.appendChild(sc) })
+window.READY = Promise.all([Promise.all([load(P.sroot + 'lib.js'), load('file:///home/user/cmv-alphascanner/video/lib/react_flow.js'), load('words.js')]).then(flowInit),
+  document.fonts.load('80px Anton'), document.fonts.load('800 40px Man'), document.fonts.load('600 26px Man'),
+  ...[...document.images].map(i => i.decode ? i.decode().catch(() => 0) : 1)])
+</script>
+</body>
+</html>
