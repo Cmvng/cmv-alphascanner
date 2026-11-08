@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+<!-- Cover (1080x1920, #v) and thumbnail (1280x720, #t) for EASY MODE (8 Nov 2026). -->
+<head><meta charset="utf-8"><style>
+@font-face{font-family:Pix;src:url(img/ps2p.woff2)}
+@font-face{font-family:Man;font-weight:800;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-800-normal.woff2)}
+html,body{margin:0;overflow:hidden;background:#0A2A78}
+#s{position:absolute;inset:0;overflow:hidden;background:radial-gradient(1200px 900px at 50% 35%,#2156D6 0%,#123A9E 55%,#081F5E 100%)}
+#s:before{content:'';position:absolute;inset:0;background-image:radial-gradient(rgba(159,211,255,.22) 2px,transparent 2.5px);background-size:44px 44px}
+.a{position:absolute}.pix{font-family:Pix,monospace;color:#fff}.man{font-family:Man,sans-serif;font-weight:800;color:#fff}
+.ph{position:absolute;filter:drop-shadow(0 30px 50px rgba(0,0,0,.45))}
+.ok{position:absolute;border-radius:50%;background:#1F5FDB;box-shadow:0 0 0 8px #fff;color:#fff;font-family:Man;font-weight:800;text-align:center}
+</style></head><body><div id="s"></div>
+<script>
+const v = location.hash !== '#t', W = v ? 1080 : 1280, H = v ? 1920 : 720
+document.documentElement.style.width = document.body.style.width = W + 'px'; document.documentElement.style.height = document.body.style.height = H + 'px'
+const s = document.getElementById('s'), add = (h, o) => { const d = document.createElement('div'); d.innerHTML = h; const e = d.firstChild; Object.assign(e.style, o || {}); s.appendChild(e); return e }
+const ph = (img, x, y, w, rot) => add(`<img class="ph" src="img/${img}">`, { left: x + 'px', top: y + 'px', width: w + 'px', transform: `rotate(${rot}deg)` })
+if (v) {
+  ph('phone4.png', -150, 1060, 520, -12); ph('phone3.png', 710, 1060, 520, 12); ph('phone2.png', 280, 960, 520, 0)
+  add('<img src="img/Bagel_Icon_round.svg">', { position: 'absolute', left: '470px', top: '800px', width: '140px', filter: 'drop-shadow(0 12px 18px rgba(0,0,0,.4))' })
+  add('<div class="pix">PREDICT ON</div>', { position: 'absolute', left: '0', width: '1080px', top: '170px', textAlign: 'center', fontSize: '50px', color: '#9FD3FF' })
+  add('<div class="pix">EASY<br>MODE</div>', { position: 'absolute', left: '0', width: '1080px', top: '270px', textAlign: 'center', fontSize: '170px', lineHeight: '1.08', textShadow: '12px 12px 0 #1F5FDB' })
+  add('<img src="img/Bagel_Logo_White.svg">', { position: 'absolute', left: '330px', top: '650px', width: '420px' })
+} else {
+  ph('phone2.png', 790, 70, 400, 8)
+  add('<img src="img/Bagel_Icon_round.svg">', { position: 'absolute', left: '930px', top: '-6px', width: '110px', filter: 'drop-shadow(0 10px 14px rgba(0,0,0,.4))' })
+  add('<div class="pix">PREDICT ON</div>', { position: 'absolute', left: '64px', top: '110px', fontSize: '34px', color: '#9FD3FF' })
+  add('<div class="pix">EASY<br>MODE</div>', { position: 'absolute', left: '56px', top: '180px', fontSize: '118px', lineHeight: '1.1', textShadow: '9px 9px 0 #1F5FDB' })
+  add('<img src="img/Bagel_Logo_White.svg">', { position: 'absolute', left: '64px', top: '500px', width: '330px' })
+}
+window.READY = Promise.all([document.fonts.load('40px Pix'), document.fonts.load('800 40px Man'), ...[...document.images].map(i => i.decode().catch(() => 0))])
+</script></body></html>

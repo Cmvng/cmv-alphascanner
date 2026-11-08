@@ -1,0 +1,256 @@
+<!doctype html>
+<html>
+<!-- EASY MODE (8 Nov 2026): a music-led concept film for @bagel_win, built on Bagel's own tagline "Predict on easy mode 🎮".
+     A game: title screen → PRESS START → SELECT DIFFICULTY (the Bagel character hops HARD → NORMAL → EASY) → the drop on
+     "PREDICT ON EASY MODE" → a level map of phones (Bagel's own store screens) that the character hops across, one level a bar,
+     each phone unlocking as he lands → ALL LEVELS CLEAR (the camera pulls back over the whole map) → EASY MODE: ON.
+     No narrator. Every time is in video seconds; the beat is 0.5 s (120 bpm) and the drop is at 6.0 s. -->
+<head>
+<meta charset="utf-8">
+<style>
+@font-face{font-family:Pix;src:url(img/ps2p.woff2)}
+@font-face{font-family:Man;font-weight:600;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-600-normal.woff2)}
+@font-face{font-family:Man;font-weight:800;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-800-normal.woff2)}
+:root{--sky:#4FB3FF;--ice:#9FD3FF;--blue:#1F5FDB;--navy:#0B1F44;--bagel:#F6E051}
+html,body{margin:0;width:1920px;height:1080px;overflow:hidden;background:#0A2A78}
+#stage{position:absolute;inset:0;overflow:hidden;background:radial-gradient(1500px 1000px at 50% 35%,#2156D6 0%,#123A9E 52%,#081F5E 100%)}
+.abs{position:absolute}
+.pix{font-family:Pix,monospace;color:#fff;letter-spacing:.04em}
+.man{font-family:Man,sans-serif;color:#fff}
+#grid{position:absolute;inset:-200px;background-image:radial-gradient(rgba(159,211,255,.22) 2px,transparent 2.5px);background-size:48px 48px}
+#scan{position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(0,0,0,.10) 0 2px,transparent 2px 5px);pointer-events:none}
+#world{position:absolute;left:0;top:0;width:0;height:0;transform-origin:0 0}
+.ph{position:absolute;width:500px;height:899px;transform-origin:50% 100%}
+.ph img.s{position:absolute;left:0;top:0;width:500px;height:899px;filter:drop-shadow(0 30px 50px rgba(0,0,0,.45))}
+.ph svg{position:absolute;left:0;top:0;width:500px;height:899px;overflow:visible}
+.ph .fl{position:absolute;left:4px;top:2px;width:492px;height:897px;border-radius:86px 86px 0 0;background:#fff;opacity:0}
+.ph .lk{position:absolute;left:0;width:500px;top:330px;text-align:center;font:110px/1 'Noto Color Emoji';opacity:0}
+.ph .ok{position:absolute;left:-40px;top:-40px;width:150px;height:150px;border-radius:50%;background:var(--blue);box-shadow:0 0 0 10px #fff,0 20px 40px rgba(0,0,0,.4);
+  color:#fff;font:800 100px/150px Man,sans-serif;text-align:center;opacity:0}
+#me{position:absolute;left:0;top:0;width:116px;height:116px;transform-origin:50% 100%}
+#me img{width:116px;height:116px;filter:drop-shadow(0 10px 14px rgba(0,0,0,.4))}
+.blk{position:absolute;left:110px;width:800px;opacity:0}
+.blk .k{font:400 30px/1 Pix,monospace;color:var(--ice);letter-spacing:.06em}
+.blk .t{margin-top:26px;font:800 124px/.94 Man,sans-serif;color:#fff;letter-spacing:-.01em;text-shadow:0 12px 40px rgba(0,0,0,.35)}
+.blk .t b{color:var(--sky);font-weight:800}
+.blk .u{margin-top:30px;font:600 38px/1.25 Man,sans-serif;color:rgba(255,255,255,.88);max-width:700px}
+.hud{position:absolute;opacity:0}
+.combo{position:absolute;font:400 64px/1 Pix,monospace;color:#fff;-webkit-text-stroke:3px var(--navy);text-shadow:6px 6px 0 var(--blue),0 0 30px rgba(79,179,255,.7);opacity:0;transform-origin:50% 50%;white-space:nowrap}
+.emo{position:absolute;font:80px/1 'Noto Color Emoji';opacity:0}
+.cf{position:absolute;width:18px;height:18px;opacity:0}
+.flash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none}
+.tog{position:absolute;width:132px;height:68px;border-radius:34px;background:rgba(255,255,255,.25);box-shadow:inset 0 0 0 4px rgba(255,255,255,.6)}
+.tog i{position:absolute;top:8px;left:8px;width:52px;height:52px;border-radius:50%;background:#fff;box-shadow:0 4px 10px rgba(0,0,0,.3)}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="grid"></div>
+  <div id="world"></div>
+  <!-- cold open: title screen + difficulty select -->
+  <div id="title" class="abs" style="inset:0">
+    <img id="logo" class="abs" src="img/Bagel_Logo_White.svg" style="left:660px;top:430px;width:600px;height:200px">
+    <div id="press" class="abs pix" style="left:0;width:1920px;top:760px;text-align:center;font-size:44px">PRESS START</div>
+  </div>
+  <div id="menu" class="abs" style="inset:0;opacity:0">
+    <div class="abs pix" style="left:0;width:1920px;top:250px;text-align:center;font-size:40px;color:#9FD3FF">SELECT DIFFICULTY</div>
+    <div id="o0" class="abs pix" style="left:820px;top:410px;font-size:76px">HARD</div>
+    <div id="o1" class="abs pix" style="left:820px;top:550px;font-size:76px">NORMAL</div>
+    <div id="o2" class="abs pix" style="left:820px;top:690px;font-size:76px;transform-origin:0 50%">EASY</div>
+    <div id="s0" class="abs" style="left:810px;top:444px;width:0;height:10px;background:#fff"></div>
+    <div id="s1" class="abs" style="left:810px;top:584px;width:0;height:10px;background:#fff"></div>
+    <div id="load" class="abs pix" style="left:0;width:1920px;top:870px;text-align:center;font-size:26px;color:#9FD3FF;opacity:0">LOADING <span id="bar"></span></div>
+  </div>
+  <div id="slam" class="abs" style="inset:0;opacity:0">
+    <div id="sl1" class="abs man" style="left:0;width:1920px;top:330px;text-align:center;font-weight:800;font-size:76px;letter-spacing:.02em">PREDICT ON</div>
+    <div id="sl2" class="abs pix" style="left:0;width:1920px;top:450px;text-align:center;font-size:150px;line-height:1;text-shadow:10px 10px 0 #1F5FDB,0 0 60px rgba(79,179,255,.6)">EASY MODE</div>
+    <div id="pad" class="abs" style="left:1590px;top:250px;font:150px/1 'Noto Color Emoji';opacity:0">🎮</div>
+  </div>
+  <div id="blocks"></div>
+  <!-- HUD -->
+  <div id="hudL" class="hud pix" style="left:60px;top:46px;font-size:26px;color:#9FD3FF">LEVEL 1/5</div>
+  <div id="hudC" class="hud" style="left:820px;top:40px;width:280px;height:40px;display:flex;gap:16px;justify-content:center"></div>
+  <div id="hudR" class="hud" style="right:56px;top:30px;display:flex;align-items:center;gap:14px;padding:10px 22px 10px 12px;border-radius:40px;background:rgba(255,255,255,.14);box-shadow:inset 0 0 0 3px rgba(255,255,255,.35)">
+    <img src="img/Bagel_Icon_round.svg" style="width:44px;height:44px"><span class="pix" style="font-size:20px">EASY MODE</span></div>
+  <div id="clear" class="abs pix" style="left:0;width:1920px;top:86px;text-align:center;font-size:66px;opacity:0;text-shadow:8px 8px 0 #1F5FDB">ALL LEVELS CLEAR!</div>
+  <div id="fx"></div>
+  <!-- end card -->
+  <div id="end" class="abs" style="inset:0;opacity:0">
+    <img id="eme" class="abs" src="img/Bagel_Icon_round.svg" style="left:850px;top:120px;width:220px;height:220px;filter:drop-shadow(0 18px 24px rgba(0,0,0,.4))">
+    <img class="abs" src="img/Bagel_Logo_White.svg" style="left:690px;top:370px;width:540px;height:180px">
+    <div class="abs" style="left:0;width:1920px;top:610px;display:flex;justify-content:center;align-items:center;gap:30px">
+      <span class="pix" style="font-size:46px">EASY MODE:</span><span id="on" class="pix" style="font-size:46px;color:#9FD3FF">OFF</span>
+      <div id="tog" class="tog" style="position:relative"><i></i></div></div>
+    <div class="abs man" style="left:0;width:1920px;top:720px;text-align:center;font-weight:600;font-size:42px">Predict on easy mode <span style="font-family:'Noto Color Emoji'">🎮</span></div>
+    <div id="dl" class="abs man" style="left:0;width:1920px;top:830px;text-align:center;font-weight:800;font-size:44px">Download Bagel <span style="color:#9FD3FF">· @bagel_win</span></div>
+    <div id="by" class="abs man" style="left:0;width:1920px;top:905px;text-align:center;font-weight:600;font-size:30px;color:rgba(255,255,255,.75)">@i_am_vickyd</div>
+    <div class="abs man" style="left:0;width:1920px;top:1012px;text-align:center;font-weight:600;font-size:24px;color:rgba(255,255,255,.55)">18+ · All trading involves risk</div>
+  </div>
+  <div id="me"><img src="img/Bagel_Icon_round.svg"></div>
+  <div id="scan"></div>
+  <div class="flash" id="flash"></div>
+</div>
+<script>
+const $ = id => document.getElementById(id)
+const cl = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x)), eo = x => 1 - Math.pow(1 - cl(x), 3), eio = x => { x = cl(x); return x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2 }
+const eback = x => { x = cl(x); const c = 1.7; return 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2) }
+const lerp = (a, b, u) => a + (b - a) * u
+let SIG = []
+const css = (el, k, v) => { if (el.style[k] !== v) el.style[k] = v; SIG.push(v) }
+const win = (t, a, b, fi = .2, fo = .2) => t < a - fi || t > b + fo ? 0 : Math.min(cl((t - a + fi) / fi), cl((b + fo - t) / fo))
+const pop = (t, a, d = .3) => t < a ? 0 : eback((t - a) / d)
+
+// ---------------------------------------------------------------- the level map: Bagel's own store screens (1368 x 2460 crops)
+const S = 500 / 1368                                  // crop px -> screen px
+const L = [8, 10, 14, 16, 18], ALL = 22, END = 24     // level starts (downbeats), all clear, end card
+const LV = [
+  { img: 'phone1.png', top: 250, k: 'LEVEL 1', t: 'START IN<br><b>SECONDS</b>', u: 'Sign in with Google, Apple or email',
+    rings: [[.5, 2, 135, 675, 600, 129], [1.0, 2, 135, 1836, 1095, 156]] },
+  { img: 'phone2.png', top: 190, k: 'LEVEL 2', t: '<b>COMBO</b>', u: 'Combine multiple markets into one prediction',
+    rings: [[0, 4, 120, 420, 246, 114], [.5, 4, 978, 888, 207, 93], [1.0, 4, 978, 1647, 207, 99]] },
+  { img: 'phone4.png', top: 230, k: 'LEVEL 3', t: 'NEVER MISS<br><b>A MARKET</b>', u: 'Instant notifications for every opportunity', rings: [] },
+  { img: 'phone5.png', top: 170, k: 'LEVEL 4', t: 'SQUAD<br><b>CHAT</b>', u: 'Discuss markets in real time', rings: [] },
+  { img: 'phone3.png', top: 130, k: 'FINAL LEVEL', t: '<span id="pct">0%</span><br><b>POLYMARKET</b>', u: 'Same markets. Same Polymarket perks.',
+    rings: [[1.5, 4, 1032, 1815, 213, 105], [2.0, 4, 1032, 1995, 213, 105]] }]
+const WX = LV.map((_, i) => i * 820), CX = WX.map(x => x + 250)
+const phones = LV.map((lv, i) => {
+  const d = document.createElement('div'); d.className = 'ph'; d.style.left = WX[i] + 'px'; d.style.top = lv.top + 'px'
+  let veil = ''
+  if (i === 2) veil = `<image href="img/notif_veil.png" x="100" y="1040" width="1170" height="1090" preserveAspectRatio="none" clip-path="url(#vc${i})"/>`
+  if (i === 3) veil = `<rect x="50" y="440" width="1270" height="2020" fill="#fff" clip-path="url(#vc${i})"/>`
+  if (i === 4) veil = `<rect x="40" y="760" width="1290" height="680" fill="#fff" clip-path="url(#vc${i})"/>`
+  d.innerHTML = `<img class="s" src="img/${lv.img}"><svg viewBox="0 0 1368 2460"><defs><clipPath id="vc${i}"><rect id="vr${i}" x="0" y="0" width="1368" height="2460"/></clipPath>
+    <filter id="gl${i}" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="10"/></filter></defs>${veil}
+    ${lv.rings.map((r, j) => `<g id="r${i}_${j}" style="transform-origin:${r[2] + r[4] / 2}px ${r[3] + r[5] / 2}px;opacity:0"><rect x="${r[2] - 14}" y="${r[3] - 14}" width="${r[4] + 28}" height="${r[5] + 28}" rx="${Math.min(70, (r[5] + 28) / 2)}" fill="none" stroke="#4FB3FF" stroke-width="22" filter="url(#gl${i})"/><rect x="${r[2] - 14}" y="${r[3] - 14}" width="${r[4] + 28}" height="${r[5] + 28}" rx="${Math.min(70, (r[5] + 28) / 2)}" fill="none" stroke="#4FB3FF" stroke-width="14"/></g>`).join('')}
+    </svg><div class="fl"></div><div class="lk">🔒</div><div class="ok">✓</div>`
+  $('world').appendChild(d); return d })
+// title blocks, HUD squares
+LV.forEach((lv, i) => { const b = document.createElement('div'); b.className = 'blk'; b.id = 'b' + i; b.style.top = '300px'
+  b.innerHTML = `<div class="k">${lv.k}</div><div class="t">${lv.t}</div><div class="u">${lv.u}</div>`; $('blocks').appendChild(b)
+  const q = document.createElement('i'); q.style.cssText = 'display:block;width:36px;height:36px;box-shadow:inset 0 0 0 4px #fff'; q.id = 'q' + i; $('hudC').appendChild(q) })
+// combo counter, emojis, confetti
+const CB = [['1 HIT', 10.5], ['2 HITS', 11.0], ['COMBO!', 11.5]].map(([s, t], j) => { const e = document.createElement('div'); e.className = 'combo'; e.textContent = s
+  if (j === 2) e.style.fontSize = '96px'; $('fx').appendChild(e); return { e, t } })
+const EM = [['🔔', 14.25], ['🔔', 14.75], ['🔔', 15.25], ['🔔', 15.75], ['❤️', 16.25], ['🔥', 16.75], ['😂', 17.25], ['🚀', 17.75]].map(([s, t]) => {
+  const e = document.createElement('div'); e.className = 'emo'; e.textContent = s; $('fx').appendChild(e); return { e, t } })
+let seed = 7; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647
+const CF = Array.from({ length: 70 }, () => { const e = document.createElement('div'); e.className = 'cf'; e.style.background = ['#F6E051', '#4FB3FF', '#FFFFFF', '#9FD3FF'][Math.floor(rnd() * 4)]
+  $('fx').appendChild(e); return { e, x: rnd() * 1920, d: rnd() * .6, v: 380 + rnd() * 300, r: rnd() * 720 - 360, w: (rnd() - .5) * 160 } })
+
+// ---------------------------------------------------------------- camera: world focus (fx, fy) and zoom z
+function cam(t) {
+  const f = i => [CX[i] - 290, 540, 1]
+  let v = [CX[0] - 290 - 900, 540, 1]
+  if (t >= 7.55) v = v.map((x, q) => lerp(x, f(0)[q], eio((t - 7.55) / .5)))
+  for (let i = 1; i < 5; i++) if (t >= L[i] - .45) { const a = v.slice(), b = f(i); v = a.map((x, q) => lerp(x, b[q], eio((t - L[i] + .45) / .5))) }
+  if (t >= 12) { const u = eio((t - 12) / .5) * (1 - eio((t - 13.55) / .5)); v = [v[0] + 140 * u, v[1] + 80 * u, v[2] + .16 * u] }
+  if (t >= 20) { const u = eio((t - 20) / 1.6) * (1 - eio((t - ALL) / .3)); v[2] += .07 * u; v[1] += 40 * u }
+  if (t >= ALL) { const u = eio((t - ALL) / .7); v = [lerp(v[0], (WX[0] + WX[4] + 500) / 2, u), lerp(v[1], 650, u), lerp(v[2], .45, u)] }
+  return v
+}
+const toScreen = (c, x, y) => [(x - c[0]) * c[2] + 960, (y - c[1]) * c[2] + 540]
+// the character: title screen (screen space) → menu cursor → slam → hops along phone tops (world space)
+const PT = i => [CX[i], LV[i].top - 58]
+function me(t, c) {
+  const bob = Math.sin(t * Math.PI * 2) * 6
+  if (t < 2.95) { const u = cl(t / .45), y = t < .45 ? lerp(-160, 330, eo(u) * eo(u)) : 330 + bob * (t > .9 ? 1 : 0)
+    const sq = t > .45 && t < .65 ? 1 - .25 * Math.sin((t - .45) / .2 * Math.PI) : 1; return { x: 960, y, s: 1.6, sx: 2 - sq, sy: sq, o: 1 } }
+  if (t < 5.95) { const k = t < 3.5 ? 0 : t < 4 ? 1 : 2, kt = [3.05, 3.5, 4.0][k], prev = [0, 0, 1][k]; const u = cl((t - kt) / .28)
+    const y0 = 455 + prev * 140, y1 = 455 + k * 140, y = (t < 3.05 ? -200 : lerp(y0, y1, eio(u)) - 70 * Math.sin(u * Math.PI)) + (t > 5 ? -Math.abs(Math.sin((t - 5) * Math.PI * 2)) * 30 : 0)
+    return { x: 720, y, s: .75, sx: 1, sy: 1, o: t < 3.05 ? 0 : 1 } }
+  if (t < 7.5) { const u = cl((t - 5.95) / .35); return { x: lerp(720, 960, eio(u)), y: lerp(735, 225, eio(u)) - 120 * Math.sin(u * Math.PI) + (t > 6.4 ? bob : 0), s: 1.4, sx: 1, sy: 1, o: 1 } }
+  // hops: world positions
+  let i = 0; for (let j = 0; j < 5; j++) if (t >= L[j] - .5) i = j
+  const hopT = L[i] - .5, u = cl((t - hopT) / .5)
+  let from, to = PT(i)
+  if (i === 0) { const c0 = cam(7.5); from = [(960 - 960) / c0[2] + c0[0], (225 - 540) / c0[2] + c0[1]] } else from = PT(i - 1)
+  let x = lerp(from[0], to[0], eio(u)), y = lerp(from[1], to[1], u) - 300 * Math.sin(u * Math.PI)
+  const land = t - L[i], sq = land > 0 && land < .2 ? 1 - .28 * Math.sin(land / .2 * Math.PI) : 1
+  if (t >= ALL + .3) { const h = (t - ALL - .3) % .5; y -= 90 * Math.sin(cl(h / .5) * Math.PI) }
+  const [sx, sy] = toScreen(c, x, y); return { x: sx, y: sy, s: c[2] * (i === 0 && u < 1 ? lerp(1.4, 1, eio(u)) : 1), sx: 2 - sq, sy: sq, o: 1 - cl((t - END + .1) / .15) }
+}
+
+window.render = async t => {
+  SIG = []
+  const c = cam(t)
+  css($('world'), 'transform', `translate(${(960 - c[0] * c[2]).toFixed(1)}px,${(540 - c[1] * c[2]).toFixed(1)}px) scale(${c[2].toFixed(4)})`)
+  css($('world'), 'opacity', win(t, 7.6, END - .05, .35, .25).toFixed(3))
+  css($('grid'), 'transform', `translate(${(-(c[0] * .25) % 48).toFixed(1)}px,${(-(c[1] * .25) % 48).toFixed(1)}px)`)
+  css($('scan'), 'opacity', (1 - cl((t - 5.9) / .3) + cl((t - END) / .4) * .6).toFixed(3))
+  // ---- cold open
+  css($('title'), 'opacity', (1 - cl((t - 2.95) / .15)).toFixed(3)); css($('logo'), 'opacity', cl((t - .15) / .25).toFixed(3))
+  css($('logo'), 'transform', `scale(${(.8 + .2 * eback((t - .15) / .4)).toFixed(3)})`)
+  const blink = t < 1 ? 0 : t < 2.5 ? (Math.floor((t - 1) / .5) % 2 === 0 ? 1 : .15) : (Math.floor((t - 2.5) / .07) % 2 ? 1 : 0)
+  css($('press'), 'opacity', String(blink))
+  css($('menu'), 'opacity', win(t, 3.05, 5.9, .12, .12).toFixed(3))
+  const sel = t >= 5
+  for (let k = 0; k < 3; k++) { const o = $('o' + k), act = k === (t < 3.5 ? 0 : t < 4 ? 1 : 2)
+    css(o, 'color', sel ? (k === 2 ? '#4FB3FF' : 'rgba(255,255,255,.3)') : (act ? '#FFFFFF' : 'rgba(255,255,255,.55)'))
+    css(o, 'textShadow', sel && k === 2 ? '6px 6px 0 #0B1F44,0 0 40px rgba(79,179,255,.8)' : act ? '6px 6px 0 #1F5FDB' : 'none')
+    if (k === 2) css(o, 'transform', `scale(${(1 + .15 * pop(t, 5, .3)).toFixed(3)})`) }
+  css($('s0'), 'width', (sel ? 330 * eo((t - 5.05) / .2) : 0).toFixed(0) + 'px'); css($('s1'), 'width', (sel ? 470 * eo((t - 5.15) / .2) : 0).toFixed(0) + 'px')
+  css($('load'), 'opacity', win(t, 5.45, 5.9, .05, .1).toFixed(3)); const nb = Math.floor(cl((t - 5.5) / .4) * 10)
+  if ($('bar').textContent !== '▮'.repeat(nb)) $('bar').textContent = '▮'.repeat(nb); SIG.push(nb)
+  // ---- the slam (the drop)
+  css($('slam'), 'opacity', win(t, 6, 7.55, .02, .3).toFixed(3))
+  css($('sl2'), 'transform', `scale(${(1.6 - .6 * eback((t - 6) / .35)).toFixed(3)}) translateX(${(-1000 * eio((t - 7.55) / .4)).toFixed(0)}px)`)
+  css($('sl1'), 'transform', `translateY(${(-60 * (1 - eo((t - 6.05) / .3))).toFixed(0)}px) translateX(${(-900 * eio((t - 7.45) / .45)).toFixed(0)}px)`)
+  css($('pad'), 'opacity', win(t, 6.5, 7.45, .05, .2).toFixed(3)); css($('pad'), 'transform', `rotate(${(-14 + 10 * Math.sin(t * 6)).toFixed(1)}deg) scale(${pop(t, 6.5, .3).toFixed(3)})`)
+  // ---- phones: locked until the character lands, then a flash and a pop
+  phones.forEach((d, i) => { const lt = t - L[i], un = lt >= 0
+    css(d.querySelector('img.s'), 'filter', un ? 'drop-shadow(0 30px 50px rgba(0,0,0,.45))' : 'grayscale(1) brightness(.5) drop-shadow(0 30px 50px rgba(0,0,0,.45))')
+    css(d.querySelector('.lk'), 'opacity', un ? (1 - cl(lt / .15)).toFixed(3) : '1')
+    css(d.querySelector('.fl'), 'opacity', un ? (.9 * (1 - cl(lt / .35))).toFixed(3) : '0')
+    css(d, 'transform', `scale(${un ? (1 + .05 * Math.sin(cl(lt / .3) * Math.PI)).toFixed(4) : '1'})`)
+    const gone = i < 4 ? cl((t - L[i + 1] + .35) / .3) : 0; css(d, 'opacity', (1 - gone * (1 - cl((t - ALL) / .4))).toFixed(3))   // a cleared level leaves; all come back for ALL CLEAR
+    css(d.querySelector('.ok'), 'opacity', cl((t - ALL - .3 - .2 * i) / .1).toFixed(3)); css(d.querySelector('.ok'), 'transform', `scale(${pop(t, ALL + .3 + .2 * i, .3).toFixed(3)})`)
+    LV[i].rings.forEach((r, j) => { const g = $(`r${i}_${j}`), a = L[i] + r[0], b = L[i] + r[1]
+      css(g, 'opacity', win(t, a, b, .05, .15).toFixed(3)); css(g, 'transform', `scale(${(1.25 - .25 * eback((t - a) / .3)).toFixed(3)})`) }) })
+  // veils: notification cards and chat messages pop in on the beats; the market chart draws left to right
+  const step = (t0, ys) => { let y = ys[0]; for (let k = 1; k < ys.length; k++) y = lerp(y, ys[k], eo((t - t0 - (k - 1) * .5) / .18)); return y }
+  const vr2 = step(L[2] + .25, [1040, 1300, 1570, 1840, 2135]), vr3 = step(L[3] + .25, [440, 1020, 1380, 1845, 2460]), vr4 = 40 + 1295 * eio((t - L[4] - .1) / 1.4)
+  $('vr2').setAttribute('y', vr2.toFixed(0)); $('vr3').setAttribute('y', vr3.toFixed(0)); $('vr4').setAttribute('x', vr4.toFixed(0)); SIG.push(vr2, vr3, vr4)
+  if ($('pct')) { const p = Math.round(100 * eo((t - L[4] - .1) / 1.4)); if ($('pct').textContent !== p + '%') $('pct').textContent = p + '%'; SIG.push(p) }
+  // title blocks
+  LV.forEach((lv, i) => { const b = $('b' + i), a = L[i], e = i < 4 ? L[i + 1] - .3 : ALL - .15
+    const q = win(t, a, e, .02, .2); css(b, 'opacity', q.toFixed(3))
+    css(b.children[0], 'transform', `translateX(${(-80 * (1 - eo((t - a) / .25))).toFixed(0)}px)`)
+    css(b.children[1], 'transform', `scale(${(1.35 - .35 * eback((t - a) / .3)).toFixed(3)})`); css(b.children[1], 'transformOrigin', '0 50%')
+    css(b.children[2], 'opacity', cl((t - a - .25) / .25).toFixed(3))
+    css(b, 'transform', `translateX(${(-120 * cl((t - e) / .2)).toFixed(0)}px)`) })
+  // combo counter beside the phone
+  { const [px, py] = toScreen(c, WX[1], LV[1].top); CB.forEach(({ e, t: a }, j) => { const n = j < 2 ? CB[j + 1].t : L[2] - .3
+    css(e, 'opacity', win(t, a, n - .02, .01, .05).toFixed(3)); css(e, 'left', (px - (j === 2 ? 420 : 330)).toFixed(0) + 'px'); css(e, 'top', (py + 600).toFixed(0) + 'px')
+    css(e, 'transform', `rotate(-8deg) scale(${(1.6 - .6 * eback((t - a) / .25)).toFixed(3)})`) }) }
+  // emojis: bells for notifications, reactions for chat
+  EM.forEach(({ e, t: a }, j) => { const i = j < 4 ? 2 : 3, [px, py] = toScreen(c, WX[i] + 470, LV[i].top + 380 + (j % 4) * 95), u = (t - a) / 1.1, cut = cl((L[i + 1] - .4 - t) / .1)
+    css(e, 'opacity', (u < 0 || u > 1 ? 0 : Math.min(1, u * 8, (1 - u) * 3) * cut).toFixed(3)); css(e, 'left', (px + 10).toFixed(0) + 'px'); css(e, 'top', (py - 220 * eo(u)).toFixed(0) + 'px')
+    css(e, 'transform', `scale(${(.6 + .5 * eback(u * 3)).toFixed(3)}) rotate(${(j % 2 ? 12 : -12) * u}deg)`) })
+  // HUD
+  const hq = win(t, 8, END - .1, .3, .2); ['hudL', 'hudC', 'hudR'].forEach(k => css($(k), 'opacity', hq.toFixed(3)))
+  let li = 0; for (let j = 0; j < 5; j++) if (t >= L[j]) li = j
+  const ht = t >= ALL ? 'CLEAR!' : li === 4 ? 'FINAL LEVEL' : `LEVEL ${li + 1}/5`; if ($('hudL').textContent !== ht) $('hudL').textContent = ht; SIG.push(ht)
+  for (let j = 0; j < 5; j++) css($('q' + j), 'background', t >= L[j] ? '#4FB3FF' : 'transparent')
+  // all clear + confetti
+  css($('clear'), 'opacity', win(t, ALL + .05, END - .1, .05, .15).toFixed(3)); css($('clear'), 'transform', `scale(${(1.4 - .4 * eback((t - ALL - .05) / .3)).toFixed(3)})`)
+  CF.forEach(f => { const u = t - ALL - .2 - f.d; css(f.e, 'opacity', u < 0 || t > END ? '0' : '1')
+    css(f.e, 'transform', `translate(${(f.x + f.w * Math.sin(u * 3)).toFixed(0)}px,${(-40 + f.v * u + 120 * u * u).toFixed(0)}px) rotate(${(f.r * u).toFixed(0)}deg)`) })
+  // end card
+  css($('end'), 'opacity', cl((t - END) / .2).toFixed(3))
+  css($('eme'), 'transform', `translateY(${(-Math.abs(Math.sin((t - END) * Math.PI * 2)) * 34 * (t > END + .4 ? 1 : 0)).toFixed(1)}px) scale(${pop(t, END, .4).toFixed(3)})`)
+  const on = t >= END + .6, tu = eio((t - END - .6) / .2)
+  css($('tog'), 'background', on ? '#4FB3FF' : 'rgba(255,255,255,.25)'); css($('tog').firstChild, 'transform', `translateX(${(64 * tu).toFixed(1)}px)`)
+  if ($('on').textContent !== (on ? 'ON' : 'OFF')) $('on').textContent = on ? 'ON' : 'OFF'; SIG.push(on)
+  css($('dl'), 'opacity', cl((t - END - .9) / .3).toFixed(3)); css($('by'), 'opacity', cl((t - END - 1.2) / .3).toFixed(3))
+  // character
+  const m = me(t, c); css($('me'), 'opacity', m.o.toFixed(3))
+  css($('me'), 'transform', `translate(${(m.x - 58).toFixed(1)}px,${(m.y - 116 + 58).toFixed(1)}px) scale(${(m.s * m.sx).toFixed(3)},${(m.s * m.sy).toFixed(3)})`)
+  // flashes: the drop and the end card
+  css($('flash'), 'opacity', (Math.max(t >= 6 ? .85 * (1 - cl((t - 6) / .25)) : 0, t >= END ? .8 * (1 - cl((t - END) / .3)) : 0)).toFixed(3))
+  return SIG.join('|')
+}
+window.READY = new Promise(r => setTimeout(r, 400)).then(() => Promise.all([document.fonts.load('40px Pix'), document.fonts.load('800 40px Man'), document.fonts.load('600 40px Man'), document.fonts.load("80px 'Noto Color Emoji'"),
+  ...[...document.images].map(i => i.decode ? i.decode().catch(() => 0) : 1)]))
+</script>
+</body>
+</html>
