@@ -179,7 +179,7 @@ plan = {'vo': 0.2, 'cut': cut, 'gap': 0.6, 'end': END, 'sroot': 'file:///home/us
                  'segments': [{'from': round(t_wb2 - .1, 3), 'to': round(end_ball - .2, 3), 'ANCHOR': 'ball', 'lean': 2,
                                'beats': [{'at': 'with him', 'id': 'hmm', 'kind': 'soft', 'away': -1, 'hold': 2.8}]}]},
         'flow2': {'width': 340, 'idle': {'id': 'sideeye_full', 'a': 0, 'b': 50, 'speed': 0.6},
-                  'segments': [{'from': round(t_rome - .2, 3), 'to': round(min(t_43 + 1.0, t_wk - .15), 3), 'ANCHOR': 'late', 'lean': -2,
+                  'segments': [{'from': round(t_rome - .2, 3), 'to': round(t_43 + 2.4, 3), 'ANCHOR': 'late', 'lean': -2,   # plays out under the weak-spot card
                                 'beats': [{'at': '4-3 win', 'id': 'jawdrop_full', 'kind': 'hard', 'away': 1, 'hold': 2.6}]}]}}
 write(plan, OUT, tk, {'ball': 't => ({ x: 46, y: 952, rot: 0, hide: [-520, 0], z: 20 })', 'late': 't => ({ x: 1530, y: 952, rot: 0, hide: [520, 0], z: 20 })'})
 print('cut', cut, 'end', round(END, 2), 'video', round(END + .8, 2), 'caps', len(plan['caps']), 'pieces', len(pieces))

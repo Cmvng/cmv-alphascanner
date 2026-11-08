@@ -57,7 +57,7 @@ def handoffs(panels, flags=(), lead=.75):
     and a CHECK / CHECKMATE flag ends before a card that starts after it."""
     for A in panels:
         for B in panels:
-            if A is not B and A['t0'] < B['t0'] - .5 and abs(A['t1'] - B['t0']) < .45:
+            if A is not B and A['t0'] < B['t0'] - .5 and B['t0'] - lead < A['t1'] < B['t0'] + .45:   # B would fade in over A
                 A['t1'] = round(max(A['t0'] + .3, min(A['t1'], B['t0'] - lead)), 3)
     for f in flags:
         for B in panels:

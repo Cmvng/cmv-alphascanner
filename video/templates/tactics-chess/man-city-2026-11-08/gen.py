@@ -175,10 +175,10 @@ plan = {'vo': 0.2, 'cut': cut, 'gap': 0.6, 'end': END, 'sroot': 'file:///home/us
         'boardOn': [t_af + .2, t_fix - .6], 'names': [t_fs, t_inj], 'cam': cam, 'pieces': pieces, 'ball': ball, 'ballOn': ball_on,
         'arrows': arrows, 'marks': marks, 'flags': flags, 'panels': panels, 'caps': tk.caps(KEY),
         'flow': {'width': 340, 'idle': {'id': 'stare', 'a': 40, 'b': 110, 'speed': 0.7},
-                 'segments': [{'from': round(t_g1 - .1, 3), 'to': round(t_g2 - .25, 3), 'ANCHOR': 'g1', 'lean': -2,
+                 'segments': [{'from': round(t_g1 - .1, 3), 'to': round(E('and scores.') + 2.6, 3), 'ANCHOR': 'g1', 'lean': -2,   # the peak plays out into goal 2's set-up
                                'beats': [{'at': 'and scores', 'id': 'noway', 'kind': 'hard', 'away': 1, 'hold': 2.2}]}]},
         'flow2': {'width': 340, 'idle': {'id': 'sideeye_full', 'a': 0, 'b': 50, 'speed': 0.6},
-                  'segments': [{'from': round(t_48 - .3, 3), 'to': round(min(t_six + 1.0, t_haa - .2), 3), 'ANCHOR': 'pat', 'lean': -2,
+                  'segments': [{'from': round(t_48 - .3, 3), 'to': round(t_six + 2.4, 3), 'ANCHOR': 'pat', 'lean': -2,   # plays out under the Haaland card
                                 'beats': [{'at': 'conceded six', 'id': 'yikes_full', 'kind': 'hard', 'away': 1, 'hold': 2.0}]}]}}
 write(plan, OUT, tk, {'g1': 't => ({ x: 1530, y: 952, rot: 0, hide: [520, 0], z: 20 })', 'pat': 't => ({ x: 1530, y: 952, rot: 0, hide: [520, 0], z: 20 })'})
 print('cut', cut, 'end', round(END, 2), 'video', round(END + .8, 2), 'caps', len(plan['caps']), 'pieces', len(pieces))
