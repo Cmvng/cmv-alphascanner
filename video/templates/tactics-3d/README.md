@@ -43,7 +43,12 @@ node cover/shot.mjs $PWD/cover/cover.html v cover.png    # and "t" for the thumb
 5. **A penalty from straight behind hides the keeper.** Go over the taker's shoulder (camera offset about 11 to the side, about 13 up) and move everyone else outside the box and out of the shot.
 6. **Big words need open grass.** "1-0" over the goal net was unreadable. Cut to a wide, high side view with the action to one side.
 7. **Hold the camera on the subject until the line moves on.** The 77' mix-up was out of shot because the camera started its move to Isidor's run too early.
-8. **Captions end at a closing quote too** (`perfect."`), or the next sentence joins the line.
+8. **Captions are phrases, not word counts.**
+   - A hard 7-word cap split "in a / row over Chelsea", "one / on one" and "Estêvão / quiet."; the hear-back exposed it.
+   - `gen.py` now keeps a sentence whole when it fits on one line (about 50 characters).
+   - Otherwise it splits at the best point: commas and pauses first, balanced halves, never after a small word, never inside a name or an "X and Y" pair.
+   - A closing quote (`perfect."`) ends a sentence.
+   - `srt.py` reads the same lines from `plan.js`, so the subtitles match the screen.
 9. **Show only one team's tags while each line-up is named.** All 22 at once cluttered the corners under the coach cards.
 
 ## Look

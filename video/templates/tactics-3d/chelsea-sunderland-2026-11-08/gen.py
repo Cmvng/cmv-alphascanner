@@ -294,20 +294,38 @@ ball(t9 - .3, -56, 1.5); ball(t9 + 1.3, 0, 0)
 # ---------------------------------------------------------------- captions (full lines, names spelled right)
 FIX = {'Le Fay': 'Le Fée', '4-2-3-1.': '4-2-3-1.', 'Sixty-nine percent': '69%', 'sixty-three percent': '63%'}
 KEY = {'Brobbey', 'Colwill', 'Fofana', 'Talbi', 'Palestra', 'Penders', 'Neto', 'Caicedo', 'Reinildo', 'Estêvão', 'Isidor', 'Welbeck', 'Le', 'Fay', 'press.', 'route.', 'edge.', 'Penalty.', 'One-nil.', 'chances.', 'ball.'}
-caps, cur = [], []
-def flush():
-    global cur
-    if cur:
-        txt = ' '.join(f"<b>{w['w']}</b>" if w['w'] in KEY else w['w'] for w in cur)
-        for a, b in FIX.items(): txt = txt.replace(a, b).replace(f'<b>{a.split()[0]}</b> <b>{a.split()[-1]}</b>', b)
-        txt = txt.replace('<b>Le</b> <b>Fay</b>', '<b>Le Fée</b>').replace('Sixty-nine percent', '69%').replace('sixty-three percent', '63%')
-        caps.append([round(cur[0]['s'], 2), round(cur[-1]['e'], 2), txt])
-    cur = []
+caps = []
+# a line per phrase: whole sentences when they fit on one line (about 50 characters), otherwise split at the best point,
+# preferring commas and pauses, balancing the halves, and never ending a line on a small word ("in a / row" read badly)
+SMALL = {'a', 'an', 'the', 'in', 'of', 'to', 'and', 'on', 'from', 'at', 'for', 'with', 'but', 'his', 'their', 'one', 'as',
+         'by', 'he', 'it', 'is', 'was', 'that', 'up', 'le', 'him', 'into', 'than', 'between', 'about', 'or'}
+end_of = lambda w: w['w'].rstrip('"”’\'')[-1:]
+text_of = lambda ws: ' '.join(w['w'] for w in ws)
+def split_line(ws, maxc=50):
+    if len(text_of(ws)) <= maxc or len(ws) < 4: return [ws]
+    best = None
+    for k in range(2, len(ws) - 1):
+        L, R = ws[:k], ws[k:]
+        sc = abs(len(text_of(L)) - len(text_of(R))) / 6
+        if end_of(L[-1]) in (',', ';'): sc -= 7
+        if end_of(L[-1]) not in (',', ';') and re.sub(r'[^a-z]', '', L[-1]['w'].lower()) in SMALL: sc += 9
+        sc -= min(R[0]['s'] - L[-1]['e'], .4) * 8          # a pause is a natural break
+        if L[-1]['w'][:1].isupper() and R[0]['w'][:1].isupper() and end_of(L[-1]) not in (',', '.', ':'): sc += 9   # a name: Pedro Neto
+        if R[0]['w'] == 'and' and len(R) > 1 and L[-1]['w'][:1].isupper() and R[1]['w'][:1].isupper(): sc += 6   # Fofana and Caicedo
+        if best is None or sc < best[0]: best = (sc, k)
+    k = best[1]; return split_line(ws[:k], maxc) + split_line(ws[k:], maxc)
+sent = []
 for w in W:
-    cur.append(w)
-    end = w['w'].rstrip('"”’\'')[-1:]
-    if end in ('.', '?', '!', ':') or (end == ',' and len(cur) >= 4) or len(cur) >= 7: flush()
-flush()
+    sent.append(w)
+    if end_of(w) in ('.', '?', '!', ':'):
+        for ln in split_line(sent): caps.append(ln)
+        sent = []
+if sent: caps += split_line(sent)
+def fmt(ln):
+    txt = ' '.join(f"<b>{w['w']}</b>" if w['w'] in KEY or w['w'].rstrip('.,:;!?"”') in KEY else w['w'] for w in ln)
+    txt = txt.replace('<b>Le</b> <b>Fay</b>', '<b>Le Fée</b>').replace('Le Fay', 'Le Fée').replace('Sixty-nine percent', '69%').replace('sixty-three percent', '63%')
+    return [round(ln[0]['s'], 2), round(ln[-1]['e'], 2), txt]
+caps = [fmt(ln) for ln in caps]
 for i in range(len(caps) - 1): caps[i][1] = round(min(caps[i + 1][0] - .02, caps[i][1] + .5), 2)
 
 # ---------------------------------------------------------------- reactions (two, one from each set)
