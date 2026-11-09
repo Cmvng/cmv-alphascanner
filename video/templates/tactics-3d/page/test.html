@@ -1,0 +1,22 @@
+<!doctype html><html><head><meta charset="utf-8">
+<style>html,body{margin:0;width:1920px;height:1080px;overflow:hidden;background:#cfe4ff}canvas{position:absolute;left:0;top:0;width:1920px;height:1080px}</style>
+</head><body><canvas id="c"></canvas>
+<script src="file:///home/user/cmv-alphascanner/video/assets/three/three.min.js"></script>
+<script src="board3d.js"></script>
+<script>
+const PR = +(new URLSearchParams(location.hash.slice(1)).get('pr') || 1)
+const { R, scene, cam } = B3.setup(document.getElementById('c'), { pr: PR })
+B3.makeBoard(scene)
+const CHE = { c1: '#062f80' }, SUN = { c1: '#b30c25', c2: '#ffffff' }
+const che = [['GK',-49,0],['RB',-36,-24],['CB',-38,-8],['CB',-38,8],['LB',-36,24],['DM',-26,-7],['DM',-26,7],['RW',-14,-22],['AM',-14,0],['LW',-14,22],['ST',-4,0]]
+const sun = [['GK',49,0],['RB',36,24],['CB',38,8],['CB',38,-8],['LB',36,-24],['RM',22,24],['CM',24,7],['CM',24,-7],['LM',22,-24],['ST',10,5],['ST',10,-5]]
+for (const [r,x,z] of che) { const p = B3.makePiece(CHE, r); p.position.set(x, .06, z); p.rotation.y = 0; scene.add(p) }
+for (const [r,x,z] of sun) { const p = B3.makePiece(SUN, r); p.position.set(x, .06, z); p.rotation.y = Math.PI; scene.add(p) }
+const ball = B3.makeBall(); ball.position.set(-3, .81, 2.5); scene.add(ball)
+window.render = async t => {
+  const a = -0.35 + t * 0.05
+  cam.position.set(Math.sin(a) * 70, 22, Math.cos(a) * 70); cam.lookAt(-10, 0, 0)
+  R.render(scene, cam); return 't' + t
+}
+window.READY = Promise.resolve()
+</script></body></html>

@@ -1,0 +1,85 @@
+<!doctype html>
+<html>
+<!-- THE 3D TACTICAL BOARD (house template, 9 Nov 2026). A real rendered three.js scene (board3d.js): turned lacquer chess
+     pieces on a pitch mowed in squares, soft shadows, studio reflections, a moving camera. Everything timed comes from
+     plan.js (window.PLAN) in take seconds; T() maps take time to video time (cold-open pause included).
+     HTML on top: name tags pinned to pieces, the score bug, panels (title, stats, quotes, table, form), big words and
+     the caption pill. -->
+<head>
+<meta charset="utf-8">
+<style>
+@font-face{font-family:Osw;font-weight:300;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/oswald-latin-300-normal.woff2)}
+@font-face{font-family:Anton;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/anton-latin-400-normal.woff2)}
+@font-face{font-family:Man;font-weight:600;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-600-normal.woff2)}
+@font-face{font-family:Man;font-weight:800;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-800-normal.woff2)}
+:root{--navy:#0B1F44;--blue:#1F5FDB;--sky:#4FB3FF;--mut:rgba(11,31,68,.6)}
+html,body{margin:0;width:1920px;height:1080px;overflow:hidden;background:#cfe4ff}
+canvas{position:absolute;left:0;top:0;width:1920px;height:1080px}
+#ui{position:absolute;inset:0;pointer-events:none}
+.tag{position:absolute;transform:translate(-50%,-100%);white-space:nowrap;font:800 26px/1 Man,sans-serif;color:#fff;padding:8px 14px;border-radius:12px;background:rgba(11,31,68,.82);box-shadow:0 8px 20px rgba(0,0,0,.25);opacity:0}
+.tag.h{background:rgba(6,47,128,.92)}.tag.a{background:rgba(179,12,37,.92)}
+.tag:after{content:'';position:absolute;left:50%;bottom:-8px;margin-left:-8px;border:8px solid transparent;border-bottom:0;border-top-color:inherit}
+#bug{position:absolute;left:60px;top:46px;display:flex;align-items:center;border-radius:18px;overflow:hidden;box-shadow:0 14px 34px rgba(11,31,68,.3);opacity:0;font:800 34px/1 Man,sans-serif}
+#bug .t{padding:16px 22px;color:#fff;display:flex;align-items:center;gap:12px}
+#bug .s{padding:16px 22px;background:#fff;color:var(--navy);font:400 44px/1 Anton,sans-serif;letter-spacing:.04em}
+#bug .m{padding:16px 18px;background:var(--navy);color:#9FD3FF;font:800 24px/1 Man,sans-serif;letter-spacing:.08em}
+.panel{position:absolute;opacity:0;border-radius:30px;background:rgba(255,255,255,.94);box-shadow:0 26px 60px rgba(11,31,68,.28);backdrop-filter:blur(8px);box-sizing:border-box}
+.kick{font:800 24px/1 Man,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--mut)}
+.giant{position:absolute;left:0;right:0;text-align:center;font:300 230px/0.9 Osw,sans-serif;text-transform:uppercase;color:#fff;text-shadow:0 10px 40px rgba(11,31,68,.45);opacity:0;white-space:nowrap}
+#cap{position:absolute;left:0;right:0;top:972px;text-align:center;z-index:30}
+#cap span{display:inline-block;max-width:1500px;font:800 42px/1.2 Man,sans-serif;color:#fff;background:rgba(11,31,68,.86);padding:12px 26px;border-radius:16px}
+#cap span b{color:#9FD3FF;font-weight:800}
+.stk{position:absolute;left:0;top:0;width:340px;opacity:0;filter:drop-shadow(0 14px 22px rgba(11,31,68,.30));z-index:20}
+.flash{position:absolute;inset:0;background:#fff;opacity:0}
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div id="ui"><div class="flash" id="flash"></div><div id="tags"></div><div id="panels"></div><div id="bug"></div>
+  <img class="stk" id="stk"><img class="stk" id="stk2"><div id="cap"><span></span></div></div>
+<script src="file:///home/user/cmv-alphascanner/video/assets/three/three.min.js"></script>
+<script src="board3d.js"></script>
+<script src="plan.js"></script>
+<script src="panels.js"></script>
+<script>
+const P = window.PLAN, FPS = 30
+const T = s => s + P.vo + (s >= P.cut ? P.gap : 0)
+const $ = id => document.getElementById(id)
+const { R, scene, cam } = B3.setup($('c'), { pr: P.pr || 1.5 })
+B3.makeBoard(scene)
+const TEAM = { home: P.teams.home, away: P.teams.away }
+// pieces
+const PCS = P.pieces.map(d => { const p = B3.makePiece(TEAM[d.team], d.role); p.rotation.y = d.team === 'home' ? 0 : Math.PI; scene.add(p)
+  const tag = document.createElement('div'); tag.className = 'tag ' + (d.team === 'home' ? 'h' : 'a'); tag.textContent = d.name || ''; $('tags').appendChild(tag)
+  const keys = d.keys.map(k => [T(k[0]), k[1], k[2]]); return { d, p, tag, keys } })
+const ball = B3.makeBall(); scene.add(ball)
+const BK = (P.ball || [[0, 0, 0]]).map(k => [T(k[0]), k[1], k[2], k[3] || 0])
+const ARR = (P.arrows || []).map(o => { const a = B3.makeArrow(o); scene.add(a); return a })
+const ZON = (P.zones || []).map(o => { const z = B3.makeZone(o); scene.add(z); return z })
+const CAM = P.cam.map(k => [T(k[0]), k[1], k[2], k[3] || 26])
+const inWin = (wins, t, fi = .3, fo = .3) => { let q = 0; (wins || []).forEach(w => { const a = T(w[0]), b = T(w[1]); if (t >= a - fi && t < b + fo) q = Math.max(q, Math.min(B3.cl((t - a + fi) / fi), B3.cl((b + fo - t) / fo))) }); return q }
+const tmp = new THREE.Vector3()
+window.render = async t => {
+  const SIG = []
+  for (const o of PCS) {
+    const v = B3.keyAt(o.keys, t); o.p.position.set(v[0], .06, v[1])
+    const hq = inWin(o.d.hi, t, .25, .3); o.p.userData.ring.material.opacity = .9 * hq; o.p.position.y = .06 + 1.2 * hq * (o.d.lift ? 1 : 0)
+    const lq = inWin(o.d.lab, t, .25, .25); tmp.set(v[0], 7.4, v[1]); const s = B3.toScreen(tmp)
+    o.tag.style.opacity = (lq * (s.vis ? 1 : 0)).toFixed(3); o.tag.style.left = s.x.toFixed(1) + 'px'; o.tag.style.top = s.y.toFixed(1) + 'px'
+  }
+  const b = B3.ballAt(BK, t); ball.position.set(b[0], .81 + b[1], b[2]); ball.rotation.z = -t * 4; ball.visible = inWin(P.ballVis || [[-1, 1e4]], t, .01, .01) > 0
+  ARR.forEach(a => B3.updateArrow(a, t, T)); ZON.forEach(z => B3.updateZone(z, t, T))
+  ;(P.goals || []).forEach(g => B3.rippleNet(B3.nets[g.side > 0 ? 1 : 0], t, T(g.t)))
+  const c = B3.camAt(CAM, t); let sh = 0; (P.goals || []).forEach(g => { const d = t - T(g.t); if (d > 0 && d < .6) sh = Math.max(sh, (1 - d / .6) * .35) })
+  cam.position.set(c[1][0] + sh * Math.sin(t * 60), c[1][1] + sh * Math.cos(t * 47), c[1][2]); cam.lookAt(...c[2]); if (cam.fov !== c[3]) { cam.fov = c[3]; cam.updateProjectionMatrix() }
+  R.render(scene, cam)
+  SIG.push(await window.PANELS(t, T))
+  // captions
+  const cp = P.caps.find(x => t >= T(x[0]) - .05 && t < T(x[1]) + .1), html = cp ? cp[2] : '', span = $('cap').firstChild
+  if (span.innerHTML !== html) span.innerHTML = html; span.style.opacity = cp ? '1' : '0'; span.style.display = cp ? 'inline-block' : 'none'
+  return 'f' + Math.round(t * FPS)
+}
+window.READY = Promise.all([document.fonts.load('300 80px Osw'), document.fonts.load('80px Anton'), document.fonts.load('800 40px Man'), document.fonts.load('600 26px Man'), window.PANELS_READY || Promise.resolve()])
+</script>
+</body>
+</html>

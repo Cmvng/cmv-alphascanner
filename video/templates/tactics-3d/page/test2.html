@@ -1,0 +1,33 @@
+<!doctype html><html><head><meta charset="utf-8">
+<style>html,body{margin:0;width:1920px;height:1080px;overflow:hidden;background:#cfe4ff}canvas{position:absolute;left:0;top:0;width:1920px;height:1080px}</style>
+</head><body><canvas id="c"></canvas>
+<script src="file:///home/user/cmv-alphascanner/video/assets/three/three.min.js"></script>
+<script src="board3d.js"></script>
+<script>
+const T = s => s
+const { R, scene, cam } = B3.setup(document.getElementById('c'), { pr: 1.5 })
+B3.makeBoard(scene)
+const CHE = { c1: '#062f80' }, SUN = { c1: '#b30c25', c2: '#ffffff' }
+const P = []
+const add = (team, role, keys, yaw) => { const p = B3.makePiece(team, role); p.rotation.y = yaw; scene.add(p); P.push([p, keys]); return p }
+add(SUN, 'ST', [[0, 20, 10], [2, 30, 18], [3.5, 44, 6]], Math.PI)
+add(SUN, 'CM', [[0, 8, -4]], Math.PI)
+const hi = add(CHE, 'CB', [[0, 38, 4], [3, 41, 2]], 0)
+add(CHE, 'GK', [[0, 50, 0], [3.4, 49, 3]], 0)
+const ball = B3.makeBall(); scene.add(ball)
+const bk = [[0, 8.8, -4], [1.2, 30, 18, 6], [3.3, 44, 6.6, 0], [3.9, 52.4, -1.5, 1.2]]
+const arrows = [B3.makeArrow({ from: [8.8, -4], to: [30, 18], h: 6, at: 0.2, until: 2.5, color: '#ffffff' }), B3.makeArrow({ kind: 'run', from: [20, 10], to: [30, 18], bend: .4, at: 0, until: 2.2, color: '#ff8fa0' }), B3.makeArrow({ from: [44, 6.6], to: [52.4, -1.5], h: 1.5, at: 3.3, until: 5, color: '#9FD3FF' })]
+arrows.forEach(a => scene.add(a))
+const zone = B3.makeZone({ at3: [36, 16], size: [22, 14], from: 0, to: 2.6, color: '#4FB3FF' }); scene.add(zone)
+const camK = [[0, [10, 30, 70], [25, 0, 5], 26], [2.5, [24, 16, 40], [36, 0, 8], 26], [4.5, [60, 8, 22], [44, 1, 2], 30]]
+window.render = async t => {
+  P.forEach(([p, k]) => { const v = B3.keyAt(k, t); p.position.set(v[0], .06, v[1]) })
+  const b = B3.ballAt(bk, t); ball.position.set(b[0], .81 + b[1], b[2]); ball.rotation.x = t * 6
+  arrows.forEach(a => B3.updateArrow(a, t, T)); B3.updateZone(zone, t, T)
+  hi.userData.ring.material.opacity = t > 2.6 ? .9 : 0
+  B3.rippleNet(B3.nets[1], t, 3.95)
+  const c = B3.camAt(camK, t); cam.position.set(...c[1]); cam.lookAt(...c[2]); cam.fov = c[3]; cam.updateProjectionMatrix()
+  R.render(scene, cam); return 't' + t
+}
+window.READY = Promise.resolve()
+</script></body></html>
