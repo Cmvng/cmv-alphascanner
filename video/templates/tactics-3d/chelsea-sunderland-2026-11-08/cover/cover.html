@@ -1,0 +1,63 @@
+<!doctype html>
+<html>
+<!-- Cover (#v, 1080x1920) and thumbnail (#t, 1280x720) for Sunderland 1-0 Chelsea, rendered from the same 3D board as the
+     video: Le Fée's penalty, Penders diving the wrong way. Optional camera override for tuning:
+     #t;cx,cy,cz;tx,ty,tz;fov -->
+<head>
+<meta charset="utf-8">
+<style>
+@font-face{font-family:Osw;font-weight:300;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/oswald-latin-300-normal.woff2)}
+@font-face{font-family:Anton;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/anton-latin-400-normal.woff2)}
+@font-face{font-family:Man;font-weight:800;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-800-normal.woff2)}
+:root{--navy:#0B1F44;--blue:#1F5FDB}
+html,body{margin:0;overflow:hidden;background:#cfe4ff}
+canvas{position:absolute;left:0;top:0}
+.ttl{position:absolute;font:400 1px/0.9 Anton,sans-serif;text-transform:uppercase;color:var(--navy);letter-spacing:.01em;white-space:nowrap}
+.ttl em{font-style:normal;color:var(--blue)}
+.kick{position:absolute;font:800 1px/1 Man,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:rgba(11,31,68,.72);white-space:nowrap}
+.bug{position:absolute;display:flex;align-items:center;border-radius:.5em;overflow:hidden;box-shadow:0 .4em 1em rgba(11,31,68,.3);font:800 1px/1 Man,sans-serif;white-space:nowrap}
+.bug .t{padding:.45em .6em;color:#fff}
+.bug .s{padding:.45em .6em;background:#fff;color:var(--navy);font:400 1.3em/1 Anton,sans-serif;letter-spacing:.04em}
+.tag{position:absolute;transform:translate(-50%,-100%);white-space:nowrap;font:800 1px/1 Man,sans-serif;color:#fff;padding:.3em .55em;border-radius:.45em;box-shadow:0 .3em .8em rgba(0,0,0,.25)}
+.tag:after{content:'';position:absolute;left:50%;bottom:-.3em;margin-left:-.3em;border:.3em solid transparent;border-bottom:0;border-top-color:inherit}
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div id="ui"></div>
+<script src="file:///home/user/cmv-alphascanner/video/assets/three/three.min.js"></script>
+<script src="../../page/board3d.js"></script>
+<script>
+const hp = location.hash.slice(1).split(';'), V = hp[0] === 'v'
+const W = V ? 1080 : 1280, H = V ? 1920 : 720
+document.body.style.width = W + 'px'; document.body.style.height = H + 'px'
+const cv = document.getElementById('c'); cv.style.width = W + 'px'; cv.style.height = H + 'px'
+const { R, scene, cam } = B3.setup(cv, { pr: 2, w: W, h: H })
+B3.makeBoard(scene)
+const SUN = { c1: '#b30c25', c2: '#ffffff' }, CHE = { c1: '#062f80' }
+const put = (team, role, x, z, rx = 0, rz = 0, ry = 0, ring = 0) => { const p = B3.makePiece(team, role); p.scale.setScalar(1.25); p.position.set(x, .06, z); p.rotation.set(rx, ry, rz); p.userData.ring.material.opacity = ring; scene.add(p); return p }
+// the moment: Le Fée has struck it low to one corner, Penders is diving the other way
+const lefee = put(SUN, 'AM', 41.4, 0, 0, 0, V ? .95 : 0, .9)       // on the cover, turned so the knight shows its profile
+const penders = put(CHE, 'GK', 52.0, 3.0, .6, 0, Math.PI)
+const ball = B3.makeBall(); ball.position.set(50.6, .81 + .45, -2.2); ball.rotation.z = 1.2; scene.add(ball)
+const arr = B3.makeArrow({ from: [41.5, 0], to: [49.7, -1.95], h: .7, at: 0, until: 100, color: '#9FD3FF', r: .16 }); scene.add(arr); B3.updateArrow(arr, 50, s => s)
+let C = V ? [[22, 26, 2], [47, 8.5, 1.5], 44] : [[26, 10, 13], [48, 3, -2], 30]
+if (hp[1]) { const n = hp.slice(1).map(s => s.split(',').map(Number)); C = [n[0], n[1], n[2][0]] }
+cam.fov = C[2]; cam.aspect = W / H; cam.updateProjectionMatrix(); cam.position.set(...C[0]); cam.lookAt(...C[1]); cam.updateMatrixWorld()
+R.render(scene, cam)
+// the type
+const ui = document.getElementById('ui'), add = (html, cls, css) => { const d = document.createElement('div'); d.className = cls; d.innerHTML = html; d.style.cssText = css; ui.appendChild(d); return d }
+const tagAt = (txt, bg, v3) => { const s = B3.toScreen(new THREE.Vector3(...v3)); add(txt, 'tag', `left:${s.x}px;top:${s.y}px;background:${bg};border-top-color:${bg};font-size:${V ? 30 : 22}px`) }
+if (V) {
+  add('Premier League · 8 Nov 2026', 'kick', 'left:0;right:0;text-align:center;top:118px;font-size:30px')
+  add('Why<br><em>Chelsea</em><br>lost', 'ttl', 'left:0;right:0;text-align:center;top:190px;font-size:250px')
+  add('<div class="t" style="background:#b30c25">SUN</div><div class="s">1–0</div><div class="t" style="background:#062f80">CHE</div>', 'bug', 'left:50%;transform:translateX(-50%);top:878px;font-size:40px')
+} else {
+  add('Sunderland 1–0 Chelsea', 'kick', 'left:54px;top:46px;font-size:22px')
+  add('Why <em>Chelsea</em><br>lost', 'ttl', 'left:50px;top:84px;font-size:128px')
+  add('<div class="t" style="background:#b30c25">SUN</div><div class="s">1–0</div><div class="t" style="background:#062f80">CHE</div>', 'bug', 'right:54px;bottom:44px;font-size:30px')
+}
+window.READY = Promise.all([document.fonts.load('80px Anton'), document.fonts.load('800 40px Man'), document.fonts.load('300 80px Osw')])
+</script>
+</body>
+</html>

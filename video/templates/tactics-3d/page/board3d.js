@@ -210,7 +210,7 @@
   // ---------- renderer, lights, background
   function setup(canvas, opt = {}) {
     const R = new T3.WebGLRenderer({ canvas, antialias: true, preserveDrawingBuffer: true, powerPreference: 'high-performance' })
-    R.setPixelRatio(opt.pr || 1); R.setSize(1920, 1080, false)
+    B.W = opt.w || 1920; B.H = opt.h || 1080; R.setPixelRatio(opt.pr || 1); R.setSize(B.W, B.H, false)
     R.toneMapping = T3.ACESFilmicToneMapping; R.toneMappingExposure = opt.exposure || 1.0; R.outputColorSpace = T3.SRGBColorSpace
     R.shadowMap.enabled = true; R.shadowMap.type = T3.PCFSoftShadowMap
     const scene = new T3.Scene()
@@ -226,7 +226,7 @@
     key.shadow.bias = -.0004; key.shadow.normalBias = .03; key.shadow.radius = 3; scene.add(key)
     const pool = new T3.SpotLight('#fff8ee', 520, 0, Math.PI / 5, .9, 1.6); pool.position.set(0, 70, 8); pool.target.position.set(0, 0, 0); scene.add(pool, pool.target)
     const rim = new T3.DirectionalLight('#bcd8ff', 1.1); rim.position.set(50, 40, -60); scene.add(rim)
-    const cam = new T3.PerspectiveCamera(opt.fov || 26, 1920 / 1080, 1, 1000)
+    const cam = new T3.PerspectiveCamera(opt.fov || 26, B.W / B.H, 1, 1000)
     B.R = R; B.scene = scene; B.cam = cam; B.key = key
     return { R, scene, cam }
   }
@@ -351,7 +351,7 @@
     R.toneMapping = tm; P.outMat.uniforms.tCol.value = P.rtC.texture; P.quad.material = P.outMat; R.setRenderTarget(null); R.render(P.qs, P.oc)
   }
   // screen position of a 3D point (for HTML labels)
-  function toScreen(v) { const p = v.clone().project(B.cam); return { x: (p.x + 1) / 2 * 1920, y: (1 - p.y) / 2 * 1080, vis: p.z < 1 } }
+  function toScreen(v) { const p = v.clone().project(B.cam); return { x: (p.x + 1) / 2 * (B.W || 1920), y: (1 - p.y) / 2 * (B.H || 1080), vis: p.z < 1 } }
 
   Object.assign(B, { postSetup, renderFrame, setup, makeBoard, makePiece, makeBall, toScreen, pitchTexture, PW, PH, ROLE, keyAt, ballAt, makeArrow, updateArrow, makeZone, updateZone, camAt, rippleNet, cl, eio, eo })
   G.B3 = B
