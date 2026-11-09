@@ -8,9 +8,11 @@ back to the whole sheet.
 **The signature moment:** "the eye". The light comes up across the word and the eye is suddenly looking back.
 
 ## Files (in `video/out/living-drawing/`)
-- `living-drawing.mp4`: 1920×1080, 30.8 s, 30 fps, −14 LUFS, music only.
-- `living-drawing_no-music.mp4`: the same picture, silent, for posting under a trending sound picked inside TikTok
-  or Instagram.
+- `living-drawing_9x16.mp4`: 1080×1920, the upright cut for TikTok, Reels and Shorts. 30.8 s, −14 LUFS, music only.
+  Each clip of your footage plays full height at its own pixels; the tear and the castle use the tall frame.
+- `living-drawing.mp4`: 1920×1080, the same film for X and YouTube.
+- `living-drawing_9x16_no-music.mp4` and `living-drawing_no-music.mp4`: the same pictures, silent, for posting under
+  a trending sound picked inside TikTok or Instagram.
 - `living-drawing_cover.png` (1080×1920) and `living-drawing_thumbnail.png` (1280×720).
 
 ## Post text (X)

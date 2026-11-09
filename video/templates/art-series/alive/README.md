@@ -1,4 +1,4 @@
-# THE LIVING DRAWING: the owner's Gamdom charcoal piece as a lit relief (9 Nov 2026, 30.8 s, 16:9, music only)
+# THE LIVING DRAWING: the owner's Gamdom charcoal piece as a lit relief (9 Nov 2026, 30.8 s, 16:9 and 9:16, music only)
 
 The owner: *"That my video of me drawing that Gamdom drawing… Can you create me like a cinematic kind of like? Just
 create me something that is cool. That when someone sees it, like okay, wow."* This is the one case where the owner
@@ -39,6 +39,9 @@ the castle's flags move, and the camera pulls back until the whole piece is a sh
   panels, `text`, `flash`, `shade`). `window.render(t)` draws one frame.
 - `gamdom_gen.py`: this film's plan, every cut on the beat grid. `python3 -I gamdom_gen.py <page dir> <bpm> <drop s> [beats per shot]`
   (run with 150 8.8 8: the track is 75 bpm, counted in double time).
+  Add `v` for the upright cut: it writes `plan_v.js` (1080×1920); copy it to `plan.js` in a second page folder and
+  render with `VIEW_W=1080 VIEW_H=1920`. Upright, the three clips play one at a time at their own pixels, and the relief
+  camera stays at z ≥ 3.6 (1920 photo pixels fill the height there).
 - `prep.py`, `depth.py`: the maps. `extract.py`: frame sequences cut out of the owner's compilation, cropped to each
   clip, never regraded.
 - `gamdom_mix.sh`: the soundtrack, music only. `sfx.py`: made sounds for other films (ticks, chimes); not used here.
