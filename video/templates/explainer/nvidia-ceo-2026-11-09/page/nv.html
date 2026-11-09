@@ -1,0 +1,467 @@
+<!doctype html>
+<html>
+<!-- The Nvidia CEO story (9 Nov 2026): the owner's script, fact-checked, voiced by Lara. Concept: SOLID vs HOLLOW.
+     What is on the record is set in solid type and shown on the real page (Nvidia's newsroom, the House committee);
+     what is only reported is set in hollow outline type on frosted glass, with its outlet, date and an anonymous source.
+     Whisper-and-shout type (the owner's 9 Nov reference): one small word at a time follows Lara; a few giant condensed
+     words land on the key phrases, some tucked behind Jensen's head (free-licence Wikimedia portraits, cut out).
+     Signature moment: the line "a Chinese spy" is edited live into "a woman US officials suspect is a Chinese spy".
+     Two reactions only (clean and simple): Side-Eye (grey set) on "posting it like everything is proven", Shook
+     (shirtless set) on "before Wall Street even opens". -->
+<head>
+<meta charset="utf-8">
+<style>
+@font-face{font-family:Osw;font-weight:300;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/oswald-latin-300-normal.woff2)}
+@font-face{font-family:Anton;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/anton-latin-400-normal.woff2)}
+@font-face{font-family:Man;font-weight:600;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-600-normal.woff2)}
+@font-face{font-family:Man;font-weight:800;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-800-normal.woff2)}
+:root{--navy:#0B1F44;--blue:#1F5FDB;--sky:#4FB3FF;--nv:#76B900;--red:#E5484D;--mut:rgba(11,31,68,.55)}
+html,body{margin:0;width:1920px;height:1080px;overflow:hidden;background:#EAF1FB}
+#stage{position:absolute;inset:0;overflow:hidden;background:radial-gradient(1400px 900px at 50% 38%,#F7FAFE 0%,#E8F0FB 55%,#D6E3F5 100%)}
+#grid{position:absolute;inset:0;background-image:linear-gradient(rgba(31,95,219,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(31,95,219,.05) 1px,transparent 1px);background-size:60px 60px}
+/* the alleged half of the story sits on frosted glass */
+#frost{position:absolute;inset:0;opacity:0;background:linear-gradient(180deg,#E6EAF1,#D9DFE9)}
+#frost i{position:absolute;border-radius:50%;filter:blur(90px);opacity:.55}
+.sc{position:absolute;inset:0;opacity:0}
+.giant{position:absolute;font:300 300px/0.86 Osw,sans-serif;text-transform:uppercase;letter-spacing:.005em;color:var(--navy);white-space:nowrap}
+.hollow{color:transparent;-webkit-text-stroke:3px var(--navy)}
+.wh{color:#fff}.wh.hollow{color:transparent;-webkit-text-stroke:3px #fff}
+.jh{position:absolute;height:1060px;top:20px}
+.kick{font:800 24px/1 Man,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--mut)}
+/* cold open */
+#hook{background:radial-gradient(1200px 800px at 55% 45%,#1E4FC8 0%,#123A9E 55%,#0A2A78 100%)}
+.col{position:absolute;top:0;width:430px;filter:blur(1.2px)}
+.post{height:150px;margin-bottom:22px;border-radius:22px;background:rgba(255,255,255,.12);box-shadow:inset 0 0 0 1px rgba(255,255,255,.14);position:relative}
+.post i{position:absolute;left:22px;top:22px;width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,.28)}
+.post b{position:absolute;left:84px;height:14px;border-radius:7px;background:rgba(255,255,255,.26)}
+.post em{position:absolute;left:84px;top:24px;font:800 20px/1 Man,sans-serif;font-style:normal;letter-spacing:.12em;color:#9FD3FF}
+#ctl{position:absolute;left:70px;top:46px;padding:12px 22px;border-radius:30px;background:rgba(255,255,255,.14);font:800 24px/1 Man,sans-serif;letter-spacing:.14em;color:#fff}
+#spl{position:absolute;left:0;top:0;width:960px;height:1080px;background:#F4F8FE}
+#spr{position:absolute;left:960px;top:0;width:960px;height:1080px;background:rgba(255,255,255,.10);backdrop-filter:blur(16px)}
+.lab{position:absolute;left:0;right:0;text-align:center;font:800 30px/1 Man,sans-serif;letter-spacing:.14em;text-transform:uppercase}
+/* real pages in a browser card */
+.br{position:absolute;left:150px;top:44px;width:1620px;height:860px;border-radius:26px;background:#fff;overflow:hidden;box-shadow:0 0 0 1px rgba(11,31,68,.10),0 30px 70px rgba(11,31,68,.22)}
+.br .bar{position:absolute;left:0;top:0;right:0;height:62px;background:#F1F4F9;border-bottom:1px solid rgba(11,31,68,.08);display:flex;align-items:center;gap:12px;padding:0 24px}
+.br .bar i{width:16px;height:16px;border-radius:50%;background:#D4DAE5}
+.br .url{margin-left:18px;flex:1;height:38px;border-radius:19px;background:#fff;display:flex;align-items:center;padding:0 22px;font:800 24px/1 Man,sans-serif;color:rgba(11,31,68,.75);box-shadow:inset 0 0 0 1px rgba(11,31,68,.1)}
+.br .vw{position:absolute;left:0;top:62px;right:0;bottom:0;overflow:hidden;background:#fff}
+.br .vw img,.post2 img{position:absolute;left:0;top:0;transform-origin:0 0}
+.ring{position:absolute;border:6px solid var(--blue);border-radius:14px;box-shadow:0 0 0 7px rgba(31,95,219,.18),0 0 26px rgba(31,95,219,.5);opacity:0}
+.stamp{position:absolute;right:190px;top:96px;display:flex;align-items:center;gap:14px;padding:14px 24px;border-radius:16px;background:var(--navy);color:#fff;font:800 26px/1 Man,sans-serif;letter-spacing:.06em;box-shadow:0 14px 30px rgba(11,31,68,.3);opacity:0}
+.stamp i{width:34px;height:34px;border-radius:50%;background:var(--sky);color:var(--navy);font:800 24px/34px Man,sans-serif;font-style:normal;text-align:center}
+.panel{position:absolute;left:300px;right:300px;bottom:196px;padding:26px 36px;border-radius:24px;background:rgba(255,255,255,.98);box-shadow:0 20px 50px rgba(11,31,68,.25);opacity:0;text-align:center}
+.panel .t{font:800 46px/1.15 Man,sans-serif;color:var(--navy)}
+.panel .s{margin-top:10px;font:600 26px/1.2 Man,sans-serif;color:var(--mut)}
+/* alleged: hollow cards */
+#tl{position:absolute;left:150px;right:150px;top:92px;height:150px;opacity:0}
+#tl .ln{position:absolute;left:40px;right:40px;top:30px;height:4px;background:rgba(11,31,68,.22);border-radius:2px}
+.td{position:absolute;top:14px;width:36px;margin-left:-18px}
+.td i{display:block;width:28px;height:28px;margin:0 auto;border-radius:50%;background:#fff;box-shadow:0 0 0 4px rgba(11,31,68,.3)}
+.td.on i{background:var(--blue);box-shadow:0 0 0 6px rgba(31,95,219,.28),0 0 22px rgba(31,95,219,.6)}
+.td span{position:absolute;left:50%;top:44px;transform:translateX(-50%);white-space:nowrap;text-align:center;font:800 22px/1.25 Man,sans-serif;color:var(--mut)}
+.td span b{display:block;font-size:24px;color:var(--navy)}
+.td.on span{color:var(--navy)}
+.cc{position:absolute;top:300px;width:520px;height:470px;box-sizing:border-box;padding:34px 36px;border-radius:28px;border:4px dashed rgba(11,31,68,.45);background:rgba(255,255,255,.5);opacity:0}
+.cc .m{font:800 22px/1 Man,sans-serif;letter-spacing:.1em;color:var(--mut);white-space:nowrap}
+.cc .b{margin-top:24px;font:600 34px/1.24 Man,sans-serif;color:rgba(11,31,68,.85)}
+.cc .b b{font-weight:800;color:var(--navy)}
+.cc .tag{position:absolute;left:36px;bottom:30px;padding:10px 18px;border-radius:12px;box-shadow:inset 0 0 0 3px rgba(11,31,68,.5);font:800 22px/1 Man,sans-serif;letter-spacing:.14em;color:rgba(11,31,68,.7)}
+.cc .src{position:absolute;left:36px;right:36px;bottom:30px;display:flex;align-items:center;gap:14px;font:800 24px/1 Man,sans-serif;color:var(--navy);opacity:0}
+.cc .src u{display:block;height:30px;border-radius:6px;background:var(--navy);text-decoration:none}
+#chk{position:absolute;left:330px;right:330px;top:300px;opacity:0}
+.cr{display:flex;align-items:center;justify-content:space-between;height:112px;padding:0 40px;margin-bottom:22px;border-radius:24px;border:4px dashed rgba(11,31,68,.35);background:rgba(255,255,255,.55);opacity:0}
+.cr .k{font:800 44px/1 Man,sans-serif;color:var(--navy)}
+.cr .v{font:800 40px/1 Man,sans-serif;color:rgba(11,31,68,.6)}
+.cr .v small{display:block;margin-top:8px;font:600 22px/1 Man,sans-serif;text-align:right}
+/* the fix */
+#ed{position:absolute;left:200px;right:200px;top:240px;padding:44px 60px 54px;border-radius:32px;background:#fff;box-shadow:0 26px 60px rgba(11,31,68,.2)}
+#ed .h{font:800 26px/1 Man,sans-serif;letter-spacing:.16em;color:var(--mut)}
+#ed .tx{margin-top:30px;font:800 88px/1.12 Man,sans-serif;color:var(--navy)}
+#ed .tx .in{color:var(--blue)}
+#ed .tx .car{display:inline-block;width:7px;height:86px;margin:0 6px;vertical-align:-10px;background:var(--blue)}
+#old{position:absolute;left:260px;right:260px;top:760px;display:flex;align-items:center;gap:30px;opacity:0}
+#old .k{padding:12px 20px;border-radius:12px;background:var(--navy);color:#fff;font:800 28px/1 Man,sans-serif;letter-spacing:.14em}
+#old .t{position:relative;font:800 70px/1 Man,sans-serif;color:rgba(11,31,68,.45)}
+#old .t s{position:absolute;left:-6px;top:50%;height:7px;margin-top:-3px;background:var(--navy);border-radius:4px}
+/* why it matters */
+.hd{position:absolute;left:90px;top:56px;display:flex;align-items:flex-end;gap:30px;opacity:0}
+.hd .n{font:300 230px/0.8 Osw,sans-serif;color:var(--navy)}
+.hd .t{font:300 104px/0.9 Osw,sans-serif;text-transform:uppercase;color:var(--navy);padding-bottom:6px}
+.node{position:absolute;top:380px;width:380px;height:170px;border-radius:28px;background:#fff;box-shadow:0 18px 40px rgba(11,31,68,.16);text-align:center;opacity:0}
+.node .a{margin-top:38px;font:300 76px/1 Osw,sans-serif;text-transform:uppercase;color:var(--navy)}
+.node .b{margin-top:12px;font:800 24px/1 Man,sans-serif;letter-spacing:.16em;color:var(--mut)}
+.arw{position:absolute;top:463px;height:6px;border-radius:3px;background:var(--navy);transform-origin:0 50%}
+.arw.dash{background:repeating-linear-gradient(90deg,var(--navy) 0 26px,transparent 26px 44px)}
+.chipq{position:absolute;top:448px;width:34px;height:34px;border-radius:7px;background:var(--nv);box-shadow:0 0 0 3px #fff,0 6px 14px rgba(0,0,0,.2)}
+.al{position:absolute;font:800 26px/1.2 Man,sans-serif;color:var(--navy);text-align:center;opacity:0}
+#wall{position:absolute;left:1236px;top:392px;width:22px;height:210px;border-radius:11px;background:var(--navy);box-shadow:0 0 0 6px rgba(11,31,68,.15);opacity:0}
+.oc{position:absolute;top:770px;width:500px;height:120px;border-radius:24px;background:var(--navy);color:#fff;display:flex;align-items:center;gap:22px;padding:0 30px;box-sizing:border-box;font:800 38px/1.1 Man,sans-serif;opacity:0}
+.oc i{flex:none;width:52px;height:52px;border-radius:50%;background:var(--sky);color:var(--navy);font:300 40px/52px Osw,sans-serif;font-style:normal;text-align:center}
+.qc{position:absolute;left:880px;width:900px;box-sizing:border-box;padding:30px 38px;border-radius:26px;background:#fff;box-shadow:0 18px 40px rgba(11,31,68,.16);opacity:0}
+.qc .t{margin-top:16px;font:800 44px/1.2 Man,sans-serif;color:var(--navy)}
+.lad{position:absolute;top:470px;width:340px;height:150px;border-radius:26px;background:#fff;box-shadow:0 18px 40px rgba(11,31,68,.14);display:flex;align-items:center;justify-content:center;white-space:nowrap;font:300 62px/1 Osw,sans-serif;text-transform:uppercase;color:var(--navy);opacity:0}
+.lad.on{background:var(--navy);color:#fff}
+.lar{position:absolute;top:520px;font:300 70px/1 Osw,sans-serif;color:rgba(11,31,68,.4);opacity:0}
+.rack{position:absolute;top:330px;width:150px;height:420px;border-radius:16px;background:linear-gradient(180deg,#14284F,#0B1F44);box-shadow:0 18px 40px rgba(11,31,68,.25)}
+.rack i{position:absolute;left:18px;right:18px;height:14px;border-radius:4px;background:#1E3563}
+.rack i b{position:absolute;right:8px;top:3px;width:8px;height:8px;border-radius:50%;background:var(--nv);box-shadow:0 0 8px var(--nv)}
+#fog{position:absolute;left:160px;top:300px;width:1600px;height:480px;border-radius:30px;background:rgba(234,240,248,.6);backdrop-filter:blur(10px);transform-origin:0 50%}
+.ch2{position:absolute;padding:20px 28px;border-radius:20px;background:#fff;box-shadow:0 14px 34px rgba(11,31,68,.16);font:800 36px/1 Man,sans-serif;color:var(--navy);opacity:0}
+/* crypto */
+.sign{position:absolute;top:290px;width:700px;height:400px;border-radius:34px;text-align:center;box-shadow:0 22px 50px rgba(11,31,68,.18)}
+.sign .a{margin-top:70px;font:300 150px/1 Osw,sans-serif;text-transform:uppercase}
+.sign .b{margin-top:34px;font:800 34px/1 Man,sans-serif;letter-spacing:.16em}
+#s1{left:210px;background:#E3E8F0;color:rgba(11,31,68,.45)}
+#s2{left:1010px;background:#fff;color:var(--navy)}
+#dot{display:inline-block;width:26px;height:26px;border-radius:50%;background:#22A06B;margin-right:14px;vertical-align:-3px;box-shadow:0 0 0 8px rgba(34,160,107,.18)}
+.post2{position:absolute;left:190px;top:56px;width:720px;height:900px;border-radius:24px;overflow:hidden;background:#0B0E11;box-shadow:0 26px 60px rgba(11,31,68,.3)}
+.big2{position:absolute;left:1010px;font:300 190px/1 Osw,sans-serif;opacity:0}
+.sub2{position:absolute;left:1014px;width:800px;font:800 36px/1.25 Man,sans-serif;color:var(--navy);opacity:0}
+.foot{position:absolute;left:1014px;width:800px;font:600 24px/1.3 Man,sans-serif;color:var(--mut);opacity:0}
+#hlc{position:absolute;left:1010px;top:660px;width:800px;box-sizing:border-box;padding:28px 34px;border-radius:24px;background:#fff;box-shadow:0 18px 40px rgba(11,31,68,.16);opacity:0}
+#hlc .v{margin-top:14px;font:800 52px/1 Man,sans-serif;color:var(--navy)}
+#hlc .v b{color:var(--red)}
+#trk{position:absolute;left:180px;right:180px;top:500px;height:8px;border-radius:4px;background:rgba(11,31,68,.2)}
+#shut{position:absolute;top:490px;height:28px;border-radius:14px;background:repeating-linear-gradient(135deg,rgba(11,31,68,.16) 0 14px,rgba(11,31,68,.05) 14px 28px)}
+.mk{position:absolute;top:478px;width:4px;height:52px;margin-left:-2px;background:var(--navy);border-radius:2px}
+.mkl{position:absolute;top:556px;width:420px;margin-left:-210px;text-align:center;font:800 28px/1.25 Man,sans-serif;color:var(--navy)}
+.mkl small{display:block;font:600 24px/1.25 Man,sans-serif;color:var(--mut)}
+#trav{position:absolute;top:482px;width:44px;height:44px;margin-left:-22px;border-radius:50%;background:var(--blue);box-shadow:0 0 0 10px rgba(31,95,219,.2),0 0 30px rgba(31,95,219,.7)}
+.tile{position:absolute;top:210px;width:380px;height:290px;border-radius:28px;background:#fff;box-shadow:0 18px 40px rgba(11,31,68,.14);opacity:0}
+.tile img{position:absolute;left:30px;top:30px;width:76px;height:76px;border-radius:50%;object-fit:contain;background:#fff}
+.tile .n{position:absolute;left:124px;top:34px;font:800 40px/1 Man,sans-serif;color:var(--navy)}
+.tile .f{position:absolute;left:124px;top:82px;width:236px;font:600 20px/1.2 Man,sans-serif;color:var(--mut)}
+.tile .p{position:absolute;left:30px;bottom:34px;font:300 110px/1 Osw,sans-serif;color:var(--red)}
+.tile .p small{display:block;font:800 30px/1 Man,sans-serif;color:var(--navy);margin-bottom:8px}
+.rs{position:absolute;top:610px;width:740px;height:250px;box-sizing:border-box;padding:30px 36px;border-radius:28px;background:#fff;box-shadow:0 18px 40px rgba(11,31,68,.14);opacity:0}
+.rs .t{margin-top:18px;font:800 46px/1.15 Man,sans-serif;color:var(--navy)}
+.rs .s{margin-top:12px;font:600 26px/1.25 Man,sans-serif;color:var(--mut)}
+.date{position:absolute;top:220px;width:520px;height:440px;border-radius:34px;background:#fff;box-shadow:0 22px 50px rgba(11,31,68,.18);text-align:center;opacity:0}
+.date .m{height:110px;border-radius:34px 34px 0 0;background:var(--navy);color:#fff;font:800 48px/110px Man,sans-serif;letter-spacing:.16em}
+.date .d{font:300 220px/250px Osw,sans-serif;color:var(--navy)}
+.date .y{font:800 34px/1.2 Man,sans-serif;color:var(--navy)}
+.date .y small{display:block;font:600 24px/1.4 Man,sans-serif;color:var(--mut)}
+#endc{position:absolute;left:70px;bottom:130px;text-align:left;opacity:0}
+#endc span{display:inline-block;font:800 50px/1 Man,sans-serif;color:#fff;background:var(--navy);padding:20px 38px;border-radius:44px}
+#endc div{margin-top:22px;font:600 28px/1 Man,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--mut)}
+.stk{position:absolute;left:0;top:0;width:330px;opacity:0;filter:drop-shadow(0 14px 22px rgba(11,31,68,.30));z-index:20}
+#cap{position:absolute;left:0;right:0;top:1000px;text-align:center;font:800 40px/1 Man,sans-serif;color:var(--navy);z-index:30;letter-spacing:.01em}
+#cap.dk{color:#fff}
+#cap.pl span{background:var(--navy);color:#fff;padding:10px 22px;border-radius:14px}
+</style>
+</head>
+<body>
+<div id="stage"><div id="grid"></div>
+  <div id="frost"><i style="left:120px;top:140px;width:620px;height:620px;background:#C9D6EA"></i><i style="left:1200px;top:420px;width:700px;height:700px;background:#D4DCEA"></i><i style="left:700px;top:-200px;width:600px;height:500px;background:#F2F5FA"></i></div>
+
+  <!-- 1. cold open: the feed, PROVEN?, then the split -->
+  <div class="sc" id="hook">
+    <div class="col" id="c1" style="left:70px"></div><div class="col" id="c2" style="left:530px"></div>
+    <div id="ctl">CT · RIGHT NOW</div>
+    <div class="giant wh hollow" id="hk_p" style="left:60px;top:170px;font-size:330px">Proven?</div>
+    <img class="jh" id="hk_j" src="img/jh_cut.png" style="left:1020px">
+    <div id="spl"><div class="giant" id="hk_c" style="left:0;right:0;text-align:center;top:390px;font-size:200px">Confirmed</div><div class="lab" id="hk_cl" style="top:650px;color:var(--mut)">on the record</div></div>
+    <div id="spr"><div class="giant wh hollow" id="hk_a" style="left:0;right:0;text-align:center;top:390px;font-size:200px">Alleged</div><div class="lab" id="hk_al" style="top:650px;color:rgba(255,255,255,.8)">reported, not proven</div></div>
+  </div>
+
+  <!-- 2. CONFIRMED -->
+  <div class="sc" id="ctitle"><div class="giant" id="ct_w" style="left:60px;top:330px">Confirmed</div><img class="jh" id="ct_j" src="img/jh_cut.png" style="left:1110px"></div>
+  <div class="sc" id="letter"><div class="br"><div class="bar"><i></i><i></i><i></i><div class="url">nvidianews.nvidia.com · A Message to Our Company</div></div><div class="vw" id="vw_letter"><img src="img/msg.jpg" width="2880" height="3000"></div></div>
+    <div class="stamp" id="st1"><i>✓</i>ON THE RECORD · NVIDIA NEWSROOM · 8 NOV</div>
+    <div class="panel" id="pn1"><div class="t">The letter names no one.</div><div class="s">Jensen Huang's email to Nvidia staff, published by Nvidia, 8 Nov 2026</div></div></div>
+  <div class="sc" id="board"><div class="br"><div class="bar"><i></i><i></i><i></i><div class="url">nvidianews.nvidia.com · Statement From NVIDIA Board of Directors</div></div><div class="vw" id="vw_board"><img src="img/board.jpg" width="2880" height="2400"></div></div>
+    <div class="stamp" id="st2"><i>✓</i>ON THE RECORD · NVIDIA BOARD · 8 NOV</div>
+    <div class="panel" id="pn2"><div class="t">CEO: staying on</div><div class="s">An Nvidia spokesperson (CNBC, 8 Nov) · the board "has confidence in Jensen"</div></div></div>
+
+  <!-- 3. ALLEGED -->
+  <div class="sc" id="atitle"><div class="giant hollow" style="left:0;right:0;text-align:center;top:330px;font-size:340px">Alleged</div><div class="lab" style="top:680px;color:var(--mut)">reported, not proven</div></div>
+  <div class="sc" id="claims">
+    <div id="tl"><div class="ln"></div>
+      <div class="td" id="d1" style="left:4%"><i></i><span><b>29 Oct</b>NYT first report</span></div>
+      <div class="td" id="d2" style="left:26%"><i></i><span><b>30 Oct</b>China responds</span></div>
+      <div class="td" id="d3" style="left:50%"><i></i><span><b>4 Nov</b>House letter</span></div>
+      <div class="td" id="d4" style="left:73%"><i></i><span><b>6 Nov</b>The memo (NYT, FT)</span></div>
+      <div class="td" id="d5" style="left:96%"><i></i><span><b>8 Nov</b>Letter + board</span></div></div>
+    <div class="giant hollow" id="cl_g1" style="left:0;right:0;text-align:center;top:400px;font-size:230px">Reporting</div><div class="giant hollow" id="cl_g2" style="left:0;right:0;text-align:center;top:400px;font-size:230px">Since 29 Oct</div>
+    <div class="cc" id="ca" style="left:120px"><div class="m">THE NEW YORK TIMES · 29 OCT</div><div class="b">US intelligence believes <b>Alice Huang</b>, an executive linked to <b>Megaspeed</b> (Singapore), was passing information to <b>Beijing</b>.</div><div class="tag">REPORTED</div><div class="src"><span>Source:</span><u></u><span class="an">anonymous</span></div></div>
+    <div class="cc" id="cb" style="left:700px"><div class="m">THE NEW YORK TIMES · 6 NOV</div><div class="b">A US government memo says she was <b>recruited by China's Ministry of State Security</b>.</div><div class="tag">REPORTED</div><div class="src"><span>Source:</span><u></u><span class="an">anonymous</span></div></div>
+    <div class="cc" id="cc" style="left:1280px"><div class="m">FINANCIAL TIMES · 6 NOV</div><div class="b">The memo describes <b>a romantic relationship</b> with Jensen.</div><div class="tag">REPORTED</div><div class="src"><span>Source:</span><u></u><span class="an">anonymous</span></div></div>
+    <div id="chk">
+      <div class="cr" id="r1"><span class="k">Public evidence</span><span class="v">none</span></div>
+      <div class="cr" id="r2"><span class="k">Charges</span><span class="v">none</span></div>
+      <div class="cr" id="r3"><span class="k">Alice Huang</span><span class="v">no comment</span></div>
+      <div class="cr" id="r4"><span class="k">China</span><span class="v">"unsubstantiated … smears"<small>Foreign Ministry, 30 Oct, on the first report</small></span></div></div>
+  </div>
+  <div class="sc" id="fix"><div id="ed"><div class="h" id="ed_h">HOW IT'S BEING POSTED</div><div class="tx" id="ed_t"></div></div>
+    <div id="old"><span class="k">NOT</span><span class="t">a Chinese spy.<s id="old_s"></s></span></div></div>
+
+  <!-- 4. why it matters -->
+  <div class="sc" id="why1">
+    <div class="giant" id="w_t" style="left:0;right:0;text-align:center;top:300px;font-size:230px">Why it matters<br>for AI</div>
+    <div class="hd" id="h1"><span class="n">1</span><span class="t">Chips &amp; China</span></div>
+    <div class="node" id="n1" style="left:150px"><div class="a">Nvidia</div><div class="b">US</div></div>
+    <div class="node" id="n2" style="left:770px"><div class="a">Megaspeed</div><div class="b">SINGAPORE</div></div>
+    <div class="node" id="n3" style="left:1390px"><div class="a">China</div><div class="b">&nbsp;</div></div>
+    <div class="arw" id="a1" style="left:534px;width:232px"></div><div class="arw dash" id="a2" style="left:1154px;width:232px"></div>
+    <div id="q1"></div>
+    <div class="al" id="l1" style="left:420px;top:290px;width:460px">buying Nvidia's<br>advanced chips</div>
+    <div class="al" id="l2" style="left:1040px;top:290px;width:460px">suspected diversion<br><span style="color:var(--mut)">under investigation</span></div>
+    <div class="al" id="l3" style="left:790px;top:580px;width:340px;color:var(--mut)">Nvidia: found no evidence of diversion</div>
+    <div id="wall"></div><div class="al" id="l4" style="left:1140px;top:610px;width:250px">US export controls<br><span style="color:var(--mut)">since 7 Oct 2022</span></div>
+    <div class="oc" id="o1" style="left:150px"><i>1</i>Stricter rules</div>
+    <div class="oc" id="o2" style="left:710px"><i>2</i>More checks on resellers</div>
+    <div class="oc" id="o3" style="left:1270px"><i>3</i>Less room to sell into China</div>
+  </div>
+  <div class="sc" id="why2">
+    <div class="hd" id="h2"><span class="n">2</span><span class="t">Trust in one man</span></div>
+    <img class="jh" id="w2_j" src="img/jh2_cut.png" style="left:20px;top:150px;height:930px">
+    <div class="qc" id="q2a" style="top:330px"><div class="kick">WHITE HOUSE · 25 MAR 2026</div><div class="t">Member of the President's Council of Advisors on Science and Technology</div></div>
+    <div class="qc" id="q2b" style="top:600px"><div class="kick">NPR · 23 SEP 2026</div><div class="t">"one of the key figures influencing President Trump's thinking on AI"</div></div>
+    <div class="br" id="br_h" style="opacity:0"><div class="bar"><i></i><i></i><i></i><div class="url">foreignaffairs.house.gov · press release, 5 Nov 2026</div></div><div class="vw" id="vw_house"><img src="img/house.jpg" width="2880" height="2300"></div></div>
+    <div class="stamp" id="st3"><i>✓</i>ON THE RECORD · HOUSE COMMITTEES · LETTER 4 NOV</div>
+    <div class="lad" id="g1" style="left:160px">Gossip</div><div class="lar" id="ga1" style="left:518px">→</div>
+    <div class="lad" id="g2" style="left:580px">Reports</div><div class="lar" id="ga2" style="left:938px">→</div>
+    <div class="lad" id="g3" style="left:1000px">Board probe</div><div class="lar" id="ga3" style="left:1358px">→</div>
+    <div class="lad" id="g4" style="left:1420px">Congress</div>
+  </div>
+  <div class="sc" id="why3">
+    <div class="hd" id="h3"><span class="n">3</span><span class="t">The supply chain</span></div>
+    <div id="racks"></div>
+    <div class="ch2" id="lb3" style="left:740px;top:250px;display:flex;align-items:center;gap:18px"><img src="img/nvlogo.svg" style="height:34px">inside AI labs &amp; data centers</div>
+    <div id="fog"></div>
+    <div class="giant hollow" id="unc" style="left:0;right:0;text-align:center;top:420px;font-size:250px">Uncertainty</div>
+    <div class="ch2" id="r3a" style="left:160px;top:810px">Won't stop AI tomorrow</div>
+    <div class="ch2" id="r3b" style="left:1020px;top:810px">Big tech: billions on compute</div>
+  </div>
+
+  <!-- 5. crypto -->
+  <div class="sc" id="ctitle2"><div class="giant" style="left:0;right:0;text-align:center;top:250px;font-size:270px">How it hits<br>crypto</div></div>
+  <div class="sc" id="open">
+    <div class="sign" id="s1"><div class="a">Nasdaq</div><div class="b">🔒&nbsp; CLOSED · WEEKEND</div></div>
+    <div class="sign" id="s2"><div class="a">Crypto</div><div class="b"><span id="dot"></span>OPEN · 24/7</div></div>
+    <div class="ch2" id="opc" style="left:1110px;top:740px">Nvidia perps: trading</div>
+  </div>
+  <div class="sc" id="bn">
+    <div class="post2"><img id="im_bn" src="img/bn_price.jpg" width="1080" height="1350"></div><div id="bnring"></div>
+    <div class="kick" id="bk" style="position:absolute;left:1014px;top:150px">BINANCE RESEARCH · 9 NOV</div>
+    <div class="big2" id="b42" style="top:200px;color:var(--red)">−4.2%</div>
+    <div class="sub2" id="b42s" style="top:410px">Nvidia perp at its lowest, against Friday's US close</div>
+    <div class="big2" id="b36" style="top:200px;color:var(--navy)">$360.35M</div>
+    <div class="sub2" id="b36s" style="top:410px">Nvidia perp volume in 24 hours · #1 of 8 exchanges · 44% of the total</div>
+    <div class="foot" id="bft" style="top:540px">Binance Research's baseline: $186.91 · Nasdaq's official Friday close: $186.64</div>
+    <div id="hlc"><div class="kick">HYPERLIQUID · xyz:NVDA · 08:20 UTC</div><div class="v">$177.34 · <b>−5.0%</b></div><div class="kick" style="margin-top:12px;letter-spacing:.06em;text-transform:none">against Friday's $186.64 close (Hyperliquid API)</div></div>
+  </div>
+  <div class="sc" id="live">
+    <div class="giant" id="lv_w" style="left:0;right:0;text-align:center;top:150px;font-size:240px">Sunday night</div>
+    <div id="trk"></div><div id="shut"></div>
+    <div class="mk" style="left:280px"></div><div class="mkl" style="left:280px">FRI 21:00 UTC<small>Wall Street closes</small></div>
+    <div class="mk" style="left:1080px"></div><div class="mkl" id="mk2" style="left:1080px">SUN 20:00 UTC<small>CT trades the news</small></div>
+    <div class="mk" id="mk3b" style="left:1640px"></div><div class="mkl" id="mk3" style="left:1640px;top:392px">MON 14:30 UTC<small>Wall Street opens</small></div>
+    <div id="trav"></div>
+  </div>
+  <div class="sc" id="ai">
+    <div class="tile" id="t1" style="left:120px"><img src="img/tao.jpg"><div class="n">TAO</div><div class="f">Bittensor</div><div class="p">−4.5%</div></div>
+    <div class="tile" id="t2" style="left:540px"><img src="img/fet.png"><div class="n">FET</div><div class="f">Artificial Superintelligence Alliance</div><div class="p">−4.1%</div></div>
+    <div class="tile" id="t3" style="left:960px"><img src="img/akt.png"><div class="n">AKT</div><div class="f">Akash Network</div><div class="p">−9.2%</div></div>
+    <div class="tile" id="t4" style="left:1380px"><img src="img/btc.png"><div class="n">BTC</div><div class="f">Bitcoin</div><div class="p"><small>$73,769</small>−2.7%</div></div>
+    <div class="foot" id="aisrc" style="left:120px;top:520px;width:1680px">CoinGecko · 24-hour change · 08:14 UTC, 9 Nov 2026</div>
+    <div class="rs" id="rs1" style="left:120px"><div class="kick">LAST WEEK · 2–6 NOV</div><div class="t">A tech selloff</div><div class="s">Nvidia $204.64 → $186.64 (−8.8%) · chip stocks hit hardest on Thu 5 Nov</div></div>
+    <div class="rs" id="rs2" style="left:1060px"><div class="kick">THIS WEEKEND</div><div class="t">The Huang story</div><div class="s">one reason, not the only one</div></div>
+  </div>
+  <div class="sc" id="dates">
+    <div class="date" id="dd1" style="left:380px"><div class="m">NOV</div><div class="d">17</div><div class="y">Nvidia earnings<small>Q3 results, Tuesday</small></div></div>
+    <div class="date" id="dd2" style="left:1020px"><div class="m" style="background:var(--blue)">NOV</div><div class="d">18</div><div class="y">House briefing<small>closed-door, requested</small></div></div>
+  </div>
+  <div class="sc" id="end">
+    <div class="giant hollow" id="en_a" style="left:60px;top:110px;font-size:250px">Not</div>
+    <div class="giant hollow" id="en_b" style="left:60px;top:345px;font-size:250px">Proven</div>
+    <div class="giant" id="en_y" style="left:850px;top:345px;font-size:250px">yet.</div>
+    <img class="jh" id="en_j" src="img/jh_cut.png" style="left:1110px">
+    <div class="ch2" id="en_1" style="left:70px;top:700px">The board's investigation</div>
+    <div class="ch2" id="en_2" style="left:580px;top:700px">Congress</div>
+    <div id="endc"><span>Video by @Cmv_ng</span><div>Sources in the post · Not financial advice</div></div>
+  </div>
+
+  <img class="stk" id="stk"><img class="stk" id="stk2">
+  <div id="cap"><span></span></div></div>
+<script src="plan.js"></script>
+<script>
+const P = window.PLAN, T = s => s + P.vo + (s >= P.cut ? P.gap : 0), FPS = 30
+const $ = id => document.getElementById(id)
+const cl = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x)), eo = x => 1 - Math.pow(1 - cl(x), 3), eio = x => { x = cl(x); return x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2 }
+const eback = x => { x = cl(x); const c = 1.5; return 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2) }
+let SIG = []
+const css = (el, k, v) => { if (el.style[k] !== v) el.style[k] = v; SIG.push(v) }
+const S = P.scenes
+const vis = (a, b, t, fi = .35, fo = .3) => t >= T(a) - fi && t < T(b) + fo ? Math.min(cl((t - T(a) + fi) / fi), cl((T(b) + fo - t) / fo)) : 0
+const pop = (t, a, d = .35) => t >= T(a) ? eo((t - T(a)) / d) : 0
+const show = (el, t, a, d = .35, dy = 30) => { const q = pop(t, a, d); css(el, 'opacity', q.toFixed(3)); css(el, 'transform', `translateY(${(dy * (1 - q)).toFixed(1)}px)`); return q }
+const slam = (el, t, a, from = 1.12) => { const q = cl((t - T(a)) / .32); css(el, 'opacity', (t >= T(a) ? eo(q * 1.6) : 0).toFixed(3)); css(el, 'transform', `scale(${(from - (from - 1) * eback(q)).toFixed(4)})`) }
+// real pages: camera keys [t, cx, cy, z] in image px (z relative to fit-width), rings [t0, t1, [x,y,w,h]]
+function cam(keys, t, iw, ih, img, VW = 1620, VH = 798) {
+  let v = keys[0].slice(1)
+  for (let j = 1; j < keys.length; j++) if (t >= T(keys[j][0])) { const u = eio((t - T(keys[j][0])) / .9); v = keys[j - 1].slice(1).map((x, q) => x + (keys[j][q + 1] - x) * u) }
+  const z = (VW / iw) * v[2], x = Math.min(0, Math.max(VW - iw * z, VW / 2 - v[0] * z)), y = Math.min(0, Math.max(VH - ih * z, VH / 2 - v[1] * z))
+  css(img, 'transform', `translate(${x.toFixed(1)}px,${y.toFixed(1)}px) scale(${z.toFixed(5)})`); return { x, y, z }
+}
+function rings(vw, list, t, c, ox = 0, oy = 0) {
+  list.forEach(r => { if (!r.el) { r.el = document.createElement('div'); r.el.className = 'ring'; vw.appendChild(r.el) }
+    const a = T(r[0]), b = T(r[1]), q = t >= a && t < b ? Math.min(eo((t - a) / .25), cl((b - t) / .2)) : 0, B = r[2], p = 8
+    Object.assign(r.el.style, { left: (ox + c.x + B[0] * c.z - p).toFixed(1) + 'px', top: (oy + c.y + B[1] * c.z - p).toFixed(1) + 'px', width: (B[2] * c.z + 2 * p).toFixed(1) + 'px', height: (B[3] * c.z + 2 * p).toFixed(1) + 'px' })
+    css(r.el, 'opacity', q.toFixed(3)); css(r.el, 'transform', `scale(${(1 + .08 * (1 - eo((t - a) / .3))).toFixed(3)})`) })
+}
+// ---- build the repeated bits once
+;(() => {
+  const mk = (col, seed) => { let h = ''; for (let i = 0; i < 16; i++) { const w1 = 180 + ((seed * 37 + i * 53) % 160), w2 = 120 + ((seed * 71 + i * 29) % 190), tg = (i + seed) % 4 === 0
+      h += `<div class="post"><i></i>${tg ? '<em>BREAKING</em>' : `<b style="top:26px;width:${w1 * .5}px"></b>`}<b style="top:62px;width:${w1}px"></b><b style="top:92px;width:${w2}px"></b><b style="top:122px;width:${w2 * .6}px"></b></div>` }
+    col.innerHTML = h + h }
+  mk($('c1'), 3); mk($('c2'), 8)
+  let r = ''; for (let i = 0; i < 8; i++) { r += `<div class="rack" style="left:${200 + i * 196}px">`; for (let k = 0; k < 12; k++) r += `<i style="top:${24 + k * 32}px"><b id="led${i}_${k}"></b></i>`; r += '</div>' }
+  $('racks').innerHTML = r
+  let q = ''; for (let i = 0; i < 4; i++) q += `<div class="chipq" id="cq${i}"></div>`; $('q1').innerHTML = q
+})()
+let RF = null, RF2 = null
+function flowInit() {
+  const base = { lib: window.RLIB, root: P.sroot, fps: FPS, T, words: (window.WORDS || []).map(w => ({ s: w[0], e: w[1], w: w[2] })) }
+  RF = ReactFlow.create({ ...base, ...P.flow, img: $('stk') }); RF2 = ReactFlow.create({ ...base, ...P.flow2, img: $('stk2') })
+}
+const lastFix = { h: '' }
+window.render = async t => {
+  SIG = []
+  // ===== 1. cold open
+  css($('hook'), 'opacity', vis(S.hook[0], S.hook[1], t, .01, .12).toFixed(3))
+  if (t < T(S.hook[1]) + .4) {
+    const sp = T(P.hk.so), sq = eio(cl((t - sp) / .55))
+    const fy = -((t * 120) % (172 * 16)); css($('c1'), 'transform', `translateY(${fy.toFixed(1)}px)`); css($('c2'), 'transform', `translateY(${(-((t * 150 + 600) % (172 * 16))).toFixed(1)}px)`)
+    css($('c1'), 'opacity', (.75 * (1 - .4 * pop(t, P.hk.proven, .3))).toFixed(3)); css($('c2'), 'opacity', (.75 * (1 - .4 * pop(t, P.hk.proven, .3))).toFixed(3))
+    css($('ctl'), 'opacity', (pop(t, 0.1, .3) * (1 - sq)).toFixed(3))
+    slam($('hk_p'), t, P.hk.proven, 1.15); if (t >= T(P.hk.proven)) css($('hk_p'), 'opacity', (cl((t - T(P.hk.proven)) / .2) * (1 - sq)).toFixed(3))
+    css($('hk_j'), 'opacity', (pop(t, 0, .45) * (1 - sq)).toFixed(3)); css($('hk_j'), 'transform', `translateX(${(40 * sq).toFixed(1)}px) scale(${(1.0 + .03 * cl(t / 7)).toFixed(4)})`)
+    css($('spl'), 'transform', `translateX(${(-960 * (1 - sq)).toFixed(1)}px)`); css($('spr'), 'transform', `translateX(${(960 * (1 - sq)).toFixed(1)}px)`)
+    slam($('hk_c'), t, P.hk.conf, 1.1); css($('hk_cl'), 'opacity', pop(t, P.hk.conf + .3, .3).toFixed(3))
+    slam($('hk_a'), t, P.hk.not, 1.1); css($('hk_al'), 'opacity', pop(t, P.hk.not + .2, .3).toFixed(3))
+  }
+  // ===== 2. confirmed
+  css($('ctitle'), 'opacity', vis(S.ctitle[0], S.ctitle[1], t, .01, .3).toFixed(3))
+  if (t < T(S.ctitle[1]) + .4) { slam($('ct_w'), t, S.ctitle[0], 1.12); css($('ct_j'), 'transform', `scale(${(1.04 - .04 * eo((t - T(S.ctitle[0])) / 1.2)).toFixed(4)})`) }
+  { const q = vis(S.letter[0], S.letter[1], t, .4, .3); css($('letter'), 'opacity', q.toFixed(3))
+    if (q > 0) { const c = cam(P.letter.cam, t, 2880, 3000, document.querySelector('#vw_letter img')); rings($('vw_letter'), P.letter.rings, t, c)
+      css($('letter'), 'transform', `translateY(${(60 * (1 - eo((t - T(S.letter[0]) + .4) / .5))).toFixed(1)}px)`)
+      show($('st1'), t, S.letter[0] + .4, .3, -16); show($('pn1'), t, P.letter.none, .35) } }
+  { const q = vis(S.board[0], S.board[1], t, .35, .3); css($('board'), 'opacity', q.toFixed(3))
+    if (q > 0) { const c = cam(P.board.cam, t, 2880, 2400, document.querySelector('#vw_board img')); rings($('vw_board'), P.board.rings, t, c)
+      show($('st2'), t, S.board[0] + .3, .3, -16); show($('pn2'), t, P.board.ceo, .35) } }
+  // ===== 3. alleged (frosted glass from the title to the fix)
+  css($('frost'), 'opacity', vis(S.atitle[0], S.fix[1], t, .5, .5).toFixed(3))
+  css($('atitle'), 'opacity', vis(S.atitle[0], S.atitle[1], t, .3, .3).toFixed(3))
+  if (t < T(S.atitle[1]) + .4) slam($('atitle').firstElementChild, t, S.atitle[0], 1.08)
+  { const q = vis(S.claims[0], S.claims[1], t, .3, .35); css($('claims'), 'opacity', q.toFixed(3))
+    if (q > 0) { const C = P.cl
+      show($('tl'), t, C.tl, .4, -20)
+      { const g1 = pop(t, C.tl + .35, .3) * (1 - cl((t - T(C.oct29) + .1) / .2)), g2 = pop(t, C.oct29, .3) * (1 - cl((t - T(C.a) + .25) / .25))
+        css($('cl_g1'), 'opacity', g1.toFixed(3)); css($('cl_g2'), 'opacity', g2.toFixed(3)); css($('cl_g2'), 'transform', `scale(${(1.08 - .08 * eback(cl((t - T(C.oct29)) / .32))).toFixed(4)})`) }
+      const on = t >= T(C.r4) ? 'd2' : t >= T(C.b) ? 'd4' : t >= T(C.oct29) ? 'd1' : ''
+      ;['d1', 'd2', 'd3', 'd4', 'd5'].forEach(d => { $(d).classList.toggle('on', d === on); SIG.push(on) })
+      const out = 1 - cl((t - T(C.r1) + .1) / .35)
+      ;[['ca', C.a], ['cb', C.b], ['cc', C.c]].forEach(([id, a]) => { const e = $(id), qq = pop(t, a, .4)
+        css(e, 'opacity', (qq * out).toFixed(3)); css(e, 'transform', `translateY(${(40 * (1 - qq) - 30 * (1 - out)).toFixed(1)}px)`)
+        const s = e.querySelector('.src'), tg = e.querySelector('.tag'), sq = pop(t, C.anon + .15, .3)
+        css(s, 'opacity', sq.toFixed(3)); css(tg, 'opacity', (1 - sq).toFixed(3)); css(s.querySelector('u'), 'width', (150 * eo((t - T(C.anon) - .2) / .6)).toFixed(1) + 'px') })
+      css($('chk'), 'opacity', pop(t, C.r1 - .1, .3).toFixed(3))
+      ;[['r1', C.r1], ['r2', C.r2], ['r3', C.r3], ['r4', C.r4]].forEach(([id, a]) => show($(id), t, a, .35, 24)) } }
+  // the fix: "a Chinese spy" -> "a woman US officials suspect is a Chinese spy"
+  { const q = vis(S.fix[0], S.fix[1], t, .3, .35); css($('fix'), 'opacity', q.toFixed(3))
+    if (q > 0) { const F = P.fix, fair = t >= T(F.fair)
+      const h = fair ? 'THE FAIR WAY TO SAY IT' : "HOW IT'S BEING POSTED"; if ($('ed_h').textContent !== h) $('ed_h').textContent = h
+      const ins = F.ins.filter(x => t >= T(x[0])).map(x => x[1]).join(' '), blink = (Math.floor(t * 2.4) % 2 === 0 || (fair && t < T(F.spy))) ? 1 : 0
+      const html = (ins ? `<span class="in">${ins}</span>` : '') + `<span class="car" style="opacity:${t < T(F.spy) + .3 ? blink : 0}"></span>${ins ? ' ' : ''}a Chinese spy.`
+      if (lastFix.h !== html) { $('ed_t').innerHTML = html; lastFix.h = html } SIG.push(html)
+      css($('ed'), 'transform', `scale(${(1 + .02 * Math.sin(Math.PI * cl((t - T(F.spy)) / .4))).toFixed(4)})`)
+      show($('old'), t, F.not, .3, 20); css($('old_s'), 'width', (eo((t - T(F.strike)) / .45) * 100).toFixed(1) + '%') } }
+  // ===== 4. why it matters
+  { const q = vis(S.why1[0], S.why1[1], t, .35, .3); css($('why1'), 'opacity', q.toFixed(3))
+    if (q > 0) { const A = P.w1
+      css($('w_t'), 'opacity', (pop(t, S.why1[0], .3) * (1 - cl((t - T(A.one) + .25) / .25))).toFixed(3))
+      show($('h1'), t, A.one, .35, 24)
+      show($('n1'), t, A.one + .4, .35); show($('n2'), t, A.mega, .35); show($('n3'), t, A.div - .2, .35)
+      css($('a1'), 'transform', `scaleX(${eo((t - T(A.mega)) / .5).toFixed(3)})`); css($('a2'), 'transform', `scaleX(${eo((t - T(A.div)) / .5).toFixed(3)})`)
+      for (let i = 0; i < 4; i++) { const u = ((t - T(A.mega)) * .45 + i / 4) % 1, on = t >= T(A.mega) + .4; css($('cq' + i), 'left', (540 + u * 190).toFixed(1) + 'px'); css($('cq' + i), 'opacity', (on ? Math.sin(Math.PI * u) : 0).toFixed(3)) }
+      show($('l1'), t, A.mega + .2, .3, 14); show($('l2'), t, A.div + .2, .3, 14); show($('l3'), t, A.noev, .3, 14)
+      slam($('wall'), t, A.ec, 1.25); show($('l4'), t, A.ec + .15, .3, 14)
+      ;[['o1', A.o1], ['o2', A.o2], ['o3', A.o3]].forEach(([id, a]) => show($(id), t, a, .32, 30)) } }
+  { const q = vis(S.why2[0], S.why2[1], t, .35, .3); css($('why2'), 'opacity', q.toFixed(3))
+    if (q > 0) { const A = P.w2, lad = pop(t, A.ladder - .1, .35), hb = vis(A.house, A.ladder - .15, t, .35, .3)
+      show($('h2'), t, S.why2[0] + .05, .35, 24); css($('h2'), 'opacity', (pop(t, S.why2[0] + .05, .35) * (1 - hb)).toFixed(3))
+      css($('w2_j'), 'opacity', (pop(t, S.why2[0], .4) * (1 - lad) * (1 - hb)).toFixed(3))
+      ;[['q2a', A.pcast], ['q2b', A.npr]].forEach(([id, a]) => { const e = $(id), qq = pop(t, a, .35); css(e, 'opacity', (qq * (1 - lad)).toFixed(3)); css(e, 'transform', `translateX(${(40 * (1 - qq)).toFixed(1)}px)`) })
+      css($('br_h'), 'opacity', hb.toFixed(3)); css($('br_h'), 'transform', `translateY(${(70 * (1 - eo((t - T(A.house) + .35) / .5))).toFixed(1)}px)`)
+      if (hb > 0) { const c = cam(A.cam, t, 2880, 2300, document.querySelector('#vw_house img')); rings($('vw_house'), A.rings, t, c) }
+      css($('st3'), 'opacity', (hb * pop(t, A.house + .3, .3)).toFixed(3))
+      const steps = ['g1', 'g2', 'g3', 'g4'], k = cl((t - T(A.ladder)) / (T(A.congress) - T(A.ladder))) * 3.999
+      steps.forEach((id, i) => { const e = $(id); css(e, 'opacity', pop(t, A.ladder + i * .12, .3).toFixed(3)); e.classList.toggle('on', i === Math.floor(k) && t >= T(A.ladder)); SIG.push(e.className)
+        css(e, 'transform', `scale(${(i === 3 ? 1 + .1 * eback(cl((t - T(A.congress)) / .35)) - .1 * (t >= T(A.congress) ? 0 : 1) * 0 : 1).toFixed(3)})`) })
+      ;['ga1', 'ga2', 'ga3'].forEach((id, i) => css($(id), 'opacity', pop(t, A.ladder + i * .12 + .06, .3).toFixed(3))) } }
+  { const q = vis(S.why3[0], S.why3[1], t, .35, .3); css($('why3'), 'opacity', q.toFixed(3))
+    if (q > 0) { const A = P.w3
+      show($('h3'), t, S.why3[0] + .05, .35, 24); css($('racks'), 'opacity', pop(t, S.why3[0] + .3, .4).toFixed(3))
+      const f = Math.floor(t * 8)
+      for (let i = 0; i < 8; i++) for (let k = 0; k < 12; k++) { const on = ((i * 7 + k * 13 + f * (1 + (i + k) % 3)) % 9) > 1; css($(`led${i}_${k}`), 'opacity', on ? '1' : '.25') }
+      show($('lb3'), t, A.labs, .35, -16)
+      css($('fog'), 'transform', `scaleX(${eio((t - T(A.unc)) / .8).toFixed(3)})`); css($('fog'), 'opacity', (t >= T(A.unc) ? 1 : 0).toFixed(3))
+      slam($('unc'), t, A.unc + .1, 1.08)
+      show($('r3a'), t, A.run, .3, 20); show($('r3b'), t, A.bil, .3, 20) } }
+  // ===== 5. crypto
+  css($('ctitle2'), 'opacity', vis(S.ctitle2[0], S.ctitle2[1], t, .3, .3).toFixed(3))
+  if (t < T(S.ctitle2[1]) + .4) slam($('ctitle2').firstElementChild, t, S.ctitle2[0], 1.08)
+  { const q = vis(S.open[0], S.open[1], t, .3, .3); css($('open'), 'opacity', q.toFixed(3))
+    if (q > 0) { show($('s1'), t, S.open[0], .35, 30); show($('s2'), t, P.op.cr - .2, .35, 30)
+      css($('dot'), 'opacity', (.55 + .45 * Math.sin(t * 6)).toFixed(3)); show($('opc'), t, P.op.priced, .3, 20) } }
+  { const q = vis(S.bn[0], S.bn[1], t, .35, .3); css($('bn'), 'opacity', q.toFixed(3))
+    if (q > 0) { const B = P.bn, two = t >= T(B.swap), im = $('im_bn'), src = two ? 'img/bn_vol.jpg' : 'img/bn_price.jpg'
+      if (im.getAttribute('src') !== src) { im.src = src; try { await im.decode() } catch (e) {} } SIG.push(src)
+      const c = cam(two ? B.cam2 : B.cam1, t, 1080, 1350, im, 720, 900)
+      if (!B.r1) { B.r1 = [[...B.ring1]]; B.r2 = [[B.ring2[0], B.ring2[1], B.ring2[2]]] }
+      rings($('bnring'), two ? [] : B.r1, t, c, 190, 56); rings($('bnring'), two ? B.r2 : [], t, c, 190, 56)
+      if (two) B.r1[0].el && css(B.r1[0].el, 'opacity', '0'); else B.r2[0].el && css(B.r2[0].el, 'opacity', '0')
+      show($('bk'), t, S.bn[0] + .2, .3, 14)
+      const p42 = pop(t, B.cam1[1][0], .3) * (1 - cl((t - T(B.swap) + .15) / .2)); css($('b42'), 'opacity', p42.toFixed(3)); css($('b42s'), 'opacity', p42.toFixed(3))
+      css($('b42'), 'transform', `scale(${(1.1 - .1 * eback(cl((t - T(B.cam1[1][0])) / .35))).toFixed(4)})`); css($('b42'), 'transform-origin', '0 50%')
+      const p36 = pop(t, B.cam2[1][0], .3); css($('b36'), 'opacity', p36.toFixed(3)); css($('b36s'), 'opacity', pop(t, B.most, .3).toFixed(3))
+      css($('b36'), 'transform', `scale(${(1.1 - .1 * eback(cl((t - T(B.cam2[1][0])) / .35))).toFixed(4)})`); css($('b36'), 'transform-origin', '0 50%')
+      css($('bft'), 'opacity', (pop(t, B.cam1[1][0] + .8, .4) * (1 - pop(t, B.hl - .2, .3))).toFixed(3))
+      show($('hlc'), t, B.hl, .35, 30) } }
+  { const q = vis(S.live[0], S.live[1], t, .3, .3); css($('live'), 'opacity', q.toFixed(3))
+    if (q > 0) { const L = P.lv
+      slam($('lv_w'), t, L.sun, 1.1)
+      css($('shut'), 'left', '280px'); css($('shut'), 'width', (1360 * eo((t - T(L.fri)) / .8)).toFixed(1) + 'px')
+      const u = eio(cl((t - T(L.fri) - .3) / (T(L.sun) - T(L.fri) - .3))); css($('trav'), 'left', (280 + 800 * u).toFixed(1) + 'px'); css($('trav'), 'opacity', pop(t, L.fri, .3).toFixed(3))
+      css($('mk2'), 'opacity', (.35 + .65 * pop(t, L.sun, .3)).toFixed(3))
+      const pm = Math.sin(Math.PI * cl((t - T(L.mon)) / .6)); css($('mk3'), 'transform', `scale(${(1 + .12 * pm).toFixed(3)})`); css($('mk3b'), 'transform', `scaleY(${(1 + .4 * pm).toFixed(3)})`) } }
+  { const q = vis(S.ai[0], S.ai[1], t, .3, .3); css($('ai'), 'opacity', q.toFixed(3))
+    if (q > 0) { const A = P.ai
+      ;[['t1', A.tao], ['t2', A.fet], ['t3', A.akt], ['t4', A.btc]].forEach(([id, a]) => show($(id), t, a - .1, .32, 30))
+      css($('aisrc'), 'opacity', pop(t, A.akt + .3, .4).toFixed(3))
+      show($('rs1'), t, A.weak, .35, 30); show($('rs2'), t, A.one, .35, 30) } }
+  { const q = vis(S.dates[0], S.dates[1], t, .3, .3); css($('dates'), 'opacity', q.toFixed(3))
+    if (q > 0) { slam($('dd1'), t, P.dt.d17, 1.08); slam($('dd2'), t, P.dt.d18, 1.08) } }
+  { const q = t >= T(S.end[0]) - .35 ? cl((t - T(S.end[0]) + .35) / .35) : 0; css($('end'), 'opacity', q.toFixed(3))
+    if (q > 0) { const N = P.en
+      slam($('en_a'), t, S.end[0] + .05, 1.1); slam($('en_b'), t, S.end[0] + .25, 1.1); slam($('en_y'), t, N.yet + .1, 1.15)
+      css($('en_j'), 'transform', `scale(${(1.0 + .03 * cl((t - T(S.end[0])) / 6)).toFixed(4)})`)
+      show($('en_1'), t, N.board, .3, 20); show($('en_2'), t, N.cong, .3, 20); show($('endc'), t, N.card, .4, 24) } }
+  if (RF) { SIG.push(await RF.render(t)); SIG.push(await RF2.render(t)) }
+  // whisper captions: one word at a time (white on the royal-blue cold open)
+  let w = null
+  for (let i = 0; i < P.caps.length; i++) { const c = P.caps[i], nx = P.caps[i + 1]; if (t >= T(c[0]) - .03 && t < Math.min(T(c[1]) + .35, nx ? T(nx[0]) - .03 : 1e9)) { w = c; break } }
+  const tx = w ? w[2] : '', cs = $('cap').firstChild; if (cs.textContent !== tx) cs.textContent = tx
+  $('cap').classList.toggle('dk', t < T(P.hk.so) + .3); $('cap').classList.toggle('pl', t >= T(P.hk.so) + .3 && t < T(S.hook[1]) + .1); SIG.push($('cap').className)
+  SIG.push(tx); css($('cap'), 'opacity', w ? '1' : '0')
+  return SIG.join('|')
+}
+const load = src => new Promise(r => { const sc = document.createElement('script'); sc.src = src; sc.onload = sc.onerror = r; document.head.appendChild(sc) })
+window.READY = Promise.all([Promise.all([load(P.sroot + 'lib.js'), load('file:///home/user/cmv-alphascanner/video/lib/react_flow.js'), load('words.js')]).then(flowInit),
+  document.fonts.load('300 80px Osw'), document.fonts.load('80px Anton'), document.fonts.load('800 40px Man'), document.fonts.load('600 26px Man'),
+  ...[...document.images].map(i => i.decode ? i.decode().catch(() => 0) : 1)])
+</script>
+</body>
+</html>

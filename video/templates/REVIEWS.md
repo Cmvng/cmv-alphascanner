@@ -28,6 +28,42 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
+## 9 Nov: the owner's script, the Nvidia CEO story (SOLID vs HOLLOW, Lara, 3:32, 16:9, plus a 2-part X cut)
+
+- **What worked:**
+  - **The fact-check ran first, in the background, while the design took shape.** It changed 11 things in the owner's
+    script before any credits were spent. Among them:
+    - the NYT story broke on 29 Oct, not at the weekend;
+    - the letter names no one;
+    - NYT and FT reported different parts of the memo;
+    - China's word was "unsubstantiated … smears", on 30 Oct;
+    - "stays CEO" came from a spokesperson, not the board;
+    - Akash was −9.2%;
+    - Binance's baseline ($186.91) differs from Nasdaq's close ($186.64).
+  - **The format is the message:** solid type and real pages for what is on record; hollow type, frosted glass and
+    redacted sources for what is reported. A timeline fixes the order of events.
+  - **The owner's 9 Nov reference, applied the same day:**
+    - whisper-and-shout type: one small word at a time, giant condensed words only on key phrases;
+    - giant words tucked behind Jensen's head, using free-licence Wikimedia portraits cut out with RVM.
+  - **Lara took one take** (3,082 credits). Every word was heard back against the script.
+  - **Agency photos the owner sent were swapped** for CC BY-SA portraits. The author was read from the files' EXIF
+    when the Wikimedia API rate-limited us.
+- **Mistakes caught before the full render (stills every few seconds):**
+  1. **An empty frame on the music drop.** The 0.6 s pause cut into the voice had no scene, because take times can't
+     point inside the gap. The title now starts at `cut - .002`, so it slams in on the drop.
+  2. **Two cues matched the wrong spoken word:** "Not:" matched "what's not." in the hook, and "One:" matched "names no
+     one." Single-word cues need a following word ("Not: a Chinese", "One: chips").
+  3. **"NOT YET. PROVEN"** read in the wrong order, because a giant word was placed by guessing its width. Measure,
+     or keep reading order on separate lines.
+  4. **Overflows:** "CONFIRMED" was wider than its half of the split, the first claim card's text ran past the card,
+     and "BOARD PROBE" wrapped.
+- **Change next time:**
+  - **Cue words:** never a single common word ("not", "one", "so"); always two or more.
+  - **The drop gap:** any scene that should hit the drop starts at `cut - .002`.
+  - **Long renders:** a scrolling background redraws every frame, so its chunk is the slowest. Give that chunk fewer
+    frames (uneven chunk sizes in `render_par.sh`).
+- **The owner's reaction:** (pending)
+
 ## 8 Nov: tactical breakdowns on a chessboard, Real Madrid "8 in a row" (88.7 s) and Forest 3-1 Man City (93.2 s)
 
 - **What worked:**

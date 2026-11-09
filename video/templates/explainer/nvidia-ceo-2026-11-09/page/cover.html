@@ -1,0 +1,38 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<!-- Cover (#v, 1080x1920) and thumbnail (#t, 1280x720): solid CONFIRMED, hollow ALLEGED, Jensen cut out (Wikimedia, CC BY-SA 4.0). -->
+<style>
+@font-face{font-family:Osw;font-weight:300;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/oswald-latin-300-normal.woff2)}
+@font-face{font-family:Man;font-weight:800;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-800-normal.woff2)}
+:root{--navy:#0B1F44;--blue:#1F5FDB}
+html,body{margin:0;overflow:hidden}
+.bg{position:absolute;inset:0;background:radial-gradient(1400px 1000px at 40% 30%,#F7FAFE 0%,#E8F0FB 55%,#D3E1F4 100%)}
+.bg:after{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(31,95,219,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(31,95,219,.05) 1px,transparent 1px);background-size:60px 60px}
+.g{position:absolute;font:300 200px/0.86 Osw,sans-serif;text-transform:uppercase;color:var(--navy);white-space:nowrap}
+.h{color:transparent;-webkit-text-stroke:3px var(--navy)}
+.k{position:absolute;font:800 30px/1 Man,sans-serif;letter-spacing:.16em;color:rgba(11,31,68,.6)}
+.pill{position:absolute;font:800 40px/1 Man,sans-serif;color:#fff;background:var(--navy);padding:20px 32px;border-radius:40px}
+.vs{position:absolute;font:800 34px/1 Man,sans-serif;color:var(--blue);letter-spacing:.1em}
+img{position:absolute}
+#v,#t{display:none;position:absolute;left:0;top:0;overflow:hidden}
+</style></head><body>
+<div id="v" style="width:1080px;height:1920px"><div class="bg"></div>
+  <div class="k" style="left:80px;top:110px">THE NVIDIA CEO STORY · 9 NOV</div>
+  <div class="g" style="left:72px;top:200px;font-size:215px">Confirmed</div>
+  <div class="vs" style="left:84px;top:404px">VS</div>
+  <div class="g h" style="left:72px;top:446px;font-size:215px">Alleged</div>
+  <img src="img/jh_cut.png" style="left:140px;bottom:0;height:1180px">
+  <div class="pill" style="left:80px;bottom:120px">What's actually proven?</div>
+</div>
+<div id="t" style="width:1280px;height:720px"><div class="bg"></div>
+  <img src="img/jh_cut.png" style="left:720px;top:10px;height:710px">
+  <div class="k" style="left:56px;top:62px;font-size:24px">THE NVIDIA CEO STORY</div>
+  <div class="g" style="left:50px;top:110px;font-size:190px">Confirmed</div>
+  <div class="vs" style="left:58px;top:290px;font-size:28px">VS</div>
+  <div class="g h" style="left:50px;top:328px;font-size:190px">Alleged</div>
+  <div class="pill" style="left:56px;top:560px;font-size:34px;padding:16px 26px">What's actually proven?</div>
+</div>
+<script>
+const k = location.hash.slice(1) || 't'; document.getElementById(k).style.display = 'block'
+window.READY = Promise.all([document.fonts.load('300 80px Osw'), document.fonts.load('800 30px Man'), ...[...document.images].map(i => i.decode().catch(() => 0))])
+</script></body></html>
