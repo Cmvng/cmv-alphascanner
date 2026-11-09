@@ -28,6 +28,38 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
+## 9 Nov: post-match, Sunderland 1-0 Chelsea "Why Chelsea lost" on the new 3D board (Lara, 2:06, 16:9)
+
+- **The brief:** the owner, on the earlier flat chessboard: *"It was not quality… just flat… not really clean."* Then: *"Please make sure that the analysis board is clean, is well rendered, is quality. I don't want any poor job."*
+- **What worked:**
+  - **A real 3D board, built for this** (`video/templates/tactics-3d/`): clear-coat lacquer pieces with studio reflections, soft shadows, a pitch mowed in squares, nets that ripple, and a camera that moves and cuts like a broadcast.
+  - **Three chapters** in big type, each acted out: the press, the direct route, no cutting edge.
+  - **The foul acted out:** the spin, the drag (both pieces lean), the dive the wrong way, and the net ripple with a camera shake. The penalty is shot over Le Fée's shoulder.
+  - **The cover and thumbnail are rendered from the same scene,** not cut from a frame.
+  - **Two reactions, one per set,** each at its peak about 1 s after its beat word (checked at full size).
+  - The research gave every line a dated source. Uncertain details are said carefully: the long-ball passer is unnamed, the penalty corner unstated, and the board carries a "positions illustrative" footnote.
+- **Mistakes, and how they got through (all caught before delivery):**
+  1. **A cue matched across sentences.** `E('over Chelsea.')` matched "went over. Chelsea had the ball", so the context chips and the table ended before they started and never showed. The UI time list caught it. `at()` now warns when a cue crosses a sentence end.
+  2. **Name tags off their pieces and off the frame.** The camera moved after the tags were projected, and close cameras pushed tags past the top edge. The camera now moves first. Tags fade near the edge and the score bug, and push apart when two meet (Reinildo and Estêvão overlapped).
+  3. **The camera swung through the board** when switching sides. `cut()` now holds the old shot to the frame before, then jumps.
+  4. **Weak shots on the first stills:**
+     - The penalty from straight behind hid the keeper behind the taker, with defenders as blobs in the foreground.
+     - "1-0" sat over the white net and was unreadable.
+     - The 77' mix-up was out of shot because the camera moved too early.
+     - The long ball's passer was at the frame edge.
+     All were re-shot and re-checked on stills before the full render.
+  5. **Captions split mid-phrase** ("in a / row over Chelsea", "one / on one", "Estêvão / quiet."), from a hard 7-word cap. The hear-back flagged "row over Chelsea", and I stopped the first full render at about 40% to fix it. That cost about 25 minutes. Captions are now split by phrase (see the README), and the SRT reads the same lines.
+  6. **The render time was misjudged.** I estimated 45-60 minutes from a single still (about 3 s a frame), but four workers sharing 4 CPUs run at about 10 s a frame each, so the job needed about 2.6 hours. That is past the 2-hour limit on a background command. The first progress line (300 frames in 49 minutes) showed it. I stopped the browsers, left the encoders to finish their files (about 30% kept, checked frame-exact), and rendered the rest as 16 detached, resumable chunks.
+  7. **A needless voice patch (14 credits).** A "NOT HEARD Régis Le Bris" from one transcription was wrong; faster-whisper heard it fine. The original take was kept. Verify with a second transcription before patching (already a rule; now followed first).
+- **Change next time:**
+  - Run the hear-back on the mix and read every caption line before the first full render, not during it.
+  - Build each new camera angle as a still first, and look at it with the tags and panels on. The full render is only for motion.
+  - Time one frame with all four workers running before quoting a render time, and run any render over about 90 minutes as detached, resumable chunks from the start.
+  - Keep the cover renders off the CPUs while a full render runs.
+  - **Use `cut()` for any big repositioning.** The move from the far touchline to behind the goal (47.2–48.3 s) is a smooth but fast swoop, about 90° in about a second. It was kept, because changing it meant re-rendering three chunks. Also fix `camAt` so a cut's hold key doesn't bend the spline on either side: it currently adds a slow drift of up to about 9 units in the shots next to a cut.
+- **Final review:** 126.0 s (2:06), 1920×1080, 30 fps, 3,780 frames, crf 16. −14.6 LUFS, true peak −1.4 dBFS; the drop on the title measures +4.3 dB over the 1.5 s before it (that window holds the last cold-open line, so it understates the music's own jump). Checked at 2 fps across the whole length: no empty frames, no overlaps, both reactions at their peak about 1 s after their beat words, all 19 chunk joins continuous. Hear-back on the mix: 66 captions, every miss was the transcriber's spelling (648 as digits) except the split line, which was fixed. Colour: green 61%, blue 28%, white/grey 7%, red 3%, yellow 0%: the pitch is green by nature, and the sky, the board's frame, the panels' type and the passing lines carry the blue. Music 607 "Forest Walk" (a measured candidate; the approved tracks used lately were in the last six). Still stretches: only the end card (121–126 s).
+- **The owner's reaction:** (pending)
+
 ## 9 Nov: the owner's script, the Nvidia CEO story (SOLID vs HOLLOW, Lara, 3:32, 16:9, plus a 2-part X cut)
 
 - **What worked:**
