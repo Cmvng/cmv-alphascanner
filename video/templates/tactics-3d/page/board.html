@@ -18,7 +18,7 @@ canvas{position:absolute;left:0;top:0;width:1920px;height:1080px}
 #ui{position:absolute;inset:0;pointer-events:none}
 .tag{position:absolute;transform:translate(-50%,-100%);white-space:nowrap;font:800 26px/1 Man,sans-serif;color:#fff;padding:8px 14px;border-radius:12px;background:rgba(11,31,68,.82);box-shadow:0 8px 20px rgba(0,0,0,.25);opacity:0}
 .tag.h{background:rgba(6,47,128,.92)}.tag.a{background:rgba(179,12,37,.92)}
-.tag:after{content:'';position:absolute;left:50%;bottom:-8px;margin-left:-8px;border:8px solid transparent;border-bottom:0;border-top-color:inherit}
+.tag:after{content:'';position:absolute;left:calc(50% + var(--px,0px));bottom:-8px;margin-left:-8px;border:8px solid transparent;border-bottom:0;border-top-color:inherit}
 #bug{position:absolute;left:60px;top:46px;display:flex;align-items:center;border-radius:18px;overflow:hidden;box-shadow:0 14px 34px rgba(11,31,68,.3);opacity:0;font:800 34px/1 Man,sans-serif}
 #bug .t{padding:16px 22px;color:#fff;display:flex;align-items:center;gap:12px}
 #bug .s{padding:16px 22px;background:#fff;color:var(--navy);font:400 44px/1 Anton,sans-serif;letter-spacing:.04em}
@@ -60,6 +60,23 @@ const ZON = (P.zones || []).map(o => { const z = B3.makeZone(o); scene.add(z); r
 const CAM = P.cam.map(k => [T(k[0]), k[1], k[2], k[3] || 26])
 const inWin = (wins, t, fi = .3, fo = .3) => { let q = 0; (wins || []).forEach(w => { const a = T(w[0]), b = T(w[1]); if (t >= a - fi && t < b + fo) q = Math.max(q, Math.min(B3.cl((t - a + fi) / fi), B3.cl((b + fo - t) / fo))) }); return q }
 const tmp = new THREE.Vector3()
+// name tags: kept apart from each other, on screen, and off the score bug; the pointer stays on its piece
+function placeTags() {
+  const on = PCS.filter(o => o.q > .005), bug = $('bug'), bo = +bug.style.opacity || 0, br = bo > .01 ? bug.getBoundingClientRect() : null
+  on.forEach(o => { o.w = o.tag.offsetWidth; o.x = o.sx; o.y = o.sy })
+  for (let it = 0; it < 6; it++) for (let i = 0; i < on.length; i++) for (let j = i + 1; j < on.length; j++) {
+    const a = on[i], b = on[j], dx = b.x - a.x, need = (a.w + b.w) / 2 + 8
+    if (Math.abs(a.y - b.y) < 46 && Math.abs(dx) < need) { const p = (need - Math.abs(dx)) / 2 * (dx >= 0 ? 1 : -1); a.x -= p; b.x += p }
+  }
+  for (const o of PCS) {
+    if (o.q <= .005) { if (o.tag.style.opacity !== '0') o.tag.style.opacity = '0'; continue }
+    o.x = Math.max(o.w / 2 + 12, Math.min(1920 - o.w / 2 - 12, o.x))
+    const top = o.y - 50; let f = B3.cl((top - 12) / 30)
+    if (br && o.x + o.w / 2 > br.left - 6 && o.x - o.w / 2 < br.right + 6) f = Math.min(f, 1 - bo * (1 - B3.cl((top - br.bottom - 4) / 24)))
+    const px = Math.max(-o.w / 2 + 16, Math.min(o.w / 2 - 16, o.sx - o.x))
+    o.tag.style.opacity = (o.q * f).toFixed(3); o.tag.style.left = o.x.toFixed(1) + 'px'; o.tag.style.top = o.y.toFixed(1) + 'px'; o.tag.style.setProperty('--px', px.toFixed(1) + 'px')
+  }
+}
 window.render = async t => {
   const SIG = []
   // camera first, so the name tags project with this frame's camera
@@ -73,13 +90,14 @@ window.render = async t => {
     if (o.names.length) { let nm = o.d.name; o.names.forEach(n => { if (t >= n[0]) nm = n[1] }); if (o.tag.textContent !== nm) o.tag.textContent = nm }
     const hq = inWin(o.d.hi, t, .25, .3); o.p.userData.ring.material.opacity = .9 * hq; o.p.position.y = .06 + 1.2 * hq * (o.d.lift ? 1 : 0)
     const lq = inWin(o.d.lab, t, .25, .25) * vq; tmp.set(v[0], 7.4, v[1]); const s = B3.toScreen(tmp)
-    o.tag.style.opacity = (lq * (s.vis ? 1 : 0)).toFixed(3); o.tag.style.left = s.x.toFixed(1) + 'px'; o.tag.style.top = s.y.toFixed(1) + 'px'
+    o.q = lq * (s.vis ? 1 : 0); o.sx = s.x; o.sy = s.y
   }
   const b = B3.ballAt(BK, t); ball.position.set(b[0], .81 + b[1], b[2]); ball.rotation.z = -t * 4; ball.visible = inWin(P.ballVis || [[-1, 1e4]], t, .01, .01) > 0
   ARR.forEach(a => B3.updateArrow(a, t, T)); ZON.forEach(z => B3.updateZone(z, t, T))
   ;(P.goals || []).forEach(g => B3.rippleNet(B3.nets[g.side > 0 ? 1 : 0], t, T(g.t)))
   R.render(scene, cam)
   SIG.push(await window.PANELS(t, T))
+  placeTags()                           // after the panels, so it sees this frame's score bug
   if (RF) { await RF.render(t) } if (RF2) { await RF2.render(t) }
   // captions
   const cp = P.caps.find(x => t >= T(x[0]) - .05 && t < T(x[1]) + .1), html = cp ? cp[2] : '', span = $('cap').firstChild

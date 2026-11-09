@@ -18,7 +18,10 @@ def at(phrase, nth=0, edge='start'):
         if k < 0: raise SystemExit(f'phrase not found: {phrase!r}')
         a, b = own[k], own[k + len(P) - 1]
         if (k == 0 or own[k - 1] != a) and (k + len(P) == len(C) or own[k + len(P)] != b):
-            if nth == 0: return round(W[a]['s'] if edge == 'start' else W[b]['e'], 3)
+            if nth == 0:
+                if len(re.findall(r'[.?!]', phrase.rstrip('.?!”" '))) < sum(bool(re.search(r'[.?!]["”]?$', W[j]['w'])) for j in range(a, b)):
+                    print(f'WARNING cue crosses a sentence end: {phrase!r} -> ' + ' '.join(W[j]['w'] for j in range(a, b + 1)))
+                return round(W[a]['s'] if edge == 'start' else W[b]['e'], 3)
             nth -= 1
         pos = k + 1
 S = lambda p, n=0: at(p, n, 'start')
@@ -94,7 +97,9 @@ ui(type='coach', text='Le Bris · 4-2-3-1', sub='Sunderland', team=H, x=150, y=1
 ui(type='coach', text='Alonso · 4-3-3', sub='Chelsea', team=A, x=1230, y=150, **{'from': S('Xabi Alonso went'), 'to': S('Reason one:') - .3})
 ui(type='chip', text='João Pedro: <b>out</b>', x=1300, y=290, **{'from': S('with João'), 'to': S('Reason one:') - .3})
 for pid in PC:
-    if pid != 'estevao': lab(pid, S('Régis') + .6 if PC[pid]['team'] == H else S('Xabi Alonso went') + .3, S('Pedro Neto through') - .2)
+    if pid == 'estevao': continue
+    if PC[pid]['team'] == H: lab(pid, S('Régis') + .6, S('Xabi Alonso went') + .2)
+    else: lab(pid, S('Xabi Alonso went') + .3, S('Pedro Neto through') - .2)
 lab('neto', S('Pedro Neto through'), S('Reason one:') - .2); hi('neto', S('Pedro Neto through'), S('Reason one:') - .2)
 
 # ================================================================ 4. REASON 1: THE PRESS
@@ -131,7 +136,7 @@ mid = {'penders': (49, 0), 'fofana': (30, -6), 'colwill': (30, 6), 'palestra': (
        'roefs': (-48, 0), 'meunier': (-30, 18), 'mukiele': (-32, 6), 'onien': (-32, -6), 'reinildo': (-30, -18),
        'ahoka': (-14, 7), 'sadiki': (-4, -4), 'hume': (2, 22), 'lefee': (6, 0), 'talbi': (2, -22), 'brobbey': (22, 3)}
 shape(t5 - .2, 1.4, mid)
-cut(t5, [-6, 34, 60], [14, 0, 0], 27); cam(S('they went long'), [8, 26, 54], [24, 0, 2], 27)
+cut(t5, [-6, 34, 60], [14, 0, 0], 27); cam(S('they went long'), [-4, 34, 60], [15, 0, 0], 27); cam(S('they went long') + 1.5, [12, 27, 54], [28, 0, 3], 27)
 tw = S('When Sunderland won'); tl = S('they went long')
 ball(tw, -4.5, -3.2); ball(tl, -4.5, -3.2); ball(tl + 1.3, 39, 8.5, 11)
 arrow(**{'from': [-4.5, -3.2], 'to': [39, 8.5]}, h=11, at=tl, until=S('On the left,') - .1, color=WHITE, r=.2)
@@ -155,7 +160,7 @@ tc = S('Talbi crossed,'); mv('brobbey', tc - .3, tc + .7, 46.5, -3.5); mv('fofan
 ball(tc, 45, -26); ball(tc + .7, 46.4, -3.6, 4); tv = S('volleyed wide'); ball(tv, 46.4, -3.6); ball(tv + .45, 55, 6.5, 1.6)
 arrow(**{'from': [45, -26], 'to': [46.4, -3.6]}, h=4, at=tc, until=E('close range.') + .2, color=WHITE, r=.18)
 arrow(**{'from': [46.4, -3.6], 'to': [55, 6.5]}, h=1.6, at=tv, until=E('close range.') + .3, color=SKY, r=.18)
-lab('brobbey', tc, E('close range.') + .2); hi('brobbey', tv, E('close range.') + .2)
+lab('brobbey', tc, E('close range.') + .2); hi('brobbey', tv, E('close range.') + .2); lab('talbi', S('On fourteen'), E('close range.') + .2)
 
 # ================================================================ 6. THE GOAL: 36', the drag, the penalty
 t6 = S('Then, thirty-six')
@@ -171,7 +176,7 @@ ball(tA, -6.6, 8.4); ball(tA + 1.25, 37.8, 13.8, 12)
 arrow(**{'from': [-6.6, 8.4], 'to': [37.8, 13.8]}, h=12, at=tA, until=S('He spins') + .2, color=WHITE, r=.2)
 mv('brobbey', tA - .1, tA + 1.3, 37, 13.6); mv('colwill', tA + .3, tA + 1.4, 34.5, 11.5); mv('fofana', tA + .3, tA + 1.4, 33, -1)
 arrow(kind='run', **{'from': [24, 12], 'to': [36.5, 13.5]}, bend=-.1, at=tA - .1, until=S('He spins') + .2, color=RED)
-tsp = S('He spins'); cam(tsp, [30, 12, 34], [38, 1, 10], 30)
+tsp = S('He spins'); cam(tsp, [28, 14, 38], [38, 3, 10], 30)
 mv('brobbey', tsp, tsp + .55, 39.5, 15.2); mv('brobbey', tsp + .55, tsp + 1.1, 41, 10.5); mv('colwill', tsp + .1, tsp + 1.0, 38.4, 12.6)
 ball(tsp, 37.8, 13.8); ball(tsp + 1.1, 42.2, 10.2)
 arrow(kind='run', **{'from': [37.2, 13.8], 'to': [41, 10.2]}, bend=.9, at=tsp, until=S('drags him back') + .3, color=RED)
@@ -185,11 +190,13 @@ ui(type='giant', text='Penalty', **{'from': S('Penalty.'), 'to': S('Le Fay') - .
 ui(type='flash', **{'from': S('Penalty.') - .05})
 # the kick
 tk = S('Le Fay')
-pen = {'lefee': (40.2, 0), 'penders': (52.2, 0), 'brobbey': (37, 9), 'colwill': (37.5, -8), 'fofana': (36.5, 14), 'caicedo': (35, -3),
-       'henderson': (34, 6), 'ahoka': (33, -10), 'talbi': (34, -16), 'hume': (34, 18), 'palestra': (36, -13), 'chavarria': (35, 21)}
+# everyone else waits outside the box and out of the shot (the camera looks over the taker's left shoulder)
+pen = {'lefee': (40.2, 0), 'penders': (52.2, 0), 'brobbey': (36, 12), 'colwill': (36.5, -14), 'fofana': (35.5, 16), 'caicedo': (33.5, 9),
+       'henderson': (33, 14), 'ahoka': (33, -16), 'talbi': (34, -19), 'hume': (34, 20), 'palestra': (35.5, -17.5), 'chavarria': (35, 23), 'lavia': (31, -22)}
 shape(tk - .45, .4, pen)
 ball(tk - .45, 41.5, 0); ball(tk + .4, 41.5, 0)
-cut(tk - .45, [24, 5.5, 0], [52, 1.6, 0], 30); cam(E('One-nil.'), [30, 7, 6], [50, 1.4, 0], 30)
+cut(tk - .45, [23, 13, -11], [47, 1.5, .5], 30); cam(S('sends Penders') + .6, [27, 11.5, -9], [48, 1.5, 0], 30)
+cut(S('One-nil.') - .08, [22, 52, 50], [22, 0, 0], 32); cam(E('One-nil.') + .5, [24, 51, 49], [23, 0, 0], 32)
 ts = S('sends Penders'); mv('penders', ts + .1, ts + .55, 52.0, 3.0); PC['penders']['tilt'] = [[0, 0, 0], [r3(ts + .1), 0, 0], [r3(ts + .55), .6, 0], [r3(E('One-nil.') + .6), .6, 0]]
 mv('lefee', ts - .25, ts + .15, 41.2, 0)
 tgoal = ts + .55
@@ -240,7 +247,7 @@ PC['brobbey']['names'] = [[r3(t77 - .3), 'Isidor']]
 ui(type='chip', text="<b>77'</b> · Isidor on for Brobbey (67')", x=960, y=110, anchor='c', **{'from': t77, 'to': E('Penders saved.') + .3})
 m77 = {'fofana': (6, -6), 'caicedo': (6, 6), 'brobbey': (-4, 1), 'penders': (49, 0), 'lavia': (-10, -10), 'henderson': (-10, 12), 'estevao': (-22, -24)}
 shape(t77 - .3, 1.0, m77)
-cut(t77, [4, 26, 52], [18, 0, 0], 27); cam(S('let Isidor'), [20, 18, 44], [36, 0, 2], 28)
+cut(t77, [-8, 24, 42], [7, 0, 0], 27); cam(S('let Isidor') - .1, [-6, 24, 42], [9, 0, 0], 27); cam(S('let Isidor') + 1.5, [22, 18, 44], [38, 0, 2], 28)
 ball(t77 - .3, -36, -25); ball(t77 + .7, 7, -1); tmx = S('a mix-up'); ball(tmx, 7, -1)
 mv('fofana', tmx, tmx + .8, 7.2, -2.2); mv('caicedo', tmx, tmx + .8, 7.4, 1.6); zone(7, 0, 9, 9, tmx, S('let Isidor') + .3, RED, .5)
 for pid in ['fofana', 'caicedo', 'brobbey']: lab(pid, tmx, E('Penders saved.') + .3)
@@ -273,9 +280,9 @@ ui(type='bars', rows=[['Possession', 31.3, 68.7, '%'], ['Passes', 292, 648, ''],
 
 # ================================================================ 10. CONTEXT, QUOTES, END
 t10 = S("It's Sunderland's first")
-ui(type='chip', text='Sunderland’s <b>first league win since 30 August</b>', x=120, y=150, **{'from': t10, 'to': E('over Chelsea.') + .3})
-ui(type='chip', text='Their <b>third league win in a row</b> over Chelsea', x=120, y=240, **{'from': S('and their third'), 'to': E('over Chelsea.') + .3})
-ui(type='table', kick='Premier League table after the match', rows=[['5', 'Chelsea', 16, '#062f80'], ['19', 'Sunderland', 8, '#b30c25']], x=1060, y=150, **{'from': S('and their third') + .2, 'to': E('over Chelsea.') + .3})
+ui(type='chip', text='Sunderland’s <b>first league win since 30 August</b>', x=120, y=150, **{'from': t10, 'to': E('in a row over Chelsea.') + .3})
+ui(type='chip', text='Their <b>third league win in a row</b> over Chelsea', x=120, y=240, **{'from': S('and their third'), 'to': E('in a row over Chelsea.') + .3})
+ui(type='table', kick='Premier League table after the match', rows=[['5', 'Chelsea', 16, '#062f80'], ['19', 'Sunderland', 8, '#b30c25']], x=1060, y=150, **{'from': S('and their third') + .2, 'to': E('in a row over Chelsea.') + .3})
 ui(type='quote', who='Xabi Alonso', text='To give a penalty from that action, it’s not good from us.', src='Sky Sports', team=A, x=980, y=140, **{'from': S('Xabi Alonso To'), 'to': E('Bris', 1) - .1})
 ui(type='quote', who='Régis Le Bris', text='Today, the connection was perfect.', src='Sky Sports', team=H, x=120, y=140, **{'from': S('Bris:', 0) if False else E('Bris', 1) - .1, 'to': E('perfect."') + .4})
 cut(S('Xabi Alonso To'), [44, 34, 50], [26, 0, 0], 28); cut(E('Bris', 1) - .1, [-44, 34, 50], [-26, 0, 0], 28); cut(S('Follow for more'), [0, 96, 60], [0, -4, 0], 30)
@@ -298,7 +305,8 @@ def flush():
     cur = []
 for w in W:
     cur.append(w)
-    if w['w'][-1] in '.?!:' or (w['w'][-1] == ',' and len(cur) >= 4) or len(cur) >= 7: flush()
+    end = w['w'].rstrip('"”’\'')[-1:]
+    if end in ('.', '?', '!', ':') or (end == ',' and len(cur) >= 4) or len(cur) >= 7: flush()
 flush()
 for i in range(len(caps) - 1): caps[i][1] = round(min(caps[i + 1][0] - .02, caps[i][1] + .5), 2)
 
