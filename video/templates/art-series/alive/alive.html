@@ -13,7 +13,7 @@
 @font-face{font-family:IS;font-style:italic;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/instrument-serif-latin-400-italic.woff2)}
 @font-face{font-family:Man;font-weight:600;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-600-normal.woff2)}
 @font-face{font-family:Man;font-weight:800;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-800-normal.woff2)}
-html,body{margin:0;width:1920px;height:1080px;overflow:hidden;background:#050a16}
+html,body{margin:0;width:1920px;height:1080px;overflow:hidden;background:#050a16}   /* the plan may give another frame: PLAN.w, PLAN.h */
 canvas{position:absolute;left:0;top:0;width:1920px;height:1080px}
 #ui{position:absolute;inset:0;overflow:hidden}
 .pan{position:absolute;overflow:hidden;opacity:0;border-radius:10px;box-shadow:0 30px 80px rgba(0,0,0,.6)}
@@ -30,12 +30,15 @@ canvas{position:absolute;left:0;top:0;width:1920px;height:1080px}
 </style>
 </head>
 <body>
+<script>if (location.hash.includes("notext")) document.documentElement.classList.add("notext")</script>
+<style>.notext #texts{display:none}</style>   <!-- alive.html#notext: clean stills for covers -->
 <canvas id="c"></canvas>
 <div id="ui"><div id="pans"></div><div id="shade"></div><div id="texts"></div><div id="bars"><i id="b1" style="top:0"></i><i id="b2" style="bottom:0"></i></div><div id="flash"></div></div>
 <script src="file:///home/user/cmv-alphascanner/video/assets/three/three.min.js"></script>
 <script src="plan.js"></script>
 <script>
-const P = window.PLAN, FPS = P.fps || 30, $ = id => document.getElementById(id)
+const P = window.PLAN, FPS = P.fps || 30, $ = id => document.getElementById(id), FW = P.w || 1920, FH = P.h || 1080
+for (const el of [document.documentElement, document.body, $('c')]) { el.style.width = FW + 'px'; el.style.height = FH + 'px' }
 const cl = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x)), eo = x => 1 - Math.pow(1 - cl(x), 3), ei = x => Math.pow(cl(x), 3)
 const eio = x => { x = cl(x); return x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2 }
 const EASE = { lin: x => cl(x), out: eo, in: ei, io: eio, out2: x => 1 - Math.pow(1 - cl(x), 2), exp: x => 1 - Math.pow(2, -8 * cl(x)) }
@@ -47,8 +50,8 @@ function K(keys, t, ease = 'io') { if (!keys) return null; if (typeof keys[0] ==
 
 // ---------------------------------------------------------------- the relief
 const R = new THREE.WebGLRenderer({ canvas: $('c'), antialias: true, preserveDrawingBuffer: true, powerPreference: 'high-performance' })
-R.setPixelRatio(P.pr || 1); R.setSize(1920, 1080, false); R.setClearColor(new THREE.Color(P.bg || '#050a16'), 1)
-const scene = new THREE.Scene(), cam = new THREE.PerspectiveCamera(30, 1920 / 1080, .05, 200)
+R.setPixelRatio(P.pr || 1); R.setSize(FW, FH, false); R.setClearColor(new THREE.Color(P.bg || '#050a16'), 1)
+const scene = new THREE.Scene(), cam = new THREE.PerspectiveCamera(30, FW / FH, .05, 200)
 const TL = new THREE.TextureLoader(), LOADS = []
 const tex = (src, srgb) => { let done; LOADS.push(new Promise(r => { done = r })); const t = TL.load(src, done, undefined, done)
   t.colorSpace = srgb ? THREE.SRGBColorSpace : THREE.NoColorSpace; t.anisotropy = 8; t.wrapS = t.wrapT = THREE.ClampToEdgeWrapping; return t }
@@ -91,7 +94,7 @@ const ND = P.dustN || 520, dpos = new Float32Array(ND * 3), dseed = new Float32A
 const rnd = () => { sd = (sd * 16807) % 2147483647; return sd / 2147483647 }
 for (let i = 0; i < ND; i++) { dpos[i * 3] = (rnd() - .5) * 7; dpos[i * 3 + 1] = (rnd() - .5) * 4.6; dpos[i * 3 + 2] = .12 + rnd() * 1.7; dseed[i * 3] = rnd(); dseed[i * 3 + 1] = rnd(); dseed[i * 3 + 2] = rnd() }
 const dgeo = new THREE.BufferGeometry(); dgeo.setAttribute('position', new THREE.BufferAttribute(dpos, 3)); dgeo.setAttribute('seed', new THREE.BufferAttribute(dseed, 3))
-const dmat = new THREE.ShaderMaterial({ transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, uniforms: { uTime: { value: 0 }, uA: { value: 0 }, uPx: { value: (P.pr || 1) * 1080 }, uPool: { value: new THREE.Vector2() }, uPoolR: { value: 9 }, uBurst: { value: new THREE.Vector4(0, 0, 0, -9) } },
+const dmat = new THREE.ShaderMaterial({ transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, uniforms: { uTime: { value: 0 }, uA: { value: 0 }, uPx: { value: (P.pr || 1) * FH * (FH > FW ? .62 : 1) }, uPool: { value: new THREE.Vector2() }, uPoolR: { value: 9 }, uBurst: { value: new THREE.Vector4(0, 0, 0, -9) } },
   vertexShader: `attribute vec3 seed; uniform float uTime, uPx; uniform vec4 uBurst; varying float vA; varying vec3 vP;
     void main(){ vec3 p = position; float t = uTime;
       p.x += sin(t * (.12 + seed.x * .2) + seed.y * 40.) * .22 + t * (.012 + seed.z * .02); p.y += cos(t * (.1 + seed.y * .17) + seed.x * 30.) * .16 + t * (.02 + seed.x * .03);

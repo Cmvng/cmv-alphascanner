@@ -835,7 +835,9 @@
    },
    "wow": false,
    "candidate": "measured 7 Oct 2026 (passes the wow test); play to the owner before setting wow: true"
-  }
- ],
+  },
+    {"id": 413, "name": "P.D.", "artist": "Arulo", "genre": "Trap", "mood": "drop", "start": 16.0, "bpm": 120.0, "seconds": 97, "drop": 16.0, "loop": [16.0, 92.0], "about": "a clean trap beat under a narrator: almost nothing in the voice band, level steady within 1 dB; light intro, the beat comes in at 16.0 s", "vibe": "trap", "impact": {"jump_db": 12.3, "hit_db": 12.9}, "used": "Primus 'The Bouncer', 9 Nov 2026"},
+    {"id": 284, "name": "Mi Gente", "artist": "Arulo", "genre": "Reggaeton", "mood": "drop", "start": 17.99, "bpm": 110.0, "seconds": 105, "drop": 17.99, "loop": [17.99, 46.354], "about": "moombahton bounce with brass (a stock track, not the hit of the same name): quiet intro, a one-bar build from 15.81 s, the full beat at 17.99 s, a break at 48.5 s", "vibe": "moombahton", "impact": {"jump_db": 12.1, "hit_db": 8.7}, "used": "Bagel 'Sleep on it', 9 Nov 2026"}
+  ],
  "_wow": "The owner's soundtrack, for every analysis and post-match video (4-6 Oct 2026): cinematic film score with a quiet build and a hard drop that keeps people wowed, like 'A New Life' (543). 'wow' tracks jump at least 12 dB at the drop with a hit of at least 9 dB in the first half second (measured; see impact). Soft-drop tracks (Silent Descent, Moon Walk, Walking Dead, Red Lights, Cinematic Jazz) are not used for these videos."
 }

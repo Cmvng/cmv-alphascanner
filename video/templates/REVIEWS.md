@@ -28,6 +28,37 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
+## 9 Nov: three films at once: the drawing as a lit relief, Primus "The Bouncer" (Lara, 1:19), Bagel "Sleep on it" (30.5 s)
+
+- **The brief:** the owner: *"create me something that is cool. That when someone sees it, like okay, wow"* (the Gamdom drawing); *"a Primus video, something that is fresh… what you need to know as a regular user"*; *"a fresh, clean, new inspiration idea for Bagel… take your time and deliver me a masterpiece."* Then on sound: *"use top trending music that does not have copyrights… from top artists that people use on TikTok and on Instagram."*
+- **What I told the owner about the music, plainly:** songs by top artists are copyrighted. So each film has a copyright-free track in a trending style, and a second file without music for adding a real trending sound inside the app.
+- **What worked:**
+  - **Three different formats.** A photo of the drawing lit as a relief (`art-series/alive/`); a story acted out on a 3D stage, then real pages (`tactics-3d/page/stage.html`, `explainer/primus-bouncer-2026-11-09/`); one night-to-sunrise scene with big type (`hype/bagel-sleep-2026-11-09/`).
+  - **One real fact carries each film.** Primus: its own reserves page says it does not audit the data. Bagel: the Auto Claim run starts at 8:30 AM UTC+8, which is 1:30 AM in Lagos, and it is not instant.
+  - **Signature moments:** the eye catching the light; the door sign flipping from "CLUB · 18+" to "CRYPTO APP" on the beat; a seeded bagel coming up as the sun, with Bagel's own face in its hole at the end.
+  - **Real pages shown whole, then ringed:** Unitas reserves, the Chrome store, the fee in the docs, Bagel's changelog. Ring positions were checked on crops first.
+  - **Everything was checked on stills before any full render** (about 160 stills for Primus over six passes, 60 for Bagel), so the long renders ran once.
+  - **Research and music scouting ran in the background** while the pages were built; the scout measured 199 tracks.
+- **Mistakes, and how they got through (all caught before delivery):**
+  1. **Two cue phrases matched the wrong place.** "One:" took the "one" in "for one yes or no"; "You use it" took "before you use it". The first showed up as panels ending before they began; the second would have shown the store page 17 s early. `Cues` now warns when a phrase with no `nth` is said more than once.
+  2. **The door sign went blank after its flip.** The back face pointed into the wall. The look test had only shown the front. Found on the second pass of stills.
+  3. **Titles on the wall.** "3 things" and "Prove the fact." were navy on a navy wall; "It's live" sat on the door. They moved to open sky or onto the wash.
+  4. **Props too small.** The ID card, the three pages and the request card were under a tenth of the frame on the first pass.
+  5. **The caption hung through the pause** before the drop, because its end time fell after the cut and was shifted 0.6 s. Captions that end by the pause are now clamped to it.
+  6. **The hit was a second late.** The flash and the camera cut sat on the next line, a second after the beat came in. They now land with the beat, at the start of the pause.
+  7. **A truncated quote with a full stop.** "…baseline data." continues in the source ("nor does it provide certification…"). It now ends with an ellipsis. Changed in the plan before the chunk that shows it had started.
+  8. **Made transition sounds.** I added a swell, low hits and whooshes to the drawing film and the Bagel film, and the 10-second sample went out with them. The owner had called exactly this "slop" on 22 Oct (it is in `art-series/README.md`). I re-read that file only when writing the notes. The drawing film is now music only; Bagel keeps three sounds that belong to things on screen (clock ticks, two chimes).
+  9. **Disk fell to 3.5 GB** (the floor is 4). An unused 3.9 GB speech model from the 7 Nov voice test was still cached; removed.
+  10. **Five renders shared four CPUs.** I started the Bagel and drawing renders, cover stills and a hear-back while the Primus chunks ran. Everything slowed to a crawl; the last review said to keep covers off the CPUs during a full render.
+- **Change next time:**
+  - Before adding any sound that is not the track or the voice, read the owner's notes for that series. Default: none.
+  - Queue full renders one after another; stills and covers wait.
+  - Test both faces of anything that turns, and every prop at the size it will have in the shot, in the look test.
+  - Place titles with the scene on screen: sky or wash, never the wall.
+  - For music-led films, deliver 9:16 or 4:5 as well; the owner named TikTok and Instagram.
+- **Final review:** (the three renders are still running; the numbers are added with the final files)
+- **The owner's reaction:** (pending)
+
 ## 9 Nov: post-match, Sunderland 1-0 Chelsea "Why Chelsea lost" on the new 3D board (Lara, 2:06, 16:9)
 
 - **The brief:** the owner, on the earlier flat chessboard: *"It was not quality… just flat… not really clean."* Then: *"Please make sure that the analysis board is clean, is well rendered, is quality. I don't want any poor job."*

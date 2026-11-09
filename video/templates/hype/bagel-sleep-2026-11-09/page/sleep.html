@@ -41,6 +41,8 @@ canvas{position:absolute;left:0;top:0;width:1920px;height:1080px}
 </style>
 </head>
 <body>
+<script>if (location.hash.includes("notext")) document.documentElement.classList.add("notext")</script>
+<style>.notext #txt,.notext #logo,.notext #panels{display:none}</style>   <!-- sleep.html#notext: clean stills for covers -->
 <canvas id="c"></canvas>
 <div id="ui"><div id="txt"></div><img id="logo" src="img/bagel-logo-black.png"><img id="face" src="img/bagel-icon-round.png"><div id="wash"></div><div id="panels"></div><div class="flash" id="flash"></div><div id="bug"></div></div>
 <script src="file:///home/user/cmv-alphascanner/video/assets/three/three.min.js"></script>
