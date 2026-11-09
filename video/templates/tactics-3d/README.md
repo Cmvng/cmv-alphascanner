@@ -97,4 +97,7 @@ drawn on canvas. The cast are the same lacquer pieces. `explainer/primus-bouncer
 7. **Put the hit where the beat is.** The flash, the cut and the sign flip land on the music's entry at the start of
    the pause; the line starts a second later.
 8. **A real page gets a frame of its own shape.** A 16:9 capture in a wider panel was cropped at zoom 1.
-9. **Speed:** a still is about 2 s; the full render with three workers took about 5 s a frame per worker.
+9. **A reaction clip peaks when it peaks.** The chin-rub reaches its peak about 1.6 s in; keyed on the line it reacts
+   to, it peaked after the next cut. Key such a clip a line early and check stills a second after the line.
+10. **Speed:** a still is about 2 s. Three workers alone manage about 1.6 s a frame between them; with other renders
+    running the 2,361 frames took 85 minutes.

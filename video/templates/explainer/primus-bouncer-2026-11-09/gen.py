@@ -185,8 +185,8 @@ flow = {'width': 320, 'idle': {'id': 'waitwhat_full', 'a': 0, 'b': 30, 'speed': 
         'segments': [{'from': r3(S('Your date') - .2), 'to': r3(E('yes or no.') + .3), 'ANCHOR': 'a', 'lean': -2,
                       'beats': [{'at': 'All of it', 'id': 'yikes_full', 'kind': 'hard', 'away': 1, 'hold': 2.0}]}]}
 flow2 = {'width': 330, 'idle': {'id': 'stare', 'a': 40, 'b': 110, 'speed': 0.7},
-         'segments': [{'from': r3(S('by default') + .4), 'to': r3(E('the request.') + 1.3), 'ANCHOR': 'b', 'lean': -2,
-                       'beats': [{'at': 'read the request', 'id': 'hmm', 'kind': 'soft', 'away': -1, 'hold': 2.6}]}]}
+         'segments': [{'from': r3(S('by default') + .4), 'to': r3(t_three - .2), 'ANCHOR': 'b', 'lean': -2,     # gone before the cut to "Three:"
+                       'beats': [{'at': 'it asked for', 'id': 'hmm', 'kind': 'soft', 'away': -1, 'hold': 2.6}]}]}   # keyed a line early: the clip's chin-rub peaks about 1.6 s in, on "So read the request"
 for v in PC.values(): v['keys'].sort(key=lambda k: k[0])
 plan = {'vo': 0.2, 'cut': CUT, 'gap': 0.6, 'pr': 1.25, 'teams': {'home': {'name': '', 'short': '', 'c1': NAVY}, 'away': {'name': '', 'short': '', 'c1': OR}},
         'stage': {'r': 40}, 'door': {'at': [15, 0, 0], 'open': KS(sorted(DOOR))}, 'sign': {'at': [14.2, 11.3, 0], 'w': 9, 'h': 2.3, 'a': 'CLUB · 18+', 'b': 'CRYPTO APP', 'flipv': KS([[0, 0], [Tv(t2), 0], [Tv(t2) + .5, 1]])},

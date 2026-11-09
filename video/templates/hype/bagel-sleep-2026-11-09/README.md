@@ -1,4 +1,4 @@
-# SLEEP ON IT: a music film for Bagel 1.6 (9 Nov 2026, 30.5 s, 16:9, music only)
+# SLEEP ON IT: a music film for Bagel 1.6 (9 Nov 2026, 30.5 s, 16:9 and 9:16, music only)
 
 The owner asked for "a fresh, clean, new inspiration idea for Bagel".
 
@@ -37,7 +37,11 @@ PG=<work dir>/page; mkdir -p $PG && cp -r page/* $PG/ && cp ../../tactics-3d/pag
 bash mix.sh <work dir>/mix <Mi Gente mp3>
 echo '{"total": 30.545, "fps": 30, "audio": {"src": "<work dir>/mix/mix.wav", "in": 0, "fade": [29.545, 1]}}' > plan.json
 node ../../art-series/unveil/render.mjs $PG/sleep.html plan.json out.mp4 15       # about 2 s a frame on 4 CPUs
+HASH='#v' VIEW_W=1080 VIEW_H=1920 node ../../art-series/unveil/render.mjs $PG/sleep.html plan.json out_9x16.mp4 15   # upright
 ```
+
+**Two shapes, one page.** `sleep.html#v` is the upright cut: its own camera keys and type positions, the phone moved
+under the text, and the room around the changelog used for a headline and the four features.
 
 ## What made it work
 - **One fact carries the film.** The 1:30 AM run time is real and local, so the story needs no invented numbers.

@@ -11,8 +11,10 @@ pops into the hole of the sun.
 one useful fact a regular user didn't know (the 1:30 AM run, and that it is not instant).
 
 ## Files (in `video/out/bagel-sleep/`)
-- `sleep-on-it.mp4`: 1920×1080, 30.5 s, 30 fps, −14 LUFS, music and effects, no narrator.
-- `sleep-on-it_no-music.mp4`: the same picture with only the clock ticks and the two chimes, for posting under a
+- `sleep-on-it_9x16.mp4`: 1080×1920, the upright cut for TikTok, Reels and Shorts (30.5 s). Around the changelog it adds
+  "It is in the changelog." and the four new features as ticks.
+- `sleep-on-it.mp4`: 1920×1080, the same film for X and YouTube. 30.5 s, 30 fps, −14 LUFS, music, no narrator.
+- `sleep-on-it_9x16_no-music.mp4` and `sleep-on-it_no-music.mp4`: the same pictures with only the clock ticks and the two chimes, for posting under a
   trending sound picked inside TikTok or Instagram.
 - `sleep-on-it_cover.png` (1080×1920) and `sleep-on-it_thumbnail.png` (1280×720).
 

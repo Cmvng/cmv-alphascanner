@@ -28,7 +28,7 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
-## 9 Nov: three films at once: the drawing as a lit relief, Primus "The Bouncer" (Lara, 1:19), Bagel "Sleep on it" (30.5 s)
+## 9 Nov: three films at once: the drawing as a lit relief (30.8 s), Primus "The Bouncer" (Lara, 1:19), Bagel "Sleep on it" (30.5 s)
 
 - **The brief:** the owner: *"create me something that is cool. That when someone sees it, like okay, wow"* (the Gamdom drawing); *"a Primus video, something that is fresh… what you need to know as a regular user"*; *"a fresh, clean, new inspiration idea for Bagel… take your time and deliver me a masterpiece."* Then on sound: *"use top trending music that does not have copyrights… from top artists that people use on TikTok and on Instagram."*
 - **What I told the owner about the music, plainly:** songs by top artists are copyrighted. So each film has a copyright-free track in a trending style, and a second file without music for adding a real trending sound inside the app.
@@ -49,13 +49,16 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
   7. **A truncated quote with a full stop.** "…baseline data." continues in the source ("nor does it provide certification…"). It now ends with an ellipsis. Changed in the plan before the chunk that shows it had started.
   8. **Made transition sounds.** I added a swell, low hits and whooshes to the drawing film and the Bagel film, and the 10-second sample went out with them. The owner had called exactly this "slop" on 22 Oct (it is in `art-series/README.md`). I re-read that file only when writing the notes. The drawing film is now music only; Bagel keeps three sounds that belong to things on screen (clock ticks, two chimes).
   9. **Disk fell to 3.5 GB** (the floor is 4). An unused 3.9 GB speech model from the 7 Nov voice test was still cached; removed.
-  10. **Five renders shared four CPUs.** I started the Bagel and drawing renders, cover stills and a hear-back while the Primus chunks ran. Everything slowed to a crawl; the last review said to keep covers off the CPUs during a full render.
+  10. **Five renders shared four CPUs.** I started the Bagel and drawing renders, cover stills and a hear-back while the Primus chunks ran. Everything slowed to a crawl (Primus took 85 minutes, Bagel 66); the last review said to keep covers off the CPUs during a full render.
+  11. **The second reaction peaked late.** The chin-rub clip reaches its peak about 1.6 s in, so keyed on "read the request" it peaked after the cut to "Three:". The stills I checked were of the frame around the line, not a second after it. Found on the final at full size; keyed a line earlier and one chunk (5 s) rendered again.
+  12. **Widescreen only at first.** The owner named TikTok and Instagram, and their own footage is upright. I built both music films 16:9 and added the upright cuts afterwards (the drawing: each clip full height at its own pixels; Bagel: its own cameras and type).
 - **Change next time:**
   - Before adding any sound that is not the track or the voice, read the owner's notes for that series. Default: none.
   - Queue full renders one after another; stills and covers wait.
   - Test both faces of anything that turns, and every prop at the size it will have in the shot, in the look test.
   - Place titles with the scene on screen: sky or wash, never the wall.
-  - For music-led films, deliver 9:16 or 4:5 as well; the owner named TikTok and Instagram.
+  - For music-led films, lay out 9:16 from the start, next to 16:9.
+  - Check each reaction a second after its line, on stills, before the full render: clips peak at different times.
 - **Final review:** (the three renders are still running; the numbers are added with the final files)
 - **The owner's reaction:** (pending)
 
