@@ -99,6 +99,50 @@ Next angles:
   - the Instant Replay with a telestrator;
   - the Clone (a second you in the room).
 
+## Reference from the owner, 9 Nov: "20 hours" self-improvement reel ("I loved it… it looks super cool")
+16:9, 60 fps, 39 s. One selfie take, then a burst. The owner's favourite so far for *feel*.
+- **Act 1 (0–27 s): one unbroken take, no cuts at all.** A girl in a hoodie, wired earphones, fiddling with the cord,
+  cold window light from behind, warm skin (teal/orange grade), handheld micro-shake. It feels like a voice note
+  from a friend, not a creator talking to camera.
+- **Two type sizes and nothing in between ("whisper and shout"):**
+  - *whisper:* every spoken word, one at a time, tiny, lowercase, white, at her chin. No box, no highlight. You lean in.
+  - *shout:* only 7 phrases go giant: "20 HOURS", "JUST 20", "3 WEEKS", "BUT", "LOCK IN", "GO FOR IT", "STEP BY STEP".
+    A tall condensed sans (stretched Helvetica/Arial Narrow look), white, often half transparent so her face shows
+    through.
+  - **The giant words are laid out around her head:** "20" on the left, "HOU / RS" broken in two lines on the right,
+    so the head sits inside the word. On "GO FOR IT" her hand comes at the lens in front of the type.
+  - White only. No colour, no emoji, no icons, no boxes. The scale jump is the whole graphic.
+- **The hook number is a motif.** "20 hours" is said three times (0.0 s, 1.6 s, 13.9 s) and shown identically each
+  time, so by the third the viewer says it with her.
+- **Act 2 (27–39 s): a 7-second montage, cuts every 0.05–0.4 s, no words** (one "you"). A pencil sketch, a lotus, a
+  glowing silhouette walking on black, then the **same golden spiral over a solar system, a nautilus shell and a
+  galaxy**, a figure inside construction lines, an atom, nested circles, a clock, an embryo with a "Stage 02" label, a
+  light burst, red lightning with a gold glow, fade out. Grain, light leaks and chromatic aberration only here.
+  - The craft is **shape rhymes**: spiral → spiral → spiral, circle → atom → circles → clock. Each cut keeps the shape
+    and changes the scale, so 20 images read as one idea: "the same pattern, everywhere, grows from nothing."
+  - It is the answer to her last line, "what's stopping you", shown, not said.
+- **Sound:** voice at about −15 LUFS over a near-silent bed (pauses sit at about −28 LUFS), then the montage hits
+  about 5 dB louder (−9 LUFS). The edit and the sound both hold back for 27 s and spend it all at once.
+
+**What we take, in house style** (light or blue backgrounds, never black; subjects keep their colours; facts dated):
+1. **Whisper-and-shout captions** for the owner's own recordings: one tiny white word at the chin, and giant condensed
+   white words on 5–7 phrases only. The hook number may be the one sky-blue word (`#4FB3FF`). New versus our
+   full-line and key-word captions: two sizes, nothing in between, no boxes.
+2. **Type that wraps the head**, not just sits behind it: split the hook word either side of the face with
+   `video/lib/react_matte.py` (tested 29 Oct for words behind the head), and let a hand or the mic pass in front.
+   Translucent full-width words over the face for "BUT"-type turns.
+3. **The hook number as a motif**: write the script so the key number is said three times and shown the same way each
+   time ("8 wins", "20 hours", "38%").
+4. **Hold, then burst**: one long unbroken shot (the owner on camera, or a single slow push on the chessboard or a
+   stadium photo) for most of the video, then a 5–7 s shape-rhyme montage as the payoff, with the music hitting
+   about 5 dB harder. Our videos cut all the time; withholding cuts is the new idea.
+5. **Shape-rhyme montage made from our own art, never stock or broadcast footage**: e.g. for football, one shape (a
+   circle, an arrow, a triangle) carried through the ball, the centre circle, the formation, the pass map, the crest,
+   the trophy, each 0.1–0.3 s, on deep royal blue instead of black, grain and chromatic aberration only in the burst.
+6. **Watch-outs:** tiny captions are unreadable at feed size on their own, so ship the SRT and keep the giant words on
+   every key idea; the reference's montage is dark and generic-mystic, so ours must mean something specific to the
+   story (the pattern behind the 8 wins, the shape of a market's move).
+
 ## References from the owner, 3 Nov: two talking-head styles found over the weekend
 **A. Ola Ξlixir (@thegreatola), "AI changed my life in under a year" (0:52, 9:16).** One take at a desk mic in a neon room.
 The edit illustrates the words he speaks.
