@@ -445,3 +445,17 @@ suspenseful pace, not one cut a second):
 - Crypto content: "Not financial advice" stays on screen; no "guaranteed" or "sure" anywhere we add.
 - The product segment only states what the product's own site says.
 - The owner's face and voice are theirs; we never use them for anything they didn't send for this purpose.
+
+## Portrait look (test, 9 Nov): background blur and a tone fix
+`python3 -I video/lib/portrait_look.py <in.mp4> <out.mp4> <rvm_mobilenetv3_fp32.onnx> [blur 26] [wb 0.7]`
+- **Background blur:** the owner is cut out with Robust Video Matting, and only the room is blurred (portrait mode).
+  The blur is computed without the person, so there is no halo, and the room is dimmed 10% so the subject separates.
+- **Tone fix:**
+  - white balance taken from the background (ceiling and walls should be neutral), applied at 70%;
+  - a small midtone lift on the person and a gentle S-curve;
+  - light temporal denoise (`hqdn3d`).
+- **What it doesn't do:** no vignette, no stylised grade. The owner's rule since 22 Oct is that their footage is never
+  restyled; this is only offered as an option.
+- **First test:** Cournot recording, 9.2–17.4 s, about 2.7 min on CPU. The comparison is in
+  `video/out/pro-look-test-2026-11-09/`.
+- **Works best in front of a plain wall;** busy rooms give rougher hair edges.
