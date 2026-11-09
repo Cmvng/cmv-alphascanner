@@ -459,3 +459,29 @@ suspenseful pace, not one cut a second):
 - **First test:** Cournot recording, 9.2–17.4 s, about 2.7 min on CPU. The comparison is in
   `video/out/pro-look-test-2026-11-09/`.
 - **Works best in front of a plain wall;** busy rooms give rougher hair edges.
+
+### The pro look (v2, 9 Nov: the owner, "good, but I need it to be the best")
+`python3 -I video/lib/portrait_pro.py <in.mp4> <out.mp4> <rvm.onnx> [preview_frame]`. The person and the room are
+treated separately from the matte, like a lit studio shot:
+- **Framing:** a slow push-in (1.13 to 1.16×) whose crop rides a smoothed face track, which also steadies the hand
+  shake.
+- **The room:** a real lens blur (a disc kernel, so bright points bloom into bokeh), computed without the person,
+  dimmed, slightly cooled, with an 8% wash of the house blue.
+- **The person:**
+  - a soft key light from camera-left on the face;
+  - shadows lifted a touch;
+  - warm skin;
+  - a little local contrast for the eyes and beard;
+  - a smooth highlight roll-off for forehead shine;
+  - a thin cool rim light on the side away from the key.
+- **Finish:** temporal denoise before any sharpening, a gentle S-curve, and a light sharpen after the reframe.
+- **Voice:** clipped peaks repaired, then WPE de-reverb, then DeepFilterNet3, then a rumble and boom cut. Every word
+  survived, and the recogniser was slightly more confident than on the raw audio (−0.328 vs −0.333 log-prob).
+- **Tuning lessons from the test:**
+  - Too much local contrast (0.55) made the beard crunchy and the skin oily.
+  - A hard-knee highlight curve and strong denoise left blotchy, painted patches on the forehead.
+  - Zooming past about 1.2× shows the phone's compression.
+  - The settings in the file are the ones that passed the full-size crop check.
+- **Speed:** about 6 minutes on CPU for 8 s. That is fine for a final, so preview single frames first.
+- **What post can't fix:** a camera below the chin, top light, and a busy room. The best results start at the
+  recording (see the capture notes in the owner's message, 9 Nov).
