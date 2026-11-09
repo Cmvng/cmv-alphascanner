@@ -50,8 +50,9 @@ B3.makeBoard(scene)
 const TEAM = { home: P.teams.home, away: P.teams.away }
 // pieces
 const PCS = P.pieces.map(d => { const p = B3.makePiece(TEAM[d.team], d.role); p.rotation.y = d.team === 'home' ? 0 : Math.PI; scene.add(p)
-  const tag = document.createElement('div'); tag.className = 'tag ' + (d.team === 'home' ? 'h' : 'a'); tag.textContent = d.name || ''; $('tags').appendChild(tag)
-  const keys = d.keys.map(k => [T(k[0]), k[1], k[2]]); return { d, p, tag, keys } })
+  const tag = document.createElement('div'); tag.className = 'tag'; tag.style.background = TEAM[d.team].tag || TEAM[d.team].c1; tag.style.borderTopColor = TEAM[d.team].tag || TEAM[d.team].c1; tag.textContent = d.name || ''; $('tags').appendChild(tag)
+  const keys = d.keys.map(k => [T(k[0]), k[1], k[2]]), tilt = d.tilt ? d.tilt.map(k => [T(k[0]), k[1], k[2]]) : null
+  return { d, p, tag, keys, tilt, names: (d.names || []).map(n => [T(n[0]), n[1]]) } })
 const ball = B3.makeBall(); scene.add(ball)
 const BK = (P.ball || [[0, 0, 0]]).map(k => [T(k[0]), k[1], k[2], k[3] || 0])
 const ARR = (P.arrows || []).map(o => { const a = B3.makeArrow(o); scene.add(a); return a })
@@ -61,25 +62,36 @@ const inWin = (wins, t, fi = .3, fo = .3) => { let q = 0; (wins || []).forEach(w
 const tmp = new THREE.Vector3()
 window.render = async t => {
   const SIG = []
+  // camera first, so the name tags project with this frame's camera
+  const c = B3.camAt(CAM, t); let sh = 0; (P.goals || []).forEach(g => { const d = t - T(g.t); if (d > 0 && d < .6) sh = Math.max(sh, (1 - d / .6) * .35) })
+  cam.position.set(c[1][0] + sh * Math.sin(t * 60), c[1][1] + sh * Math.cos(t * 47), c[1][2]); cam.lookAt(...c[2]); if (cam.fov !== c[3]) { cam.fov = c[3]; cam.updateProjectionMatrix() }
+  cam.updateMatrixWorld()
   for (const o of PCS) {
     const v = B3.keyAt(o.keys, t); o.p.position.set(v[0], .06, v[1])
+    let vq = 1; if (o.d.vis) { vq = inWin(o.d.vis, t, .45, .45) } o.p.visible = vq > .001; o.p.scale.setScalar(1.25 * B3.eo(vq))
+    if (o.tilt) { const r = B3.keyAt(o.tilt, t); o.p.rotation.x = r[0]; o.p.rotation.z = r[1] }
+    if (o.names.length) { let nm = o.d.name; o.names.forEach(n => { if (t >= n[0]) nm = n[1] }); if (o.tag.textContent !== nm) o.tag.textContent = nm }
     const hq = inWin(o.d.hi, t, .25, .3); o.p.userData.ring.material.opacity = .9 * hq; o.p.position.y = .06 + 1.2 * hq * (o.d.lift ? 1 : 0)
-    const lq = inWin(o.d.lab, t, .25, .25); tmp.set(v[0], 7.4, v[1]); const s = B3.toScreen(tmp)
+    const lq = inWin(o.d.lab, t, .25, .25) * vq; tmp.set(v[0], 7.4, v[1]); const s = B3.toScreen(tmp)
     o.tag.style.opacity = (lq * (s.vis ? 1 : 0)).toFixed(3); o.tag.style.left = s.x.toFixed(1) + 'px'; o.tag.style.top = s.y.toFixed(1) + 'px'
   }
   const b = B3.ballAt(BK, t); ball.position.set(b[0], .81 + b[1], b[2]); ball.rotation.z = -t * 4; ball.visible = inWin(P.ballVis || [[-1, 1e4]], t, .01, .01) > 0
   ARR.forEach(a => B3.updateArrow(a, t, T)); ZON.forEach(z => B3.updateZone(z, t, T))
   ;(P.goals || []).forEach(g => B3.rippleNet(B3.nets[g.side > 0 ? 1 : 0], t, T(g.t)))
-  const c = B3.camAt(CAM, t); let sh = 0; (P.goals || []).forEach(g => { const d = t - T(g.t); if (d > 0 && d < .6) sh = Math.max(sh, (1 - d / .6) * .35) })
-  cam.position.set(c[1][0] + sh * Math.sin(t * 60), c[1][1] + sh * Math.cos(t * 47), c[1][2]); cam.lookAt(...c[2]); if (cam.fov !== c[3]) { cam.fov = c[3]; cam.updateProjectionMatrix() }
   R.render(scene, cam)
   SIG.push(await window.PANELS(t, T))
+  if (RF) { await RF.render(t) } if (RF2) { await RF2.render(t) }
   // captions
   const cp = P.caps.find(x => t >= T(x[0]) - .05 && t < T(x[1]) + .1), html = cp ? cp[2] : '', span = $('cap').firstChild
   if (span.innerHTML !== html) span.innerHTML = html; span.style.opacity = cp ? '1' : '0'; span.style.display = cp ? 'inline-block' : 'none'
   return 'f' + Math.round(t * FPS)
 }
-window.READY = Promise.all([document.fonts.load('300 80px Osw'), document.fonts.load('80px Anton'), document.fonts.load('800 40px Man'), document.fonts.load('600 26px Man'), window.PANELS_READY || Promise.resolve()])
+let RF = null, RF2 = null
+const load = src => new Promise(r => { const sc = document.createElement('script'); sc.src = src; sc.onload = sc.onerror = r; document.head.appendChild(sc) })
+const flowReady = P.flow ? Promise.all([load(P.sroot + 'lib.js'), load('file:///home/user/cmv-alphascanner/video/lib/react_flow.js'), load('words.js')]).then(() => {
+  const base = { lib: window.RLIB, root: P.sroot, fps: FPS, T, words: (window.WORDS || []).map(w => ({ s: w[0], e: w[1], w: w[2] })) }
+  RF = ReactFlow.create({ ...base, ...P.flow, img: $('stk') }); if (P.flow2) RF2 = ReactFlow.create({ ...base, ...P.flow2, img: $('stk2') }) }) : Promise.resolve()
+window.READY = Promise.all([flowReady, document.fonts.load('300 80px Osw'), document.fonts.load('80px Anton'), document.fonts.load('800 40px Man'), document.fonts.load('600 26px Man'), window.PANELS_READY || Promise.resolve()])
 </script>
 </body>
 </html>

@@ -5,7 +5,8 @@
 <script src="board3d.js"></script>
 <script>
 const T = s => s
-const { R, scene, cam } = B3.setup(document.getElementById('c'), { pr: 1.5 })
+const PR = +(new URLSearchParams(location.hash.slice(1)).get('pr') || 1.5), AP = +(new URLSearchParams(location.hash.slice(1)).get('ap') || 0)
+const Q = new URLSearchParams(location.hash.slice(1)); const { R, scene, cam } = B3.setup(document.getElementById('c'), { pr: PR, shadow: +(Q.get('sh') || 4096) }); if (AP) B3.postSetup(PR)
 B3.makeBoard(scene)
 const CHE = { c1: '#062f80' }, SUN = { c1: '#b30c25', c2: '#ffffff' }
 const P = []
@@ -27,7 +28,7 @@ window.render = async t => {
   hi.userData.ring.material.opacity = t > 2.6 ? .9 : 0
   B3.rippleNet(B3.nets[1], t, 3.95)
   const c = B3.camAt(camK, t); cam.position.set(...c[1]); cam.lookAt(...c[2]); cam.fov = c[3]; cam.updateProjectionMatrix()
-  R.render(scene, cam); return 't' + t
+  const fd = Math.hypot(c[1][0] - c[2][0], c[1][1] - c[2][1], c[1][2] - c[2][2]); B3.renderFrame(scene, cam, fd, AP); return 't' + t
 }
 window.READY = Promise.resolve()
 </script></body></html>

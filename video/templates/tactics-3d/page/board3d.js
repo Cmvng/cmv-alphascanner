@@ -27,6 +27,7 @@
     // soft light falloff toward the edges (the stadium lights pool in the middle)
     const rg = g.createRadialGradient(W / 2, H / 2, H * .2, W / 2, H / 2, W * .62); rg.addColorStop(0, 'rgba(255,250,235,0.10)'); rg.addColorStop(1, 'rgba(0,10,0,0.34)')
     g.fillStyle = rg; g.fillRect(0, 0, W, H)
+    if (opt.noLines) { const t0 = new T3.CanvasTexture(c); t0.colorSpace = T3.SRGBColorSpace; t0.anisotropy = 8; return t0 }
     // lines
     g.strokeStyle = 'rgba(255,255,255,0.92)'; g.lineWidth = 0.14 * s; g.lineJoin = 'round'
     const X = x => (x + PW / 2) * s, Y = z => (z + PH / 2) * s
@@ -137,6 +138,32 @@
     return grp
   }
 
+
+  // ---------- crisp pitch lines as thin geometry (sharp at any distance)
+  function lineMeshes(grp) {
+    const mat = new T3.MeshStandardMaterial({ color: '#f4f7fb', roughness: .7, metalness: 0, polygonOffset: true, polygonOffsetFactor: -2 })
+    const W2 = .07, Y = .075, add = g => { const m = new T3.Mesh(g, mat); m.receiveShadow = true; grp.add(m) }
+    const seg = (x0, z0, x1, z1) => { const dx = x1 - x0, dz = z1 - z0, L = Math.hypot(dx, dz); const g = new T3.PlaneGeometry(L + W2 * 2, W2 * 2); g.rotateX(-Math.PI / 2); g.rotateY(-Math.atan2(dz, dx)); g.translate((x0 + x1) / 2, Y, (z0 + z1) / 2); add(g) }
+    const arc = (cx, cz, r, a0, a1) => { const g = new T3.RingGeometry(r - W2, r + W2, 128, 1, a0, a1 - a0); g.rotateX(-Math.PI / 2); g.translate(cx, Y, cz); add(g) }
+    const spot = (x, z) => { const g = new T3.CircleGeometry(.24, 24); g.rotateX(-Math.PI / 2); g.translate(x, Y, z); add(g) }
+    const hx = PW / 2, hz = PH / 2
+    seg(-hx, -hz, hx, -hz); seg(-hx, hz, hx, hz); seg(-hx, -hz, -hx, hz); seg(hx, -hz, hx, hz); seg(0, -hz, 0, hz)
+    arc(0, 0, 9.15, 0, Math.PI * 2); spot(0, 0)
+    for (const sg of [-1, 1]) {
+      const gx = sg * hx, b16 = gx - sg * 16.5, b5 = gx - sg * 5.5
+      seg(gx, -20.16, b16, -20.16); seg(gx, 20.16, b16, 20.16); seg(b16, -20.16, b16, 20.16)
+      seg(gx, -9.16, b5, -9.16); seg(gx, 9.16, b5, 9.16); seg(b5, -9.16, b5, 9.16)
+      const px = gx - sg * 11; spot(px, 0)
+      const a = Math.acos(5.5 / 9.15)                          // the D outside the box (screen-space angles: ring is in xz after rotation)
+      if (sg > 0) arc(px, 0, 9.15, Math.PI - a, Math.PI + a); else arc(px, 0, 9.15, -a, a)
+      for (const cz of [-1, 1]) { const st = sg > 0 ? (cz > 0 ? Math.PI / 2 : Math.PI) : (cz > 0 ? 0 : -Math.PI / 2); arc(gx, cz * hz, 1, st, st + Math.PI / 2) }
+    }
+  }
+  // fine grass detail for close-ups: a tiled noise used as a bump map
+  function grassBump() { const c = document.createElement('canvas'); c.width = c.height = 512; const g = c.getContext('2d'), id = g.createImageData(512, 512); let sd = 11
+    const rnd = () => (sd = (sd * 16807) % 2147483647) / 2147483647
+    for (let k = 0; k < id.data.length; k += 4) { const v = 128 + (rnd() - .5) * 120; id.data[k] = id.data[k + 1] = id.data[k + 2] = v; id.data[k + 3] = 255 }
+    g.putImageData(id, 0, 0); const t = new T3.CanvasTexture(c); t.wrapS = t.wrapT = T3.RepeatWrapping; t.repeat.set(60, 40); t.anisotropy = 8; return t }
   // ---------- the board: base, pitch, goals
   function makeBoard(scene) {
     const grp = new T3.Group()
@@ -150,9 +177,12 @@
     // a thin brass-like trim between base and grass
     const trim = new T3.Mesh(new T3.BoxGeometry(PW + 2.4, .3, PH + 2.4), new T3.MeshStandardMaterial({ color: '#c9d6ea', roughness: .25, metalness: .8 }))
     trim.position.y = -.1; grp.add(trim)
-    const pitch = new T3.Mesh(new T3.PlaneGeometry(PW + 2, PH + 2), new T3.MeshStandardMaterial({ map: pitchTexture(), roughness: .9, metalness: 0, envMapIntensity: .35 }))
+    const pitch = new T3.Mesh(new T3.PlaneGeometry(PW + 2, PH + 2), new T3.MeshStandardMaterial({ map: pitchTexture({ noLines: true }), bumpMap: grassBump(), bumpScale: .6, roughness: .9, metalness: 0, envMapIntensity: .35 }))
     pitch.material.map.repeat.set(1, 1)
     pitch.rotation.x = -Math.PI / 2; pitch.position.y = .06; pitch.receiveShadow = true; grp.add(pitch)
+    lineMeshes(grp)
+    // the floor the board stands on: it only shows the board's soft shadow
+    const floor = new T3.Mesh(new T3.PlaneGeometry(600, 600), new T3.ShadowMaterial({ opacity: .28 })); floor.rotation.x = -Math.PI / 2; floor.position.y = -4.3; floor.receiveShadow = true; grp.add(floor)
     // goals
     const post = new T3.MeshStandardMaterial({ color: '#ffffff', roughness: .3, metalness: .2 })
     const netMat = new T3.MeshBasicMaterial({ color: '#ffffff', transparent: true, opacity: .35, wireframe: true })
@@ -185,13 +215,14 @@
     R.shadowMap.enabled = true; R.shadowMap.type = T3.PCFSoftShadowMap
     const scene = new T3.Scene()
     // the house background: light sky to deep blue, as a gradient texture
-    const bc = document.createElement('canvas'); bc.width = 16; bc.height = 512; const bg = bc.getContext('2d'), gr = bg.createLinearGradient(0, 0, 0, 512)
-    ;(opt.bg || [[0, '#cfe4ff'], [.55, '#6fa8f0'], [1, '#1d4fb8']]).forEach(([o, c]) => gr.addColorStop(o, c)); bg.fillStyle = gr; bg.fillRect(0, 0, 16, 512)
+    const bc = document.createElement('canvas'); bc.width = 256; bc.height = 1024; const bg = bc.getContext('2d'), gr = bg.createLinearGradient(0, 0, 0, 1024)
+    ;(opt.bg || [[0, '#cfe4ff'], [.55, '#6fa8f0'], [1, '#1d4fb8']]).forEach(([o, c]) => gr.addColorStop(o, c)); bg.fillStyle = gr; bg.fillRect(0, 0, 256, 1024)
+    { const id = bg.getImageData(0, 0, 256, 1024); let sd = 3; for (let k = 0; k < id.data.length; k += 4) { sd = (sd * 16807) % 2147483647; const v = (sd / 2147483647 - .5) * 3; id.data[k] += v; id.data[k + 1] += v; id.data[k + 2] += v } bg.putImageData(id, 0, 0) }
     const bt = new T3.CanvasTexture(bc); bt.colorSpace = T3.SRGBColorSpace; scene.background = bt
     scene.environment = studioEnv(R)
     const hemi = new T3.HemisphereLight('#e8f2ff', '#22461f', .18); scene.add(hemi)
     const key = new T3.DirectionalLight('#fff3e2', 2.5); key.position.set(-55, 62, 40); key.castShadow = true
-    key.shadow.mapSize.set(opt.shadow || 4096, opt.shadow || 4096); const sc = key.shadow.camera; sc.left = -70; sc.right = 70; sc.top = 50; sc.bottom = -50; sc.near = 10; sc.far = 220
+    key.shadow.mapSize.set(opt.shadow || 4096, opt.shadow || 4096); const sc = key.shadow.camera; sc.left = -82; sc.right = 82; sc.top = 60; sc.bottom = -60; sc.near = 10; sc.far = 240
     key.shadow.bias = -.0004; key.shadow.normalBias = .03; key.shadow.radius = 3; scene.add(key)
     const pool = new T3.SpotLight('#fff8ee', 520, 0, Math.PI / 5, .9, 1.6); pool.position.set(0, 70, 8); pool.target.position.set(0, 0, 0); scene.add(pool, pool.target)
     const rim = new T3.DirectionalLight('#bcd8ff', 1.1); rim.position.set(50, 40, -60); scene.add(rim)
@@ -279,9 +310,49 @@
       pos.array[i * 3] = x + (amp ? amp * Math.sin(d * 18 - Math.abs(z) * .9 - y * 1.2) * (.6 + .4 * Math.cos(z * .8)) * Math.sign(net.position.x) : 0) }
     pos.needsUpdate = true
   }
+
+  // ---------- depth of field: the scene goes to a multisampled target with depth, then a two-pass blur whose radius
+  // follows each pixel's distance from the focus plane (a real-lens look on close shots; off when aperture is 0)
+  function postSetup(pr) {
+    const W = Math.round(1920 * pr), H = Math.round(1080 * pr)
+    const mk = (depth) => { const rt = new T3.WebGLRenderTarget(W, H, { type: T3.HalfFloatType, samples: depth ? 4 : 0 })
+      if (depth) { rt.depthTexture = new T3.DepthTexture(W, H); rt.depthTexture.type = T3.UnsignedIntType } return rt }
+    const rtA = mk(true), rtB = mk(false), rtC = mk(false)
+    const vs = 'varying vec2 vUv; void main(){ vUv = uv; gl_Position = vec4(position.xy, 0., 1.); }'
+    const fs = (dir) => `uniform sampler2D tCol; uniform sampler2D tDep; uniform vec2 px; uniform float focus; uniform float ap; uniform float near; uniform float far; uniform float maxR;
+      varying vec2 vUv;
+      float lin(float d){ return near * far / (far - d * (far - near)); }
+      float coc(vec2 uv){ float z = lin(texture2D(tDep, uv).x); return clamp(abs(z - focus) / z * ap, 0., maxR); }
+      void main(){
+        float c0 = coc(vUv); vec4 acc = vec4(0.); float wsum = 0.;
+        for (int i = -6; i <= 6; i++) { float o = float(i) / 6.; vec2 uv = vUv + ${dir} * px * o * c0;
+          float ci = coc(uv); float w = (1. - abs(o) * .55) * smoothstep(0., 1., ci + .35);      // samples sharper than us count less (less bleeding)
+          acc += texture2D(tCol, uv) * w; wsum += w; }
+        gl_FragColor = acc / max(wsum, 1e-4);
+      }`
+    const mat = (dir) => new T3.ShaderMaterial({ vertexShader: vs, fragmentShader: fs(dir), depthTest: false, depthWrite: false,
+      uniforms: { tCol: { value: null }, tDep: { value: rtA.depthTexture }, px: { value: new T3.Vector2(1 / W, 1 / H) }, focus: { value: 60 }, ap: { value: 0 }, near: { value: 1 }, far: { value: 1000 }, maxR: { value: 6 * pr } } })
+    const mH = mat('vec2(1.,0.)'), mV = mat('vec2(0.,1.)')
+    const quad = new T3.Mesh(new T3.PlaneGeometry(2, 2), mH), qs = new T3.Scene(); qs.add(quad); const oc = new T3.OrthographicCamera(-1, 1, 1, -1, 0, 1)
+    // the final pass also does the tone mapping and sRGB (the targets hold linear HDR)
+    const outMat = new T3.ShaderMaterial({ vertexShader: vs, depthTest: false, depthWrite: false, uniforms: { tCol: { value: null } },
+      fragmentShader: ['uniform sampler2D tCol;', 'varying vec2 vUv;', 'void main(){', '  gl_FragColor = texture2D(tCol, vUv);', '  #include <tonemapping_fragment>', '  #include <colorspace_fragment>', '}'].join('\n') })
+    outMat.toneMapped = true
+    B.post = { rtA, rtB, rtC, mH, mV, quad, qs, oc, outMat, W, H }
+  }
+  function renderFrame(scene, cam, focus, ap) {
+    const R = B.R, P = B.post
+    if (!P || !ap) { R.setRenderTarget(null); R.render(scene, cam); return }
+    const tm = R.toneMapping; R.toneMapping = T3.NoToneMapping
+    R.setRenderTarget(P.rtA); R.render(scene, cam)
+    for (const m of [P.mH, P.mV]) { m.uniforms.focus.value = focus; m.uniforms.ap.value = ap; m.uniforms.near.value = cam.near; m.uniforms.far.value = cam.far }
+    P.mH.uniforms.tCol.value = P.rtA.texture; P.quad.material = P.mH; R.setRenderTarget(P.rtB); R.render(P.qs, P.oc)
+    P.mV.uniforms.tCol.value = P.rtB.texture; P.quad.material = P.mV; R.setRenderTarget(P.rtC); R.render(P.qs, P.oc)
+    R.toneMapping = tm; P.outMat.uniforms.tCol.value = P.rtC.texture; P.quad.material = P.outMat; R.setRenderTarget(null); R.render(P.qs, P.oc)
+  }
   // screen position of a 3D point (for HTML labels)
   function toScreen(v) { const p = v.clone().project(B.cam); return { x: (p.x + 1) / 2 * 1920, y: (1 - p.y) / 2 * 1080, vis: p.z < 1 } }
 
-  Object.assign(B, { setup, makeBoard, makePiece, makeBall, toScreen, pitchTexture, PW, PH, ROLE, keyAt, ballAt, makeArrow, updateArrow, makeZone, updateZone, camAt, rippleNet, cl, eio, eo })
+  Object.assign(B, { postSetup, renderFrame, setup, makeBoard, makePiece, makeBall, toScreen, pitchTexture, PW, PH, ROLE, keyAt, ballAt, makeArrow, updateArrow, makeZone, updateZone, camAt, rippleNet, cl, eio, eo })
   G.B3 = B
 })(window)
