@@ -57,9 +57,25 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
      or keep reading order on separate lines.
   4. **Overflows:** "CONFIRMED" was wider than its half of the split, the first claim card's text ran past the card,
      and "BOARD PROBE" wrapped.
+- **Caught by the 2 fps sheets of the first full render (fixed, re-rendered):**
+  5. **Dead stretches.** The stills every few seconds missed these:
+     - one claim card sat alone for 9.5 s;
+     - the split screen was blank for 0.9 s before "CONFIRMED";
+     - "That's tokenized stocks, live" had only a track on screen for 5 s;
+     - "AI tokens are red too" opened on an empty frame.
+     The fixes:
+     - each claim card is read big in the centre, with its key words lighting up as Lara says them, then moves to its slot;
+     - the split arrives with "CONFIRMED";
+     - giant "TOKENIZED STOCKS, LIVE" and "AI TOKENS: RED" fill the other two gaps;
+     - the board page and the chips diagram get camera moves.
+  6. **Two crossfades overlapped:** the crypto title over the Nasdaq sign, and see-through claim cards over each other.
+  7. **The house empty-frame check (`empty.py`) counts light pixels on a dark stage, so it can't see a light stage.**
+     A light-stage version (`empty_light.py`, counting ink pixels) flagged the same dead stretches.
 - **Change next time:**
   - **Cue words:** never a single common word ("not", "one", "so"); always two or more.
   - **The drop gap:** any scene that should hit the drop starts at `cut - .002`.
+  - **Sparse beats:** check the stills for any beat where one small element sits alone for more than about 3 s, and give it
+    motion or a giant word before the full render.
   - **Long renders:** a scrolling background redraws every frame, so its chunk is the slowest. Give that chunk fewer
     frames (uneven chunk sizes in `render_par.sh`).
 - **The owner's reaction:** (pending)
