@@ -32,7 +32,10 @@ bash video/templates/art-series/unveil/render_par.sh <page>/board.html <plan.jso
 python3 -I srt.py <words_script.json> <out.srt>
 node cover/shot.mjs $PWD/cover/cover.html v cover.png    # and "t" for the thumbnail; "#t;cx,cy,cz;tx,ty,tz;fov" to tune the camera
 ```
-- **Speed:** at `pr: 1.25` and 2048 shadows, a frame takes about 3 s per worker. A 2:06 video takes about 55 minutes on 4 workers.
+- **Speed:** at `pr: 1.25` with 2048 shadows, one worker alone takes about 3 s a frame. Four workers sharing 4 CPUs take about 10 s a frame each, so the real throughput is about 2.5 s a frame, and a 2:06 video takes about 2.6 hours.
+  - That is longer than a background command may run (2 hours). Run the frames as small resumable chunks, detached: see `chelsea-sunderland-2026-11-08/` for the job list.
+  - To keep a stopped chunk, stop the browser (node) and leave the encoder: it gets end-of-input and writes a playable file. Count its frames with `ffprobe -count_frames` and render the rest from there.
+  - Never stop `render_par.sh` while it waits on its chunks: if they end, it joins them and deletes its work folder.
 - **Check stills first:** check every scene from stills (a 3×3 sheet per 9 stills), fix, then do the full render.
 
 ## Lessons from the first video (all caught on stills, before the full render)
