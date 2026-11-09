@@ -1,0 +1,26 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:Anton;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/anton-latin-400-normal.woff2)}
+@font-face{font-family:Man;font-weight:800;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-800-normal.woff2)}
+@font-face{font-family:Man;font-weight:600;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-600-normal.woff2)}
+html,body{margin:0;width:1920px;height:1080px;overflow:hidden;background:#cfe4ff}canvas{position:absolute;left:0;top:0;width:1920px;height:1080px}</style></head><body><canvas id="c"></canvas>
+<script src="file:///home/user/cmv-alphascanner/video/assets/three/three.min.js"></script><script src="board3d.js"></script><script src="stage3d.js"></script>
+<script>
+// look test for the stage: #cx,cy,cz;tx,ty,tz;fov;open(0..1);flip(0..1)
+const hp = location.hash.slice(1).split(';'), V = (i, d) => hp[i] ? hp[i].split(',').map(Number) : d
+window.READY = Promise.all([document.fonts.load('80px Anton'), document.fonts.load('800 40px Man'), document.fonts.load('600 40px Man')]).then(() => {
+  const { R, scene, cam } = B3.setup(document.getElementById('c'), { pr: 1.25, shadow: 2048 }), S = B3.stage
+  S.makeStage(scene, { r: 40 })
+  const door = S.makeDoor(); door.position.set(15, 0, 0); scene.add(door); door.userData.open(V(3, [0])[0])
+  const sign = S.makeSign({ w: 9, h: 2.3, a: 'CLUB · 18+', b: 'CRYPTO APP' }); sign.position.set(14.2, 11.3, 0); scene.add(sign); sign.userData.flip(V(4, [0])[0])
+  const NAVY = { c1: '#0B1F44', c2: '#FD4C00' }, CREAM = { c1: '#f3ead8', c2: '#FD4C00' }, GREY = { c1: '#9db4d6' }, ORANGE = { c1: '#FD4C00', c2: '#fff' }
+  const put = (team, role, x, z, s, ry = 0) => { const p = B3.makePiece(team, role); p.scale.setScalar(s); p.position.set(x, .02, z); p.rotation.y = ry; scene.add(p); return p }
+  put(NAVY, 'CB', 9.5, 3.4, 2.3); put(CREAM, 'P', 2, 0, 1.55); put(GREY, 'P', -6, 0, 1.45); put(GREY, 'P', -13, 0, 1.45); put(GREY, 'P', -20, 0, 1.45); put(ORANGE, 'CM', -3, -9, 1.7, 0)
+  const id = S.makeCard({ w: 6.4, h: 4, draw: (g, w, h) => { g.fillStyle = '#fbf7ee'; S.rr(g, 0, 0, w, h, 46); g.fill(); g.fillStyle = '#0B1F44'; g.font = '800 54px Man'; g.fillText('IDENTITY CARD', 56, 96)
+    g.fillStyle = '#d6dcea'; S.rr(g, 56, 150, 250, 310, 24); g.fill(); g.fillStyle = '#9aa7c2'; g.beginPath(); g.arc(181, 262, 62, 0, 7); g.fill(); g.beginPath(); g.ellipse(181, 420, 104, 78, 0, Math.PI, 0); g.fill()
+    ;['NAME', 'ADDRESS', 'DATE OF BIRTH', 'ID NUMBER'].forEach((t, i) => { g.fillStyle = '#7b879f'; g.font = '800 30px Man'; g.fillText(t, 360, 196 + i * 92); g.fillStyle = '#0B1F44'; S.rr(g, 360, 212 + i * 92, [520, 580, 300, 420][i], 30, 10); g.fill() }) } })
+  id.position.set(5.6, 6.4, 1.2); id.rotation.y = -.5; scene.add(id)
+  const box = S.makeBox({ label: 'FILES' }); box.position.set(11.5, 0, 8.6); box.rotation.y = -.5; scene.add(box)
+  const c = V(0, [-20, 13, 34]), t = V(1, [5, 4.4, 0]); cam.fov = V(2, [30])[0]; cam.updateProjectionMatrix(); cam.position.set(...c); cam.lookAt(...t); R.render(scene, cam)
+})
+window.render = async () => 'x'
+</script></body></html>

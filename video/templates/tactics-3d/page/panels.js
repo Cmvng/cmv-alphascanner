@@ -1,6 +1,8 @@
 /* panels.js: the HTML layer over the 3D board, driven by PLAN.ui (take seconds; T() maps to video time).
    Types: giant (big word over the board), title, bug (score bug), chip (small pill), stat (big number card),
-   coach (formation card), bars (stats panel), quote, table, cta, note (footnote), flash (whistle flash). */
+   coach (formation card), bars (stats panel), quote, table, cta, note (footnote), flash (whistle flash),
+   screen (a real page in a browser frame: `img`, `url`, `iw`/`ih` in pixels, `view` keys [[t, cx, cy, zoom]] in image
+   fractions with zoom 1 = the page's width fills the frame, `rings` [[t0, t1, x, y, w, h]] in image fractions). */
 (function () {
   const P = window.PLAN, cl = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x)), eo = x => 1 - Math.pow(1 - cl(x), 3)
   const eback = x => { x = cl(x); const c = 1.4; return 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2) }
@@ -18,6 +20,7 @@
     .title .why{margin-top:26px;font:800 46px/1 Man,sans-serif;color:var(--blue)}
     .chip2{position:absolute;opacity:0;padding:16px 26px;border-radius:18px;background:rgba(11,31,68,.9);color:#fff;font:800 34px/1 Man,sans-serif;box-shadow:0 14px 30px rgba(0,0,0,.25);white-space:nowrap}
     .chip2 b{color:#9FD3FF;font-weight:800}
+    .chip2.light{background:rgba(255,255,255,.96);color:var(--navy);box-shadow:0 14px 30px rgba(11,31,68,.22)}.chip2.light b{color:var(--blue)}
     .stat{width:560px;padding:30px 36px}
     .stat .n{font:300 150px/1 Osw,sans-serif;color:var(--navy)}
     .stat .l{margin-top:10px;font:800 32px/1.25 Man,sans-serif;color:var(--navy)}
@@ -48,13 +51,26 @@
     .cta .t{font:300 92px/1.02 Osw,sans-serif;text-transform:uppercase;color:var(--navy)}
     .cta .h{display:inline-block;margin-top:26px;font:800 44px/1 Man,sans-serif;color:#fff;background:var(--navy);padding:16px 30px;border-radius:40px}
     .cta .f{margin-top:20px;font:600 24px/1 Man,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--mut)}
+    .screen{padding:0;overflow:hidden;background:#fff;border-radius:22px}
+    .screen .bar{height:54px;background:#eef2f8;display:flex;align-items:center;gap:9px;padding:0 20px;border-bottom:1px solid rgba(11,31,68,.1)}
+    .screen .bar i{width:13px;height:13px;border-radius:50%;background:#c9d2e2}
+    .screen .bar span{margin-left:16px;flex:1;height:34px;border-radius:17px;background:#fff;font:600 21px/34px Man,sans-serif;color:var(--navy);padding:0 18px;white-space:nowrap;overflow:hidden}
+    .screen .bar span b{color:#12824a;font-weight:800;margin-right:8px}
+    .screen .vp{position:absolute;left:0;right:0;top:55px;bottom:0;overflow:hidden;background:#fff}
+    .screen .im{position:absolute;left:0;top:0;transform-origin:0 0}
+    .screen .im img{display:block;width:100%}
+    .screen .ring{position:absolute;box-sizing:border-box;border:6px solid var(--blue);border-radius:14px;box-shadow:0 0 0 5px rgba(31,95,219,.18);opacity:0}
     .note{position:absolute;left:40px;bottom:22px;font:600 20px/1 Man,sans-serif;color:rgba(255,255,255,.85);text-shadow:0 1px 4px rgba(0,0,0,.4);opacity:0}`
   document.head.appendChild(css)
+  const IMGS = []
   const U = (P.ui || []).map(u => {
     let d
-    if (u.type === 'giant') { d = document.createElement('div'); d.className = 'giantw'; d.style.top = (u.y || 380) + 'px'; d.innerHTML = `<div class="g" style="${u.size ? 'font-size:' + u.size + 'px' : ''}">${u.text}</div>${u.sub ? `<div class="s">${u.sub}</div>` : ''}`; root.appendChild(d) }
+    if (u.type === 'giant') { d = document.createElement('div'); d.className = 'giantw'; d.style.top = (u.y || 380) + 'px'; if (u.x != null) { d.style.left = u.x + 'px'; d.style.right = 'auto'; d.style.textAlign = 'left'; d.style.transformOrigin = '0 50%' } const gc = u.color ? `;color:${u.color};text-shadow:${u.shadow || '0 6px 30px rgba(255,255,255,.55)'}` : ''
+      d.innerHTML = `<div class="g" style="${u.size ? 'font-size:' + u.size + 'px' : ''}${gc}">${u.text}</div>${u.sub ? `<div class="s" style="${gc}">${u.sub}</div>` : ''}`; root.appendChild(d) }
+    else if (u.type === 'screen') { d = el(`<div class="bar"><i></i><i></i><i></i><span><b>&#128274;</b>${u.url}</span></div><div class="vp"><div class="im"><img src="${u.img}">${(u.rings || []).map(r => `<b class="ring" style="left:${r[2] * 100}%;top:${r[3] * 100}%;width:${r[4] * 100}%;height:${r[5] * 100}%"></b>`).join('')}</div></div>`, 'screen', `left:${u.x}px;top:${u.y}px;width:${u.w}px;height:${u.h}px`)
+      IMGS.push(new Promise(r => { const im = d.querySelector('img'); if (im.complete) r(); else im.onload = im.onerror = r })) }
     else if (u.type === 'title') d = el(`<div class="kick">${u.kick}</div><div class="row"><div class="tm"><i style="background:${H.c1}"></i>${H.name}</div><div class="sc">${u.score}</div><div class="tm">${A.name}<i style="background:${A.c1}"></i></div></div><div class="why">${u.why}</div>`, 'title')
-    else if (u.type === 'chip') { d = document.createElement('div'); d.className = 'chip2'; d.innerHTML = u.text; d.style.left = u.x + 'px'; d.style.top = u.y + 'px'; if (u.anchor === 'c') d.style.transform = 'translateX(-50%)'; root.appendChild(d) }
+    else if (u.type === 'chip') { d = document.createElement('div'); d.className = 'chip2' + (u.cls ? ' ' + u.cls : ''); d.innerHTML = u.text; d.style.left = u.x + 'px'; d.style.top = u.y + 'px'; if (u.anchor === 'c') d.style.transform = 'translateX(-50%)'; root.appendChild(d) }
     else if (u.type === 'stat') d = el(`<div class="n" style="color:${u.color || 'var(--navy)'}">${u.big}</div><div class="l">${u.label}</div>${u.src ? `<div class="src">${u.src}</div>` : ''}`, 'stat', `left:${u.x}px;top:${u.y}px`)
     else if (u.type === 'coach') d = el(`<i style="background:${u.team === 'home' ? H.c1 : A.c1}"></i><div><div class="a">${u.text}</div><div class="b">${u.sub}</div></div>`, 'coach', `left:${u.x}px;top:${u.y}px`)
     else if (u.type === 'bars') {
@@ -64,11 +80,13 @@
     else if (u.type === 'quote') d = el(`<div class="t">“${u.text}”</div><div class="w">${u.who} <span>· ${u.src}</span></div>`, 'quote', `left:${u.x}px;top:${u.y}px;border-left-color:${u.team === 'home' ? H.c1 : A.c1}`)
     else if (u.type === 'table') d = el(`<div class="kick" style="margin-bottom:12px">${u.kick}</div>` + u.rows.map(r => `<div class="rw"><span class="p">${r[0]}</span><i style="background:${r[3]}"></i>${r[1]}<span class="pt">${r[2]} pts</span></div>`).join(''), 'table', `left:${u.x}px;top:${u.y}px`)
     else if (u.type === 'cta') d = el(`<div class="t">${u.text}</div><div class="h">${u.handle}</div><div class="f">${u.foot}</div>`, 'cta')
-    else if (u.type === 'note') { d = document.createElement('div'); d.className = 'note'; d.textContent = u.text; root.appendChild(d) }
+    else if (u.type === 'note') { d = document.createElement('div'); d.className = 'note'; d.textContent = u.text; if (u.dark) { d.style.color = 'rgba(11,31,68,.62)'; d.style.textShadow = 'none' } root.appendChild(d) }
     else if (u.type === 'flash') d = document.getElementById('flash')
     else if (u.type === 'bug') { d = document.getElementById('bug'); d.innerHTML = `<div class="t" style="background:${H.c1}">${H.short}</div><div class="s">0–0</div><div class="t" style="background:${A.c1}">${A.short}</div><div class="m">FT</div>` }
     return { u, d }
   })
+  window.PANELS_READY = Promise.all(IMGS)
+  const eio2 = x => { x = cl(x); return x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2 }
   window.PANELS = async (t, T) => {
     const sig = []
     for (const { u, d } of U) {
@@ -82,6 +100,13 @@
       else if (u.type === 'bug') { let sc = '0–0'; (u.score || []).forEach(s => { if (t >= T(s[0])) sc = s[1] }); const sp = d.querySelector('.s'); if (sp.textContent !== sc) sp.textContent = sc; sig.push(sc)
         const lastS = (u.score || []).filter(s => t >= T(s[0])).pop(); if (lastS) { const k = cl((t - T(lastS[0])) / .4); sp.style.transform = `scale(${(1 + .25 * Math.sin(Math.PI * k)).toFixed(3)})` } }
       else if (u.type === 'bars') { (u.hi || []).forEach(h => { const r = d.querySelectorAll('.r')[h[1]]; if (r) { const on = t >= T(h[0]) && t < T(h[2] || 1e9); r.style.transform = on ? 'scale(1.04)' : 'none'; r.style.opacity = (u.hi.some(x => t >= T(x[0]) && t < T(x[2] || 1e9)) && !on) ? '.45' : '1' } })
+        d.style.transform = `translateY(${(30 * (1 - eo((t - a) / .45))).toFixed(1)}px)` }
+      else if (u.type === 'screen') { const K = u.view, vw = u.w, vh = u.h - 55; let i = 1; while (i < K.length && t >= T(K[i][0])) i++
+        const k0 = K[i - 1], k1 = K[Math.min(i, K.length - 1)], uu = i < K.length ? eio2((t - T(k0[0])) / Math.max(T(k1[0]) - T(k0[0]), 1e-3)) : 1, v = [1, 2, 3].map(j => k0[j] + (k1[j] - k0[j]) * uu)
+        const dw = vw * v[2], dh = dw * u.ih / u.iw, x = Math.min(0, Math.max(vw - dw, vw / 2 - v[0] * dw)), y = Math.min(0, Math.max(Math.min(0, vh - dh), vh / 2 - v[1] * dh))
+        const im = d.querySelector('.im'); im.style.width = dw.toFixed(1) + 'px'; im.style.transform = `translate(${x.toFixed(1)}px,${y.toFixed(1)}px)`
+        d.querySelectorAll('.ring').forEach((r, j) => { const g = u.rings[j], on = t >= T(g[0]) && t < T(g[1]) + .25; const qq = on ? Math.min(cl((t - T(g[0])) / .22), cl((T(g[1]) + .25 - t) / .25)) : 0
+          r.style.opacity = qq.toFixed(3); r.style.transform = `scale(${(1.18 - .18 * eo((t - T(g[0])) / .3)).toFixed(4)})` })
         d.style.transform = `translateY(${(30 * (1 - eo((t - a) / .45))).toFixed(1)}px)` }
       else if (u.type !== 'note' && u.type !== 'chip') d.style.transform = `translateY(${(26 * (1 - eo((t - a) / .4))).toFixed(1)}px)`
       else if (u.type === 'chip') d.style.transform = (u.anchor === 'c' ? 'translateX(-50%) ' : '') + `translateY(${(16 * (1 - eo((t - a) / .3))).toFixed(1)}px)`

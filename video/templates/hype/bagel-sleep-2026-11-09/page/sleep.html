@@ -1,0 +1,228 @@
+<!doctype html>
+<html>
+<!-- SLEEP ON IT: a music film for Bagel 1.6 (9 Nov 2026), 16:9, every change on the bar.
+     It is 1:29 AM in Lagos; a phone sleeps on a dark stage. On the drop it is 1:30, the hour Bagel's Auto Claim runs:
+     a bagel comes up as the sun, the sky turns from deep navy to light blue, and the phone says the profit was claimed.
+     Then the other new things in 1.6, the real changelog page, and the end card.
+     3D on the tactical-board engine (board3d.js, stage3d.js); the real page and the flash come from panels.js.
+     window.render(t) draws one frame (t in video seconds). Timing: BPM and DROP below. -->
+<head>
+<meta charset="utf-8">
+<style>
+@font-face{font-family:Mont;font-weight:500;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/montserrat/Montserrat-Medium.woff2)}
+@font-face{font-family:Mont;font-weight:600;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/montserrat/Montserrat-SemiBold.woff2)}
+@font-face{font-family:Mont;font-weight:700;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/montserrat/Montserrat-Bold.woff2)}
+@font-face{font-family:Mont;font-weight:800;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/montserrat/Montserrat-ExtraBold.woff2)}
+@font-face{font-family:Man;font-weight:600;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-600-normal.woff2)}
+@font-face{font-family:Man;font-weight:800;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-800-normal.woff2)}
+@font-face{font-family:Osw;font-weight:300;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/oswald-latin-300-normal.woff2)}
+:root{--navy:#0B1F44;--blue:#1F5FDB;--mut:rgba(11,31,68,.6);--yel:#F6E051}
+html,body{margin:0;width:1920px;height:1080px;overflow:hidden;background:#0a1a44}
+canvas{position:absolute;left:0;top:0;width:1920px;height:1080px}
+#ui{position:absolute;inset:0;pointer-events:none}
+#wash{position:absolute;inset:0;background:#dcebff;opacity:0}
+.flash{position:absolute;inset:0;background:#fff;opacity:0}
+.panel{position:absolute;opacity:0;border-radius:30px;background:rgba(255,255,255,.94);box-shadow:0 26px 60px rgba(11,31,68,.28);box-sizing:border-box}
+#bug{display:none}
+.ln{position:absolute;white-space:nowrap;opacity:0;transform-origin:0 60%;font-family:Mont,sans-serif}
+.ln.c{transform-origin:50% 60%}
+.big{font-weight:800;font-size:150px;line-height:.98;letter-spacing:-.035em}
+.mid{font-weight:700;font-size:56px;line-height:1.12;letter-spacing:-.015em}
+.sm{font-weight:600;font-size:36px;line-height:1.2}
+.kick{font-weight:800;font-size:34px;letter-spacing:.2em;text-transform:uppercase}
+.night{color:#fff;text-shadow:0 6px 34px rgba(4,10,40,.55)}
+.day{color:var(--navy);text-shadow:0 0 34px rgba(255,255,255,.9),0 0 10px rgba(255,255,255,.6)}
+.day b,.night b{font-weight:inherit}
+.day .y{background:var(--yel);padding:0 .16em;border-radius:.14em;text-shadow:none}
+.pill{display:inline-block;background:var(--navy);color:#fff;border-radius:40px;padding:14px 30px;text-shadow:none}
+.risk{font-weight:700;font-size:34px;color:var(--navy);background:rgba(255,255,255,.9);border-radius:16px;padding:14px 26px;text-shadow:none;box-shadow:0 10px 26px rgba(11,31,68,.16)}
+#logo{position:absolute;opacity:0;height:120px;left:594px;top:290px}
+#face{position:absolute;opacity:0;width:186px;height:186px;border-radius:50%;box-shadow:0 10px 30px rgba(120,70,0,.35)}
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div id="ui"><div id="txt"></div><img id="logo" src="img/bagel-logo-black.png"><img id="face" src="img/bagel-icon-round.png"><div id="wash"></div><div id="panels"></div><div class="flash" id="flash"></div><div id="bug"></div></div>
+<script src="file:///home/user/cmv-alphascanner/video/assets/three/three.min.js"></script>
+<script src="board3d.js"></script>
+<script src="stage3d.js"></script>
+<script>
+// ---------------------------------------------------------------- the clock of the film
+const BPM = 110, BEAT = 60 / BPM, BAR = 4 * BEAT, DROP = 3 * BAR, FPS = 30
+const bar = (k, beats = 0) => +(DROP + k * BAR + beats * BEAT).toFixed(3)      // bar 0 = the drop; beats counted from 0
+const END = bar(11), TOTAL = END
+const SCR = { x: 260, y: 96, w: 1400, h: 843, iw: 3200, ih: 1800 }
+window.PLAN = { vo: 0, cut: 1e9, gap: 0, teams: { home: { name: '', short: '', c1: '#0B1F44' }, away: { name: '', short: '', c1: '#F6E051' } }, ui: [
+  { type: 'flash', from: DROP - .02 },
+  { type: 'screen', img: 'shots/changelog.png', url: 'bagel.win/changelog', ...SCR, from: bar(6), to: bar(8) - .25,
+    view: [[bar(6), .5, .5, 1], [bar(6, 1.2), .5, .5, 1], [bar(6, 2.6), .53, .41, 1.5]],
+    rings: [[bar(6, 2.6), bar(8), .408, .465, .171, .028], [bar(6, 3.6), bar(8), .408, .441, .239, .028], [bar(7, 1), bar(8), .408, .367, .154, .028], [bar(7, 2), bar(8), .408, .343, .214, .028]] },
+  { type: 'chip', text: 'The real page · captured <b>9 Nov 2026</b>', x: 960, y: 16, anchor: 'c', from: bar(6, .4), to: bar(8) - .3 },
+  { type: 'note', dark: 1, text: 'Illustration · the changelog is the real page, captured 9 Nov 2026', from: DROP + 1.2, to: bar(8) },
+] }
+</script>
+<script src="panels.js"></script>
+<script>
+const T3 = THREE, S = B3.stage, $ = id => document.getElementById(id), cl = B3.cl, eo = B3.eo, eio = B3.eio
+const lerp = (a, b, u) => a + (b - a) * u, YEL = '#F6E051', NAVY = '#0B1F44'
+const eback = x => { x = cl(x); const c = 1.6; return 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2) }
+const keys = (K, t, ez = eio) => { if (t <= K[0][0]) return K[0].slice(1); const n = K.length; if (t >= K[n - 1][0]) return K[n - 1].slice(1)
+  let i = 1; while (t >= K[i][0]) i++; const a = K[i - 1], b = K[i], u = ez((t - a[0]) / (b[0] - a[0])); return a.slice(1).map((v, j) => Array.isArray(v) ? v.map((w, k) => w + (b[j + 1][k] - w) * u) : v + (b[j + 1] - v) * u) }
+const mixHex = (a, b, u) => { const p = h => [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16)), x = p(a), y = p(b); return 'rgb(' + x.map((v, i) => Math.round(v + (y[i] - v) * u)).join(',') + ')' }
+const rr = S.rr
+let R, scene, cam, LIGHTS, skyC, skyT, skyD = -1, phone, scrMat, scrCv, scrKey = '', sun, glow, rays, moon, stars, ICON, LOGO
+
+// ---------------------------------------------------------------- the sky: deep navy at night, the house light blue by day
+const NIGHT = [[0, '#06102e'], [.55, '#0d2160'], [1, '#1c3f9c']], DAY = [[0, '#cfe4ff'], [.5, '#9cc8fb'], [1, '#5e9bf0']]
+function sky(d) {
+  d = Math.round(d * 200) / 200; if (d === skyD) return; skyD = d
+  const g = skyC.getContext('2d'), gr = g.createLinearGradient(0, 0, 0, 1024); NIGHT.forEach((s, i) => gr.addColorStop(s[0] + (DAY[i][0] - s[0]) * d, mixHex(s[1], DAY[i][1], d))); g.fillStyle = gr; g.fillRect(0, 0, 64, 1024)
+  const id = g.getImageData(0, 0, 64, 1024); let sd = 3; for (let k = 0; k < id.data.length; k += 4) { sd = (sd * 16807) % 2147483647; const v = (sd / 2147483647 - .5) * 3; id.data[k] += v; id.data[k + 1] += v; id.data[k + 2] += v } g.putImageData(id, 0, 0); skyT.needsUpdate = true
+}
+// ---------------------------------------------------------------- the phone screen (symbols, not the app's own screens)
+const SW = 750, SH = 1590
+function check(g, x, y, s, col, lw) { g.strokeStyle = col; g.lineWidth = lw || s * .16; g.lineCap = 'round'; g.lineJoin = 'round'; g.beginPath(); g.moveTo(x - s * .42, y + s * .02); g.lineTo(x - s * .1, y + s * .34); g.lineTo(x + s * .46, y - s * .32); g.stroke() }
+function drawScreen(st) {
+  const g = scrCv.getContext('2d'); g.clearRect(0, 0, SW, SH); g.textAlign = 'center'; g.textBaseline = 'alphabetic'
+  if (st.k === 'lock') {
+    const gr = g.createLinearGradient(0, 0, 0, SH); gr.addColorStop(0, '#0a1b52'); gr.addColorStop(1, '#1b3f9e'); g.fillStyle = gr; g.fillRect(0, 0, SW, SH)
+    g.fillStyle = 'rgba(255,255,255,.07)'; g.beginPath(); g.arc(SW * .78, SH * .2, 300, 0, 7); g.fill()
+    g.fillStyle = 'rgba(255,255,255,.75)'; g.font = '600 44px Mont'; g.fillText('Lagos', SW / 2, 250)
+    g.fillStyle = '#fff'; g.font = '500 232px Mont'; g.fillText(st.time, SW / 2, 480)
+    ;(st.cards || []).forEach((c, i) => { const y = 640 + i * 236; g.fillStyle = 'rgba(255,255,255,.95)'; rr(g, 40, y, SW - 80, 206, 44); g.fill(); g.drawImage(ICON, 70, y + 43, 120, 120)
+      g.textAlign = 'left'; g.fillStyle = 'rgba(11,31,68,.6)'; g.font = '600 34px Mont'; g.fillText('Bagel', 220, y + 78); g.fillStyle = NAVY; g.font = '800 52px Mont'; g.fillText(c, 220, y + 148); g.textAlign = 'center' })
+  } else {
+    g.fillStyle = YEL; g.fillRect(0, 0, SW, SH); g.drawImage(ICON, SW / 2 - 80, 110, 160, 160)
+    const cy = 760; g.fillStyle = '#111'
+    if (st.k === 'claimed') { g.beginPath(); g.arc(SW / 2, cy, 230, 0, 7); g.fill(); check(g, SW / 2, cy, 250, YEL, 46); g.fillStyle = '#111'; g.font = '800 92px Mont'; g.fillText('Claimed', SW / 2, cy + 400); g.font = '600 46px Mont'; g.fillText('Auto Claim', SW / 2, cy + 480) }
+    else if (st.k === 'batch') { for (let i = 0; i < 3; i++) { const y = 470 + i * 220; g.fillStyle = '#111'; rr(g, 110, y, SW - 220, 180, 44); g.fill(); g.fillStyle = 'rgba(246,224,81,.35)'; rr(g, 150, y + 62, 250, 56, 20); g.fill(); check(g, SW - 220, y + 90, 96, YEL, 22) }
+      g.fillStyle = '#111'; g.font = '800 92px Mont'; g.fillText('All at once', SW / 2, 1300) }
+    else if (st.k === 'mfa') { g.strokeStyle = '#111'; g.lineWidth = 52; g.beginPath(); g.arc(SW / 2, cy - 170, 130, Math.PI, 0); g.stroke(); rr(g, SW / 2 - 220, cy - 170, 440, 360, 64); g.fill(); g.fillStyle = YEL; g.beginPath(); g.arc(SW / 2, cy - 20, 44, 0, 7); g.fill(); g.fillRect(SW / 2 - 16, cy - 10, 32, 100)
+      g.fillStyle = '#111'; for (let i = 0; i < 6; i++) { g.beginPath(); g.arc(SW / 2 - 225 + i * 90, cy + 340, 24, 0, 7); g.fill() } g.font = '800 92px Mont'; g.fillText('Second lock', SW / 2, 1300) }
+    else if (st.k === 'support') { rr(g, 120, cy - 290, SW - 240, 400, 110); g.fill(); g.beginPath(); g.moveTo(230, cy + 100); g.lineTo(200, cy + 250); g.lineTo(400, cy + 100); g.fill()
+      g.fillStyle = YEL; for (let i = 0; i < 3; i++) { g.beginPath(); g.arc(SW / 2 - 110 + i * 110, cy - 90, 34, 0, 7); g.fill() } g.fillStyle = '#111'; g.font = '800 92px Mont'; g.fillText('Ask in the app', SW / 2, 1300) }
+    else if (st.k === 'logo') { g.fillStyle = YEL; g.fillRect(0, 0, SW, 400); g.drawImage(ICON, SW / 2 - 190, cy - 330, 380, 380); g.drawImage(LOGO, SW / 2 - 240, cy + 120, 480, 160); g.fillStyle = '#111'; g.font = '800 64px Mont'; g.fillText('v1.6', SW / 2, cy + 400) }
+  }
+  scrMat.map.needsUpdate = true
+}
+function screenAt(t) {
+  if (t < DROP) return { k: 'lock', time: t >= bar(-1, 3) ? '1:30' : '1:29', cards: t >= bar(-2, .5) ? ['Your combo won ✓'] : [] }
+  if (t < bar(3)) return { k: 'claimed' }
+  if (t < bar(4)) return { k: 'batch' }
+  if (t < bar(5)) return { k: 'mfa' }
+  if (t < bar(6)) return { k: 'support' }
+  return { k: 'logo' }
+}
+// ---------------------------------------------------------------- the text layer
+const L = []
+function line(html, cls, x, y, from, to, o = {}) { const d = document.createElement('div'); d.className = 'ln ' + cls + (o.c ? ' c' : ''); d.innerHTML = html; d.style.left = x + 'px'; d.style.top = y + 'px'; if (o.css) d.style.cssText += ';' + o.css; $('txt').appendChild(d); L.push({ d, from, to, c: o.c, fi: o.fi || .16, fo: o.fo || .16, pop: o.pop != null ? o.pop : .1 }) }
+function buildText() {
+  const X = 110
+  // night
+  line('1:29 AM', 'big night', X, 120, .1, bar(-1), { css: 'font-size:230px' })
+  line('Lagos. You are asleep.', 'mid night', X + 6, 372, bar(-3, 2), bar(-1))
+  line('Your combo won tonight.', 'mid night', X + 6, 462, bar(-2, .5), bar(-1))
+  ;['1:29:57', '1:29:58', '1:29:59'].forEach((s, i) => line(s, 'big night', X, 120, bar(-1, i), bar(-1, i + 1), { css: 'font-size:230px', fi: .03, fo: .03, pop: 0 }))
+  line('1:30 AM', 'big night', X, 120, bar(-1, 3), DROP, { css: 'font-size:230px', fi: .03, fo: .03, pop: .14 })
+  // the drop: it claimed itself
+  line('It claimed', 'big day', X, 104, bar(0, 1), bar(3) - .12); line('itself.', 'big day', X, 254, bar(0, 2), bar(3) - .12)
+  line('<span class="y">Auto Claim</span> · new in Bagel 1.6', 'mid day', X + 6, 446, bar(1), bar(3) - .12)
+  line('Once a day, from <b>1:30 AM Lagos time</b>', 'sm day', X + 8, 540, bar(2), bar(3) - .12, { css: 'font-size:44px;font-weight:700' })
+  line('8:30 AM UTC+8 · it is not instant', 'sm day', X + 8, 606, bar(2, 1), bar(3) - .12)
+  // also new
+  const F = [['Batch claim', 'Winning combos, claimed together.', 3], ['MFA on<br>withdrawals', 'A second check before money leaves.', 4], ['Support,<br>in the app', 'A Contact Support entry.', 5]]
+  line('Also new in 1.6', 'kick day', X + 8, 118, bar(3), bar(6) - .12, { pop: 0 })
+  F.forEach(([a, b, k]) => { const two = a.includes('<br>'); line(a, 'big day', X, 178, bar(k), bar(k + 1) - .1, { css: 'font-size:138px' }); line(b, 'mid day', X + 6, two ? 476 : 340, bar(k, 1), bar(k + 1) - .1, { css: 'font-size:50px' }) })
+  // the end
+  line('Sleep on it.', 'big day', 960, 96, bar(8, .5), END + 1, { c: 1, css: 'font-size:190px;transform-origin:50% 60%' })
+  line('<span class="pill">1.6 is out</span>', 'sm day', 1118, 318, bar(8, 2), END + 1, { c: 1, css: 'font-weight:700' })
+  line('18+ · All trading involves risk · Not available in every country', 'risk', 960, 930, bar(8, 3), END + 1, { c: 1 })
+  line('Video by @Cmv_ng', 'sm day', 960, 1012, bar(9), END + 1, { c: 1, css: 'font-size:30px;font-weight:700' })
+}
+function textAt(t) { for (const o of L) { const q = t >= o.from - .001 && t < o.to + o.fo ? Math.min(cl((t - o.from) / o.fi), cl((o.to + o.fo - t) / o.fo)) : 0
+  if (q <= 0) { if (o.d.style.opacity !== '0') o.d.style.opacity = '0'; continue }
+  const k = eback((t - o.from) / .3); o.d.style.opacity = q.toFixed(3); o.d.style.transform = (o.c ? 'translateX(-50%) ' : '') + `translateY(${((1 - eo((t - o.from) / .3)) * 18).toFixed(1)}px) scale(${(1 - o.pop + o.pop * k).toFixed(4)})` } }
+
+// ---------------------------------------------------------------- the scene
+const PH = { x: 7.9, z: 6, w: 5.4, h: 11.2 }
+function rrShape(w, h, r) { const s = new T3.Shape(), x = -w / 2, y = -h / 2; s.moveTo(x + r, y); s.lineTo(x + w - r, y); s.quadraticCurveTo(x + w, y, x + w, y + r); s.lineTo(x + w, y + h - r); s.quadraticCurveTo(x + w, y + h, x + w - r, y + h); s.lineTo(x + r, y + h); s.quadraticCurveTo(x, y + h, x, y + h - r); s.lineTo(x, y + r); s.quadraticCurveTo(x, y, x + r, y); return s }
+function build() {
+  ({ R, scene, cam } = B3.setup($('c'), { pr: 1.25, shadow: 2048 }))
+  skyC = document.createElement('canvas'); skyC.width = 64; skyC.height = 1024; skyT = new T3.CanvasTexture(skyC); skyT.colorSpace = T3.SRGBColorSpace; scene.background = skyT
+  LIGHTS = scene.children.filter(o => o.isLight)
+  S.makeStage(scene, { r: 46, squares: 12, c1: '#dfe8f7', c2: '#cfdcf2', rim: '#F6E051' })
+  // the phone
+  phone = new T3.Group()
+  const body = new T3.Mesh(new T3.ExtrudeGeometry(rrShape(PH.w, PH.h, .95), { depth: .46, bevelEnabled: true, bevelThickness: .09, bevelSize: .09, bevelSegments: 5, curveSegments: 28 }), new T3.MeshPhysicalMaterial({ color: '#14171c', roughness: .25, clearcoat: 1, clearcoatRoughness: .08 }))
+  body.position.z = -.5; body.castShadow = true; phone.add(body)
+  scrCv = document.createElement('canvas'); scrCv.width = SW; scrCv.height = SH; const st = new T3.CanvasTexture(scrCv); st.colorSpace = T3.SRGBColorSpace; st.anisotropy = 8
+  const sw = PH.w - .34, sh = PH.h - .34, sg = new T3.ShapeGeometry(rrShape(sw, sh, .8), 24), uv = sg.attributes.uv, pos = sg.attributes.position
+  for (let i = 0; i < uv.count; i++) uv.setXY(i, pos.getX(i) / sw + .5, pos.getY(i) / sh + .5)
+  scrMat = new T3.MeshBasicMaterial({ map: st, toneMapped: false }); const scr = new T3.Mesh(sg, scrMat); scr.position.z = .06; phone.add(scr); scene.add(phone)
+  // the bagel that comes up as the sun
+  sun = new T3.Group()
+  const bagel = new T3.Mesh(new T3.TorusGeometry(10, 4.6, 48, 128), new T3.MeshPhysicalMaterial({ color: '#E7A63C', roughness: .42, clearcoat: .7, clearcoatRoughness: .25, emissive: '#B86A00', emissiveIntensity: .55 })); sun.add(bagel)
+  const seedG = new T3.SphereGeometry(.34, 10, 8), seedM = new T3.MeshPhysicalMaterial({ color: '#fff6dc', roughness: .5, emissive: '#fff0c0', emissiveIntensity: .35 }), N = 190, seeds = new T3.InstancedMesh(seedG, seedM, N), m4 = new T3.Matrix4(), q = new T3.Quaternion(), e = new T3.Euler(), v3 = new T3.Vector3(), sc = new T3.Vector3()
+  let sd = 11; const rnd = () => (sd = (sd * 16807) % 2147483647) / 2147483647
+  for (let i = 0; i < N; i++) { const u = rnd() * Math.PI * 2, w = (rnd() - .5) * 2.1 + Math.PI / 2, rad = 10 + 4.62 * Math.cos(w)   // w near 90 degrees = the face toward the camera
+    v3.set(rad * Math.cos(u), rad * Math.sin(u), 4.62 * Math.sin(w)); e.set(rnd() * 3, rnd() * 3, rnd() * 3); q.setFromEuler(e); sc.set(1.9, .9, .55); m4.compose(v3, q, sc); seeds.setMatrixAt(i, m4) }
+  sun.add(seeds)
+  const gc = document.createElement('canvas'); gc.width = gc.height = 512; const gx = gc.getContext('2d'), gg = gx.createRadialGradient(256, 256, 30, 256, 256, 256)
+  gg.addColorStop(0, 'rgba(255,244,170,1)'); gg.addColorStop(.3, 'rgba(250,226,90,.6)'); gg.addColorStop(.62, 'rgba(246,224,81,.16)'); gg.addColorStop(1, 'rgba(246,224,81,0)'); gx.fillStyle = gg; gx.fillRect(0, 0, 512, 512)
+  glow = new T3.Mesh(new T3.PlaneGeometry(92, 92), new T3.MeshBasicMaterial({ map: new T3.CanvasTexture(gc), transparent: true, depthWrite: false, toneMapped: false, opacity: 0 })); glow.position.z = -3; sun.add(glow)
+  const rc = document.createElement('canvas'); rc.width = rc.height = 1024; const rx = rc.getContext('2d'); rx.translate(512, 512)
+  for (let i = 0; i < 16; i++) { rx.rotate(Math.PI / 8); const g2 = rx.createLinearGradient(0, 120, 0, 500); g2.addColorStop(0, 'rgba(255,238,140,.5)'); g2.addColorStop(1, 'rgba(255,238,140,0)'); rx.fillStyle = g2; rx.beginPath(); rx.moveTo(-16, 150); rx.lineTo(16, 150); rx.lineTo(46, 500); rx.lineTo(-46, 500); rx.fill() }
+  rays = new T3.Mesh(new T3.PlaneGeometry(130, 130), new T3.MeshBasicMaterial({ map: new T3.CanvasTexture(rc), transparent: true, depthWrite: false, toneMapped: false, opacity: 0 })); rays.position.z = -4; sun.add(rays); scene.add(sun)
+  // the moon and the stars of the night
+  const mc = document.createElement('canvas'); mc.width = mc.height = 256; const mx = mc.getContext('2d'), mg = mx.createRadialGradient(128, 128, 40, 128, 128, 128); mg.addColorStop(0, 'rgba(235,242,255,1)'); mg.addColorStop(.42, 'rgba(235,242,255,1)'); mg.addColorStop(.5, 'rgba(200,220,255,.25)'); mg.addColorStop(1, 'rgba(200,220,255,0)'); mx.fillStyle = mg; mx.fillRect(0, 0, 256, 256)
+  mx.globalCompositeOperation = 'destination-out'; mx.beginPath(); mx.arc(158, 108, 50, 0, 7); mx.fill()
+  moon = new T3.Mesh(new T3.PlaneGeometry(20, 20), new T3.MeshBasicMaterial({ map: new T3.CanvasTexture(mc), transparent: true, depthWrite: false, toneMapped: false })); scene.add(moon)
+  const sp = new Float32Array(260 * 3); for (let i = 0; i < 260; i++) { sp[i * 3] = (rnd() - .5) * 330; sp[i * 3 + 1] = 6 + rnd() * 120; sp[i * 3 + 2] = -150 - rnd() * 30 }
+  const sgm = new T3.BufferGeometry(); sgm.setAttribute('position', new T3.BufferAttribute(sp, 3)); stars = new T3.Points(sgm, new T3.PointsMaterial({ color: '#dfe9ff', size: 2.4, sizeAttenuation: false, transparent: true, depthWrite: false, toneMapped: false })); scene.add(stars)
+  buildText()
+}
+// camera keys [t, pos, target, fov]
+const CAM = [[0, [-8, 6.6, 36.5], [-1.6, 6.3, 4], 30], [DROP - .034, [-6.8, 6.4, 34], [-1.3, 6.2, 4], 30],
+             [DROP, [-5, 2.6, 46], [-2.4, 9.6, -12], 30], [bar(3) - .034, [-5.6, 4.2, 42], [-2.2, 9.0, -10], 30],
+             [bar(3), [-7.6, 7.2, 35.5], [-1.6, 6.5, 3], 30], [bar(6), [-6.6, 7.0, 34], [-1.3, 6.5, 3], 30],
+             [bar(8) - .034, [-6.6, 7.0, 34], [-1.3, 6.5, 3], 30], [bar(8), [0, 3.4, 50], [0, 11.5, -12], 30], [END, [0, 4.4, 46], [0, 11.2, -12], 30]]
+// a thing in the sky, placed by where it should sit on screen (pixels), a fixed distance along that ray
+const vS = new T3.Vector3()
+function skyAt(obj, px, py, dist) { vS.set(px / 960 - 1, 1 - py / 540, .5).unproject(cam).sub(cam.position).normalize(); obj.position.copy(cam.position).addScaledVector(vS, dist); obj.quaternion.copy(cam.quaternion) }
+const SUNR = 268                                  // its radius on screen at scale 1, 110 units away
+window.render = async t => {
+  const c = keys(CAM, t); cam.position.set(...c[0]); cam.lookAt(...c[1]); if (cam.fov !== c[2]) { cam.fov = c[2]; cam.updateProjectionMatrix() }
+  // day: 0 at night, 1 once the sun is up
+  const d = eo((t - DROP) / 1.0); sky(d); R.toneMappingExposure = lerp(.2, 1.0, d)
+  LIGHTS.forEach(l => { if (l.isDirectionalLight && l.castShadow) l.color.set(d < 1 ? mixHex('#9db8ff', '#fff3e2', d).replace(/rgb\((\d+),(\d+),(\d+)\)/, (m, r, g, b) => '#' + [r, g, b].map(v => (+v).toString(16).padStart(2, '0')).join('')) : '#fff3e2') })
+  cam.updateMatrixWorld(); skyAt(moon, 1215, 190, 150)
+  LIGHTS.forEach(l => { if (l.isSpotLight) l.intensity = lerp(80, 250, d) })      // a softer pool by day, so the floor keeps its tone and the phone its shadow
+  moon.material.opacity = 1 - cl((t - DROP) / .5); stars.material.opacity = (1 - cl((t - DROP) / .5)) * (.75 + .25 * Math.sin(t * 3))
+  // the sun: up from behind the edge of the stage on the drop, then a slow climb; it turns slowly
+  const end = t >= bar(8), rise = eo((t - DROP) / 1.5), sunX = end ? 960 : 1196, sunY = (end ? 655 : 610) + (1 - rise) * 640 - (t - DROP) * (end ? 0 : 1.2), sunR = end ? 235 : 192
+  skyAt(sun, sunX, sunY, 110); sun.rotateZ(t * .12); sun.visible = t >= DROP - .1
+  const pulse = 1 + .05 * Math.max(0, 1 - ((t - DROP) / BEAT % 1) * 2.2) * (t >= DROP ? 1 : 0)
+  sun.scale.setScalar(sunR / SUNR * pulse); glow.material.opacity = rise; rays.material.opacity = rise * .8; rays.rotation.z = -t * .2 - t * .12
+  // the phone: asleep (a slow breath), a jump on the drop, a full turn on each new feature
+  const st = screenAt(t), key = JSON.stringify(st); if (key !== scrKey) { scrKey = key; drawScreen(st) }
+  let ry = -.3, hop = 0, tilt = -.14, px = PH.x, pz = PH.z, lay = 0
+  if (t < DROP) { tilt = -.14 + .012 * Math.sin(t * 1.6); scrMat.color.setScalar(t >= bar(-2, .5) ? .92 : .62) } else scrMat.color.setScalar(1)
+  for (const k of [0, 3, 4, 5, 6]) { const u = (t - bar(k) + .22) / .5; if (u > 0 && u < 1) { ry += (k === 0 ? 0 : Math.PI * 2 * eio(u)); hop = Math.sin(Math.PI * u) * (k === 0 ? 2.2 : 1.1) } }
+  phone.position.set(px, PH.h / 2 + .12 + hop, pz); phone.rotation.set(tilt, ry, 0)
+  phone.visible = t < bar(6, .3)
+  R.render(scene, cam)
+  // the wash under the real page, the text, the end logo
+  $('wash').style.opacity = keys([[bar(6) - .1, 0], [bar(6) + .25, .88], [bar(8) - .3, .88], [bar(8) - .05, 0]], t)[0].toFixed(3)
+  textAt(t)
+  const lq = cl((t - bar(8, 1)) / .25), lg = $('logo'); lg.style.opacity = lq.toFixed(3); lg.style.transform = `scale(${(.9 + .1 * eback((t - bar(8, 1)) / .3)).toFixed(4)})`
+  const fq = cl((t - bar(9)) / .2), fc = $('face'), fs = eback((t - bar(9)) / .35); fc.style.opacity = fq.toFixed(3); fc.style.transform = `translate(-50%,-50%) scale(${fs.toFixed(4)}) rotate(${((1 - eo((t - bar(9)) / .5)) * -40).toFixed(1)}deg)`; fc.style.left = '960px'; fc.style.top = sunY.toFixed(1) + 'px'
+  await window.PANELS(t, s => s)
+  return 'f' + Math.round(t * FPS)
+}
+const img = src => new Promise(r => { const i = new Image(); i.onload = () => r(i); i.onerror = () => r(i); i.src = src })
+window.READY = Promise.all([img('img/bagel-icon.png'), img('img/bagel-logo-black.png'), document.fonts.load('800 80px Mont'), document.fonts.load('700 40px Mont'), document.fonts.load('600 40px Mont'), document.fonts.load('500 80px Mont'), document.fonts.load('800 40px Man'), document.fonts.load('600 20px Man'), window.PANELS_READY || Promise.resolve()])
+  .then(([a, b]) => { ICON = a; LOGO = b; build() })
+window.FILM = { BPM, BAR, DROP, TOTAL }
+</script>
+</body>
+</html>

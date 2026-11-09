@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+<!-- Covers from clean stills of a video's own page: #t = thumbnail 1280x720, #v = cover 1080x1920.
+     cover.js beside this file sets window.COVER = { t: {...}, v: {...} }:
+       img          the still (a frame rendered from the page with #nocap)
+       pos          CSS object-position for the still inside its frame, zoom its scale (never past the still's own pixels at 2x)
+       lines        [[text, colour], ...] the title, one entry per line (omit when the still carries the title)
+       font         'Anton' (default) or 'Mont'      size  title size in px     kick  small line over the title
+       chip         a pill under the title            foot  the handle line (vertical cover)
+       bg           page colour behind a framed still (vertical cover)
+       tag          a label on the still; more  [{img, frame, pos, tag}] further framed stills
+   node ../chelsea-sunderland-2026-11-08/cover/shot.mjs <this file> t|v <out.png> -->
+<head>
+<meta charset="utf-8">
+<style>
+@font-face{font-family:Anton;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/anton-latin-400-normal.woff2)}
+@font-face{font-family:Man;font-weight:800;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-800-normal.woff2)}
+@font-face{font-family:Mont;font-weight:800;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/montserrat/Montserrat-ExtraBold.woff2)}
+@font-face{font-family:Mont;font-weight:700;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/montserrat/Montserrat-Bold.woff2)}
+@font-face{font-family:Serif;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/instrument-serif-latin-400-italic.woff2)}
+html,body{margin:0;overflow:hidden}
+#fr{position:absolute;overflow:hidden}
+#fr img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+#tx{position:absolute}
+.kick{font:800 30px/1 Man,sans-serif;letter-spacing:.18em;text-transform:uppercase;margin-bottom:18px}
+.ttl{white-space:nowrap}
+.ttl.Anton{font-family:Anton,sans-serif;font-weight:400;line-height:.98;text-transform:uppercase;letter-spacing:.005em}
+.ttl.Mont{font-family:Mont,sans-serif;font-weight:800;line-height:1;letter-spacing:-.035em}
+.ttl.Serif{font-family:Serif,serif;font-style:italic;line-height:1}
+.chip{display:inline-block;margin-top:26px;font:800 34px/1 Man,sans-serif;padding:16px 26px;border-radius:40px}
+.foot{position:absolute;left:0;right:0;text-align:center;font:800 34px/1 Man,sans-serif}
+</style>
+</head>
+<body>
+<div id="fr"><img id="im"></div><div id="tx"></div><div class="foot" id="ft"></div>
+<script src="cover.js"></script>
+<script>
+const V = location.hash.slice(1)[0] === 'v', C = window.COVER[V ? 'v' : 't'], W = V ? 1080 : 1280, H = V ? 1920 : 720, $ = id => document.getElementById(id)
+document.body.style.cssText = `width:${W}px;height:${H}px;background:${C.bg || '#cfe4ff'}`
+const f = C.frame || [0, 0, W, H], fr = $('fr'); fr.style.cssText += `left:${f[0]}px;top:${f[1]}px;width:${f[2]}px;height:${f[3]}px;border-radius:${C.radius || 0}px;${C.radius ? 'box-shadow:0 30px 70px rgba(11,31,68,.28)' : ''}`
+const im = $('im'); im.src = C.img; im.style.objectPosition = C.pos || '50% 50%'; if (C.zoom) { im.style.transform = `scale(${C.zoom})`; im.style.transformOrigin = C.pos || '50% 50%' }
+;(C.more || []).forEach(m => { const d = document.createElement('div'); d.style.cssText = `position:absolute;overflow:hidden;left:${m.frame[0]}px;top:${m.frame[1]}px;width:${m.frame[2]}px;height:${m.frame[3]}px;border-radius:${C.radius || 0}px;box-shadow:0 30px 70px rgba(11,31,68,.28)`
+  d.innerHTML = `<img src="${m.img}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:${m.pos || '50% 50%'}">` + (m.tag ? `<div style="position:absolute;left:24px;top:22px;font:800 30px/1 Man,sans-serif;color:#fff;background:${m.tagbg || '#0B1F44'};padding:12px 20px;border-radius:30px">${m.tag}</div>` : ''); document.body.insertBefore(d, $('tx')) })
+if (C.tag) { const d = document.createElement('div'); d.style.cssText = `position:absolute;left:24px;top:22px;font:800 30px/1 Man,sans-serif;color:#fff;background:${C.tagbg || '#0B1F44'};padding:12px 20px;border-radius:30px`; d.textContent = C.tag; fr.appendChild(d) }
+const tx = $('tx'), ta = C.at || [60, 60]; tx.style.left = ta[0] + 'px'; tx.style.top = ta[1] + 'px'; if (C.center) { tx.style.left = '0'; tx.style.right = '0'; tx.style.textAlign = 'center' }
+tx.innerHTML = (C.kick ? `<div class="kick" style="color:${C.kickc || 'rgba(11,31,68,.72)'}">${C.kick}</div>` : '') + (C.lines || []).map(l => `<div class="ttl ${C.font || 'Anton'}" style="font-size:${l[2] || C.size || 150}px;color:${l[1]};${C.shadow ? 'text-shadow:' + C.shadow : ''}">${l[0]}</div>`).join('') + (C.chip ? `<div class="chip" style="background:${C.chipbg || '#0B1F44'};color:${C.chipc || '#fff'}">${C.chip}</div>` : '')
+if (C.foot) { const ft = $('ft'); ft.textContent = C.foot; ft.style.bottom = (C.footy || 70) + 'px'; ft.style.color = C.footc || '#0B1F44' }
+window.READY = Promise.all([document.fonts.load('150px Anton'), document.fonts.load('800 30px Man'), document.fonts.load('800 100px Mont'), document.fonts.load('italic 100px Serif'), new Promise(r => { if (im.complete) r(); else im.onload = im.onerror = r })])
+</script>
+</body>
+</html>

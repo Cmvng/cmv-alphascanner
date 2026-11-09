@@ -1,0 +1,154 @@
+<!doctype html>
+<html>
+<!-- THE LIVING DRAWING (9 Nov 2026). A photo of a drawing is lit and filmed as a real relief: the surface is raised by a
+     height map made from the picture (prep.py), a normal map catches a moving light, the camera flies over it, dust
+     floats in the light, and flags can sway. Every pixel is the drawing; only the light and the camera are added.
+     On top: the artist's real footage as frame sequences (panels), titles, a flash and an end card.
+     Everything timed comes from plan.js (window.PLAN), in video seconds. render(t) draws one frame. -->
+<head>
+<meta charset="utf-8">
+<style>
+@font-face{font-family:Anton;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/anton-latin-400-normal.woff2)}
+@font-face{font-family:IS;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/instrument-serif-latin-400-normal.woff2)}
+@font-face{font-family:IS;font-style:italic;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/instrument-serif-latin-400-italic.woff2)}
+@font-face{font-family:Man;font-weight:600;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-600-normal.woff2)}
+@font-face{font-family:Man;font-weight:800;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-800-normal.woff2)}
+html,body{margin:0;width:1920px;height:1080px;overflow:hidden;background:#050a16}
+canvas{position:absolute;left:0;top:0;width:1920px;height:1080px}
+#ui{position:absolute;inset:0;overflow:hidden}
+.pan{position:absolute;overflow:hidden;opacity:0;border-radius:10px;box-shadow:0 30px 80px rgba(0,0,0,.6)}
+.pan img{position:absolute;left:0;top:0;display:block}
+.pan:after{content:'';position:absolute;inset:0;box-shadow:inset 0 0 0 1px rgba(255,255,255,.10);border-radius:10px}
+.tx{position:absolute;opacity:0;white-space:nowrap;color:#fff}
+.tx.cap{font:800 26px/1 Man,sans-serif;letter-spacing:.34em;text-transform:uppercase;text-shadow:0 2px 14px rgba(0,0,0,.7)}
+.tx.serif{font:italic 400 92px/1 IS,serif;text-shadow:0 4px 30px rgba(0,0,0,.75)}
+.tx.big{font:400 230px/0.9 Anton,sans-serif;text-transform:uppercase;letter-spacing:.01em;text-shadow:0 10px 50px rgba(0,0,0,.6)}
+.tx.small{font:600 24px/1.3 Man,sans-serif;letter-spacing:.08em;color:rgba(255,255,255,.82);text-shadow:0 2px 10px rgba(0,0,0,.7)}
+#flash{position:absolute;inset:0;background:#fff;opacity:0}
+#shade{position:absolute;inset:0;background:#050a16;opacity:0}
+#bars i{position:absolute;left:0;right:0;height:0;background:#02050c}
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div id="ui"><div id="pans"></div><div id="shade"></div><div id="texts"></div><div id="bars"><i id="b1" style="top:0"></i><i id="b2" style="bottom:0"></i></div><div id="flash"></div></div>
+<script src="file:///home/user/cmv-alphascanner/video/assets/three/three.min.js"></script>
+<script src="plan.js"></script>
+<script>
+const P = window.PLAN, FPS = P.fps || 30, $ = id => document.getElementById(id)
+const cl = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x)), eo = x => 1 - Math.pow(1 - cl(x), 3), ei = x => Math.pow(cl(x), 3)
+const eio = x => { x = cl(x); return x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2 }
+const EASE = { lin: x => cl(x), out: eo, in: ei, io: eio, out2: x => 1 - Math.pow(1 - cl(x), 2), exp: x => 1 - Math.pow(2, -8 * cl(x)) }
+// keys [[t, v...], ...] -> values at t (held outside the range)
+function K(keys, t, ease = 'io') { if (!keys) return null; if (typeof keys[0] === 'number') return keys
+  if (t <= keys[0][0]) return keys[0].slice(1); const n = keys.length; if (t >= keys[n - 1][0]) return keys[n - 1].slice(1)
+  let i = 1; while (t >= keys[i][0]) i++; const a = keys[i - 1], b = keys[i], u = EASE[ease]((t - a[0]) / (b[0] - a[0]))
+  return a.slice(1).map((v, j) => Array.isArray(v) ? v.map((q, m) => q + (b[j + 1][m] - q) * u) : v + (b[j + 1] - v) * u) }
+
+// ---------------------------------------------------------------- the relief
+const R = new THREE.WebGLRenderer({ canvas: $('c'), antialias: true, preserveDrawingBuffer: true, powerPreference: 'high-performance' })
+R.setPixelRatio(P.pr || 1); R.setSize(1920, 1080, false); R.setClearColor(new THREE.Color(P.bg || '#050a16'), 1)
+const scene = new THREE.Scene(), cam = new THREE.PerspectiveCamera(30, 1920 / 1080, .05, 200)
+const TL = new THREE.TextureLoader(), LOADS = []
+const tex = (src, srgb) => { let done; LOADS.push(new Promise(r => { done = r })); const t = TL.load(src, done, undefined, done)
+  t.colorSpace = srgb ? THREE.SRGBColorSpace : THREE.NoColorSpace; t.anisotropy = 8; t.wrapS = t.wrapT = THREE.ClampToEdgeWrapping; return t }
+const VERT = `
+uniform sampler2D uH; uniform float uAmp, uTime, uWave; uniform vec4 uFlags[4]; uniform vec2 uSize;
+varying vec2 vUv; varying vec3 vPos;
+void main(){ vUv = uv; vec3 p = position; p.z += texture2D(uH, uv).r * uAmp;
+  for (int i = 0; i < 4; i++) { vec4 f = uFlags[i]; if (f.z > f.x && uv.x > f.x && uv.x < f.z && uv.y > f.y && uv.y < f.w) {
+    float k = (uv.x - f.x) / (f.z - f.x), e = smoothstep(0., .22, k) * smoothstep(f.y, f.y + .012, uv.y) * smoothstep(f.w, f.w - .012, uv.y) * smoothstep(1., .93, k);
+    float ph = uTime * 6.2 - k * 7.5 + float(i) * 1.7;
+    p.y += sin(ph) * uWave * e * (.35 + .65 * k); p.z += cos(ph * .9) * uWave * 2.2 * e * k; p.x += sin(ph * .5) * uWave * .35 * e * k; } }
+  vPos = p; gl_Position = projectionMatrix * modelViewMatrix * vec4(p, 1.); }`
+const FRAG = `
+precision highp float;
+uniform sampler2D uA, uN; uniform vec3 uL, uCam, uLCol, uCool, uWarm; uniform float uAmb, uDif, uSpec, uShin, uExp, uPoolR, uPoolMin, uFade, uNs; uniform vec2 uPool;
+varying vec2 vUv; varying vec3 vPos;
+void main(){ vec3 a = texture2D(uA, vUv).rgb; vec3 n = texture2D(uN, vUv).rgb * 2. - 1.; n = normalize(vec3(n.xy * uNs, max(n.z, .05)));   // uNs: how deep the relief reads under the light
+  vec3 L = normalize(uL), V = normalize(uCam - vPos), Hh = normalize(L + V);
+  float ndl = max(dot(n, L), 0.), lum = dot(a, vec3(.2126, .7152, .0722));
+  vec3 col = a * (uAmb + uDif * ndl) * uLCol + pow(max(dot(n, Hh), 0.), uShin) * uSpec * (.25 + lum);
+  float d = distance(vPos.xy, uPool); col *= mix(uPoolMin, 1., smoothstep(uPoolR, uPoolR * .3, d)) * uExp;
+  float Y = dot(col, vec3(.2126, .7152, .0722)); col = mix(col * uCool, col * uWarm, smoothstep(0.02, .55, Y));
+  col = col / (1. + .18 * col);                                   // soft shoulder, so glints roll off
+  gl_FragColor = vec4(pow(max(col, 0.), vec3(1. / 2.2)) * uFade, 1.); }`
+const IM = {}
+for (const [id, o] of Object.entries(P.images)) {
+  const W = o.w || 4, H = W * o.ph / o.pw, seg = o.seg || 440
+  const mat = new THREE.ShaderMaterial({ vertexShader: VERT, fragmentShader: FRAG, uniforms: {
+    uA: { value: tex(`img/${id}_a.jpg`, true) }, uH: { value: tex(`img/${id}_h.png`) }, uN: { value: tex(`img/${id}_n.png`) },
+    uAmp: { value: .3 }, uTime: { value: 0 }, uWave: { value: 0 }, uSize: { value: new THREE.Vector2(W, H) },
+    uFlags: { value: [0, 1, 2, 3].map(i => new THREE.Vector4(...((o.flags || [])[i] || [0, 0, 0, 0]))) },
+    uL: { value: new THREE.Vector3(.5, .5, .6) }, uCam: { value: new THREE.Vector3() }, uLCol: { value: new THREE.Vector3(1, 1, 1) },
+    uCool: { value: new THREE.Vector3(...(P.cool || [.80, .92, 1.16])) }, uWarm: { value: new THREE.Vector3(...(P.warm || [1.05, 1.0, .93])) },
+    uAmb: { value: .4 }, uDif: { value: .95 }, uSpec: { value: .35 }, uShin: { value: 28 }, uExp: { value: 1 }, uFade: { value: 1 },
+    uPool: { value: new THREE.Vector2() }, uPoolR: { value: 9 }, uPoolMin: { value: .2 }, uNs: { value: .45 } } })
+  const m = new THREE.Mesh(new THREE.PlaneGeometry(W, H, seg, Math.round(seg * H / W)), mat); m.visible = false; m.frustumCulled = false; scene.add(m); IM[id] = { m, mat, W, H }
+}
+// dust in the light: soft points drifting slowly (a pure function of time)
+const ND = P.dustN || 520, dpos = new Float32Array(ND * 3), dseed = new Float32Array(ND * 3); let sd = 7
+const rnd = () => { sd = (sd * 16807) % 2147483647; return sd / 2147483647 }
+for (let i = 0; i < ND; i++) { dpos[i * 3] = (rnd() - .5) * 7; dpos[i * 3 + 1] = (rnd() - .5) * 4.6; dpos[i * 3 + 2] = .12 + rnd() * 1.7; dseed[i * 3] = rnd(); dseed[i * 3 + 1] = rnd(); dseed[i * 3 + 2] = rnd() }
+const dgeo = new THREE.BufferGeometry(); dgeo.setAttribute('position', new THREE.BufferAttribute(dpos, 3)); dgeo.setAttribute('seed', new THREE.BufferAttribute(dseed, 3))
+const dmat = new THREE.ShaderMaterial({ transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, uniforms: { uTime: { value: 0 }, uA: { value: 0 }, uPx: { value: (P.pr || 1) * 1080 }, uPool: { value: new THREE.Vector2() }, uPoolR: { value: 9 }, uBurst: { value: new THREE.Vector4(0, 0, 0, -9) } },
+  vertexShader: `attribute vec3 seed; uniform float uTime, uPx; uniform vec4 uBurst; varying float vA; varying vec3 vP;
+    void main(){ vec3 p = position; float t = uTime;
+      p.x += sin(t * (.12 + seed.x * .2) + seed.y * 40.) * .22 + t * (.012 + seed.z * .02); p.y += cos(t * (.1 + seed.y * .17) + seed.x * 30.) * .16 + t * (.02 + seed.x * .03);
+      p.x = mod(p.x + 3.5, 7.) - 3.5; p.y = mod(p.y + 2.3, 4.6) - 2.3;
+      float bt = t - uBurst.w; if (bt > 0. && bt < 2.2) { vec2 dv = p.xy - uBurst.xy; float dd = length(dv) + .001, push = exp(-dd * 2.2) * (1. - exp(-bt * 5.)) * exp(-bt * .9) * uBurst.z; p.xy += dv / dd * push; p.z += push * .5; }
+      vec4 mv = modelViewMatrix * vec4(p, 1.); gl_Position = projectionMatrix * mv; vP = p;
+      float s = (.006 + seed.z * .016) * uPx / max(.2, -mv.z); gl_PointSize = s; vA = (.35 + .65 * seed.x) * smoothstep(.15, .9, -mv.z) * (.6 + .4 * sin(t * (1. + seed.y * 2.) + seed.z * 50.)); }`,
+  fragmentShader: `precision highp float; uniform float uA, uPoolR; uniform vec2 uPool; varying float vA; varying vec3 vP;
+    void main(){ float d = length(gl_PointCoord - .5) * 2.; float a = smoothstep(1., .0, d); a *= a;
+      float pool = smoothstep(uPoolR, uPoolR * .25, distance(vP.xy, uPool));
+      gl_FragColor = vec4(vec3(1., .96, .88) * a * vA * uA * (.25 + .75 * pool), 1.); }` })
+const dust = new THREE.Points(dgeo, dmat); dust.frustumCulled = false; scene.add(dust)
+
+// ---------------------------------------------------------------- the overlay: footage panels, titles
+const PANS = (P.pans || []).map(o => { const d = document.createElement('div'); d.className = 'pan'; const im = document.createElement('img'); d.appendChild(im); $('pans').appendChild(d); return { o, d, im } })
+const TXS = (P.text || []).map(o => { const d = document.createElement('div'); d.className = 'tx ' + (o.k || 'cap'); d.innerHTML = o.text; if (o.css) d.style.cssText += o.css; $('texts').appendChild(d); return { o, d } })
+async function setImg(el, src) { if (el.getAttribute('src') !== src) { el.src = src; try { await el.decode() } catch (e) {} } }
+const shotAt = t => P.shots.find(s => t >= s.from - 1e-6 && t < s.to - 1e-6)
+const tmpV = new THREE.Vector3()
+window.render = async t => {
+  // 3D
+  const s = shotAt(t); for (const k in IM) IM[k].m.visible = false
+  let drew = false
+  if (s) { const I = IM[s.img], U = I.mat.uniforms, e = s.ease || 'lin'; I.m.visible = true
+    const c = K(s.cam, t, e); let sh = 0; if (s.shake) { const d = t - s.shake[0]; if (d > 0 && d < s.shake[2]) sh = (1 - d / s.shake[2]) * s.shake[1] }
+    cam.position.set(c[0][0] + sh * Math.sin(t * 71), c[0][1] + sh * Math.cos(t * 53), c[0][2]); cam.fov = c[2]; cam.updateProjectionMatrix()
+    cam.up.set(Math.sin(c[3] || 0), Math.cos(c[3] || 0), 0); cam.lookAt(c[1][0], c[1][1], c[1][2]); cam.updateMatrixWorld()
+    const L = K(s.light, t, s.lease || 'lin'); U.uL.value.set(L[0][0], L[0][1], L[0][2]); U.uAmb.value = L[1]; U.uDif.value = L[2]; U.uSpec.value = L[3] != null ? L[3] : .12; U.uNs.value = s.ns != null ? s.ns : (P.ns != null ? P.ns : .45)
+    const pl = K(s.pool || [[0, [0, 0], 9, .2]], t, 'lin'); U.uPool.value.set(pl[0][0], pl[0][1]); U.uPoolR.value = pl[1]; U.uPoolMin.value = pl[2]
+    U.uExp.value = s.exp ? K(s.exp, t, 'lin')[0] : 1; U.uFade.value = 1; U.uAmp.value = s.amp != null ? (Array.isArray(s.amp) ? K(s.amp, t, 'io')[0] : s.amp) : .3
+    U.uTime.value = t; U.uWave.value = s.wave || 0; U.uCam.value.copy(cam.position)
+    const du = dmat.uniforms; du.uTime.value = t + (s.dseed || 0); du.uA.value = (s.dust != null ? s.dust : .8) * U.uExp.value; du.uPool.value.copy(U.uPool.value); du.uPoolR.value = U.uPoolR.value
+    du.uBurst.value.set(...(s.burst || [0, 0, 0, -9])); dust.visible = du.uA.value > 0
+    R.render(scene, cam); drew = true }
+  if (!drew) { R.clear() }
+  // panels (the artist's footage)
+  for (const { o, d, im } of PANS) { const on = t >= o.from - 1e-6 && t < o.to - 1e-6; if (!on) { if (d.style.opacity !== '0') d.style.opacity = '0'; continue }
+    const fi = o.fi != null ? o.fi : .12, q = Math.min(cl((t - o.from) / Math.max(fi, 1e-3)), o.fo ? cl((o.to - t) / o.fo) : 1)
+    const f = Math.min(o.n, Math.max(1, Math.floor((t - o.from) * FPS * (o.speed || 1) + 1e-6) + 1 + (o.f0 || 0)))
+    await setImg(im, `${o.dir}/${String(f).padStart(4, '0')}.jpg`)
+    const u = (t - o.from) / (o.to - o.from), z = (o.z0 || 1) + ((o.z1 || o.z0 || 1) - (o.z0 || 1)) * u, pop = 1 + (o.pop || 0) * (1 - eo((t - o.from) / .35))
+    d.style.cssText = `left:${o.x}px;top:${o.y}px;width:${o.w}px;height:${o.h}px;opacity:${q.toFixed(3)};transform:scale(${pop.toFixed(4)})`
+    const iw = o.iw * z, ih = o.ih * z, cx = (o.cx != null ? o.cx : .5), cy = (o.cy != null ? o.cy : .5)
+    im.style.cssText = `width:${iw.toFixed(1)}px;height:${ih.toFixed(1)}px;left:${(o.w / 2 - iw * cx).toFixed(1)}px;top:${(o.h / 2 - ih * cy).toFixed(1)}px;filter:${o.filter || 'none'}` }
+  // titles
+  for (const { o, d } of TXS) { const fi = o.fi || .3, fo = o.fo || .25, on = t >= o.from - 1e-6 && t < o.to + fo
+    const q = on ? Math.min(cl((t - o.from) / fi), cl((o.to + fo - t) / fo)) : 0; d.style.opacity = q.toFixed(3); if (!q) continue
+    const k = eo((t - o.from) / (o.rise || .6)), ls = o.track ? `letter-spacing:${(o.track[0] + (o.track[1] - o.track[0]) * cl((t - o.from) / (o.to - o.from))).toFixed(4)}em;` : ''
+    d.style.cssText = (o.css || '') + `;opacity:${q.toFixed(3)};left:${o.x}px;top:${o.y}px;${ls}transform:translate(${o.align === 'c' ? '-50%' : o.align === 'r' ? '-100%' : '0'},${((1 - k) * (o.dy != null ? o.dy : 18)).toFixed(1)}px) scale(${(o.s0 ? o.s0 + (1 - o.s0) * EASE.exp((t - o.from) / .28) : 1).toFixed(4)})` }
+  // flash, shade, bars
+  let fl = 0; for (const f of P.flash || []) { const d = t - f[0]; if (d >= 0 && d < f[2]) fl = Math.max(fl, (1 - d / f[2]) * f[1]) } $('flash').style.opacity = fl.toFixed(3)
+  $('shade').style.opacity = (P.shade ? K(P.shade, t, 'lin')[0] : 0).toFixed(3)
+  const bh = P.bars ? K(P.bars, t, 'io')[0] : 0; $('b1').style.height = $('b2').style.height = bh.toFixed(1) + 'px'
+  return 'f' + Math.round(t * FPS)
+}
+window.READY = Promise.all([...LOADS, document.fonts.load('80px Anton'), document.fonts.load('800 26px Man'), document.fonts.load('600 24px Man'), document.fonts.load('italic 92px IS'), document.fonts.load('92px IS')])
+  .then(() => new Promise(r => setTimeout(r, 400)))
+</script>
+</body>
+</html>

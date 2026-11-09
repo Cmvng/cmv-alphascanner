@@ -59,3 +59,42 @@ node cover/shot.mjs $PWD/cover/cover.html v cover.png    # and "t" for the thumb
 - Teams keep their own colours: piece `c1` is the club colour and `c2` the band. Tags use the team colour.
 - Passes are sky blue or white arcs. Runs are red dashes for the attacking side. Zones are red where the ball is lost.
 - There is no depth-of-field: the post pass in `board3d.js` (`postSetup` / `renderFrame`) turned the background grey through tone mapping, so it stays off.
+
+## The stage: the same engine for explainers (9 Nov 2026, first used for Primus "The Bouncer")
+
+A round checkered stage, a wall with a door that opens, a sign that flips, a box that fills with files, and flat props
+drawn on canvas. The cast are the same lacquer pieces. `explainer/primus-bouncer-2026-11-09/` is the worked example.
+
+- `page/stage3d.js` (`B3.stage`): `makeStage`, `makeDoor` (`userData.open(q)`), `makeSign` (`userData.flip(q)`),
+  `makeCard` (a prop drawn by `draw(ctx, w, h, state)`; `setState`, `setOpacity`), `makeBox`, `cardAt`, `keys`.
+- `page/stage.html`: the page. Plan keys: `stage`, `door`, `sign` (`flip` in take seconds or `flipv` in video
+  seconds), `box` (`pile` = when each file lands), `pieces` (they hop as they move; `names` renames a tag at a time),
+  `cards` (`keys` [[t, x, y, z, rx, ry, rz, scale]], `states`, `op`, `bill` = turn to face the camera), `pins` (a chip
+  fixed to a point, `piece:id` or `card:id`), `cam`, `hits`, `wash`, `ui`, `caps`, `flow`/`flow2` (reactions).
+  The props of one video live in its own `draw.js` (`window.DRAW[kind]`).
+  `stage.html#nocap` hides captions, footnote and stickers, for clean cover stills.
+- `page/panels.js` additions: `screen` (a real page in a browser frame: `view` keys and `rings` in image fractions;
+  give the frame the capture's own shape so the page shows whole), `giant` takes `x` (left-aligned over open sky),
+  `chip` takes `cls: 'light'`, `note` takes `dark`.
+- `cues.py`: `Cues(words).S/E(phrase, nth)` and `captions(...)`, shared by every plan written against a narrator take.
+- `render_chunks.sh`: a long render as resumable chunks, started detached; `join` adds the mix.
+- `page/cover_still.html`: thumbnail and vertical cover from clean stills (`cover.js` beside it).
+
+### Lessons from the first stage video (all caught on stills)
+1. **A cue phrase said twice takes the first one.** "One:" matched "for one yes or no", and "You use it" matched
+   "before you use it". `Cues` now warns when a phrase with no `nth` is said more than once; use longer phrases.
+2. **The sign's back face must hang upside down facing the wall** (`rotation.set(0, -π/2, π, 'ZYX')`), so the turn
+   brings it upright to the front. With the first version the sign went blank after the flip.
+3. **Big type over the wall is unreadable.** Navy words on a navy wall, twice. Put titles over open sky (`giant.x`),
+   or over the wash.
+4. **A prop the line is about should fill a quarter of the frame.** The ID card, the three pages and the request
+   card were all too small on the first pass; cameras moved in and props scaled up.
+5. **Clear the stage for a new idea.** The queue stood in front of the Primus scene; the pawns now walk to the back
+   and return for the next section.
+6. **Time inside the pause has no take time.** The 0.6 s pause after the cold open is added in video time, so a move
+   that must happen during it (the sign's flip, a cut) needs video-time keys (`flipv`) or a take time just before
+   the cut. A caption that ends by the pause must be clamped to it, or it hangs through.
+7. **Put the hit where the beat is.** The flash, the cut and the sign flip land on the music's entry at the start of
+   the pause; the line starts a second later.
+8. **A real page gets a frame of its own shape.** A 16:9 capture in a wider panel was cropped at zoom 1.
+9. **Speed:** a still is about 2 s; the full render with three workers took about 5 s a frame per worker.

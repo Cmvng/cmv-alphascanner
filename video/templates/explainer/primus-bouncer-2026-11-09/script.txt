@@ -1,0 +1,7 @@
+To get into a club, you prove you're over eighteen. So you hand a stranger your ID. Your name. Your address. Your date of birth. All of it, for one yes or no.
+Crypto has the same problem. A blockchain can't see your bank, your exchange or your payslip. That's why most on-chain loans demand collateral. And why apps ask you to upload everything.
+Primus Labs flips that. You log in to the real site, in your own browser. A Primus node witnesses the encrypted session. And out comes a signed proof of one line: balance over a thousand dollars, true. The app checks the proof. Not your statement.
+And it's live. Unitas runs its proof of reserves on it: nearly fifty million dollars, against forty-seven and a half million in supply. Anyone can open that page.
+Three things to know before you use it. One: it proves where the data came from. Not that the data is right. Two: by default, the app still sees the one thing it asked for. So read the request. Three: it's early. There's no official token. Points are a reputation score.
+You use it through a browser extension, and a proof costs a tiny fee on Base.
+Prove the fact. Keep the file. Follow for more.
