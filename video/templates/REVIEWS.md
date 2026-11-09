@@ -59,7 +59,11 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
   - Place titles with the scene on screen: sky or wash, never the wall.
   - For music-led films, lay out 9:16 from the start, next to 16:9.
   - Check each reaction a second after its line, on stills, before the full render: clips peak at different times.
-- **Final review:** (the three renders are still running; the numbers are added with the final files)
+- **Final review:**
+  - **The Living Drawing:** 30.8 s, 924 frames, 1920×1080 and 1080×1920. −14.0 LUFS, true peak −2.5 dBFS; the drop at 8.8 s measures +12.7 dB. Both shapes checked at 2 fps: the only dark stretch is the beat before the drop, by design. Colour: 97% white/grey, which is the drawing. Music "WOLF" (HoliznaCC0, CC0), no other sound. The silent versions are the same pictures.
+  - **Primus "The Bouncer":** 78.7 s, 2,361 frames, 1920×1080, crf 16. −14.6 LUFS, true peak −1.3 dBFS. Checked at 2 fps across the whole length: no empty frames beyond the two washes, no overlaps. All 15 chunk joins continuous (one measured 2.4 of 255 at a keyframe on a still shot; nothing to see). Hear-back on the mix: 41 captions, the 3 flagged were numbers heard as digits. Both reactions at their peak about a second into their lines, checked at full size (the second after the re-time). Colour: blue 54%, white/grey 42%, red 2%, yellow 0%. Music "P.D." (413).
+  - **Bagel "Sleep on it":** 30.5 s, 916 frames, 1920×1080 and 1080×1920. −14.4 LUFS, true peak −0.8 dBFS. Both shapes checked at 2 fps. Colour: blue 60%, white/grey 30%, yellow 4% (Bagel's own). Music "Mi Gente" (284), plus clock ticks and two chimes.
+  - **Render times with everything running at once:** Primus 85 minutes, Bagel 66 minutes widescreen and 43 upright, the drawing 25 minutes widescreen and 22 upright. Queued one after another they would have taken about the same in total, and each would have been watchable sooner.
 - **The owner's reaction:** (pending)
 
 ## 9 Nov: post-match, Sunderland 1-0 Chelsea "Why Chelsea lost" on the new 3D board (Lara, 2:06, 16:9)
