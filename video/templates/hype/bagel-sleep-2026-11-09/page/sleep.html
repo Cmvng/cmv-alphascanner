@@ -5,7 +5,8 @@
      a bagel comes up as the sun, the sky turns from deep navy to light blue, and the phone says the profit was claimed.
      Then the other new things in 1.6, the real changelog page, and the end card.
      3D on the tactical-board engine (board3d.js, stage3d.js); the real page and the flash come from panels.js.
-     window.render(t) draws one frame (t in video seconds). Timing: BPM and DROP below. -->
+     window.render(t) draws one frame (t in video seconds). Timing: BPM and DROP below.
+     sleep.html renders 1920x1080; sleep.html#v renders the upright 1080x1920 cut (its own cameras and type layout). -->
 <head>
 <meta charset="utf-8">
 <style>
@@ -42,24 +43,26 @@ canvas{position:absolute;left:0;top:0;width:1920px;height:1080px}
 </head>
 <body>
 <script>if (location.hash.includes("notext")) document.documentElement.classList.add("notext")</script>
-<style>.notext #txt,.notext #logo,.notext #panels{display:none}</style>   <!-- sleep.html#notext: clean stills for covers -->
+<style>.notext #txt,.notext #txt2,.notext #logo,.notext #panels{display:none}</style>   <!-- sleep.html#notext: clean stills for covers -->
 <canvas id="c"></canvas>
-<div id="ui"><div id="txt"></div><img id="logo" src="img/bagel-logo-black.png"><img id="face" src="img/bagel-icon-round.png"><div id="wash"></div><div id="panels"></div><div class="flash" id="flash"></div><div id="bug"></div></div>
+<div id="ui"><div id="txt"></div><img id="logo" src="img/bagel-logo-black.png"><img id="face" src="img/bagel-icon-round.png"><div id="wash"></div><div id="panels"></div><div id="txt2"></div><div class="flash" id="flash"></div><div id="bug"></div></div>
 <script src="file:///home/user/cmv-alphascanner/video/assets/three/three.min.js"></script>
 <script src="board3d.js"></script>
 <script src="stage3d.js"></script>
 <script>
 // ---------------------------------------------------------------- the clock of the film
+const VERT = location.hash.slice(1).split(/[;,]/).includes('v'), W = VERT ? 1080 : 1920, H = VERT ? 1920 : 1080
+for (const el of [document.documentElement, document.body, document.getElementById('c')]) { el.style.width = W + 'px'; el.style.height = H + 'px' }
 const BPM = 110, BEAT = 60 / BPM, BAR = 4 * BEAT, DROP = 3 * BAR, FPS = 30
 const bar = (k, beats = 0) => +(DROP + k * BAR + beats * BEAT).toFixed(3)      // bar 0 = the drop; beats counted from 0
 const END = bar(11), TOTAL = END
-const SCR = { x: 260, y: 96, w: 1400, h: 843, iw: 3200, ih: 1800 }
+const SCR = VERT ? { x: 40, y: 640, w: 1000, h: 618, iw: 3200, ih: 1800 } : { x: 260, y: 96, w: 1400, h: 843, iw: 3200, ih: 1800 }
 window.PLAN = { vo: 0, cut: 1e9, gap: 0, teams: { home: { name: '', short: '', c1: '#0B1F44' }, away: { name: '', short: '', c1: '#F6E051' } }, ui: [
   { type: 'flash', from: DROP - .02 },
   { type: 'screen', img: 'shots/changelog.png', url: 'bagel.win/changelog', ...SCR, from: bar(6), to: bar(8) - .25,
-    view: [[bar(6), .5, .5, 1], [bar(6, 1.2), .5, .5, 1], [bar(6, 2.6), .53, .41, 1.5]],
+    view: [[bar(6), .5, .5, 1], [bar(6, 1.2), .5, .5, 1], [bar(6, 2.6), .53, .41, VERT ? 2.6 : 1.5]],
     rings: [[bar(6, 2.6), bar(8), .408, .465, .171, .028], [bar(6, 3.6), bar(8), .408, .441, .239, .028], [bar(7, 1), bar(8), .408, .367, .154, .028], [bar(7, 2), bar(8), .408, .343, .214, .028]] },
-  { type: 'chip', text: 'The real page · captured <b>9 Nov 2026</b>', x: 960, y: 16, anchor: 'c', from: bar(6, .4), to: bar(8) - .3 },
+  { type: 'chip', text: 'The real page · captured <b>9 Nov 2026</b>', x: W / 2, y: VERT ? 556 : 16, anchor: 'c', from: bar(6, .4), to: bar(8) - .3 },
   { type: 'note', dark: 1, text: 'Illustration · the changelog is the real page, captured 9 Nov 2026', from: DROP + 1.2, to: bar(8) },
 ] }
 </script>
@@ -117,39 +120,45 @@ function screenAt(t) {
 }
 // ---------------------------------------------------------------- the text layer
 const L = []
-function line(html, cls, x, y, from, to, o = {}) { const d = document.createElement('div'); d.className = 'ln ' + cls + (o.c ? ' c' : ''); d.innerHTML = html; d.style.left = x + 'px'; d.style.top = y + 'px'; if (o.css) d.style.cssText += ';' + o.css; $('txt').appendChild(d); L.push({ d, from, to, c: o.c, fi: o.fi || .16, fo: o.fo || .16, pop: o.pop != null ? o.pop : .1 }) }
+function line(html, cls, x, y, from, to, o = {}) { const d = document.createElement('div'); d.className = 'ln ' + cls + (o.c ? ' c' : ''); d.innerHTML = html; d.style.left = x + 'px'; d.style.top = y + 'px'; if (o.css) d.style.cssText += ';' + o.css; $(o.top ? 'txt2' : 'txt').appendChild(d); L.push({ d, from, to, c: o.c, fi: o.fi || .16, fo: o.fo || .16, pop: o.pop != null ? o.pop : .1 }) }
 function buildText() {
-  const X = 110
+  const X = VERT ? 64 : 110, cx = W / 2
   // night
-  line('1:29 AM', 'big night', X, 120, .1, bar(-1), { css: 'font-size:230px' })
-  line('Lagos. You are asleep.', 'mid night', X + 6, 372, bar(-3, 2), bar(-1))
-  line('Your combo won tonight.', 'mid night', X + 6, 462, bar(-2, .5), bar(-1))
-  ;['1:29:57', '1:29:58', '1:29:59'].forEach((s, i) => line(s, 'big night', X, 120, bar(-1, i), bar(-1, i + 1), { css: 'font-size:230px', fi: .03, fo: .03, pop: 0 }))
-  line('1:30 AM', 'big night', X, 120, bar(-1, 3), DROP, { css: 'font-size:230px', fi: .03, fo: .03, pop: .14 })
+  const NS = VERT ? 216 : 230, ny = VERT ? 170 : 120
+  line('1:29 AM', 'big night', X, ny, .1, bar(-1), { css: `font-size:${NS}px` })
+  line('Lagos. You are asleep.', 'mid night', X + 6, ny + (VERT ? 250 : 252), bar(-3, 2), bar(-1))
+  line('Your combo won tonight.', 'mid night', X + 6, ny + (VERT ? 334 : 342), bar(-2, .5), bar(-1))
+  ;['1:29:57', '1:29:58', '1:29:59'].forEach((s, i) => line(s, 'big night', X, ny, bar(-1, i), bar(-1, i + 1), { css: `font-size:${NS}px`, fi: .03, fo: .03, pop: 0 }))
+  line('1:30 AM', 'big night', X, ny, bar(-1, 3), DROP, { css: `font-size:${NS}px`, fi: .03, fo: .03, pop: .14 })
   // the drop: it claimed itself
-  line('It claimed', 'big day', X, 104, bar(0, 1), bar(3) - .12); line('itself.', 'big day', X, 254, bar(0, 2), bar(3) - .12)
-  line('<span class="y">Auto Claim</span> · new in Bagel 1.6', 'mid day', X + 6, 446, bar(1), bar(3) - .12)
-  line('Once a day, from <b>1:30 AM Lagos time</b>', 'sm day', X + 8, 540, bar(2), bar(3) - .12, { css: 'font-size:44px;font-weight:700' })
-  line('8:30 AM UTC+8 · it is not instant', 'sm day', X + 8, 606, bar(2, 1), bar(3) - .12)
+  const dy = VERT ? 150 : 104
+  line('It claimed', 'big day', X, dy, bar(0, 1), bar(3) - .12); line('itself.', 'big day', X, dy + 150, bar(0, 2), bar(3) - .12)
+  line('<span class="y">Auto Claim</span> · new in Bagel 1.6', 'mid day', X + 6, dy + 342, bar(1), bar(3) - .12)
+  line('Once a day, from <b>1:30 AM Lagos time</b>', 'sm day', X + 8, dy + 436, bar(2), bar(3) - .12, { css: 'font-size:44px;font-weight:700' })
+  line('8:30 AM UTC+8 · it is not instant', 'sm day', X + 8, dy + 502, bar(2, 1), bar(3) - .12)
   // also new
   const F = [['Batch claim', 'Winning combos, claimed together.', 3], ['MFA on<br>withdrawals', 'A second check before money leaves.', 4], ['Support,<br>in the app', 'A Contact Support entry.', 5]]
-  line('Also new in 1.6', 'kick day', X + 8, 118, bar(3), bar(6) - .12, { pop: 0 })
-  F.forEach(([a, b, k]) => { const two = a.includes('<br>'); line(a, 'big day', X, 178, bar(k), bar(k + 1) - .1, { css: 'font-size:138px' }); line(b, 'mid day', X + 6, two ? 476 : 340, bar(k, 1), bar(k + 1) - .1, { css: 'font-size:50px' }) })
+  const fy = VERT ? 160 : 118
+  line('Also new in 1.6', 'kick day', X + 8, fy, bar(3), bar(6) - .12, { pop: 0 })
+  F.forEach(([a, b, k]) => { const two = a.includes('<br>'); line(a, 'big day', X, fy + 60, bar(k), bar(k + 1) - .1, { css: 'font-size:138px' }); line(b, 'mid day', X + 6, fy + (two ? 358 : 222), bar(k, 1), bar(k + 1) - .1, { css: `font-size:${VERT ? 48 : 50}px` }) })
+  // upright only: the page is small in a tall frame, so the room around it carries the headline and the four lines
+  if (VERT) { line('It is in the', 'big day', cx, 150, bar(6, .3), bar(8) - .25, { c: 1, top: 1, css: 'font-size:112px' }); line('changelog.', 'big day', cx, 268, bar(6, .3), bar(8) - .25, { c: 1, top: 1, css: 'font-size:112px' })
+    ;[['Auto Claim', bar(6, 2.6)], ['Batch claim', bar(6, 3.6)], ['MFA on withdrawals', bar(7, 1)], ['Support in the app', bar(7, 2)]].forEach(([s, a], i) => line(`<span class="y" style="background:#F6E051;padding:.1em .4em;border-radius:.3em">✓ ${s}</span>`, 'mid day', cx, 1330 + i * 104, a, bar(8) - .25, { c: 1, top: 1, css: 'text-shadow:none' })) }
   // the end
-  line('Sleep on it.', 'big day', 960, 96, bar(8, .5), END + 1, { c: 1, css: 'font-size:190px;transform-origin:50% 60%' })
-  line('<span class="pill">1.6 is out</span>', 'sm day', 1118, 318, bar(8, 2), END + 1, { c: 1, css: 'font-weight:700' })
-  line('18+ · All trading involves risk · Not available in every country', 'risk', 960, 930, bar(8, 3), END + 1, { c: 1 })
-  line('Video by @Cmv_ng', 'sm day', 960, 1012, bar(9), END + 1, { c: 1, css: 'font-size:30px;font-weight:700' })
+  line('Sleep on it.', 'big day', cx, VERT ? 210 : 96, bar(8, .5), END + 1, { c: 1, css: `font-size:${VERT ? 156 : 190}px;transform-origin:50% 60%` })
+  line('<span class="pill">1.6 is out</span>', 'sm day', VERT ? 760 : 1118, VERT ? 448 : 318, bar(8, 2), END + 1, { c: 1, css: 'font-weight:700' })
+  line(VERT ? '18+ · All trading involves risk<br>Not available in every country' : '18+ · All trading involves risk · Not available in every country', 'risk', cx, VERT ? 1630 : 930, bar(8, 3), END + 1, { c: 1, css: 'text-align:center;line-height:1.4' })
+  line('Video by @Cmv_ng', 'sm day', cx, VERT ? 1790 : 1012, bar(9), END + 1, { c: 1, css: 'font-size:30px;font-weight:700' })
 }
 function textAt(t) { for (const o of L) { const q = t >= o.from - .001 && t < o.to + o.fo ? Math.min(cl((t - o.from) / o.fi), cl((o.to + o.fo - t) / o.fo)) : 0
   if (q <= 0) { if (o.d.style.opacity !== '0') o.d.style.opacity = '0'; continue }
   const k = eback((t - o.from) / .3); o.d.style.opacity = q.toFixed(3); o.d.style.transform = (o.c ? 'translateX(-50%) ' : '') + `translateY(${((1 - eo((t - o.from) / .3)) * 18).toFixed(1)}px) scale(${(1 - o.pop + o.pop * k).toFixed(4)})` } }
 
 // ---------------------------------------------------------------- the scene
-const PH = { x: 7.9, z: 6, w: 5.4, h: 11.2 }
+const PH = { x: VERT ? 3.3 : 7.9, z: 6, w: 5.4, h: 11.2 }
 function rrShape(w, h, r) { const s = new T3.Shape(), x = -w / 2, y = -h / 2; s.moveTo(x + r, y); s.lineTo(x + w - r, y); s.quadraticCurveTo(x + w, y, x + w, y + r); s.lineTo(x + w, y + h - r); s.quadraticCurveTo(x + w, y + h, x + w - r, y + h); s.lineTo(x + r, y + h); s.quadraticCurveTo(x, y + h, x, y + h - r); s.lineTo(x, y + r); s.quadraticCurveTo(x, y, x + r, y); return s }
 function build() {
-  ({ R, scene, cam } = B3.setup($('c'), { pr: 1.25, shadow: 2048 }))
+  ({ R, scene, cam } = B3.setup($('c'), { pr: 1.25, shadow: 2048, w: W, h: H }))
   skyC = document.createElement('canvas'); skyC.width = 64; skyC.height = 1024; skyT = new T3.CanvasTexture(skyC); skyT.colorSpace = T3.SRGBColorSpace; scene.background = skyT
   LIGHTS = scene.children.filter(o => o.isLight)
   S.makeStage(scene, { r: 46, squares: 12, c1: '#dfe8f7', c2: '#cfdcf2', rim: '#F6E051' })
@@ -184,27 +193,31 @@ function build() {
   buildText()
 }
 // camera keys [t, pos, target, fov]
-const CAM = [[0, [-8, 6.6, 36.5], [-1.6, 6.3, 4], 30], [DROP - .034, [-6.8, 6.4, 34], [-1.3, 6.2, 4], 30],
+const CAM = VERT ? [[0, [.4, 7.2, 45], [.9, 10.2, 4], 36], [DROP - .034, [.5, 7.0, 42.5], [.9, 10.0, 4], 36],
+             [DROP, [0, 2.6, 58], [.3, 15.5, -12], 36], [bar(3) - .034, [0, 4.0, 54], [.3, 15, -10], 36],
+             [bar(3), [.3, 7.6, 44], [.8, 10.4, 3], 36], [bar(6), [.4, 7.4, 42.5], [.8, 10.3, 3], 36],
+             [bar(8) - .034, [.4, 7.4, 42.5], [.8, 10.3, 3], 36], [bar(8), [0, 3.4, 62], [0, 17, -12], 36], [END, [0, 4.4, 58], [0, 16.6, -12], 36]]
+          : [[0, [-8, 6.6, 36.5], [-1.6, 6.3, 4], 30], [DROP - .034, [-6.8, 6.4, 34], [-1.3, 6.2, 4], 30],
              [DROP, [-5, 2.6, 46], [-2.4, 9.6, -12], 30], [bar(3) - .034, [-5.6, 4.2, 42], [-2.2, 9.0, -10], 30],
              [bar(3), [-7.6, 7.2, 35.5], [-1.6, 6.5, 3], 30], [bar(6), [-6.6, 7.0, 34], [-1.3, 6.5, 3], 30],
              [bar(8) - .034, [-6.6, 7.0, 34], [-1.3, 6.5, 3], 30], [bar(8), [0, 3.4, 50], [0, 11.5, -12], 30], [END, [0, 4.4, 46], [0, 11.2, -12], 30]]
 // a thing in the sky, placed by where it should sit on screen (pixels), a fixed distance along that ray
 const vS = new T3.Vector3()
-function skyAt(obj, px, py, dist) { vS.set(px / 960 - 1, 1 - py / 540, .5).unproject(cam).sub(cam.position).normalize(); obj.position.copy(cam.position).addScaledVector(vS, dist); obj.quaternion.copy(cam.quaternion) }
-const SUNR = 268                                  // its radius on screen at scale 1, 110 units away
+function skyAt(obj, px, py, dist) { vS.set(px / (W / 2) - 1, 1 - py / (H / 2), .5).unproject(cam).sub(cam.position).normalize(); obj.position.copy(cam.position).addScaledVector(vS, dist); obj.quaternion.copy(cam.quaternion) }
+const sunPx = () => 14.6 / 110 / Math.tan(cam.fov * Math.PI / 360) * H / 2      // the sun's radius on screen at scale 1, 110 units away
 window.render = async t => {
   const c = keys(CAM, t); cam.position.set(...c[0]); cam.lookAt(...c[1]); if (cam.fov !== c[2]) { cam.fov = c[2]; cam.updateProjectionMatrix() }
   // day: 0 at night, 1 once the sun is up
   const d = eo((t - DROP) / 1.0); sky(d); R.toneMappingExposure = lerp(.2, 1.0, d)
   LIGHTS.forEach(l => { if (l.isDirectionalLight && l.castShadow) l.color.set(d < 1 ? mixHex('#9db8ff', '#fff3e2', d).replace(/rgb\((\d+),(\d+),(\d+)\)/, (m, r, g, b) => '#' + [r, g, b].map(v => (+v).toString(16).padStart(2, '0')).join('')) : '#fff3e2') })
-  cam.updateMatrixWorld(); skyAt(moon, 1215, 190, 150)
+  cam.updateMatrixWorld(); skyAt(moon, VERT ? 905 : 1215, VERT ? 640 : 190, 150)
   LIGHTS.forEach(l => { if (l.isSpotLight) l.intensity = lerp(80, 250, d) })      // a softer pool by day, so the floor keeps its tone and the phone its shadow
   moon.material.opacity = 1 - cl((t - DROP) / .5); stars.material.opacity = (1 - cl((t - DROP) / .5)) * (.75 + .25 * Math.sin(t * 3))
   // the sun: up from behind the edge of the stage on the drop, then a slow climb; it turns slowly
-  const end = t >= bar(8), rise = eo((t - DROP) / 1.5), sunX = end ? 960 : 1196, sunY = (end ? 655 : 610) + (1 - rise) * 640 - (t - DROP) * (end ? 0 : 1.2), sunR = end ? 235 : 192
+  const end = t >= bar(8), rise = eo((t - DROP) / 1.5), sunX = VERT ? (end ? 540 : 330) : (end ? 960 : 1196), sunY = (VERT ? (end ? 1240 : 1050) : (end ? 655 : 610)) + (1 - rise) * (VERT ? 950 : 640) - (t - DROP) * (end ? 0 : 1.2), sunR = VERT ? (end ? 300 : 215) : (end ? 235 : 192)
   skyAt(sun, sunX, sunY, 110); sun.rotateZ(t * .12); sun.visible = t >= DROP - .1
   const pulse = 1 + .05 * Math.max(0, 1 - ((t - DROP) / BEAT % 1) * 2.2) * (t >= DROP ? 1 : 0)
-  sun.scale.setScalar(sunR / SUNR * pulse); glow.material.opacity = rise; rays.material.opacity = rise * .8; rays.rotation.z = -t * .2 - t * .12
+  sun.scale.setScalar(sunR / sunPx() * pulse); glow.material.opacity = rise; rays.material.opacity = rise * .8; rays.rotation.z = -t * .2 - t * .12
   // the phone: asleep (a slow breath), a jump on the drop, a full turn on each new feature
   const st = screenAt(t), key = JSON.stringify(st); if (key !== scrKey) { scrKey = key; drawScreen(st) }
   let ry = -.3, hop = 0, tilt = -.14, px = PH.x, pz = PH.z, lay = 0
@@ -217,7 +230,7 @@ window.render = async t => {
   $('wash').style.opacity = keys([[bar(6) - .1, 0], [bar(6) + .25, .88], [bar(8) - .3, .88], [bar(8) - .05, 0]], t)[0].toFixed(3)
   textAt(t)
   const lq = cl((t - bar(8, 1)) / .25), lg = $('logo'); lg.style.opacity = lq.toFixed(3); lg.style.transform = `scale(${(.9 + .1 * eback((t - bar(8, 1)) / .3)).toFixed(4)})`
-  const fq = cl((t - bar(9)) / .2), fc = $('face'), fs = eback((t - bar(9)) / .35); fc.style.opacity = fq.toFixed(3); fc.style.transform = `translate(-50%,-50%) scale(${fs.toFixed(4)}) rotate(${((1 - eo((t - bar(9)) / .5)) * -40).toFixed(1)}deg)`; fc.style.left = '960px'; fc.style.top = sunY.toFixed(1) + 'px'
+  const fq = cl((t - bar(9)) / .2), fc = $('face'), fs = eback((t - bar(9)) / .35); fc.style.opacity = fq.toFixed(3); fc.style.transform = `translate(-50%,-50%) scale(${fs.toFixed(4)}) rotate(${((1 - eo((t - bar(9)) / .5)) * -40).toFixed(1)}deg)`; fc.style.left = sunX + 'px'; fc.style.top = sunY.toFixed(1) + 'px'; if (VERT) { fc.style.width = fc.style.height = '236px'; lg.style.left = '250px'; lg.style.top = '420px' }
   await window.PANELS(t, s => s)
   return 'f' + Math.round(t * FPS)
 }
