@@ -280,6 +280,13 @@ voice A for these modes, and when a cold open exists the music's drop lands on t
 
 ## The owner's own recordings (talking head + chart)
 
+**When the owner is on camera, the studio look is the default** (the owner, 10 Nov: "professionally done. The
+background, every single thing"; 9 Nov: "I need it to be the best"). Run `video/lib/portrait_pro_long.py` on the
+recording (prep, matte, preview, render; see "The pro look on a whole recording" in the talking-head README): the room
+becomes a smooth blue backdrop, the face is lit, the framing is steadied. Start the matte as soon as the file is
+downloaded, because it is the long step. Reference: `video/templates/talking-head/camera-bagel-break-2026-11-10/`.
+The art footage is different: that is never restyled unless the owner asks.
+
 When the owner sends a video they filmed (an X post link, or a Drive/Dropbox link to the original), edit it with
 `video/edit-video.mjs`, following `video/templates/talking-head/README.md`: fetch (`video/lib/fetch_x.py`), transcribe
 with word timings, write the edit decision list (cold open from their own strongest lines, clean clips cut only at

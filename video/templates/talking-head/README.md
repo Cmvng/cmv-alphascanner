@@ -485,3 +485,23 @@ treated separately from the matte, like a lit studio shot:
 - **Speed:** about 6 minutes on CPU for 8 s. That is fine for a final, so preview single frames first.
 - **What post can't fix:** a camera below the chin, top light, and a busy room. The best results start at the
   recording (see the capture notes in the owner's message, 9 Nov).
+
+### The pro look on a whole recording (10 Nov: "professionally done. The background, every single thing")
+`video/lib/portrait_pro_long.py` is the same look for a recording that is being cut (first use:
+`camera-bagel-break-2026-11-10/`). `portrait_pro.py` keeps every matte in memory and draws one frame at a time, which
+only suits a few seconds. This one works in steps that keep to disk:
+1. `prep`: a 30 fps working copy at 1224×2176, denoised.
+2. `matte`: Robust Video Matting on every frame (about 4 frames a second on four CPUs), the mattes to a lossless file,
+   the head track to `pp_track.npz`.
+3. `preview`: single frames of the finished look at chosen output times. Look at a handful at full size first: a
+   hand at the ear, a head turn, a hand coming up from the bottom.
+4. `render`: only the frames the cut keeps, four workers, each cut's punch-in included (the picture is drawn at
+   1080×1920 from the larger working copy, so no zoom goes past the source's pixels).
+
+What changed in the look for a plain wall:
+- **The backdrop.** A lens blur still shows tape, a sheet of paper or a curtain's edge as soft patches. Most of the
+  room is blurred again, far wider, then evened out, cooled, washed with the house blue and given a soft glow behind
+  the head. What is left is the room's own light as a smooth studio wall.
+- **Framing.** The top of the head stays at 28.5% of the frame height, so cards fit above it, and the push-in is
+  small (1.035 to 1.075) because the owner already fills the frame.
+- **Speed:** 107 s of recording took about 3 minutes to prepare, 14 to matte and about 40 to render.

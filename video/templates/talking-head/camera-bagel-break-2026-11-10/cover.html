@@ -1,0 +1,46 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Bagel and the international break: cover (#v, 1080x1920) and thumbnail (#t, 1280x720)</title>
+<style>
+@font-face{font-family:Anton;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/anton-latin-400-normal.woff2)}
+@font-face{font-family:Manrope;font-weight:800;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-800-normal.woff2)}
+@font-face{font-family:Mono;font-weight:700;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/jetbrains-mono-latin-700-normal.woff2)}
+/* img/still.png is a frame of the finished camera picture (the owner in the studio look), 1080x1920 */
+:root{--ink:#0B1F4D;--blue:#1F5FDB}
+*{box-sizing:border-box}
+html,body{margin:0;overflow:hidden;font-family:Manrope,sans-serif;font-weight:800;color:var(--ink);background:#C9D6EA}
+.abs{position:absolute}
+.mono{font-family:Mono,monospace;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
+.card{position:absolute;border-radius:40px;background:rgba(255,255,255,.96);box-shadow:0 34px 80px rgba(10,24,64,.34),0 0 0 1.5px rgba(11,31,77,.06)}
+.h{font-family:Anton,sans-serif;font-weight:400;line-height:.98;text-transform:uppercase;white-space:nowrap}
+.chips{display:flex;flex-wrap:wrap;gap:12px}
+.chips div{height:58px;padding:0 20px;border-radius:29px;font-size:27px;line-height:56px;background:var(--blue);color:#fff;white-space:nowrap}
+.pill{position:absolute;height:92px;border-radius:46px;background:#fff;box-shadow:0 16px 36px rgba(10,24,64,.28)}
+.pill img{height:52px;margin:20px 34px 0 30px}
+</style></head>
+<body>
+<div id="v" style="display:none;position:absolute;left:0;top:0;width:1080px;height:1920px;overflow:hidden">
+  <img src="img/still.png" class="abs" style="left:0;top:0;width:1080px;height:1920px">
+  <div class="card" style="left:50px;top:120px;width:980px;height:424px">
+    <div class="abs mono" style="left:46px;top:38px;font-size:26px;color:var(--blue)">No club football?</div>
+    <div class="abs h" style="left:42px;top:78px;font-size:116px">International</div>
+    <div class="abs h" style="left:42px;top:192px;font-size:116px">break. <span style="color:var(--blue)">Still on.</span></div>
+    <div class="abs chips" style="left:42px;top:334px;width:920px;flex-wrap:nowrap"><div>Basketball</div><div>Esports</div><div>MMA</div><div>Internationals</div><div>Combo</div></div>
+  </div>
+  <div class="pill" style="left:50px;top:1700px"><img src="img/Bagel_Logo_Black.svg"></div>
+  <div class="abs" style="right:56px;top:1722px;font-size:44px;color:#fff;text-shadow:0 4px 18px rgba(8,18,48,.7)">@Cmv_ng</div>
+</div>
+<div id="t" style="display:none;position:absolute;left:0;top:0;width:1280px;height:720px;overflow:hidden;background:linear-gradient(100deg,#DDE7F5 0%,#C2D0E6 46%,#A3B5D3 100%)">
+  <div class="abs" style="right:0;top:0;width:640px;height:720px;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 30%);mask-image:linear-gradient(90deg,transparent 0,#000 30%)"><img src="img/still.png" style="position:absolute;left:-20px;top:-300px;width:700px"></div>
+  <div class="abs mono" style="left:64px;top:96px;font-size:28px;color:var(--blue)">No club football?</div>
+  <div class="abs h" style="left:60px;top:142px;font-size:112px">International</div>
+  <div class="abs h" style="left:60px;top:254px;font-size:112px">break.</div>
+  <div class="abs h" style="left:60px;top:366px;font-size:112px;color:var(--blue)">Still on.</div>
+  <div class="pill" style="left:60px;top:540px"><img src="img/Bagel_Logo_Black.svg"></div>
+  <div class="abs" style="left:330px;top:562px;font-size:40px">@Cmv_ng</div>
+</div>
+<script>
+const m = location.hash.includes('t') ? 't' : 'v'
+document.getElementById(m).style.display = 'block'
+window.READY = Promise.all([document.fonts.ready, ...[...document.images].map(i => i.decode().catch(() => 0))]).then(() => document.fonts.load('116px Anton')).then(() => document.fonts.load('800 30px Manrope')).then(() => document.fonts.load('700 26px Mono'))
+</script>
+</body></html>

@@ -1,0 +1,228 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Bagel and the international break: overlay on the owner's camera</title>
+<style>
+@font-face{font-family:Anton;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/anton-latin-400-normal.woff2)}
+@font-face{font-family:Manrope;font-weight:600;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-600-normal.woff2)}
+@font-face{font-family:Manrope;font-weight:800;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-800-normal.woff2)}
+@font-face{font-family:Mono;font-weight:700;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/jetbrains-mono-latin-700-normal.woff2)}
+/* What is real here: the phone screens are Bagel's own App Store / Google Play art (the phone and its screen as
+   published), the logo is from Bagel's media kit, the fixtures are from ESPN and Polymarket (read 10 Nov 2026).
+   Ours: the cards above the owner's head, the outlines and tags, the captions and the end card. */
+:root{--ink:#0B1F4D;--blue:#1F5FDB;--sky:#6CB6FF;--mute:#6B7A99;--line:#E3E9F4}
+*{box-sizing:border-box}
+html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:transparent;font-family:Manrope,sans-serif;font-weight:800;color:var(--ink)}
+.abs{position:absolute}
+.mono{font-family:Mono,monospace;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
+.card{position:absolute;left:60px;width:960px;border-radius:36px;background:rgba(255,255,255,.955);opacity:0;transform-origin:50% 0;
+  box-shadow:0 30px 70px rgba(10,24,64,.30),0 0 0 1.5px rgba(11,31,77,.06)}
+.kick{position:absolute;left:44px;top:34px;font-size:24px;color:var(--blue);white-space:nowrap}
+.kick i{display:inline-block;width:14px;height:14px;border-radius:7px;background:var(--blue);margin-right:14px;vertical-align:1px}
+.head{position:absolute;left:40px;top:70px;font-family:Anton,sans-serif;font-weight:400;font-size:106px;line-height:1;letter-spacing:.005em;white-space:nowrap;text-transform:uppercase}
+.row{position:absolute;left:40px;display:flex;gap:12px;align-items:center}
+.chip{height:58px;padding:0 21px;border-radius:29px;font-size:28px;line-height:56px;white-space:nowrap;background:#fff;border:1.5px solid var(--line);opacity:0}
+.chip s{text-decoration:none;position:relative}
+.chip s:after{content:"";position:absolute;left:-4px;right:-4px;top:52%;height:3px;border-radius:2px;background:#9AA6BD;transform:scaleX(var(--k,0));transform-origin:0 50%}
+.on{background:var(--blue);border-color:var(--blue);color:#fff}
+.stamp{position:absolute;right:40px;top:221px;font-size:24px;color:#7A869F;opacity:0}
+/* fixtures */
+.fx{position:absolute;left:36px;width:888px;height:60px;opacity:0}
+.fx svg{position:absolute;left:0;top:11px;border-radius:6px;box-shadow:0 0 0 1.5px rgba(11,31,77,.14)}
+.fx .tm{position:absolute;left:72px;top:0;font-size:35px;line-height:60px;white-space:nowrap}
+.fx .tm span{color:var(--mute);font-weight:600}
+.fx .dt{position:absolute;right:256px;top:0;font-size:28px;line-height:60px;color:var(--ink);font-weight:600;white-space:nowrap}
+.fx .tg{position:absolute;right:0;top:8px;width:238px;height:44px;border-radius:22px;font-size:24px;line-height:42px;text-align:center;white-space:nowrap;background:#EEF3FC;color:var(--blue);border:1.5px solid #D6E2F8}
+.fx .tg.hot{background:var(--blue);color:#fff;border-color:var(--blue)}
+/* Polymarket and Bagel */
+.box{position:absolute;top:92px;width:400px;height:112px;border-radius:26px;background:#fff;border:2px solid var(--line);text-align:center}
+.mk{position:absolute;width:400px;text-align:center;height:54px;border-radius:16px;font-size:25px;line-height:52px;white-space:nowrap;background:#F2F6FD;border:1.5px solid #D6E2F8;opacity:0}
+/* the phone: Bagel's own store art */
+#soft{position:absolute;inset:0;opacity:0}
+.ph{position:absolute;left:61px;top:198px;width:958px;height:1723px;transform-origin:50% 100%;opacity:0;filter:drop-shadow(0 40px 60px rgba(8,18,48,.45))}
+.ph img{position:absolute;left:0;top:0;width:958px;height:1723px;display:block}
+.ring{position:absolute;border:6px solid var(--blue);border-radius:22px;opacity:0;box-shadow:0 0 0 6px rgba(31,95,219,.18),0 0 26px rgba(31,95,219,.55)}
+.tag{position:absolute;height:56px;padding:0 22px;border-radius:28px;font-size:27px;line-height:54px;white-space:nowrap;background:var(--blue);color:#fff;opacity:0;box-shadow:0 12px 26px rgba(10,24,64,.35)}
+.tag.w{background:#fff;color:var(--ink)}
+.num{position:absolute;width:52px;height:52px;border-radius:26px;background:var(--blue);color:#fff;font-size:30px;line-height:52px;text-align:center;opacity:0;box-shadow:0 8px 18px rgba(10,24,64,.4)}
+#pill{position:absolute;left:61px;top:74px;width:486px;height:92px;border-radius:46px;background:rgba(255,255,255,.96);opacity:0;box-shadow:0 16px 36px rgba(10,24,64,.28);white-space:nowrap}
+#pill img{position:absolute;left:30px;top:22px;height:48px}
+#pill span{position:absolute;left:196px;top:0;font-size:24px;line-height:92px;font-weight:600;color:#55617A;padding-right:34px}
+#topr{position:absolute;right:61px;top:80px}
+/* leverage chips */
+.lv{position:absolute;top:250px;height:104px;padding:0 44px;border-radius:52px;font-size:52px;line-height:102px;color:#fff;opacity:0;white-space:nowrap;box-shadow:0 18px 40px rgba(10,24,64,.32)}
+/* captions */
+#cap{position:absolute;left:0;right:0;bottom:322px;text-align:center;opacity:0;z-index:9}
+#cap span{display:inline-block;max-width:1000px;padding:13px 28px 15px;border-radius:20px;background:rgba(10,14,28,.92);font-size:44px;line-height:1.24;color:#fff}
+#cap b{color:var(--sky);font-weight:800}
+/* end card */
+#end{position:absolute;left:0;top:0;width:1080px;height:1920px;opacity:0;overflow:hidden;background:linear-gradient(180deg,#F5F9FF 0%,#E4EEFF 55%,#D3E3FF 100%)}
+#end .lit{height:66px;padding:0 28px;border-radius:33px;font-size:33px;line-height:64px;background:var(--blue);color:#fff;white-space:nowrap;opacity:0}
+</style></head>
+<body>
+<div id="soft"></div>
+
+<!-- 1: the hook -->
+<div class="card" id="c1" style="top:112px;height:372px">
+  <div class="kick mono"><i id="dot"></i>Right now</div>
+  <div class="head">International break</div>
+  <div class="row" style="top:204px"><div class="chip" id="lg0"><s>Premier League</s></div><div class="chip" id="lg1"><s>La Liga</s></div><div class="chip" id="lg2"><s>Serie A</s></div><div class="chip" id="lg3"><s>Bundesliga</s></div></div>
+  <div class="stamp mono" id="paused">Paused</div>
+  <div class="row" style="top:282px"><div class="chip on" id="intl">International teams: still on</div></div>
+</div>
+
+<!-- 2: the fixtures (ESPN and Polymarket, read 10 Nov 2026) -->
+<div class="card" id="c2" style="top:112px;height:402px">
+  <div class="kick mono" style="top:30px"><i></i>International football · this week</div>
+  <div class="fx" id="fx0" style="top:74px"><svg width="54" height="38" viewBox="0 0 54 38"><rect width="54" height="38" fill="#fff"/><rect x="23" width="8" height="38" fill="#CE1124"/><rect y="15" width="54" height="8" fill="#CE1124"/></svg>
+    <div class="tm">England <span>v Croatia</span></div><div class="dt">Thu 12 Nov</div><div class="tg" data-k="n">Nations League</div></div>
+  <div class="fx" id="fx1" style="top:136px"><svg width="54" height="38" viewBox="0 0 54 38"><rect width="54" height="38" fill="#AA151B"/><rect y="9.5" width="54" height="19" fill="#F1BF00"/></svg>
+    <div class="tm">Spain <span>at Czechia</span></div><div class="dt">Thu 12 Nov</div><div class="tg" data-k="n">Nations League</div></div>
+  <div class="fx" id="fx2" style="top:198px"><svg width="54" height="38" viewBox="0 0 54 38"><rect width="54" height="12.7" fill="#111"/><rect y="12.7" width="54" height="12.7" fill="#DD0000"/><rect y="25.3" width="54" height="12.7" fill="#FFCE00"/></svg>
+    <div class="tm">Germany <span>at Serbia</span></div><div class="dt">Fri 13 Nov</div><div class="tg" data-k="n">Nations League</div></div>
+  <div class="fx" id="fx3" style="top:260px"><svg width="54" height="38" viewBox="0 0 54 38"><rect width="54" height="38" fill="#009C3B"/><path d="M27 5 L48 19 L27 33 L6 19Z" fill="#FFDF00"/><circle cx="27" cy="19" r="8" fill="#002776"/></svg>
+    <div class="tm">Brazil <span>v Japan</span></div><div class="dt">Sat 14 Nov</div><div class="tg" data-k="f">Friendly</div></div>
+  <div class="fx" id="fx4" style="top:322px"><svg width="54" height="38" viewBox="0 0 54 38"><rect width="54" height="38" fill="#fff"/><rect width="18" height="38" fill="#008751"/><rect x="36" width="18" height="38" fill="#008751"/></svg>
+    <div class="tm">Nigeria <span>v Tanzania</span></div><div class="dt">Fri 13 Nov</div><div class="tg" data-k="q">AFCON qualifier</div></div>
+</div>
+
+<!-- 3: Polymarket's markets, on Bagel -->
+<div class="card" id="c3" style="top:112px;height:372px">
+  <div class="kick mono" style="top:30px"><i></i>Built on Polymarket's markets</div>
+  <div class="box" id="bxp" style="left:40px"><div style="font-size:46px;line-height:108px">Polymarket</div></div>
+  <svg class="abs" id="arr" style="left:446px;top:122px" width="68" height="52" viewBox="0 0 68 52"><path id="arp" d="M6 26 H58 M40 8 L60 26 L40 44" fill="none" stroke="#1F5FDB" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <div class="box" id="bxb" style="left:520px"><img src="img/Bagel_Logo_Black.svg" style="height:56px;margin-top:27px"></div>
+  <div class="mk" id="mk1" style="left:40px;top:228px">Spain vs. England · Sun 15 Nov</div>
+  <div class="mk" id="mk2" style="left:40px;top:228px">Spain vs. England · Sun 15 Nov</div>
+  <div class="abs" id="same" style="left:44px;top:302px;font-size:33px;opacity:0;white-space:nowrap">Same markets. <span style="color:var(--blue)">Same liquidity.</span></div>
+</div>
+
+<!-- leverage: long is green and short is red because that is what they mean -->
+<div class="lv" id="lvl" style="left:176px;background:#12924F">LONG ▲</div>
+<div class="lv" id="lvs" style="left:560px;background:#D7263D">SHORT ▼</div>
+<div class="tag w" id="lvo" style="left:392px;top:384px">on other platforms</div>
+
+<!-- the phones -->
+<div id="pill"><img src="img/Bagel_Logo_Black.svg"><span>from Bagel's store page</span></div>
+<div class="tag" id="mma" style="right:61px;top:92px">MMA · UFC 334 · Sat 14 Nov</div>
+<div class="tag" id="slip" style="right:61px;top:92px">2 picks · 1 combo</div>
+<div class="ph" id="phA"><img src="img/phone2.png">
+  <div class="ring" id="rBk"></div><div class="ring" id="rEs"></div><div class="ring" id="rC1"></div><div class="ring" id="rC2"></div>
+</div>
+<div class="ph" id="phB"><img src="img/phone1.png">
+  <div class="ring" id="rSp"></div><div class="ring" id="rCr"></div>
+  <div class="tag" id="tSpec">My specialty</div><div class="tag w" id="tCr">I'd love to… but</div>
+</div>
+<div class="ph" id="phC"><img src="img/phone2.png">
+  <div class="ring" id="rHd"></div><div class="ring" id="rP1"></div><div class="ring" id="rP2"></div>
+  <svg class="abs" id="chain" style="left:0;top:0" width="958" height="1723"><path id="chp" fill="none" stroke="#1F5FDB" stroke-width="7" stroke-linecap="round" stroke-dasharray="2 16"/></svg>
+  <div class="num" id="n1">1</div><div class="num" id="n2">2</div>
+</div>
+
+<div id="cap"><span id="capt"></span></div>
+
+<div id="end">
+  <img class="abs" id="elogo" src="img/Bagel_Logo_Black.svg" style="left:170px;top:540px;width:740px">
+  <div class="abs" id="etag" style="left:0;right:0;top:800px;text-align:center;font-size:58px">Predict on easy mode 🎮</div>
+  <div class="abs" style="left:0;right:0;top:970px;height:70px;display:flex;justify-content:center;gap:14px"><div class="lit" id="e0">Basketball</div><div class="lit" id="e1">Esports</div><div class="lit" id="e2">MMA</div><div class="lit" id="e3">Internationals</div></div>
+  <div class="abs" style="left:0;right:0;top:1056px;height:70px;display:flex;justify-content:center"><div class="lit" id="e4">Combo</div></div>
+  <div class="abs mono" id="eget" style="left:0;right:0;top:1220px;text-align:center;font-size:30px;color:var(--blue)">App Store · Google Play · @bagel_win</div>
+  <div class="abs" id="eby" style="left:0;right:0;top:1350px;text-align:center;font-size:52px">Video by <span style="color:var(--blue)">@Cmv_ng</span></div>
+  <div class="abs" id="erisk" style="left:0;right:0;top:1520px;text-align:center;font-size:30px;font-weight:600;color:var(--mute)">18+ · All trading involves risk · Not available in every country</div>
+</div>
+
+<script src="plan.js"></script>
+<script>
+const P = window.PLAN, E = P.ev, $ = id => document.getElementById(id)
+const cl = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x))
+const seg = (t, a, d) => cl((t - a) / d)
+const eo = x => 1 - Math.pow(1 - x, 3), eio = x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2
+const back = x => { const c = 1.9; return 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2) }
+let SIG = []
+const st = (el, o) => { for (const k in o) { const v = typeof o[k] === 'number' ? +o[k].toFixed(3) : o[k]; el.style[k] = v; SIG.push(v) } }
+const NOTEXT = location.hash.includes('notext')
+// a thing that pops in at a and (optionally) leaves at b
+const pop = (el, t, a, b = 1e9, d = .32) => { const k = eo(seg(t, a, d)) * (1 - seg(t, b, .22)); st(el, { opacity: cl(k * 1.6), transform: `scale(${(.86 + .14 * back(seg(t, a, d))).toFixed(4)})` }); return k }
+// phone coordinates: Bagel's art is 1368 px wide and drawn at 958
+const S = 958 / 1368
+const place = (el, x0, y0, x1, y1, pad = 10) => { el.style.left = (x0 * S - pad) + 'px'; el.style.top = (y0 * S - pad) + 'px'; el.style.width = ((x1 - x0) * S + 2 * pad) + 'px'; el.style.height = ((y1 - y0) * S + 2 * pad) + 'px' }
+place($('rBk'), 1052, 430, 1310, 530, 4); place($('rEs'), 712, 430, 1026, 530, 6)
+place($('rC1'), 122, 590, 1246, 1290, 2); place($('rC2'), 122, 1350, 1246, 2050, 2)
+$('rC1').style.borderRadius = $('rC2').style.borderRadius = '40px'
+place($('rSp'), 120, 664, 690, 816, 6); place($('rCr'), 130, 890, 430, 1000, 6)
+place($('rHd'), 392, 268, 972, 372, 6); place($('rP1'), 972, 884, 1196, 994, 4); place($('rP2'), 972, 1638, 1196, 1748, 4)
+for (const [id, x, y] of [['tSpec', 720, 700], ['tCr', 470, 905]]) { $(id).style.left = x * S + 'px'; $(id).style.top = y * S + 'px' }
+$('n1').style.left = (972 * S - 62) + 'px'; $('n1').style.top = (939 * S - 26) + 'px'; $('n2').style.left = (972 * S - 62) + 'px'; $('n2').style.top = (1693 * S - 26) + 'px'
+const CH = [[(972 * S - 36), 939 * S + 30], [(972 * S - 36), 1693 * S - 30]]
+
+function phone(el, t, up, down) {                       // rises in front of the lens, drops away
+  const a = eo(seg(t, up, .5)), b = seg(t, down, .34), y = (1 - a) * 1780 + b * b * 1780
+  st(el, { opacity: t > up - .02 && t < down + .4 ? 1 : 0, transform: `translateY(${y.toFixed(1)}px) rotate(${((1 - a) * -3.5 + b * 2.5).toFixed(3)}deg)` })
+  return a * (1 - b)
+}
+function ring(el, t, a, b = 1e9) { const k = eo(seg(t, a, .28)) * (1 - seg(t, b, .2)); st(el, { opacity: k, transform: `scale(${(1.14 - .14 * eo(seg(t, a, .28))).toFixed(4)})` }) }
+function card(el, t, a, b) { const k = eo(seg(t, a, .42)), o = seg(t, b, .3); st(el, { opacity: cl(k * 1.5) * (1 - o), transform: `translateY(${((1 - k) * -46 - o * 34).toFixed(1)}px) scale(${(.965 + .035 * k).toFixed(4)})` }) }
+
+window.render = function (t) {
+  SIG = []
+  // ---- 1: the hook
+  card($('c1'), t, -1, E.card1_out); st($('c1'), { height: (294 + 78 * eo(seg(t, E.intl - .3, .35))) + 'px' })
+  st($('dot'), { opacity: .45 + .55 * Math.abs(Math.sin(t * 3.2)) })
+  for (let i = 0; i < 4; i++) {
+    const el = $('lg' + i); pop(el, t, -1)
+    const g = seg(t, E.leagues + i * .42, .3)
+    st(el, { background: g > .5 ? '#EEF1F6' : '#fff', color: g > .5 ? '#9AA6BD' : '#0B1F4D' }); el.firstChild.style.setProperty('--k', g.toFixed(3)); SIG.push(g.toFixed(3))
+  }
+  pop($('intl'), t, E.intl - .1)
+  st($('paused'), { opacity: seg(t, E.leagues + 1.75, .3) })
+  // ---- 2: fixtures
+  const fa = [E.eng, E.esp, E.ger, E.bra, E.quals]
+  card($('c2'), t, E.eng - .42, E.fix_out); st($('c2'), { height: (92 + fa.reduce((a, x) => a + 62 * eo(seg(t, x - .42, .3)), 0)) + 'px' })
+  for (let i = 0; i < 5; i++) {
+    const k = eo(seg(t, fa[i] - .3, .34)); st($('fx' + i), { opacity: k, transform: `translateX(${((1 - k) * 40).toFixed(1)}px)` })
+    const tg = $('fx' + i).querySelector('.tg'), kind = tg.dataset.k
+    const hot = (kind === 'f' && t >= E.friendly && t < E.friendly + 1.3) || (kind === 'n' && t >= E.nations && t < E.nations + 1.9) || (kind === 'q' && t >= E.quals + .1 && t < E.quals + 2.2)
+    tg.className = 'tg' + (hot ? ' hot' : ''); SIG.push(hot)
+  }
+  // ---- 3: Polymarket and Bagel
+  card($('c3'), t, E.pm_in, E.pm_out); st($('c3'), { height: (228 + 70 * eo(seg(t, E.pm_plays - .25, .3)) + 74 * eo(seg(t, E.pm_bagel + .7, .3))) + 'px' })
+  st($('bxb'), { borderColor: t >= E.pm_in + .3 && t < E.pm_poly ? '#1F5FDB' : '#E3E9F4' }); st($('bxp'), { borderColor: t >= E.pm_poly && t < E.pm_plays + 2 ? '#1F5FDB' : '#E3E9F4' })
+  { const k = eo(seg(t, E.pm_poly - .1, .4)); $('arp').style.strokeDasharray = 200; $('arp').style.strokeDashoffset = (200 * (1 - k)).toFixed(1); SIG.push(k.toFixed(3)) }
+  pop($('mk1'), t, E.pm_plays)
+  { const k = eio(seg(t, E.pm_bagel - .45, .6)); st($('mk2'), { opacity: seg(t, E.pm_bagel - .45, .12), transform: `translateX(${(k * 480).toFixed(1)}px)` }) }
+  { const k = eo(seg(t, E.pm_bagel + .9, .4)); st($('same'), { opacity: k, transform: `translateY(${((1 - k) * 14).toFixed(1)}px)` }) }
+  // ---- leverage
+  pop($('lvl'), t, E.longs - .08, E.lev_out); pop($('lvs'), t, E.shorts - .08, E.lev_out); pop($('lvo'), t, E.shorts + .75, E.lev_out)
+  // ---- phones
+  const a1 = phone($('phA'), t, E.ph1_up, E.ph1_down), a2 = phone($('phB'), t, E.ph2_up, E.ph2_down), a3 = phone($('phC'), t, E.ph3_up, E.ph3_down)
+  const up = Math.max(a1, a2, a3)
+  { const k = eo(cl(up * 1.4)); st($('pill'), { opacity: k, transform: `translateY(${((1 - k) * -30).toFixed(1)}px)` }) }
+  ring($('rBk'), t, E.basket, E.every); ring($('rEs'), t, E.esports, E.every); pop($('mma'), t, E.mma - .05, E.ph1_down - .1)
+  ring($('rC1'), t, E.every, E.ph1_down); ring($('rC2'), t, E.every + .35, E.ph1_down)
+  ring($('rSp'), t, E.sports - .1, E.crypto - .2); pop($('tSpec'), t, E.sports + .9, E.crypto - .2)
+  ring($('rCr'), t, E.crypto - .1, E.ph2_down); pop($('tCr'), t, E.crypto + .3, E.ph2_down)
+  ring($('rHd'), t, E.allin - .1, E.combo + .2)
+  ring($('rP1'), t, E.combo + .25); pop($('n1'), t, E.combo + .3)
+  ring($('rP2'), t, E.sleek - .5); pop($('n2'), t, E.sleek - .45)
+  { const k = eio(seg(t, E.sleek - .2, .7)), y = CH[0][1] + (CH[1][1] - CH[0][1]) * k
+    $('chp').setAttribute('d', `M${CH[0][0]} ${CH[0][1]} L${CH[0][0]} ${y.toFixed(1)}`); $('chain').style.opacity = k > 0 ? 1 : 0; SIG.push(k.toFixed(3)) }
+  pop($('slip'), t, E.sleek + .55, E.ph3_down - .1)
+  // ---- captions
+  let c = null
+  for (const x of P.caps) if (t >= x.o0 && t < x.o1) c = x
+  const cap = $('cap')
+  if (c && !NOTEXT) {
+    const html = c.t.replace(/\*([^*]+)\*/g, '<b>$1</b>')
+    if ($('capt').innerHTML !== html) $('capt').innerHTML = html
+    const k = eo(seg(t, c.o0, .12)); st(cap, { opacity: k, transform: `translateY(${((1 - k) * 8).toFixed(1)}px)` }); SIG.push(c.o0)
+  } else st(cap, { opacity: 0 })
+  // ---- end card
+  { const k = eo(seg(t, P.end - .05, .5)); st($('end'), { opacity: k > 0 ? 1 : 0, transform: `translateY(${((1 - k) * 1920).toFixed(1)}px)` })
+    const e0 = P.end + .35
+    st($('elogo'), { opacity: seg(t, e0, .3), transform: `scale(${(.9 + .1 * back(seg(t, e0, .45))).toFixed(4)})` })
+    st($('etag'), { opacity: seg(t, e0 + .3, .3) })
+    for (let i = 0; i < 5; i++) pop($('e' + i), t, e0 + .6 + i * .12)
+    st($('eget'), { opacity: seg(t, e0 + 1.25, .3) }); st($('eby'), { opacity: seg(t, e0 + 1.5, .3) }); st($('erisk'), { opacity: seg(t, e0 + 1.7, .3) }) }
+  return SIG.join('|')
+}
+window.READY = Promise.all([document.fonts.ready, ...[...document.images].map(i => i.decode().catch(() => 0))]).then(() => document.fonts.load('800 40px Manrope')).then(() => document.fonts.load('106px Anton')).then(() => document.fonts.load('700 24px Mono'))
+</script>
+</body></html>

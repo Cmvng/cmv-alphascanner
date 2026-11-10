@@ -28,6 +28,69 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
+## 10 Nov: the owner's recording, Bagel and the international break (studio look, 1:40, 9:16)
+
+`video/templates/talking-head/camera-bagel-break-2026-11-10/`. A new tool: `video/lib/portrait_pro_long.py`.
+
+- **The brief:** *"I just made a video on @bagel_win. So I need you to create me a clean video about bagel and the app
+  interface and all I was talking about.... Take your time to get me a clean work."* A 1:47 selfie, upright 4K, the
+  owner talking about the international break and what is still on Bagel. Ninety minutes in: *"I hope you will make
+  this video to actually be professionally done. The background, every single thing. Don't come and give me rubbish
+  work."*
+- **What worked:**
+  - **The studio look on a whole recording.** The 9 Nov "pro" look only ran on a few seconds. `portrait_pro_long.py`
+    does it in steps that keep to disk (prep, matte, preview, render with four workers) and draws only the frames the
+    cut keeps. The wall, tape marks and curtain became a smooth blue backdrop: a lens blur, then most of it blurred far
+    wider, evened out and washed with the house blue, with a soft glow behind the head.
+  - **Real screens only.** The phones are Bagel's own store art (phone and screen as published). Nothing was redrawn.
+    The owner's 29 Oct recording was left out: its phone is about 460 px wide with the face-cam over it.
+  - **A phone rising in front of the lens,** the camera going soft behind it, three times. Outlines land on the real
+    tabs and prices as the owner names them.
+  - **Facts from two sources.** Every fixture on the card is in ESPN's feed and is an open Polymarket market.
+  - **Cuts in real silences.** 1:47 to 1:36 with every point kept. All ten cut edges measure under -47 dB. The hear-back
+    of the final passed all 43 captions (four flags, all the model hearing "Bagel" as "beagool").
+  - **The voice chain from 5 Oct** (clip repair, WPE, DeepFilterNet3), with the level trimmed after measuring.
+  - **Checked on stills before each long step:** two frames of the look, then ten across the video, before the 39-minute
+    render; 30 composites before the first full render.
+- **Mistakes, and how they got through:**
+  1. **I planned the edit on the room as shot.** On 9 Nov the owner had asked whether I grade their recordings and fix
+     the background, and said of the test "good, but I need it to be the best". I read the older rule (their footage
+     is never restyled, from the art series) and not that conversation. They had to write again mid-work. The first
+     base build and its stills, about 25 minutes, were thrown away.
+  2. **The first soft-focus step used an ffmpeg `blend` with a time expression,** which is worked out for every pixel.
+     It ran at a crawl for six minutes before I stopped it.
+  3. **The second attempt was killed for memory.** Three blurred overlays each started late, and ffmpeg held the sharp
+     frames in memory until each arrived. Now one blurred copy runs the full length.
+  4. **A card with an empty band.** The fixtures card showed only its title for three seconds, and the Polymarket card
+     sat half empty. The 23 Oct review already says to fill a card from the moment it appears. Two were caught on
+     stills, the third only on the full check. Cards now grow as their rows land.
+  5. **Two tags read as labels of the wrong card** ("Esports" sat on the tennis card's edge). Removed; the outlines are
+     enough.
+  6. **The first frame was mid-animation,** and the focus change began half a second before the phone, while the owner
+     was still saying "Bagel". Both were found on the half-second sheets of the first full render and cost a second
+     render (ten minutes).
+  7. **One-pass loudnorm landed at -15.3 LUFS.** The build now measures the mix and trims it to -14.
+- **Change next time:**
+  - For any recording of the owner on camera, the studio look is the default. Before planning, read the last thing the
+    owner said about that kind of footage, not only the standing rules.
+  - Start the matte as soon as the recording is downloaded: it needs nothing from the plan, and it is the long step.
+  - Fade a blurred copy in and out with `fade=alpha=1`; never `blend` with an expression, and never an overlay input
+    that starts late.
+  - Every card grows with its rows; check that on the first stills.
+  - Render the first frame as a poster frame: nothing animating in at t = 0.
+- **Final review:** 99.6 s, 2,988 frames, 1080×1920, 30 fps. -14.0 LUFS, true peak -3.1 dBTP. Checked every half
+  second on ten sheets, twice (the second after the fixes), and at full size on four frames with hands at the face:
+  no halo, no rim. 15 picture segments, each cut hidden by a 5% punch-in. Colour: the backdrop and shirt are blue,
+  cards white, Bagel's yellow only in its own logo and screen, green and red only on LONG and SHORT. Music "Sonor 01"
+  (Mixkit 558), opening up as the first phone rises; no made sounds. No reaction stickers: the owner is on camera
+  throughout.
+- **Time:** about 2 h 20 min from the link to the delivered file. The studio look was 56 minutes of that (prep 3, matte
+  14, render 39).
+- **Told the owner plainly:** the app screens are Bagel's store images, not today's app, and a short screen recording
+  would let me swap them; "two and a half weeks" is 13 days by the Premier League's own fixtures; "offshoot of
+  Polymarket" stays in the caption, with "Built on Polymarket's markets" on the card.
+- **The owner's reaction:** (waiting)
+
 ## 9 Nov: three films at once: the drawing as a lit relief (30.8 s), Primus "The Bouncer" (Lara, 1:19), Bagel "Sleep on it" (30.5 s)
 
 - **The brief:** the owner: *"create me something that is cool. That when someone sees it, like okay, wow"* (the Gamdom drawing); *"a Primus video, something that is fresh… what you need to know as a regular user"*; *"a fresh, clean, new inspiration idea for Bagel… take your time and deliver me a masterpiece."* Then on sound: *"use top trending music that does not have copyrights… from top artists that people use on TikTok and on Instagram."*
