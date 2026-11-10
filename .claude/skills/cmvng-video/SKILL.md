@@ -1,9 +1,17 @@
 ---
 name: cmvng-video
-description: Make and send the cmvng picks video, results video or match preview video from cmvngpicks.com. Use when the owner asks for "today's picks video", "the singles video", "tonight's singles", "top singles for today", "the results video", "results for today", "a preview of <match>", "the analysis for <match>", "match analysis", "a video for X / YouTube", "football talk video", or a video for a named session or date.
+description: Make any video for the owner (@Cmv_ng). Use for every video request, whatever the kind: the cmvng picks, results, preview, match analysis and post-match videos from cmvngpicks.com; an edit of a recording the owner filmed ("I just made a video", a Dropbox or Drive link, an X post); a video for a project (Bagel, Primus Labs, Gamdom, Polymarket, any crypto project); an explainer, a hype edit, a reel, an art film; a redo or a fix of an earlier video. Triggers include "create me a video", "make a video", "edit this video", "today's picks video", "the results video", "a preview of <match>", "the analysis for <match>", "a video for X / YouTube / TikTok". Always start from video/OWNER-CHECKPOINT.md.
 ---
 
-# cmvng picks / results video
+# The owner's videos
+
+**Start here, every time: `video/OWNER-CHECKPOINT.md`.** It is the one page of what the owner likes and will not accept
+(sound, look, real material, reactions, wording, process), with a list to settle before starting and a list to pass
+before sending. It is loaded by `CLAUDE.md` at the start of every session. This skill holds the detail for each kind of
+video; where it and the checkpoint disagree, the checkpoint wins. Before sending, run
+`python3 -I video/lib/preflight.py <video> --kind … --music …`: a FAIL means the video does not go out.
+
+## Picks and results videos
 
 The owner asks in plain words; you fetch the real singles from the live site, write the presenter's script like a football analyst, render, check, and send the video. Picks, prices and percentages always come from the app. Never type or guess them.
 
