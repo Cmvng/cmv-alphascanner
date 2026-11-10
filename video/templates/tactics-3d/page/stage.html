@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <!-- THE 3D STAGE (explainers on the tactical-board engine, 9 Nov 2026). A round stage with a wall and a door, lacquer
-     chess pieces as the characters, and flat props drawn on canvas (cards, pages, a browser window, a proof ticket).
+     simple people and a robot as the characters (pieces with kind 'person' / 'robot'; chess pieces otherwise), and flat props drawn on canvas (cards, pages, a browser window, a proof ticket).
      Everything timed comes from plan.js (window.PLAN) in take seconds; T() maps take time to video time (the pause after
      the cold open included). On top, in HTML: name tags and chips pinned to the 3D scene, panels (panels.js: real
      screens, quotes, stats, big words, the end card), reaction stickers and the caption pill. -->
@@ -60,9 +60,12 @@ function build() {
   if (P.box) { const b = S.makeBox(P.box); b.position.set(...P.box.at); b.rotation.y = P.box.ry || 0; scene.add(b)
     ;(P.box.pile || []).forEach((t0, i) => { const m = new THREE.Mesh(new THREE.BoxGeometry(2.3, .07, 1.5), new THREE.MeshPhysicalMaterial({ color: ['#fbf7ee', '#e9eef8', '#f3ead8'][i % 3], roughness: .5 })); m.castShadow = true
       m.position.set(P.box.at[0] + ((i * 37) % 7 - 3) * .05, (P.box.h || 3.2) + .06 + i * .075, P.box.at[2] + ((i * 53) % 5 - 2) * .05); m.rotation.y = (P.box.ry || 0) + ((i * 29) % 9 - 4) * .07; m.visible = false; scene.add(m); PILE.push({ m, t: T(t0) }) }) }
-  PCS = P.pieces.map(d => { const p = B3.makePiece({ c1: d.c1, c2: d.c2 }, d.role); scene.add(p)
+  PCS = P.pieces.map(d => { const p = d.kind === 'person' ? S.makePerson(d) : d.kind === 'robot' ? S.makeRobot({ ...d, logo: d.logo && LOGOS[d.logo] }) : B3.makePiece({ c1: d.c1, c2: d.c2 }, d.role); scene.add(p)
     const tag = document.createElement('div'); tag.className = 'tag'; tag.style.background = d.tagc || d.c1; tag.style.borderTopColor = d.tagc || d.c1; tag.textContent = d.name || ''; $('tags').appendChild(tag)
-    return { d, p, tag, keys: KT(d.keys), rot: d.rot ? KT(d.rot) : null, tilt: d.tilt ? KT(d.tilt) : null, names: (d.names || []).map(n => [T(n[0]), n[1]]), sc: d.scale || 1.25 } })
+    const keys = KT(d.keys), turns = (d.face || []).map(f => [T(f[0]), f[1]])                     // turns: [video time, heading]; +z is 0, +x is 90 degrees
+    for (let j = 1; j < keys.length; j++) { const dx = keys[j][1] - keys[j - 1][1], dz = keys[j][2] - keys[j - 1][2]; if (Math.hypot(dx, dz) > .2) turns.push([keys[j - 1][0], Math.atan2(dx, dz)]) }
+    turns.sort((x, y) => x[0] - y[0])
+    return { d, p, tag, keys, turns, rot: d.rot ? KT(d.rot) : null, tilt: d.tilt ? KT(d.tilt) : null, names: (d.names || []).map(n => [T(n[0]), n[1]]), sc: d.scale || 1.25 } })
   CDS = (P.cards || []).map(d => { const c = S.makeCard({ w: d.w, h: d.h, px: d.px || 1024, coat: d.coat, draw: (g, w, h, st) => window.DRAW[d.kind](g, w, h, st, d) }); scene.add(c)
     return { d, c, keys: KT(d.keys), st: KT(d.states || [[0, 0]]), op: KT(d.op || [[0, 1]]), bill: d.bill ? KT(d.bill) : null } })
   ARR = (P.arrows || []).map(o => { const a = B3.makeArrow(o); scene.add(a); return a })
@@ -87,14 +90,20 @@ window.render = async t => {
   cam.updateMatrixWorld()
   const POS = {}
   for (const o of PCS) {
-    const v = B3.keyAt(o.keys, t); let hop = 0
+    const v = B3.keyAt(o.keys, t); let hop = 0, walk = 0, wamp = 0, head = o.d.ry != null ? o.d.ry : (o.turns.length ? o.turns[0][1] : 0)
+    const fig = o.p.userData.kind === 'person' || o.p.userData.kind === 'robot'
+    // people face where they walk, or where a `face` key says; each turn takes 0.3 s (a pure function of t, so chunks agree)
+    for (const [te, he] of o.turns) { if (te > t) break; let dh = he - head; while (dh > Math.PI) dh -= 2 * Math.PI; while (dh < -Math.PI) dh += 2 * Math.PI; head += dh * B3.eio((t - te) / .3) }
     { const K = o.keys; let i = 1; while (i < K.length && t >= K[i][0]) i++
-      if (i < K.length && t > K[i - 1][0]) { const a = K[i - 1], b = K[i], dist = Math.hypot(b[1] - a[1], b[2] - a[2]); if (dist > .2) { const u = (t - a[0]) / (b[0] - a[0]), n = Math.max(1, Math.round(dist / 4)); hop = Math.abs(Math.sin(u * Math.PI * n)) * Math.min(.9, .25 + dist * .05) * (o.d.hop != null ? o.d.hop : 1) } } }
+      if (i < K.length && t > K[i - 1][0]) { const a = K[i - 1], b = K[i], dist = Math.hypot(b[1] - a[1], b[2] - a[2]); if (dist > .2) { const u = (t - a[0]) / (b[0] - a[0]), n = Math.max(1, Math.round(dist / 4))
+        if (fig) { walk = B3.eio(u) * dist * 1.5 / o.sc; wamp = Math.min(1, Math.sin(Math.PI * u) * 3); hop = Math.abs(Math.sin(walk)) * .1 * wamp * o.sc * (o.d.hop != null ? o.d.hop : 1) }
+        else hop = Math.abs(Math.sin(u * Math.PI * n)) * Math.min(.9, .25 + dist * .05) * (o.d.hop != null ? o.d.hop : 1) } } }
     let vq = 1; if (o.d.vis) vq = inWin(o.d.vis, t, .4, .35)
     const pop = o.d.vis ? (vq >= 1 ? 1 : 1 + .12 * Math.sin(Math.PI * B3.cl(vq))) : 1
     o.p.visible = vq > .001; o.p.scale.setScalar(o.sc * B3.eo(vq) * pop)
     const hq = inWin(o.d.hi, t, .25, .3); o.p.userData.ring.material.opacity = .9 * hq; o.p.userData.ring.material.color.set(o.d.ringc || '#7cc8ff')
-    o.p.position.set(v[0], .02 + hop, v[1]); o.p.rotation.set(0, o.rot ? S.keys(o.rot, t)[0] : (o.d.ry || 0), 0)
+    o.p.position.set(v[0], .02 + hop, v[1]); o.p.rotation.set(0, o.rot ? S.keys(o.rot, t)[0] : (fig && head != null ? head : (o.d.ry || 0)), 0)
+    if (fig) { o.p.userData.walk(walk, wamp); if (o.p.userData.kind === 'robot') { o.p.position.y += .08 * Math.sin(t * 2.2); o.p.rotation.z = .03 * Math.sin(t * 1.7) } }
     if (o.tilt) { const r = S.keys(o.tilt, t); o.p.rotation.x = r[0]; o.p.rotation.z = r[1] }
     if (o.names.length) { let nm = o.d.name; o.names.forEach(n => { if (t >= n[0]) nm = n[1] }); if (o.tag.textContent !== nm) o.tag.textContent = nm }
     const top = (o.d.th || 3.3) * o.sc + .9; tmp.set(v[0], top + hop, v[1]); const s = B3.toScreen(tmp); POS['piece:' + o.d.id] = [v[0], top + hop, v[1]]
@@ -125,7 +134,8 @@ const load = src => new Promise(r => { const sc = document.createElement('script
 const flowReady = P.flow ? Promise.all([load(P.sroot + 'lib.js'), load('file:///home/user/cmv-alphascanner/video/lib/react_flow.js'), load('words.js')]).then(() => {
   const base = { lib: window.RLIB, root: P.sroot, fps: FPS, T, words: (window.WORDS || []).map(w => ({ s: w[0], e: w[1], w: w[2] })) }
   RF = ReactFlow.create({ ...base, ...P.flow, img: $('stk') }); if (P.flow2) RF2 = ReactFlow.create({ ...base, ...P.flow2, img: $('stk2') }) }) : Promise.resolve()
-window.READY = Promise.all([flowReady, document.fonts.load('300 80px Osw'), document.fonts.load('80px Anton'), document.fonts.load('800 40px Man'), document.fonts.load('600 26px Man'), window.PANELS_READY || Promise.resolve()]).then(build)
+const LOGOS = {}, logoReady = Promise.all([...new Set(P.pieces.map(d => d.logo).filter(Boolean))].map(src => new Promise(r => { const im = new Image(); im.onload = () => { const c = document.createElement('canvas'); c.width = c.height = 512; c.getContext('2d').drawImage(im, 0, 0, 512, 512); LOGOS[src] = c; r() }; im.onerror = r; im.src = src })))
+window.READY = Promise.all([flowReady, logoReady, document.fonts.load('300 80px Osw'), document.fonts.load('80px Anton'), document.fonts.load('800 40px Man'), document.fonts.load('600 26px Man'), window.PANELS_READY || Promise.resolve()]).then(build)
 </script>
 </body>
 </html>

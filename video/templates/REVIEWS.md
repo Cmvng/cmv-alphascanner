@@ -51,8 +51,10 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
   9. **Disk fell to 3.5 GB** (the floor is 4). An unused 3.9 GB speech model from the 7 Nov voice test was still cached; removed.
   10. **Five renders shared four CPUs.** I started the Bagel and drawing renders, cover stills and a hear-back while the Primus chunks ran. Everything slowed to a crawl (Primus took 85 minutes, Bagel 66); the last review said to keep covers off the CPUs during a full render.
   11. **The second reaction peaked late.** The chin-rub clip reaches its peak about 1.6 s in, so keyed on "read the request" it peaked after the cut to "Three:". The stills I checked were of the frame around the line, not a second after it. Found on the final at full size; keyed a line earlier and one chunk (5 s) rendered again.
+  13. **Chess pieces as the cast of the Primus video.** I reused the football board's pieces because they were built and rendered well: a rook as the bouncer, a pawn as "you", a knight as the Primus node, on a checkered floor. The owner, the next morning: *"Why did you use chess pieces for the Primus lab video… It makes it look weird."* They were right: nothing in a crypto story calls for chess, and the viewer has to translate every character. Rebuilt with people (a bouncer in dark glasses, you in blue, a grey queue), a small orange robot with Primus's real logo for the node, and a plain floor; the whole video rendered again on the same voice take.
   12. **Widescreen only at first.** The owner named TikTok and Instagram, and their own footage is upright. I built both music films 16:9 and added the upright cuts afterwards (the drawing: each clip full height at its own pixels; Bagel: its own cameras and type).
 - **Change next time:**
+  - **Cast a story with what the story is about.** People for people, the project's own logo on the project's thing. An asset from another format (the board's chess pieces) only moves over if it means something in the new story.
   - Before adding any sound that is not the track or the voice, read the owner's notes for that series. Default: none.
   - Queue full renders one after another; stills and covers wait.
   - Test both faces of anything that turns, and every prop at the size it will have in the shot, in the look test.
@@ -64,7 +66,7 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
   - **Primus "The Bouncer":** 78.7 s, 2,361 frames, 1920×1080, crf 16. −14.6 LUFS, true peak −1.3 dBFS. Checked at 2 fps across the whole length: no empty frames beyond the two washes, no overlaps. All 15 chunk joins continuous (one measured 2.4 of 255 at a keyframe on a still shot; nothing to see). Hear-back on the mix: 41 captions, the 3 flagged were numbers heard as digits. Both reactions at their peak about a second into their lines, checked at full size (the second after the re-time). Colour: blue 54%, white/grey 42%, red 2%, yellow 0%. Music "P.D." (413).
   - **Bagel "Sleep on it":** 30.5 s, 916 frames, 1920×1080 and 1080×1920. −14.4 LUFS, true peak −0.8 dBFS. Both shapes checked at 2 fps. Colour: blue 60%, white/grey 30%, yellow 4% (Bagel's own). Music "Mi Gente" (284), plus clock ticks and two chimes.
   - **Render times with everything running at once:** Primus 85 minutes, Bagel 66 minutes widescreen and 43 upright, the drawing 25 minutes widescreen and 22 upright. Queued one after another they would have taken about the same in total, and each would have been watchable sooner.
-- **The owner's reaction:** (pending)
+- **The owner's reaction (10 Nov):** on Primus: *"Why did you use chess pieces for the primus lab video.. It makes it look weird."* Recast and re-rendered (mistake 13). Nothing yet on the drawing film or Bagel.
 
 ## 9 Nov: post-match, Sunderland 1-0 Chelsea "Why Chelsea lost" on the new 3D board (Lara, 2:06, 16:9)
 

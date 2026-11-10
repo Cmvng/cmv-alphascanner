@@ -1,7 +1,8 @@
 /* stage3d.js: a small 3D theatre for explainers, on the same engine as the tactical board (board3d.js must load first).
    A round checkered stage on the house sky, a wall with a door that opens, a sign that flips, and flat props drawn on
-   canvas (cards, pages, tickets, screens). Characters are the same lacquer chess pieces. First used for the Primus
-   "bouncer" explainer (9 Nov 2026). Units: y up; the action runs along x toward the door at +x; the camera sits at +z. */
+   canvas (cards, pages, tickets, screens). Characters are simple people and a robot (makePerson, makeRobot); the board's
+   chess pieces still work but read as chess, not as people (the owner, 10 Nov: "it makes it look weird").
+   First used for the Primus "bouncer" explainer (9 Nov 2026). Units: y up; the action runs along x toward the door at +x; the camera sits at +z. */
 (function (G) {
   const T3 = THREE, B = G.B3, S = {}
   const lacquer = (color, o = {}) => new T3.MeshPhysicalMaterial({ color, roughness: o.rough != null ? o.rough : .28, metalness: 0, clearcoat: o.coat != null ? o.coat : 1, clearcoatRoughness: .08, envMapIntensity: 1 })
@@ -73,6 +74,45 @@
     if (o.label) { const c = document.createElement('canvas'); c.width = 512; c.height = 256; const x = c.getContext('2d'); x.fillStyle = '#fff'; x.font = '800 86px Man'; x.textAlign = 'center'; x.textBaseline = 'middle'; x.fillText(o.label, 256, 128)
       const l = new T3.Mesh(new T3.PlaneGeometry(w * .8, w * .4), new T3.MeshBasicMaterial({ map: ctex(c), transparent: true, toneMapped: false })); l.position.set(0, h * .5, d / 2 + .01); g.add(l) }
     return g }
+  // ---------- people: a simple figure (legs, body, arms, head) in the same lacquer, and a small robot. Both answer like a
+  // board piece (userData.ring for the highlight), face +z, and stand about 4.6 units tall at scale 1.
+  //   makePerson({ c1 body, c2 head, c3 legs, build: 1 | 1.35 (broad), shades: true (dark glasses), eyes: false })
+  //   makeRobot({ c1 body, c2 plate, logo: <image for the chest plate> })
+  const contact = () => { const c = document.createElement('canvas'); c.width = c.height = 128; const g = c.getContext('2d'), r = g.createRadialGradient(64, 64, 8, 64, 64, 64)
+    r.addColorStop(0, 'rgba(0,0,0,0.7)'); r.addColorStop(.45, 'rgba(0,0,0,0.32)'); r.addColorStop(1, 'rgba(0,0,0,0)'); g.fillStyle = r; g.fillRect(0, 0, 128, 128); return new T3.CanvasTexture(c) }
+  let CTX = null
+  const feet = (g, r) => { if (!CTX) CTX = contact(); const cs = new T3.Mesh(new T3.PlaneGeometry(r * 2.6, r * 2.6), new T3.MeshBasicMaterial({ map: CTX, transparent: true, depthWrite: false, opacity: .8 })); cs.rotation.x = -Math.PI / 2; cs.position.y = .03; g.add(cs)
+    const ring = new T3.Mesh(new T3.RingGeometry(r * 1.02, r * 1.3, 64), new T3.MeshBasicMaterial({ color: '#7cc8ff', transparent: true, opacity: 0, depthWrite: false })); ring.rotation.x = -Math.PI / 2; ring.position.y = .06; g.add(ring); return ring }
+  S.makePerson = (o = {}) => {
+    const g = new T3.Group(), B = o.build || 1, body = lacquer(o.c1 || '#1F5FDB', { rough: .34, coat: .8 }), head = lacquer(o.c2 || '#f3ead8', { rough: .4, coat: .6 }), leg = lacquer(o.c3 || o.c1 || '#1F5FDB', { rough: .36, coat: .8 }), dark = lacquer('#0b1220', { rough: .25 })
+    const limb = (r, len, mat) => { const piv = new T3.Group(), m = shadow(new T3.Mesh(new T3.CapsuleGeometry(r, len, 8, 20), mat)); m.position.y = -(len / 2 + r * .6); piv.add(m); return piv }
+    const legs = [-1, 1].map(s => { const l = limb(.3 * Math.sqrt(B), .82, leg); l.position.set(s * .36 * B, 1.52, 0); g.add(l); return l })
+    const torso = shadow(new T3.Mesh(new T3.CapsuleGeometry(.74, .92, 10, 28), body)); torso.scale.set(B, 1, .8); torso.position.y = 2.28; g.add(torso)
+    const arms = [-1, 1].map(s => { const a = limb(.22 * Math.sqrt(B), .92, body); a.position.set(s * (.74 * B + .2), 2.86, 0); a.rotation.z = s * .1; g.add(a); return a })
+    const hd = shadow(new T3.Mesh(new T3.SphereGeometry(.64, 40, 28), head)); hd.position.y = 3.92; g.add(hd)
+    if (o.shades) { const bar = new T3.Mesh(new T3.CylinderGeometry(.655, .655, .2, 40, 1, true, -1.05, 2.1), dark); bar.position.y = 3.98; g.add(bar) }
+    else if (o.eyes !== false) for (const s of [-1, 1]) { const e = new T3.Mesh(new T3.SphereGeometry(.07, 14, 10), dark); e.position.set(s * .22, 3.98, .6); g.add(e) }
+    g.userData = { ring: feet(g, 1.25 * B), legs, arms, mat: body, kind: 'person',
+      walk: (ph, amp) => { legs[0].rotation.x = Math.sin(ph) * .6 * amp; legs[1].rotation.x = -Math.sin(ph) * .6 * amp; arms[0].rotation.x = -Math.sin(ph) * .45 * amp; arms[1].rotation.x = Math.sin(ph) * .45 * amp } }
+    return g
+  }
+  S.makeRobot = (o = {}) => {
+    const g = new T3.Group(), body = lacquer(o.c1 || '#FD4C00', { rough: .3 }), plate = lacquer(o.c2 || '#fbf7ee', { rough: .4, coat: .5 }), dark = lacquer('#0b1220', { rough: .2 })
+    const rb = (w, h, d, r, mat) => { const s = new T3.Shape(), x = -w / 2, y = -h / 2; s.moveTo(x + r, y); s.lineTo(x + w - r, y); s.quadraticCurveTo(x + w, y, x + w, y + r); s.lineTo(x + w, y + h - r); s.quadraticCurveTo(x + w, y + h, x + w - r, y + h); s.lineTo(x + r, y + h); s.quadraticCurveTo(x, y + h, x, y + h - r); s.lineTo(x, y + r); s.quadraticCurveTo(x, y, x + r, y)
+      const geo = new T3.ExtrudeGeometry(s, { depth: d, bevelEnabled: true, bevelThickness: .12, bevelSize: .12, bevelSegments: 5, curveSegments: 20 }); geo.translate(0, 0, -d / 2); return shadow(new T3.Mesh(geo, mat)) }
+    const base = shadow(new T3.Mesh(new T3.CylinderGeometry(.95, 1.15, .5, 48), dark)); base.position.y = .25; g.add(base)
+    const bd = rb(2.2, 2.0, 1.3, .5, body); bd.position.y = 1.72; g.add(bd)
+    const hd = rb(1.9, 1.3, 1.2, .45, body); hd.position.y = 3.62; g.add(hd)
+    const neck = shadow(new T3.Mesh(new T3.CylinderGeometry(.3, .3, .4, 24), dark)); neck.position.y = 2.86; g.add(neck)
+    const visor = rb(1.5, .7, .1, .3, dark); visor.position.set(0, 3.64, .72); g.add(visor)
+    for (const s of [-1, 1]) { const e = new T3.Mesh(new T3.CircleGeometry(.15, 24), new T3.MeshBasicMaterial({ color: '#ffffff', toneMapped: false })); e.position.set(s * .36, 3.66, .905); g.add(e) }
+    const ant = new T3.Mesh(new T3.CylinderGeometry(.05, .05, .6, 12), dark); ant.position.y = 4.6; g.add(ant); const tip = new T3.Mesh(new T3.SphereGeometry(.15, 20, 14), new T3.MeshBasicMaterial({ color: '#ffffff', toneMapped: false })); tip.position.y = 4.95; g.add(tip)
+    for (const s of [-1, 1]) { const a = shadow(new T3.Mesh(new T3.CapsuleGeometry(.2, .9, 8, 16), body)); a.position.set(s * 1.42, 1.75, 0); a.rotation.z = s * .12; g.add(a) }
+    for (const z of [1, -1]) { const pl = rb(1.3, 1.3, .06, .3, plate); pl.position.set(0, 1.74, z * .8); g.add(pl)
+      if (o.logo) { const tex = ctex(o.logo), lg = new T3.Mesh(new T3.PlaneGeometry(1.02, 1.02), new T3.MeshBasicMaterial({ map: tex, transparent: true, toneMapped: false })); lg.position.set(0, 1.74, z * .965); if (z < 0) lg.rotation.y = Math.PI; g.add(lg) } }
+    g.userData = { ring: feet(g, 1.35), mat: body, kind: 'robot', tip, walk: () => {} }
+    return g
+  }
   S.cardAt = (obj, k) => { obj.position.set(k[0], k[1], k[2]); obj.rotation.set(k[3] || 0, k[4] || 0, k[5] || 0); obj.scale.setScalar(k[6] != null ? k[6] : 1) }
   // keys [[t, v...]] with ease in-out between keys; values are arrays of numbers
   S.keys = (keys, t) => { if (t <= keys[0][0]) return keys[0].slice(1); const n = keys.length; if (t >= keys[n - 1][0]) return keys[n - 1].slice(1)

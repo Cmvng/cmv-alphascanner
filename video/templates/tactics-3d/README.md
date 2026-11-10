@@ -62,13 +62,16 @@ node cover/shot.mjs $PWD/cover/cover.html v cover.png    # and "t" for the thumb
 
 ## The stage: the same engine for explainers (9 Nov 2026, first used for Primus "The Bouncer")
 
-A round checkered stage, a wall with a door that opens, a sign that flips, a box that fills with files, and flat props
-drawn on canvas. The cast are the same lacquer pieces. `explainer/primus-bouncer-2026-11-09/` is the worked example.
+A round stage (checkered or plain), a wall with a door that opens, a sign that flips, a box that fills with files, and
+flat props drawn on canvas. **The cast are people, not chess pieces** (below). `explainer/primus-bouncer-2026-11-09/`
+is the worked example.
 
-- `page/stage3d.js` (`B3.stage`): `makeStage`, `makeDoor` (`userData.open(q)`), `makeSign` (`userData.flip(q)`),
+- `page/stage3d.js` (`B3.stage`): `makePerson` (legs, body, arms, head; `build` for a broad one, `shades` for dark
+  glasses), `makeRobot` (takes a logo for its chest plate), `makeStage`, `makeDoor` (`userData.open(q)`), `makeSign` (`userData.flip(q)`),
   `makeCard` (a prop drawn by `draw(ctx, w, h, state)`; `setState`, `setOpacity`), `makeBox`, `cardAt`, `keys`.
 - `page/stage.html`: the page. Plan keys: `stage`, `door`, `sign` (`flip` in take seconds or `flipv` in video
-  seconds), `box` (`pile` = when each file lands), `pieces` (they hop as they move; `names` renames a tag at a time),
+  seconds), `box` (`pile` = when each file lands), `pieces` (`kind: 'person' | 'robot'`: they walk, and face where they go or where a `face` key [[t, heading]] says;
+  without `kind` it is a chess piece that hops; `names` renames a tag at a time),
   `cards` (`keys` [[t, x, y, z, rx, ry, rz, scale]], `states`, `op`, `bill` = turn to face the camera), `pins` (a chip
   fixed to a point, `piece:id` or `card:id`), `cam`, `hits`, `wash`, `ui`, `caps`, `flow`/`flow2` (reactions).
   The props of one video live in its own `draw.js` (`window.DRAW[kind]`).
@@ -79,6 +82,13 @@ drawn on canvas. The cast are the same lacquer pieces. `explainer/primus-bouncer
 - `cues.py`: `Cues(words).S/E(phrase, nth)` and `captions(...)`, shared by every plan written against a narrator take.
 - `render_chunks.sh`: a long render as resumable chunks, started detached; `join` adds the mix.
 - `page/cover_still.html`: thumbnail and vertical cover from clean stills (`cover.js` beside it).
+
+### The cast: people, not chess pieces (the owner, 10 Nov 2026)
+The first cut of the Primus video used the football board's chess pieces as its characters: a rook for the bouncer, a
+pawn for "you", a knight for the Primus node. The owner: *"Why did you use chess pieces for the Primus video… It makes
+it look weird."* The pieces belong to the tactical board, where a board game is the idea. In a story about people they
+need translating. Explainers now use `makePerson` and `makeRobot`, a plain floor, and each project's own logo on the
+thing that stands for it. A reused asset has to fit the story; "it was already built" is not a reason.
 
 ### Lessons from the first stage video (all caught on stills)
 1. **A cue phrase said twice takes the first one.** "One:" matched "for one yes or no", and "You use it" matched

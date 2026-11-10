@@ -7,8 +7,9 @@ Crypto apps do the same with your bank statement. Primus is the door that checks
 bouncer becomes "The app". Later the door opens for a one-line ticket that says "Balance over $1,000: TRUE".
 
 **What's new versus the last Primus videos** (deal-the-cards, 5 Nov; glass, 14 Oct):
-- **A 3D stage.** Lacquer chess pieces as the cast (a rook bouncer, a pawn for you, an orange knight for the Primus
-  node), a wall with a door that opens, a sign that flips, a FILES box that fills up.
+- **A 3D stage with a cast of people.** A broad bouncer in dark glasses, you in blue, a grey queue, and the Primus
+  node as a small orange robot wearing Primus's own logo. A wall with a door that opens, a sign that flips, a FILES
+  box that fills up. (The first cut used chess pieces from the football board; you said it looked weird, and it did.)
 - **A story, then the proof.** The first 40 seconds act the idea out; then three real pages are shown whole and ringed:
   Unitas's live reserves, the Chrome store listing, the fee in the docs.
 - **Three things to know before you use it,** each with its own picture, including the line from Primus's own page:
@@ -22,20 +23,20 @@ bouncer becomes "The app". Later the door opens for a one-line ticket that says 
 - `primus-bouncer_cover.png` (1080×1920) and `primus-bouncer_thumbnail.png` (1280×720).
 
 ## The video, scene by scene
-1. **Cold open, the club door (0–11 s):** the pawn walks to the bouncer. The ID card rises and its rows light one by
+1. **Cold open, the club door (0–11 s):** you walk to the bouncer. The ID card rises and its rows light one by
    one (name, address, date of birth, ID number), then it drops into the FILES box. "He only needed: over 18 ✔".
 2. **The drop (11 s):** flash, low angle, the sign flips to CRYPTO APP. "Crypto has the same problem."
 3. **What a blockchain can't open:** three locked pages (bank, exchange, payslip). "Loan? Collateral first." Then the
    pages fly into the FILES box on "upload everything".
-4. **Primus flips that (24 s):** the browser window with the real site, the orange knight watching, "Encrypted
-   session". A ticket comes out: PROOF · ONE LINE, "Balance over $1,000", then TRUE.
-5. **The app checks the proof:** the ticket goes to the bouncer, he steps aside, the door opens and the pawn walks in.
+4. **Primus flips that (24 s):** the browser window with the real site, the orange robot turning to watch it,
+   "Encrypted session". A ticket comes out: PROOF · ONE LINE, "Balance over $1,000", then TRUE.
+5. **The app checks the proof:** the ticket goes to the bouncer, he steps aside, the door opens and you walk in.
    "Your statement stays with you."
 6. **It's live (40 s):** the real Unitas page, whole, then the two figures and the live timestamp ringed.
 7. **Three things to know:** 1 the source, not the truth (Primus's own disclaimer quoted); 2 the app sees what it
    asked for, so read the request; 3 early, no official token, points are a reputation score.
 8. **How (69 s):** the real Chrome store page (60,000 users) and the real FAQ (about 0.000035 ETH on Base).
-9. **Close:** "Prove the fact. Keep the file." The next pawn walks in with a ticket. Follow, @Cmv_ng.
+9. **Close:** "Prove the fact. Keep the file." The next person in the queue walks in with a ticket. Follow, @Cmv_ng.
 
 ## Post text (X)
 > To get into a club you prove you're over 18… by handing a stranger your whole ID.
