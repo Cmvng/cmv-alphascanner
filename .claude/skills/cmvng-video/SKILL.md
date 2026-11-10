@@ -97,12 +97,14 @@ slow paced way it was analyzing the game was giving me, okay, what is going on h
   wowed, for either pre analysis or post analysis").** That means a cinematic film score with a quiet build and a
   hard drop, like "A New Life". Never pick a track for a theme or mood instead (a jazz track for the newspaper format
   was wrong). `lib/music.json` marks the tracks that qualify `"wow": true`, measured: a jump of 12 dB or more at the drop
-  and a hit of 9 dB or more in the first half second. Analysis and post-match videos pick only from these. The pool:
-  A New Life, The Farewell, Fragments Of Bangkok, A Love Theme, Discover (all Eugenio Mininni, Mixkit). Keep growing
-  it with tracks that measure the same, and play new ones to the owner before relying on them.
-- **A new soundtrack every video.** The rotation never repeats one of the last six; keep the drop on the title.
-  Lean on the `cinematic` vibe for analysis and reviews (`"music_vibe": ["cinematic"]`; 10 tracks since 4 Oct, mostly
-  Eugenio Mininni film scores, each with a timed build and drop), and grow that pool when it runs thin.
+  and a hit of 9 dB or more in the first half second. That mark is a measurement, not the owner's approval.
+- **Only tracks the owner approved by ear go out** (10 Nov: "What about weird soundtrack did you add?"). `lib/music.json`
+  holds their verdict: `"owner": "approved"` ("A New Life"; on explainers also 720 and 370) or `"rejected"` ("Sonor 01",
+  "Fragments Of Bangkok"; "A Love Theme" is claimed on YouTube). The renderer picks analysis and post-match music from
+  the approved wow tracks only and refuses a rejected one. "The Farewell" and "Discover" measure right but the owner has
+  not judged them: send a 10-second sample, and add `"owner"` to the track when they answer.
+- **A different soundtrack from video to video is still the aim,** so grow the approved list with samples (two or three
+  at a time, each 10 seconds around its drop). Until it grows, "A New Life" is the track. Keep the drop on the title.
 - **Keep the measured pace** for analysis (1.05) with real pauses; don't rush the numbers.
 - **One new idea per video** (a different cold-open angle, transition, graphic or reveal), so no two look the same.
 - **Subtitles:** every render now writes a `.srt` next to the video (real names and digits); send it with the video.

@@ -4,7 +4,8 @@ The follow-up to every match analysis: what happened, the moments, the reactions
 
 ## Judging a verdict: called it or missed it (the owner's rule, 9 Oct 2026)
 
-There are only two results: **Called it** and **Missed it**. Never "half right".
+There are only two results: **Called it** and **Missed it**. Never "half right". Format notes further down that still
+mention a "half right" stamp or an amber colour describe videos made before 9 Oct: do not use that stamp.
 
 > "If you made a prediction that Chelsea will win or just there will be goals in the match, if it happened, that means
 > you called it. It's simple."
@@ -31,7 +32,7 @@ There are only two results: **Called it** and **Missed it**. Never "half right".
 | `meme` (white) | A white caption block over a reaction clip, with a punch zoom and a boom | "Portugal fans at 0–1:", "Højlund at Parken be like:" |
 | `meme` (`style: "pov"`) | Big "POV:" text over a full-screen reaction clip | "POV: you said Portugal win easy" |
 | `stats` | Full-time numbers as bars, plus a "stat that hurts" chip with a record scratch | "Won the xG 2.1–0.6. Still lost 😭" |
-| `read` | Our read before kick-off and the model bar, against the final score, with a stamp: CALLED IT ✅, MISSED IT ❌ or HALF RIGHT 🤏 | Every review: honesty builds trust |
+| `read` | Our read before kick-off and the model bar, against the final score, with a stamp: CALLED IT ✅ or MISSED IT ❌ | Every review: honesty builds trust |
 | `ratings` | Quick-fire ratings, one player a beat, each with an emoji | Hero to zero |
 | `quote` | A quote card: what a coach or player said after the game (short, attributed, from a dated report), with their photo or crest (`quote`, `who`, `role`, `player` for a photo) | The reaction from inside the camp |
 | `table` | The group table after the game, plus what it means | Nations League, league run-ins |

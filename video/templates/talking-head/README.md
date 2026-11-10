@@ -72,7 +72,8 @@ who's had a badge update… we want to hear from you").
   The subject keeps its own colours: a project's brand colour, a coin's colour. Green and red appear only where they
   mean something (up or down, right or wrong).
 - **Sound:** follow the reference: clean voice (DeepFilterNet3, as above), no bed under the voice, and a short sting on
-  the end card. If the owner asks for music, use a very soft bed about 20 dB under the voice, with no drop.
+  the end card. If the owner asks for music, follow `video/OWNER-CHECKPOINT.md`, "Sound": a track they approved, about
+  12 dB under the voice, its drop in the first seconds (the 20 dB bed tried here on 10 Nov read as "weird").
 - **Formats:** 16:9 first (X, YouTube). For a 9:16 cut, the owner films in 4K landscape with the face centred, and we
   crop 1215×2160. The graphics are redrawn for 9:16, not cropped.
 - **Ask the owner for:**
@@ -327,7 +328,8 @@ with the `side` panel low on the chest, clear of the face; the owner shrinks int
    confidence on the same 60 s): the old post chain (presence and air boosts, 4:1 compressor) 2.87 / −0.308, the new
    chain 2.96 / −0.272. Boosts lift the phone's hiss and the compressor pumps it; don't add them back. Generative
    restoration (Resemble Enhance) scored higher on DNSMOS but blurred the owner's consonants ("only market" for
-   "Polymarket"), so it is out. Keep the music about 25 dB under the voice (`level` −12, `duck` 12). Cut only at
+   "Polymarket"), so it is out. The music level here (about 25 dB under the voice, `level` −12, `duck` 12) is out of date: since 10 Nov it is
+   about 12 dB under (`video/OWNER-CHECKPOINT.md`, "Sound"). Cut only at
    silences, every edge below −45 dB, as for the other recordings. To redo only the sound of a finished edit, rebuild
    `voice.wav` on the rendered `plan.json` pieces (a new plan can move cut points by milliseconds), mix, and put the new
    mix on the old video stream (`-c:v copy`).

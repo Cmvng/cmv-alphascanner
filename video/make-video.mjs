@@ -139,12 +139,14 @@ function pickTrack() {
   const want = cfg.music_track && all.find(t => t.id === +cfg.music_track)
   // a track YouTube's Content ID has claimed blocks the whole video there: never use it, even when asked for by id
   if (want?.claimed) { console.error(`Music ${want.id} "${want.name}" is claimed on YouTube (${want.claimed}). Pick another track.`); process.exit(1) }
+  // a track the owner heard and rejected never goes out again either (video/OWNER-CHECKPOINT.md, "Sound")
+  if (want?.owner === 'rejected') { console.error(`Music ${want.id} "${want.name}" was rejected by the owner (${want.owner_note || 'see lib/music.json'}). Pick another track.`); process.exit(1) }
   // retired tracks (the old defaults the owner found repetitive) never come back in rotation; "drop" tracks only by id,
   // or in rotation for a video that opens on a drop (music_drop), optionally narrowed by music_vibe ("dark trap", ...)
   const vibes = cfg.music_vibe ? [].concat(cfg.music_vibe) : null
   // candidates (measured, not yet played to the owner) only by id
-  const lib = cfg.music_drop ? all.filter(t => !t.retired && !t.candidate && t.drop != null && (!vibes || vibes.includes(t.vibe)))
-    : all.filter(t => !t.retired && !t.candidate && t.mood !== 'drop')
+  const lib = cfg.music_drop ? all.filter(t => !t.retired && !t.candidate && t.owner !== 'rejected' && t.drop != null && (!vibes || vibes.includes(t.vibe)))
+    : all.filter(t => !t.retired && !t.candidate && t.owner !== 'rejected' && t.mood !== 'drop')
   const hist = path.join(CACHE, 'music', 'history.json')
   let h = { used: [], by: {} }
   try { const j = JSON.parse(fs.readFileSync(hist, 'utf8')); h = Array.isArray(j) ? { used: j, by: {} } : j } catch {}
@@ -162,8 +164,13 @@ function pickTrack() {
   if (!pool.length) pool = lib.filter(t => !h.used.slice(-3).includes(t.id))
   // analysis and post-match: only the soundtracks that wow (the owner, 4-6 Oct: a quiet build and a hard drop, like
   // "A New Life"; lib/music.json marks them "wow"). Never one of the last six if possible, else the least recently used
-  const wow = all.filter(t => t.wow && !t.retired)
+  // and of those, only the ones the owner approved by ear ("owner": "approved"; 10 Nov: never a track they have not
+  // heard). The others join the pool once the owner says yes to a 10-second sample.
+  const measured = all.filter(t => t.wow && !t.retired && t.owner !== 'rejected')
+  const liked = measured.filter(t => t.owner === 'approved'), wow = liked.length ? liked : measured
   if (['preview', 'review'].includes(cfg.mode) && cfg.tips !== true && cfg.music_wow !== false && wow.length) {
+    const unheard = measured.filter(t => !t.owner)
+    if (unheard.length) console.log(`Soundtrack: choosing among the ${liked.length} the owner approved. Not yet judged by the owner: ${unheard.map(t => `${t.id} "${t.name}"`).join(', ')} (send a 10-second sample to add them).`)
     const fresh = wow.filter(t => !recent.includes(t.id)), last = id => h.used.lastIndexOf(id)
     pool = fresh.length ? fresh : [...wow].sort((x, y) => last(x.id) - last(y.id)).slice(0, 1)
   }

@@ -112,6 +112,18 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
     - I cannot hear. A loudness curve says where a drop is, never what a track sounds like. Say so when it matters.
     - Set the music from the voice (`remix.py`): 10 to 13 dB under while speaking, never 20.
     - The drop lands in the first seconds, as in the owner's reels, not 20 s in.
+- **The owner then asked for a checkpoint (10 Nov):** "Can't you save what I like into a checkpoint so that once I want
+  to create a video, you just simply do what I want? I don't know why you keep on like making weird mistakes."
+  - **Why the mistakes kept coming back:** every preference was written down, but across this file, the master prompt,
+    the skill and a dozen READMEs, some of them out of date (music 20 to 25 dB under the voice, a "half right" stamp,
+    a rejected track still listed in the pool). Nothing made a session read them before building.
+  - **What changed:** `video/OWNER-CHECKPOINT.md` holds every like and dislike with its date and the owner's words,
+    checked quote by quote against this file and the conversation. The root `CLAUDE.md` loads it into every session.
+    `video/lib/preflight.py` is the gate before sending. `lib/music.json` carries the owner's verdict on each track,
+    and the renderer picks analysis music only from the approved ones and refuses a rejected one.
+  - **The rule from now on:** the checkpoint wins over any older note. A new like or dislike goes into it the same day.
+  - **Still open:** only "A New Life" (and 720, 370 on explainers) is approved by ear. "The Farewell" and "Discover"
+    need a 10-second sample each before they can go out.
 
 ## 9 Nov: three films at once: the drawing as a lit relief (30.8 s), Primus "The Bouncer" (Lara, 1:19), Bagel "Sleep on it" (30.5 s)
 

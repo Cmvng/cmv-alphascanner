@@ -254,7 +254,9 @@
     83.81
    ],
    "about": "deep tech bass: near-silent pads, then the bass drops at 22.9 s",
-   "vibe": "tech bass"
+   "vibe": "tech bass",
+   "owner": "approved",
+   "owner_note": "On explainers (video/templates/explainer/README.md): the owner liked both the 720 and the 370 versions. Not yet judged under their own voice on a recording."
   },
   {
    "id": 370,
@@ -271,7 +273,9 @@
     95.997
    ],
    "about": "dark trap: quiet tense build, hard drop at 32.0 s, short stop at 47.1 s",
-   "vibe": "dark trap"
+   "vibe": "dark trap",
+   "owner": "approved",
+   "owner_note": "On explainers (video/templates/explainer/README.md): the owner liked both the 720 and the 370 versions. Not yet judged under their own voice on a recording."
   },
   {
    "id": 279,
@@ -420,7 +424,9 @@
     "jump_db": 17.9,
     "hit_db": 22.8
    },
-   "wow": true
+   "wow": true,
+   "owner": "rejected",
+   "owner_note": "4 Nov 2026, on the Gamdom castle film: the stock track was 'very poor'; they wanted the music from the reels they had sent."
   },
   {
    "id": 293,
@@ -753,7 +759,9 @@
     "jump_db": 28.5,
     "hit_db": 19.7
    },
-   "wow": true
+   "wow": true,
+   "owner": "rejected",
+   "owner_note": "Never use: YouTube Content ID claim, 11 Oct 2026 (see 'claimed')."
   },
   {
    "id": 587,

@@ -1,13 +1,14 @@
 """The gate before any video goes to the owner. It checks what can be measured against video/OWNER-CHECKPOINT.md and
 prints the rest as a list to go through by eye. A FAIL means: do not send.
 
-  python3 -I video/lib/preflight.py <video.mp4> --kind recording|explainer|analysis|post-match|music-led|art
+  python3 -I video/lib/preflight.py <video.mp4> --kind recording|explainer|analysis|post-match|picks|music-led|art
         --music <library id> | owner | none      (owner = music from the owner's own samples; none = voice only)
         [--sample-ok]            the owner heard a sample of this track for this video and said yes
         [--voice voice.wav --bed bed.wav]   the two stems, to measure how far the music sits under the voice
         [--captions plan.json | file.srt]   scanned for banned words
         [--monetised]            a football analysis or review for X / YouTube: no betting words at all
         [--reactions N]          how many reaction stickers the video has
+        [--cover cover.png]      the video's own cover (every video gets one)
 
 Why it exists (10 Nov 2026): a video went out with a soundtrack the owner had never heard, 20 dB under the voice. The
 rules were written down and not read. The owner: "Can't you save what I like into a checkpoint so that once I want to
@@ -17,10 +18,10 @@ import numpy as np
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ap = argparse.ArgumentParser()
-ap.add_argument('video'); ap.add_argument('--kind', required=True, choices=['recording', 'explainer', 'analysis', 'post-match', 'music-led', 'art'])
+ap.add_argument('video'); ap.add_argument('--kind', required=True, choices=['recording', 'explainer', 'analysis', 'post-match', 'picks', 'music-led', 'art'])
 ap.add_argument('--music', required=True); ap.add_argument('--sample-ok', action='store_true')
 ap.add_argument('--voice'); ap.add_argument('--bed'); ap.add_argument('--captions'); ap.add_argument('--monetised', action='store_true')
-ap.add_argument('--reactions', type=int, default=0)
+ap.add_argument('--reactions', type=int, default=0); ap.add_argument('--cover')
 A = ap.parse_args()
 res = []
 def say(level, msg): res.append(level); print(f'{level:5s} {msg}')
@@ -34,8 +35,10 @@ elif A.music == 'owner':
 else:
     t = lib.get(int(A.music))
     if not t: say('FAIL', f'track {A.music} is not in video/lib/music.json: add it, and send the owner a 10-second sample first')
+    elif t.get('claimed'): say('FAIL', f'"{t["name"]}" must never be used: {t["claimed"]}')
     elif t.get('owner') == 'rejected': say('FAIL', f'"{t["name"]}" was rejected by the owner ({t.get("owner_note", "")})')
     elif t.get('owner') == 'approved' or A.sample_ok: say('ok', f'"{t["name"]}": ' + ('approved by the owner' if t.get('owner') == 'approved' else 'sample approved for this video (record it in music.json)'))
+    elif A.kind == 'picks': say('WARN', f'"{t["name"]}" comes from the rotation and the owner has never judged it: name it in the message, and record what they say in music.json')
     else: say('FAIL', f'"{t["name"]}" has never been approved by the owner. Send a 10-second sample and wait for a yes (--sample-ok), or use an approved track')
 
 # ---- 2. loudness
@@ -78,8 +81,14 @@ if A.captions:
     if A.monetised:
         bad = [wd for wd in ('odds', 'bet ', 'bets', 'betting', 'stake', 'tips', 'picks', 'bookie', 'bookmaker', 'units', 'booking code', 'naira', '₦', 'cmvngpicks.com') if wd in low]
         say('FAIL' if bad else 'ok', f'betting words on a monetised video: {bad}' if bad else 'no betting words')
-    if 'ai analyst' not in low and not A.monetised: say('ok', 'no banned phrases in the captions')
+    if 'half right' in low: say('FAIL', '"half right" is in the text: a verdict is only "Called it" or "Missed it"')
+    if A.kind == 'picks':
+        sure = sorted(set(re.findall(r'\b(sure|banker|guaranteed|fixed|lock)\b', low)))
+        say('FAIL' if sure else 'ok', f'words a picks video never says: {sure}' if sure else 'none of "sure", "banker", "guaranteed", "fixed", "lock"')
+    if 'ai analyst' not in low and 'half right' not in low and not A.monetised: say('ok', 'no banned phrases in the captions')
 say('ok' if A.reactions <= 3 else 'FAIL', f'{A.reactions} reaction stickers (the owner: at most three)')
+if A.cover: say('ok' if os.path.isfile(A.cover) and os.path.getsize(A.cover) > 20000 else 'FAIL', f'cover: {A.cover}')
+else: say('WARN', 'no --cover given: every video gets its own cover and thumbnail')
 
 print('\nBy eye, before sending (video/OWNER-CHECKPOINT.md, "Before you send"):')
 for line in open(os.path.join(HERE, '..', 'OWNER-CHECKPOINT.md'), encoding='utf8').read().split('## Before you send')[1].split('\n## ')[0].strip().splitlines():

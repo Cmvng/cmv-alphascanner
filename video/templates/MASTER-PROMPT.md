@@ -209,7 +209,7 @@ either pre analysis or post analysis."*
   - the emotion of the result: the team won, the favourite lost, the unexpected happened;
   - "how all these video creators normally do it", so people enjoy watching.
 - **Research** the match after full time: score, scorers and minutes, key moments, stats, quotes, the table now, every fact sourced.
-- **Be honest about our morning call:** "Called it", "Half right" or "Wrong", with the why. That honesty builds trust.
+- **Be honest about our morning call:** "Called it" or "Missed it", with the why (never "half right", the owner, 9 Oct). That honesty builds trust.
 - **Every screen tells something new.** On 5 Oct the report page and the moment page told the same goals twice; the fix was a
   minute-by-minute timeline where the score box ticks over, and a "bench" page for the substitutes who decided it.
 - **Media:**
