@@ -287,6 +287,14 @@ becomes a smooth blue backdrop, the face is lit, the framing is steadied. Start 
 downloaded, because it is the long step. Reference: `video/templates/talking-head/camera-bagel-break-2026-11-10/`.
 The art footage is different: that is never restyled unless the owner asks.
 
+**The soundtrack on the owner's own recordings** (the owner, 10 Nov, on a track they had never heard, mixed 20 dB under
+the voice: "What about weird soundtrack did you add?… are you not seeing the quality soundtracks that are playing?").
+Choose it before the edit, from the tracks the owner approved by ear (`"wow": true` in `lib/music.json`). Any other
+track goes to the owner as a 10-second sample first. Set its level from the voice with
+`video/templates/talking-head/camera-bagel-break-2026-11-10/remix.py`: about 12 dB under while they speak, the drop in
+the first seconds, full level on the end card. A loudness curve tells you where a drop is, never what a track sounds
+like.
+
 When the owner sends a video they filmed (an X post link, or a Drive/Dropbox link to the original), edit it with
 `video/edit-video.mjs`, following `video/templates/talking-head/README.md`: fetch (`video/lib/fetch_x.py`), transcribe
 with word timings, write the edit decision list (cold open from their own strongest lines, clean clips cut only at

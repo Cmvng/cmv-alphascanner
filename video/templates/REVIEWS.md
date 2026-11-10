@@ -81,15 +81,37 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 - **Final review:** 99.6 s, 2,988 frames, 1080×1920, 30 fps. -14.0 LUFS, true peak -3.1 dBTP. Checked every half
   second on ten sheets, twice (the second after the fixes), and at full size on four frames with hands at the face:
   no halo, no rim. 15 picture segments, each cut hidden by a 5% punch-in. Colour: the backdrop and shirt are blue,
-  cards white, Bagel's yellow only in its own logo and screen, green and red only on LONG and SHORT. Music "Sonor 01"
-  (Mixkit 558), opening up as the first phone rises; no made sounds. No reaction stickers: the owner is on camera
+  cards white, Bagel's yellow only in its own logo and screen, green and red only on LONG and SHORT. Music at first
+  "Sonor 01" (Mixkit 558), replaced the same day by "A New Life" (543), see the owner's reaction below; no made sounds. No reaction stickers: the owner is on camera
   throughout.
 - **Time:** about 2 h 20 min from the link to the delivered file. The studio look was 56 minutes of that (prep 3, matte
   14, render 39).
 - **Told the owner plainly:** the app screens are Bagel's store images, not today's app, and a short screen recording
   would let me swap them; "two and a half weeks" is 13 days by the Premier League's own fixtures; "offshoot of
   Polymarket" stays in the caption, with "Built on Polymarket's markets" on the card.
-- **The owner's reaction:** (waiting)
+- **The owner's reaction (10 Nov, after uploading it):** *"I'm disappointed in you too. Why is it sound like that? And
+  what about soundtrack did you give?… All the videos I've sent you, are you not seeing the quality soundtracks that
+  are playing? What about weird soundtrack did you add?"* Nothing said against the picture.
+  - **What went wrong:** the track was "Sonor 01" (Mixkit 558), a slow, dark film-score piece the owner had never
+    heard. I chose it from its loudness curve alone, because a "clean talking head" seemed to want a soft bed. It sat
+    about 20 dB under the voice, so it read as a strange hum, not as music.
+  - **How it got through:** three rules were already written and I followed none. Analysis and project videos take
+    their soundtrack from the tracks the owner approved by ear (6 Oct: "Remember the type of sound tracks I like").
+    A new track is played to the owner first (a 10-second sample). When the owner has sent reels, their sound is the
+    brief (4 Nov: the stock track was "very poor"). I checked the picture every half second and never asked whether
+    the music was one the owner knew.
+  - **Measured afterwards:** in the owner's reference reel the music sits about 5 dB under the speech. Mine was 11 dB
+    under before ducking and about 20 after.
+  - **The fix (same day, picture untouched):** `remix.py` puts "A New Life" (543, the track the owner called
+    captivating) on the finished video. The music is set from the voice: 12 dB under it while the owner speaks, its
+    drop (+16.9 dB) at the end of the first line, 3 s in, full level on the end card. -14.2 LUFS, true peak -1.6 dBTP.
+    The hear-back still passes (three flags, all the recogniser's own: "frankly" for "friendly").
+  - **Change next time:**
+    - The soundtrack is chosen before the edit, from tracks the owner has approved by ear. Anything else goes to the
+      owner as a 10-second sample first, every time, whatever the kind of video.
+    - I cannot hear. A loudness curve says where a drop is, never what a track sounds like. Say so when it matters.
+    - Set the music from the voice (`remix.py`): 10 to 13 dB under while speaking, never 20.
+    - The drop lands in the first seconds, as in the owner's reels, not 20 s in.
 
 ## 9 Nov: three films at once: the drawing as a lit relief (30.8 s), Primus "The Bouncer" (Lara, 1:19), Bagel "Sleep on it" (30.5 s)
 

@@ -1,6 +1,6 @@
 # Bagel and the international break (10 Nov 2026, upright, 1:40)
 
-Final: 99.6 s, 2,988 frames, 1080×1920. -14.0 LUFS, true peak -3.1 dBTP. Out folder: `video/out/bagel-break/`.
+Final: 99.6 s, 2,988 frames, 1080×1920. -14.2 LUFS, true peak -1.6 dBTP (the second mix, with "A New Life"). Out folder: `video/out/bagel-break/`.
 
 The owner's 1:47 selfie recording about the international break and what is still on Bagel. The brief: "a clean
 video about bagel and the app interface and all I was talking about", then, mid-work: "professionally done. The
@@ -42,12 +42,20 @@ python3 -I $LIB/portrait_pro_long.py prep $RAW $K           # 30 fps working cop
 python3 -I $LIB/portrait_pro_long.py matte $K <rvm.onnx>    # about 15 min for 107 s
 python3 -I $LIB/portrait_pro_long.py preview $K $K/segs.json <dir> 0.5,22,50,80   # look at these at full size first
 python3 -I $LIB/portrait_pro_long.py render $K $K/segs.json $K/cam_pro.mp4 4
-python3 -I build_av.py $K $K/cam_pro.mp4 <558.mp3>          # base.mp4 (soft behind the phones), voice, bed, mix
+python3 -I build_av.py $K $K/cam_pro.mp4 <any.mp3>          # base.mp4 (soft behind the phones) and voice.wav; its own mix is not used
+python3 -I remix.py $K <543.mp3> 24.642 24.642 69.677 $K/mix.wav 7 6   # the soundtrack, set from the voice
 node render.mjs <page>/break.html $K <out.mp4>              # the page dir holds break.html, plan.js and img/
 python3 -I review.py $K <out.mp4> && python3 -P -E hearback.py $K && python3 -I srt.py $K <out.srt>
 ```
 `<page>/img/` holds Bagel's two phone cut-outs (from the store art, as in the 8 Nov film) and its logo; they are not
 committed.
+
+## The soundtrack (read this before choosing one)
+The first mix used a track the owner had never heard, about 20 dB under the voice. They called it weird. The rule:
+- Take the track from the ones the owner approved by ear (`"wow": true` in `video/lib/music.json`), or send a 10-second
+  sample of a new one first.
+- `remix.py` sets the level from the voice: about 12 dB under it while the owner speaks, the drop at the end of the
+  first line, full level on the end card. It can re-score a finished video without rendering the picture again.
 
 ## Checks before sending
 - `review.py`: every half second on ten sheets; look at every one (the first frame, the focus change before each phone,

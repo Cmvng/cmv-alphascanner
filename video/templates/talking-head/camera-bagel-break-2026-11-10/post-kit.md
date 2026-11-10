@@ -10,7 +10,7 @@ reaction stickers, because you are on screen throughout.
 ## Files (video/out/bagel-break/)
 | File | Use |
 |---|---|
-| `bagel-break.mp4` | the video, 1080×1920, 1:40, with a quiet music bed (77 MB) |
+| `bagel-break.mp4` | the video, 1080×1920, 1:40, with "A New Life" under your voice (77 MB) |
 | `bagel-break_master.mp4` | the same video at the highest quality (166 MB), for platforms that take a large upload |
 | `bagel-break_no-music.mp4` | the same picture with your voice only, for adding a trending sound in the app |
 | `bagel-break.srt` | subtitles, if the platform wants its own |
@@ -46,4 +46,5 @@ other sports, the internationals, and the combo. 18+ · all trading involves ris
 - **The fixtures on the card** (England v Croatia 12 Nov, Czechia v Spain 12 Nov, Serbia v Germany 13 Nov, Japan v
   Brazil 14 Nov, Nigeria v Tanzania 13 Nov, UFC 334 on 14 Nov) are right as of 10 Nov. If you post after Thursday,
   the first rows will already have been played.
-- **Music:** "Sonor 01" by Eugenio Mininni (Mixkit free licence). Credit is not required.
+- **Music:** "A New Life" by Eugenio Mininni (Mixkit free licence), the track you liked on the analysis videos. Credit
+  is not required. The first upload had a different track ("Sonor 01"); this file replaces it.

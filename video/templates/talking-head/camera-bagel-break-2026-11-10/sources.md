@@ -43,8 +43,9 @@ nothing was signed in to.
 
 ## Sound
 - Voice: the owner's recording, cleaned with DeepFilterNet3 (noise floor about 25 dB lower), no pitch or tempo change.
-- Music: "Sonor 01", Eugenio Mininni (Mixkit 558, Mixkit free licence), from 2.5 s in, so it opens up as the first
-  phone rises. No made sounds.
+- Music: "A New Life", Eugenio Mininni (Mixkit 543, Mixkit free licence), from 21.6 s in, so its drop lands at the end
+  of the first line (3.0 s). It replaced "Sonor 01" (Mixkit 558) the same day: the owner had not heard that track and
+  called it weird. No made sounds.
 
 ## Left out
 - The owner's 29 Oct screen recording of the app: its phone is about 460 px wide with the face-cam over it, too soft
