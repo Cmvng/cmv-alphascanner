@@ -3,6 +3,8 @@ voice stays natural. Weights: huggingface.co/fal/DeepFilterNet3 (Apache-2.0), do
 
   <python with deepfilternet + torch> video/lib/df_enhance.py in.wav out.wav
 (in this project: /home/user/.venvs/tts/bin/python, which has torch; `pip install deepfilternet` there)
+If torchaudio has no build for the installed torch (10 Nov: torch 2.15), run with PYTHONPATH=video/lib/tastub: a
+small stand-in that reads and writes files with soundfile, which is all DeepFilterNet needs here (48 kHz input).
 """
 import os, sys, urllib.request, warnings
 warnings.filterwarnings('ignore')

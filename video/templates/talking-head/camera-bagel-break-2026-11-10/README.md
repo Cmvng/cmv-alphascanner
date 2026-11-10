@@ -63,4 +63,4 @@ committed.
 - The first frame is the poster frame on most platforms: the title card is whole at t = 0, nothing animates in.
 - A card grows with its rows; it is never shown with an empty band.
 - torchaudio has no build for this torch; a 20-line stand-in that reads and writes with soundfile is enough for
-  DeepFilterNet's file handling (`tastub/`, kept in the work dir).
+  DeepFilterNet's file handling (`video/lib/tastub/`; run `df_enhance.py` with `PYTHONPATH=video/lib/tastub`).
