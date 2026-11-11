@@ -121,6 +121,16 @@ message; it came straight back, twice. The second version is the one in the out 
   - **Found by watching the first second frame by frame:** a striped fitting on the wall stayed sharp beside the hair
     for 19 frames (the outline took it for part of the owner). It was in the second and third versions too and I had
     not seen it. `patch_room.py` blurs it on those frames; the owner's own pixels are untouched.
+- **After the fourth version:** *"the original quality of the video, the sound of the video was top quality. But when
+  you made the edit and every single thing, it was just poor… you are not even improving my videos at all. Like you
+  are making it worse."* Then: *"what is the problem?… Why did the voice quality drop? Why did the video quality
+  also drop?"* **Measured against the raw, and true of all four versions:** 60 frames a second cut to 30; 17.8 Mbit/s
+  to 10; the face kept about half its fine detail (deblock, denoise, four encodes); the face darker and bluer (shade
+  and regrade); the voice's loudness range 7.2 LU squeezed to 4.0 (compressor, +10 dB into a limiter); the music 6 dB
+  under the voice in the consonant band. The echo and noise removal changed almost nothing (the recording was
+  already clean: an export from an editing app). **The lesson under all four rejections:** I treated a finished
+  recording as raw material to repair. Every check I ran compared my output with my own targets (-14 LUFS, "face
+  whole", sheets) and none compared it with what the owner sent. The checkpoint now carries the measured rule.
 - **Final review (fourth version, sent 13:03):** 111.1 s, 3,333 frames, -14.1 LUFS, -1.6 dBTP, music 12.8 dB under the
   voice; gate 0 FAIL. Every half second on 12 sheets; consecutive full-size frames where the head moves fastest behind
   each graphic (title, plate, 1000x, chips, ring): the hair edge is clean, no fringe, no flicker; the raw beside the

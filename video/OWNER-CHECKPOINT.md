@@ -59,8 +59,16 @@ going back and forth.
   you made the edit and every single thing, it was just poor… it's more or less like you are not even improving my
   videos at all. Like you are making it worse." Start from their original picture and sound, untouched. Any
   processing (voice clean-up, blur, regrade, sharpening, re-encoding) stays only if it is clearly better than the raw
-  in a side-by-side; otherwise it comes off. (Which step made it worse is not established: they asked for no
-  explanation. The side-by-side test is my reading of their words.)
+  in a side-by-side; otherwise it comes off. Measured the same day on the Primus recording, against the raw:
+  - the picture went from 60 frames a second to 30, and from 17.8 to 10 Mbit/s;
+  - the face kept about half its fine detail (a deblock and a denoise pass, then four encodes in a row);
+  - the face came out darker and bluer (a navy shade over the frame and a regrade);
+  - the voice's natural loud-and-soft range went from 7.2 to 4.0 LU (compressor, then +10 dB into a limiter), and
+    the music sat only 6 dB under the voice in the 4 to 12 kHz band, where the consonants are.
+  **So, for their own recordings:** keep the frame rate, the colour and the sharpness of the original; no deblock,
+  denoise, sharpen, regrade or shade on their picture; ONE encode, straight from the original, at its bitrate or
+  more. Their voice track as recorded: no echo or noise removal on a recording that is already clean, no compressor,
+  no limiter; make it louder by plain gain only as far as the peaks allow. Keep the music's highs off the voice.
 - **Colour:** "my style is light or shades of blue" (6 Oct). Light or blue backgrounds, blue accents. The subject keeps
   its own colours (a project's brand, a team's kit). Green and red only where they mean something. No yellow accents.
   Never a black background, cold opens included; deep navy or royal blue is fine.
@@ -199,7 +207,8 @@ going back and forth.
 - The owner's face is whole in every shot; a screen they are showing is the main picture.
 - The owner is not cut out of their room. Every fast hand movement was watched frame by frame: no block, halo or edge.
 - Put next to the raw recording at every moment they hold something up or point: all of it is still in the picture.
-- Played against the raw recording: the picture and the voice are at least as good as what they sent.
+- Measured against the raw recording: the same frame rate; the face keeps at least 90% of its fine detail; no
+  colour shift; the voice's loudness range within 1 LU of the original.
 - It has its own cover and thumbnail, and it is not the same format as the last video of its kind.
 - Its main moves come from at least three of the owner's samples, and the style library's ledger has its row.
 - Looked at every half second of the finished file, and listened back to every caption.
