@@ -59,7 +59,7 @@ The owner's own picture and sound go into the final video untouched (`render_raw
 ## The ledger: what each of the owner's recordings used (newest first)
 | Date | Video | Main moves | Verdict |
 |---|---|---|---|
-| 11 Nov | Primus "groundnut test", 5th version | the 4th version's moves, on the owner's untouched picture (60 fps, one encode) and untouched voice; chips and logo plate moved clear of the head | sent 11 Nov, waiting |
+| 11 Nov | Primus "groundnut test", 5th version | the 4th version's moves, on the owner's untouched picture (60 fps, one encode) and untouched voice; chips and logo plate moved clear of the head | "why didn't you do it like this one you just sent me now?" (11 Nov): this is the way to edit their recordings |
 | 11 Nov | Primus "groundnut test", 4th version | type and logo plate behind the head (S1, S3, S4); glass chips and a counter (S1, S3); ring of tiles behind the head (S1, S2); giant number (S4); word captions, stamp, real page, Follow click (S2, S3) | "the original quality… was top quality. But when you made the edit… it was just poor": the picture and sound had been processed, not the design judged |
 | 11 Nov | same, 3rd version | icon over the head on the word, word captions, stamp, Follow click (all S2) | REJECTED: "You just took the last video and use that template" |
 | 11 Nov | same, 2nd version | split: sheet above, the owner smaller below (S1), receipt, box diagram | REJECTED: "poor video editing… the motion graphics is bad… so mid" |

@@ -155,6 +155,11 @@ message; it came straight back, twice. The second version is the one in the out 
     seconds against the raw, and look along the hair edge wherever a graphic goes behind it.
   - **Time:** "Go" to the file: far longer than the 35 to 40 minutes I gave. Three renders of 7 minutes were
     avoidable; the outline clean-up cost another 25. Next time the estimate counts a second render.
+- **The owner on the fifth version:** "So why didn't you make the video like this in the first place?… okay, the blur
+  was not good enough and you made it to be a little bit more blurred, increase the quality of the video… and just
+  like add the motion, graphic design and everything. So it come out better, but you did not do any of those
+  things… why didn't you do it like this one you just sent me now?" The answer given: I took "professional" to mean
+  reworking their picture and sound, and I checked each version against my own targets instead of against their file.
 - **Final review (fifth version, sent 15:55):** 111.1 s, 6,666 frames at 60 a second, 27.0 Mbit/s (the recording:
   17.8), 379 MB; -20.1 LUFS, -1.0 dBTP, music 15.0 dB under the voice. Against the raw (`versus_quality.py`, 0 FAIL):
   the same frame rate, face detail 101% (lowest of twelve moments 97%), colour within 0.1, the voice's loudness range

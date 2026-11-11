@@ -67,6 +67,13 @@ going back and forth.
   - the face came out darker and bluer (a navy shade over the frame and a regrade);
   - the voice's natural loud-and-soft range went from 7.2 to 4.0 LU (compressor, then +10 dB into a limiter), and
     the music sat only 6 dB under the voice in the 4 to 12 kHz band, where the consonants are.
+  **The fifth version (their picture and sound untouched, the cuts, graphics and quiet music on top) is the way.**
+  11 Nov, on receiving it: "why didn't you do it like this one you just sent me now?" What they had expected from
+  the first version, in their words: "okay, the blur was not good enough and you made it to be a little bit more
+  blurred, increase the quality of the video… and just like add the motion, graphic design and everything. So it
+  come out better." (My reading: build ON what they shot, a little better where it can honestly be better, with
+  motion graphics added; never rework it. Their phone had already blurred the room.) Start every edit of their own
+  recording from this version's tools (`render_raw.mjs`, `mix_raw.py`, `versus_quality.py`), not from an older one.
   **So, for their own recordings:** keep the frame rate, the colour and the sharpness of the original; no deblock,
   denoise, sharpen, regrade or shade on their picture; ONE encode, straight from the original, at its bitrate or
   more. Their voice track as recorded: no echo or noise removal on a recording that is already clean, no compressor,
