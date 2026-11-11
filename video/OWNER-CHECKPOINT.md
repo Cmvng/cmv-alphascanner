@@ -43,7 +43,8 @@ going back and forth.
   full level on the end card (`remix.py` in the 10 Nov Bagel template). The whole mix at -14 LUFS. Older notes that
   say 20 to 25 dB under the voice are out of date.
 - **No made sounds.** No whooshes, swells, risers or hits. 22 Oct: "your slop AI transition sound."
-- **Their own voice:** cleaned (echo, then noise), clear and forward, never pitch- or tempo-shifted. 3 Oct: "the voice
+- **Their own voice:** their recorded sound first (11 Nov: the original sound "was top quality"; see "Look"). Cleaned
+  (echo, then noise) only where that is clearly better than the raw by a side-by-side; clear and forward, never pitch- or tempo-shifted. 3 Oct: "the voice
   should be more audible." Cut only at real silences; never clip or drop a word.
 - **The narrator** is "Lara" on ElevenLabs (the owner pays; voice `vChnJZ1Cu89g2XXumPfT`, `eleven_v4`, one generation).
   Never change her pitch or tempo, never generate twice to retry, hear every take back before using it. Say what a
@@ -53,6 +54,13 @@ going back and forth.
   presenter (2 Oct: "I don't like the video with my image there").
 
 ## Look
+- **Their recording is the standard. The edit must never look or sound worse than what they sent.** 11 Nov, after
+  four edits of one recording: "the original quality of the video, the sound of the video was top quality. But when
+  you made the edit and every single thing, it was just poor… it's more or less like you are not even improving my
+  videos at all. Like you are making it worse." Start from their original picture and sound, untouched. Any
+  processing (voice clean-up, blur, regrade, sharpening, re-encoding) stays only if it is clearly better than the raw
+  in a side-by-side; otherwise it comes off. (Which step made it worse is not established: they asked for no
+  explanation. The side-by-side test is my reading of their words.)
 - **Colour:** "my style is light or shades of blue" (6 Oct). Light or blue backgrounds, blue accents. The subject keeps
   its own colours (a project's brand, a team's kit). Green and red only where they mean something. No yellow accents.
   Never a black background, cold opens included; deep navy or royal blue is fine.
@@ -178,6 +186,8 @@ going back and forth.
 - **A file too big for the chat** goes on a private download page as well as a smaller chat copy (7 Oct: "Why didn't
   you send me the site to download the high quality version").
 - **"Take your time" means get it right,** not go quiet: short updates while long steps run.
+- **When they say stop, stop.** 11 Nov: "Don't explain to me. Don't do anything. Don't explain to me the problems."
+  No explanation, no new version, no list of causes. Wait for them.
 
 ## Before you send
 - The soundtrack is one they approved, or they said yes to its sample for this video.
@@ -189,6 +199,7 @@ going back and forth.
 - The owner's face is whole in every shot; a screen they are showing is the main picture.
 - The owner is not cut out of their room. Every fast hand movement was watched frame by frame: no block, halo or edge.
 - Put next to the raw recording at every moment they hold something up or point: all of it is still in the picture.
+- Played against the raw recording: the picture and the voice are at least as good as what they sent.
 - It has its own cover and thumbnail, and it is not the same format as the last video of its kind.
 - Its main moves come from at least three of the owner's samples, and the style library's ledger has its row.
 - Looked at every half second of the finished file, and listened back to every caption.
