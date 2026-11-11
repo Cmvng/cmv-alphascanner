@@ -1,6 +1,8 @@
 # Primus Labs, "The groundnut test" (11 Nov 2026, upright, 1:51)
 
-Final (third version; the numbers below are the second's and the third measures the same): 111.1 s, 3,333 frames, 1080×1920. -14.1 LUFS, true peak -1.6 dBTP, music 12.1 dB under the voice.
+Final (fifth version): 111.1 s, 6,666 frames at 60 a second, 1080×1920, 27 Mbit/s (the recording: 17.8), 379 MB.
+-20.1 LUFS, true peak -1.0 dBTP (one plain gain, nothing squashed), music 15 dB under the voice. Against the raw:
+face detail 101%, no colour shift, the voice's loudness range 6.1 LU in both.
 
 The owner's 2:41 selfie recording: a practical example of Primus Labs' zkTLS. They are at a supermarket with a bottle
 of groundnuts, no cash, a bank app that is down, no ATM card, and an exchange that has paused withdrawals; the shop
@@ -11,7 +13,54 @@ of Primus Lab… sequenced in a good way… be fast with it." Out folder: `video
 **Concept: THE RECEIPT.** The story prints as a till receipt as the owner tells it. Four ways to pay are struck out;
 then the proof prints: "ENOUGH MONEY? YES ✓ · MY BALANCE: HIDDEN".
 
-## The fourth version is the one that went out last: `depth.html`. Start from it, and from `../../STYLE-LIBRARY.md`.
+## The fifth version is the one that went out last: `depth.html` on the owner's UNTOUCHED picture and sound.
+After the fourth: "the original quality of the video, the sound of the video was top quality. But when you made the
+edit and every single thing, it was just poor… you are making it worse." Measured against the raw, every version
+before this one had: 60 frames a second cut to 30; about half the fine detail on the face (deblock, denoise, four
+encodes); a darker, bluer face (shade and regrade); the voice's loudness range squeezed from 7.2 to 4.0 LU
+(compressor, +10 dB into a limiter); the music 6 dB under the voice in the consonant band.
+
+The fifth keeps the fourth's graphics and changes what they sit on:
+- **Picture: the recording's own frames.** `render_raw.mjs` picks the kept frames out of the raw file by number,
+  flips them (the phone mirrors the front camera) and encodes ONCE, at 60 frames a second. No room blur, no look,
+  no shade, no denoise, no working copy, no intermediate file. Type carries its own outline instead of a shade.
+- **Sound: the recording's own voice track.** `mix_raw.py` cuts it at the plan's pieces (8 ms fades) and does
+  nothing else to it: no clean-up, no filter, no compressor, no limiter, no resampling. One plain gain takes the mix
+  to -1 dBTP. The music is the only thing shaped: highs shelved 8 dB above 4 kHz, about 15 dB under the voice.
+- **The outline at 60 frames a second, only where a graphic is behind the head** (`matte60.py`, 1,910 frames, 8 min).
+- **The gate:** `video/lib/versus_quality.py` measures the edit against the recording (frame rate, bitrate, detail on
+  the face, colour, the voice's loudness range). A FAIL does not go out.
+
+**Four things went wrong on the way, each cost a render (about 7 minutes). Do them first next time:**
+1. **The file ended 3.4 s early, with no error.** When the end card covers the whole frame the browser writes its
+   PNG without an alpha channel; ffmpeg rebuilds its filter chain on the change, and the recording, already read to
+   its end, gives the new chain nothing. `render_raw.mjs` now gives an opaque frame its alpha back and counts the
+   frames in the file at the end (it prints FAILED and exits 1 if any are missing). `render_depth.mjs` has the same
+   pipe and no such guard: copy it across before using it again.
+2. **Plain crf 14 failed the gate:** 88% of the raw's detail on the face, 74% on the in-between frames. crf 16 with
+   `-tune grain` keeps 94% or more on every frame at 27 Mbit/s (tested on five seconds first: `CRF=` to change).
+3. **A wall fitting showed through two graphics.** A striped fitting on the wall touches the hair in the picture;
+   the outline takes it for part of the owner; behind the logo plate it was a grey bump on the hair, and on the
+   "Crypto" chip dark stripes over the coin. Half-second sheets do not show it. Look at the hair edge at full size
+   across each behind-the-head graphic's WHOLE time on screen (`fps=4,crop=…,tile`), before the first render, on
+   stills. `clean_alpha.py` drops narrow things beside the top of the head from the outline; it cannot remove a thing
+   that lies flat against the hair, so the chips and the plate now sit clear of the head (chips at y 316 and 452, plate
+   at y 300). Only the title, "1000x" and the ring still pass behind it.
+4. A disc 181 px wide at full size took over ten minutes; at a quarter of the size, 45 seconds.
+
+```bash
+python3 -I $T/plan.py $K && python3 -I $T/tokens.py $K && python3 -I $T/clear.py $K      # the cut, word times, where the bottle is
+python -I $T/matte60.py $K <raw.mp4> <rvm.onnx> 0-4.95,18.4-31.4,33.6-37.0,69.2-72.8,78.9-85.7   # start first; needs onnxruntime
+python3 -I $T/clean_alpha.py $K                                                      # alpha60.mkv -> alpha60c.mkv (45 s)
+python3 -I $T/mix_raw.py $K <raw.mp4> <720.mp3> 22.906 22.906 83.81 10 5
+node $T/render_raw.mjs <page>/depth.html $K <raw.mp4> <dir> --stills 0,19.2,34.6,70.4,82.4   # ALPHA=<file> ALPHA_FPS=30 to test before the outline is ready
+ALPHA=$K/alpha60c.mkv node $T/render_raw.mjs <page>/depth.html $K <raw.mp4> <out.mp4>      # 7 minutes; "done: 6666 of 6666 frames"
+python3 -I video/lib/versus_quality.py <raw.mp4> <out.mp4> $K/segs.json --flip --voice $K/mix_raw_voice.wav
+```
+`clear.py` and `matte_cut.py`'s `track.js` were made from the fourth version's working picture; for a new recording
+point `clear.py` at a flipped copy of the cut, or teach it to read the raw through `segs.json`.
+
+## The fourth version: `depth.html` on a blurred, regraded picture (the graphics were kept; the picture and sound were not)
 The third version (`talk.html`) followed ONE of the owner's samples and had the same shape as the Bagel video the day
 before. "You just took the last video and use that template… I've sent different videos and styles. Why have you not
 learned? Why have you not taken put things in your notes?" The fourth takes the strongest move from each sample:

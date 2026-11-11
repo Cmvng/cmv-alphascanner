@@ -6,6 +6,10 @@ the video before it: *"I've sent you different several video ideas, quality vide
 video and use that template… I've sent different videos and styles. Why have you not learned? Why have you not taken
 put things in your notes?"*
 
+## First, before any move: the recording is the standard
+The owner's own picture and sound go into the final video untouched (`render_raw.mjs`, `mix_raw.py`), and
+`video/lib/versus_quality.py` must pass. A move is built ON the recording, never by re-making it.
+
 ## The rule
 1. **Never one sample, never the last video's shape.** Every video takes moves from at least three different samples
    below, and at least two of its main moves were not in the previous video of the same kind (see the ledger).
@@ -33,7 +37,7 @@ put things in your notes?"*
 ## The moves, as we build them
 | Move | From | How (ours) | Tool |
 |---|---|---|---|
-| Type or a logo plate behind the head | S1, S3, S4 | giant condensed type or the project's logo on a plate, its lower edge tucked behind the hair; rises from behind the shoulders | `depth.html` `bk` layer, `matte_cut.py`, `render_depth.mjs` |
+| Type or a logo plate behind the head | S1, S3, S4 | giant condensed type or the project's logo on a plate, its lower edge tucked behind the hair; rises from behind the shoulders. Before building: look at what is on the wall beside the hair. Anything that touches the hair in the picture shows through the graphic there; keep the graphic clear of that spot | `depth.html` `bk` layer, `matte60.py`, `clean_alpha.py`, `render_raw.mjs` |
 | Glass chips round the head that build with the voice | S1, S3 | white glass chips beside the head, each landing on its word, struck or ticked on the next; a counter tile | `depth.html` (`way`, `.ctr`) |
 | A ring of tiles turning behind the head | S1, S2 | tiles travel an arc from one shoulder over the head to the other, following the head | `depth.html` (`HALO`), `track.js` |
 | An icon over the head on the word | S2 | one compact 3D icon and a small label, 1 to 3 s | `talk.html` (`one`) |
@@ -55,7 +59,8 @@ put things in your notes?"*
 ## The ledger: what each of the owner's recordings used (newest first)
 | Date | Video | Main moves | Verdict |
 |---|---|---|---|
-| 11 Nov | Primus "groundnut test", 4th version | type and logo plate behind the head (S1, S3, S4); glass chips and a counter (S1, S3); ring of tiles behind the head (S1, S2); giant number (S4); word captions, stamp, real page, Follow click (S2, S3) | sent 11 Nov, waiting |
+| 11 Nov | Primus "groundnut test", 5th version | the 4th version's moves, on the owner's untouched picture (60 fps, one encode) and untouched voice; chips and logo plate moved clear of the head | sent 11 Nov, waiting |
+| 11 Nov | Primus "groundnut test", 4th version | type and logo plate behind the head (S1, S3, S4); glass chips and a counter (S1, S3); ring of tiles behind the head (S1, S2); giant number (S4); word captions, stamp, real page, Follow click (S2, S3) | "the original quality… was top quality. But when you made the edit… it was just poor": the picture and sound had been processed, not the design judged |
 | 11 Nov | same, 3rd version | icon over the head on the word, word captions, stamp, Follow click (all S2) | REJECTED: "You just took the last video and use that template" |
 | 11 Nov | same, 2nd version | split: sheet above, the owner smaller below (S1), receipt, box diagram | REJECTED: "poor video editing… the motion graphics is bad… so mid" |
 | 11 Nov | same, 1st version | cut-out on a studio backdrop, panel with the camera pushed down | REJECTED: "the worst video ever"; "You cut what I'm actually trying to show" |

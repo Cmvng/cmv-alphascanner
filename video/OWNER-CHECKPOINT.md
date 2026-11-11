@@ -40,8 +40,10 @@ going back and forth.
 - **Trending sound:** songs by top artists are copyrighted. Give a copyright-free track in that style and a second
   file with no music, so they can add a trending sound in the app (told to the owner 9 Nov; no objection).
 - **Level:** the music is clearly music: about 12 dB under the voice while they speak, the drop in the first seconds,
-  full level on the end card (`remix.py` in the 10 Nov Bagel template). The whole mix at -14 LUFS. Older notes that
-  say 20 to 25 dB under the voice are out of date.
+  full level on the end card (`remix.py` in the 10 Nov Bagel template). The whole mix at -14 LUFS, EXCEPT under the
+  owner's own recorded voice: that is never squashed to reach a number. There the mix gets one plain gain up to a
+  peak of -1 dBTP and stays at whatever loudness that gives (about -20 LUFS on the 11 Nov Primus recording), with
+  the music 12 to 15 dB under the voice (`mix_raw.py`). Older notes that say 20 to 25 dB under the voice are out of date.
 - **No made sounds.** No whooshes, swells, risers or hits. 22 Oct: "your slop AI transition sound."
 - **Their own voice:** their recorded sound first (11 Nov: the original sound "was top quality"; see "Look"). Cleaned
   (echo, then noise) only where that is clearly better than the raw by a side-by-side; clear and forward, never pitch- or tempo-shifted. 3 Oct: "the voice
@@ -72,13 +74,15 @@ going back and forth.
 - **Colour:** "my style is light or shades of blue" (6 Oct). Light or blue backgrounds, blue accents. The subject keeps
   its own colours (a project's brand, a team's kit). Green and red only where they mean something. No yellow accents.
   Never a black background, cold opens included; deep navy or royal blue is fine.
-- **The owner on camera: their real room, softly blurred behind them. Never cut them out onto a replaced backdrop.**
+- **The owner on camera: their own picture, exactly as recorded. Never cut them out onto a replaced backdrop.**
   11 Nov, on the cut-out look: "this is the worst video ever… See the way you cut the main character from the
-  background. See the way it looks so muddled up. Is it not even better for you to actually blur all the elements in
-  the background". Use `video/lib/portrait_pro_long.py` with the `room` look: nothing replaced, the room out of focus,
-  the framing steady. They still want it polished (9 Nov: "I need it to be the best"; 10 Nov: "professionally done.
-  The background, every single thing"), and polish means a clean picture, not an effect that shows. Never crop into
-  their face (4 Oct: "make sure no part is cut out, half of my face is cut out").
+  background. See the way it looks so muddled up." They suggested blurring the room instead, and the blurred
+  versions were then rejected too: making the blur re-made every frame and cost half the detail on their face
+  ("you are making it worse"). So the default is no blur and no "look" at all: the final video is made straight from
+  their recording (`render_raw.mjs` in the 11 Nov Primus template). Their outline may be used for ONE thing: hiding
+  the part of a graphic that falls behind their head (`matte60.py`), which does not touch their picture. Blur the
+  room only if they ask for it. Never crop into their face (4 Oct: "make sure no part is cut out, half of my face is
+  cut out").
 - **Their whole picture stays in view, as they framed it. Never zoom in, push it down or cover what they are showing.**
   11 Nov, when a panel pushed their picture down and a zoom cropped the sides, so the bottle they held up was out of
   frame: "You cut what I'm actually trying to show. You cut it and everything just looks so weird… Are you not seeing
@@ -154,7 +158,7 @@ going back and forth.
   sent why is this so mid?!!" Before building, open the samples again and write down which one the edit follows.
 - **Everything lines up.** 11 Nov: "Some part of the video still are not aligned." Check the lips against the voice,
   each caption and graphic against its word, and every box against the frame and against the others.
-- **Their own recording:** their real room softly blurred, their voice forward, the real screens of what they talk about, real dated
+- **Their own recording:** their picture and their sound exactly as recorded (see "Look"), the real screens of what they talk about, real dated
   facts beside their words, no reactions, music by the rules above. Their example is illustrated step by step, in
   the order they tell it (11 Nov: "the illustration… done properly and sequenced in a good way… in layers… the right
   order that a professional will approve 10/10").
@@ -180,9 +184,10 @@ going back and forth.
 - **Tell them early what is coming and how long.** 29 Oct: "It took forever." 7 Nov: "Why is this taking so long?"
   Run heavy renders one at a time; several at once make each three times slower.
 - **Be fast, without dropping the standard.** 11 Nov: "be fast with it. Don't take too much time… last time like you
-  took forever", and in the same message "take your time to do the right job." Start the long steps first (working
-  copy, cut-out, studio-look render) and do the light work beside them (voice, cut plan, real screens, the page, the
-  cover); check the page on stills over a stand-in picture, so there is one final render.
+  took forever", and in the same message "take your time to do the right job." Start the long step first (the
+  outline for graphics behind the head, only on the stretches that need it) and do the light work beside it (cut
+  plan, sound, real screens, the page, the cover); check the page on stills over the recording's own frames, so
+  there is one final render, straight from the recording.
 - **Check before they do.** 27 Oct: "Didn't you cross check what you did?" Every half second on sheets, every caption
   against the sound, real screens at full size. **And watch it move:** consecutive frames at every fast hand movement,
   at full size. On 11 Nov the half-second sheets looked clean while every fast hand broke into blocks in motion.
@@ -205,7 +210,10 @@ going back and forth.
 - The first frame is a whole picture. No black background. Blue or light, the subject in its own colours.
 - At most three reactions; none when they are on camera throughout.
 - The owner's face is whole in every shot; a screen they are showing is the main picture.
-- The owner is not cut out of their room. Every fast hand movement was watched frame by frame: no block, halo or edge.
+- The owner is not cut out of their room and their picture is not re-made. Every graphic behind their head was watched
+  at full size across its whole time on screen, and frame by frame where they move fastest: no halo, fringe or
+  flicker, and nothing from the room showing through it.
+- The file is whole: its length and its frame count are what was planned, and the last second was looked at.
 - Put next to the raw recording at every moment they hold something up or point: all of it is still in the picture.
 - Measured against the raw recording: the same frame rate; the face keeps at least 90% of its fine detail; no
   colour shift; the voice's loudness range within 1 LU of the original.

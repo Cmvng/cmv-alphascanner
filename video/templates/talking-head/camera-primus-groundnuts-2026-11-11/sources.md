@@ -32,24 +32,19 @@ Everything on screen that is not the owner's own words, and where it came from. 
 - The owner says "the Primus Tech Lab"; the captions give the project its name, **Primus Labs**.
 - "to verify proofs on the encrypted node": kept as said. Primus' word for the node is "attestor".
 
-## The camera picture
-- The owner's recording, whole, as they framed it (`video/lib/portrait_pro_long.py`, the `room` look, `PP_FULL=1`):
-  their real room softly out of focus behind them, nothing replaced, no zoom and no crop. While the sheet is down the
-  whole picture is shown smaller (75%) under it; the sheet covers only the ceiling above the head.
-- Fourth version: graphics sit behind the owner (the title, the Primus logo plate, "1000x", the glass chips, the
-  ring of tiles). The owner is not cut out: their outline (Robust Video Matting) only hides the part of a graphic
-  that falls behind them. The room and the owner are the recording's own pixels throughout.
-- The picture is flipped left to right, because the phone recorded it mirrored (the Chelsea crest and the Nike tick
-  on the shirt read backwards in the recording).
-- The recording has compression blocks where the hands move fast. They are softened (a deblocking pass), not removed.
+## The camera picture (fifth version)
+- The owner's recording itself: the kept frames of the raw file, at its own 60 frames a second, flipped left to right
+  (the phone recorded it mirrored: the Chelsea crest and the Nike tick read backwards in the recording) and encoded
+  once. No blur, no regrade, no shade, no denoise, no zoom, no crop.
+- Graphics sit behind the owner in five stretches (the title, the glass chips, the Primus logo plate, "1000x", the
+  ring of tiles). The owner is not cut out: their outline (Robust Video Matting, made at 60 frames a second from the
+  raw frames) only hides the part of a graphic that falls behind them.
 
-## Sound
-- Voice: the owner's recording, de-clipped, room echo out (WPE), then DeepFilterNet3. No pitch or tempo change.
-- Music (third version): "New Bass 01", Lily J (Mixkit 720, free licence), approved by the owner on explainers. About
-  13 dB under the voice while they speak, the bass in on the first cut (5 s), full level on the end card. It replaced
-  "A New Life" (Mixkit 543): "The sound track doesn't fit the video." `video/lib/hear_music.py` describes 543 as a slow
-  orchestral film score and 720 as a bouncy, warm afrobeats-like beat, which is also how it describes the beds in the
-  two talking-head samples the owner sent. No made sounds.
+## Sound (fifth version)
+- Voice: the owner's own track, as recorded (44.1 kHz), cut at real pauses with 8 ms fades. Nothing else: no echo or
+  noise removal, no filter, no compressor, no limiter. The whole mix is raised by one plain gain to -1 dBTP.
+- Music: "New Bass 01", Lily J (Mixkit 720, free licence), approved by the owner on explainers. About 15 dB under
+  the voice while they speak, its highs shelved down 8 dB above 4 kHz, the bass in on the first cut. No made sounds.
 
 ## The icons (third and fourth versions)
 - Microsoft Fluent Emoji, 3D set (MIT licence), fetched 11 Nov 2026 from

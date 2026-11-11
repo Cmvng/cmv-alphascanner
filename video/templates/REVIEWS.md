@@ -28,7 +28,7 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
-## 11 Nov: the owner's recording, Primus Labs "The groundnut test" (rejected twice, then redone; 1:51, 9:16)
+## 11 Nov: the owner's recording, Primus Labs "The groundnut test" (five versions; the fifth on their untouched picture and sound; 1:51, 9:16)
 
 `video/templates/talking-head/camera-primus-groundnuts-2026-11-11/`. First version sent 66 minutes after the owner's
 message; it came straight back, twice. The second version is the one in the out folder.
@@ -131,6 +131,37 @@ message; it came straight back, twice. The second version is the one in the out 
   already clean: an export from an editing app). **The lesson under all four rejections:** I treated a finished
   recording as raw material to repair. Every check I ran compared my output with my own targets (-14 LUFS, "face
   whole", sheets) and none compared it with what the owner sent. The checkpoint now carries the measured rule.
+- **The fifth version (the owner: "Go", after the measured answer): their picture and sound untouched.**
+  `render_raw.mjs` takes the kept frames straight out of the recording (60 a second, flipped, ONE encode);
+  `mix_raw.py` uses the voice track as recorded (cuts only, one plain gain); `video/lib/versus_quality.py` measures
+  the result against the recording and is now part of the gate. What it took, in order:
+  - **The first render ended 3.4 s early with no error.** The end card covers the whole frame; the browser then
+    writes its PNG without an alpha channel; ffmpeg rebuilt its filter chain on that frame and the recording, already
+    read to its end, had nothing more to give. Found by reproducing: a small copy of the graph passed, the last 15
+    seconds at full size passed, the page's own frames changed colour type at frame 6,465. The renderer now puts
+    the alpha back and counts the frames in the file.
+  - **The second render failed my own gate:** 88% of the raw's fine detail on the face (plain crf 14), against the
+    90% I had just written down. Five seconds tested with six settings; crf 16 with the grain tuning keeps 94% or
+    more on every frame at 27 Mbit/s.
+  - **The third render passed every measurement and still had a flaw:** a striped wall fitting touches the hair in
+    the picture, the outline took it for the owner, and it showed through the logo plate (a grey bump on the hair,
+    3 seconds) and the "Crypto" chip (dark stripes on the coin, 6 seconds). The half-second sheets did not show it;
+    a 4-a-second strip of the hair edge at full size did. It was in the fourth version as well. An outline clean-up
+    (`clean_alpha.py`) took the hard stripes out but not what lies flat against the hair, so the chips and the plate
+    were moved clear of the head.
+  - **The lesson:** a measurement gate catches what it measures. The three things that cost a render each (a short
+    file, a soft encode, a thing showing through) were each findable in under a minute on stills or five seconds of
+    video BEFORE the first render: check the last second of the page for opaque frames, test the encoder on five
+    seconds against the raw, and look along the hair edge wherever a graphic goes behind it.
+  - **Time:** "Go" to the file: far longer than the 35 to 40 minutes I gave. Three renders of 7 minutes were
+    avoidable; the outline clean-up cost another 25. Next time the estimate counts a second render.
+- **Final review (fifth version, sent 15:55):** 111.1 s, 6,666 frames at 60 a second, 27.0 Mbit/s (the recording:
+  17.8), 379 MB; -20.1 LUFS, -1.0 dBTP, music 15.0 dB under the voice. Against the raw (`versus_quality.py`, 0 FAIL):
+  the same frame rate, face detail 101% (lowest of twelve moments 97%), colour within 0.1, the voice's loudness range
+  6.1 LU in both. Gate 0 FAIL, 0 WARN. Every half second on 12 sheets; the raw beside the result at 12 bottle
+  moments; the hair edge at full size across the whole of each graphic that passes behind the head (title, "1000x",
+  ring) and the last four seconds; hear-back 51 of 53. Sent with the no-music copy, cover, thumbnail, subtitles and
+  post kit. No soundtrack alternates this time: fewer files, one decision.
 - **Final review (fourth version, sent 13:03):** 111.1 s, 3,333 frames, -14.1 LUFS, -1.6 dBTP, music 12.8 dB under the
   voice; gate 0 FAIL. Every half second on 12 sheets; consecutive full-size frames where the head moves fastest behind
   each graphic (title, plate, 1000x, chips, ring): the hair edge is clean, no fringe, no flicker; the raw beside the

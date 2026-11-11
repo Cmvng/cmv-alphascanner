@@ -1,5 +1,5 @@
 """The raw recording beside the finished video, at the moments the owner shows something.
-  python3 -I versus_raw.py <work dir> <out.mp4> <dir> t,t,...     (t = seconds in the finished video)
+  python3 -I versus_raw.py <work dir> <out.mp4> <dir> t,t,... [raw.mp4]     (t = seconds in the finished video)
 
 For each time it writes one picture: left, the whole raw frame (from <work>/pp_src.mp4, flipped if build_av.py flips);
 right, the finished frame. Look at each pair and answer one question: is everything the owner holds up or points at on
@@ -19,7 +19,8 @@ def src(t):
     for a, b, s in tab:
         if a <= t < b: return s + (t - a)
     return None
-raw, fin = cv2.VideoCapture(f'{K}/pp_src.mp4'), cv2.VideoCapture(OUT)
+RAWP = sys.argv[5] if len(sys.argv) > 5 else f'{K}/pp_src.mp4'     # the recording itself (any frame rate), or the working copy
+raw, fin = cv2.VideoCapture(RAWP), cv2.VideoCapture(OUT)
 rf, ff = raw.get(cv2.CAP_PROP_FPS), fin.get(cv2.CAP_PROP_FPS)
 pairs = []
 for t in [float(x) for x in TS.split(',')]:

@@ -23,10 +23,10 @@
 html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:transparent;font-family:Manrope,sans-serif;font-weight:800;color:#fff}
 .abs{position:absolute}
 .mono{font-family:Mono,monospace;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
-/* the picture's ambience: a deeper ceiling so white type reads, and soft navy corners. Never black. */
-#shade{position:absolute;inset:0;background:
-  linear-gradient(180deg,rgba(8,20,60,.50) 0,rgba(8,20,60,.30) 300px,rgba(8,20,60,0) 640px),
-  radial-gradient(120% 90% at 50% 46%,rgba(8,20,60,0) 55%,rgba(8,20,60,.34) 100%)}
+/* No shade over the owner's picture. Earlier versions laid a navy gradient over the frame so white type would read;
+   it made the owner's face darker and bluer (measured against the raw, 11 Nov). The picture is now the owner's own
+   frames, untouched, and every piece of type carries its own outline or its own plate instead. */
+#shade{display:none}
 /* ---- over the head */
 .it{position:absolute;left:0;top:0;width:1080px;display:flex;flex-direction:column;align-items:center;opacity:0;transform-origin:50% 60%}
 .icw{position:relative;display:flex;align-items:center;justify-content:center;gap:34px}
@@ -86,7 +86,7 @@ body.L-behind #shade,body.L-behind #top,body.L-behind #cap,body.L-behind #big,bo
 body.L-front #shade,body.L-front #bk{display:none}
 body.L-shade #bk,body.L-shade #top,body.L-shade #cap,body.L-shade #big,body.L-shade #end{display:none}
 /* behind the head */
-.bt{font-family:Anton,sans-serif;font-weight:400;line-height:.92;letter-spacing:.01em;white-space:nowrap;color:#fff;text-shadow:0 14px 34px rgba(4,10,36,.6),0 3px 0 rgba(4,10,36,.3)}
+.bt{font-family:Anton,sans-serif;font-weight:400;line-height:.92;letter-spacing:.01em;white-space:nowrap;color:#fff;-webkit-text-stroke:12px var(--deep);paint-order:stroke fill;text-shadow:0 12px 26px rgba(4,10,36,.45)}
 .bt b{font-weight:400;color:var(--sky)}
 .plate{width:940px;height:250px;border-radius:125px;background:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 22px 50px rgba(4,10,36,.5)}
 .plate img{height:128px;display:block}
@@ -204,13 +204,13 @@ item(capT(8, 'bottle') - .1, c(8).o1, one('peanuts_3d', '1 × bottle of <b>groun
 const WAYS = [], waysOut = c(17).o0 - .04
 const way = (icon, label, sub, a, xat, o) => { const it = item(a, waysOut, `<div class="gchip"><img class="i" src="${I(icon)}"><div class="x"><img src="${I(X)}"></div><div class="t">${label}${sub ? `<u>${sub}</u>` : ''}<i></i></div></div>`, { ...o, bk: 1 })
   WAYS.push({ it, xat, chip: it.el.firstChild, x: it.el.querySelector('.x'), line: it.el.querySelector('.t i') }) }
-way('dollar_banknote_3d', 'Cash', '', E.r_cash - .15, E.r_cash + .22, { x: 28, y: 414 })
-way('bank_3d', 'Bank app', '', c(10).o0, capT(10, 'not') - .03, { x: 28, y: 562 })
-way('credit_card_3d', 'ATM card', '', c(11).o0 + .1, capT(11, 'atm') + .25, { r: 28, y: 414 })
-way('coin_3d', 'Crypto', 'hacked · example', c(12).o0, capT(15, 'crypto') - .05, { r: 28, y: 562 })
+way('dollar_banknote_3d', 'Cash', '', E.r_cash - .15, E.r_cash + .22, { x: 28, y: 316 })
+way('bank_3d', 'Bank app', '', c(10).o0, capT(10, 'not') - .03, { x: 28, y: 452 })
+way('credit_card_3d', 'ATM card', '', c(11).o0 + .1, capT(11, 'atm') + .25, { r: 28, y: 316 })
+way('coin_3d', 'Crypto', 'hacked · example', c(12).o0, capT(15, 'crypto') - .05, { r: 28, y: 452 })   // the chips stay ABOVE the head (its top is never higher than about 565): a wall fitting sits against the hair, the outline takes it for the owner, and it showed through a chip tucked behind the hair
 const ctr = item(c(9).o0 - .05, waysOut, `<div class="ctr"><div class="n" id="cn">4</div><div class="l">ways to pay</div></div>`, { y: 96 })
 item(c(17).o0 + .1, c(18).o0 - .04, one('convenience_store_3d', 'the shop already uses…'))
-item(c(18).o0, c(19).o0 - .04, `<div class="plate"><img src="img/primus-logo.svg"></div>`, { y: 392, bk: 1 })
+item(c(18).o0, c(19).o0 - .04, `<div class="plate"><img src="img/primus-logo.svg"></div>`, { y: 300, bk: 1 })   // clear of the hair, for the same reason
 item(c(19).o0, c(19).o1 + .5, one('locked_with_key_3d', 'proofs, on an <b>encrypted</b> node', { x: OK, at: .9 }))
 item(E.dg_login - .12, c(22).o1 + .02, one('mobile_phone_3d', 'my own account, my own login'))
 const chain = item(c(23).o0, c(24).o0 - .04, `<div class="icw" style="gap:22px">${ic('mobile_phone_3d', { s: 1 })}<div class="line"><i id="d1"></i></div><div class="pill" style="height:92px;padding:0 26px"><img src="img/primus-logo.svg" style="height:46px"></div><div class="line"><i id="d2"></i></div>${ic('convenience_store_3d', { s: 1 })}</div>${lb('through the tech they already use')}`, { y: 190 })
@@ -287,7 +287,7 @@ window.render = t => {
       const live = t > w.it.a - .1 && t < w.it.b + .3
       st(w.chip, { background: t >= w.xat ? 'rgba(255,233,235,.95)' : 'rgba(255,255,255,.94)', transform: `translateY(${(live ? Math.sin(t * 1.7 + i * 1.3) * 5 : 0).toFixed(1)}px) rotate(${(i % 2 ? 1.5 : -1.5)}deg)` })
     })
-    const fi = Math.min(TR.cx.length - 1, Math.max(0, Math.round(t * TR.fps))), hx = TR.cx[fi]    // the ring follows the head
+    const ft = Math.min(TR.cx.length - 1.001, Math.max(0, t * TR.fps)), f0 = Math.floor(ft), hx = TR.cx[f0] + (TR.cx[f0 + 1] - TR.cx[f0]) * (ft - f0)   // the ring follows the head, between the track's samples too
     HALO.el.forEach((d, i) => { const u = (t - HALO.a) * .2 - i * .17 + .12, vis = t >= HALO.a && t < HALO.b + .3 && u > -.06 && u < 1.06
       const ph = Math.PI * (1 - u), x = hx + 500 * Math.cos(ph), y = 1090 - 560 * Math.sin(ph)
       st(d, { opacity: vis ? cl((t - HALO.a) / .2) * cl((HALO.b + .28 - t) / .25) : 0, transform: vis ? `translate(${(x - 88).toFixed(1)}px,${(y - 88).toFixed(1)}px) rotate(${((u - .5) * 24).toFixed(2)}deg) scale(${(.8 + .2 * Math.sin(Math.PI * cl(u))).toFixed(4)})` : 'none' }) })

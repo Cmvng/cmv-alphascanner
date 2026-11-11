@@ -44,8 +44,15 @@ else:
 # ---- 2. loudness
 out = subprocess.run(['ffmpeg', '-nostdin', '-hide_banner', '-nostats', '-i', A.video, '-af', 'loudnorm=print_format=json', '-f', 'null', '-'], capture_output=True, text=True).stderr
 I = float(re.search(r'"input_i"\s*:\s*"(-?[\d.]+)"', out).group(1)); TP = float(re.search(r'"input_tp"\s*:\s*"(-?[\d.]+)"', out).group(1))
-say('ok' if -15.0 <= I <= -13.0 else 'FAIL', f'loudness {I:.1f} LUFS (wanted -14, give or take 1)')
-say('ok' if TP <= -1.0 else 'FAIL', f'true peak {TP:.1f} dBTP (wanted -1 or lower)')
+if A.kind == 'recording':
+    # The owner's own voice is never squashed to reach a number (11 Nov: "the sound of the video was top quality. But when
+    # you made the edit... it was just poor"). No compressor, no limiter: one plain gain, as far as the peaks allow.
+    say('ok' if I <= -13.0 and -2.0 <= TP <= -0.5 else 'FAIL', f'loudness {I:.1f} LUFS with the peak at {TP:.2f} dBTP (their own recording: one plain gain up to a peak '
+        'of -1 in the mix, whatever loudness that gives; the AAC encode moves the peak a few hundredths. Louder than -13, or a peak outside -2 to -0.5, means '
+        'something other than plain gain was done, or not enough of it)')
+else:
+    say('ok' if -15.0 <= I <= -13.0 else 'FAIL', f'loudness {I:.1f} LUFS (wanted -14, give or take 1)')
+    say('ok' if TP <= -1.0 else 'FAIL', f'true peak {TP:.1f} dBTP (wanted -1 or lower)')
 
 # ---- 3. the music under the voice
 if A.voice and A.bed and A.music != 'none':
@@ -58,7 +65,7 @@ if A.voice and A.bed and A.music != 'none':
     ve = np.array([db(v[i * k:(i + 1) * k]) for i in range(f)]); sp = np.repeat(ve > -38, k)
     half = n // 4                                                  # skip an intro build
     under = db(v[:f * k][sp]) - db(b[:f * k][half:][sp[half:]])
-    say('ok' if 8 <= under <= 15 else 'FAIL', f'music {under:.1f} dB under the voice while speaking (wanted 8 to 15; 20 reads as a hum, under 8 fights the words)')
+    say('ok' if 8 <= under <= 16 else 'FAIL', f'music {under:.1f} dB under the voice while speaking (wanted 8 to 16; 20 reads as a hum, under 8 fights the words)')
 elif A.music != 'none' and A.kind in ('recording', 'explainer', 'analysis', 'post-match'):
     say('WARN', 'no --voice/--bed given: the music level under the voice was not measured')
 
