@@ -52,4 +52,6 @@ How do you pay when you have no cash, no card and your exchange has paused withd
 - **What is real on screen:** Primus' logo and Primus' docs page (docs.primuslabs.xyz, "Proof of Assets", captured
   11 Nov 2026). The outlined sentence is theirs: a user proves an exchange balance to qualify for a loan, which is
   your example.
+- **The picture is flipped left to right.** Your phone recorded you mirrored, so the Chelsea crest and the Nike tick
+  read backwards in the recording. In the video they read the right way, and the crest is on the correct side.
 - **Music:** "A New Life" by Eugenio Mininni (Mixkit free licence), the track you approved. Credit is not required.

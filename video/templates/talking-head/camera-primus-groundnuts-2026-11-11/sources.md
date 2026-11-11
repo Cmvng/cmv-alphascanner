@@ -32,6 +32,11 @@ Everything on screen that is not the owner's own words, and where it came from. 
 - The owner says "the Primus Tech Lab"; the captions give the project its name, **Primus Labs**.
 - "to verify proofs on the encrypted node": kept as said. Primus' word for the node is "attestor".
 
+## The camera picture
+- The owner's recording, in the studio look (`video/lib/portrait_pro_long.py`): the room replaced by a clean backdrop,
+  the face lit, the framing steady. The picture is flipped left to right, because the phone recorded it mirrored (the
+  Chelsea crest and the Nike tick on the shirt read backwards in the recording).
+
 ## Sound
 - Voice: the owner's recording, de-clipped, room echo out (WPE), then DeepFilterNet3. No pitch or tempo change.
 - Music: "A New Life", Eugenio Mininni (Mixkit 543, free licence), the owner's approved track: about 12 dB under the

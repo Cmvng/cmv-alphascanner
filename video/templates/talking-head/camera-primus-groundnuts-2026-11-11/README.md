@@ -50,6 +50,10 @@ frame of the studio look, for the cover). `docs.js` is `window.DOCS = ` + the ca
 - One overlay render, because the first frame, the cards and the levels had been checked on stills.
 
 ## Lessons
+- **Look for text in the raw picture before anything else.** The phone's front camera had recorded the owner
+  mirrored: the Chelsea crest and the Nike tick read backwards. It was caught on a full-size still of the finished
+  look, two minutes into the final render, which had to be restarted. `build_av.py` flips the picture (`FLIP`); the
+  flip costs nothing there, and the cover's still is flipped the same way.
 - The owner sits close to the phone: the head is about a third of the frame's height. Cards above the head leave only
   400 px. Moving the camera down 300 px while a panel is shown gives a 578 px stage and keeps the face whole.
 - The strip that opens above the moved picture is the top of the backdrop mirrored (`build_av.py`); the studio
