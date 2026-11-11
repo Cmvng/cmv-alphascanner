@@ -84,11 +84,11 @@ message; it came straight back, twice. The second version is the one in the out 
   - At intake, look at one full-size raw frame for text (a shirt, a sign, a screen): mirrored means flip.
 - **Final review (second version):** 111.1 s, 3,333 frames, 1080x1920, -14.1 LUFS, -1.6 dBTP, music 12.1 dB under the
   voice; gate 0 FAIL. Every half second on 12 sheets. The raw beside the result at 12 moments where the bottle is
-  held (`versus_raw.py`): all of it in the picture each time. Consecutive frames at full size at 16 fast movements
-  (`motion.py`): no edge, halo or added block; what is left on the fastest hands (one frame of ghosting each) is in
+  held (`versus_raw.py`): all of it in the picture each time. Consecutive frames at full size at nine of the fastest moments
+  and at all four layout changes (`motion.py`): no edge, halo or added block; what is left on the fastest hands (one frame of ghosting each) is in
   the recording, checked against the raw frame by frame at 103.9 s. Hear-back: 49 of 53 captions matched; the other
   four are the recogniser's ("Binance" as "my nurse", "withdraw" as "draw", the four "good"s, "Voila"), none at a cut.
-- **Time:** message at 09:57; first version at 11:03; rejected at about 11:20; second version at 11:49 (25 minutes after the second message, 14 of them the picture render).
+- **Time:** message at 09:57; first version at 11:03; rejected at about 11:20; second version at 11:48 (about 25 minutes after the second message, 13 of them the picture render).
 
 ## 10 Nov: the owner's recording, Bagel and the international break (studio look, 1:40, 9:16)
 
