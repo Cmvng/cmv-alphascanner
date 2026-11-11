@@ -1,0 +1,50 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Primus Labs, the groundnut test: cover (#v, 1080x1920) and thumbnail (#t, 1280x720)</title>
+<style>
+@font-face{font-family:Anton;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/anton-latin-400-normal.woff2)}
+@font-face{font-family:Manrope;font-weight:800;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-800-normal.woff2)}
+@font-face{font-family:Mono;font-weight:700;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/jetbrains-mono-latin-700-normal.woff2)}
+/* img/still.png is a frame of the finished camera picture (the owner in the studio look, holding the bottle), 1080x1920.
+   img/primus-logo.svg is Primus' own logo file. */
+:root{--ink:#0B1F4D;--blue:#1F5FDB;--red:#E5484D;--green:#12A150}
+*{box-sizing:border-box}
+html,body{margin:0;overflow:hidden;font-family:Manrope,sans-serif;font-weight:800;color:var(--ink);background:#C9D6EA}
+.abs{position:absolute}
+.mono{font-family:Mono,monospace;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
+.card{position:absolute;border-radius:40px;background:rgba(255,255,255,.96);box-shadow:0 34px 80px rgba(10,24,64,.34),0 0 0 1.5px rgba(11,31,77,.06)}
+.h{font-family:Anton,sans-serif;font-weight:400;line-height:.98;text-transform:uppercase;white-space:nowrap}
+.chips{display:flex;gap:12px}
+.chips div{height:60px;padding:0 22px;border-radius:30px;font-size:29px;line-height:58px;background:#fff;border:2px solid #F3C9CB;color:var(--red);white-space:nowrap}
+.chips div.ok{background:#F1FBF5;border-color:#9FDDB7;color:var(--green)}
+.pill{position:absolute;height:96px;border-radius:48px;background:#fff;box-shadow:0 16px 36px rgba(10,24,64,.28)}
+.pill img{height:50px;margin:23px 38px 0 34px}
+</style></head>
+<body>
+<div id="v" style="display:none;position:absolute;left:0;top:0;width:1080px;height:1920px;overflow:hidden">
+  <img src="img/still.png" class="abs" style="left:0;top:0;width:1080px;height:1920px">
+  <div class="card" style="left:50px;top:118px;width:980px;height:412px">
+    <div class="abs mono" style="left:46px;top:38px;font-size:26px;color:var(--blue)">zkTLS, in a supermarket</div>
+    <div class="abs h" style="left:42px;top:80px;font-size:124px">The groundnut</div>
+    <div class="abs h" style="left:42px;top:202px;font-size:124px;color:var(--blue)">test.</div>
+    <div class="abs chips" style="left:300px;top:226px"><div>No cash ✗</div><div>No card ✗</div></div>
+    <div class="abs chips" style="left:42px;top:326px"><div>No crypto ✗</div><div class="ok">Just a proof ✓</div></div>
+  </div>
+  <div class="pill" style="left:50px;top:1696px"><img src="img/primus-logo.svg"></div>
+  <div class="abs" style="right:56px;top:1720px;font-size:44px;color:#fff;text-shadow:0 4px 18px rgba(8,18,48,.7)">@Cmv_ng</div>
+</div>
+<div id="t" style="display:none;position:absolute;left:0;top:0;width:1280px;height:720px;overflow:hidden;background:linear-gradient(100deg,#DDE7F5 0%,#C2D0E6 46%,#A3B5D3 100%)">
+  <div class="abs" style="right:0;top:0;width:640px;height:720px;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 30%);mask-image:linear-gradient(90deg,transparent 0,#000 30%)"><img src="img/still.png" style="position:absolute;left:-60px;top:-330px;width:760px"></div>
+  <div class="abs mono" style="left:64px;top:84px;font-size:27px;color:var(--blue)">zkTLS, in a supermarket</div>
+  <div class="abs h" style="left:60px;top:128px;font-size:118px">The groundnut</div>
+  <div class="abs h" style="left:60px;top:246px;font-size:118px;color:var(--blue)">test.</div>
+  <div class="abs chips" style="left:60px;top:392px"><div>No cash ✗</div><div>No card ✗</div><div>No crypto ✗</div></div>
+  <div class="abs chips" style="left:60px;top:466px"><div class="ok">Just a proof ✓</div></div>
+  <div class="pill" style="left:60px;top:566px"><img src="img/primus-logo.svg"></div>
+  <div class="abs" style="left:372px;top:590px;font-size:40px">@Cmv_ng</div>
+</div>
+<script>
+const m = location.hash.includes('t') ? 't' : 'v'
+document.getElementById(m).style.display = 'block'
+window.READY = Promise.all([document.fonts.ready, ...[...document.images].map(i => i.decode().catch(() => 0))]).then(() => document.fonts.load('116px Anton')).then(() => document.fonts.load('800 30px Manrope')).then(() => document.fonts.load('700 26px Mono'))
+</script>
+</body></html>

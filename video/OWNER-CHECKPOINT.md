@@ -114,7 +114,9 @@ going back and forth.
 - **Post-match:** the presenter format: the lady at the mic, the commentary, the stadiums, the players. 13 Oct, on a
   graphics-only board: "I expected something creative."
 - **Their own recording:** the studio look, their voice forward, the real screens of what they talk about, real dated
-  facts beside their words, no reactions, music by the rules above.
+  facts beside their words, no reactions, music by the rules above. Their example is illustrated step by step, in
+  the order they tell it (11 Nov: "the illustration… done properly and sequenced in a good way… in layers… the right
+  order that a professional will approve 10/10").
 - **A project (Bagel, Primus Labs, Gamdom…):** its own screens, logo, art and colours. On a crypto video the coin
   itself is the showcase: live price, change and candles.
 - **Art (@i_am_vickyd):** their footage and templates as sent, their music, a clean story. 22 Oct: "You only tell the
@@ -136,6 +138,10 @@ going back and forth.
 - **No back and forth.** 4 Nov: "I need the best quality work… not going back and forth." Fewer, surer versions.
 - **Tell them early what is coming and how long.** 29 Oct: "It took forever." 7 Nov: "Why is this taking so long?"
   Run heavy renders one at a time; several at once make each three times slower.
+- **Be fast, without dropping the standard.** 11 Nov: "be fast with it. Don't take too much time… last time like you
+  took forever", and in the same message "take your time to do the right job." Start the long steps first (working
+  copy, cut-out, studio-look render) and do the light work beside them (voice, cut plan, real screens, the page, the
+  cover); check the page on stills over a stand-in picture, so there is one final render.
 - **Check before they do.** 27 Oct: "Didn't you cross check what you did?" Every half second on sheets, every caption
   against the sound, real screens at full size.
 - **Study each finished video** and write what to change in `video/templates/REVIEWS.md` (6 Oct: "You need to study

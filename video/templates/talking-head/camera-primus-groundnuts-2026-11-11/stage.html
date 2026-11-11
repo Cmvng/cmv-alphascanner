@@ -1,0 +1,283 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Primus Labs, the groundnut test: overlay on the owner's camera</title>
+<style>
+@font-face{font-family:Anton;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/anton-latin-400-normal.woff2)}
+@font-face{font-family:Manrope;font-weight:600;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-600-normal.woff2)}
+@font-face{font-family:Manrope;font-weight:800;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-800-normal.woff2)}
+@font-face{font-family:Mono;font-weight:700;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/jetbrains-mono-latin-700-normal.woff2)}
+/* What is real here: the Primus logo (their file) and the docs page (docs.primuslabs.xyz, captured 11 Nov 2026 as
+   served, at phone width). Ours: the stage panel, the till receipt, the diagram, the cards, the captions, the end card.
+   The receipt and the diagram tell the owner's example; "Binance" is in words only, with an "example" tag. */
+:root{--ink:#0B1F4D;--blue:#1F5FDB;--sky:#6CB6FF;--mute:#6B7A99;--line:#E3E9F4;--red:#E5484D;--green:#12A150;--pr:#FD4C00}
+*{box-sizing:border-box}
+html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:transparent;font-family:Manrope,sans-serif;font-weight:800;color:var(--ink)}
+.abs{position:absolute}
+.mono{font-family:Mono,monospace;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
+.card{position:absolute;left:60px;top:112px;width:960px;border-radius:36px;background:rgba(255,255,255,.96);opacity:0;transform-origin:50% 0;
+  box-shadow:0 30px 70px rgba(10,24,64,.30),0 0 0 1.5px rgba(11,31,77,.06)}
+.kick{position:absolute;left:44px;top:34px;font-size:24px;color:var(--blue);white-space:nowrap}
+.kick i{display:inline-block;width:14px;height:14px;border-radius:7px;background:var(--blue);margin-right:14px;vertical-align:1px}
+.head{position:absolute;left:40px;top:74px;font-family:Anton,sans-serif;font-weight:400;line-height:1;letter-spacing:.005em;white-space:nowrap;text-transform:uppercase}
+.row{position:absolute;left:40px;display:flex;gap:14px;align-items:center}
+.chip{height:60px;padding:0 24px;border-radius:30px;font-size:29px;line-height:58px;white-space:nowrap;background:#fff;border:1.5px solid var(--line);opacity:0}
+.chip.ok{color:var(--green);border-color:#BFE8CF;background:#F1FBF5}
+.chip.hid{color:var(--ink);background:#EEF3FC;border-color:#D6E2F8}
+/* the stage panel */
+#panel{position:absolute;left:40px;top:112px;width:1000px;height:700px;border-radius:40px;background:#fff;overflow:hidden;
+  box-shadow:0 34px 80px rgba(10,24,64,.34),0 0 0 1.5px rgba(11,31,77,.07)}
+#view{position:absolute;left:0;top:0;width:1000px;height:578px;overflow:hidden;background:linear-gradient(180deg,#EDF4FF,#D9E8FF)}
+#strip{position:absolute;left:0;top:578px;width:1000px;height:122px;border-top:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;text-align:center;padding:0 34px}
+#stt{font-size:43px;line-height:51px;letter-spacing:-.01em}
+#stt b,#capt b{font-weight:800;color:var(--blue)}
+.sc{position:absolute;left:0;top:0;width:1000px;height:578px;opacity:0}
+/* receipt */
+#say{position:absolute;left:0;top:176px;width:1000px;text-align:center;font-family:Anton,sans-serif;font-weight:400;font-size:132px;line-height:1;text-transform:uppercase}
+#sayk{position:absolute;left:0;top:118px;width:1000px;text-align:center;font-size:24px;color:var(--blue)}
+#slot{position:absolute;left:56px;top:14px;width:888px;height:30px;border-radius:14px;background:var(--ink);box-shadow:0 8px 18px rgba(11,31,77,.28);z-index:3}
+#slot:after{content:"";position:absolute;left:30px;right:30px;top:19px;height:5px;border-radius:3px;background:#050F2B}
+#paper{position:absolute;left:80px;top:34px;width:840px;height:0;background:#fff;overflow:hidden;z-index:2;box-shadow:0 14px 30px rgba(11,31,77,.20)}
+#zig{position:absolute;left:80px;width:840px;height:12px;z-index:2;background:linear-gradient(135deg,#fff 50%,transparent 50%) 0 0/20px 12px repeat-x,linear-gradient(225deg,#fff 50%,transparent 50%) 0 0/20px 12px repeat-x}
+#rows{position:absolute;left:36px;top:20px;width:768px;font-family:Mono,monospace;font-weight:700;color:#1B2540}
+.rw{display:flex;align-items:center;gap:12px;font-size:36px;white-space:nowrap;opacity:0}
+.rw .ld{flex:1;border-bottom:3px dotted #B9C4D9;height:1px;transform:translateY(6px)}
+.rw .mk{width:40px;text-align:right;font-family:Manrope,sans-serif;font-weight:800;font-size:40px}
+.rw .tg{font-size:20px;letter-spacing:.08em;color:var(--blue);border:2px solid var(--blue);border-radius:10px;padding:3px 9px 2px;opacity:0}
+.rw.h{justify-content:center;font-size:50px;letter-spacing:.12em}
+.rw.s{justify-content:center;font-size:27px;letter-spacing:.06em;color:#5B6A88;text-transform:uppercase}
+.rw.c{justify-content:center;font-size:35px;letter-spacing:.06em;color:var(--blue)}
+.rw.d{border-top:2px dashed #C8D2E4;height:0!important;margin:9px 0}
+.bad{color:var(--red)}.good{color:var(--green)}
+#bask{position:absolute;left:372px;top:236px;opacity:.11}
+#tillk{position:absolute;left:40px;top:528px;font-size:20px;color:var(--blue);opacity:.7}
+#stamp{position:absolute;left:352px;top:404px;width:292px;height:82px;border:6px solid var(--green);border-radius:16px;color:var(--green);font-family:Anton,sans-serif;font-weight:400;font-size:48px;line-height:70px;text-align:center;letter-spacing:.04em;opacity:0;z-index:5;background:rgba(255,255,255,.86)}
+/* diagram */
+.nd{position:absolute;top:76px;width:250px;height:190px;border-radius:26px;background:#fff;border:2.5px solid var(--line);opacity:0;box-shadow:0 10px 24px rgba(11,31,77,.10)}
+.nd svg{position:absolute;left:22px;top:20px}
+.nd .t{position:absolute;left:24px;top:98px;font-size:33px;white-space:nowrap}
+.nd .u{position:absolute;left:24px;top:142px;font-size:23px;font-weight:600;color:var(--mute);white-space:nowrap}
+.lk{position:absolute;top:169px;height:5px;border-radius:3px;background:var(--blue);transform-origin:0 50%}
+.lkl{position:absolute;top:108px;width:150px;text-align:center;font-size:19px;color:var(--blue);letter-spacing:.1em;opacity:0}
+#lock{position:absolute;left:296px;top:143px;width:56px;height:56px;border-radius:28px;background:var(--blue);opacity:0;box-shadow:0 6px 16px rgba(31,95,219,.4)}
+#lock svg{position:absolute;left:14px;top:12px}
+#pn{position:absolute;left:24px;top:288px;width:640px;height:72px;border-radius:36px;background:#fff;border:2.5px solid #FFD2BF;opacity:0;box-shadow:0 10px 24px rgba(253,76,0,.14)}
+#pn img{position:absolute;left:26px;top:20px;height:32px}
+#pn span{position:absolute;left:194px;top:0;font-size:24px;line-height:67px;font-weight:600;color:#44506B;white-space:nowrap}
+#pnl{position:absolute;left:321.5px;top:199px;width:5px;height:89px;border-radius:3px;background:var(--pr);transform-origin:50% 100%}
+.bdg{position:absolute;top:290px;height:68px;border-radius:34px;font-size:28px;line-height:63px;padding:0;width:250px;left:726px;text-align:center;white-space:nowrap;opacity:0}
+#bal{left:26px;top:276px;display:none}
+#tok{background:#F1FBF5;border:2.5px solid #9FDDB7;color:var(--green)}
+#ask{background:#EEF3FC;border:2.5px solid #C9D9F6;color:var(--blue)}
+#step{position:absolute;left:24px;top:384px;width:952px;height:172px;border-radius:30px;background:#fff;border:2px solid var(--line);box-shadow:0 10px 24px rgba(11,31,77,.08)}
+#stn{position:absolute;left:28px;top:50px;width:72px;height:72px;border-radius:36px;background:var(--blue);color:#fff;font-size:40px;line-height:70px;text-align:center}
+#stx{position:absolute;left:126px;top:0;width:800px;height:172px;display:flex;align-items:center;font-size:42px;line-height:52px;letter-spacing:-.01em}
+#stx b{color:var(--blue)}#stx i{font-style:normal;color:var(--green)}
+.pu{position:absolute;width:14px;height:14px;border-radius:7px;background:var(--blue);opacity:0;box-shadow:0 0 0 4px rgba(31,95,219,.18)}
+#dk{position:absolute;left:40px;top:26px;font-size:22px;color:var(--blue)}
+#dk i{display:inline-block;width:13px;height:13px;border-radius:7px;background:var(--blue);margin-right:12px}
+#dlogo{position:absolute;right:40px;top:20px;height:34px;opacity:0}
+/* the real docs page */
+#bar{position:absolute;left:0;top:0;width:1000px;height:64px;background:#F1F5FB;border-bottom:1.5px solid var(--line);z-index:3}
+#url{position:absolute;left:24px;top:10px;height:44px;border-radius:22px;background:#fff;border:1.5px solid var(--line);font-family:Mono,monospace;font-weight:700;font-size:24px;line-height:41px;padding:0 20px 0 16px;color:#33415E;white-space:nowrap}
+#url u{text-decoration:none;color:var(--green);margin-right:8px}
+#real{position:absolute;right:24px;top:10px;height:44px;border-radius:22px;background:var(--ink);color:#fff;font-size:19px;line-height:44px;padding:0 18px;white-space:nowrap}
+#pgw{position:absolute;left:50px;top:64px;width:900px;height:514px;overflow:hidden;background:#fff;box-shadow:0 0 0 1.5px var(--line)}
+#pgi{position:absolute;left:0;top:0;width:1000px;transform-origin:0 0}
+#pgi img{display:block;width:1000px}
+.hl{position:absolute;border-radius:8px;background:rgba(31,95,219,.16);box-shadow:0 0 0 4px var(--blue);opacity:0}
+#note{position:absolute;left:0;top:410px;width:1000px;height:168px;border-radius:30px 30px 0 0;background:var(--ink);color:#fff;z-index:4;opacity:0;box-shadow:0 16px 36px rgba(11,31,77,.4)}
+#note .a{position:absolute;left:40px;top:20px;font-family:Anton,sans-serif;font-weight:400;font-size:66px;line-height:1.1;letter-spacing:.01em;white-space:nowrap}
+#note .b{position:absolute;left:42px;top:106px;font-size:33px;color:var(--sky);white-space:nowrap;opacity:0}
+/* captions over the camera */
+#cap{position:absolute;left:0;width:1080px;bottom:322px;display:flex;justify-content:center;opacity:0}
+#capt{max-width:980px;padding:15px 30px 17px;border-radius:24px;background:rgba(11,31,77,.93);color:#fff;font-size:52px;line-height:62px;text-align:center;letter-spacing:-.01em;box-shadow:0 14px 34px rgba(8,20,56,.34)}
+#capt b{color:var(--sky)}
+/* end card */
+#end{position:absolute;left:0;top:0;width:1080px;height:1920px;background:linear-gradient(180deg,#F4F8FF,#DCE9FF);opacity:0}
+#end .c{position:absolute;left:0;width:1080px;text-align:center}
+.ec{display:inline-block;height:72px;padding:0 30px;border-radius:36px;font-size:34px;line-height:70px;background:#fff;border:1.5px solid var(--line);margin:0 6px 14px;opacity:0;white-space:nowrap}
+</style></head><body>
+
+<!-- the hook: whole at the first frame -->
+<div class="card" id="c1" style="height:352px">
+  <div class="kick mono"><i id="dot"></i>A practical example</div>
+  <div class="head" style="font-size:112px">The groundnut test</div>
+  <div class="row" style="top:232px"><img src="img/primus-logo.svg" style="height:50px;margin-right:8px"><div class="chip" id="h0" style="opacity:1;color:#fff;background:var(--blue);border-color:var(--blue)">zkTLS</div><div style="font-size:31px;font-weight:600;color:#44506B;white-space:nowrap">in a supermarket</div></div>
+</div>
+
+<!-- what the shop saw -->
+<div class="card" id="c2" style="height:330px">
+  <div class="kick mono"><i></i>What the shop saw</div>
+  <div class="head" style="font-size:91px;top:78px">A yes. Not my balance.</div>
+  <div class="row" style="top:214px"><div class="chip ok" id="s0">Enough to pay ✓</div><div class="chip hid" id="s1">Balance: hidden</div><div class="chip ok" id="s2">Groundnuts ✓</div></div>
+</div>
+
+<div id="panel">
+  <div id="view">
+    <!-- the till receipt -->
+    <div class="sc" id="scR">
+      <div class="mono" id="sayk">● for example</div><div id="say">Let's say…</div>
+      <div id="slot"></div><div id="paper"><div id="rows"></div></div><div id="zig"></div>
+      <svg id="bask" width="256" height="256" viewBox="0 0 64 64" fill="none" stroke="#0B1F4D" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 26h52l-5 26a4 4 0 0 1-4 3H15a4 4 0 0 1-4-3z"/><path d="M20 26l8-16M44 26l-8-16M24 34v13M32 34v13M40 34v13"/></svg><div class="mono" id="tillk">● at the till</div>
+      <div id="stamp">YOU CAN GO</div>
+    </div>
+    <!-- how the shop checks -->
+    <div class="sc" id="scD">
+      <div class="mono" id="dk"><i></i>How the shop checks</div><img id="dlogo" src="img/primus-logo.svg">
+      <div class="nd" id="n1" style="left:24px"><svg width="64" height="64" viewBox="0 0 64 64" fill="none" stroke="#0B1F4D" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="10" width="52" height="44" rx="9"/><circle cx="32" cy="32" r="10"/><path d="M32 22v-4M32 46v-4M22 32h-4M46 32h-4"/></svg><div class="t">My account</div><div class="u">on the exchange</div></div>
+      <div class="nd" id="n2" style="left:375px"><svg width="64" height="64" viewBox="0 0 64 64" fill="none" stroke="#0B1F4D" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><rect x="17" y="5" width="30" height="54" rx="8"/><path d="M28 50h8"/></svg><div class="t">Me</div><div class="u">my phone, my login</div></div>
+      <div class="nd" id="n3" style="left:726px"><svg width="64" height="64" viewBox="0 0 64 64" fill="none" stroke="#0B1F4D" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M8 26l5-16h38l5 16"/><path d="M8 26c0 5 8 5 8 0c0 5 8 5 8 0c0 5 8 5 8 0c0 5 8 5 8 0c0 5 8 5 8 0c0 5 8 5 8 0"/><path d="M12 31v24h40V31M26 55V40h12v15"/></svg><div class="t">The shop</div><div class="u">supermarket till</div></div>
+      <div class="lk" id="lk1" style="left:274px;width:101px"></div><div class="lk" id="lk2" style="left:625px;width:101px"></div>
+      <div class="pu" id="p1" style="left:267px;top:164.5px"></div><div class="pu" id="p3" style="left:618px;top:164.5px"></div><div class="pu" id="p2" style="left:317px;top:192px;background:var(--pr);box-shadow:0 0 0 4px rgba(253,76,0,.18)"></div>
+      <div id="lock"><svg width="28" height="32" viewBox="0 0 28 32" fill="none" stroke="#fff" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="14" width="22" height="15" rx="4"/><path d="M8 14V9a6 6 0 0 1 12 0v5"/></svg></div>
+      <div class="lkl mono" id="ll1" style="left:249px">locked</div><div class="lkl mono" id="ll2" style="left:600px">proof</div>
+      <div id="pnl"></div><div id="pn"><img src="img/primus-logo.svg"><span>node · witnesses the locked session</span></div>
+      <div class="bdg" id="ask">Enough to pay?</div><div class="bdg" id="tok">ENOUGH: YES ✓</div>
+      <div id="step"><div id="stn">1</div><div id="stx"><span id="stxt"></span></div></div>
+    </div>
+    <!-- the real docs page -->
+    <div class="sc" id="scP">
+      <div id="bar"><div id="url"><u>●</u>docs.primuslabs.xyz</div><div class="mono" id="real">Primus' own page · 11 Nov 2026</div></div>
+      <div id="pgw"><div id="pgi"><img src="img/docs-proof-of-assets.png"><div class="hl" id="hz"></div><div class="hl" id="ha0"></div><div class="hl" id="ha1"></div><div class="hl" id="ha2"></div></div></div>
+      <div id="note"><div class="a">NOT ON EVERY PLATFORM</div><div class="b">It only works on platforms that use the tech.</div></div>
+    </div>
+  </div>
+  <div id="strip"><div id="stt"></div></div>
+</div>
+
+<div id="cap"><div id="capt"></div></div>
+
+<div id="end">
+  <div class="c" style="top:520px"><img id="elogo" src="img/primus-logo.svg" style="width:560px;opacity:0"></div>
+  <div class="c" id="etag" style="top:700px;font-size:54px;letter-spacing:-.01em;opacity:0">Prove the fact. Keep the data.</div>
+  <div class="c" style="top:850px;padding:0 50px"><span class="ec" id="e0">zkTLS</span><span class="ec" id="e1">Proof of assets</span><span class="ec" id="e2">You log in to your own account</span><span class="ec" id="e3">The shop sees: YES</span><span class="ec" id="e4">Only where it is built in</span></div>
+  <div class="c mono" id="eget" style="top:1190px;font-size:34px;color:var(--blue);opacity:0">docs.primuslabs.xyz</div>
+  <div class="c" id="eby" style="top:1300px;font-size:46px;opacity:0">Video by <span style="color:var(--blue)">@Cmv_ng</span></div>
+  <div class="c" id="erisk" style="top:1490px;font-size:26px;font-weight:600;color:var(--mute);opacity:0;padding:0 90px">An example to explain the tech. The supermarket and the hack are made up. Not financial advice.</div>
+</div>
+
+<script src="plan.js"></script>
+<script src="docs.js"></script>
+<script>
+const P = window.PLAN, E = P.ev, D = window.DOCS, $ = id => document.getElementById(id)
+const cl = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x))
+const seg = (t, a, d) => cl((t - a) / d)
+const eo = x => 1 - Math.pow(1 - x, 3), eio = x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2
+const back = x => { const c = 1.9; return 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2) }
+const ss = x => { x = cl(x); return x * x * (3 - 2 * x) }
+let SIG = []
+const st = (el, o) => { for (const k in o) { const v = typeof o[k] === 'number' ? +o[k].toFixed(3) : o[k]; el.style[k] = v; SIG.push(v) } }
+const NOTEXT = location.hash.includes('notext')
+const pop = (el, t, a, b = 1e9, d = .32) => { const k = eo(seg(t, a, d)) * (1 - seg(t, b, .22)); st(el, { opacity: cl(k * 1.6), transform: `scale(${(.86 + .14 * back(seg(t, a, d))).toFixed(4)})` }); return k }
+function card(el, t, a, b) { const k = eo(seg(t, a, .42)), o = seg(t, b, .3); st(el, { opacity: cl(k * 1.5) * (1 - o), transform: `translateY(${((1 - k) * -46 - o * 34).toFixed(1)}px) scale(${(.965 + .035 * k).toFixed(4)})` }) }
+const RAMP = .45, stageK = t => P.stage.reduce((a, [x, y]) => a + ss((t - x) / RAMP) - ss((t - y) / RAMP), 0)   // the same curve as the camera's move (build_av.py)
+
+// ---- the receipt's rows
+const R = [
+  { k: 'h', t: 'SUPERMARKET', at: E.r_super, h: 62 }, { k: 's', t: 'anywhere in the world', at: E.r_world, h: 38 },
+  { k: 'd', at: E.r_item - .12 }, { k: 'i', t: '1 × BOTTLE OF GROUNDNUTS', at: E.r_item, h: 54 }, { k: 'd', at: E.r_cash - .12 },
+  { k: 'r', l: 'CASH', v: 'NONE', x: 1, at: E.r_cash }, { k: 'r', l: 'BANK APP', v: 'NOT WORKING', x: 1, at: E.r_bank + .45 },
+  { k: 'r', l: 'ATM CARD', v: 'NOT ON ME', x: 1, at: E.r_atm }, { k: 'r', l: 'CRYPTO', v: 'WITHDRAWALS PAUSED', x: 1, at: E.r_bin, vat: E.r_crypto, tag: 'example' },
+  { k: 'd', at: E.r_how - .12 }, { k: 'r', l: 'HOW TO PAY?', v: '???', at: E.r_how, q: 1 },
+  { k: 'd', at: E.r2_in }, { k: 'c', t: 'zkTLS PROOF · PRIMUS', at: E.r2_in + .12, h: 54 },
+  { k: 'r', l: 'ENOUGH MONEY?', v: 'YES', ok: 1, at: E.r2_good }, { k: 'r', l: 'MY BALANCE', v: 'HIDDEN', at: E.r2_have }, { k: 'r', l: 'PAY LATER', v: 'APPROVED', ok: 1, at: E.r2_go },
+]
+let yy = 0
+for (const r of R) {
+  const el = document.createElement('div'); r.el = el; r.h = r.k === 'd' ? 20 : (r.h || 52); r.y = yy; yy += r.h
+  el.className = 'rw ' + r.k; if (r.k !== 'd') el.style.height = r.h + 'px'
+  if (r.k === 'r') el.innerHTML = `<span>${r.l}</span>${r.tag ? `<span class="tg">${r.tag}</span>` : ''}<span class="ld"></span><span class="v${r.x ? ' bad' : r.ok ? ' good' : ''}">${r.v}</span><span class="mk ${r.x ? 'bad' : 'good'}">${r.x ? '✗' : r.ok ? '✓' : ''}</span>`
+  else if (r.k !== 'd') el.textContent = r.t
+  $('rows').appendChild(el)
+}
+const SCROLL = R[7].y                                     // the second visit starts at the ATM row
+// ---- the docs page: where the phrases sit (page px = CSS px x scale)
+const HL = (el, q) => { const s = D.scale; el.style.left = (q[0] * s - 8) + 'px'; el.style.top = (q[1] * s - 5) + 'px'; el.style.width = (q[2] * s + 16) + 'px'; el.style.height = (q[3] * s + 10) + 'px' }
+const ZK = D['leveraging the power of zkTLS'], AL = D['She can leverage Primus to prove to the protocol that she possesses over 10,000 USDT in her CEX account']
+HL($('hz'), ZK[0]); AL.forEach((q, i) => HL($('ha' + i), q))
+$('pgi').style.transform = 'scale(.9)'
+const STEPS = [
+  [E.dg_in, '•', 'The shop already uses <b>Primus zkTLS</b>.'],
+  [E.dg_verify - .1, '•', 'It verifies <b>proofs</b> on the <b>encrypted</b> node.'],
+  [E.dg_what - .1, '?', 'So, what do I simply do?'],
+  [E.dg_login - .15, '1', 'I <b>log in</b> to my own Binance app.'],
+  [E.dg_ver2 - .15, '2', 'Primus verifies one thing: <b>I have the money</b>.'],
+  [E.dg_cant - .15, '3', "I can't withdraw now, so I <b>pay it forward</b>."],
+  [E.dg_check - .15, '4', 'The shop checks: <b>is it enough?</b>'],
+  [E.dg_enough - .1, '5', '<i>Yes.</i> Sufficient enough.'],
+  [E.dg_1000 - .1, '5', '<b>1000x</b> the price. The shop sees only <i>YES</i>.'],
+]
+
+window.render = function (t) {
+  SIG = []
+  // ---- the hook, and what the shop saw
+  card($('c1'), t, -1, E.st1_in - .32); st($('dot'), { opacity: .45 + .55 * Math.abs(Math.sin(t * 3.2)) })
+  card($('c2'), t, E.sum_in, E.sum_out - .3); pop($('s0'), t, E.sum_in + .45); pop($('s1'), t, E.sum_go - .1); pop($('s2'), t, E.sum_happy - .1)
+  // ---- the stage panel: down with the camera's move
+  const k = stageK(t); st($('panel'), { opacity: k > .001 ? 1 : 0, transform: `translateY(${((1 - k) * -840).toFixed(1)}px)` })
+  // ---- the receipt: twice (the problem, then the proof)
+  const inR1 = t < E.dg_in + .5
+  { const o = inR1 ? 1 - seg(t, E.dg_in - .05, .2) : seg(t, E.r2_in - .32, .26)
+    st($('scR'), { opacity: o, transform: `translateX(${(inR1 ? -seg(t, E.dg_in - .05, .2) * 50 : (1 - eo(seg(t, E.r2_in - .32, .34))) * 50).toFixed(1)}px)` })
+    const s0 = 1 - seg(t, E.r_super - .5, .3); st($('say'), { opacity: s0 * seg(t, E.st1_in + .2, .3) }); st($('sayk'), { opacity: s0 * seg(t, E.st1_in + .1, .3) })
+    const sc = inR1 ? 0 : SCROLL; let h = 0
+    for (const r of R) { const e = eo(seg(t, r.at - .22, .28)); h = Math.max(h, (r.y + r.h) * (e > 0 ? e : 0) + (e > 0 ? 0 : 0)); st(r.el, { opacity: seg(t, r.at - .1, .14) })
+      if (r.vat) { const v = seg(t, r.vat - .1, .16), n = r.el.children.length; r.el.children[n - 2].style.opacity = v; r.el.children[n - 1].style.opacity = v; if (r.tag) r.el.children[1].style.opacity = seg(t, r.at + .45, .2); SIG.push(v.toFixed(2), seg(t, r.at + .45, .2).toFixed(2)) }
+      if (r.q) { const done = t >= E.r2_in - .2; r.el.children[2].textContent = done ? 'A PROOF' : '???'; r.el.children[2].style.color = done ? '#1F5FDB' : ''; r.el.children[2].style.opacity = done ? 1 : (.35 + .65 * Math.abs(Math.sin(t * 5))); SIG.push(done, r.el.children[2].style.opacity) } }
+    // the paper grows with the last printed row
+    let last = 0; for (const r of R) { const e = eo(seg(t, r.at - .22, .28)); if (e > 0) last = r.y + r.h * e }
+    const ph = cl(last - sc + 20 + 26, 0, 538) * (last > 0 ? 1 : 0)
+    st($('rows'), { transform: `translateY(${-sc}px)` }); st($('paper'), { height: ph + 'px' }); st($('zig'), { top: (34 + ph - .5) + 'px', opacity: ph > 4 ? 1 : 0 })
+    { const a = seg(t, E.r2_go + .25, .22); st($('stamp'), { top: (34 + 20 + R[14].y - SCROLL + 11) + 'px', opacity: a, transform: `rotate(-7deg) scale(${(1.5 - .5 * eo(a)).toFixed(4)})` }) }
+  }
+  // ---- how the shop checks
+  { const o = seg(t, E.dg_in + .17, .28) * (1 - seg(t, E.r2_in - .52, .2)); st($('scD'), { opacity: o })
+    pop($('n3'), t, E.dg_in + .25); pop($('n2'), t, E.dg_in + .4); pop($('n1'), t, E.dg_in + .55)
+    st($('dlogo'), { opacity: seg(t, E.dg_primus - .15, .3) })
+    pop($('pn'), t, E.dg_primus - .1); st($('pnl'), { opacity: seg(t, E.dg_enc - .3, .1), transform: `scaleY(${eo(seg(t, E.dg_enc - .3, .4)).toFixed(4)})` })
+    const l1 = eo(seg(t, E.dg_enc - .5, .45)); st($('lk1'), { transform: `scaleX(${l1.toFixed(4)})` }); pop($('lock'), t, E.dg_enc - .2); st($('ll1'), { opacity: seg(t, E.dg_enc, .3) })
+    const l2 = eo(seg(t, E.dg_check - .35, .4)); st($('lk2'), { transform: `scaleX(${l2.toFixed(4)})` }); st($('ll2'), { opacity: seg(t, E.dg_enough - .1, .3) })
+    const hot = (a, b) => t >= a && t < b
+    st($('n1'), { borderColor: hot(E.dg_login, E.dg_tech) || hot(E.dg_have - .2, E.dg_later) ? '#1F5FDB' : '#E3E9F4' })
+    st($('n2'), { borderColor: hot(E.dg_need - .3, E.dg_tech) || hot(E.dg_cant, E.dg_check) ? '#1F5FDB' : '#E3E9F4' })
+    st($('n3'), { borderColor: hot(E.dg_in + .3, E.dg_primus) || hot(E.dg_check, E.r2_in) ? '#1F5FDB' : '#E3E9F4' })
+    st($('pn'), { borderColor: hot(E.dg_primus, E.dg_need - .3) || hot(E.dg_tech, E.dg_have - .2) ? '#FD4C00' : '#FFD2BF' })
+    pop($('ask'), t, E.dg_check - .05, E.dg_enough - .25)
+    // traffic on the lines: my login (blue), the node's check (orange), the shop's question and the proof (blue)
+    { const w = (a, b) => seg(t, a, .25) * (1 - seg(t, b, .25)), tri = x => { x = x - Math.floor(x); return x }
+      const a1 = Math.max(w(E.dg_login, E.dg_ver2), w(E.dg_check, E.r2_in - .6)); st($('p1'), { opacity: a1, transform: `translateX(${(101 * (.5 + .5 * Math.sin(t * 5.2))).toFixed(1)}px)` })
+      const a2 = w(E.dg_tech, E.dg_cant); st($('p2'), { opacity: a2, transform: `translateY(${(89 * tri(t * .9)).toFixed(1)}px)` })
+      const ask = w(E.dg_check - .05, E.dg_enough - .3), ans = w(E.dg_enough + .3, E.r2_in - .6)
+      st($('p3'), { opacity: Math.max(ask, ans), transform: `translateX(${(101 * (ask > 0 ? 1 - tri(t * 1.1) : tri(t * 1.1))).toFixed(1)}px)` }) }
+    { const u = $('n1').querySelector('.u'), v = t >= E.dg_1000 - .1 ? 'balance: •••• (1000x)' : t >= E.dg_money - .2 ? 'balance: ••••••' : 'on the exchange'
+      if (u.textContent !== v) u.textContent = v; u.style.color = v[0] === 'b' ? '#1F5FDB' : ''; SIG.push(v) }
+    { const a = eo(seg(t, E.dg_enough - .25, .5)); st($('tok'), { opacity: cl(a * 2), transform: `translate(${((1 - a) * -300).toFixed(1)}px,${((1 - a) * 0).toFixed(1)}px) scale(${(.9 + .1 * a).toFixed(4)})` }) }
+    let s = STEPS[0]; for (const x of STEPS) if (t >= x[0]) s = x
+    if ($('stxt').innerHTML !== s[2]) { $('stxt').innerHTML = s[2]; $('stn').textContent = s[1] }
+    const a = eo(seg(t, s[0], .3)); st($('stx'), { opacity: a, transform: `translateX(${((1 - a) * 26).toFixed(1)}px)` }); st($('stn'), { transform: `scale(${(.8 + .2 * back(seg(t, s[0], .34))).toFixed(4)})` }); SIG.push(s[0])
+  }
+  // ---- Primus' own docs page
+  { const o = seg(t, E.pg_in - .1, .2) * (1 - seg(t, E.pg_out + .5, .1)); st($('scP'), { opacity: o })
+    const y1 = 900, y2 = 1392
+    const y = y1 * eio(seg(t, E.pg_zk - 1.05, .8)) + (y2 - y1) * eio(seg(t, E.pg_zk + 1.75, .8))
+    st($('pgi'), { transform: `translateY(${(-y * .9).toFixed(1)}px) scale(.9)` })
+    st($('hz'), { opacity: seg(t, E.pg_zk - .15, .25) }); for (let i = 0; i < 3; i++) st($('ha' + i), { opacity: seg(t, E.pg_zk + 2.6 + i * .12, .25) })
+    const n = eo(seg(t, E.pg_not - .25, .4)); st($('note'), { opacity: cl(n * 1.6), transform: `translateY(${((1 - n) * 60).toFixed(1)}px)` }); st($('note').children[1], { opacity: seg(t, E.pg_only - .2, .3) })
+  }
+  // ---- captions: in the panel's strip while the stage is down, over the chest otherwise
+  let c = null
+  for (const x of P.caps) if (t >= x.o0 && t < x.o1) c = x
+  const html = c && !NOTEXT ? c.t.replace(/\*([^*]+)\*/g, '<b>$1</b>') : ''
+  const inStage = k > .5
+  if (html && inStage) { if ($('stt').innerHTML !== html) $('stt').innerHTML = html; const a = eo(seg(t, c.o0, .12)); st($('stt'), { opacity: a, transform: `translateY(${((1 - a) * 6).toFixed(1)}px)` }); SIG.push(c.o0) } else st($('stt'), { opacity: 0 })
+  if (html && !inStage) { if ($('capt').innerHTML !== html) $('capt').innerHTML = html; const a = eo(seg(t, c.o0, .12)); st($('cap'), { opacity: a, transform: `translateY(${((1 - a) * 8).toFixed(1)}px)` }); SIG.push(c.o0) } else st($('cap'), { opacity: 0 })
+  // ---- end card
+  { const a = eo(seg(t, P.end - .05, .5)); st($('end'), { opacity: a > 0 ? 1 : 0, transform: `translateY(${((1 - a) * 1920).toFixed(1)}px)` })
+    const e0 = P.end + .35
+    st($('elogo'), { opacity: seg(t, e0, .3), transform: `scale(${(.9 + .1 * back(seg(t, e0, .45))).toFixed(4)})` }); st($('etag'), { opacity: seg(t, e0 + .3, .3) })
+    for (let i = 0; i < 5; i++) pop($('e' + i), t, e0 + .6 + i * .12)
+    st($('eget'), { opacity: seg(t, e0 + 1.25, .3) }); st($('eby'), { opacity: seg(t, e0 + 1.5, .3) }); st($('erisk'), { opacity: seg(t, e0 + 1.7, .3) }) }
+  return SIG.join('|')
+}
+window.READY = Promise.all([document.fonts.ready, ...[...document.images].map(i => i.decode().catch(() => 0))]).then(() => document.fonts.load('800 40px Manrope')).then(() => document.fonts.load('600 22px Manrope')).then(() => document.fonts.load('106px Anton')).then(() => document.fonts.load('700 24px Mono'))
+</script>
+</body></html>
