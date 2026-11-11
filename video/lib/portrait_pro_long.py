@@ -7,6 +7,10 @@ keep to disk and run in parallel, and it draws only the frames the cut keeps.
   python3 -I portrait_pro_long.py preview <work> <segs.json> <out dir> t,t,... [look]  (output seconds; needs matte)
   python3 -I portrait_pro_long.py render  <work> <segs.json> <out.mp4> [workers=4] [look]
 
+Framing: set PP_FULL=1 to keep the WHOLE frame as shot (no push-in, no punch-ins, no crop that follows the head).
+Use it whenever the owner shows something with their hands. On 11 Nov the following crop and the punch-ins put the
+bottle the owner was holding out of frame: "You cut what I'm actually trying to show."
+
 Two looks:
   room    (the default since 11 Nov) the owner's REAL room, softly out of focus behind them, as a lens would do it.
           Nothing is replaced. The matte only decides what stays sharp, and it is closed and feathered first, so a
@@ -35,6 +39,7 @@ WK, HK, OW, OH, FPS = 1224, 2176, 1080, 1920, 30
 Z0, Z1, TOPF = 1.035, 1.075, 0.285
 WIDE, EVEN, BG_GAIN, WASH, GLOW = 0.78, 0.62, 1.15, 0.18, 0.10   # the backdrop: share of the wide blur, how even, level, blue wash, glow
 SC = WK / 1080                                                   # the 9 Nov sizes were tuned at 1080 wide
+FULL = os.environ.get('PP_FULL') == '1'                          # the whole frame as shot: no zoom, no following crop
 
 
 def reader(path, f0, n, pix, size, vf=None):
@@ -255,7 +260,7 @@ def work(args):
         src = reader(f'{K}/pp_src.mp4', f0, n, 'rgb24', WK * HK * 3); alp = reader(f'{K}/pp_alpha.mkv', f0, n, 'gray', WK * HK)
         for k, (b, ab) in enumerate(zip(src, alp)):
             j = j0 + o0 + k; f, pz = fr[j]
-            zt = (Z0 + (Z1 - Z0) * j / max(N - 1, 1)) * pz
+            zt = 1.0 if FULL else (Z0 + (Z1 - Z0) * j / max(N - 1, 1)) * pz
             enc.stdin.write(L.frame(np.frombuffer(b, np.uint8).reshape(HK, WK, 3), np.frombuffer(ab, np.uint8).reshape(HK, WK), f, zt).tobytes()); done += 1
     enc.stdin.close(); enc.wait()
     return j0, j1, done
@@ -283,7 +288,7 @@ def preview(K, segs_path, outdir, times, look='room'):
     for t in times:
         j = min(N - 1, round(t * FPS)); f, pz = fr[j]
         b = next(reader(f'{K}/pp_src.mp4', f, 1, 'rgb24', WK * HK * 3)); ab = next(reader(f'{K}/pp_alpha.mkv', f, 1, 'gray', WK * HK))
-        zt = (Z0 + (Z1 - Z0) * j / max(N - 1, 1)) * pz
+        zt = 1.0 if FULL else (Z0 + (Z1 - Z0) * j / max(N - 1, 1)) * pz
         o = L.frame(np.frombuffer(b, np.uint8).reshape(HK, WK, 3), np.frombuffer(ab, np.uint8).reshape(HK, WK), f, zt)
         cv2.imwrite(f'{outdir}/pp_{t:.2f}.png', cv2.cvtColor(o, cv2.COLOR_RGB2BGR)); print('preview', t, 'source frame', f, flush=True)
 

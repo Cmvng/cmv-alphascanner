@@ -58,6 +58,10 @@ going back and forth.
   the framing steady. They still want it polished (9 Nov: "I need it to be the best"; 10 Nov: "professionally done.
   The background, every single thing"), and polish means a clean picture, not an effect that shows. Never crop into
   their face (4 Oct: "make sure no part is cut out, half of my face is cut out").
+- **Their whole picture stays in view, as they framed it. Never zoom in, push it down or cover what they are showing.**
+  11 Nov, when a panel pushed their picture down and a zoom cropped the sides, so the bottle they held up was out of
+  frame: "You cut what I'm actually trying to show. You cut it and everything just looks so weird… Are you not seeing
+  what you are creating?" If graphics need room, make their whole picture smaller; never crop it (`PP_FULL=1`).
 - **A screen recording with their camera in it:** the screen is the main picture and their camera sits in a small
   corner. 5 Oct: "put my main video in the small corner… I cannot even see the main things on the screen."
 - **Their art footage is never restyled** unless they ask. 22 Oct: "why did you change the color?"
@@ -166,6 +170,7 @@ going back and forth.
 - At most three reactions; none when they are on camera throughout.
 - The owner's face is whole in every shot; a screen they are showing is the main picture.
 - The owner is not cut out of their room. Every fast hand movement was watched frame by frame: no block, halo or edge.
+- Put next to the raw recording at every moment they hold something up or point: all of it is still in the picture.
 - It has its own cover and thumbnail, and it is not the same format as the last video of its kind.
 - Looked at every half second of the finished file, and listened back to every caption.
 - The message to the owner says plainly what is real, what is not from today, and what you could not check; an

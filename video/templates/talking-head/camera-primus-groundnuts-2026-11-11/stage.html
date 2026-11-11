@@ -23,7 +23,10 @@ html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:transpa
 .chip.ok{color:var(--green);border-color:#BFE8CF;background:#F1FBF5}
 .chip.hid{color:var(--ink);background:#EEF3FC;border-color:#D6E2F8}
 /* the stage panel */
-/* a sheet fixed to the top edge, full width: it covers everything above the owner's head while the camera sits lower */
+/* While the sheet is down, the owner's WHOLE picture is shown smaller at the bottom (build_av.py) and this draws the
+   frame round it: everything outside a rounded window is painted. Nothing the owner shows is ever cropped. */
+#win{position:absolute;left:0;top:0;width:1080px;height:1920px;box-shadow:0 0 0 3000px #DFE9FA;outline:2px solid rgba(11,31,77,.10);outline-offset:-1px;opacity:0}
+/* a sheet fixed to the top edge, full width: it covers only the ceiling above the owner's head */
 #panel{position:absolute;left:0;top:0;width:1080px;height:818px;border-radius:0 0 46px 46px;background:#fff;overflow:hidden;
   box-shadow:0 30px 70px rgba(10,24,64,.36)}
 #phd{position:absolute;left:44px;top:50px;height:38px}
@@ -100,6 +103,8 @@ html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:transpa
 .ec{display:inline-block;height:72px;padding:0 30px;border-radius:36px;font-size:34px;line-height:70px;background:#fff;border:1.5px solid var(--line);margin:0 6px 14px;opacity:0;white-space:nowrap}
 </style></head><body>
 
+<div id="win"></div>
+
 <!-- the hook: whole at the first frame -->
 <div class="card" id="c1" style="height:352px">
   <div class="kick mono"><i id="dot"></i>A practical example</div>
@@ -173,6 +178,7 @@ const st = (el, o) => { for (const k in o) { const v = typeof o[k] === 'number' 
 const NOTEXT = location.hash.includes('notext')
 const pop = (el, t, a, b = 1e9, d = .32) => { const k = eo(seg(t, a, d)) * (1 - seg(t, b, .22)); st(el, { opacity: cl(k * 1.6), transform: `scale(${(.86 + .14 * back(seg(t, a, d))).toFixed(4)})` }); return k }
 function card(el, t, a, b) { const k = eo(seg(t, a, .42)), o = seg(t, b, .3); st(el, { opacity: cl(k * 1.5) * (1 - o), transform: `translateY(${((1 - k) * -46 - o * 34).toFixed(1)}px) scale(${(.965 + .035 * k).toFixed(4)})` }) }
+const S_STAGE = .75, MARGIN = 24     // the same numbers are in build_av.py
 const RAMP = .45, stageK = t => P.stage.reduce((a, [x, y]) => a + ss((t - x) / RAMP) - ss((t - y) / RAMP), 0)   // the same curve as the camera's move (build_av.py)
 
 // ---- the receipt's rows
@@ -216,8 +222,11 @@ window.render = function (t) {
   // ---- the hook, and what the shop saw
   card($('c1'), t, -1, E.st1_in - .32); st($('dot'), { opacity: .45 + .55 * Math.abs(Math.sin(t * 3.2)) })
   card($('c2'), t, E.sum_in, E.sum_out - .3); pop($('s0'), t, E.sum_in + .45); pop($('s1'), t, E.sum_go - .1); pop($('s2'), t, E.sum_happy - .1)
-  // ---- the stage panel: down with the camera's move
-  const k = stageK(t); st($('panel'), { opacity: k > .001 ? 1 : 0, transform: `translateY(${((1 - k) * -860).toFixed(1)}px)` })
+  // ---- the stage: the sheet comes down as the owner's whole picture grows smaller under it (the same curve as build_av.py)
+  const k = stageK(t)
+  { const S = 1 - (1 - S_STAGE) * k, w = 2 * Math.trunc(540 * S), h = 2 * Math.trunc(960 * S)
+    st($('win'), { opacity: k > .001 ? 1 : 0, left: ((1080 - w) / 2) + 'px', top: (1920 - h - MARGIN * k) + 'px', width: w + 'px', height: h + 'px', borderRadius: (46 * k) + 'px' }) }
+  st($('panel'), { opacity: k > .001 ? 1 : 0, transform: `translateY(${((1 - k) * -860).toFixed(1)}px)` })
   // ---- the receipt: twice (the problem, then the proof)
   const inR1 = t < E.dg_in + .5
   { const o = inR1 ? 1 - seg(t, E.dg_in - .05, .2) : seg(t, E.r2_in - .32, .26)
@@ -267,13 +276,14 @@ window.render = function (t) {
     st($('hz'), { opacity: seg(t, E.pg_zk - .15, .25) }); for (let i = 0; i < 3; i++) st($('ha' + i), { opacity: seg(t, E.pg_zk + 2.6 + i * .12, .25) })
     const n = eo(seg(t, E.pg_not - .25, .4)); st($('note'), { opacity: cl(n * 1.6), transform: `translateY(${((1 - n) * 60).toFixed(1)}px)` }); st($('note').children[1], { opacity: seg(t, E.pg_only - .2, .3) })
   }
-  // ---- captions: in the panel's strip while the stage is down, over the chest otherwise
+  // ---- captions: in the sheet's strip while the stage is down; over the chest in the hook and the pay-off (nothing is
+  // held up there); above the head in the sign-off, where the bottle comes back into the lower right of the picture
   let c = null
   for (const x of P.caps) if (t >= x.o0 && t < x.o1) c = x
   const html = c && !NOTEXT ? c.t.replace(/\*([^*]+)\*/g, '<b>$1</b>') : ''
   const inStage = k > .5
   if (html && inStage) { if ($('stt').innerHTML !== html) $('stt').innerHTML = html; const a = eo(seg(t, c.o0, .12)); st($('stt'), { opacity: a, transform: `translateY(${((1 - a) * 6).toFixed(1)}px)` }); SIG.push(c.o0) } else st($('stt'), { opacity: 0 })
-  if (html && !inStage) { if ($('capt').innerHTML !== html) $('capt').innerHTML = html; const a = eo(seg(t, c.o0, .12)); st($('cap'), { opacity: a, transform: `translateY(${((1 - a) * 8).toFixed(1)}px)` }); SIG.push(c.o0) } else st($('cap'), { opacity: 0 })
+  if (html && !inStage) { if ($('capt').innerHTML !== html) $('capt').innerHTML = html; const a = eo(seg(t, c.o0, .12)); const up = c.o0 > E.pg_out - 1; st($('cap'), { opacity: a, top: up ? '300px' : 'auto', bottom: up ? 'auto' : '322px', transform: `translateY(${((1 - a) * 8).toFixed(1)}px)` }); SIG.push(c.o0) } else st($('cap'), { opacity: 0 })
   // ---- end card
   { const a = eo(seg(t, P.end - .05, .5)); st($('end'), { opacity: a > 0 ? 1 : 0, transform: `translateY(${((1 - a) * 1920).toFixed(1)}px)` })
     const e0 = P.end + .35

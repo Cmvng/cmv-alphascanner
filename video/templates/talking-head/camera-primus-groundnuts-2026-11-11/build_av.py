@@ -1,11 +1,15 @@
 """The camera base and the voice for the 11 Nov Primus edit.
   python3 -I build_av.py <work dir> <cam.mp4>   ->  base.mp4, voice.wav, voice16.wav   (the music: remix.py)
 
-cam.mp4 is the cut camera picture in the studio look (video/lib/portrait_pro_long.py render, from the plan's
-segs.json), with the top of the owner's head at 28.5% of the height. While the stage panel is down (plan['stage']) the
-whole picture sits DOWN px lower, so the head is under the panel and the face stays whole. The strip that opens above
-the picture is the top of the backdrop mirrored: it is a smooth blur, so the join does not show, and the panel covers
-most of it. The move is a smoothstep over RAMP seconds; the page moves the panel on the same curve.
+cam.mp4 is the cut camera picture: the WHOLE frame as the owner shot it (video/lib/portrait_pro_long.py render with
+PP_FULL=1 and the room look, from the plan's segs.json). Nothing of it is ever cropped here either.
+  - Full frame for the hook, the pay-off and the sign-off.
+  - While the sheet is down (plan['stage']) the whole picture is made smaller (S_STAGE) and sits at the bottom centre,
+    so the sheet covers only the ceiling above the owner's head and everything they hold up stays in view. The page
+    draws the frame round it. The move is a smoothstep over RAMP seconds; the page moves on the same curve.
+The first version of this file pushed the picture 300 px down under the panel instead, and the render zoomed in on the
+head. Together they put the bottle of groundnuts out of frame for most of the video. The owner: "You cut what I'm
+actually trying to show. You cut it and everything just looks so weird."
 The owner's phone records the front camera mirrored (the Chelsea crest and the Nike tick on the shirt read backwards),
 so the picture is flipped left to right here: FLIP = True. Check a frame of the raw recording for text before keeping it.
 Sound: the cleaned voice cut on the same frames, 8 ms fades at each edge."""
@@ -14,11 +18,13 @@ K, CAM = sys.argv[1:3]
 plan = json.load(open(f'{K}/plan.json'))
 FPS, END, EC = plan['fps'], plan['end'], plan['endcard']
 TOT = END + EC
-DOWN, RAMP, FLIP = 300, 0.45, True
+S_STAGE, MARGIN, RAMP, FLIP, BG = 0.75, 24, 0.45, True, '0xDFE9FA'    # the same numbers are in stage.html
 ss = lambda a: f'(clip((t-{a:.3f})/{RAMP},0,1)*clip((t-{a:.3f})/{RAMP},0,1)*(3-2*clip((t-{a:.3f})/{RAMP},0,1)))'
 k = '+'.join(f'({ss(a)}-{ss(b)})' for a, b in plan['stage'])
-fc = (f'[0:v]{"hflip," if FLIP else ""}split=2[c][m];[m]crop=1080:{DOWN}:0:0,vflip[mf];[mf][c]vstack=inputs=2[tall];'
-      f"[tall]crop=w=1080:h=1920:x=0:y='{DOWN}-{DOWN}*({k})',format=yuv420p,tpad=stop_mode=clone:stop_duration={EC + 0.5}[v]")
+sc = f'(1-{1 - S_STAGE:.4f}*({k}))'
+fc = (f"[0:v]{'hflip,' if FLIP else ''}scale=w='2*trunc(540*{sc})':h='2*trunc(960*{sc})':eval=frame:flags=bicubic[fg];"
+      f'color=c={BG}:s=1080x1920:r={FPS}[bg];'
+      f"[bg][fg]overlay=x='(W-w)/2':y='(H-h)-{MARGIN}*({k})':eval=frame:shortest=1,format=yuv420p,tpad=stop_mode=clone:stop_duration={EC + 0.5}[v]")
 subprocess.run(['ffmpeg', '-nostdin', '-v', 'error', '-y', '-i', CAM, '-filter_complex', fc, '-map', '[v]', '-c:v', 'libx264',
                 '-preset', 'fast', '-crf', '13', '-r', str(FPS), '-colorspace', 'bt709', '-color_primaries', 'bt709', '-color_trc', 'bt709', f'{K}/base.mp4'], check=True)
 n = int(subprocess.check_output(['ffprobe', '-v', 'error', '-count_packets', '-select_streams', 'v:0', '-show_entries', 'stream=nb_read_packets', '-of', 'csv=p=0', f'{K}/base.mp4']).decode().strip().strip(','))
