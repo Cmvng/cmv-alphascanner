@@ -1,16 +1,19 @@
-# Post kit: Primus Labs, "The groundnut test" (11 Nov 2026, third version)
+# Post kit: Primus Labs, "The groundnut test" (11 Nov 2026, fourth version)
 
-**Concept:** your supermarket example, told the way the talking-head sample you sent tells its story ("AI changed my
-life"): you stay full screen, and each thing you name pops over your head on the word. Four ways to pay get a red
-cross one by one, then the Primus proof: the shop sees YES, your balance stays hidden.
+**Concept:** your supermarket example, edited with the best moves from all the samples you sent, put together and
+done in your colours. You stay full screen in your own room; the graphics live behind you and around you.
 
-**The moment to share:** the giant "1000x" over your head, and the green "YOU CAN GO" stamp.
+**The moment to share:** the giant "1000x" behind your head, and the ring of tiles turning behind you on
+"Everybody's happy".
 
-**What changed from the version you rejected:**
-- no panel and no slides: you are full screen from the first frame to the last, in your own room, softly blurred;
-- the captions move word by word, each word lighting up on its own sound; a few key phrases go big;
-- compact 3D icons with a small label over your head, one at a time, on the word;
-- the soundtrack is "New Bass 01", the bouncy track you liked on the explainers, in place of the slow film score.
+**Where each move comes from:**
+- the title, the Primus logo and "1000x" **behind your head**: the "7 effects" reel and the "20 hours" reel;
+- the glass chips round your head (Cash, Bank app, ATM card, Crypto), each struck on its word, and the counter
+  "ways to pay: 4, 3, 2, 1, 0": the "7 effects" glass widgets and checklist, and the card that builds with the voice
+  in "Pump.fun vs StonkFun";
+- the ring of tiles turning behind your head on the pay-off: the orbit in "AI changed my life" and "7 effects";
+- word-by-word captions with big key phrases, the stamp, the Follow click: "AI changed my life";
+- Primus' real docs page with the matching sentence outlined: the real screenshots in "Pump.fun vs StonkFun".
 
 ## Files (video/out/primus-groundnut-test/)
 | File | Use |
@@ -38,15 +41,17 @@ How do you pay when you have no cash, no card and your exchange has paused withd
 #PrimusLabs #zkTLS #Crypto #Web3 #CryptoExplained #ProofOfAssets #Privacy
 
 ## Things to know before you post
+- **You are not cut out.** The picture is your whole frame in your real room, softly blurred. Your outline is only
+  used to hide the part of a word or a tile that falls behind your head.
 - **The cut.** 2:41 became 1:51. Out: the opening "So, basically today,", the stumble over the name ("what am I
   saying?") with the second introduction, one repeated "I'm trying to buy this", an "And, um,", and the second telling
   of the story near the end (about 19 seconds). Every cut is in a real pause; no word is clipped.
 - **Your words.** The captions are your words, lit one by one. Two tidy-ups: "the Primus Tech Lab" is written
   "Primus Labs", and "ground nuts" is one word.
-- **"Binance was hacked."** It is your example, so the icon over your head says "my exchange: hacked" with an
-  "example" tag, there is no Binance logo, and the end card says the supermarket and the hack are made up.
+- **"Binance was hacked."** It is your example, so the Crypto chip says "hacked · example", there is no Binance
+  logo, and the end card says the supermarket and the hack are made up.
 - **What is real on screen:** Primus' logo and Primus' docs page (docs.primuslabs.xyz, "Proof of Assets", captured
-  11 Nov 2026), with the sentence that matches your example outlined. The icons are Microsoft's free 3D emoji set.
+  11 Nov 2026). The icons are Microsoft's free 3D emoji set.
 - **The picture is flipped left to right.** Your phone recorded you mirrored; the crest and the Nike tick now read
   the right way.
 - **Fast hand movements.** The recording itself has small compression blocks where your hands move quickly. They

@@ -11,7 +11,40 @@ of Primus Lab… sequenced in a good way… be fast with it." Out folder: `video
 **Concept: THE RECEIPT.** The story prints as a till receipt as the owner tells it. Four ways to pay are struck out;
 then the proof prints: "ENOUGH MONEY? YES ✓ · MY BALANCE: HIDDEN".
 
-## The third version is the one that went out last: `talk.html`. Start from it.
+## The fourth version is the one that went out last: `depth.html`. Start from it, and from `../../STYLE-LIBRARY.md`.
+The third version (`talk.html`) followed ONE of the owner's samples and had the same shape as the Bagel video the day
+before. "You just took the last video and use that template… I've sent different videos and styles. Why have you not
+learned? Why have you not taken put things in your notes?" The fourth takes the strongest move from each sample:
+- **Type and a logo plate behind the head** (S1, S3, S4): the title "THE GROUNDNUT TEST", the Primus logo on a white
+  plate, a giant "1000x". They rise from behind the shoulders and the hair covers their lower edge.
+- **Glass chips round the head that build with the voice, and a counter** (S1, S3): Cash, Bank app, ATM card, Crypto
+  land beside the head on their words and are struck one by one; a tile counts the ways to pay left: 4, 3, 2, 1, 0.
+- **A ring of tiles turning behind the head** on the pay-off (S1, S2): bags, groundnuts, the shop, a tick, a party
+  popper, the phone, the money travel an arc from one shoulder over the head to the other, following the head.
+- Kept from the third: word-by-word captions with big key phrases, the chain, the chips, the stamps, Primus' real
+  page in a card, the Follow click, captions that step off the bottle.
+
+**The owner is still not cut out.** The picture is their whole frame in their real room. `matte_cut.py` puts their
+outline on the finished timeline (`alpha_cut.mkv`) and `render_depth.mjs` uses it for one thing only: to hide the part
+of a `#bk` graphic that falls behind them. Order: picture, shade, the behind layer (hidden where the outline is), the
+front layer. The outline is grown a pixel and softened, so nothing prints on the edge of the hair.
+
+```bash
+python3 -I $T/matte_cut.py $K                                # alpha_cut.mkv, track.js (the head's place, for the ring)
+python3 -I $T/build_av.py $K $K/cam_room.mp4 full
+python3 -I $T/tokens.py $K && python3 -I $T/clear.py $K
+node $T/render_depth.mjs <page>/depth.html $K <dir> --stills 0,1,19.2,26,34.6,70.2,82.4   # look at the hair edge at full size first
+node $T/render_depth.mjs <page>/depth.html $K <out.mp4>      # both layers in one encode; the page dir also needs track.js
+```
+Lessons from the fourth:
+- **Two pipes into one ffmpeg must not wait for each other.** While ffmpeg opens the first pipe it does not read
+  the second; waiting for each to drain in turn stops the render at frame 0. Queue both; pause only when both lag.
+- **The head's "top" in `pp_track.npz` is about 80 px below the tip of the hair.** Place behind-the-head type from a
+  still, not from the number.
+- A behind-the-head line reads best when the hair covers a fifth to a third of the letters' height. More and it is
+  hidden when the owner sits up; none and there is no depth.
+
+## The third version: `talk.html` (rejected; its captions, chips and cards live on in the fourth)
 The second version (the sheet over a smaller picture, `stage.html`) was rejected too: "The sound track doesn't fit the
 video. Its poor video editing.. Some part of the video still are not aligned.. So many mistakes.. The motion graphics
 is bad. Like didn't you study all the video samples I sent why is this so mid?!!" It had fixed the cut-out and the

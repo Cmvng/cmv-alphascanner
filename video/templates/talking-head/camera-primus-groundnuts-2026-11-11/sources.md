@@ -36,6 +36,9 @@ Everything on screen that is not the owner's own words, and where it came from. 
 - The owner's recording, whole, as they framed it (`video/lib/portrait_pro_long.py`, the `room` look, `PP_FULL=1`):
   their real room softly out of focus behind them, nothing replaced, no zoom and no crop. While the sheet is down the
   whole picture is shown smaller (75%) under it; the sheet covers only the ceiling above the head.
+- Fourth version: graphics sit behind the owner (the title, the Primus logo plate, "1000x", the glass chips, the
+  ring of tiles). The owner is not cut out: their outline (Robust Video Matting) only hides the part of a graphic
+  that falls behind them. The room and the owner are the recording's own pixels throughout.
 - The picture is flipped left to right, because the phone recorded it mirrored (the Chelsea crest and the Nike tick
   on the shirt read backwards in the recording).
 - The recording has compression blocks where the hands move fast. They are softened (a deblocking pass), not removed.
@@ -48,7 +51,7 @@ Everything on screen that is not the owner's own words, and where it came from. 
   orchestral film score and 720 as a bouncy, warm afrobeats-like beat, which is also how it describes the beds in the
   two talking-head samples the owner sent. No made sounds.
 
-## The icons (third version)
+## The icons (third and fourth versions)
 - Microsoft Fluent Emoji, 3D set (MIT licence), fetched 11 Nov 2026 from
   `cdn.jsdelivr.net/gh/microsoft/fluentui-emoji@main/assets/<Name>/3D/<name>_3d.png`, shown at or under their own
   256 px. They stand for the things the owner names (cash, a bank, a card, a coin, a lock, a shop); none is a brand's

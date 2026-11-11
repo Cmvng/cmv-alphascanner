@@ -101,6 +101,30 @@ message; it came straight back, twice. The second version is the one in the out 
   - **Change next time:** before building an edit of the owner's own recording, open the samples and name the one it
     follows; choose the music by what it sounds like, in words, against the mood of what they say; fix what they named
     AND ask what else in the video they would say the same about.
+- **Fourth rejection, about 12:40, on the third version:** *"You are still doing rubbish… I've sent you different several
+  video ideas, quality video ideas, and every single day… You just took the last video and use that template for my
+  this thing… I also that you should improve on it. I've sent you quality videos, I've sent different videos and
+  styles. Why have you not learned? Why have you not taken put things in your notes?… I told you the last video of
+  this thing, I did not like the way it was. There were too many errors on this thing."*
+  - **What was wrong.** The third version copied ONE sample (icons over the head) and so had the same shape as the
+    Bagel video the day before (cards over the head). The notes on four samples were in `IDEAS.md`, 150 lines down,
+    and nothing made me build from more than one of them.
+  - **What changed in the work** (`depth.html`, the fourth version): the strongest move from each sample, together.
+    Type and the Primus logo plate BEHIND the head, a giant "1000x" behind the head, glass chips round the head that
+    are struck on their words with a counter ticking 4 to 0, a ring of tiles turning behind the head on the pay-off;
+    the word captions, stamps, real page and Follow click kept. The owner is still not cut out: their outline only
+    hides what falls behind them (`matte_cut.py`, `render_depth.mjs`).
+  - **What changed in the notes.** `video/templates/STYLE-LIBRARY.md`: every sample the owner has sent, the moves in
+    each, how we build each move, and a ledger of what every recording used and how it was received. The checkpoint
+    now says: at least three samples, never one; at least two main moves different from the last video; a row in the
+    ledger for every video sent.
+  - **Found by watching the first second frame by frame:** a striped fitting on the wall stayed sharp beside the hair
+    for 19 frames (the outline took it for part of the owner). It was in the second and third versions too and I had
+    not seen it. `patch_room.py` blurs it on those frames; the owner's own pixels are untouched.
+- **Final review (fourth version, sent 13:03):** 111.1 s, 3,333 frames, -14.1 LUFS, -1.6 dBTP, music 12.8 dB under the
+  voice; gate 0 FAIL. Every half second on 12 sheets; consecutive full-size frames where the head moves fastest behind
+  each graphic (title, plate, 1000x, chips, ring): the hair edge is clean, no fringe, no flicker; the raw beside the
+  result at 12 bottle moments; hear-back 50 of 53.
 - **Final review (third version, sent 12:36):** 111.1 s, 3,333 frames, -14.1 LUFS, -1.6 dBTP, music 12.8 dB under the
   voice; gate 0 FAIL. Every half second on 12 sheets; the raw beside the result at 12 bottle moments (the bottle whole,
   no caption on it); hear-back 50 of 53 (the recogniser's "Binance", "required amount" and "Voilà"). Sent with two

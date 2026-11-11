@@ -16,7 +16,8 @@ going back and forth.
    sample before the build.
 3. **The real material.** Which real screens, logos, footage and dated facts the video will show. If a real screen
    cannot be had, say so once, plainly, with the best real option, before building.
-4. **The format.** Different from the last videos of the same kind (`video/templates/IDEAS.md`), one bold idea, and the
+4. **The format.** Built from the owner's samples (`video/templates/STYLE-LIBRARY.md`: at least three of them, never
+   one), different from the last videos of the same kind (its ledger, and `IDEAS.md`), one bold idea, and the
    shape for where it will be posted (upright for TikTok, Instagram and their own phone footage).
 
 ## Sound
@@ -124,9 +125,15 @@ going back and forth.
   professional preview (9 Oct: "a clean writeup that is without AI slop").
 - **Post-match:** the presenter format: the lady at the mic, the commentary, the stadiums, the players. 13 Oct, on a
   graphics-only board: "I expected something creative."
-- **Their own recording is edited like the talking-head samples they sent** (`video/templates/IDEAS.md`: "AI changed
-  my life" 3 Nov, "20 hours" 9 Nov, "7 effects" 29 Oct): they stay full screen, the graphics land around their head on
-  the word that names them, the captions move word by word. 11 Nov, on a panel-and-slides layout with a receipt and a
+- **Learn from ALL the samples they sent, and improve on them. Never copy one, never reuse the last video's shape.**
+  11 Nov, on an edit that followed a single sample: "I've sent you different several video ideas, quality video
+  ideas… You just took the last video and use that template… I've sent different videos and styles. Why have you not
+  learned? Why have you not taken put things in your notes?" Every sample and its moves are in
+  **`video/templates/STYLE-LIBRARY.md`**, with a ledger of what each video used. Before designing, read it; take moves
+  from at least three samples; make at least two main moves different from the last video of the same kind; add
+  a row to the ledger when the video goes out. A new sample gets its entry there the day it arrives.
+- **Their own recording is edited like the talking-head samples they sent** (the library, S1 to S4): they stay full
+  screen, type and graphics sit behind and around their head, the captions move word by word. 11 Nov, on a panel-and-slides layout with a receipt and a
   box diagram: "Its poor video editing… The motion graphics is bad. Like didn't you study all the video samples I
   sent why is this so mid?!!" Before building, open the samples again and write down which one the edit follows.
 - **Everything lines up.** 11 Nov: "Some part of the video still are not aligned." Check the lips against the voice,
@@ -183,6 +190,7 @@ going back and forth.
 - The owner is not cut out of their room. Every fast hand movement was watched frame by frame: no block, halo or edge.
 - Put next to the raw recording at every moment they hold something up or point: all of it is still in the picture.
 - It has its own cover and thumbnail, and it is not the same format as the last video of its kind.
+- Its main moves come from at least three of the owner's samples, and the style library's ledger has its row.
 - Looked at every half second of the finished file, and listened back to every caption.
 - The message to the owner says plainly what is real, what is not from today, and what you could not check; an
   analysis carries its write-up in the message.

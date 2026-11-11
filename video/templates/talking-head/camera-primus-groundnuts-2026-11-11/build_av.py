@@ -28,7 +28,14 @@ fc = (f"[0:v]{'hflip,' if FLIP else ''}scale=w='2*trunc(540*{sc})':h='2*trunc(96
       f'color=c={BG}:s=1080x1920:r={FPS}[bg];'
       f"[bg][fg]overlay=x='(W-w)/2':y='(H-h)-{MARGIN}*({k})':eval=frame:shortest=1,format=yuv420p,tpad=stop_mode=clone:stop_duration={EC + 0.5}[v]")
 if FULLONLY: fc = f"[0:v]{'hflip,' if FLIP else ''}format=yuv420p,tpad=stop_mode=clone:stop_duration={EC + 0.5}[v]"
-subprocess.run(['ffmpeg', '-nostdin', '-v', 'error', '-y', '-i', CAM, '-filter_complex', fc, '-map', '[v]', '-c:v', 'libx264',
+import os
+extra = []
+if FULLONLY and os.path.exists(f'{K}/patch.json'):        # patch_room.py: a bit of the room that stayed sharp, blurred on those frames only
+    pj = json.load(open(f'{K}/patch.json'))
+    extra = ['-framerate', str(FPS), '-i', f'{K}/patch/p_%03d.png']
+    fc = (f"[0:v]{'hflip' if FLIP else 'null'}[f];[1:v]setpts=PTS+{pj['start']}/{FPS}/TB[p];[f][p]overlay={pj['x']}:{pj['y']}:eof_action=pass,"
+          f"format=yuv420p,tpad=stop_mode=clone:stop_duration={EC + 0.5}[v]")
+subprocess.run(['ffmpeg', '-nostdin', '-v', 'error', '-y', '-i', CAM, *extra, '-filter_complex', fc, '-map', '[v]', '-c:v', 'libx264',
                 '-preset', 'fast', '-crf', '13', '-r', str(FPS), '-colorspace', 'bt709', '-color_primaries', 'bt709', '-color_trc', 'bt709', f'{K}/base.mp4'], check=True)
 n = int(subprocess.check_output(['ffprobe', '-v', 'error', '-count_packets', '-select_streams', 'v:0', '-show_entries', 'stream=nb_read_packets', '-of', 'csv=p=0', f'{K}/base.mp4']).decode().strip().strip(','))
 print(f'base.mp4: {n} frames, needs at least {round(TOT * FPS)}' + ('' if n >= round(TOT * FPS) else '   TOO SHORT'))

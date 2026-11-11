@@ -60,7 +60,11 @@ Different is the floor; creative is the bar. Before building, write the concept 
 - **The receipt:** the combo or ticket prints out like a receipt, line by line, the payout at the bottom.
   Used on 11 Nov for Primus (`talking-head/camera-primus-groundnuts-2026-11-11/`): the owner's supermarket example
   printed line by line, four ways to pay struck out, then the zkTLS proof and a green stamp.
-- **Icons over the head, word by word (11 Nov, `talking-head/camera-primus-groundnuts-2026-11-11/talk.html`):** the
+- **The depth edit (11 Nov, `talking-head/camera-primus-groundnuts-2026-11-11/depth.html`):** the moves of four of the
+  owner's samples in one edit: type and a logo plate behind the head, glass chips round the head with a counter, a
+  ring of tiles turning behind the head, a giant number, word captions. See `STYLE-LIBRARY.md` for every sample, every
+  move and the ledger; the next recording must take different main moves.
+- **Icons over the head, word by word (11 Nov, REJECTED as a whole edit: one sample copied, the last video's shape; `talking-head/camera-primus-groundnuts-2026-11-11/talk.html`):** the
   owner full screen the whole way; a compact 3D icon with a small label pops over the head for each thing they name,
   on the word; small word-by-word captions at chest height with a few big key phrases; stamps, chips, a real page in
   a card, a follow pill. This is the owner's 3 Nov sample ("AI changed my life") in house colours, and it is the
