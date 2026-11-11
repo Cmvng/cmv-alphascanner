@@ -60,9 +60,11 @@ Different is the floor; creative is the bar. Before building, write the concept 
 - **The receipt:** the combo or ticket prints out like a receipt, line by line, the payout at the bottom.
   Used on 11 Nov for Primus (`talking-head/camera-primus-groundnuts-2026-11-11/`): the owner's supermarket example
   printed line by line, four ways to pay struck out, then the zkTLS proof and a green stamp.
-- **The stage panel (11 Nov):** when the owner sits close to the phone, a white panel docks at the top for the
-  explaining (a receipt, a diagram, a real page) and the camera picture moves down under it, so the face stays whole;
-  captions go into the panel's bottom strip. Full frame returns for the hook, the pay-off and the sign-off.
+- **The sheet over a smaller picture (11 Nov):** when the owner sits close to the phone, a white sheet comes down
+  at the top for the explaining (a receipt, a diagram, a real page) and the owner's WHOLE picture is shown smaller
+  under it, in a rounded window; captions go into the sheet's bottom strip. Full frame returns for the hook, the
+  pay-off and the sign-off. Never push or crop the picture to make room: the first try did, and cut the bottle the
+  owner was holding out of frame ("You cut what I'm actually trying to show").
 - **Split decision:** two choices on screen, the owner picks; the pause before the pick is the suspense.
 - **The live chart:** the price line draws itself while the owner talks, the levels they name snapping on.
 - **Before / after:** the same screen yesterday and today, wiped across.

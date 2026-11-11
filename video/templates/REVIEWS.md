@@ -28,9 +28,10 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
-## 11 Nov: the owner's recording, Primus Labs "The groundnut test" (studio look, the stage panel, 1:51, 9:16)
+## 11 Nov: the owner's recording, Primus Labs "The groundnut test" (rejected twice, then redone; 1:51, 9:16)
 
-`video/templates/talking-head/camera-primus-groundnuts-2026-11-11/`. Sent 66 minutes after the owner's message.
+`video/templates/talking-head/camera-primus-groundnuts-2026-11-11/`. First version sent 66 minutes after the owner's
+message; it came straight back, twice. The second version is the one in the out folder.
 
 - **The brief:** *"make this video clean and good and better than what you did in the last time. All the mistakes you
   made, please make sure that it does not happen in this video… the cinematic, the ambience… The illustration of Primus
@@ -38,45 +39,56 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
   took forever… do everything in sequence, in layers… the background sound is okay… the right order that a
   professional will approve 10/10."* A 2:41 selfie: a practical example of zkTLS (groundnuts at a supermarket, no cash,
   no card, an exchange that has paused withdrawals, a proof that the money is there).
-- **What worked:**
-  - **The checkpoint did its job.** Soundtrack ("A New Life", approved), the studio look, no reactions, real screens,
-    dated facts and the format were settled before building, and the gate passed first time: -14.1 LUFS, music 12.1 dB
-    under the voice, 0 FAIL.
-  - **Fast because of the order.** Prep, the matte and the studio-look render started first and ran alone (3, 16 and
-    26 minutes). The voice clean-up, the transcript, the cut plan, the docs capture, the whole page, the cover, the
-    sources and the post kit were done beside them. The page was checked at every half second over a stand-in base
-    (one preview frame through the real `build_av.py`) before the camera picture existed.
-  - **A format for a close selfie: the stage panel.** The owner's head is a third of the frame's height, so cards
-    above it leave 400 px. A white panel docks at the top and the camera picture moves 300 px lower on the same curve;
-    the captions move into the panel's bottom strip, so nothing covers the face.
-  - **The story in its own medium.** A till receipt prints the owner's example line by line (cash, bank app, ATM card
-    and crypto struck out), a three-box diagram shows who sees what, and the receipt comes back with the proof and a
-    green "YOU CAN GO" stamp. Then "A YES. NOT MY BALANCE." over the owner.
-  - **Primus' own page for the tech.** The docs' "Proof of Assets" page, captured as served, with the sentence that is
-    the owner's example outlined (a loan against a proof of an exchange balance).
-- **Mistakes:**
-  1. **The recording was mirrored and I saw it late.** The Chelsea crest and the Nike tick read backwards. I caught it
-     on a full-size still two minutes into the final render and had to restart it. Text in the raw picture is a check
-     for the first minute, not the last.
-  2. **A label said more than the docs do.** The diagram's node first read "sees inside the locked session". Primus'
-     attestor never reads the plain data; it now says "witnesses the locked session". Re-read the source before
-     writing a label about how a protocol works.
-  3. **The receipt's type started too small** (31 px on a 1080 frame). It is 36 px on a wider paper. Mono text under
-     about 34 px does not read on a phone.
-  4. **Light jobs slowed the matte.** The voice clean-up and two transcriptions ran beside it: 16 minutes for 4,837
-     frames against about 12 alone. Worth it here; not for anything heavier.
-  5. **The aligner ran one word through a 1.2 s pause** ("Lab."). The edge check in `plan.py` caught it as a loud cut.
+- **The owner's reaction to the first version, in two messages:**
+  1. *"Can you see how poor the video is? Like, this is the worst video ever… See the way you cut the main character
+     from the background. See the way it looks so muddled up. Is it not even better for you to actually blur all the
+     elements in the background… I will tell you to do something, you will do worse. If I edited this video myself, it
+     will never be like this, never."*
+  2. *"You cut what I'm actually trying to show. You cut it and everything just looks so weird… Are you not seeing
+     what you are creating? Are you not seeing what you are making?"*
+- **The two mistakes that mattered, and how they got through:**
+  1. **I cut the owner out of their room** (the `studio` look: a matte, a replaced backdrop). On a phone recording the
+     matte is wrong wherever a hand moves fast, and the recording's own compression blocks were sharpened into
+     squares. It got through because I checked stills every half second: a still between two fast frames looks clean.
+     Nothing in my checks watched the picture move.
+  2. **I cropped out the thing the video is about.** The panel pushed the picture 300 px down, on top of a zoom that
+     followed the head, so the bottle of groundnuts the owner holds low in the frame was outside it for most of the
+     video. It got through because every check I had was about the face ("the face is whole in every frame") and none
+     was about what the owner was showing. I never put the result next to the raw recording.
+  Both were effects the owner had not asked for. They asked for clean, cinematic and well sequenced; a softly blurred
+  room and their own framing give that with nothing that can go wrong.
+- **What the second version does:**
+  - **The real room, softly out of focus, nothing replaced** (`portrait_pro_long.py … room`): the matte only decides
+    where the blur fades, so a wrong matte frame costs a little sharpness, never an edge or a halo.
+  - **The whole frame as shot** (`PP_FULL=1`): no zoom, no following crop.
+  - **When the explainer needs room, the whole picture is made smaller** (75%, bottom centre, in a rounded window on a
+    light-blue page) under a white sheet that covers only the ceiling. The head clears the sheet in all 3,219 frames
+    (measured from the matte), and the hands and the bottle are always in view. Captions are in the sheet's strip.
+  - **Captions never sit on what is held up:** over the chest while the hands are empty, above the head in the
+    sign-off, where the bottle is back in the lower right.
+  - A deblocking pass on the recording before anything else, and gentle sharpening.
+- **What worked and was kept:** the cut (2:41 to 1:51, every edge in a real pause), the sound ("A New Life", 12 dB
+  under the voice, -14.1 LUFS), the receipt, the diagram, Primus' own docs page with the matching sentence outlined,
+  the stand-in base for checking the page before the picture exists.
+- **Smaller mistakes in the first build:** the recording was mirrored and I saw it late (the crest and the Nike tick
+  read backwards); a diagram label said more than the docs do ("sees inside" became "witnesses the locked session");
+  the receipt's type started too small (31 px, now 36); the aligner ran one word through a 1.2 s pause.
 - **Kept honest:** the owner's "Binance was hacked" is their example, so its receipt row carries an "example" tag, no
   Binance logo appears, and the end card says the supermarket and the hack are made up. Their "Primus Tech Lab" is
   captioned "Primus Labs". Both were told to the owner.
-- **Change next time:**
+- **Change next time (all three are now in the checkpoint):**
+  - **At intake, list what the owner shows** and where it sits in the raw frame. Check every layout against that list,
+    and before sending put the result next to the raw at each of those moments (`versus_raw.py`).
+  - **No cut-out. The real room, softly blurred, the whole frame.** Anything more is an effect they did not ask for.
+  - **Watch it move:** consecutive frames at full size at every fast hand movement, not only half-second sheets.
   - At intake, look at one full-size raw frame for text (a shirt, a sign, a screen): mirrored means flip.
-  - Keep the stand-in base: it removed the second full render that the Bagel video needed.
-  - A long diagram scene needs something moving on every beat (the dots on the lines, the step line changing).
-- **Final review:** 111.1 s, 3,333 frames, 1080x1920. Every half second on 12 sheets: the first frame is whole, the
-  face is whole in every frame, the crest reads the right way. Hear-back: 49 of 53 captions matched; the other four are
-  the recogniser's ("Binance" as "my nurse", "withdraw" as "draw", the four "good"s, "Voila"), none at a cut.
-- **Time:** message at 09:57, files sent at 11:03.
+- **Final review (second version):** 111.1 s, 3,333 frames, 1080x1920, -14.1 LUFS, -1.6 dBTP, music 12.1 dB under the
+  voice; gate 0 FAIL. Every half second on 12 sheets. The raw beside the result at 12 moments where the bottle is
+  held (`versus_raw.py`): all of it in the picture each time. Consecutive frames at full size at 16 fast movements
+  (`motion.py`): no edge, halo or added block; what is left on the fastest hands (one frame of ghosting each) is in
+  the recording, checked against the raw frame by frame at 103.9 s. Hear-back: 49 of 53 captions matched; the other
+  four are the recogniser's ("Binance" as "my nurse", "withdraw" as "draw", the four "good"s, "Voila"), none at a cut.
+- **Time:** message at 09:57; first version at 11:03; rejected at about 11:20; second version at 11:49 (25 minutes after the second message, 14 of them the picture render).
 
 ## 10 Nov: the owner's recording, Bagel and the international break (studio look, 1:40, 9:16)
 

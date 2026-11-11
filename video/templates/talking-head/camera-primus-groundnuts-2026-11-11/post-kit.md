@@ -7,11 +7,13 @@ struck out, then one line saves you: the Primus zkTLS proof. "Enough money? YES.
 MY BALANCE."
 
 **What is new in this one** (against the Bagel video of 10 Nov and the last Primus videos):
-- a stage panel comes down above you and the camera moves down with it, so your face stays whole under it;
+- your whole picture, as you framed it, in your own room softly blurred: no cut-out, no zoom, nothing cropped;
+- for the explaining, a sheet comes down at the top and your whole picture sits smaller under it, so the bottle and
+  your hands are always in view and nothing is drawn over you;
 - the story is told on a receipt, not on cards: cash, bank app, ATM card and crypto fail one by one;
 - a three-box diagram shows who sees what: your account, you, the shop, and the Primus node on the locked session;
 - Primus' own docs page is shown for real, with the line that matches your example outlined;
-- you are on camera the whole way in the studio look, with the bottle in your hand. No narrator, no reactions.
+- you are on camera the whole way, with the bottle in your hand. No narrator, no reactions.
 
 ## Files (video/out/primus-groundnut-test/)
 | File | Use |
@@ -54,4 +56,6 @@ How do you pay when you have no cash, no card and your exchange has paused withd
   your example.
 - **The picture is flipped left to right.** Your phone recorded you mirrored, so the Chelsea crest and the Nike tick
   read backwards in the recording. In the video they read the right way, and the crest is on the correct side.
+- **Fast hand movements.** The recording itself has small compression blocks where your hands move quickly. They are
+  softened, not gone. Nothing was added on top of your picture except a soft blur of the room behind you.
 - **Music:** "A New Life" by Eugenio Mininni (Mixkit free licence), the track you approved. Credit is not required.

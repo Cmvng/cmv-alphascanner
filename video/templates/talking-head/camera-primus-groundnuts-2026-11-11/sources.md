@@ -33,9 +33,12 @@ Everything on screen that is not the owner's own words, and where it came from. 
 - "to verify proofs on the encrypted node": kept as said. Primus' word for the node is "attestor".
 
 ## The camera picture
-- The owner's recording, in the studio look (`video/lib/portrait_pro_long.py`): the room replaced by a clean backdrop,
-  the face lit, the framing steady. The picture is flipped left to right, because the phone recorded it mirrored (the
-  Chelsea crest and the Nike tick on the shirt read backwards in the recording).
+- The owner's recording, whole, as they framed it (`video/lib/portrait_pro_long.py`, the `room` look, `PP_FULL=1`):
+  their real room softly out of focus behind them, nothing replaced, no zoom and no crop. While the sheet is down the
+  whole picture is shown smaller (75%) under it; the sheet covers only the ceiling above the head.
+- The picture is flipped left to right, because the phone recorded it mirrored (the Chelsea crest and the Nike tick
+  on the shirt read backwards in the recording).
+- The recording has compression blocks where the hands move fast. They are softened (a deblocking pass), not removed.
 
 ## Sound
 - Voice: the owner's recording, de-clipped, room echo out (WPE), then DeepFilterNet3. No pitch or tempo change.
