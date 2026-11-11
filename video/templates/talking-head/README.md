@@ -489,6 +489,11 @@ treated separately from the matte, like a lit studio shot:
   recording (see the capture notes in the owner's message, 9 Nov).
 
 ### The pro look on a whole recording (10 Nov: "professionally done. The background, every single thing")
+**Since 11 Nov the tool's default look is `room`: the owner's real room, softly out of focus, nothing replaced.** The
+replaced backdrop described here (`studio`) broke into blocks on fast hands when the owner sat close to the lens and
+moved, and the owner rejected it ("the way you cut the main character from the background… so muddled up"). Use
+`studio` only if the owner asks for it, on a calm take in front of a plain wall, and check consecutive frames.
+
 `video/lib/portrait_pro_long.py` is the same look for a recording that is being cut (first use:
 `camera-bagel-break-2026-11-10/`). `portrait_pro.py` keeps every matte in memory and draws one frame at a time, which
 only suits a few seconds. This one works in steps that keep to disk:

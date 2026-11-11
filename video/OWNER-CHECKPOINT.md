@@ -51,10 +51,13 @@ going back and forth.
 - **Colour:** "my style is light or shades of blue" (6 Oct). Light or blue backgrounds, blue accents. The subject keeps
   its own colours (a project's brand, a team's kit). Green and red only where they mean something. No yellow accents.
   Never a black background, cold opens included; deep navy or royal blue is fine.
-- **The owner on camera gets the studio look by default** (`video/lib/portrait_pro_long.py`): the room becomes a clean
-  backdrop, the face is lit, the framing is steady. 9 Nov: "good, but… I need it to be the best." 10 Nov:
-  "professionally done. The background, every single thing." Never crop into their face (4 Oct: "make sure no part is
-  cut out, half of my face is cut out").
+- **The owner on camera: their real room, softly blurred behind them. Never cut them out onto a replaced backdrop.**
+  11 Nov, on the cut-out look: "this is the worst video ever… See the way you cut the main character from the
+  background. See the way it looks so muddled up. Is it not even better for you to actually blur all the elements in
+  the background". Use `video/lib/portrait_pro_long.py` with the `room` look: nothing replaced, the room out of focus,
+  the framing steady. They still want it polished (9 Nov: "I need it to be the best"; 10 Nov: "professionally done.
+  The background, every single thing"), and polish means a clean picture, not an effect that shows. Never crop into
+  their face (4 Oct: "make sure no part is cut out, half of my face is cut out").
 - **A screen recording with their camera in it:** the screen is the main picture and their camera sits in a small
   corner. 5 Oct: "put my main video in the small corner… I cannot even see the main things on the screen."
 - **Their art footage is never restyled** unless they ask. 22 Oct: "why did you change the color?"
@@ -113,7 +116,7 @@ going back and forth.
   professional preview (9 Oct: "a clean writeup that is without AI slop").
 - **Post-match:** the presenter format: the lady at the mic, the commentary, the stadiums, the players. 13 Oct, on a
   graphics-only board: "I expected something creative."
-- **Their own recording:** the studio look, their voice forward, the real screens of what they talk about, real dated
+- **Their own recording:** their real room softly blurred, their voice forward, the real screens of what they talk about, real dated
   facts beside their words, no reactions, music by the rules above. Their example is illustrated step by step, in
   the order they tell it (11 Nov: "the illustration… done properly and sequenced in a good way… in layers… the right
   order that a professional will approve 10/10").
@@ -143,7 +146,11 @@ going back and forth.
   copy, cut-out, studio-look render) and do the light work beside them (voice, cut plan, real screens, the page, the
   cover); check the page on stills over a stand-in picture, so there is one final render.
 - **Check before they do.** 27 Oct: "Didn't you cross check what you did?" Every half second on sheets, every caption
-  against the sound, real screens at full size.
+  against the sound, real screens at full size. **And watch it move:** consecutive frames at every fast hand movement,
+  at full size. On 11 Nov the half-second sheets looked clean while every fast hand broke into blocks in motion.
+- **Do what they asked, and nothing that can go wrong on top.** 11 Nov: "I will tell you to do something, you will do
+  worse. If I edited this video myself, it will never be like this." An effect they did not ask for is either
+  flawless in motion or left out.
 - **Study each finished video** and write what to change in `video/templates/REVIEWS.md` (6 Oct: "You need to study
   each video after you create them").
 - **A file too big for the chat** goes on a private download page as well as a smaller chat copy (7 Oct: "Why didn't
@@ -158,6 +165,7 @@ going back and forth.
 - The first frame is a whole picture. No black background. Blue or light, the subject in its own colours.
 - At most three reactions; none when they are on camera throughout.
 - The owner's face is whole in every shot; a screen they are showing is the main picture.
+- The owner is not cut out of their room. Every fast hand movement was watched frame by frame: no block, halo or edge.
 - It has its own cover and thumbnail, and it is not the same format as the last video of its kind.
 - Looked at every half second of the finished file, and listened back to every caption.
 - The message to the owner says plainly what is real, what is not from today, and what you could not check; an

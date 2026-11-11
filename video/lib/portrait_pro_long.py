@@ -4,8 +4,17 @@ keep to disk and run in parallel, and it draws only the frames the cut keeps.
 
   python3 -I portrait_pro_long.py prep    <raw.mp4> <work>                      -> pp_src.mp4 (30 fps, working size, denoised)
   python3 -I portrait_pro_long.py matte   <work> <rvm.onnx> [first n frames]    -> pp_alpha.mkv, pp_track.npz
-  python3 -I portrait_pro_long.py preview <work> <segs.json> <out dir> t,t,...  (output seconds; needs matte)
-  python3 -I portrait_pro_long.py render  <work> <segs.json> <out.mp4> [workers=4]
+  python3 -I portrait_pro_long.py preview <work> <segs.json> <out dir> t,t,... [look]  (output seconds; needs matte)
+  python3 -I portrait_pro_long.py render  <work> <segs.json> <out.mp4> [workers=4] [look]
+
+Two looks:
+  room    (the default since 11 Nov) the owner's REAL room, softly out of focus behind them, as a lens would do it.
+          Nothing is replaced. The matte only decides what stays sharp, and it is closed and feathered first, so a
+          fast hand that the matte misses is at worst a little soft, never a block or a pasted edge.
+  studio  the 9 Nov look: the room replaced by a smooth blue backdrop. Only for a calm speaker in front of a plain
+          wall. On 11 Nov, with the owner close to the lens, waving and holding a bottle, it broke into blocks on every
+          fast hand and the owner called it "the worst video ever… the way you cut the main character from the
+          background… so muddled up. Is it not even better for you to actually blur all the elements in the background".
 
 segs.json is the cut: [{"s": source s, "e": source s, "zoom": 1.0 | 1.05}, ...] in output order. The picture is
 drawn at 1080x1920 from a 1224x2176 working copy, so the push-in and the punch-ins never go past the source's pixels.
@@ -44,8 +53,10 @@ def count(path):
 
 
 def prep(raw, K):
-    # temporal denoise first, so the sharpening later does not lift the phone's grain
-    subprocess.run(['ffmpeg', '-nostdin', '-v', 'error', '-y', '-i', raw, '-an', '-vf', f'fps={FPS},scale={WK}:{HK}:flags=lanczos,hqdn3d=1.3:1.1:3:3',
+    # deblock first: a phone or CapCut export breaks fast hands into 8 px blocks, and any sharpening later makes them
+    # worse (11 Nov). Then a temporal denoise, so the sharpening does not lift the phone's grain
+    subprocess.run(['ffmpeg', '-nostdin', '-v', 'error', '-y', '-i', raw, '-an', '-vf',
+                    f'deblock=filter=strong:block=8:alpha=0.25:beta=0.25:gamma=0.25:delta=0.25,fps={FPS},scale={WK}:{HK}:flags=lanczos,hqdn3d=1.3:1.1:3:3',
                     '-c:v', 'libx264', '-preset', 'veryfast', '-crf', '10', '-g', '30', '-pix_fmt', 'yuv420p', '-colorspace', 'bt709', '-color_primaries', 'bt709',
                     '-color_trc', 'bt709', f'{K}/pp_src.mp4'], check=True)
     print('pp_src.mp4:', count(f'{K}/pp_src.mp4'), 'frames')
@@ -93,9 +104,10 @@ def matte(K, model, limit=0):
 
 
 class Look:
-    def __init__(self, K):
+    def __init__(self, K, look='room'):
         import cv2
         self.cv2 = cv2
+        self.look = look
         cv2.setNumThreads(1)
         t = np.load(f'{K}/pp_track.npz')
         self.top, self.cx, self.hw, self.gain = t['top'], t['cx'], t['hw'], t['gain'].astype(np.float32)
@@ -105,8 +117,64 @@ class Look:
         self.gy, self.gx = np.mgrid[0:HK, 0:WK].astype(np.float32)
         self.BLUE = np.array([0.31, 0.62, 0.95], np.float32)     # house sky blue (#4FB3FF), as a light wash
         self.kd = int(round(35 * SC)) | 1; self.ke = int(round(13 * SC)) | 1
+        r = int(round(6 * SC))                                   # the room look's lens: a disc of about 19 px at 1080
+        yy, xx = np.mgrid[-r:r + 1, -r:r + 1]
+        self.disc_room = ((xx * xx + yy * yy) <= r * r).astype(np.float32); self.disc_room /= self.disc_room.sum()
+        kc = int(round(21 * SC)) | 1
+        self.k_close = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (kc, kc))
+        self.k_hold = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (int(round(13 * SC)) | 1,) * 2)
 
     def frame(self, img, alpha, f, zt):
+        return self.frame_room(img, alpha, f, zt) if self.look == 'room' else self.frame_studio(img, alpha, f, zt)
+
+    def crop(self, out, f, zt, sharp=.25):
+        cv2 = self.cv2
+        cw, ch = WK / zt, HK / zt
+        x0 = np.clip(self.cx[f] - cw / 2, 0, WK - cw); y0 = np.clip(self.top[f] - TOPF * ch, 0, HK - ch)
+        s = OW / cw
+        M = np.array([[s, 0, -x0 * s], [0, s, -y0 * s]], np.float32)
+        out = cv2.warpAffine(out, M, (OW, OH), flags=cv2.INTER_AREA if s < .95 else cv2.INTER_LANCZOS4, borderMode=cv2.BORDER_REFLECT)
+        out = np.clip(out + sharp * (out - cv2.GaussianBlur(out, (0, 0), 1.2)), 0, 1)
+        return (out * 255 + .5).astype(np.uint8)
+
+    def frame_room(self, img, alpha, f, zt):
+        """The real room, out of focus behind the owner. Nothing is replaced and nothing is lit by the matte: where the
+        matte is wrong, the worst that happens is a patch that is a little too soft or a little too sharp."""
+        cv2 = self.cv2
+        a = alpha.astype(np.float32) / 255
+        x = img.astype(np.float32) / 255 * self.gain
+        k3 = 1 / 3
+        small = lambda z: cv2.resize(z, None, fx=k3, fy=k3, interpolation=cv2.INTER_AREA)
+        big = lambda z: cv2.resize(z, (WK, HK), interpolation=cv2.INTER_LINEAR)
+        # what stays sharp: the matte with its holes and blocks closed, grown a little, then feathered
+        # (no growing and no darkening of the room: either one draws an outline round the owner, a cut-out again)
+        m = cv2.morphologyEx(a, cv2.MORPH_CLOSE, self.k_close)
+        m = np.clip(cv2.GaussianBlur(m, (0, 0), 2.6 * SC), 0, 1)[..., None]
+        # the room through a wider lens: a disc blur worked out WITHOUT the person, so no colour of theirs leaks into it.
+        # Close to the person the disc finds no room at all; there the room is carried in from further out by two wider
+        # blurs that also leave the person out. (A plain blur of the whole frame as the fall-back put a dark ring of
+        # hair and skin round the head: the cut-out look again.)
+        hold = cv2.dilate((a > .03).astype(np.uint8), self.k_hold).astype(np.float32)
+        wgt = small(1 - hold)
+        sfh = small(x + 1.2 * np.maximum(x - .82, 0))            # the ceiling lights open into soft discs
+        sw = sfh * wgt[..., None]
+        n1 = cv2.filter2D(sw, -1, self.disc_room); d1 = cv2.filter2D(wgt, -1, self.disc_room)[..., None]
+        n2 = cv2.GaussianBlur(sw, (0, 0), 9 * SC); d2 = cv2.GaussianBlur(wgt, (0, 0), 9 * SC)[..., None]
+        n3 = cv2.GaussianBlur(sw, (0, 0), 30 * SC); d3 = cv2.GaussianBlur(wgt, (0, 0), 30 * SC)[..., None]
+        b3 = n3 / np.maximum(d3, 1e-4); t2 = np.clip(d2 / .06, 0, 1); b2 = n2 / np.maximum(d2, 1e-4) * t2 + b3 * (1 - t2)
+        t1 = np.clip(d1 / .30, 0, 1); bg = big(n1 / np.maximum(d1, 1e-4) * t1 + b2 * (1 - t1))
+        # the owner: only what a colourist would do to the whole picture
+        p = np.power(np.clip(x, 0, 1), .96)
+        p = p + .08 * (p - cv2.GaussianBlur(p, (0, 0), 5 * SC))                     # a little local contrast, the same everywhere
+        pl = p.max(axis=2, keepdims=True)
+        d = np.maximum(pl - .72, 0); roll = pl - (1 - .5) / (2 * (1 - .72)) * d * d
+        p = p * (roll / np.maximum(pl, 1e-4))                    # tame the forehead shine
+        bg = np.power(np.clip(bg, 0, 1), .96)                    # the same curve as the owner's layer, so no step at the edge
+        out = p * m + bg * (1 - m)
+        out = np.clip(out, 0, 1); out = np.clip(out + .10 * (out - out * out) * (out - .5) * 2.2, 0, 1)   # a gentle S-curve
+        return self.crop(out, f, zt, .12)
+
+    def frame_studio(self, img, alpha, f, zt):
         """img, alpha: the working frame and its matte (uint8); f: source frame number; zt: zoom over the full working frame."""
         cv2 = self.cv2
         a = alpha.astype(np.float32) / 255
@@ -155,13 +223,7 @@ class Look:
         out = p * a[..., None] + bg * (1 - a[..., None])
         out = np.clip(out, 0, 1); out = np.clip(out + .12 * (out - out * out) * (out - .5) * 2.2, 0, 1)   # a gentle S-curve
         # --- framing: the crop follows the smoothed head track; the head's top stays at TOPF of the frame
-        cw, ch = WK / zt, HK / zt
-        x0 = np.clip(c_x - cw / 2, 0, WK - cw); y0 = np.clip(t_y - TOPF * ch, 0, HK - ch)
-        s = OW / cw
-        M = np.array([[s, 0, -x0 * s], [0, s, -y0 * s]], np.float32)
-        out = cv2.warpAffine(out, M, (OW, OH), flags=cv2.INTER_AREA if s < .95 else cv2.INTER_LANCZOS4, borderMode=cv2.BORDER_REFLECT)
-        out = np.clip(out + .25 * (out - cv2.GaussianBlur(out, (0, 0), 1.2)), 0, 1)
-        return (out * 255 + .5).astype(np.uint8)
+        return self.crop(out, f, zt)
 
 
 def out_frames(segs):
@@ -183,8 +245,8 @@ def runs(fr):
 
 
 def work(args):
-    K, segs, j0, j1, out = args
-    L = Look(K); fr = out_frames(segs); N = len(fr)
+    K, segs, j0, j1, out, look = args
+    L = Look(K, look); fr = out_frames(segs); N = len(fr)
     enc = subprocess.Popen(['ffmpeg', '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{OW}x{OH}', '-r', str(FPS), '-i', '-',
                             '-c:v', 'libx264', '-preset', 'medium', '-crf', '13', '-pix_fmt', 'yuv420p', '-colorspace', 'bt709', '-color_primaries', 'bt709',
                             '-color_trc', 'bt709', '-threads', '2', out], stdin=subprocess.PIPE)
@@ -199,12 +261,12 @@ def work(args):
     return j0, j1, done
 
 
-def render(K, segs_path, out, workers=4):
+def render(K, segs_path, out, workers=4, look='room'):
     from concurrent.futures import ProcessPoolExecutor
     import multiprocessing
     segs = json.load(open(segs_path)); N = len(out_frames(segs))
     edges = [round(N * i / workers) for i in range(workers + 1)]
-    jobs = [(K, segs, edges[i], edges[i + 1], f'{K}/pp_part{i}.mp4') for i in range(workers)]
+    jobs = [(K, segs, edges[i], edges[i + 1], f'{K}/pp_part{i}.mp4', look) for i in range(workers)]
     with ProcessPoolExecutor(workers, mp_context=multiprocessing.get_context('spawn')) as ex:
         for j0, j1, done in ex.map(work, jobs):
             print(f'part {j0}-{j1}: {done} frames' + ('' if done == j1 - j0 else '   SHORT'), flush=True)
@@ -214,9 +276,9 @@ def render(K, segs_path, out, workers=4):
     print(f'{out}: {got} frames, wanted {N}' + ('' if got == N else '   MISMATCH'))
 
 
-def preview(K, segs_path, outdir, times):
+def preview(K, segs_path, outdir, times, look='room'):
     import cv2
-    segs = json.load(open(segs_path)); fr = out_frames(segs); N = len(fr); L = Look(K)
+    segs = json.load(open(segs_path)); fr = out_frames(segs); N = len(fr); L = Look(K, look)
     os.makedirs(outdir, exist_ok=True)
     for t in times:
         j = min(N - 1, round(t * FPS)); f, pz = fr[j]
@@ -230,6 +292,6 @@ if __name__ == '__main__':
     cmd, a = sys.argv[1], sys.argv[2:]
     if cmd == 'prep': prep(a[0], a[1])
     elif cmd == 'matte': matte(a[0], a[1], int(a[2]) if len(a) > 2 else 0)
-    elif cmd == 'preview': preview(a[0], a[1], a[2], [float(x) for x in a[3].split(',')])
-    elif cmd == 'render': render(a[0], a[1], a[2], int(a[3]) if len(a) > 3 else 4)
+    elif cmd == 'preview': preview(a[0], a[1], a[2], [float(x) for x in a[3].split(',')], a[4] if len(a) > 4 else 'room')
+    elif cmd == 'render': render(a[0], a[1], a[2], int(a[3]) if len(a) > 3 else 4, a[4] if len(a) > 4 else 'room')
     else: sys.exit(__doc__)

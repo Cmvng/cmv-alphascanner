@@ -290,11 +290,14 @@ voice A for these modes, and when a cold open exists the music's drop lands on t
 
 ## The owner's own recordings (talking head + chart)
 
-**When the owner is on camera, the studio look is the default** (the owner, 10 Nov: "professionally done. The
-background, every single thing"; 9 Nov: "I need it to be the best"). Run `video/lib/portrait_pro_long.py` on the
-recording (prep, matte, preview, render; see "The pro look on a whole recording" in the talking-head README): the room
-becomes a smooth blue backdrop, the face is lit, the framing is steadied. Start the matte as soon as the file is
-downloaded, because it is the long step. Reference: `video/templates/talking-head/camera-bagel-break-2026-11-10/`.
+**When the owner is on camera: their real room, softly blurred behind them. Never cut them out onto a replaced
+backdrop** (the owner, 11 Nov, on the cut-out "studio" look: "the worst video ever… See the way you cut the main
+character from the background. See the way it looks so muddled up. Is it not even better for you to actually blur all
+the elements in the background"). Run `video/lib/portrait_pro_long.py` on the recording (prep, matte, preview, render;
+the `room` look is its default): nothing is replaced, the room goes out of focus as through a lens, the framing is
+steadied. Start prep and the matte as soon as the file is downloaded, because they are the long steps. Then **watch it
+move**: consecutive frames at every fast hand movement, at full size, before and after the render. Half-second stills
+hid the blocks on 11 Nov. Reference: `video/templates/talking-head/camera-primus-groundnuts-2026-11-11/`.
 The art footage is different: that is never restyled unless the owner asks.
 
 **The soundtrack on the owner's own recordings** (the owner, 10 Nov, on a track they had never heard, mixed 20 dB under
