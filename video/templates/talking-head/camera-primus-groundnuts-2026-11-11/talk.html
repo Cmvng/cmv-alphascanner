@@ -1,0 +1,279 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Primus Labs, the groundnut test: the talking-head edit (overlay on the owner's whole picture)</title>
+<style>
+@font-face{font-family:Anton;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/anton-latin-400-normal.woff2)}
+@font-face{font-family:Manrope;font-weight:600;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-600-normal.woff2)}
+@font-face{font-family:Manrope;font-weight:800;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-800-normal.woff2)}
+@font-face{font-family:Mono;font-weight:700;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/jetbrains-mono-latin-700-normal.woff2)}
+/* The third version, after the owner: "Its poor video editing… The motion graphics is bad. Like didn't you study all
+   the video samples I sent why is this so mid?!!" It follows the upright talking-head sample they sent on 3 Nov
+   ("AI changed my life", video/templates/IDEAS.md):
+     - the owner stays FULL SCREEN the whole way (their real room softly blurred, the whole frame as shot);
+     - one compact thing pops over the head for each thing they name, with a small label, 1 to 3 s each;
+     - small captions move word by word at chest height; a few key phrases go big under them;
+     - a stamp, a real page card, a follow pill on the sign-off.
+   Everything sits on the centre line (x = 540). Nothing is in the top zone lower than y = 490: the owner's head never
+   comes above 507. Captions sit under the beard at its lowest (1,340 in the close sign-off).
+   Real: the Primus logo (their file) and the docs page (docs.primuslabs.xyz, captured 11 Nov 2026 as served).
+   The icons are Microsoft's Fluent Emoji 3D (MIT licence). "Binance" is in the owner's words only, tagged "example". */
+:root{--ink:#0B1F4D;--deep:#0A1A44;--blue:#1F5FDB;--sky:#7CC4FF;--mute:#6B7A99;--line:#E3E9F4;--red:#E5484D;--green:#12A150}
+*{box-sizing:border-box}
+html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:transparent;font-family:Manrope,sans-serif;font-weight:800;color:#fff}
+.abs{position:absolute}
+.mono{font-family:Mono,monospace;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
+/* the picture's ambience: a deeper ceiling so white type reads, and soft navy corners. Never black. */
+#shade{position:absolute;inset:0;background:
+  linear-gradient(180deg,rgba(8,20,60,.50) 0,rgba(8,20,60,.30) 300px,rgba(8,20,60,0) 640px),
+  radial-gradient(120% 90% at 50% 46%,rgba(8,20,60,0) 55%,rgba(8,20,60,.34) 100%)}
+/* ---- over the head */
+.it{position:absolute;left:0;top:0;width:1080px;display:flex;flex-direction:column;align-items:center;opacity:0;transform-origin:50% 60%}
+.icw{position:relative;display:flex;align-items:center;justify-content:center;gap:34px}
+.ic{position:relative;width:200px;height:200px}
+.ic img{width:200px;height:200px;display:block;filter:drop-shadow(0 16px 22px rgba(4,10,36,.45))}
+.ic.s img,.ic.s{width:140px;height:140px}
+.bdg{position:absolute;right:-18px;bottom:-10px;width:88px;height:88px;opacity:0}
+.bdg img{width:88px!important;height:88px!important}
+.ic.s .bdg,.ic.s .bdg img{width:64px!important;height:64px!important}
+.ic.s .bdg{right:-12px;bottom:-8px}
+.lb{margin-top:10px;font-size:42px;line-height:52px;letter-spacing:-.005em;white-space:nowrap;-webkit-text-stroke:8px var(--deep);paint-order:stroke fill;text-shadow:0 6px 16px rgba(4,10,36,.5)}
+.lb b{color:var(--sky);font-weight:800}
+.tag{display:inline-block;margin-left:14px;height:40px;padding:1px 14px 0;border-radius:10px;font-family:Mono,monospace;font-weight:700;font-size:25px;line-height:35px;letter-spacing:.08em;background:#fff;color:var(--blue);-webkit-text-stroke:0;text-shadow:none;vertical-align:5px}
+.pill{display:flex;align-items:center;height:118px;padding:0 38px;border-radius:59px;background:#fff;box-shadow:0 18px 40px rgba(4,10,36,.45)}
+.pill img{height:62px;display:block}
+.pill span{margin-left:20px;height:62px;padding:0 24px;border-radius:31px;background:var(--blue);color:#fff;font-size:36px;line-height:60px}
+.ttl{font-family:Anton,sans-serif;font-weight:400;font-size:118px;line-height:1.02;letter-spacing:.01em;white-space:nowrap;-webkit-text-stroke:10px var(--deep);paint-order:stroke fill;text-shadow:0 10px 26px rgba(4,10,36,.55)}
+.sub{font-size:38px;line-height:48px;font-weight:600;white-space:nowrap;-webkit-text-stroke:7px var(--deep);paint-order:stroke fill}
+.giant{font-family:Anton,sans-serif;font-weight:400;font-size:300px;line-height:.96;letter-spacing:.01em;white-space:nowrap;-webkit-text-stroke:14px var(--deep);paint-order:stroke fill;text-shadow:0 16px 40px rgba(4,10,36,.6)}
+.giant b{font-weight:400;color:var(--sky)}
+.chips{display:flex;gap:18px;align-items:center}
+.chip{height:92px;padding:0 34px;border-radius:46px;font-size:40px;line-height:90px;white-space:nowrap;background:#fff;color:var(--ink);box-shadow:0 16px 34px rgba(4,10,36,.42)}
+.chip b{font-weight:800}
+.chip.ok b{color:var(--green)} .chip.hid b{color:var(--blue)}
+.chip img{width:50px;height:50px;vertical-align:-10px;margin-left:8px}
+.stamp{font-family:Anton,sans-serif;font-weight:400;font-size:92px;line-height:1;letter-spacing:.03em;white-space:nowrap;padding:22px 38px 18px;border-radius:22px;border:9px solid currentColor;background:rgba(255,255,255,.94);box-shadow:0 18px 40px rgba(4,10,36,.45)}
+.stamp.go{color:var(--green)} .stamp.no{color:var(--red)}
+.line{position:relative;width:150px;height:8px;border-radius:4px;background:rgba(255,255,255,.9);box-shadow:0 4px 10px rgba(4,10,36,.4)}
+.line i{position:absolute;top:-8px;left:0;width:24px;height:24px;border-radius:12px;background:var(--sky);box-shadow:0 0 0 5px rgba(124,196,255,.35)}
+/* the real docs page, in a card */
+#doc{width:960px;height:356px;border-radius:30px;background:#fff;overflow:hidden;position:relative;box-shadow:0 22px 50px rgba(4,10,36,.5)}
+#bar{position:absolute;left:0;top:0;width:960px;height:62px;background:#F1F5FB;border-bottom:1.5px solid var(--line);z-index:3}
+#url{position:absolute;left:20px;top:9px;height:44px;border-radius:22px;background:#fff;border:1.5px solid var(--line);font-family:Mono,monospace;font-weight:700;font-size:23px;line-height:41px;padding:0 18px 0 14px;color:#33415E;white-space:nowrap}
+#url u{text-decoration:none;color:var(--green);margin-right:8px}
+#real{position:absolute;right:20px;top:9px;height:44px;border-radius:22px;background:var(--ink);color:#fff;font-size:18px;line-height:44px;padding:0 16px;white-space:nowrap}
+#pgw{position:absolute;left:30px;top:62px;width:900px;height:294px;overflow:hidden;background:#fff}
+#pgi{position:absolute;left:0;top:0;width:1000px;transform-origin:0 0}
+#pgi img{display:block;width:1000px}
+.hl{position:absolute;border-radius:8px;background:rgba(31,95,219,.16);box-shadow:0 0 0 4px var(--blue);opacity:0}
+/* the follow pill: ours, not a copy of any app's button */
+#fol{display:flex;align-items:center;height:112px;padding:0 14px 0 40px;border-radius:56px;background:#fff;color:var(--ink);font-size:46px;box-shadow:0 18px 40px rgba(4,10,36,.5);position:relative}
+#fbt{margin-left:26px;height:84px;width:290px;border-radius:42px;background:var(--ink);color:#fff;font-size:38px;line-height:82px;text-align:center}
+#cur{position:absolute;left:0;top:0;width:54px;height:54px;opacity:0}
+/* ---- captions: word by word under the beard; key phrases go big under them */
+#cap{position:absolute;left:0;top:1404px;width:1080px;text-align:center;font-size:56px;line-height:72px;letter-spacing:-.005em;white-space:nowrap}
+#cap span{display:inline-block;margin:0 .13em;-webkit-text-stroke:9px var(--deep);paint-order:stroke fill;text-shadow:0 6px 16px rgba(4,10,36,.5)}
+#cap span.k{color:var(--sky)}
+#big{position:absolute;left:0;top:1480px;width:1080px;text-align:center;font-size:108px;line-height:124px;letter-spacing:-.02em;white-space:nowrap;color:var(--sky);opacity:0;
+  -webkit-text-stroke:13px var(--deep);paint-order:stroke fill;text-shadow:0 10px 26px rgba(4,10,36,.55);transform-origin:50% 50%}
+/* ---- end card */
+#end{position:absolute;left:0;top:0;width:1080px;height:1920px;background:linear-gradient(180deg,#F4F8FF,#DCE9FF);opacity:0;color:var(--ink)}
+#end .c{position:absolute;left:0;width:1080px;text-align:center}
+.ec{display:inline-block;height:72px;padding:0 30px;border-radius:36px;font-size:34px;line-height:70px;background:#fff;border:1.5px solid var(--line);margin:0 6px 14px;opacity:0;white-space:nowrap}
+</style></head>
+<body>
+<div id="shade"></div>
+<div id="top"></div>
+<div id="cap"></div>
+<div id="big"></div>
+
+<div id="end">
+  <div class="c" style="top:520px"><img id="elogo" src="img/primus-logo.svg" style="width:560px;opacity:0"></div>
+  <div class="c" id="etag" style="top:700px;font-size:54px;letter-spacing:-.01em;opacity:0">Prove the fact. Keep the data.</div>
+  <div class="c" style="top:850px;padding:0 50px"><span class="ec" id="e0">zkTLS</span><span class="ec" id="e1">Proof of assets</span><span class="ec" id="e2">You log in to your own account</span><span class="ec" id="e3">The shop sees: YES</span><span class="ec" id="e4">Only where it is built in</span></div>
+  <div class="c mono" id="eget" style="top:1190px;font-size:34px;color:var(--blue);opacity:0">docs.primuslabs.xyz</div>
+  <div class="c" id="eby" style="top:1300px;font-size:46px;opacity:0">Video by <span style="color:var(--blue)">@Cmv_ng</span></div>
+  <div class="c" id="erisk" style="top:1490px;font-size:26px;font-weight:600;color:var(--mute);opacity:0;padding:0 90px">An example to explain the tech. The supermarket and the hack are made up. Not financial advice.</div>
+</div>
+
+<script src="plan.js"></script>
+<script src="docs.js"></script>
+<script src="tok.js"></script>
+<script src="clear.js"></script>
+<script>
+const P = window.PLAN, E = P.ev, D = window.DOCS, $ = id => document.getElementById(id)
+const cl = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x))
+const seg = (t, a, d) => cl((t - a) / d)
+const eo = x => 1 - Math.pow(1 - x, 3), eio = x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2
+const back = x => { const c = 1.9; return 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2) }
+let SIG = []
+const st = (el, o) => { for (const k in o) { const v = typeof o[k] === 'number' ? +o[k].toFixed(3) : o[k]; el.style[k] = v; SIG.push(v) } }
+const NOTEXT = location.hash.includes('notext')
+const I = n => `img/e/${n}.png`
+
+// ---- every caption word's time in the finished video comes from tokens.py (tok.js)
+const CAPS = P.caps.map((c, ci) => {
+  const toks = []; let em = false
+  for (const raw of c.t.split(' ')) {
+    let w = raw; const open = w.startsWith('*'); if (open) { em = true; w = w.slice(1) }
+    const close = w.replace(/[.,?!:]+$/, '').endsWith('*'); const k = em; if (close) { em = false; w = w.replace('*', '') }
+    toks.push({ w, k })
+  }
+  toks.forEach((k, i) => k.t = window.TOK[ci][i])              // tokens.py: the time of the spoken word each caption word stands for
+  return { ...c, ci, toks }
+})
+const capT = (ci, word) => { const k = CAPS[ci].toks.find(x => x.w.toLowerCase().replace(/[^a-z0-9à]/g, '') === word); return k ? k.t : CAPS[ci].o0 }
+// key phrases that go big (only where nothing is held up in front of the chest): caption index -> the phrase
+const BIG = { 16: 'what do I do?', 18: 'Primus Labs zkTLS', 22: 'log in', 41: "Everybody's happy.", 42: 'Voilà.', 45: 'zkTLS', 52: 'Peace.' }
+const len = a => a.reduce((n, x) => n + x.w.length + 1, -1)
+for (const c of CAPS) {
+  const b = BIG[c.ci]; c.small = c.toks; c.chunks = []; let groups = [c.toks]
+  if (b) { const bw = b.split(' '), n = bw.length, i0 = c.toks.findIndex((k, i) => bw.every((w, j) => c.toks[i + j] && c.toks[i + j].w.replace(/[.,?!:]+$/, '') === w.replace(/[.,?!:]+$/, '')))
+    if (i0 >= 0) { c.big = { text: b, t: c.toks[i0].t }; groups = [c.toks.slice(0, i0), c.toks.slice(i0 + n)]; c.small = groups.flat() } }
+  for (const g of groups) {                                // a line never runs across the big phrase ("I simply" | log in | "on my Binance app")
+    const out = []; let cur = []
+    const flush = () => { if (cur.length) out.push(cur); cur = [] }
+    for (const k of g) {                                   // up to three words and about 17 letters a line; break after punctuation
+      if (cur.length && (cur.length >= 3 || len(cur) + 1 + k.w.length > 17)) flush()
+      cur.push(k); if (/[.,?!:]$/.test(k.w) && cur.length >= 2) flush()
+    }
+    flush()
+    const n = out.length                                   // no single word left alone at the end of a sentence when it fits the line before
+    if (n > 1 && out[n - 1].length === 1 && len(out[n - 2]) + 1 + out[n - 1][0].w.length <= 19 && !/[.,?!:]$/.test(out[n - 2][out[n - 2].length - 1].w)) out.splice(n - 2, 2, [...out[n - 2], ...out[n - 1]])
+    c.chunks.push(...out)
+  }
+}
+let CHUNKS = []
+function timing() {                                        // each line is up from its first word to the next line's first word
+  CHUNKS = []
+  CAPS.forEach(c => c.chunks.forEach((ch, i) => CHUNKS.push({ c, ch, t0: i === 0 ? Math.min(ch[0].t, c.o0) : ch[0].t - .04 })))
+  CHUNKS.forEach((x, i) => { const nx = CHUNKS[i + 1]; x.t1 = Math.min(nx ? nx.t0 : 1e9, (x.c.chunks[x.c.chunks.length - 1] === x.ch ? x.c.o1 + .3 : 1e9)) })
+}
+timing()
+
+// ---- the things that pop over the head. One at a time, on the centre line.
+const TOP = $('top'), ITEMS = []
+function item(a, b, html, o = {}) {
+  const el = document.createElement('div'); el.className = 'it'; el.style.top = (o.y ?? 150) + 'px'; el.innerHTML = html; TOP.appendChild(el)
+  const it = { a, b, el, bd: [...el.querySelectorAll('.bdg')].map(x => ({ el: x, at: a + (+x.dataset.at || .32) })), tick: o.tick, rot: o.rot || 0 }
+  ITEMS.push(it); return it
+}
+const ic = (n, o = {}) => `<div class="ic${o.s ? ' s' : ''}"${o.id ? ` id="${o.id}"` : ''}><img src="${I(n)}">${o.x ? `<div class="bdg" data-at="${o.at ?? .32}"><img src="${I(o.x)}"></div>` : ''}</div>`
+const lb = s => `<div class="lb">${s}</div>`
+const one = (n, label, o) => `<div class="icw">${ic(n, o)}</div>${lb(label)}`
+const X = 'cross_mark_3d', OK = 'check_mark_button_3d'
+const goodT = CAPS[36].toks.filter(k => /^good/.test(k.w)).map(k => k.t)
+const c = i => CAPS[i]
+
+item(0, 4.62, `<div class="ttl">THE GROUNDNUT TEST</div><div style="height:16px"></div><div class="pill" style="height:96px;padding:0 30px"><img src="img/primus-logo.svg" style="height:50px"><span style="height:54px;line-height:52px;font-size:32px">zkTLS</span></div><div style="height:10px"></div><div class="sub">a practical example</div>`, { y: 118 })
+item(c(3).o0, c(4).o0 - .06, one('flexed_biceps', 'just left the gym'))
+item(c(4).o0, c(5).o1 + .05, one('shopping_cart_3d', 'a supermarket'))
+item(E.r_world - .1, c(6).o1 + .25, one('globe', 'anywhere in the world'))
+item(capT(8, 'bottle') - .1, c(8).o1, one('peanuts_3d', '1 × bottle of <b>groundnuts</b>'))
+item(E.r_cash - .12, c(10).o0 - .04, one('dollar_banknote_3d', 'no cash', { x: X, at: .3 }))
+item(c(10).o0, c(11).o0 - .3, one('bank_3d', 'bank app: not working', { x: X, at: .75 }))
+item(c(11).o0 + .15, c(12).o0 - .04, one('credit_card_3d', 'no ATM card', { x: X, at: .65 }))
+item(c(12).o0, c(14).o0 - .04, one('coin_3d', 'my exchange: hacked <span class="tag">example</span>'))
+item(c(14).o0, c(15).o0 - .04, one('locked_3d', 'withdrawals paused'))
+item(c(15).o0 + .1, c(16).o0 - .04, one('coin_3d', 'no crypto', { x: X, at: .75 }))
+item(c(16).o0, c(17).o0 - .04, `<div class="icw" style="gap:42px">${['dollar_banknote_3d', 'bank_3d', 'credit_card_3d', 'coin_3d'].map((n, i) => ic(n, { s: 1, x: X, at: .1 + i * .09 })).join('')}</div>${lb('four ways to pay. All gone.')}`, { y: 190 })
+item(c(17).o0 + .1, c(18).o0 - .04, one('convenience_store_3d', 'the shop already uses…'))
+item(c(18).o0, c(19).o0 - .04, `<div class="pill"><img src="img/primus-logo.svg"><span>zkTLS</span></div>${lb('')}`, { y: 220 })
+item(c(19).o0, c(19).o1 + .5, one('locked_with_key_3d', 'proofs, on an <b>encrypted</b> node', { x: OK, at: .9 }))
+item(E.dg_login - .12, c(22).o1 + .02, one('mobile_phone_3d', 'my own account, my own login'))
+const chain = item(c(23).o0, c(24).o0 - .04, `<div class="icw" style="gap:22px">${ic('mobile_phone_3d', { s: 1 })}<div class="line"><i id="d1"></i></div><div class="pill" style="height:92px;padding:0 26px"><img src="img/primus-logo.svg" style="height:46px"></div><div class="line"><i id="d2"></i></div>${ic('convenience_store_3d', { s: 1 })}</div>${lb('through the tech they already use')}`, { y: 190 })
+item(c(24).o0, c(25).o1 + .1, one('money_bag_3d', 'I have the money', { x: OK, at: .9 }))
+item(capT(26, 'okay') - .08, c(26).o1 + .08, `<div class="chips"><div class="chip ok">I have the money <img src="${I(OK)}"></div></div>`, { y: 240 })
+item(c(27).o0, c(28).o0 - .04, one('locked_3d', "can't withdraw it now"))
+item(c(28).o0, c(28).o1 + .2, one('fast-forward_button_3d', 'so I <b>pay it forward</b>'))
+item(c(29).o0 + .05, c(30).o1 + .1, one('shield_3d', 'but first: verify'))
+item(c(31).o0, capT(31, 'they') - .06, one('mobile_phone_3d', 'I log in'))
+item(capT(31, 'they') - .04, c(32).o0 + .15, one('magnifying_glass_tilted_left_3d', 'they check'))
+const enough = item(c(32).o0 + .2, c(33).o0 + .3, `<div class="chips"><div class="chip ok">Enough to pay? <b id="yes" style="opacity:0">YES</b><img id="yesi" style="opacity:0" src="${I(OK)}"></div></div><div style="height:16px"></div><div class="chips"><div class="chip hid" id="hid" style="opacity:0">My balance: <b>hidden</b><img src="${I('locked_3d')}"></div></div>`, { y: 190 })
+item(E.dg_1000 - .1, c(34).o1 + .05, `<div class="giant">1000<b>x</b></div>${lb('more than the price')}`, { y: 96 })
+const goods = item(goodT[0] - .1, c(38).o0 - .1, `<div class="icw" style="gap:26px">${[0, 1, 2, 3].map(i => `<div class="ic s" id="g${i}" style="opacity:0"><img src="${I(OK)}"></div>`).join('')}</div>${lb('good, good, good, good')}`, { y: 200 })
+item(E.r2_go - .1, c(39).o1 + .1, `<div class="stamp go">YOU CAN GO</div>`, { y: 230, rot: -5 })
+item(c(40).o0 + .1, c(41).o0 - .06, one('shopping_bags_3d', 'I take the groundnuts'))
+item(c(41).o0, c(42).o0 - .06, one('party_popper_3d', ''))
+const saw = item(c(42).o0, c(43).o1 + .02, `<div class="chips"><div class="chip ok">The shop saw: <b>YES</b><img src="${I(OK)}"></div></div><div style="height:16px"></div><div class="chips"><div class="chip hid">My balance: <b>hidden</b><img src="${I('locked_3d')}"></div></div>`, { y: 190 })
+const doc = item(c(44).o0 + .05, E.pg_not - .22, `<div id="doc"><div id="bar"><div id="url"><u>●</u>docs.primuslabs.xyz</div><div class="mono" id="real">Primus' own page · 11 Nov 2026</div></div><div id="pgw"><div id="pgi"><img src="img/docs-proof-of-assets.png"><div class="hl" id="hz"></div><div class="hl" id="ha0"></div><div class="hl" id="ha1"></div><div class="hl" id="ha2"></div></div></div></div>`, { y: 112 })
+const no = item(E.pg_not - .1, c(47).o1 + .05, `<div class="stamp no">NOT ON EVERY PLATFORM</div><div style="height:26px"></div><div class="lb" id="only" style="opacity:0">only where the tech is <b>built in</b></div>`, { y: 200, rot: -4 })
+const gar = item(capT(49, 'garri') - .1, c(50).o1 - .1, `<div class="icw" style="gap:60px"><div style="display:flex;flex-direction:column;align-items:center">${ic('bowl_with_spoon_3d')}${lb('garri')}</div><div id="nut" style="display:flex;flex-direction:column;align-items:center;opacity:0">${ic('peanuts_3d')}${lb('groundnuts')}</div></div>`)
+const fol = item(c(51).o0 + .15, P.end + .2, `<div id="fol">@Cmv_ng<div id="fbt">Follow</div><svg id="cur" viewBox="0 0 24 24"><path d="M4 2l15 9-6.5 1.6L16 20l-3 1.4-3.4-7.3L5 18z" fill="#fff" stroke="#0A1A44" stroke-width="1.6" stroke-linejoin="round"/></svg></div>`, { y: 250 })
+
+// the docs page: where the phrases sit (page px = CSS px x scale)
+const HL = (el, q) => { const s = D.scale; el.style.left = (q[0] * s - 8) + 'px'; el.style.top = (q[1] * s - 5) + 'px'; el.style.width = (q[2] * s + 16) + 'px'; el.style.height = (q[3] * s + 10) + 'px' }
+const ZK = D['leveraging the power of zkTLS'], AL = D['She can leverage Primus to prove to the protocol that she possesses over 10,000 USDT in her CEX account']
+HL($('hz'), ZK[0]); AL.forEach((q, i) => HL($('ha' + i), q))
+// ---- a caption never lands on what the owner holds up: each chunk is measured, checked against where the bottle is
+// while it is up (clear.py), and moved sideways off it. One position for a whole sentence, so the line does not jump.
+const C = window.CLEAR, capHtml = ch => ch.map(k => `<span${k.k ? ' class="k"' : ''}>${k.w}</span>`).join('')
+let lastCap = -1, lastBig = -1, LAID = false
+function layout() {
+  const cap = $('cap'); cap.style.transform = 'none'
+  const width = ch => { cap.innerHTML = capHtml(ch); return cap.lastChild.getBoundingClientRect().right - cap.firstChild.getBoundingClientRect().left + 24 }
+  const occ = (band, t0, t1) => { let lo = 1e9, hi = -1
+    for (let i = Math.max(0, Math.floor((t0 - .08) * C.rate)); i <= Math.min(band.length - 1, Math.ceil((t1 + .08) * C.rate)); i++) { const q = band[i]; if (q) { lo = Math.min(lo, q[0]); hi = Math.max(hi, q[1]) } }
+    return hi < 0 ? null : [lo, hi] }
+  const place = x => { x.w = width(x.ch); x.cx = 540; x.hit = false; x.moved = false
+    const o = occ(C.small, x.t0, Math.min(x.t1, x.c.o1 + .3)); if (!o || 540 + x.w / 2 < o[0] - 28 || 540 - x.w / 2 > o[1] + 28) return
+    const l = o[0] - 28 - x.w / 2, r = o[1] + 28 + x.w / 2; x.moved = true
+    if (l - x.w / 2 >= 36) x.cx = l; else if (r + x.w / 2 <= 1044) x.cx = r; else x.hit = true }
+  CHUNKS.forEach(place)
+  // a line with no room beside the bottle is split in two and tried again
+  let split = false
+  for (const x of CHUNKS) if (x.hit && x.ch.length >= 2) { const i = x.c.chunks.indexOf(x.ch), h = Math.ceil(x.ch.length / 2); x.c.chunks.splice(i, 1, x.ch.slice(0, h), x.ch.slice(h)); split = true }
+  if (split) { timing(); CHUNKS.forEach(place) }
+  // the lines of one sentence that step aside share one position, so the caption does not wander
+  for (const c of CAPS) { const xs = CHUNKS.filter(x => x.c === c && x.moved && !x.hit); if (!xs.length) continue
+    const m = Math.min(...xs.map(x => x.cx)); for (const x of xs) if (x.cx <= 540 && m - x.w / 2 >= 36) x.cx = m }
+  window.LAYOUT = CHUNKS.filter(x => x.moved).map(x => `${x.t0.toFixed(2)} ${x.hit ? 'NO ROOM' : 'x=' + Math.round(x.cx)} "${x.ch.map(k => k.w).join(' ')}"`)
+  for (const c of CAPS) if (c.big && occ(C.big, c.big.t, c.o1 + .3)) window.LAYOUT.push(`${c.o0.toFixed(2)} BIG PHRASE OVER THE BOTTLE "${c.big.text}"`)
+  cap.innerHTML = ''; lastCap = -1; LAID = true
+}
+window.render = t => {
+  SIG = []; if (!LAID) layout()
+  // ---- over the head: pop in on the word, lift away
+  for (const it of ITEMS) {
+    const k = eo(seg(t, it.a, .26)), o = seg(t, it.b, .16), on = t >= it.a - .01 && t < it.b + .17
+    st(it.el, { opacity: on ? cl(k * 1.7) * (1 - o) : 0, transform: `translateY(${((1 - k) * 26 - o * 20).toFixed(1)}px) scale(${((.62 + .38 * back(seg(t, it.a, .34))) * (1 - .1 * o)).toFixed(4)}) rotate(${it.rot}deg)` })
+    if (on) for (const b of it.bd) st(b.el, { opacity: seg(t, b.at, .08), transform: `scale(${(1.9 - .9 * eo(seg(t, b.at, .2))).toFixed(4)})` })
+  }
+  { const a = chain.a + .45; st($('d1'), { left: (eio(seg(t, a, .7)) * 126) + 'px', opacity: seg(t, a, .1) }); st($('d2'), { left: (eio(seg(t, a + .75, .7)) * 126) + 'px', opacity: seg(t, a + .75, .1) }) }
+  { const y = E.dg_enough - .05; st($('yes'), { opacity: seg(t, y, .1) }); st($('yesi'), { opacity: seg(t, y, .1), transform: `scale(${(1.8 - .8 * eo(seg(t, y, .22))).toFixed(4)})` }); st($('hid'), { opacity: seg(t, y + .55, .2), transform: `translateY(${((1 - eo(seg(t, y + .55, .3))) * 18).toFixed(1)}px)` }) }
+  goodT.forEach((g, i) => st($('g' + i), { opacity: seg(t, g - .03, .07), transform: `scale(${(1.7 - .7 * eo(seg(t, g - .03, .2))).toFixed(4)})` }))
+  st($('only'), { opacity: seg(t, E.pg_only - .1, .25) })
+  { const g = capT(49, 'groundnuts') - .08; st($('nut'), { opacity: seg(t, g, .12), transform: `scale(${(.6 + .4 * back(seg(t, g, .32))).toFixed(4)})` }) }
+  { const mid = q => ((q[0][1] + q[q.length - 1][1] + q[q.length - 1][3]) / 2) * D.scale - 147 / .9   // a sentence's middle, in the middle of the window
+    const y1 = mid(ZK), y2 = mid(AL)                                                               // the real page scrolls to each sentence
+    const y = y1 * eio(seg(t, doc.a + .1, .9)) + (y2 - y1) * eio(seg(t, E.pg_zk + 1.55, .8))
+    st($('pgi'), { transform: `translateY(${(-y * .9).toFixed(1)}px) scale(.9)` })
+    st($('hz'), { opacity: seg(t, E.pg_zk - .2, .25) }); for (let i = 0; i < 3; i++) st($('ha' + i), { opacity: seg(t, E.pg_zk + 2.4 + i * .12, .25) }) }
+  { const p = E.peace - .12, m = eio(seg(t, p - .7, .6)), d = seg(t, p, .08)                    // the cursor comes in and clicks on "Peace"
+    st($('cur'), { opacity: seg(t, p - .75, .12), transform: `translate(${(620 - m * 150).toFixed(1)}px,${(150 - m * 96).toFixed(1)}px) scale(${(1 - .16 * (d - seg(t, p + .1, .1))).toFixed(3)})` })
+    const f = $('fbt'), want = t >= p + .04 ? 'Following ✓' : 'Follow'; if (f.textContent !== want) f.textContent = want
+    st(f, { background: t >= p + .04 ? '#1F5FDB' : '#0B1F4D', transform: `scale(${(1 + .08 * (seg(t, p + .04, .1) - seg(t, p + .16, .18))).toFixed(4)})` }); SIG.push(want) }
+  // ---- captions, word by word; the key phrase big under them
+  let ch = null; for (const x of CHUNKS) if (t >= x.t0 && t < x.t1) ch = x
+  const cap = $('cap')
+  if (ch && !NOTEXT) {
+    const id = CHUNKS.indexOf(ch); if (id !== lastCap) { cap.innerHTML = capHtml(ch.ch); lastCap = id }
+    ch.ch.forEach((k, i) => st(cap.children[i], { opacity: t >= k.t - .05 ? 1 : .42 }))
+    const a = eo(seg(t, ch.t0, .1)); st(cap, { opacity: a, transform: `translate(${(ch.cx - 540).toFixed(1)}px,${((1 - a) * 8).toFixed(1)}px)` }); SIG.push(id)
+  } else st(cap, { opacity: 0 })
+  const nxt = c => CAPS[c.ci + 1] ? CAPS[c.ci + 1].o0 : 1e9                                    // the big phrase is gone before the next sentence starts
+  let bg = null; for (const c of CAPS) if (c.big && t >= Math.max(c.big.t, c.o0) - .06 && t < Math.min(c.o1 + .3, nxt(c))) bg = c
+  const big = $('big')
+  if (bg && !NOTEXT) { if (bg.ci !== lastBig) { big.textContent = bg.big.text; lastBig = bg.ci }
+    const a = seg(t, bg.big.t - .06, .3), o = seg(t, Math.min(bg.o1 + .16, nxt(bg) - .14), .12)
+    st(big, { opacity: cl(a * 3) * (1 - o), transform: `scale(${(.7 + .3 * back(a)).toFixed(4)})`, top: (bg.small.length ? 1480 : 1424) + 'px' }); SIG.push(bg.ci)
+  } else st(big, { opacity: 0 })
+  // ---- end card
+  { const a = eo(seg(t, P.end - .05, .5)); st($('end'), { opacity: a > 0 ? 1 : 0, transform: `translateY(${((1 - a) * 1920).toFixed(1)}px)` })
+    const e0 = P.end + .35
+    st($('elogo'), { opacity: seg(t, e0, .3), transform: `scale(${(.9 + .1 * back(seg(t, e0, .45))).toFixed(4)})` }); st($('etag'), { opacity: seg(t, e0 + .3, .3) })
+    for (let i = 0; i < 5; i++) { const k = eo(seg(t, e0 + .6 + i * .12, .32)); st($('e' + i), { opacity: cl(k * 1.6), transform: `scale(${(.86 + .14 * back(seg(t, e0 + .6 + i * .12, .32))).toFixed(4)})` }) }
+    st($('eget'), { opacity: seg(t, e0 + 1.25, .3) }); st($('eby'), { opacity: seg(t, e0 + 1.5, .3) }); st($('erisk'), { opacity: seg(t, e0 + 1.7, .3) }) }
+  return SIG.join('|')
+}
+window.READY = Promise.all([document.fonts.ready, ...[...document.images].map(i => i.decode().catch(() => 0))]).then(() => document.fonts.load('800 40px Manrope')).then(() => document.fonts.load('600 22px Manrope')).then(() => document.fonts.load('106px Anton')).then(() => document.fonts.load('700 24px Mono'))
+</script>
+</body></html>

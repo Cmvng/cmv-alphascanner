@@ -77,7 +77,7 @@ CAPS = [
     [74, 78, "and I'm trying to pay."], [80, 87, 'A big supermarket, *anywhere in the world*.'],
     [88, 93, "And I'm trying to buy *this*."], [94, 103, 'This is what you call a *bottle of groundnuts*.'],
     [109, 115, 'And then, I do not have *cash*.'], [116, 121, 'My *bank app* is not working.'], [126, 133, "I don't have my *ATM card* on me."],
-    [136, 138, '*Binance* was hacked.'], [139, 142, 'Yeah, it was hacked.'], [143, 145, 'So they paused *withdrawals*,'],
+    [136, 138, '*Binance* was hacked.'], [139, 142, 'Yeah, it was hacked.'], [143, 145, 'So, paused *withdrawals*,'],
     [146, 153, 'and I could not actually pay with *crypto*.'], [154, 158, 'So, what do I do?'],
     [159, 166, 'And I figure out that they actually use'], [167, 172, 'the *Primus Labs zkTLS*'], [173, 179, 'to verify proofs on the *encrypted* node.'],
     [182, 185, 'And I need this.'], [186, 191, 'So, what do I simply do?'],
@@ -128,7 +128,9 @@ json.dump(segs, open(f'{K}/segs.json', 'w'), indent=0)
 plan = dict(fps=FPS, end=END, endcard=ENDCARD, total=round(END + ENDCARD, 4), pieces=[dict(s=s, e=e, o=o) for s, e, o in off], removed=REMOVE, words=ws,
             caps=caps, ev=ev, punch=PUNCH, segs=segs, stage=[[round(a, 3), round(b, 3)] for a, b in stage])
 json.dump(plan, open(f'{K}/plan.json', 'w'), indent=0)
-open(f'{K}/plan.js', 'w').write('window.PLAN = ' + json.dumps(dict(end=END, endcard=ENDCARD, caps=caps, ev=ev, stage=plan['stage'])) + '\n')
+# the page gets the captions and cues, and (for word-by-word captions, talk.html) every word's source time and the kept pieces
+open(f'{K}/plan.js', 'w').write('window.PLAN = ' + json.dumps(dict(end=END, endcard=ENDCARD, caps=caps, ev=ev, stage=plan['stage'],
+    pieces=plan['pieces'], words=[dict(s=w.get('s')) for w in plan['words']])) + '\n')
 print(f'{len(pieces)} pieces, {len(segs)} picture segments, speech {END:.2f} s, with the end card {END + ENDCARD:.2f} s; {len(caps)} captions')
 for k, v in ev.items(): print(f'  {k:9s} {v:6.2f}', end='')
 print()

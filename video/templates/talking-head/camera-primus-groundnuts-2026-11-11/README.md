@@ -1,6 +1,6 @@
 # Primus Labs, "The groundnut test" (11 Nov 2026, upright, 1:51)
 
-Final (second version): 111.1 s, 3,333 frames, 1080×1920. -14.1 LUFS, true peak -1.6 dBTP, music 12.1 dB under the voice.
+Final (third version; the numbers below are the second's and the third measures the same): 111.1 s, 3,333 frames, 1080×1920. -14.1 LUFS, true peak -1.6 dBTP, music 12.1 dB under the voice.
 
 The owner's 2:41 selfie recording: a practical example of Primus Labs' zkTLS. They are at a supermarket with a bottle
 of groundnuts, no cash, a bank app that is down, no ATM card, and an exchange that has paused withdrawals; the shop
@@ -10,6 +10,38 @@ of Primus Lab… sequenced in a good way… be fast with it." Out folder: `video
 
 **Concept: THE RECEIPT.** The story prints as a till receipt as the owner tells it. Four ways to pay are struck out;
 then the proof prints: "ENOUGH MONEY? YES ✓ · MY BALANCE: HIDDEN".
+
+## The third version is the one that went out last: `talk.html`. Start from it.
+The second version (the sheet over a smaller picture, `stage.html`) was rejected too: "The sound track doesn't fit the
+video. Its poor video editing.. Some part of the video still are not aligned.. So many mistakes.. The motion graphics
+is bad. Like didn't you study all the video samples I sent why is this so mid?!!" It had fixed the cut-out and the
+crop, and it still looked like slides with a presenter in a box, with a slow film score under a funny, practical
+story. None of the talking-head samples the owner sent looks like that.
+
+The third version follows the upright sample they sent on 3 Nov ("AI changed my life", `video/templates/IDEAS.md`):
+- **The owner is full screen from the first frame to the last.** Their real room softly blurred, the whole frame.
+- **One compact thing pops over the head for each thing they name,** with a small label, 1 to 3 s each, on the word:
+  a muscle for the gym, a cart, a globe, the groundnuts; cash, a bank, a card and a coin each get a red cross; the
+  Primus logo pill; a lock, a phone, a chain "my phone → Primus → the shop"; chips "Enough to pay? YES / My balance:
+  hidden"; a giant "1000x"; four ticks on "good, good, good, good"; a green "YOU CAN GO" stamp; Primus' real docs page
+  in a card, scrolled to the two sentences; a red "NOT ON EVERY PLATFORM" stamp; a follow pill that a cursor clicks
+  on "Peace".
+- **Captions move word by word** at chest height (each word lights up on its own sound, from `tokens.py`); seven key
+  phrases go big under them. No caption box.
+- **A caption never lands on the bottle.** `clear.py` finds the bottle in the caption band ten times a second;
+  `talk.html` moves the lines it would reach sideways, off it, and back to the centre when the bottle goes down.
+- **The soundtrack fits the story:** "New Bass 01" (Mixkit 720, approved by the owner on explainers), which
+  `video/lib/hear_music.py` describes as a bouncy, warm beat, like the beds in the two talking-head samples. "A New
+  Life" is a slow orchestral film score: right for a match analysis, wrong here.
+
+```bash
+PP_FULL=1 python3 -I $LIB/portrait_pro_long.py render $K $K/segs.json $K/cam_room.mp4 4 room
+python3 -I $T/build_av.py $K $K/cam_room.mp4 full            # the picture only flipped: full screen the whole way
+python3 -I $T/tokens.py $K && python3 -I $T/clear.py $K      # tok.js (word times), clear.js (where the bottle is)
+python3 -I $T/remix.py $K <720.mp3> 22.906 22.906 83.81 $K/mix.wav 8 6
+node $T/render.mjs <page>/talk.html $K <out.mp4>             # the page dir also needs plan.js, docs.js, tok.js, clear.js, img/, img/e/*.png
+```
+`img/e/` holds the icons: Microsoft Fluent Emoji 3D (MIT), see `sources.md`. Not committed.
 
 ## The first version was rejected twice. Read this before reusing anything here.
 1. **The cut-out.** The owner was cut out of their room onto a clean backdrop (the `studio` look). "This is the worst
@@ -27,7 +59,7 @@ holding or at the picture in motion. The second version is built on two rules th
 - **The whole picture as they framed it.** `PP_FULL=1`: no zoom, no following crop. When graphics need room, the
   whole picture is made smaller; it is never cropped, pushed out or covered where they show something.
 
-## The format (second version)
+## The format of the second version (rejected; kept for the record)
 - **Full frame** for the hook, the pay-off and the sign-off: the owner in their own room, softly out of focus. A card
   sits over the ceiling above the head. Captions sit over the chest in the hook and the pay-off (nothing is held up
   there) and above the head in the sign-off, where the bottle comes back into the lower right.

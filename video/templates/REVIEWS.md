@@ -82,6 +82,29 @@ message; it came straight back, twice. The second version is the one in the out 
   - **No cut-out. The real room, softly blurred, the whole frame.** Anything more is an effect they did not ask for.
   - **Watch it move:** consecutive frames at full size at every fast hand movement, not only half-second sheets.
   - At intake, look at one full-size raw frame for text (a shirt, a sign, a screen): mirrored means flip.
+- **Third rejection, 11:50, on the second version:** *"The sound track doesn't fit the video. Its poor video
+  editing.. Some part of the video still are snot aligned.. So many mistakes.. The motion graphics is bad. Like didn't
+  you study all the video samplea I sent why is this so mid?!!"*
+  - **What was wrong, and how it got through.** I fixed exactly the two things named (the cut-out, the crop) and kept
+    everything else: a panel-and-slides layout, a receipt and a box diagram of my own, full-line captions, and a slow
+    film score. I had written up the owner's three talking-head samples in `IDEAS.md` and then built none of what is in
+    them. "A New Life" passed the gate because it is "approved"; nothing asked whether it suits a funny story told to
+    camera. Approved is not the same as fits.
+  - **What the third version does** (`talk.html`): the owner full screen throughout; one compact 3D icon with a label
+    over the head for each thing they name, on the word; word-by-word captions with seven big key phrases; chips,
+    stamps, a giant "1000x", Primus' real page in a card, a follow pill; captions step aside when the bottle comes up
+    (`clear.py`); "New Bass 01" in place of the film score, chosen with `video/lib/hear_music.py`, which describes
+    music in words (the samples' beds read as bouncy and warm; 543 reads as a slow orchestral score).
+  - **"Not aligned":** measured, the sound is within 3 ms and the picture within one frame of the raw recording, so
+    lips and voice were in step. What was loose was the type: full-line captions that came up before their words, and
+    boxes at three different left edges. Now every caption word has its own time and everything sits on one centre line.
+  - **Change next time:** before building an edit of the owner's own recording, open the samples and name the one it
+    follows; choose the music by what it sounds like, in words, against the mood of what they say; fix what they named
+    AND ask what else in the video they would say the same about.
+- **Final review (third version, sent 12:36):** 111.1 s, 3,333 frames, -14.1 LUFS, -1.6 dBTP, music 12.8 dB under the
+  voice; gate 0 FAIL. Every half second on 12 sheets; the raw beside the result at 12 bottle moments (the bottle whole,
+  no caption on it); hear-back 50 of 53 (the recogniser's "Binance", "required amount" and "Voilà"). Sent with two
+  15-second alternates of the soundtrack ("Hip Hop 02", "Pop 04") for the owner to choose from by ear.
 - **Final review (second version):** 111.1 s, 3,333 frames, 1080x1920, -14.1 LUFS, -1.6 dBTP, music 12.1 dB under the
   voice; gate 0 FAIL. Every half second on 12 sheets. The raw beside the result at 12 moments where the bottle is
   held (`versus_raw.py`): all of it in the picture each time. Consecutive frames at full size at nine of the fastest moments

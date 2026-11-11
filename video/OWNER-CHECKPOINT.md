@@ -27,6 +27,10 @@ going back and forth.
   they have never judged it. `"wow": true` is only a measurement (it sounds like "A New Life" on paper).
 - **Music from their own samples comes first.** 4 Nov: the stock track was "very poor"; use the music from the reels
   they sent. 22 Oct: "Why did you not use any soundtrack for what I sent to you? I gave you templates."
+- **The track has to fit the video, not only be one they like.** 11 Nov, on "A New Life" under their own funny,
+  practical recording (the groundnut test): "The sound track doesn't fit the video." That track was praised on match
+  analyses (slow, suspenseful). Under their own talking recordings the samples they sent are voice-led with a light,
+  quiet bed that matches the mood of what they are saying. (The match to mood is my reading of their words.)
 - **Never a track they have not heard, chosen by its numbers.** 10 Nov, on a dark bed 20 dB under their voice: "What
   about weird soundtrack did you add?… are you not seeing the quality soundtracks that are playing?" Send a 10-second
   sample first. Say plainly that you cannot hear.
@@ -120,6 +124,13 @@ going back and forth.
   professional preview (9 Oct: "a clean writeup that is without AI slop").
 - **Post-match:** the presenter format: the lady at the mic, the commentary, the stadiums, the players. 13 Oct, on a
   graphics-only board: "I expected something creative."
+- **Their own recording is edited like the talking-head samples they sent** (`video/templates/IDEAS.md`: "AI changed
+  my life" 3 Nov, "20 hours" 9 Nov, "7 effects" 29 Oct): they stay full screen, the graphics land around their head on
+  the word that names them, the captions move word by word. 11 Nov, on a panel-and-slides layout with a receipt and a
+  box diagram: "Its poor video editing… The motion graphics is bad. Like didn't you study all the video samples I
+  sent why is this so mid?!!" Before building, open the samples again and write down which one the edit follows.
+- **Everything lines up.** 11 Nov: "Some part of the video still are not aligned." Check the lips against the voice,
+  each caption and graphic against its word, and every box against the frame and against the others.
 - **Their own recording:** their real room softly blurred, their voice forward, the real screens of what they talk about, real dated
   facts beside their words, no reactions, music by the rules above. Their example is illustrated step by step, in
   the order they tell it (11 Nov: "the illustration… done properly and sequenced in a good way… in layers… the right

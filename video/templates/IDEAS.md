@@ -60,7 +60,12 @@ Different is the floor; creative is the bar. Before building, write the concept 
 - **The receipt:** the combo or ticket prints out like a receipt, line by line, the payout at the bottom.
   Used on 11 Nov for Primus (`talking-head/camera-primus-groundnuts-2026-11-11/`): the owner's supermarket example
   printed line by line, four ways to pay struck out, then the zkTLS proof and a green stamp.
-- **The sheet over a smaller picture (11 Nov):** when the owner sits close to the phone, a white sheet comes down
+- **Icons over the head, word by word (11 Nov, `talking-head/camera-primus-groundnuts-2026-11-11/talk.html`):** the
+  owner full screen the whole way; a compact 3D icon with a small label pops over the head for each thing they name,
+  on the word; small word-by-word captions at chest height with a few big key phrases; stamps, chips, a real page in
+  a card, a follow pill. This is the owner's 3 Nov sample ("AI changed my life") in house colours, and it is the
+  default for their own recordings until they say otherwise.
+- **The sheet over a smaller picture (11 Nov, REJECTED: "poor video editing… the motion graphics is bad… so mid"):** when the owner sits close to the phone, a white sheet comes down
   at the top for the explaining (a receipt, a diagram, a real page) and the owner's WHOLE picture is shown smaller
   under it, in a rounded window; captions go into the sheet's bottom strip. Full frame returns for the hook, the
   pay-off and the sign-off. Never push or crop the picture to make room: the first try did, and cut the bottle the

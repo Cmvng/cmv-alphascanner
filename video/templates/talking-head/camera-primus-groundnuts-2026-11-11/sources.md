@@ -42,8 +42,17 @@ Everything on screen that is not the owner's own words, and where it came from. 
 
 ## Sound
 - Voice: the owner's recording, de-clipped, room echo out (WPE), then DeepFilterNet3. No pitch or tempo change.
-- Music: "A New Life", Eugenio Mininni (Mixkit 543, free licence), the owner's approved track: about 12 dB under the
-  voice while they speak, the drop on the first cut (5 s), full level on the end card. No made sounds.
+- Music (third version): "New Bass 01", Lily J (Mixkit 720, free licence), approved by the owner on explainers. About
+  13 dB under the voice while they speak, the bass in on the first cut (5 s), full level on the end card. It replaced
+  "A New Life" (Mixkit 543): "The sound track doesn't fit the video." `video/lib/hear_music.py` describes 543 as a slow
+  orchestral film score and 720 as a bouncy, warm afrobeats-like beat, which is also how it describes the beds in the
+  two talking-head samples the owner sent. No made sounds.
+
+## The icons (third version)
+- Microsoft Fluent Emoji, 3D set (MIT licence), fetched 11 Nov 2026 from
+  `cdn.jsdelivr.net/gh/microsoft/fluentui-emoji@main/assets/<Name>/3D/<name>_3d.png`, shown at or under their own
+  256 px. They stand for the things the owner names (cash, a bank, a card, a coin, a lock, a shop); none is a brand's
+  logo or interface. The follow pill on the sign-off is our own drawing, not a copy of any app's button.
 
 ## Left out of the cut
 - The opening "So, basically today,".
