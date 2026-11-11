@@ -28,6 +28,56 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
+## 11 Nov: the owner's recording, Primus Labs "The groundnut test" (studio look, the stage panel, 1:51, 9:16)
+
+`video/templates/talking-head/camera-primus-groundnuts-2026-11-11/`. Sent 66 minutes after the owner's message.
+
+- **The brief:** *"make this video clean and good and better than what you did in the last time. All the mistakes you
+  made, please make sure that it does not happen in this video… the cinematic, the ambience… The illustration of Primus
+  Lab and everything is done properly and sequenced in a good way. And please, be fast with it… last time like you
+  took forever… do everything in sequence, in layers… the background sound is okay… the right order that a
+  professional will approve 10/10."* A 2:41 selfie: a practical example of zkTLS (groundnuts at a supermarket, no cash,
+  no card, an exchange that has paused withdrawals, a proof that the money is there).
+- **What worked:**
+  - **The checkpoint did its job.** Soundtrack ("A New Life", approved), the studio look, no reactions, real screens,
+    dated facts and the format were settled before building, and the gate passed first time: -14.1 LUFS, music 12.1 dB
+    under the voice, 0 FAIL.
+  - **Fast because of the order.** Prep, the matte and the studio-look render started first and ran alone (3, 16 and
+    26 minutes). The voice clean-up, the transcript, the cut plan, the docs capture, the whole page, the cover, the
+    sources and the post kit were done beside them. The page was checked at every half second over a stand-in base
+    (one preview frame through the real `build_av.py`) before the camera picture existed.
+  - **A format for a close selfie: the stage panel.** The owner's head is a third of the frame's height, so cards
+    above it leave 400 px. A white panel docks at the top and the camera picture moves 300 px lower on the same curve;
+    the captions move into the panel's bottom strip, so nothing covers the face.
+  - **The story in its own medium.** A till receipt prints the owner's example line by line (cash, bank app, ATM card
+    and crypto struck out), a three-box diagram shows who sees what, and the receipt comes back with the proof and a
+    green "YOU CAN GO" stamp. Then "A YES. NOT MY BALANCE." over the owner.
+  - **Primus' own page for the tech.** The docs' "Proof of Assets" page, captured as served, with the sentence that is
+    the owner's example outlined (a loan against a proof of an exchange balance).
+- **Mistakes:**
+  1. **The recording was mirrored and I saw it late.** The Chelsea crest and the Nike tick read backwards. I caught it
+     on a full-size still two minutes into the final render and had to restart it. Text in the raw picture is a check
+     for the first minute, not the last.
+  2. **A label said more than the docs do.** The diagram's node first read "sees inside the locked session". Primus'
+     attestor never reads the plain data; it now says "witnesses the locked session". Re-read the source before
+     writing a label about how a protocol works.
+  3. **The receipt's type started too small** (31 px on a 1080 frame). It is 36 px on a wider paper. Mono text under
+     about 34 px does not read on a phone.
+  4. **Light jobs slowed the matte.** The voice clean-up and two transcriptions ran beside it: 16 minutes for 4,837
+     frames against about 12 alone. Worth it here; not for anything heavier.
+  5. **The aligner ran one word through a 1.2 s pause** ("Lab."). The edge check in `plan.py` caught it as a loud cut.
+- **Kept honest:** the owner's "Binance was hacked" is their example, so its receipt row carries an "example" tag, no
+  Binance logo appears, and the end card says the supermarket and the hack are made up. Their "Primus Tech Lab" is
+  captioned "Primus Labs". Both were told to the owner.
+- **Change next time:**
+  - At intake, look at one full-size raw frame for text (a shirt, a sign, a screen): mirrored means flip.
+  - Keep the stand-in base: it removed the second full render that the Bagel video needed.
+  - A long diagram scene needs something moving on every beat (the dots on the lines, the step line changing).
+- **Final review:** 111.1 s, 3,333 frames, 1080x1920. Every half second on 12 sheets: the first frame is whole, the
+  face is whole in every frame, the crest reads the right way. Hear-back: 49 of 53 captions matched; the other four are
+  the recogniser's ("Binance" as "my nurse", "withdraw" as "draw", the four "good"s, "Voila"), none at a cut.
+- **Time:** message at 09:57, files sent at 11:03.
+
 ## 10 Nov: the owner's recording, Bagel and the international break (studio look, 1:40, 9:16)
 
 `video/templates/talking-head/camera-bagel-break-2026-11-10/`. A new tool: `video/lib/portrait_pro_long.py`.

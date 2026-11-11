@@ -1,5 +1,7 @@
 # Primus Labs, "The groundnut test" (11 Nov 2026, upright, 1:51)
 
+Final: 111.1 s, 3,333 frames, 1080×1920. -14.1 LUFS, true peak -1.6 dBTP, music 12.1 dB under the voice. Sent 66 minutes after the owner's message.
+
 The owner's 2:41 selfie recording: a practical example of Primus Labs' zkTLS. They are at a supermarket with a bottle
 of groundnuts, no cash, a bank app that is down, no ATM card, and an exchange that has paused withdrawals; the shop
 uses Primus, so they log in to their own exchange account and the shop gets a proof that the money is there.
