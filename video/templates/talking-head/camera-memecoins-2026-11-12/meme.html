@@ -1,0 +1,404 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Meme coins have served its purpose (the owner's 12 Nov recording): graphics behind and in front of the owner</title>
+<style>
+@font-face{font-family:Anton;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/anton-latin-400-normal.woff2)}
+@font-face{font-family:Manrope;font-weight:600;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-600-normal.woff2)}
+@font-face{font-family:Manrope;font-weight:800;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-800-normal.woff2)}
+@font-face{font-family:Mono;font-weight:700;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/jetbrains-mono-latin-700-normal.woff2)}
+/* The owner's opinion piece on meme coins, edited on their untouched picture and sound (render_raw.mjs).
+   The owner: "adding motion effects, showing memes I'm talking about, the charts, references to it".
+   Moves, and the sample each comes from (video/templates/STYLE-LIBRARY.md):
+     - the opening claim as giant type BEHIND the head, with a date chip (S1, S3 brand cold open);
+     - data cards that build line by line with the voice, each with its source and date (S3);
+     - REWIND to the last cycle: the coins the owner names as real logo cards, then a real price chart (S3);
+     - the rat race as a conveyor of coins that speeds up (S1 timeline/playhead, done as a loop);
+     - a hold, then a burst: a few coins, then a flood of them BEHIND the head on "millions" (S4);
+     - a bar chart to scale: what a Musk post was worth in 2021 and in 2025-26 (S3 split bar);
+     - word-by-word captions with big key phrases, a stamp, the follow click (S2).
+   Two layers: #bk is drawn behind the owner (the renderer hides it wherever the owner's outline is); everything else
+   is in front and stays clear of the head. Every number on screen comes from data.js (fetch_data.py, fetched on the
+   day) or is typed here with its source beside it (sources.md). The coin logos are the tokens' own (CoinGecko).
+   The icons are Microsoft's Fluent Emoji 3D (MIT licence). */
+:root{--ink:#0B1F4D;--deep:#0A1A44;--blue:#1F5FDB;--sky:#7CC4FF;--mute:#6B7A99;--line:#E3E9F4;--red:#E5484D;--green:#12A150}
+*{box-sizing:border-box}
+html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:transparent;font-family:Manrope,sans-serif;font-weight:800;color:#fff}
+.abs{position:absolute}
+.mono{font-family:Mono,monospace;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
+/* No shade over the owner's picture. Earlier versions laid a navy gradient over the frame so white type would read;
+   it made the owner's face darker and bluer (measured against the raw, 11 Nov). The picture is now the owner's own
+   frames, untouched, and every piece of type carries its own outline or its own plate instead. */
+#shade{display:none}
+/* ---- over the head */
+.it{position:absolute;left:0;top:0;width:1080px;display:flex;flex-direction:column;align-items:center;opacity:0;transform-origin:50% 60%}
+.icw{position:relative;display:flex;align-items:center;justify-content:center;gap:34px}
+.ic{position:relative;width:200px;height:200px}
+.ic img{width:200px;height:200px;display:block;filter:drop-shadow(0 16px 22px rgba(4,10,36,.45))}
+.ic.s img,.ic.s{width:140px;height:140px}
+.bdg{position:absolute;right:-18px;bottom:-10px;width:88px;height:88px;opacity:0}
+.bdg img{width:88px!important;height:88px!important}
+.ic.s .bdg,.ic.s .bdg img{width:64px!important;height:64px!important}
+.ic.s .bdg{right:-12px;bottom:-8px}
+.lb{margin-top:10px;font-size:42px;line-height:52px;letter-spacing:-.005em;white-space:nowrap;-webkit-text-stroke:8px var(--deep);paint-order:stroke fill;text-shadow:0 6px 16px rgba(4,10,36,.5)}
+.lb b{color:var(--sky);font-weight:800}
+.tag{display:inline-block;margin-left:14px;height:40px;padding:1px 14px 0;border-radius:10px;font-family:Mono,monospace;font-weight:700;font-size:25px;line-height:35px;letter-spacing:.08em;background:#fff;color:var(--blue);-webkit-text-stroke:0;text-shadow:none;vertical-align:5px}
+.pill{display:flex;align-items:center;height:118px;padding:0 38px;border-radius:59px;background:#fff;box-shadow:0 18px 40px rgba(4,10,36,.45)}
+.pill img{height:62px;display:block}
+.pill span{margin-left:20px;height:62px;padding:0 24px;border-radius:31px;background:var(--blue);color:#fff;font-size:36px;line-height:60px}
+.ttl{font-family:Anton,sans-serif;font-weight:400;font-size:118px;line-height:1.02;letter-spacing:.01em;white-space:nowrap;-webkit-text-stroke:10px var(--deep);paint-order:stroke fill;text-shadow:0 10px 26px rgba(4,10,36,.55)}
+.sub{font-size:38px;line-height:48px;font-weight:600;white-space:nowrap;-webkit-text-stroke:7px var(--deep);paint-order:stroke fill}
+.giant{font-family:Anton,sans-serif;font-weight:400;font-size:300px;line-height:.96;letter-spacing:.01em;white-space:nowrap;-webkit-text-stroke:14px var(--deep);paint-order:stroke fill;text-shadow:0 16px 40px rgba(4,10,36,.6)}
+.giant b{font-weight:400;color:var(--sky)}
+.chips{display:flex;gap:18px;align-items:center}
+.chip{height:92px;padding:0 34px;border-radius:46px;font-size:40px;line-height:90px;white-space:nowrap;background:#fff;color:var(--ink);box-shadow:0 16px 34px rgba(4,10,36,.42)}
+.chip b{font-weight:800}
+.chip.ok b{color:var(--green)} .chip.hid b{color:var(--blue)}
+.chip img{width:50px;height:50px;vertical-align:-10px;margin-left:8px}
+.stamp{font-family:Anton,sans-serif;font-weight:400;font-size:92px;line-height:1;letter-spacing:.03em;white-space:nowrap;padding:22px 38px 18px;border-radius:22px;border:9px solid currentColor;background:rgba(255,255,255,.94);box-shadow:0 18px 40px rgba(4,10,36,.45)}
+.stamp.go{color:var(--green)} .stamp.no{color:var(--red)}
+.line{position:relative;width:150px;height:8px;border-radius:4px;background:rgba(255,255,255,.9);box-shadow:0 4px 10px rgba(4,10,36,.4)}
+.line i{position:absolute;top:-8px;left:0;width:24px;height:24px;border-radius:12px;background:var(--sky);box-shadow:0 0 0 5px rgba(124,196,255,.35)}
+/* the follow pill: ours, not a copy of any app's button */
+#fol{display:flex;align-items:center;height:112px;padding:0 14px 0 40px;border-radius:56px;background:#fff;color:var(--ink);font-size:46px;box-shadow:0 18px 40px rgba(4,10,36,.5);position:relative}
+#fbt{margin-left:26px;height:84px;width:290px;border-radius:42px;background:var(--ink);color:#fff;font-size:38px;line-height:82px;text-align:center}
+#cur{position:absolute;left:0;top:0;width:54px;height:54px;opacity:0}
+/* ---- captions: word by word under the beard; key phrases go big under them */
+#cap{position:absolute;left:0;top:1404px;width:1080px;text-align:center;font-size:56px;line-height:72px;letter-spacing:-.005em;white-space:nowrap}
+#cap span{display:inline-block;margin:0 .13em;-webkit-text-stroke:9px var(--deep);paint-order:stroke fill;text-shadow:0 6px 16px rgba(4,10,36,.5)}
+#cap span.k{color:var(--sky)}
+#big{position:absolute;left:0;top:1480px;width:1080px;text-align:center;font-size:108px;line-height:124px;letter-spacing:-.02em;white-space:nowrap;color:var(--sky);opacity:0;
+  -webkit-text-stroke:13px var(--deep);paint-order:stroke fill;text-shadow:0 10px 26px rgba(4,10,36,.55);transform-origin:50% 50%}
+/* ---- end card */
+#end{position:absolute;left:0;top:0;width:1080px;height:1920px;background:linear-gradient(180deg,#F4F8FF,#DCE9FF);opacity:0;color:var(--ink)}
+#end .c{position:absolute;left:0;width:1080px;text-align:center}
+.ec{display:inline-block;height:72px;padding:0 30px;border-radius:36px;font-size:34px;line-height:70px;background:#fff;border:1.5px solid var(--line);margin:0 6px 14px;opacity:0;white-space:nowrap}
+
+/* ---- this video */
+.card{width:940px;border-radius:40px;background:rgba(255,255,255,.96);box-shadow:0 22px 50px rgba(4,10,36,.5);color:var(--ink);padding:26px 34px 22px;text-align:left}
+.card .h{font-family:Mono,monospace;font-weight:700;font-size:25px;line-height:34px;letter-spacing:.11em;text-transform:uppercase;color:var(--blue);margin-bottom:8px;white-space:nowrap}
+.card .src{font-family:Mono,monospace;font-weight:700;font-size:19px;line-height:26px;letter-spacing:.03em;color:var(--mute);margin-top:12px;white-space:nowrap}
+.row{display:flex;align-items:center;height:104px;opacity:0}
+.row img.i{width:78px;height:78px;margin-right:20px;display:block;filter:drop-shadow(0 6px 10px rgba(4,10,36,.2))}
+.row .t{font-size:40px;line-height:46px;flex:1;white-space:nowrap}
+.row .t u{display:block;text-decoration:none;font-weight:600;font-size:24px;line-height:30px;color:var(--mute)}
+.row .v{font-family:Anton,sans-serif;font-weight:400;font-size:66px;line-height:1;color:var(--blue);margin-left:16px}
+.tl{display:flex;align-items:center;gap:18px}
+.tb{height:118px;padding:0 34px;border-radius:30px;background:#fff;color:var(--ink);font-family:Anton,sans-serif;font-weight:400;font-size:58px;line-height:122px;white-space:nowrap;box-shadow:0 18px 40px rgba(4,10,36,.45);position:relative}
+.tb i{position:absolute;left:18px;right:18px;top:56px;height:8px;border-radius:4px;background:var(--red);transform-origin:0 50%;transform:scaleX(0)}
+.ar{font-size:64px;line-height:1;-webkit-text-stroke:8px var(--deep);paint-order:stroke fill}
+.rw{display:flex;align-items:center;height:96px;padding:0 34px 0 22px;border-radius:48px;background:#fff;color:var(--ink);font-family:Anton,sans-serif;font-weight:400;font-size:52px;line-height:1;box-shadow:0 18px 40px rgba(4,10,36,.45);white-space:nowrap}
+.rw img{width:64px;height:64px;margin-right:16px;display:block}
+.rw span{font-family:Mono,monospace;font-weight:700;font-size:26px;letter-spacing:.1em;color:var(--blue);margin-left:18px}
+#grid{display:grid;grid-template-columns:repeat(3,316px);gap:16px}
+.cc{position:relative;height:150px;border-radius:34px;background:rgba(255,255,255,.96);box-shadow:0 16px 34px rgba(4,10,36,.42);color:var(--ink);display:flex;align-items:center;padding:0 10px 0 16px;opacity:0;overflow:hidden}
+.cc img{width:82px;height:82px;border-radius:41px;display:block;margin-right:12px;flex:none;box-shadow:0 4px 10px rgba(4,10,36,.2)}
+.cc b{display:block;font-size:35px;line-height:40px;white-space:nowrap}
+.cc u{display:block;text-decoration:none;font-family:Mono,monospace;font-weight:700;font-size:19px;line-height:26px;letter-spacing:.02em;color:var(--mute);white-space:nowrap}
+.cc u.z{display:none;font-family:Anton,sans-serif;font-weight:400;font-size:46px;line-height:50px;letter-spacing:0;color:var(--red)}
+.cc.now{background:rgba(255,233,235,.97)} .cc.now u.a{display:none} .cc.now u.z{display:block}
+.note{margin-top:14px;font-family:Mono,monospace;font-weight:700;font-size:22px;line-height:30px;letter-spacing:.04em;white-space:nowrap;-webkit-text-stroke:6px var(--deep);paint-order:stroke fill;opacity:0}
+.gain{height:92px;padding:0 30px;border-radius:46px;font-family:Anton,sans-serif;font-weight:400;font-size:58px;line-height:96px;white-space:nowrap;background:#fff;color:var(--green);box-shadow:0 16px 34px rgba(4,10,36,.42)}
+.two{display:flex;gap:26px}
+.stt{flex:1;opacity:0}
+.stt b{display:block;font-family:Anton,sans-serif;font-weight:400;font-size:112px;line-height:118px;color:var(--ink);white-space:nowrap}
+.stt u{display:block;text-decoration:none;font-weight:600;font-size:27px;line-height:34px;color:var(--mute)}
+.bar{margin-top:10px;opacity:0}
+.bar span{display:block;font-family:Mono,monospace;font-weight:700;font-size:23px;line-height:32px;letter-spacing:.05em;color:var(--mute);white-space:nowrap}
+.bar div{display:flex;align-items:center;height:58px}
+.bar i{display:block;flex:none;height:50px;border-radius:12px;background:var(--blue);width:700px;transform-origin:0 50%}
+.bar b{flex:none;font-family:Anton,sans-serif;font-weight:400;font-size:52px;line-height:58px;margin-left:16px;white-space:nowrap}
+.big2{font-family:Anton,sans-serif;font-weight:400;font-size:150px;line-height:156px;color:var(--ink);white-space:nowrap;text-align:center}
+.t2{font-size:38px;line-height:48px;text-align:center;white-space:nowrap}
+.ct{width:150px;height:150px;border-radius:40px;background:rgba(255,255,255,.96);box-shadow:0 16px 34px rgba(4,10,36,.42);display:flex;align-items:center;justify-content:center;opacity:0}
+.ct img{width:112px;height:112px;border-radius:56px;display:block}
+.ft{position:absolute;left:0;top:0;width:122px;height:122px;border-radius:32px;background:rgba(255,255,255,.95);box-shadow:0 12px 26px rgba(4,10,36,.4);display:flex;align-items:center;justify-content:center;opacity:0}
+.ft img{width:86px;height:86px;display:block}
+#race{position:relative;width:1080px;height:200px}
+.rt{position:absolute;left:0;top:0;width:180px;height:180px;border-radius:46px;background:rgba(255,255,255,.96);box-shadow:0 18px 40px rgba(4,10,36,.45);display:flex;align-items:center;justify-content:center;opacity:0}
+.rt img{width:128px;height:128px;display:block}
+.rt em{position:absolute;left:50%;bottom:-22px;transform:translateX(-50%);height:44px;padding:0 16px;border-radius:22px;font-family:Mono,monospace;font-style:normal;font-weight:700;font-size:24px;line-height:44px;letter-spacing:.08em;color:#fff;background:var(--green);opacity:0}
+#liq{display:flex;gap:10px;margin-top:6px}
+#liq i{display:block;width:66px;height:92px;border-radius:14px;background:var(--blue)}
+#fire{position:absolute;right:26px;top:-52px;width:120px;height:120px;opacity:0}
+.eh{font-family:Anton,sans-serif;font-weight:400;font-size:150px;line-height:1;color:var(--ink)}
+/* ---- layers */
+#bk{position:absolute;inset:0}
+body.L-behind #top,body.L-behind #cap,body.L-behind #big,body.L-behind #end{display:none}
+body.L-front #bk{display:none}
+.bt{font-family:Anton,sans-serif;font-weight:400;line-height:.92;letter-spacing:.01em;white-space:nowrap;color:#fff;-webkit-text-stroke:12px var(--deep);paint-order:stroke fill;text-shadow:0 12px 26px rgba(4,10,36,.45)}
+.bt b{font-weight:400;color:var(--sky)}
+</style></head>
+<body>
+<div id="bk"></div>
+<div id="top"></div>
+<div id="cap"></div>
+<div id="big"></div>
+
+<div id="end">
+  <div class="c" style="top:470px"><div class="eh" id="eh" style="opacity:0">@i_am_vickyd</div></div>
+  <div class="c" id="etag" style="top:668px;font-size:44px;letter-spacing:-.01em;opacity:0;white-space:nowrap">Meme coins have served its purpose. For now.</div>
+  <div class="c" style="top:820px;padding:0 50px"><span class="ec" id="e0"></span><span class="ec" id="e1">19M+ coins made on pump.fun</span><span class="ec" id="e2"></span><span class="ec" id="e3">A Musk post: $95B in 2021, $187M in 2026</span></div>
+  <div class="c mono" id="eget" style="top:1170px;font-size:27px;color:var(--blue);opacity:0">Data: CoinGecko · DefiLlama · Binance</div>
+  <div class="c" id="eby" style="top:1270px;font-size:46px;opacity:0">Follow <span style="color:var(--blue)">@i_am_vickyd</span> on X</div>
+  <div class="c" id="erisk" style="top:1460px;font-size:26px;font-weight:600;color:var(--mute);opacity:0;padding:0 90px">My opinion, not financial advice.<br>Figures as of 12 Nov 2026 unless a date is shown.</div>
+</div>
+
+<script src="plan.js"></script>
+<script src="tok.js"></script>
+<script src="data.js"></script>
+<script>
+const P = window.PLAN, D = window.DATA, $ = id => document.getElementById(id)
+const cl = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x))
+const seg = (t, a, d) => cl((t - a) / d)
+const eo = x => 1 - Math.pow(1 - x, 3), eio = x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2
+const back = x => { const c = 1.9; return 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2) }
+let SIG = []
+const st = (el, o) => { for (const k in o) { const v = typeof o[k] === 'number' ? +o[k].toFixed(3) : o[k]; el.style[k] = v; SIG.push(v) } }
+const NOTEXT = location.hash.includes('notext')
+const LAYER = ['behind', 'front'].find(h => location.hash.includes(h)) || 'all'      // the renderer draws each layer on its own
+document.body.classList.add('L-' + LAYER)
+const I = n => `img/e/${n}.png`
+const wt = i => P.wt[i], we = i => P.we[i]                                             // a spoken word's start and end in the finished video
+const coin = id => D.coins.find(c => c.id === id)
+const MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+const dstr = s => { const [y, m, d] = s.split('-'); return `${+d} ${MON[m - 1]} ${y}` }
+const mstr = s => { const [y, m] = s.split('-'); return `${MON[m - 1]} ${y}` }
+const pct = v => v.toFixed(1).replace('-', '−') + '%'
+const usd = v => v >= 1 ? '$' + v.toFixed(2) : '$' + v.toPrecision(2)
+const FEES = '$' + (D.pump_fees.total / 1e9).toFixed(2) + 'B', CAPNOW = D.meme_cap.now / 1e9, CAPPEAK = 150.6      // the peak: CoinGecko, State of Memecoins 2025 (Dec 2024)
+const FALL = Math.round((1 - CAPNOW / CAPPEAK) * 100)
+
+// ---- every caption word's time in the finished video comes from tokens.py (tok.js)
+const CAPS = P.caps.map((c, ci) => {
+  const toks = []; let em = false
+  for (const raw of c.t.split(' ')) {
+    let w = raw; const open = w.startsWith('*'); if (open) { em = true; w = w.slice(1) }
+    const close = w.replace(/[.,?!:]+$/, '').endsWith('*'); const k = em; if (close) { em = false; w = w.replace('*', '') }
+    toks.push({ w, k })
+  }
+  toks.forEach((k, i) => k.t = window.TOK[ci][i])
+  return { ...c, ci, toks }
+})
+// key phrases that go big: caption index -> the phrase (the owner's words)
+const BIG = { 13: 'retail is tired.', 24: 'rat race.', 30: 'burn liquidity,', 48: 'not the case today.', 54: 'disaster,', 55: 'mess.', 59: 'downhill from here.', 70: 'millions', 74: 'zero.',
+  101: 'something wrong.', 120: 'burnt out.', 121: 'Peace.' }
+const len = a => a.reduce((n, x) => n + x.w.length + 1, -1)
+for (const c of CAPS) {
+  const b = BIG[c.ci]; c.small = c.toks; c.chunks = []; let groups = [c.toks]
+  if (b) { const bw = b.split(' '), n = bw.length, i0 = c.toks.findIndex((k, i) => bw.every((w, j) => c.toks[i + j] && c.toks[i + j].w.replace(/[.,?!:]+$/, '') === w.replace(/[.,?!:]+$/, '')))
+    if (i0 >= 0) { c.big = { text: b, t: c.toks[i0].t }; groups = [c.toks.slice(0, i0), c.toks.slice(i0 + n)]; c.small = groups.flat() } else console.log('BIG PHRASE NOT FOUND', c.ci, b) }
+  for (const g of groups) {
+    const out = []; let cur = []
+    const flush = () => { if (cur.length) out.push(cur); cur = [] }
+    for (const k of g) {                                   // up to three words and about 17 letters a line; break after punctuation
+      if (cur.length && (cur.length >= 3 || len(cur) + 1 + k.w.length > 17)) flush()
+      cur.push(k); if (/[.,?!:]$/.test(k.w) && cur.length >= 2) flush()
+    }
+    flush()
+    const n = out.length
+    if (n > 1 && out[n - 1].length === 1 && len(out[n - 2]) + 1 + out[n - 1][0].w.length <= 19 && !/[.,?!:]$/.test(out[n - 2][out[n - 2].length - 1].w)) out.splice(n - 2, 2, [...out[n - 2], ...out[n - 1]])
+    c.chunks.push(...out)
+  }
+}
+let CHUNKS = []
+CAPS.forEach(c => c.chunks.forEach((ch, i) => CHUNKS.push({ c, ch, t0: i === 0 ? Math.min(ch[0].t, c.o0) : ch[0].t - .04 })))
+CHUNKS.forEach((x, i) => { const nx = CHUNKS[i + 1]; x.t1 = Math.min(nx ? nx.t0 : 1e9, (x.c.chunks[x.c.chunks.length - 1] === x.ch ? x.c.o1 + .3 : 1e9)) })
+const capHtml = ch => ch.map(k => `<span${k.k ? ' class="k"' : ''}>${k.w}</span>`).join('')
+
+// ---- things over and beside the head (in front), and behind it (bk)
+const TOP = $('top'), ITEMS = []
+function item(a, b, html, o = {}) {
+  const el = document.createElement('div'); el.className = 'it'; el.style.top = (o.y ?? 150) + 'px'; el.innerHTML = html; (o.bk ? $('bk') : TOP).appendChild(el)
+  if (o.x != null) { el.style.width = 'auto'; el.style.left = o.x + 'px' }
+  if (o.r != null) { el.style.width = 'auto'; el.style.left = 'auto'; el.style.right = o.r + 'px' }
+  const it = { a, b, el, bk: !!o.bk, rot: o.rot || 0 }; ITEMS.push(it); return it
+}
+const ic = (n, o = {}) => `<div class="ic${o.s ? ' s' : ''}"><img src="${I(n)}"></div>`
+const lb = s => `<div class="lb">${s}</div>`
+const one = (n, label, o) => `<div class="icw">${ic(n, o)}</div>${lb(label)}`
+const pop = (el, t, at, d = .3) => st(el, { opacity: seg(t, at, .1), transform: `scale(${(.6 + .4 * back(seg(t, at, d))).toFixed(4)})` })
+const rise = (el, t, at) => st(el, { opacity: seg(t, at, .18), transform: `translateY(${((1 - eo(seg(t, at, .3))) * 22).toFixed(1)}px)` })
+
+// 1. the claim, behind the head, with the date
+const S1 = wt(32) - .36                                                              // the title has gone before the card arrives: no two things in one place at once
+item(0, S1, `<div class="bt" style="font-size:200px">MEME COINS</div><div class="bt" style="font-size:112px;margin-top:8px"><b>SERVED ITS PURPOSE</b></div>`, { y: 318, bk: 1 })
+item(0, S1, `<div class="pill" style="height:92px;padding:0 14px 0 34px;color:var(--ink);font-size:38px">@i_am_vickyd<span class="mono" style="height:64px;line-height:64px;font-size:26px;margin-left:22px">12 Nov 2026</span></div>`, { y: 84 })
+// 2. the current model: a card that builds with the voice
+const S2 = wt(69) - .16
+item(wt(32) - .1, S2, `<div class="card"><div class="h">The current model</div>
+  <div class="row" id="m0"><img class="i" src="${I('rocket_3d')}"><div class="t">Launchpads earn the fees<u>pump.fun alone, ${mstr(D.pump_fees.first)} to ${mstr(D.pump_fees.last)}</u></div><div class="v">${FEES}</div></div>
+  <div class="row" id="m1"><img class="i" src="${I('bat_3d')}"><div class="t">“Vamp” coins<u>copies of one coin, trading against each other</u></div></div>
+  <div class="row" id="m2"><img class="i" src="${I('puzzle_piece_3d')}"><div class="t">Liquidity, fragmented<u>the same money, split across all of them</u></div></div>
+  <div class="src">Fees: DefiLlama, to ${dstr(D.pump_fees.last)}</div></div>`, { y: 104 })
+// 3. the same thing happened to altcoins
+const S3 = wt(93) - .16
+item(wt(69) - .08, S3, `<div class="tl"><div class="tb" id="t0">ALTCOINS<i></i></div><div class="ar">→</div><div class="tb" id="t1">MEME COINS</div><div class="ar">→</div><div class="tb" id="t2" style="padding:0 44px">?</div></div>${lb('first <b>altcoins</b>, then meme coins')}`, { y: 210 })
+// 4. retail is tired
+item(wt(99) - .1, wt(108) - .14, one('tired_face_3d', '<b>retail</b>'))
+// 5. the rat race: a new coin comes in, the last one is sold, faster and faster
+const HOPS = [wt(113), wt(122), wt(134), wt(145), wt(154)].map(x => x - .1)
+{ let h = wt(163) - .1, step = .8; while (h < wt(176)) { HOPS.push(h); step = Math.max(.38, step * .86); h += step } }
+const RACE = { a: wt(108) - .05, b: wt(177) - .14 }
+const ANIM = ['dog_face_3d', 'cat_face_3d', 'frog_3d', 'monkey_face_3d', 'penguin_3d', 'pig_face_3d', 'hamster_3d', 'rat_3d']
+item(RACE.a, RACE.b, `<div id="race">${HOPS.map((h, i) => `<div class="rt" id="rt${i}"><img src="${I(ANIM[i % ANIM.length])}"><em></em></div>`).join('')}</div><div class="lb" id="rl" style="margin-top:34px"></div>`, { y: 170 })
+item(wt(177) + .1, wt(184) - .14, one('brain_3d', 'a very good <b>skill</b>'))
+// 6. burn liquidity
+const S6 = wt(203) - .16, BURN = [wt(197), wt(199), wt(201)].map(x => x - .06)
+item(wt(184) + .05, S6, `<div class="card" style="width:auto;position:relative"><div class="h">Your liquidity</div><div id="liq">${Array.from({ length: 10 }, (_, i) => `<i id="q${i}"></i>`).join('')}</div><img id="fire" src="${I('fire_3d')}"></div>`, { y: 230 })
+// 8. REWIND: the last cycle, the coins the owner names, then one of them on a real chart
+const S8 = wt(244) + .2, LC = ['peanut-the-squirrel', 'pepe', 'billy', 'retardio', 'bonk', 'dogwifcoin'], LCN = ['Peanut', 'Pepe', 'Billy', 'Retardio', 'Bonk', 'WIF']
+const LCT = [228, 229, 230, 231, 237, 243].map(i => wt(i) - .08)
+const cc = (c, i, name, pre) => `<div class="cc${pre === 'cn' ? ' now' : ''}" id="${pre}${i}"><img src="${c.logo}"><div><b>${name}</b><u class="a">high ${dstr(c.ath_date)}</u><u class="z">${pct(c.from_ath)}</u></div></div>`
+const S8B = wt(300) - .2                                                                // the chart stays through "if there is no change", so the fall and its label are read
+item(wt(218) - .12, S8B, `<div class="rw"><img src="${I('fast_reverse_button_3d')}">REWIND<span>THE LAST CYCLE</span></div>`, { y: 78 })
+item(wt(223), S8, `<div id="grid">${LC.map((id, i) => cc(coin(id), i, LCN[i], 'cc')).join('')}</div><div class="note" id="n8">all-time highs · CoinGecko</div>`, { y: 196 })
+// the real chart: WIF's daily closes (Binance), its run to the high, then everything since
+const WIF = coin('dogwifcoin'), CW = 872, CH = 250
+const WP = WIF.full || WIF.pts, wT0 = WP[0][0], wT1 = WP[WP.length - 1][0], wHi = Math.max(...WP.map(q => q[1])), wih = WP.findIndex(q => q[1] === wHi), wTH = WP[wih][0], wTA = wTH + (wTH - wT0) * .62
+const wx = (tt, z) => CW * ((tt - wT0) / (wTA - wT0) * (1 - z) + (tt - wT0) / (wT1 - wT0) * z), wy = v => CH - v / wHi * (CH - 14)      // z = 0: the run fills the card; z = 1: the whole history
+const wline = (i0, f, z) => { const n = Math.floor(f), out = []
+  for (let i = 0; i <= n && i0 + i < WP.length; i++) out.push([wx(WP[i0 + i][0], z), wy(WP[i0 + i][1])])
+  if (i0 + n + 1 < WP.length && f > n) { const p = WP[i0 + n], q = WP[i0 + n + 1], u = f - n; out.push([wx(p[0] + (q[0] - p[0]) * u, z), wy(p[1] + (q[1] - p[1]) * u)]) }
+  return out.map((q, i) => (i ? 'L' : 'M') + q[0].toFixed(1) + ' ' + q[1].toFixed(1)).join('') }
+const NOWT = wt(287) - .1
+item(S8 + .2, S8B, `<div class="card" style="padding-bottom:18px"><div class="h" style="display:flex;align-items:center"><img src="${WIF.logo}" style="width:54px;height:54px;border-radius:27px;margin-right:14px">WIF (dogwifhat) · daily close</div>
+  <svg width="${CW}" height="${CH + 46}" viewBox="0 -8 ${CW} ${CH + 46}" style="display:block;overflow:hidden">
+    <line x1="0" y1="${CH}" x2="${CW}" y2="${CH}" stroke="#E3E9F4" stroke-width="3"/>
+    <path id="wu" d="" fill="none" stroke="#12A150" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/>
+    <path id="wd" d="" fill="none" stroke="#E5484D" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+    <g id="wh" opacity="0"><circle r="11" fill="#12A150"/><text x="22" y="10" font-family="Manrope" font-weight="800" font-size="30" fill="#0B1F4D">${usd(wHi)} · ${dstr(WIF.chart_high_date)}</text></g>
+    <g id="we" opacity="0"><circle r="11" fill="#E5484D"/><text x="-14" y="-24" text-anchor="end" font-family="Manrope" font-weight="800" font-size="30" fill="#E5484D">${usd(WIF.last)} today · ${pct(WIF.from_ath)}</text></g>
+    <text x="0" y="${CH + 32}" font-family="Mono" font-weight="700" font-size="20" fill="#6B7A99">${mstr(WIF.first)}</text><text id="wr" opacity="0" x="${CW}" y="${CH + 32}" text-anchor="end" font-family="Mono" font-weight="700" font-size="20" fill="#6B7A99">12 Nov 2026</text>
+  </svg><div class="src" style="margin-top:4px">Binance WIFUSDT · the fall is from its all-time high (CoinGecko)</div></div>`, { y: 190 })
+const GAIN = [[265, '2x'], [275, '3x'], [282, '+50%']].map(([i, s], k) => ({ at: wt(i) - .08, it: item(wt(i) - .08, NOWT - .05, `<div class="gain">${s}</div>`, { x: 40, y: 660 + k * 128 }) }))
+// 9. today: the same six, and what is left of them
+const S9 = wt(317) - .5                                                               // the six in red stay until the next card has something to say
+item(S8B + .2, S9, `<div id="grid">${LC.map((id, i) => cc(coin(id), i, LCN[i], 'cn')).join('')}</div><div class="note" id="n9" style="opacity:1">since each one's all-time high · CoinGecko, 12 Nov 2026</div>`, { y: 130 })
+// 10. the launchpad model in two numbers
+const S10 = wt(336) - .16
+item(wt(317) - .32, S10, `<div class="card"><div class="h">The launchpad model</div><div class="two">
+  <div class="stt" id="s0"><b>263,000</b><u>new Solana tokens in ONE day<br>9 Sep 2026, a record</u></div>
+  <div class="stt" id="s1"><b>${FEES}</b><u>fees taken by pump.fun alone<br>${mstr(D.pump_fees.first)} to ${mstr(D.pump_fees.last)}</u></div></div>
+  <div class="src">Solscan, via Cointelegraph 10 Sep 2026 · DefiLlama, to ${dstr(D.pump_fees.last)}</div></div>`, { y: 120 })
+// 11. downhill: every meme coin together, at the peak and today
+const S11 = wt(350) + 3.3                                                             // the fall is on screen for three seconds, not one
+item(wt(336) + .1, S11, `<div class="card"><div class="h">All meme coins together · market cap</div>
+  <div class="bar" id="b0"><span>December 2024, the peak</span><div><i></i><b>$${CAPPEAK}B</b></div></div>
+  <div class="bar" id="b1"><span>12 November 2026</span><div><i style="background:var(--red)"></i><b style="color:var(--red)">$${CAPNOW.toFixed(1)}B · −${FALL}%</b></div></div>
+  <div class="src">CoinGecko: State of Memecoins 2025, and its Meme category today</div></div>`, { y: 120 })
+// 12. 2023-24: a few coins. Then: saturated, millions
+const S12 = wt(400) - .14, FEW = ['bonk', 'dogwifcoin', 'pepe', 'popcat']
+item(wt(381) - .1, S12, `<div class="rw" style="padding:0 34px"><span style="margin:0;font-size:30px">2023 to 2024</span></div><div style="height:22px"></div><div class="icw" style="gap:18px">${FEW.map((id, i) => `<div class="ct" id="fw${i}"><img src="${coin(id).logo}"></div>`).join('')}</div><div class="lb" id="fwl">a <b>few</b> meme coins</div>`, { y: 96 })
+const FLOOD = { a: wt(405) - .1, burst: wt(409) - .12, b: wt(429) - .05, el: [] }       // it all falls away on "zero", before the next cards
+{ let seed = 7; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647
+  const ICN = [...ANIM, 'coin_3d', 'rocket_3d', 'money_with_wings_3d']
+  const cells = []; for (let r = 0; r < 7; r++) for (let c = 0; c < 8; c++) cells.push([c, r])
+  cells.sort(() => rnd() - .5)
+  cells.forEach(([c, r], k) => { const d = document.createElement('div'); d.className = 'ft'; d.innerHTML = `<img src="${I(ICN[Math.floor(rnd() * ICN.length)])}">`; $('bk').appendChild(d)
+    const early = k < 10, at = early ? FLOOD.a + k * .11 : FLOOD.burst + Math.pow((k - 10) / (cells.length - 10), 1.6) * 1.5
+    FLOOD.el.push({ d, x: 8 + c * 134 + (rnd() - .5) * 10, y: 84 + r * 134 + (rnd() - .5) * 10, rot: (rnd() - .5) * 14, at, out: FLOOD.b + rnd() * .35 }) }) }
+item(FLOOD.burst + .25, FLOOD.b, `<div class="card" style="width:auto;padding:22px 44px 20px"><div class="big2">19 MILLION+</div><div class="t2" style="font-size:32px;line-height:42px">coins made on pump.fun · <b style="color:var(--red)">69% stopped trading in a day</b></div><div class="src" style="text-align:center">CoinGecko research, 23 Jun 2026 (Jan 2024 to Jun 2026)</div></div>`, { y: 150 })
+// 13. a good narrative before, zero now
+const S13 = wt(457) - .1, ZL = [['sillynubcat', 'Nub Cat', wt(430)], ['popcat', 'Popcat', wt(434)], ['bonk', 'Bonk', wt(448)], ['dogwifcoin', 'WIF', wt(448) + .22]]
+item(wt(430) - .12, S13, `<div id="grid" style="grid-template-columns:repeat(2,400px)">${ZL.map(([id, n], i) => { const c = coin(id); return `<div class="cc now" id="z${i}" style="height:170px"><img src="${c.logo}" style="width:112px;height:112px;border-radius:56px"><div><b style="font-size:40px;line-height:46px">${n}</b><u class="z" style="font-size:58px;line-height:62px">${pct(c.from_ath)}</u></div></div>` }).join('')}</div><div class="note" id="n13" style="opacity:1">since each one's all-time high · CoinGecko, 12 Nov 2026</div>`, { y: 120 })
+// 15. the Elon test: what a Musk post moved, then and now, to scale
+const S15 = wt(560) - .2, MUSK = [['Apr 2026 · ASTEROID', 186.5, '$187M', wt(504) - .08], ['Jan 2025 · KEKIUS', 380, '$380M+', wt(509) - .08], ['May 2021 · DOGECOIN', 95300, '$95B', wt(531) - .1]]
+item(wt(470) - .1, S15, `<div class="rw"><img src="${I('megaphone_3d')}">THE ELON TEST</div>`, { y: 78 })
+item(wt(476) - .2, wt(504) - .52, `<div class="tl" style="transform:scale(.92)"><div class="tb" id="u0">MEME COIN</div><div class="ar">→</div><div class="tb" id="u1">MUSK POSTS</div><div class="ar">→</div><div class="tb" id="u2" style="padding:0 44px">?</div></div>`, { y: 206 })   // the test as the owner describes it; the card then answers the "?" with real ones
+item(wt(504) - .3, S15, `<div class="card"><div class="h">Meme coins Musk set off · peak market cap</div>${MUSK.map((m, i) => `<div class="bar" id="k${i}"><span>${m[0]}</span><div><i${i === 2 ? '' : ' style="background:var(--red)"'}></i><b>${m[2]}</b></div></div>`).join('')}
+  <div class="src">CoinDesk, 22 Apr 2026 · The Block, 1 Jan 2025 · Decrypt, 8 May 2021</div></div>`, { y: 190 })
+item(wt(558) - .06, S15 + .5, `<div class="stamp no">SOMETHING WRONG</div>`, { y: 300, rot: -5 })
+// 17. oversaturated, behind the head
+item(wt(590) - .1, wt(602) - .14, `<div class="bt" style="font-size:236px">OVER</div><div class="bt" style="font-size:196px;margin-top:4px"><b>SATURATED</b></div>`, { y: 236, bk: 1 })
+// 18. except you have...
+const S18 = wt(632) - .14
+item(wt(606) - .42, S18, `<div class="card"><div class="h">Except you have…</div>
+  <div class="row" id="x0"><img class="i" src="${I('shushing_face_3d')}"><div class="t">Insider information</div></div>
+  <div class="row" id="x1"><img class="i" src="${I('package_3d')}"><div class="t">Bundles<u>buy up the supply at launch, dump on your followers</u></div></div>
+  <div class="row" id="x2"><img class="i" src="${I('busts_in_silhouette_3d')}"><div class="t">A cabal<u>insiders pushing one coin together</u></div></div></div>`, { y: 110 })
+// 19. the regular trader
+const S19 = wt(657) + .3
+item(wt(641) - .1, S19, `<div class="card" style="width:auto;padding:22px 50px 20px"><div class="h" style="text-align:center">pump.fun wallets that made over $10,000</div><div class="big2">0.4%</div><div class="src" style="text-align:center">Dune data, 10 Jan 2025, via Cointelegraph</div></div>`, { y: 150 })
+const fol = item(wt(659) - .5, P.end + .2, `<div id="fol">@i_am_vickyd<div id="fbt">Follow</div><svg id="cur" viewBox="0 0 24 24"><path d="M4 2l15 9-6.5 1.6L16 20l-3 1.4-3.4-7.3L5 18z" fill="#fff" stroke="#0A1A44" stroke-width="1.6" stroke-linejoin="round"/></svg></div>`, { y: 250 })
+$('e0').textContent = FEES + ' in launchpad fees'; $('e2').textContent = `All meme coins: −${FALL}% from the peak`
+
+let lastCap = -1, lastBig = -1, lastRl = ''
+window.render = t => {
+  SIG = []
+  const FRONT = LAYER !== 'behind', BACK = LAYER !== 'front'
+  for (const it of ITEMS) {
+    if (it.bk ? !BACK : !FRONT) continue
+    const on = t >= it.a - .01 && t < it.b + .25, k0 = it.a <= 0 ? 1 : 0
+    if (it.bk) { const k = Math.max(k0, eo(seg(t, it.a, .4))), o = eio(seg(t, it.b, .24))                 // behind the head: it rises from behind the shoulders
+      st(it.el, { opacity: on ? cl(k * 2) * (1 - o) : 0, transform: `translateY(${((1 - k) * 120 + o * 110).toFixed(1)}px) scale(${(.9 + .1 * k).toFixed(4)}) rotate(${it.rot}deg)` })
+    } else { const k = Math.max(k0, eo(seg(t, it.a, .26))), o = seg(t, it.b, .16), bk = Math.max(k0, back(seg(t, it.a, .34)))   // in front: it pops in on the word and lifts away
+      st(it.el, { opacity: on ? cl(k * 1.7) * (1 - o) : 0, transform: `translateY(${((1 - k) * 26 - o * 20).toFixed(1)}px) scale(${((.62 + .38 * bk) * (1 - .1 * o)).toFixed(4)}) rotate(${it.rot}deg)` }) }
+  }
+  if (BACK) for (const f of FLOOD.el) { const k = seg(t, f.at, .22), o = eio(seg(t, f.out, .35)), vis = t >= f.at && t < f.out + .4       // the flood: each tile drops into its place; all fall away together
+    st(f.d, { opacity: vis ? cl(k * 2.5) * (1 - o) : 0, transform: vis ? `translate(${f.x.toFixed(1)}px,${(f.y - (1 - eo(k)) * 70 + o * 160).toFixed(1)}px) rotate(${f.rot.toFixed(1)}deg) scale(${(.7 + .3 * back(k)).toFixed(4)})` : 'none' }) }
+  if (!FRONT) return SIG.join('|')
+  ;[33, 39, 47].forEach((w, i) => rise($('m' + i), t, wt(w) - .1))
+  { st($('t0'), { opacity: t < wt(80) - .1 ? 1 : .55 }); st($('t0').lastChild, { transform: `scaleX(${eo(seg(t, wt(86) - .1, .3)).toFixed(4)})` })
+    const a1 = seg(t, wt(80) - .12, .2); st($('t1'), { opacity: .4 + .6 * a1, background: a1 > .5 ? '#1F5FDB' : '#fff', color: a1 > .5 ? '#fff' : '#0B1F4D', transform: `scale(${(1 + .08 * (a1 - seg(t, wt(80) + .1, .25))).toFixed(4)})` })
+    const a2 = seg(t, wt(88) - .1, .2); st($('t2'), { opacity: .4 + .6 * a2, transform: `scale(${(1 + .12 * (a2 - seg(t, wt(88) + .12, .3))).toFixed(4)})` }) }
+  if (t > RACE.a - .3 && t < RACE.b + .4) { let n = 0
+    HOPS.forEach((h, i) => { const p = HOPS.slice(i + 1).reduce((s, x) => s + eio(seg(t, x, .28)), 0), a = seg(t, h, .12), gone = cl((p - 1.75) / .5)     // each new coin pushes the row one place to the left
+      st($('rt' + i), { opacity: a * (1 - gone), transform: `translate(${(672 - 224 * p + 224 * (1 - eio(seg(t, h, .28)))).toFixed(1)}px,0px) scale(${(.8 + .2 * back(seg(t, h, .3))).toFixed(4)})` })
+      const em = $('rt' + i).lastChild, buy = p < .5, sell = p > 1.15, txt = sell ? 'SELL' : 'BUY'; if (em.textContent !== txt) em.textContent = txt
+      st(em, { opacity: a * (buy || sell ? 1 : 0), background: sell ? '#E5484D' : '#12A150' }); SIG.push(txt); if (t >= h) n++ })
+    const lab = t >= wt(163) - .1 ? 'a <b>rat race</b>' : n >= 2 ? `coin <b>#${n}</b>, and the next one…` : "today's coin"
+    if (lab !== lastRl) { $('rl').innerHTML = lab; lastRl = lab } SIG.push(lab) }
+  { const hit = BURN.filter(b => t >= b).length                                                                  // three burns: three segments go each time
+    for (let i = 0; i < 10; i++) { const g = Math.floor((9 - i) / 3), at = g < 3 ? BURN[g] + ((9 - i) % 3) * .07 : 1e9, k = seg(t, at, .25)
+      st($('q' + i), { background: k > 0 ? (k < .5 ? '#E5484D' : '#E3E9F4') : (i === 0 && hit === 3 ? '#E5484D' : '#1F5FDB'), transform: `scale(${(1 - .12 * Math.sin(Math.PI * k)).toFixed(4)})` }) }
+    const lastB = hit ? BURN[hit - 1] : -9; st($('fire'), { opacity: hit ? cl(1.4 - (t - lastB) * .9, .55, 1) * seg(t, BURN[0], .1) : 0, transform: `scale(${(.8 + .5 * (1 - eo(seg(t, lastB, .4)))).toFixed(4)}) rotate(${(hit && t < S6 + .5 ? Math.sin(t * 9) * 4 : 0).toFixed(2)}deg)` }) }
+  LCT.forEach((a, i) => pop($('cc' + i), t, a)); st($('n8'), { opacity: seg(t, LCT[0] + .3, .3), transform: `translateY(${(-(1 - eio(seg(t, LCT[3] - .3, .3))) * 166).toFixed(1)}px)` })
+  if (t > S8 - .2 && t < S8B + .4) { const u = eio(seg(t, S8 + .35, wt(265) - S8 - .2)), z = eio(seg(t, NOWT, .9)), dn = eio(seg(t, NOWT + .1, 1.25))   // the run draws through "2x"; on "not the case today" the card pulls back and the fall draws
+    $('wu').setAttribute('d', wline(0, wih * u, z)); $('wd').setAttribute('d', dn > 0 ? wline(wih, (WP.length - 1 - wih) * dn, z) : '')
+    $('wh').setAttribute('transform', `translate(${wx(wTH, z).toFixed(1)},${wy(wHi).toFixed(1)})`); $('wh').setAttribute('opacity', seg(t, wt(265) - .25, .2).toFixed(2))
+    $('we').setAttribute('transform', `translate(${wx(wT1, 1).toFixed(1)},${wy(WP[WP.length - 1][1]).toFixed(1)})`); $('we').setAttribute('opacity', seg(t, NOWT + 1.3, .2).toFixed(2)); $('wr').setAttribute('opacity', z.toFixed(2))
+    SIG.push(u.toFixed(4), z.toFixed(4), dn.toFixed(4), seg(t, wt(265) - .25, .2).toFixed(2), seg(t, NOWT + 1.3, .2).toFixed(2)) }
+  LC.forEach((id, i) => pop($('cn' + i), t, S8B + .25 + i * .06))
+  rise($('s0'), t, wt(317) - .1); rise($('s1'), t, wt(324) - .1)
+  { rise($('b0'), t, wt(336) + .25); st($('b0').querySelector('i'), { transform: `scaleX(${eo(seg(t, wt(336) + .3, .6)).toFixed(4)})` })
+    rise($('b1'), t, wt(350) - .12); st($('b1').querySelector('i'), { transform: `scaleX(${(eo(seg(t, wt(350) - .05, .6)) * CAPNOW / CAPPEAK).toFixed(4)})` }); st($('b1').querySelector('b'), { transform: `translateX(${(-700 * (1 - CAPNOW / CAPPEAK)).toFixed(1)}px)` }) }
+  FEW.forEach((id, i) => pop($('fw' + i), t, wt(390) - .1 + i * .1)); st($('fwl'), { opacity: seg(t, wt(390) - .1, .25) })
+  ZL.forEach((z, i) => pop($('z' + i), t, z[2] - .08)); st($('n13'), { transform: `translateY(${(-(1 - eio(seg(t, ZL[2][2] - .3, .3))) * 186).toFixed(1)}px)` })   // the source line sits under the last row on screen
+  { const big = eio(seg(t, MUSK[2][3] + .15, .9)), max = 380 + (95300 - 380) * big                                 // two small bars to scale; then Dogecoin arrives and the scale becomes its
+    MUSK.forEach((m, i) => { rise($('k' + i), t, m[3]); const r = Math.min(1, Math.max(m[1] / max, .004)), w = r * eo(seg(t, m[3] + .05, .5))                 // never wider than the card
+      st($('k' + i).querySelector('i'), { transform: `scaleX(${w.toFixed(5)})` }); st($('k' + i).querySelector('b'), { transform: `translateX(${(-700 * (1 - r)).toFixed(1)}px)` }) }) }
+  { const a1 = seg(t, wt(479) - .1, .2); st($('u1'), { opacity: .4 + .6 * a1, background: a1 > .5 ? '#1F5FDB' : '#fff', color: a1 > .5 ? '#fff' : '#0B1F4D', transform: `scale(${(1 + .08 * (a1 - seg(t, wt(479) + .12, .25))).toFixed(4)})` })
+    const a2 = seg(t, wt(498) - .1, .2); st($('u2'), { opacity: .4 + .6 * a2, transform: `scale(${(1 + .12 * (a2 - seg(t, wt(498) + .12, .3))).toFixed(4)})` }) }
+  ;[606, 614, 629].forEach((w, i) => rise($('x' + i), t, wt(w) - .12))
+  GAIN.forEach(g => 0)
+  { const p = wt(659) - .1, m = eio(seg(t, p - .5, .45)), d = seg(t, p, .08)                                        // the cursor comes in and clicks on "Peace"
+    const bx = $('fbt').offsetLeft + 214                                                                             // the cursor lands on the button, wherever the handle's length puts it
+    st($('cur'), { opacity: seg(t, p - .5, .12), transform: `translate(${(bx + 150 - m * 150).toFixed(1)}px,${(150 - m * 96).toFixed(1)}px) scale(${(1 - .16 * (d - seg(t, p + .1, .1))).toFixed(3)})` })
+    const f = $('fbt'), want = t >= p + .04 ? 'Following ✓' : 'Follow'; if (f.textContent !== want) f.textContent = want
+    st(f, { background: t >= p + .04 ? '#1F5FDB' : '#0B1F4D', transform: `scale(${(1 + .08 * (seg(t, p + .04, .1) - seg(t, p + .16, .18))).toFixed(4)})` }); SIG.push(want) }
+  // ---- captions, word by word; the key phrase big under them
+  let ch = null; for (const x of CHUNKS) if (t >= x.t0 && t < x.t1) ch = x
+  const cap = $('cap')
+  if (ch && !NOTEXT) {
+    const id = CHUNKS.indexOf(ch); if (id !== lastCap) { cap.innerHTML = capHtml(ch.ch); lastCap = id }
+    ch.ch.forEach((k, i) => st(cap.children[i], { opacity: t >= k.t - .05 ? 1 : .42 }))
+    const a = eo(seg(t, ch.t0, .1)); st(cap, { opacity: a, transform: `translateY(${((1 - a) * 8).toFixed(1)}px)` }); SIG.push(id)
+  } else st(cap, { opacity: 0 })
+  const nxt = c => CAPS[c.ci + 1] ? CAPS[c.ci + 1].o0 : 1e9
+  let bg = null; for (const c of CAPS) if (c.big && t >= Math.max(c.big.t, c.o0) - .06 && t < Math.min(c.o1 + .3, nxt(c))) bg = c
+  const big = $('big')
+  if (bg && !bg.small.length) st(cap, { opacity: 0 })                                              // a big phrase on its own: the small line before it has gone
+  if (bg && !NOTEXT) { if (bg.ci !== lastBig) { big.textContent = bg.big.text; lastBig = bg.ci }
+    const a = seg(t, bg.big.t - .06, .3), o = seg(t, Math.min(bg.o1 + .16, nxt(bg) - .14), .12)
+    st(big, { opacity: cl(a * 3) * (1 - o), transform: `scale(${(.7 + .3 * back(a)).toFixed(4)})`, top: (bg.small.length ? 1480 : 1424) + 'px' }); SIG.push(bg.ci)
+  } else st(big, { opacity: 0 })
+  // ---- end card
+  { const a = eo(seg(t, P.end - .05, .5)); st($('end'), { opacity: a > 0 ? 1 : 0, transform: `translateY(${((1 - a) * 1920).toFixed(1)}px)` })
+    const e0 = P.end + .35
+    st($('eh'), { opacity: seg(t, e0, .3), transform: `scale(${(.9 + .1 * back(seg(t, e0, .45))).toFixed(4)})` }); st($('etag'), { opacity: seg(t, e0 + .3, .3) })
+    for (let i = 0; i < 4; i++) { const k = eo(seg(t, e0 + .6 + i * .12, .32)); st($('e' + i), { opacity: cl(k * 1.6), transform: `scale(${(.86 + .14 * back(seg(t, e0 + .6 + i * .12, .32))).toFixed(4)})` }) }
+    st($('eget'), { opacity: seg(t, e0 + 1.2, .3) }); st($('eby'), { opacity: seg(t, e0 + 1.45, .3) }); st($('erisk'), { opacity: seg(t, e0 + 1.65, .3) }) }
+  return SIG.join('|')
+}
+window.READY = Promise.all([document.fonts.ready, ...[...document.images].map(i => i.decode().catch(() => 0))]).then(() => document.fonts.load('800 40px Manrope')).then(() => document.fonts.load('600 22px Manrope')).then(() => document.fonts.load('106px Anton')).then(() => document.fonts.load('700 24px Mono'))
+</script>
+</body></html>

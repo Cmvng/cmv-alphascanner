@@ -49,7 +49,7 @@ const fc = `[0:v]select='${sel}',setpts=N/${FPS}/TB,${FLIP ? 'hflip,' : ''}tpad=
   LAYERS('[1:v]', '[2:v]', '[3:v]') + ',format=yuv420p[v]'
 const ff = spawn('ffmpeg', ['-v', 'error', '-y', '-i', RAW, '-f', 'image2pipe', '-framerate', String(FPS), '-c:v', 'png', '-i', 'pipe:3', '-i', ALPHA,
   '-f', 'image2pipe', '-framerate', String(FPS), '-c:v', 'png', '-i', 'pipe:4', '-i', `${K}/mix_raw.wav`,
-  '-filter_complex', fc, '-map', '[v]', '-map', '4:a', '-t', TOT.toFixed(3),
+  '-filter_complex', fc, '-map', '[v]', '-map', '4:a', '-t', TOT.toFixed(3), '-frames:v', String(N),      // the frame count as well as the time: 211.867 s let a 6,357th frame through (12 Nov), the recording's frozen picture with no end card on it
   // crf 16 with the grain tuning: measured on this recording, every frame of the face keeps 94% or more of the raw's fine
   // detail at about 27 Mbit/s. Plain crf 14 gave 88% (as low as 74% on the in-between frames) at 22 Mbit/s and failed the gate.
   '-c:v', 'libx264', '-preset', 'medium', '-crf', process.env.CRF || '16', '-tune', 'grain', '-maxrate', '60M', '-bufsize', '120M', '-r', String(FPS), '-pix_fmt', 'yuv420p',

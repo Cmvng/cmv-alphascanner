@@ -28,6 +28,53 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
+## 12 Nov: the owner's recording, "Meme coins have served its purpose" (3:32, 9:16, their picture and sound untouched)
+
+The brief: "make the video to be better, adding motion effects, showing memes I'm talking about, the charts,
+references to it in the video, and make what I'm talking about illustrative… look at your notes… 10/10."
+Template: `video/templates/talking-head/camera-memecoins-2026-11-12/`.
+
+- **What worked:**
+  - Built the way the fifth Primus version was, from the first minute: the owner's frames and voice untouched, one
+    encode, measured against the raw (30 frames a second kept, face detail 102% of the raw and 98% at the lowest
+    moment, no colour shift, voice range 7.1 against 7.1 LU).
+  - Every coin the owner names appears with its own logo on its word; one real chart (WIF, every daily close); every
+    number from a public API or a dated article, with the source on the card.
+  - The cut came from the recording's real silences, so no word was clipped (4:12 to 3:32).
+  - The encoder was tried on five seconds against the raw first, so the quality gate passed on the first render.
+- **Mistakes, and how they were caught (all before sending):**
+  1. **One frame too many.** `-t 211.867` let a 6,357th frame through: the recording's frozen picture with no end
+     card on it, as the very last frame. The renderer's frame count flagged it. Removed without re-encoding; the
+     renderer now stops on the frame count as well (`-frames:v`).
+  2. **Cards that arrived with nothing on them.** The launchpad card sat empty for three seconds and the "except you
+     have" card for one and a half, because each was timed to the start of its sentence and its first line to a
+     later word. Seen only on the half-second sheets, not on the hand-picked stills.
+  3. **The number that mattered was on screen for one second** ("-83%"), because the card left at the end of the
+     sentence. Now it stays three seconds.
+  4. **A bar ran out of its card** for half a second while the scale changed (Dogecoin against the two small bars).
+  5. **Two things in one place during a change of scene** (the title and the first card; two labels; the coins and
+     the chart), and a source line that waited under an empty row.
+  6. **The WIF card showed for half a second** before the chart replaced it, and a footnote ran off its card.
+  7. **Ten seconds with only a label** while the owner set up the Elon example: now the steps light on his words
+     (MEME COIN, MUSK POSTS, ?) and the card answers the question mark.
+  8. **The disk filled** while trying a larger speech recogniser (3 GB), just as the render started.
+  9. **The fire icon's wobble was computed while hidden,** so every frame was new and the first render took nine
+     minutes; the second took under four.
+- **Change next time:**
+  - A card arrives no more than 0.4 s before its first line, and stays at least 2.5 s after its last one.
+  - One thing leaves before the next arrives in the same place; a source line sits under the last row on screen.
+  - Anything that grows (a bar, a line) is held inside its card.
+  - Look at the half-second sheets of a quick low-quality pass BEFORE the full-quality render, not after: the
+    hand-picked stills only show what I already thought of.
+  - Check the last frame, not only the last second.
+  - Ten seconds without a graphic is fine for an aside ("this is just my thoughts"), not for the set-up of the
+    main example.
+  - The weaker recogniser hears "memcoins", "bond" for "burn" and drops the quiet sign-off ("Peace"): its flags are
+    a list to check against the word list and the sound level, not a verdict.
+- **The owner, while it was rendering:** "And its follow @i_am_vickyd on X". The handle was changed on the opening
+  tag, the follow button, the end card and the cover, and the video rendered once more (in the checkpoint).
+- **The owner's reaction to the video:** (to be added)
+
 ## 11 Nov: the owner's recording, Primus Labs "The groundnut test" (five versions; the fifth on their untouched picture and sound; 1:51, 9:16)
 
 `video/templates/talking-head/camera-primus-groundnuts-2026-11-11/`. First version sent 66 minutes after the owner's

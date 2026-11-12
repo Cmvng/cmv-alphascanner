@@ -290,14 +290,16 @@ voice A for these modes, and when a cold open exists the music's drop lands on t
 
 ## The owner's own recordings (talking head + chart)
 
-**When the owner is on camera: their real room, softly blurred behind them. Never cut them out onto a replaced
-backdrop** (the owner, 11 Nov, on the cut-out "studio" look: "the worst video ever… See the way you cut the main
-character from the background. See the way it looks so muddled up. Is it not even better for you to actually blur all
-the elements in the background"). Run `video/lib/portrait_pro_long.py` on the recording (prep, matte, preview, render;
-the `room` look is its default): nothing is replaced, the room goes out of focus as through a lens, the framing is
-steadied. Start prep and the matte as soon as the file is downloaded, because they are the long steps. Then **watch it
-move**: consecutive frames at every fast hand movement, at full size, before and after the render. Half-second stills
-hid the blocks on 11 Nov. Reference: `video/templates/talking-head/camera-primus-groundnuts-2026-11-11/`.
+**When the owner is on camera: their own picture and sound, exactly as recorded** (`video/OWNER-CHECKPOINT.md`,
+"Look": "Their recording is the standard"; 11 Nov: "why didn't you do it like this one you just sent me now?").
+No cut-out, no blur, no regrade, no voice clean-up on a clean recording. The kept frames go straight from the
+recording into ONE encode (`render_raw.mjs`), the voice is only cut (`mix_raw.py`), graphics sit on top and, where one
+goes behind the head, the owner's outline hides it (`matte60.py`, `clean_alpha.py`). Before the first render: check
+every scene on stills over the recording's own frames, look at the hair edge at full size behind each graphic, test
+the encoder on five seconds against the raw, and check the disk. After it: `video/lib/versus_quality.py` and
+`video/lib/preflight.py --kind recording`. References: `video/templates/talking-head/camera-memecoins-2026-11-12/`
+(an opinion piece with real coins, charts and dated numbers) and `camera-primus-groundnuts-2026-11-11/` (a practical
+example). `video/lib/portrait_pro_long.py` (the blurred-room look) is not used on their recordings any more.
 The art footage is different: that is never restyled unless the owner asks.
 
 **The soundtrack on the owner's own recordings** (the owner, 10 Nov, on a track they had never heard, mixed 20 dB under

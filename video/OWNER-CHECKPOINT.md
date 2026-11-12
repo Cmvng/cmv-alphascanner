@@ -9,6 +9,11 @@ The owner: a sports and crypto creator in Lagos. Handle **@Cmv_ng** (art: **@i_a
 often voice-typed words ("Gundam" meant Gamdom, "Begu" is Bagel). They want the finished video, done properly, without
 going back and forth.
 
+**The follow line on X: "Follow @i_am_vickyd on X".** 12 Nov, while the meme coin video was being made: "And its
+follow @i_am_vickyd on X". That video carries @i_am_vickyd on the opening tag, the follow button, the end card and
+the cover. (My reading: their own crypto takes posted on X carry this handle. Whether the football videos change too
+has not been said: ask once when the next one comes up.)
+
 ## Before you start (settle these four, in this order)
 1. **What did they send, and what is it for?** Their words are the brief. If they sent reels, templates or pictures,
    those are the brief too: their soundtrack, their editing style, their images.
@@ -169,6 +174,12 @@ going back and forth.
   facts beside their words, no reactions, music by the rules above. Their example is illustrated step by step, in
   the order they tell it (11 Nov: "the illustration… done properly and sequenced in a good way… in layers… the right
   order that a professional will approve 10/10").
+- **Their own take on a market or a coin:** show what they are talking about. 12 Nov, on a recording about meme
+  coins: "adding motion effects, showing memes I'm talking about, the charts, references to it in the video, and make
+  what I'm talking about illustrative… make sure that you look at your notes of the things I talked about previously."
+  So: each coin they name appears with its own logo on its word; real charts and dated numbers sit beside each claim
+  (public data APIs, the source on the card); an example they only describe gets real, dated ones, and the message
+  says which were added. Reference: `video/templates/talking-head/camera-memecoins-2026-11-12/`.
 - **A project (Bagel, Primus Labs, Gamdom…):** its own screens, logo, art and colours. On a crypto video the coin
   itself is the showcase: live price, change and candles.
 - **Art (@i_am_vickyd):** their footage and templates as sent, their music, a clean story. 22 Oct: "You only tell the

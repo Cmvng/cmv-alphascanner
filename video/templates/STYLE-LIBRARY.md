@@ -48,17 +48,18 @@ The owner's own picture and sound go into the final video untouched (`render_raw
 | A giant number | S4 | the hook or pay-off number, giant, shown the same way each time it is said | `depth.html` (`.bt`) |
 | Flashback in black and white | S2 | NOT YET USED. Ask before regrading the owner's picture (22 Oct: "why did you change the color?") | |
 | Split: page above, the owner below | S1 | REJECTED in the form of 11 Nov ("poor video editing… so mid"). Not for their own recordings | `stage.html` |
-| Brand cold open, date chip | S3 | NOT YET USED on a recording (used in spirit: the logo plate behind the head) | |
-| Data card that builds, with its source | S3 | NOT YET USED on a recording | |
-| REWIND with a date stamp | S3 | NOT YET USED | |
-| Split bar ("every $100") | S3 | NOT YET USED | |
-| Hold, then a burst montage | S4 | NOT YET USED on a recording | |
+| Brand cold open, date chip | S3 | the claim as giant type behind the head, the handle and the date in a pill above it | `meme.html` (12 Nov) |
+| Data card that builds, with its source | S3 | a white card, one row on each spoken point, the source and its date in small type at the foot | `meme.html` (`.card`, `.row`) |
+| REWIND with a date stamp | S3 | a REWIND pill, the named coins as real logo cards with their dated highs, then a real chart that zooms out to today | `meme.html`, `fetch_data.py` |
+| Bars to scale | S3 | two or three bars; the big one arrives and the scale becomes its own | `meme.html` (`.bar`) |
+| Hold, then a burst | S4 | a few tiles, then a flood of them behind the head on the word ("millions"), all falling away together | `meme.html` (`FLOOD`) |
 | Whisper captions (tiny) | S4 | NOT YET USED: unreadable at feed size on their own | |
 | Their own reaction stickers | S7 | at most three, none when they are on camera throughout | `reactions/` |
 
 ## The ledger: what each of the owner's recordings used (newest first)
 | Date | Video | Main moves | Verdict |
 |---|---|---|---|
+| 12 Nov | "Meme coins have served its purpose" | claim behind the head with a date chip (S1, S3); data cards with sources that build with the voice (S3); REWIND, real logo cards, a real chart (S3); the rat race row (S1); hold then a flood behind the head (S4, S1); the Elon test as steps that light on his words, then bars to scale (S1, S3); a big word behind the head (S4); captions, stamp, follow click (S2) | sent 12 Nov, waiting |
 | 11 Nov | Primus "groundnut test", 5th version | the 4th version's moves, on the owner's untouched picture (60 fps, one encode) and untouched voice; chips and logo plate moved clear of the head | "why didn't you do it like this one you just sent me now?" (11 Nov): this is the way to edit their recordings |
 | 11 Nov | Primus "groundnut test", 4th version | type and logo plate behind the head (S1, S3, S4); glass chips and a counter (S1, S3); ring of tiles behind the head (S1, S2); giant number (S4); word captions, stamp, real page, Follow click (S2, S3) | "the original quality… was top quality. But when you made the edit… it was just poor": the picture and sound had been processed, not the design judged |
 | 11 Nov | same, 3rd version | icon over the head on the word, word captions, stamp, Follow click (all S2) | REJECTED: "You just took the last video and use that template" |
@@ -66,5 +67,7 @@ The owner's own picture and sound go into the final video untouched (`render_raw
 | 11 Nov | same, 1st version | cut-out on a studio backdrop, panel with the camera pushed down | REJECTED: "the worst video ever"; "You cut what I'm actually trying to show" |
 | 10 Nov | Bagel and the international break | studio look, cards above the head, real app screens | soundtrack rejected ("weird soundtrack"); "too many errors" |
 
-**For the next recording:** the main moves must differ from the 4th version above. Unused and worth trying first:
-the brand cold open with a date chip, a data card that builds with its source, the hold-then-burst ending, REWIND.
+**For the next recording:** the main moves must differ from the 12 Nov video above (cards with sources, REWIND and a
+chart, the rat race row, the flood, bars to scale). Not yet used on a recording: a full-screen data room (S3), real
+screenshots on a timeline (S3), the giant word laid out round the head with a hand passing in front (S4), a split
+with the page above (only if it is not the rejected panel layout), the owner's own post cards stacking in (S2).
