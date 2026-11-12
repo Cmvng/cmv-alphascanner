@@ -16,8 +16,9 @@ as a row of coins that speeds up; the flood behind your head; bars to scale.
 | `meme-coins-served-its-purpose.mp4` | the video, 1080×1920, 30 frames a second like your recording, 3:32, "New Bass 01" quietly under your voice |
 | `meme-coins-served-its-purpose_no-music.mp4` | the same picture with your voice only, for adding a trending sound in the app |
 | `meme-coins-served-its-purpose.srt` | subtitles, if the platform wants its own |
-| `meme-coins-served-its-purpose_cover.png` | upright cover (1080×1920) |
-| `meme-coins-served-its-purpose_thumbnail.png` | 16:9 thumbnail (1280×720) |
+| `meme-coins-served-its-purpose_cover.png` | upright cover (1080×1920), the same shape as the video. The title, your face and the handle sit in its middle square, so X, TikTok and Instagram can cut it to the middle and nothing is lost |
+| `meme-coins-served-its-purpose_x-square.png` | the picture for an X post (1080×1080): the cover's own middle square. X shows a square whole |
+| `meme-coins-served-its-purpose_thumbnail.png` | wide thumbnail (1280×720), for YouTube only |
 
 ## X
 Meme coins have served its purpose. For now.
@@ -51,6 +52,9 @@ coins, the same liquidity split across all of them. Even an Elon post is not wha
 - **I cannot hear.** The sound is checked by measurement and by reading it back as text.
 - **Music:** "New Bass 01" by Lily J (Mixkit free licence), the same as yesterday. Credit is not required.
 - **Length:** 3:32 is over X's 2:20 limit for accounts without Premium. If you need a two-part cut for X, ask.
+- **The cover on X** (12 Nov, your words: "The cover does not work well on X, like as if it's not aligned"): the first
+  cover had its title at the very top and its logos at the very bottom, and X cuts an upright picture to its middle.
+  The cover is rebuilt with everything in the middle square, and there is a square picture for the post itself.
 - **The handle** on the opening tag, the follow button, the end card and the cover is **@i_am_vickyd**, and the end card
   says "Follow @i_am_vickyd on X", as you asked while it was rendering.
 - My opinion pieces carry "not financial advice" on the end card.

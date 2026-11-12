@@ -73,6 +73,12 @@ Template: `video/templates/talking-head/camera-memecoins-2026-11-12/`.
     a list to check against the word list and the sound level, not a verdict.
 - **The owner, while it was rendering:** "And its follow @i_am_vickyd on X". The handle was changed on the opening
   tag, the follow button, the end card and the cover, and the video rendered once more (in the checkpoint).
+- **The owner, after posting (12 Nov):** "The cover does not work well on X, like as if it's not aligned on X."
+  The upright cover had its title card at the top (y 104 to 524) and the logos at the bottom (y 1700): X cuts an
+  upright picture to its middle, so the card was cut through and the logos lost; the wide thumbnail put the text at
+  the left and the face at the right, so any square cut lost one of them. I had only ever looked at the covers
+  whole. Rebuilt with the title, the face and the handle in the middle square, checked under five cuts, plus a
+  square picture for the post (in the checkpoint, "Look" and "Before you send").
 - **The owner's reaction to the video:** (to be added)
 
 ## 11 Nov: the owner's recording, Primus Labs "The groundnut test" (five versions; the fifth on their untouched picture and sound; 1:51, 9:16)

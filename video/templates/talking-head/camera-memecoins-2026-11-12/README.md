@@ -29,6 +29,12 @@ bars. Kept: type behind the head, captions, stamp, follow click. No chips-and-co
 button, end card ("Follow @i_am_vickyd on X") and cover. The cursor finds the button from the page, whatever the
 handle's length.
 
+**The cover is built for the cut.** The owner, 12 Nov: "The cover does not work well on X, like as if it's not aligned
+on X." Feeds show an upright cover cut to its middle. In `cover.html` the title, the face and the handle are inside
+the middle square (y 420 to 1500) and nothing readable lies across y 343, 420, 656, 1263, 1500 or 1577 (the edges of
+the 7:8, 1:1 and 16:9 cuts); the logos and the two numbers sit where a cut loses them whole. `cover.mjs` writes the
+cover, its middle square (`_x-square.png`, the picture for an X post) and the wide thumbnail (YouTube only).
+
 ## What is real
 Every number comes from `data.js` (`fetch_data.py`, public APIs, fetched on the day) or is typed in `meme.html` with
 its source on the card; `sources.md` lists each one with its date. The coin logos are the tokens' own. The charts
@@ -50,7 +56,7 @@ python3 -I $T/clean_alpha.py $K
 ALPHA=$K/alpha60c.mkv node $T/render_raw.mjs $PAGE/meme.html $K $RAW <dir> --stills 0.5,12.5,38,64,76,82.2,120.5,163,182,211
 CRF=14 ALPHA=$K/alpha60c.mkv node $T/render_raw.mjs $PAGE/meme.html $K $RAW <out.mp4>     # 6 to 7 minutes
 python3 -I video/lib/versus_quality.py $RAW <out.mp4> $K/segs.json --voice $K/mix_raw_voice.wav
-node $T/cover.mjs $PAGE/cover.html <out prefix>
+node $T/cover.mjs $PAGE/cover.html <out prefix>        # then cut the cover to 3:4, 1:1, 7:8 and 16:9 from the middle and look
 ```
 `render_raw.mjs`, `matte60.py` and `clean_alpha.py` now read the frame rate and whether to flip from `plan.json`
 (`fps`, `flip`): this recording is 30 a second and is not flipped (nothing in it reads backwards).

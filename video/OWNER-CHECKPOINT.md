@@ -110,6 +110,14 @@ has not been said: ask once when the next one comes up.)
   really clean." No flat home-made graphics next to a project's polished art.
 - **Every video gets its own cover and thumbnail** (8 Oct: "why is there no unique cover image?"; 13 Oct: a "clean
   and mini cover").
+- **A cover must still be whole when the app cuts it.** 12 Nov, on an upright cover with its title at the top and
+  its logos at the bottom: "The cover does not work well on X, like as if it's not aligned on X." X, TikTok and
+  Instagram show an upright picture cut to its middle (3:4 or 1:1) in the feed and on the profile. So: the title,
+  the face and the handle sit inside the middle square (y 420 to 1500 of 1080×1920), and nothing readable lies
+  across a cut edge. Send three pictures and say which is for where: the upright cover (the video's own shape), a
+  square for the post itself (the cover's middle square; X shows a square whole), and the wide one for YouTube
+  only. Before sending, cut the cover to 3:4, 1:1, 7:8 and 16:9 from the middle and look at each
+  (`cover.html` and `cover.mjs` in the 12 Nov meme coin template).
 
 ## Real material
 - **Real screens only, shown whole.** Never redraw an app's or a brand's interface. 27 Oct: "use the actual graphic
@@ -235,7 +243,8 @@ has not been said: ask once when the next one comes up.)
 - Put next to the raw recording at every moment they hold something up or point: all of it is still in the picture.
 - Measured against the raw recording: the same frame rate; the face keeps at least 90% of its fine detail; no
   colour shift; the voice's loudness range within 1 LU of the original.
-- It has its own cover and thumbnail, and it is not the same format as the last video of its kind.
+- It has its own cover and thumbnail, and it is not the same format as the last video of its kind. The cover was cut
+  to 3:4, 1:1, 7:8 and 16:9 from the middle and looked at: the title, the face and the handle are whole in each.
 - Its main moves come from at least three of the owner's samples, and the style library's ledger has its row.
 - Looked at every half second of the finished file, and listened back to every caption.
 - The message to the owner says plainly what is real, what is not from today, and what you could not check; an

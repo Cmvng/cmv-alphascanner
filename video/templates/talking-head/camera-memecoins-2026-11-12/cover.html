@@ -1,11 +1,10 @@
 <!doctype html>
-<html><head><meta charset="utf-8"><title>Meme coins have served its purpose: cover (#v, 1080x1920) and thumbnail (#t, 1280x720)</title>
+<html><head><meta charset="utf-8"><title>Meme coins have served its purpose: cover (#v, 1080x1920; its middle square is the picture for X) and wide thumbnail (#t, 1280x720, YouTube)</title>
 <style>
 @font-face{font-family:Anton;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/anton-latin-400-normal.woff2)}
 @font-face{font-family:Manrope;font-weight:800;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-800-normal.woff2)}
 @font-face{font-family:Mono;font-weight:700;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/jetbrains-mono-latin-700-normal.woff2)}
-/* img/still.png is one frame of the owner's recording, untouched (1080x1920). The card sits above the head; nothing is
-   on the face. The numbers come from data.js (fetch_data.py): the same ones the video shows. The logos are the tokens' own. */
+/* img/still.png is one frame of the owner's recording, untouched (1080x1920). Nothing is on the face. The numbers come from data.js (fetch_data.py): the same ones the video shows. The logos are the tokens' own. */
 :root{--ink:#0B1F4D;--blue:#1F5FDB;--red:#E5484D}
 *{box-sizing:border-box}
 html,body{margin:0;overflow:hidden;font-family:Manrope,sans-serif;font-weight:800;color:var(--ink);background:#C9D6EA}
@@ -19,16 +18,19 @@ html,body{margin:0;overflow:hidden;font-family:Manrope,sans-serif;font-weight:80
 .logos img{width:84px;height:84px;border-radius:42px;display:block}
 </style></head>
 <body>
-<div id="v" style="display:none;position:absolute;left:0;top:0;width:1080px;height:1920px;overflow:hidden">
-  <img src="img/still.png" class="abs" style="left:0;top:0;width:1080px;height:1920px">
-  <div class="card" style="left:50px;top:104px;width:980px;height:420px">
-    <div class="abs mono" style="left:46px;top:38px;font-size:26px;color:var(--blue)">My take · 12 Nov 2026</div>
-    <div class="abs" style="right:46px;top:30px;font-size:34px">@i_am_vickyd</div>
-    <div class="abs h" style="left:42px;top:84px;font-size:132px">Meme coins</div>
-    <div class="abs h" style="left:42px;top:214px;font-size:92px;color:var(--blue)">served its purpose.</div>
-    <div class="abs chips" style="left:42px;top:330px"><div id="c0"></div><div id="c1"></div></div>
-  </div>
-  <div class="logos" id="lg" style="left:50px;top:1700px"></div>
+<div id="v" style="display:none;position:absolute;left:0;top:0;width:1080px;height:1920px;overflow:hidden;background:linear-gradient(180deg,#F1F6FD 0%,#DCE7F6 36%,#C9D8EE 100%)">
+  <!-- Everything that must be read sits inside the middle square (y 420 to 1500): X, TikTok and Instagram show an
+       upright cover cut to its middle (3:4 or 1:1) in the feed and on the profile. Above and below the square there
+       are only things that may be lost whole (the logos, the two numbers). The owner's picture is one untouched
+       frame, moved down so the whole face is inside the square; its top fades into the page. -->
+  <img src="img/still.png" class="abs" style="left:0;top:150px;width:1080px;height:1920px;-webkit-mask-image:linear-gradient(180deg,transparent 470px,#000 590px);mask-image:linear-gradient(180deg,transparent 470px,#000 590px)">
+  <!-- Nothing readable crosses y 343, 420, 656, 1263, 1500 or 1577: the edges of the 7:8, 1:1 and 16:9 middle cuts. -->
+  <div class="logos" id="lg" style="left:50%;transform:translateX(-50%);top:242px;height:84px;padding:10px 14px;box-shadow:0 4px 10px rgba(10,24,64,.16)"></div>
+  <div class="abs h" style="left:56px;top:450px;font-size:124px">Meme coins</div>
+  <div class="abs h" style="left:56px;top:574px;font-size:82px;color:var(--blue)">served its purpose.</div>
+  <div class="abs mono" style="right:56px;top:462px;font-size:27px;line-height:34px;color:var(--blue);text-align:right">My take<br>12 Nov 2026</div>
+  <div class="abs" style="right:56px;top:600px;font-size:36px;line-height:44px">@i_am_vickyd</div>
+  <div class="abs chips" style="left:0;width:1080px;justify-content:center;top:1592px"><div id="c0"></div><div id="c1"></div></div>
 </div>
 <div id="t" style="display:none;position:absolute;left:0;top:0;width:1280px;height:720px;overflow:hidden;background:linear-gradient(100deg,#DDE7F5 0%,#C2D0E6 46%,#A3B5D3 100%)">
   <div class="abs" style="right:0;top:0;width:640px;height:720px;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent 5%,#000 20%);mask-image:linear-gradient(90deg,transparent 5%,#000 20%)"><img src="img/still.png" style="position:absolute;left:0;top:-250px;width:640px"></div>
@@ -46,7 +48,7 @@ const D = window.DATA, m = location.hash.includes('t') ? 't' : 'v', $ = id => do
 const fees = '$' + (D.pump_fees.total / 1e9).toFixed(2) + 'B in launchpad fees', fall = 'Down ' + Math.round((1 - D.meme_cap.now / 150.6e9) * 100) + '% from the peak'
 $('c0').textContent = $('d0').textContent = fees; $('c1').textContent = $('d1').textContent = fall
 const ids = ['pepe', 'bonk', 'dogwifcoin', 'peanut-the-squirrel', 'popcat', 'dogecoin']
-$('lg').innerHTML = ids.map(i => `<img src="${D.coins.find(c => c.id === i).logo}">`).join('')
+$('lg').innerHTML = ids.map(i => `<img style="width:64px;height:64px" src="${D.coins.find(c => c.id === i).logo}">`).join('')
 $('lg2').innerHTML = ids.map(i => `<img style="width:72px;height:72px" src="${D.coins.find(c => c.id === i).logo}">`).join('')
 $(m).style.display = 'block'
 window.READY = Promise.all([document.fonts.ready, ...[...document.images].map(i => i.decode().catch(() => 0))]).then(() => document.fonts.load('116px Anton')).then(() => document.fonts.load('800 30px Manrope')).then(() => document.fonts.load('700 24px Mono'))
