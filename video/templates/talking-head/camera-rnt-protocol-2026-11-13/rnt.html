@@ -1,0 +1,420 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>RNT Protocol explained (the owner's 13 Nov recording): graphics above and behind the owner</title>
+<style>
+@font-face{font-family:Anton;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/anton-latin-400-normal.woff2)}
+@font-face{font-family:Manrope;font-weight:600;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-600-normal.woff2)}
+@font-face{font-family:Manrope;font-weight:800;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-800-normal.woff2)}
+@font-face{font-family:Mono;font-weight:700;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/jetbrains-mono-latin-700-normal.woff2)}
+/* The owner explains RNT Protocol ("the DeFi of rentals") with Mr A and Mr B, on their untouched picture and sound.
+   The owner: "I want to create a video explaining that project Rnt protocol... Do an extensive research and make sure
+   the video is 10/10". Their example is illustrated step by step, in the order they tell it.
+   Moves, and the sample each comes from (video/templates/STYLE-LIBRARY.md):
+     - the name as giant type BEHIND the head with the logo and a date pill (S1, S3 brand cold open);
+     - the cast as chips that arrive on "a practical use case" (S1 glass chips that build with the voice);
+     - the project's own pages, whole, each with its source and date; boxes ringed on the words (S3 a real page);
+     - the loan as a meter that fills to 75%, creeps with interest, turns red at 80% and the token slides off to the
+       open market with a 10% bite (S1 objects acting the words, S4 a giant number);
+     - the money as a flow: Mr B to the pool, the pool to Mr A, dots running on the words (S1);
+     - a count-up of what $10,000 earns in a year at today's rate (S4 a giant number);
+     - word-by-word captions with big key phrases, the follow click (S2).
+   This recording frames the owner low: the top of the head sits about y 880, so every card lives in the ceiling
+   above it (y 40 to 840) and the captions sit on the chest (y 1700). Two layers: #bk is drawn behind the owner (the
+   renderer hides it wherever the owner's outline is); everything else is in front, clear of the head.
+   Numbers: data.js (the RNT Lend API, fetched on the day) or the real screens (capture.mjs). Logos: RNT's own.
+   Icons: Microsoft's Fluent Emoji 3D (MIT licence). */
+:root{--ink:#0B1F4D;--deep:#0A1A44;--blue:#1F5FDB;--sky:#7CC4FF;--mute:#6B7A99;--line:#E3E9F4;--red:#E5484D;--green:#12A150}
+*{box-sizing:border-box}
+html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:transparent;font-family:Manrope,sans-serif;font-weight:800;color:#fff}
+.abs{position:absolute}
+.mono{font-family:Mono,monospace;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
+/* No shade over the owner's picture. Earlier versions laid a navy gradient over the frame so white type would read;
+   it made the owner's face darker and bluer (measured against the raw, 11 Nov). The picture is now the owner's own
+   frames, untouched, and every piece of type carries its own outline or its own plate instead. */
+#shade{display:none}
+/* ---- over the head */
+.it{position:absolute;left:0;top:0;width:1080px;display:flex;flex-direction:column;align-items:center;opacity:0;transform-origin:50% 60%}
+.icw{position:relative;display:flex;align-items:center;justify-content:center;gap:34px}
+.ic{position:relative;width:200px;height:200px}
+.ic img{width:200px;height:200px;display:block;filter:drop-shadow(0 16px 22px rgba(4,10,36,.45))}
+.ic.s img,.ic.s{width:140px;height:140px}
+.bdg{position:absolute;right:-18px;bottom:-10px;width:88px;height:88px;opacity:0}
+.bdg img{width:88px!important;height:88px!important}
+.ic.s .bdg,.ic.s .bdg img{width:64px!important;height:64px!important}
+.ic.s .bdg{right:-12px;bottom:-8px}
+.lb{margin-top:10px;font-size:42px;line-height:52px;letter-spacing:-.005em;white-space:nowrap;-webkit-text-stroke:8px var(--deep);paint-order:stroke fill;text-shadow:0 6px 16px rgba(4,10,36,.5)}
+.lb b{color:var(--sky);font-weight:800}
+.tag{display:inline-block;margin-left:14px;height:40px;padding:1px 14px 0;border-radius:10px;font-family:Mono,monospace;font-weight:700;font-size:25px;line-height:35px;letter-spacing:.08em;background:#fff;color:var(--blue);-webkit-text-stroke:0;text-shadow:none;vertical-align:5px}
+.pill{display:flex;align-items:center;height:118px;padding:0 38px;border-radius:59px;background:#fff;box-shadow:0 18px 40px rgba(4,10,36,.45)}
+.pill img{height:62px;display:block}
+.pill span{margin-left:20px;height:62px;padding:0 24px;border-radius:31px;background:var(--blue);color:#fff;font-size:36px;line-height:60px}
+.ttl{font-family:Anton,sans-serif;font-weight:400;font-size:118px;line-height:1.02;letter-spacing:.01em;white-space:nowrap;-webkit-text-stroke:10px var(--deep);paint-order:stroke fill;text-shadow:0 10px 26px rgba(4,10,36,.55)}
+.sub{font-size:38px;line-height:48px;font-weight:600;white-space:nowrap;-webkit-text-stroke:7px var(--deep);paint-order:stroke fill}
+.giant{font-family:Anton,sans-serif;font-weight:400;font-size:300px;line-height:.96;letter-spacing:.01em;white-space:nowrap;-webkit-text-stroke:14px var(--deep);paint-order:stroke fill;text-shadow:0 16px 40px rgba(4,10,36,.6)}
+.giant b{font-weight:400;color:var(--sky)}
+.chips{display:flex;gap:18px;align-items:center}
+.chip{height:92px;padding:0 34px;border-radius:46px;font-size:40px;line-height:90px;white-space:nowrap;background:#fff;color:var(--ink);box-shadow:0 16px 34px rgba(4,10,36,.42)}
+.chip b{font-weight:800}
+.chip.ok b{color:var(--green)} .chip.hid b{color:var(--blue)}
+.chip img{width:50px;height:50px;vertical-align:-10px;margin-left:8px}
+.stamp{font-family:Anton,sans-serif;font-weight:400;font-size:92px;line-height:1;letter-spacing:.03em;white-space:nowrap;padding:22px 38px 18px;border-radius:22px;border:9px solid currentColor;background:rgba(255,255,255,.94);box-shadow:0 18px 40px rgba(4,10,36,.45)}
+.stamp.go{color:var(--green)} .stamp.no{color:var(--red)}
+.line{position:relative;width:150px;height:8px;border-radius:4px;background:rgba(255,255,255,.9);box-shadow:0 4px 10px rgba(4,10,36,.4)}
+.line i{position:absolute;top:-8px;left:0;width:24px;height:24px;border-radius:12px;background:var(--sky);box-shadow:0 0 0 5px rgba(124,196,255,.35)}
+/* the follow pill: ours, not a copy of any app's button */
+#fol{display:flex;align-items:center;height:112px;padding:0 14px 0 40px;border-radius:56px;background:#fff;color:var(--ink);font-size:46px;box-shadow:0 18px 40px rgba(4,10,36,.5);position:relative}
+#fbt{margin-left:26px;height:84px;width:290px;border-radius:42px;background:var(--ink);color:#fff;font-size:38px;line-height:82px;text-align:center}
+#cur{position:absolute;left:0;top:0;width:54px;height:54px;opacity:0}
+/* ---- captions: word by word under the beard; key phrases go big under them */
+#cap{position:absolute;left:0;top:1700px;width:1080px;text-align:center;font-size:56px;line-height:72px;letter-spacing:-.005em;white-space:nowrap}
+#cap span{display:inline-block;margin:0 .13em;-webkit-text-stroke:9px var(--deep);paint-order:stroke fill;text-shadow:0 6px 16px rgba(4,10,36,.5)}
+#cap span.k{color:var(--sky)}
+#big{position:absolute;left:0;top:1776px;width:1080px;text-align:center;font-size:108px;line-height:124px;letter-spacing:-.02em;white-space:nowrap;color:var(--sky);opacity:0;
+  -webkit-text-stroke:13px var(--deep);paint-order:stroke fill;text-shadow:0 10px 26px rgba(4,10,36,.55);transform-origin:50% 50%}
+/* ---- end card */
+#end{position:absolute;left:0;top:0;width:1080px;height:1920px;background:linear-gradient(180deg,#F4F8FF,#DCE9FF);opacity:0;color:var(--ink)}
+#end .c{position:absolute;left:0;width:1080px;text-align:center}
+.ec{display:inline-block;height:72px;padding:0 30px;border-radius:36px;font-size:34px;line-height:70px;background:#fff;border:1.5px solid var(--line);margin:0 6px 14px;opacity:0;white-space:nowrap}
+
+/* ---- this video */
+.card{width:940px;border-radius:40px;background:rgba(255,255,255,.96);box-shadow:0 22px 50px rgba(4,10,36,.5);color:var(--ink);padding:26px 34px 22px;text-align:left}
+.card .h{font-family:Mono,monospace;font-weight:700;font-size:25px;line-height:34px;letter-spacing:.11em;text-transform:uppercase;color:var(--blue);margin-bottom:8px;white-space:nowrap}
+.card .src{font-family:Mono,monospace;font-weight:700;font-size:19px;line-height:26px;letter-spacing:.03em;color:var(--mute);margin-top:12px;white-space:nowrap}
+.row{display:flex;align-items:center;height:104px;opacity:0}
+.row img.i{width:78px;height:78px;margin-right:20px;display:block;filter:drop-shadow(0 6px 10px rgba(4,10,36,.2))}
+.row .t{font-size:40px;line-height:46px;flex:1;white-space:nowrap}
+.row .t u{display:block;text-decoration:none;font-weight:600;font-size:24px;line-height:30px;color:var(--mute)}
+.row .v{font-family:Anton,sans-serif;font-weight:400;font-size:66px;line-height:1;color:var(--blue);margin-left:16px}
+.tl{display:flex;align-items:center;gap:18px}
+.tb{height:118px;padding:0 34px;border-radius:30px;background:#fff;color:var(--ink);font-family:Anton,sans-serif;font-weight:400;font-size:58px;line-height:122px;white-space:nowrap;box-shadow:0 18px 40px rgba(4,10,36,.45);position:relative}
+.tb i{position:absolute;left:18px;right:18px;top:56px;height:8px;border-radius:4px;background:var(--red);transform-origin:0 50%;transform:scaleX(0)}
+.ar{font-size:64px;line-height:1;-webkit-text-stroke:8px var(--deep);paint-order:stroke fill}
+.rw{display:flex;align-items:center;height:96px;padding:0 34px 0 22px;border-radius:48px;background:#fff;color:var(--ink);font-family:Anton,sans-serif;font-weight:400;font-size:52px;line-height:1;box-shadow:0 18px 40px rgba(4,10,36,.45);white-space:nowrap}
+.rw img{width:64px;height:64px;margin-right:16px;display:block}
+.rw span{font-family:Mono,monospace;font-weight:700;font-size:26px;letter-spacing:.1em;color:var(--blue);margin-left:18px}
+#grid{display:grid;grid-template-columns:repeat(3,316px);gap:16px}
+.cc{position:relative;height:150px;border-radius:34px;background:rgba(255,255,255,.96);box-shadow:0 16px 34px rgba(4,10,36,.42);color:var(--ink);display:flex;align-items:center;padding:0 10px 0 16px;opacity:0;overflow:hidden}
+.cc img{width:82px;height:82px;border-radius:41px;display:block;margin-right:12px;flex:none;box-shadow:0 4px 10px rgba(4,10,36,.2)}
+.cc b{display:block;font-size:35px;line-height:40px;white-space:nowrap}
+.cc u{display:block;text-decoration:none;font-family:Mono,monospace;font-weight:700;font-size:19px;line-height:26px;letter-spacing:.02em;color:var(--mute);white-space:nowrap}
+.cc u.z{display:none;font-family:Anton,sans-serif;font-weight:400;font-size:46px;line-height:50px;letter-spacing:0;color:var(--red)}
+.cc.now{background:rgba(255,233,235,.97)} .cc.now u.a{display:none} .cc.now u.z{display:block}
+.note{margin-top:14px;font-family:Mono,monospace;font-weight:700;font-size:22px;line-height:30px;letter-spacing:.04em;white-space:nowrap;-webkit-text-stroke:6px var(--deep);paint-order:stroke fill;opacity:0}
+.gain{height:92px;padding:0 30px;border-radius:46px;font-family:Anton,sans-serif;font-weight:400;font-size:58px;line-height:96px;white-space:nowrap;background:#fff;color:var(--green);box-shadow:0 16px 34px rgba(4,10,36,.42)}
+.two{display:flex;gap:26px}
+.stt{flex:1;opacity:0}
+.stt b{display:block;font-family:Anton,sans-serif;font-weight:400;font-size:112px;line-height:118px;color:var(--ink);white-space:nowrap}
+.stt u{display:block;text-decoration:none;font-weight:600;font-size:27px;line-height:34px;color:var(--mute)}
+.bar{margin-top:10px;opacity:0}
+.bar span{display:block;font-family:Mono,monospace;font-weight:700;font-size:23px;line-height:32px;letter-spacing:.05em;color:var(--mute);white-space:nowrap}
+.bar div{display:flex;align-items:center;height:58px}
+.bar i{display:block;flex:none;height:50px;border-radius:12px;background:var(--blue);width:700px;transform-origin:0 50%}
+.bar b{flex:none;font-family:Anton,sans-serif;font-weight:400;font-size:52px;line-height:58px;margin-left:16px;white-space:nowrap}
+.big2{font-family:Anton,sans-serif;font-weight:400;font-size:150px;line-height:156px;color:var(--ink);white-space:nowrap;text-align:center}
+.t2{font-size:38px;line-height:48px;text-align:center;white-space:nowrap}
+.ct{width:150px;height:150px;border-radius:40px;background:rgba(255,255,255,.96);box-shadow:0 16px 34px rgba(4,10,36,.42);display:flex;align-items:center;justify-content:center;opacity:0}
+.ct img{width:112px;height:112px;border-radius:56px;display:block}
+.ft{position:absolute;left:0;top:0;width:122px;height:122px;border-radius:32px;background:rgba(255,255,255,.95);box-shadow:0 12px 26px rgba(4,10,36,.4);display:flex;align-items:center;justify-content:center;opacity:0}
+.ft img{width:86px;height:86px;display:block}
+#race{position:relative;width:1080px;height:200px}
+.rt{position:absolute;left:0;top:0;width:180px;height:180px;border-radius:46px;background:rgba(255,255,255,.96);box-shadow:0 18px 40px rgba(4,10,36,.45);display:flex;align-items:center;justify-content:center;opacity:0}
+.rt img{width:128px;height:128px;display:block}
+.rt em{position:absolute;left:50%;bottom:-22px;transform:translateX(-50%);height:44px;padding:0 16px;border-radius:22px;font-family:Mono,monospace;font-style:normal;font-weight:700;font-size:24px;line-height:44px;letter-spacing:.08em;color:#fff;background:var(--green);opacity:0}
+#liq{display:flex;gap:10px;margin-top:6px}
+#liq i{display:block;width:66px;height:92px;border-radius:14px;background:var(--blue)}
+#fire{position:absolute;right:26px;top:-52px;width:120px;height:120px;opacity:0}
+.eh{font-family:Anton,sans-serif;font-weight:400;font-size:150px;line-height:1;color:var(--ink)}
+.bus{display:flex;align-items:center;height:92px}
+.bl{width:220px;font-size:30px;line-height:36px;white-space:nowrap;-webkit-text-stroke:7px var(--deep);paint-order:stroke fill;text-align:right;padding-right:22px}
+.bl b{color:var(--sky);font-weight:800}
+.br{display:flex;gap:5px}
+.bu{position:relative;width:54px;height:78px;border-radius:14px;background:rgba(255,255,255,.96);box-shadow:0 8px 18px rgba(4,10,36,.38);display:flex;align-items:center;justify-content:center;opacity:0}
+.bu>img{width:48px;height:48px;display:block}
+.bu i{position:absolute;inset:0;border-radius:14px;background:rgba(150,210,255,.88);display:flex;align-items:center;justify-content:center;opacity:0}
+.bu i img{width:40px;height:40px}
+.sg{display:grid;grid-template-columns:repeat(2,500px);gap:14px}
+.sc{display:flex;align-items:center;height:100px;padding:0 22px;border-radius:30px;background:rgba(255,255,255,.96);box-shadow:0 14px 30px rgba(4,10,36,.42);color:var(--ink);font-size:29px;line-height:34px;opacity:0}
+.sc img{width:60px;height:60px;margin-right:14px;flex:none}
+.mh{font-size:28px;line-height:36px;color:var(--ink);white-space:nowrap;margin-bottom:4px}
+.lg{display:flex;gap:30px;font-family:Mono,monospace;font-weight:700;font-size:21px;letter-spacing:.06em;color:var(--mute);margin:-2px 0 6px}
+.lg i{display:inline-block;width:30px;height:8px;border-radius:4px;margin-right:10px;vertical-align:4px}
+.mh b{font-family:Anton;font-weight:400;font-size:34px;letter-spacing:.02em}
+.shot{position:relative;border-radius:30px;overflow:hidden;background:#fff;box-shadow:0 22px 50px rgba(4,10,36,.45)}
+.shot>img{display:block}
+.shot .lab{position:relative;background:#fff;color:var(--mute);font-family:Mono,monospace;font-weight:700;font-size:20px;line-height:26px;letter-spacing:.03em;padding:10px 22px 12px;white-space:nowrap;border-top:1.5px solid var(--line)}
+.hl{position:absolute;border:6px solid #E5484D;border-radius:16px;box-shadow:0 0 0 6px rgba(229,72,77,.18);opacity:0}
+.row2{display:flex;align-items:center;justify-content:center;gap:40px}
+.who{display:flex;align-items:center;gap:20px;height:250px;padding:0 40px 0 26px;border-radius:44px;background:rgba(255,255,255,.96);box-shadow:0 22px 50px rgba(4,10,36,.45);color:var(--ink)}
+.who img{width:190px;height:190px;display:block}
+.who b{display:block;font-family:Anton,sans-serif;font-weight:400;font-size:84px;line-height:90px}
+.who u{display:block;text-decoration:none;font-weight:600;font-size:28px;line-height:34px;color:var(--mute);max-width:240px}
+.tokw{display:flex;flex-direction:column;align-items:center;opacity:0}
+.coin{position:relative;width:250px;height:250px;border-radius:125px;background:radial-gradient(circle at 35% 30%,#3D7BFF,#004dff 62%,#0034B3);box-shadow:0 22px 50px rgba(4,10,36,.5),inset 0 0 0 10px rgba(255,255,255,.25);display:flex;flex-direction:column;align-items:center;justify-content:center;transform-origin:50% 50%}
+.coin img{width:120px;height:120px;display:block}
+.coin b{color:#fff;font-family:Anton,sans-serif;font-weight:400;font-size:52px;line-height:56px;margin-top:2px}
+.tl3{margin-top:14px;font-size:36px;line-height:44px;white-space:nowrap;-webkit-text-stroke:8px var(--deep);paint-order:stroke fill;opacity:0}
+.chip.who2{height:96px;line-height:94px;padding:0 30px 0 14px;font-size:42px;display:flex;align-items:center;gap:12px;opacity:0}
+.chip.who2 img{width:76px;height:76px;margin:0}
+.chip.who2 i{font-style:normal;font-weight:600;color:var(--blue);margin-left:4px}
+.mt{position:relative;height:272px;margin:26px 0 0}
+.mtr{position:absolute;left:0;top:96px;width:860px;height:70px;border-radius:20px;background:#EEF2F9;overflow:hidden}
+.mtr i{display:block;width:860px;height:70px;background:var(--blue);transform-origin:0 50%;transform:scaleX(0)}
+.mk{position:absolute;top:84px;width:0;height:96px;border-left:5px dashed #0B1F4D;opacity:0}
+.mk b{position:absolute;top:100px;width:120px;font-family:Anton,sans-serif;font-weight:400;font-size:44px;line-height:48px;color:var(--ink)}
+.mk u{position:absolute;top:150px;width:160px;text-decoration:none;font-family:Mono,monospace;font-weight:700;font-size:20px;color:var(--mute)}
+.mk.red{border-left-color:#E5484D}.mk.red b,.mk.red u{color:#E5484D}
+.mk#m75 b,.mk#m75 u{right:12px;text-align:right}.mk#m80 b,.mk#m80 u{left:14px;text-align:left}
+.end{position:absolute;right:0;top:10px;text-align:right;font-family:Anton,sans-serif;font-weight:400;font-size:40px;line-height:44px;color:var(--mute)}
+.end u{display:block;text-decoration:none;font-family:Mono,monospace;font-weight:700;font-size:19px;line-height:24px}
+.ml{position:absolute;top:6px;font-family:Anton,sans-serif;font-weight:400;font-size:72px;line-height:80px;width:300px;text-align:right;opacity:0}
+.ir{display:flex;align-items:center;gap:16px;font-size:30px;line-height:38px;font-weight:600;color:var(--ink);opacity:0;margin-top:6px;white-space:nowrap}
+.ir img{width:62px;height:62px}
+.ir b{color:var(--blue);font-weight:800}
+.sold{position:relative;height:250px;margin-top:-44px;opacity:0}
+.sold .tokw{opacity:1;position:absolute;left:10px;top:0}
+.ar2{position:absolute;left:290px;top:66px;font-size:70px;color:var(--ink);opacity:0}
+.mkt{position:absolute;left:380px;top:20px;display:flex;flex-direction:column;align-items:center;opacity:0}
+.mkt img{width:130px;height:130px}.mkt b{font-size:30px;color:var(--ink)}
+.pen{position:absolute;left:580px;top:64px;height:72px;padding:0 24px;border-radius:36px;background:#E5484D;color:#fff;font-family:Anton,sans-serif;font-weight:400;font-size:44px;line-height:76px;opacity:0}
+.flow{position:relative;width:1080px;height:420px}
+.nd{position:absolute;top:0;width:280px;height:330px;border-radius:44px;background:rgba(255,255,255,.96);box-shadow:0 22px 50px rgba(4,10,36,.45);display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--ink);opacity:0}
+.nd img{width:170px;height:170px}.nd b{font-family:Anton,sans-serif;font-weight:400;font-size:62px;line-height:68px}.nd u{text-decoration:none;font-weight:600;font-size:28px;color:var(--mute)}
+#nA{left:30px}#nP{left:400px;background:linear-gradient(180deg,#EAF2FF,#CFE0FF)}#nB{left:770px}
+.lk{position:absolute;right:-24px;top:-24px;width:96px;height:96px;border-radius:48px;background:#fff;box-shadow:0 8px 20px rgba(4,10,36,.3);display:flex;align-items:center;justify-content:center;opacity:0}
+.lk img{width:66px;height:66px}
+.pipe{position:absolute;top:156px;height:14px;border-radius:7px;background:rgba(255,255,255,.9);box-shadow:0 4px 12px rgba(4,10,36,.35);opacity:0}
+#p1{left:680px;width:90px}#p2{left:310px;width:90px}
+.dot{position:absolute;left:0;top:0;width:40px;height:40px;margin:-20px 0 0 -20px;border-radius:20px;background:radial-gradient(circle at 35% 30%,#7FE3A0,#12A150);box-shadow:0 4px 10px rgba(4,10,36,.35);opacity:0}
+/* ---- layers */
+#bk{position:absolute;inset:0}
+body.L-behind #top,body.L-behind #cap,body.L-behind #big,body.L-behind #end{display:none}
+body.L-front #bk{display:none}
+.bt{font-family:Anton,sans-serif;font-weight:400;line-height:.92;letter-spacing:.01em;white-space:nowrap;color:#fff;-webkit-text-stroke:12px var(--deep);paint-order:stroke fill;text-shadow:0 12px 26px rgba(4,10,36,.45)}
+.bt b{font-weight:400;color:var(--sky)}
+</style></head>
+<body>
+<div id="bk"></div>
+<div id="top"></div>
+<div id="cap"></div>
+<div id="big"></div>
+
+<div id="end">
+  <div class="c" style="top:470px"><div class="eh" id="eh" style="opacity:0">@i_am_vickyd</div></div>
+  <div class="c" id="etag" style="top:668px;font-size:44px;letter-spacing:-.01em;opacity:0;white-space:nowrap">RNT Protocol: the DeFi of rentals</div>
+  <div class="c" style="top:820px;padding:0 50px"><span class="ec" id="e0"></span><span class="ec" id="e1"></span><span class="ec" id="e2"></span><span class="ec" id="e3"></span></div>
+  <div class="c mono" id="eget" style="top:1170px;font-size:27px;color:var(--blue);opacity:0">Data: RNT Lend · rnt.finance</div>
+  <div class="c" id="eby" style="top:1270px;font-size:46px;opacity:0">Follow <span style="color:var(--blue)">@i_am_vickyd</span> on X</div>
+  <div class="c" id="erisk" style="top:1460px;font-size:26px;font-weight:600;color:var(--mute);opacity:0;padding:0 90px">My explanation, not financial advice.<br>Figures as of <span id="eat"></span>.</div>
+</div>
+
+<script src="plan.js"></script>
+<script src="tok.js"></script>
+<script src="data.js"></script>
+<script>
+const P = window.PLAN, D = window.DATA, $ = id => document.getElementById(id)
+const cl = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x))
+const seg = (t, a, d) => cl((t - a) / d)
+const eo = x => 1 - Math.pow(1 - x, 3), eio = x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2
+const back = x => { const c = 1.9; return 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2) }
+let SIG = []
+const st = (el, o) => { for (const k in o) { const v = typeof o[k] === 'number' ? +o[k].toFixed(3) : o[k]; el.style[k] = v; SIG.push(v) } }
+const NOTEXT = location.hash.includes('notext')
+const LAYER = ['behind', 'front'].find(h => location.hash.includes(h)) || 'all'      // the renderer draws each layer on its own
+document.body.classList.add('L-' + LAYER)
+const I = n => `img/e/${n}.png`
+const wt = i => P.wt[i], we = i => P.we[i]                                             // a spoken word's start and end in the finished video
+// ---- every caption word's time in the finished video comes from tokens.py (tok.js)
+const CAPS = P.caps.map((c, ci) => {
+  const toks = []; let em = false
+  for (const raw of c.t.split(' ')) {
+    let w = raw; const open = w.startsWith('*'); if (open) { em = true; w = w.slice(1) }
+    const close = w.replace(/[.,?!:]+$/, '').endsWith('*'); const k = em; if (close) { em = false; w = w.replace('*', '') }
+    toks.push({ w, k })
+  }
+  toks.forEach((k, i) => k.t = window.TOK[ci][i])
+  return { ...c, ci, toks }
+})
+// key phrases that go big: caption index -> the phrase (the owner's words)
+const BIG = { 9: 'DeFi of rentals.', 18: '75%.', 23: '80%,', 27: '10% fine', 37: 'supplier', 42: '10.5% APY.', 48: 'DeFi of rental properties.' }
+const len = a => a.reduce((n, x) => n + x.w.length + 1, -1)
+for (const c of CAPS) {
+  const b = BIG[c.ci]; c.small = c.toks; c.chunks = []; let groups = [c.toks]
+  if (b) { const bw = b.split(' '), n = bw.length, i0 = c.toks.findIndex((k, i) => bw.every((w, j) => c.toks[i + j] && c.toks[i + j].w.replace(/[.,?!:]+$/, '') === w.replace(/[.,?!:]+$/, '')))
+    if (i0 >= 0) { c.big = { text: b, t: c.toks[i0].t }; groups = [c.toks.slice(0, i0), c.toks.slice(i0 + n)]; c.small = groups.flat() } else console.log('BIG PHRASE NOT FOUND', c.ci, b) }
+  for (const g of groups) {
+    const out = []; let cur = []
+    const flush = () => { if (cur.length) out.push(cur); cur = [] }
+    for (const k of g) {                                   // up to three words and about 17 letters a line; break after punctuation
+      if (cur.length && (cur.length >= 3 || len(cur) + 1 + k.w.length > 17)) flush()
+      cur.push(k); if (/[.,?!:]$/.test(k.w) && cur.length >= 2) flush()
+    }
+    flush()
+    const n = out.length
+    if (n > 1 && out[n - 1].length === 1 && len(out[n - 2]) + 1 + out[n - 1][0].w.length <= 19 && !/[.,?!:]$/.test(out[n - 2][out[n - 2].length - 1].w)) out.splice(n - 2, 2, [...out[n - 2], ...out[n - 1]])
+    c.chunks.push(...out)
+  }
+}
+let CHUNKS = []
+CAPS.forEach(c => c.chunks.forEach((ch, i) => CHUNKS.push({ c, ch, t0: i === 0 ? Math.min(ch[0].t, c.o0) : ch[0].t - .04 })))
+CHUNKS.forEach((x, i) => { const nx = CHUNKS[i + 1]; x.t1 = Math.min(nx ? nx.t0 : 1e9, (x.c.chunks[x.c.chunks.length - 1] === x.ch ? x.c.o1 + .3 : 1e9)) })
+const capHtml = ch => ch.map(k => `<span${k.k ? ' class="k"' : ''}>${k.w}</span>`).join('')
+
+// ---- things over and beside the head (in front), and behind it (bk)
+const TOP = $('top'), ITEMS = []
+function item(a, b, html, o = {}) {
+  const el = document.createElement('div'); el.className = 'it'; el.style.top = (o.y ?? 150) + 'px'; el.innerHTML = html; (o.bk ? $('bk') : TOP).appendChild(el)
+  if (o.x != null) { el.style.width = 'auto'; el.style.left = o.x + 'px' }
+  if (o.r != null) { el.style.width = 'auto'; el.style.left = 'auto'; el.style.right = o.r + 'px' }
+  const it = { a, b, el, bk: !!o.bk, rot: o.rot || 0 }; ITEMS.push(it); return it
+}
+const ic = (n, o = {}) => `<div class="ic${o.s ? ' s' : ''}"><img src="${I(n)}"></div>`
+const lb = s => `<div class="lb">${s}</div>`
+const one = (n, label, o) => `<div class="icw">${ic(n, o)}</div>${lb(label)}`
+const pop = (el, t, at, d = .3) => st(el, { opacity: seg(t, at, .1), transform: `scale(${(.6 + .4 * back(seg(t, at, d))).toFixed(4)})` })
+const rise = (el, t, at) => st(el, { opacity: seg(t, at, .18), transform: `translateY(${((1 - eo(seg(t, at, .3))) * 22).toFixed(1)}px)` })
+
+// ---- this video's numbers: the RNT Lend app and its public API, 13 Nov 2026 (data.js; sources.md)
+const R = D, SH = n => `img/shot/${n}.png`
+const MR = (w, who, sub, ic) => `<div class="who"><img src="${I(ic)}"><div><b>${who}</b><u>${sub}</u></div></div>`
+const COIN = (id, val, s = 1) => `<div class="coin" id="${id}" style="transform:scale(${s})"><img src="${I('house_3d')}"><b>${val}</b></div>`
+const SHOT = (src, w, label, extra = '') => `<div class="shot" style="width:${w}px"><img src="${src}" style="width:${w}px">${extra}<div class="lab">${label}</div></div>`
+
+// 1. the cold open: the name BEHIND the head, the logo and the date above; on "a practical use case" the cast arrives
+const S1 = wt(75) - .35
+item(0, S1, `<div class="bt" style="font-size:330px">RNT</div><div class="bt" style="font-size:150px;margin-top:2px"><b>PROTOCOL</b></div>`, { y: 470, bk: 1 })
+item(0, S1, `<div class="pill" style="height:104px;padding:0 16px 0 30px;background:#0B1F4D"><img src="img/logo/rnt.svg" style="height:58px"><span style="background:#004dff">explained · 13 Nov 2026</span></div>`, { y: 70 })
+item(wt(26) - .1, S1, `<div class="chips" style="gap:22px"><div class="chip who2" id="ca"><img src="${I('man_office_worker_3d_default')}">Mr A <i>borrows</i></div><div class="chip who2" id="cb"><img src="${I('man_technologist_3d_default')}">Mr B <i>lends</i></div></div>`, { y: 250 })
+
+// 2. "the DeFi of rentals": RNT's own homepage, whole
+const S2 = wt(96) - .45
+item(wt(75) - .2, S2, SHOT(SH('site-home'), 960, 'rnt.finance · 13 Nov 2026'), { y: 60 })
+
+// 3. Mr A, his property token, and a real one
+const S3 = wt(144) - .45
+item(wt(96) - .2, S3, `<div class="row2">${MR(0, 'Mr A', 'owns a rental property token', 'man_office_worker_3d_default')}<div class="tokw" id="tk3">${COIN('c3', '$10,000')}<div class="tl3" id="tl3">rental property token</div></div></div>`, { y: 70 })
+item(wt(110) - .2, S3, SHOT(SH('lend-cme1-head'), 760, 'a real one: RNT Lend · 13 Nov 2026'), { y: 412 })
+item(wt(127) - .1, S3, `<div class="chip" style="height:80px;line-height:78px;font-size:34px"><img src="${I('money_bag_3d')}" style="width:54px;height:54px;vertical-align:-14px;margin-right:12px">he needs cash: a <b style="color:var(--blue)">loan</b></div>`, { y: 760 })
+
+// 4-6. the loan meter: up to 75%; interest every day; at 80% the token is sold, with a 10% penalty
+const S6 = wt(229) - .5, LA = wt(144) - .33
+item(LA, S6, `<div class="card" style="padding:24px 36px 26px"><div class="h" style="display:flex;justify-content:space-between"><span>Mr A's loan</span><span id="dd" style="color:var(--mute)">against his $10,000 token</span></div>
+  <div class="mt"><div class="mtr"><i id="mf"></i></div><div class="end">$10,000<u>his token</u></div><div class="mk" id="m75" style="left:${.75 * 860}px"><b>75%</b><u>max loan</u></div><div class="mk red" id="m80" style="left:${.80 * 860}px"><b>80%</b><u>sold</u></div>
+    <div class="ml" id="mv">$7,500</div></div>
+  <div class="ir" id="ir"><img src="${I('hourglass_not_done_3d')}"><span>+ interest every day: <b>≈ $${R.per_day_7500.toFixed(2)} a day</b> at today's ${R.borrow_apy}%</span></div>
+  <div class="sold" id="sd"><div class="tokw" id="tk6">${COIN('c6', '$10,000', .8)}</div><div class="ar2" id="a6">→</div><div class="mkt" id="mk6"><img src="${I('classical_building_3d')}"><b>open market</b></div><div class="pen" id="pn">−10% penalty</div></div>
+  <div class="src">RNT Lend: max LTV 75% · liquidation 80% · penalty 10% · 13 Nov 2026</div></div>`, { y: 50 })
+const SIREN = item(wt(204) - .1, wt(208) + .6, `<img src="${I('police_car_light_3d')}" style="width:130px;height:130px;filter:drop-shadow(0 10px 18px rgba(4,10,36,.4))">`, { x: 860, y: 600 })
+
+// 7. the same three numbers on the real app
+const S7 = wt(256) - .5, BX = [[211, 393], [405, 588], [600, 782]], K7 = 940 / 808
+item(wt(229) - .33, S7, SHOT(SH('lend-cme1'), 940, 'RNT Lend · a property token\'s own page · 13 Nov 2026',
+  BX.map(([a, b], i) => `<div class="hl" id="h7${i}" style="left:${(a * K7 - 6).toFixed(0)}px;top:${(239 * K7 - 6).toFixed(0)}px;width:${((b - a) * K7 + 12).toFixed(0)}px;height:${(57 * K7 + 12).toFixed(0)}px"></div>`).join('')), { y: 110 })
+
+// 8. Mr B, the pool, and the loan back to Mr A
+const S8 = wt(319) - .5
+item(wt(256) - .33, S8, `<div class="flow"><div class="nd" id="nA"><img src="${I('man_office_worker_3d_default')}"><b>Mr A</b><u>borrows</u><div class="lk" id="lk"><img src="${I('locked_3d')}"></div></div>
+  <div class="nd pool" id="nP"><img src="${I('water_wave_3d')}"><b>the pool</b><u>USDT</u></div>
+  <div class="nd" id="nB"><img src="${I('man_technologist_3d_default')}"><b>Mr B</b><u id="ub">spare cash</u></div>
+  <div class="pipe" id="p1"></div><div class="pipe" id="p2"></div>${Array.from({ length: 12 }, (_, i) => `<i class="dot" id="dt${i}"></i>`).join('')}</div>`, { y: 60 })
+const CASH = [[269, '$10,000'], [274, '$15,000']].map(([w, s], i) => item(wt(w) - .1, wt(285) - .2, `<div class="chip" style="height:80px;line-height:78px;font-size:38px"><b style="color:var(--green)">${s}</b> spare</div>`, { x: 600 + i * 0, y: 520 + i * 100 }))
+
+// 9. Mr B's side: what he earns; the real pool page
+const S9a = wt(330) - .45, S9 = wt(357) - .5
+item(wt(319) - .33, S9a, `<div class="card" style="width:auto;padding:26px 40px;display:flex;align-items:center;gap:26px"><img src="${I('man_technologist_3d_default')}" style="width:150px;height:150px"><div><div class="h" style="margin:0">Mr B's side</div><div style="font-family:Anton;font-weight:400;font-size:84px;line-height:92px">HE EARNS <span style="color:var(--blue)">APY</span></div><div style="font-size:30px;font-weight:600;color:var(--mute)">the interest Mr A pays, from the loans</div></div></div>`, { y: 160 })
+item(S9a + .12, S9, SHOT(SH('lend-usdt'), 860, `RNT Lend · USDT pool · ${R.at}`, `<div class="hl" id="h9" style="left:${(458 * 860 / 808 - 10).toFixed(0)}px;top:${(96 * 860 / 808 - 8).toFixed(0)}px;width:${(70 * 860 / 808 + 20).toFixed(0)}px;height:${(56 * 860 / 808 + 16).toFixed(0)}px"></div>`), { y: 46 })
+
+// 10. what that means for $10,000
+const S10 = wt(372) - .5
+item(wt(357) - .33, S10, `<div class="card" style="width:auto;padding:26px 44px 22px;text-align:center"><div class="h" style="text-align:center">Mr B supplies $10,000</div>
+  <div style="display:flex;align-items:center;justify-content:center;gap:24px"><img src="${I('coin_3d')}" style="width:120px;height:120px"><b id="yr" style="font-family:Anton;font-weight:400;font-size:150px;line-height:156px;color:var(--green)">$0</b></div>
+  <div style="font-size:32px;font-weight:600">in a year, at today's ${R.supply_apy}%</div><div class="src" style="text-align:center">if the rate stayed where it is today · RNT Lend, ${R.at}</div></div>`, { y: 150 })
+
+// 11. the real market
+const S11 = wt(389) - .4
+item(wt(372) - .33, S11, SHOT(SH('lend-home'), 640, 'RNT Lend, the real market · 13 Nov 2026', `<div class="hl" id="h11" style="left:${(66 * 640 / 760).toFixed(0)}px;top:${(62 * 640 / 760).toFixed(0)}px;width:${(420 * 640 / 760).toFixed(0)}px;height:${(176 * 640 / 760).toFixed(0)}px"></div>`), { y: 40 })
+
+// 12. the close: the name behind the head again, and the follow
+item(wt(389) - .1, P.end + .3, `<div class="bt" style="font-size:330px">RNT</div><div class="bt" style="font-size:150px;margin-top:2px"><b>PROTOCOL</b></div>`, { y: 470, bk: 1 })
+item(wt(389) + .05, P.end + .3, `<div class="pill" style="height:96px;padding:0 30px;background:#0B1F4D;color:#fff;font-size:40px"><img src="img/logo/rnt.svg" style="height:52px;margin-right:22px">the DeFi of rentals</div>`, { y: 120 })
+const fol = item(wt(405) - .5, P.end + .2, `<div id="fol">@i_am_vickyd<div id="fbt">Follow</div><svg id="cur" viewBox="0 0 24 24"><path d="M4 2l15 9-6.5 1.6L16 20l-3 1.4-3.4-7.3L5 18z" fill="#fff" stroke="#0A1A44" stroke-width="1.6" stroke-linejoin="round"/></svg></div>`, { y: 270 })
+$('e0').textContent = 'Borrow up to 75% against a property token'; $('e1').textContent = 'At 80%: sold, with a 10% penalty'
+$('e2').textContent = `Lenders earn ${R.supply_apy}% today (USDT)`; $('e3').textContent = '$31.24M market on RNT Lend'
+$('eat').textContent = R.at
+
+let lastCap = -1, lastBig = -1, lastRl = ''
+window.render = t => {
+  SIG = []
+  const FRONT = LAYER !== 'behind', BACK = LAYER !== 'front'
+  for (const it of ITEMS) {
+    if (it.bk ? !BACK : !FRONT) continue
+    const on = t >= it.a - .01 && t < it.b + .25, k0 = it.a <= 0 ? 1 : 0
+    if (it.bk) { const k = Math.max(k0, eo(seg(t, it.a, .4))), o = eio(seg(t, it.b, .24))                 // behind the head: it rises from behind the shoulders
+      st(it.el, { opacity: on ? cl(k * 2) * (1 - o) : 0, transform: `translateY(${((1 - k) * 120 + o * 110).toFixed(1)}px) scale(${(.9 + .1 * k).toFixed(4)}) rotate(${it.rot}deg)` })
+    } else { const k = Math.max(k0, eo(seg(t, it.a, .26))), o = seg(t, it.b, .16), bk = Math.max(k0, back(seg(t, it.a, .34)))   // in front: it pops in on the word and lifts away
+      st(it.el, { opacity: on ? cl(k * 1.7) * (1 - o) : 0, transform: `translateY(${((1 - k) * 26 - o * 20).toFixed(1)}px) scale(${((.62 + .38 * bk) * (1 - .1 * o)).toFixed(4)}) rotate(${it.rot}deg)` }) }
+  }
+  if (!FRONT) return SIG.join('|')
+  // 1. the cast chips
+  pop($('ca'), t, wt(26) + .05); pop($('cb'), t, wt(26) + .35)
+  // 3. Mr A's token arrives on "$10,000", its label on "token", the house bounces on "house"
+  pop($('tk3'), t, wt(103) - .1); st($('tl3'), { opacity: seg(t, wt(110) - .1, .25) })
+  { const k = seg(t, wt(116) - .05, .5); st($('c3').firstChild, { transform: `translateY(${(-26 * Math.sin(Math.PI * k)).toFixed(1)}px)` }) }
+  // 4-6. the meter
+  if (t > LA - .3 && t < S6 + .4) {
+    const f75 = .75 * eo(seg(t, wt(154) - .1, .8)), crawl = .03 * seg(t, wt(178), wt(204) - wt(178) - .4), f80 = .02 * eo(seg(t, wt(204) - .3, .4)), f = f75 + (f75 >= .749 ? crawl + f80 : 0)
+    st($('mf'), { transform: `scaleX(${f.toFixed(4)})`, background: f >= .799 ? 'var(--red)' : 'var(--blue)' })
+    st($('mv'), { opacity: seg(t, wt(154) - .1, .3), left: (Math.max(f, .08) * 860 - 300).toFixed(0) + 'px', color: f >= .799 ? 'var(--red)' : 'var(--ink)' })
+    const dv = f >= .799 ? '$8,000' : '$' + (7500 + Math.round((f - .75) * 10000)).toLocaleString('en-US'); if (t >= wt(154) && $('mv').textContent !== dv) $('mv').textContent = dv
+    st($('m75'), { opacity: seg(t, wt(160) - .1, .3) }); st($('m80'), { opacity: seg(t, wt(189) - .1, .3) })
+    st($('ir'), { opacity: seg(t, wt(178) - .1, .3) * (1 - seg(t, wt(204) - .2, .3)) })
+    st($('sd'), { opacity: seg(t, wt(204) + .3, .3) })
+    const go = eio(seg(t, wt(208) - .05, .9)); st($('tk6'), { transform: `translateX(${(go * 36).toFixed(1)}px)`, opacity: 1 - .5 * go })
+    st($('a6'), { opacity: seg(t, wt(208), .3) }); st($('mk6'), { opacity: seg(t, wt(213) - .2, .3) }); pop($('pn'), t, wt(223) - .1)
+    SIG.push(f.toFixed(4), dv) }
+  { const p = Math.sin(t * 14); if (t > wt(204) - .1 && t < wt(208) + .9) st(SIREN.el.firstChild, { transform: `rotate(${(p * 6).toFixed(1)}deg)` }) }
+  // 7. the three boxes on the real page, on their words
+  ;[[239, 244], [244, 249], [249, 256]].forEach(([a, b], i) => st($('h7' + i), { opacity: seg(t, wt(a) - .12, .2) * (1 - seg(t, wt(b) - .1, .2) * (i < 2 ? .7 : 0)) }))
+  // 8. the flow: Mr B arrives on "Mr B", cash on its words; on "supplier" dots run from Mr B to the pool, on "for Mr A" from the pool to Mr A
+  if (t > wt(256) - .5 && t < S8 + .4) {
+    st($('nA'), { opacity: seg(t, wt(256) - .2, .3) }); st($('nP'), { opacity: seg(t, wt(285) - .2, .3) }); pop($('nB'), t, wt(262) - .1)
+    st($('p1'), { opacity: seg(t, wt(290) - .2, .3) }); st($('p2'), { opacity: seg(t, wt(291) - .1, .3) }); pop($('lk'), t, wt(291) + .3)
+    for (let i = 0; i < 12; i++) { const leg = i < 6 ? 1 : 2, a = (leg === 1 ? wt(290) - .1 : wt(291)) + (i % 6) * .22, u = ((t - a) / 1.1) % 1, on = t > a
+      const x = leg === 1 ? 820 - u * 290 : 470 - u * 300; st($('dt' + i), { opacity: on ? Math.sin(Math.PI * cl(u)) : 0, transform: `translate(${x.toFixed(1)}px,${(150 + Math.sin(u * Math.PI) * -18).toFixed(1)}px)` }) }
+    const ub = t >= wt(290) - .1 ? 'supplier' : 'spare cash'; if ($('ub').textContent !== ub) $('ub').textContent = ub; SIG.push(ub) }
+  // 9. the APY ring on the real page
+  st($('h9'), { opacity: seg(t, wt(344) - .15, .2) })
+  // 10. the year's earnings count up
+  { const k = eo(seg(t, wt(363) - .1, 1.4)); $('yr').textContent = '$' + Math.round(k * R.year_10000).toLocaleString('en-US'); SIG.push(Math.round(k * 200)) }
+  // 11. the market's numbers ring
+  st($('h11'), { opacity: seg(t, wt(384) - .1, .25) })
+  { const p = wt(408) - .05, m = eio(seg(t, p - .5, .45)), d = seg(t, p, .08)                                        // the cursor comes in and clicks on "Peace"
+    const bx = $('fbt').offsetLeft + 214                                                                             // the cursor lands on the button, wherever the handle's length puts it
+    st($('cur'), { opacity: seg(t, p - .5, .12), transform: `translate(${(bx + 150 - m * 150).toFixed(1)}px,${(150 - m * 96).toFixed(1)}px) scale(${(1 - .16 * (d - seg(t, p + .1, .1))).toFixed(3)})` })
+    const f = $('fbt'), want = t >= p + .04 ? 'Following ✓' : 'Follow'; if (f.textContent !== want) f.textContent = want
+    st(f, { background: t >= p + .04 ? '#1F5FDB' : '#0B1F4D', transform: `scale(${(1 + .08 * (seg(t, p + .04, .1) - seg(t, p + .16, .18))).toFixed(4)})` }); SIG.push(want) }
+  // ---- captions, word by word; the key phrase big under them
+  let ch = null; for (const x of CHUNKS) if (t >= x.t0 && t < x.t1) ch = x
+  const cap = $('cap')
+  if (ch && !NOTEXT) {
+    const id = CHUNKS.indexOf(ch); if (id !== lastCap) { cap.innerHTML = capHtml(ch.ch); lastCap = id }
+    ch.ch.forEach((k, i) => st(cap.children[i], { opacity: t >= k.t - .05 ? 1 : .42 }))
+    const a = eo(seg(t, ch.t0, .1)); st(cap, { opacity: a, transform: `translateY(${((1 - a) * 8).toFixed(1)}px)` }); SIG.push(id)
+  } else st(cap, { opacity: 0 })
+  const nxt = c => CAPS[c.ci + 1] ? CAPS[c.ci + 1].o0 : 1e9
+  let bg = null; for (const c of CAPS) if (c.big && t >= Math.max(c.big.t, c.o0) - .06 && t < Math.min(c.o1 + .3, nxt(c))) bg = c
+  const big = $('big')
+  if (bg && !bg.small.length) st(cap, { opacity: 0 })                                              // a big phrase on its own: the small line before it has gone
+  if (bg && !NOTEXT) { if (bg.ci !== lastBig) { big.innerHTML = '<span>' + bg.big.text + '</span>'; lastBig = bg.ci; big.style.fontSize = '108px'; const w = big.firstChild.offsetWidth; if (w > 1000) big.style.fontSize = Math.floor(108 * 1000 / w) + 'px' }     // a long phrase is set smaller, never cut off
+    const a = seg(t, bg.big.t - .06, .3), o = seg(t, Math.min(bg.o1 + .16, nxt(bg) - .14), .12)
+    st(big, { opacity: cl(a * 3) * (1 - o), transform: `scale(${(.7 + .3 * back(a)).toFixed(4)})`, top: (bg.small.length ? 1776 : 1712) + 'px' }); SIG.push(bg.ci)
+  } else st(big, { opacity: 0 })
+  // ---- end card
+  { const a = eo(seg(t, P.end - .05, .5)); st($('end'), { opacity: a > 0 ? 1 : 0, transform: `translateY(${((1 - a) * 1920).toFixed(1)}px)` })
+    const e0 = P.end + .35
+    st($('eh'), { opacity: seg(t, e0, .3), transform: `scale(${(.9 + .1 * back(seg(t, e0, .45))).toFixed(4)})` }); st($('etag'), { opacity: seg(t, e0 + .3, .3) })
+    for (let i = 0; i < 4; i++) { const k = eo(seg(t, e0 + .6 + i * .12, .32)); st($('e' + i), { opacity: cl(k * 1.6), transform: `scale(${(.86 + .14 * back(seg(t, e0 + .6 + i * .12, .32))).toFixed(4)})` }) }
+    st($('eget'), { opacity: seg(t, e0 + 1.2, .3) }); st($('eby'), { opacity: seg(t, e0 + 1.45, .3) }); st($('erisk'), { opacity: seg(t, e0 + 1.65, .3) }) }
+  return SIG.join('|')
+}
+window.READY = Promise.all([document.fonts.ready, ...[...document.images].map(i => i.decode().catch(() => 0))]).then(() => document.fonts.load('800 40px Manrope')).then(() => document.fonts.load('600 22px Manrope')).then(() => document.fonts.load('106px Anton')).then(() => document.fonts.load('700 24px Mono'))
+</script>
+</body></html>

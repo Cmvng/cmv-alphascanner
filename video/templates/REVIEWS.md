@@ -28,6 +28,35 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
+## 13 Nov: the owner's recording, "RNT Protocol explained" (2:00, 9:16, their picture and sound untouched)
+
+The brief: "I want to create a video explaining that project Rnt protocol..... Do an extensive research and make sure
+the video is 10/10". Template: `video/templates/talking-head/camera-rnt-protocol-2026-11-13/`.
+
+- **What worked:**
+  - Measured against the raw: 30 frames a second kept, face detail lowest 94%, colour shift at most 0.4, voice range
+    5.5 against 5.5 LU; gate 0 FAIL, 0 WARN; −19.8 LUFS with the music 15 dB under the voice.
+  - Each number the owner says was checked on RNT Lend's own pages and ringed there on their word; the rates came from
+    the same public API the site uses. All their numbers were right; "fixed APY" (it is variable) went to the message.
+  - The cut took out a false start, a repeated "here is the catch" and a slip ("for Mr A to borrow from" where he
+    meant Mr B), only at real silences: 2:32 to 2:00, under X's limit.
+  - Cards timed from their first line in code from the start (the 13 Nov Bitcoin lesson): no empty cards this time.
+- **Mistakes, and how they were caught (before sending):**
+  1. **The outline was made for the wrong frames.** The spans were given in source time; `matte60.py` takes
+     finished-video time. Caught by the frame count (382 instead of 608).
+  2. **The meter card's labels overlapped,** the interest line wrapped, the footnote ran off the card, the −10% chip
+     sat on the coin. Caught on the stills pass, laid out again with fixed positions.
+  3. **Real screens too small to read** at 760 wide after a 1280 capture. Captured again at a 760 viewport.
+  4. **A token price in the notes ($110.63) differed from the screen shown ($110.61).** Caught while writing the
+     README; the post kit and sources now match the screen.
+- **Change next time:**
+  - Give `matte60.py` spans from the finished timeline (read them off `segs.json`), never from the raw.
+  - Capture a real screen at the width it will be shown at, before laying out the card round it.
+  - Read every number in the post kit off the screen that is in the video.
+- **The owner's reaction:** (to be added)
+
+---
+
 ## 13 Nov: the owner's recording, "Bitcoin after the Binance hack" (2:58, 9:16, their picture and sound untouched)
 
 The brief: "attach real chart, show the current price. Make sure it's well highlighted about everything I say...

@@ -59,6 +59,7 @@ The owner's own picture and sound go into the final video untouched (`render_raw
 ## The ledger: what each of the owner's recordings used (newest first)
 | Date | Video | Main moves | Verdict |
 |---|---|---|---|
+| 13 Nov | "RNT Protocol explained" | the title behind the head with the cast chips (S1, S3, S4); his example acted out with 3D tiles and a coin (S1, S2); a loan meter that fills, crawls, turns red and sells the token (S1, S3); the real app pages with each number ringed on its word (S3); a flow from Mr B through the pool to Mr A (S1, S2); a count-up of a year's interest (S3, S4); captions, follow click (S2) | sent 13 Nov, waiting |
 | 13 Nov | "Bitcoin after the Binance hack" | the real chart drawing itself behind the head + a live price pill (S1, S3); candles that print on the words (S3); cards with sources (S3); money bundles that freeze on the owner's sums (S1); both hacks on one chart with the owner's scenario dashed (S3); a Fear & Greed gauge (S3); BEARISH stamps, closing words behind the head, follow click (S2, S4) | sent 13 Nov, waiting |
 | 12 Nov | "Meme coins have served its purpose" | claim behind the head with a date chip (S1, S3); data cards with sources that build with the voice (S3); REWIND, real logo cards, a real chart (S3); the rat race row (S1); hold then a flood behind the head (S4, S1); the Elon test as steps that light on his words, then bars to scale (S1, S3); a big word behind the head (S4); captions, stamp, follow click (S2) | sent 12 Nov, waiting |
 | 11 Nov | Primus "groundnut test", 5th version | the 4th version's moves, on the owner's untouched picture (60 fps, one encode) and untouched voice; chips and logo plate moved clear of the head | "why didn't you do it like this one you just sent me now?" (11 Nov): this is the way to edit their recordings |
@@ -68,8 +69,9 @@ The owner's own picture and sound go into the final video untouched (`render_raw
 | 11 Nov | same, 1st version | cut-out on a studio backdrop, panel with the camera pushed down | REJECTED: "the worst video ever"; "You cut what I'm actually trying to show" |
 | 10 Nov | Bagel and the international break | studio look, cards above the head, real app screens | soundtrack rejected ("weird soundtrack"); "too many errors" |
 
-**For the next recording:** the main moves must differ from the 13 Nov video (price pill, candles printing on the
-words, bundles, the overlay with a scenario line, the gauge, stamps) and the 12 Nov one below (cards with sources, REWIND and a
-chart, the rat race row, the flood, bars to scale). Not yet used on a recording: a full-screen data room (S3), real
+**For the next recording:** the main moves must differ from the 13 Nov RNT video (the loan meter, the flow through a
+pool, cast tiles and a coin, real pages ringed on the words, a count-up), the 13 Nov Bitcoin video (price pill, candles
+printing on the words, bundles, the overlay with a scenario line, the gauge, stamps) and the 12 Nov one below (cards
+with sources, REWIND and a chart, the rat race row, the flood, bars to scale). Not yet used on a recording: a full-screen data room (S3), real
 screenshots on a timeline (S3), the giant word laid out round the head with a hand passing in front (S4), a split
 with the page above (only if it is not the rejected panel layout), the owner's own post cards stacking in (S2).

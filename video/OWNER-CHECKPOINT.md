@@ -195,6 +195,11 @@ has not been said: ask once when the next one comes up.)
   never a forecast of ours. Reference: `video/templates/talking-head/camera-btc-binance-2026-11-13/`.
 - **A project (Bagel, Primus Labs, Gamdom…):** its own screens, logo, art and colours. On a crypto video the coin
   itself is the showcase: live price, change and candles.
+  13 Nov, on a recording explaining RNT Protocol with their own Mr A / Mr B example: "Do an extensive research and
+  make sure the video is 10/10". So: their example acted out step by step in the order they tell it, and every number
+  they say checked on the project's own app and ringed there on their word (real pages, dated; rates from the public
+  API the site itself uses); what could not be checked (audits, who holds the token) goes in the message, not on
+  screen. Reference: `video/templates/talking-head/camera-rnt-protocol-2026-11-13/`.
 - **Art (@i_am_vickyd):** their footage and templates as sent, their music, a clean story. 22 Oct: "You only tell the
   story with the templates."
 - **Picks and Polymarket plays:** a straight conversion of the app's picks, nothing added or dropped. Never "sure",
