@@ -200,6 +200,11 @@ has not been said: ask once when the next one comes up.)
   they say checked on the project's own app and ringed there on their word (real pages, dated; rates from the public
   API the site itself uses); what could not be checked (audits, who holds the token) goes in the message, not on
   screen. Reference: `video/templates/talking-head/camera-rnt-protocol-2026-11-13/`.
+- **Their own story, told with their own posts:** 13 Nov, on a recording about one of their flops with nine
+  screenshots of their posts on X: "the pictures are what are the things I was talking about... it's just me talking
+  about my flops". So: their posts, whole, arrive on the words that name them (all of them on a dated timeline; the one
+  they quote pushed in on its line); every number is their own word and labelled as theirs; what could not be checked
+  goes in the message. Reference: `video/templates/talking-head/camera-flop-xo-2026-11-13/`.
 - **Art (@i_am_vickyd):** their footage and templates as sent, their music, a clean story. 22 Oct: "You only tell the
   story with the templates."
 - **Picks and Polymarket plays:** a straight conversion of the app's picks, nothing added or dropped. Never "sure",

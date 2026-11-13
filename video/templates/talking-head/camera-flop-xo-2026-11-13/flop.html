@@ -1,0 +1,386 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>One of my flops (the owner's 13 Nov recording): graphics above and behind the owner</title>
+<style>
+@font-face{font-family:Anton;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/anton-latin-400-normal.woff2)}
+@font-face{font-family:Manrope;font-weight:600;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-600-normal.woff2)}
+@font-face{font-family:Manrope;font-weight:800;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-800-normal.woff2)}
+@font-face{font-family:Mono;font-weight:700;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/jetbrains-mono-latin-700-normal.woff2)}
+/* The owner tells one of their flops, on their untouched picture and sound: about eight posts for XO Market's campaign
+   on Kaito that did not make the top 50 of 851 creators; the Limitless ambassador badge they lost over the first of
+   those videos; $50 for three months of Limitless ambassador posts; "chin up, you cannot be unlucky for 365 days".
+   The owner: "the pictures are what are the things I was talking about... it's just me talking about my flops".
+   Moves, and the sample each comes from (video/templates/STYLE-LIBRARY.md):
+     - giant type BEHIND the head: FLOPS, BREAKTHROUGH, 365 DAYS (S1, S3, S4);
+     - their own posts, whole, stacking in on a 24 Sep to 19 Oct timeline (S2 their post cards, S3 screenshots on a
+       timeline); the first one pushed in on "my first ever approach";
+     - objects acting the words: the posts drop into a dustbin and come back out; the Limitless badge falls (S1);
+     - stamps: DID NOT COUNT, NEVER AGAIN (S2);
+     - 851 dots in rows of 50, the top row lit for "top 50" (S3, a data card that builds with the voice);
+     - a checklist that never ticks: what getting the badge back would take (S1);
+     - an icon over the head on the word: shrug, swearing face, see-no-evil monkey, heart (S2);
+     - a giant number: $50 (S4); word-by-word captions with big key phrases, the follow click (S2).
+   This recording frames the owner high: the top of the head sits about y 580, so every card lives in the ceiling
+   above it (y 30 to 545) and the captions sit on the shirt (y 1700). Two layers: #bk is drawn behind the owner (the
+   renderer hides it wherever the owner's outline is, made only for 0-6.4 s, 151.9-157.3 s and 169.8-173.6 s);
+   everything else is in front, clear of the head. Posts: the owner's own screenshots, whole. Logos: XO Market's and
+   Limitless's own (their websites). Icons: Microsoft's Fluent Emoji 3D (MIT licence), never over 256 px. */
+:root{--ink:#0B1F4D;--deep:#0A1A44;--blue:#1F5FDB;--sky:#7CC4FF;--mute:#6B7A99;--line:#E3E9F4;--red:#E5484D;--green:#12A150;--lime:#C3FF00;--pink:#FF8FB8}
+*{box-sizing:border-box}
+html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:transparent;font-family:Manrope,sans-serif;font-weight:800;color:#fff}
+.abs{position:absolute}
+.mono{font-family:Mono,monospace;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
+.it{position:absolute;left:0;top:0;width:1080px;display:flex;flex-direction:column;align-items:center;opacity:0;transform-origin:50% 60%}
+.icw{position:relative;display:flex;align-items:center;justify-content:center;gap:34px}
+.ic{position:relative;width:200px;height:200px}
+.ic img{width:200px;height:200px;display:block;filter:drop-shadow(0 16px 22px rgba(4,10,36,.45))}
+.lb{margin-top:10px;font-size:42px;line-height:52px;letter-spacing:-.005em;white-space:nowrap;-webkit-text-stroke:8px var(--deep);paint-order:stroke fill;text-shadow:0 6px 16px rgba(4,10,36,.5)}
+.lb b{color:var(--sky);font-weight:800}
+.pill{display:flex;align-items:center;height:104px;padding:0 16px 0 34px;border-radius:52px;background:#0B1F4D;box-shadow:0 18px 40px rgba(4,10,36,.45);font-size:40px;white-space:nowrap}
+.pill span{margin-left:22px;height:70px;padding:0 26px;border-radius:35px;background:var(--blue);color:#fff;font-size:34px;line-height:70px}
+.chip{height:92px;padding:0 34px;border-radius:46px;font-size:40px;line-height:90px;white-space:nowrap;background:#fff;color:var(--ink);box-shadow:0 16px 34px rgba(4,10,36,.42);display:flex;align-items:center;gap:14px}
+.chip b{font-weight:800;color:var(--blue)}
+.chip img{width:64px;height:64px;display:block}
+.chips{display:flex;gap:20px;align-items:center}
+.stamp{font-family:Anton,sans-serif;font-weight:400;font-size:104px;line-height:1;letter-spacing:.03em;white-space:nowrap;padding:22px 40px 18px;border-radius:22px;border:10px solid currentColor;background:rgba(255,255,255,.95);box-shadow:0 18px 40px rgba(4,10,36,.45);color:var(--red)}
+.bt{font-family:Anton,sans-serif;font-weight:400;line-height:.92;letter-spacing:.01em;white-space:nowrap;color:#fff;-webkit-text-stroke:12px var(--deep);paint-order:stroke fill;text-shadow:0 12px 26px rgba(4,10,36,.45)}
+.bt b{font-weight:400;color:var(--sky)}
+.card{width:940px;border-radius:40px;background:rgba(255,255,255,.96);box-shadow:0 22px 50px rgba(4,10,36,.5);color:var(--ink);padding:24px 36px 20px;text-align:left}
+.card .h{font-family:Mono,monospace;font-weight:700;font-size:25px;line-height:34px;letter-spacing:.11em;text-transform:uppercase;color:var(--blue);white-space:nowrap;display:flex;justify-content:space-between;align-items:center}
+.card .src{font-family:Mono,monospace;font-weight:700;font-size:19px;line-height:26px;letter-spacing:.03em;color:var(--mute);margin-top:10px;white-space:nowrap}
+.plate{height:150px;padding:0 44px;border-radius:40px;background:#fff;box-shadow:0 18px 40px rgba(4,10,36,.45);display:flex;align-items:center}
+.plate img{height:96px;display:block}
+/* the owner's posts: their own screenshots, whole */
+.shot{position:relative;border-radius:20px;overflow:hidden;background:#000;box-shadow:0 22px 50px rgba(4,10,36,.5)}
+.shot>img{position:absolute;left:0;top:0;display:block}
+.lab{margin-top:14px;height:56px;padding:0 24px;border-radius:28px;background:#fff;color:var(--ink);font-family:Mono,monospace;font-weight:700;font-size:23px;line-height:56px;letter-spacing:.05em;white-space:nowrap;box-shadow:0 12px 26px rgba(4,10,36,.35)}
+.lab b{color:var(--blue)}
+.hl{position:absolute;border:6px solid var(--sky);border-radius:14px;box-shadow:0 0 0 6px rgba(124,196,255,.25);opacity:0}
+#prow{position:relative;width:1080px;height:470px}
+.pst{position:absolute;top:0;height:380px;border-radius:12px;overflow:hidden;background:#000;box-shadow:0 14px 30px rgba(4,10,36,.5);opacity:0}
+.pst img{display:block;width:100%;height:100%}
+#tline{position:absolute;left:40px;right:40px;top:404px;height:6px;border-radius:3px;background:rgba(255,255,255,.92);box-shadow:0 4px 10px rgba(4,10,36,.4);transform-origin:0 50%;opacity:0}
+.tdot{position:absolute;top:398px;width:18px;height:18px;margin-left:-9px;border-radius:9px;background:var(--sky);box-shadow:0 0 0 4px rgba(124,196,255,.35);opacity:0}
+.tdate{position:absolute;top:426px;font-family:Mono,monospace;font-weight:700;font-size:26px;letter-spacing:.06em;white-space:nowrap;-webkit-text-stroke:6px var(--deep);paint-order:stroke fill;opacity:0}
+/* the leaderboard: 851 dots in rows of 50 */
+#dots{display:grid;grid-template-columns:repeat(50,11px);gap:4px;margin-top:6px}
+#dots i{display:block;width:11px;height:11px;border-radius:3px;background:#D5DDEB;opacity:0}
+#dots i.top{background:var(--blue)}
+.dl{display:flex;align-items:center;gap:12px;font-family:Mono,monospace;font-weight:700;font-size:22px;letter-spacing:.06em;color:var(--blue);height:30px;margin-top:6px;opacity:0}
+.dl i{display:block;width:150px;height:4px;border-radius:2px;background:var(--blue)}
+#n851{font-family:Anton,sans-serif;font-weight:400;font-size:46px;line-height:40px;letter-spacing:0;color:var(--ink);text-transform:none}
+#n851 u{text-decoration:none;font-family:Mono,monospace;font-weight:700;font-size:21px;letter-spacing:.08em;color:var(--mute);margin-left:8px}
+/* the badge */
+.badge{display:flex;flex-direction:column;align-items:center}
+.badge img{width:190px;height:190px;display:block;border-radius:44px;box-shadow:0 18px 40px rgba(4,10,36,.45)}
+.ghost{position:absolute;left:0;top:0;width:190px;height:190px;border-radius:44px;border:6px dashed rgba(255,255,255,.9);opacity:0}
+.gone{margin-top:16px;height:60px;padding:0 24px;border-radius:30px;background:var(--red);color:#fff;font-family:Anton,sans-serif;font-weight:400;font-size:38px;line-height:62px;white-space:nowrap;opacity:0}
+/* Limitless to XO */
+.told{position:relative;height:250px;margin-top:12px}
+.tile{position:absolute;top:0;width:250px;height:200px;border-radius:34px;display:flex;align-items:center;justify-content:center;box-shadow:0 14px 30px rgba(4,10,36,.25)}
+.tile img{display:block}
+.tile u{position:absolute;left:-20px;right:-20px;top:212px;text-align:center;text-decoration:none;font-weight:600;font-size:22px;line-height:32px;color:var(--mute);white-space:nowrap}
+#tL{left:40px;background:#0B0B0B}#tX{right:40px;background:#fff;border:2px solid var(--line);opacity:0}
+.chev{position:absolute;top:66px;left:316px;width:188px;height:68px;overflow:hidden;opacity:0}
+.chev i{position:absolute;top:0;font-style:normal;font-family:Anton,sans-serif;font-weight:400;font-size:70px;line-height:68px;color:var(--blue)}
+.tlab{position:absolute;top:150px;left:316px;width:188px;text-align:center;font-family:Mono,monospace;font-weight:700;font-size:22px;letter-spacing:.08em;color:var(--blue);opacity:0}
+/* the checklist that never ticks */
+.ck{display:flex;align-items:center;height:118px;opacity:0}
+.ck .bx{flex:none;width:64px;height:64px;border-radius:14px;border:6px solid var(--ink);margin-right:24px}
+.ck .t{font-size:40px;line-height:46px;white-space:nowrap}
+.ck .t b{color:var(--blue)}
+.ppl{display:flex;gap:2px;margin-left:16px}
+.ppl img{width:42px;height:42px;display:block;opacity:0}
+.amt{margin-left:18px;height:74px;padding:0 24px;border-radius:37px;background:var(--blue);color:#fff;font-family:Anton,sans-serif;font-weight:400;font-size:50px;line-height:78px;opacity:0}
+.lockw{display:flex;align-items:center;gap:6px}
+.lockw img{width:70px;height:70px;display:block}
+.lockw img.lm{width:58px;height:58px;border-radius:14px}
+/* $50 */
+.fifty{display:flex;align-items:center;gap:26px}
+.fifty b{font-family:Anton,sans-serif;font-weight:400;font-size:230px;line-height:220px;color:var(--ink)}
+.fifty img{width:170px;height:170px}
+.wd{font-family:Anton,sans-serif;font-weight:400;font-size:74px;line-height:1;letter-spacing:.02em;white-space:nowrap;padding:16px 36px 12px;border-radius:24px;background:#fff;color:var(--ink);box-shadow:0 16px 34px rgba(4,10,36,.42)}
+/* the follow pill: ours, not a copy of any app's button */
+#fol{display:flex;align-items:center;height:112px;padding:0 14px 0 40px;border-radius:56px;background:#fff;color:var(--ink);font-size:46px;box-shadow:0 18px 40px rgba(4,10,36,.5);position:relative}
+#fbt{margin-left:26px;height:84px;width:290px;border-radius:42px;background:var(--ink);color:#fff;font-size:38px;line-height:82px;text-align:center}
+#cur{position:absolute;left:0;top:0;width:54px;height:54px;opacity:0}
+/* ---- captions: word by word on the shirt; key phrases go big under them */
+#cap{position:absolute;left:0;top:1700px;width:1080px;text-align:center;font-size:56px;line-height:72px;letter-spacing:-.005em;white-space:nowrap}
+#cap span{display:inline-block;margin:0 .13em;-webkit-text-stroke:9px var(--deep);paint-order:stroke fill;text-shadow:0 6px 16px rgba(4,10,36,.5)}
+#cap span.k{color:var(--sky)}
+#big{position:absolute;left:0;top:1776px;width:1080px;text-align:center;font-size:108px;line-height:124px;letter-spacing:-.02em;white-space:nowrap;color:var(--sky);opacity:0;
+  -webkit-text-stroke:13px var(--deep);paint-order:stroke fill;text-shadow:0 10px 26px rgba(4,10,36,.55);transform-origin:50% 50%}
+/* ---- end card */
+#end{position:absolute;left:0;top:0;width:1080px;height:1920px;background:linear-gradient(180deg,#F4F8FF,#DCE9FF);opacity:0;color:var(--ink)}
+#end .c{position:absolute;left:0;width:1080px;text-align:center}
+.eh{font-family:Anton,sans-serif;font-weight:400;font-size:150px;line-height:1;color:var(--ink)}
+.ec{display:inline-block;height:72px;padding:0 30px;border-radius:36px;font-size:34px;line-height:70px;background:#fff;border:1.5px solid var(--line);margin:0 6px 14px;opacity:0;white-space:nowrap}
+/* ---- layers */
+#bk{position:absolute;inset:0}
+body.L-behind #top,body.L-behind #cap,body.L-behind #big,body.L-behind #end{display:none}
+body.L-front #bk{display:none}
+</style></head>
+<body>
+<div id="bk"></div>
+<div id="top"></div>
+<div id="cap"></div>
+<div id="big"></div>
+
+<div id="end">
+  <div class="c" style="top:470px"><div class="eh" id="eh" style="opacity:0">@i_am_vickyd</div></div>
+  <div class="c" id="etag" style="top:668px;font-size:44px;letter-spacing:-.01em;opacity:0;white-space:nowrap">One of my flops, and what it taught me</div>
+  <div class="c" style="top:820px;padding:0 50px"><span class="ec" id="e0"></span><span class="ec" id="e1"></span><span class="ec" id="e2"></span><span class="ec" id="e3"></span></div>
+  <div class="c mono" id="eget" style="top:1170px;font-size:27px;color:var(--blue);opacity:0">My own posts on X · 24 Sep to 5 Nov 2026</div>
+  <div class="c" id="eby" style="top:1270px;font-size:46px;opacity:0">Follow <span style="color:var(--blue)">@i_am_vickyd</span> on X</div>
+  <div class="c" id="erisk" style="top:1460px;font-size:34px;font-weight:600;color:var(--mute);opacity:0;padding:0 90px">Chin up: you cannot be unlucky for 365 days.</div>
+</div>
+
+<script src="plan.js"></script>
+<script src="tok.js"></script>
+<script>
+const P = window.PLAN, $ = id => document.getElementById(id)
+const cl = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x))
+const seg = (t, a, d) => cl((t - a) / d)
+const eo = x => 1 - Math.pow(1 - x, 3), eio = x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2
+const back = x => { const c = 1.9; return 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2) }
+let SIG = []
+const st = (el, o) => { for (const k in o) { const v = typeof o[k] === 'number' ? +o[k].toFixed(3) : o[k]; el.style[k] = v; SIG.push(v) } }
+const NOTEXT = location.hash.includes('notext')
+const LAYER = ['behind', 'front'].find(h => location.hash.includes(h)) || 'all'      // the renderer draws each layer on its own
+document.body.classList.add('L-' + LAYER)
+const I = n => `img/e/${n}.png`, PO = n => `img/posts/p${n}.png`
+const wt = i => P.wt[i], we = i => P.we[i]                                             // a spoken word's start and end in the finished video
+// ---- every caption word's time in the finished video comes from tokens.py (tok.js)
+const CAPS = P.caps.map((c, ci) => {
+  const toks = []; let em = false
+  for (const raw of c.t.split(' ')) {
+    let w = raw; const open = w.startsWith('*'); if (open) { em = true; w = w.slice(1) }
+    const close = w.replace(/[.,?!:]+$/, '').endsWith('*'); const k = em; if (close) { em = false; w = w.replace('*', '') }
+    toks.push({ w, k })
+  }
+  toks.forEach((k, i) => k.t = window.TOK[ci][i])
+  return { ...c, ci, toks }
+})
+// key phrases that go big: caption index -> the phrase (the owner's words)
+const BIG = { 3: 'big flops.', 8: 'top 50,', 16: '8 videos or 7,', 19: 'dustbin.', 23: '851 creators', 39: 'Limitless badge.', 60: 'too far invested', 68: '$50', 72: 'the hard way.' }
+const len = a => a.reduce((n, x) => n + x.w.length + 1, -1)
+for (const c of CAPS) {
+  const b = BIG[c.ci]; c.small = c.toks; c.chunks = []; let groups = [c.toks]
+  if (b) { const bw = b.split(' '), n = bw.length, i0 = c.toks.findIndex((k, i) => bw.every((w, j) => c.toks[i + j] && c.toks[i + j].w.replace(/[.,?!:]+$/, '') === w.replace(/[.,?!:]+$/, '')))
+    if (i0 >= 0) { c.big = { text: b, t: c.toks[i0].t }; groups = [c.toks.slice(0, i0), c.toks.slice(i0 + n)]; c.small = groups.flat() } else console.log('BIG PHRASE NOT FOUND', c.ci, b) }
+  for (const g of groups) {
+    const out = []; let cur = []
+    const flush = () => { if (cur.length) out.push(cur); cur = [] }
+    for (const k of g) {                                   // up to three words and about 17 letters a line; break after punctuation
+      if (cur.length && (cur.length >= 3 || len(cur) + 1 + k.w.length > 17)) flush()
+      cur.push(k); if (/[.,?!:]$/.test(k.w) && cur.length >= 2) flush()
+    }
+    flush()
+    const n = out.length
+    if (n > 1 && out[n - 1].length === 1 && len(out[n - 2]) + 1 + out[n - 1][0].w.length <= 19 && !/[.,?!:]$/.test(out[n - 2][out[n - 2].length - 1].w)) out.splice(n - 2, 2, [...out[n - 2], ...out[n - 1]])
+    c.chunks.push(...out)
+  }
+}
+let CHUNKS = []
+CAPS.forEach(c => c.chunks.forEach((ch, i) => CHUNKS.push({ c, ch, t0: i === 0 ? Math.min(ch[0].t, c.o0) : ch[0].t - .04 })))
+CHUNKS.forEach((x, i) => { const nx = CHUNKS[i + 1]; x.t1 = Math.min(nx ? nx.t0 : 1e9, (x.c.chunks[x.c.chunks.length - 1] === x.ch ? x.c.o1 + .3 : 1e9)) })
+const capHtml = ch => ch.map(k => `<span${k.k ? ' class="k"' : ''}>${k.w}</span>`).join('')
+
+// ---- things over and beside the head (in front), and behind it (bk)
+const TOP = $('top'), ITEMS = []
+function item(a, b, html, o = {}) {
+  const el = document.createElement('div'); el.className = 'it'; el.style.top = (o.y ?? 150) + 'px'; el.innerHTML = html; (o.bk ? $('bk') : TOP).appendChild(el)
+  if (o.x != null) { el.style.width = 'auto'; el.style.left = o.x + 'px' }
+  const it = { a, b, el, bk: !!o.bk, rot: o.rot || 0 }; ITEMS.push(it); return it
+}
+const ic = n => `<div class="ic"><img src="${I(n)}"></div>`
+const lb = s => `<div class="lb">${s}</div>`
+const one = (n, label) => `<div class="icw">${ic(n)}</div>${lb(label)}`
+const pop = (el, t, at, d = .3) => st(el, { opacity: seg(t, at, .1), transform: `scale(${(.6 + .4 * back(seg(t, at, d))).toFixed(4)})` })
+
+// 0. the hook: FLOPS behind the head, the handle above
+const S1 = wt(20) - .3
+item(0, S1, `<div class="bt" style="font-size:112px">ONE OF MY</div><div class="bt" style="font-size:330px;margin-top:2px"><b>FLOPS</b></div>`, { y: 200, bk: 1 })
+item(0, S1, `<div class="pill">@i_am_vickyd<span>a flop story · 13 Nov 2026</span></div>`, { y: 50 })
+
+// 1. a month ago: XO Market's campaign on Kaito, for the top 50
+const S2 = wt(54) - .3
+item(wt(24) - .15, S2, `<div class="chip"><img src="${I('spiral_calendar_3d')}">about <b>a month ago</b></div>`, { y: 60 })
+item(wt(35) - .12, S2, `<div class="plate"><img src="img/logo/xo_logo.svg"></div>`, { y: 190 })
+const K1 = item(wt(42) - .12, S2, `<div class="chips"><div class="chip" id="kai">on <b>Kaito</b></div><div class="chip" id="t50" style="opacity:0"><img src="${I('trophy_3d')}">for the <b>top 50</b></div></div>`, { y: 380 })
+
+// 2. "my first ever approach": their first XO post, whole, then pushed in on its first line
+const S3 = wt(87) - .35, PI1 = wt(60) - .25
+const P1W = 1196, P1H = 3108, CW = 940, CH = Math.round(400 * CW / P1W)
+item(S2, S3, `<div class="shot" id="p1s"><img src="${PO(1)}" id="p1i"><div class="hl" id="p1h"></div></div><div class="lab" id="p1l">my first XO post · <b>24 Sep 2026</b></div>`, { y: 46 })
+
+// 3-4, 7. the posts: they stack in on a timeline, drop into the dustbin, and come back out
+const POSTS = [[1, 3108, '24 Sep'], [2, 4396, '29 Sep'], [3, 4060, '1 Oct'], [4, 2724, '4 Oct'], [5, 2580, '12 Oct'], [6, 7200, '15 Oct'], [7, 5220, '17 Oct'], [8, 3548, '19 Oct']]
+const PH = 380, GAP = 8, PWS = POSTS.map(([, h]) => 1196 / h * PH), X0 = (1080 - PWS.reduce((a, b) => a + b, 0) - GAP * 7) / 2
+const PX = PWS.map((w, i) => X0 + PWS.slice(0, i).reduce((a, b) => a + b, 0) + GAP * i)
+const S7 = wt(208) - .25
+item(wt(87) - .3, S7, `<div id="prow">${POSTS.map(([n], i) => `<div class="pst" id="ps${i}" style="left:${PX[i].toFixed(1)}px;width:${PWS[i].toFixed(1)}px"><img src="${PO(n)}"></div>`).join('')}
+  <div id="tline"></div>${PX.map((x, i) => `<i class="tdot" id="td${i}" style="left:${(x + PWS[i] / 2).toFixed(1)}px"></i>`).join('')}
+  <div class="tdate" id="dA" style="left:40px">24 SEP 2026</div><div class="tdate" id="dB" style="right:40px">19 OCT</div></div>`, { y: 60 })
+const BIN_Y = 250, BIN_C = [540, BIN_Y + 115 - 60]                                        // the bin's centre, in the row's own coordinates
+const TA = i => wt(96) - .15 + i * .26, TB = i => wt(113) - .05 + i * .1, TC = i => wt(195) - .3 + i * .09
+item(wt(113) - .4, wt(121) - .3, `<img src="${I('wastebasket_3d')}" style="width:230px;height:230px;filter:drop-shadow(0 16px 22px rgba(4,10,36,.45))">`, { y: BIN_Y })
+item(wt(195) - .5, wt(195) + .95, `<img src="${I('wastebasket_3d')}" style="width:230px;height:230px;filter:drop-shadow(0 16px 22px rgba(4,10,36,.45))">`, { y: BIN_Y })
+item(wt(118) - .08, wt(121) - .2, `<div class="stamp">DID NOT COUNT</div>`, { y: 96, rot: -8 })
+item(wt(195) - .05, S7, `<div class="chip" style="height:76px;line-height:74px;font-size:34px"><img src="${I('video_camera_3d')}" style="width:56px;height:56px">it <b>pushed me</b> to start creating videos</div>`, { y: 462 })
+
+// 5. the leaderboard: 851 creators in rows of 50, the top row lit for "top 50"
+const S5 = wt(152) - .3
+item(wt(121) - .3, S5, `<div class="card" style="width:860px;padding:22px 34px 18px"><div class="h"><span>XO Market on Kaito</span><span id="n851">0<u>creators</u></span></div>
+  <div class="dl" id="dl"><span>top 50</span><i></i></div><div id="dots">${Array.from({ length: 851 }, (_, i) => `<i${i < 50 ? ' class="top"' : ''}></i>`).join('')}</div>
+  <div class="src">851 creators, top 50: as I saw them on the campaign's Kaito page</div></div>`, { y: 30 })
+item(wt(145) - .12, S5, `<div class="chip" style="height:76px;line-height:74px;font-size:34px"><img src="${I('cross_mark_3d')}" style="width:52px;height:52px"><b>@i_am_vickyd</b> not in the top 50</div>`, { y: 466 })
+
+// 6. "it is what it is", and the good side
+item(wt(153) - .12, wt(158) - .25, one('person_shrugging_3d_default', 'it is what it is'), { y: 190 })
+item(wt(160) - .12, wt(192) - .3, one('check_mark_button_3d', 'the <b>good side</b>'), { y: 190 })
+// 7. thoughts and opinions
+item(wt(214) - .12, wt(220) - .3, `<div class="icw">${ic('thought_balloon_3d')}${ic('speech_balloon_3d')}</div>${lb('my <b>thoughts</b> and my <b>opinions</b>')}`, { y: 150 })
+
+// 8. the first XO video cost the Limitless badge
+const S8 = wt(250) - .3, P1S = 400 * 1196 / 3108
+item(wt(225) - .2, S8, `<div class="shot" style="width:${P1S.toFixed(1)}px;height:400px"><img src="${PO(1)}" style="width:${P1S.toFixed(1)}px;height:400px"></div><div class="lab" style="font-size:20px;height:48px;line-height:48px">my first XO video</div>`, { x: 110, y: 50 })
+item(wt(239) - .3, S8, `<div class="badge"><div style="position:relative;width:190px;height:190px"><div class="ghost" id="bgh"></div><img src="img/logo/lim_icon.svg" id="bim"></div><div class="lb" id="blb" style="font-size:36px;line-height:44px">Limitless <b>badge</b></div><div class="gone" id="bgo">removed</div></div>`, { x: 600, y: 80 })
+
+// 9. the coordinator: "promoting another prediction market", "driving traffic from Limitless"
+const S9 = wt(266) - .3, S10 = wt(294) - .33
+item(wt(250) - .15, S9, one('speech_balloon_3d', 'messaged the <b>coordinator</b>'), { y: 170 })
+item(S9, S10, `<div class="card" style="width:900px;padding:24px 40px 22px"><div class="h"><span>what I was told</span></div>
+  <div class="told"><div class="tile" id="tL"><img src="img/logo/lim_icon.svg" style="width:150px;height:150px;border-radius:30px"><u style="color:var(--mute)">Limitless</u></div>
+  <div class="chev" id="chv">${Array.from({ length: 5 }, (_, i) => `<i id="cv${i}">›</i>`).join('')}</div><div class="tlab" id="tlb">traffic</div>
+  <div class="tile" id="tX"><img src="img/logo/xo_logo.svg" style="width:200px"><u>another prediction market</u></div></div></div>`, { y: 50 })
+
+// 10. what getting the badge back would take: a checklist that never ticks
+const S11 = wt(322) - .3
+item(S10, S11, `<div class="card" style="width:940px;padding:24px 38px 18px"><div class="h"><span>to get the badge back</span><span class="lockw"><img src="img/logo/lim_icon.svg" class="lm"><img src="${I('locked_3d')}" id="lk"></span></div>
+  <div class="ck" id="ck1"><div class="bx"></div><div class="t">refer <b>10 people</b></div><div class="ppl">${Array.from({ length: 10 }, (_, i) => `<img src="${I('bust_in_silhouette_3d')}" id="pp${i}">`).join('')}</div></div>
+  <div class="ck" id="ck2"><div class="bx"></div><div class="t">they trade as much as</div><div class="amt" id="amt">$200</div></div></div>`, { y: 60 })
+
+// 11-12. "what the f***", too far invested, "I also ignored the message"
+item(wt(334) - .12, wt(341) + .5, `<div class="icw">${ic('face_with_symbols_on_mouth_3d')}</div>`, { y: 220 })
+item(wt(370) - .15, wt(377) + .3, `<div class="chip"><img src="img/logo/lim_icon.svg" style="width:60px;height:60px;border-radius:14px">my <b>ambassador</b> rewards</div>`, { y: 220 })
+item(wt(390) - .15, wt(406) - .35, one('see-no-evil_monkey_3d', 'I <b>ignored</b> the message'), { y: 190 })
+
+// 13. the tweet, the $50, never again
+const S13 = wt(430) - .25, P9W = 960, P9H = Math.round(536 * P9W / 1196)
+item(wt(406) - .3, S13, `<div class="shot" style="width:${P9W}px;height:${P9H}px"><img src="${PO(9)}" style="width:${P9W}px;height:${P9H}px"></div><div class="lab">my post · <b>5 Nov 2026</b></div>`, { y: 40 })
+item(wt(430) - .15, wt(438) - .2, `<div class="card" style="width:auto;padding:14px 50px 24px;text-align:center"><div class="fifty"><img src="${I('money_with_wings_3d')}"><b>$50</b></div><div style="font-size:44px;line-height:52px">for <b style="color:var(--blue)">3+ months</b> of work</div></div>`, { y: 60 })
+item(wt(438) - .06, wt(441) + .8, `<div class="stamp">NEVER AGAIN</div>`, { y: 150, rot: -7 })
+
+// 14. the hard way; on to the next one
+item(wt(450) - .12, wt(459) - .25, one('hourglass_done_3d', 'learnt <b>the hard way</b>'), { y: 190 })
+const NX = item(wt(466) - .12, wt(471) - .2, `<div class="chip" id="nx">on to the <b>next one</b> →</div>`, { y: 260 })
+
+// 15. trying, pushing, trying... BREAKTHROUGH behind the head
+const TRY = [[474, 'TRYING'], [478, 'PUSHING'], [482, 'TRYING']]
+TRY.forEach(([w, s], i) => item(wt(w) - .1, wt(483) - .15, `<div class="wd">${s}</div>`, { y: 70 + i * 140, rot: [-3, 2, -2][i] }))
+const BRK = item(wt(483) - .1, 157.0, `<div class="bt" style="font-size:146px" id="brk"><b>BREAKTHROUGH</b></div>`, { y: 472, bk: 1 })
+
+// 16. for anyone who feels let down
+item(wt(514) - .12, wt(523) - .25, one('blue_heart_3d', 'you did your <b>best</b>'), { y: 190 })
+
+// 17. chin up; 365 DAYS behind the head; the follow
+item(wt(523) - .1, P.end + .2, `<div class="chip" style="height:88px;line-height:86px">chin <b>up</b></div>`, { y: 50 })
+item(wt(525) - .1, P.end - .28, `<div class="bt" style="font-size:300px" id="d365"><b>365</b></div><div class="bt" style="font-size:110px;margin-top:4px">DAYS</div>`, { y: 230, bk: 1 })
+const fol = item(wt(525) - .2, P.end + .2, `<div id="fol">@i_am_vickyd<div id="fbt">Follow</div><svg id="cur" viewBox="0 0 24 24"><path d="M4 2l15 9-6.5 1.6L16 20l-3 1.4-3.4-7.3L5 18z" fill="#fff" stroke="#0A1A44" stroke-width="1.6" stroke-linejoin="round"/></svg></div>`, { y: 1534 })
+$('e0').textContent = '8 posts on XO Market · 24 Sep to 19 Oct'; $('e1').textContent = 'Missed the top 50 of 851 creators'
+$('e2').textContent = 'Lost my Limitless ambassador badge'; $('e3').textContent = '$50 for 3+ months of ambassador posts'
+
+const DOTS = [...document.querySelectorAll('#dots i')]
+let lastDots = -1, lastN = -1, lastCap = -1, lastBig = -1
+window.render = t => {
+  SIG = []
+  const FRONT = LAYER !== 'behind', BACK = LAYER !== 'front'
+  for (const it of ITEMS) {
+    if (it.bk ? !BACK : !FRONT) continue
+    const on = t >= it.a - .01 && t < it.b + .25, k0 = it.a <= 0 ? 1 : 0
+    if (it.bk) { const k = Math.max(k0, eo(seg(t, it.a, .4))), o = eio(seg(t, it.b, .24))                 // behind the head: it rises from behind the shoulders
+      st(it.el, { opacity: on ? cl(k * 2) * (1 - o) : 0, transform: `translateY(${((1 - k) * 120 + o * 110).toFixed(1)}px) scale(${(.9 + .1 * k).toFixed(4)}) rotate(${it.rot}deg)` })
+    } else { const k = Math.max(k0, eo(seg(t, it.a, .26))), o = seg(t, it.b, .16), bk = Math.max(k0, back(seg(t, it.a, .34)))   // in front: it pops in on the word and lifts away
+      st(it.el, { opacity: on ? cl(k * 1.7) * (1 - o) : 0, transform: `translateY(${((1 - k) * 26 - o * 20).toFixed(1)}px) scale(${((.62 + .38 * bk) * (1 - .1 * o)).toFixed(4)}) rotate(${it.rot}deg)` }) }
+  }
+  if (BACK) {                                                                                              // the key word lands: a beat on BREAKTHROUGH and on 365
+    st($('brk'), { transform: `scale(${(1 + .07 * Math.sin(Math.PI * seg(t, wt(487) - .05, .4))).toFixed(4)})` })
+    st($('d365'), { transform: `scale(${(1 + .08 * Math.sin(Math.PI * seg(t, wt(530) - .05, .4))).toFixed(4)})` })
+  }
+  if (!FRONT) return SIG.join('|')
+  // 1. Kaito, then top 50
+  pop($('t50'), t, wt(52) - .1)
+  // 2. the first post: whole, then pushed in on its first line; the line ringed on "first ever approach"
+  if (t > S2 - .3 && t < S3 + .4) {
+    const k = eio(seg(t, PI1, .9)), H0 = 470, W0 = H0 * P1W / P1H
+    const w = W0 + (CW - W0) * k, h = H0 + (CH - H0) * k, iw = W0 + (CW - W0) * k              // the window narrows to the top while the picture grows to the window's width
+    st($('p1s'), { width: w.toFixed(1) + 'px', height: h.toFixed(1) + 'px' }); st($('p1i'), { width: iw.toFixed(1) + 'px' })
+    const s = CW / P1W; st($('p1h'), { left: (24 * s).toFixed(0) + 'px', top: (196 * s).toFixed(0) + 'px', width: (874 * s).toFixed(0) + 'px', height: (58 * s).toFixed(0) + 'px', opacity: seg(t, PI1 + 1.0, .25) })
+    st($('p1l'), { opacity: seg(t, PI1 + .6, .3) }) }
+  // 3-4, 7. the posts
+  if (t > wt(87) - .4 && t < S7 + .4) {
+    for (let i = 0; i < 8; i++) {
+      const a = seg(t, TA(i), .32), u = eio(seg(t, TB(i), .55)), v = eio(seg(t, TC(i), .6)), g = cl(u - v)
+      const cx = PX[i] + PWS[i] / 2, dx = (BIN_C[0] - cx) * g, dy = (BIN_C[1] - PH / 2) * g, r = (i % 2 ? 14 : -14) * g
+      st($('ps' + i), { opacity: cl(a * 2) * (1 - g * g * g), transform: `translate(${dx.toFixed(1)}px,${(dy + (1 - eo(a)) * 40).toFixed(1)}px) scale(${((.7 + .3 * back(a)) * (1 - .88 * g)).toFixed(4)}) rotate(${r.toFixed(1)}deg)` })
+      st($('td' + i), { opacity: seg(t, TA(i) + .1, .2) * (1 - seg(t, wt(113) - .3, .25)) }) }
+    const lo = seg(t, TA(0), .3) * (1 - seg(t, wt(113) - .3, .25))
+    st($('tline'), { opacity: lo, transform: `scaleX(${eo(seg(t, TA(0), 2.2)).toFixed(4)})` }); st($('dA'), { opacity: lo }); st($('dB'), { opacity: seg(t, TA(7) + .1, .3) * (1 - seg(t, wt(113) - .3, .25)) }) }
+  // 5. the dots: top 50 on "Top 50", the other 801 pour in on "851 creators", the count runs with them
+  if (t > wt(121) - .5 && t < S5 + .4) {
+    const top = t >= wt(131) - .08, n = Math.round(801 * eo(seg(t, wt(137) - .1, .9)))
+    st($('dl'), { opacity: seg(t, wt(131) - .08, .25) })
+    const key = (top ? 1 : 0) * 10000 + n
+    if (key !== lastDots) { DOTS.forEach((d, i) => { d.style.opacity = i < 50 ? (top ? 1 : 0) : (i - 50 < n ? 1 : 0) }); lastDots = key }
+    const shown = (top ? 50 : 0) + n; if (shown !== lastN) { $('n851').firstChild.textContent = String(shown); lastN = shown }
+    SIG.push(key) }
+  // 8. the badge falls on "badge"; a dashed outline and "removed" stay
+  if (t > wt(239) - .5 && t < S8 + .4) {
+    const f = eio(seg(t, wt(243) + .02, .9))
+    st($('bim'), { transform: `translateY(${(f * 230).toFixed(1)}px) rotate(${(f * 32).toFixed(1)}deg) scale(${(1 - .25 * f).toFixed(3)})`, opacity: 1 - f })
+    st($('bgh'), { opacity: seg(t, wt(243) + .3, .3) }); st($('blb'), { opacity: 1 - .5 * seg(t, wt(243) + .2, .3) }); pop($('bgo'), t, wt(243) + .55) }
+  // 9. XO arrives on "promoting"; on "driving traffic" the arrow runs from Limitless to XO
+  if (t > S9 - .3 && t < S10 + .4) {
+    pop($('tX'), t, wt(271) - .1); st($('chv'), { opacity: seg(t, wt(279) - .1, .2) }); st($('tlb'), { opacity: seg(t, wt(279) + .1, .3) })
+    for (let i = 0; i < 5; i++) { const u = ((t - wt(279) + .1) * .9 + i / 5) % 1; st($('cv' + i), { left: (-30 + u * 220).toFixed(1) + 'px', opacity: Math.sin(Math.PI * cl(u)) }) } }
+  // 10. the checklist: ten people on "10 people", $200 on "$200"; the boxes stay empty; the lock shakes on "badge back"
+  if (t > S10 - .3 && t < S11 + .4) {
+    st($('ck1'), { opacity: seg(t, S10 + .05, .25) }); st($('ck2'), { opacity: seg(t, wt(306) - .1, .25) })
+    for (let i = 0; i < 10; i++) pop($('pp' + i), t, wt(304) - .12 + i * .07, .25)
+    pop($('amt'), t, wt(314) - .1)
+    st($('lk'), { transform: `rotate(${(9 * Math.sin((t - wt(320)) * 30) * (1 - seg(t, wt(320) + .1, .5)) * (t > wt(320) - .05 ? 1 : 0)).toFixed(1)}deg)` }) }
+  // 14. "on to the next one" slides on
+  st($('nx'), { transform: `translateX(${(30 * eo(seg(t, wt(466) + .2, .8))).toFixed(1)}px)` })
+  // 17. the follow click on "days"
+  { const p = wt(531) - .05, m = eio(seg(t, p - .5, .45)), d = seg(t, p, .08)
+    const bx = $('fbt').offsetLeft + 214
+    st($('cur'), { opacity: seg(t, p - .5, .12), transform: `translate(${(bx + 150 - m * 150).toFixed(1)}px,${(150 - m * 96).toFixed(1)}px) scale(${(1 - .16 * (d - seg(t, p + .1, .1))).toFixed(3)})` })
+    const f = $('fbt'), want = t >= p + .04 ? 'Following ✓' : 'Follow'; if (f.textContent !== want) f.textContent = want
+    st(f, { background: t >= p + .04 ? '#1F5FDB' : '#0B1F4D', transform: `scale(${(1 + .08 * (seg(t, p + .04, .1) - seg(t, p + .16, .18))).toFixed(4)})` }); SIG.push(want) }
+  // ---- captions, word by word; the key phrase big under them
+  let ch = null; for (const x of CHUNKS) if (t >= x.t0 && t < x.t1) ch = x
+  const cap = $('cap')
+  if (ch && !NOTEXT) {
+    const id = CHUNKS.indexOf(ch); if (id !== lastCap) { cap.innerHTML = capHtml(ch.ch); lastCap = id }
+    ch.ch.forEach((k, i) => st(cap.children[i], { opacity: t >= k.t - .05 ? 1 : .42 }))
+    const a = eo(seg(t, ch.t0, .1)); st(cap, { opacity: a, transform: `translateY(${((1 - a) * 8).toFixed(1)}px)` }); SIG.push(id)
+  } else st(cap, { opacity: 0 })
+  const nxt = c => CAPS[c.ci + 1] ? CAPS[c.ci + 1].o0 : 1e9
+  let bg = null; for (const c of CAPS) if (c.big && t >= Math.max(c.big.t, c.o0) - .06 && t < Math.min(c.o1 + .3, nxt(c))) bg = c
+  const big = $('big')
+  if (bg && !bg.small.length) st(cap, { opacity: 0 })
+  if (bg && !NOTEXT) { if (bg.ci !== lastBig) { big.innerHTML = '<span>' + bg.big.text + '</span>'; lastBig = bg.ci; big.style.fontSize = '108px'; const w = big.firstChild.offsetWidth; if (w > 1000) big.style.fontSize = Math.floor(108 * 1000 / w) + 'px' }
+    const a = seg(t, bg.big.t - .06, .3), o = seg(t, Math.min(bg.o1 + .16, nxt(bg) - .14), .12)
+    st(big, { opacity: cl(a * 3) * (1 - o), transform: `scale(${(.7 + .3 * back(a)).toFixed(4)})`, top: (bg.small.length ? 1776 : 1712) + 'px' }); SIG.push(bg.ci)
+  } else st(big, { opacity: 0 })
+  // ---- end card
+  { const a = eo(seg(t, P.end - .05, .5)); st($('end'), { opacity: a > 0 ? 1 : 0, transform: `translateY(${((1 - a) * 1920).toFixed(1)}px)` })
+    const e0 = P.end + .35
+    st($('eh'), { opacity: seg(t, e0, .3), transform: `scale(${(.9 + .1 * back(seg(t, e0, .45))).toFixed(4)})` }); st($('etag'), { opacity: seg(t, e0 + .3, .3) })
+    for (let i = 0; i < 4; i++) { const k = eo(seg(t, e0 + .6 + i * .12, .32)); st($('e' + i), { opacity: cl(k * 1.6), transform: `scale(${(.86 + .14 * back(seg(t, e0 + .6 + i * .12, .32))).toFixed(4)})` }) }
+    st($('eget'), { opacity: seg(t, e0 + 1.2, .3) }); st($('eby'), { opacity: seg(t, e0 + 1.45, .3) }); st($('erisk'), { opacity: seg(t, e0 + 1.65, .3) }) }
+  return SIG.join('|')
+}
+window.READY = Promise.all([document.fonts.ready, ...[...document.images].map(i => i.decode().catch(() => 0))]).then(() => document.fonts.load('800 40px Manrope')).then(() => document.fonts.load('600 22px Manrope')).then(() => document.fonts.load('106px Anton')).then(() => document.fonts.load('700 24px Mono'))
+</script>
+</body></html>

@@ -28,6 +28,40 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
+## 13 Nov: the owner's recording, "One of my flops" (2:57, 9:16, their picture and sound untouched)
+
+The brief: "the pictures are what are the things I was talking about... it's just me talking about my flops... my
+experience also with an ambassador program where I was paid $0.5 per tweet". Nine screenshots of their own posts.
+Template: `video/templates/talking-head/camera-flop-xo-2026-11-13/`.
+
+- **What worked:**
+  - Measured against the raw: 30 frames a second kept, face detail 102% (lowest moment 91%) at CRF 18, no colour
+    shift, voice range 9.4 against 9.4 LU; preflight 0 FAIL, 0 WARN, music 15.5 dB under the voice.
+  - Their posts carry the story: whole, on a dated timeline, into the bin and back out; the first one pushed in on its
+    own line; the 5 Nov one on "the tweet".
+  - Every unclear phrase was scored against the sound (CTC forward score of each candidate wording) instead of
+    guessed: "say my mind", "it's not a stepping stone", "I did not get rewarded", "zero point zero five dollars",
+    "every single thing", "dustbin", and a spoken "and" that was not there.
+- **Mistakes, and how they were caught (before sending):**
+  1. **`plan.py` re-timed 169 words by length** because a word or two at an island's edge strayed into a pause.
+     Caught on the island report; now only the stray run is spread over its gap.
+  2. **"I learnt" lit both words at once** (one spoken token, two caption words). `tokens.py` now shares the span.
+  3. **The checklist card arrived three seconds before its first line** (the empty-card mistake, again). Caught on
+     the stills; the card now comes with "get my, the badge back".
+  4. **BREAKTHROUGH, "another prediction market" and the ten people ran past their edges;** the badge's fall was cut
+     off by the next scene. Caught on the stills pass.
+  5. **The first final was 536 MB at CRF 14** (24 Mbit/s on a grainy phone picture), over X's 512 MB cap without
+     Premium. Rendered again at CRF 18: 326 MB, face detail still 102%.
+  6. **A caption had a word that is not in the sound** ("and I'm like this"): the hear-back flagged the line, the
+     score showed the "and" missing. Fixed before the final render.
+- **Change next time:**
+  - CRF 18 for the owner's grainy phone recordings; check the file size against 512 MB before rendering.
+  - Run the island report before captions; time every card from its first line (still the rule).
+  - Score every flagged hear-back line against the clean source, with alternatives of the same length.
+- **The owner's reaction:** (to be added)
+
+---
+
 ## 13 Nov: the owner's recording, "RNT Protocol explained" (2:00, 9:16, their picture and sound untouched)
 
 The brief: "I want to create a video explaining that project Rnt protocol..... Do an extensive research and make sure

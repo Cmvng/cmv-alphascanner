@@ -1,0 +1,48 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>One of my flops: cover (#v, 1080x1920; its middle square is the picture for X) and wide thumbnail (#t, 1280x720, YouTube)</title>
+<style>
+@font-face{font-family:Anton;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/anton-latin-400-normal.woff2)}
+@font-face{font-family:Manrope;font-weight:800;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-800-normal.woff2)}
+@font-face{font-family:Mono;font-weight:700;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/jetbrains-mono-latin-700-normal.woff2)}
+/* img/still.png is one frame of the owner's recording, untouched (1080x1920, the "really? like, like, really?"
+   moment). Nothing is on the face. The logos are XO Market's and Limitless's own; the numbers are the owner's words. */
+:root{--ink:#0B1F4D;--blue:#1F5FDB;--red:#E5484D}
+*{box-sizing:border-box}
+html,body{margin:0;overflow:hidden;font-family:Manrope,sans-serif;font-weight:800;color:var(--ink);background:#C9D6EA}
+.abs{position:absolute}
+.mono{font-family:Mono,monospace;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
+.h{font-family:Anton,sans-serif;font-weight:400;line-height:.98;text-transform:uppercase;white-space:nowrap}
+.brands{position:absolute;display:flex;align-items:center;gap:16px;padding:12px 22px 12px 26px;border-radius:60px;background:#fff;box-shadow:0 16px 36px rgba(10,24,64,.28)}
+.chipv{height:56px;padding:0 20px;border-radius:28px;font-size:27px;line-height:54px;background:#fff;border:2px solid #BFD2FF;color:var(--blue);white-space:nowrap;align-self:flex-start}
+.chipv.r{border-color:#F3C9CB;color:var(--red)}
+</style></head>
+<body>
+<div id="v" style="display:none;position:absolute;left:0;top:0;width:1080px;height:1920px;overflow:hidden;background:linear-gradient(180deg,#F1F6FD 0%,#DCE7F6 40%,#C9D8EE 100%)">
+  <!-- Built for the cut (the 12 Nov rule): the title, the handle, the two chips and the face all sit inside the 16:9
+       middle band (y 656 to 1263): the words on the left, the face on the right. This recording frames the owner high,
+       so their untouched frame is drawn at 0.7 of its size and lowered until the face is in the band. -->
+  <div class="abs" style="left:364px;top:0;width:716px;height:1920px;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 190px);mask-image:linear-gradient(90deg,transparent 0,#000 190px)"><img src="img/still.png" style="position:absolute;left:-40px;top:240px;width:756px;height:1344px"></div>
+  <div class="abs" style="left:0;top:0;width:1080px;height:560px;background:linear-gradient(180deg,#E6EEF9 0,#E6EEF9 300px,rgba(230,238,249,0) 100%)"></div>
+  <div class="abs" style="left:0;top:1400px;width:1080px;height:520px;background:linear-gradient(0deg,#CCDAEE 0,#CCDAEE 240px,rgba(204,218,238,0) 100%)"></div>
+  <div class="brands" style="left:56px;top:250px"><img src="img/logo/xo_logo.svg" style="height:64px"><img src="img/logo/lim_icon.svg" style="height:72px;border-radius:18px"></div>
+  <div class="abs mono" style="left:58px;top:690px;font-size:25px;line-height:32px;color:var(--blue)">A flop story · 13 Nov 2026</div>
+  <div class="abs h" style="left:56px;top:728px;font-size:80px">One of my</div>
+  <div class="abs h" style="left:52px;top:806px;font-size:196px;color:var(--blue)">Flops</div>
+  <div class="abs" style="left:58px;top:1010px;font-size:36px;line-height:44px">@i_am_vickyd</div>
+  <div class="abs" style="left:56px;top:1066px;display:flex;flex-direction:column;gap:10px"><div class="chipv">Missed the top 50 of 851</div><div class="chipv r">$50 for 3+ months of posts</div></div>
+</div>
+<div id="t" style="display:none;position:absolute;left:0;top:0;width:1280px;height:720px;overflow:hidden;background:linear-gradient(100deg,#DDE7F5 0%,#C2D0E6 46%,#A3B5D3 100%)">
+  <div class="abs" style="right:0;top:0;width:640px;height:720px;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent 5%,#000 20%);mask-image:linear-gradient(90deg,transparent 5%,#000 20%)"><img src="img/still.png" style="position:absolute;left:0;top:-240px;width:640px"></div>
+  <div class="brands" style="left:60px;top:56px;padding:10px 18px 10px 22px"><img src="img/logo/xo_logo.svg" style="height:50px"><img src="img/logo/lim_icon.svg" style="height:56px;border-radius:14px"></div>
+  <div class="abs mono" style="left:64px;top:178px;font-size:27px;color:var(--blue)">A flop story · 13 Nov 2026</div>
+  <div class="abs h" style="left:60px;top:220px;font-size:96px">One of my</div>
+  <div class="abs h" style="left:56px;top:312px;font-size:170px;color:var(--blue)">Flops</div>
+  <div class="abs" style="left:60px;top:500px;display:flex;flex-direction:column;gap:10px"><div class="chipv">Missed the top 50 of 851</div><div class="chipv r">$50 for 3+ months of posts</div></div>
+  <div class="abs" style="left:60px;top:644px;font-size:34px">@i_am_vickyd</div>
+</div>
+<script>
+const m = location.hash.includes('t') ? 't' : 'v'
+document.getElementById(m).style.display = 'block'
+window.READY = Promise.all([document.fonts.ready, ...[...document.images].map(i => i.decode().catch(() => 0))]).then(() => document.fonts.load('116px Anton')).then(() => document.fonts.load('800 30px Manrope')).then(() => document.fonts.load('700 24px Mono'))
+</script>
+</body></html>
