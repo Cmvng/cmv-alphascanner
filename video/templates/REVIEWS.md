@@ -28,6 +28,34 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
+## 13 Nov: the owner's recording, "Bitcoin after the Binance hack" (2:58, 9:16, their picture and sound untouched)
+
+The brief: "attach real chart, show the current price. Make sure it's well highlighted about everything I say...
+Showing the decline of bitcoin during the bybit hack and what could possibly happen since the binance hack is 4.5x
+bigger". Template: `video/templates/talking-head/camera-btc-binance-2026-11-13/`.
+
+- **What worked:**
+  - Same way of working as 12 Nov from the first minute; measured against the raw: 30 frames a second kept, face
+    detail 109% (lowest moment 100%), no colour shift, voice range 6.8 against 6.8 LU; gate 0 FAIL.
+  - Every price live from Binance's public data, refreshed minutes before the final render; the candles of both hacks
+    are the real daily candles.
+  - The owner's numbers checked against the reports before building; the differences go in the message, the captions
+    keep his words.
+  - The cover was built for every cut, 16:9 middle included, before it was sent.
+- **Mistakes, and how they were caught (before sending):**
+  1. **Four cards sat empty for about a second** (the same mistake as 12 Nov, in a new place). Each card was timed to
+     its sentence and its first row to a later word. The rule was in the notes and not in the code: now each card's
+     start is computed from its first line.
+  2. **Chart labels sat on the candles and on each other** (the 11 Mar mark under the bottom label; the overlay's
+     "TODAY" label on the dashed line). Halos, a legend, labels moved off the data.
+  3. **A long big phrase ran off the frame** ("the Binance hack is larger."). The big phrase now measures itself and
+     shrinks to fit.
+  4. **The outgoing card overlapped the incoming one** for a tenth of a second at three changes.
+- **Change next time:**
+  - Time every card from its first line in code (`a = wt(firstWord) - .33`), and end the previous card 0.16 s before.
+  - Read the half-second sheets of the stills pass for empty cards before the full render.
+- **The owner's reaction:** (to be added)
+
 ## 12 Nov: the owner's recording, "Meme coins have served its purpose" (3:32, 9:16, their picture and sound untouched)
 
 The brief: "make the video to be better, adding motion effects, showing memes I'm talking about, the charts,

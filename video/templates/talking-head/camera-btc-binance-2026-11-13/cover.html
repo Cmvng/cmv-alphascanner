@@ -1,0 +1,59 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Bitcoin after the Binance hack: cover (#v, 1080x1920; its middle square is the picture for X) and wide thumbnail (#t, 1280x720, YouTube)</title>
+<style>
+@font-face{font-family:Anton;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/anton-latin-400-normal.woff2)}
+@font-face{font-family:Manrope;font-weight:800;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-800-normal.woff2)}
+@font-face{font-family:Mono;font-weight:700;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/jetbrains-mono-latin-700-normal.woff2)}
+/* img/still.png is one frame of the owner's recording, untouched (1080x1920). Nothing is on the face. The numbers come from data.js (fetch_data.py): the same ones the video shows. The logos are the tokens' own. */
+:root{--ink:#0B1F4D;--blue:#1F5FDB;--red:#E5484D}
+*{box-sizing:border-box}
+html,body{margin:0;overflow:hidden;font-family:Manrope,sans-serif;font-weight:800;color:var(--ink);background:#C9D6EA}
+.abs{position:absolute}
+.mono{font-family:Mono,monospace;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
+.card{position:absolute;border-radius:40px;background:rgba(255,255,255,.96);box-shadow:0 34px 80px rgba(10,24,64,.34),0 0 0 1.5px rgba(11,31,77,.06)}
+.h{font-family:Anton,sans-serif;font-weight:400;line-height:.98;text-transform:uppercase;white-space:nowrap}
+.chips{display:flex;gap:12px}
+.chips div{height:60px;padding:0 22px;border-radius:30px;font-size:29px;line-height:58px;background:#fff;border:2px solid #F3C9CB;color:var(--red);white-space:nowrap}
+.logos{position:absolute;display:flex;gap:14px;height:108px;padding:12px 16px;border-radius:54px;background:#fff;box-shadow:0 16px 36px rgba(10,24,64,.28)}
+.logos img{width:84px;height:84px;border-radius:42px;display:block}
+.chipv{height:56px;padding:0 20px;border-radius:28px;font-size:27px;line-height:54px;background:#fff;border:2px solid #F3C9CB;color:var(--red);white-space:nowrap;align-self:flex-start}
+</style></head>
+<body>
+<div id="v" style="display:none;position:absolute;left:0;top:0;width:1080px;height:1920px;overflow:hidden;background:linear-gradient(180deg,#F1F6FD 0%,#DCE7F6 40%,#C9D8EE 100%)">
+  <!-- Built for the cut. X, TikTok and Instagram can show an upright cover cut to its middle: 3:4, 1:1, 7:8, or even
+       16:9 (y 656 to 1263). The title, the handle, the two numbers and the whole face all sit inside that 16:9 band:
+       the words on the left, the face on the right. Outside it there is only what may be lost whole (the logos, the
+       rest of the owner's picture). The owner's picture is one untouched frame at 0.75 of its size, its left edge
+       faded into the page. -->
+  <div class="abs" style="left:364px;top:270px;width:716px;height:1440px;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 190px);mask-image:linear-gradient(90deg,transparent 0,#000 190px)"><img src="img/still.png" style="position:absolute;left:0;top:0;width:810px;height:1440px"></div>
+  <div class="abs" style="left:0;top:262px;width:1080px;height:240px;background:linear-gradient(180deg,#E6EEF9 0,#E6EEF9 12px,rgba(230,238,249,0) 100%)"></div>
+  <div class="abs" style="left:0;top:1478px;width:1080px;height:240px;background:linear-gradient(0deg,#CCDAEE 0,#CCDAEE 12px,rgba(204,218,238,0) 100%)"></div>
+  <div class="logos" id="lg" style="left:56px;top:250px;height:84px;padding:10px 14px;box-shadow:0 4px 10px rgba(10,24,64,.16)"></div>
+  <div class="abs mono" style="left:58px;top:690px;font-size:25px;line-height:32px;color:var(--blue)">My take · 13 Nov 2026</div>
+  <div class="abs h" style="left:54px;top:730px;font-size:150px">Bitcoin</div>
+  <div class="abs h" style="left:56px;top:880px;font-size:76px;line-height:1;color:var(--blue)">after the<br>Binance hack</div>
+  <div class="abs" style="left:58px;top:1050px;font-size:36px;line-height:44px">@i_am_vickyd</div>
+  <div class="abs" style="left:56px;top:1112px;display:flex;flex-direction:column;gap:10px"><div class="chipv" id="c0"></div><div class="chipv" id="c1"></div></div>
+</div>
+<div id="t" style="display:none;position:absolute;left:0;top:0;width:1280px;height:720px;overflow:hidden;background:linear-gradient(100deg,#DDE7F5 0%,#C2D0E6 46%,#A3B5D3 100%)">
+  <div class="abs" style="right:0;top:0;width:640px;height:720px;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent 5%,#000 20%);mask-image:linear-gradient(90deg,transparent 5%,#000 20%)"><img src="img/still.png" style="position:absolute;left:0;top:-250px;width:640px"></div>
+  <div class="abs mono" style="left:64px;top:84px;font-size:27px;color:var(--blue)">My take · 13 Nov 2026</div>
+  <div class="abs h" style="left:60px;top:132px;font-size:118px">Bitcoin</div>
+  <div class="abs h" style="left:60px;top:250px;font-size:56px;color:var(--blue)">after the Binance hack</div>
+  <div class="abs chips" style="left:60px;top:366px"><div id="d0"></div></div>
+  <div class="abs chips" style="left:60px;top:440px"><div id="d1"></div></div>
+  <div class="logos" id="lg2" style="left:60px;top:548px;height:92px;padding:10px 14px"></div>
+  <div class="abs" style="left:60px;top:654px;font-size:34px">@i_am_vickyd</div>
+</div>
+<script src="data.js"></script>
+<script>
+const D = window.DATA, m = location.hash.includes('t') ? 't' : 'v', $ = id => document.getElementById(id)
+const c0 = 'Bitcoin $' + (D.now.price / 1000).toFixed(1) + 'k · ' + Math.round(D.now.price / D.top.price * 100 - 100) + '% from the top', c1 = 'Bybit hack: ' + Math.round(D.bybit.drop) + '% in 2025'
+$('c0').textContent = $('d0').textContent = c0; $('c1').textContent = $('d1').textContent = c1
+const ids = ['btc', 'binance', 'bybit']
+$('lg').innerHTML = ids.map(i => `<img style="width:64px;height:64px;border-radius:${i === 'bybit' ? 16 : 32}px" src="${D.logos[i]}">`).join('')
+$('lg2').innerHTML = ids.map(i => `<img style="width:72px;height:72px;border-radius:${i === 'bybit' ? 18 : 36}px" src="${D.logos[i]}">`).join('')
+$(m).style.display = 'block'
+window.READY = Promise.all([document.fonts.ready, ...[...document.images].map(i => i.decode().catch(() => 0))]).then(() => document.fonts.load('116px Anton')).then(() => document.fonts.load('800 30px Manrope')).then(() => document.fonts.load('700 24px Mono'))
+</script>
+</body></html>

@@ -1,0 +1,477 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Bitcoin after the Binance hack (the owner's 13 Nov recording): graphics behind and in front of the owner</title>
+<style>
+@font-face{font-family:Anton;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/anton-latin-400-normal.woff2)}
+@font-face{font-family:Manrope;font-weight:600;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-600-normal.woff2)}
+@font-face{font-family:Manrope;font-weight:800;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-800-normal.woff2)}
+@font-face{font-family:Mono;font-weight:700;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/jetbrains-mono-latin-700-normal.woff2)}
+/* The owner's take on Bitcoin after the Binance hack, edited on their untouched picture and sound (render_raw.mjs).
+   The owner: "attach real chart, show the current price... well highlighted about everything I say... Showing the
+   decline of bitcoin during the bybit hack and what could possibly happen since the binance hack is 4.5x bigger".
+   Moves, and the sample each comes from (video/templates/STYLE-LIBRARY.md):
+     - the opening: Bitcoin's real chart since September 2025 drawn BEHIND the head, the live price over it (S1, S3);
+     - a real candle chart that prints its candles on the words ("red candle after red candle"), with its marks (S3);
+     - money as bundles that freeze and drop out on the owner's sums (S1 objects acting out the words);
+     - both hacks on one chart, the owner's "same amount, 25%" drawn as a dashed line (S3 split view);
+     - a gauge whose needle swings to today's reading (S3 data room);
+     - the two charts side by side on "check the charts" (S3);
+     - three BEARISH stamps on the three words, and the closing words BEHIND the head (S2, S4).
+   Two layers: #bk is drawn behind the owner (the renderer hides it wherever the owner's outline is); everything else
+   is in front and stays clear of the head. Every number on screen comes from data.js (fetch_data.py: Binance's
+   public market data, fetched on the day) or is typed here with its source beside it (sources.md). Logos are the
+   companies' own (CoinGecko, Wikimedia). The icons are Microsoft's Fluent Emoji 3D (MIT licence). */
+:root{--ink:#0B1F4D;--deep:#0A1A44;--blue:#1F5FDB;--sky:#7CC4FF;--mute:#6B7A99;--line:#E3E9F4;--red:#E5484D;--green:#12A150}
+*{box-sizing:border-box}
+html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:transparent;font-family:Manrope,sans-serif;font-weight:800;color:#fff}
+.abs{position:absolute}
+.mono{font-family:Mono,monospace;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
+/* No shade over the owner's picture. Earlier versions laid a navy gradient over the frame so white type would read;
+   it made the owner's face darker and bluer (measured against the raw, 11 Nov). The picture is now the owner's own
+   frames, untouched, and every piece of type carries its own outline or its own plate instead. */
+#shade{display:none}
+/* ---- over the head */
+.it{position:absolute;left:0;top:0;width:1080px;display:flex;flex-direction:column;align-items:center;opacity:0;transform-origin:50% 60%}
+.icw{position:relative;display:flex;align-items:center;justify-content:center;gap:34px}
+.ic{position:relative;width:200px;height:200px}
+.ic img{width:200px;height:200px;display:block;filter:drop-shadow(0 16px 22px rgba(4,10,36,.45))}
+.ic.s img,.ic.s{width:140px;height:140px}
+.bdg{position:absolute;right:-18px;bottom:-10px;width:88px;height:88px;opacity:0}
+.bdg img{width:88px!important;height:88px!important}
+.ic.s .bdg,.ic.s .bdg img{width:64px!important;height:64px!important}
+.ic.s .bdg{right:-12px;bottom:-8px}
+.lb{margin-top:10px;font-size:42px;line-height:52px;letter-spacing:-.005em;white-space:nowrap;-webkit-text-stroke:8px var(--deep);paint-order:stroke fill;text-shadow:0 6px 16px rgba(4,10,36,.5)}
+.lb b{color:var(--sky);font-weight:800}
+.tag{display:inline-block;margin-left:14px;height:40px;padding:1px 14px 0;border-radius:10px;font-family:Mono,monospace;font-weight:700;font-size:25px;line-height:35px;letter-spacing:.08em;background:#fff;color:var(--blue);-webkit-text-stroke:0;text-shadow:none;vertical-align:5px}
+.pill{display:flex;align-items:center;height:118px;padding:0 38px;border-radius:59px;background:#fff;box-shadow:0 18px 40px rgba(4,10,36,.45)}
+.pill img{height:62px;display:block}
+.pill span{margin-left:20px;height:62px;padding:0 24px;border-radius:31px;background:var(--blue);color:#fff;font-size:36px;line-height:60px}
+.ttl{font-family:Anton,sans-serif;font-weight:400;font-size:118px;line-height:1.02;letter-spacing:.01em;white-space:nowrap;-webkit-text-stroke:10px var(--deep);paint-order:stroke fill;text-shadow:0 10px 26px rgba(4,10,36,.55)}
+.sub{font-size:38px;line-height:48px;font-weight:600;white-space:nowrap;-webkit-text-stroke:7px var(--deep);paint-order:stroke fill}
+.giant{font-family:Anton,sans-serif;font-weight:400;font-size:300px;line-height:.96;letter-spacing:.01em;white-space:nowrap;-webkit-text-stroke:14px var(--deep);paint-order:stroke fill;text-shadow:0 16px 40px rgba(4,10,36,.6)}
+.giant b{font-weight:400;color:var(--sky)}
+.chips{display:flex;gap:18px;align-items:center}
+.chip{height:92px;padding:0 34px;border-radius:46px;font-size:40px;line-height:90px;white-space:nowrap;background:#fff;color:var(--ink);box-shadow:0 16px 34px rgba(4,10,36,.42)}
+.chip b{font-weight:800}
+.chip.ok b{color:var(--green)} .chip.hid b{color:var(--blue)}
+.chip img{width:50px;height:50px;vertical-align:-10px;margin-left:8px}
+.stamp{font-family:Anton,sans-serif;font-weight:400;font-size:92px;line-height:1;letter-spacing:.03em;white-space:nowrap;padding:22px 38px 18px;border-radius:22px;border:9px solid currentColor;background:rgba(255,255,255,.94);box-shadow:0 18px 40px rgba(4,10,36,.45)}
+.stamp.go{color:var(--green)} .stamp.no{color:var(--red)}
+.line{position:relative;width:150px;height:8px;border-radius:4px;background:rgba(255,255,255,.9);box-shadow:0 4px 10px rgba(4,10,36,.4)}
+.line i{position:absolute;top:-8px;left:0;width:24px;height:24px;border-radius:12px;background:var(--sky);box-shadow:0 0 0 5px rgba(124,196,255,.35)}
+/* the follow pill: ours, not a copy of any app's button */
+#fol{display:flex;align-items:center;height:112px;padding:0 14px 0 40px;border-radius:56px;background:#fff;color:var(--ink);font-size:46px;box-shadow:0 18px 40px rgba(4,10,36,.5);position:relative}
+#fbt{margin-left:26px;height:84px;width:290px;border-radius:42px;background:var(--ink);color:#fff;font-size:38px;line-height:82px;text-align:center}
+#cur{position:absolute;left:0;top:0;width:54px;height:54px;opacity:0}
+/* ---- captions: word by word under the beard; key phrases go big under them */
+#cap{position:absolute;left:0;top:1404px;width:1080px;text-align:center;font-size:56px;line-height:72px;letter-spacing:-.005em;white-space:nowrap}
+#cap span{display:inline-block;margin:0 .13em;-webkit-text-stroke:9px var(--deep);paint-order:stroke fill;text-shadow:0 6px 16px rgba(4,10,36,.5)}
+#cap span.k{color:var(--sky)}
+#big{position:absolute;left:0;top:1480px;width:1080px;text-align:center;font-size:108px;line-height:124px;letter-spacing:-.02em;white-space:nowrap;color:var(--sky);opacity:0;
+  -webkit-text-stroke:13px var(--deep);paint-order:stroke fill;text-shadow:0 10px 26px rgba(4,10,36,.55);transform-origin:50% 50%}
+/* ---- end card */
+#end{position:absolute;left:0;top:0;width:1080px;height:1920px;background:linear-gradient(180deg,#F4F8FF,#DCE9FF);opacity:0;color:var(--ink)}
+#end .c{position:absolute;left:0;width:1080px;text-align:center}
+.ec{display:inline-block;height:72px;padding:0 30px;border-radius:36px;font-size:34px;line-height:70px;background:#fff;border:1.5px solid var(--line);margin:0 6px 14px;opacity:0;white-space:nowrap}
+
+/* ---- this video */
+.card{width:940px;border-radius:40px;background:rgba(255,255,255,.96);box-shadow:0 22px 50px rgba(4,10,36,.5);color:var(--ink);padding:26px 34px 22px;text-align:left}
+.card .h{font-family:Mono,monospace;font-weight:700;font-size:25px;line-height:34px;letter-spacing:.11em;text-transform:uppercase;color:var(--blue);margin-bottom:8px;white-space:nowrap}
+.card .src{font-family:Mono,monospace;font-weight:700;font-size:19px;line-height:26px;letter-spacing:.03em;color:var(--mute);margin-top:12px;white-space:nowrap}
+.row{display:flex;align-items:center;height:104px;opacity:0}
+.row img.i{width:78px;height:78px;margin-right:20px;display:block;filter:drop-shadow(0 6px 10px rgba(4,10,36,.2))}
+.row .t{font-size:40px;line-height:46px;flex:1;white-space:nowrap}
+.row .t u{display:block;text-decoration:none;font-weight:600;font-size:24px;line-height:30px;color:var(--mute)}
+.row .v{font-family:Anton,sans-serif;font-weight:400;font-size:66px;line-height:1;color:var(--blue);margin-left:16px}
+.tl{display:flex;align-items:center;gap:18px}
+.tb{height:118px;padding:0 34px;border-radius:30px;background:#fff;color:var(--ink);font-family:Anton,sans-serif;font-weight:400;font-size:58px;line-height:122px;white-space:nowrap;box-shadow:0 18px 40px rgba(4,10,36,.45);position:relative}
+.tb i{position:absolute;left:18px;right:18px;top:56px;height:8px;border-radius:4px;background:var(--red);transform-origin:0 50%;transform:scaleX(0)}
+.ar{font-size:64px;line-height:1;-webkit-text-stroke:8px var(--deep);paint-order:stroke fill}
+.rw{display:flex;align-items:center;height:96px;padding:0 34px 0 22px;border-radius:48px;background:#fff;color:var(--ink);font-family:Anton,sans-serif;font-weight:400;font-size:52px;line-height:1;box-shadow:0 18px 40px rgba(4,10,36,.45);white-space:nowrap}
+.rw img{width:64px;height:64px;margin-right:16px;display:block}
+.rw span{font-family:Mono,monospace;font-weight:700;font-size:26px;letter-spacing:.1em;color:var(--blue);margin-left:18px}
+#grid{display:grid;grid-template-columns:repeat(3,316px);gap:16px}
+.cc{position:relative;height:150px;border-radius:34px;background:rgba(255,255,255,.96);box-shadow:0 16px 34px rgba(4,10,36,.42);color:var(--ink);display:flex;align-items:center;padding:0 10px 0 16px;opacity:0;overflow:hidden}
+.cc img{width:82px;height:82px;border-radius:41px;display:block;margin-right:12px;flex:none;box-shadow:0 4px 10px rgba(4,10,36,.2)}
+.cc b{display:block;font-size:35px;line-height:40px;white-space:nowrap}
+.cc u{display:block;text-decoration:none;font-family:Mono,monospace;font-weight:700;font-size:19px;line-height:26px;letter-spacing:.02em;color:var(--mute);white-space:nowrap}
+.cc u.z{display:none;font-family:Anton,sans-serif;font-weight:400;font-size:46px;line-height:50px;letter-spacing:0;color:var(--red)}
+.cc.now{background:rgba(255,233,235,.97)} .cc.now u.a{display:none} .cc.now u.z{display:block}
+.note{margin-top:14px;font-family:Mono,monospace;font-weight:700;font-size:22px;line-height:30px;letter-spacing:.04em;white-space:nowrap;-webkit-text-stroke:6px var(--deep);paint-order:stroke fill;opacity:0}
+.gain{height:92px;padding:0 30px;border-radius:46px;font-family:Anton,sans-serif;font-weight:400;font-size:58px;line-height:96px;white-space:nowrap;background:#fff;color:var(--green);box-shadow:0 16px 34px rgba(4,10,36,.42)}
+.two{display:flex;gap:26px}
+.stt{flex:1;opacity:0}
+.stt b{display:block;font-family:Anton,sans-serif;font-weight:400;font-size:112px;line-height:118px;color:var(--ink);white-space:nowrap}
+.stt u{display:block;text-decoration:none;font-weight:600;font-size:27px;line-height:34px;color:var(--mute)}
+.bar{margin-top:10px;opacity:0}
+.bar span{display:block;font-family:Mono,monospace;font-weight:700;font-size:23px;line-height:32px;letter-spacing:.05em;color:var(--mute);white-space:nowrap}
+.bar div{display:flex;align-items:center;height:58px}
+.bar i{display:block;flex:none;height:50px;border-radius:12px;background:var(--blue);width:700px;transform-origin:0 50%}
+.bar b{flex:none;font-family:Anton,sans-serif;font-weight:400;font-size:52px;line-height:58px;margin-left:16px;white-space:nowrap}
+.big2{font-family:Anton,sans-serif;font-weight:400;font-size:150px;line-height:156px;color:var(--ink);white-space:nowrap;text-align:center}
+.t2{font-size:38px;line-height:48px;text-align:center;white-space:nowrap}
+.ct{width:150px;height:150px;border-radius:40px;background:rgba(255,255,255,.96);box-shadow:0 16px 34px rgba(4,10,36,.42);display:flex;align-items:center;justify-content:center;opacity:0}
+.ct img{width:112px;height:112px;border-radius:56px;display:block}
+.ft{position:absolute;left:0;top:0;width:122px;height:122px;border-radius:32px;background:rgba(255,255,255,.95);box-shadow:0 12px 26px rgba(4,10,36,.4);display:flex;align-items:center;justify-content:center;opacity:0}
+.ft img{width:86px;height:86px;display:block}
+#race{position:relative;width:1080px;height:200px}
+.rt{position:absolute;left:0;top:0;width:180px;height:180px;border-radius:46px;background:rgba(255,255,255,.96);box-shadow:0 18px 40px rgba(4,10,36,.45);display:flex;align-items:center;justify-content:center;opacity:0}
+.rt img{width:128px;height:128px;display:block}
+.rt em{position:absolute;left:50%;bottom:-22px;transform:translateX(-50%);height:44px;padding:0 16px;border-radius:22px;font-family:Mono,monospace;font-style:normal;font-weight:700;font-size:24px;line-height:44px;letter-spacing:.08em;color:#fff;background:var(--green);opacity:0}
+#liq{display:flex;gap:10px;margin-top:6px}
+#liq i{display:block;width:66px;height:92px;border-radius:14px;background:var(--blue)}
+#fire{position:absolute;right:26px;top:-52px;width:120px;height:120px;opacity:0}
+.eh{font-family:Anton,sans-serif;font-weight:400;font-size:150px;line-height:1;color:var(--ink)}
+.bus{display:flex;align-items:center;height:92px}
+.bl{width:220px;font-size:30px;line-height:36px;white-space:nowrap;-webkit-text-stroke:7px var(--deep);paint-order:stroke fill;text-align:right;padding-right:22px}
+.bl b{color:var(--sky);font-weight:800}
+.br{display:flex;gap:5px}
+.bu{position:relative;width:54px;height:78px;border-radius:14px;background:rgba(255,255,255,.96);box-shadow:0 8px 18px rgba(4,10,36,.38);display:flex;align-items:center;justify-content:center;opacity:0}
+.bu>img{width:48px;height:48px;display:block}
+.bu i{position:absolute;inset:0;border-radius:14px;background:rgba(150,210,255,.88);display:flex;align-items:center;justify-content:center;opacity:0}
+.bu i img{width:40px;height:40px}
+.sg{display:grid;grid-template-columns:repeat(2,500px);gap:14px}
+.sc{display:flex;align-items:center;height:100px;padding:0 22px;border-radius:30px;background:rgba(255,255,255,.96);box-shadow:0 14px 30px rgba(4,10,36,.42);color:var(--ink);font-size:29px;line-height:34px;opacity:0}
+.sc img{width:60px;height:60px;margin-right:14px;flex:none}
+.mh{font-size:28px;line-height:36px;color:var(--ink);white-space:nowrap;margin-bottom:4px}
+.lg{display:flex;gap:30px;font-family:Mono,monospace;font-weight:700;font-size:21px;letter-spacing:.06em;color:var(--mute);margin:-2px 0 6px}
+.lg i{display:inline-block;width:30px;height:8px;border-radius:4px;margin-right:10px;vertical-align:4px}
+.mh b{font-family:Anton;font-weight:400;font-size:34px;letter-spacing:.02em}
+/* ---- layers */
+#bk{position:absolute;inset:0}
+body.L-behind #top,body.L-behind #cap,body.L-behind #big,body.L-behind #end{display:none}
+body.L-front #bk{display:none}
+.bt{font-family:Anton,sans-serif;font-weight:400;line-height:.92;letter-spacing:.01em;white-space:nowrap;color:#fff;-webkit-text-stroke:12px var(--deep);paint-order:stroke fill;text-shadow:0 12px 26px rgba(4,10,36,.45)}
+.bt b{font-weight:400;color:var(--sky)}
+</style></head>
+<body>
+<div id="bk"></div>
+<div id="top"></div>
+<div id="cap"></div>
+<div id="big"></div>
+
+<div id="end">
+  <div class="c" style="top:470px"><div class="eh" id="eh" style="opacity:0">@i_am_vickyd</div></div>
+  <div class="c" id="etag" style="top:668px;font-size:44px;letter-spacing:-.01em;opacity:0;white-space:nowrap">Bitcoin after the Binance hack: my take</div>
+  <div class="c" style="top:820px;padding:0 50px"><span class="ec" id="e0"></span><span class="ec" id="e1"></span><span class="ec" id="e2"></span><span class="ec" id="e3"></span></div>
+  <div class="c mono" id="eget" style="top:1170px;font-size:27px;color:var(--blue);opacity:0">Data: Binance · alternative.me · The Block · CNBC</div>
+  <div class="c" id="eby" style="top:1270px;font-size:46px;opacity:0">Follow <span style="color:var(--blue)">@i_am_vickyd</span> on X</div>
+  <div class="c" id="erisk" style="top:1460px;font-size:26px;font-weight:600;color:var(--mute);opacity:0;padding:0 90px">My opinion, not financial advice.<br>Prices as of <span id="eat"></span>.</div>
+</div>
+
+<script src="plan.js"></script>
+<script src="tok.js"></script>
+<script src="data.js"></script>
+<script>
+const P = window.PLAN, D = window.DATA, $ = id => document.getElementById(id)
+const cl = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x))
+const seg = (t, a, d) => cl((t - a) / d)
+const eo = x => 1 - Math.pow(1 - x, 3), eio = x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2
+const back = x => { const c = 1.9; return 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2) }
+let SIG = []
+const st = (el, o) => { for (const k in o) { const v = typeof o[k] === 'number' ? +o[k].toFixed(3) : o[k]; el.style[k] = v; SIG.push(v) } }
+const NOTEXT = location.hash.includes('notext')
+const LAYER = ['behind', 'front'].find(h => location.hash.includes(h)) || 'all'      // the renderer draws each layer on its own
+document.body.classList.add('L-' + LAYER)
+const I = n => `img/e/${n}.png`
+const wt = i => P.wt[i], we = i => P.we[i]                                             // a spoken word's start and end in the finished video
+// ---- every caption word's time in the finished video comes from tokens.py (tok.js)
+const CAPS = P.caps.map((c, ci) => {
+  const toks = []; let em = false
+  for (const raw of c.t.split(' ')) {
+    let w = raw; const open = w.startsWith('*'); if (open) { em = true; w = w.slice(1) }
+    const close = w.replace(/[.,?!:]+$/, '').endsWith('*'); const k = em; if (close) { em = false; w = w.replace('*', '') }
+    toks.push({ w, k })
+  }
+  toks.forEach((k, i) => k.t = window.TOK[ci][i])
+  return { ...c, ci, toks }
+})
+// key phrases that go big: caption index -> the phrase (the owner's words)
+const BIG = { 22: 'minus 25%', 29: '6.5 billion dollars.', 47: '2.5x', 60: 'the Binance hack is larger.', 70: 'minus 50%.', 82: 'more selling pressure,' }
+const len = a => a.reduce((n, x) => n + x.w.length + 1, -1)
+for (const c of CAPS) {
+  const b = BIG[c.ci]; c.small = c.toks; c.chunks = []; let groups = [c.toks]
+  if (b) { const bw = b.split(' '), n = bw.length, i0 = c.toks.findIndex((k, i) => bw.every((w, j) => c.toks[i + j] && c.toks[i + j].w.replace(/[.,?!:]+$/, '') === w.replace(/[.,?!:]+$/, '')))
+    if (i0 >= 0) { c.big = { text: b, t: c.toks[i0].t }; groups = [c.toks.slice(0, i0), c.toks.slice(i0 + n)]; c.small = groups.flat() } else console.log('BIG PHRASE NOT FOUND', c.ci, b) }
+  for (const g of groups) {
+    const out = []; let cur = []
+    const flush = () => { if (cur.length) out.push(cur); cur = [] }
+    for (const k of g) {                                   // up to three words and about 17 letters a line; break after punctuation
+      if (cur.length && (cur.length >= 3 || len(cur) + 1 + k.w.length > 17)) flush()
+      cur.push(k); if (/[.,?!:]$/.test(k.w) && cur.length >= 2) flush()
+    }
+    flush()
+    const n = out.length
+    if (n > 1 && out[n - 1].length === 1 && len(out[n - 2]) + 1 + out[n - 1][0].w.length <= 19 && !/[.,?!:]$/.test(out[n - 2][out[n - 2].length - 1].w)) out.splice(n - 2, 2, [...out[n - 2], ...out[n - 1]])
+    c.chunks.push(...out)
+  }
+}
+let CHUNKS = []
+CAPS.forEach(c => c.chunks.forEach((ch, i) => CHUNKS.push({ c, ch, t0: i === 0 ? Math.min(ch[0].t, c.o0) : ch[0].t - .04 })))
+CHUNKS.forEach((x, i) => { const nx = CHUNKS[i + 1]; x.t1 = Math.min(nx ? nx.t0 : 1e9, (x.c.chunks[x.c.chunks.length - 1] === x.ch ? x.c.o1 + .3 : 1e9)) })
+const capHtml = ch => ch.map(k => `<span${k.k ? ' class="k"' : ''}>${k.w}</span>`).join('')
+
+// ---- things over and beside the head (in front), and behind it (bk)
+const TOP = $('top'), ITEMS = []
+function item(a, b, html, o = {}) {
+  const el = document.createElement('div'); el.className = 'it'; el.style.top = (o.y ?? 150) + 'px'; el.innerHTML = html; (o.bk ? $('bk') : TOP).appendChild(el)
+  if (o.x != null) { el.style.width = 'auto'; el.style.left = o.x + 'px' }
+  if (o.r != null) { el.style.width = 'auto'; el.style.left = 'auto'; el.style.right = o.r + 'px' }
+  const it = { a, b, el, bk: !!o.bk, rot: o.rot || 0 }; ITEMS.push(it); return it
+}
+const ic = (n, o = {}) => `<div class="ic${o.s ? ' s' : ''}"><img src="${I(n)}"></div>`
+const lb = s => `<div class="lb">${s}</div>`
+const one = (n, label, o) => `<div class="icw">${ic(n, o)}</div>${lb(label)}`
+const pop = (el, t, at, d = .3) => st(el, { opacity: seg(t, at, .1), transform: `scale(${(.6 + .4 * back(seg(t, at, d))).toFixed(4)})` })
+const rise = (el, t, at) => st(el, { opacity: seg(t, at, .18), transform: `translateY(${((1 - eo(seg(t, at, .3))) * 22).toFixed(1)}px)` })
+
+// ---- this video's numbers (data.js, fetched on the day from Binance's public market data; sources.md)
+const N = D.now, BY = D.bybit, BN = D.binance, OV = D.overlay, L = D.logos
+const MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+const dstr = s => { const [y, m, d] = s.split('-'); return `${+d} ${MON[m - 1]} ${y}` }
+const day = t => new Date(t * 1000).toISOString().slice(0, 10)
+const fmt = v => '$' + Math.round(v).toLocaleString('en-US')
+const k1 = v => '$' + (v / 1000).toFixed(1) + 'k'
+const pc = v => (v < 0 ? '−' : '+') + Math.abs(v).toFixed(1) + '%'
+const BTOP = Math.round((N.price / D.top.price - 1) * 100)                         // from the top, whole percent
+const BNOW = OV.binance[OV.binance.length - 1]                                     // the Binance fall so far, % from the hack day's high
+const BYDROP = Math.round(BY.drop)                                                 // -25
+const PROJ = OV.binance_base * (1 + BYDROP / 100)                                  // the owner's "the same amount, 25%" from the Binance hack day's high
+const projDate = (() => { const d = new Date(BN.c[BN.hack][0] * 1000 + 45 * 86400000); return `${d.getUTCDate()} ${MON[d.getUTCMonth()]}` })()
+
+// candles as SVG: one <g> per candle, revealed by the render loop
+function candleSvg(id, C, w, h, lo, hi, opt = {}) {
+  const n = opt.n || C.length, cw = w / n, y = v => h - (v - lo) / (hi - lo) * h
+  const body = C.map((r, i) => { const up = r[4] >= r[1], x = i * cw + cw / 2, c = up ? '#12A150' : '#E5484D', y0 = y(Math.max(r[1], r[4])), y1 = y(Math.min(r[1], r[4]))
+    return `<g id="${id}${i}" opacity="0"><line x1="${x.toFixed(1)}" x2="${x.toFixed(1)}" y1="${y(r[2]).toFixed(1)}" y2="${y(r[3]).toFixed(1)}" stroke="${c}" stroke-width="2.4"/><rect x="${(x - cw * .34).toFixed(1)}" y="${y0.toFixed(1)}" width="${(cw * .68).toFixed(1)}" height="${Math.max(2.5, y1 - y0).toFixed(1)}" rx="1.5" fill="${c}"/></g>` }).join('')
+  return { svg: body, x: i => i * cw + cw / 2, y, cw }
+}
+
+// 1. the opening: Bitcoin since September 2025, its top and today, drawn BEHIND the head; the live price over the head
+const S1 = wt(32) - .2
+{ const C = D.since, lo = Math.min(...C.map(r => r[1])) * .965, hi = D.top.price * 1.015, W0 = 40, W1 = 1040, Y0 = 150, Y1 = 760
+  const x = i => W0 + (W1 - W0) * i / (C.length - 1), y = v => Y1 - (v - lo) / (hi - lo) * (Y1 - Y0)
+  const ti = C.findIndex(r => day(r[0]) === D.top.date), pts = C.map((r, i) => [x(i), y(r[1])])
+  const d = pts.map((q, i) => (i ? 'L' : 'M') + q[0].toFixed(1) + ' ' + q[1].toFixed(1)).join('')
+  const tx = x(ti >= 0 ? ti : 0), tyy = y(D.top.price)
+  item(0, S1, `<svg width="1080" height="900" viewBox="0 0 1080 900" style="overflow:visible">
+    <defs><linearGradient id="g1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E5484D" stop-opacity=".30"/><stop offset="1" stop-color="#E5484D" stop-opacity="0"/></linearGradient>
+      <clipPath id="c1"><rect id="c1r" x="0" y="0" width="0" height="900"/></clipPath></defs>
+    <g clip-path="url(#c1)"><path d="${d}L${W1} ${Y1 + 60}L${W0} ${Y1 + 60}Z" fill="url(#g1)"/>
+      <path d="${d}" fill="none" stroke="#0A1A44" stroke-width="20" stroke-linejoin="round" stroke-linecap="round"/>
+      <path d="${d}" fill="none" stroke="#FF5A5F" stroke-width="9" stroke-linejoin="round" stroke-linecap="round"/></g>
+    <g id="o1t" opacity="0" transform="translate(${tx.toFixed(1)},${tyy.toFixed(1)})"><circle r="16" fill="#fff" stroke="#0A1A44" stroke-width="6"/>
+      <g transform="translate(${tx > 700 ? -30 : 30},-62)"><rect x="${tx > 700 ? -404 : 0}" y="-34" width="404" height="74" rx="37" fill="#fff"/>
+      <text x="${tx > 700 ? -202 : 202}" y="14" text-anchor="middle" font-family="Manrope" font-weight="800" font-size="34" fill="#0B1F4D">TOP ${fmt(D.top.price)} · ${dstr(D.top.date).replace(' 20', " '")}</text></g></g>
+  </svg>`, { y: 0, bk: 1 })
+  window.O1 = { n: C.length } }
+item(0, S1, `<div class="pill" style="height:116px;padding:0 16px 0 22px;color:var(--ink);font-size:46px"><img src="${L.btc}" style="height:76px;margin-right:18px">BITCOIN<b style="margin-left:22px;font-family:Anton;font-weight:400;font-size:66px">${fmt(N.price)}</b><span style="background:var(--red)">${pc(N.chg24)} · 24h</span></div>
+  <div class="note" style="opacity:1;margin-top:16px">${N.lagos} · Binance</div>`, { y: 1610 })
+
+// 2. Bybit, 21 Feb 2025
+const S2a = wt(35) - .1, S2 = wt(61) - .3
+item(S2a, S2, `<div class="card" style="padding:26px 34px 22px"><div style="display:flex;align-items:center"><img src="${L.bybit}" style="width:96px;height:96px;border-radius:24px;margin-right:22px;box-shadow:0 4px 10px rgba(4,10,36,.18)">
+  <div><div class="h" style="margin:0">Bybit · 21 Feb 2025</div><div style="font-family:Anton;font-weight:400;font-size:76px;line-height:84px">$1.5 BILLION STOLEN</div></div></div>
+  <div style="font-size:30px;line-height:40px;font-weight:600;color:var(--ink);margin-top:14px">“Hackers steal $1.5 billion from exchange Bybit in biggest-ever crypto heist”</div>
+  <div class="src">CNBC, 21 Feb 2025 · FBI: North Korea's Lazarus</div></div>`, { y: 50 })
+
+// 3. what Bitcoin did after the Bybit hack: candle after candle, to the bottom
+const S3 = wt(141) - .63, CW3 = 872, CH3 = 250, LO3 = 72000, HI3 = 101500
+const C3 = candleSvg('k3_', BY.c, CW3, CH3, LO3, HI3)
+const RED = [71, 74, 77, 80].map(i => wt(i) - .08)
+item(wt(61) - .25, S3, `<div class="card" style="padding:22px 34px 16px"><div class="h" style="display:flex;justify-content:space-between"><span>Bitcoin after the Bybit hack</span><span id="d3" style="color:var(--red)"></span></div>
+  <svg width="${CW3}" height="${CH3 + 58}" viewBox="0 -14 ${CW3} ${CH3 + 58}" style="display:block;overflow:visible">
+    <line x1="${C3.x(BY.hack)}" x2="${C3.x(BY.hack)}" y1="-8" y2="${CH3}" stroke="#1F5FDB" stroke-width="3" stroke-dasharray="7 6"/>
+    <text x="${C3.x(BY.hack) - 10}" y="${CH3 + 40}" text-anchor="end" font-family="Mono" font-weight="700" font-size="20" fill="#1F5FDB">HACK · 21 FEB</text>
+    ${C3.svg}
+    <g id="m91" opacity="0" transform="translate(${C3.x(BY.p91.i)},${C3.y(BY.p91.v)})"><circle r="10" fill="#1F5FDB" stroke="#fff" stroke-width="4"/><text x="18" y="-14" font-family="Manrope" font-weight="800" font-size="30" fill="#0B1F4D" paint-order="stroke" stroke="#fff" stroke-width="9" stroke-linejoin="round">${k1(BY.p91.v)} · 24 Feb</text></g>
+    <g id="m76" opacity="0" transform="translate(${C3.x(BY.p76.i)},${C3.y(BY.p76.v)})"><circle r="10" fill="#1F5FDB" stroke="#fff" stroke-width="4"/><text x="-20" y="10" text-anchor="end" font-family="Manrope" font-weight="800" font-size="30" fill="#0B1F4D" paint-order="stroke" stroke="#fff" stroke-width="9" stroke-linejoin="round">${k1(BY.p76.v)} · 11 Mar</text></g>
+    <g id="mbt" opacity="0" transform="translate(${C3.x(BY.bottom)},${C3.y(BY.low)})"><circle id="mbr" r="12" fill="#E5484D" stroke="#fff" stroke-width="4"/><text x="-22" y="10" text-anchor="end" font-family="Manrope" font-weight="800" font-size="30" fill="#E5484D" paint-order="stroke" stroke="#fff" stroke-width="9" stroke-linejoin="round">BOTTOM ${k1(BY.low)} · 7 Apr</text></g>
+    <g id="m25" opacity="0"><line x1="${C3.x(BY.hack)}" x2="${C3.x(BY.bottom) + 40}" y1="${C3.y(BY.hack_high)}" y2="${C3.y(BY.hack_high)}" stroke="#0B1F4D" stroke-width="2.5" stroke-dasharray="5 6"/>
+      <line x1="${C3.x(BY.bottom) + 40}" x2="${C3.x(BY.bottom) + 40}" y1="${C3.y(BY.hack_high)}" y2="${C3.y(BY.low)}" stroke="#E5484D" stroke-width="6"/>
+      <text x="${C3.x(BY.bottom) + 26}" y="${C3.y(BY.hack_high) + 66}" text-anchor="end" font-family="Anton" font-size="64" fill="#E5484D" paint-order="stroke" stroke="#fff" stroke-width="9" stroke-linejoin="round">${BYDROP}%</text></g>
+    <g id="mdt" opacity="0"><line x1="${C3.x(BY.hack)}" x2="${C3.x(BY.bottom)}" y1="${CH3 + 14}" y2="${CH3 + 14}" stroke="#E5484D" stroke-width="5"/><text x="${(C3.x(BY.hack) + C3.x(BY.bottom)) / 2}" y="${CH3 + 40}" text-anchor="middle" font-family="Mono" font-weight="700" font-size="21" fill="#E5484D">21 FEB → 7 APR 2025</text></g>
+  </svg><div class="src" style="margin-top:6px">Binance BTCUSDT daily · −25%: from 21 Feb's high (${k1(BY.hack_high)}) to the bottom</div></div>`, { y: 34 })
+function rev3(t) {                                    // how many candles are drawn: those before the hack with the card; then on each "red candle" a run more; the bottom on "bottom"
+  const h = BY.hack, b = BY.bottom, a0 = wt(61) - .25, steps = [[a0, h + 1, .5], [wt(65), h + 4, 1.2]]
+  RED.forEach((r, k) => steps.push([r, h + 4 + (k + 1) * 9, .5]))
+  steps.push([wt(82) - .1, b + 1, Math.max(.4, wt(85) - wt(82))]); steps.push([wt(86), BY.c.length, 1.6])
+  let n = 0, prev = 0; for (const [a, to, d] of steps) { if (t >= a) n = prev + (to - prev) * eo(seg(t, a, d)); prev = to } return n }
+
+// 4. how Bybit filled the hole
+const S4 = wt(156) - .25
+item(wt(141) - .45, S4, `<div class="card"><div class="h">How Bybit filled the hole</div>
+  <div class="row" id="y0"><img class="i" src="${I('handshake_3d')}"><div class="t">Bitget lent 40,000 ETH<u>no interest, repaid by 25 Feb (Cointelegraph)</u></div></div>
+  <div class="row" id="y1"><img class="i" src="${I('bank_3d')}"><div class="t">Bridge loans from partners<u>Galaxy Digital, FalconX, Wintermute (CNBC)</u></div></div>
+  <div class="row" id="y2"><img class="i" src="${I('check_mark_button_3d')}"><div class="t">Gap closed in 3 days<u>CEO Ben Zhou, 24 Feb 2025 (CNBC, The Block)</u></div></div></div>`, { y: 60 })
+
+// 5. Binance, 29 Oct 2026: 13 bundles against Bybit's 3 (each bundle half a billion dollars)
+const S5 = wt(174) - .63
+item(wt(156) - .15, S5, `<div class="card" style="padding:26px 34px 22px"><div style="display:flex;align-items:center"><img src="${L.binance}" style="width:96px;height:96px;border-radius:48px;margin-right:22px">
+  <div><div class="h" style="margin:0">Binance · 29 Oct 2026</div><div style="font-family:Anton;font-weight:400;font-size:60px;line-height:72px;white-space:nowrap">THE BIGGEST CRYPTO HACK EVER</div></div></div>
+  <div class="src" style="margin-top:14px">Bloomberg, 3 Nov 2026 (“record heist”) · FBI: North Korea's TraderTraitor</div></div>`, { y: 50 })
+const bund = (id, n) => Array.from({ length: n }, (_, i) => `<div class="bu" id="${id}${i}"><img src="${I('dollar_banknote_3d')}"><i><img src="${I('snowflake_3d')}"></i></div>`).join('')
+const BU = `<div class="bus"><div class="bl"><b>BYBIT</b> 2025</div><div class="br">${bund('ub', 3)}</div></div><div class="bus"><div class="bl"><b>BINANCE</b> 2026</div><div class="br">${bund('un', 13)}</div></div><div class="note" style="opacity:1;margin-top:8px">each bundle = half a billion dollars</div>`
+const BUA = [wt(161) - .1, S5], BUB = [wt(223) - .1, wt(303) - .25]
+item(BUA[0], BUA[1], BU.replace(/id="u/g, 'id="a'), { y: 1626 })
+item(BUB[0], BUB[1], BU, { y: 1626 })
+
+// 6. how Binance covered it, and the owner's question: where does the refill come from?
+const S6 = wt(223) - .25
+item(wt(174) - .45, S6, `<div class="card"><div class="h">How Binance covered it</div>
+  <div class="row" id="n0"><img class="i" src="${I('shield_3d')}"><div class="t">“Binance did not borrow money”<u>CZ on X, 2 Nov 2026</u></div></div>
+  <div class="row" id="n1"><img class="i" src="${I('money_bag_3d')}"><div class="t">Its own reserves<u>SAFU emergency fund · Futures insurance fund · treasury</u></div></div>
+  <div class="row" id="n2"><img class="i" src="${I('bank_3d')}"><div class="t">SAFU to be refilled to ~$1B<u>Korea Herald, 13 Nov 2026</u></div><img id="nq" src="${I('red_question_mark_3d')}" style="width:96px;height:96px;opacity:0"></div></div>`, { y: 60 })
+
+// 7. what has been frozen (the owner: "frozen by USDC and USDT, another industry partner... let's assume 3 billion")
+const S7 = wt(298) - .25
+item(wt(258) - .45, S7, `<div class="card"><div class="h">Frozen so far</div>
+  <div class="row fz" id="f0"><img class="i" src="${L.usdt}" style="border-radius:39px"><div class="t">Tether · USDT</div><div class="v">$1.57B</div></div>
+  <div class="row fz" id="f1"><img class="i" src="${L.usdc}" style="border-radius:39px"><div class="t">Circle · USDC</div><div class="v">$0.82B</div></div>
+  <div class="row fz" id="f2"><img class="i" src="${L.xrp}" style="border-radius:39px"><div class="t">Ripple, World Liberty and others</div></div>
+  <div class="row fz" id="f3" style="height:74px;border-top:2px solid var(--line)"><div class="t" style="font-size:36px">In all, about</div><div class="v" style="color:var(--ink)">$3B</div></div>
+  <div class="src">The Block, 30 Oct 2026 · CoinDesk, 12 Nov 2026</div></div>`, { y: 34 })
+const FZ = wt(256) - .1, FOUT = wt(276) - .1
+
+// 8-9. both falls on one chart, from each hack day's high: Bybit 2025, Binance 2026 so far, and the owner's "same amount, 25%"
+const S9 = wt(392) - .25, CW9 = 872, CH9 = 290, X9 = d => d / 60 * CW9, Y9 = v => -v / 32 * CH9
+const pth = (a, n) => a.slice(0, n).map((v, i) => (i ? 'L' : 'M') + X9(i).toFixed(1) + ' ' + Y9(v).toFixed(1)).join('')
+const ND = OV.binance.length - 1
+item(wt(303) - .25, S9, `<div class="card" style="padding:22px 34px 16px"><div class="h" style="display:flex;justify-content:space-between"><span>After each hack</span><span style="color:var(--mute)">% from the hack day's high</span></div>
+  <div class="lg"><span><i style="background:#8FA3C8"></i>BYBIT 2025</span><span id="lgb" style="opacity:0;color:#E5484D"><i style="background:#E5484D"></i>BINANCE 2026 · TODAY ${k1(N.price)}</span></div>
+  <svg width="${CW9}" height="${CH9 + 36}" viewBox="0 -10 ${CW9} ${CH9 + 36}" style="display:block;overflow:visible">
+    ${[0, -10, -20, -30].map(v => `<line x1="0" x2="${CW9}" y1="${Y9(v)}" y2="${Y9(v)}" stroke="#E3E9F4" stroke-width="2"/>` + (v ? `<text x="4" y="${Y9(v) - 6}" font-family="Mono" font-weight="700" font-size="19" fill="#6B7A99">${v}%</text>` : '')).join('')}
+    ${[0, 15, 30, 45, 60].map(d => `<text x="${X9(d)}" y="${CH9 + 24}" text-anchor="${d ? (d === 60 ? 'end' : 'middle') : 'start'}" font-family="Mono" font-weight="700" font-size="19" fill="#6B7A99">DAY ${d}</text>`).join('')}
+    <path id="wz" d="M${X9(ND)} ${Y9(-25)}L${X9(60)} ${Y9(-25)}L${X9(60)} ${CH9}L${X9(ND)} ${CH9}Z" fill="#E5484D" opacity="0"/>
+    <path id="wby" d="" fill="none" stroke="#8FA3C8" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/>
+    <path id="wpj" d="M${X9(ND)} ${Y9(BNOW)}L${X9(45)} ${Y9(BYDROP)}" fill="none" stroke="#E5484D" stroke-width="6" stroke-dasharray="14 10" opacity="0"/>
+    <path id="wbn" d="" fill="none" stroke="#E5484D" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/>
+    <g id="lbt" opacity="0" transform="translate(${X9(45)},${Y9(BYDROP)})"><circle r="10" fill="#8FA3C8" stroke="#fff" stroke-width="3"/><text x="0" y="36" text-anchor="middle" font-family="Mono" font-weight="700" font-size="20" fill="#6B8AB8">${BYDROP}% · 7 APR</text></g>
+    <g id="lbn" opacity="0" transform="translate(${X9(ND)},${Y9(BNOW)})"><circle r="12" fill="#E5484D" stroke="#fff" stroke-width="4"/></g>
+    <g id="lpj" opacity="0" transform="translate(${X9(45)},${Y9(BYDROP)})"><circle r="11" fill="#fff" stroke="#E5484D" stroke-width="5"/><text x="20" y="10" font-family="Anton" font-size="44" fill="#E5484D" paint-order="stroke" stroke="#fff" stroke-width="9" stroke-linejoin="round">≈ ${k1(PROJ)}</text><text id="lpd" x="22" y="40" font-family="Mono" font-weight="700" font-size="20" fill="#E5484D" opacity="0">BY ~${projDate.toUpperCase()}?</text></g>
+  </svg><div class="src" style="margin-top:4px">Binance BTCUSDT daily closes · dashed: 25% from 29 Oct's high (${k1(OV.binance_base)})</div></div>`, { y: 34 })
+
+// 10. the mood: the Fear & Greed Index today, and the four things the owner names
+const S10 = wt(424) - .25, FG = D.fng || { v: 20, label: 'Extreme Fear', date: '2026-11-13' }
+{ const R = 150, arc = (a0, a1, c) => { const p = a => [190 + R * Math.cos(Math.PI * (1 - a)), 180 - R * Math.sin(Math.PI * (1 - a))]; const [x0, y0] = p(a0), [x1, y1] = p(a1); return `<path d="M${x0.toFixed(1)} ${y0.toFixed(1)}A${R} ${R} 0 0 1 ${x1.toFixed(1)} ${y1.toFixed(1)}" stroke="${c}" stroke-width="34" fill="none"/>` }
+  item(wt(400) - .3, S10, `<div class="card" style="display:flex;align-items:center;gap:26px;padding:22px 34px">
+    <svg width="380" height="210" viewBox="0 0 380 210">${arc(0, .25, '#E5484D')}${arc(.252, .45, '#F2994A')}${arc(.452, .55, '#C9D3E3')}${arc(.552, .75, '#7FCB8F')}${arc(.752, 1, '#12A150')}
+      <g id="ndl" transform="translate(190,180) rotate(0)"><line x1="0" y1="0" x2="-128" y2="0" stroke="#0B1F4D" stroke-width="10" stroke-linecap="round"/><circle r="16" fill="#0B1F4D"/></g></svg>
+    <div><div class="h" style="margin:0">Crypto Fear &amp; Greed</div><div style="display:flex;align-items:baseline;gap:18px"><b id="fgv" style="font-family:Anton;font-weight:400;font-size:130px;line-height:136px;color:var(--red)">${FG.v}</b><span style="font-size:44px;color:var(--red)">${FG.label}</span></div>
+      <div class="src" style="margin:0">alternative.me, ${dstr(FG.date)}</div></div></div>`, { y: 60 }) }
+const SEN = [[405, `<img src="${L.nvidia}" style="height:44px;margin-right:16px">−9.3% on 5 Nov`], [409, `<img src="${I('classical_building_3d')}">Midterms: Democrats won both houses`], [417, `<img src="${I('chart_increasing_3d')}">Oct CPI +0.4% (0.3% expected)`], [418, `<img src="${I('bank_3d')}">Fed: a December hike priced in`]]
+item(wt(405) - .2, S10, `<div class="sg">${SEN.map(([w, h], i) => `<div class="sc" id="sc${i}">${h}</div>`).join('')}</div><div class="note" style="opacity:1;margin-top:10px">Motley Fool 5 Nov · Northeastern 4 Nov · BLS 10 Nov · CNBC 10 Nov 2026</div>`, { y: 1622 })
+
+// 11. how far from the top: the owner's "minus 50%", and where Bitcoin is now
+const S11 = wt(464) - .68
+item(wt(424) - .2, S11, `<div class="card"><div class="h">Bitcoin from its top</div>
+  <div style="position:relative;height:250px;margin-top:6px">
+    <div style="position:absolute;left:0;top:96px;width:872px;height:64px;border-radius:16px;background:#EEF2F9"></div>
+    <div id="tf" style="position:absolute;left:0;top:96px;width:872px;height:64px;border-radius:16px;background:var(--blue);transform-origin:0 50%"></div>
+    <div style="position:absolute;right:0;top:20px;text-align:right"><b style="font-family:Anton;font-weight:400;font-size:50px">TOP ${fmt(D.top.price)}</b><div class="src" style="margin:0">${dstr(D.top.date)}</div></div>
+    <div id="t50" style="position:absolute;left:${(.5 * 872 - 3).toFixed(0)}px;top:78px;width:6px;height:100px;background:#0B1F4D;opacity:0"><b style="position:absolute;left:-60px;top:-60px;width:126px;text-align:center;font-family:Anton;font-weight:400;font-size:46px;color:var(--ink)">−50%</b></div>
+    <div id="tn" style="position:absolute;left:0;top:178px;opacity:0;white-space:nowrap"><b style="font-family:Anton;font-weight:400;font-size:50px;color:var(--red)">NOW ${fmt(N.price)} · ${BTOP}%</b></div>
+  </div><div class="src">Binance BTCUSDT · ${N.lagos}</div></div>`, { y: 60 })
+
+// 12. check the charts: the two hacks, candle by candle, on the same scale
+const S12 = wt(510) - .25, CW12 = 872, CH12 = 146, DAYS = 52
+const mini = (id, C, h0, base) => { const lo = base * .7, hi = base * 1.03, w = CW12 / DAYS, y = v => CH12 - (v - lo) / (hi - lo) * CH12
+  return C.slice(Math.max(0, h0 - 3), h0 + DAYS - 3).map((r, i) => { const up = r[4] >= r[1], c = up ? '#12A150' : '#E5484D', x = i * w + w / 2, y0 = y(Math.max(r[1], r[4])), y1 = y(Math.min(r[1], r[4]))
+    return `<g class="${id}" opacity="0"><line x1="${x}" x2="${x}" y1="${y(r[2])}" y2="${y(r[3])}" stroke="${c}" stroke-width="2"/><rect x="${x - w * .34}" y="${y0}" width="${w * .68}" height="${Math.max(2, y1 - y0)}" fill="${c}"/></g>` }).join('') + `<line x1="${3 * w}" x2="${3 * w}" y1="0" y2="${CH12}" stroke="#1F5FDB" stroke-width="2.5" stroke-dasharray="6 5"/><line x1="0" x2="${CW12}" y1="${y(base * .75)}" y2="${y(base * .75)}" stroke="#E5484D" stroke-width="2" stroke-dasharray="4 6"/><text x="${CW12}" y="${y(base * .75) - 6}" text-anchor="end" font-family="Mono" font-weight="700" font-size="17" fill="#E5484D">−25%</text>` }
+const BYL = [...D.bybit.c]                                         // the Bybit window ends at 22 Apr; enough for 52 days
+item(wt(464) - .5, S12, `<div class="card" style="padding:20px 34px 14px">
+  <div class="mh" id="mh0"><b>BYBIT HACK</b> · 21 Feb 2025 → bottom ${BYDROP}% on 7 Apr</div><svg width="${CW12}" height="${CH12}" style="display:block">${mini('q0', BYL, BY.hack, BY.hack_high)}</svg>
+  <div class="mh" id="mh1" style="margin-top:12px"><b>BINANCE HACK</b> · 29 Oct 2026 → today ${Math.round(BNOW)}%</div><svg width="${CW12}" height="${CH12}" style="display:block">${mini('q1', BN.c, BN.hack, OV.binance_base)}</svg>
+  <div class="src">Binance BTCUSDT, daily candles, same scale: % from each hack day's high</div></div>`, { y: 34 })
+
+// 13. more selling pressure; bearish, bearish, bearish; till the new year (behind the head) — 49 days away
+item(wt(513) - .15, wt(520) - .15, one('chart_decreasing_3d', 'more <b>selling pressure</b>'), { y: 120 })
+const STP = [520, 521, 522].map((w, i) => item(wt(w) - .06, wt(523) + .1, `<div class="stamp no" style="display:flex;align-items:center"><img src="${I('bear_3d')}" style="width:84px;height:84px;margin-right:18px">BEARISH</div>`, { y: 60 + i * 128, rot: [-6, 3, -2][i] }))
+item(wt(523) - .1, P.end + .3, `<div class="bt" style="font-size:190px">TILL THE</div><div class="bt" style="font-size:236px;margin-top:2px"><b>NEW YEAR</b></div>`, { y: 150, bk: 1 })
+item(wt(527) - .1, P.end + .3, `<div class="pill" style="height:96px;padding:0 34px 0 18px;color:var(--ink);font-size:38px"><img src="${I('spiral_calendar_3d')}" style="height:70px;margin-right:16px">1 Jan 2027 is 49 days away</div>`, { y: 34 })
+const fol = item(wt(535) - .9, P.end + .2, `<div id="fol">@i_am_vickyd<div id="fbt">Follow</div><svg id="cur" viewBox="0 0 24 24"><path d="M4 2l15 9-6.5 1.6L16 20l-3 1.4-3.4-7.3L5 18z" fill="#fff" stroke="#0A1A44" stroke-width="1.6" stroke-linejoin="round"/></svg></div>`, { y: 1660 })
+$('e0').textContent = `Bitcoin ${fmt(N.price)} · ${BTOP}% from the top`; $('e1').textContent = `Bybit hack 2025: ${BYDROP}% to the bottom`
+$('e2').textContent = `Since the Binance hack: ${Math.round(BNOW)}% so far`; $('e3').textContent = `Fear & Greed: ${FG.v} · ${FG.label}`
+$('eat').textContent = N.lagos
+
+let lastCap = -1, lastBig = -1, lastRl = ''
+window.render = t => {
+  SIG = []
+  const FRONT = LAYER !== 'behind', BACK = LAYER !== 'front'
+  for (const it of ITEMS) {
+    if (it.bk ? !BACK : !FRONT) continue
+    const on = t >= it.a - .01 && t < it.b + .25, k0 = it.a <= 0 ? 1 : 0
+    if (it.bk) { const k = Math.max(k0, eo(seg(t, it.a, .4))), o = eio(seg(t, it.b, .24))                 // behind the head: it rises from behind the shoulders
+      st(it.el, { opacity: on ? cl(k * 2) * (1 - o) : 0, transform: `translateY(${((1 - k) * 120 + o * 110).toFixed(1)}px) scale(${(.9 + .1 * k).toFixed(4)}) rotate(${it.rot}deg)` })
+    } else { const k = Math.max(k0, eo(seg(t, it.a, .26))), o = seg(t, it.b, .16), bk = Math.max(k0, back(seg(t, it.a, .34)))   // in front: it pops in on the word and lifts away
+      st(it.el, { opacity: on ? cl(k * 1.7) * (1 - o) : 0, transform: `translateY(${((1 - k) * 26 - o * 20).toFixed(1)}px) scale(${((.62 + .38 * bk) * (1 - .1 * o)).toFixed(4)}) rotate(${it.rot}deg)` }) }
+  }
+  // 1. the opening chart draws itself; its top label after it
+  if (BACK && t < S1 + .5) { st($('c1r'), { width: 1080 * eo(seg(t, 0, 1.7)) }); st($('o1t'), { opacity: seg(t, 1.2, .3) }) }
+  if (!FRONT) return SIG.join('|')
+  // 3. the Bybit candles, on the words
+  if (t > wt(61) - .5 && t < S3 + .4) { const n = rev3(t)
+    BY.c.forEach((r, i) => { const v = cl(n - i); $('k3_' + i).setAttribute('opacity', (i > BY.bottom && v > 0 ? .5 * v : v).toFixed(2)) }); SIG.push(n.toFixed(3))
+    const li = Math.min(Math.floor(n), BY.bottom + 1) - 1, dd = li > BY.hack ? '→ ' + dstr(day(BY.c[li][0])).replace(' 2025', '') : ''; if ($('d3').textContent !== dd) $('d3').textContent = dd; SIG.push(dd)      // the date of the last candle drawn
+    ;[['m91', wt(91) - .1], ['m76', wt(98) - .1], ['mbt', wt(85) - .1], ['m25', wt(115) - .12], ['mdt', wt(118) - .1]].forEach(([id, a]) => $(id).setAttribute('opacity', seg(t, a, .25).toFixed(2)))
+    $('mbr').setAttribute('r', (12 + 8 * Math.sin(Math.PI * seg(t, wt(85) - .1, .5))).toFixed(1)) }
+  ;[141, 147, 155].forEach((w, i) => rise($('y' + i), t, wt(w) - .12))
+  ;[174, 189, 193].forEach((w, i) => rise($('n' + i), t, wt(w) - .12)); pop($('nq'), t, wt(217) - .1)
+  // 5-7. the bundles: they arrive; on "frozen" six of Binance's turn to ice; on "so" the frozen ones go; then the two that are left glow
+  for (const [pre, a] of [['a', BUA[0]], ['u', BUB[0]]]) { if (t < a - .2 || t > (pre === 'a' ? BUA[1] : BUB[1]) + .4) continue
+    for (let i = 0; i < 3; i++) pop($(pre + 'b' + i), t, a + .05 + i * .07)
+    for (let i = 0; i < 13; i++) { const el = $(pre + 'n' + i); pop(el, t, a + (pre === 'a' ? wt(165) - a - .1 : .3) + i * .06)
+      if (pre === 'u') { const ice = i >= 7 ? seg(t, FZ + (i - 7) * .1, .3) : 0, gone = i >= 7 ? eio(seg(t, FOUT + (12 - i) * .05, .45)) : 0
+        st(el.lastChild, { opacity: ice }); st(el, { transform: `translateY(${(gone * 70).toFixed(1)}px) scale(${(1 - .3 * gone).toFixed(3)})`, opacity: el.style.opacity * (1 - gone) }) } } }
+  ;[[1, 258], [0, 260], [2, 262], [3, 266]].forEach(([r, w]) => rise($('f' + r), t, wt(w) - .12))
+  // 8-9. the overlay
+  if (t > wt(303) - .5 && t < S9 + .4) { const u = eio(seg(t, wt(303) - .1, 1.6)), v = eio(seg(t, wt(322) - .1, 2.2))
+    $('wby').setAttribute('d', pth(OV.bybit, 1 + Math.round(u * (OV.bybit.length - 1)))); $('wbn').setAttribute('d', v > 0 ? pth(OV.binance, 1 + Math.round(v * ND)) : '')
+    $('lbt').setAttribute('opacity', seg(t, wt(316) - .1, .3).toFixed(2)); st($('lgb'), { opacity: seg(t, wt(322) - .1, .3) })
+    $('lbn').setAttribute('opacity', seg(t, wt(322) + 2.1, .3).toFixed(2)); $('wpj').setAttribute('opacity', seg(t, wt(350) - .1, .3).toFixed(2))
+    $('wpj').setAttribute('stroke-dashoffset', (-(t * 30) % 24 * (t > wt(350) - .1 ? 1 : 0)).toFixed(1))
+    $('lpj').setAttribute('opacity', seg(t, wt(356) - .1, .3).toFixed(2)); $('lpd').setAttribute('opacity', seg(t, wt(364) - .1, .3).toFixed(2))
+    $('wz').setAttribute('opacity', (.16 * seg(t, wt(378) - .1, .5)).toFixed(3)); $('lbt').style.display = t > wt(356) - .1 ? 'none' : ''
+    SIG.push(u.toFixed(4), v.toFixed(4)) }
+  // 10. the needle swings to today's reading; the four chips on their words
+  if (t > wt(400) - .5 && t < S10 + .4) { const k = eio(seg(t, wt(400), 1.1)); $('ndl').setAttribute('transform', `translate(190,180) rotate(${(k * FG.v / 100 * 180 + 6 * Math.sin(k * Math.PI)).toFixed(2)})`); SIG.push(k.toFixed(4)) }
+  SEN.forEach(([w], i) => pop($('sc' + i), t, wt(w) - .1))
+  // 11. the bar: full at the top; on "minus 50%" the half mark; on "currently" it falls to today
+  { const k = eio(seg(t, wt(441) - .15, 1)), f = 1 - k * (1 - N.price / D.top.price); st($('tf'), { transform: `scaleX(${f.toFixed(4)})` }); st($('t50'), { opacity: seg(t, wt(433) - .1, .25) })
+    st($('tn'), { opacity: seg(t, wt(441) + .7, .3), left: Math.max(0, f * 872 - 300).toFixed(0) + 'px' }) }
+  // 12. the two charts: drawn on "check the charts", the Bybit one lit on "Bybit hack", the Binance one on "this"
+  if (t > wt(459) - .5 && t < S12 + .4) { const a = wt(464) - .15
+    document.querySelectorAll('.q0').forEach((g, i) => g.setAttribute('opacity', cl((t - a) * 26 - i).toFixed(2))); document.querySelectorAll('.q1').forEach((g, i) => g.setAttribute('opacity', cl((t - a - .6) * 26 - i).toFixed(2)))
+    st($('mh0'), { color: t > wt(491) - .1 && t < wt(499) - .1 ? '#E5484D' : '#0B1F4D' }); st($('mh1'), { color: t > wt(499) - .1 ? '#E5484D' : '#0B1F4D' }); SIG.push(Math.round((t - a) * 26)) }
+  // the follow click on "anyways"
+  { const p = wt(535) - .05, m = eio(seg(t, p - .5, .45)), d = seg(t, p, .08)                                        // the cursor comes in and clicks on "Peace"
+    const bx = $('fbt').offsetLeft + 214                                                                             // the cursor lands on the button, wherever the handle's length puts it
+    st($('cur'), { opacity: seg(t, p - .5, .12), transform: `translate(${(bx + 150 - m * 150).toFixed(1)}px,${(150 - m * 96).toFixed(1)}px) scale(${(1 - .16 * (d - seg(t, p + .1, .1))).toFixed(3)})` })
+    const f = $('fbt'), want = t >= p + .04 ? 'Following ✓' : 'Follow'; if (f.textContent !== want) f.textContent = want
+    st(f, { background: t >= p + .04 ? '#1F5FDB' : '#0B1F4D', transform: `scale(${(1 + .08 * (seg(t, p + .04, .1) - seg(t, p + .16, .18))).toFixed(4)})` }); SIG.push(want) }
+  // ---- captions, word by word; the key phrase big under them
+  let ch = null; for (const x of CHUNKS) if (t >= x.t0 && t < x.t1) ch = x
+  const cap = $('cap')
+  if (ch && !NOTEXT) {
+    const id = CHUNKS.indexOf(ch); if (id !== lastCap) { cap.innerHTML = capHtml(ch.ch); lastCap = id }
+    ch.ch.forEach((k, i) => st(cap.children[i], { opacity: t >= k.t - .05 ? 1 : .42 }))
+    const a = eo(seg(t, ch.t0, .1)); st(cap, { opacity: a, transform: `translateY(${((1 - a) * 8).toFixed(1)}px)` }); SIG.push(id)
+  } else st(cap, { opacity: 0 })
+  const nxt = c => CAPS[c.ci + 1] ? CAPS[c.ci + 1].o0 : 1e9
+  let bg = null; for (const c of CAPS) if (c.big && t >= Math.max(c.big.t, c.o0) - .06 && t < Math.min(c.o1 + .3, nxt(c))) bg = c
+  const big = $('big')
+  if (bg && !bg.small.length) st(cap, { opacity: 0 })                                              // a big phrase on its own: the small line before it has gone
+  if (bg && !NOTEXT) { if (bg.ci !== lastBig) { big.innerHTML = '<span>' + bg.big.text + '</span>'; lastBig = bg.ci; big.style.fontSize = '108px'; const w = big.firstChild.offsetWidth; if (w > 1000) big.style.fontSize = Math.floor(108 * 1000 / w) + 'px' }     // a long phrase is set smaller, never cut off
+    const a = seg(t, bg.big.t - .06, .3), o = seg(t, Math.min(bg.o1 + .16, nxt(bg) - .14), .12)
+    st(big, { opacity: cl(a * 3) * (1 - o), transform: `scale(${(.7 + .3 * back(a)).toFixed(4)})`, top: (bg.small.length ? 1480 : 1424) + 'px' }); SIG.push(bg.ci)
+  } else st(big, { opacity: 0 })
+  // ---- end card
+  { const a = eo(seg(t, P.end - .05, .5)); st($('end'), { opacity: a > 0 ? 1 : 0, transform: `translateY(${((1 - a) * 1920).toFixed(1)}px)` })
+    const e0 = P.end + .35
+    st($('eh'), { opacity: seg(t, e0, .3), transform: `scale(${(.9 + .1 * back(seg(t, e0, .45))).toFixed(4)})` }); st($('etag'), { opacity: seg(t, e0 + .3, .3) })
+    for (let i = 0; i < 4; i++) { const k = eo(seg(t, e0 + .6 + i * .12, .32)); st($('e' + i), { opacity: cl(k * 1.6), transform: `scale(${(.86 + .14 * back(seg(t, e0 + .6 + i * .12, .32))).toFixed(4)})` }) }
+    st($('eget'), { opacity: seg(t, e0 + 1.2, .3) }); st($('eby'), { opacity: seg(t, e0 + 1.45, .3) }); st($('erisk'), { opacity: seg(t, e0 + 1.65, .3) }) }
+  return SIG.join('|')
+}
+window.READY = Promise.all([document.fonts.ready, ...[...document.images].map(i => i.decode().catch(() => 0))]).then(() => document.fonts.load('800 40px Manrope')).then(() => document.fonts.load('600 22px Manrope')).then(() => document.fonts.load('106px Anton')).then(() => document.fonts.load('700 24px Mono'))
+</script>
+</body></html>

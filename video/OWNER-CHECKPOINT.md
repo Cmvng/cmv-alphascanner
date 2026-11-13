@@ -188,6 +188,11 @@ has not been said: ask once when the next one comes up.)
   So: each coin they name appears with its own logo on its word; real charts and dated numbers sit beside each claim
   (public data APIs, the source on the card); an example they only describe gets real, dated ones, and the message
   says which were added. Reference: `video/templates/talking-head/camera-memecoins-2026-11-12/`.
+  13 Nov, on a recording about Bitcoin after the Binance hack: "attach real chart, show the current price. Make sure
+  it's well highlighted about everything I say... Showing the decline of bitcoin during the bybit hack and what could
+  possibly happen". So on a market take: the live price (fetched minutes before the final render, its time on
+  screen), the real candles of the event they compare with, and their own scenario drawn as a labelled dashed line,
+  never a forecast of ours. Reference: `video/templates/talking-head/camera-btc-binance-2026-11-13/`.
 - **A project (Bagel, Primus Labs, Gamdom…):** its own screens, logo, art and colours. On a crypto video the coin
   itself is the showcase: live price, change and candles.
 - **Art (@i_am_vickyd):** their footage and templates as sent, their music, a clean story. 22 Oct: "You only tell the
