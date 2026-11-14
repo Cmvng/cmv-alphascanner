@@ -28,6 +28,35 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
+## 14 Nov: "Primus, the hiring use case" (0:59, 16:9, a summary of the owner's post read by Lara)
+
+The brief: ten pictures and their post, "use the summary of the idea of the video.. Not like you taking all the
+contents on the video word for word". Template: `video/templates/explainer/primus-hiring-2026-11-14/`.
+
+- **What worked:**
+  - **One question for the summary and the voice.** It showed the summary text as the preview and the cost (877
+    credits, priced with `estimate_only` first). The owner picked Lara, and the take matched the script word for
+    word (5 differences, all spelling).
+  - **Done with the STRATO lessons from the start:**
+    - the drop as its own time;
+    - frame 0 whole;
+    - scene changes in sequence;
+    - blue rings;
+    - the music level measured on the stems right after `mix.sh` (13.7 dB under the voice on the preflight's measure,
+      10.5 dB in the ducked mix) before any render.
+  - **Real Primus pages fetched directly.** The docs answer 404 without the trailing slash. The docs' own image files
+    (the hiring diagram at 3054 px, the MPC diagram) were used instead of screenshots.
+- **Mistakes, and how they were caught (before sending):**
+  1. **The browser window was taller than its record.** It was shortened.
+  2. **The docs page sat under the small header logo.** It was moved down.
+  3. **The ring on the docs paragraph stopped before "skills".** It was widened.
+  4. **Two near-empty beats** (right after the drop, and before the Developer Hub). Those cards now come in earlier.
+  All four were caught on the first two sets of stills.
+- **Change next time:** when the owner asks for a summary, show the summary in the voice question, as here.
+- **The owner's reaction:** (to be added)
+
+---
+
 ## 14 Nov: "STRATO's two vaults" (1:47, 16:9, the owner's written script read by Lara)
 
 The brief: two screenshots of STRATO's vault pages and their script, "I want to create an illustrative video on this

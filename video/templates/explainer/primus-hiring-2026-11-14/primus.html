@@ -1,0 +1,372 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Primus, the hiring use case (a summary of the owner's post, Lara, 14 Nov 2026)</title>
+<style>
+@font-face{font-family:Anton;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/anton-latin-400-normal.woff2)}
+@font-face{font-family:Man;font-weight:600;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-600-normal.woff2)}
+@font-face{font-family:Man;font-weight:800;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-800-normal.woff2)}
+@font-face{font-family:Mono;font-weight:700;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/jetbrains-mono-latin-700-normal.woff2)}
+/* The owner's post about @primus_labs (a hiring use case), told as a summary at their request ("use the summary of the
+   idea of the video.. Not like you taking all the contents on the video word for word"), read by Lara.
+   Format, new for Primus: THE WHOLE FILE AGAINST ONE LINE. Your documents fly into the team's folder and spill what was
+   never asked for; then zkTLS redacts a record down to one line, and that line is the proof the hiring app gets.
+   Real material, each shown whole:
+   - primuslabs.xyz, the home page (img/home.png, 14 Nov 2026);
+   - the docs' MPC-model diagram, docs.primuslabs.xyz/primus-network/tech-intro/ (img/mpc.png, the docs' own file);
+   - the docs page "Decentralized Hiring and Dating", docs.primuslabs.xyz/implementation-scenarios/hiring-dating/
+     (img/hiring.png, captured 14 Nov 2026);
+   - the Primus Developer Hub home, dev.primuslabs.xyz (img/devhub.png, 14 Nov 2026);
+   - Primus's own logo and icon.
+   The job post, the folder, the documents, the record and the browser frame are our own illustrations of the example
+   (no real app is redrawn). Times are take seconds: T(s) = s + 0.2 + (s >= 4.56 ? 0.6 : 0) (the pause for the drop). */
+:root{--ink:#0B1F4D;--deep:#0A1A44;--blue:#1F5FDB;--sky:#7CC4FF;--mute:#6B7A99;--line:#DCE5F3;--red:#E5484D;--green:#12A150;--pri:#FF4F00;--pribg:#FFF1EA}
+*{box-sizing:border-box}
+html,body{margin:0;width:1920px;height:1080px;overflow:hidden;font-family:Man,sans-serif;font-weight:800;color:var(--ink);
+  background:radial-gradient(1400px 800px at 30% 20%,#FFFFFF 0%,#EEF4FF 45%,#DCE8FB 100%)}
+.abs{position:absolute}
+.mono{font-family:Mono,monospace;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+#grid{position:absolute;inset:0;background-image:linear-gradient(rgba(31,95,219,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(31,95,219,.05) 1px,transparent 1px);background-size:60px 60px}
+#edit{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
+.sc{position:absolute;inset:0;opacity:0}
+#hdr{position:absolute;left:56px;top:34px;height:44px;opacity:0}
+#hdr img{height:44px;display:block}
+.card{position:absolute;border-radius:26px;background:#fff;box-shadow:0 26px 60px rgba(11,31,77,.16),0 0 0 1.5px rgba(11,31,77,.05);overflow:hidden}
+.card>img{display:block;width:100%}
+.ttl{position:absolute;left:0;width:1920px;text-align:center;font-family:Anton,sans-serif;font-weight:400;letter-spacing:.01em;line-height:1;white-space:nowrap}
+.big{font-family:Anton,sans-serif;font-weight:400;line-height:1;white-space:nowrap}
+.src{position:absolute;font-family:Mono,monospace;font-weight:700;font-size:19px;letter-spacing:.04em;color:var(--mute);white-space:nowrap}
+.pill{position:absolute;display:flex;align-items:center;gap:14px;height:76px;padding:0 30px;border-radius:38px;background:#fff;box-shadow:0 16px 36px rgba(11,31,77,.16);font-size:34px;white-space:nowrap}
+.ring{position:absolute;border-style:solid;border-color:var(--blue);border-radius:18px;opacity:0;box-shadow:0 0 0 6px rgba(31,95,219,.15)}
+.ring.b{border-color:var(--blue)}
+.view{position:absolute;overflow:hidden;border-radius:26px;background:#fff;box-shadow:0 26px 60px rgba(11,31,77,.16),0 0 0 1.5px rgba(11,31,77,.05)}
+.view .in{position:absolute;left:0;top:0;transform-origin:0 0}
+.view .in>img{display:block}
+/* our illustrations */
+.post{position:absolute;padding:44px 48px}
+.post .k{font-family:Mono,monospace;font-weight:700;font-size:22px;letter-spacing:.12em;color:var(--mute)}
+.post .h{font-size:52px;margin-top:14px}
+.post .ln{height:16px;border-radius:8px;background:#E6ECF6;margin-top:18px}
+.btn{position:absolute;height:84px;padding:0 54px;border-radius:42px;background:var(--blue);color:#fff;font-size:36px;line-height:84px}
+.q{display:flex;align-items:center;gap:22px;height:104px;margin-top:20px;padding:0 30px;border-radius:24px;background:#F4F7FD;font-size:38px;white-space:nowrap}
+.q i{flex:none;width:44px;height:44px;border-radius:22px;border:5px solid #B8C6DF;display:block}
+.doc{position:absolute;border-radius:16px;background:#fff;box-shadow:0 18px 40px rgba(11,31,77,.20),0 0 0 1.5px rgba(11,31,77,.06);padding:22px 24px;opacity:0}
+.doc .k{font-family:Anton,sans-serif;font-size:40px;line-height:1}
+.doc .ln{height:12px;border-radius:6px;background:#E3E9F4;margin-top:12px}
+.doc.cv{width:230px;height:300px}
+.doc.cert{width:290px;height:206px;background:#FFFBF2}
+.doc.id{width:290px;height:182px;background:#F2F7FF}
+.seal{position:absolute;right:22px;bottom:20px;width:62px;height:62px;border-radius:31px;background:var(--pri);box-shadow:inset 0 0 0 6px #FFB38C}
+.photo{position:absolute;left:24px;top:62px;width:74px;height:92px;border-radius:10px;background:#C9D6EA}
+.folder{position:absolute;width:640px;height:560px}
+.folder .tab{position:absolute;left:0;top:0;width:250px;height:70px;border-radius:24px 24px 0 0;background:#BFD3F5}
+.folder .body{position:absolute;left:0;top:50px;width:640px;height:510px;border-radius:0 28px 28px 28px;background:linear-gradient(170deg,#D5E3FB,#B5CBF2);box-shadow:0 26px 60px rgba(11,31,77,.18)}
+.folder .lab{position:absolute;left:34px;bottom:30px;font-family:Mono,monospace;font-weight:700;font-size:26px;letter-spacing:.12em;color:var(--ink)}
+.leak{position:absolute;display:flex;align-items:center;gap:16px;height:78px;padding:0 30px 0 22px;border-radius:39px;background:#fff;border:3px solid #F6C1C3;color:var(--red);font-size:36px;white-space:nowrap;box-shadow:0 14px 30px rgba(229,72,77,.14)}
+.leak i{width:16px;height:16px;border-radius:8px;background:var(--red);display:block}
+.stamp{position:absolute;padding:14px 30px;border:7px solid var(--red);border-radius:18px;color:var(--red);font-family:Anton,sans-serif;font-size:58px;line-height:1;white-space:nowrap;background:rgba(255,255,255,.88)}
+.stamp.navy{border-color:var(--ink);color:var(--ink)}
+.win{position:absolute;border-radius:24px;background:#fff;box-shadow:0 30px 70px rgba(11,31,77,.20),0 0 0 1.5px rgba(11,31,77,.06);overflow:hidden}
+.win .bar{position:absolute;left:0;top:0;right:0;height:84px;background:#F1F4FA;border-bottom:1.5px solid #E1E7F2}
+.win .dot{position:absolute;top:32px;width:20px;height:20px;border-radius:10px}
+.win .url{position:absolute;left:150px;top:18px;width:900px;height:48px;border-radius:24px;background:#fff;border:1.5px solid #DCE3EF;font-size:26px;line-height:46px;padding-left:24px;color:var(--ink)}
+.row{position:absolute;left:70px;width:1000px;height:72px;font-size:34px;line-height:72px;white-space:nowrap}
+.row span{color:var(--mute);font-family:Mono,monospace;font-weight:700;font-size:24px;letter-spacing:.08em;display:inline-block;width:250px}
+.row .red{position:absolute;left:250px;top:14px;height:44px;width:700px;border-radius:10px;background:var(--deep);transform:scaleX(0);transform-origin:0 50%}
+.proof{position:absolute;border-radius:24px;background:#fff;border:4px solid var(--pri);box-shadow:0 24px 54px rgba(255,79,0,.20);padding:22px 30px}
+.proof .k{display:flex;align-items:center;gap:14px;font-family:Mono,monospace;font-weight:700;font-size:22px;letter-spacing:.12em;color:var(--pri)}
+.proof .k img{width:40px;height:40px;display:block}
+.proof .v{font-size:40px;margin-top:12px;white-space:nowrap}
+.proof .v b{color:var(--green)}
+.app{position:absolute;border-radius:30px;background:#fff;box-shadow:0 26px 60px rgba(11,31,77,.16),0 0 0 1.5px rgba(11,31,77,.05)}
+.app .hd{position:absolute;left:0;top:0;right:0;height:88px;border-radius:30px 30px 0 0;background:#EEF3FC;font-family:Mono,monospace;font-weight:700;font-size:26px;letter-spacing:.12em;line-height:88px;padding-left:36px}
+.lock{position:absolute;display:flex;align-items:center;gap:12px;height:62px;padding:0 24px;border-radius:31px;background:var(--ink);color:#fff;font-size:28px;white-space:nowrap}
+.cross{position:absolute;width:86px;height:86px;border-radius:43px;background:#fff;border:6px solid var(--red);color:var(--red);font-family:Anton,sans-serif;font-size:56px;line-height:72px;text-align:center}
+.acct{position:absolute;border-radius:26px;background:#fff;box-shadow:0 22px 50px rgba(11,31,77,.16);padding:30px 34px}
+.ava{width:110px;height:110px;border-radius:55px;background:#DCE6F7;color:var(--blue);font-family:Anton,sans-serif;font-size:70px;line-height:110px;text-align:center}
+#cap{position:absolute;left:0;top:968px;width:1920px;text-align:center;opacity:0}
+#cap span{display:inline-block;padding:12px 34px 14px;border-radius:24px;background:rgba(255,255,255,.95);box-shadow:0 12px 30px rgba(11,31,77,.14);font-size:42px;line-height:54px;white-space:nowrap}
+#cap b{color:var(--blue)}
+#stk{position:absolute;left:0;top:0;opacity:0;transform-origin:50% 100%;filter:drop-shadow(0 18px 30px rgba(11,31,77,.25))}
+.c{position:absolute;left:0;width:1920px;text-align:center;white-space:nowrap}
+</style></head>
+<body>
+<div id="grid"></div>
+<div id="edit">
+  <div id="hdr"><img src="img/primus-logo.png"></div>
+  <!-- 1. the hook: Primus, one practical use case -->
+  <div class="sc" id="s1">
+    <img class="abs" id="h_logo" src="img/primus-logo.png" style="left:713px;top:70px;height:106px">
+    <div class="abs mono c" id="h_handle" style="top:196px;font-size:30px;color:var(--pri)">@primus_labs</div>
+    <div class="card" id="h_home" style="left:430px;top:262px;width:1060px"><img src="img/home.png"></div>
+    <div class="src" id="h_src" style="left:430px;top:870px">primuslabs.xyz · 14 Nov 2026</div>
+    <div class="pill" id="h_tag" style="left:1160px;top:796px;background:var(--pri);color:#fff;font-size:34px">ONE PRACTICAL USE CASE</div>
+  </div>
+  <!-- 2. a remote job, and the few answers the team needs -->
+  <div class="sc" id="s2">
+    <div class="ttl" id="j_t" style="top:96px;font-size:118px;color:var(--blue)">A REMOTE JOB</div>
+    <div class="card post" id="j_post" style="left:150px;top:300px;width:720px;height:500px">
+      <div class="k">REMOTE ROLE · ANYWHERE</div><div class="h">Join the team</div>
+      <div class="ln" style="width:92%;margin-top:34px"></div><div class="ln" style="width:80%"></div><div class="ln" style="width:86%"></div>
+      <div class="btn" id="j_btn" style="left:48px;bottom:44px">Apply</div>
+    </div>
+    <div class="card post" id="j_need" style="left:960px;top:300px;width:810px;height:500px">
+      <div class="k">THE TEAM ONLY NEEDS A FEW ANSWERS</div>
+      <div class="q" id="j_q1" style="margin-top:40px"><i></i>Do you have this background?</div>
+      <div class="q" id="j_q2"><i></i>Do you have this credential?</div>
+    </div>
+  </div>
+  <!-- 3. what they ask for, and what that hands over -->
+  <div class="sc" id="s3">
+    <div class="abs mono" id="w_you" style="left:170px;top:250px;font-size:26px;color:var(--mute)">WHAT THEY ASK FOR</div>
+    <div class="folder" id="w_f" style="left:1150px;top:250px"><div class="tab"></div><div class="body"></div><div class="lab">THE TEAM'S FILES</div></div>
+    <div class="doc cv" id="d_cv"><div class="k">CV</div><div class="ln" style="width:70%;margin-top:22px"></div><div class="ln"></div><div class="ln" style="width:84%"></div><div class="ln" style="width:60%"></div><div class="ln"></div><div class="ln" style="width:76%"></div><div class="ln" style="width:88%"></div><div class="ln" style="width:55%"></div></div>
+    <div class="doc cert" id="d_cert"><div class="k" style="font-size:34px">CERTIFICATE</div><div class="ln" style="width:80%;margin-top:22px"></div><div class="ln" style="width:62%"></div><div class="ln" style="width:44%"></div><div class="seal"></div></div>
+    <div class="doc id" id="d_id"><div class="k">ID</div><div class="photo"></div><div class="ln" style="margin-left:96px;width:60%;margin-top:30px"></div><div class="ln" style="margin-left:96px;width:48%"></div><div class="ln" style="margin-left:96px;width:54%"></div></div>
+    <div class="abs mono" id="w_now" style="left:170px;top:250px;font-size:26px;color:var(--red)">NOW THEY HAVE</div>
+    <div class="leak" id="l1" style="left:170px;top:310px"><i></i>your phone number</div>
+    <div class="leak" id="l2" style="left:170px;top:408px"><i></i>your address</div>
+    <div class="leak" id="l3" style="left:170px;top:506px"><i></i>your old jobs</div>
+    <div class="leak" id="l4" style="left:170px;top:604px"><i></i>everything else</div>
+    <div class="stamp" id="w_st" style="left:150px;top:720px;transform:rotate(-4deg)">NEVER PART OF THE QUESTION</div>
+  </div>
+  <!-- 4. the real website, zkTLS, a proof of one fact -->
+  <div class="sc" id="s4">
+    <div class="win" id="b_win" style="left:200px;top:130px;width:1300px;height:680px">
+      <div class="bar"><div class="dot" style="left:32px;background:#FF6B6B"></div><div class="dot" style="left:64px;background:#FFC24B"></div><div class="dot" style="left:96px;background:#3CCB7F"></div>
+        <div class="url" id="b_url">the real website · your record</div>
+        <img id="b_ext" src="img/primus-icon.png" style="position:absolute;right:30px;top:20px;width:44px;height:44px">
+      </div>
+      <div class="abs" style="left:70px;top:120px;font-size:46px">Your record</div>
+      <div class="row" id="r0" style="top:196px"><span>NAME</span>Your full name<div class="red"></div></div>
+      <div class="row" id="r1" style="top:276px"><span>PHONE</span>+234 ··· ···· ····<div class="red"></div></div>
+      <div class="row" id="r2" style="top:356px"><span>ADDRESS</span>Street, city, state<div class="red"></div></div>
+      <div class="row" id="r3" style="top:436px"><span>HISTORY</span>Every past job and message<div class="red"></div></div>
+      <div class="row" id="r4" style="top:516px"><span>CREDENTIAL</span><b id="b_cred">Verified ✓</b></div>
+      <div class="abs" id="b_scan" style="left:0;width:1300px;height:6px;background:var(--pri);box-shadow:0 0 30px 8px rgba(255,79,0,.35);opacity:0"></div>
+    </div>
+    <div class="lock" id="b_log" style="left:1100px;top:154px;background:var(--blue)">logged in · you</div>
+    <div class="pill" id="b_zk" style="left:1540px;top:132px;background:var(--pri);color:#fff;font-size:40px">zkTLS</div>
+    <div class="proof" id="b_pf" style="left:1250px;top:600px;width:560px">
+      <div class="k"><img src="img/primus-icon.png">PROOF · ONE FACT</div>
+      <div class="v">this credential: <b>true</b></div>
+    </div>
+  </div>
+  <!-- 5. the attestor watches the encrypted session (the docs' own diagram) -->
+  <div class="sc" id="s5">
+    <div class="view" id="m_view" style="left:253px;top:96px;width:1414px;height:676px"><div class="in" id="m_in"><img src="img/mpc.png" style="width:1414px;height:676px"></div></div>
+    <div class="src" id="m_src" style="left:253px;top:790px">docs.primuslabs.xyz · Overview of zkTLS · the MPC model</div>
+    <div class="lock" id="m_lock" style="left:1160px;top:820px">never your login</div>
+  </div>
+  <!-- 6. the hiring app gets one line -->
+  <div class="sc" id="s6">
+    <div class="app" id="a_box" style="left:1060px;top:150px;width:720px;height:700px"><div class="hd">THE HIRING APP</div></div>
+    <div class="proof" id="a_pf" style="left:1110px;top:270px;width:620px">
+      <div class="k"><img src="img/primus-icon.png">PROOF · ONE LINE</div>
+      <div class="v">this credential: <b>true</b></div>
+    </div>
+    <div class="abs big" id="a_w1" style="left:1110px;top:510px;font-size:84px">THIS CREDENTIAL,</div>
+    <div class="abs big" id="a_w2" style="left:1110px;top:610px;font-size:150px;color:var(--green)">TRUE ✓</div>
+    <div class="abs mono" id="a_you" style="left:170px;top:236px;font-size:26px;color:var(--mute)">STAYS WITH YOU</div>
+    <div class="doc cv" id="a_cv" style="left:170px;top:300px;opacity:1"><div class="k">CV</div><div class="ln" style="width:70%;margin-top:22px"></div><div class="ln"></div><div class="ln" style="width:84%"></div><div class="ln" style="width:60%"></div><div class="ln"></div><div class="ln" style="width:76%"></div></div>
+    <div class="doc cert" id="a_cert" style="left:430px;top:330px;opacity:1"><div class="k" style="font-size:34px">CERTIFICATE</div><div class="ln" style="width:80%;margin-top:22px"></div><div class="ln" style="width:62%"></div><div class="seal"></div></div>
+    <div class="doc id" id="a_id" style="left:330px;top:560px;opacity:1"><div class="k">ID</div><div class="photo"></div><div class="ln" style="margin-left:96px;width:60%;margin-top:30px"></div><div class="ln" style="margin-left:96px;width:48%"></div></div>
+    <div class="lock" id="a_lock" style="left:210px;top:780px">your whole file</div>
+    <div class="cross" id="a_x" style="left:832px;top:470px">✕</div>
+  </div>
+  <!-- 7. the official docs list this under hiring -->
+  <div class="sc" id="s7">
+    <div class="view" id="k_view" style="left:90px;top:104px;width:1100px;height:830px"><div class="in" id="k_in"><img src="img/hiring.png" style="width:3200px;height:2560px"></div></div>
+    <div class="card" id="k_q" style="left:1260px;top:250px;width:580px;padding:40px 42px">
+      <div class="mono" style="font-size:22px;color:var(--pri)">PRIMUS DOCS · HIRING</div>
+      <div style="font-weight:600;font-size:38px;line-height:1.3;margin-top:22px">“a verification system for <b style="color:var(--blue)">identity, academic background, skills</b>…”</div>
+      <div class="mono" style="font-size:18px;color:var(--mute);margin-top:26px;letter-spacing:.04em">docs.primuslabs.xyz · 14 Nov 2026</div>
+    </div>
+  </div>
+  <!-- 8. one limit: what the site showed at that time, not that the account is uniquely you -->
+  <div class="sc" id="s8">
+    <div class="ttl" id="o_t" style="top:96px;font-size:118px;color:var(--blue)">ONE LIMIT</div>
+    <div class="proof" id="o_pf" style="left:240px;top:330px;width:700px;padding:34px 40px">
+      <div class="k"><img src="img/primus-icon.png">PROOF</div>
+      <div class="v" style="font-size:46px">this credential: <b>true</b></div>
+    </div>
+    <div class="stamp navy" id="o_st" style="left:380px;top:560px;transform:rotate(-4deg);font-size:54px">AS THE SITE SHOWED IT, AT THAT TIME</div>
+    <div class="acct" id="o_ac" style="left:1120px;top:330px;width:560px;height:230px">
+      <div class="ava" style="position:absolute;left:34px;top:60px">?</div>
+      <div class="abs mono" style="left:174px;top:72px;font-size:22px;color:var(--mute)">THE ACCOUNT</div>
+      <div class="abs" style="left:174px;top:110px;font-size:40px">is it uniquely you?</div>
+    </div>
+    <div class="stamp" id="o_no" style="left:1150px;top:610px;transform:rotate(3deg);font-size:54px">NOT PROVEN</div>
+  </div>
+  <!-- 9. a use case for apps to build on, not a job board -->
+  <div class="sc" id="s9">
+    <div class="abs big" id="p_t" style="left:110px;top:100px;font-size:72px">FOR APPS TO BUILD ON</div>
+    <div class="card" id="p_dev" style="left:110px;top:200px;width:1040px"><img src="img/devhub.png"></div>
+    <div class="src" id="p_src" style="left:110px;top:800px">dev.primuslabs.xyz · Primus Developer Hub · 14 Nov 2026</div>
+    <div class="card" id="p_nb" style="left:1250px;top:300px;width:570px;height:330px;padding:46px 44px">
+      <div class="cross" style="position:relative;left:0;top:0">✕</div>
+      <div class="big" style="font-size:76px;margin-top:26px">NOT A JOB BOARD</div>
+      <div id="p_sub" style="font-size:34px;margin-top:16px;color:var(--mute)">you can apply on today</div>
+    </div>
+  </div>
+  <!-- the end card -->
+  <div class="sc" id="end">
+    <img class="abs" src="img/primus-logo.png" style="left:780px;top:150px;height:76px">
+    <div class="ttl" style="top:280px;font-size:130px;color:var(--blue)">ONE LINE.</div>
+    <div class="ttl" style="top:420px;font-size:130px">NOT YOUR WHOLE FILE.</div>
+    <div class="c" style="top:610px;font-size:44px">Follow <b style="color:var(--blue)">@i_am_vickyd</b> on X</div>
+    <div class="c mono" style="top:700px;font-size:20px;color:var(--mute)">Source: Primus docs · docs.primuslabs.xyz · 14 Nov 2026 · an example use case</div>
+  </div>
+</div>
+<img id="stk">
+<div id="cap"></div>
+
+<script src="words.js"></script>
+<script>
+const $ = id => document.getElementById(id), W = window.WORDS, FPS = 30
+const cl = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x)), seg = (t, a, d) => cl((t - a) / d), lerp = (a, b, u) => a + (b - a) * u
+const eo = x => 1 - Math.pow(1 - x, 3), eio = x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2
+const back = x => { const c = 1.7; return 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2) }
+let SIG = []
+const css = (el, k, v) => { el.style[k] = v; SIG.push(v) }
+const T = s => s + 0.2 + (s >= 4.56 ? 0.6 : 0)                     // take seconds -> video seconds
+const ws = i => T(W[i][0]), we = i => T(W[i][1])
+const END = 59.0, DROP = 4.56 + 0.2
+// an element arrives on its word (fade + rise) and stays; out = when it leaves (or never)
+const show = (id, t, a, o = {}) => { const el = typeof id === 'string' ? $(id) : id, p = eo(seg(t, a, o.d || .32)), q = o.out ? seg(t, o.out, .2) : 0
+  css(el, 'opacity', ((t >= a ? p : 0) * (1 - q)).toFixed(3)); css(el, 'transform', `${o.base || ''} translateY(${((1 - p) * (o.dy ?? 26) - q * 16).toFixed(1)}px) scale(${(o.pop ? .7 + .3 * back(seg(t, a, .36)) : 1).toFixed(4)})`) }
+const pulse = (t, a) => 1 + .1 * Math.sin(Math.PI * seg(t, a, .4))
+// scenes: [id, from, to]; each fades out over its last 0.24 s and the next fades in over its first 0.24 s; the drop is a hard cut
+const SC = [['s1', 0, DROP], ['s2', DROP, ws(36) - .3], ['s3', ws(36) - .3, ws(67) - .3], ['s4', ws(67) - .3, ws(91) - .3], ['s5', ws(91) - .3, ws(100) - .3],
+  ['s6', ws(100) - .3, ws(113) - .3], ['s7', ws(113) - .3, ws(121) - .3], ['s8', ws(121) - .3, ws(141) - .3], ['s9', ws(141) - .3, ws(160) - .3], ['end', ws(160) - .3, 999]]
+// a view onto a real screen: a camera in source pixels [t, cx, cy, zoom], never past the screen's own pixels; rings in source pixels (take seconds)
+function view(vid, inid, W0, H0, keys, rings) {
+  const v = $(vid), inn = $(inid), vw = v.offsetWidth, vh = v.offsetHeight, s0 = Math.min(vw / W0, vh / H0), zmax = 1 / s0
+  const R = rings.map(r => { const e = document.createElement('div'); e.className = 'ring' + (r[6] ? ' ' + r[6] : ''); Object.assign(e.style, { left: r[2] + 'px', top: r[3] + 'px', width: r[4] + 'px', height: r[5] + 'px' }); inn.appendChild(e); return { r, e } })
+  return t => {
+    let k = keys[0]
+    for (let i = 1; i < keys.length; i++) if (t >= keys[i][0]) { const a = keys[i - 1], b = keys[i], u = eio(seg(t, b[0], .9)); k = [t, lerp(a[1], b[1], u), lerp(a[2], b[2], u), lerp(a[3], b[3], u)] }
+    const z = Math.min(k[3], zmax), s = s0 * z, w = W0 * s, h = H0 * s
+    let x = vw / 2 - k[1] * s, y = vh / 2 - k[2] * s
+    x = w <= vw ? (vw - w) / 2 : cl(x, vw - w, 0); y = h <= vh ? (vh - h) / 2 : cl(y, vh - h, 0)
+    css(inn, 'transform', `translate(${x.toFixed(1)}px,${y.toFixed(1)}px) scale(${s.toFixed(5)})`)
+    for (const { r, e } of R) { const p = t >= T(r[0]) && t < T(r[1]) ? Math.min(eo(seg(t, T(r[0]), .25)), seg(T(r[1]) + .001, t, .2)) : 0
+      css(e, 'opacity', p.toFixed(3)); css(e, 'borderWidth', (6 / s).toFixed(2) + 'px'); css(e, 'borderRadius', (16 / s).toFixed(1) + 'px') }
+  }
+}
+const vM = view('m_view', 'm_in', 1414, 676, [[0, 707, 338, 1]], [[W[92][0], W[100][0] - .05, 1122, 78, 246, 100], [W[95][0], W[100][0] - .05, 768, 86, 360, 66, 'b']])
+const vK = view('k_view', 'k_in', 3200, 2560, [[0, 1600, 1280, 1], [ws(117) - .1, 960, 1120, 2.3]], [[W[115][0], W[118][0], 350, 785, 1120, 100], [W[118][0], W[121][0] + .6, 690, 1164, 590, 62, 'b']])
+// the owner's reaction stickers (die-cut, animated), in video seconds; f = the frames used (PLAYBOOK: Ugh = taking more than they need;
+// Side-Eye full, look frames 58-104 = a claim to doubt; The Grin = the sign-off). Shirtless set, grey set, grey set.
+const RX = [{ id: 'ugh', t0: ws(54) - .1, t1: we(66) + .4, rot: -4, f: [0, 59] },
+  { id: 'sideeye_full', t0: ws(134) - .1, t1: ws(141) - .35, rot: 4, f: [58, 104] },
+  { id: 'grin', t0: ws(160) + .4, t1: END - .15, rot: -3, f: [0, 107] }]
+const SROOT = 'file:///home/user/cmv-alphascanner/video/out/reactions/'
+// captions: the spoken summary, phrase by phrase [first word, last word, text]
+const CAP = [[0, 7, 'Let me explain how <b>Primus Labs</b> tech works,'], [8, 12, 'with one practical use case'],
+  [13, 18, 'You apply for a <b>remote job</b>'], [19, 25, 'The team only needs a few answers'], [26, 30, 'Do you have <b>this background</b>?'], [31, 35, 'Do you have <b>this credential</b>?'],
+  [36, 43, 'But they ask for your <b>full CV</b>,'], [44, 49, 'your certificates, even your ID'], [50, 57, 'Now they have your <b>phone number</b>, your <b>address</b>,'], [58, 66, 'and everything that was <b>never part of the question</b>'],
+  [67, 74, 'With <b>Primus</b>, you open the real website yourself,'], [75, 84, 'and <b>zkTLS</b> turns that logged-in session'], [85, 90, 'into a <b>proof of one fact</b>'],
+  [91, 96, 'The <b>attestor</b> watches the encrypted session,'], [97, 99, '<b>never your login</b>'],
+  [100, 105, 'The hiring app gets <b>one line</b>:'], [106, 108, '<b>this credential, true</b>'], [109, 112, 'Not your whole file'],
+  [113, 120, 'The official docs even list this <b>under hiring</b>'],
+  [121, 123, 'One limit though'], [124, 133, 'The proof shows what the website showed <b>at that time</b>,'], [134, 140, 'not that the account is <b>uniquely you</b>'],
+  [141, 150, "And it's a use case for <b>apps to build on</b>,"], [151, 159, 'not a <b>job board</b> you can apply on today'], [160, 163, "That's all for now…"]]
+  .map(([a, b, h], i, A) => ({ t0: ws(a) - .08, t1: Math.min(we(b) + .45, A[i + 1] ? T(W[A[i + 1][0]][0]) - .08 : 1e9), h }))
+// a document flies from the left into the team's folder: appears on its word, flies 0.6 s later on an arc, lands fanned
+const DOCS = [['d_cv', 41, [300, 420], [1230, 330], -6, 4], ['d_cert', 45, [280, 460], [1380, 420], 5, -3], ['d_id', 48, [290, 500], [1290, 560], -3, 6]]
+
+window.render = async t => {
+  SIG = []
+  for (const [id, a, b] of SC) { const fi = id === 's1' || id === 's2' ? 0 : .24, fo = id === 's1' ? 0 : .24, on = t >= a && t < b
+    css($(id), 'opacity', (on ? Math.min(fi ? cl((t - a) / fi) : 1, fo ? cl((b - t) / fo) : 1) : 0).toFixed(3)) }
+  css($('hdr'), 'opacity', (seg(t, DROP - .2, .3) * (1 - seg(t, ws(160) - .5, .3))).toFixed(3))
+  // 1. the hook: the logo, the handle and Primus's own home page are there from frame 0
+  if (t < DROP + .1) {
+    show('h_logo', t, -1, { base: `scale(${pulse(t, ws(4) - .05).toFixed(4)})` }); show('h_handle', t, -1); show('h_src', t, -1)
+    const z = 1 + .035 * eio(seg(t, 0, DROP)); show('h_home', t, -1, { base: `scale(${z.toFixed(4)})` })
+    show('h_tag', t, ws(9) - .12, { pop: 1, base: 'rotate(-3deg)' })
+  }
+  // 2. a remote job; the team needs two answers
+  if (t > DROP - .1 && t < ws(36)) {
+    const p = seg(t, DROP, .3); css($('j_t'), 'opacity', p.toFixed(3)); css($('j_t'), 'transform', `scale(${(1.25 - .25 * eo(p)).toFixed(4)})`)
+    show('j_post', t, DROP + .15, { dy: 40 })
+    const k = seg(t, ws(14) - .05, .35); css($('j_btn'), 'transform', `scale(${(1 - .08 * Math.sin(Math.PI * k)).toFixed(4)})`); css($('j_btn'), 'boxShadow', k > 0 ? `0 0 0 ${(14 * Math.sin(Math.PI * k)).toFixed(1)}px rgba(31,95,219,.25)` : 'none')
+    show('j_need', t, ws(22) - .12, { dy: 40 }); show('j_q1', t, ws(26) - .1, { dy: 18 }); show('j_q2', t, ws(31) - .1, { dy: 18 })
+    css($('j_q1'), 'background', t >= ws(26) - .1 && t < ws(31) - .1 ? '#E3ECFD' : '#F4F7FD'); css($('j_q2'), 'background', t >= ws(31) - .1 ? '#E3ECFD' : '#F4F7FD')
+  }
+  // 3. the whole file goes in; what comes out was never part of the question
+  if (t > ws(36) - .4 && t < ws(67)) {
+    show('w_you', t, ws(36) - .1, { out: ws(50) - .3 }); show('w_f', t, ws(36) - .2, { dy: 30 })
+    for (const [id, wi, a, b, r0, r1] of DOCS) {
+      const t0 = ws(wi) - .1, pin = eo(seg(t, t0, .22)), u = eio(seg(t, t0 + .3, .6)), el = $(id)
+      const x = lerp(a[0], b[0], u), y = lerp(a[1], b[1], u) - 140 * Math.sin(Math.PI * u), r = lerp(r0, r1, u)
+      css(el, 'opacity', (t >= t0 ? pin : 0).toFixed(3)); css(el, 'left', x.toFixed(1) + 'px'); css(el, 'top', y.toFixed(1) + 'px')
+      css(el, 'transform', `rotate(${r.toFixed(2)}deg) scale(${(.8 + .2 * pin - .06 * u).toFixed(4)})`)
+    }
+    show('w_now', t, ws(50) - .1); show('l1', t, ws(54) - .12, { pop: 1 }); show('l2', t, ws(57) - .12, { pop: 1 })
+    show('l3', t, ws(59) - .12, { pop: 1 }); show('l4', t, ws(59) + .2, { pop: 1 })
+    show('w_st', t, ws(62) - .1, { pop: 1, base: 'rotate(-4deg)' })
+  }
+  // 4. the real website, the Primus extension, zkTLS redacts the record to one line, the proof
+  if (t > ws(67) - .4 && t < ws(91)) {
+    show('b_win', t, ws(67) - .25, { dy: 40 })
+    css($('b_ext'), 'transform', `scale(${pulse(t, ws(68) - .05).toFixed(4)})`); css($('b_ext'), 'filter', t >= ws(68) - .05 ? 'drop-shadow(0 0 10px rgba(255,79,0,.6))' : 'none')
+    show('b_zk', t, ws(76) - .12, { pop: 1 }); show('b_log', t, ws(83) - .1, { pop: 1 })
+    const sc = seg(t, ws(81) - .05, 1.1); css($('b_scan'), 'opacity', (sc > 0 && sc < 1 ? 1 : 0).toFixed(3)); css($('b_scan'), 'top', (180 + 430 * sc).toFixed(1) + 'px')
+    for (let i = 0; i < 4; i++) { const a = ws(81) - .05 + 1.1 * (i + .6) / 5.4; css($('r' + i).querySelector('.red'), 'transform', `scaleX(${eio(seg(t, a, .35)).toFixed(4)})`) }
+    const hi = seg(t, ws(81) + .9, .3); css($('r4'), 'background', `rgba(255,79,0,${(.10 * hi).toFixed(3)})`); css($('r4'), 'borderRadius', '14px')
+    css($('b_cred'), 'color', hi > .5 ? 'var(--pri)' : 'var(--ink)')
+    const u = eio(seg(t, ws(87) - .15, .7)); css($('b_pf'), 'opacity', (t >= ws(87) - .15 ? cl(u * 3) : 0).toFixed(3))
+    css($('b_pf'), 'transform', `translate(${(-560 * (1 - u)).toFixed(1)}px,${(40 * (1 - u)).toFixed(1)}px) scale(${(.75 + .25 * u).toFixed(4)})`)
+  }
+  // 5. the docs' diagram: the attestor, the encrypted session (MPC-TLS), never your login
+  if (t > ws(91) - .4 && t < ws(100)) { show('m_view', t, ws(91) - .3, { dy: 30 }); show('m_src', t, ws(91) - .2); vM(t); show('m_lock', t, ws(97) - .1, { pop: 1 }) }
+  // 6. the hiring app gets one line; the whole file stays with you
+  if (t > ws(100) - .4 && t < ws(113)) {
+    show('a_box', t, ws(100) - .25, { dy: 30 })
+    const u = eio(seg(t, ws(101), .7)); css($('a_pf'), 'opacity', (t >= ws(101) ? cl(u * 3) : 0).toFixed(3)); css($('a_pf'), 'transform', `translate(${(-700 * (1 - u)).toFixed(1)}px,0) scale(${(.8 + .2 * u).toFixed(4)})`)
+    css($('a_pf'), 'boxShadow', `0 24px 54px rgba(255,79,0,${(.2 + .3 * Math.sin(Math.PI * seg(t, ws(104), .5))).toFixed(3)})`)
+    show('a_w1', t, ws(106) - .1, { dy: 20 }); show('a_w2', t, ws(108) - .1, { pop: 1 })
+    for (const id of ['a_you', 'a_cv', 'a_cert', 'a_id', 'a_lock']) show(id, t, ws(109) - .15, { dy: 24 })
+    show('a_x', t, ws(110) - .05, { pop: 1 })
+  }
+  // 7. the docs page, whole, then in on the hiring paragraph
+  if (t > ws(113) - .4 && t < ws(121)) { show('k_view', t, ws(113) - .3, { dy: 30 }); vK(t); show('k_q', t, ws(115) - .1, { dy: 24 }) }
+  // 8. one limit
+  if (t > ws(121) - .4 && t < ws(141)) {
+    const p = seg(t, ws(121) - .1, .3); css($('o_t'), 'opacity', p.toFixed(3)); css($('o_t'), 'transform', `scale(${(1.2 - .2 * eo(p)).toFixed(4)})`)
+    show('o_pf', t, ws(124) - .1, { dy: 30 }); show('o_st', t, ws(130) - .1, { pop: 1, base: 'rotate(-4deg)' })
+    show('o_ac', t, ws(136) - .15, { dy: 30 }); show('o_no', t, ws(139) - .05, { pop: 1, base: 'rotate(3deg)' })
+  }
+  // 9. for apps to build on; not a job board
+  if (t > ws(141) - .4 && t < ws(160)) {
+    show('p_t', t, ws(141) - .2, { dy: 20 }); show('p_dev', t, ws(142) - .1, { dy: 30 }); show('p_src', t, ws(142))
+    show('p_nb', t, ws(151) - .1, { pop: 1 }); show('p_sub', t, ws(155) - .1, { dy: 12 })
+  }
+  // the end card, in order
+  if (t > ws(160) - .5) { [...$('end').children].forEach((e, j) => { const a = ws(160) - .2 + .12 * j, p = eo(seg(t, a, .4)); css(e, 'opacity', (t >= a ? p : 0).toFixed(3)); css(e, 'transform', `translateY(${(24 * (1 - p)).toFixed(1)}px)`) }) }
+  // ---- the reaction sticker: the edit eases into the left 1382 x 778, the sticker pops in on the right, foot above the captions
+  let d = 0
+  for (const r of RX) d = Math.max(d, t < r.t0 - .35 || t > r.t1 + .3 ? 0 : Math.min(eio(cl((t - r.t0 + .35) / .35)), eio(cl((r.t1 + .3 - t) / .3))))
+  css($('edit'), 'transform', `translate(0px,${(76 * d).toFixed(1)}px) scale(${(1 - .28 * d).toFixed(4)})`)
+  const sr = RX.find(r => t >= r.t0 && t < r.t1), im = $('stk')
+  if (sr) {
+    const L = window.RLIB[sr.id], n = sr.f[1] - sr.f[0] + 1, per = 2 * (n - 1), lt = t - sr.t0
+    let i = Math.floor(lt * FPS); i = ((i % per) + per) % per; if (i >= n) i = per - i
+    const src = `${SROOT}${sr.id}/f_${String(sr.f[0] + i + 1).padStart(4, '0')}.png`
+    if (im.getAttribute('src') !== src) { im.src = src; try { await im.decode() } catch (e) {} } SIG.push(src)
+    const sw = 470, h = sw * L.h / L.w, pin = cl(lt / .22), pout = cl((sr.t1 - t) / .16)
+    const sc = (pin < 1 ? 1 + 3.2 * Math.pow(pin - 1, 3) + 2.2 * Math.pow(pin - 1, 2) : 1) * (.85 + .15 * pout)
+    css(im, 'width', sw + 'px'); css(im, 'left', (1651 - sw / 2) + 'px'); css(im, 'top', (930 - h).toFixed(1) + 'px'); css(im, 'opacity', Math.min(cl(pin * 5), pout).toFixed(3))
+    css(im, 'transform', `rotate(${sr.rot}deg) scale(${sc.toFixed(3)}) translateY(${(4 * Math.sin(lt * 1.6)).toFixed(1)}px)`)
+  } else css(im, 'opacity', '0')
+  // ---- captions
+  const c = CAP.find(x => t >= x.t0 && t < x.t1), html = c ? '<span>' + c.h + '</span>' : ''
+  if ($('cap').innerHTML !== html) $('cap').innerHTML = html
+  SIG.push(html); css($('cap'), 'opacity', c ? Math.min(1, (t - c.t0) / .12).toFixed(3) : '0')
+  return SIG.join('|')
+}
+window.READY = Promise.all([new Promise(r => { if (window.RLIB) return r(); const sc = document.createElement('script'); sc.src = SROOT + 'lib.js'; sc.onload = sc.onerror = r; document.head.appendChild(sc) }),
+  document.fonts.load('80px Anton'), document.fonts.load('800 40px Man'), document.fonts.load('600 26px Man'), document.fonts.load('700 30px Mono'),
+  ...[...document.images].map(i => i.decode ? i.decode().catch(() => 0) : 1)])
+</script>
+</body></html>

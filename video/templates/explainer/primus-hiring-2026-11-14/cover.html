@@ -1,0 +1,69 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Primus hiring: cover (#v, 1080x1920; its middle square is the picture for X) and wide thumbnail (#t, 1280x720, YouTube)</title>
+<style>
+@font-face{font-family:Anton;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/anton-latin-400-normal.woff2)}
+@font-face{font-family:Man;font-weight:800;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-800-normal.woff2)}
+@font-face{font-family:Mono;font-weight:700;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/jetbrains-mono-latin-700-normal.woff2)}
+/* Primus's own logo and icon; the strip is the real docs page "Decentralized Hiring and Dating" (docs.primuslabs.xyz,
+   14 Nov 2026). The redacted record and the proof card are the video's own illustrations of the example. */
+:root{--ink:#0B1F4D;--deep:#0A1A44;--blue:#1F5FDB;--mute:#6B7A99;--pri:#FF4F00;--green:#12A150}
+*{box-sizing:border-box}
+html,body{margin:0;overflow:hidden;font-family:Man,sans-serif;font-weight:800;color:var(--ink);background:#E6EEFB}
+.abs{position:absolute}
+.mono{font-family:Mono,monospace;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+.h{font-family:Anton,sans-serif;font-weight:400;line-height:1;text-transform:uppercase;white-space:nowrap}
+.grid{position:absolute;inset:0;background-image:linear-gradient(rgba(31,95,219,.06) 1.5px,transparent 1.5px),linear-gradient(90deg,rgba(31,95,219,.06) 1.5px,transparent 1.5px);background-size:72px 72px}
+.rec{position:absolute;border-radius:24px;background:#fff;box-shadow:0 24px 56px rgba(11,31,77,.18);padding:22px 30px}
+.rec .r{display:flex;align-items:center;gap:20px;height:38px;margin-top:6px}
+.rec .r span{width:150px;font-family:Mono,monospace;font-weight:700;font-size:16px;letter-spacing:.08em;color:var(--mute)}
+.rec .r i{display:block;height:24px;border-radius:7px;background:var(--deep)}
+.rec .r.on{background:#FFF1EA;border-radius:10px;padding-left:0}
+.rec .r.on b{color:var(--pri);font-size:24px}
+.pf{position:absolute;border-radius:22px;background:#fff;border:4px solid var(--pri);box-shadow:0 20px 46px rgba(255,79,0,.2);padding:16px 26px}
+.pf .k{display:flex;align-items:center;gap:12px;font-family:Mono,monospace;font-weight:700;font-size:19px;letter-spacing:.12em;color:var(--pri)}
+.pf .k img{width:34px;height:34px;display:block}
+.pf .v{font-size:36px;margin-top:8px;white-space:nowrap}
+.pf .v b{color:var(--green)}
+.doc{position:absolute;border-radius:20px;overflow:hidden;background:#fff;box-shadow:0 22px 50px rgba(11,31,77,.18)}
+.doc img{display:block;width:100%}
+</style></head>
+<body>
+<div id="v" style="display:none;position:absolute;left:0;top:0;width:1080px;height:1920px;overflow:hidden;background:radial-gradient(900px 900px at 50% 48%,#FFFFFF 0%,#EEF4FF 48%,#D3E1F8 100%)">
+  <div class="grid"></div>
+  <!-- Cut edges of 1080x1920 from the middle: 3:4 y 240/1680, 7:8 y 343/1577, 1:1 y 420/1500, 16:9 y 656/1263. The logo,
+       the title, the proof and the handle sit inside the 16:9 band; the record and the docs strip sit wholly between
+       420 and 656 and between 1263 and 1500. Nothing to read above 343 or below 1577. -->
+  <div class="rec" style="left:140px;top:430px;width:800px;height:216px">
+    <div class="r"><span>NAME</span><i style="width:440px"></i></div>
+    <div class="r"><span>PHONE</span><i style="width:400px"></i></div>
+    <div class="r"><span>ADDRESS</span><i style="width:470px"></i></div>
+    <div class="r on"><span style="padding-left:0">CREDENTIAL</span><b>Verified ✓</b></div>
+  </div>
+  <img class="abs" src="img/primus-logo.png" style="left:50%;transform:translateX(-50%);top:676px;height:70px">
+  <div class="abs h" style="left:0;width:1080px;text-align:center;top:768px;font-size:132px;color:var(--blue)">One line.</div>
+  <div class="abs h" style="left:0;width:1080px;text-align:center;top:900px;font-size:96px">Not your whole file.</div>
+  <div class="pf" style="left:50%;transform:translateX(-50%);top:1022px;width:520px"><div class="k"><img src="img/primus-icon.png">PROOF · ONE LINE</div><div class="v">this credential: <b>true</b></div></div>
+  <div class="abs" style="left:0;width:1080px;text-align:center;top:1172px;font-size:36px">@i_am_vickyd</div>
+  <div class="doc" style="left:140px;top:1278px;width:800px"><img src="img/hiring_strip.png"></div>
+</div>
+<div id="t" style="display:none;position:absolute;left:0;top:0;width:1280px;height:720px;overflow:hidden;background:radial-gradient(900px 600px at 30% 40%,#FFFFFF 0%,#EEF4FF 50%,#D3E1F8 100%)">
+  <div class="grid"></div>
+  <img class="abs" src="img/primus-logo.png" style="left:64px;top:66px;height:58px">
+  <div class="abs h" style="left:60px;top:160px;font-size:112px;color:var(--blue)">One line.</div>
+  <div class="abs h" style="left:60px;top:280px;font-size:76px">Not your whole file.</div>
+  <div class="pf" style="left:60px;top:400px;width:500px"><div class="k"><img src="img/primus-icon.png">PROOF · ONE LINE</div><div class="v">this credential: <b>true</b></div></div>
+  <div class="abs" style="left:64px;top:600px;font-size:32px">@i_am_vickyd</div>
+  <div class="rec" style="left:700px;top:120px;width:520px;height:216px;transform:rotate(-2deg)">
+    <div class="r"><span>NAME</span><i style="width:280px"></i></div>
+    <div class="r"><span>PHONE</span><i style="width:250px"></i></div>
+    <div class="r"><span>ADDRESS</span><i style="width:300px"></i></div>
+    <div class="r on"><span>CREDENTIAL</span><b>Verified ✓</b></div>
+  </div>
+  <div class="doc" style="left:690px;top:420px;width:540px;transform:rotate(2deg)"><img src="img/hiring_strip.png"></div>
+</div>
+<script>
+const m = location.hash.includes('t') ? 't' : 'v'
+document.getElementById(m).style.display = 'block'
+window.READY = Promise.all([document.fonts.ready, ...[...document.images].map(i => i.decode().catch(() => 0))]).then(() => document.fonts.load('116px Anton')).then(() => document.fonts.load('800 30px Man')).then(() => document.fonts.load('700 24px Mono'))
+</script>
+</body></html>

@@ -1,0 +1,15 @@
+Let me explain how Primus Labs tech works, with one practical use case.
+
+You apply for a remote job. The team only needs a few answers. Do you have this background? Do you have this credential?
+
+But they ask for your full C V, your certificates, even your I D. Now they have your phone number, your address, and everything that was never part of the question.
+
+With Primus, you open the real website yourself, and Z K T L S turns that logged-in session into a proof of one fact. The attestor watches the encrypted session, never your login.
+
+The hiring app gets one line: this credential, true. Not your whole file.
+
+The official docs even list this under hiring.
+
+One limit though. The proof shows what the website showed at that time, not that the account is uniquely you. And it's a use case for apps to build on, not a job board you can apply on today.
+
+That's all for now.
