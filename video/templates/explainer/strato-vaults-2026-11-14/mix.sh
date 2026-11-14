@@ -17,7 +17,8 @@ ffmpeg -v error -y -i "$W/take48.wav" -filter_complex \
 ffmpeg -v error -y -ss $OFF -to $L1 -i "$MUS" -ar 48000 -ac 2 "$W/m1.wav"
 ffmpeg -v error -y -ss $L0 -to $L1 -i "$MUS" -ar 48000 -ac 2 "$W/m2.wav"
 ffmpeg -v error -y -i "$W/m1.wav" -i "$W/m2.wav" -filter_complex "[0:a][1:a]acrossfade=d=0.03:c1=tri:c2=tri,atrim=0:$TOT[m]" -map "[m]" "$W/mloop.wav"
-ffmpeg -v error -y -i "$W/mloop.wav" -af "volume='if(lt(t,$DROP),0.45,if(lt(t,$DROP+0.99),0.26-0.12*(t-$DROP)/0.99,0.14))':eval=frame,afade=t=out:st=$(python3 -I -c "print($TOT-3.0)"):d=3.0" \
+# after the drop the bed sits about 12 dB under the voice (preflight: 8 to 16; at 0.14 it measured 16.8, too quiet)
+ffmpeg -v error -y -i "$W/mloop.wav" -af "volume='if(lt(t,$DROP),0.45,if(lt(t,$DROP+0.99),0.40-0.17*(t-$DROP)/0.99,0.23))':eval=frame,afade=t=out:st=$(python3 -I -c "print($TOT-3.0)"):d=3.0" \
   -ar 48000 -ac 2 "$W/bed.wav"
 ffmpeg -v error -y -i "$W/voice.wav" -i "$W/bed.wav" -filter_complex \
   "[0:a]asplit=2[vk][vm];[1:a][vk]sidechaincompress=threshold=0.03:ratio=6:attack=15:release=350[md];[vm][md]amix=inputs=2:duration=first:normalize=0[m]" \

@@ -49,7 +49,11 @@ my written content... Clean motions and references". Template: `video/templates/
   4. **Red highlight rings** on the screenshots, against the house rule (rings blue; red only for a loss). Same sheets.
   5. **A reference chip up for under a second** ("Right now: 0.4 wBTC locked…"). Now it comes with syrupUSDC.
   6. **The push-in cut the card's title in half.** The camera now stops with the title whole.
+  7. **The music sat 16.8 dB under the voice** (the Agentics bed level, 0.14 after the drop). The preflight stopped
+     it; the bed went up 4 dB (0.23): 12.5 dB on the preflight, 10.5 dB over the ducked bed in the mix, 10.2 dB in
+     4 to 12 kHz. Only the sound was re-muxed. Preflight then 0 FAIL, 0 WARN; hear-back 37 of 37 again.
 - **Change next time:**
+  - Run the preflight's music measure on the stems right after `mix.sh`, before any render.
   - Use the drop's own time for the cut, never T() of a time inside the pause.
   - Scene changes: the old scene out, then the new one in; never both at full strength.
   - Rings blue from the first draft.
