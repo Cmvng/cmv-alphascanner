@@ -226,6 +226,17 @@ When the owner asks for "the Polymarket video" or "prediction market plays", cop
 When the owner asks for an explainer ("explain Packs", "a video on how X works"), copy
 `video/templates/explainer/limitless-packs-2026-10-03.json` and read `video/templates/explainer/README.md`.
 
+**Motion craft for every page you build (the 14 Nov study of 20 repos: `video/templates/MOTION-STUDY.md`).**
+- **Easing and springs:** load `video/lib/motion.js` (`window.M`). Enter with ease-out, leave with ease-in (shorter);
+  never opacity alone; use springs for pops and stamps.
+- **The three layers:** the thing named; its parts following 0.05 to 0.15 s later; a little ambient life.
+- **Hits:** time slams and cuts from `python3 -I video/lib/beats.py <track> --offset <OFF>`.
+- **Determinism:** run `node video/lib/determinism.mjs <page>` before the full render. Pre-scale big images to about
+  twice their shown size.
+- **Fast moves:** if one strobes, render with `MBLUR=32` (adaptive motion blur, about 10× the time on moving frames
+  only).
+- **Never on these:** no motion blur, regrade or effect on the owner's own picture, and no sound effects.
+
 **The owner's reaction stickers must FLOW with the video (the owner, 7 Nov: "intertwined… progressing with the
 video… not a case whereby it just shows up and goes away").** Before placing any reaction, read
 `video/templates/reactions/PLAYBOOK.md`.
