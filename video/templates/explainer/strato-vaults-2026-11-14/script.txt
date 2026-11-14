@@ -1,0 +1,31 @@
+If you hold ETH or BTC, Strato has two vaults for them, and they don't earn the same way.
+
+ETH Yield Vault.
+
+You deposit ETH and get carry ETH back.
+
+The vault puts the ETH into strategies like W S T ETH, so it earns ETH staking yield.
+
+The returns get converted back to ETH, so each carry ETH is worth a bit more ETH over time. One carry ETH is about one point zero zero four six ETH right now.
+
+About eighty-nine thousand dollars in the vault. About one point nine percent base A P Y, plus about one percent in reward points.
+
+W BTC Carry Vault.
+
+You deposit W BTC and get carry W BTC back.
+
+The vault locks the W BTC as collateral, borrows U S D S T against it, and puts that U S D S T into yield paying stablecoins, like syrup U S D C and S U S D S.
+
+Whatever is left after the borrow cost gets converted back to BTC.
+
+About seventy-one thousand dollars in the vault. About one point three nine percent A P Y, no reward points on it right now.
+
+So the ETH vault is staking yield, while the BTC one is a carry trade. You earn the gap between what the stablecoins pay, and what the loan costs.
+
+By the way, one carry W BTC still redeems for exactly one W BTC, so it hasn't added any BTC to the shares yet.
+
+Both keep some idle funds for withdrawals, but a big withdrawal can sit in a queue while the money is deployed.
+
+The BTC vault has a loan inside it, so a sharp BTC drop, or a stablecoin losing its peg, hits it harder.
+
+That's all for now.

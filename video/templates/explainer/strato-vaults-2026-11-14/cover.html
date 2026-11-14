@@ -1,0 +1,60 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>STRATO vaults: cover (#v, 1080x1920; its middle square is the picture for X) and wide thumbnail (#t, 1280x720, YouTube)</title>
+<style>
+@font-face{font-family:Anton;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/anton-latin-400-normal.woff2)}
+@font-face{font-family:Man;font-weight:800;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-800-normal.woff2)}
+@font-face{font-family:Mono;font-weight:700;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/jetbrains-mono-latin-700-normal.woff2)}
+/* The two cards are STRATO's own vault cards (app.strato.nexus, 14 Nov 2026), shown whole. The logos are STRATO's own. */
+:root{--ink:#0B1F4D;--blue:#1F5FDB;--mute:#6B7A99;--eth:#3A5BD9;--btc:#E8590C}
+*{box-sizing:border-box}
+html,body{margin:0;overflow:hidden;font-family:Man,sans-serif;font-weight:800;color:var(--ink);background:#E6EEFB}
+.abs{position:absolute}
+.mono{font-family:Mono,monospace;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
+.h{font-family:Anton,sans-serif;font-weight:400;line-height:1;text-transform:uppercase;white-space:nowrap}
+.grid{position:absolute;inset:0;background-image:linear-gradient(rgba(31,95,219,.06) 1.5px,transparent 1.5px),linear-gradient(90deg,rgba(31,95,219,.06) 1.5px,transparent 1.5px);background-size:72px 72px}
+.vc{position:absolute;border-radius:26px;overflow:hidden;background:#fff;box-shadow:0 26px 60px rgba(11,31,77,.20),0 0 0 1.5px rgba(11,31,77,.05)}
+.vc img{display:block;width:100%}
+.pill{display:flex;align-items:center;gap:14px;height:92px;padding:0 30px 0 12px;border-radius:46px;background:#fff;box-shadow:0 16px 36px rgba(11,31,77,.16);font-size:34px;white-space:nowrap}
+.pill img{width:68px;height:68px;border-radius:34px;display:block}
+.pill small{font-size:22px;color:var(--mute);font-family:Mono,monospace;letter-spacing:.1em;text-transform:uppercase;display:block;line-height:1.1}
+.pill span{line-height:1.05}
+</style></head>
+<body>
+<div id="v" style="display:none;position:absolute;left:0;top:0;width:1080px;height:1920px;overflow:hidden;background:radial-gradient(900px 900px at 50% 48%,#FFFFFF 0%,#EEF4FF 48%,#D3E1F8 100%)">
+  <div class="grid"></div>
+  <!-- Cut edges (middle cuts of 1080x1920): 3:4 y 240/1680, 7:8 y 343/1577, 1:1 y 420/1500, 16:9 y 656/1263.
+       The title, the logo and the handle sit inside the 16:9 band, so they are whole in every cut. The two real vault
+       cards sit wholly between 420 and 656 and between 1263 and 1500: whole in 3:4, 7:8 and 1:1, wholly out of 16:9.
+       Above 343 and below 1577 there is nothing to read. -->
+  <div class="vc" style="left:100px;top:428px;width:880px;transform:rotate(-1.5deg)"><img src="img/eth_card.png"></div>
+  <div class="vc" style="left:100px;top:1266px;width:880px;transform:rotate(1.5deg)"><img src="img/wbtc_card.png"></div>
+  <img class="abs" src="img/strato_wordmark.png" style="left:50%;transform:translateX(-50%);top:676px;height:74px">
+  <div class="abs h" style="left:0;width:1080px;text-align:center;top:768px;font-size:132px">Two vaults,</div>
+  <div class="abs h" style="left:0;width:1080px;text-align:center;top:900px;font-size:104px;color:var(--blue)">two ways to earn</div>
+  <div class="abs" style="left:0;width:1080px;top:1030px;display:flex;justify-content:center;gap:24px">
+    <div class="pill"><img src="img/ETH.png"><span><small>ETH vault</small><b style="color:var(--eth)">staking yield</b></span></div>
+    <div class="pill"><img src="img/WBTC.png"><span><small>wBTC vault</small><b style="color:var(--btc)">carry trade</b></span></div>
+  </div>
+  <div class="abs" style="left:0;width:1080px;text-align:center;top:1150px;font-size:36px">@i_am_vickyd</div>
+  <div class="abs mono" style="left:0;width:1080px;text-align:center;top:1204px;font-size:22px;color:var(--mute)">STRATO app · 14 Nov 2026</div>
+</div>
+<div id="t" style="display:none;position:absolute;left:0;top:0;width:1280px;height:720px;overflow:hidden;background:radial-gradient(900px 600px at 30% 40%,#FFFFFF 0%,#EEF4FF 50%,#D3E1F8 100%)">
+  <div class="grid"></div>
+  <img class="abs" src="img/strato_wordmark.png" style="left:64px;top:70px;height:60px">
+  <div class="abs h" style="left:60px;top:156px;font-size:104px">Two vaults,</div>
+  <div class="abs h" style="left:60px;top:262px;font-size:80px;color:var(--blue)">two ways to earn</div>
+  <div class="abs" style="left:60px;top:378px;display:flex;flex-direction:column;gap:18px">
+    <div class="pill" style="height:84px;font-size:30px"><img src="img/ETH.png" style="width:60px;height:60px"><span><small>ETH vault</small><b style="color:var(--eth)">staking yield</b></span></div>
+    <div class="pill" style="height:84px;font-size:30px"><img src="img/WBTC.png" style="width:60px;height:60px"><span><small>wBTC vault</small><b style="color:var(--btc)">carry trade</b></span></div>
+  </div>
+  <div class="abs" style="left:64px;top:600px;font-size:32px">@i_am_vickyd</div>
+  <div class="vc" style="left:676px;top:150px;width:560px;transform:rotate(-2deg)"><img src="img/eth_card.png"></div>
+  <div class="abs h" style="left:920px;top:296px;font-size:96px;color:var(--mute)">≠</div>
+  <div class="vc" style="left:676px;top:420px;width:560px;transform:rotate(2deg)"><img src="img/wbtc_card.png"></div>
+</div>
+<script>
+const m = location.hash.includes('t') ? 't' : 'v'
+document.getElementById(m).style.display = 'block'
+window.READY = Promise.all([document.fonts.ready, ...[...document.images].map(i => i.decode().catch(() => 0))]).then(() => document.fonts.load('116px Anton')).then(() => document.fonts.load('800 30px Man')).then(() => document.fonts.load('700 24px Mono'))
+</script>
+</body></html>

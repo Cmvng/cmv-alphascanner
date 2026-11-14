@@ -28,6 +28,35 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
+## 14 Nov: "STRATO's two vaults" (1:47, 16:9, the owner's written script read by Lara)
+
+The brief: two screenshots of STRATO's vault pages and their script, "I want to create an illustrative video on this
+my written content... Clean motions and references". Template: `video/templates/explainer/strato-vaults-2026-11-14/`.
+
+- **What worked:**
+  - Every number in the script was checked against STRATO's own public API and pages the same morning. All of them
+    hold; the one rounding difference (1.39% in their screenshot, 1.40% live) is handled by showing their screenshot.
+  - The script is acted out in its own order with the project's own coins and screens; the two engines end side by
+    side (STAKING YIELD against CARRY TRADE), so the point of the script is one picture.
+  - Hear-back on the final mix: 37 of 37 captions match the spoken words (`caps.py` checks that every script word sits
+    in exactly one caption before anything is rendered).
+- **Mistakes, and how they were caught (before sending):**
+  1. **The hook ran over the title for 0.6 s** because the scene list used `T(6.84)` (7.64 s) instead of the drop
+     (7.04 s). Caught on the stills; `DROP` is now the scene cut and a hard cut.
+  2. **Frame 0 was empty** (the coins faded in from 0). Now they are there from frame 0.
+  3. **Two scenes at full strength at once** at each scene change (the new one faded in before the old one faded
+     out). Caught on the half-second sheets of the first full render; fixed and rendered again.
+  4. **Red highlight rings** on the screenshots, against the house rule (rings blue; red only for a loss). Same sheets.
+  5. **A reference chip up for under a second** ("Right now: 0.4 wBTC locked…"). Now it comes with syrupUSDC.
+  6. **The push-in cut the card's title in half.** The camera now stops with the title whole.
+- **Change next time:**
+  - Use the drop's own time for the cut, never T() of a time inside the pause.
+  - Scene changes: the old scene out, then the new one in; never both at full strength.
+  - Rings blue from the first draft.
+- **The owner's reaction:** (to be added)
+
+---
+
 ## 13 Nov: the owner's recording, "One of my flops" (2:57, 9:16, their picture and sound untouched)
 
 The brief: "the pictures are what are the things I was talking about... it's just me talking about my flops... my
