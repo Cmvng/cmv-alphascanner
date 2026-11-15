@@ -56,6 +56,12 @@ The brief: their post about @primus_labs and $eU on BNB Chain. They chose the pu
      the render was stopped two minutes in, and both were fixed.
   5. **`determinism.mjs` flagged one frame.** It only differs when drawn after a jump back from a sticker frame,
      which our forward-only chunks never do. Both chunk joins were compared directly and match.
+  6. **An empty beat in the first full render (12.7 to 13.4 s), found on the half-second sheets.** Scene 3 began
+     0.7 s before its first card ("payment"). Scene 2 now holds until just before that word. Scene 4's logo and app
+     card also now arrive with the scene.
+  7. **The coin flew close to the top edge and hovered.** This showed on the frame-by-frame strip. Its arc is
+     now lower (110 px).
+  Re-rendered once for 6 and 7.
 - **Change next time:**
   - put `text-transform:none` on tickers inside mono labels from the start;
   - for chunk-safety, compare fresh and forward frames at the chunk joins, not only the shuffled order.

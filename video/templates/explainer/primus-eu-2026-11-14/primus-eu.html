@@ -297,7 +297,7 @@ const END = 51.5, DROP = CUT + 0.2, ENDC = 48.3
 // an element enters at a (ease-out, never opacity alone) and leaves at b (ease-in, shorter)
 const io = (id, t, a, b = 1e9, o = {}) => { const el = typeof id === 'string' ? $(id) : id; SIG.push(M.apply(el, M.inout(t, a, b, o), o.base || '')) }
 // scenes [id, from, to]: the old one eases back, the new one settles in; the drop is a hard cut
-const SC = [['s1', 0, DROP], ['s2', DROP, ws(40) - .3], ['s3', ws(40) - .3, ws(60) - .3], ['s4', ws(60) - .3, ws(79) - .3], ['s5', ws(79) - .3, ws(85) - .3],
+const SC = [['s1', 0, DROP], ['s2', DROP, ws(44) - .3], ['s3', ws(44) - .3, ws(60) - .3], ['s4', ws(60) - .3, ws(79) - .3], ['s5', ws(79) - .3, ws(85) - .3],
   ['s6', ws(85) - .3, ws(100) - .3], ['s7', ws(100) - .3, ws(115) - .3], ['s8', ws(115) - .3, ws(127) - .3], ['s9', ws(127) - .3, ENDC], ['end', ENDC, 999]]
 // a view onto a real screen: a camera in source pixels [t, cx, cy, zoom] with a perceptual zoom, never past the screen's
 // own pixels; rings in source pixels [from, to, x, y, w, h, cls] (video seconds) that draw on from the left
@@ -321,7 +321,7 @@ function view(vid, inid, W0, H0, keys, rings) {
 }
 // 2. the U token page: whole, then in on the first transfers; rings on paid / the payer's address / the next payment
 const vU = view('u_view', 'u_in', 3200, 1800, [[0, 1600, 900, 1], [ws(21) - .25, 2120, 1330, 2.0]],
-  [[ws(23) - .1, ws(29) - .15, 1645, 1140, 960, 62], [ws(29) - .1, ws(34) - .15, 1645, 1140, 270, 62], [ws(34) - .1, ws(40) - .3, 1645, 1240, 960, 62]])
+  [[ws(23) - .1, ws(29) - .15, 1645, 1140, 960, 62], [ws(29) - .1, ws(34) - .15, 1645, 1140, 270, 62], [ws(34) - .1, ws(44) - .3, 1645, 1240, 960, 62]])
 // 6. the eU token page: whole, then in on the newest transfer; ring the transfer, then its value (0)
 const vE = view('e_view', 'e_in', 3200, 1800, [[0, 1600, 900, 1], [ws(93) - .15, 2100, 1330, 2.0, .8]],
   [[ws(95) - .1, ws(100) - .3, 1734, 1140, 690, 62], [ws(97) - .1, ws(100) - .3, 2508, 1134, 74, 72, 'o']])
@@ -358,7 +358,7 @@ window.render = async t => {
   for (const [id, a, b] of SC) { const fi = id === 's1' || id === 's2' ? 0 : .3, fo = id === 's1' ? 0 : .24, st = M.scene(t, a, b, fi, fo)
     css($(id), 'opacity', st.op.toFixed(3)); css($(id), 'transform', `scale(${st.s.toFixed(4)})`) }
   css($('grid'), 'transform', `translate(${(M.float(t, 20, 23)).toFixed(1)}px,${(M.float(t, 14, 31, .3)).toFixed(1)}px)`)
-  const hd = seg(t, DROP - .2, .3) * (1 - seg(t, ws(60) - .5, .3)) + seg(t, ws(79) - .4, .3) * (1 - seg(t, ENDC - .3, .3))
+  const hd = seg(t, DROP, .3) * (1 - seg(t, ws(60) - .5, .3)) + seg(t, ws(79) - .4, .3) * (1 - seg(t, ENDC - .3, .3))
   css($('hdr'), 'opacity', cl(hd).toFixed(3))
   // 1. the hook: the receipt is whole from frame 0; it flips on "remaining balance" to the balance printed on its back
   if (t < DROP + .1) {
@@ -370,7 +370,7 @@ window.render = async t => {
     io('h_eye', t, ws(16) - .1, 1e9, { dx: -30, dy: 0, spring: M.SP.pop })
   }
   // 2. the real U page lands on the drop (one decaying shake), the card builds with the voice
-  if (t > DROP - .1 && t < ws(40)) {
+  if (t > DROP - .1 && t < ws(44)) {
     const [sx, sy, sr] = M.shake(t, DROP, .4, 9); css($('s2'), 'translate', `${sx.toFixed(1)}px ${sy.toFixed(1)}px`); css($('s2'), 'rotate', `${sr.toFixed(3)}deg`)
     const p = seg(t, DROP, .35); css($('u_t'), 'opacity', p.toFixed(3)); css($('u_t'), 'transform', `scale(${(1.18 - .18 * E.enter(p)).toFixed(4)})`); $('u_t').style.transformOrigin = '0 50%'
     io('u_view', t, DROP, 1e9, { dy: 50, d: .45 }); io('u_src', t, DROP + .2); vU(t)
@@ -378,7 +378,7 @@ window.render = async t => {
     io('u_r1', t, ws(23) - .1, 1e9, { dx: 24, dy: 0 }); io('u_r2', t, ws(29) - .1, 1e9, { dx: 24, dy: 0 }); io('u_r3', t, ws(34) - .1, 1e9, { dx: 24, dy: 0 })
   }
   // 3. a payment and a savings position; the view of the rest of the account slides out from under them; crossed out
-  if (t > ws(40) - .4 && t < ws(60)) {
+  if (t > ws(44) - .4 && t < ws(60)) {
     io('m_pay', t, ws(44) - .15, 1e9, { dy: 40, d: .4 }); io('m_sav', t, ws(47) - .15, 1e9, { dy: 40, d: .4 })
     for (const [id, a] of [['t_pay', ws(53) - .2], ['t_sav', ws(53) - .05]]) { const u = E.enter(seg(t, a, .5)), el = $(id)
       css(el, 'opacity', (t >= a ? Math.min(1, u * 2) : 0).toFixed(3)); css(el, 'transform', `translateY(${(-150 * (1 - u)).toFixed(1)}px)`); css(el, 'clipPath', `inset(0 0 ${(100 * (1 - u)).toFixed(1)}% 0 round 20px)`)
@@ -388,10 +388,10 @@ window.render = async t => {
   }
   // 4. Primus, the two fixes, BNB Chain; the real app; $eU: the U coin locked; $U beside it; 1:1
   if (t > ws(60) - .4 && t < ws(79)) {
-    const lp = M.spring(t, ws(60) - .15, M.SP.card); css($('p_logo'), 'opacity', cl((t - ws(60) + .15) / .2).toFixed(3)); css($('p_logo'), 'transform', `translateY(${(30 * (1 - lp)).toFixed(1)}px) scale(${(M.breathe(t, .995, 1.005)).toFixed(4)})`)
+    const lp = M.spring(t, ws(60) - .3, M.SP.card); css($('p_logo'), 'opacity', cl((t - ws(60) + .3) / .2).toFixed(3)); css($('p_logo'), 'transform', `translateY(${(30 * (1 - lp)).toFixed(1)}px) scale(${(M.breathe(t, .995, 1.005)).toFixed(4)})`)
     io('p_c1', t, ws(62) - .1, 1e9, { dy: 20, spring: M.SP.pop }); io('p_c2', t, M.child(ws(62) - .1, 0), 1e9, { dy: 20, spring: M.SP.pop })
     io('p_c3', t, ws(65) - .12, 1e9, { dy: 20, spring: M.SP.pop })
-    io('p_dapp', t, ws(61) - .1, 1e9, { dy: 40, d: .45 }); io('p_src', t, M.child(ws(61) - .1, 0))
+    io('p_dapp', t, ws(60) - .25, 1e9, { dy: 40, d: .45 }); io('p_src', t, M.child(ws(60) - .25, 0))
     const ce = M.spring(t, ws(68) - .1, M.SP.pop); css($('c_eu'), 'opacity', cl((t - ws(68) + .1) / .12).toFixed(3))
     css($('c_eu'), 'transform', `translateY(${(M.float(t, 3, 4, .5) + 40 * (1 - ce)).toFixed(1)}px) scale(${(.6 + .4 * ce).toFixed(4)})`)
     const lk = M.spring(t, ws(71) - .1, M.SP.pop); css($('c_lk'), 'opacity', cl((t - ws(71) + .1) / .1).toFixed(3))
@@ -420,7 +420,7 @@ window.render = async t => {
   if (t > ws(85) - .4 && t < ws(100)) {
     const ex = ws(92) - .35
     io('w_you', t, ws(85) - .2, ex, { dx: -40, dy: 0 }); io('w_to', t, M.child(ws(85) - .2, 0), ex, { dx: 40, dy: 0 }); io('w_tag', t, ws(85), ex)
-    const a = ws(85) + .1, u = E.standard(seg(t, a, ws(90) - a)), [px, py] = M.arc(u, [430, 260], [1395, 205], 170), cp = t >= a ? 1 - E.exit(seg(t, ex, .2)) : 0
+    const a = ws(85) + .1, u = E.standard(seg(t, a, ws(90) - a)), [px, py] = M.arc(u, [430, 300], [1365, 225], 110), cp = t >= a ? 1 - E.exit(seg(t, ex, .2)) : 0
     const sk = E.exit(seg(t, ws(90) + .02, .3))
     css($('w_coin'), 'opacity', (t >= a - .15 ? Math.min(cl((t - a + .15) / .15), cp, 1 - sk) : 0).toFixed(3))
     css($('w_coin'), 'transform', `translate(${px.toFixed(1)}px,${(py + 80 * sk).toFixed(1)}px) rotate(${(360 * u).toFixed(1)}deg) scale(${((1 + .15 * Math.sin(Math.PI * u)) * (1 - .5 * sk)).toFixed(4)})`)
