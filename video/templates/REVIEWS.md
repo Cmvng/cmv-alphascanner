@@ -28,6 +28,41 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
+## 14 Nov: "Primus $eU, the receipt" (0:51, 16:9, the owner's script read by Lara)
+
+The brief: their post about @primus_labs and $eU on BNB Chain. They chose the public screens (no wallet) and Lara
+(756 credits). Template: `video/templates/explainer/primus-eu-2026-11-14/`.
+
+- **What worked:**
+  - **Their own picture became the device.** The receipt with the balance on its back flips in 3D in the hook, then
+    comes back on the end card with its back encrypted.
+  - **The block explorer is the evidence.** BscTrace's U page shows every amount; its eU page shows Value 0 with From
+    and To in full. That is the whole video in two real screens.
+  - **The first video built on `motion.js`:**
+    - springs, draw-on rings and a perceptual zoom;
+    - one shake on the drop;
+    - an agenda that shrinks into the corner and ticks.
+- **Mistakes, and how they were caught (before sending):**
+  1. **Three push-ins framed badly:**
+     - the docs push-in cut the left edge of the paragraph;
+     - the U and eU push-ins left the stats row at the top;
+     - the vault push-in hid the Txn Hash column.
+     All three were reframed on the second stills.
+  2. **The coin landed on the wallet's label.** It now lands above the wallet and sinks into it, and a "received
+     $eU" pill appears.
+  3. **"Encrypted Balances" sat on top of the vault table.** The table now steps back, and the chips take the middle
+     under "YOUR FIGURES STAY PRIVATE."
+  4. **The mono style uppercased "$eU" to "$EU"** (on one label and on the cover). It was caught on the cover check,
+     the render was stopped two minutes in, and both were fixed.
+  5. **`determinism.mjs` flagged one frame.** It only differs when drawn after a jump back from a sticker frame,
+     which our forward-only chunks never do. Both chunk joins were compared directly and match.
+- **Change next time:**
+  - put `text-transform:none` on tickers inside mono labels from the start;
+  - for chunk-safety, compare fresh and forward frames at the chunk joins, not only the shuffled order.
+- **The owner's reaction:** (to be added)
+
+---
+
 ## 14 Nov: "Primus, the hiring use case" (0:59, 16:9, a summary of the owner's post read by Lara)
 
 The brief: ten pictures and their post, "use the summary of the idea of the video.. Not like you taking all the
