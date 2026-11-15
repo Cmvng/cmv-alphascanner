@@ -1,0 +1,17 @@
+On a public chain, paying someone is like handing them a receipt with your remaining balance printed on the back.
+
+The vendor gets paid, then they can still see what you have left, and what you do with it after.
+
+I don't think a payment or a savings position should come with a view of the rest of my account.
+
+Primus Labs fixes both on BNB Chain with E U, the encrypted version of U, at one to one.
+
+What I'm showing in this video.
+
+Sending E U to a wallet. The explorer shows a transfer, but not the amount.
+
+The confidential vault, where you earn yield on E U, with your position size encrypted.
+
+The money moves, and the strategy still runs. Your figures stay private.
+
+One thing to know. Wallet addresses are still public. Only the amounts are hidden.

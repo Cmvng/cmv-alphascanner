@@ -1,0 +1,80 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Primus $eU: cover (#v, 1080x1920; its middle square is the picture for X) and wide thumbnail (#t, 1280x720, YouTube)</title>
+<style>
+@font-face{font-family:Anton;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/anton-latin-400-normal.woff2)}
+@font-face{font-family:Man;font-weight:800;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-800-normal.woff2)}
+@font-face{font-family:Mono;font-weight:700;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/jetbrains-mono-latin-700-normal.woff2)}
+/* Primus's own logo; the strip is the real Confidential U (eU) page on BscTrace (14 Nov 2026), Value 0; the chips are the
+   Primus app's landing page as served (dapp.primuslabs.xyz, 14 Nov 2026). The receipt is the video's own illustration. */
+:root{--ink:#0B1F4D;--blue:#1F5FDB;--mute:#6B7A99;--pri:#FF4F00}
+*{box-sizing:border-box}
+html,body{margin:0;overflow:hidden;font-family:Man,sans-serif;font-weight:800;color:var(--ink);background:#E6EEFB}
+.abs{position:absolute}
+.mono{font-family:Mono,monospace;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+.h{font-family:Anton,sans-serif;font-weight:400;line-height:1;text-transform:uppercase;white-space:nowrap}
+.grid{position:absolute;inset:0;background-image:linear-gradient(rgba(31,95,219,.06) 1.5px,transparent 1.5px),linear-gradient(90deg,rgba(31,95,219,.06) 1.5px,transparent 1.5px);background-size:72px 72px}
+.paper{position:absolute;background:#FFFEFA;padding:30px 30px 0;font-family:Mono,monospace;font-weight:700;color:#1D2742}
+.pw{position:absolute;filter:drop-shadow(0 22px 30px rgba(11,31,77,.24))}
+.paper .s{font-size:15px;letter-spacing:.12em;text-align:center;color:#7A8299}
+.paper .dash{border-top:3px dashed #C9CFDC;margin:20px 0}
+.paper .b1{font-family:Anton,sans-serif;font-weight:400;font-size:44px;text-align:center;line-height:1.05}
+.paper .b2{font-family:Anton,sans-serif;font-weight:400;font-size:78px;text-align:center;margin-top:14px;letter-spacing:.04em}
+.paper .lk{display:flex;justify-content:center;align-items:center;gap:10px;margin-top:12px;font-size:20px;letter-spacing:.12em;color:var(--blue)}
+.paper .lk svg{width:28px;height:28px}
+.paper .l{display:flex;justify-content:space-between;font-size:19px;margin-top:10px}
+.paper .l span{color:#7A8299}
+.shot{position:absolute;border-radius:18px;overflow:hidden;background:#fff;box-shadow:0 20px 44px rgba(11,31,77,.16)}
+.shot img{display:block;width:100%}
+.ring{position:absolute;border:5px solid var(--pri);border-radius:12px;box-shadow:0 0 0 5px rgba(255,79,0,.16)}
+</style></head>
+<body>
+<svg width="0" height="0" style="position:absolute"><symbol id="i-lock" viewBox="0 0 24 24"><rect x="4" y="10.5" width="16" height="11" rx="2.6" fill="currentColor"/><path d="M7.6 10.5V7.6a4.4 4.4 0 0 1 8.8 0v2.9" fill="none" stroke="currentColor" stroke-width="2.6"/></symbol></svg>
+<div id="v" style="display:none;position:absolute;left:0;top:0;width:1080px;height:1920px;overflow:hidden;background:radial-gradient(900px 900px at 50% 48%,#FFFFFF 0%,#EEF4FF 48%,#D3E1F8 100%)">
+  <div class="grid"></div>
+  <!-- Cut edges of 1080x1920 from the middle: 3:4 y 240/1680, 7:8 y 343/1577, 1:1 y 420/1500, 16:9 y 656/1263. The receipt,
+       the logo, the title, the coin line and the handle sit inside the 16:9 band; the explorer strip and the app's chips sit
+       wholly between 420 and 656 and between 1263 and 1500. Nothing to read above 343 or below 1577. -->
+  <div class="shot" style="left:156px;top:428px;width:768px"><img src="img/eu_strip.png"></div>
+  <div class="ring" style="left:794px;top:500px;width:60px;height:136px"></div>
+  <div class="pw" style="left:70px;top:690px;width:360px;height:545px;transform:rotate(-3deg)"><div class="paper" style="left:0;top:0;width:360px;height:545px">
+    <div class="s">PRINTED ON THE BACK</div><div class="dash"></div>
+    <div class="b1">REMAINING<br>BALANCE</div>
+    <div class="b2">●●●●●</div>
+    <div class="lk"><svg><use href="#i-lock"/></svg>ENCRYPTED</div>
+    <div class="dash"></div>
+    <div class="l"><span>WALLET</span><b>PUBLIC</b></div>
+    <div class="l"><span>AMOUNT</span><b style="color:var(--blue)">HIDDEN</b></div>
+  </div></div>
+  <img class="abs" src="img/primus-logo.png" style="left:480px;top:690px;height:62px">
+  <div class="abs h" style="left:476px;top:782px;font-size:104px">Your figures</div>
+  <div class="abs h" style="left:476px;top:896px;font-size:104px;color:var(--blue)">stay private.</div>
+  <div class="abs mono" style="left:480px;top:1030px;font-size:28px;color:var(--pri)"><span style="text-transform:none">$eU</span> · on BNB Chain</div>
+  <div class="abs" style="left:480px;top:1100px;font-size:40px">@i_am_vickyd</div>
+  <div class="shot" style="left:90px;top:1330px;width:900px;border-radius:14px"><img src="img/chips.png"></div>
+</div>
+<div id="t" style="display:none;position:absolute;left:0;top:0;width:1280px;height:720px;overflow:hidden;background:radial-gradient(900px 600px at 30% 40%,#FFFFFF 0%,#EEF4FF 50%,#D3E1F8 100%)">
+  <div class="grid"></div>
+  <img class="abs" src="img/primus-logo.png" style="left:64px;top:70px;height:56px">
+  <div class="abs h" style="left:60px;top:160px;font-size:112px">Your figures</div>
+  <div class="abs h" style="left:60px;top:284px;font-size:112px;color:var(--blue)">stay private.</div>
+  <div class="abs mono" style="left:64px;top:430px;font-size:28px;color:var(--pri)"><span style="text-transform:none">$eU</span> · on BNB Chain</div>
+  <div class="shot" style="left:60px;top:494px;width:560px"><img src="img/eu_strip.png"></div>
+  <div class="abs" style="left:64px;top:672px;font-size:26px;color:var(--mute)">@i_am_vickyd</div>
+  <div class="pw" style="left:800px;top:90px;width:360px;height:545px;transform:rotate(3deg)"><div class="paper" style="left:0;top:0;width:360px;height:545px">
+    <div class="s">PRINTED ON THE BACK</div><div class="dash"></div>
+    <div class="b1">REMAINING<br>BALANCE</div>
+    <div class="b2">●●●●●</div>
+    <div class="lk"><svg><use href="#i-lock"/></svg>ENCRYPTED</div>
+    <div class="dash"></div>
+    <div class="l"><span>WALLET</span><b>PUBLIC</b></div>
+    <div class="l"><span>AMOUNT</span><b style="color:var(--blue)">HIDDEN</b></div>
+  </div></div>
+</div>
+<script>
+const m = location.hash.includes('t') ? 't' : 'v'
+document.getElementById(m).style.display = 'block'
+for (const p of document.querySelectorAll('.paper')) { const n = 14, pts = ['0 0', '100% 0']
+  for (let i = n; i >= 0; i--) pts.push(`${(100 * i / n).toFixed(2)}% calc(100% - ${i % 2 ? 0 : 14}px)`); p.style.clipPath = `polygon(${pts.join(',')})` }
+window.READY = Promise.all([document.fonts.ready, ...[...document.images].map(i => i.decode().catch(() => 0))]).then(() => document.fonts.load('104px Anton')).then(() => document.fonts.load('800 30px Man')).then(() => document.fonts.load('700 24px Mono'))
+</script>
+</body></html>

@@ -1,0 +1,489 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Primus $eU: the receipt (the owner's script, Lara, 14 Nov 2026)</title>
+<style>
+@font-face{font-family:Anton;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/anton-latin-400-normal.woff2)}
+@font-face{font-family:Man;font-weight:600;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-600-normal.woff2)}
+@font-face{font-family:Man;font-weight:800;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-800-normal.woff2)}
+@font-face{font-family:Mono;font-weight:700;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/jetbrains-mono-latin-700-normal.woff2)}
+/* The owner's script about @primus_labs and $eU on BNB Chain, read by Lara (one take).
+   Format, new: THE RECEIPT. Their own picture ("paying someone is like handing them a receipt with your remaining balance
+   printed on the back") is the device: a receipt flips to show the balance on its back; the real explorer shows what a
+   vendor can see; at the end the same receipt comes back with its back encrypted (a shape rhyme, S4).
+   Real material, each shown whole before any push-in:
+   - BscTrace (NodeReal's BNB Chain explorer), captured 14 Nov 2026: the United Stables (U) token page (img/u_page.png),
+     the Confidential U (eU) token page (img/eu_page.png), the vault contract 0xe9E8…84AE (img/vault_page.png);
+   - Primus docs, FHE > Use Cases > Privacy Vault (img/docs.png, docs.primuslabs.xyz, 14 Nov 2026);
+   - the Primus app's landing page as served without a wallet (img/dapp.png, img/chips.png, dapp.primuslabs.xyz);
+   - the U token logo (Trust Wallet's public assets), Primus's own logo and icon.
+   Our illustrations: the receipts, the payment and savings cards, the wallets, the eU coin (the U logo with our lock), the
+   vault card. Example numbers are tagged EXAMPLE. Times: video seconds; T(s) = s + 0.2 + (s >= 5.87 ? 0.6 : 0). */
+:root{--ink:#0B1F4D;--deep:#0A1A44;--blue:#1F5FDB;--sky:#7CC4FF;--mute:#6B7A99;--line:#DCE5F3;--red:#E5484D;--green:#12A150;--pri:#FF4F00;--paper:#FFFEFA}
+*{box-sizing:border-box}
+html,body{margin:0;width:1920px;height:1080px;overflow:hidden;font-family:Man,sans-serif;font-weight:800;color:var(--ink);
+  background:radial-gradient(1400px 800px at 30% 20%,#FFFFFF 0%,#EEF4FF 45%,#DCE8FB 100%)}
+.abs{position:absolute}
+.mono{font-family:Mono,monospace;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+#grid{position:absolute;inset:-60px;background-image:linear-gradient(rgba(31,95,219,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(31,95,219,.05) 1px,transparent 1px);background-size:60px 60px}
+#edit{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
+.sc{position:absolute;inset:0;opacity:0}
+#hdr{position:absolute;left:56px;top:34px;height:44px;opacity:0}
+#hdr img{height:44px;display:block}
+.card{position:absolute;border-radius:26px;background:#fff;box-shadow:0 26px 60px rgba(11,31,77,.16),0 0 0 1.5px rgba(11,31,77,.05);overflow:hidden}
+.card>img{display:block;width:100%}
+.ttl{position:absolute;left:0;width:1920px;text-align:center;font-family:Anton,sans-serif;font-weight:400;line-height:1;white-space:nowrap}
+.big{font-family:Anton,sans-serif;font-weight:400;line-height:1;white-space:nowrap}
+.src{position:absolute;font-family:Mono,monospace;font-weight:700;font-size:19px;letter-spacing:.04em;color:var(--mute);white-space:nowrap}
+.pill{position:absolute;display:flex;align-items:center;gap:14px;height:72px;padding:0 30px;border-radius:36px;background:#fff;box-shadow:0 16px 36px rgba(11,31,77,.16);font-size:32px;white-space:nowrap}
+.pill svg{width:34px;height:34px;flex:none}
+.view{position:absolute;overflow:hidden;border-radius:22px;background:#fff;box-shadow:0 26px 60px rgba(11,31,77,.16),0 0 0 1.5px rgba(11,31,77,.06)}
+.view .in{position:absolute;left:0;top:0;transform-origin:0 0}
+.view .in>img{display:block}
+.ring{position:absolute;border-style:solid;border-color:var(--blue);opacity:0}
+.ring.o{border-color:var(--pri)}
+/* the receipt */
+.rc{position:absolute;perspective:1800px}
+.flip{position:absolute;inset:0;transform-style:preserve-3d}
+.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;filter:drop-shadow(0 24px 34px rgba(11,31,77,.22))}
+.face.bk{transform:rotateY(180deg)}
+.paper{position:absolute;inset:0;background:var(--paper);padding:40px 40px 0;font-family:Mono,monospace;font-weight:700;color:#1D2742}
+.paper .h{font-size:30px;letter-spacing:.14em;text-align:center}
+.paper .s{font-size:18px;letter-spacing:.12em;text-align:center;color:#7A8299;margin-top:10px}
+.paper .dash{border-top:3px dashed #C9CFDC;margin:26px 0}
+.paper .l{display:flex;justify-content:space-between;font-size:24px;letter-spacing:.06em;margin-top:16px}
+.paper .l span{color:#7A8299}
+.paper .l.big{font-size:40px}
+.paper .bar{height:70px;margin:26px 20px 0;background:repeating-linear-gradient(90deg,#1D2742 0 3px,transparent 3px 7px,#1D2742 7px 12px,transparent 12px 15px,#1D2742 15px 16px,transparent 16px 21px)}
+.paper .ex{position:absolute;right:22px;top:16px;font-size:14px;letter-spacing:.14em;color:#fff;background:#8A93AB;border-radius:8px;padding:4px 10px}
+.paper .bk1{font-family:Anton,sans-serif;font-weight:400;font-size:58px;letter-spacing:.02em;text-align:center;margin-top:10px;color:#1D2742}
+.paper .bk2{position:relative;font-family:Anton,sans-serif;font-weight:400;font-size:104px;text-align:center;margin-top:18px;line-height:1.15}
+.paper .bk2 i{position:absolute;left:6px;right:6px;top:14px;bottom:8px;background:rgba(229,72,77,.22);border-radius:10px;transform-origin:0 50%;transform:scaleX(0)}
+.paper .bk2 span{position:relative}
+.dots{letter-spacing:.06em;color:#1D2742}
+.lockrow{display:flex;justify-content:center;align-items:center;gap:14px;margin-top:22px;font-size:26px;letter-spacing:.12em;color:var(--blue)}
+.lockrow svg{width:34px;height:34px}
+/* cards of ours */
+.dc{position:absolute;border-radius:26px;background:rgba(255,255,255,.96);box-shadow:0 24px 54px rgba(11,31,77,.15),0 0 0 1.5px rgba(11,31,77,.05);padding:34px 34px 20px}
+.dc .k{font-family:Mono,monospace;font-weight:700;font-size:21px;letter-spacing:.12em;color:var(--mute)}
+.dr{display:flex;align-items:center;gap:20px;margin:24px 0 10px;opacity:0}
+.dr .ic{flex:none;width:62px;height:62px;border-radius:31px;background:#E6EEFD;display:flex;align-items:center;justify-content:center}
+.dr .ic svg{width:34px;height:34px}
+.dr .t{font-size:36px;line-height:1.1;white-space:nowrap}
+.dr .u{font-family:Mono,monospace;font-weight:700;font-size:18px;letter-spacing:.06em;color:var(--mute);margin-top:6px;white-space:nowrap}
+.tagx{position:absolute;font-family:Mono,monospace;font-weight:700;font-size:15px;letter-spacing:.14em;color:#fff;background:#8A93AB;border-radius:8px;padding:4px 10px}
+.mini{position:absolute;border-radius:24px;background:#fff;box-shadow:0 22px 50px rgba(11,31,77,.16);padding:30px 34px}
+.mini .k{font-family:Mono,monospace;font-weight:700;font-size:22px;letter-spacing:.12em;color:var(--mute)}
+.mini .v{font-size:46px;margin-top:14px;white-space:nowrap}
+.tail{position:absolute;border-radius:20px;border:4px dashed #F2A7AA;background:rgba(255,241,241,.92);padding:22px 26px;overflow:hidden}
+.tail .k{display:flex;align-items:center;gap:12px;font-family:Mono,monospace;font-weight:700;font-size:20px;letter-spacing:.1em;color:var(--red)}
+.tail .k svg{width:30px;height:30px}
+.tail .b{font-family:Mono,monospace;font-weight:700;font-size:24px;color:#9AA3B8;margin-top:14px;filter:blur(1.2px);white-space:nowrap}
+.cross{position:absolute;width:96px;height:96px;border-radius:48px;background:#fff;border:7px solid var(--red);color:var(--red);font-family:Anton,sans-serif;font-size:62px;line-height:80px;text-align:center;opacity:0}
+.coin{position:absolute;width:220px;height:220px}
+.coin img{width:220px;height:220px;display:block;filter:drop-shadow(0 18px 30px rgba(11,31,77,.28))}
+.coin .lk{position:absolute;right:-14px;bottom:-6px;width:96px;height:96px;border-radius:48px;background:var(--blue);box-shadow:0 10px 24px rgba(31,95,219,.4),0 0 0 6px #fff;display:flex;align-items:center;justify-content:center;opacity:0}
+.coin .lk svg{width:52px;height:52px}
+.coin.sm{width:120px;height:120px}
+.coin.sm img{width:120px;height:120px}
+.coin.sm .lk{width:56px;height:56px;border-radius:28px;right:-10px;bottom:-4px;box-shadow:0 6px 14px rgba(31,95,219,.4),0 0 0 4px #fff}
+.coin.sm .lk svg{width:30px;height:30px}
+.wal{position:absolute;width:330px;height:220px;border-radius:30px;background:linear-gradient(160deg,#FFFFFF,#E7EFFD);box-shadow:0 24px 50px rgba(11,31,77,.16),0 0 0 1.5px rgba(11,31,77,.05);padding:30px}
+.wal .k{font-family:Mono,monospace;font-weight:700;font-size:22px;letter-spacing:.12em;color:var(--mute)}
+.wal .v{font-size:44px;margin-top:20px}
+.wal .a{font-family:Mono,monospace;font-weight:700;font-size:22px;color:var(--blue);margin-top:14px}
+#ag{position:absolute;left:410px;top:380px;width:1100px;border-radius:30px;background:#fff;box-shadow:0 26px 60px rgba(11,31,77,.16);padding:24px;transform-origin:0 0;opacity:0}
+.ar{display:flex;align-items:center;gap:26px;height:96px;padding:0 28px;border-radius:22px;font-size:44px;white-space:nowrap}
+.ar+.ar{margin-top:12px}
+.ar .n{font-family:Anton,sans-serif;font-weight:400;font-size:52px;color:var(--blue);width:40px}
+.ar .ck{margin-left:auto;width:58px;height:58px;border-radius:29px;border:5px solid #B8C6DF;display:flex;align-items:center;justify-content:center}
+.ar .ck svg{width:34px;height:34px;opacity:0}
+#cap{position:absolute;left:0;top:968px;width:1920px;text-align:center;opacity:0}
+#cap span{display:inline-block;padding:12px 34px 14px;border-radius:24px;background:rgba(255,255,255,.95);box-shadow:0 12px 30px rgba(11,31,77,.14);font-size:42px;line-height:54px;white-space:nowrap}
+#cap b{color:var(--blue)}
+#stk{position:absolute;left:0;top:0;opacity:0;transform-origin:50% 100%;filter:drop-shadow(0 18px 30px rgba(11,31,77,.25))}
+.c{position:absolute;left:0;width:1920px;text-align:center;white-space:nowrap}
+</style></head>
+<body>
+<svg width="0" height="0" style="position:absolute">
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M1.5 12S5.5 4.5 12 4.5 22.5 12 22.5 12 18.5 19.5 12 19.5 1.5 12 1.5 12Z" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/><circle cx="12" cy="12" r="3.6" fill="currentColor"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4" y="10.5" width="16" height="11" rx="2.6" fill="currentColor"/><path d="M7.6 10.5V7.6a4.4 4.4 0 0 1 8.8 0v2.9" fill="none" stroke="currentColor" stroke-width="2.6"/></symbol>
+  <symbol id="i-ok" viewBox="0 0 24 24"><path d="M4.5 12.5l5 5 10-11" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M3 12h16M13 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</svg>
+<div id="grid"></div>
+<div id="edit">
+  <div id="hdr"><img src="img/primus-logo.png"></div>
+  <!-- 1. the hook: a receipt, and the balance printed on its back -->
+  <div class="sc" id="s1">
+    <div class="pill mono" id="h_chip" style="left:690px;top:58px;font-size:26px;color:var(--blue)">ON A PUBLIC CHAIN</div>
+    <div class="rc" id="rc1" style="left:700px;top:180px;width:520px;height:690px">
+      <div class="flip" id="f1">
+        <div class="face"><div class="paper" id="p1f">
+          <div class="h">PAYMENT RECEIPT</div><div class="s">PUBLIC CHAIN · CONFIRMED</div>
+          <div class="dash"></div>
+          <div class="l"><span>TO</span><b>THE VENDOR</b></div>
+          <div class="l"><span>FOR</span><b>ORDER #0142</b></div>
+          <div class="l"><span>DATE</span><b>14 NOV 2026</b></div>
+          <div class="dash"></div>
+          <div class="l big"><span>PAID</span><b>50.00 U</b></div>
+          <div class="dash"></div>
+          <div class="s" style="font-size:22px;color:#1D2742">THANK YOU</div>
+          <div class="bar"></div>
+          <div class="ex">EXAMPLE</div>
+        </div></div>
+        <div class="face bk"><div class="paper" id="p1b">
+          <div class="s">PRINTED ON THE BACK</div>
+          <div class="dash"></div>
+          <div class="bk1">REMAINING BALANCE</div>
+          <div class="bk2"><i id="hl1"></i><span>1,240.00 U</span></div>
+          <div class="dash"></div>
+          <div class="l"><span>WALLET</span><b>0x7a3…9c1</b></div>
+          <div class="l"><span>READ BY</span><b>ANYONE</b></div>
+          <div class="bar" style="margin-top:40px"></div>
+          <div class="ex">EXAMPLE</div>
+        </div></div>
+      </div>
+    </div>
+    <div class="pill" id="h_eye" style="left:1250px;top:520px;color:var(--red);border:3px solid #F6C1C3"><svg><use href="#i-eye"/></svg>the vendor can read it</div>
+  </div>
+  <!-- 2. the real U explorer: what the vendor can see -->
+  <div class="sc" id="s2">
+    <div class="abs big" id="u_t" style="left:80px;top:84px;font-size:78px;color:var(--blue)">EVERY PAYMENT, IN PUBLIC</div>
+    <div class="view" id="u_view" style="left:80px;top:190px;width:1240px;height:698px"><div class="in" id="u_in"><img src="img/u_page.png" style="width:3200px;height:1800px"></div></div>
+    <div class="src" id="u_src" style="left:80px;top:902px">bsctrace.com · United Stables (U) · real transfers · 14 Nov 2026</div>
+    <div class="dc" id="u_dc" style="left:1370px;top:190px;width:480px">
+      <div class="k">WHAT THE VENDOR CAN SEE</div>
+      <div class="dr" id="u_r1"><div class="ic" style="color:var(--blue)"><svg><use href="#i-eye"/></svg></div><div><div class="t">What you paid</div><div class="u">THE VALUE COLUMN</div></div></div>
+      <div class="dr" id="u_r2"><div class="ic" style="color:var(--blue)"><svg><use href="#i-eye"/></svg></div><div><div class="t">What you have left</div><div class="u">ONE CLICK ON YOUR ADDRESS</div></div></div>
+      <div class="dr" id="u_r3"><div class="ic" style="color:var(--blue)"><svg><use href="#i-eye"/></svg></div><div><div class="t">What you do next</div><div class="u">SAME ADDRESS, NEXT TRANSFER</div></div></div>
+    </div>
+  </div>
+  <!-- 3. a payment and a savings position should not come with a view of the rest of the account -->
+  <div class="sc" id="s3">
+    <div class="mini" id="m_pay" style="left:300px;top:150px;width:540px;height:250px">
+      <div class="k">A PAYMENT</div><div class="v">50.00 U <span style="color:var(--mute);font-size:34px">→ the vendor</span></div>
+      <div class="tagx" style="right:24px;top:24px">EXAMPLE</div>
+    </div>
+    <div class="mini" id="m_sav" style="left:1080px;top:150px;width:540px;height:250px">
+      <div class="k">A SAVINGS POSITION</div><div class="v">1,000.00 U <span style="color:var(--mute);font-size:34px">earning</span></div>
+      <div class="tagx" style="right:24px;top:24px">EXAMPLE</div>
+    </div>
+    <div class="tail" id="t_pay" style="left:330px;top:430px;width:480px;height:300px">
+      <div class="k"><svg><use href="#i-eye"/></svg>+ THE REST OF MY ACCOUNT</div>
+      <div class="b">BALANCE    1,240.00 U</div><div class="b">SAVINGS    1,000.00 U</div><div class="b">LAST 30    ■■■ ■■ ■■■■</div>
+    </div>
+    <div class="tail" id="t_sav" style="left:1110px;top:430px;width:480px;height:300px">
+      <div class="k"><svg><use href="#i-eye"/></svg>+ THE REST OF MY ACCOUNT</div>
+      <div class="b">BALANCE    1,240.00 U</div><div class="b">PAYMENTS   ■■ ■■■ ■■■</div><div class="b">NEXT MOVE  ■■■■ ■■</div>
+    </div>
+    <div class="cross" id="x_pay" style="left:522px;top:530px">✕</div>
+    <div class="cross" id="x_sav" style="left:1302px;top:530px">✕</div>
+  </div>
+  <!-- 4. Primus fixes both, on BNB Chain, with $eU: the encrypted version of $U at 1:1 -->
+  <div class="sc" id="s4">
+    <img class="abs" id="p_logo" src="img/primus-logo.png" style="left:715px;top:70px;height:106px">
+    <div class="pill" id="p_c1" style="left:520px;top:206px;color:var(--green)"><svg><use href="#i-ok"/></svg><span style="color:var(--ink)">Payments</span></div>
+    <div class="pill" id="p_c2" style="left:790px;top:206px;color:var(--green)"><svg><use href="#i-ok"/></svg><span style="color:var(--ink)">Savings</span></div>
+    <div class="pill mono" id="p_c3" style="left:1050px;top:206px;font-size:26px;background:var(--ink);color:#fff">ON BNB CHAIN</div>
+    <div class="card" id="p_dapp" style="left:110px;top:330px;width:960px;height:540px"><img src="img/dapp.png" style="width:960px;height:540px"></div>
+    <div class="src" id="p_src" style="left:110px;top:884px">dapp.primuslabs.xyz · the Primus app · 14 Nov 2026</div>
+    <div class="coin" id="c_u" style="left:1170px;top:380px"><img src="img/ulogo.png"></div>
+    <svg class="abs" id="c_ar" viewBox="0 0 24 24" style="left:1410px;top:450px;width:90px;height:80px;color:var(--blue)"><use href="#i-arrow"/></svg>
+    <div class="coin" id="c_eu" style="left:1540px;top:380px"><img src="img/ulogo.png"><div class="lk" id="c_lk" style="color:#fff"><svg><use href="#i-lock"/></svg></div></div>
+    <div class="abs big" id="c_lu" style="left:1170px;top:630px;width:220px;text-align:center;font-size:64px">$U</div>
+    <div class="abs" id="c_leu" style="left:1500px;top:630px;width:300px;text-align:center"><div class="big" style="font-size:64px;color:var(--blue)">$eU</div><div class="mono" style="font-size:20px;color:var(--mute);margin-top:8px">ENCRYPTED U</div></div>
+    <div class="abs big" id="c_11" style="left:1170px;top:740px;width:630px;text-align:center;font-size:140px;color:var(--blue)">1 : 1</div>
+    <div class="src" id="c_src" style="left:1170px;top:906px;font-size:16px">U logo: United Stables · the lock is our illustration</div>
+  </div>
+  <!-- 5. what I'm showing in this video -->
+  <div class="sc" id="s5">
+    <div class="ttl" id="a_t" style="top:170px;font-size:130px;color:var(--blue)">WHAT I'M SHOWING</div>
+  </div>
+  <!-- 6. sending $eU to a wallet; the explorer shows a transfer, not the amount -->
+  <div class="sc" id="s6">
+    <div class="wal" id="w_you" style="left:330px;top:330px"><div class="k">YOU</div><div class="v">Your wallet</div><div class="a">0xA1…you</div></div>
+    <div class="wal" id="w_to" style="left:1260px;top:330px"><div class="k">TO</div><div class="v">A wallet</div><div class="a">0xB2…them</div></div>
+    <div class="coin sm" id="w_coin" style="left:0;top:0"><img src="img/ulogo_m.png"><div class="lk" style="opacity:1;color:#fff"><svg><use href="#i-lock"/></svg></div></div>
+    <div class="abs mono" id="w_lab" style="left:690px;top:640px;width:540px;text-align:center;font-size:24px;color:var(--blue)"><span style="text-transform:none">$eU</span> · THE AMOUNT IS ENCRYPTED</div>
+    <div class="tagx" id="w_tag" style="left:330px;top:290px">ILLUSTRATION</div>
+    <div class="pill" id="w_got" style="left:1260px;top:574px;height:62px;font-size:28px;color:var(--blue)"><svg><use href="#i-lock"/></svg><span style="color:var(--ink)">received $eU</span></div>
+    <div class="view" id="e_view" style="left:80px;top:150px;width:1240px;height:698px"><div class="in" id="e_in"><img src="img/eu_page.png" style="width:3200px;height:1800px"></div></div>
+    <div class="src" id="e_src" style="left:80px;top:862px">bsctrace.com · Confidential U (eU) · a real transfer · 14 Nov 2026</div>
+    <div class="dc" id="e_dc" style="left:1370px;top:190px;width:480px">
+      <div class="k">ON THE eU EXPLORER</div>
+      <div class="dr" id="e_r1"><div class="ic" style="color:var(--blue)"><svg><use href="#i-ok"/></svg></div><div><div class="t">A transfer</div><div class="u">FROM, TO, TIME: ON RECORD</div></div></div>
+      <div class="dr" id="e_r2"><div class="ic" style="color:var(--pri);background:#FFEDE3"><svg><use href="#i-lock"/></svg></div><div><div class="t">Value: 0</div><div class="u">THE REAL AMOUNT IS ENCRYPTED</div></div></div>
+    </div>
+  </div>
+  <!-- 7. the confidential vault: yield on $eU, the position size encrypted (Primus docs) -->
+  <div class="sc" id="s7">
+    <div class="view" id="d_view" style="left:80px;top:140px;width:1100px;height:770px"><div class="in" id="d_in"><img src="img/docs.png" style="width:3200px;height:2240px"></div></div>
+    <div class="src" id="d_src" style="left:80px;top:922px">docs.primuslabs.xyz · FHE · Privacy Vault in DeFi · 14 Nov 2026</div>
+    <div class="dc" id="v_dc" style="left:1240px;top:250px;width:600px">
+      <div class="k">THE CONFIDENTIAL VAULT</div>
+      <div class="dr" id="v_r1"><div class="ic" style="color:var(--blue)"><div class="coin sm" style="position:relative;width:46px;height:46px"><img src="img/ulogo_s.png" style="width:46px;height:46px;filter:none"></div></div><div><div class="t">You deposit $eU</div></div></div>
+      <div class="dr" id="v_r2"><div class="ic" style="color:var(--green)"><svg viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8M15 7h6v6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div><div class="t">You earn yield</div></div></div>
+      <div class="dr" id="v_r3"><div class="ic" style="color:var(--blue)"><svg><use href="#i-lock"/></svg></div><div><div class="t">Position size <span class="dots">●●●●●●</span></div><div class="u">ENCRYPTED</div></div></div>
+      <div class="tagx" style="right:24px;top:28px">ILLUSTRATION</div>
+    </div>
+  </div>
+  <!-- 8. the money moves, the strategy runs (the vault contract, live); your figures stay private -->
+  <div class="sc" id="s8">
+    <div class="view" id="k_view" style="left:80px;top:150px;width:1240px;height:698px"><div class="in" id="k_in"><img src="img/vault_page.png" style="width:3200px;height:1800px"></div></div>
+    <div class="src" id="k_src" style="left:80px;top:862px">bsctrace.com · the eU vault contract 0xe9E8…84AE · captured 14 Nov 2026, 23:33 UTC</div>
+    <div class="dc" id="k_dc" style="left:1370px;top:150px;width:480px">
+      <div class="k">THE VAULT, ON CHAIN</div>
+      <div class="dr" id="k_r1"><div class="ic" style="color:var(--green)"><svg><use href="#i-arrow"/></svg></div><div><div class="t">The money moves</div><div class="u">"IN": SENT TO THE VAULT</div></div></div>
+      <div class="dr" id="k_r2"><div class="ic" style="color:var(--blue)"><svg><use href="#i-ok"/></svg></div><div><div class="t">Still running</div><div class="u">NEWEST: 17 MIN BEFORE CAPTURE</div></div></div>
+    </div>
+    <div class="ttl" id="k_t1" style="top:250px;font-size:120px">YOUR FIGURES</div>
+    <div class="ttl" id="k_t2" style="top:380px;font-size:120px;color:var(--blue)">STAY PRIVATE.</div>
+    <div class="card" id="k_chips" style="left:417px;top:580px;width:1086px;height:90px;border-radius:18px"><img src="img/chips.png" style="width:1086px;height:90px"></div>
+    <div class="ring o" id="k_ring" style="left:725px;top:584px;width:376px;height:82px"></div>
+    <div class="src" id="k_csrc" style="left:417px;top:690px">the Primus app · dapp.primuslabs.xyz · 14 Nov 2026</div>
+  </div>
+  <!-- 9. one thing to know: addresses public, amounts hidden -->
+  <div class="sc" id="s9">
+    <div class="abs big" id="o_t" style="left:80px;top:84px;font-size:78px;color:var(--blue)">ONE THING TO KNOW</div>
+    <div class="view" id="o_view" style="left:80px;top:190px;width:1240px;height:698px"><div class="in" id="o_in"><img src="img/eu_page.png" style="width:3200px;height:1800px"></div></div>
+    <div class="src" id="o_src" style="left:80px;top:902px">bsctrace.com · Confidential U (eU) · 14 Nov 2026</div>
+    <div class="dc" id="o_dc" style="left:1370px;top:190px;width:480px">
+      <div class="k">ON THE eU EXPLORER</div>
+      <div class="dr" id="o_r1"><div class="ic" style="color:var(--blue)"><svg><use href="#i-eye"/></svg></div><div><div class="t">Wallet addresses</div><div class="u" style="color:var(--blue);font-size:22px">STILL PUBLIC</div></div></div>
+      <div class="dr" id="o_r2"><div class="ic" style="color:var(--pri);background:#FFEDE3"><svg><use href="#i-lock"/></svg></div><div><div class="t">Amounts</div><div class="u" style="color:var(--pri);font-size:22px">HIDDEN</div></div></div>
+    </div>
+  </div>
+  <!-- the end card: the same receipt, its back encrypted -->
+  <div class="sc" id="end">
+    <div class="rc" id="rc2" style="left:230px;top:170px;width:470px;height:660px">
+      <div class="flip" id="f2">
+        <div class="face"><div class="paper" id="p2">
+          <div class="s">PRINTED ON THE BACK</div>
+          <div class="dash"></div>
+          <div class="bk1" style="font-size:52px">REMAINING BALANCE</div>
+          <div class="bk2" style="font-size:96px"><span class="dots">●●●●●●</span></div>
+          <div class="lockrow"><svg style="color:var(--blue)"><use href="#i-lock"/></svg>ENCRYPTED · $eU</div>
+          <div class="dash"></div>
+          <div class="l"><span>WALLET</span><b>0x7a3…9c1</b></div>
+          <div class="l"><span>AMOUNT</span><b style="color:var(--blue)">HIDDEN</b></div>
+          <div class="ex">EXAMPLE</div>
+        </div></div>
+      </div>
+    </div>
+    <div class="abs" id="n_1" style="left:820px;top:200px"><img src="img/primus-logo.png" style="height:76px;display:block"></div>
+    <div class="abs big" id="n_2" style="left:820px;top:320px;font-size:120px">YOUR FIGURES</div>
+    <div class="abs big" id="n_3" style="left:820px;top:450px;font-size:120px;color:var(--blue)">STAY PRIVATE.</div>
+    <div class="abs" id="n_4" style="left:820px;top:630px;font-size:44px">Follow <b style="color:var(--blue)">@i_am_vickyd</b> on X</div>
+    <div class="abs mono" id="n_5" style="left:820px;top:716px;font-size:19px;color:var(--mute);letter-spacing:.04em">BscTrace · Primus docs and app · 14 Nov 2026</div>
+  </div>
+  <!-- the agenda: big in scene 5, then in the corner, ticking, through scenes 6 and 7 -->
+  <div id="ag">
+    <div class="ar" id="ag1"><span class="n">1</span>Sending $eU to a wallet<div class="ck" id="ck1"><svg style="color:#fff"><use href="#i-ok"/></svg></div></div>
+    <div class="ar" id="ag2"><span class="n">2</span>The confidential vault<div class="ck" id="ck2"><svg style="color:#fff"><use href="#i-ok"/></svg></div></div>
+  </div>
+</div>
+<img id="stk">
+<div id="cap"></div>
+
+<script src="file:///home/user/cmv-alphascanner/video/lib/motion.js"></script>
+<script src="words.js"></script>
+<script>
+const $ = id => document.getElementById(id), W = window.WORDS, FPS = 30, { E, cl, lerp } = M
+const seg = (t, a, d) => cl((t - a) / d)
+let SIG = []
+const css = (el, k, v) => { el.style[k] = v; SIG.push(v) }
+const CUT = 5.87, T = s => s + 0.2 + (s >= CUT ? 0.6 : 0)           // take seconds -> video seconds
+const ws = i => T(W[i][0]), we = i => T(W[i][1])
+const END = 51.5, DROP = CUT + 0.2, ENDC = 48.3
+// an element enters at a (ease-out, never opacity alone) and leaves at b (ease-in, shorter)
+const io = (id, t, a, b = 1e9, o = {}) => { const el = typeof id === 'string' ? $(id) : id; SIG.push(M.apply(el, M.inout(t, a, b, o), o.base || '')) }
+// scenes [id, from, to]: the old one eases back, the new one settles in; the drop is a hard cut
+const SC = [['s1', 0, DROP], ['s2', DROP, ws(40) - .3], ['s3', ws(40) - .3, ws(60) - .3], ['s4', ws(60) - .3, ws(79) - .3], ['s5', ws(79) - .3, ws(85) - .3],
+  ['s6', ws(85) - .3, ws(100) - .3], ['s7', ws(100) - .3, ws(115) - .3], ['s8', ws(115) - .3, ws(127) - .3], ['s9', ws(127) - .3, ENDC], ['end', ENDC, 999]]
+// a view onto a real screen: a camera in source pixels [t, cx, cy, zoom] with a perceptual zoom, never past the screen's
+// own pixels; rings in source pixels [from, to, x, y, w, h, cls] (video seconds) that draw on from the left
+function view(vid, inid, W0, H0, keys, rings) {
+  const v = $(vid), inn = $(inid), vw = v.offsetWidth, vh = v.offsetHeight, s0 = Math.min(vw / W0, vh / H0), zmax = 1 / s0
+  const R = rings.map(r => { const e = document.createElement('div'); e.className = 'ring' + (r[6] ? ' ' + r[6] : ''); Object.assign(e.style, { left: r[2] + 'px', top: r[3] + 'px', width: r[4] + 'px', height: r[5] + 'px' }); inn.appendChild(e); return { r, e } })
+  return t => {
+    let k = keys[0]
+    for (let i = 1; i < keys.length; i++) if (t >= keys[i][0]) { const a = keys[i - 1], b = keys[i], u = E.gentle(seg(t, b[0], b[4] || .9)); k = [t, lerp(a[1], b[1], u), lerp(a[2], b[2], u), a[3] * Math.pow(b[3] / a[3], u)] }
+    const z = Math.min(k[3], zmax), s = s0 * z, w = W0 * s, h = H0 * s
+    let x = vw / 2 - k[1] * s, y = vh / 2 - k[2] * s
+    x = w <= vw ? (vw - w) / 2 : cl(x, vw - w, 0); y = h <= vh ? (vh - h) / 2 : cl(y, vh - h, 0)
+    css(inn, 'transform', `translate(${x.toFixed(1)}px,${y.toFixed(1)}px) scale(${s.toFixed(5)})`)
+    for (const { r, e } of R) {
+      const on = t >= r[0] && t < r[1], u = on ? E.standard(seg(t, r[0], .45)) : 0, q = on ? 1 - E.exit(seg(t, r[1] - .18, .18)) : 0, pad = 16 / s
+      css(e, 'opacity', (on ? Math.min(1, u * 3) * q : 0).toFixed(3)); css(e, 'borderWidth', (6 / s).toFixed(2) + 'px'); css(e, 'borderRadius', (14 / s).toFixed(1) + 'px')
+      css(e, 'boxShadow', `0 0 0 ${(6 / s).toFixed(1)}px ${r[6] ? 'rgba(255,79,0,.16)' : 'rgba(31,95,219,.16)'}`)
+      css(e, 'clipPath', `inset(${-pad.toFixed(1)}px ${(-pad + (r[4] + 2 * pad) * (1 - u)).toFixed(1)}px ${-pad.toFixed(1)}px ${-pad.toFixed(1)}px)`)
+    }
+  }
+}
+// 2. the U token page: whole, then in on the first transfers; rings on paid / the payer's address / the next payment
+const vU = view('u_view', 'u_in', 3200, 1800, [[0, 1600, 900, 1], [ws(21) - .25, 2120, 1330, 2.0]],
+  [[ws(23) - .1, ws(29) - .15, 1645, 1140, 960, 62], [ws(29) - .1, ws(34) - .15, 1645, 1140, 270, 62], [ws(34) - .1, ws(40) - .3, 1645, 1240, 960, 62]])
+// 6. the eU token page: whole, then in on the newest transfer; ring the transfer, then its value (0)
+const vE = view('e_view', 'e_in', 3200, 1800, [[0, 1600, 900, 1], [ws(93) - .15, 2100, 1330, 2.0, .8]],
+  [[ws(95) - .1, ws(100) - .3, 1734, 1140, 690, 62], [ws(97) - .1, ws(100) - .3, 2508, 1134, 74, 72, 'o']])
+// 7. the docs: whole, then in on the solution paragraph; rings on the vault model / earn yield / deposit sizes kept encrypted
+const vD = view('d_view', 'd_in', 3200, 2240, [[0, 1600, 1120, 1], [ws(101) - .3, 1617, 1840, 1.85, .8]],
+  [[ws(101) - .1, ws(105) - .15, 1725, 1832, 372, 52], [ws(105) - .1, ws(112) - .15, 795, 2026, 152, 52], [ws(112) - .1, ws(115) - .3, 1716, 1929, 486, 52, 'o']])
+// 8. the vault contract: whole, then in on the rows; rings on the "In" column and the Age column
+const vK = view('k_view', 'k_in', 3200, 1800, [[0, 1600, 900, 1], [ws(116) - .25, 1560, 1260, 1.55, .8]],
+  [[ws(116) - .1, ws(120) - .15, 1876, 940, 108, 860], [ws(120) - .1, ws(123) - .2, 1262, 940, 186, 860]])
+// 9. the eU token page again: in on the table; rings on From and To (public), then the Value column (hidden)
+const vO = view('o_view', 'o_in', 3200, 1800, [[0, 1600, 900, 1], [ws(127) + .1, 1900, 1500, 1.6, .8]],
+  [[ws(131) - .1, ENDC, 1734, 1134, 292, 660], [ws(131) - .1, ENDC, 2132, 1134, 292, 660], [ws(136) - .1, ENDC, 2498, 1060, 124, 740, 'o']])
+// the owner's reaction stickers (die-cut, animated), video seconds; f = the frames used. Hmm (shirtless) = an opinion,
+// thinking it over; The Grin (grey) = the sign-off. None over the hook.
+const RX = [{ id: 'hmm', t0: ws(44) - .1, t1: ws(60) - .45, rot: -4, f: [0, 83] }, { id: 'grin', t0: ENDC + .45, t1: END - .15, rot: -3, f: [0, 107] }]
+const SROOT = 'file:///home/user/cmv-alphascanner/video/out/reactions/'
+// captions: the owner's words, phrase by phrase [first word, last word, text]
+const CAP = [[0, 3, 'On a <b>public chain</b>,'], [4, 11, 'paying someone is like handing them a <b>receipt</b>'], [12, 19, 'with your <b>remaining balance</b> printed on the back'],
+  [20, 23, 'The vendor gets <b>paid</b>,'], [24, 32, 'then they can still see <b>what you have left</b>'], [33, 39, 'and <b>what you do with it after</b>'],
+  [40, 48, "I don't think a <b>payment</b> or a <b>savings position</b>"], [49, 59, 'should come with a view of <b>the rest of my account</b>'],
+  [60, 66, '<b>@primus_labs</b> fixes both on <b>BNB Chain</b>'], [67, 74, 'with <b>$eU</b>, the encrypted version of <b>$U</b>'], [75, 78, 'at <b>1:1</b>'],
+  [79, 84, "What I'm showing in this video"],
+  [85, 90, 'Sending <b>$eU</b> to a wallet'], [91, 95, 'The explorer shows a <b>transfer</b>'], [96, 99, 'but <b>not the amount</b>'],
+  [100, 106, 'The <b>confidential vault</b>, where you earn yield'], [107, 109, 'on <b>$eU</b>'], [110, 114, 'with your <b>position size encrypted</b>'],
+  [115, 122, 'The money moves and the <b>strategy still runs</b>'], [123, 126, 'Your <b>figures stay private</b>'],
+  [127, 130, 'One thing to know'], [131, 135, 'Wallet addresses are <b>still public</b>'], [136, 140, 'Only the <b>amounts</b> are hidden']]
+  .map(([a, b, h], i, A) => ({ t0: ws(a) - .08, t1: Math.min(we(b) + .45, A[i + 1] ? ws(A[i + 1][0]) - .08 : 1e9), h }))
+// a torn receipt edge at the foot of each paper
+for (const p of document.querySelectorAll('.paper')) { const wd = p.parentElement.parentElement.parentElement.offsetWidth || 500, n = Math.round(wd / 26), pts = ['0 0', '100% 0']
+  for (let i = n; i >= 0; i--) pts.push(`${(100 * i / n).toFixed(2)}% calc(100% - ${i % 2 ? 0 : 16}px)`); p.style.clipPath = `polygon(${pts.join(',')})` }
+
+window.render = async t => {
+  SIG = []
+  for (const [id, a, b] of SC) { const fi = id === 's1' || id === 's2' ? 0 : .3, fo = id === 's1' ? 0 : .24, st = M.scene(t, a, b, fi, fo)
+    css($(id), 'opacity', st.op.toFixed(3)); css($(id), 'transform', `scale(${st.s.toFixed(4)})`) }
+  css($('grid'), 'transform', `translate(${(M.float(t, 20, 23)).toFixed(1)}px,${(M.float(t, 14, 31, .3)).toFixed(1)}px)`)
+  const hd = seg(t, DROP - .2, .3) * (1 - seg(t, ws(60) - .5, .3)) + seg(t, ws(79) - .4, .3) * (1 - seg(t, ENDC - .3, .3))
+  css($('hdr'), 'opacity', cl(hd).toFixed(3))
+  // 1. the hook: the receipt is whole from frame 0; it flips on "remaining balance" to the balance printed on its back
+  if (t < DROP + .1) {
+    const z = 1 + .04 * E.gentle(seg(t, 0, DROP)), fl = E.standard(seg(t, ws(14) - .2, .6)), lift = Math.sin(Math.PI * fl)
+    css($('rc1'), 'transform', `translateY(${M.float(t, 3, 4).toFixed(1)}px) rotate(${(-2 + 2 * fl).toFixed(2)}deg) scale(${(z * (1 + .05 * lift) * (1 + .03 * Math.sin(Math.PI * seg(t, ws(11) - .05, .35)))).toFixed(4)})`)
+    css($('f1'), 'transform', `rotateY(${(180 * fl).toFixed(2)}deg)`)
+    css($('h_chip'), 'opacity', '1'); css($('h_chip'), 'transform', `scale(${(M.breathe(t)).toFixed(4)})`)
+    css($('hl1'), 'transform', `scaleX(${E.standard(seg(t, ws(15) - .05, .4)).toFixed(4)})`)
+    io('h_eye', t, ws(16) - .1, 1e9, { dx: -30, dy: 0, spring: M.SP.pop })
+  }
+  // 2. the real U page lands on the drop (one decaying shake), the card builds with the voice
+  if (t > DROP - .1 && t < ws(40)) {
+    const [sx, sy, sr] = M.shake(t, DROP, .4, 9); css($('s2'), 'translate', `${sx.toFixed(1)}px ${sy.toFixed(1)}px`); css($('s2'), 'rotate', `${sr.toFixed(3)}deg`)
+    const p = seg(t, DROP, .35); css($('u_t'), 'opacity', p.toFixed(3)); css($('u_t'), 'transform', `scale(${(1.18 - .18 * E.enter(p)).toFixed(4)})`); $('u_t').style.transformOrigin = '0 50%'
+    io('u_view', t, DROP, 1e9, { dy: 50, d: .45 }); io('u_src', t, DROP + .2); vU(t)
+    io('u_dc', t, ws(21) - .2, 1e9, { dx: 40, dy: 0 })
+    io('u_r1', t, ws(23) - .1, 1e9, { dx: 24, dy: 0 }); io('u_r2', t, ws(29) - .1, 1e9, { dx: 24, dy: 0 }); io('u_r3', t, ws(34) - .1, 1e9, { dx: 24, dy: 0 })
+  }
+  // 3. a payment and a savings position; the view of the rest of the account slides out from under them; crossed out
+  if (t > ws(40) - .4 && t < ws(60)) {
+    io('m_pay', t, ws(44) - .15, 1e9, { dy: 40, d: .4 }); io('m_sav', t, ws(47) - .15, 1e9, { dy: 40, d: .4 })
+    for (const [id, a] of [['t_pay', ws(53) - .2], ['t_sav', ws(53) - .05]]) { const u = E.enter(seg(t, a, .5)), el = $(id)
+      css(el, 'opacity', (t >= a ? Math.min(1, u * 2) : 0).toFixed(3)); css(el, 'transform', `translateY(${(-150 * (1 - u)).toFixed(1)}px)`); css(el, 'clipPath', `inset(0 0 ${(100 * (1 - u)).toFixed(1)}% 0 round 20px)`)
+      css(el, 'borderColor', t >= ws(56) - .1 ? '#E5484D' : '#F2A7AA') }
+    for (const [id, a] of [['x_pay', ws(59) - .1], ['x_sav', ws(59) + .02]]) { const sp = M.spring(t, a, M.SP.pop), [qx, qy] = M.squash(t, a + .12)
+      css($(id), 'opacity', (t >= a ? cl((t - a) / .1) : 0).toFixed(3)); css($(id), 'transform', `scale(${(1.6 - .6 * sp).toFixed(4)}) scale(${qx.toFixed(3)},${qy.toFixed(3)}) rotate(-6deg)`) }
+  }
+  // 4. Primus, the two fixes, BNB Chain; the real app; $eU: the U coin locked; $U beside it; 1:1
+  if (t > ws(60) - .4 && t < ws(79)) {
+    const lp = M.spring(t, ws(60) - .15, M.SP.card); css($('p_logo'), 'opacity', cl((t - ws(60) + .15) / .2).toFixed(3)); css($('p_logo'), 'transform', `translateY(${(30 * (1 - lp)).toFixed(1)}px) scale(${(M.breathe(t, .995, 1.005)).toFixed(4)})`)
+    io('p_c1', t, ws(62) - .1, 1e9, { dy: 20, spring: M.SP.pop }); io('p_c2', t, M.child(ws(62) - .1, 0), 1e9, { dy: 20, spring: M.SP.pop })
+    io('p_c3', t, ws(65) - .12, 1e9, { dy: 20, spring: M.SP.pop })
+    io('p_dapp', t, ws(61) - .1, 1e9, { dy: 40, d: .45 }); io('p_src', t, M.child(ws(61) - .1, 0))
+    const ce = M.spring(t, ws(68) - .1, M.SP.pop); css($('c_eu'), 'opacity', cl((t - ws(68) + .1) / .12).toFixed(3))
+    css($('c_eu'), 'transform', `translateY(${(M.float(t, 3, 4, .5) + 40 * (1 - ce)).toFixed(1)}px) scale(${(.6 + .4 * ce).toFixed(4)})`)
+    const lk = M.spring(t, ws(71) - .1, M.SP.pop); css($('c_lk'), 'opacity', cl((t - ws(71) + .1) / .1).toFixed(3))
+    css($('c_lk'), 'transform', `translateY(${(-70 * (1 - lk)).toFixed(1)}px)`)
+    io('c_leu', t, ws(71) - .05, 1e9, { dy: 18 })
+    io('c_u', t, ws(74) - .15, 1e9, { dx: -40, dy: 0, spring: M.SP.card, base: `translateY(${M.float(t, 3, 4).toFixed(1)}px)` }); io('c_lu', t, M.child(ws(74) - .15, 0), 1e9, { dy: 18 })
+    io('c_ar', t, M.child(ws(74) - .15, 1), 1e9, { dx: -24, dy: 0 })
+    const o = M.spring(t, ws(76) - .1, M.SP.pop); css($('c_11'), 'opacity', cl((t - ws(76) + .1) / .1).toFixed(3)); css($('c_11'), 'transform', `scale(${(1.5 - .5 * o).toFixed(4)})`)
+    io('c_src', t, ws(71))
+  }
+  // 5. the title; the agenda (shared with 6 and 7)
+  if (t > ws(79) - .4 && t < ws(85)) { const p = seg(t, ws(79) - .15, .35); css($('a_t'), 'opacity', p.toFixed(3)); css($('a_t'), 'transform', `scale(${(1.15 - .15 * E.enter(p)).toFixed(4)})`) }
+  {
+    const a0 = ws(81) - .15, mv = E.standard(seg(t, ws(85) - .3, .6)), gone = t >= ws(115) - .3 ? E.exit(seg(t, ws(115) - .3, .25)) : 0
+    const u = t >= a0 ? E.enter(seg(t, a0, .4)) : 0
+    css($('ag'), 'opacity', (u * (1 - gone)).toFixed(3))
+    css($('ag'), 'transform', `translate(${(1014 * mv).toFixed(1)}px,${(-346 * mv + 40 * (1 - u)).toFixed(1)}px) scale(${(1 - .6 * mv).toFixed(4)})`)
+    io('ag1', t, a0, 1e9, { dx: -30, dy: 0 }); io('ag2', t, M.child(a0, 0, .12), 1e9, { dx: -30, dy: 0 })
+    const on1 = t >= ws(85) - .3 && t < ws(100) - .3, on2 = t >= ws(100) - .3 && t < ws(115)
+    css($('ag1'), 'background', on1 ? '#E3ECFD' : 'transparent'); css($('ag2'), 'background', on2 ? '#E3ECFD' : 'transparent')
+    for (const [id, a] of [['ck1', ws(99) + .05], ['ck2', ws(114) + .05]]) { const sp = M.spring(t, a, M.SP.pop), el = $(id)
+      css(el, 'background', t >= a ? 'var(--blue)' : 'transparent'); css(el, 'borderColor', t >= a ? 'var(--blue)' : '#B8C6DF')
+      css(el, 'transform', `scale(${(t >= a ? .7 + .3 * sp : 1).toFixed(4)})`); css(el.firstElementChild, 'opacity', t >= a ? '1' : '0') }
+  }
+  // 6. the send, acted out; then the real eU page: a transfer, its value 0
+  if (t > ws(85) - .4 && t < ws(100)) {
+    const ex = ws(92) - .35
+    io('w_you', t, ws(85) - .2, ex, { dx: -40, dy: 0 }); io('w_to', t, M.child(ws(85) - .2, 0), ex, { dx: 40, dy: 0 }); io('w_tag', t, ws(85), ex)
+    const a = ws(85) + .1, u = E.standard(seg(t, a, ws(90) - a)), [px, py] = M.arc(u, [430, 260], [1395, 205], 170), cp = t >= a ? 1 - E.exit(seg(t, ex, .2)) : 0
+    const sk = E.exit(seg(t, ws(90) + .02, .3))
+    css($('w_coin'), 'opacity', (t >= a - .15 ? Math.min(cl((t - a + .15) / .15), cp, 1 - sk) : 0).toFixed(3))
+    css($('w_coin'), 'transform', `translate(${px.toFixed(1)}px,${(py + 80 * sk).toFixed(1)}px) rotate(${(360 * u).toFixed(1)}deg) scale(${((1 + .15 * Math.sin(Math.PI * u)) * (1 - .5 * sk)).toFixed(4)})`)
+    io('w_got', t, ws(90) + .15, ex, { dy: 16, spring: M.SP.pop })
+    const lnd = M.squash(t, ws(90) - .05, .25, .09); css($('w_to'), 'scale', `${lnd[0].toFixed(3)} ${lnd[1].toFixed(3)}`)
+    io('w_lab', t, ws(86) + .1, ex, { dy: 16 })
+    io('e_view', t, ws(92) - .25, 1e9, { dy: 50, d: .45, s0: .96 }); io('e_src', t, ws(92) - .05); vE(t)
+    io('e_dc', t, ws(93) - .2, 1e9, { dx: 40, dy: 0 }); io('e_r1', t, ws(95) - .1, 1e9, { dx: 24, dy: 0 }); io('e_r2', t, ws(97) - .1, 1e9, { dx: 24, dy: 0 })
+  }
+  // 7. the docs page, whole, then in on the paragraph; the vault card builds with the voice
+  if (t > ws(100) - .4 && t < ws(115)) {
+    io('d_view', t, ws(100) - .25, 1e9, { dy: 40, d: .45 }); io('d_src', t, ws(100)); vD(t)
+    io('v_dc', t, ws(101) - .1, 1e9, { dx: 40, dy: 0 })
+    io('v_r1', t, ws(102) - .1, 1e9, { dx: 24, dy: 0 }); io('v_r2', t, ws(105) - .1, 1e9, { dx: 24, dy: 0 }); io('v_r3', t, ws(112) - .1, 1e9, { dx: 24, dy: 0 })
+  }
+  // 8. the vault contract: transactions in, still active; then the app's own "Encrypted Balances"
+  if (t > ws(115) - .4 && t < ws(127)) {
+    const bk = { sOut: .96, dyOut: 0, dOut: .4, eOut: E.standard }
+    io('k_view', t, ws(115) - .25, ws(123) - .25, { dy: 40, d: .45, ...bk }); io('k_src', t, ws(115), ws(123) - .25, bk); vK(t)
+    io('k_dc', t, ws(116) - .15, ws(123) - .25, { dx: 40, dy: 0, ...bk }); io('k_r1', t, ws(116) - .1, 1e9, { dx: 24, dy: 0 }); io('k_r2', t, ws(120) - .1, 1e9, { dx: 24, dy: 0 })
+    io('k_t1', t, ws(124) - .15, 1e9, { dy: 30, d: .4 }); io('k_t2', t, M.child(ws(124) - .15, 0, .1, .12), 1e9, { dy: 30, d: .4 })
+    io('k_chips', t, ws(123) - .2, 1e9, { dy: 60, d: .45, s0: .94 }); io('k_csrc', t, ws(123))
+    const r = ws(124) - .1, u = E.standard(seg(t, r, .45)), el = $('k_ring')
+    css(el, 'opacity', (t >= r ? Math.min(1, u * 3) : 0).toFixed(3)); css(el, 'borderWidth', '6px'); css(el, 'borderRadius', '16px'); css(el, 'boxShadow', '0 0 0 6px rgba(255,79,0,.16)')
+    css(el, 'clipPath', `inset(-16px ${(-16 + 408 * (1 - u)).toFixed(1)}px -16px -16px)`)
+  }
+  // 9. one thing to know: the eU page, From and To ringed (public), then the Value column (hidden)
+  if (t > ws(127) - .4 && t < ENDC + .1) {
+    const p = seg(t, ws(127) - .15, .35); css($('o_t'), 'opacity', p.toFixed(3)); css($('o_t'), 'transform', `scale(${(1.18 - .18 * E.enter(p)).toFixed(4)})`); $('o_t').style.transformOrigin = '0 50%'
+    io('o_view', t, ws(127) - .2, 1e9, { dy: 40, d: .45 }); io('o_src', t, ws(127)); vO(t)
+    io('o_dc', t, ws(131) - .2, 1e9, { dx: 40, dy: 0 }); io('o_r1', t, ws(131) - .1, 1e9, { dx: 24, dy: 0 }); io('o_r2', t, ws(136) - .1, 1e9, { dx: 24, dy: 0 })
+  }
+  // the end card: the same receipt flips in with its back encrypted; Primus, their words, the follow line, the sources
+  if (t > ENDC - .1) {
+    const fl = E.enter(seg(t, ENDC, .6))
+    css($('rc2'), 'opacity', cl((t - ENDC) / .15).toFixed(3)); css($('f2'), 'transform', `rotateY(${(-100 * (1 - fl)).toFixed(2)}deg)`)
+    css($('rc2'), 'transform', `translateY(${M.float(t, 3, 4).toFixed(1)}px) rotate(-3deg)`)
+    ;['n_1', 'n_2', 'n_3', 'n_4', 'n_5'].forEach((id, j) => io(id, t, M.stagger(j, 5, ENDC + .15, .1, .45), 1e9, { dy: 24 }))
+  }
+  // ---- the reaction sticker: the edit eases into the left 1382 x 778, the sticker pops in on the right, foot above the captions
+  let d = 0
+  for (const r of RX) d = Math.max(d, t < r.t0 - .35 || t > r.t1 + .3 ? 0 : Math.min(E.standard(cl((t - r.t0 + .35) / .35)), E.standard(cl((r.t1 + .3 - t) / .3))))
+  css($('edit'), 'transform', `translate(0px,${(76 * d).toFixed(1)}px) scale(${(1 - .28 * d).toFixed(4)})`)
+  const sr = RX.find(r => t >= r.t0 && t < r.t1), im = $('stk')
+  if (sr) {
+    const L = window.RLIB[sr.id], n = sr.f[1] - sr.f[0] + 1, per = 2 * (n - 1), lt = t - sr.t0
+    let i = Math.floor(lt * FPS + 1e-6); i = ((i % per) + per) % per; if (i >= n) i = per - i
+    const src = `${SROOT}${sr.id}/f_${String(sr.f[0] + i + 1).padStart(4, '0')}.png`
+    if (im.getAttribute('src') !== src) { im.src = src; try { await im.decode() } catch (e) {} } SIG.push(src)
+    const sw = 470, h = sw * L.h / L.w, pin = cl(lt / .22), pout = cl((sr.t1 - t) / .16)
+    const sc = (pin < 1 ? 1 + 3.2 * Math.pow(pin - 1, 3) + 2.2 * Math.pow(pin - 1, 2) : 1) * (.85 + .15 * pout)
+    css(im, 'width', sw + 'px'); css(im, 'left', (1651 - sw / 2) + 'px'); css(im, 'top', (930 - h).toFixed(1) + 'px'); css(im, 'opacity', Math.min(cl(pin * 5), pout).toFixed(3))
+    css(im, 'transform', `rotate(${sr.rot}deg) scale(${sc.toFixed(3)}) translateY(${M.float(lt, 4, 3.9).toFixed(1)}px)`)
+  } else css(im, 'opacity', '0')
+  // ---- captions
+  const c = CAP.find(x => t >= x.t0 && t < x.t1), html = c ? '<span>' + c.h + '</span>' : ''
+  if ($('cap').innerHTML !== html) $('cap').innerHTML = html
+  SIG.push(html); css($('cap'), 'opacity', c ? Math.min(1, (t - c.t0) / .12).toFixed(3) : '0')
+  css($('cap'), 'transform', c ? `translateY(${(8 * (1 - E.enter(cl((t - c.t0) / .2)))).toFixed(1)}px)` : 'none')
+  return SIG.join('|')
+}
+window.READY = Promise.all([new Promise(r => { if (window.RLIB) return r(); const sc = document.createElement('script'); sc.src = SROOT + 'lib.js'; sc.onload = sc.onerror = r; document.head.appendChild(sc) }),
+  document.fonts.load('80px Anton'), document.fonts.load('800 40px Man'), document.fonts.load('600 26px Man'), document.fonts.load('700 30px Mono'),
+  ...[...document.images].map(i => i.decode ? i.decode().catch(() => 0) : 1)])
+</script>
+</body></html>
