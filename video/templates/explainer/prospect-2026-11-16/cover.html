@@ -1,0 +1,56 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Prospect Markets: cover (#v, 1080x1920; its middle square is the picture for X) and wide thumbnail (#t, 1280x720, YouTube)</title>
+<style>
+@font-face{font-family:Anton;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/anton-latin-400-normal.woff2)}
+@font-face{font-family:Man;font-weight:800;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-800-normal.woff2)}
+@font-face{font-family:Mono;font-weight:700;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/jetbrains-mono-latin-700-normal.woff2)}
+/* The video's cold open as a cover: Prospect's real 15 Nov price tile (Panthers 50c / Saints 50c, from their post on X),
+   the owner's hook as the title, and the $1 bar split by the market, its cents turned into percent. */
+:root{--ink:#0B1F4D;--blue:#1F5FDB;--sky:#7CC4FF;--car:#0085CA;--no:#D3BC8D}
+*{box-sizing:border-box}
+html,body{margin:0;overflow:hidden;font-family:Man,sans-serif;font-weight:800;color:#fff;background:#0B1F4D}
+.abs{position:absolute}
+.mono{font-family:Mono,monospace;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+.h{font-family:Anton,sans-serif;font-weight:400;line-height:1;white-space:nowrap}
+.c{position:absolute;left:0;width:1080px;text-align:center;white-space:nowrap}
+.bg{position:absolute;inset:0;background:radial-gradient(1100px 1100px at 60% 45%,#163B86 0%,#0B1F4D 55%,#071537 100%)}
+.tile{position:absolute;border-radius:16px;overflow:hidden;box-shadow:0 26px 60px rgba(0,0,0,.45),0 0 0 3px #fff}
+.tile img{display:block}
+.bar{position:absolute;display:flex;border-radius:24px;overflow:hidden;border:3px solid rgba(255,255,255,.3)}
+.bar>div{flex:1;display:flex;align-items:center;justify-content:center;font-family:Anton,sans-serif;line-height:1}
+.bar .l{background:var(--car);color:#fff;border-right:5px solid #fff}
+.bar .r{background:var(--no);color:#101820}
+.ad{position:absolute;height:48px;padding:0 20px;border-radius:24px;background:#fff;border:3px solid var(--blue);font-family:Mono,monospace;font-weight:700;font-size:22px;letter-spacing:.12em;line-height:42px;color:var(--ink)}
+</style></head>
+<body>
+<div id="v" style="display:none;position:absolute;left:0;top:0;width:1080px;height:1920px;overflow:hidden">
+  <div class="bg"></div>
+  <!-- Cut edges of 1080x1920 from the middle: 3:4 y 240/1680, 7:8 y 343/1577, 1:1 y 420/1500, 16:9 y 656/1263.
+       The tile lies wholly between 420 and 656, the title and the handle between 656 and 1263, the bar between 1263 and
+       1500. Nothing to read above 420 or below 1500. -->
+  <div class="tile" style="left:315px;top:428px;width:451px;height:225px"><img src="img/tile.png" style="width:451px;height:225px"></div>
+  <div class="c mono" style="top:676px;font-size:26px;color:var(--sky)">PROSPECT MARKETS · #AD</div>
+  <div class="c" style="top:722px;font-size:66px">What does a</div>
+  <div class="c h" style="top:820px;font-size:212px">50% PRICE</div>
+  <div class="c h" style="top:1050px;font-size:110px;color:var(--sky)">MEAN?</div>
+  <div class="c" style="top:1190px;font-size:40px">@i_am_vickyd</div>
+  <div class="bar" style="left:110px;top:1284px;width:860px;height:150px"><div class="l" style="font-size:120px">50%</div><div class="r" style="font-size:120px">50%</div></div>
+  <div class="c mono" style="top:1448px;font-size:24px;color:rgba(255,255,255,.75)">ONE CONTRACT PAYS $1 · 50¢ READS AS 50%</div>
+</div>
+<div id="t" style="display:none;position:absolute;left:0;top:0;width:1280px;height:720px;overflow:hidden">
+  <div class="bg"></div>
+  <div class="ad" style="right:40px;top:34px">#AD</div>
+  <div class="abs mono" style="left:64px;top:84px;font-size:24px;color:var(--sky)">PROSPECT MARKETS</div>
+  <div class="abs" style="left:60px;top:140px;font-size:50px">What does a</div>
+  <div class="abs h" style="left:56px;top:208px;font-size:146px">50% PRICE</div>
+  <div class="abs h" style="left:60px;top:370px;font-size:96px;color:var(--sky)">MEAN?</div>
+  <div class="abs" style="left:64px;top:630px;font-size:30px">@i_am_vickyd</div>
+  <div class="tile" style="left:770px;top:150px;width:451px;height:225px"><img src="img/tile.png" style="width:451px;height:225px"></div>
+  <div class="bar" style="left:740px;top:420px;width:500px;height:120px"><div class="l" style="font-size:92px">50%</div><div class="r" style="font-size:92px">50%</div></div>
+</div>
+<script>
+const m = location.hash.includes('t') ? 't' : 'v'
+document.getElementById(m).style.display = 'block'
+window.READY = Promise.all([document.fonts.ready, ...[...document.images].map(i => i.decode().catch(() => 0))]).then(() => document.fonts.load('116px Anton')).then(() => document.fonts.load('800 30px Man')).then(() => document.fonts.load('700 24px Mono'))
+</script>
+</body></html>

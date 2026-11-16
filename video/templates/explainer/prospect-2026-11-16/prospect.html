@@ -1,0 +1,389 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Prospect Markets: what a 50% price means (Lara, the dollar split by the market)</title>
+<style>
+@font-face{font-family:Anton;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/anton-latin-400-normal.woff2)}
+@font-face{font-family:Man;font-weight:600;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-600-normal.woff2)}
+@font-face{font-family:Man;font-weight:800;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-800-normal.woff2)}
+@font-face{font-family:Mono;font-weight:700;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/jetbrains-mono-latin-700-normal.woff2)}
+/* The owner's sponsored post on Prospect Markets (#ad), read by Lara (one take; their wording, approved by them).
+   Concept, new: A DOLLAR, SPLIT BY THE MARKET. A contract pays $1 if its outcome happens, so the two prices of a game
+   split one dollar. The cold open (navy) puts Prospect's real 15 Nov price card (Panthers 50c / Saints 50c) beside a
+   $1 bar in the teams' colours, split down the middle, and the cent sign flips to a percent sign. At the drop the navy
+   lifts; the same bar comes back, the same way, for "say a contract is priced at fifty percent".
+   Real material: Prospect's X posts (12 Nov launch, 15 Nov prices) through X's embed and their own media; frames from
+   Prospect's 12 Nov launch video (order book, market panel, the live price chart, the play-by-play feed); the CFTC's
+   own pages for the exchange (DCM 34536) and the clearinghouse (DCO 38); Prospect's 12 Nov release (Newsfile).
+   "#AD" and Prospect's risk line stay on screen throughout.
+   Times: video seconds; T(s) = s + 0.2 + (s >= 8.36 ? 0.6 : 0). */
+:root{--ink:#0B1F4D;--blue:#1F5FDB;--sky:#7CC4FF;--mute:#6B7A99;--navy:#0B1F4D;--car:#0085CA;--no:#D3BC8D;--teal:#22B3BD;--red:#E5484D;--green:#12A150}
+*{box-sizing:border-box}
+html,body{margin:0;width:1920px;height:1080px;overflow:hidden;font-family:Man,sans-serif;font-weight:800;color:var(--ink);
+  background:radial-gradient(1400px 800px at 30% 20%,#FFFFFF 0%,#EEF4FF 45%,#DCE8FB 100%)}
+.abs{position:absolute}
+.mono{font-family:Mono,monospace;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+.big{font-family:Anton,sans-serif;font-weight:400;line-height:1;white-space:nowrap}
+#grid{position:absolute;inset:-60px;background-image:linear-gradient(rgba(31,95,219,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(31,95,219,.05) 1px,transparent 1px);background-size:60px 60px}
+#edit{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
+.sc{position:absolute;inset:0;opacity:0}
+.card{position:absolute;border-radius:20px;background:#fff;box-shadow:0 24px 56px rgba(11,31,77,.16),0 0 0 1.5px rgba(11,31,77,.06);overflow:hidden;opacity:0;transform-origin:0 0}
+.card>img{display:block;width:100%}
+.ring{position:absolute;border:5px solid var(--blue);border-radius:12px;box-shadow:0 0 0 6px rgba(31,95,219,.14);opacity:0}
+.ring.w{border-color:#fff;box-shadow:0 0 0 6px rgba(255,255,255,.18)}
+.src{position:absolute;font-family:Mono,monospace;font-weight:700;font-size:17px;letter-spacing:.06em;color:var(--mute);white-space:nowrap;text-transform:uppercase;opacity:0}
+.c{position:absolute;left:0;width:1920px;text-align:center;white-space:nowrap}
+.chip{position:absolute;height:50px;padding:0 22px;border-radius:25px;background:#fff;box-shadow:0 10px 24px rgba(11,31,77,.12);font-family:Mono,monospace;font-weight:700;font-size:20px;letter-spacing:.08em;line-height:50px;color:var(--ink);white-space:nowrap;opacity:0}
+.stamp{position:absolute;padding:12px 30px;border:7px solid var(--blue);border-radius:18px;color:var(--blue);font-family:Anton,sans-serif;font-size:92px;line-height:1;white-space:nowrap;background:rgba(255,255,255,.94);opacity:0}
+/* the $1 bar */
+.bar{position:absolute;border-radius:28px;border:3px solid rgba(11,31,77,.16);background:rgba(255,255,255,.5)}
+.bar.dk{border-color:rgba(255,255,255,.3);background:rgba(255,255,255,.05)}
+.half{position:absolute;top:0;height:100%;display:flex;align-items:center;justify-content:center}
+.half.l{left:0;border-radius:25px 0 0 25px;background:var(--car);color:#fff}
+.half.r{right:0;border-radius:0 25px 25px 0;background:var(--no);color:#101820}
+.num{font-family:Anton,sans-serif;line-height:1;white-space:nowrap;display:flex;align-items:baseline}
+.sym{position:relative;display:inline-block;width:.64em;height:1em}
+.sym>span{position:absolute;left:0;bottom:0;width:100%;text-align:center;transform-origin:50% 60%}
+.div{position:absolute;top:-14px;width:6px;margin-left:-3px;border-radius:3px;background:var(--ink)}
+.brk{position:absolute;height:22px;border:3px solid currentColor;border-bottom:0;border-radius:8px 8px 0 0}
+.brkl{position:absolute;font-family:Mono,monospace;font-weight:700;font-size:22px;letter-spacing:.12em;white-space:nowrap;transform:translateX(-50%)}
+.row{position:absolute;border-radius:12px;overflow:hidden;box-shadow:0 12px 26px rgba(11,31,77,.22);opacity:0}
+.row>img{display:block}
+/* the chain */
+.node{position:absolute;top:250px;width:370px;height:200px;border-radius:24px;background:#fff;box-shadow:0 20px 46px rgba(11,31,77,.14),0 0 0 1.5px rgba(11,31,77,.06);padding:26px 26px;opacity:0}
+.node .n1{font-family:Anton,sans-serif;font-size:46px;line-height:1.02}
+.node .n2{font-family:Mono,monospace;font-weight:700;font-size:16px;letter-spacing:.08em;color:var(--mute);margin-top:12px;line-height:1.45;text-transform:uppercase}
+.node.on{box-shadow:0 0 0 5px var(--blue),0 20px 46px rgba(31,95,219,.22)}
+/* persistent */
+#cold{position:absolute;left:0;top:0;width:1920px;height:1080px;background:radial-gradient(1500px 900px at 70% 30%,#163B86 0%,#0B1F4D 55%,#071537 100%);color:#fff;overflow:hidden}
+#hdr{position:absolute;left:80px;top:40px;font-family:Mono,monospace;font-weight:700;font-size:20px;letter-spacing:.14em;color:var(--blue);opacity:0}
+#ad{position:absolute;right:56px;top:30px;height:52px;padding:0 22px;border-radius:26px;background:#fff;border:3px solid var(--blue);font-family:Mono,monospace;font-weight:700;font-size:24px;letter-spacing:.12em;line-height:46px;color:var(--ink)}
+#foot{position:absolute;left:0;top:1028px;width:1920px;text-align:center}
+#foot span{display:inline-block;padding:7px 20px;border-radius:16px;background:rgba(255,255,255,.9);font-family:Mono,monospace;font-weight:700;font-size:18px;letter-spacing:.03em;color:#46557A;white-space:nowrap}
+#cap{position:absolute;left:0;top:926px;width:1920px;text-align:center;opacity:0}
+#cap span{display:inline-block;padding:9px 32px 11px;border-radius:22px;background:rgba(255,255,255,.96);box-shadow:0 12px 30px rgba(11,31,77,.16);font-size:40px;line-height:52px;white-space:nowrap}
+#cap b{color:var(--blue)}
+#stk{position:absolute;left:0;top:0;opacity:0;transform-origin:50% 100%;filter:drop-shadow(0 18px 30px rgba(11,31,77,.25))}
+.clip{position:absolute;border-radius:20px;overflow:hidden;box-shadow:0 24px 56px rgba(11,31,77,.2);background:#000;opacity:0;transform-origin:0 0}
+.clip>img{display:block}
+.disc{position:absolute;left:0;width:1920px;text-align:center;white-space:nowrap;opacity:0}
+</style></head>
+<body>
+<div id="grid"></div>
+<div id="edit">
+  <div id="hdr">PROSPECT MARKETS · HOW THE PRICE WORKS</div>
+  <!-- 1: found it, live now -->
+  <div class="sc" id="s1">
+    <div class="card" id="xl" style="left:110px;top:170px;width:1000px;height:369px"><img src="img/x_launch_1000.jpg"></div>
+    <div class="card" id="prh" style="left:870px;top:560px;width:940px;height:284px"><img src="img/pr_head.jpg"></div>
+    <div class="src" id="s1src" style="left:870px;top:858px">PROSPECT ON X, 12 NOV · PROSPECT RELEASE (NEWSFILE), 12 NOV 2026</div>
+    <div class="stamp" id="live" style="left:1220px;top:230px;transform:rotate(-4deg)">LIVE · 12 NOV</div>
+  </div>
+  <!-- 2: let me break it down -->
+  <div class="sc" id="s2"><div class="c big" id="brk" style="top:380px;font-size:170px">LET ME BREAK IT DOWN</div></div>
+  <!-- 3: every game a market, peer to peer -->
+  <div class="sc" id="s3">
+    <div class="card" id="sl1" style="left:280px;top:180px;width:560px;height:560px;transform-origin:50% 50%"><img src="img/slate1_560.jpg"></div>
+    <div class="card" id="sl3" style="left:1080px;top:180px;width:560px;height:560px;transform-origin:50% 50%"><img src="img/slate3_560.jpg"></div>
+    <div class="card" id="sl2" style="left:680px;top:160px;width:560px;height:560px;transform-origin:50% 50%"><img src="img/slate2_560.jpg"></div>
+    <div class="src" id="s3src" style="left:0;width:1920px;text-align:center;top:770px">PROSPECT ON X · SUN 15 NOV, NFL WEEK 10 · PRICES AS OF 12:12 PM ET</div>
+    <div class="card" id="ob" style="left:110px;top:170px;width:1000px;height:563px"><img src="img/orderbook.jpg"></div>
+    <div class="src" id="obsrc" style="left:110px;top:748px">PROSPECT’S LAUNCH VIDEO, 12 NOV</div>
+    <div class="abs" id="obl1" style="left:1150px;top:250px;opacity:0"><div class="big" style="font-size:84px;color:var(--red)">SELLING</div><div class="mono" style="font-size:20px;color:var(--mute);margin-top:8px">ASKS FROM OTHER TRADERS</div></div>
+    <div class="abs" id="obl2" style="left:1150px;top:500px;opacity:0"><div class="big" style="font-size:84px;color:var(--green)">BUYING</div><div class="mono" style="font-size:20px;color:var(--mute);margin-top:8px">BIDS FROM OTHER TRADERS</div></div>
+    <div class="card" id="ab" style="left:110px;top:778px;width:925px;height:121px"><img src="img/pr_about.jpg"></div>
+  </div>
+  <!-- 4: fifty percent -->
+  <div class="sc" id="s4">
+    <div class="abs" id="b4g" style="left:0;top:0;width:1920px;height:1080px;transform-origin:0 0"></div>
+    <div class="clip" id="chc" style="left:880px;top:190px;width:960px;height:540px"><img id="chi" src="img/chart/c_00.jpg" style="width:960px;height:540px"></div>
+    <div class="src" id="chsrc" style="left:880px;top:745px">PROSPECT’S LAUNCH VIDEO, 12 NOV · THE PRICE, LIVE IN THE GAME</div>
+  </div>
+  <!-- 5: the screen -->
+  <div class="sc" id="s5">
+    <div class="card" id="mk" style="left:100px;top:170px;width:960px;height:540px"><img src="img/market.jpg"></div>
+    <div class="clip" id="pbc" style="left:900px;top:330px;width:900px;height:506px"><img id="pbi" src="img/pbp/p_00.jpg" style="width:900px;height:506px"></div>
+    <div class="src" id="s5src" style="left:100px;top:725px">PROSPECT’S LAUNCH VIDEO, 12 NOV</div>
+    <div class="card" id="xl2" style="left:549px;top:596px;width:822px;height:303px"><img src="img/x_launch.jpg"></div>
+  </div>
+  <!-- 6: the CFTC -->
+  <div class="sc" id="s6">
+    <div class="card" id="cl" style="left:210px;top:118px;width:340px;height:95px;box-shadow:none;background:transparent"><img src="img/cftc_logo.jpg"></div>
+    <div class="src" id="clsrc" style="left:580px;top:156px">CFTC.GOV · INDUSTRY FILINGS · READ 16 NOV 2026</div>
+    <div class="chip" id="lab1" style="left:210px;top:240px;background:var(--blue);color:#fff">LISTED · THE EXCHANGE (DCM)</div>
+    <div class="card" id="dcm" style="left:210px;top:300px;width:1500px;height:198px"><img src="img/dcm.jpg"></div>
+    <div class="chip" id="lab2" style="left:210px;top:540px;background:var(--blue);color:#fff">CLEARED · THE CLEARINGHOUSE (DCO)</div>
+    <div class="card" id="dco" style="left:210px;top:600px;width:1500px;height:198px"><img src="img/dco.jpg"></div>
+  </div>
+  <!-- 7: who does what -->
+  <div class="sc" id="s7">
+    <svg class="abs" style="left:0;top:0" width="1920" height="1080"><g fill="none" stroke="#1F5FDB" stroke-width="6" stroke-linecap="round">
+      <path id="a1" d="M466 350 H 522"/><path id="a2" d="M921 350 H 977"/><path id="a3" d="M1376 350 H 1432"/></g>
+      <g fill="#1F5FDB"><path id="h1" d="M522 336 L542 350 L522 364Z" opacity="0"/><path id="h2" d="M977 336 L997 350 L977 364Z" opacity="0"/><path id="h3" d="M1432 336 L1452 350 L1432 364Z" opacity="0"/></g></svg>
+    <div class="node" id="n1" style="left:90px"><div class="n1">TRADERS</div><div class="n2">ELIGIBLE U.S. CUSTOMERS</div></div>
+    <div class="node" id="n2" style="left:545px"><div style="display:flex;gap:14px;align-items:center"><img src="img/logo_110.png" style="width:56px;height:56px;border-radius:12px" id="n2l"><div class="n1" style="font-size:40px">PROSPECT<br>BROKERAGE</div></div><div class="n2">INTRODUCING BROKER · CFTC-REGISTERED, NFA MEMBER</div></div>
+    <div class="node" id="n3" style="left:1000px"><div class="n1">CRYPTO.COM FCM</div><div class="n2">FORIS DAX FCM, LLC · HOLDS THE ACCOUNT</div></div>
+    <div class="node" id="n4" style="left:1455px"><div class="n1">CDNA</div><div class="n2">LISTS, PRICES AND CLEARS THE CONTRACTS</div></div>
+    <div class="card" id="disc7" style="left:405px;top:560px;width:1110px;height:110px"><img src="img/pr_disc.jpg"></div>
+    <div class="src" id="s7src" style="left:405px;top:684px">PROSPECT RELEASE, 12 NOV 2026 · IMPORTANT DISCLOSURES</div>
+  </div>
+  <!-- 8: eligibility -->
+  <div class="sc" id="s8">
+    <div class="stamp" id="e1" style="left:230px;top:250px;font-size:80px;transform:rotate(-3deg)">U.S. RESIDENTS</div>
+    <div class="stamp" id="e2" style="left:840px;top:240px;font-size:80px;transform:rotate(2deg)">18+</div>
+    <div class="stamp" id="e3" style="left:1100px;top:255px;font-size:80px;transform:rotate(-2deg)">NOT IN ALL STATES</div>
+    <div class="abs" id="e4" style="left:0;width:1920px;top:470px;display:flex;justify-content:center;align-items:center;gap:28px;opacity:0">
+      <svg width="96" height="96" viewBox="0 0 96 96"><rect x="5" y="5" width="86" height="86" rx="18" fill="#fff" stroke="#1F5FDB" stroke-width="8"/><path id="tick" d="M24 50 L41 66 L73 30" fill="none" stroke="#1F5FDB" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <div class="big" style="font-size:96px">CHECK THAT FIRST</div></div>
+    <div class="card" id="elig" style="left:405px;top:660px;width:1110px;height:74px"><img src="img/pr_elig.jpg"></div>
+    <div class="src" id="s8src" style="left:405px;top:748px">PROSPECT RELEASE, 12 NOV 2026</div>
+  </div>
+  <!-- 9: the question -->
+  <div class="sc" id="s9">
+    <div class="mono abs" id="q1t" style="left:230px;top:200px;font-size:26px;color:var(--blue);opacity:0">THE PRICE</div>
+    <div class="card" id="q1" style="left:230px;top:250px;width:640px;height:400px;background:#101418"><img src="img/tile.png" style="width:451px;height:225px;margin:88px auto 0"></div>
+    <div class="mono abs" id="q2t" style="left:1050px;top:200px;font-size:26px;color:var(--blue);opacity:0">THE PLAY-BY-PLAY</div>
+    <div class="card" id="q2" style="left:1050px;top:250px;width:640px;height:400px;background:#000"><img src="img/pbp_q.jpg" style="width:640px;height:360px;margin-top:20px"></div>
+    <div class="abs" id="qor" style="left:900px;top:405px;width:120px;height:90px;border-radius:45px;background:var(--ink);color:#fff;font-family:Anton,sans-serif;font-size:50px;line-height:90px;text-align:center;opacity:0">OR</div>
+    <div class="c big" id="qq" style="top:690px;font-size:120px;color:var(--blue);opacity:0">PRICE FIRST, OR PLAY-BY-PLAY?</div>
+  </div>
+  <!-- 10: the risk line, spoken -->
+  <div class="sc" id="s10">
+    <div class="disc" id="d1" style="top:300px;font-size:60px">Trading in prediction markets involves</div>
+    <div class="disc" id="d1b" style="top:380px;font-size:60px;color:var(--blue)">substantial risk of loss.</div>
+    <div class="disc big" id="d2" style="top:480px;font-size:170px">18+</div>
+    <div class="disc" id="d3" style="top:690px;font-size:60px">Eligibility restrictions apply.</div>
+  </div>
+  <!-- end card -->
+  <div class="sc" id="end">
+    <div class="c" style="top:150px"><img src="img/logo_200.png" style="width:200px;height:200px;border-radius:36px;box-shadow:0 24px 50px rgba(11,31,77,.25)"></div>
+    <div class="c big" style="top:390px;font-size:110px">PROSPECT MARKETS</div>
+    <div class="c" style="top:530px;font-size:48px">Follow <b style="color:var(--blue)">@i_am_vickyd</b> on X</div>
+    <div class="c mono" style="top:615px;font-size:22px;color:var(--blue)">#AD · LINK IN THE POST</div>
+    <div class="c mono" style="top:690px;font-size:16px;color:var(--mute);letter-spacing:.03em">Prospect on X (12 and 15 Nov) · Prospect release, 12 Nov 2026 · CFTC industry filings (DCM 34536, DCO 38) · Crypto.com Help Center</div>
+  </div>
+  <!-- the cold open (navy); lifts away on the drop -->
+  <div id="cold">
+    <div class="mono abs" id="h_src" style="left:120px;top:96px;font-size:20px;color:rgba(255,255,255,.62)">PROSPECT ON X · SUN 15 NOV · NFL WEEK 10 · PRICES AS OF 12:12 PM ET</div>
+    <div class="card" id="h_card" style="left:120px;top:150px;width:700px;height:700px;opacity:1;box-shadow:0 30px 70px rgba(0,0,0,.45),0 0 0 1.5px rgba(255,255,255,.1)"><img src="img/slate3_700.jpg"></div>
+    <div class="abs" id="h_bg" style="left:0;top:0;width:1920px;height:1080px"></div>
+    <div class="abs" id="h_logo" style="left:930px;top:180px;display:flex;align-items:center;gap:20px;opacity:0"><img src="img/logo_110.png" style="width:96px;height:96px;border-radius:20px;box-shadow:0 0 0 2px rgba(255,255,255,.2)"><div><div style="font-size:50px;line-height:1">Prospect Markets</div><div class="mono" style="font-size:20px;color:var(--sky);margin-top:8px">@PROSPECTMARKETS</div></div></div>
+  </div>
+</div>
+<div id="ad">#AD</div>
+<div id="foot"><span>Trading in prediction markets involves substantial risk of loss. 18+. Eligibility restrictions apply.</span></div>
+<img id="stk">
+<div id="cap"></div>
+
+<script src="file:///home/user/cmv-alphascanner/video/lib/motion.js"></script>
+<script src="words.js"></script>
+<script>
+const $ = id => document.getElementById(id), W = window.WORDS, FPS = 30, { E, cl, lerp } = M
+const seg = (t, a, d) => cl((t - a) / d)
+let SIG = []
+const css = (el, k, v) => { el.style[k] = v; SIG.push(v) }
+const CUT = 8.36, T = s => s + 0.2 + (s >= CUT ? 0.6 : 0)
+const ws = i => T(W[i][0]), we = i => T(W[i][1])
+const END = 78.5, DROP = CUT + 0.2, ENDC = we(219) + .05
+const io = (el, t, a, b = 1e9, o = {}) => { el = typeof el === 'string' ? $(el) : el; SIG.push(M.apply(el, M.inout(t, a, b, o), o.base || '')) }
+const mk = (tag, cls, parent, style = {}, html = '') => { const e = document.createElement(tag); if (cls) e.className = cls; Object.assign(e.style, style); e.innerHTML = html; parent.appendChild(e); return e }
+const ring = (parent, x, y, w, h, cls = '') => mk('div', 'ring' + (cls ? ' ' + cls : ''), parent, { left: x + 'px', top: y + 'px', width: w + 'px', height: h + 'px' })
+// a ring drawing on left to right from a, gone by b
+const drawRing = (e, t, a, b = 1e9, pad = 14) => { const on = t >= a && t < b, u = on ? E.standard(seg(t, a, .45)) : 0, q = on ? 1 - E.exit(seg(t, b - .18, .18)) : 0
+  css(e, 'opacity', (Math.min(1, u * 3) * q).toFixed(3)); css(e, 'clipPath', `inset(-${pad}px ${(-pad + (e.offsetWidth + 2 * pad) * (1 - u)).toFixed(1)}px -${pad}px -${pad}px)`) }
+// a stamp landing: spring scale + squash
+const stamp = (el, t, a, rot = 0, s0 = 1.5) => { const sp = M.spring(t, a, M.SP.pop), [qx, qy] = M.squash(t, a + .12)
+  css(el, 'opacity', (t >= a ? cl((t - a) / .08) : 0).toFixed(3)); css(el, 'transform', `rotate(${rot}deg) scale(${((s0 - (s0 - 1) * cl(sp, 0, 1.2)) * qx).toFixed(4)},${((s0 - (s0 - 1) * cl(sp, 0, 1.2)) * qy).toFixed(4)})`) }
+
+// ===== the $1 bar: two halves (Panthers blue, Saints gold) that fill from the divider, "50" and a symbol that flips c -> %
+function mkBar(parent, x, y, w, h, fs, dark) {
+  const B = { x, y, w, h }
+  B.el = mk('div', 'bar' + (dark ? ' dk' : ''), parent, { left: x + 'px', top: y + 'px', width: w + 'px', height: h + 'px' })
+  const half = (side) => { const e = mk('div', 'half ' + side, B.el, { width: (w / 2 - 3) + 'px' }); const n = mk('div', 'num', e, { fontSize: fs + 'px' }, `50<span class="sym"><span class="sc0">¢</span><span class="sc1">%</span></span>`); return { e, c: n.querySelector('.sc0'), p: n.querySelector('.sc1') } }
+  B.L = half('l'); B.R = half('r')
+  B.div = mk('div', 'div', B.el, { left: (w / 2 - 3) + 'px', height: (h + 22) + 'px', background: dark ? '#fff' : 'var(--ink)', opacity: 0 })
+  const col = dark ? 'rgba(255,255,255,.85)' : 'var(--ink)'
+  B.brk = mk('div', 'brk', parent, { left: (x + 10) + 'px', top: (y - 40) + 'px', width: (w - 20) + 'px', color: col, opacity: 0 })
+  B.brkl = mk('div', 'brkl', parent, { left: (x + w / 2) + 'px', top: (y - 82) + 'px', color: col, opacity: 0 }, 'ONE CONTRACT PAYS $1 IF ITS OUTCOME HAPPENS')
+  return B
+}
+// fill: a = left half starts, a2 = right half starts; flip at f; bracket at k
+function drawBar(B, t, o) {
+  const fl = o.fill == null ? 0 : E.standard(seg(t, o.fill, .5)), fr = o.fill2 == null ? 0 : E.standard(seg(t, o.fill2, .5))
+  css(B.L.e, 'clipPath', `inset(0 0 0 ${(100 * (1 - fl)).toFixed(2)}%)`); css(B.R.e, 'clipPath', `inset(0 ${(100 * (1 - fr)).toFixed(2)}% 0 0)`)
+  css(B.div, 'opacity', (o.fill == null ? 0 : seg(t, o.fill, .2)).toFixed(3))
+  for (const S of [B.L, B.R]) {
+    const u = o.flip == null ? 0 : seg(t, o.flip, .36), a = u < .5 ? 1 - E.exit(u * 2) : 0, b = u >= .5 ? E.enter((u - .5) * 2) : 0
+    css(S.c, 'transform', u > 0 && u < 1 ? `scaleY(${a.toFixed(3)})` : 'none'); css(S.c, 'opacity', u >= .5 ? '0' : '1')
+    css(S.p, 'transform', u > 0 && u < 1 ? `scaleY(${b.toFixed(3)})` : 'none'); css(S.p, 'opacity', u >= .5 ? '1' : '0')
+  }
+  if (o.brk != null) { io(B.brk, t, o.brk, o.brkOut ?? 1e9, { dy: 10 }); io(B.brkl, t, o.brk + .1, o.brkOut ?? 1e9, { dy: 10, base: 'translateX(-50%)' }) } else { css(B.brk, 'opacity', '0'); css(B.brkl, 'opacity', '0') }
+}
+
+// ===== the cold open: bar in the navy, beside Prospect's real card
+const H = mkBar($('h_bg'), 930, 420, 860, 200, 150, true)
+H.rows = [mk('div', 'row', $('h_bg'), { left: '920px', top: '650px' }, '<img src="img/row_car.png" style="width:451px;height:82px">'), mk('div', 'row', $('h_bg'), { left: '1349px', top: '650px' }, '<img src="img/row_no.png" style="width:451px;height:82px">')]
+H.lab = mk('div', 'abs big', $('h_bg'), { left: '930px', top: '770px', width: '860px', textAlign: 'center', fontSize: '74px', color: 'var(--sky)', opacity: 0 }, 'IMPLIED PROBABILITY')
+const s700 = 700 / 1080
+H.ring = ring($('h_card'), 552 * s700 - 6, 388 * s700 - 6, 451 * s700 + 12, 225 * s700 + 12, 'w')
+
+// ===== 4: the same bar, bigger, on the light page
+const B4 = mkBar($('b4g'), 260, 300, 1400, 230, 190, false)
+B4.rows = [mk('div', 'row', $('b4g'), { left: '384px', top: '556px' }, '<img src="img/row_car.png" style="width:451px;height:82px">'), mk('div', 'row', $('b4g'), { left: '1084px', top: '556px' }, '<img src="img/row_no.png" style="width:451px;height:82px">')]
+B4.rring = ring(B4.rows[0], 4, 4, 443, 74, 'w')
+B4.lab = mk('div', 'abs big', $('b4g'), { left: '260px', top: '668px', width: '1400px', textAlign: 'center', fontSize: '84px', color: 'var(--blue)', opacity: 0 }, 'IMPLIED PROBABILITY')
+B4.even = mk('div', 'chip', $('b4g'), { left: '960px', top: '782px', transform: 'translateX(-50%)', fontSize: '24px', background: 'var(--ink)', color: '#fff' }, '50 / 50 · AS LIKELY AS NOT')
+B4.now = mk('div', 'src', $('b4g'), { left: '0', width: '1920px', textAlign: 'center', top: '850px' }, 'RIGHT NOW = PROSPECT’S PRICE AT 12:12 PM ET, SUN 15 NOV (PROSPECT ON X)')
+
+// ===== rings on the real screens (display px)
+const R = {}
+{ const s = 1000 / 1096; R.xl1 = ring($('xl'), 650 * s, 245 * s, 360 * s, 50 * s); R.xl2 = ring($('xl'), 25 * s, 245 * s, 280 * s, 50 * s); R.xl3 = ring($('xl'), 25 * s, 143 * s, 684 * s, 56 * s) }
+{ const s = 822 / 1096; R.xl4 = ring($('xl2'), 88 * s, 292 * s, 874 * s, 52 * s); R.xl5 = ring($('xl2'), 20 * s, 342 * s, 136 * s, 52 * s) }
+R.prh = ring($('prh'), 384, 14, 190, 52)
+{ const k = 560 / 1080; R.sl1 = ring($('sl1'), 356 * k - 4, 438 * k - 4, 150 * k + 8, 168 * k + 8); R.sl2 = ring($('sl2'), 356 * k - 4, 438 * k - 4, 150 * k + 8, 168 * k + 8); R.sl3 = ring($('sl3'), 828 * k - 4, 442 * k - 4, 153 * k + 8, 164 * k + 8) }
+{ const s = 1000 / 1280; R.ob1 = ring($('ob'), 640 * s, 58 * s, 632 * s, 268 * s); R.ob2 = ring($('ob'), 640 * s, 390 * s, 632 * s, 268 * s) }
+{ const s = 925 / 1480; R.ab = ring($('ab'), 136 * s, 98 * s, 630 * s, 52 * s) }
+{ const s = 960 / 1280; R.mk1 = ring($('mk'), 62 * s, 2 * s, 1170 * s, 115 * s); R.mk2 = ring($('mk'), 60 * s, 232 * s, 385 * s, 272 * s); R.mk3 = ring($('mk'), 722 * s, 618 * s, 496 * s, 92 * s) }
+{ const s = 900 / 1280; R.pb1 = ring($('pbc'), 205 * s, 22 * s, 320 * s, 66 * s, 'w'); R.pb2 = ring($('pbc'), 750 * s, 22 * s, 285 * s, 66 * s, 'w') }
+{ const s = 1500 / 2060; R.d1 = ring($('dcm'), 34 * s, 98 * s, 1142 * s, 60 * s); R.d2 = ring($('dcm'), 34 * s, 156 * s, 300 * s, 54 * s); R.c1 = ring($('dco'), 34 * s, 98 * s, 1018 * s, 60 * s); R.c2 = ring($('dco'), 34 * s, 156 * s, 290 * s, 54 * s) }
+R.disc = ring($('disc7'), 0, 0, 1110, 74)
+R.elig = ring($('elig'), 0, 0, 1110, 74)
+R.q1 = ring($('q1'), 6, 6, 628, 388); R.q2 = ring($('q2'), 6, 6, 628, 388, 'w')
+
+// scenes
+const S2a = ws(42) - .3, S3a = ws(47) - .3, S4a = ws(68) - .3, S5a = ws(110) - .3, S6a = ws(138) - .3, S7a = ws(159) - .3, S8a = ws(170) - .3, S9a = ws(186) - .3, S10a = ws(206) - .3
+const SC = [['s1', DROP, S2a], ['s2', S2a, S3a], ['s3', S3a, S4a], ['s4', S4a, S5a], ['s5', S5a, S6a], ['s6', S6a, S7a], ['s7', S7a, S8a], ['s8', S8a, S9a], ['s9', S9a, S10a], ['s10', S10a, ENDC], ['end', ENDC, 999]]
+// stickers: No Way! (shirtless) on finding it; Hmm (shirtless) on the closing question; The Grin (grey), the sign-off
+const RX = [{ id: 'noway', t0: ws(24) - .05, t1: ws(32) - .35, rot: -4, f: [0, 74] }, { id: 'hmm', t0: ws(195) - .2, t1: S10a - .25, rot: 4, f: [0, 83] }, { id: 'grin', t0: ENDC + .4, t1: END - .15, rot: -3, f: [0, 107] }]
+const SROOT = 'file:///home/user/cmv-alphascanner/video/out/reactions/'
+const CAP = [[0, 10, 'What does a <b>50% price</b> on a game’s outcome mean?'], [11, 15, 'It is the <b>implied probability</b>,'], [16, 22, 'and that is how <b>Prospect Markets</b> works'],
+  [23, 28, 'So I just found <b>Prospect Markets</b>'], [29, 36, 'It is a <b>prediction market</b> built for sports,'], [37, 41, 'and it is <b>live now</b>'], [42, 46, 'Let me <b>break it down</b>'],
+  [47, 51, '<b>Every game</b> becomes a market,'], [52, 56, 'with <b>contracts</b> on the outcome,'], [57, 64, 'and the price is set <b>peer to peer</b>,'], [65, 67, 'by <b>other traders</b>'],
+  [68, 73, 'Say a contract on <b>one outcome</b>'], [74, 78, 'is priced at <b>50%</b>'], [79, 85, 'That price reads as the <b>implied probability</b>'], [86, 92, 'So the market is saying that outcome'], [93, 97, 'looks <b>as likely as not</b>,'], [98, 99, '<b>right now</b>'],
+  [100, 109, 'And the price can <b>move while the game is on</b>'], [110, 116, 'By the way, the screen also shows'], [117, 122, '<b>real-time information</b> next to the market,'], [123, 127, '<b>play by play</b> and <b>stats</b>,'], [128, 137, 'so the game and the price are <b>in one place</b>'],
+  [138, 142, 'Contracts are <b>listed</b> and <b>cleared</b>'], [143, 151, 'on Crypto.com’s exchange, <b>CDNA</b>,'], [152, 158, 'which is <b>CFTC registered</b>'], [159, 164, '<b>Prospect Brokerage</b> is the introducing broker'], [165, 169, 'that <b>connects traders</b> to it'],
+  [170, 176, 'It is aimed at <b>US traders</b>,'], [177, 180, 'and <b>eligibility rules</b> apply,'], [181, 185, 'so <b>check that first</b> anyways'], [186, 194, 'When a game has a price on the outcome,'], [195, 200, 'do you check <b>the price</b> first,'], [201, 205, 'or <b>the play by play</b>?']]
+  .map(([a, b, h], i, A) => ({ t0: ws(a) - .08, t1: Math.min(we(b) + .45, A[i + 1] ? ws(A[i + 1][0]) - .08 : S10a), h }))
+const swap = async (im, src) => { if (im.getAttribute('src') !== src) { im.src = src; try { await im.decode() } catch (e) {} } SIG.push(src) }
+
+window.render = async t => {
+  SIG = []
+  for (const [id, a, b] of SC) { const fi = id === 's1' ? 0 : .3, fo = .24, st = M.scene(t, a, b, fi, fo)
+    css($(id), 'opacity', (id === 's1' && t >= a ? Math.min(1, 1 - (t >= b - fo ? E.exit(seg(t, b - fo, fo)) : 0)) : st.op).toFixed(3)); css($(id), 'transform', `scale(${st.s.toFixed(4)})`) }
+  css($('grid'), 'transform', `translate(${M.float(t, 20, 23).toFixed(1)}px,${M.float(t, 14, 31, .3).toFixed(1)}px)`)
+  css($('hdr'), 'opacity', (seg(t, DROP + .3, .3) * (1 - seg(t, S10a - .3, .3))).toFixed(3))
+  css($('foot'), 'opacity', (t < S10a - .3 ? 1 : t < ENDC ? 1 - seg(t, S10a - .3, .3) : seg(t, ENDC, .4)).toFixed(3))
+  // ---- the cold open, then the curtain lifts on the drop
+  { const u = E.standard(seg(t, DROP, .55)); css($('cold'), 'transform', `translateY(${(-1100 * u).toFixed(1)}px)`); css($('cold'), 'display', u >= 1 ? 'none' : 'block') }
+  if (t < DROP + .6) {
+    css($('h_src'), 'opacity', '1')
+    drawRing(H.ring, t, ws(3) - .1)
+    drawBar(H, t, { fill: ws(5) - .1, fill2: ws(5) + .15, flip: ws(14), brk: ws(8) - .1 })
+    H.rows.forEach((r, i) => io(r, t, ws(8) + .12 * i, 1e9, { dy: 20 }))
+    { const a = ws(15) - .05; stamp(H.lab, t, a, 0, 1.3) }
+    io('h_logo', t, ws(20) - .15, 1e9, { dx: 30, dy: 0 })
+  }
+  // ---- 1: found it, live now
+  if (t > DROP - .1 && t < S2a + .1) {
+    const [sx, sy, sr] = M.shake(t, DROP, .4, 9); css($('s1'), 'translate', `${sx.toFixed(1)}px ${sy.toFixed(1)}px`); css($('s1'), 'rotate', `${sr.toFixed(3)}deg`)
+    io('xl', t, DROP + .1, 1e9, { dy: 40, d: .45 }); drawRing(R.xl1, t, ws(32) - .1, ws(34) - .1); drawRing(R.xl2, t, ws(34) - .1, ws(37) - .1); drawRing(R.xl3, t, ws(40) - .1)
+    io('prh', t, ws(29) - .2, 1e9, { dx: 60, dy: 0, d: .42 }); drawRing(R.prh, t, ws(40) - .05); io('s1src', t, ws(29), 1e9, { dy: 8 })
+    stamp($('live'), t, ws(40) - .05, -4)
+  }
+  // ---- 2
+  if (t > S2a - .1 && t < S3a + .1) io('brk', t, S2a + .05, 1e9, { dy: 0, s0: 1.18, d: .32 })
+  // ---- 3: the slate fans out, then the order book
+  if (t > S3a - .1 && t < S4a + .1) {
+    const out = ws(57) - .25
+    for (const [id, i, rot] of [['sl1', 0, -7], ['sl2', 1, 0], ['sl3', 2, 7]]) io(id, t, ws(47) - .15 + .16 * i, out + .05 * i, { dy: 60, s0: .9, d: .45, base: `rotate(${rot}deg)`, dxOut: -120, dyOut: 0, sOut: .94 })
+    io('s3src', t, ws(48), out, { dy: 8 })
+    drawRing(R.sl1, t, ws(53) - .1, out); drawRing(R.sl2, t, ws(53) + .05, out); drawRing(R.sl3, t, ws(53) + .2, out)
+    io('ob', t, out + .1, 1e9, { dx: 80, dy: 0, d: .45 }); io('obsrc', t, out + .3, 1e9, { dy: 8 })
+    drawRing(R.ob1, t, ws(62) - .1); drawRing(R.ob2, t, ws(64) - .05)
+    io('obl1', t, ws(62) - .05, 1e9, { dx: 30, dy: 0 }); io('obl2', t, ws(64), 1e9, { dx: 30, dy: 0 })
+    io('ab', t, ws(65) - .15, 1e9, { dy: 24 }); drawRing(R.ab, t, ws(66) - .05)
+  }
+  // ---- 4: fifty percent, the same bar; then the price moves (Prospect's live chart)
+  if (t > S4a - .1 && t < S5a + .1) {
+    const mv = ws(100) - .2, gu = E.standard(seg(t, mv, .6))
+    css($('b4g'), 'transform', `translate(${(-83 * gu).toFixed(1)}px,${(225 * gu).toFixed(1)}px) scale(${(1 - .45 * gu).toFixed(4)})`)
+    io(B4.el, t, S4a + .1, 1e9, { dy: 30, d: .4 })
+    drawBar(B4, t, { fill: ws(77) - .1, fill2: ws(78) - .05, flip: ws(84), brk: ws(70) - .1 })
+    B4.rows.forEach((r, i) => io(r, t, S4a + .3 + .1 * i, 1e9, { dy: 20 }))
+    drawRing(B4.rring, t, ws(72) - .1, ws(77) - .1)
+    stamp(B4.lab, t, ws(85) - .05, 0, 1.25); css(B4.lab, 'opacity', (t >= ws(85) - .05 ? cl((t - ws(85) + .05) / .08) * (1 - seg(t, mv, .25)) : 0).toFixed(3))
+    io(B4.even, t, ws(94) - .1, mv, { dy: 14, base: 'translateX(-50%)' })
+    io(B4.now, t, ws(98) - .1, mv, { dy: 8 })
+    io('chc', t, mv + .1, 1e9, { dx: 80, dy: 0, d: .45 }); io('chsrc', t, mv + .35, 1e9, { dy: 8 })
+    const k = Math.max(0, Math.min(21, Math.floor((t - (mv + .35)) * 15 + 1e-6)))   // Prospect's frames at half speed
+    await swap($('chi'), `img/chart/c_${String(k).padStart(2, '0')}.jpg`)
+  }
+  // ---- 5: the screen: game state next to the market, play by play and stats, then Prospect's own words
+  if (t > S5a - .1 && t < S6a + .1) {
+    const one = ws(128) - .2, gu = E.standard(seg(t, one, .55))
+    io('mk', t, S5a + .1, 1e9, { dy: 40, d: .45 }); css($('mk'), 'transform', $('mk').style.transform + ` translate(${(0).toFixed(1)}px,${(-50 * gu).toFixed(1)}px) scale(${(1 - .2 * gu).toFixed(4)})`)
+    io('s5src', t, S5a + .4, one, { dy: 8 })
+    drawRing(R.mk1, t, ws(117) - .1, ws(119) - .1); drawRing(R.mk2, t, ws(119) - .1, one); drawRing(R.mk3, t, ws(121) - .1, one)
+    io('pbc', t, ws(123) - .2, 1e9, { dx: 80, dy: 0, d: .42 }); css($('pbc'), 'transform', $('pbc').style.transform + ` translate(${(250 * gu).toFixed(1)}px,${(-200 * gu).toFixed(1)}px) scale(${(1 - .2 * gu).toFixed(4)})`)
+    drawRing(R.pb1, t, ws(123) - .05, one); drawRing(R.pb2, t, ws(127) - .1, one + .4)
+    const k = Math.max(0, Math.min(28, Math.floor((t - ws(123)) * 30 + 1e-6)))
+    await swap($('pbi'), `img/pbp/p_${String(k).padStart(2, '0')}.jpg`)
+    io('xl2', t, one + .15, 1e9, { dy: 50, d: .45 }); drawRing(R.xl4, t, ws(135) - .1); drawRing(R.xl5, t, ws(135) + .25)
+  }
+  // ---- 6: the CFTC's own pages
+  if (t > S6a - .1 && t < S7a + .1) {
+    io('cl', t, S6a + .1, 1e9, { dy: 16 }); io('clsrc', t, S6a + .25, 1e9, { dy: 8 })
+    io('lab1', t, ws(140) - .2, 1e9, { dx: -24, dy: 0 }); io('dcm', t, ws(140) - .15, 1e9, { dy: 30, d: .42 })
+    io('lab2', t, ws(142) - .2, 1e9, { dx: -24, dy: 0 }); io('dco', t, ws(142) - .15, 1e9, { dy: 30, d: .42 })
+    drawRing(R.d1, t, ws(144) - .1); drawRing(R.c1, t, ws(148) - .1); drawRing(R.d2, t, ws(154) - .1); drawRing(R.c2, t, ws(158) - .15)
+  }
+  // ---- 7: who does what
+  if (t > S7a - .1 && t < S8a + .1) {
+    io('n4', t, S7a + .1, 1e9, { dy: 24 }); io('n3', t, S7a + .2, 1e9, { dy: 24 })
+    io('n2', t, ws(159) - .1, 1e9, { dy: 0, spring: M.SP.pop, s0: .8 }); $('n2').classList.toggle('on', t >= ws(163) - .1); SIG.push(t >= ws(163) - .1)
+    io('n1', t, ws(166) - .2, 1e9, { dy: 24 })
+    for (const [p, h, a] of [['a1', 'h1', ws(166)], ['a2', 'h2', ws(167)], ['a3', 'h3', ws(168) - .1]]) { const u = M.draw($(p), t, a, .3); css($(h), 'opacity', (u > .95 ? 1 : 0).toFixed(0)) }
+    io('disc7', t, ws(163) - .15, 1e9, { dy: 24 }); drawRing(R.disc, t, ws(164) - .05); io('s7src', t, ws(164), 1e9, { dy: 8 })
+  }
+  // ---- 8: eligibility (the second drop)
+  if (t > S8a - .1 && t < S9a + .1) {
+    const [sx, sy, sr] = M.shake(t, S8a, .4, 8, 2); css($('s8'), 'translate', `${sx.toFixed(1)}px ${sy.toFixed(1)}px`); css($('s8'), 'rotate', `${sr.toFixed(3)}deg`)
+    stamp($('e1'), t, ws(174) - .1, -3); stamp($('e2'), t, ws(178) - .1, 2); stamp($('e3'), t, ws(180) - .1, -2)
+    io('e4', t, ws(182) - .15, 1e9, { dy: 30 }); M.draw($('tick'), t, ws(184) - .1, .35, E.standard); SIG.push($('tick').style.strokeDashoffset)
+    io('elig', t, ws(178) - .1, 1e9, { dy: 24 }); drawRing(R.elig, t, ws(179)); io('s8src', t, ws(178) + .1, 1e9, { dy: 8 })
+  }
+  // ---- 9: the question
+  if (t > S9a - .1 && t < S10a + .1) {
+    io('q1t', t, ws(189) - .15, 1e9, { dy: 14 }); io('q1', t, ws(189) - .1, 1e9, { dy: 40, d: .42 })
+    io('q2t', t, ws(195) - .15, 1e9, { dy: 14 }); io('q2', t, ws(195) - .1, 1e9, { dy: 40, d: .42 })
+    io('qor', t, ws(196), 1e9, { dy: 0, spring: M.SP.pop, s0: .6 })
+    drawRing(R.q1, t, ws(199) - .1, ws(201) - .1); drawRing(R.q2, t, ws(203) - .1)
+    io('qq', t, ws(204) - .1, 1e9, { dy: 30 })
+  }
+  // ---- 10: the risk line, on its words
+  if (t > S10a - .1 && t < ENDC + .1) { io('d1', t, ws(206) - .15, 1e9, { dy: 24 }); io('d1b', t, ws(211) - .15, 1e9, { dy: 24 }); io('d2', t, ws(215) - .12, 1e9, { dy: 0, spring: M.SP.pop, s0: .7 }); io('d3', t, ws(217) - .15, 1e9, { dy: 24 }) }
+  if (t > ENDC - .1) [...$('end').children].forEach((e, j) => io(e, t, M.stagger(j, 5, ENDC + .1, .1, .4), 1e9, { dy: 24 }))
+  // ---- stickers: the edit eases into the left 1382 x 778, the sticker pops in on the right
+  let d = 0
+  for (const r of RX) d = Math.max(d, t < r.t0 - .35 || t > r.t1 + .3 ? 0 : Math.min(E.standard(cl((t - r.t0 + .35) / .35)), E.standard(cl((r.t1 + .3 - t) / .3))))
+  css($('edit'), 'transform', `translate(0px,${(76 * d).toFixed(1)}px) scale(${(1 - .28 * d).toFixed(4)})`)
+  const sr = RX.find(r => t >= r.t0 && t < r.t1), im = $('stk')
+  if (sr) {
+    const L = window.RLIB[sr.id], n = sr.f[1] - sr.f[0] + 1, per = 2 * (n - 1), lt = t - sr.t0
+    let i = Math.floor(lt * FPS + 1e-6); i = ((i % per) + per) % per; if (i >= n) i = per - i
+    await swap(im, `${SROOT}${sr.id}/f_${String(sr.f[0] + i + 1).padStart(4, '0')}.png`)
+    const sw = 470, h = sw * L.h / L.w, pin = cl(lt / .22), pout = cl((sr.t1 - t) / .16)
+    const sc = (pin < 1 ? 1 + 3.2 * Math.pow(pin - 1, 3) + 2.2 * Math.pow(pin - 1, 2) : 1) * (.85 + .15 * pout)
+    css(im, 'width', sw + 'px'); css(im, 'left', (1651 - sw / 2) + 'px'); css(im, 'top', (912 - h).toFixed(1) + 'px'); css(im, 'opacity', Math.min(cl(pin * 5), pout).toFixed(3))
+    css(im, 'transform', `rotate(${sr.rot}deg) scale(${sc.toFixed(3)}) translateY(${M.float(lt, 4, 3.9).toFixed(1)}px)`)
+  } else css(im, 'opacity', '0')
+  // ---- captions
+  const c = CAP.find(x => t >= x.t0 && t < x.t1), html = c ? '<span>' + c.h + '</span>' : ''
+  if ($('cap').innerHTML !== html) $('cap').innerHTML = html
+  SIG.push(html); css($('cap'), 'opacity', c ? Math.min(1, (t - c.t0) / .12).toFixed(3) : '0')
+  css($('cap'), 'transform', c ? `translateY(${(8 * (1 - E.enter(cl((t - c.t0) / .2)))).toFixed(1)}px)` : 'none')
+  return SIG.join('|')
+}
+window.READY = Promise.all([new Promise(r => { if (window.RLIB) return r(); const sc = document.createElement('script'); sc.src = SROOT + 'lib.js'; sc.onload = sc.onerror = r; document.head.appendChild(sc) }),
+  document.fonts.load('80px Anton'), document.fonts.load('800 40px Man'), document.fonts.load('600 26px Man'), document.fonts.load('700 30px Mono'),
+  ...[...document.images].map(i => i.decode ? i.decode().catch(() => 0) : 1)])
+</script>
+</body></html>

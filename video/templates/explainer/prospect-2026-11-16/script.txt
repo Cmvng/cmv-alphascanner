@@ -1,0 +1,21 @@
+What does a fifty percent price on a game's outcome mean? It is the implied probability, and that is how Prospect Markets works.
+
+So I just found Prospect Markets. It is a prediction market built for sports, and it is live now.
+
+Let me break it down.
+
+Every game becomes a market, with contracts on the outcome, and the price is set peer to peer, by other traders.
+
+Say a contract on one outcome is priced at fifty percent. That price reads as the implied probability. So the market is saying that outcome looks as likely as not, right now. And the price can move while the game is on.
+
+By the way, the screen also shows real-time information next to the market, play by play and stats, so the game and the price are in one place.
+
+Contracts are listed and cleared on Crypto dot com's exchange, C D N A, which is C F T C registered.
+
+Prospect Brokerage is the introducing broker that connects traders to it.
+
+It is aimed at U S traders, and eligibility rules apply, so check that first anyways.
+
+When a game has a price on the outcome, do you check the price first, or the play by play?
+
+Trading in prediction markets involves substantial risk of loss. Eighteen plus. Eligibility restrictions apply.
