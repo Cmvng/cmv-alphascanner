@@ -54,6 +54,9 @@ The brief: "Make me a video on this recent news" and their seven-item brief. Tem
   5. **The playhead read 22:43 for a 22:44 post** (minutes floored). The minutes are now rounded, and the pins use
      exact fractions.
   6. **`determinism.mjs` flagged the pulsing pin** (scale). It is now a box-shadow halo.
+  7. **A dark strip along the bottom of Meteora's post,** the top of its embedded video, showed on the half-second sheets
+     of the full render. The post was cropped above the video. Only that stretch (frames 2595 to 3000) was re-rendered
+     and spliced in with one re-encode. The joins match the original (mean difference 0.3 to 0.6 levels).
 - **Change next time:** check every music track's length against the video before choosing it. New Bass 01 needed a
   repeat on matching downbeats (`extend_music.py`).
 - **The owner's reaction:** (to be added)
