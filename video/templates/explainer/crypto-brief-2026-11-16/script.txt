@@ -1,0 +1,17 @@
+Three hacks, one scam, and three things shipped. Here's your Monday crypto brief.
+
+Kava first. An attacker pumped up the value of collateral in a dormant B U S D market on Kava Lend, then borrowed about fifty-five million KAVA, roughly three point eight million dollars. KAVA fell from almost seven cents to three and a half, in two hours. Kava says only Kava Lend was hit, and it's not an infinite mint. Upbit paused deposits and withdrawals, and now flags KAVA as a caution token.
+
+Then Coin One. Hackers got into a support contractor of the Korean exchange, so passwords, I D numbers, bank details and wallet addresses given to support may be out. No intrusion into trading or wallets has been found so far. Expect phishing.
+
+Bitcoin miners were next. Attackers broke into Luxor's Commander fleet software and pointed customer machines at their own address on the OCEAN pool, about thirteen exahashes, by outside reports. Luxor patched it in two hours, and will pay clients in full. Its CEO calls it A I enabled.
+
+Scam watch. Bot accounts are posting a "mee-how" airdrop claim. There is no official claim. Treat those links as wallet drainers.
+
+What shipped. Solflare's Private Mode is live. It hides balances and payment amounts, addresses stay visible, and private payments only work between Solflare users who turn it on.
+
+As Breakpoint opened, Meteora launched the Dynamic Liquidity Exchange: trading, limit orders and liquidity, in one place, with D L M M Pro in beta, and Project Hypernova for Solana founders.
+
+And Pump dot fun's Alon says an update now shows how Degen and Diamond pot rewards are calculated.
+
+Stay safe, and don't click claim links.

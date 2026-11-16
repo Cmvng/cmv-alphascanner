@@ -28,6 +28,38 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
+## 16 Nov: "Monday crypto brief" (1:51, 16:9, the owner's news brief, our script approved by them, read by Lara)
+
+The brief: "Make me a video on this recent news" and their seven-item brief. Template:
+`video/templates/explainer/crypto-brief-2026-11-16/`.
+
+- **What worked:**
+  - **The fact-check ran first, in parallel with the screen captures.** It changed four details before the script was
+    written:
+    - KAVA fell about 50% at the low, not 40%;
+    - Luxor hasn't confirmed the 13 EH/s;
+    - Coinone says no intrusion found "so far";
+    - Meteora calls Hypernova a roadmap.
+  - **One question carried the script, the length, the format and the cost** (1,660 credits); the owner chose Lara.
+  - **X posts captured with X's own embed widget,** cropped to their text where the media was decorative so they read
+    at 900 px.
+- **Mistakes, and how they were caught (before sending):**
+  1. **Pin labels collided with neighbouring pins,** three pins sit within 3 hours on Sunday evening. Labels now sit on
+     top, and the outro shows dots only. The day labels moved to the bottom of the strip, clear of the playhead chip.
+  2. **The Coinone push-in cut the right edge of the text.** The zoom went from 1.75 to 1.6.
+  3. **Three posts were too small** (shown whole at about 470 px wide). They are now cropped to their text and shown
+     900 px wide; Alon's pots got their own card.
+  4. **The pots card cut off the amounts.** The crop was taken from the screenshot's real bottom edge, found by
+     scanning the pixels.
+  5. **The playhead read 22:43 for a 22:44 post** (minutes floored). The minutes are now rounded, and the pins use
+     exact fractions.
+  6. **`determinism.mjs` flagged the pulsing pin** (scale). It is now a box-shadow halo.
+- **Change next time:** check every music track's length against the video before choosing it. New Bass 01 needed a
+  repeat on matching downbeats (`extend_music.py`).
+- **The owner's reaction:** (to be added)
+
+---
+
 ## 14 Nov: "Primus $eU, the receipt" (0:51, 16:9, the owner's script read by Lara)
 
 The brief: their post about @primus_labs and $eU on BNB Chain. They chose the public screens (no wallet) and Lara
