@@ -331,7 +331,7 @@ window.render = async t => {
   // ---- 6: the CFTC's own pages
   if (t > S6a - .1 && t < S7a + .1) {
     io('cl', t, S6a + .1, 1e9, { dy: 16 }); io('clsrc', t, S6a + .25, 1e9, { dy: 8 })
-    io('lab1', t, ws(140) - .2, 1e9, { dx: -24, dy: 0 }); io('dcm', t, ws(140) - .15, 1e9, { dy: 30, d: .42 })
+    io('lab1', t, S6a + .15, 1e9, { dx: -24, dy: 0 }); io('dcm', t, S6a + .2, 1e9, { dy: 30, d: .42 })
     io('lab2', t, ws(142) - .2, 1e9, { dx: -24, dy: 0 }); io('dco', t, ws(142) - .15, 1e9, { dy: 30, d: .42 })
     drawRing(R.d1, t, ws(144) - .1); drawRing(R.c1, t, ws(148) - .1); drawRing(R.d2, t, ws(154) - .1); drawRing(R.c2, t, ws(158) - .15)
   }
@@ -346,20 +346,20 @@ window.render = async t => {
   // ---- 8: eligibility (the second drop)
   if (t > S8a - .1 && t < S9a + .1) {
     const [sx, sy, sr] = M.shake(t, S8a, .4, 8, 2); css($('s8'), 'translate', `${sx.toFixed(1)}px ${sy.toFixed(1)}px`); css($('s8'), 'rotate', `${sr.toFixed(3)}deg`)
-    stamp($('e1'), t, ws(174) - .1, -3); stamp($('e2'), t, ws(178) - .1, 2); stamp($('e3'), t, ws(180) - .1, -2)
+    stamp($('e1'), t, ws(171) - .05, -3); stamp($('e2'), t, ws(178) - .1, 2); stamp($('e3'), t, ws(180) - .1, -2)
     io('e4', t, ws(182) - .15, 1e9, { dy: 30 }); M.draw($('tick'), t, ws(184) - .1, .35, E.standard); SIG.push($('tick').style.strokeDashoffset)
-    io('elig', t, ws(178) - .1, 1e9, { dy: 24 }); drawRing(R.elig, t, ws(179)); io('s8src', t, ws(178) + .1, 1e9, { dy: 8 })
+    io('elig', t, S8a + .05, 1e9, { dy: 24 }); drawRing(R.elig, t, ws(179)); io('s8src', t, S8a + .25, 1e9, { dy: 8 })
   }
   // ---- 9: the question
   if (t > S9a - .1 && t < S10a + .1) {
-    io('q1t', t, ws(189) - .15, 1e9, { dy: 14 }); io('q1', t, ws(189) - .1, 1e9, { dy: 40, d: .42 })
+    io('q1t', t, S9a + .1, 1e9, { dy: 14 }); io('q1', t, S9a + .15, 1e9, { dy: 40, d: .42 })
     io('q2t', t, ws(195) - .15, 1e9, { dy: 14 }); io('q2', t, ws(195) - .1, 1e9, { dy: 40, d: .42 })
     io('qor', t, ws(196), 1e9, { dy: 0, spring: M.SP.pop, s0: .6 })
     drawRing(R.q1, t, ws(199) - .1, ws(201) - .1); drawRing(R.q2, t, ws(203) - .1)
     io('qq', t, ws(204) - .1, 1e9, { dy: 30 })
   }
   // ---- 10: the risk line, on its words
-  if (t > S10a - .1 && t < ENDC + .1) { io('d1', t, ws(206) - .15, 1e9, { dy: 24 }); io('d1b', t, ws(211) - .15, 1e9, { dy: 24 }); io('d2', t, ws(215) - .12, 1e9, { dy: 0, spring: M.SP.pop, s0: .7 }); io('d3', t, ws(217) - .15, 1e9, { dy: 24 }) }
+  if (t > S10a - .1 && t < ENDC + .1) { io('d1', t, S10a + .05, 1e9, { dy: 24 }); io('d1b', t, ws(211) - .15, 1e9, { dy: 24 }); io('d2', t, ws(215) - .12, 1e9, { dy: 0, spring: M.SP.pop, s0: .7 }); io('d3', t, ws(217) - .15, 1e9, { dy: 24 }) }
   if (t > ENDC - .1) [...$('end').children].forEach((e, j) => io(e, t, M.stagger(j, 5, ENDC + .1, .1, .4), 1e9, { dy: 24 }))
   // ---- stickers: the edit eases into the left 1382 x 778, the sticker pops in on the right
   let d = 0

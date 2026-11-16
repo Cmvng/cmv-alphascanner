@@ -28,6 +28,45 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
+## 16 Nov: "Prospect Markets, what a 50% price means" (1:18, 16:9, the owner's sponsored post (#ad) read by Lara)
+
+The brief: "I want to make a video on this project … Make sure you do your proper research … Here is the content I am
+going to post", with their post on @prospectmarkets. Template: `video/templates/explainer/prospect-2026-11-16/`.
+
+- **What worked:**
+  - **A research agent checked the nine claims while the light work ran.** Its key facts were then re-read at the
+    primary source: the release, both CFTC records and Crypto.com's contract page.
+  - **Prospect's own X timeline, read through X's public embed (syndication), gave the real product.** Their site is
+    behind a bot check. The timeline gave:
+    - the launch video, with the order book, the market panel, the live chart and the play-by-play;
+    - a 15 Nov slate with a real Panthers 50¢ / Saints 50¢ price, so the owner's 50% example became a real screen;
+    - the risk line itself, which turned out to be Prospect's own wording.
+  - **One question carried the script (their words, adapted only for speech) and the cost** (1,199 credits).
+  - **The track's own ending was planned to land under the end card.** Sparta's second drop was timed to "aimed at U S
+    traders" and its tail to the end card, so it needed no extension (the lesson from the crypto brief).
+- **Mistakes, and how they were caught (before sending):**
+  1. **A browser User-Agent on the first fetch was refused.** Fetches since then use the tools' own identity, or
+     headless Chromium as itself. Bot checks (Prospect's site, the NFA) were left alone.
+  2. **The aligner dropped "Contracts"** (zero-length whisper time). It was put back at its measured 45.85–46.33 s.
+  3. **"50%" sat off-centre.** The % glyph is wider than the ¢ slot it flips into. The slot was widened and each symbol
+     centred.
+  4. **On stills:**
+     - the launch post scene was sparse, so the post went up to 1000 px;
+     - the shrunk bar sat high beside the live chart;
+     - the chain's arrowheads ran under the boxes;
+     - the third eligibility stamp ran off the frame;
+     - one ring framed "Sign up and Trade now!" as well as the words named; it is now two rings on the named words.
+  5. **The half-second sheets of the first full render showed three near-empty beats**, each about a second long:
+     - the CFTC scene before its first card;
+     - the eligibility scene on the second drop;
+     - the question scene before its first card.
+     Each scene now opens with its first piece, and the whole video was rendered again (one encode).
+- **Change next time:** open every scene with something on screen in its first 0.3 s. The words can arrive later, but
+  the frame should never wait for them.
+- **The owner's reaction:** (to be added)
+
+---
+
 ## 16 Nov: "Monday crypto brief" (1:51, 16:9, the owner's news brief, our script approved by them, read by Lara)
 
 The brief: "Make me a video on this recent news" and their seven-item brief. Template:
