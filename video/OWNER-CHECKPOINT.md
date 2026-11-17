@@ -158,6 +158,10 @@ has not been said: ask once when the next one comes up.)
   once and kept, a pose per line, lip-synced to the voice on ElevenLabs (OmniHuman and similar), composited beside the
   real screens. The 2 Oct rule still holds: no male voice as the presenter unless they ask, so Lara voices the
   character. It costs far more credits than a voice-only video; quote it before generating.)
+  Same day, on the cost: "Without using eleven labs.. Can't I get you the images of the characters and it works like
+  that. Or you have to use ekevn labs to make the characters??" So: use the character images they send, as sent; make
+  them talk without ElevenLabs video credits (pose per line, mouth shapes timed to every word in our own page, or a free
+  talking-head model on Hugging Face once it is tested on their character). Lara stays the voice unless they say.
 - **The one exception:** when they say to reuse a template, do exactly that (17 Oct: "Use the same templates, cos my
   credits have almost finished").
 
