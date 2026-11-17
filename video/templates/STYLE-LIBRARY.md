@@ -33,6 +33,7 @@ The owner's own picture and sound go into the final video untouched (`render_raw
 | S7 | The owner's reaction clips (grey T-shirt set, shirtless set) | 29 Oct, 5 Nov | "I like the reaction when it's in sticker form" | their own reactions as die-cut stickers, at most three, mixed sets, each fitting its line (not when they are on camera throughout) |
 | S8 | Global Tribe Tales, POV Finance (faceless story channels) | 23 Oct | "clean and well done", "relatable" | one hero in the same outfit, bright scenes, thumbnails with no text, a title that names an injustice and promises a payoff |
 | S9 | The reels and templates sent with their art and the Gamdom entry | 22 Oct, 4 Nov | "You only tell the story with the templates"; "people are doing quality stuff" | their footage and music as sent; a story told with their own templates; cinematic entries with real hype music |
+| S10 | @0xgiwax, a Primus explainer with a talking character (0:42, 16:9) | 17 Nov | "Can't you make videos like this with characters talking or explaining stuff...???" | an illustrated presenter character in the project's colour (an orange hoodie for Primus) on the left of a plain warm background, lips moving with the voice; a new pose on each line (hand on chin for the question, palm up, pointing at the screen, hands in pockets, a magnifying glass on the number); the project's real pages in one card on the right, the named item boxed; one-line captions; a brand end card |
 
 ## The moves, as we build them
 | Move | From | How (ours) | Tool |

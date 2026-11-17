@@ -152,6 +152,12 @@ has not been said: ask once when the next one comes up.)
 - 8 Oct, on a flat hype edit: "This is like a 1/10." "Just looks normal." Build in the project's own medium.
 - **What they loved:** the cold open ("the punchline, the aura that will keep people excited"); the slow, suspenseful
   pace of the analysis; the "20 hours" reel they sent (9 Nov: "I loved it… it looks super cool").
+- **Characters that talk.** 17 Nov, sending @0xgiwax's Primus explainer (an illustrated character who talks and changes
+  pose on each line, beside the real pages): "Can't you make videos like this with characters talking or explaining
+  stuff...???" (My reading: they want talking characters as presenters on explainers. The way: one character designed
+  once and kept, a pose per line, lip-synced to the voice on ElevenLabs (OmniHuman and similar), composited beside the
+  real screens. The 2 Oct rule still holds: no male voice as the presenter unless they ask, so Lara voices the
+  character. It costs far more credits than a voice-only video; quote it before generating.)
 - **The one exception:** when they say to reuse a template, do exactly that (17 Oct: "Use the same templates, cos my
   credits have almost finished").
 

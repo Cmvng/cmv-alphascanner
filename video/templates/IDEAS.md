@@ -370,3 +370,25 @@ Four of the six are built on match footage, which we never use (copyright; see t
 ## Picks and results videos
 - Rotate the stadium, broadcast and players styles; a "slot machine" reveal of each pick; a results "scratch card";
   a weekly recap as a calendar that fills with ticks and crosses.
+
+## S10, 17 Nov: @0xgiwax's Primus explainer with a talking character (0:42, 16:9)
+Sent by the owner: "Can't you make videos like this with characters talking or explaining stuff...???"
+- **The character:** a painted 2D boy in Primus orange (hoodie, cargo trousers, round glasses), full body, standing on
+  the left third of a plain cream background. His mouth moves with the voice (open, closed and smile shapes at about
+  10 a second) and his hair and face shift slightly from frame to frame, so it is generated talking animation, not a
+  puppet. Each line has its own pose: hand on chin ("Why won't big funds…"), palm up ("Because onchain…"), pointing
+  at the card ("That's the problem Primus is solving"), hands in pockets, a magnifying glass on the $47.2M.
+- **The screens:** Primus's real pages in one white card on the right, each a full browser shot: a wallet's public
+  activity, the home page, the zkTLS / zkFHE section, the dapp, the proof-of-reserves page. The named item is boxed
+  (zkTLS) or popped out as a callout ($47.2M).
+- **Type:** the hook and the close as two lines of dark type with one word in orange ("move", "+"). One-line captions
+  in a dark pill. The handle as a small watermark. A Primus-orange end card with the logo, the tagline and a
+  referral link.
+- **The script:** about 90 words, a question, the problem, the product in two lines, two proofs, a three-word close.
+- **How we would build it:**
+  - Design the character once with an image model that holds a character across shots (Nano Banana Pro / Seedream),
+    the owner picking from four.
+  - Make one still per pose from that reference, with the background removed.
+  - Lip-sync each line of Lara's take onto its pose (OmniHuman 1.5, prompted for the gesture).
+  - Composite it in our page beside the real screens, with captions and music as usual.
+  - Lara voices the character: the owner's 2 Oct rule says no male presenter voice.
