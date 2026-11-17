@@ -4,7 +4,9 @@ prints the rest as a list to go through by eye. A FAIL means: do not send.
   python3 -I video/lib/preflight.py <video.mp4> --kind recording|explainer|analysis|post-match|picks|music-led|art
         --music <library id> | owner | none      (owner = music from the owner's own samples; none = voice only)
         [--sample-ok]            the owner heard a sample of this track for this video and said yes
-        [--voice voice.wav --bed bed.wav]   the two stems, to measure how far the music sits under the voice
+        [--voice voice.wav --bed bed.wav]   the two stems, to measure how far the music sits under the voice; the bed
+                                 as it sits in the mix, AFTER any ducking (17 Nov: a pre-duck bed read 13 dB on
+                                 Prospect while the music as heard sat 24.5 dB under)
         [--captions plan.json | file.srt]   scanned for banned words
         [--monetised]            a football analysis or review for X / YouTube: no betting words at all
         [--reactions N]          how many reaction stickers the video has

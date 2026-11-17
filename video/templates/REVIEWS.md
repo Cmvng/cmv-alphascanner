@@ -66,8 +66,14 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
      - the push-ins pulled back just as the screen left, which looked smeared, so they now stay in until it has gone;
      - the end card overlapped the Kaito words for a moment.
      The mux also failed because plan.json had no audio fade. The rendered chunks were kept and joined by hand.
+  8. **The gate measured the music before the ducking.**
+     - Fed the pre-duck bed, it read 3 dB here. Fed the bed as it sits in the mix (after the sidechain), it read 13.7 dB, which passes.
+     - Checked the same way, the Prospect video's music was 24.5 dB under the voice as heard, not the 13 dB the gate reported.
+     - The mixes of the explainers built on that template sat quieter than the rule (about 12 dB under) wants.
+     - `preflight.py` now says to pass the ducked bed.
 - **Change next time:**
   - Check the ElevenLabs balance before asking the owner to approve a cost.
+  - Measure the music after the ducking, and aim for 12–14 dB under the voice as heard.
   - A text-heavy web page gets a close-up crop of the line being read.
 - **The owner's reaction:** to be added.
 
