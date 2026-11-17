@@ -55,6 +55,12 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
      - the store and docs text was too small at 0.43x (now close-ups);
      - on the cover, the handle touched the cartoon's arm and a line ran over his shirt;
      - on the thumbnail, "POINTS" ran off the edge.
+  7. **The owner's note on the demo, while this was rendering** ("the distance between the character and what it's
+     trying to show is kind of too large… the transition… too off"). The render was stopped and the page rebuilt:
+     - screens at their own pixels (1200–1300 px), with close-ups and push-ins on the named thing;
+     - the character smaller and right at the screen's edge;
+     - the pointing pose lined up on the feet (it had been drawn 70 px left, a sideways jump at every point);
+     - a dip and spring on each pose change.
 - **Change next time:**
   - Check the ElevenLabs balance before asking the owner to approve a cost.
   - A text-heavy web page gets a close-up crop of the line being read.

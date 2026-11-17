@@ -173,6 +173,15 @@ has not been said: ask once when the next one comes up.)
   (a voice note of the script, free). Otherwise a male ElevenLabs voice in Nigerian English, chosen by them by ear. The
   three closest to their voice on 17 Nov, measured against their recordings, were Chigemezu, Olawale and Chinedu.
   Lara stays the narrator of the other formats.
+  **What the character shows must be clearly visible, right beside it, and its pose changes must be smooth.** 17 Nov,
+  on the character demo: "make sure that what you are trying to describe is clearly shown on the screen. Like the
+  distance between the character and what it's trying to show is kind of too large, and there's no way you can
+  actually see what you're actually trying to show on the screen… and the transition of the character needs to be
+  worked on also. It's kind of too off." So:
+  - The screen is large: its text is readable at 1080p, at its own pixels or a close-up cut from a sharper capture.
+  - The character stands right at its edge, the pointing hand reaching it.
+  - The poses are lined up on the body, so it never jumps sideways.
+  - A pose change moves like the character is moving (a dip and a spring back), never a jump cut.
 - **The one exception:** when they say to reuse a template, do exactly that (17 Oct: "Use the same templates, cos my
   credits have almost finished").
 

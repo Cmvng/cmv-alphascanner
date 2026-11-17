@@ -24,6 +24,25 @@ for the voice, they chose "Lara".
      shapes.
    - A 0.1 s cross-fade between poses showed two figures at once on the half-second sheet (fixed 17 Nov).
 
+## Layout and motion (the owner, 17 Nov: "the distance between the character and what it's trying to show is kind of too large, and there's no way you can actually see what you're actually trying to show… the transition of the character… it's kind of too off")
+- **The screen is big and sharp.**
+  - Screenshots are shown at their own pixels (the owner's 1200 px screenshots at 1200).
+  - Captured pages are taken at 2x and shown about 1300 px wide.
+  - The line being read gets a close-up cut from the same 2x capture, at 1:1.
+  - On a screenshot whose text is small, the camera pushes in (about 1.45x, the named region drifting toward the
+    middle) and pulls back: see `zoom()` in `../../explainer/primus-proof-of-creation-2026-11-17/poc.html`.
+- **The character stands right at the screen.**
+  - It is drawn at 0.8 (`SC`), its feet at y 1050, the left of its picture at x -20.
+  - The screens start at x 560–620, so the pointing hand reaches the screen's edge.
+  - The captions sit under the screen.
+- **No sideways jump.** The pointing pose (04) is drawn about 70 px left of the others (its feet at x 237 against 306),
+  so it is moved over by `HX['04'] = 70`. Measure each new pose's feet the same way.
+- **Pose changes move.**
+  - In the 0.14 s before a change the character dips: it squashes 4% down and 1.6% wider, with its weight going down.
+  - The new pose springs back with a slight overshoot.
+  - A one-to-two-frame dissolve covers the swap.
+  - The old hard cut with a pop read as "too off".
+
 ## Make it
 ```bash
 T=video/templates/characters/talking; A=video/assets/characters/cmv; O=<scratch>/poses

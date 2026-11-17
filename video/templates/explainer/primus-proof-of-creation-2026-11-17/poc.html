@@ -27,75 +27,78 @@ html,body{margin:0;width:1920px;height:1080px;overflow:hidden;font-family:Man,sa
 .step i{font-style:normal;flex:0 0 58px;height:58px;border-radius:50%;background:var(--blue);color:#fff;font-family:Anton,sans-serif;font-size:36px;line-height:58px;text-align:center}
 .step b{color:var(--blue)}
 .step u{text-decoration:none;margin-left:auto;font-size:44px;color:var(--green);opacity:0}
-#ch{position:absolute;left:40px;top:0;width:599px;height:899px;transform-origin:300px 888px}
+#ch{position:absolute;left:-20px;top:0;width:599px;height:899px;transform-origin:300px 888px}
 #ch img{position:absolute;left:0;top:0;width:599px;height:899px}
-#shadow{position:absolute;left:105px;top:1022px;width:470px;height:44px;border-radius:50%;background:radial-gradient(closest-side,rgba(11,31,77,.22),rgba(11,31,77,0))}
-#cap{position:absolute;left:700px;top:930px;width:1180px;text-align:center;opacity:0}
+#shadow{position:absolute;left:90px;top:1030px;width:380px;height:40px;border-radius:50%;background:radial-gradient(closest-side,rgba(11,31,77,.22),rgba(11,31,77,0))}
+#cap{position:absolute;left:560px;top:958px;width:1320px;text-align:center;opacity:0}
 #cap span{display:inline-block;padding:9px 30px 11px;border-radius:22px;background:rgba(255,255,255,.96);box-shadow:0 12px 30px rgba(11,31,77,.16);font-size:38px;line-height:50px;white-space:nowrap}
 #cap b{color:var(--blue)}
-#handle{position:absolute;right:48px;top:34px;font-family:Mono,monospace;font-weight:700;font-size:22px;color:var(--mute);letter-spacing:.04em}
-#endc{position:absolute;left:700px;top:0;width:1180px;height:1080px;opacity:0}
+#handle{position:absolute;left:40px;top:30px;font-family:Mono,monospace;font-weight:700;font-size:22px;color:var(--mute);letter-spacing:.04em}
+#endc{position:absolute;left:560px;top:0;width:1320px;height:1080px;opacity:0}
+.zm{position:absolute;left:0;top:0;width:100%;height:100%;transform-origin:0 0}
+.zm img{display:block;width:100%}
+.panel{position:absolute;padding:14px 40px 18px;border-radius:26px;background:rgba(255,255,255,.97);box-shadow:0 18px 44px rgba(11,31,77,.18)}
 </style></head>
 <body>
 <div id="grid"></div>
-<!-- the points page (the owner's screenshot), shown whole -->
-<div class="card" id="p2" style="left:740px;top:140px;width:1100px;height:553px"><img src="img/pts2.jpg"></div>
-<div class="src" id="p2src" style="left:740px;top:708px">POINTS.PRIMUSLABS.XYZ · YOUR SCREENSHOT, 17 NOV</div>
-<div class="stamp" id="s3new" style="left:1440px;top:96px;transform:rotate(-4deg)">3 NEW TASKS</div>
+<!-- the points page (the owner's screenshot), shown at its own pixels (1200 px) -->
+<div class="card" id="p2" style="left:620px;top:110px;width:1200px;height:603px"><div class="zm" id="p2z"><img src="img/pts2.jpg"></div></div>
+<div class="src" id="p2src" style="left:620px;top:726px">POINTS.PRIMUSLABS.XYZ · YOUR SCREENSHOT, 17 NOV</div>
+<div class="stamp" id="s3new" style="left:1430px;top:80px;transform:rotate(-4deg)">3 NEW TASKS</div>
 <!-- the logos over the presenter's head, on their names -->
-<div class="logo" id="lg0" style="left:150px;top:28px"><img src="img/task_hailuo.png"></div>
-<div class="logo" id="lg1" style="left:290px;top:18px"><img src="img/task_capcut.png"></div>
-<div class="logo" id="lg2" style="left:430px;top:28px"><img src="img/task_dreamina.png"></div>
+<div class="logo" id="lg0" style="left:72px;top:190px"><img src="img/task_hailuo.png"></div>
+<div class="logo" id="lg1" style="left:212px;top:176px"><img src="img/task_capcut.png"></div>
+<div class="logo" id="lg2" style="left:352px;top:190px"><img src="img/task_dreamina.png"></div>
 <!-- zkTLS, not screenshots -->
-<div class="big" id="zk" style="left:700px;width:1180px;text-align:center;top:735px;font-size:118px;color:var(--blue)">zkTLS</div>
-<div class="big" id="ns" style="left:700px;width:1180px;text-align:center;top:735px;font-size:118px;color:var(--ink)"><span id="nsw" style="position:relative">NOT SCREENSHOTS<span id="nsx" style="position:absolute;left:-10px;right:-10px;top:52%;height:12px;border-radius:6px;background:var(--red);transform-origin:0 50%"></span></span></div>
+<div class="big" id="zk" style="left:560px;width:1320px;text-align:center;top:770px;font-size:112px;color:var(--blue)">zkTLS</div>
+<div class="big" id="ns" style="left:560px;width:1320px;text-align:center;top:770px;font-size:112px;color:var(--ink)"><span id="nsw" style="position:relative">NOT SCREENSHOTS<span id="nsx" style="position:absolute;left:-10px;right:-10px;top:52%;height:12px;border-radius:6px;background:var(--red);transform-origin:0 50%"></span></span></div>
 <!-- how to do it: the four steps -->
-<div class="big" id="how" style="left:700px;width:1180px;text-align:center;top:110px;font-size:120px">HOW TO DO IT</div>
-<div id="steps" style="position:absolute;left:760px;top:290px;width:1060px">
-  <div class="step" id="st0"><i>1</i><span>Go to <b>points.primuslabs.xyz</b> · connect a wallet</span><u>✓</u></div>
-  <div class="step" id="st1"><i>2</i><span>Primus Chrome extension <b>v0.4.15</b></span><u>✓</u></div>
-  <div class="step" id="st2"><i>3</i><span>Attestation Tasks › Agentic Ara › <b>Proof of Creation</b></span><u>✓</u></div>
-  <div class="step" id="st3"><i>4</i><span>Hit <b>Verify Now</b></span><u>✓</u></div>
+<div class="big" id="how" style="left:560px;width:1320px;text-align:center;top:90px;font-size:120px">HOW TO DO IT</div>
+<div id="steps" style="position:absolute;left:640px;top:260px;width:1160px">
+  <div class="step" id="st0" style="height:110px;font-size:38px"><i>1</i><span>Go to <b>points.primuslabs.xyz</b> · connect a wallet</span><u>✓</u></div>
+  <div class="step" id="st1" style="height:110px;font-size:38px"><i>2</i><span>Primus Chrome extension <b>v0.4.15</b></span><u>✓</u></div>
+  <div class="step" id="st2" style="height:110px;font-size:38px"><i>3</i><span>Attestation Tasks › Agentic Ara › <b>Proof of Creation</b></span><u>✓</u></div>
+  <div class="step" id="st3" style="height:110px;font-size:38px"><i>4</i><span>Hit <b>Verify Now</b></span><u>✓</u></div>
 </div>
-<!-- step 1: the points site without a wallet (live capture) -->
-<div class="card" id="live" style="left:740px;top:130px;width:1100px;height:688px"><img src="img/live.jpg"></div>
-<div class="src" id="livesrc" style="left:740px;top:832px">POINTS.PRIMUSLABS.XYZ · CAPTURED 17 NOV</div>
-<!-- step 2: the Chrome Web Store listing, its top, then its details -->
-<div class="card" id="cwst" style="left:740px;top:130px;width:1100px;height:688px"><img src="img/cws_top.jpg"></div>
-<div class="card" id="cws" style="left:840px;top:300px;width:900px;height:336px"><img src="img/cws_det.jpg"></div>
-<div class="src" id="cwssrc" style="left:740px;top:832px">CHROME WEB STORE · CAPTURED 17 NOV</div>
-<!-- the fee: the official docs -->
-<div class="card" id="docs" style="left:790px;top:90px;width:1000px;height:625px"><img src="img/docs.jpg"></div>
-<div class="card" id="docz" style="left:790px;top:300px;width:1000px;height:211px"><img src="img/docs_fee.jpg"></div>
-<div class="src" id="docsrc" style="left:790px;top:726px">PRIMUS DOCS, TUTORIAL FOR ALPHANET · READ 17 NOV</div>
-<div class="big" id="fee" style="left:700px;width:1180px;text-align:center;top:770px;font-size:96px;color:var(--ink)">≈ 0.000035 ETH <span style="color:var(--blue)">+ GAS</span></div>
-<div class="stamp" id="refund" style="left:1240px;top:540px;transform:rotate(-4deg);font-size:50px">REFUNDED IF THE TASK FAILS</div>
-<div class="big" id="base" style="left:700px;width:1180px;text-align:center;top:380px;font-size:120px">A LITTLE ETH ON <span style="color:#0052FF">BASE</span></div>
-<!-- reputation score: the owner's own page -->
-<div class="card" id="p1" style="left:790px;top:110px;width:1000px;height:659px"><img src="img/pts1.jpg"></div>
-<div class="src" id="p1src" style="left:790px;top:784px">POINTS.PRIMUSLABS.XYZ · YOUR SCREENSHOT, 17 NOV</div>
+<!-- step 1: the points site without a wallet (live capture, 2x, shown at 1300) -->
+<div class="card" id="live" style="left:570px;top:60px;width:1300px;height:812px"><img src="img/live.jpg"></div>
+<div class="src" id="livesrc" style="left:570px;top:884px">POINTS.PRIMUSLABS.XYZ · CAPTURED 17 NOV</div>
+<!-- step 2: the Chrome Web Store listing, its top, then a close-up of its details at their own pixels -->
+<div class="card" id="cwst" style="left:570px;top:60px;width:1300px;height:812px"><img src="img/cws_top.jpg"></div>
+<div class="card" id="cws" style="left:685px;top:330px;width:1070px;height:400px"><img src="img/cws_det.jpg"></div>
+<div class="src" id="cwssrc" style="left:570px;top:884px">CHROME WEB STORE · CAPTURED 17 NOV</div>
+<!-- the fee: the official docs, then a close-up of step 5 at its own pixels -->
+<div class="card" id="docs" style="left:570px;top:60px;width:1300px;height:812px"><img src="img/docs.jpg"></div>
+<div class="card" id="docz" style="left:580px;top:250px;width:1280px;height:270px"><img src="img/docs_fee.jpg"></div>
+<div class="src" id="docsrc" style="left:570px;top:884px">PRIMUS DOCS, TUTORIAL FOR ALPHANET · READ 17 NOV</div>
+<div class="big panel" id="fee" style="left:770px;top:570px;font-size:100px;color:var(--ink)">≈ 0.000035 ETH <span style="color:var(--blue)">+ GAS</span></div>
+<div class="stamp" id="refund" style="left:1290px;top:470px;transform:rotate(-4deg);font-size:54px">REFUNDED IF THE TASK FAILS</div>
+<div class="big" id="base" style="left:560px;width:1320px;text-align:center;top:380px;font-size:130px">A LITTLE ETH ON <span style="color:#0052FF">BASE</span></div>
+<!-- reputation score: the owner's own page at its own pixels -->
+<div class="card" id="p1" style="left:620px;top:60px;width:1200px;height:791px"><div class="zm" id="p1z"><img src="img/pts1.jpg"></div></div>
+<div class="src" id="p1src" style="left:620px;top:864px">POINTS.PRIMUSLABS.XYZ · YOUR SCREENSHOT, 17 NOV</div>
 <!-- no token reward, no end date -->
-<div id="nos" style="position:absolute;left:820px;top:300px;width:940px">
-  <div class="step" id="no0" style="height:120px;font-size:44px"><span>Official token reward</span><u style="opacity:1;color:var(--red);font-size:40px">NONE ANNOUNCED</u></div>
-  <div class="step" id="no1" style="height:120px;font-size:44px"><span>End date</span><u style="opacity:1;color:var(--red);font-size:40px">NONE ANNOUNCED</u></div>
+<div id="nos" style="position:absolute;left:640px;top:300px;width:1160px">
+  <div class="step" id="no0" style="height:130px;font-size:50px"><span>Official token reward</span><u style="opacity:1;color:var(--red);font-size:44px">NONE ANNOUNCED</u></div>
+  <div class="step" id="no1" style="height:130px;font-size:50px"><span>End date</span><u style="opacity:1;color:var(--red);font-size:44px">NONE ANNOUNCED</u></div>
 </div>
 <!-- Kaito epoch 2: a separate campaign -->
-<div class="big" id="kai" style="left:700px;width:1180px;text-align:center;top:300px;font-size:130px">KAITO <span style="color:var(--blue)">EPOCH 2</span></div>
-<div class="big" id="kaid" style="left:700px;width:1180px;text-align:center;top:460px;font-size:72px;color:var(--mute)">WRAPPING NOV 21</div>
-<div class="stamp" id="sep" style="left:1080px;top:620px;transform:rotate(-3deg);font-size:62px">SEPARATE CAMPAIGN</div>
+<div class="big" id="kai" style="left:560px;width:1320px;text-align:center;top:280px;font-size:150px">KAITO <span style="color:var(--blue)">EPOCH 2</span></div>
+<div class="big" id="kaid" style="left:560px;width:1320px;text-align:center;top:460px;font-size:80px;color:var(--mute)">WRAPPING NOV 21</div>
+<div class="stamp" id="sep" style="left:1000px;top:630px;transform:rotate(-3deg);font-size:66px">SEPARATE CAMPAIGN</div>
 <!-- the end card -->
 <div id="endc">
-  <img src="img/primus_logo.svg" style="position:absolute;left:340px;top:280px;width:500px">
-  <div style="position:absolute;left:0;width:1180px;top:470px;text-align:center;font-size:54px">Proof of Creation · <span style="color:var(--org)">Hailuo, CapCut, Dreamina</span></div>
-  <div style="position:absolute;left:0;width:1180px;top:580px;text-align:center;font-size:50px">Follow <b style="color:var(--blue)">@i_am_vickyd</b> on X</div>
+  <img src="img/primus_logo.svg" style="position:absolute;left:400px;top:270px;width:520px">
+  <div style="position:absolute;left:0;width:1320px;top:470px;text-align:center;font-size:56px">Proof of Creation · <span style="color:var(--org)">Hailuo, CapCut, Dreamina</span></div>
+  <div style="position:absolute;left:0;width:1320px;top:580px;text-align:center;font-size:52px">Follow <b style="color:var(--blue)">@i_am_vickyd</b> on X</div>
 </div>
-<div class="badge" id="bd0" style="left:690px;top:84px">1</div>
-<div class="badge" id="bd1" style="left:690px;top:84px">2</div>
-<div class="badge" id="bd2" style="left:690px;top:94px">3</div>
-<div class="badge" id="bd3" style="left:690px;top:94px">4</div>
+<div class="badge" id="bd0" style="left:524px;top:22px">1</div>
+<div class="badge" id="bd1" style="left:524px;top:22px">2</div>
+<div class="badge" id="bd2" style="left:574px;top:70px">3</div>
+<div class="badge" id="bd3" style="left:574px;top:70px">4</div>
 <!-- the presenter -->
 <div id="shadow"></div>
-<div id="ch"><img id="cb"></div>
+<div id="ch"><img id="ca"><img id="cb"></div>
 <div id="handle">@i_am_vickyd</div>
 <div id="cap"></div>
 <script src="file:///home/user/cmv-alphascanner/video/lib/motion.js"></script>
@@ -124,37 +127,59 @@ const pop = (el, t, a, b = 1e9, base = '') => { const sp = cl(M.spring(t, a, M.S
 // the word indices of the script (script.txt) the scenes hang on
 const K = TM.K
 // the rings, in each picture's pixels
-const k2 = 1100 / 1200, P2 = $('p2')
+const k2 = 1, P2 = $('p2z')
 const R = { poc: ring(P2, k2, [329, 245, 447, 263]), hai: ring(P2, k2, [330, 279, 700, 385]), cap: ring(P2, k2, [711, 279, 1082, 385]), dre: ring(P2, k2, [330, 396, 700, 502]),
   vtxt: ring(P2, k2, [342, 326, 508, 344]), att: ring(P2, k2, [73, 157, 192, 173]), ara: ring(P2, k2, [146, 259, 252, 277]),
   vh: ring(P2, k2, [600, 352, 688, 372]), vc: ring(P2, k2, [983, 352, 1071, 372]), vd: ring(P2, k2, [600, 468, 688, 488]) }
-const k1 = 1000 / 1200, P1 = $('p1')
+const k1 = 1, P1 = $('p1z')
 const R1 = { rep: ring(P1, k1, [905, 92, 1156, 321]), rec: [ring(P1, k1, [655, 584, 722, 601]), ring(P1, k1, [1058, 584, 1124, 601]), ring(P1, k1, [655, 707, 722, 724])] }
-const kl = 1100 / 1440, RL = ring($('live'), kl, [90, 444, 292, 499])
+const kl = 1300 / 1440, RL = ring($('live'), kl, [90, 444, 292, 499])
 // the store listing and the docs, captured at 2x (2560 px wide); boxes measured on the page by their text
 // (the close-ups are crops of the same captures: the store's Details from (180, 800), the docs' step 5 from (750, 505))
-const kc = 1100 / 2560, RCT = ring($('cwst'), kc, [262, 676, 498, 732]), kz = 900 / 1070, RC = ring($('cws'), kz, [20, 125, 160, 218]), RCU = ring($('cws'), kz, [20, 280, 312, 378])
-const kf = 1000 / 1280, RD = ring($('docz'), kf, [64, 61, 862, 115]), RDR = ring($('docz'), kf, [95, 205, 480, 257])
+const kc = 1300 / 2560, RCT = ring($('cwst'), kc, [262, 676, 498, 732]), kz = 1, RC = ring($('cws'), kz, [20, 125, 160, 218]), RCU = ring($('cws'), kz, [20, 280, 312, 378])
+const kf = 1, RD = ring($('docz'), kf, [64, 61, 862, 115]), RDR = ring($('docz'), kf, [95, 205, 480, 257])
 // one pose per line: [from word, pose]; the feet of each pose (rows in its 599x899 picture) so the feet stay put
 const FEET = { '01': 887, '02': 890, '04': 887, '05': 889, '06': 890, '07': 890, '09': 889 }
+// the pointing pose is drawn ~70 px left of the others (its feet at 237 against 306): moved over so the feet stay put
+const HX = { '04': 70 }, SC = .8
 const POSES = TM.poses.map(([i, p]) => [i === 0 ? 0 : (i === 'end' ? LAST + .4 : ws(i) - .12), p])
 const CAP = TM.caps.map(([a, b, h], i, A) => ({ t0: ws(a) - .08, t1: Math.min(we(b) + .45, A[i + 1] ? ws(A[i + 1][0]) - .08 : LAST + .4), h }))
 const swap = async (im, src) => { if (im.getAttribute('src') !== src) { im.src = src; try { await im.decode() } catch (e) {} } SIG.push(src) }
 const ST = ['c', 'h', 'o']
+const zoom = (id, Wd, Ht, t, segs) => {
+  let z = 1, tx = 0, ty = 0
+  for (const [a, b, Z, cx, cy] of segs) {
+    const u = E.standard(seg(t, a, .6)) * (1 - E.standard(seg(t, b - .5, .5)))
+    if (u <= 0) continue
+    z = 1 + (Z - 1) * u
+    const px = cx + (Wd / 2 - cx) * u * .6, py = cy + (Ht / 2 - cy) * u * .6     // where the region's centre goes
+    tx = Math.min(0, Math.max(Wd - z * Wd, px - z * cx)); ty = Math.min(0, Math.max(Ht - z * Ht, py - z * cy))
+  }
+  css($(id), 'transform', `translate(${tx.toFixed(2)}px,${ty.toFixed(2)}px) scale(${z.toFixed(4)})`)
+}
 const place = (id, top) => { const e = $(id); if (e && top !== undefined) e.style.top = top + 'px' }
 
 window.render = async t => {
   SIG = []
   css($('grid'), 'transform', `translate(${M.float(t, 20, 23).toFixed(1)}px,${M.float(t, 14, 31, .3).toFixed(1)}px)`)
-  // ---- the presenter: a hard cut and a small pop on each pose change; pose and mouth on the nearest whole frame
+  // ---- the presenter (the owner, 17 Nov: "the transition of the character… it's kind of too off"): the poses are lined
+  // up on the feet (HX), each change is a dip just before it (the weight goes down) and a spring back after it, with a
+  // two-frame dissolve between the two poses; pose and mouth on whole frames, so the motion-blur sub-frames agree
   const fr = Math.round(t * FPS), tf = fr / FPS
   let pi = 0; for (let i = 0; i < POSES.length; i++) if (tf >= POSES[i][0]) pi = i
-  const [pt, p] = POSES[pi]
+  const [pt, p] = POSES[pi], q = pi > 0 ? POSES[pi - 1][1] : p, u = pi > 0 ? cl((tf - pt) / (2 / FPS) + .5) : 1
   const f = Math.min(window.MOUTH.length - 1, Math.max(0, fr)), ms = window.MOUTH[f]
-  await swap($('cb'), `img/p${p}_${ST[ms]}.png`); css($('cb'), 'top', (FEET['01'] - FEET[p]) + 'px')
-  const pp = pi > 0 ? 1 + .018 * Math.sin(Math.PI * cl((t - pt) / .28)) : 1, br = 1 + .005 * Math.sin(2 * Math.PI * t / 3.2), sw = .35 * Math.sin(2 * Math.PI * t / 5.3)
-  css($('ch'), 'top', (1050 - FEET['01']) + 'px'); css($('ch'), 'transform', `rotate(${sw.toFixed(3)}deg) scale(${pp.toFixed(4)},${(pp * br).toFixed(4)})`)
-
+  await swap($('cb'), `img/p${p}_${ST[ms]}.png`); await swap($('ca'), `img/p${q}_c.png`)
+  css($('cb'), 'top', (FEET['01'] - FEET[p]) + 'px'); css($('ca'), 'top', (FEET['01'] - FEET[q]) + 'px')
+  css($('cb'), 'left', (HX[p] || 0) + 'px'); css($('ca'), 'left', (HX[q] || 0) + 'px')
+  css($('cb'), 'opacity', u.toFixed(3)); css($('ca'), 'opacity', (u < 1 ? 1 : 0).toFixed(0))
+  const nt = POSES[pi + 1] ? POSES[pi + 1][0] : 1e9
+  const dip = E.sine(cl((t - (nt - .14)) / .14)), sp = pi > 0 ? M.spring(t, pt, { k: 260, c: 15 }) : 1
+  const d = t < nt - .14 ? (pi > 0 ? 1 - sp : 0) : dip          // 1 = fully dipped
+  const sy = 1 - .04 * d, sx = 1 + .016 * d
+  const br = 1 + .005 * Math.sin(2 * Math.PI * t / 3.2), sw = .3 * Math.sin(2 * Math.PI * t / 5.3)
+  css($('ch'), 'top', (1050 - FEET['01']) + 'px')
+  css($('ch'), 'transform', `scale(${SC}) rotate(${sw.toFixed(3)}deg) scale(${sx.toFixed(4)},${(sy * br).toFixed(4)})`)
   // ---- scene times (all on the words)
   const S2 = ws(K.poc) - .3                  // the points page comes in on "Proof of Creation"
   const S3 = ws(K.how) - .25                 // HOW TO DO IT
@@ -177,7 +202,7 @@ window.render = async t => {
   drawRing(R.vtxt, t, ws(K.verify) - .1, S3)
   // zkTLS, NOT SCREENSHOTS (the card moves up to make room)
   const lift = E.standard(seg(t, ws(K.zk) - .35, .4)) * (1 - E.standard(seg(t, S3 - .2, .3)))
-  css($('p2'), 'marginTop', (t < S3 + .5 ? -60 * lift : 0).toFixed(1) + 'px')
+  css($('p2'), 'marginTop', (t < S3 + .5 ? -60 * lift : 0).toFixed(1) + 'px'); css($('p2src'), 'marginTop', (t < S3 + .5 ? -60 * lift : 0).toFixed(1) + 'px')
   io('zk', t, ws(K.zk) - .05, ws(K.not) - .1, { dy: 30, s0: 1.2, d: .3 })
   io('ns', t, ws(K.not) - .1, S3, { dy: 30, s0: 1.2, d: .3 }); css($('nsx'), 'transform', `scaleX(${E.standard(seg(t, ws(K.shots), .3)).toFixed(3)})`)
 
@@ -208,6 +233,10 @@ window.render = async t => {
   // Kaito epoch 2
   io('kai', t, S8, S9, { dy: 30, s0: 1.12, d: .32 }); io('kaid', t, ws(K.nov) - .1, S9, { dy: 20, d: .3 })
   stamp($('sep'), t, ws(K.separate) - .05, S9, -3)
+  // push-ins on the owner's screenshots (1200 px, small text): the named region moves toward the middle and grows,
+  // then the camera pulls back; the picture always covers its frame
+  zoom('p2z', 1200, 603, t, [[ws(K.hailuo) - .25, ws(K.how) - .35, 1.45, 706, 390], [ws(K.att) - .3, ws(K.hit) - .25, 1.45, 262, 217], [ws(K.vnow) - .3, S4, 1.45, 706, 420]])
+  zoom('p1z', 1200, 791, t, [[ws(K.rep) - .3, S7, 1.6, 1030, 206]])
   // the step badges, one per step screen
   ;[A1, A2, A3, A4].forEach((a, i) => pop($('bd' + i), t, a + .3, [A2, A3, A4, S4][i]))
   // the end card

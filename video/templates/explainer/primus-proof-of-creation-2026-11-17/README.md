@@ -20,6 +20,14 @@ their post on Primus's three new tasks and two screenshots of their points page.
   - the store's verified publisher, version and update date;
   - the docs' fee sentence.
 - **Close-ups cut from the same real pages** on the named thing (the store's Details, the docs' step 5) (S3).
+- **Push-ins on the owner's screenshots** (about 1.45–1.6x, the named region drifting toward the middle) for the
+  three cards, the path, the Verify Now buttons and the reputation score. The screenshots are 1200 px, so a push-in
+  enlarges them slightly past their pixels; this was chosen so the owner can "actually see" the thing named (17 Nov).
+- **The layout after the owner's note (17 Nov):**
+  - the character at 0.8, right at the screen's edge;
+  - screens 1200–1300 px wide;
+  - the pointing pose lined up on the feet;
+  - a dip and spring on every pose change (`../../characters/talking/README.md`).
 - **Giant words** (S4):
   - "zkTLS", then "NOT SCREENSHOTS" struck through;
   - "A LITTLE ETH ON BASE";
