@@ -140,8 +140,8 @@ const kc = 1300 / 2560, RCT = ring($('cwst'), kc, [262, 676, 498, 732]), kz = 1,
 const kf = 1, RD = ring($('docz'), kf, [64, 61, 862, 115]), RDR = ring($('docz'), kf, [95, 205, 480, 257])
 // one pose per line: [from word, pose]; the feet of each pose (rows in its 599x899 picture) so the feet stay put
 const FEET = { '01': 887, '02': 890, '04': 887, '05': 889, '06': 890, '07': 890, '09': 889 }
-// the pointing pose is drawn ~70 px left of the others (its feet at 237 against 306): moved over so the feet stay put
-const HX = { '04': 70 }, SC = .8
+// the pointing pose is drawn left of the others (its feet 69 px, its head 106 px): moved over 88 so neither jumps far
+const HX = { '04': 88 }, SC = .8
 const POSES = TM.poses.map(([i, p]) => [i === 0 ? 0 : (i === 'end' ? LAST + .4 : ws(i) - .12), p])
 const CAP = TM.caps.map(([a, b, h], i, A) => ({ t0: ws(a) - .08, t1: Math.min(we(b) + .45, A[i + 1] ? ws(A[i + 1][0]) - .08 : LAST + .4), h }))
 const swap = async (im, src) => { if (im.getAttribute('src') !== src) { im.src = src; try { await im.decode() } catch (e) {} } SIG.push(src) }
@@ -167,16 +167,16 @@ window.render = async t => {
   // two-frame dissolve between the two poses; pose and mouth on whole frames, so the motion-blur sub-frames agree
   const fr = Math.round(t * FPS), tf = fr / FPS
   let pi = 0; for (let i = 0; i < POSES.length; i++) if (tf >= POSES[i][0]) pi = i
-  const [pt, p] = POSES[pi], q = pi > 0 ? POSES[pi - 1][1] : p, u = pi > 0 ? cl((tf - pt) / (2 / FPS) + .5) : 1
+  const [pt, p] = POSES[pi], q = pi > 0 ? POSES[pi - 1][1] : p, u = 1          // no blend: a blended frame showed two heads
   const f = Math.min(window.MOUTH.length - 1, Math.max(0, fr)), ms = window.MOUTH[f]
   await swap($('cb'), `img/p${p}_${ST[ms]}.png`); await swap($('ca'), `img/p${q}_c.png`)
   css($('cb'), 'top', (FEET['01'] - FEET[p]) + 'px'); css($('ca'), 'top', (FEET['01'] - FEET[q]) + 'px')
   css($('cb'), 'left', (HX[p] || 0) + 'px'); css($('ca'), 'left', (HX[q] || 0) + 'px')
   css($('cb'), 'opacity', u.toFixed(3)); css($('ca'), 'opacity', (u < 1 ? 1 : 0).toFixed(0))
   const nt = POSES[pi + 1] ? POSES[pi + 1][0] : 1e9
-  const dip = E.sine(cl((t - (nt - .14)) / .14)), sp = pi > 0 ? M.spring(t, pt, { k: 260, c: 15 }) : 1
-  const d = t < nt - .14 ? (pi > 0 ? 1 - sp : 0) : dip          // 1 = fully dipped
-  const sy = 1 - .04 * d, sx = 1 + .016 * d
+  const dip = E.sine(cl((t - (nt - .12)) / .12)), sp = pi > 0 ? M.spring(t, pt, { k: 300, c: 14 }) : 1
+  const d = t < nt - .12 ? (pi > 0 ? 1 - sp : 0) : dip          // 1 = fully dipped; the swap happens at the bottom
+  const sy = 1 - .05 * d, sx = 1 + .02 * d
   const br = 1 + .005 * Math.sin(2 * Math.PI * t / 3.2), sw = .3 * Math.sin(2 * Math.PI * t / 5.3)
   css($('ch'), 'top', (1050 - FEET['01']) + 'px')
   css($('ch'), 'transform', `scale(${SC}) rotate(${sw.toFixed(3)}deg) scale(${sx.toFixed(4)},${(sy * br).toFixed(4)})`)
@@ -235,12 +235,13 @@ window.render = async t => {
   stamp($('sep'), t, ws(K.separate) - .05, S9, -3)
   // push-ins on the owner's screenshots (1200 px, small text): the named region moves toward the middle and grows,
   // then the camera pulls back; the picture always covers its frame
-  zoom('p2z', 1200, 603, t, [[ws(K.hailuo) - .25, ws(K.how) - .35, 1.45, 706, 390], [ws(K.att) - .3, ws(K.hit) - .25, 1.45, 262, 217], [ws(K.vnow) - .3, S4, 1.45, 706, 420]])
-  zoom('p1z', 1200, 791, t, [[ws(K.rep) - .3, S7, 1.6, 1030, 206]])
+  // (the last push-in of each showing stays in until the screen has gone: a pull-back as it left looked smeared)
+  zoom('p2z', 1200, 603, t, [[ws(K.hailuo) - .25, S3 + 1, 1.45, 706, 390], [ws(K.att) - .3, ws(K.hit) - .25, 1.45, 262, 217], [ws(K.vnow) - .3, S4 + 1, 1.45, 706, 420]])
+  zoom('p1z', 1200, 791, t, [[ws(K.rep) - .3, S7 + 1, 1.6, 1030, 206]])
   // the step badges, one per step screen
   ;[A1, A2, A3, A4].forEach((a, i) => pop($('bd' + i), t, a + .3, [A2, A3, A4, S4][i]))
   // the end card
-  io('endc', t, S9, 1e9, { dy: 30, d: .5 })
+  io('endc', t, S9 + .3, 1e9, { dy: 30, d: .5 })          // after the Kaito words have gone
 
   // ---- captions
   const c = CAP.find(x => t >= x.t0 && t < x.t1), html = c ? '<span>' + c.h + '</span>' : ''

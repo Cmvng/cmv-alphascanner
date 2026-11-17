@@ -35,13 +35,13 @@ for the voice, they chose "Lara".
   - It is drawn at 0.8 (`SC`), its feet at y 1050, the left of its picture at x -20.
   - The screens start at x 560–620, so the pointing hand reaches the screen's edge.
   - The captions sit under the screen.
-- **No sideways jump.** The pointing pose (04) is drawn about 70 px left of the others (its feet at x 237 against 306),
-  so it is moved over by `HX['04'] = 70`. Measure each new pose's feet the same way.
+- **No sideways jump.** The pointing pose (04) is drawn left of the others (its feet 69 px, its head 106 px), so it
+  is moved over by `HX['04'] = 88`; neither the head nor the feet jumps far. Measure each new pose the same way.
 - **Pose changes move.**
-  - In the 0.14 s before a change the character dips: it squashes 4% down and 1.6% wider, with its weight going down.
-  - The new pose springs back with a slight overshoot.
-  - A one-to-two-frame dissolve covers the swap.
-  - The old hard cut with a pop read as "too off".
+  - In the 0.12 s before a change the character dips: it squashes 5% down and 2% wider.
+  - The swap happens at the bottom of the dip, and the new pose springs back with a slight overshoot.
+  - There is no blend. A blended frame showed two heads, and the old hard cut with a pop read as "too off".
+  - Check it on consecutive frames around a change, at full size.
 
 ## Make it
 ```bash

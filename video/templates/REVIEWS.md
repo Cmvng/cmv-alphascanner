@@ -61,6 +61,11 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
      - the character smaller and right at the screen's edge;
      - the pointing pose lined up on the feet (it had been drawn 70 px left, a sideways jump at every point);
      - a dip and spring on each pose change.
+     The first re-render was checked frame by frame:
+     - a one-frame blend at each swap showed two heads, so the blend was dropped and the swap now happens at the bottom of a deeper dip;
+     - the push-ins pulled back just as the screen left, which looked smeared, so they now stay in until it has gone;
+     - the end card overlapped the Kaito words for a moment.
+     The mux also failed because plan.json had no audio fade. The rendered chunks were kept and joined by hand.
 - **Change next time:**
   - Check the ElevenLabs balance before asking the owner to approve a cost.
   - A text-heavy web page gets a close-up crop of the line being read.
