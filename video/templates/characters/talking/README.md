@@ -39,13 +39,15 @@ change.
 
 ## The demo (17 Nov)
 - **What it is:** the first 24.2 s of the Prospect video (`../../explainer/prospect-2026-11-16/`), re-made with the
-  owner's character presenting. It uses the same Lara take and the same mix, so no new credits were spent.
+  owner's character presenting. It was first made on the same Lara take and mix (no new credits), then re-voiced (below).
 - **The pose for each line:** Thinking for the question; Key Point on "implied probability"; Pointing at the post;
   Standing on "So I just found…"; Pointing at "prediction market"; Key Point on "live now"; Counting on "Let me break
   it down"; Pointing at the slates; Shrug on "peer to peer".
 - **What it shows on the right:** the real Prospect screens: the 15 Nov price card, the 12 Nov launch post and
   release, the three slates, and the order book from their launch video.
-- **Still open:**
-  - Lara (a woman's voice) speaks for a male character, by the owner's choice. Lara could instead narrate while the
-    character listens and gestures.
-  - 12 more poses can be added when the owner sends them; each needs its lip line measured first.
+- **The voice:** Lara was the first take. The owner then said "Sorry use my own voice or a male voice" (17 Nov). They
+  chose Olawale (ElevenLabs, Nigerian English, male), one of three voices measured closest to their own recordings.
+  - The demo was re-voiced with one Olawale take (364 credits): `cmv-character-demo-olawale.mp4`.
+  - The first full video in this format is `../../explainer/primus-proof-of-creation-2026-11-17/`. It uses a free
+    male voice (Kokoro am_fenrir, at the owner's pitch), because ElevenLabs had run out of credits.
+- **Still open:** 12 more poses can be added when the owner sends them; each needs its lip line measured first.

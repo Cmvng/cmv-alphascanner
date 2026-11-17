@@ -28,10 +28,45 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
-## 17 Nov: the talking character, a demo (0:24, 16:9, the owner's cartoon presenting the Prospect opening, Lara)
+## 17 Nov: "Primus: 3 new Proof of Creation tasks" (1:00, 16:9, the owner's post, their cartoon presenting, a free male voice)
 
-- **What it is:** the owner's seven poses, with mouths drawn here for free and timed to Lara's existing Prospect take
-  (no new credits), beside the real Prospect screens. Tools: `characters/talking/`.
+- **What worked:**
+  - The first full video in the talking-character format.
+  - Every step got its own real screen, with a numbered badge.
+  - The close-ups were cut from the same captures (the store's version, the docs' fee sentence), so the words that
+    matter are readable at 1080p.
+  - Primus's own task icons (the points site's SVGs, 240–640 px) are crisper than any logo off the brands' sites.
+- **Mistakes caught before sending:**
+  1. **The take failed for lack of credits.** The account had 96 left; 786 were needed. The estimate passes even when
+     the balance can't cover it, and the error only shows when the run fails. Nothing was charged. Next time, check
+     the balance (account usage) before quoting a cost.
+  2. **The free voice's level.** Kokoro's take is ~4 dB louder than Lara's, so the brief's music levels sat it 20 dB
+     under the voice. Raised 7 dB to 13.7 dB under, and the music's highs eased (11 dB under the consonants).
+     Measure every new voice; don't trust another video's levels.
+  3. **The Chrome Web Store** opened a "Switch to Chrome?" pop-up inside a Google frame over the listing; it is
+     closed in its own frame now (`tools/shotfind.cjs`).
+  4. **The Primus docs** answer a direct link with "Page Not Found" (client-side routes). The page opens by clicking
+     through the sidebar (`CLICKS=`).
+  5. **A frame depended on render order:** the screenshot's lift was set only inside its scene. Now it is set every
+     frame (determinism check).
+  6. **Layout, from the stills:**
+     - the step badges sat behind the cards;
+     - the step list wrapped;
+     - the store and docs text was too small at 0.43x (now close-ups);
+     - on the cover, the handle touched the cartoon's arm and a line ran over his shirt;
+     - on the thumbnail, "POINTS" ran off the edge.
+- **Change next time:**
+  - Check the ElevenLabs balance before asking the owner to approve a cost.
+  - A text-heavy web page gets a close-up crop of the line being read.
+- **The owner's reaction:** to be added.
+
+## 17 Nov: the talking character, a demo (0:24, 16:9, the owner's cartoon presenting the Prospect opening, Olawale)
+
+- **What it is:** the owner's seven poses, with mouths drawn here for free, beside the real Prospect screens.
+  Tools: `characters/talking/`.
+  - It was first timed to Lara's existing Prospect take. Before it was sent, the owner said "Sorry use my own voice or a
+    male voice".
+  - They chose Olawale (Nigerian English, male) from three voices measured closest to theirs. One take cost 364 credits.
 - **Mistakes caught before sending:**
   1. **Two figures at once on every pose change.** A 0.1 s cross-fade layered the old pose under the new one; the
      half-second sheet caught it at 20.5 s. Now a hard cut with a small pop, which is how the S10 sample changes pose.
