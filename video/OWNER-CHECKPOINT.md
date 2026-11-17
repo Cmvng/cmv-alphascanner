@@ -162,6 +162,12 @@ has not been said: ask once when the next one comes up.)
   that. Or you have to use ekevn labs to make the characters??" So: use the character images they send, as sent; make
   them talk without ElevenLabs video credits (pose per line, mouth shapes timed to every word in our own page, or a free
   talking-head model on Hugging Face once it is tested on their character). Lara stays the voice unless they say.
+  Same day: "Use the character inspiration of my own videos of me... So the character looks like me". So the
+  character is a cartoon of the owner (from their videos: dark skin, short black hair, a full black beard and
+  moustache, a big grin, the grey T-shirt), made by them from our prompts (`video/templates/characters/pose-prompts.md`)
+  with their own photo attached. This is their choice and changes the 2 Oct "not my image" note for this format only:
+  a cartoon of them, never their photo pasted in. The voice for a character of them is still to be settled (their
+  own recorded voice, or Lara narrating beside it): ask once.
 - **The one exception:** when they say to reuse a template, do exactly that (17 Oct: "Use the same templates, cos my
   credits have almost finished").
 

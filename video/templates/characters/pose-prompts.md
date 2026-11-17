@@ -1,5 +1,53 @@
 # Pose prompts for a talking character (17 Nov 2026)
 
+**Current: a cartoon of the owner** (17 Nov: "Use the character inspiration of my own videos of me... So the character
+looks like me"). Their look in their videos: dark skin, short black hair, a full thick black beard and moustache, a
+round face, expressive eyebrows, a big warm grin; usually a heather-grey crew-neck T-shirt. They attach a clear photo
+of themselves to the base prompt. Sections A to C below are for this character; the original prompts for a woman
+presenter (voiced by Lara) follow under "Earlier".
+
+## A. The base character (attach a clear, front-facing photo of yourself)
+Turn the person in the attached photo into a 2D cartoon character for explainer videos, keeping his likeness: dark
+brown skin, short black hair, a full thick black beard and moustache, round face, expressive eyebrows, a big warm smile.
+Full body from head to shoes, standing and facing the viewer, turned slightly towards the right side of the picture.
+Soft painted digital illustration with clean outlines and gentle shading, like a modern explainer-video character. He
+wears a heather-grey crew-neck T-shirt, dark blue jeans and white sneakers. Friendly, confident face, mouth closed in a
+small smile. Plain pure white background, no shadow, no text, no props. Portrait 2:3, high resolution, character
+centred, a little space above his head and below his feet.
+
+## B. Every pose: attach the base character, then this line and one pose
+Use the attached image as the exact same character: same face, beard, hair, skin, clothes, colours, art style, size and
+position. Full body, head to shoes, feet at the same height as in the reference. Plain pure white background, no
+shadow, no text. Mouth closed. Pose:
+
+1. standing relaxed, arms down by his sides, small smile
+2. thinking: one hand on his chin, eyes looking up, curious face
+3. explaining: one hand open, palm up at chest height, friendly face
+4. pointing with one arm straight out to the right side of the picture, looking the same way
+5. one index finger raised up, eyebrows up, "I've got it" face
+6. holding up two fingers, counting
+7. shrugging, both palms up, eyebrows raised
+8. surprised: both hands on his cheeks, eyes wide
+9. arms crossed, confident smile
+10. thumbs up, big smile
+11. holding a magnifying glass up to one eye, looking right
+12. holding a smartphone in both hands, looking at it, smiling
+13. one hand raised, palm out like "stop", serious face
+14. waving hello with one hand, big smile
+15. hands in his pockets, relaxed, looking right
+16. his big grin: huge smile showing teeth, eyes squinting with joy (like his "Grin" reaction)
+17. jaw drop: mouth wide open in amazement, one hand holding his beard (like his "Jaw Drop" reaction)
+18. "wait, what?": eyes wide, eyebrows raised high, leaning back slightly (like his "Wait, What?" reaction)
+19. both hands on top of his head, "it's over" face (like his "It's Over" reaction)
+
+## C. The talking version of each pose (attach the pose picture)
+Edit the attached image: keep everything exactly the same (pose, face, beard, clothes, size, position, background).
+Only open his mouth naturally, as if he is in the middle of saying a word.
+
+---
+
+# Earlier: the woman presenter (voiced by Lara)
+
 The owner makes the character images themselves (their words, 17 Nov: "Send me the prompt of the different poses for
 the characters.... So I create them"). We animate them in our own page: a pose per line, the mouth switching between
 closed and open on every word. A girl by default, because Lara voices her (2 Oct: no male presenter voice).
