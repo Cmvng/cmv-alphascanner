@@ -28,6 +28,26 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
+## 17 Nov: the talking character, a demo (0:24, 16:9, the owner's cartoon presenting the Prospect opening, Lara)
+
+- **What it is:** the owner's seven poses, with mouths drawn here for free and timed to Lara's existing Prospect take
+  (no new credits), beside the real Prospect screens. Tools: `characters/talking/`.
+- **Mistakes caught before sending:**
+  1. **Two figures at once on every pose change.** A 0.1 s cross-fade layered the old pose under the new one; the
+     half-second sheet caught it at 20.5 s. Now a hard cut with a small pop, which is how the S10 sample changes pose.
+  2. **The mouth could blur between two shapes.** The motion-blur sub-frames sit half a frame either side of the
+     frame, and the mouth was chosen by rounding down, so a frame could mix two mouths. Pose and mouth are now chosen
+     on the nearest whole frame.
+  3. Earlier, while making it:
+     - the automatic lip search found the cheek, then the moustache's edge (now measured per pose);
+     - a separate scale per pose made the figure jump in size (now one scale, feet on one line);
+     - a stamp covered Prospect's own text (moved).
+- **Change next time:**
+  - Never cross-fade a character between poses; cut.
+  - Anything that switches per frame (mouths, poses, frame-swapped screens) is chosen on the nearest whole frame
+    when motion blur is on.
+- **The owner's reaction:** to be added.
+
 ## 16 Nov: "Prospect Markets, what a 50% price means" (1:18, 16:9, the owner's sponsored post (#ad) read by Lara)
 
 The brief: "I want to make a video on this project … Make sure you do your proper research … Here is the content I am

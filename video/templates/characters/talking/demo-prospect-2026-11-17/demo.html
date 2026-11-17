@@ -1,0 +1,127 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>CMV character demo: the first 24 s of the Prospect video, the owner's cartoon presenting</title>
+<style>
+@font-face{font-family:Anton;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/anton-latin-400-normal.woff2)}
+@font-face{font-family:Man;font-weight:800;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-800-normal.woff2)}
+@font-face{font-family:Mono;font-weight:700;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/jetbrains-mono-latin-700-normal.woff2)}
+/* The owner's own cartoon (their 7 poses, 17 Nov; mouths drawn by us on their pictures) presents the first 24 s of the
+   Prospect Markets video (Lara's approved take and its mix): one pose per line, the mouth closed / half / open on
+   Lara's voice 15 times a second, a breath and a slight sway; the real screens in a card on the right (format from
+   the owner's S10 sample, in our light-blue house style). */
+:root{--ink:#0B1F4D;--blue:#1F5FDB;--mute:#6B7A99;--red:#E5484D;--green:#12A150}
+*{box-sizing:border-box}
+html,body{margin:0;width:1920px;height:1080px;overflow:hidden;font-family:Man,sans-serif;font-weight:800;color:var(--ink);
+  background:radial-gradient(1500px 900px at 30% 30%,#FFFFFF 0%,#EEF4FF 45%,#D9E6FA 100%)}
+#grid{position:absolute;inset:-60px;background-image:linear-gradient(rgba(31,95,219,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(31,95,219,.05) 1px,transparent 1px);background-size:60px 60px}
+.card{position:absolute;border-radius:20px;background:#fff;box-shadow:0 24px 56px rgba(11,31,77,.16),0 0 0 1.5px rgba(11,31,77,.06);overflow:hidden;opacity:0;transform-origin:50% 50%}
+.card>img{display:block;width:100%}
+.ring{position:absolute;border:5px solid var(--blue);border-radius:12px;box-shadow:0 0 0 6px rgba(31,95,219,.14);opacity:0}
+.ring.w{border-color:#fff;box-shadow:0 0 0 6px rgba(255,255,255,.2)}
+.src{position:absolute;font-family:Mono,monospace;font-weight:700;font-size:16px;letter-spacing:.06em;color:var(--mute);white-space:nowrap;text-transform:uppercase;opacity:0}
+.stamp{position:absolute;padding:10px 26px;border:7px solid var(--blue);border-radius:16px;color:var(--blue);font-family:Anton,sans-serif;font-size:80px;line-height:1;white-space:nowrap;background:rgba(255,255,255,.94);opacity:0}
+.big{font-family:Anton,sans-serif;line-height:1;white-space:nowrap}
+#ch{position:absolute;left:40px;top:0;width:599px;height:899px;transform-origin:300px 888px}
+#ch img{position:absolute;left:0;top:0;width:599px;height:899px}
+#shadow{position:absolute;left:105px;top:1022px;width:470px;height:44px;border-radius:50%;background:radial-gradient(closest-side,rgba(11,31,77,.22),rgba(11,31,77,0))}
+#ad{position:absolute;right:56px;top:30px;height:52px;padding:0 22px;border-radius:26px;background:#fff;border:3px solid var(--blue);font-family:Mono,monospace;font-weight:700;font-size:24px;letter-spacing:.12em;line-height:46px}
+#foot{position:absolute;left:700px;top:1030px;width:1180px;text-align:center}
+#foot span{display:inline-block;padding:6px 18px;border-radius:14px;background:rgba(255,255,255,.9);font-family:Mono,monospace;font-weight:700;font-size:16px;color:#46557A;white-space:nowrap}
+#cap{position:absolute;left:700px;top:900px;width:1180px;text-align:center;opacity:0}
+#cap span{display:inline-block;padding:9px 30px 11px;border-radius:22px;background:rgba(255,255,255,.96);box-shadow:0 12px 30px rgba(11,31,77,.16);font-size:38px;line-height:50px;white-space:nowrap}
+#cap b{color:var(--blue)}
+#veil{position:absolute;inset:0;background:#EEF4FF;opacity:0}
+</style></head>
+<body>
+<div id="grid"></div>
+<!-- the screens, right of the presenter -->
+<div class="card" id="slate" style="left:930px;top:120px;width:560px;height:560px"><img src="img/slate3_560.jpg"></div>
+<div class="src" id="slsrc" style="left:930px;top:694px">PROSPECT ON X · SUN 15 NOV · PRICES AS OF 12:12 PM ET</div>
+<div class="stamp" id="pct" style="left:1030px;top:745px;transform:rotate(-3deg)">50¢ = 50%</div>
+<div class="card" id="xl" style="left:790px;top:150px;width:1000px;height:369px"><img src="img/x_launch_1000.jpg"></div>
+<div class="card" id="prh" style="left:850px;top:560px;width:940px;height:284px"><img src="img/pr_head.jpg"></div>
+<div class="stamp" id="live" style="left:1480px;top:178px;transform:rotate(-4deg)">LIVE</div>
+<div class="big" id="brk" style="position:absolute;left:700px;width:1180px;text-align:center;top:380px;font-size:130px;opacity:0">LET ME BREAK IT DOWN</div>
+<div class="card" id="sl1" style="left:740px;top:170px;width:560px;height:560px"><img src="img/slate1_560.jpg"></div>
+<div class="card" id="sl3" style="left:1300px;top:170px;width:560px;height:560px"><img src="img/slate3_560.jpg"></div>
+<div class="card" id="sl2" style="left:1020px;top:150px;width:560px;height:560px"><img src="img/slate2_560.jpg"></div>
+<div class="src" id="s3src" style="left:700px;width:1180px;text-align:center;top:760px">PROSPECT ON X · SUN 15 NOV, NFL WEEK 10</div>
+<div class="card" id="ob" style="left:790px;top:170px;width:1000px;height:563px"><img src="img/orderbook.jpg"></div>
+<div class="src" id="obsrc" style="left:790px;top:748px">PROSPECT’S LAUNCH VIDEO, 12 NOV · ASKS: OTHER TRADERS SELLING · BIDS: OTHER TRADERS BUYING</div>
+<!-- the presenter -->
+<div id="shadow"></div>
+<div id="ch"><img id="ca"><img id="cb"></div>
+<div id="ad">#AD</div>
+<div id="cap"></div>
+<div id="foot"><span>Trading in prediction markets involves substantial risk of loss. 18+. Eligibility restrictions apply.</span></div>
+<div id="veil"></div>
+<script src="file:///home/user/cmv-alphascanner/video/lib/motion.js"></script>
+<script src="words.js"></script>
+<script src="mouth.js"></script>
+<script>
+const $ = id => document.getElementById(id), W = window.WORDS, FPS = 30, { E, cl } = M
+const seg = (t, a, d) => cl((t - a) / d)
+let SIG = []
+const css = (el, k, v) => { el.style[k] = v; SIG.push(v) }
+const T = s => s + 0.2 + (s >= 8.36 ? 0.6 : 0), ws = i => T(W[i][0]), we = i => T(W[i][1])
+const END = 24.2
+const io = (el, t, a, b = 1e9, o = {}) => { el = typeof el === 'string' ? $(el) : el; SIG.push(M.apply(el, M.inout(t, a, b, o), o.base || '')) }
+const mk = (tag, cls, parent, style = {}) => { const e = document.createElement(tag); e.className = cls; Object.assign(e.style, style); parent.appendChild(e); return e }
+const ring = (p, x, y, w, h, c = '') => mk('div', 'ring' + (c ? ' ' + c : ''), p, { left: x + 'px', top: y + 'px', width: w + 'px', height: h + 'px' })
+const drawRing = (e, t, a, b = 1e9, pad = 14) => { const on = t >= a && t < b, u = on ? E.standard(seg(t, a, .45)) : 0, q = on ? 1 - E.exit(seg(t, b - .18, .18)) : 0
+  css(e, 'opacity', (Math.min(1, u * 3) * q).toFixed(3)); css(e, 'clipPath', `inset(-${pad}px ${(-pad + (e.offsetWidth + 2 * pad) * (1 - u)).toFixed(1)}px -${pad}px -${pad}px)`) }
+const stamp = (el, t, a, rot = 0, s0 = 1.5) => { const sp = M.spring(t, a, M.SP.pop), [qx, qy] = M.squash(t, a + .12)
+  css(el, 'opacity', (t >= a ? cl((t - a) / .08) : 0).toFixed(3)); css(el, 'transform', `rotate(${rot}deg) scale(${((s0 - (s0 - 1) * cl(sp, 0, 1.2)) * qx).toFixed(4)},${((s0 - (s0 - 1) * cl(sp, 0, 1.2)) * qy).toFixed(4)})`) }
+// rings on the real screens
+const k7 = 560 / 1080, R1 = ring($('slate'), 552 * k7 - 6, 388 * k7 - 6, 451 * k7 + 12, 225 * k7 + 12, 'w')
+const kx = 1000 / 1096, R2 = ring($('xl'), 25 * kx, 143 * kx, 684 * kx, 56 * kx), R3 = ring($('xl'), 650 * kx, 245 * kx, 360 * kx, 50 * kx)
+const k5 = 560 / 1080, Rs = ['sl1', 'sl2'].map(id => ring($(id), 356 * k5 - 4, 438 * k5 - 4, 150 * k5 + 8, 168 * k5 + 8)).concat([ring($('sl3'), 828 * k5 - 4, 442 * k5 - 4, 153 * k5 + 8, 164 * k5 + 8)])
+const ko = 1000 / 1280, Ro1 = ring($('ob'), 640 * ko, 58 * ko, 632 * ko, 268 * ko), Ro2 = ring($('ob'), 640 * ko, 390 * ko, 632 * ko, 268 * ko)
+// one pose per line: [from word, pose]; the feet of each pose (rows in its 599x899 picture) so the feet stay put
+const FEET = { '01': 887, '02': 890, '04': 887, '05': 889, '06': 890, '07': 890, '09': 889 }
+const POSES = [[0, '02'], [11, '05'], [16, '04'], [23, '01'], [29, '04'], [37, '05'], [42, '06'], [47, '04'], [57, '07']].map(([i, p]) => [i === 0 ? 0 : ws(i) - .12, p])
+const CAP = [[0, 10, 'What does a <b>50% price</b> on a game’s outcome mean?'], [11, 15, 'It is the <b>implied probability</b>,'], [16, 22, 'and that is how <b>Prospect Markets</b> works'],
+  [23, 28, 'So I just found <b>Prospect Markets</b>'], [29, 36, 'It is a <b>prediction market</b> built for sports,'], [37, 41, 'and it is <b>live now</b>'], [42, 46, 'Let me <b>break it down</b>'],
+  [47, 51, '<b>Every game</b> becomes a market,'], [52, 56, 'with <b>contracts</b> on the outcome,'], [57, 64, 'and the price is set <b>peer to peer</b>,'], [65, 67, 'by <b>other traders</b>']]
+  .map(([a, b, h], i, A) => ({ t0: ws(a) - .08, t1: Math.min(we(b) + .45, A[i + 1] ? ws(A[i + 1][0]) - .08 : END), h }))
+const swap = async (im, src) => { if (im.getAttribute('src') !== src) { im.src = src; try { await im.decode() } catch (e) {} } SIG.push(src) }
+const ST = ['c', 'h', 'o']
+
+window.render = async t => {
+  SIG = []
+  css($('grid'), 'transform', `translate(${M.float(t, 20, 23).toFixed(1)}px,${M.float(t, 14, 31, .3).toFixed(1)}px)`)
+  // ---- the presenter: pose, mouth, breath and sway; a hard cut and a small pop on each pose change (a cross-fade
+  // showed two figures at once). Pose and mouth are chosen on the nearest whole frame, so the motion-blur sub-frames
+  // (centred on the frame) never mix two poses or two mouth shapes.
+  const fr = Math.round(t * FPS), tf = fr / FPS
+  let pi = 0; for (let i = 0; i < POSES.length; i++) if (tf >= POSES[i][0]) pi = i
+  const [pt, p] = POSES[pi], q = p, u = 1
+  const f = Math.min(window.MOUTH.length - 1, Math.max(0, fr)), ms = window.MOUTH[f]
+  await swap($('cb'), `img/p${p}_${ST[ms]}.png`); await swap($('ca'), `img/p${q}_c.png`)
+  css($('ca'), 'opacity', (u < 1 ? 1 : 0).toFixed(0)); css($('cb'), 'opacity', u.toFixed(3))
+  css($('ca'), 'top', (FEET['01'] - FEET[q]) + 'px'); css($('cb'), 'top', (FEET['01'] - FEET[p]) + 'px')
+  const pop = pi > 0 ? 1 + .018 * Math.sin(Math.PI * cl((t - pt) / .28)) : 1, br = 1 + .005 * Math.sin(2 * Math.PI * t / 3.2), sw = .35 * Math.sin(2 * Math.PI * t / 5.3)
+  css($('ch'), 'top', (1050 - FEET['01']) + 'px'); css($('ch'), 'transform', `rotate(${sw.toFixed(3)}deg) scale(${pop.toFixed(4)},${(pop * br).toFixed(4)})`)
+  // ---- the screens
+  const A1 = ws(16) - .25, A2 = ws(42) - .3, A3 = ws(47) - .25, A4 = ws(57) - .25
+  io('slate', t, 0, A1, { dy: 0, d: .01, dyOut: -20 }); if (t < .02) css($('slate'), 'opacity', '1')
+  io('slsrc', t, 0, A1, { dy: 0, d: .01 }); drawRing(R1, t, ws(3) - .1, A1)
+  stamp($('pct'), t, ws(14) - .05, -3); if (t >= A1) css($('pct'), 'opacity', (1 - seg(t, A1, .2)).toFixed(3))
+  io('xl', t, A1 + .1, A2, { dx: 60, dy: 0, d: .42 }); drawRing(R2, t, ws(20) - .1, ws(29) - .1); drawRing(R3, t, ws(32) - .1, A2)
+  io('prh', t, ws(29) - .2, A2, { dy: 40, d: .42 })
+  stamp($('live'), t, ws(40) - .05, -4); if (t >= A2) css($('live'), 'opacity', (1 - seg(t, A2, .2)).toFixed(3))
+  io('brk', t, A2 + .05, A3, { dy: 0, s0: 1.15, d: .32 })
+  ;['sl1', 'sl2', 'sl3'].forEach((id, i) => io(id, t, A3 + .12 * i, A4, { dy: 50, s0: .92, d: .42, base: `rotate(${[-6, 0, 6][i]}deg)`, dxOut: -80, dyOut: 0 }))
+  io('s3src', t, A3 + .3, A4, { dy: 8 }); Rs.forEach((r, i) => drawRing(r, t, ws(53) - .1 + .12 * i, A4))
+  io('ob', t, A4 + .1, 1e9, { dx: 70, dy: 0, d: .42 }); io('obsrc', t, A4 + .35, 1e9, { dy: 8 })
+  drawRing(Ro1, t, ws(62) - .1); drawRing(Ro2, t, ws(64) - .05)
+  // ---- captions, and a soft fade at the very end
+  const c = CAP.find(x => t >= x.t0 && t < x.t1), html = c ? '<span>' + c.h + '</span>' : ''
+  if ($('cap').innerHTML !== html) $('cap').innerHTML = html
+  SIG.push(html); css($('cap'), 'opacity', c ? Math.min(1, (t - c.t0) / .12).toFixed(3) : '0')
+  css($('veil'), 'opacity', (seg(t, END - .45, .45) * .85).toFixed(3))
+  return SIG.join('|')
+}
+window.READY = Promise.all([document.fonts.load('80px Anton'), document.fonts.load('800 40px Man'), document.fonts.load('700 30px Mono'),
+  ...[...document.images].map(i => i.decode ? i.decode().catch(() => 0) : 1)])
+</script>
+</body></html>
