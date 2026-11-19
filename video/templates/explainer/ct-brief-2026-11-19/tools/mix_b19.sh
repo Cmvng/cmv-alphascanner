@@ -2,7 +2,7 @@
 # The mix for the 19 Nov brief: the free male voice (Kokoro am_fenrir, the owner's choice on 17 Nov) over "A New Life"
 # (Mixkit 543, the owner's named favourite), its drop (24.642 s in the track) in the pause after the hook
 # ("...yesterday's first figure.", take 8.56 s; "G M" at 9.78 s), a 0.25 s breath added there. Kokoro is about 4 dB
-# louder than Lara, so the bed is raised 7 dB and its highs eased 5 dB above 3.5 kHz (as on 17 Nov), ducked under the
+# louder than Lara, so the bed is raised 5 dB (7 dB on 17 Nov; "A New Life" is denser than "New Bass 01": at +7 it came within 7 dB of the voice on spelled letters) and its highs eased 5 dB above 3.5 kHz, ducked under the
 # voice, up to full on the end card, then one gain to -14 LUFS plus a limiter.
 #   bash mix_b19.sh <work dir> <take.wav> <543.mp3> <tools dir>
 set -euo pipefail
@@ -16,7 +16,7 @@ ffmpeg -v error -y -i "$TAKE" -ar 48000 -ac 1 "$W/take48.wav"
 ffmpeg -v error -y -i "$W/take48.wav" -filter_complex \
   "[0:a]asplit=2[a][b];[a]atrim=0:$CUT,asetpts=PTS-STARTPTS[a1];[b]atrim=$CUT,asetpts=PTS-STARTPTS[b1];anullsrc=r=48000:cl=mono,atrim=0:$GAP[g];[a1][g][b1]concat=n=3:v=0:a=1,adelay=$(python3 -I -c "print(int($VO*1000))"),highpass=f=70,apad=whole_dur=$TOT,atrim=0:$TOT[v]" \
   -map "[v]" -ar 48000 -ac 1 "$W/voice.wav"
-ffmpeg -v error -y -i "$W/bed_src.wav" -af "volume='if(lt(t,$DROP),0.45,if(lt(t,$DROP+0.99),0.40-0.17*(t-$DROP)/0.99,if(lt(t,$ENDV),0.23,0.23+0.22*min(1,(t-$ENDV)/0.5))))':eval=frame,volume=7dB,highshelf=f=3500:g=-5,afade=t=out:st=$(python3 -I -c "print($TOT-1.6)"):d=1.6" \
+ffmpeg -v error -y -i "$W/bed_src.wav" -af "volume='if(lt(t,$DROP),0.45,if(lt(t,$DROP+0.99),0.40-0.17*(t-$DROP)/0.99,if(lt(t,$ENDV),0.23,0.23+0.22*min(1,(t-$ENDV)/0.5))))':eval=frame,volume=5dB,highshelf=f=3500:g=-5,afade=t=out:st=$(python3 -I -c "print($TOT-1.6)"):d=1.6" \
   -ar 48000 -ac 2 "$W/bed.wav"
 ffmpeg -v error -y -i "$W/voice.wav" -i "$W/bed.wav" -filter_complex \
   "[0:a]asplit=2[vk][vm];[1:a][vk]sidechaincompress=threshold=0.03:ratio=6:attack=15:release=350[md];[vm][md]amix=inputs=2:duration=first:normalize=0[m]" \

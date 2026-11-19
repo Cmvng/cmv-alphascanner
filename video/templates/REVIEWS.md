@@ -28,6 +28,41 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
+## 19 Nov: "CT and Web3 brief, Thursday" (2:14, 16:9, the owner's eight-item brief, their cartoon presenting, the free male voice)
+
+- **What it is:** "I need a clean illustration motion video for this content", with their brief.
+  - The owner's cartoon presents. All ten poses are used, including the three they sent the same morning.
+  - The eight stories are chapters along the top. Each shows its real X post with the spoken words ringed, plus one
+    illustrated move. At the end the chapters fold into a recap board.
+  - Music: "A New Life". Voice: Kokoro am_fenrir.
+- **The facts:**
+  - A research agent found a second source for every story while the posts were captured.
+  - It found that the Michigan news dates from 28 Oct and the Cupsey investigation from 10 Nov. The first RNT figure
+    was $454K, not $455K. The $49M and the two-hour recovery are only in Finance Culture's post.
+  - The script credits Finance Culture for those, and the screen shows the dates. The message says it plainly.
+- **What worked:**
+  - The posts are captured through X's embed at 2x. The rings are drawn from boxes of the spoken phrases measured in the
+    embed's own text (a TreeWalker Range), so every ring sits on the real words with no measuring by eye.
+  - The page was checked on 49 stills over the take's own times before the one render.
+  - "A New Life" was extended on its own loop points (24 bars). The joins happen to land on "Bubblemaps" and on "$6.3B".
+- **Mistakes, and how they got through:**
+  1. **Rings 6 px above the line box** read as underlines under the line above in the dense posts (Blockaid, LUKSO,
+     Finance Culture). The stills were looked at small; the half-second sheet of the render showed it. Fixed: 1 px above
+     and below, 7 px at the sides, and one ring over "@k3_capital sBOLD on ethereum" instead of two touching.
+  2. **Scene changes crossfaded two posts, or a post and a dark card,** for about 0.3 s: doubled text, and a muddy grey
+     where Bubblemaps' map and Variational's card came in. Fixed: what leaves starts 0.12 s early and what arrives
+     0.12 s late (`sa`/`sb` in `brief.html`).
+  3. **Big type over big type:** "+2 MORE EXPLOITS" came in over "NO OFFICIAL STATEMENT". The same fix covers it.
+  4. **The music was +7 dB as on 17 Nov,** but "A New Life" is denser. It measured 12 dB under the voice at the median,
+     but came within 3–7 dB on spelled letters ("U S D C"). Lowered to +5 dB: now 14 dB at the median, 5 dB at p10.
+  5. **The first stills found layout faults:** stamps over the number they stamp, a value wrapping to two lines, a card
+     header clipped, a heading too wide, a long chapter label touching its tile's edge. All were fixed before the render.
+- **Change next time:**
+  - Look at the stills at full size around every ring, not only on the sheet.
+  - Give every scene change a gap. Never crossfade two text cards.
+  - Measure the bed per track. Each track needs its own level, and it is not carried over from the last video.
+- **The owner's reaction:** to be added.
+
 ## 17 Nov: "Primus: 3 new Proof of Creation tasks" (1:00, 16:9, the owner's post, their cartoon presenting, a free male voice)
 
 - **What worked:**

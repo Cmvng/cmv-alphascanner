@@ -49,7 +49,7 @@
 | `tools/kok.py` | the free voice: Kokoro, one voice, a 0.35 s breath between paragraphs, speed 1.05 |
 | `tools/posts.cjs`, `tools/postbox.cjs` | the X posts through X's embed widget at 2x; their text and the boxes of the phrases to ring (`postboxes.json`) |
 | `tools/mi.py` | Michigan's outline from the US Census boundaries (us-atlas states-10m.json, decoded here) |
-| `tools/extend_543.py`, `tools/mix_b19.sh` | "A New Life" extended on its own loop points (24.642 → 69.677 s, 24 bars); the mix, about 12 dB under the voice, -14 LUFS |
+| `tools/extend_543.py`, `tools/mix_b19.sh` | "A New Life" extended on its own loop points (24.642 → 69.677 s, 24 bars); the mix: the bed +5 dB, measured 14 dB under the voice while it speaks (after ducking), -14.5 LUFS |
 | `brief.html`, `timing.js` | the page; it needs `words.js`, `mouth.js`, `postboxes.js` (`window.POSTBOXES=` + postboxes.json) and `img/` beside it |
 | `tools/stills.cjs` | stills of the page at given times (checked before the render) |
 | `tools/srt.py` | subtitles from the page's own captions |
