@@ -54,13 +54,19 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
      0.12 s late (`sa`/`sb` in `brief.html`).
   3. **Big type over big type:** "+2 MORE EXPLOITS" came in over "NO OFFICIAL STATEMENT". The same fix covers it.
   4. **The music was +7 dB as on 17 Nov,** but "A New Life" is denser. It measured 12 dB under the voice at the median,
-     but came within 3–7 dB on spelled letters ("U S D C"). Lowered to +5 dB: now 14 dB at the median, 5 dB at p10.
-  5. **The first stills found layout faults:** stamps over the number they stamp, a value wrapping to two lines, a card
+     but came within 3–7 dB on spelled letters ("U S D C"). Lowered to +5 dB, preflight then read 16.7 dB under, a FAIL
+     (its band is 8–16). Set to +6.5 dB, sound remuxed without a new render: 15.2 dB by preflight, 0 FAIL.
+  5. **The recap card for story 2 spilled its last line below the card** ("$3.43M + 1.4M LYX" took two lines). It was
+     caught on the last frame of the second render. The card was reworded ("TWO MORE"), and only frames 3682–4023 were
+     rendered again (from the keyframe at 122.73 s). They were joined to the unchanged start by stream copy; the join
+     was checked frame by frame.
+  6. **The first stills found layout faults:** stamps over the number they stamp, a value wrapping to two lines, a card
      header clipped, a heading too wide, a long chapter label touching its tile's edge. All were fixed before the render.
 - **Change next time:**
   - Look at the stills at full size around every ring, not only on the sheet.
   - Give every scene change a gap. Never crossfade two text cards.
-  - Measure the bed per track. Each track needs its own level, and it is not carried over from the last video.
+  - Measure the bed per track with preflight's own measure, before the render.
+  - The level from the last video does not carry over.
 - **The owner's reaction:** to be added.
 
 ## 17 Nov: "Primus: 3 new Proof of Creation tasks" (1:00, 16:9, the owner's post, their cartoon presenting, a free male voice)
