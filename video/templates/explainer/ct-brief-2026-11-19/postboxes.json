@@ -1,0 +1,451 @@
+{
+"cult": {
+"t": [
+1096,
+588
+],
+"ph": {
+"own admin key": [
+[
+201,
+192,
+484,
+240
+]
+],
+"nearly $1 million in stablecoins": [
+[
+413,
+336,
+988,
+384
+]
+],
+"around twice the figure first reported": [
+[
+32,
+384,
+730,
+432
+]
+],
+"swap the code": [
+[
+854,
+480,
+1026,
+528
+],
+[
+32,
+528,
+127,
+576
+]
+]
+},
+"time": "2026-11-18T20:40:12.000Z"
+},
+"darkgrove": {
+"t": [
+1096,
+300
+],
+"ph": {
+"RNT Lend (~$955K lost)": [
+[
+528,
+144,
+987,
+192
+]
+],
+"Private Key Compromised": [
+[
+32,
+240,
+521,
+288
+]
+]
+},
+"time": "2026-11-18T21:20:10.000Z"
+},
+"blockaid": {
+"t": [
+1096,
+736
+],
+"ph": {
+"~$3.43M drained": [
+[
+32,
+432,
+361,
+480
+]
+],
+"sBOLD on ethereum": [
+[
+272,
+192,
+651,
+240
+]
+],
+"@k3_capital": [
+[
+32,
+192,
+261,
+240
+]
+]
+},
+"time": "2026-11-18T12:50:39.000Z"
+},
+"lukso": {
+"t": [
+1096,
+589
+],
+"ph": {
+"about 300 Universal Profiles": [
+[
+674,
+384,
+1056,
+432
+],
+[
+32,
+432,
+175,
+480
+]
+],
+"around 1.4M": [
+[
+394,
+432,
+628,
+480
+]
+],
+"email-based recovery system": [
+[
+808,
+144,
+1043,
+192
+],
+[
+32,
+192,
+346,
+240
+]
+]
+},
+"time": "2026-11-18T12:29:30.000Z"
+},
+"bubblemaps": {
+"t": [
+1096,
+636
+],
+"ph": {
+"Baited his followers with callouts and public buys": [
+[
+66,
+336,
+992,
+384
+]
+],
+"Dumped on them for millions $": [
+[
+66,
+384,
+645,
+432
+]
+],
+"Used a side wallet operation": [
+[
+66,
+432,
+601,
+480
+]
+],
+"Is connected onchain to a serial rugger": [
+[
+66,
+480,
+803,
+528
+]
+]
+},
+"time": "2026-11-18T13:07:16.000Z"
+},
+"bw_closed": {
+"t": [
+1096,
+589
+],
+"ph": {
+"Anthropic IPO xStocks Campaign Is Closed": [
+[
+97,
+144,
+909,
+192
+]
+],
+"Total Subscription Cap of 500 million USDC has been reached": [
+[
+181,
+241,
+1004,
+289
+],
+[
+32,
+289,
+371,
+337
+]
+]
+},
+"time": "2026-11-18T10:08:44.000Z"
+},
+"bw_pm": {
+"t": [
+1096,
+636
+],
+"ph": {
+"Anthropic IPO Closing Market Cap Prediction Market is now live": [
+[
+32,
+240,
+1064,
+288
+],
+[
+32,
+288,
+187,
+336
+]
+],
+"Where will it close on day one?": [
+[
+627,
+384,
+1030,
+432
+],
+[
+32,
+432,
+204,
+480
+]
+]
+},
+"time": "2026-11-18T12:03:53.000Z"
+},
+"degen": {
+"t": [
+1096,
+686
+],
+"ph": {
+"Michigan shuts down sports betting": [
+[
+256,
+144,
+930,
+192
+]
+],
+"Kalshi": [
+[
+32,
+192,
+146,
+240
+]
+],
+"Polymarket,": [
+[
+168,
+192,
+392,
+240
+]
+],
+"Robinhood": [
+[
+403,
+192,
+606,
+240
+]
+],
+"Coinbase": [
+[
+700,
+192,
+878,
+240
+]
+],
+"by Nov 25": [
+[
+125,
+384,
+318,
+432
+]
+]
+},
+"time": "2026-11-18T14:43:49.000Z"
+},
+"ct_binance": {
+"t": [
+1096,
+300
+],
+"ph": {
+"court order in Abu Dhabi": [
+[
+651,
+144,
+995,
+192
+],
+[
+32,
+192,
+141,
+240
+]
+],
+"$6.3 billion hack": [
+[
+32,
+240,
+341,
+288
+]
+],
+"per Reuters": [
+[
+363,
+240,
+582,
+288
+]
+]
+},
+"time": "2026-11-18T19:10:35.000Z"
+},
+"variational": {
+"t": [
+1096,
+492
+],
+"ph": {
+"$110M Series B": [
+[
+481,
+144,
+768,
+192
+]
+],
+"$1.5B valuation": [
+[
+860,
+144,
+963,
+192
+],
+[
+32,
+192,
+203,
+240
+]
+],
+"Bain Capital Crypto": [
+[
+352,
+192,
+716,
+240
+]
+],
+"lift open interest caps on Omni": [
+[
+326,
+336,
+902,
+384
+]
+],
+"hundreds of new stock, index, commodity, and FX listings": [
+[
+169,
+384,
+1053,
+432
+],
+[
+32,
+432,
+227,
+480
+]
+]
+},
+"time": "2026-11-18T14:24:17.000Z"
+},
+"pancake": {
+"t": [
+1096,
+539
+],
+"ph": {
+"PancakeSwap is now Pancake": [
+[
+32,
+240,
+605,
+288
+]
+],
+"6 years ago": [
+[
+32,
+336,
+254,
+384
+]
+],
+"More Than a Swap": [
+[
+145,
+384,
+500,
+432
+]
+]
+},
+"time": "2026-11-18T07:02:16.000Z"
+}
+}

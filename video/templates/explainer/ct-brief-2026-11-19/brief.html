@@ -1,0 +1,361 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Thursday brief, 19 Nov 2026: the owner's cartoon presents eight stories</title>
+<style>
+@font-face{font-family:Anton;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/anton-latin-400-normal.woff2)}
+@font-face{font-family:Man;font-weight:800;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-800-normal.woff2)}
+@font-face{font-family:Mono;font-weight:700;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/jetbrains-mono-latin-700-normal.woff2)}
+/* The owner's 19 Nov brief, eight stories, presented by their own cartoon (ten poses, our drawn mouths, the free male
+   voice). Concept: the brief as eight numbered chapters along the top that light one by one; each story is its real X
+   post at its own pixels, the spoken words ringed on it, plus ONE illustrated move that acts out its number (the drain
+   doubling as bars to scale, $49M taken and brought back, a subscription cap filling to CLOSED, Michigan with the four
+   names struck, PancakeSwap losing its "Swap"). At the end the eight chapters fold down into a recap board.
+   Moves: S10 (the presenter beside the real pages), S3 (real posts ringed on the words, bars to scale, source chips),
+   S5 (one strip of chapters that changes state into the recap), S4 (giant numbers), S2 (stamps). */
+:root{--ink:#0B1F4D;--blue:#1F5FDB;--sky:#4FB3FF;--mute:#6B7A99;--red:#E5484D;--green:#12A150}
+*{box-sizing:border-box}
+html,body{margin:0;width:1920px;height:1080px;overflow:hidden;font-family:Man,sans-serif;font-weight:800;color:var(--ink);
+  background:radial-gradient(1500px 900px at 30% 30%,#FFFFFF 0%,#EEF4FF 45%,#D9E6FA 100%)}
+#grid{position:absolute;inset:-60px;background-image:linear-gradient(rgba(31,95,219,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(31,95,219,.05) 1px,transparent 1px);background-size:60px 60px}
+.card{position:absolute;border-radius:18px;background:#fff;box-shadow:0 24px 56px rgba(11,31,77,.16),0 0 0 1.5px rgba(11,31,77,.06);overflow:hidden;opacity:0}
+.card>img{display:block;width:100%}
+.ring{position:absolute;border:5px solid var(--blue);border-radius:10px;box-shadow:0 0 0 6px rgba(31,95,219,.14);opacity:0}
+.src{position:absolute;font-family:Mono,monospace;font-weight:700;font-size:17px;letter-spacing:.05em;color:var(--mute);white-space:nowrap;text-transform:uppercase;opacity:0}
+.stamp{position:absolute;padding:10px 26px;border:7px solid var(--blue);border-radius:16px;color:var(--blue);font-family:Anton,sans-serif;font-size:70px;line-height:1;white-space:nowrap;background:rgba(255,255,255,.95);opacity:0}
+.stamp.r{border-color:var(--red);color:var(--red)}.stamp.g{border-color:var(--green);color:var(--green)}
+.big{position:absolute;font-family:Anton,sans-serif;line-height:1;white-space:nowrap;opacity:0}
+.panel{position:absolute;padding:16px 34px 20px;border-radius:24px;background:rgba(255,255,255,.97);box-shadow:0 18px 44px rgba(11,31,77,.16);opacity:0;white-space:nowrap}
+.panel small{display:block;font-family:Mono,monospace;font-weight:700;font-size:18px;letter-spacing:.06em;color:var(--mute);margin-bottom:6px}
+.panel b{font-family:Anton,sans-serif;font-weight:400;font-size:76px;line-height:1;color:var(--ink)}
+/* the chapters */
+#tiles{position:absolute;left:600px;top:22px;width:1260px;height:60px}
+.tile{position:absolute;top:0;width:148px;height:58px;border-radius:16px;background:rgba(255,255,255,.9);box-shadow:0 8px 20px rgba(11,31,77,.10);display:flex;align-items:center;gap:8px;padding:0 10px;font-size:15.5px;letter-spacing:.01em;color:var(--mute);white-space:nowrap;opacity:0}
+.tile i{font-style:normal;flex:0 0 30px;height:30px;border-radius:50%;background:#E3ECFB;color:var(--blue);font-family:Anton,sans-serif;font-size:19px;line-height:30px;text-align:center}
+.tile.on{background:var(--blue);color:#fff}.tile.on i{background:#fff;color:var(--blue)}
+.tile.done{color:var(--ink)}.tile.done i{background:var(--blue);color:#fff}
+/* the hook's bars */
+.brow{position:absolute;left:0;height:84px;width:1100px}
+.brow small{position:absolute;left:0;top:26px;font-family:Mono,monospace;font-weight:700;font-size:20px;letter-spacing:.06em;color:var(--mute)}
+.brow .bar{position:absolute;left:200px;top:8px;height:68px;border-radius:14px;transform-origin:0 50%}
+.brow b{position:absolute;top:2px;font-family:Anton,sans-serif;font-weight:400;font-size:72px;line-height:1}
+/* the recap board */
+.rc{position:absolute;width:300px;height:262px;border-radius:22px;background:#fff;box-shadow:0 16px 38px rgba(11,31,77,.14);padding:20px 22px;opacity:0}
+.rc i{font-style:normal;display:block;width:44px;height:44px;border-radius:50%;background:var(--blue);color:#fff;font-family:Anton,sans-serif;font-size:27px;line-height:44px;text-align:center}
+.rc em{font-style:normal;display:block;margin-top:14px;font-family:Mono,monospace;font-weight:700;font-size:17px;letter-spacing:.06em;color:var(--mute)}
+.rc b{display:block;margin-top:6px;font-family:Anton,sans-serif;font-weight:400;font-size:44px;line-height:1.05;color:var(--ink)}
+.rc span{display:block;margin-top:8px;font-size:19px;line-height:1.25;color:var(--ink)}
+#ch{position:absolute;left:-20px;top:0;width:599px;height:899px;transform-origin:300px 888px}
+#ch img{position:absolute;left:0;top:0;width:599px;height:899px}
+#shadow{position:absolute;left:90px;top:1030px;width:380px;height:40px;border-radius:50%;background:radial-gradient(closest-side,rgba(11,31,77,.22),rgba(11,31,77,0))}
+#cap{position:absolute;left:560px;top:962px;width:1340px;text-align:center;opacity:0}
+#cap span{display:inline-block;padding:9px 30px 11px;border-radius:22px;background:rgba(255,255,255,.96);box-shadow:0 12px 30px rgba(11,31,77,.16);font-size:38px;line-height:50px;white-space:nowrap}
+#cap b{color:var(--blue)}
+#handle{position:absolute;left:40px;top:30px;font-family:Mono,monospace;font-weight:700;font-size:22px;color:var(--mute);letter-spacing:.04em}
+#brand{position:absolute;left:40px;top:64px;font-family:Mono,monospace;font-weight:700;font-size:17px;color:var(--blue);letter-spacing:.06em;opacity:0}
+.chip{position:absolute;padding:12px 26px;border-radius:999px;background:#fff;box-shadow:0 10px 26px rgba(11,31,77,.12);font-size:34px;white-space:nowrap;opacity:0}
+.chip s{position:absolute;left:18px;right:18px;top:50%;height:7px;margin-top:-3px;border-radius:4px;background:var(--red);transform-origin:0 50%}
+</style></head>
+<body>
+<div id="grid"></div>
+
+<!-- HOOK: DarkGrove's post (RNT Lend ~$955K lost), then the drain as bars to scale -->
+<div class="card" id="dg" style="left:600px;top:118px;width:1096px;height:300px"><img src="img/darkgrove_t.png"></div>
+<div class="src" id="dgsrc" style="left:600px;top:430px">X · @DARKGROVEIO · 18 NOV, 21:20 UTC</div>
+<div id="bars" style="position:absolute;left:600px;top:500px;width:1100px;height:220px">
+  <div class="brow" id="br1" style="top:0"><small>NOW</small><div class="bar" id="bar1" style="width:700px;background:var(--blue)"></div><b id="v1" style="left:924px;color:var(--blue)">$955K</b></div>
+  <div class="brow" id="br2" style="top:110px"><small>FIRST REPORT</small><div class="bar" id="bar2" style="width:333px;background:#9DB8EE"></div><b id="v2" style="left:557px;color:var(--mute)">$454K</b></div>
+</div>
+<div class="stamp" id="x2" style="left:1520px;top:600px;font-size:96px;transform:rotate(-6deg)">×2</div>
+<div class="src" id="barsrc" style="left:600px;top:742px">~$955K: DARKGROVE, FINANCE CULTURE (18 NOV) · ~$454K FIRST REPORTED: CRYPTO ECONOMY (18 NOV)</div>
+
+<!-- TITLE -->
+<div class="big" id="gm" style="left:600px;width:1260px;text-align:center;top:250px;font-size:120px;color:var(--blue)">gm</div>
+<div class="big" id="ttl" style="left:600px;width:1260px;text-align:center;top:400px;font-size:170px">CT &amp; WEB3 BRIEF</div>
+<div class="big" id="date" style="left:600px;width:1260px;text-align:center;top:620px;font-size:64px;color:var(--mute)">THURSDAY · 19 NOV 2026</div>
+
+<!-- 1 RNT: Finance Culture's post, $49M taken and back, no statement -->
+<div class="card" id="cu" style="left:600px;top:110px;width:1096px;height:588px"><img src="img/cult_t.png"></div>
+<div class="src" id="cusrc" style="left:600px;top:710px">X · @CULTFINANCE_ (FINANCE CULTURE) · 18 NOV, 20:40 UTC</div>
+<div class="card" id="rl" style="left:861px;top:130px;width:738px;height:210px"><img src="img/cult.png"></div>
+<div class="src" id="rlsrc" style="left:861px;top:350px">REENTAL'S LOGO, FROM FINANCE CULTURE'S POST</div>
+<div class="big" id="m49" style="left:600px;width:1260px;text-align:center;top:420px;font-size:230px">$49M</div>
+<div class="big" id="m49l" style="left:600px;width:1260px;text-align:center;top:670px;font-size:58px;color:var(--mute)">IN PROPERTY TOKENS</div>
+<div class="stamp r" id="taken" style="left:760px;top:470px;transform:rotate(-6deg);font-size:84px">TAKEN</div>
+<div class="stamp g" id="back" style="left:957px;top:752px;transform:rotate(-3deg);font-size:62px">BACK IN ~2 HOURS</div>
+<div class="src" id="m49src" style="left:600px;width:1260px;text-align:center;top:868px">PER FINANCE CULTURE, 18 NOV · NOT CONFIRMED BY REENTAL</div>
+<div class="big" id="nos1" style="left:600px;width:1260px;text-align:center;top:200px;font-size:112px">NO OFFICIAL STATEMENT</div>
+<div class="big" id="nos2" style="left:600px;width:1260px;text-align:center;top:335px;font-size:62px;color:var(--mute)">FROM REENTAL OR RNT, YET</div>
+<div class="big" id="nos3" style="left:600px;width:1260px;text-align:center;top:470px;font-size:200px;color:var(--blue)">~$955K</div>
+<div class="stamp r" id="unc" style="left:1180px;top:640px;transform:rotate(-5deg)">UNCONFIRMED</div>
+
+<!-- 2 EXPLOITS: +2, Blockaid on K3 Capital, LUKSO -->
+<div class="big" id="plus2" style="left:600px;width:1260px;text-align:center;top:380px;font-size:140px"><span style="color:var(--red)">+2</span> MORE EXPLOITS</div>
+<div class="card" id="ba" style="left:600px;top:110px;width:1096px;height:736px"><img src="img/blockaid_t.png"></div>
+<div class="src" id="basrc" style="left:600px;top:858px">X · @BLOCKAID_ · 18 NOV, 12:50 UTC</div>
+<div class="card" id="lu" style="left:600px;top:110px;width:1096px;height:589px"><img src="img/lukso_t.png"></div>
+<div class="src" id="lusrc" style="left:600px;top:711px">X · @LUKSO_IO, POST MORTEM · 18 NOV, 12:29 UTC</div>
+<div class="panel" id="lp1" style="left:600px;top:760px"><small>UNIVERSAL PROFILES HIT</small><b>≈300</b></div>
+<div class="panel" id="lp2" style="left:950px;top:760px"><small>LYX TAKEN</small><b>≈1.4M</b></div>
+<div class="panel" id="lp3" style="left:1300px;top:760px"><small>1 LYX, 19 NOV 06:00 UTC</small><b style="color:var(--blue)">$0.24</b></div>
+
+<!-- 3 CUPSEY: Bubblemaps' post, then their wallet map -->
+<div class="card" id="bm" style="left:600px;top:110px;width:1096px;height:636px"><img src="img/bubblemaps_t.png"></div>
+<div class="src" id="bmsrc" style="left:600px;top:758px">X · @BUBBLEMAPS · 18 NOV, 13:07 UTC · THEIR CLAIMS (INVESTIGATION FIRST PUBLISHED 10 NOV)</div>
+<div class="card" id="bmm" style="left:850px;top:100px;width:750px;height:844px"><img src="img/bm_map.jpg"></div>
+<div class="src" id="bmmsrc" style="left:1620px;top:880px;width:260px;white-space:normal;line-height:1.35">BUBBLEMAPS' WALLET MAP, FROM THE SAME POST</div>
+
+<!-- 4 ANTHROPIC: the campaign closed (cap filling), then the prediction market -->
+<div class="card" id="bw" style="left:600px;top:110px;width:1096px;height:589px"><img src="img/bw_closed_t.png"></div>
+<div class="src" id="bwsrc" style="left:600px;top:711px">X · @BINANCEWALLET · 18 NOV, 10:08 UTC</div>
+<div id="gauge" style="position:absolute;left:600px;top:760px;width:1096px;height:150px;opacity:0">
+  <div style="position:absolute;left:0;top:0;font-family:Mono,monospace;font-size:20px;letter-spacing:.06em;color:var(--mute)">TOTAL SUBSCRIPTION CAP</div>
+  <div style="position:absolute;left:0;top:36px;width:780px;height:70px;border-radius:16px;background:#E3ECFB;overflow:hidden"><div id="gfill" style="width:100%;height:100%;background:var(--blue);transform-origin:0 50%"></div></div>
+  <div id="gval" style="position:absolute;left:806px;top:34px;font-family:Anton,sans-serif;font-size:70px;line-height:1;white-space:nowrap">0M USDC</div>
+</div>
+<div class="stamp r" id="closed" style="left:840px;top:772px;transform:rotate(-6deg);font-size:84px">CLOSED</div>
+<div class="card" id="bwp" style="left:600px;top:110px;width:1096px;height:636px"><img src="img/bw_pm_t.png"></div>
+<div class="src" id="bwpsrc" style="left:600px;top:758px">X · @BINANCEWALLET · 18 NOV, 12:03 UTC</div>
+
+<!-- 5 MICHIGAN: DegenTracker's post, then Michigan with the four names struck and the 25 Nov date -->
+<div class="card" id="dt" style="left:600px;top:110px;width:1096px;height:686px"><img src="img/degen_t.png"></div>
+<div class="src" id="dtsrc" style="left:600px;top:808px">X · @DEGENTRACKER_ · 18 NOV, 14:43 UTC</div>
+<img id="mi" src="img/michigan.svg" style="position:absolute;left:640px;top:150px;width:546px;height:640px;opacity:0">
+<div class="chip" id="n0" style="left:1250px;top:150px">Kalshi<s></s></div>
+<div class="chip" id="n1" style="left:1250px;top:236px">Polymarket<s></s></div>
+<div class="chip" id="n2" style="left:1250px;top:322px">Robinhood<s></s></div>
+<div class="chip" id="n3" style="left:1250px;top:408px">Coinbase<s></s></div>
+<div class="panel" id="cal" style="left:1250px;top:520px;padding:0;overflow:hidden;width:500px">
+  <div style="background:var(--red);color:#fff;font-family:Mono,monospace;font-size:20px;letter-spacing:.06em;padding:12px 24px">POLYMARKET: OPEN BETS CLOSED BY</div>
+  <div style="padding:10px 24px 18px;font-family:Anton,sans-serif;font-size:110px;line-height:1">25 NOV</div>
+</div>
+<div class="src" id="misrc" style="left:600px;width:1260px;text-align:center;top:840px">ANNOUNCED BY THE MICHIGAN GAMING CONTROL BOARD ON 28 OCT · MAP: US CENSUS (US-ATLAS)</div>
+
+<!-- 6 BINANCE: Cointelegraph's post (per Reuters), the court order, $6.3B -->
+<div class="card" id="ct" style="left:600px;top:118px;width:1096px;height:300px"><img src="img/ct_binance_t.png"></div>
+<div class="src" id="ctsrc" style="left:600px;top:430px">X · @COINTELEGRAPH · 18 NOV, 19:10 UTC · REUTERS, 18 NOV</div>
+<div class="stamp" id="court" style="left:1100px;top:520px;transform:rotate(-5deg);font-size:66px">COURT ORDER · ABU DHABI</div>
+<div class="big" id="b63" style="left:640px;top:560px;font-size:210px;color:var(--ink)">$6.3B</div>
+<div class="big" id="b63l" style="left:646px;top:790px;font-size:48px;color:var(--mute)">LAST MONTH'S HACK · 29 OCT</div>
+
+<!-- 7 VARIATIONAL: their Series B card, then the post on what the money is for -->
+<div class="card" id="va" style="left:600px;top:110px;width:1100px;height:781px"><img src="img/variational.jpg"></div>
+<div class="src" id="vasrc" style="left:600px;top:902px">X · @VARIATIONAL_IO · 18 NOV, 14:24 UTC</div>
+<div class="panel" id="v15" style="left:1330px;top:300px"><small>VALUATION</small><b style="color:var(--blue)">$1.5B</b></div>
+<div class="card" id="vt" style="left:600px;top:110px;width:1096px;height:492px"><img src="img/variational_t.png"></div>
+<div class="src" id="vtsrc" style="left:600px;top:614px">X · @VARIATIONAL_IO · 18 NOV, 14:24 UTC</div>
+<div class="chip" id="k0" style="left:600px;top:690px;font-size:40px;color:var(--blue)">STOCK</div>
+<div class="chip" id="k1" style="left:830px;top:690px;font-size:40px;color:var(--blue)">INDEX</div>
+<div class="chip" id="k2" style="left:1052px;top:690px;font-size:40px;color:var(--blue)">COMMODITY</div>
+<div class="chip" id="k3" style="left:1376px;top:690px;font-size:40px;color:var(--blue)">FX</div>
+
+<!-- 8 PANCAKE: their new banner, "Swap" falls off, then their post -->
+<div class="card" id="ph" style="left:600px;top:120px;width:1100px;height:366px"><img src="img/pancake_hero.jpg"></div>
+<div class="src" id="phsrc" style="left:600px;top:498px">PANCAKE'S NEW BANNER · ASSETS.PANCAKESWAP.FINANCE, 19 NOV</div>
+<div class="big" id="pw" style="left:600px;width:1100px;text-align:center;top:580px;font-size:190px;color:#7645D9"><span>Pancake</span><span id="pws" style="display:inline-block;transform-origin:10% 90%">Swap</span></div>
+<div class="chip" id="p6" style="left:1300px;top:650px;font-size:44px;color:#7645D9">6 YEARS</div>
+<div class="card" id="pk" style="left:600px;top:110px;width:1096px;height:539px"><img src="img/pancake_t.png"></div>
+<div class="src" id="pksrc" style="left:600px;top:661px">X · @PANCAKEFI · 18 NOV, 07:02 UTC</div>
+
+<!-- the end: the chapters fold down into a recap board, then the follow line -->
+<div id="recap"></div>
+<div class="panel" id="fol" style="left:600px;width:1260px;top:770px;text-align:center;font-size:52px;padding:22px 30px">Follow <span style="color:var(--blue)">@i_am_vickyd</span> on X</div>
+
+<div id="tiles"></div>
+<div id="shadow"></div>
+<div id="ch"><img id="ca"><img id="cb"></div>
+<div id="handle">@i_am_vickyd</div>
+<div id="brand">CT &amp; WEB3 BRIEF · THU 19 NOV</div>
+<div id="cap"></div>
+<script src="file:///home/user/cmv-alphascanner/video/lib/motion.js"></script>
+<script src="words.js"></script>
+<script src="mouth.js"></script>
+<script src="timing.js"></script>
+<script src="postboxes.js"></script>
+<script>
+const $ = id => document.getElementById(id), W = window.WORDS, FPS = 30, { E, cl } = M, TM = window.TIMING, PB = window.POSTBOXES
+const seg = (t, a, d) => cl((t - a) / d)
+let SIG = []
+const css = (el, k, v) => { el.style[k] = v; SIG.push(v) }
+// take time -> video time: a lead-in, and a breath added after the hook for the music's drop
+const T = s => s + TM.lead + (s >= TM.cut ? TM.gap : 0), ws = i => T(W[i][0]), we = i => T(W[i][1])
+const LAST = we(W.length - 1), END = LAST + TM.tail, K = TM.K
+const io = (el, t, a, b = 1e9, o = {}) => { el = typeof el === 'string' ? $(el) : el; SIG.push(M.apply(el, M.inout(t, a, b, o), o.base || '')) }
+const mk = (tag, cls, parent, style = {}, html = '') => { const e = document.createElement(tag); e.className = cls; Object.assign(e.style, style); e.innerHTML = html; parent.appendChild(e); return e }
+// rings on a post, on the boxes of the spoken words measured in the embed (screenshot pixels; posts are shown at 1:1)
+const ringsOn = (card, post, phrase, pad = 6) => (PB[post].ph[phrase] || []).map(([x0, y0, x1, y1]) => mk('div', 'ring', $(card), { left: (x0 - pad) + 'px', top: (y0 - pad) + 'px', width: (x1 - x0 + 2 * pad) + 'px', height: (y1 - y0 + 2 * pad) + 'px' }))
+const ringBox = (card, k, [x0, y0, x1, y1], pad = 8) => [mk('div', 'ring', $(card), { left: (x0 * k - pad) + 'px', top: (y0 * k - pad) + 'px', width: ((x1 - x0) * k + 2 * pad) + 'px', height: ((y1 - y0) * k + 2 * pad) + 'px' })]
+const drawRing = (rs, t, a, b = 1e9, pad = 14) => rs.forEach((e, j) => { const a2 = a + .12 * j, on = t >= a2 && t < b, u = on ? E.standard(seg(t, a2, .4)) : 0, q = on ? 1 - E.exit(seg(t, b - .18, .18)) : 0
+  css(e, 'opacity', (Math.min(1, u * 3) * q).toFixed(3)); css(e, 'clipPath', `inset(-${pad}px ${(-pad + (e.offsetWidth + 2 * pad) * (1 - u)).toFixed(1)}px -${pad}px -${pad}px)`) })
+const stamp = (el, t, a, b = 1e9, rot = 0, s0 = 1.5) => { el = typeof el === 'string' ? $(el) : el; const sp = M.spring(t, a, M.SP.pop), [qx, qy] = M.squash(t, a + .12)
+  const v = t >= b ? seg(t, b, .2) : 0, s = (s0 - (s0 - 1) * cl(sp, 0, 1.2))
+  css(el, 'opacity', ((t >= a ? cl((t - a) / .08) : 0) * (1 - v)).toFixed(3)); css(el, 'transform', `rotate(${rot}deg) scale(${(s * qx).toFixed(4)},${(s * qy).toFixed(4)})`) }
+const pop = (el, t, a, b = 1e9, base = '') => { el = typeof el === 'string' ? $(el) : el; const sp = cl(M.spring(t, a, M.SP.pop), 0, 1.3), v = t >= b ? E.exit(seg(t, b, .22)) : 0
+  css(el, 'opacity', ((t >= a ? cl((t - a) / .1) : 0) * (1 - v)).toFixed(3)); css(el, 'transform', `${base} translateY(${((1 - sp) * 30 - v * 20).toFixed(1)}px) scale(${(.6 + .4 * sp).toFixed(4)})`) }
+const IN = { dx: 60, dy: 0, d: .42 }, BIG = { dy: 30, s0: 1.15, d: .32 }
+
+// ---- the rings, on the spoken words
+const R = {
+  dg: ringsOn('dg', 'darkgrove', 'RNT Lend (~$955K lost)'),
+  cuOwn: ringsOn('cu', 'cult', 'own admin key'), cuSwap: ringsOn('cu', 'cult', 'swap the code'), cuTwice: ringsOn('cu', 'cult', 'around twice the figure first reported'),
+  baAmt: ringsOn('ba', 'blockaid', '~$3.43M drained'), baK3: [...ringsOn('ba', 'blockaid', '@k3_capital'), ...ringsOn('ba', 'blockaid', 'sBOLD on ethereum')],
+  luMail: ringsOn('lu', 'lukso', 'email-based recovery system'), luUp: ringsOn('lu', 'lukso', 'about 300 Universal Profiles'), luLyx: ringsOn('lu', 'lukso', 'around 1.4M'),
+  bm1: ringsOn('bm', 'bubblemaps', 'Baited his followers with callouts and public buys'), bm2: ringsOn('bm', 'bubblemaps', 'Dumped on them for millions $'),
+  bm3: ringsOn('bm', 'bubblemaps', 'Used a side wallet operation'), bm4: ringsOn('bm', 'bubblemaps', 'Is connected onchain to a serial rugger'),
+  bwT: ringsOn('bw', 'bw_closed', 'Anthropic IPO xStocks Campaign Is Closed'), bwCap: ringsOn('bw', 'bw_closed', 'Total Subscription Cap of 500 million USDC has been reached'),
+  bwpM: ringsOn('bwp', 'bw_pm', 'Anthropic IPO Closing Market Cap Prediction Market is now live'), bwpD: ringsOn('bwp', 'bw_pm', 'Where will it close on day one?'),
+  dtS: ringsOn('dt', 'degen', 'Michigan shuts down sports betting'), dtN: ['Kalshi', 'Polymarket,', 'Robinhood', 'Coinbase'].map(n => ringsOn('dt', 'degen', n)), dt25: ringsOn('dt', 'degen', 'by Nov 25'),
+  ctR: ringsOn('ct', 'ct_binance', 'per Reuters'), ctC: ringsOn('ct', 'ct_binance', 'court order in Abu Dhabi'), ct63: ringsOn('ct', 'ct_binance', '$6.3 billion hack'),
+  va110: ringBox('va', 1100 / 1280, [48, 250, 812, 570]), vaBain: ringBox('va', 1100 / 1280, [48, 594, 432, 688]),
+  vtO: ringsOn('vt', 'variational', 'lift open interest caps on Omni'), vtH: ringsOn('vt', 'variational', 'hundreds of new stock, index, commodity, and FX listings'),
+  pkNow: ringsOn('pk', 'pancake', 'PancakeSwap is now Pancake'), pk6: ringsOn('pk', 'pancake', '6 years ago'), pkMore: ringsOn('pk', 'pancake', 'More Than a Swap'),
+}
+
+// ---- the chapters and the recap board
+const CH = [['RNT LEND', '~$955K', 'drained; the admin key was used. Unconfirmed.'], ['EXPLOITS', '$3.43M + 1.4M LYX', 'K3 Capital’s sBOLD vault and LUKSO’s email recovery'],
+  ['CUPSEY', 'SIDE WALLETS', 'Bubblemaps ties him onchain to a serial rugger'], ['ANTHROPIC', '500M USDC', 'xStocks cap hit; a day-one market cap market opened'],
+  ['MICHIGAN', 'NOV 25', 'sports betting shut on Kalshi, Polymarket, Robinhood, Coinbase'], ['BINANCE', 'COURT ORDER', 'Abu Dhabi, to recover funds frozen after the $6.3B hack'],
+  ['VARIATIONAL', '$110M', 'Series B at $1.5B, led by Bain Capital Crypto'], ['PANCAKE', 'MORE THAN A SWAP', 'PancakeSwap is now Pancake, after six years']]
+const TL = CH.map(([n], i) => mk('div', 'tile', $('tiles'), { left: (i * 158) + 'px' }, `<i>${i + 1}</i><span${n.length > 10 ? ' style="font-size:13.5px"' : ''}>${n}</span>`))
+const RC = CH.map(([n, big, line], i) => mk('div', 'rc', $('recap'), { left: (600 + (i % 4) * 318) + 'px', top: (110 + Math.floor(i / 4) * 284) + 'px' }, `<i>${i + 1}</i><em>${n}</em><b>${big}</b><span>${line}</span>`))
+
+// one pose per line: [from word, pose]; the feet and the sideways offset of each (poses.tsv) so the poses line up
+const FEET = { '01': 887, '02': 890, '03': 889, '04': 887, '05': 889, '06': 890, '07': 890, '08': 881, '09': 889, '10': 889 }
+const HX = { '03': 24, '04': 88, '08': 6 }, SC = .8
+const POSES = TM.poses.map(([i, p]) => [i === 0 ? 0 : (i === 'end' ? LAST + .4 : ws(i) - .12), p])
+const CAP = TM.caps.map(([a, b, h], i, A) => ({ t0: ws(a) - .08, t1: Math.min(we(b) + .45, A[i + 1] ? ws(A[i + 1][0]) - .08 : LAST + .4), h }))
+const swap = async (im, src) => { if (im.getAttribute('src') !== src) { im.src = src; try { await im.decode() } catch (e) {} } SIG.push(src) }
+const ST = ['c', 'h', 'o']
+const fmt = v => v >= 100 ? Math.round(v) : v.toFixed(0)
+
+window.render = async t => {
+  SIG = []
+  css($('grid'), 'transform', `translate(${M.float(t, 20, 23).toFixed(1)}px,${M.float(t, 14, 31, .3).toFixed(1)}px)`)
+  // ---- the presenter: poses lined up on the feet (FEET, HX); each change dips just before (the weight goes down), the
+  // swap at the bottom of the dip, then a spring back; pose and mouth on whole frames so the motion-blur sub-frames agree
+  const fr = Math.round(t * FPS), tf = fr / FPS
+  let pi = 0; for (let i = 0; i < POSES.length; i++) if (tf >= POSES[i][0]) pi = i
+  const [pt, p] = POSES[pi], q = pi > 0 ? POSES[pi - 1][1] : p
+  const f = Math.min(window.MOUTH.length - 1, Math.max(0, fr)), ms = window.MOUTH[f]
+  await swap($('cb'), `img/p${p}_${ST[ms]}.png`); await swap($('ca'), `img/p${q}_c.png`)
+  css($('cb'), 'top', (FEET['01'] - FEET[p]) + 'px'); css($('ca'), 'top', (FEET['01'] - FEET[q]) + 'px')
+  css($('cb'), 'left', (HX[p] || 0) + 'px'); css($('ca'), 'left', (HX[q] || 0) + 'px')
+  css($('cb'), 'opacity', '1'); css($('ca'), 'opacity', '0')
+  const nt = POSES[pi + 1] ? POSES[pi + 1][0] : 1e9
+  const dip = E.sine(cl((t - (nt - .12)) / .12)), sp = pi > 0 ? M.spring(t, pt, { k: 300, c: 14 }) : 1
+  const d = t < nt - .12 ? (pi > 0 ? 1 - sp : 0) : dip
+  const sy = 1 - .05 * d, sx = 1 + .02 * d
+  const br = 1 + .005 * Math.sin(2 * Math.PI * t / 3.2), sw = .3 * Math.sin(2 * Math.PI * t / 5.3)
+  css($('ch'), 'top', (1050 - FEET['01']) + 'px')
+  css($('ch'), 'transform', `scale(${SC}) rotate(${sw.toFixed(3)}deg) scale(${sx.toFixed(4)},${(sy * br).toFixed(4)})`)
+
+  // ---- scene times (all on the words)
+  const S1 = ws(K.gm) - .35, A = ws(K.finance) - .3, A2 = ws(K.also) - .3, A3 = ws(K.theres) - .3
+  const B0 = ws(K.there2) - .3, B1 = ws(K.blockaid) - .3, B2 = ws(K.separately) - .3
+  const C1 = ws(K.bubble) - .3, C2 = ws(K.chain) + .05
+  const D1 = ws(K.binance) - .3, D2 = ws(K.then4) - .3
+  const E1 = ws(K.michigan) - .3, E2 = ws(K.oner) - .3
+  const F1 = ws(K.reuters) - .3, G1 = ws(K.variational) - .3, G2 = ws(K.money) - .3
+  const H1 = ws(K.and8) - .3, H2 = ws(K.its8) - .3, Z = ws(K.thats) - .3
+  const STORY = [A, B0, C1, D1, E1, F1, G1, H1, Z]
+
+  // HOOK: the post from the first frame, its words ringed; the bars to scale: NOW on "nine hundred…", the first report on
+  // "Roughly", ×2 on "double"
+  io('dg', t, -1, S1, { dy: 0, d: .01 }); io('dgsrc', t, -1, S1, { dy: 0, d: .01 })
+  drawRing(R.dg, t, ws(K.nine) - .2, S1)
+  const u1 = E.standard(seg(t, ws(K.nine), .9)), u2 = E.standard(seg(t, ws(K.roughly), .7))
+  io('br1', t, ws(K.nine) - .15, S1, { dy: 0, d: .2 }); css($('bar1'), 'transform', `scaleX(${u1.toFixed(4)})`)
+  $('v1').textContent = '$' + Math.round(955 * u1) + 'K'; SIG.push($('v1').textContent); css($('v1'), 'left', (200 + 700 * u1 + 24).toFixed(1) + 'px')
+  io('br2', t, ws(K.roughly) - .15, S1, { dy: 0, d: .2 }); css($('bar2'), 'transform', `scaleX(${u2.toFixed(4)})`)
+  $('v2').textContent = '$' + Math.round(454 * u2) + 'K'; SIG.push($('v2').textContent); css($('v2'), 'left', (200 + 333 * u2 + 24).toFixed(1) + 'px')
+  stamp('x2', t, ws(K.double) + .05, S1, -6)
+  io('barsrc', t, ws(K.roughly), S1, { dy: 8 })
+
+  // TITLE on the drop; the eight chapters land along the top one after another, and stay
+  io('gm', t, S1 + .05, A, BIG); io('ttl', t, S1 + .25, A, { dy: 40, s0: 1.2, d: .4 }); io('date', t, ws(K.thursday) - .1, A, { dy: 20, d: .3 })
+  io('brand', t, A, Z, { dy: 0, d: .3 })
+  let cur = -1; for (let i = 0; i < 8; i++) if (t >= STORY[i]) cur = i
+  TL.forEach((e, i) => { const a = S1 + .5 + .09 * i, sp = cl(M.spring(t, a, M.SP.pop), 0, 1.3), v = t >= Z ? E.exit(seg(t, Z + .04 * i, .3)) : 0
+    css(e, 'opacity', ((t >= a ? cl((t - a) / .1) : 0) * (1 - v)).toFixed(3))
+    const on = i === cur && t < Z, lift = on ? E.standard(seg(t, STORY[i], .3)) : 0
+    css(e, 'transform', `translateY(${((1 - sp) * -30 + v * 30).toFixed(1)}px) scale(${(1 + .06 * lift).toFixed(4)})`)
+    const cls = 'tile' + (on ? ' on' : (i < cur || t >= Z ? ' done' : '')); if (e.className !== cls) e.className = cls; SIG.push(cls) })
+
+  // 1 RNT LEND: Finance Culture's post, the admin key and the code ringed on their words
+  io('cu', t, A, A2, IN); io('cusrc', t, A + .2, A2, { dy: 8 })
+  drawRing(R.cuOwn, t, ws(K.own) - .1, A2); drawRing(R.cuSwap, t, ws(K.swap) - .1, A2)
+  // $49M in property tokens: taken (it slides away, red), then back (it returns, green) on "got it back"
+  io('rl', t, A2, A3, { dy: 30, d: .4 }); io('rlsrc', t, A2 + .2, A3, { dy: 8 })
+  const gone = E.standard(seg(t, ws(K.taken), .45)) * (1 - E.standard(seg(t, ws(K.got) - .05, .55)))
+  io('m49', t, ws(K.fortynine) - .1, A3, { ...BIG, base: `translateX(${(gone * 260).toFixed(1)}px)` })
+  css($('m49'), 'color', t >= ws(K.got) + .2 ? 'var(--green)' : (gone > .05 ? 'var(--red)' : 'var(--ink)'))
+  io('m49l', t, ws(K.fortynine) + .3, A3, { dy: 20, d: .3 }); io('m49src', t, ws(K.fortynine) + .4, A3, { dy: 8 })
+  stamp('taken', t, ws(K.taken) + .1, ws(K.got) - .1, -6); stamp('back', t, ws(K.twoh) - .05, A3, -5)
+  // no official statement; the figure stamped UNCONFIRMED
+  io('nos1', t, A3, B0, BIG); io('nos2', t, A3 + .2, B0, { dy: 20, d: .3 }); io('nos3', t, ws(K.theres) + 1.6, B0, BIG)
+  stamp('unc', t, ws(K.unconf) - .05, B0, -5)
+
+  // 2 EXPLOITS: +2, Blockaid on K3 Capital (amount, then the vault), LUKSO (email recovery, profiles, LYX)
+  io('plus2', t, B0, B1, BIG)
+  io('ba', t, B1, B2, IN); io('basrc', t, B1 + .2, B2, { dy: 8 })
+  drawRing(R.baAmt, t, ws(K.three) - .1, B2); drawRing(R.baK3, t, ws(K.k3) - .1, B2)
+  io('lu', t, B2, C1, IN); io('lusrc', t, B2 + .2, C1, { dy: 8 })
+  drawRing(R.luMail, t, ws(K.email) - .1, C1); drawRing(R.luUp, t, ws(K.threeh) - .1, C1); drawRing(R.luLyx, t, ws(K.onep) - .1, C1)
+  pop('lp1', t, ws(K.threeh) + .1, C1); pop('lp2', t, ws(K.onep) + .1, C1); pop('lp3', t, ws(K.onep) + .7, C1)
+
+  // 3 CUPSEY: Bubblemaps' four lines ringed on the words, then their wallet map on "on chain"
+  io('bm', t, C1, C2, IN); io('bmsrc', t, C1 + .2, C2, { dy: 8 })
+  drawRing(R.bm1, t, ws(K.baited) - .1, C2); drawRing(R.bm2, t, ws(K.dumped) - .1, C2); drawRing(R.bm3, t, ws(K.side) - .1, C2); drawRing(R.bm4, t, ws(K.they3), C2)
+  io('bmm', t, C2, D1, { dy: 40, s0: .96, d: .45 }); io('bmmsrc', t, C2 + .3, D1, { dy: 8 })
+
+  // 4 ANTHROPIC: the campaign post; the cap fills to 500M on "hit its… cap", CLOSED on "closed"; the prediction market
+  io('bw', t, D1, D2, IN); io('bwsrc', t, D1 + .2, D2, { dy: 8 })
+  drawRing(R.bwCap, t, ws(K.five) - .1, D2); drawRing(R.bwT, t, ws(K.closed) - .1, D2)
+  const g = E.inOut ? E.inOut(seg(t, ws(K.hit), ws(K.cap) - ws(K.hit))) : E.standard(seg(t, ws(K.hit), ws(K.cap) - ws(K.hit)))
+  io('gauge', t, ws(K.hit) - .25, D2, { dy: 20, d: .3 }); css($('gfill'), 'transform', `scaleX(${g.toFixed(4)})`)
+  $('gval').textContent = Math.round(500 * g) + 'M USDC'; SIG.push($('gval').textContent)
+  stamp('closed', t, ws(K.closed) - .02, D2, -6)
+  io('bwp', t, D2, E1, IN); io('bwpsrc', t, D2 + .2, E1, { dy: 8 })
+  drawRing(R.bwpM, t, ws(K.pred) - .1, E1); drawRing(R.bwpD, t, ws(K.close4) - .1, E1)
+
+  // 5 MICHIGAN: the post, the shutdown and each name ringed on its word; then Michigan, the names struck, 25 NOV
+  io('dt', t, E1, E2, IN); io('dtsrc', t, E1 + .2, E2, { dy: 8 })
+  drawRing(R.dtS, t, ws(K.shutting) - .1, E2); ['kalshi', 'poly', 'robin', 'coinbase'].forEach((w, i) => drawRing(R.dtN[i], t, ws(K[w]) - .1, E2))
+  io('mi', t, E2, F1, { dy: 30, s0: .94, d: .45 })
+  ;[0, 1, 2, 3].forEach(i => { io('n' + i, t, E2 + .25 + .1 * i, F1, { dx: 50, dy: 0, d: .35 }); css($('n' + i).querySelector('s'), 'transform', `scaleX(${E.standard(seg(t, E2 + .7 + .12 * i, .3)).toFixed(3)})`) })
+  pop('cal', t, ws(K.nov25) - .05, F1); io('misrc', t, ws(K.nov25) + .3, F1, { dy: 8 })
+
+  // 6 BINANCE: the post, "per Reuters", the court order (stamp), $6.3B (giant) on their words
+  io('ct', t, F1, G1, IN); io('ctsrc', t, F1 + .2, G1, { dy: 8 })
+  drawRing(R.ctR, t, ws(K.reuters) - .05, G1); drawRing(R.ctC, t, ws(K.court) - .1, G1); drawRing(R.ct63, t, ws(K.six) - .1, G1)
+  stamp('court', t, ws(K.abu) - .05, G1, -5, 1.25)
+  io('b63', t, ws(K.six) - .05, G1, BIG); io('b63l', t, ws(K.six) + .5, G1, { dy: 20, d: .3 })
+
+  // 7 VARIATIONAL: their card ($110M ringed, $1.5B panel, Bain Capital Crypto ringed), then the post on the money
+  io('va', t, G1, G2, IN); io('vasrc', t, G1 + .2, G2, { dy: 8 })
+  drawRing(R.va110, t, ws(K.onehund) - .1, G2); pop('v15', t, ws(K.onep5) - .05, G2); drawRing(R.vaBain, t, ws(K.bain) - .1, G2)
+  io('vt', t, G2, H1, IN); io('vtsrc', t, G2 + .2, H1, { dy: 8 })
+  drawRing(R.vtO, t, ws(K.open7) - .1, H1); drawRing(R.vtH, t, ws(K.hundreds) - .1, H1)
+  ;['stock', 'index', 'commodity', 'fx'].forEach((w, i) => pop('k' + i, t, ws(K[w]) - .05, H1))
+
+  // 8 PANCAKE: their new banner; "PancakeSwap" loses its "Swap" on "just"; then their post, the words ringed
+  io('ph', t, H1, H2, IN); io('phsrc', t, H1 + .2, H2, { dy: 8 })
+  io('pw', t, H1 + .3, H2, BIG)
+  const fall = seg(t, ws(K.just), .8), fe = fall * fall
+  css($('pws'), 'transform', `translate(${(fe * 50).toFixed(1)}px,${(fe * 240).toFixed(1)}px) rotate(${(E.standard(fall) * 24).toFixed(2)}deg)`); css($('pws'), 'opacity', (1 - seg(t, ws(K.just) + .35, .3)).toFixed(3))
+  io('pk', t, H2, Z, IN); io('pksrc', t, H2 + .2, Z, { dy: 8 })
+  drawRing(R.pkNow, t, H2 + .25, Z); drawRing(R.pkMore, t, ws(K.more8) - .1, Z)
+  pop('p6', t, ws(K.six8) - .05, H2)
+
+  // THE END: the eight chapters fold down into the recap board, then the follow line
+  RC.forEach((e, i) => io(e, t, Z + .1 + .07 * i, 1e9, { dy: -40, s0: .9, d: .4 }))
+  pop('fol', t, ws(K.follow) - .1)
+
+  // ---- captions
+  const c = CAP.find(x => t >= x.t0 && t < x.t1), html = c ? '<span>' + c.h + '</span>' : ''
+  if ($('cap').innerHTML !== html) $('cap').innerHTML = html
+  SIG.push(html); css($('cap'), 'opacity', c ? Math.min(1, (t - c.t0) / .12).toFixed(3) : '0')
+  return SIG.join('|')
+}
+window.READY = Promise.all([document.fonts.load('80px Anton'), document.fonts.load('800 40px Man'), document.fonts.load('700 30px Mono'),
+  ...[...document.images].map(i => i.decode ? i.decode().catch(() => 0) : 1)])
+</script>
+</body></html>
