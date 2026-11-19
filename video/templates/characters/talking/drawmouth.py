@@ -4,7 +4,7 @@
 #   python3 -I drawmouth.py <pose.png> <cx> <out_prefix> <mx> <my> <lx> <rx>   -> <out>_half.png, <out>_open.png, <out>_mouth.json
 # mx, my: the centre of the mouth and the row where the lips meet; lx, rx: the corners (per pose in poses.tsv,
 # measured from row-brightness profiles through the mouth: an automatic search picked the cheek, then the moustache).
-import sys, json, numpy as np
+import os, sys, json, numpy as np
 from PIL import Image, ImageDraw, ImageFilter
 src, cx, out = sys.argv[1], int(sys.argv[2]), sys.argv[3]   # then: mx my lx rx
 im = Image.open(src).convert('RGB'); A = np.asarray(im).astype(np.float32)
@@ -41,7 +41,9 @@ def make(D):
     mask = Image.new('L', layer.size, 0); ImageDraw.Draw(mask).polygon(poly, fill=255)
     tongue_clip = Image.composite(layer, Image.new('RGBA', layer.size, (0, 0, 0, 0)), mask)
     teeth_clip = Image.composite(teeth, Image.new('RGBA', layer.size, (0, 0, 0, 0)), mask)
-    lay = Image.alpha_composite(tongue_clip, teeth_clip)
+    # NOTEETH=1: a pose drawn with a toothy grin (10 Thumbs up) already shows its top teeth, so the line given is the
+    # bottom of those teeth and the opening below it gets no second row
+    lay = tongue_clip if os.environ.get('NOTEETH') else Image.alpha_composite(tongue_clip, teeth_clip)
     # outline
     od = ImageDraw.Draw(lay); od.line(poly + [poly[0]], fill=(26, 13, 9, 255), width=int(2.2 * S4), joint='curve')
     lay = lay.resize((bw, bh), Image.LANCZOS)

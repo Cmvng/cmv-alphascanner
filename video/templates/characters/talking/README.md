@@ -69,4 +69,6 @@ change.
   - The demo was re-voiced with one Olawale take (364 credits): `cmv-character-demo-olawale.mp4`.
   - The first full video in this format is `../../explainer/primus-proof-of-creation-2026-11-17/`. It uses a free
     male voice (Kokoro am_fenrir, at the owner's pitch), because ElevenLabs had run out of credits.
-- **Still open:** 12 more poses can be added when the owner sends them; each needs its lip line measured first.
+- **Poses:** 10 of 19 since 19 Nov (03 Explaining, 08 Surprised and 10 Thumbs Up added). The lip line, feet and
+  sideways offset of each are in `poses.tsv`. Thumbs Up already shows its teeth, so its mouth opens below them
+  (`NOTEETH=1 drawmouth.py`). In a page, use `FEET` and `HX` from `poses.tsv`.

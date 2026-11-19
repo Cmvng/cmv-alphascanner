@@ -1,8 +1,11 @@
-pose	cx	mx	my	lx	rx	feet_599x899
-01_Standing	518	522	204	470	575	887
-02_Thinking	485	506	200	472	540	890
-04_Pointing	336	336	200	296	376	887
-05_Key_Point	520	528	202	478	578	889
-06_Counting	520	526	208	475	577	890
-07_Shrug	521	527	209	484	571	890
-09_Arms_Crossed	520	526	208	473	580	889
+pose	cx	mx	my	lx	rx	feet_599x899	hx_599	note
+01_Standing	518	522	204	470	575	887	0	
+02_Thinking	485	506	200	472	540	890	0	
+03_Explaining	482	482	206	432	532	889	24	
+04_Pointing	336	336	200	296	376	887	88	
+05_Key_Point	520	528	202	478	578	889	0	
+06_Counting	520	526	208	475	577	890	0	
+07_Shrug	521	527	209	484	571	890	0	
+08_Surprised	513	513	206	463	563	881	6	figure 1% shorter; hands on the cheeks clear the jaw
+09_Arms_Crossed	520	526	208	473	580	889	0	
+10_Thumbs_Up	514	514	217	476	552	889	0	toothy grin: line = bottom of the teeth, drawn with NOTEETH=1
