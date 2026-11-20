@@ -1,0 +1,5 @@
+const { chromium } = require('/opt/node22/lib/node_modules/playwright')
+;(async () => { const [page, out, ...ts] = process.argv.slice(2); const b = await chromium.launch({ args: ['--allow-file-access-from-files'] })
+  const p = await b.newPage({ viewport: { width: 1080, height: 1920 } }); p.on('pageerror', e => console.log('ERR', e.message)); p.on('console', m => console.log('LOG', m.text()))
+  await p.goto('file://' + page); await p.evaluate(() => window.READY)
+  for (const t of ts) { await p.evaluate(t => window.render(+t), t); await p.screenshot({ path: `${out}_${t}.png` }) } await b.close() })()

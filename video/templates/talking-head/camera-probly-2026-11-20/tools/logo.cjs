@@ -1,0 +1,5 @@
+const { chromium } = require('/opt/node22/lib/node_modules/playwright')
+;(async () => { const b = await chromium.launch(); const p = await b.newPage({ viewport: { width: 1280, height: 800 } })
+  await p.goto('https://www.probly.com/en', { waitUntil: 'domcontentloaded', timeout: 60000 }); await p.waitForTimeout(6000)
+  const s = await p.evaluate(() => { const e = document.querySelector('header svg') || document.querySelector('svg[viewBox="0 0 100 25.022"]'); const c = getComputedStyle(e).color; return [e.outerHTML, c] })
+  require('fs').writeFileSync(process.argv[2], s[0]); console.log('color', s[1], s[0].length); await b.close() })()

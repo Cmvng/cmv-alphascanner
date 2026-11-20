@@ -1,0 +1,346 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Probly (the owner's 20 Nov recording): illustrations around what they say</title>
+<style>
+@font-face{font-family:Anton;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/anton-latin-400-normal.woff2)}
+@font-face{font-family:Manrope;font-weight:600;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-600-normal.woff2)}
+@font-face{font-family:Manrope;font-weight:800;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-800-normal.woff2)}
+@font-face{font-family:Mono;font-weight:700;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/jetbrains-mono-latin-700-normal.woff2)}
+/* The owner talks about Probly, on their untouched picture and sound (their own car selfie, 60 fps, one encode). The
+   owner: "create an illustration around what I am talking about". Concept: THE PLAY, ACTED OUT ON PROBLY'S OWN PAGES.
+   Every line lands on the real Probly page it is about (the category bar, the Safety Net page, its steps, the deposit
+   docs, the Bayern v Köln and Newcastle v Arsenal markets in Lagos time), ringed on the owner's words; one $50 coin
+   travels their example in their order (into the deposit, onto Bayern), the $25 comes back the same way each time it
+   is said (a green coin), it goes onto Arsenal, two ticks, WITHDRAW, then the weekend (burger, pizza, movies).
+   Moves, and the sample each comes from (video/templates/STYLE-LIBRARY.md):
+     - giant type BEHIND the head: A PREDICTION MARKET, WEEKEND (S1, S3, S4);
+     - real pages in a card, the spoken words ringed, a source label under each (S3);
+     - the product acted out: a coin that follows the money from page to page (S6);
+     - the $25 shown the same way every time it is said (S4);
+     - a row of days that lights to the end date (S1 timeline), ticks and a stamp (S1, S2);
+     - three numbered steps (S5); icons on their words (S2); word-by-word captions with big key phrases (S2, S3, S4).
+   The recording frames the owner low: the top of the head sits about y 960, so every card lives in the ceiling above
+   it (y 40 to 890) and the captions sit on the shirt (y 1700). #bk is drawn behind the owner (the renderer hides it
+   wherever the owner's outline is; the outline is made only for 0-8.6 s and 81.2-86.6 s). Probly keeps its own purple
+   (#7132F5) and its own wordmark (the SVG from its site). Icons: Microsoft Fluent Emoji 3D (MIT), never over 256 px. */
+:root{--ink:#0B1F4D;--deep:#0A1A44;--blue:#1F5FDB;--sky:#7CC4FF;--mute:#6B7A99;--line:#E3E9F4;--red:#E5484D;--green:#12A150;--pb:#7132F5}
+*{box-sizing:border-box}
+html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:transparent;font-family:Manrope,sans-serif;font-weight:800;color:#fff}
+.mono{font-family:Mono,monospace;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
+.it{position:absolute;left:0;top:0;width:1080px;display:flex;flex-direction:column;align-items:center;opacity:0;transform-origin:50% 40%}
+.ic{position:relative;width:200px;height:200px}
+.ic img{width:200px;height:200px;display:block;filter:drop-shadow(0 16px 22px rgba(4,10,36,.45))}
+.lb{margin-top:10px;font-size:44px;line-height:54px;letter-spacing:-.005em;white-space:nowrap;-webkit-text-stroke:8px var(--deep);paint-order:stroke fill;text-shadow:0 6px 16px rgba(4,10,36,.5)}
+.lb b{color:var(--sky);font-weight:800}
+.pill{display:flex;align-items:center;height:104px;padding:0 16px 0 34px;border-radius:52px;background:#0B1F4D;box-shadow:0 18px 40px rgba(4,10,36,.45);font-size:40px;white-space:nowrap}
+.pill span{margin-left:22px;height:70px;padding:0 26px;border-radius:35px;background:var(--blue);color:#fff;font-size:34px;line-height:70px}
+.chip{height:96px;padding:0 36px;border-radius:48px;font-size:42px;line-height:94px;white-space:nowrap;background:#fff;color:var(--ink);box-shadow:0 16px 34px rgba(4,10,36,.42);display:flex;align-items:center;gap:16px}
+.chip b{font-weight:800;color:var(--blue)}
+.chip img{width:66px;height:66px;display:block}
+.stamp{font-family:Anton,sans-serif;font-weight:400;font-size:110px;line-height:1;letter-spacing:.03em;white-space:nowrap;padding:22px 44px 18px;border-radius:22px;border:10px solid currentColor;background:rgba(255,255,255,.96);box-shadow:0 18px 40px rgba(4,10,36,.45);color:var(--green)}
+.bt{font-family:Anton,sans-serif;font-weight:400;line-height:.92;letter-spacing:.01em;white-space:nowrap;color:#fff;-webkit-text-stroke:12px var(--deep);paint-order:stroke fill;text-shadow:0 12px 26px rgba(4,10,36,.45)}
+.bt b{font-weight:400;color:var(--sky)}
+.plate{height:170px;padding:0 54px;border-radius:44px;background:#fff;box-shadow:0 18px 40px rgba(4,10,36,.45);display:flex;align-items:center}
+.plate img{height:104px;display:block}
+/* a real page: the capture shown at its own pixels or a little under, inside a window with rounded edges */
+.win{position:relative;border-radius:30px;overflow:hidden;background:#fff;box-shadow:0 22px 50px rgba(4,10,36,.5)}
+.win>img{position:absolute;left:0;display:block}
+.ring{position:absolute;border:6px solid var(--blue);border-radius:14px;box-shadow:0 0 0 6px rgba(31,95,219,.18);opacity:0}
+.lab{margin-top:14px;height:54px;padding:0 24px;border-radius:27px;background:#fff;color:var(--ink);font-family:Mono,monospace;font-weight:700;font-size:21px;line-height:54px;letter-spacing:.05em;white-space:nowrap;box-shadow:0 12px 26px rgba(4,10,36,.35)}
+.lab b{color:var(--pb)}
+/* the coins that follow the money */
+.coin{position:absolute;left:0;top:0;width:180px;height:180px;margin:-90px 0 0 -90px;border-radius:50%;background:radial-gradient(circle at 34% 28%,#8CCBFF 0%,#2F7BF0 52%,#1747B8 100%);
+  box-shadow:inset 0 -10px 0 rgba(0,0,0,.18),inset 0 8px 0 rgba(255,255,255,.35),0 18px 34px rgba(4,10,36,.42);color:#fff;font-family:Anton,sans-serif;font-size:70px;line-height:180px;text-align:center;opacity:0;
+  border:6px solid rgba(255,255,255,.85)}
+.coin.g{background:radial-gradient(circle at 34% 28%,#A6F0C2 0%,#1DB862 52%,#0E7A3D 100%)}
+.coin small{position:absolute;left:50%;top:150px;transform:translateX(-50%);height:44px;padding:0 16px;border-radius:22px;background:#fff;color:var(--green);font-family:Mono,monospace;font-weight:700;font-size:20px;line-height:44px;letter-spacing:.06em;white-space:nowrap;box-shadow:0 8px 18px rgba(4,10,36,.3)}
+/* ticks */
+.ticks{display:flex;gap:22px}
+.tk{display:flex;align-items:center;gap:16px;height:100px;padding:0 34px 0 16px;border-radius:50px;background:#fff;color:var(--ink);font-size:44px;white-space:nowrap;box-shadow:0 16px 34px rgba(4,10,36,.42);opacity:0}
+.tk i{font-style:normal;display:block;width:70px;height:70px;border-radius:35px;background:var(--green);color:#fff;font-size:44px;line-height:70px;text-align:center}
+/* the days */
+.days{display:flex;gap:16px}
+.day{width:156px;height:178px;border-radius:26px;background:#fff;overflow:hidden;box-shadow:0 14px 30px rgba(4,10,36,.4);color:var(--ink);opacity:0}
+.day small{display:block;height:44px;background:#E3ECFB;color:var(--blue);font-family:Mono,monospace;font-weight:700;font-size:20px;letter-spacing:.08em;line-height:44px;text-align:center}
+.day b{display:block;font-family:Anton,sans-serif;font-weight:400;font-size:96px;line-height:128px;text-align:center}
+.day.today small{background:var(--blue);color:#fff}.day.end small{background:var(--pb);color:#fff}.day.end b{color:var(--pb)}
+/* steps */
+.steps{width:930px;border-radius:40px;background:rgba(255,255,255,.97);box-shadow:0 22px 50px rgba(4,10,36,.5);padding:26px 34px;color:var(--ink)}
+.st{display:flex;align-items:center;gap:26px;height:138px;opacity:0}
+.st i{flex:none;font-style:normal;width:86px;height:86px;border-radius:43px;background:var(--pb);color:#fff;font-family:Anton,sans-serif;font-size:54px;line-height:88px;text-align:center}
+.st span{font-size:50px;white-space:nowrap}
+.st img{height:58px;margin-left:4px}
+/* the follow pill: ours, not a copy of any app's button */
+#fol{display:flex;align-items:center;height:112px;padding:0 14px 0 40px;border-radius:56px;background:#fff;color:var(--ink);font-size:46px;box-shadow:0 18px 40px rgba(4,10,36,.5)}
+#fbt{margin-left:26px;height:84px;width:290px;border-radius:42px;background:var(--ink);color:#fff;font-size:38px;line-height:82px;text-align:center}
+/* ---- captions: word by word on the shirt; key phrases go big under them */
+#cap{position:absolute;left:0;top:1700px;width:1080px;text-align:center;font-size:56px;line-height:72px;letter-spacing:-.005em;white-space:nowrap}
+#cap span{display:inline-block;margin:0 .13em;-webkit-text-stroke:9px var(--deep);paint-order:stroke fill;text-shadow:0 6px 16px rgba(4,10,36,.5)}
+#cap span.k{color:var(--sky)}
+#big{position:absolute;left:0;top:1776px;width:1080px;text-align:center;font-size:108px;line-height:124px;letter-spacing:-.02em;white-space:nowrap;color:var(--sky);opacity:0;
+  -webkit-text-stroke:13px var(--deep);paint-order:stroke fill;text-shadow:0 10px 26px rgba(4,10,36,.55);transform-origin:50% 50%}
+/* ---- end card */
+#end{position:absolute;left:0;top:0;width:1080px;height:1920px;background:linear-gradient(180deg,#F4F8FF,#DCE9FF);opacity:0;color:var(--ink)}
+#end .c{position:absolute;left:0;width:1080px;text-align:center}
+.ec{display:inline-block;height:76px;padding:0 32px;border-radius:38px;font-size:36px;line-height:74px;background:#fff;border:1.5px solid var(--line);margin:0 6px 16px;opacity:0;white-space:nowrap}
+.ec b{color:var(--pb)}
+/* ---- layers */
+#bk{position:absolute;inset:0}
+body.L-behind #top,body.L-behind #cap,body.L-behind #big,body.L-behind #end{display:none}
+body.L-front #bk{display:none}
+</style></head>
+<body>
+<div id="bk"></div>
+<div id="top"></div>
+<div id="cap"></div>
+<div id="big"></div>
+
+<div id="end">
+  <div class="c" style="top:300px"><div class="win" id="eshield" style="display:inline-block;width:300px;height:390px;border-radius:40px;opacity:0"><img src="img/cap/sn.png" style="width:900px;left:-300px;top:-182px"></div></div>
+  <div class="c" style="top:700px"><img id="elogo" src="img/probly_logo.svg" style="width:520px;opacity:0"></div>
+  <div class="c" id="etag" style="top:860px;font-size:46px;letter-spacing:-.01em;opacity:0;white-space:nowrap">Safety Net: <span style="color:var(--pb)">your losses on us</span></div>
+  <div class="c" style="top:970px;padding:0 50px"><span class="ec" id="e0"></span><span class="ec" id="e1"></span><span class="ec" id="e2"></span></div>
+  <div class="c mono" id="eget" style="top:1250px;font-size:25px;color:var(--blue);opacity:0">probly.com · 18+ · terms apply · read 20 Nov 2026</div>
+  <div class="c" id="eby" style="top:1360px;font-size:48px;opacity:0">Follow <span style="color:var(--blue)">@i_am_vickyd</span> on X</div>
+</div>
+
+<script src="plan.js"></script>
+<script src="tok.js"></script>
+<script src="boxes.js"></script>
+<script>
+const P = window.PLAN, $ = id => document.getElementById(id), BX = window.BOXES
+const cl = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x))
+const seg = (t, a, d) => cl((t - a) / d)
+const eo = x => 1 - Math.pow(1 - x, 3), eio = x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2
+const back = x => { const c = 1.9; return 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2) }
+let SIG = []
+const st = (el, o) => { for (const k in o) { const v = typeof o[k] === 'number' ? +o[k].toFixed(3) : o[k]; el.style[k] = v; SIG.push(v) } }
+const NOTEXT = location.hash.includes('notext')
+const LAYER = ['behind', 'front'].find(h => location.hash.includes(h)) || 'all'      // the renderer draws each layer on its own
+document.body.classList.add('L-' + LAYER)
+const I = n => `img/e/${n}.png`
+const wt = i => P.wt[i], we = i => P.we[i]
+// ---- every caption word's time comes from tokens.py (tok.js)
+const CAPS = P.caps.map((c, ci) => {
+  const toks = []; let em = false
+  for (const raw of c.t.split(' ')) {
+    let w = raw; const open = w.startsWith('*'); if (open) { em = true; w = w.slice(1) }
+    const close = w.replace(/[.,?!:]+$/, '').endsWith('*'); const k = em; if (close) { em = false; w = w.replace('*', '') }
+    toks.push({ w, k })
+  }
+  toks.forEach((k, i) => k.t = window.TOK[ci][i])
+  return { ...c, ci, toks }
+})
+// key phrases that go big: caption index -> the phrase (the owner's words)
+const BIG = { 6: '$25.', 8: 'predict and trade $50', 12: '$50 on Bayern Munich', 17: '24th of November.', 20: '$25 in bonus.', 22: 'withdraw.', 25: 'link is on this post', 28: 'weekend' }
+const len = a => a.reduce((n, x) => n + x.w.length + 1, -1)
+for (const c of CAPS) {
+  const b = BIG[c.ci]; c.small = c.toks; c.chunks = []; let groups = [c.toks]
+  if (b) { const bw = b.split(' '), n = bw.length, i0 = c.toks.findIndex((k, i) => bw.every((w, j) => c.toks[i + j] && c.toks[i + j].w.replace(/[.,?!:]+$/, '') === w.replace(/[.,?!:]+$/, '')))
+    if (i0 >= 0) { c.big = { text: b, t: c.toks[i0].t }; groups = [c.toks.slice(0, i0), c.toks.slice(i0 + n)]; c.small = groups.flat() } else console.log('BIG PHRASE NOT FOUND', c.ci, b) }
+  for (const g of groups) {
+    const out = []; let cur = []
+    const flush = () => { if (cur.length) out.push(cur); cur = [] }
+    for (const k of g) {
+      if (cur.length && (cur.length >= 3 || len(cur) + 1 + k.w.length > 17)) flush()
+      cur.push(k); if (/[.,?!:]$/.test(k.w) && cur.length >= 2) flush()
+    }
+    flush()
+    const n = out.length
+    if (n > 1 && out[n - 1].length === 1 && len(out[n - 2]) + 1 + out[n - 1][0].w.length <= 19 && !/[.,?!:]$/.test(out[n - 2][out[n - 2].length - 1].w)) out.splice(n - 2, 2, [...out[n - 2], ...out[n - 1]])
+    c.chunks.push(...out)
+  }
+}
+let CHUNKS = []
+CAPS.forEach(c => c.chunks.forEach((ch, i) => CHUNKS.push({ c, ch, t0: i === 0 ? Math.min(ch[0].t, c.o0) : ch[0].t - .04 })))
+CHUNKS.forEach((x, i) => { const nx = CHUNKS[i + 1]; x.t1 = Math.min(nx ? nx.t0 : 1e9, (x.c.chunks[x.c.chunks.length - 1] === x.ch ? x.c.o1 + .3 : 1e9)) })
+const capHtml = ch => ch.map(k => `<span${k.k ? ' class="k"' : ''}>${k.w}</span>`).join('')
+
+// ---- things above and beside the head (in front), and behind it (bk)
+const TOP = $('top'), ITEMS = []
+function item(a, b, html, o = {}) {
+  const el = document.createElement('div'); el.className = 'it'; el.style.top = (o.y ?? 150) + 'px'; el.innerHTML = html; (o.bk ? $('bk') : TOP).appendChild(el)
+  const it = { a, b, el, bk: !!o.bk, rot: o.rot || 0 }; ITEMS.push(it); return it
+}
+const ic = n => `<div class="ic"><img src="${I(n)}"></div>`
+const lb = s => `<div class="lb">${s}</div>`
+// a real page: capture <file> (960 px wide, 2x) from y0 to y1, at scale s; rings = {id: [[x0,y0,x1,y1], ...]} in capture px
+const WIN = {}
+function win(id, file, y0, y1, s, rings, label) {
+  const w = 960 * s, h = (y1 - y0) * s
+  WIN[id] = { y0, s, w, h }
+  const rs = Object.entries(rings).map(([rid, bs]) => bs.map((b, j) => `<div class="ring" id="${rid}${j}" data-r="${rid}" style="left:${(b[0] * s - 9).toFixed(1)}px;top:${((b[1] - y0) * s - 6).toFixed(1)}px;width:${((b[2] - b[0]) * s + 18).toFixed(1)}px;height:${((b[3] - b[1]) * s + 12).toFixed(1)}px"></div>`).join('')).join('')
+  return `<div class="win" id="${id}" style="width:${w.toFixed(1)}px;height:${h.toFixed(1)}px"><img src="img/cap/${file}" style="width:${w.toFixed(1)}px;top:${(-y0 * s).toFixed(1)}px">${rs}</div>` + (label ? `<div class="lab">${label}</div>` : '')
+}
+const U = (...bs) => [[Math.min(...bs.map(b => b[0])), Math.min(...bs.map(b => b[1])), Math.max(...bs.map(b => b[2])), Math.max(...bs.map(b => b[3]))]]   // one ring round several boxes on one line
+const B = (cap, k, i = 0) => BX[cap][k][i]
+const RINGS = []                                                        // [ring id, on at, off at]
+const ring = (rid, a, b) => RINGS.push([rid, a, b])
+// where a point of a capture lands on the page (card centred by .it, at y)
+const at = (id, y, x, cy) => { const W = WIN[id]; return [(1080 - W.w) / 2 + x * W.s, y + (cy - W.y0) * W.s] }
+
+// scene starts, each just before its first word
+const A = wt(18) - .3, Bs = wt(39) - .3, C = wt(61) - .3, D = wt(77) - .3, E = wt(97) - .3, F = wt(123) - .3, F2 = wt(146) - .3
+const G = wt(154) - .3, H = wt(174) - .3, Ih = wt(193) - .3, J = wt(199) - .3, L = wt(216) - .3, M = wt(232) - .3
+
+// 0. the hook: A PREDICTION MARKET behind the head from the first frame; Probly's own wordmark on "Probly"
+item(0, A, `<div class="pill">@i_am_vickyd<span>20 Nov 2026</span></div>`, { y: 56 })
+item(0, A, `<div class="bt" style="font-size:150px">A PREDICTION</div><div class="bt" style="font-size:250px;margin-top:4px"><b>MARKET</b></div>`, { y: 680, bk: 1 })
+item(wt(14) - .1, A, `<div class="lb" style="font-size:48px">called</div>`, { y: 220 })
+item(wt(15) - .12, A, `<div class="plate"><img src="img/probly_logo.svg"></div>`, { y: 300 })
+
+// 1. "any regular prediction market... sports, politics, any other thing": Probly's own front page, the categories ringed
+const YA = 70
+item(A, Bs, win('wA', 'homeN.png', 0, 660, 1, { rSp: [B('homeN', 'Sports')], rPo: [B('homeN', 'Politics')], rAn: [B('homeN', 'Next CEO of NVIDIA?')] }, 'probly.com · <b>front page</b> · 20 Nov 2026'), { y: YA })
+ring('rSp', wt(32) - .1, Bs); ring('rPo', wt(33) - .1, Bs); ring('rAn', wt(34) - .1, Bs)
+
+// 2. "the good thing... a trading bonus up to $25": the Safety Net page itself
+const YB = 46
+item(Bs, C, win('wB', 'sn.png', 150, 1130, .84, { rSN: [B('sn', 'Safety Net')], rTB: [B('sn', 'of it as a trading bonus.')], r25: [B('sn', '$25')] }, 'probly.com/safety-net · read 20 Nov 2026'), { y: YB })
+ring('rSN', wt(41) - .1, wt(56) - .2); ring('rTB', wt(56) - .1, C); ring('r25', wt(60) - .1, C)
+
+// 3. "predict and trade $50 worth of any market": the page's own steps, the line ringed; the $50 coin
+const YC = 40
+item(C, D, win('wC', 'snH.png', 470, 1560, .78, { rT50: U(B('snH', 'Trade', 0), B('snH', 'different days')) }, 'probly.com/safety-net · <b>how it works</b>'), { y: YC })
+ring('rT50', wt(71) - .1, D)
+
+// 4. "deposit $50 in crypto... from Solana, from Base, from any chain": the deposit docs and the network list
+const YD1 = 40, YD2 = 470
+item(D, E, win('wD1', 'conv.png', 150, 600, .92, { rDep: [B('conv', 'Click on Deposit')], rCry: [B('conv', 'send any of the supported crypto')], rAny: BX.conv['Any required conversion is handled automatically.'] }), { y: YD1 })
+item(wt(89) - .3, E, win('wD2', 'net.png', 220, 650, .92, { rSol: [B('net', 'Solana')], rBas: [B('net', 'Base')] }, 'docs.probly.com · <b>deposits &amp; withdrawals</b>'), { y: YD2 })
+ring('rDep', wt(84) - .1, E); ring('rCry', wt(87) - .1, E); ring('rSol', wt(89) - .1, E); ring('rBas', wt(93) - .1, E); ring('rAny', wt(95) - .05, E)
+
+// 5. "$50 on Bayern Munich to win today, this evening": the real market in Lagos time; the coin lands on Bayern
+const YE = 50
+item(E, F, win('wE', 'bayL.png', 360, 1230, .92, { rBay: [[164, 520, 290, 700]], rEve: U(B('bayL', 'November 20'), B('bayL', '8:30 PM')) }, 'probly.com · bayern vs köln · <b>lagos time</b>'), { y: YE })
+ring('rBay', wt(110) - .05, F); ring('rEve', wt(117) - .1, F)
+
+// 6. "$25 worth of trading bonus... in any 3 days": the page's steps 2 and 3
+const YF = 46
+item(F, F2, win('wF', 'snH.png', 1000, 2010, .82, { rG25: U(B('snH', 'Get up to'), B('snH', 'back on losses')), r3d: U(B('snH', 'Trade', 0), B('snH', 'different days')) }, 'probly.com/safety-net · <b>how it works</b>'), { y: YF })
+ring('rG25', wt(128) - .1, F2); ring('r3d', wt(144) - .1, F2)
+
+// 6b. "it ends on the 24th of November": the page's dates, and the days from today to the end
+const YF2 = 40
+item(F2, G, win('wF2', 'sn.png', 660, 1250, .95, { rDate: [B('sn', 'Nov 12, 2026 - Nov 24, 2026 (12:00 UTC)')] }), { y: YF2 })
+const DAYS = [['FRI', 20, 'today'], ['SAT', 21, ''], ['SUN', 22, ''], ['MON', 23, ''], ['TUE', 24, 'end']]
+item(wt(148) - .2, G, `<div class="days">${DAYS.map(([d, n, c], i) => `<div class="day ${c}" id="dy${i}"><small>${c === 'end' ? 'ENDS' : (c === 'today' ? 'TODAY' : d)}</small><b>${n}</b></div>`).join('')}</div><div class="lab" style="margin-top:16px">november 2026 · ends <b>24 nov, 12:00 utc</b></div>`, { y: 640 })
+ring('rDate', wt(151) - .1, G)
+
+// 7. "put that prediction on Bayern Munich to win, they win, I get $25 in bonus": Bayern again, their tick, the $25
+const YG = 60
+item(G, H, win('wG', 'bayL.png', 360, 720, 1, {}, ''), { y: YG })
+item(wt(167) - .1, H, `<div class="ticks"><div class="tk" style="opacity:1"><i>✓</i>Bayern <b style="color:var(--blue)">win</b></div></div>`, { y: 470 })
+
+// 8. "$25 on Arsenal to win, I win, win, and I withdraw": Newcastle v Arsenal, the coin lands on Arsenal, two ticks
+const YH = 60
+item(H, Ih, win('wH', 'arsL.png', 360, 720, 1, { rArs: [[652, 520, 778, 700]] }, ''), { y: YH })
+ring('rArs', wt(182) - .05, Ih)
+item(wt(188) - .12, Ih, `<div class="ticks"><div class="tk" id="tk1"><i>✓</i>Bayern</div><div class="tk" id="tk2"><i>✓</i>Arsenal</div></div>`, { y: 470 })
+item(wt(192) - .06, Ih, `<div class="stamp">WITHDRAW</div>`, { y: 640, rot: -6 })
+
+// 9. "and I'm happy and everybody's happy"
+item(Ih, J, `<div style="display:flex;gap:30px">${ic('smiling_face_with_smiling_eyes_3d')}${ic('party_popper_3d')}</div>${lb("everybody's <b>happy</b>")}`, { y: 300 })
+
+// 10. "an opportunity... the link is on this post": the Safety Net shield (from its page), then the link
+item(J, L, `<div class="win" style="width:330px;height:428px;border-radius:44px"><img src="img/cap/sn.png" style="width:990px;left:-330px;top:-200px"></div><div class="lab">probly <b>safety net</b></div>`, { y: 90 })
+item(wt(208) - .1, L, `<div class="chip" style="height:110px;font-size:48px"><img src="${I('link_3d')}" style="width:76px;height:76px">the <b>link</b> is on this post</div>`, { y: 600 })
+const ARROW = item(wt(210) - .05, L, `<img src="${I('backhand_index_pointing_down')}" style="width:150px;height:150px;filter:drop-shadow(0 12px 18px rgba(4,10,36,.45))">`, { y: 730 })
+
+// 11. "go to Probly, make your predictions, make use of the bonus and be happy": three numbered steps
+item(L, M, `<div class="steps"><div class="st" id="s1"><i>1</i><span>Go to</span><img src="img/probly_logo.svg"></div><div class="st" id="s2"><i>2</i><span>Make your predictions</span></div><div class="st" id="s3"><i>3</i><span>Use the bonus</span></div><div class="st" id="s4"><i style="background:var(--green)">✓</i><span>Be happy</span><img src="${I('smiling_face_with_smiling_eyes_3d')}" style="height:84px"></div></div>`, { y: 90 })
+
+// 12. the weekend: WEEKEND behind the head, Friday; burger, pizza, movies; girl, woman, wife; smile
+item(wt(235) - .12, 86.35, `<div class="bt" style="font-size:300px"><b>WEEKEND</b></div>`, { y: 770, bk: 1 })
+item(M, wt(247) - .3, `<div class="chip"><img src="${I('tear-off_calendar_3d')}">it's <b>Friday</b>, 20 Nov</div>`, { y: 380 })
+const FOOD = [['hamburger_3d', 'burger', 247], ['pizza_3d', 'pizza', 248], ['popcorn_3d', 'movies', 252]]
+item(wt(247) - .25, P.end + .2, `<div style="display:flex;gap:46px">${FOOD.map(([n, l], i) => `<div id="fd${i}" style="display:flex;flex-direction:column;align-items:center;opacity:0">${ic(n)}${lb(l)}</div>`).join('')}</div>`, { y: 90 })
+item(wt(255) - .25, P.end + .2, `<div style="display:flex;gap:26px">${[255, 257, 259].map((w, i) => `<img id="ht${i}" src="${I('red_heart_3d')}" style="width:120px;height:120px;opacity:0;filter:drop-shadow(0 10px 16px rgba(4,10,36,.4))">`).join('')}</div>`, { y: 470 })
+item(wt(261) - .12, P.end + .2, `<div class="ic"><img src="${I('smiling_face_with_smiling_eyes_3d')}"></div>${lb('and <b>smile</b>')}`, { y: 610 })
+
+// ---- the coins: [id, label, green, appear, land, leave, from [x,y], to [x,y]]
+const COINS = []
+function coin(id, txt, g, a, land, b, from, to, tag = '', sc = 1) {
+  const el = document.createElement('div'); el.className = 'coin' + (g ? ' g' : ''); el.id = id; el.innerHTML = txt + (tag ? `<small>${tag}</small>` : ''); TOP.appendChild(el)
+  COINS.push({ el, a, land, b, from, to, sc })
+}
+const bayC = at('wE', YE, 227, 580), dep = at('wD1', YD1, 330, 197), arsC = at('wH', YH, 715, 580), bayG = at('wG', YG, 227, 580)
+coin('c50a', '$50', 0, wt(72) - .1, wt(72) - .1, D, [900, 640], [900, 640])
+coin('c50b', '$50', 0, wt(85) - .55, wt(85) + .1, wt(89) - .3, [960, 460], [880, 94])
+coin('c50c', '$50', 0, wt(108) - .5, wt(110) + .05, F, [980, 620], [bayC[0] + 66, bayC[1] + 50], '', .62)
+coin('c50d', '$50', 0, G, G, H, [bayG[0] + 70, bayG[1] + 54], [bayG[0] + 70, bayG[1] + 54], '', .62)
+coin('c25a', '$25', 1, wt(60) - .08, wt(60) - .08, C, [984, 712], [984, 712], 'UP TO')
+coin('c25b', '$25', 1, wt(128) - .08, wt(128) - .08, F2, [984, 628], [984, 628], 'BONUS')
+coin('c25c', '$25', 1, wt(171) - .08, wt(171) - .08, H + .55, [700, 700], [700, 700], 'BONUS')
+coin('c25d', '$25', 1, H + .1, wt(182) + .05, Ih, [700, 700], [arsC[0] - 70, arsC[1] + 54], '', .62)
+
+// ---- end card
+$('e0').innerHTML = 'trade <b>$50+</b> on any <b>3 days</b>'; $('e1').innerHTML = 'up to <b>$25</b> back on a net loss'; $('e2').innerHTML = 'ends <b>24 Nov, 12:00 UTC</b>'
+
+let lastCap = -1, lastBig = -1
+window.render = t => {
+  SIG = []
+  const FRONT = LAYER !== 'behind', BACK = LAYER !== 'front'
+  for (const it of ITEMS) {
+    if (it.bk ? !BACK : !FRONT) continue
+    const on = t >= it.a - .01 && t < it.b + .25, k0 = it.a <= 0 ? 1 : 0
+    if (it.bk) { const k = Math.max(k0, eo(seg(t, it.a, .4))), o = eio(seg(t, it.b, .24))                 // behind the head: it rises from behind the shoulders
+      st(it.el, { opacity: on ? cl(k * 2) * (1 - o) : 0, transform: `translateY(${((1 - k) * 120 + o * 110).toFixed(1)}px) scale(${(.9 + .1 * k).toFixed(4)}) rotate(${it.rot}deg)` })
+    } else { const k = Math.max(k0, eo(seg(t, it.a, .26))), o = seg(t, it.b, .16), bk = Math.max(k0, back(seg(t, it.a, .34)))   // in front: it pops in on the word and lifts away
+      st(it.el, { opacity: on ? cl(k * 1.7) * (1 - o) : 0, transform: `translateY(${((1 - k) * 26 - o * 20).toFixed(1)}px) scale(${((.62 + .38 * bk) * (1 - .1 * o)).toFixed(4)}) rotate(${it.rot}deg)` }) }
+  }
+  if (!FRONT) return SIG.join('|')
+  // rings: each draws itself on its word, left to right
+  for (const [rid, a, b] of RINGS) document.querySelectorAll(`[data-r="${rid}"]`).forEach((e, j) => {
+    const a2 = a + .1 * j, on = t >= a2 && t < b, u = on ? eo(seg(t, a2, .38)) : 0, q = on ? 1 - seg(t, b - .16, .16) : 0
+    st(e, { opacity: cl(u * 3) * q, clipPath: `inset(-16px ${(-16 + (e.offsetWidth + 32) * (1 - u)).toFixed(1)}px -16px -16px)` }) })
+  // coins: fly on an arc from where they come from to where they land, squash on landing, shrink away at the end
+  for (const c of COINS) {
+    const vis = t >= c.a && t < c.b + .25
+    if (!vis) { st(c.el, { opacity: 0 }); continue }
+    const fl = c.land > c.a ? eio(seg(t, c.a, c.land - c.a)) : 1
+    const x = c.from[0] + (c.to[0] - c.from[0]) * fl, y = c.from[1] + (c.to[1] - c.from[1]) * fl - (c.land > c.a ? 170 * Math.sin(Math.PI * fl) : 0)
+    const pp = c.land > c.a ? 1 : back(seg(t, c.a, .34)), lt = seg(t, c.land, .22), sq = Math.sin(Math.PI * lt) * Math.exp(-3 * lt) * .16
+    const o = seg(t, c.b, .2)
+    const k = c.land > c.a ? 1 + (c.sc - 1) * fl : c.sc
+    st(c.el, { opacity: cl(seg(t, c.a, .1)) * (1 - o), transform: `translate(${x.toFixed(1)}px,${y.toFixed(1)}px) scale(${(k * (.6 + .4 * pp) * (1 + sq) * (1 - .4 * o)).toFixed(4)},${(k * (.6 + .4 * pp) * (1 - sq) * (1 - .4 * o)).toFixed(4)})` })
+  }
+  // the days light one by one up to the end date; the end date gets a beat on "24th"
+  DAYS.forEach((d, i) => { const a = wt(148) - .1 + i * .09, el = $('dy' + i), bt = i === 4 ? Math.sin(Math.PI * seg(t, wt(151) - .05, .4)) : 0
+    st(el, { opacity: seg(t, a, .12), transform: `translateY(${((1 - eo(seg(t, a, .3))) * 30).toFixed(1)}px) scale(${(1 + .1 * bt).toFixed(4)})` }) })
+  // the two ticks on "win, win"
+  ;[[1, 188], [2, 189]].forEach(([n, w]) => st($('tk' + n), { opacity: seg(t, wt(w) - .06, .1), transform: `scale(${(.6 + .4 * back(seg(t, wt(w) - .06, .32))).toFixed(4)})` }))
+  // the pointing hand bobs toward the post
+  st(ARROW.el.firstChild, { transform: `translateY(${(14 * Math.sin((t - wt(210)) * 7)).toFixed(1)}px)` })
+  // the steps light on their words
+  ;[[1, 218], [2, 221], [3, 224], [4, 230]].forEach(([n, w]) => st($('s' + n), { opacity: seg(t, wt(w) - .12, .15), transform: `translateX(${((1 - eo(seg(t, wt(w) - .12, .32))) * -40).toFixed(1)}px)` }))
+  // burger, pizza, movies, the hearts, each on its word
+  FOOD.forEach(([, , w], i) => st($('fd' + i), { opacity: seg(t, wt(w) - .1, .1), transform: `scale(${(.6 + .4 * back(seg(t, wt(w) - .1, .34))).toFixed(4)})` }))
+  ;[255, 257, 259].forEach((w, i) => st($('ht' + i), { opacity: seg(t, wt(w) - .08, .1), transform: `scale(${(.5 + .5 * back(seg(t, wt(w) - .08, .34))).toFixed(4)})` }))
+  // ---- captions, word by word; the key phrase big under them
+  let ch = null; for (const x of CHUNKS) if (t >= x.t0 && t < x.t1) ch = x
+  const cap = $('cap')
+  if (ch && !NOTEXT && t < P.end - .05) {
+    const id = CHUNKS.indexOf(ch); if (id !== lastCap) { cap.innerHTML = capHtml(ch.ch); lastCap = id }
+    ch.ch.forEach((k, i) => st(cap.children[i], { opacity: t >= k.t - .05 ? 1 : .42 }))
+    const a = eo(seg(t, ch.t0, .1)); st(cap, { opacity: a, transform: `translateY(${((1 - a) * 8).toFixed(1)}px)` }); SIG.push(id)
+  } else st(cap, { opacity: 0 })
+  const nxt = c => CAPS[c.ci + 1] ? CAPS[c.ci + 1].o0 : 1e9
+  let bg = null; for (const c of CAPS) if (c.big && t >= Math.max(c.big.t, c.o0) - .06 && t < Math.min(c.o1 + .3, nxt(c))) bg = c
+  const big = $('big')
+  if (bg && !bg.small.length) st(cap, { opacity: 0 })
+  if (bg && !NOTEXT && t < P.end - .05) { if (bg.ci !== lastBig) { big.innerHTML = '<span>' + bg.big.text + '</span>'; lastBig = bg.ci; big.style.fontSize = '108px'; const w = big.firstChild.offsetWidth; if (w > 1000) big.style.fontSize = Math.floor(108 * 1000 / w) + 'px' }
+    const a = seg(t, bg.big.t - .06, .3), o = seg(t, Math.min(bg.o1 + .16, nxt(bg) - .14), .12)
+    st(big, { opacity: cl(a * 3) * (1 - o), transform: `scale(${(.7 + .3 * back(a)).toFixed(4)})`, top: (bg.small.length ? 1776 : 1712) + 'px' }); SIG.push(bg.ci)
+  } else st(big, { opacity: 0 })
+  // ---- end card: it rises over the last frame
+  { const a = eo(seg(t, P.end - .05, .5)); st($('end'), { opacity: a > 0 ? 1 : 0, transform: `translateY(${((1 - a) * 1920).toFixed(1)}px)` })
+    const e0 = P.end + .35
+    st($('eshield'), { opacity: seg(t, e0, .3), transform: `scale(${(.85 + .15 * back(seg(t, e0, .45))).toFixed(4)})` })
+    st($('elogo'), { opacity: seg(t, e0 + .2, .3) }); st($('etag'), { opacity: seg(t, e0 + .4, .3) })
+    for (let i = 0; i < 3; i++) { const k = eo(seg(t, e0 + .7 + i * .14, .32)); st($('e' + i), { opacity: cl(k * 1.6), transform: `scale(${(.86 + .14 * back(seg(t, e0 + .7 + i * .14, .32))).toFixed(4)})` }) }
+    st($('eget'), { opacity: seg(t, e0 + 1.3, .3) }); st($('eby'), { opacity: seg(t, e0 + 1.5, .3) }) }
+  return SIG.join('|')
+}
+window.READY = Promise.all([document.fonts.ready, ...[...document.images].map(i => i.decode().catch(() => 0))]).then(() => document.fonts.load('800 40px Manrope')).then(() => document.fonts.load('600 22px Manrope')).then(() => document.fonts.load('106px Anton')).then(() => document.fonts.load('700 24px Mono'))
+</script>
+</body></html>

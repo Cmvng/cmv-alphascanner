@@ -28,6 +28,35 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
+## 20 Nov: "Probly" (1:37, upright, the owner's own car selfie, untouched picture and voice, illustrations around their words)
+
+- **What worked:**
+  - Every line sat on the real Probly page it was about. The rings were measured from each page's own text, the
+    football pages were captured in Lagos time, and the coin carried their example from page to page.
+  - Their picture and sound were untouched: 60 fps, no cut, one encode, plain gain only.
+  - The music sat 12.9 dB under the voice, and the voice's loudness range was 8.3 LU against 8.1 in the raw.
+- **Mistakes, and how they got through:**
+  1. **I read "illustration video" as the cartoon** and built the start of a cartoon video in their voice. Then I
+     stopped to ask about it. The owner: "What are you doing.. I made my video I said create an illustration around
+     what I am talking about". The word had meant the cartoon on their last two written briefs, and I carried that
+     over to a video they had filmed. The checkpoint now says it plainly.
+  2. **I stopped the build to ask about their facts.** Probly's Safety Net pays up to $25 only on a net loss, after
+     24 Nov, and the bonus cannot be withdrawn. Their example has a Bayern win paying $25 that goes on Arsenal and is
+     withdrawn. The checkpoint already said "put a doubt in the message to them, never in a rewrite". Asking first
+     cost a round and their patience.
+  3. **Coins hid the crests** they landed on, and two coins covered page text (seen on the first stills). They now
+     land small on the crest's corner, or in the margin.
+  4. **The type behind the head only touched the hair** at first (y 620). It was moved down until it tucked in.
+- **Change next time:**
+  - A video they filmed plus "illustration" means their video with graphics around their words. Start building at
+    once.
+  - Fact doubts go in the message with the finished video, and the real page goes on screen beside their words.
+  - Capture time-zone-dependent pages (kick-offs, countdowns) in Lagos time.
+  - On the first stills, check that nothing we add covers the real thing it points at.
+- **The owner's reaction:** (to come)
+
+---
+
 ## 20 Nov: "MagicMarkets referral" (1:32, 16:9, the owner's sponsored draft (#ad), our script from it, the free house voice)
 
 - **What it is:** "the regular type of videos without the illustration … research and get a proper content video".
