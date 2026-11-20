@@ -22,7 +22,8 @@ second, one encode, plain gain only).
 ## Files (video/out/probly-2026-11-20/)
 | File | Use |
 |---|---|
-| `probly.mp4` | the video, 1080×1920, 60 frames a second, 1:37 |
+| `probly.mp4` | the video, 1080×1920, 60 frames a second, 1:37 (276 MB, under X's 512 MB) |
+| `probly_chat-copy.mp4` | a smaller copy for the chat (720×1280, 40 MB) |
 | `probly_no-music.mp4` | the same picture with their voice only |
 | `probly.srt` | subtitles |
 | `probly_x-square.png` | **the picture for X** (1080×1080) |
