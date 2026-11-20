@@ -28,6 +28,42 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
+## 20 Nov: "MagicMarkets referral" (1:32, 16:9, the owner's sponsored draft (#ad), our script from it, the free house voice)
+
+- **What it is:** "the regular type of videos without the illustration … research and get a proper content video".
+  - The 10 bps meter (THEY TRADE / YOU EARN at a thousand to one) appears three times, the same way each time.
+  - MagicMarkets' and Polymarket's own pages are ringed on the words, then a two-column card.
+  - The binding terms' fine print is on screen. Three numbered steps lead to the link.
+  - Three stickers, both sets. #AD stays on screen from the first frame.
+- **The voice:** ElevenLabs had 96 credits until 23 Nov. The owner chose the free female voice (house voice,
+  af_heart, natural pitch), and a 10-second sample went first.
+- **The research:**
+  - The binding Referral Terms (§3.1–3.8) make the dividend a monthly pool at MagicMarkets' discretion, with no
+    guaranteed minimum.
+  - Their partner page says partners do not advertise a rate. Their traders' docs (16 Nov) say 10 bps.
+  - The script keeps the owner's points, adds the fine print, and words the claims to match the pages ("no tiers and
+    no cap listed", "taker volume", "Rewards"). The owner is told to confirm "10 bps" with MagicMarkets before
+    posting.
+- **What worked:**
+  - Measuring the bed with preflight before the render (17.0 dB under at +6 → +9.5 → 13.5 dB). No sound fix was
+    needed afterwards.
+  - The house voice's own word times (CTC median −0.01 s) replaced the aligner's, which had dropped "And".
+- **Mistakes, and how they got through:**
+  1. **The counting numbers smeared in motion.** Motion blur averaged several values of the counter inside one frame,
+     so the hook (4–5.5 s) and the hypothetical (58–59 s) showed ghosted digits. Stills can't show it; the half-second
+     sheet of the render did.
+     - Fixed: the numbers are read on the whole frame (`Math.round(t * FPS) / FPS`), like the character's mouths.
+     - Only those two stretches were rendered again (frames 0–250 and 1667–1834, keyframe to keyframe) and joined
+       by stream copy. The joins were checked frame by frame.
+  2. **The first frame was empty** (the meter came in on the first word). Fixed before the render: the meter is there
+     from frame 0.
+  3. **Stamps and chips covered ringed text** on the first stills (HYPOTHETICAL over $1,000; WIN/LOSE over the ring).
+     All were moved before the render.
+- **Change next time:**
+  - Any number that counts on screen is read on whole frames.
+  - Check every count-up on consecutive frames of the render, not on stills.
+- **The owner's reaction:** to be added.
+
 ## 19 Nov: "CT and Web3 brief, Thursday" (2:14, 16:9, the owner's eight-item brief, their cartoon presenting, the free male voice)
 
 - **What it is:** "I need a clean illustration motion video for this content", with their brief.

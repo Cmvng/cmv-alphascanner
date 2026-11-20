@@ -210,11 +210,13 @@ window.render = async t => {
   BND = new Set([DROP, A1, A2, A3, A4, B1, B2, B3, C1, C2, D1, E1, E2, E3, E4, F1, F2, F3, G1, ENDC])
 
   // ---- the meter: the hook (0 -> drop), "every thousand dollars" (B2 -> B3), the hypothetical (D1 -> E1)
-  let mv = 0, me = 0
+  // the numbers are read on the whole frame (tq), so the motion-blur sub-frames all show the same digits (blended
+  // digits read as a smear)
+  let mv = 0, me = 0; ((t) => {
   if (t < DROP) { mv = t < ws(4) ? 0 : climb(t, ws(11), we(17), 1000, 1e7); if (t >= ws(4) && t < ws(11)) mv = 1000 * E.standard(seg(t, ws(4), .5)) }
   else if (t < B3) mv = 1000 * E.standard(seg(t, ws(79) - .1, .5))
   else mv = climb(t, ws(153) - .1, we(155), 1000, 1e7)
-  me = mv / 1000
+  })(Math.round(t * FPS) / FPS); me = mv / 1000
   $('mv').textContent = money(mv); $('me').textContent = money(me); SIG.push($('mv').textContent, $('me').textContent)
   io('bps', t, -1, DROP, { dy: 0, d: .01 })
   if (t < DROP + .5) io('meter', t, -1, DROP, { dy: 0, d: .01 })
@@ -231,7 +233,8 @@ window.render = async t => {
   io('dfees', t, A3, A4, IN); io('dfeessrc', t, A3 + .2, A4, { dy: 8 }); drawRing(R.fee, t, ws(46) - .1, A4)
   zoom('dfeesz', t, [[A3 + .3, A4 + 1, 1.7, 476, 245]])
   io('v95', t, ws(55) - .1, B1, BIG); io('v95l', t, ws(58) - .1, B1, { dy: 20, d: .3 }); io('v95s', t, ws(58), B1, { dy: 8 })
-  if (t >= ws(55) - .1 && t < B1) { const u = E.standard(seg(t, ws(55) - .1, 1.0)); $('v95').textContent = '$' + Math.round(95 * u) + 'M' } else $('v95').textContent = '$95M'
+  const tq = Math.round(t * FPS) / FPS
+  if (tq >= ws(55) - .1 && tq < B1) { const u = E.standard(seg(tq, ws(55) - .1, 1.0)); $('v95').textContent = '$' + Math.round(95 * u) + 'M' } else $('v95').textContent = '$95M'
   SIG.push($('v95').textContent)
 
   // ---- the referral: the docs line ringed; win or lose both pay; the meter again; flat rate, no tiers, no need to trade
