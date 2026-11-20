@@ -181,6 +181,7 @@ const at = (id, y, x, cy) => { const W = WIN[id]; return [(1080 - W.w) / 2 + x *
 // scene starts, each just before its first word
 const A = wt(18) - .3, Bs = wt(39) - .3, C = wt(61) - .3, D = wt(77) - .3, E = wt(97) - .3, F = wt(123) - .3, F2 = wt(146) - .3
 const G = wt(154) - .3, H = wt(174) - .3, Ih = wt(193) - .3, J = wt(199) - .3, L = wt(216) - .3, M = wt(232) - .3
+const BND = new Set([A, Bs, C, D, E, F, F2, G, H, Ih, J, L, M])
 
 // 0. the hook: A PREDICTION MARKET behind the head from the first frame; Probly's own wordmark on "Probly"
 item(0, A, `<div class="pill">@i_am_vickyd<span>20 Nov 2026</span></div>`, { y: 56 })
@@ -221,9 +222,9 @@ ring('rG25', wt(128) - .1, F2); ring('r3d', wt(144) - .1, F2)
 
 // 6b. "it ends on the 24th of November": the page's dates, and the days from today to the end
 const YF2 = 40
-item(F2, G, win('wF2', 'sn.png', 660, 1250, .95, { rDate: [B('sn', 'Nov 12, 2026 - Nov 24, 2026 (12:00 UTC)')] }), { y: YF2 })
+item(F2, G, win('wF2', 'sn.png', 660, 1290, .9, { rDate: [B('sn', 'Nov 12, 2026 - Nov 24, 2026 (12:00 UTC)')] }), { y: YF2 })
 const DAYS = [['FRI', 20, 'today'], ['SAT', 21, ''], ['SUN', 22, ''], ['MON', 23, ''], ['TUE', 24, 'end']]
-item(wt(148) - .2, G, `<div class="days">${DAYS.map(([d, n, c], i) => `<div class="day ${c}" id="dy${i}"><small>${c === 'end' ? 'ENDS' : (c === 'today' ? 'TODAY' : d)}</small><b>${n}</b></div>`).join('')}</div><div class="lab" style="margin-top:16px">november 2026 · ends <b>24 nov, 12:00 utc</b></div>`, { y: 640 })
+item(wt(148) - .2, G, `<div class="days">${DAYS.map(([d, n, c], i) => `<div class="day ${c}" id="dy${i}"><small>${c === 'end' ? 'ENDS' : (c === 'today' ? 'TODAY' : d)}</small><b>${n}</b></div>`).join('')}</div><div class="lab" style="margin-top:16px">november 2026 · ends <b>24 nov, 12:00 utc</b></div>`, { y: 650 })
 ring('rDate', wt(151) - .1, G)
 
 // 7. "put that prediction on Bayern Munich to win, they win, I get $25 in bonus": Bayern again, their tick, the $25
@@ -264,14 +265,14 @@ function coin(id, txt, g, a, land, b, from, to, tag = '', sc = 1) {
   COINS.push({ el, a, land, b, from, to, sc })
 }
 const bayC = at('wE', YE, 227, 580), dep = at('wD1', YD1, 330, 197), arsC = at('wH', YH, 715, 580), bayG = at('wG', YG, 227, 580)
-coin('c50a', '$50', 0, wt(72) - .1, wt(72) - .1, D, [900, 640], [900, 640])
-coin('c50b', '$50', 0, wt(85) - .55, wt(85) + .1, wt(89) - .3, [960, 460], [880, 94])
+coin('c50a', '$50', 0, wt(72) - .1, wt(72) - .1, D, [990, 640], [990, 640])
+coin('c50b', '$50', 0, wt(85) - .55, wt(85) + .1, wt(89) - .3, [960, 460], [905, 94])
 coin('c50c', '$50', 0, wt(108) - .5, wt(110) + .05, F, [980, 620], [bayC[0] + 66, bayC[1] + 50], '', .62)
 coin('c50d', '$50', 0, G, G, H, [bayG[0] + 70, bayG[1] + 54], [bayG[0] + 70, bayG[1] + 54], '', .62)
 coin('c25a', '$25', 1, wt(60) - .08, wt(60) - .08, C, [984, 712], [984, 712], 'UP TO')
 coin('c25b', '$25', 1, wt(128) - .08, wt(128) - .08, F2, [984, 628], [984, 628], 'BONUS')
-coin('c25c', '$25', 1, wt(171) - .08, wt(171) - .08, H + .55, [700, 700], [700, 700], 'BONUS')
-coin('c25d', '$25', 1, H + .1, wt(182) + .05, Ih, [700, 700], [arsC[0] - 70, arsC[1] + 54], '', .62)
+coin('c25c', '$25', 1, wt(171) - .08, wt(171) - .08, wt(182) - .55, [700, 700], [700, 700], 'BONUS')
+coin('c25d', '$25', 1, wt(182) - .55, wt(182) + .05, Ih, [700, 700], [arsC[0] - 70, arsC[1] + 54], '', .62)
 
 // ---- end card
 $('e0').innerHTML = 'trade <b>$50+</b> on any <b>3 days</b>'; $('e1').innerHTML = 'up to <b>$25</b> back on a net loss'; $('e2').innerHTML = 'ends <b>24 Nov, 12:00 UTC</b>'
@@ -280,8 +281,9 @@ let lastCap = -1, lastBig = -1
 window.render = t => {
   SIG = []
   const FRONT = LAYER !== 'behind', BACK = LAYER !== 'front'
-  for (const it of ITEMS) {
-    if (it.bk ? !BACK : !FRONT) continue
+  for (const it0 of ITEMS) {
+    if (it0.bk ? !BACK : !FRONT) continue
+    const it = { ...it0, a: BND.has(it0.a) ? it0.a + .12 : it0.a, b: BND.has(it0.b) ? it0.b - .06 : it0.b }     // scene changes staggered: the old leaves, then the new arrives (no doubled pictures)
     const on = t >= it.a - .01 && t < it.b + .25, k0 = it.a <= 0 ? 1 : 0
     if (it.bk) { const k = Math.max(k0, eo(seg(t, it.a, .4))), o = eio(seg(t, it.b, .24))                 // behind the head: it rises from behind the shoulders
       st(it.el, { opacity: on ? cl(k * 2) * (1 - o) : 0, transform: `translateY(${((1 - k) * 120 + o * 110).toFixed(1)}px) scale(${(.9 + .1 * k).toFixed(4)}) rotate(${it.rot}deg)` })
@@ -312,7 +314,7 @@ window.render = t => {
   // the pointing hand bobs toward the post
   st(ARROW.el.firstChild, { transform: `translateY(${(14 * Math.sin((t - wt(210)) * 7)).toFixed(1)}px)` })
   // the steps light on their words
-  ;[[1, 218], [2, 221], [3, 224], [4, 230]].forEach(([n, w]) => st($('s' + n), { opacity: seg(t, wt(w) - .12, .15), transform: `translateX(${((1 - eo(seg(t, wt(w) - .12, .32))) * -40).toFixed(1)}px)` }))
+  ;[[1, L + .12 + .12], [2, wt(221) - .12], [3, wt(224) - .12], [4, wt(230) - .12]].forEach(([n, a]) => st($('s' + n), { opacity: seg(t, a, .15), transform: `translateX(${((1 - eo(seg(t, a, .32))) * -40).toFixed(1)}px)` }))
   // burger, pizza, movies, the hearts, each on its word
   FOOD.forEach(([, , w], i) => st($('fd' + i), { opacity: seg(t, wt(w) - .1, .1), transform: `scale(${(.6 + .4 * back(seg(t, wt(w) - .1, .34))).toFixed(4)})` }))
   ;[255, 257, 259].forEach((w, i) => st($('ht' + i), { opacity: seg(t, wt(w) - .08, .1), transform: `scale(${(.5 + .5 * back(seg(t, wt(w) - .08, .34))).toFixed(4)})` }))

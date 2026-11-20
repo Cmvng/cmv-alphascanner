@@ -47,6 +47,12 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
   3. **Coins hid the crests** they landed on, and two coins covered page text (seen on the first stills). They now
      land small on the crest's corner, or in the margin.
   4. **The type behind the head only touched the hair** at first (y 620). It was moved down until it tucked in.
+  5. **Found in the half-second check of the first full render, fixed before sending:**
+     - the steps card arrived empty for half a second;
+     - two scene changes faded over each other;
+     - the end-date card cut its countdown labels;
+     - one caption ("All you simply need to do is to") did not match the sound. Scored against the sound, "All you're
+       simply needing to do is to" fits.
 - **Change next time:**
   - A video they filmed plus "illustration" means their video with graphics around their words. Start building at
     once.

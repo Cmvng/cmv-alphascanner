@@ -1,5 +1,5 @@
 """Is the edit at least as good as the owner's recording? Measured, before anything is sent.
-  python3 -I versus_quality.py <raw.mp4> <final.mp4> <segs.json> [--flip] [--voice <voice-only mix.wav>]
+  python3 -I versus_quality.py <raw.mp4> <final.mp4> <segs.json> [--flip] [--voice <voice-only mix.wav>] [--face y0,y1,x0,x1]
 
 The owner, 11 Nov, after four edits of one recording: "the original quality of the video, the sound of the video was
 top quality. But when you made the edit… it was just poor… you are making it worse." Every earlier check compared the
@@ -10,12 +10,15 @@ edit with our own targets; none compared it with what the owner sent. This one d
   colour       the face has not moved in lightness or colour (it had come out darker and bluer)
   voice        the voice keeps its rise and fall: loudness range within 1 LU of the same cuts of the raw sound
 segs.json: the kept stretches of the recording, [{"s": seconds, "e": seconds}, …], in order. --flip if the edit mirrors
-the picture. A FAIL means the video does not go out. This is measurement, not eyes or ears: still look, and say so."""
+the picture. --face: the box (in pixels) where the face sits in this recording, when it is not in the middle of the
+frame (20 Nov: the owner sat low in the car, the middle of the frame was our cards, and the check read their lightness
+as a +13.5 shift on the face; on the face itself it was +0.1). A FAIL means the video does not go out. This is measurement, not eyes or ears: still look, and say so."""
 import json, re, subprocess, sys
 import cv2, numpy as np
 RAW, FIN, SEGS = sys.argv[1:4]
 FLIP = '--flip' in sys.argv
 VOICE = sys.argv[sys.argv.index('--voice') + 1] if '--voice' in sys.argv else None
+FACE = [int(v) for v in sys.argv[sys.argv.index('--face') + 1].split(',')] if '--face' in sys.argv else None
 segs = json.load(open(SEGS)); fails = 0
 def say(ok, text):
     global fails
@@ -44,6 +47,7 @@ for i in range(12):
     a, b = grab(RAW, raw_t(t)), grab(FIN, t)
     if FLIP: a = cv2.flip(a, 1)
     h, w = a.shape[:2]; y0, y1, x0, x1 = int(.38 * h), int(.62 * h), int(.36 * w), int(.64 * w)      # the middle of the frame: the face, clear of graphics
+    if FACE: y0, y1, x0, x1 = FACE
     ca, cb = a[y0:y1, x0:x1], b[y0:y1, x0:x1]
     la = cv2.Laplacian(cv2.cvtColor(ca, cv2.COLOR_BGR2GRAY), cv2.CV_32F).var(); lb = cv2.Laplacian(cv2.cvtColor(cb, cv2.COLOR_BGR2GRAY), cv2.CV_32F).var()
     det.append(lb / max(la, 1e-6))

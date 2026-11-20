@@ -63,6 +63,7 @@ ffmpeg -i $RAW -vn -ac 1 -ar 16000 $K/rec16.wav
 # ones ("BAM Nick" = Bayern Munich, "ask not" = Arsenal, "smell" = smile); the owner's words in $T/words_said.txt
 python3 -I video/lib/align_words.py $K/rec16.wav $K/words_said_rough.json $K/words.json
 python3 -I $T/tools/plan_pb.py $K && python3 -I $F/tokens.py $K          # no cut; 31 captions
+python3 -P -E $T/tools/hearback.py $K                                    # after review.py: every caption against what is heard
 python3 -I video/templates/explainer/crypto-brief-2026-11-16/extend_music.py <720.mp3> $K/bed_src.wav 17.961 96.583
 python3 -I $T/tools/mix_pb.py $K $RAW $K/bed_src.wav 0 92.783 0 96.583 4.98 10 3 && cp $K/mix.wav $K/mix_raw.wav && cp $K/voice.wav $K/mix_raw_voice.wav
 python3 -I $F/matte60.py $K $RAW <rvm.onnx> 0-8.6,81.2-86.6 && python3 -I $F/clean_alpha.py $K
@@ -82,5 +83,12 @@ wordmark SVG from probly.com's header, `tools/logo.cjs`) and `img/e/` (the icons
   7:30 PM. With `timezoneId: 'Africa/Lagos'` it reads 8:30 PM, the time their viewers will see.
 - **A coin must not cover the thing it lands on.** Full-size coins hid the Bayern and Arsenal crests. They now land at
   62% size on the crest's lower corner, and the coins that go with a ring sit in the margin, off the page's text.
+- **An empty card again, and doubled pictures at scene changes.** The full check every half second found the steps
+  card arriving half a second before its first step, and the outgoing and incoming items fading over each other.
+  Step 1 now comes with the card. Every scene change is staggered: the old item leaves 0.06 s early, and the new one
+  arrives 0.12 s late (`BND` in `pb.html`).
+- **Score a doubtful caption against the sound before the final render.** The hear-back flagged "All you simply need
+  to do is to". Scored on the CTC posteriors, "All you're simply needing to do is to" fits far better (-117 against
+  -142). The caption follows the sound.
 - **Type behind the head must actually go behind it.** At y 620 the bottom of MARKET only touched the hair. At y 680
   (and WEEKEND at 770) it tucks behind it, and at full size the hair edge was clean (no halo).

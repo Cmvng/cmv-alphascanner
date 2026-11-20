@@ -8,7 +8,7 @@ FPS, END, ENDCARD = 60, 5567 / 60, 3.8
 CAPS = [(0, 10, "Yeah, so in today's video, I'm going to be talking about"), (11, 17, "a *prediction market* called *Probly.* Like, Probly."),
  (18, 28, "So basically, on Probly, it does like any regular prediction market."), (29, 38, "You can predict *sports,* *politics,* any other thing on Probly."),
  (39, 46, "But the good thing about Probly is that"), (47, 53, "they give you the opportunity to actually"), (54, 60, "earn a *trading bonus* up to *$25.*"),
- (61, 68, "All you simply need to do is to"), (69, 76, "*predict and trade $50* worth of any market."), (77, 87, "So simply, like, you can also like deposit *$50 in crypto*"),
+ (61, 68, "All you're simply needing to do is to"), (69, 76, "*predict and trade $50* worth of any market."), (77, 87, "So simply, like, you can also like deposit *$50 in crypto*"),
  (88, 96, "on *Solana,* from Solana, from *Base,* from *any chain.*"), (97, 103, "And so like, if it were me,"), (104, 113, "I would also put *$50 on Bayern Munich* to win"),
  (114, 122, "today, like *this evening,* in a couple of hours."), (123, 132, "And I will simply get *$25* worth of trading bonus,"),
  (133, 141, "because you have the opportunity to put that $50"), (142, 145, "in any *3 days,*"), (146, 153, "because it ends on the *24th of November.*"),
