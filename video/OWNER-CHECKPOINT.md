@@ -212,6 +212,13 @@ has not been said: ask once when the next one comes up.)
   facts beside their words, no reactions, music by the rules above. Their example is illustrated step by step, in
   the order they tell it (11 Nov: "the illustration… done properly and sequenced in a good way… in layers… the right
   order that a professional will approve 10/10").
+- **"An illustration video" of their own recording means THEIR video with illustrations around their words, never
+  the cartoon.** 20 Nov, on their Probly recording, after I started the cartoon in their voice and then stopped to ask
+  about it: "What are you doing.. I made my video I said create an illustration around what I am talking about what
+  are you doing? Or didn't you read what I said you should do". So: their picture and sound untouched (the 11 Nov
+  way), the illustrations built around what they say, in their order. A fact of theirs that is off does not stop the
+  build: their words stay, the real page goes on screen, and the doubt goes in the message with the finished video.
+  The cartoon is for their written briefs and posts, not for a video they filmed.
 - **Their own take on a market or a coin:** show what they are talking about. 12 Nov, on a recording about meme
   coins: "adding motion effects, showing memes I'm talking about, the charts, references to it in the video, and make
   what I'm talking about illustrative… make sure that you look at your notes of the things I talked about previously."
