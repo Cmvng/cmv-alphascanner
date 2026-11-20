@@ -1,0 +1,52 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>MagicMarkets referral (#ad): cover (#v, 1080x1920; its middle square is the picture for X) and wide thumbnail (#t, 1280x720, YouTube)</title>
+<style>
+@font-face{font-family:Anton;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/anton-latin-400-normal.woff2)}
+@font-face{font-family:Man;font-weight:800;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-800-normal.woff2)}
+@font-face{font-family:Mono;font-weight:700;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/jetbrains-mono-latin-700-normal.woff2)}
+/* The video's own meter: 10 BPS, the line it stands for, and the two counters at a thousand to one. Light blue house
+   look; MagicMarkets keeps its orange and its own logo. */
+:root{--ink:#0B1F4D;--blue:#1F5FDB;--mute:#5A6B8C;--mm:#FA4E00}
+*{box-sizing:border-box}
+html,body{margin:0;overflow:hidden;font-family:Man,sans-serif;font-weight:800;color:var(--ink);background:#EEF4FF}
+.abs{position:absolute}
+.bg{position:absolute;inset:0;background:radial-gradient(1200px 1200px at 50% 40%,#FFFFFF 0%,#EEF4FF 45%,#CFE0FA 100%)}
+.grid{position:absolute;inset:0;background-image:linear-gradient(rgba(31,95,219,.06) 2px,transparent 2px),linear-gradient(90deg,rgba(31,95,219,.06) 2px,transparent 2px);background-size:72px 72px}
+.mono{font-family:Mono,monospace;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+.h{font-family:Anton,sans-serif;font-weight:400;line-height:.98;white-space:nowrap}
+.c{position:absolute;left:0;width:100%;text-align:center;white-space:nowrap}
+.row{position:absolute;height:120px;border-radius:24px;background:#fff;box-shadow:0 14px 34px rgba(11,31,77,.14)}
+.row small{position:absolute;left:34px;top:44px;font-family:Mono,monospace;font-size:26px;letter-spacing:.08em;color:var(--mute)}
+.row b{position:absolute;right:34px;top:14px;font-family:Anton,sans-serif;font-weight:400;font-size:88px;line-height:1}
+.ad{display:inline-block;padding:8px 18px;border-radius:12px;background:#fff;box-shadow:0 6px 16px rgba(11,31,77,.12);font-family:Mono,monospace;font-size:24px;letter-spacing:.06em}
+</style></head>
+<body>
+<div id="v" style="display:none;position:absolute;left:0;top:0;width:1080px;height:1920px;overflow:hidden">
+  <div class="bg"></div><div class="grid"></div>
+  <!-- Cut edges of 1080x1920 from the middle: 3:4 y 240/1680, 7:8 y 343/1577, 1:1 y 420/1500, 16:9 y 656/1263.
+       The logo lies between 420 and 656; 10 BPS, its line and the handle between 656 and 1263; the meter between 1263
+       and 1500. Nothing to read above 420 or below 1500. -->
+  <div class="c" style="top:500px"><img src="img/mm_logo.png" style="width:520px"></div>
+  <div class="c h" style="top:690px;font-size:300px;color:var(--mm)">10 BPS</div>
+  <div class="c h" style="top:1000px;font-size:80px">ON EVERY TRADE</div>
+  <div class="c h" style="top:1084px;font-size:80px">YOUR REFERRALS MAKE</div>
+  <div class="c" style="top:1188px;font-size:40px"><span class="ad">#AD</span>&nbsp;&nbsp;@i_am_vickyd</div>
+  <div class="row" style="left:140px;top:1282px;width:800px;height:96px"><small style="top:34px">THEY TRADE</small><b style="font-size:72px;top:12px">$1,000</b></div>
+  <div class="row" style="left:140px;top:1394px;width:800px;height:96px"><small style="top:34px">YOU EARN</small><b style="font-size:72px;top:12px;color:var(--mm)">$1</b></div>
+</div>
+<div id="t" style="display:none;position:absolute;left:0;top:0;width:1280px;height:720px;overflow:hidden">
+  <div class="bg"></div><div class="grid"></div>
+  <img class="abs" src="img/mm_logo.png" style="left:70px;top:70px;width:360px">
+  <div class="abs h" style="left:62px;top:150px;font-size:250px;color:var(--mm)">10 BPS</div>
+  <div class="abs h" style="left:70px;top:430px;font-size:66px">ON EVERY TRADE YOUR REFERRALS MAKE</div>
+  <div class="abs" style="left:70px;top:540px;font-size:36px">$1 for every $1,000 they trade · paid monthly in USDT</div>
+  <div class="abs" style="left:70px;top:620px;font-size:32px"><span class="ad">#AD</span>&nbsp;&nbsp;@i_am_vickyd</div>
+  <div class="row" style="left:760px;top:150px;width:450px"><small>THEY TRADE</small><b style="font-size:70px;top:22px">$1,000</b></div>
+  <div class="row" style="left:760px;top:290px;width:450px"><small>YOU EARN</small><b style="font-size:70px;top:22px;color:var(--mm)">$1</b></div>
+</div>
+<script>
+const m = location.hash.includes('t') ? 't' : 'v'
+document.getElementById(m).style.display = 'block'
+window.READY = Promise.all([document.fonts.ready, ...[...document.images].map(i => i.decode().catch(() => 0))]).then(() => document.fonts.load('116px Anton')).then(() => document.fonts.load('800 30px Man')).then(() => document.fonts.load('700 24px Mono'))
+</script>
+</body></html>

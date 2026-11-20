@@ -1,0 +1,306 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>MagicMarkets referral (#ad), 20 Nov 2026: the 10 bps meter</title>
+<style>
+@font-face{font-family:Anton;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/anton-latin-400-normal.woff2)}
+@font-face{font-family:Man;font-weight:800;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-800-normal.woff2)}
+@font-face{font-family:Mono;font-weight:700;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/jetbrains-mono-latin-700-normal.woff2)}
+/* The owner's sponsored post on MagicMarkets' referral programme, read by the free house voice. Concept: the 10 bps
+   meter. Two counters, THEY TRADE and YOU EARN, run in step at a thousand to one: in the hook they climb to a whale
+   ($10M -> $10K), they come back the same way on "every thousand dollars" and again on the hypothetical (S4 rhyme,
+   S3 count-up). Every claim sits on MagicMarkets' own pages, ringed on its words (S3); Polymarket's own docs for the
+   comparison, then a two-column card (S3 verdict card); the fine print from the binding terms; three numbered steps
+   (S5, S1); stamps (S2); three stickers, both sets (S7). Light blue house look; MagicMarkets keeps its orange. */
+:root{--ink:#0B1F4D;--blue:#1F5FDB;--mute:#6B7A99;--red:#E5484D;--green:#12A150;--mm:#FA4E00}
+*{box-sizing:border-box}
+html,body{margin:0;width:1920px;height:1080px;overflow:hidden;font-family:Man,sans-serif;font-weight:800;color:var(--ink);
+  background:radial-gradient(1500px 900px at 50% 30%,#FFFFFF 0%,#EEF4FF 45%,#D9E6FA 100%)}
+#grid{position:absolute;inset:-60px;background-image:linear-gradient(rgba(31,95,219,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(31,95,219,.05) 1px,transparent 1px);background-size:60px 60px}
+#edit{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
+.card{position:absolute;left:240px;top:40px;width:1440px;height:900px;border-radius:20px;background:#fff;box-shadow:0 24px 56px rgba(11,31,77,.18),0 0 0 1.5px rgba(11,31,77,.06);overflow:hidden;opacity:0}
+.zm{position:absolute;left:0;top:0;width:1440px;height:900px;transform-origin:0 0}
+.zm>img{display:block;width:1440px;height:900px}
+.ring{position:absolute;border:4px solid var(--blue);border-radius:9px;box-shadow:0 0 0 3px rgba(31,95,219,.12);opacity:0}
+.src{position:absolute;font-family:Mono,monospace;font-weight:700;font-size:17px;letter-spacing:.05em;color:var(--mute);white-space:nowrap;text-transform:uppercase;opacity:0}
+.stamp{position:absolute;padding:10px 26px;border:7px solid var(--blue);border-radius:16px;color:var(--blue);font-family:Anton,sans-serif;font-size:70px;line-height:1;white-space:nowrap;background:rgba(255,255,255,.96);opacity:0}
+.stamp.o{border-color:var(--mm);color:var(--mm)}.stamp.r{border-color:var(--red);color:var(--red)}
+.big{position:absolute;font-family:Anton,sans-serif;line-height:1;white-space:nowrap;opacity:0}
+.panel{position:absolute;padding:16px 34px 20px;border-radius:24px;background:rgba(255,255,255,.97);box-shadow:0 18px 44px rgba(11,31,77,.16);opacity:0;white-space:nowrap}
+.panel small{display:block;font-family:Mono,monospace;font-weight:700;font-size:18px;letter-spacing:.06em;color:var(--mute);margin-bottom:6px}
+/* the meter */
+#meter{position:absolute;left:360px;top:300px;width:1200px;height:420px;opacity:0}
+.mrow{position:absolute;left:0;width:1200px;height:170px;border-radius:28px;background:#fff;box-shadow:0 18px 44px rgba(11,31,77,.14)}
+.mrow small{position:absolute;left:44px;top:62px;font-family:Mono,monospace;font-size:28px;letter-spacing:.08em;color:var(--mute)}
+.mrow b{position:absolute;right:48px;top:22px;font-family:Anton,sans-serif;font-weight:400;font-size:124px;line-height:1;font-variant-numeric:tabular-nums}
+#bps{position:absolute;left:0;width:1920px;text-align:center;top:70px;font-family:Anton,sans-serif;font-size:200px;line-height:1;color:var(--mm);opacity:0}
+#ratio{position:absolute;left:0;width:1920px;text-align:center;top:752px;font-family:Mono,monospace;font-size:30px;letter-spacing:.06em;color:var(--mute);opacity:0}
+/* comparison */
+#cmp{position:absolute;left:240px;top:200px;width:1440px;height:480px;opacity:0}
+.col{position:absolute;top:0;width:700px;height:480px;border-radius:28px;background:#fff;box-shadow:0 18px 44px rgba(11,31,77,.14);padding:40px 44px}
+.col h3{margin:0 0 30px;font-family:Anton,sans-serif;font-weight:400;font-size:72px;line-height:1}
+.crow{opacity:0;margin-bottom:34px}
+.crow small{display:block;font-family:Mono,monospace;font-size:22px;letter-spacing:.08em;color:var(--mute);margin-bottom:8px}
+.crow div{font-size:44px;line-height:1.15}
+.step{display:flex;align-items:center;gap:26px;height:120px;padding:0 40px;border-radius:26px;background:#fff;box-shadow:0 14px 34px rgba(11,31,77,.12);font-size:50px;margin-bottom:24px;opacity:0;white-space:nowrap}
+.step i{font-style:normal;flex:0 0 74px;height:74px;border-radius:50%;background:var(--mm);color:#fff;font-family:Anton,sans-serif;font-size:46px;line-height:74px;text-align:center}
+.chip{position:absolute;padding:14px 30px;border-radius:999px;background:#fff;box-shadow:0 10px 26px rgba(11,31,77,.14);font-size:40px;white-space:nowrap;opacity:0}
+.chip u{text-decoration:none;color:var(--green);margin-left:12px}
+#cap{position:absolute;left:0;top:962px;width:1920px;text-align:center;opacity:0}
+#cap span{display:inline-block;padding:9px 30px 11px;border-radius:22px;background:rgba(255,255,255,.96);box-shadow:0 12px 30px rgba(11,31,77,.16);font-size:38px;line-height:50px;white-space:nowrap}
+#cap b{color:var(--blue)}
+#handle{position:absolute;left:36px;top:28px;font-family:Mono,monospace;font-weight:700;font-size:22px;color:var(--mute);letter-spacing:.04em}
+#ad{position:absolute;right:30px;top:22px;padding:8px 18px;border-radius:12px;background:#fff;box-shadow:0 6px 16px rgba(11,31,77,.12);font-family:Mono,monospace;font-weight:700;font-size:20px;letter-spacing:.06em;color:var(--ink)}
+#stk{position:absolute;opacity:0;transform-origin:50% 90%;filter:drop-shadow(0 14px 22px rgba(11,31,77,.28))}
+#endc{position:absolute;left:0;top:0;width:1920px;height:1080px;opacity:0}
+</style></head>
+<body>
+<div id="grid"></div>
+<div id="edit">
+  <!-- the meter: hook, "every thousand dollars", the hypothetical -->
+  <div id="bps">10 BPS</div>
+  <div id="meter">
+    <div class="mrow" style="top:0"><small>THEY TRADE</small><b id="mv" style="color:var(--ink)">$0</b></div>
+    <div class="mrow" style="top:230px"><small>YOU EARN</small><b id="me" style="color:var(--mm)">$0</b></div>
+  </div>
+  <div id="ratio">$1 FOR EVERY $1,000 OF TAKER VOLUME · MAGICMARKETS DOCS, UPDATED 16 NOV</div>
+  <div class="stamp o" id="hyp" style="left:760px;top:140px;transform:rotate(-4deg)">HYPOTHETICAL</div>
+
+  <!-- MagicMarkets itself -->
+  <div class="card" id="home"><div class="zm" id="homez"><img src="img/home.jpg"></div></div>
+  <div class="src" id="homesrc" style="left:240px;top:946px">MAGICMARKETS.COM · CAPTURED 20 NOV</div>
+  <div class="card" id="dhow"><div class="zm" id="dhowz"><img src="img/dhow.jpg"></div></div>
+  <div class="src" id="dhowsrc" style="left:240px;top:946px">DOCS.MAGICMARKETS.COM · HOW THE EXCHANGE WORKS · READ 20 NOV</div>
+  <div class="card" id="dfees"><div class="zm" id="dfeesz"><img src="img/dfees.jpg"></div></div>
+  <div class="src" id="dfeessrc" style="left:240px;top:946px">DOCS · FEES · READ 20 NOV · TERMS OF SERVICE §11.1 RESERVE THE RIGHT TO ADD ONE</div>
+  <div class="big" id="v95" style="left:0;width:1920px;text-align:center;top:260px;font-size:300px;color:var(--mm)">$95M</div>
+  <div class="big" id="v95l" style="left:0;width:1920px;text-align:center;top:590px;font-size:70px;color:var(--ink)">TRADED IN THE LAST 30 DAYS</div>
+  <div class="src" id="v95s" style="left:0;width:1920px;text-align:center;top:700px">BY ITS OWN FIGURES: TEAM-MAINTAINED DUNE DATA, VIA DEFILLAMA, READ 20 NOV ($95.07M)</div>
+
+  <!-- the referral -->
+  <div class="card" id="dreft"><div class="zm" id="dreftz"><img src="img/dref_top.jpg"></div></div>
+  <div class="src" id="dreftsrc" style="left:240px;top:946px">DOCS.MAGICMARKETS.COM · REFERRALS · UPDATED 16 NOV</div>
+  <div class="chip" id="cw" style="left:1430px;top:600px">WIN<u>✓ PAYS</u></div>
+  <div class="chip" id="cl" style="left:1430px;top:690px">LOSE<u>✓ PAYS</u></div>
+  <div class="stamp o" id="flat" style="left:0;top:220px">FLAT RATE</div>
+  <div class="stamp" id="notier" style="left:0;top:420px">NO TIERS · NO CAP LISTED</div>
+  <div class="stamp" id="notrade" style="left:0;top:620px">NO NEED TO TRADE YOURSELF</div>
+
+  <!-- Polymarket, then the two columns -->
+  <div class="card" id="pm"><div class="zm" id="pmz"><img src="img/pm.jpg"></div></div>
+  <div class="src" id="pmsrc" style="left:240px;top:946px">DOCS.POLYMARKET.COM · REFERRAL PROGRAM · TERMS FROM 28 MAY 2026 · READ 20 NOV</div>
+  <div id="cmp">
+    <div class="col" style="left:0"><h3 style="color:var(--blue)">POLYMARKET</h3>
+      <div class="crow" id="c0"><small>PAYS</small><div>10% of net trading fees</div></div>
+      <div class="crow" id="c1"><small>ENDS</small><div>At Platinum, or after 30 days</div></div>
+      <div class="crow" id="c2"><small>PAID</small><div>Daily, in pUSD</div></div></div>
+    <div class="col" style="left:740px"><h3 style="color:var(--mm)">MAGICMARKETS</h3>
+      <div class="crow" id="c3"><small>PAYS</small><div>10 bps of taker volume</div></div>
+      <div class="crow" id="c4"><small>ENDS</small><div>No end date listed</div></div>
+      <div class="crow" id="c5"><small>PAID</small><div>Monthly, in USDT</div></div></div>
+  </div>
+
+  <!-- the fine print -->
+  <div class="big" id="fine" style="left:0;width:1920px;text-align:center;top:380px;font-size:190px">THE FINE PRINT</div>
+  <div class="card" id="dref"><div class="zm" id="drefz"><img src="img/dref.jpg"></div></div>
+  <div class="src" id="drefsrc" style="left:240px;top:946px">DOCS.MAGICMARKETS.COM · REFERRALS · UPDATED 16 NOV</div>
+  <div class="card" id="terms"><div class="zm" id="termsz"><img src="img/terms.jpg"></div></div>
+  <div class="card" id="terms8"><div class="zm" id="terms8z"><img src="img/terms8.jpg"></div></div>
+  <div class="src" id="termssrc" style="left:240px;top:946px">MAGICMARKETS.COM/REFERRAL-PROGRAM · REFERRAL TERMS, LAST UPDATED 1 JULY 2026 · THESE GOVERN</div>
+  <div class="stamp r" id="nomin" style="left:980px;top:690px;transform:rotate(-4deg)">NO GUARANTEED MINIMUM</div>
+
+  <!-- getting the link -->
+  <div id="steps" style="position:absolute;left:420px;top:250px;width:1080px">
+    <div class="step" id="st0"><i>1</i><span>Sign up</span></div>
+    <div class="step" id="st1"><i>2</i><span>Open <b style="color:var(--mm)">Rewards</b> in account settings</span></div>
+    <div class="step" id="st2"><i>3</i><span>Copy your link</span></div>
+  </div>
+  <div class="card" id="dlink"><div class="zm" id="dlinkz"><img src="img/dlink.jpg"></div></div>
+  <div class="src" id="dlinksrc" style="left:240px;top:946px">DOCS.MAGICMARKETS.COM · REFERRALS · GETTING YOUR LINK</div>
+
+  <!-- where it is not available -->
+  <div class="card" id="dlic"><div class="zm" id="dlicz"><img src="img/dlic.jpg"></div></div>
+  <div class="src" id="dlicsrc" style="left:240px;top:946px">DOCS.MAGICMARKETS.COM · COMPANY AND LICENCE · READ 20 NOV</div>
+  <div class="stamp r" id="s18" style="left:1300px;top:640px;transform:rotate(-5deg);font-size:96px">18+</div>
+
+  <!-- the end card -->
+  <div id="endc">
+    <img src="img/mm_logo.png" style="position:absolute;left:758px;top:250px;width:403px">
+    <div style="position:absolute;left:0;width:1920px;top:360px;text-align:center;font-family:Anton,sans-serif;font-size:110px;line-height:1"><span style="color:var(--mm)">10 BPS</span> OF REFERRED VOLUME</div>
+    <div style="position:absolute;left:0;width:1920px;top:510px;text-align:center;font-size:40px;color:var(--mute)">Paid partnership #ad · I may earn if you sign up through my link</div>
+    <div style="position:absolute;left:0;width:1920px;top:600px;text-align:center;font-size:56px">Follow <span style="color:var(--blue)">@i_am_vickyd</span> on X</div>
+    <div class="src" style="position:absolute;left:0;width:1920px;text-align:center;top:700px;opacity:1">18+ · NOT IN THE US, UK OR OTHER RESTRICTED COUNTRIES · REFERRAL TERMS APPLY</div>
+  </div>
+</div>
+<img id="stk">
+<div id="handle">@i_am_vickyd</div>
+<div id="ad">#AD · PAID PARTNERSHIP</div>
+<div id="cap"></div>
+<script src="file:///home/user/cmv-alphascanner/video/lib/motion.js"></script>
+<script src="file:///home/user/cmv-alphascanner/video/out/reactions/lib.js"></script>
+<script src="words.js"></script>
+<script>
+const $ = id => document.getElementById(id), W = window.WORDS, FPS = 30, { E, cl } = M
+const LEAD = .2, CUT = 5.75, GAP = .4, TAIL = 4.05
+const seg = (t, a, d) => cl((t - a) / d)
+let SIG = []
+const css = (el, k, v) => { el.style[k] = v; SIG.push(v) }
+const T = s => s + LEAD + (s >= CUT ? GAP : 0), ws = i => T(W[i][0]), we = i => T(W[i][1])
+const LAST = we(W.length - 1), END = LAST + TAIL, DROP = CUT + LEAD
+let BND = new Set(); const XO = .14, sa = a => BND.has(a) ? a + XO : a, sb = b => BND.has(b) ? b - XO : b
+const io = (el, t, a, b = 1e9, o = {}) => { el = typeof el === 'string' ? $(el) : el; SIG.push(M.apply(el, M.inout(t, sa(a), sb(b), o), o.base || '')) }
+const mk = (tag, cls, parent, style = {}) => { const e = document.createElement(tag); e.className = cls; Object.assign(e.style, style); parent.appendChild(e); return e }
+// rings on a capture (2x pictures shown at 1440 x 900, so k = 0.5), boxes in the capture's own pixels
+const K2 = .5, ring = (zid, [x0, y0, x1, y1], px = 7, py = 2) => mk('div', 'ring', $(zid), { left: (x0 * K2 - px) + 'px', top: (y0 * K2 - py) + 'px', width: ((x1 - x0) * K2 + 2 * px) + 'px', height: ((y1 - y0) * K2 + 2 * py) + 'px' })
+const drawRing = (e, t, a, b = 1e9, pad = 14) => { b = sb(b); const on = t >= a && t < b, u = on ? E.standard(seg(t, a, .4)) : 0, q = on ? 1 - E.exit(seg(t, b - .18, .18)) : 0
+  css(e, 'opacity', (Math.min(1, u * 3) * q).toFixed(3)); css(e, 'clipPath', `inset(-${pad}px ${(-pad + (e.offsetWidth + 2 * pad) * (1 - u)).toFixed(1)}px -${pad}px -${pad}px)`) }
+const stamp = (el, t, a, b = 1e9, rot = 0, s0 = 1.4) => { el = typeof el === 'string' ? $(el) : el; b = sb(b); const sp = M.spring(t, a, M.SP.pop), [qx, qy] = M.squash(t, a + .12)
+  const v = t >= b ? seg(t, b, .2) : 0, s = (s0 - (s0 - 1) * cl(sp, 0, 1.2))
+  css(el, 'opacity', ((t >= a ? cl((t - a) / .08) : 0) * (1 - v)).toFixed(3)); css(el, 'transform', `rotate(${rot}deg) scale(${(s * qx).toFixed(4)},${(s * qy).toFixed(4)})`) }
+const pop = (el, t, a, b = 1e9, base = '') => { el = typeof el === 'string' ? $(el) : el; b = sb(b); const sp = cl(M.spring(t, a, M.SP.pop), 0, 1.3), v = t >= b ? E.exit(seg(t, b, .22)) : 0
+  css(el, 'opacity', ((t >= a ? cl((t - a) / .1) : 0) * (1 - v)).toFixed(3)); css(el, 'transform', `${base} translateY(${((1 - sp) * 30 - v * 20).toFixed(1)}px) scale(${(.6 + .4 * sp).toFixed(4)})`) }
+// push-in: the named region (cx, cy in shown pixels) grows and drifts toward the middle; the picture covers its frame
+const zoom = (id, t, segs) => { let z = 1, tx = 0, ty = 0
+  for (const [a, b, Z, cx, cy] of segs) { const u = E.standard(seg(t, a, .6)) * (1 - E.standard(seg(t, b - .5, .5))); if (u <= 0) continue
+    z = 1 + (Z - 1) * u; const px = cx + (720 - cx) * u * .7, py = cy + (450 - cy) * u * .7
+    tx = Math.min(0, Math.max(1440 - z * 1440, px - z * cx)); ty = Math.min(0, Math.max(900 - z * 900, py - z * cy)) }
+  css($(id), 'transform', `translate(${tx.toFixed(2)}px,${ty.toFixed(2)}px) scale(${z.toFixed(4)})`) }
+const IN = { dx: 60, dy: 0, d: .42 }, BIG = { dy: 30, s0: 1.15, d: .32 }
+const money = v => '$' + Math.round(v).toLocaleString('en-US')
+// the meter's value at t: [volume, earned]; log-scale climb so every decade gets the same time
+const climb = (t, a, b, v0, v1) => { const u = E.inOut ? E.inOut(seg(t, a, b - a)) : E.standard(seg(t, a, b - a)); return Math.pow(10, Math.log10(v0) + (Math.log10(v1) - Math.log10(v0)) * u) }
+
+// rings
+const R = {
+  dhow1: ring('dhowz', [790, 996, 1411, 1036]), dhow2: ring('dhowz', [790, 1068, 2093, 1164]),
+  fee: ring('dfeesz', [726, 470, 1179, 512]),
+  ref10: ring('dreftz', [726, 648, 2039, 744]), refRw: ring('dreftz', [790, 932, 1712, 972]),
+  pmShare: ring('pmz', [713, 377, 1678, 413]), pmPlat: ring('pmz', [776, 1220, 999, 1261]), pm30: ring('pmz', [776, 1405, 909, 1444]),
+  taker: ring('drefz', [726, 1376, 1309, 1416]),
+  t31: ring('termsz', [680, 702, 1666, 740]), t32: ring('termsz', [680, 881, 2067, 967]),
+  t38: ring('terms8z', [680, 855, 1459, 893]), t38b: ring('terms8z', [849, 903, 1454, 941]),
+  rw: ring('dlinkz', [726, 1040, 1500, 1080]), signup: ring('homez', [2695, 20, 2863, 100], 6, 4),
+  uk: ring('dlicz', [1058, 1098, 2060, 1172]), age: ring('dlicz', [726, 1558, 1070, 1598]),
+}
+// captions: [from word, to word, html]
+const CAPS = [[0, 8, '<b>10 basis points</b> on every trade your referrals make'], [9, 17, 'And it doesn’t stop when they turn into <b>whales</b>'],
+  [18, 24, 'This is <b>MagicMarkets</b>, a sports prediction market'], [25, 32, 'You trade outcomes in <b>USDT</b>,'], [33, 37, 'against <b>other traders</b> and liquidity'],
+  [38, 44, 'from <b>more than 25</b> books and exchanges,'], [45, 49, 'at <b>zero commission</b> for now'], [50, 57, 'By its own figures, about <b>$95M</b>'], [58, 63, 'traded in the <b>last 30 days</b>'],
+  [64, 69, 'Its referral program pays on <b>volume</b>,'], [70, 77, 'not on whether your referrals <b>win or lose</b>'], [78, 86, 'Every <b>$1,000</b> they trade earns you <b>$1</b>,'], [87, 96, 'paid in <b>USDT</b> after each month ends'],
+  [97, 107, 'It’s a <b>flat rate</b>, with no tiers and no cap listed,'], [108, 114, 'and you <b>don’t need to trade</b> yourself'],
+  [115, 116, 'Compare <b>Polymarket</b>'], [117, 124, 'Its referral pays a <b>share of trading fees</b>,'], [125, 129, 'and it ends at <b>Platinum</b>,'], [130, 136, 'or after <b>30 days</b>, whichever comes first'],
+  [137, 141, '<b>MagicMarkets</b> lists no end date,'], [142, 148, 'so it <b>keeps paying</b> while they trade'],
+  [149, 157, 'Hypothetically, one syndicate trading <b>$10M a month</b>'], [158, 166, 'would be <b>$10,000 a month</b> to you'],
+  [167, 169, '<b>The fine print</b>'], [170, 173, 'Only <b>taker volume</b> counts,'], [174, 182, 'and the terms pay it from a <b>monthly pool</b>,'], [183, 189, 'at MagicMarkets’ discretion, with <b>no guaranteed minimum</b>'],
+  [190, 193, 'To get your link,'], [194, 201, 'sign up, open <b>Rewards</b> in your account settings,'], [202, 204, 'and <b>copy it</b>'],
+  [205, 213, 'Not available in the <b>US</b>, the <b>UK</b>,'], [214, 217, 'and other restricted countries'], [218, 219, '<b>18+</b>'],
+  [220, 224, 'This is a <b>paid partnership</b> #ad,'], [225, 235, 'and I may earn if you sign up through my link']]
+const CAP = CAPS.map(([a, b, h], i, A) => ({ t0: ws(a) - .08, t1: Math.min(we(b) + .45, A[i + 1] ? ws(A[i + 1][0]) - .08 : LAST + .4), h }))
+// stickers: Jaw Drop (grey) on the $10,000 a month; The Stare (shirtless) on the fine print; The Grin (grey), the sign-off
+const SROOT = 'file:///home/user/cmv-alphascanner/video/out/reactions/'
+const swap = async (im, src) => { if (im.getAttribute('src') !== src) { im.src = src; try { await im.decode() } catch (e) {} } SIG.push(src) }
+
+window.render = async t => {
+  SIG = []
+  css($('grid'), 'transform', `translate(${M.float(t, 20, 23).toFixed(1)}px,${M.float(t, 14, 31, .3).toFixed(1)}px)`)
+  // scene times, on the words
+  const A1 = ws(18) - .3, A2 = ws(25) - .3, A3 = ws(45) - .3, A4 = ws(50) - .3
+  const B1 = ws(64) - .3, B2 = ws(78) - .3, B3 = ws(97) - .3
+  const C1 = ws(115) - .3, C2 = ws(137) - .3
+  const D1 = ws(149) - .3, E1 = ws(167) - .3, E2 = ws(170) - .3, E3 = ws(174) - .3, E4 = ws(186) - .3
+  const F1 = ws(190) - .3, F2 = ws(196) - .3, F3 = ws(202) - .3, G1 = ws(205) - .3, ENDC = ws(220) - .3
+  BND = new Set([DROP, A1, A2, A3, A4, B1, B2, B3, C1, C2, D1, E1, E2, E3, E4, F1, F2, F3, G1, ENDC])
+
+  // ---- the meter: the hook (0 -> drop), "every thousand dollars" (B2 -> B3), the hypothetical (D1 -> E1)
+  let mv = 0, me = 0
+  if (t < DROP) { mv = t < ws(4) ? 0 : climb(t, ws(11), we(17), 1000, 1e7); if (t >= ws(4) && t < ws(11)) mv = 1000 * E.standard(seg(t, ws(4), .5)) }
+  else if (t < B3) mv = 1000 * E.standard(seg(t, ws(79) - .1, .5))
+  else mv = climb(t, ws(153) - .1, we(155), 1000, 1e7)
+  me = mv / 1000
+  $('mv').textContent = money(mv); $('me').textContent = money(me); SIG.push($('mv').textContent, $('me').textContent)
+  io('bps', t, -1, DROP, { dy: 0, d: .01 })
+  if (t < DROP + .5) io('meter', t, -1, DROP, { dy: 0, d: .01 })
+  else if (t < B3 + .5) io('meter', t, B2, B3, { dy: 30, d: .35 })
+  else io('meter', t, D1, E1, { dy: 30, d: .35 })
+  if (t < B3 + .5) io('ratio', t, B2 + .3, B3, { dy: 10 }); else io('ratio', t, D1 + .5, E1, { dy: 10 })
+  stamp('hyp', t, ws(149) + .1, E1, -5)
+
+  // ---- MagicMarkets: the live site, the book, the fees, the volume
+  io('home', t, DROP, A2, IN); io('homesrc', t, DROP + .2, A2, { dy: 8 })
+  io('dhow', t, A2, A3, IN); io('dhowsrc', t, A2 + .2, A3, { dy: 8 })
+  drawRing(R.dhow1, t, ws(34) - .1, A3); drawRing(R.dhow2, t, ws(39) - .1, A3)
+  zoom('dhowz', t, [[ws(33) - .4, A3 + 1, 1.6, 720, 560]])
+  io('dfees', t, A3, A4, IN); io('dfeessrc', t, A3 + .2, A4, { dy: 8 }); drawRing(R.fee, t, ws(46) - .1, A4)
+  zoom('dfeesz', t, [[A3 + .3, A4 + 1, 1.7, 476, 245]])
+  io('v95', t, ws(55) - .1, B1, BIG); io('v95l', t, ws(58) - .1, B1, { dy: 20, d: .3 }); io('v95s', t, ws(58), B1, { dy: 8 })
+  if (t >= ws(55) - .1 && t < B1) { const u = E.standard(seg(t, ws(55) - .1, 1.0)); $('v95').textContent = '$' + Math.round(95 * u) + 'M' } else $('v95').textContent = '$95M'
+  SIG.push($('v95').textContent)
+
+  // ---- the referral: the docs line ringed; win or lose both pay; the meter again; flat rate, no tiers, no need to trade
+  io('dreft', t, B1, B2, IN); io('dreftsrc', t, B1 + .2, B2, { dy: 8 })
+  drawRing(R.ref10, t, ws(67) - .1, B2); zoom('dreftz', t, [[ws(64) - .2, B2 + 1, 1.55, 691, 348]])
+  pop('cw', t, ws(75) - .05, B2); pop('cl', t, ws(77) - .05, B2)
+  stamp('flat', t, ws(99) - .05, C1, -3); stamp('notier', t, ws(102) - .05, C1, 2); stamp('notrade', t, ws(110) - .05, C1, -2)
+  // centre the three stamps
+  ;['flat', 'notier', 'notrade'].forEach(id => { const e = $(id); css(e, 'left', ((1920 - e.offsetWidth) / 2).toFixed(0) + 'px') })
+
+  // ---- Polymarket: its own page, the three lines ringed; then the two columns
+  io('pm', t, C1, C2, IN); io('pmsrc', t, C1 + .2, C2, { dy: 8 })
+  drawRing(R.pmShare, t, ws(121) - .1, C2); drawRing(R.pmPlat, t, ws(129) - .1, C2); drawRing(R.pm30, t, ws(132) - .1, C2)
+  zoom('pmz', t, [[ws(117) - .3, ws(125) - .2, 1.5, 598, 197], [ws(125) - .2, C2 + 1, 1.5, 420, 640]])
+  io('cmp', t, C2, D1, { dy: 30, d: .4 })
+  ;[0, 1, 2].forEach(i => io('c' + i, t, C2 + .15 + .1 * i, D1, { dx: -30, dy: 0, d: .3 }))
+  ;[3, 4, 5].forEach(i => io('c' + i, t, ws(138) - .1 + .25 * (i - 3), D1, { dx: 30, dy: 0, d: .3 }))
+
+  // ---- the fine print: heading; taker volume; the pool, the discretion; may be zero, no minimum
+  io('fine', t, E1, E2, BIG)
+  io('dref', t, E2, E3, IN); io('drefsrc', t, E2 + .2, E3, { dy: 8 }); drawRing(R.taker, t, ws(171) - .1, E3)
+  zoom('drefz', t, [[E2 + .2, E3 + 1, 1.7, 508, 698]])
+  io('terms', t, E3, E4, IN); drawRing(R.t31, t, ws(181) - .1, E4); drawRing(R.t32, t, ws(185) - .1, E4)
+  zoom('termsz', t, [[E3 + .2, E4 + 1, 1.5, 690, 420]])
+  io('terms8', t, E4, F1, IN); drawRing(R.t38, t, E4 + .3, F1); drawRing(R.t38b, t, ws(187) - .1, F1)
+  zoom('terms8z', t, [[E4 + .2, F1 + 1, 1.6, 575, 449]])
+  io('termssrc', t, E3 + .2, F1, { dy: 8 }); stamp('nomin', t, ws(188) - .05, F1, -4)
+
+  // ---- getting the link: three steps, then the docs line; Sign Up ringed on the live site
+  io('steps', t, F1, G1, { dx: 0, dy: 0, d: .01 })
+  io('st0', t, ws(194) - .15, F2, { dx: 60, dy: 0, d: .35 }); io('st1', t, ws(196) - .15, F2, { dx: 60, dy: 0, d: .35 }); io('st2', t, ws(203) - .15, G1, { dx: 60, dy: 0, d: .35 })
+  if (t >= F2 - .5 && t < G1 + .5) { io('dlink', t, F2, F3, IN); io('dlinksrc', t, F2 + .2, F3, { dy: 8 }) }
+  drawRing(R.rw, t, ws(197) - .1, F3); zoom('dlinkz', t, [[F2 + .2, F3 + 1, 1.7, 556, 530]])
+  // steps return for "copy it" (the card leaves)
+  if (t >= F3 - .2) { io('st0', t, F3, G1, { dx: 0, dy: 20, d: .3 }); io('st1', t, F3 + .08, G1, { dx: 0, dy: 20, d: .3 }); io('st2', t, F3 + .16, G1, { dx: 0, dy: 20, d: .3 }) }
+
+  // ---- where it is not available; 18+
+  io('dlic', t, G1, ENDC, IN); io('dlicsrc', t, G1 + .2, ENDC, { dy: 8 })
+  drawRing(R.uk, t, ws(209) - .1, ENDC); drawRing(R.age, t, ws(218) - .1, ENDC)
+  zoom('dlicz', t, [[G1 + .2, ws(218) - .3, 1.45, 780, 560], [ws(218) - .3, ENDC + 1, 1.45, 450, 790]])
+  stamp('s18', t, ws(218) - .05, ENDC, -5)
+
+  // ---- the end card
+  io('endc', t, ENDC, 1e9, { dy: 30, d: .5 })
+
+  // ---- stickers: the edit eases into the left, the sticker pops in on the right
+  const RX = [{ id: 'jawdrop', t0: ws(160) - .05, t1: we(166) + .35, rot: -4, f: [0, 110] }, { id: 'stare', t0: ws(167) + .05, t1: E2 + 1.6, rot: 4, f: [0, 122] },
+    { id: 'grin', t0: ENDC + .6, t1: END - .15, rot: -3, f: [0, 107] }]
+  let d = 0
+  for (const r of RX) d = Math.max(d, t < r.t0 - .35 || t > r.t1 + .3 ? 0 : Math.min(E.standard(cl((t - r.t0 + .35) / .35)), E.standard(cl((r.t1 + .3 - t) / .3))))
+  css($('edit'), 'transform', `translate(0px,${(76 * d).toFixed(1)}px) scale(${(1 - .28 * d).toFixed(4)})`)
+  const sr = RX.find(r => t >= r.t0 && t < r.t1), im = $('stk')
+  if (sr) {
+    const L = window.RLIB[sr.id], n = sr.f[1] - sr.f[0] + 1, per = 2 * (n - 1), lt = t - sr.t0
+    let i = Math.floor(lt * FPS + 1e-6); i = ((i % per) + per) % per; if (i >= n) i = per - i
+    await swap(im, `${SROOT}${sr.id}/f_${String(sr.f[0] + i + 1).padStart(4, '0')}.png`)
+    const sw = 470, h = sw * L.h / L.w, pin = cl(lt / .22), pout = cl((sr.t1 - t) / .16)
+    const sc = (pin < 1 ? 1 + 3.2 * Math.pow(pin - 1, 3) + 2.2 * Math.pow(pin - 1, 2) : 1) * (.85 + .15 * pout)
+    css(im, 'width', sw + 'px'); css(im, 'left', (1651 - sw / 2) + 'px'); css(im, 'top', (912 - h).toFixed(1) + 'px'); css(im, 'opacity', Math.min(cl(pin * 5), pout).toFixed(3))
+    css(im, 'transform', `rotate(${sr.rot}deg) scale(${sc.toFixed(3)}) translateY(${M.float(lt, 4, 3.9).toFixed(1)}px)`)
+  } else { css(im, 'opacity', '0'); SIG.push('nostk') }
+
+  // ---- captions
+  const c = CAP.find(x => t >= x.t0 && t < x.t1), html = c ? '<span>' + c.h + '</span>' : ''
+  if ($('cap').innerHTML !== html) $('cap').innerHTML = html
+  SIG.push(html); css($('cap'), 'opacity', c ? Math.min(1, (t - c.t0) / .12).toFixed(3) : '0')
+  return SIG.join('|')
+}
+window.READY = Promise.all([document.fonts.load('80px Anton'), document.fonts.load('800 40px Man'), document.fonts.load('700 30px Mono'),
+  ...[...document.images].filter(i => i.getAttribute('src')).map(i => i.decode ? i.decode().catch(() => 0) : 1)])
+</script>
+</body></html>
