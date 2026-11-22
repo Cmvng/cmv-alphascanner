@@ -509,7 +509,7 @@ story.
 - The music is audible under the voice and never fights it. No made transition sounds.
 - Nothing on screen is a redrawn interface. Every page shot shows its edges.
 - Every fact on screen has a dated source. Anything they said that is wrong has been noted for them.
-- The first frame is a whole picture: no black, blue or light, the subject in its own colours.
+- The first frame is a whole picture, never black: blue or light, with the subject in its own colours.
 - At most three reactions, and none when they are on camera throughout.
 - Their face is whole in every shot. A screen they are showing is the main picture.
 - At every moment they hold something up or point, all of it is still in the picture (compared with the raw).
