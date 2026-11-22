@@ -1,5 +1,8 @@
 # The cmvng video studio: master brief
 
+> **Out of date (6 Oct).** The current single prompt is `EDITING-STYLE-PROMPT.md` (22 Nov), built from
+> `video/OWNER-CHECKPOINT.md`. Where they differ, the checkpoint wins.
+
 Paste everything below into a new chat. It describes how cmvng videos are made: football analysis, post-match
 reviews, tips and results videos, prediction-market plays, motion-design explainers, and crypto videos (both the owner's
 own recordings and pure motion design). It was written on 6 October 2026 from the rules the owner set while making these
