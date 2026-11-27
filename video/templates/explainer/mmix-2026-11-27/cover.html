@@ -1,0 +1,60 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>MMIX: cover (#v, 1080x1920; its middle square is the picture for X) and wide thumbnail (#t, 1280x720, YouTube)</title>
+<style>
+@font-face{font-family:Anton;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/anton-latin-400-normal.woff2)}
+@font-face{font-family:Man;font-weight:800;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-800-normal.woff2)}
+@font-face{font-family:Mono;font-weight:700;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/jetbrains-mono-latin-700-normal.woff2)}
+/* The video's own idea: the open chain (unknown tiles and a RUG) against the vetted one (every tile checked). MMIX set
+   in type (its terms reserve the logo); light blue house look; MMIX keeps its burgundy, gold and cream. */
+:root{--ink:#0B1F4D;--blue:#1F5FDB;--mute:#5A6B8C;--mx:#7A1220;--gold:#C9A05A;--cream:#F4EDE2;--red:#E5484D;--green:#12A150}
+*{box-sizing:border-box}
+html,body{margin:0;overflow:hidden;font-family:Man,sans-serif;font-weight:800;color:var(--ink);background:#EEF4FF}
+.abs{position:absolute}
+.bg{position:absolute;inset:0;background:radial-gradient(1200px 1200px at 50% 40%,#FFFFFF 0%,#EEF4FF 45%,#CFE0FA 100%)}
+.grid{position:absolute;inset:0;background-image:linear-gradient(rgba(31,95,219,.06) 2px,transparent 2px),linear-gradient(90deg,rgba(31,95,219,.06) 2px,transparent 2px);background-size:72px 72px}
+.h{font-family:Anton,sans-serif;font-weight:400;line-height:1;white-space:nowrap}
+.c{position:absolute;left:0;width:100%;text-align:center;white-space:nowrap}
+.pill{display:inline-block;padding:12px 30px;border-radius:999px;background:var(--mx);color:#F3DDB0;font-family:Mono,monospace;font-weight:700;letter-spacing:.12em}
+.tile{display:inline-flex;position:relative;vertical-align:top;flex-direction:column;align-items:center;justify-content:center;margin:0 9px;border-radius:24px;background:#E7EBF3;box-shadow:0 12px 26px rgba(11,31,77,.14)}
+.tile b{font-family:Mono,monospace;font-weight:700;color:#59657E}
+.tile.rug{background:#FBE9EA}.tile.rug b{font-family:Anton,sans-serif;font-weight:400;color:var(--red);letter-spacing:.06em}
+.tile.v{background:var(--cream);border:4px solid var(--mx)}
+.tile .ok{position:absolute;right:-12px;top:-14px;width:46px;height:46px;border-radius:23px;background:var(--green);color:#fff;font-size:28px;line-height:46px;text-align:center}
+.tile .no{position:absolute;inset:0;border-radius:24px;background:linear-gradient(135deg,transparent 46%,var(--red) 46%,var(--red) 54%,transparent 54%)}
+</style></head>
+<body>
+<div id="v" style="display:none;position:absolute;left:0;top:0;width:1080px;height:1920px;overflow:hidden">
+  <div class="bg"></div><div class="grid"></div>
+  <!-- Cut edges of 1080x1920 from the middle: 3:4 y 240/1680, 7:8 y 343/1577, 1:1 y 420/1500, 16:9 y 656/1263.
+       MMIX, the two-line title, the pill and the handle lie between 676 and 1250 (inside 16:9); the open chain above
+       (450-620) and the vetted chain below (1300-1470) lie wholly inside 1:1 and never across an edge. -->
+  <div class="c" style="top:452px">
+    <div class="tile" style="width:150px;height:150px"><b style="font-size:22px">0x9A…F1</b></div><div class="tile" style="width:150px;height:150px"><b style="font-size:30px">???</b></div><div class="tile rug" style="width:150px;height:150px"><b style="font-size:44px">RUG</b><div class="no"></div></div><div class="tile" style="width:150px;height:150px"><b style="font-size:30px">???</b></div><div class="tile" style="width:150px;height:150px"><b style="font-size:22px">0x1B…7E</b></div>
+  </div>
+  <div class="c h" style="top:680px;font-size:170px;color:var(--mx);letter-spacing:.04em">MMIX</div>
+  <div class="c h" style="top:868px;font-size:104px">EVERY PROJECT</div>
+  <div class="c h" style="top:978px;font-size:104px"><span style="color:var(--mx)">VETTED</span> FIRST</div>
+  <div class="c" style="top:1104px"><span class="pill" style="font-size:34px">A LAYER 1 FOR REAL BUSINESS</span></div>
+  <div class="c" style="top:1192px;font-size:40px;color:var(--mute)">@i_am_vickyd</div>
+  <div class="c" style="top:1310px">
+    <div class="tile v" style="width:150px;height:150px"><img src="img/e/office_building_3d.png" style="width:96px"><div class="ok">✓</div></div><div class="tile v" style="width:150px;height:150px"><img src="img/e/scroll_3d.png" style="width:96px"><div class="ok">✓</div></div><div class="tile v" style="width:150px;height:150px"><img src="img/e/house_with_garden_3d.png" style="width:96px"><div class="ok">✓</div></div><div class="tile v" style="width:150px;height:150px"><img src="img/e/shield_3d.png" style="width:96px"><div class="ok">✓</div></div><div class="tile v" style="width:150px;height:150px"><img src="img/e/credit_card_3d.png" style="width:96px"><div class="ok">✓</div></div>
+  </div>
+</div>
+<div id="t" style="display:none;position:absolute;left:0;top:0;width:1280px;height:720px;overflow:hidden">
+  <div class="bg"></div><div class="grid"></div>
+  <div class="abs h" style="left:70px;top:70px;font-size:150px;color:var(--mx);letter-spacing:.04em">MMIX</div>
+  <div class="abs h" style="left:70px;top:250px;font-size:92px">EVERY PROJECT<br><span style="color:var(--mx)">VETTED</span> FIRST</div>
+  <div class="abs" style="left:72px;top:470px"><span class="pill" style="font-size:28px">A LAYER 1 FOR REAL BUSINESS</span></div>
+  <div class="abs" style="left:72px;top:620px;font-size:34px;color:var(--mute)">@i_am_vickyd</div>
+  <div class="abs" style="left:790px;top:110px;width:440px;text-align:center">
+    <div class="tile" style="width:120px;height:120px"><b style="font-size:26px">???</b></div><div class="tile rug" style="width:120px;height:120px"><b style="font-size:36px">RUG</b><div class="no"></div></div><div class="tile" style="width:120px;height:120px"><b style="font-size:26px">???</b></div>
+    <div style="height:70px;font-family:Anton,sans-serif;font-size:56px;line-height:70px;color:var(--mute)">↓</div>
+    <div class="tile v" style="width:120px;height:120px"><img src="img/e/office_building_3d.png" style="width:76px"><div class="ok">✓</div></div><div class="tile v" style="width:120px;height:120px"><img src="img/e/house_with_garden_3d.png" style="width:76px"><div class="ok">✓</div></div><div class="tile v" style="width:120px;height:120px"><img src="img/e/shield_3d.png" style="width:76px"><div class="ok">✓</div></div>
+  </div>
+</div>
+<script>
+const m = location.hash.includes('t') ? 't' : 'v'
+document.getElementById(m).style.display = 'block'
+window.READY = Promise.all([document.fonts.ready, ...[...document.images].map(i => i.decode().catch(() => 0))]).then(() => document.fonts.load('116px Anton')).then(() => document.fonts.load('800 30px Man')).then(() => document.fonts.load('700 24px Mono'))
+</script>
+</body></html>

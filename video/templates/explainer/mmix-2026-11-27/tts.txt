@@ -1,0 +1,23 @@
+Real businesses won't bring their assets on-chain if they don't know who they are sharing the chain with...
+
+Em-Mix is building a layer one where every project gets vetted before it launches...
+
+By the way, here is how it works...
+
+Companies, asset issuers and validators get reviewed first, then anyone can use the apps built on it, so things like real estate, payments and loyalty can come on-chain without the free-for-all.
+
+E V M compatible, so builders use Solidity and the Ethereum tools they already know.
+
+Validators are appointed by the Em-Mix Foundation, three planned at launch, with blocks every two to three seconds.
+
+Compliance built into the chain: an on-chain registry for K Y C tiers, issuer permissions and transfer rules.
+
+Every app runs on Em-Mix Coin for fees, from a tokenized property, to a neobank account, to an online checkout.
+
+So instead of a tokenized property sitting on the same chain as the next rug, every project there has been checked first.
+
+There is also a quest hub on hub dot em-mix dot I O, where you do tasks, earn points, and work toward the airdrop and N F T eligibility.
+
+You need to know: mainnet is planned for twenty twenty-seven, and the ecosystem apps are still getting ready. Points don't guarantee an airdrop either...
+
+You get it?

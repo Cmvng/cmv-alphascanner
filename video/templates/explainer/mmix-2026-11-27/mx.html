@@ -1,0 +1,351 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>MMIX, 27 Nov 2026: the gate</title>
+<style>
+@font-face{font-family:Anton;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/anton-latin-400-normal.woff2)}
+@font-face{font-family:Man;font-weight:800;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-800-normal.woff2)}
+@font-face{font-family:Man;font-weight:600;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-600-normal.woff2)}
+@font-face{font-family:Mono;font-weight:700;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/jetbrains-mono-latin-700-normal.woff2)}
+/* The owner's MMIX post, read by Lara. Concept: THE GATE. The hook is an open chain: a real asset hovers over a row of
+   unknown tiles ("???", addresses, a RUG) and will not step on; the same chain comes back on "instead of a tokenized
+   property sitting on the same chain as the next rug": the rug drops off and every tile gets its check (S4 rhyme). In
+   between, how it works is acted out: companies, asset issuers and validators pass a gate one by one and land VETTED on
+   the chain, while anyone can use the apps (S6, S1); MMIX's own pages (the owner's four screenshots) ringed on the
+   words (S3); MMIX's own sentences as quote cards with their source for what the screenshots do not show (S3); the
+   registry that builds row by row (S3); one MMIX Coin flying to each app it pays for (S6); stamps (S2); two stickers,
+   one from each set (S7). Light blue house look; MMIX keeps its burgundy, gold and cream. No standalone MMIX logo (its
+   terms reserve the logo); the name is set in type. */
+:root{--ink:#0B1F4D;--blue:#1F5FDB;--mute:#6B7A99;--red:#E5484D;--green:#12A150;--mx:#7A1220;--gold:#C9A05A;--cream:#F4EDE2}
+*{box-sizing:border-box}
+html,body{margin:0;width:1920px;height:1080px;overflow:hidden;font-family:Man,sans-serif;font-weight:800;color:var(--ink);
+  background:radial-gradient(1500px 900px at 50% 30%,#FFFFFF 0%,#EEF4FF 45%,#D9E6FA 100%)}
+#grid{position:absolute;inset:-60px;background-image:linear-gradient(rgba(31,95,219,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(31,95,219,.05) 1px,transparent 1px);background-size:60px 60px}
+#edit{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
+.card{position:absolute;border-radius:22px;background:#fff;box-shadow:0 24px 56px rgba(11,31,77,.20),0 0 0 1.5px rgba(11,31,77,.07);overflow:hidden;opacity:0}
+.zm{position:absolute;left:0;top:0;transform-origin:0 0}
+.zm>img{display:block}
+.ring{position:absolute;border:5px solid var(--blue);border-radius:12px;box-shadow:0 0 0 4px rgba(31,95,219,.16);opacity:0}
+.ring.g{border-color:var(--gold);box-shadow:0 0 0 4px rgba(201,160,90,.3)}
+.src{position:absolute;font-family:Mono,monospace;font-weight:700;font-size:17px;letter-spacing:.05em;color:var(--mute);white-space:nowrap;text-transform:uppercase;opacity:0}
+.stamp{position:absolute;padding:10px 26px;border:7px solid var(--mx);border-radius:16px;color:var(--mx);font-family:Anton,sans-serif;font-size:66px;line-height:1;white-space:nowrap;background:rgba(255,255,255,.96);opacity:0}
+.stamp.gr{border-color:var(--green);color:var(--green)}.stamp.r{border-color:var(--red);color:var(--red)}
+.lbl{position:absolute;font-family:Mono,monospace;font-weight:700;font-size:24px;letter-spacing:.12em;color:var(--mute);white-space:nowrap;opacity:0}
+.tile{position:absolute;width:190px;height:190px;border-radius:26px;background:#E7EBF3;box-shadow:0 12px 26px rgba(11,31,77,.14);display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0}
+.tile b{font-family:Mono,monospace;font-weight:700;font-size:26px;letter-spacing:.04em;color:#59657E}
+.tile.rug b{color:var(--red);font-size:44px;font-family:Anton,sans-serif;letter-spacing:.06em}
+.tile .q{position:absolute;right:-14px;top:-18px;width:56px;height:56px;border-radius:28px;background:#fff;box-shadow:0 8px 18px rgba(11,31,77,.2);font-family:Anton,sans-serif;font-size:38px;line-height:56px;text-align:center;color:var(--mute);opacity:0}
+.tile .ok{position:absolute;right:-14px;top:-18px;width:56px;height:56px;border-radius:28px;background:var(--green);box-shadow:0 8px 18px rgba(11,31,77,.2);color:#fff;font-size:34px;line-height:56px;text-align:center;opacity:0}
+.tile.v{background:var(--cream);border:4px solid var(--mx)}
+.tile img{width:110px;height:110px;display:block}
+.tile u{text-decoration:none;margin-top:6px;font-size:22px;letter-spacing:.02em;color:var(--mx);white-space:nowrap}
+#asset{position:absolute;left:845px;top:70px;width:230px;height:250px;border-radius:30px;background:var(--cream);border:5px solid var(--mx);box-shadow:0 18px 40px rgba(122,18,32,.22);display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0}
+#asset img{width:130px;height:130px}
+#asset u{text-decoration:none;margin-top:8px;font-size:26px;color:var(--mx);white-space:nowrap}
+#rail{position:absolute;left:150px;top:648px;width:1620px;height:10px;border-radius:5px;background:repeating-linear-gradient(90deg,#B9C3D6 0 30px,transparent 30px 46px);opacity:0}
+.post{position:absolute;top:210px;width:34px;height:520px;border-radius:17px;background:linear-gradient(180deg,#E3C78E,#B98D45);box-shadow:0 10px 24px rgba(122,18,32,.25);opacity:0}
+#beam{position:absolute;left:890px;top:230px;width:140px;height:480px;opacity:0;background:linear-gradient(90deg,rgba(201,160,90,0),rgba(201,160,90,.28),rgba(201,160,90,0))}
+#scan{position:absolute;left:890px;width:140px;height:8px;border-radius:4px;background:var(--gold);box-shadow:0 0 18px rgba(201,160,90,.9);opacity:0}
+.blk{position:absolute;width:150px;height:96px;border-radius:18px;background:var(--mx);box-shadow:0 10px 22px rgba(122,18,32,.25);color:#F3DDB0;font-family:Mono,monospace;font-weight:700;font-size:20px;line-height:96px;text-align:center;opacity:0}
+.gap{position:absolute;font-family:Mono,monospace;font-weight:700;font-size:20px;color:var(--mx);opacity:0;white-space:nowrap}
+.qc{position:absolute;padding:30px 44px 26px;border-radius:28px;background:#fff;box-shadow:0 22px 50px rgba(11,31,77,.16);opacity:0}
+.qc p{margin:0;font-family:Man,sans-serif;font-weight:800;font-size:50px;line-height:1.18;color:var(--ink)}
+.qc p em{font-style:normal;color:var(--mx)}
+.qc small{display:block;margin-top:18px;font-family:Mono,monospace;font-weight:700;font-size:18px;letter-spacing:.06em;color:var(--mute);text-transform:uppercase}
+.row{display:flex;align-items:center;gap:26px;height:124px;padding:0 10px;border-top:2px solid #E9EDF5;opacity:0}
+.row img{width:84px;height:84px}
+.row b{font-size:46px;white-space:nowrap}
+.row i{font-style:normal;margin-left:auto;font-family:Mono,monospace;font-weight:700;font-size:18px;letter-spacing:.06em;color:var(--mute);text-transform:uppercase;white-space:nowrap}
+#coin{position:absolute;left:0;top:0;width:170px;height:170px;margin:-85px 0 0 -85px;border-radius:50%;background:radial-gradient(circle at 34% 28%,#F6E2B4 0%,#D2A65C 55%,#9C7330 100%);border:6px solid rgba(255,255,255,.85);box-shadow:inset 0 -9px 0 rgba(0,0,0,.15),0 18px 34px rgba(122,18,32,.3);color:var(--mx);font-family:Anton,sans-serif;font-size:44px;line-height:1;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0}
+#coin small{font-family:Mono,monospace;font-weight:700;font-size:16px;letter-spacing:.12em;margin-top:4px}
+#cap{position:absolute;left:0;top:962px;width:1920px;text-align:center;opacity:0}
+#cap span{display:inline-block;padding:9px 30px 11px;border-radius:22px;background:rgba(255,255,255,.96);box-shadow:0 12px 30px rgba(11,31,77,.16);font-size:38px;line-height:50px;white-space:nowrap}
+#cap b{color:var(--mx)}
+#handle{position:absolute;left:36px;top:28px;font-family:Mono,monospace;font-weight:700;font-size:22px;color:var(--mute);letter-spacing:.04em}
+#stk{position:absolute;opacity:0;transform-origin:50% 90%;filter:drop-shadow(0 14px 22px rgba(11,31,77,.28))}
+.chip{display:inline-flex;align-items:center;gap:18px;margin:0 18px;padding:18px 36px 18px 24px;border-radius:999px;background:var(--cream);border:4px solid var(--mx);box-shadow:0 14px 30px rgba(122,18,32,.18);font-size:52px;color:var(--mx);white-space:nowrap;opacity:0}
+.chip img{width:76px;height:76px}
+.row.hs b{font-size:38px}
+#endc{position:absolute;left:0;top:0;width:1920px;height:1080px;opacity:0}
+.er{display:inline-block;margin:0 10px;padding:14px 28px;border-radius:999px;background:#fff;box-shadow:0 10px 24px rgba(11,31,77,.12);font-size:32px;white-space:nowrap}
+.er b{color:var(--mx)}
+</style></head>
+<body>
+<div id="grid"></div>
+<div id="edit">
+  <div id="cards"></div>
+  <!-- the open chain (hook) and the same chain again (payoff) -->
+  <div id="open"><div id="rail"></div>
+    <div class="lbl" id="olbl" style="left:150px;top:880px">AN OPEN CHAIN · "OPEN CHAINS LET ANYONE DEPLOY ANYTHING." (MMIX.IO)</div>
+    <div id="asset"><img src="img/e/house_with_garden_3d.png"><u id="assetu">your real asset</u></div>
+  </div>
+  <!-- the gate -->
+  <div id="gate"><div class="post" id="p1" style="left:856px"></div><div class="post" id="p2" style="left:1030px"></div><div id="beam"></div><div id="scan"></div>
+    <div class="lbl" id="glbl" style="left:0;width:1920px;text-align:center;top:112px">REVIEWED FIRST</div>
+    <div class="lbl" id="ulbl" style="left:1230px;top:880px">ANYONE CAN USE THE APPS</div>
+  </div>
+  <!-- validators and blocks -->
+  <div id="val"></div>
+  <!-- the registry -->
+  <div class="qc" id="reg" style="left:430px;top:110px;width:1060px;padding:26px 40px 22px">
+    <div style="font-family:Mono,monospace;font-weight:700;font-size:22px;letter-spacing:.12em;color:var(--mx);margin-bottom:14px">COMPLIANCE BUILT INTO THE CHAIN</div>
+    <div class="row" id="rw0"><img src="img/e/bust_in_silhouette_3d.png"><b>KYC tiers</b><i>on-chain registry</i></div>
+    <div class="row" id="rw1"><img src="img/e/scroll_3d.png"><b>Issuer permissions</b><i>in the protocol</i></div>
+    <div class="row" id="rw2"><img src="img/e/check_mark_button_3d.png"><b>Transfer rules</b><i>in the protocol</i></div>
+    <small style="display:block;margin-top:14px;font-family:Mono,monospace;font-weight:700;font-size:16px;letter-spacing:.04em;color:var(--mute);line-height:1.5">MMIX.IO/WHY-MMIX: "AN ON-CHAIN REGISTRY RECORDS VERIFICATION STATUS, KYC TIERS AND REGIONAL RULES."<br>MMIX.IO: "WHITELISTING, ISSUER PERMISSIONS AND TRANSFER RULES ARE BUILT INTO THE PROTOCOL." · READ 27 NOV 2026</small>
+  </div>
+  <div id="coin">MMIX<small>COIN</small></div>
+  <!-- quote cards: MMIX's own sentences, with their source -->
+  <div class="qc" id="qEvm" style="left:430px;top:250px;width:1060px"><p>“<em>EVM-compatible</em>, so <em>Solidity</em> and <em>Ethereum tooling</em> work as they are.”</p><small>MMIX.IO · "FOR DEVELOPERS" · READ 27 NOV 2026</small></div>
+  <div id="evc" style="position:absolute;left:0;top:560px;width:1920px;text-align:center">
+    <span class="chip" id="ch0"><img src="img/e/gem_stone_3d.png">EVM</span><span class="chip" id="ch1"><img src="img/e/scroll_3d.png">Solidity</span><span class="chip" id="ch2"><img src="img/e/hammer_and_wrench_3d.png">Ethereum tools</span>
+    <div class="lbl" id="evl" style="position:relative;margin-top:40px">BUILDERS USE WHAT THEY ALREADY KNOW</div>
+  </div>
+  <div class="qc" id="qVal" style="left:430px;top:70px;width:1060px"><p>“At launch, <em>three master node validators</em> will run in separate regions and cloud environments.”</p><small>MMIX.IO/FAQ · "WHO RUNS THE NETWORK?" · READ 27 NOV 2026</small></div>
+  <div class="qc" id="qCav" style="left:330px;top:90px;width:1260px;padding:26px 40px 22px">
+    <div style="font-family:Mono,monospace;font-weight:700;font-size:22px;letter-spacing:.12em;color:var(--mx);margin-bottom:14px">YOU NEED TO KNOW</div>
+    <div class="row" id="cv0"><img src="img/e/construction_3d.png"><b>Mainnet: planned for 2027</b><i>mmix.io/faq</i></div>
+    <div class="row" id="cv1"><img src="img/e/hammer_and_wrench_3d.png"><b>Apps: getting ready</b><i>mmix.io</i></div>
+    <div class="row" id="cv2"><img src="img/e/prohibited_3d.png"><b>Points: no promise of a return</b><i>disclaimers §8</i></div>
+    <small style="display:block;margin-top:14px;font-family:Mono,monospace;font-weight:700;font-size:16px;letter-spacing:.04em;color:var(--mute);line-height:1.5">"MAINNET IS PLANNED FOR 2027." · "COMPANIES AND PROJECTS GETTING READY FOR MAINNET." · REWARDS "ARE NOT AN INVESTMENT OR A PROMISE OF ANY RETURN." · READ 27 NOV 2026</small>
+  </div>
+  <div class="qc" id="hsp" style="left:1210px;top:250px;width:680px;padding:26px 36px 22px">
+    <div style="font-family:Mono,monospace;font-weight:700;font-size:22px;letter-spacing:.12em;color:var(--mx);margin-bottom:14px">THE MMIX POINTS PROGRAM</div>
+    <div class="row hs" id="hs0"><img src="img/e/check_mark_button_3d.png"><b>1 · Complete tasks</b></div>
+    <div class="row hs" id="hs1"><img src="img/e/coin_3d.png"><b>2 · Earn points</b></div>
+    <div class="row hs" id="hs2"><img src="img/e/gem_stone_3d.png"><b>3 · Airdrop &amp; NFTs</b><i>eligibility</i></div>
+    <small style="display:block;margin-top:14px;font-family:Mono,monospace;font-weight:700;font-size:16px;letter-spacing:.04em;color:var(--mute);line-height:1.5">HUB.MMIX.IO: "COMPLETE TASKS › EARN POINTS › BECOME ELIGIBLE FOR MMIX AIRDROP &amp; NFTS" · READ 27 NOV 2026</small>
+  </div>
+  <div class="stamp r" id="nog" style="left:1180px;top:640px">NOT GUARANTEED</div>
+  <div class="qc" id="qEnd" style="left:360px;top:250px;width:1200px;text-align:center"><p style="font-size:96px;line-height:1.05">Not everyone gets in.<br><em>That’s the point.</em></p><small>MMIX.IO · THE HOME PAGE · READ 27 NOV 2026</small></div>
+  <div class="stamp" id="nfa" style="left:700px;top:815px">NO FREE-FOR-ALL</div>
+  <div class="stamp gr" id="chk" style="left:740px;top:90px">CHECKED FIRST</div>
+  <div id="endc">
+    <div style="position:absolute;left:0;width:1920px;top:170px;text-align:center;font-family:Anton,sans-serif;font-size:170px;line-height:1;color:var(--mx);letter-spacing:.04em">MMIX</div>
+    <div style="position:absolute;left:0;width:1920px;top:390px;text-align:center;font-family:Anton,sans-serif;font-size:80px;line-height:1">EVERY PROJECT <span style="color:var(--mx)">VETTED</span> BEFORE IT LAUNCHES</div>
+    <div style="position:absolute;left:0;width:1920px;top:530px;text-align:center"><span class="er">EVM</span><span class="er">3 validators at launch</span><span class="er">Compliance built in</span><span class="er"><b>Mainnet planned 2027</b></span></div>
+    <div style="position:absolute;left:0;width:1920px;top:660px;text-align:center;font-size:56px">Follow <span style="color:var(--blue)">@i_am_vickyd</span> on X</div>
+    <div class="src" style="position:absolute;left:0;width:1920px;text-align:center;top:760px;opacity:1">MMIX.IO AND HUB.MMIX.IO · READ 27 NOV 2026 · PLANS MAY CHANGE · 18+ · NOT FINANCIAL ADVICE</div>
+  </div>
+</div>
+<img id="stk">
+<div id="handle">@i_am_vickyd</div>
+<div id="cap"></div>
+<script src="file:///home/user/cmv-alphascanner/video/lib/motion.js"></script>
+<script src="file:///home/user/cmv-alphascanner/video/out/reactions/lib.js"></script>
+<script src="timing.js"></script>
+<script>
+const $ = id => document.getElementById(id), W = window.WORDS, FPS = 30, { E, cl } = M
+const ws = i => W[i].s, we = i => W[i].e
+const LAST = we(W.length - 1), ENDC = LAST + .3, END = 82.3
+const seg = (t, a, d) => cl((t - a) / d)
+let SIG = []
+const css = (el, k, v) => { el.style[k] = v; SIG.push(v) }
+// at a scene change the old picture is gone (its exit takes about 0.29 s) before the new one comes in
+let BND = new Set(); const XI = .26, XO = .06, sa = a => BND.has(a) ? a + XI : a, sb = b => BND.has(b) ? b - XO : b
+const io = (el, t, a, b = 1e9, o = {}) => { el = typeof el === 'string' ? $(el) : el; SIG.push(M.apply(el, M.inout(t, sa(a), sb(b), o), o.base || '')) }
+const mk = (tag, cls, parent, style = {}, html = '') => { const e = document.createElement(tag); e.className = cls; Object.assign(e.style, style); if (html) e.innerHTML = html; parent.appendChild(e); return e }
+const STAGE = { x: 390, y: 34, w: 1490, h: 890 }, MID = { x: 215, y: 34, w: 1490, h: 890 }
+const C = {}
+function card(id, src, iw, ih, box = MID, srcText = '') {
+  const s = Math.min(box.w / iw, box.h / ih, 1), w = iw * s, h = ih * s, x = box.x + (box.w - w) / 2, y = box.y + (box.h - h) / 2
+  const el = mk('div', 'card', $('cards'), { left: x + 'px', top: y + 'px', width: w + 'px', height: h + 'px' })
+  const zm = mk('div', 'zm', el, { width: w + 'px', height: h + 'px' }); mk('img', '', zm, { width: w + 'px', height: h + 'px' }).src = src
+  const sr = srcText ? mk('div', 'src', $('cards'), { left: x + 'px', top: (y + h + 12) + 'px' }, srcText) : null
+  return (C[id] = { el, zm, s, w, h, x, y, sr })
+}
+const ring = (c, [x0, y0, x1, y1], cls = 'ring', px = 10, py = 6) => mk('div', cls, c.zm, { left: (x0 * c.s - px) + 'px', top: (y0 * c.s - py) + 'px', width: ((x1 - x0) * c.s + 2 * px) + 'px', height: ((y1 - y0) * c.s + 2 * py) + 'px' })
+const drawRing = (e, t, a, b = 1e9, pad = 14) => { b = sb(b); const on = t >= a && t < b, u = on ? E.standard(seg(t, a, .4)) : 0, q = on ? 1 - E.exit(seg(t, b - .18, .18)) : 0
+  css(e, 'opacity', (Math.min(1, u * 3) * q).toFixed(3)); css(e, 'clipPath', `inset(-${pad}px ${(-pad + (e.offsetWidth + 2 * pad) * (1 - u)).toFixed(1)}px -${pad}px -${pad}px)`) }
+const stamp = (el, t, a, b = 1e9, rot = 0, s0 = 1.4) => { el = typeof el === 'string' ? $(el) : el; b = sb(b); const sp = M.spring(t, a, M.SP.pop), [qx, qy] = M.squash(t, a + .12)
+  const v = t >= b ? seg(t, b, .2) : 0, s = (s0 - (s0 - 1) * cl(sp, 0, 1.2))
+  css(el, 'opacity', ((t >= a ? cl((t - a) / .08) : 0) * (1 - v)).toFixed(3)); css(el, 'transform', `rotate(${rot}deg) scale(${(s * qx).toFixed(4)},${(s * qy).toFixed(4)})`) }
+const pop = (el, t, a, b = 1e9, base = '') => { el = typeof el === 'string' ? $(el) : el; b = sb(b); const sp = cl(M.spring(t, a, M.SP.pop), 0, 1.3), v = t >= b ? E.exit(seg(t, b, .22)) : 0
+  css(el, 'opacity', ((t >= a ? cl((t - a) / .1) : 0) * (1 - v)).toFixed(3)); css(el, 'transform', `${base} translateY(${((1 - sp) * 30 - v * 20).toFixed(1)}px) scale(${(.6 + .4 * sp).toFixed(4)})`) }
+const IN = { dx: 60, dy: 0, d: .42 }
+
+// ---- the owner's four screenshots of MMIX's own pages (shown at their own pixels, no push-in past them)
+const RD = 'MMIX.IO · SCREENSHOT SENT BY THE OWNER'
+card('hero', 'img/hero.png', 1440, 900, MID, RD + ' · THE HOME PAGE')
+card('notall', 'img/notall.png', 1440, 900, MID, RD + ' · THE HOME PAGE')
+card('eco', 'img/eco.png', 1440, 900, MID, RD + ' · LINED UP FOR MAINNET')
+card('hub', 'img/hub_crop.png', 930, 900, { x: 250, y: 34, w: 920, h: 890 }, 'HUB.MMIX.IO · THE MMIX POINTS PROGRAM · SCREENSHOT SENT BY THE OWNER, LEADERBOARD LEFT OUT')
+const R = {
+  title: ring(C.hero, [280, 268, 1166, 482], 'ring g'), vet: ring(C.hero, [444, 512, 936, 546], 'ring g', 6),
+  val: ring(C.notall, [104, 576, 400, 696]), comp: ring(C.notall, [940, 576, 1270, 696]),
+  re: ring(C.eco, [136, 282, 470, 362]), pay: ring(C.eco, [956, 282, 1300, 424]), loy: ring(C.eco, [956, 706, 1260, 796]),
+  re2: ring(C.eco, [136, 282, 470, 362]), bank: ring(C.eco, [956, 366, 1300, 424]), chk: ring(C.eco, [136, 718, 436, 760]),
+  hubT: ring(C.hub, [30, 284, 352, 326], 'ring g'), task: ring(C.hub, [38, 331, 153, 352], 'ring g', 4, 5), pts: ring(C.hub, [164, 331, 247, 352], 'ring g', 4, 5), elig: ring(C.hub, [259, 331, 539, 352], 'ring g', 4, 5),
+}
+// ---- the open chain: six tiles; the asset above them
+const OX = [180, 440, 700, 1030, 1290, 1550], OL = ['0x9A…F1', '???', '0x44…C2', 'RUG', '0x1B…7E', '???']
+const OT = OX.map((x, i) => mk('div', 'tile' + (OL[i] === 'RUG' ? ' rug' : ''), $('open'), { left: x + 'px', top: '440px' }, `<b>${OL[i]}</b><div class="q">?</div><div class="ok">✓</div>`))
+// ---- the gate: three who get reviewed; the people who use the apps
+const GW = [['office_building_3d', 'Companies'], ['scroll_3d', 'Asset issuers'], ['shield_3d', 'Validators']]
+const GT = GW.map(([n, l], i) => mk('div', 'tile v', $('gate'), { left: '0px', top: '0px' }, `<img src="img/e/${n}.png"><u>${l}</u><div class="ok">✓</div>`))
+const PPL = [0, 1, 2, 3, 4].map(i => mk('img', '', $('gate'), { position: 'absolute', left: (1230 + 110 * i) + 'px', top: '760px', width: '96px', height: '96px', opacity: 0 }))
+PPL.forEach(e => e.src = 'img/e/bust_in_silhouette_3d.png')
+const grail = mk('div', 'blk', $('gate'), { left: '1225px', top: '608px', width: '630px', height: '70px', lineHeight: '70px', fontSize: '22px', letterSpacing: '.1em' }, 'THE MMIX CHAIN')
+// ---- validators: three shields, then blocks every 2-3 s
+const VS = [0, 1, 2].map(i => mk('div', 'tile v', $('val'), { left: (610 + 260 * i) + 'px', top: '420px' }, `<img src="img/e/shield_3d.png"><u>Validator ${i + 1}</u>`))
+const VB = [0, 1, 2, 3, 4].map(i => mk('div', 'blk', $('val'), { left: (300 + 270 * i) + 'px', top: '720px' }, `BLOCK ${i + 1}`))
+const VG = [0, 1, 2, 3].map(i => mk('div', 'gap', $('val'), { left: (300 + 270 * i + 160) + 'px', top: '752px' }, '2–3 s'))
+const vlbl = mk('div', 'lbl', $('val'), { left: '0', width: '1920px', textAlign: 'center', top: '650px' }, 'APPOINTED BY THE MMIX FOUNDATION · PLANNED FOR LAUNCH')
+const vsrc = mk('div', 'src', $('val'), { left: '0', width: '1920px', textAlign: 'center', top: '850px' }, 'MMIX.IO/FAQ: "NEW BLOCKS ARE PRODUCED EVERY 2–3 SECONDS AT LAUNCH." · PLANS MAY CHANGE (DISCLAIMERS §6)')
+
+// captions: [from word, to word, html]
+const CAPS = [[0, 6, 'Real businesses won’t bring their assets onchain'], [7, 17, 'if they don’t know who they are <b>sharing the chain with</b>'],
+  [18, 23, '<b>MMIX</b> is building a <b>layer 1</b>'], [24, 31, 'where every project gets <b>vetted</b> before it launches'], [32, 39, 'By the way, here is how it works'],
+  [40, 47, '<b>Companies, asset issuers and validators</b> get reviewed first,'], [48, 56, 'then <b>anyone</b> can use the apps built on it,'],
+  [57, 64, 'so things like <b>real estate, payments and loyalty</b>'], [65, 72, 'can come onchain without the <b>free for all</b>'],
+  [73, 74, '<b>EVM compatible</b>,'], [75, 85, 'so builders use <b>Solidity</b> and the Ethereum tools they already know'],
+  [86, 92, 'Validators are appointed by the <b>MMIX Foundation</b>,'], [93, 101, '<b>3</b> planned at launch, with blocks every <b>2-3 seconds</b>'],
+  [102, 106, '<b>Compliance</b> built into the chain:'], [107, 117, 'an onchain registry for <b>KYC tiers</b>, <b>issuer permissions</b> and <b>transfer rules</b>'],
+  [118, 125, 'Every app runs on <b>MMIX Coin</b> for fees,'], [126, 137, 'from a tokenized property, to a neobank account, to an online checkout'],
+  [138, 143, 'So instead of a tokenized property'], [144, 152, 'sitting on the same chain as the <b>next rug</b>,'], [153, 159, 'every project there has been <b>checked first</b>'],
+  [160, 167, 'There is also a <b>quest hub</b> on <b>hub.mmix.io</b>,'], [168, 173, 'where you do <b>tasks</b>, earn <b>points</b>,'], [174, 181, 'and work toward the airdrop and <b>NFT eligibility</b>'],
+  [182, 185, 'You need to know:'], [186, 190, '<b>mainnet</b> is planned for <b>2027</b>,'], [191, 198, 'and the ecosystem apps are still getting ready'],
+  [199, 204, 'Points <b>don’t guarantee</b> an airdrop either'], [205, 207, 'You get it? ✍️']]
+const CAP = CAPS.map(([a, b, h], i, A) => ({ t0: ws(a) - .08, t1: Math.min(we(b) + .45, A[i + 1] ? ws(A[i + 1][0]) - .08 : LAST + .3), h }))
+// stickers: Side-Eye (grey T-shirt) on "the next rug"; Nervous (shirtless) on "points don't guarantee an airdrop"
+const SROOT = 'file:///home/user/cmv-alphascanner/video/out/reactions/'
+const swap = async (im, src) => { if (im.getAttribute('src') !== src) { im.src = src; try { await im.decode() } catch (e) {} } SIG.push(src) }
+// where a point of a screenshot lands on the page
+const at = (c, x, y) => [c.x + x * c.s, c.y + y * c.s]
+
+window.render = async t => {
+  SIG = []
+  css($('grid'), 'transform', `translate(${M.float(t, 20, 23).toFixed(1)}px,${M.float(t, 14, 31, .3).toFixed(1)}px)`)
+  const A = ws(18) - .3, B = ws(32) - .3, Cs = ws(57) - .3, D = ws(73) - .3, E1 = ws(86) - .3, E2 = ws(93) - .3, F1 = ws(102) - .3, F2 = ws(107) - .3
+  const G = ws(118) - .3, H = ws(138) - .3, I = ws(160) - .3, J = ws(182) - .3, K = ws(205) - .3
+  BND = new Set([A, B, Cs, D, E1, E2, F1, F2, G, H, I, J, K, ENDC])
+
+  // ---- 1 and 8. the open chain: the asset will not step on; later it sits there with the rug, the rug drops, all checked
+  const openOn = t < A + .5 ? [-1, A] : [H, I]
+  const oo = M.inout(t, sa(openOn[0]), sb(openOn[1]), { dy: 0, d: .01 }).op
+  css($('open'), 'opacity', oo.toFixed(3)); css($('rail'), 'opacity', '1'); css($('olbl'), 'opacity', t < A ? '1' : '0')
+  if (oo > 0) {
+    const late = t >= H - .5
+    OT.forEach((e, i) => {
+      const a = late ? H + .15 + .05 * i : -1, k = late ? M.inout(t, a, 1e9, { dy: 30, d: .3 }) : { op: 1, y: 0, s: 1, x: 0 }
+      const rugOut = late && OL[i] === 'RUG' ? E.exit(seg(t, ws(153) - .1, .6)) : 0, dx = late ? (i < 3 ? 205 + 220 * i : 205 + 220 * (i + 1)) - OX[i] : 0
+      css(e, 'opacity', (k.op * (1 - rugOut)).toFixed(3)); css(e, 'transform', `translate(${dx}px,${(k.y + 260 * rugOut).toFixed(1)}px) rotate(${(18 * rugOut).toFixed(1)}deg)`)
+      css(e, 'boxShadow', late && OL[i] === 'RUG' && t >= ws(151) - .1 && t < ws(153) ? `0 0 0 ${(6 + 4 * Math.sin((t - ws(151)) * 12)).toFixed(1)}px rgba(229,72,77,.45)` : '')
+      const q = e.querySelector('.q'), ok = e.querySelector('.ok')
+      css(q, 'opacity', (!late && t >= ws(14) + .07 * i ? cl((t - ws(14) - .07 * i) / .15) : 0).toFixed(3))
+      css(ok, 'opacity', (late && OL[i] !== 'RUG' && t >= ws(158) - .1 + .06 * i ? cl((t - ws(158) + .1 - .06 * i) / .15) : 0).toFixed(3))
+      css(e, 'background', late && t >= ws(158) - .1 + .06 * i && OL[i] !== 'RUG' ? '#F4EDE2' : (OL[i] === 'RUG' ? '#FBE9EA' : '#E7EBF3'))
+    })
+    // the asset: hovers and shakes its head in the hook; sits on the chain (in the rug's row) in the payoff
+    const as = $('asset')
+    if (!late) { const hv = M.float(t, 8, 2.6), sh = t >= ws(2) && t < ws(7) ? 10 * Math.sin((t - ws(2)) * 22) * Math.exp(-2 * (t - ws(2))) : 0
+      css(as, 'opacity', '1'); css(as, 'transform', `translate(${sh.toFixed(1)}px,${hv.toFixed(1)}px)`); $('assetu').textContent = 'your real asset' }
+    else { const k = E.standard(seg(t, ws(142) - .15, .6)), [qx, qy] = M.squash(t, ws(142) + .45); css(as, 'opacity', cl((t - H - .1) / .2).toFixed(3))
+      css(as, 'transform', `translate(0px,${(340 * k).toFixed(1)}px) scale(${((1 - .174 * k) * qx).toFixed(4)},${((1 - .174 * k) * qy).toFixed(4)})`); $('assetu').textContent = 'tokenized property' }
+    css($('assetu'), 'fontSize', late ? '21px' : '26px')
+    css($('rail'), 'background', late && t >= ws(158) - .1 ? 'repeating-linear-gradient(90deg,#7A1220 0 30px,transparent 30px 46px)' : 'repeating-linear-gradient(90deg,#B9C3D6 0 30px,transparent 30px 46px)')
+    SIG.push($('assetu').textContent)
+  }
+  stamp('chk', t, ws(158) - .05, I, -4)
+
+  // ---- 2. MMIX's own home page: the title, "Every company vetted"
+  io(C.hero.el, t, A, B, IN); io(C.hero.sr, t, A + .2, B, { dy: 8 })
+  drawRing(R.title, t, ws(20) - .08, ws(25) - .2); drawRing(R.vet, t, ws(28) - .08, B)
+
+  // ---- 3. how it works: three pass the gate, land vetted on the chain; anyone uses the apps
+  const go = M.inout(t, sa(B), sb(Cs), { dy: 0, d: .01 }).op
+  css($('gate'), 'opacity', go.toFixed(3))
+  if (go > 0) {
+    ;['p1', 'p2'].forEach((id, i) => io(id, t, B + .05 * i, 1e9, { dy: 40, d: .35 }))
+    io('beam', t, B + .2, 1e9, { dy: 0, d: .4 })
+    css($('scan'), 'opacity', (t > B + .3 ? 1 : 0).toString()); css($('scan'), 'top', (230 + 470 * (.5 + .5 * Math.sin((t - B) * 2.4))).toFixed(1) + 'px')
+    io('glbl', t, ws(46) - .1, 1e9, { dy: 12 })
+    GT.forEach((e, i) => {
+      const a0 = ws([40, 41, 44][i]) - .1, pass = ws(46) - .15 + .35 * i
+      const q = [240, 260 + 230 * i]                   // the queue on the left
+      const f = [1650 - 205 * i, 400]                   // on the chain, right (the first through goes furthest)
+      const u = E.standard(seg(t, pass, .9)), [x, y] = M.arc(u, [q[0], q[1] - 120], f, 60)
+      const k = M.inout(t, a0, 1e9, { dx: -40, dy: 0, d: .3 })
+      css(e, 'opacity', k.op.toFixed(3)); css(e, 'transform', `translate(${(x + k.x).toFixed(1)}px,${y.toFixed(1)}px)`)
+      css(e.querySelector('.ok'), 'opacity', (u > .55 ? cl((u - .55) / .1) : 0).toFixed(3))
+    })
+    io(grail, t, ws(46) + .45, 1e9, { dy: 20, d: .3 })
+    PPL.forEach((e, i) => io(e, t, ws(49) - .1 + .07 * i, 1e9, { dx: 40, dy: 0, d: .3 }))
+    io('ulbl', t, ws(49) + .2, 1e9, { dy: 8 })
+  }
+
+  // ---- 4. real estate, payments, loyalty on MMIX's own page; no free-for-all
+  if (t < Cs + 3 || t < G - 1) { io(C.eco.el, t, Cs, D, IN); io(C.eco.sr, t, Cs + .2, D, { dy: 8 }) }
+  else { io(C.eco.el, t, G, H, IN); io(C.eco.sr, t, G + .2, H, { dy: 8 }) }
+  drawRing(R.re, t, ws(60) - .08, D); drawRing(R.pay, t, ws(62) - .08, D); drawRing(R.loy, t, ws(64) - .08, D)
+  stamp('nfa', t, ws(68) - .05, D, -4)
+
+  // ---- 5. EVM: MMIX's own sentence
+  io('qEvm', t, D, E1, { dy: 30, d: .4 })
+  { const on = t >= sa(D) - .5 && t < sb(E1) + .4; css($('evc'), 'opacity', on ? M.inout(t, sa(D), sb(E1), { dy: 0, d: .01 }).op.toFixed(3) : '0')
+    pop('ch0', t, ws(73) - .05); pop('ch1', t, ws(78) - .05); pop('ch2', t, ws(81) - .05); io('evl', t, ws(83), 1e9, { dy: 8 }) }
+
+  // ---- 6. validators: the home page card, then MMIX's FAQ, three shields, blocks every 2-3 s
+  if (t < E1 + 3) { io(C.notall.el, t, E1, E2, IN); io(C.notall.sr, t, E1 + .2, E2, { dy: 8 }) }
+  else { io(C.notall.el, t, F1, F2, IN); io(C.notall.sr, t, F1 + .2, F2, { dy: 8 }) }
+  drawRing(R.val, t, ws(88) - .08, E2); drawRing(R.comp, t, ws(102) - .08, F2)
+  const vo = M.inout(t, sa(E2), sb(F1), { dy: 0, d: .01 }).op
+  css($('val'), 'opacity', vo.toFixed(3))
+  io('qVal', t, E2, F1, { dy: 30, d: .4 })
+  if (vo > 0) {
+    VS.forEach((e, i) => pop(e, t, ws(93) - .05 + .12 * i))
+    io(vlbl, t, ws(94), 1e9, { dy: 8 })
+    VB.forEach((e, i) => pop(e, t, ws(98) - .1 + .14 * i)); VG.forEach((e, i) => io(e, t, ws(100) - .1 + .14 * i, 1e9, { dy: 8 }))
+    io(vsrc, t, ws(100), 1e9, { dy: 8 })
+  }
+
+  // ---- 7. compliance: the registry builds row by row
+  io('reg', t, F2, G, { dy: 30, d: .4 })
+  io('rw0', t, ws(111) - .1, 1e9, { dx: 40, dy: 0 }); io('rw1', t, ws(113) - .1, 1e9, { dx: 40, dy: 0 }); io('rw2', t, ws(116) - .1, 1e9, { dx: 40, dy: 0 })
+
+  // ---- 8. MMIX Coin: one coin flies to each app it pays for
+  drawRing(R.re2, t, ws(128) - .08, ws(130) - .1); drawRing(R.bank, t, ws(132) - .08, ws(134) - .1); drawRing(R.chk, t, ws(136) - .08, H)
+  { const pts = [[1800, 300], at(C.eco, 440, 560), at(C.eco, 1260, 560), at(C.eco, 480, 862)], ts = [ws(122) - .1, ws(128) - .25, ws(132) - .25, ws(136) - .25]
+    let p = pts[0]
+    for (let k = 1; k < 4; k++) { const u = E.standard(seg(t, ts[k], .45)); if (u > 0) p = M.arc(u, pts[k - 1], pts[k], 120) }
+    const o = M.inout(t, sa(ts[0]), sb(H), { dy: 0, d: .2 }).op, sp = cl(M.spring(t, ts[0], M.SP.pop), 0, 1.3)
+    css($('coin'), 'opacity', o.toFixed(3)); css($('coin'), 'transform', `translate(${p[0].toFixed(1)}px,${p[1].toFixed(1)}px) scale(${((.5 + .5 * sp) * (1 - .3 * E.standard(seg(t, ts[1], .45)))).toFixed(4)})`) }
+
+  // ---- 9. the quest hub (the leaderboard left out)
+  io(C.hub.el, t, I, J, IN); io(C.hub.sr, t, I + .2, J, { dy: 8 })
+  io('hsp', t, I + .5, J, { dx: 50, dy: 0, d: .4 }); io('hs0', t, ws(171) - .1, 1e9, { dx: 40, dy: 0 }); io('hs1', t, ws(173) - .1, 1e9, { dx: 40, dy: 0 }); io('hs2', t, ws(178) - .1, 1e9, { dx: 40, dy: 0 })
+  drawRing(R.hubT, t, ws(164) - .08, ws(170) - .2); drawRing(R.task, t, ws(171) - .08, J); drawRing(R.pts, t, ws(173) - .08, J); drawRing(R.elig, t, ws(178) - .08, J)
+
+  // ---- 10. you need to know; then MMIX's own line
+  io('qCav', t, J, K, { dy: 30, d: .4 })
+  io('cv0', t, ws(186) - .1, 1e9, { dx: 40, dy: 0 }); io('cv1', t, ws(193) - .1, 1e9, { dx: 40, dy: 0 }); io('cv2', t, ws(199) - .1, 1e9, { dx: 40, dy: 0 })
+  stamp('nog', t, ws(201) - .05, K, -5)
+  io('qEnd', t, K, ENDC, { dy: 30, d: .4 })
+
+  // ---- the end card
+  io('endc', t, ENDC, 1e9, { dy: 30, d: .5 })
+
+  // ---- stickers: the edit eases left, the sticker pops in on the right
+  const RX = [{ id: 'sideeye', t0: ws(150) - .1, t1: we(159) + .2, rot: -4, f: [0, 116] }, { id: 'nervous', t0: ws(199) - .05, t1: we(204) + .35, rot: 4, f: [0, 104] }]
+  let d = 0
+  for (const r of RX) d = Math.max(d, t < r.t0 - .35 || t > r.t1 + .3 ? 0 : Math.min(E.standard(cl((t - r.t0 + .35) / .35)), E.standard(cl((r.t1 + .3 - t) / .3))))
+  css($('edit'), 'transform', `translate(0px,${(76 * d).toFixed(1)}px) scale(${(1 - .28 * d).toFixed(4)})`)
+  const sr = RX.find(r => t >= r.t0 && t < r.t1), im = $('stk')
+  if (sr) {
+    const L = window.RLIB[sr.id], n = sr.f[1] - sr.f[0] + 1, per = 2 * (n - 1), lt = t - sr.t0
+    let i = Math.floor(lt * FPS + 1e-6); i = ((i % per) + per) % per; if (i >= n) i = per - i
+    await swap(im, `${SROOT}${sr.id}/f_${String(sr.f[0] + i + 1).padStart(4, '0')}.png`)
+    const sw = 470, h = sw * L.h / L.w, pin = cl(lt / .22), pout = cl((sr.t1 - t) / .16)
+    const sc = (pin < 1 ? 1 + 3.2 * Math.pow(pin - 1, 3) + 2.2 * Math.pow(pin - 1, 2) : 1) * (.85 + .15 * pout)
+    css(im, 'width', sw + 'px'); css(im, 'left', (1651 - sw / 2) + 'px'); css(im, 'top', (912 - h).toFixed(1) + 'px'); css(im, 'opacity', Math.min(cl(pin * 5), pout).toFixed(3))
+    css(im, 'transform', `rotate(${sr.rot}deg) scale(${sc.toFixed(3)}) translateY(${M.float(lt, 4, 3.9).toFixed(1)}px)`)
+  } else { css(im, 'opacity', '0'); SIG.push('nostk') }
+
+  // ---- captions
+  const c = t < ENDC ? CAP.find(x => t >= x.t0 && t < x.t1) : null, html = c ? '<span>' + c.h + '</span>' : ''
+  if ($('cap').innerHTML !== html) $('cap').innerHTML = html
+  SIG.push(html); css($('cap'), 'opacity', c ? Math.min(1, (t - c.t0) / .12).toFixed(3) : '0')
+  return SIG.join('|')
+}
+window.READY = Promise.all([document.fonts.load('80px Anton'), document.fonts.load('800 40px Man'), document.fonts.load('700 30px Mono'),
+  ...[...document.images].filter(i => i.getAttribute('src')).map(i => i.decode ? i.decode().catch(() => 0) : 1)])
+</script>
+</body></html>
