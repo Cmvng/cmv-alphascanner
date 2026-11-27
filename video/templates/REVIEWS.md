@@ -28,6 +28,30 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
+## 27 Nov: "Gambit" (1:10, 16:9, the owner's seven-scene script with Gambit's official images, Lara)
+
+- **What worked:**
+  - One question about the voice, answered once ("I have credits now on eleven labs"), then no more back and forth.
+  - The fact check ran beside the voice and the scenes.
+  - Every claim that is on screen sits on Gambit's own official image or real page, ringed on the word.
+  - The music level was measured with preflight before the render (12.8 dB under).
+- **Mistakes, and how they got through:**
+  1. **Push-ins that cut the ringed words.** On the first stills the zoom on the markets tabs pushed "Sports" off the
+     card, and the docs zoom cut the ringed line at both ends. Both were set by feel, not checked against the ring.
+     The categories have no zoom now, and the docs zoom is 1.18.
+  2. **A card shown twice in one render was set twice per frame** (the live market, a creator card): the second call
+     hid the first. Found in the code before the first stills; each card now has one window per time range.
+  3. **The first draft put unconfirmed things on screen** (a "4 steps" checklist, a USDG chip, "NO TOKEN CONFIRMED").
+     They came out when the fact check came back: the four steps are not on any Gambit page, deposits are USDC on six
+     networks, and the docs describe a token but publish no contract.
+- **Change next time:**
+  - Before any push-in, check that the ringed words stay whole at the zoom's largest size.
+  - Draft scenes only from the confirmed facts, or keep unconfirmed ones as captions only until the check returns.
+  - When an official image shows an older interface, carry the claim on the real page.
+- **The owner's reaction:** (to come)
+
+---
+
 ## 20 Nov: "Probly" (1:37, upright, the owner's own car selfie, untouched picture and voice, illustrations around their words)
 
 - **What worked:**

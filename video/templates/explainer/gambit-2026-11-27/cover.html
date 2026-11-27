@@ -1,0 +1,48 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Gambit: cover (#v, 1080x1920; its middle square is the picture for X) and wide thumbnail (#t, 1280x720, YouTube)</title>
+<style>
+@font-face{font-family:Anton;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/anton-latin-400-normal.woff2)}
+@font-face{font-family:Man;font-weight:800;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-800-normal.woff2)}
+@font-face{font-family:Mono;font-weight:700;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/jetbrains-mono-latin-700-normal.woff2)}
+/* The video's own hook: Gambit's wordmark, the giant $0 (lime with the ink outline of Gambit's logo), MONEY DOWN, and
+   the four ways in with the last one marked $0. Light blue house look; Gambit keeps its lime, purple and wordmark. */
+:root{--ink:#0B1F4D;--blue:#1F5FDB;--mute:#5A6B8C;--lime:#BFF816;--gp:#7C5DF9}
+*{box-sizing:border-box}
+html,body{margin:0;overflow:hidden;font-family:Man,sans-serif;font-weight:800;color:var(--ink);background:#EEF4FF}
+.abs{position:absolute}
+.bg{position:absolute;inset:0;background:radial-gradient(1200px 1200px at 50% 40%,#FFFFFF 0%,#EEF4FF 45%,#CFE0FA 100%)}
+.grid{position:absolute;inset:0;background-image:linear-gradient(rgba(31,95,219,.06) 2px,transparent 2px),linear-gradient(90deg,rgba(31,95,219,.06) 2px,transparent 2px);background-size:72px 72px}
+.h{font-family:Anton,sans-serif;font-weight:400;line-height:.98;white-space:nowrap}
+.c{position:absolute;left:0;width:100%;text-align:center;white-space:nowrap}
+.z{font-family:Anton,sans-serif;font-weight:400;line-height:1;color:var(--lime);-webkit-text-stroke:14px #0B0B12;paint-order:stroke fill;text-shadow:0 20px 44px rgba(11,31,77,.25)}
+.pill{display:inline-block;padding:10px 30px;border-radius:999px;background:#0B1F4D;color:#fff;font-family:Mono,monospace;font-weight:700;letter-spacing:.14em}
+.w{display:inline-block;margin:0 8px;padding:12px 24px;border-radius:999px;background:#fff;box-shadow:0 10px 24px rgba(11,31,77,.12);font-size:30px}
+.w b{color:var(--gp)}
+</style></head>
+<body>
+<div id="v" style="display:none;position:absolute;left:0;top:0;width:1080px;height:1920px;overflow:hidden">
+  <div class="bg"></div><div class="grid"></div>
+  <!-- Cut edges of 1080x1920 from the middle: 3:4 y 240/1680, 7:8 y 343/1577, 1:1 y 420/1500, 16:9 y 656/1263.
+       The wordmark lies between 430 and 640; $0, MONEY DOWN, the line and the handle between 676 and 1250 (inside
+       16:9); the four ways between 1320 and 1400. Nothing to read above 420 or below 1500. -->
+  <div class="c" style="top:440px"><img src="img/logo_s.png" style="width:560px"></div>
+  <div class="c z" style="top:676px;font-size:340px">$0</div>
+  <div class="c" style="top:1034px"><span class="pill" style="font-size:42px">MONEY DOWN</span></div>
+  <div class="c h" style="top:1124px;font-size:58px">EARN FROM PREDICTION MARKETS</div>
+  <div class="c" style="top:1320px"><span class="w">Trade</span><span class="w">Copy</span><span class="w">Build</span><span class="w"><b>Create</b></span></div>
+  <div class="c" style="top:1196px;font-size:40px;color:var(--mute)">@i_am_vickyd</div>
+</div>
+<div id="t" style="display:none;position:absolute;left:0;top:0;width:1280px;height:720px;overflow:hidden">
+  <div class="bg"></div><div class="grid"></div>
+  <img class="abs" src="img/logo_s.png" style="left:70px;top:70px;width:420px">
+  <div class="abs z" style="left:780px;top:90px;font-size:380px">$0</div>
+  <div class="abs" style="left:76px;top:290px"><span class="pill" style="font-size:40px">MONEY DOWN</span></div>
+  <div class="abs h" style="left:70px;top:390px;font-size:66px">EARN FROM PREDICTION<br>MARKETS</div>
+  <div class="abs" style="left:70px;top:620px;font-size:34px;color:var(--mute)">@i_am_vickyd</div>
+</div>
+<script>
+const m = location.hash.includes('t') ? 't' : 'v'
+document.getElementById(m).style.display = 'block'
+window.READY = Promise.all([document.fonts.ready, ...[...document.images].map(i => i.decode().catch(() => 0))]).then(() => document.fonts.load('116px Anton')).then(() => document.fonts.load('800 30px Man')).then(() => document.fonts.load('700 24px Mono'))
+</script>
+</body></html>

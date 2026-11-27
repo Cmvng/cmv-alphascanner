@@ -1,0 +1,288 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Gambit, 27 Nov 2026: four ways in, one needs $0</title>
+<style>
+@font-face{font-family:Anton;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/anton-latin-400-normal.woff2)}
+@font-face{font-family:Man;font-weight:800;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-800-normal.woff2)}
+@font-face{font-family:Man;font-weight:600;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-600-normal.woff2)}
+@font-face{font-family:Mono;font-weight:700;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/jetbrains-mono-latin-700-normal.woff2)}
+/* The owner's Gambit script, read by Lara. Concept: FOUR WAYS IN, ONE NEEDS $0. The hook's giant "$0 MONEY DOWN" (S4)
+   comes back the same way on "no capital needed"; between them a rail of the four ways in (trade, copy an agent,
+   build an agent, create) lights one by one, each with what it takes, until the last one is stamped $0 (S1 checklist,
+   S5 one canvas that changes state). Every line sits on Gambit's own official images (sent by the owner) and its real
+   pages (the markets, the liquidity docs, the Analyze menu, the leaderboard), the spoken words ringed on them (S3);
+   the copy-agent mirror acted out (S6); chips and reward cards that build with the voice, their source on them (S3);
+   a struck "$GAMBIT" with a stamp (S2); two stickers, one from each set (S7). Light blue house look; Gambit
+   keeps its lime, purple and its own wordmark. */
+:root{--ink:#0B1F4D;--blue:#1F5FDB;--sky:#7CC4FF;--mute:#6B7A99;--red:#E5484D;--green:#12A150;--lime:#BFF816;--gp:#7C5DF9}
+*{box-sizing:border-box}
+html,body{margin:0;width:1920px;height:1080px;overflow:hidden;font-family:Man,sans-serif;font-weight:800;color:var(--ink);
+  background:radial-gradient(1500px 900px at 50% 30%,#FFFFFF 0%,#EEF4FF 45%,#D9E6FA 100%)}
+#grid{position:absolute;inset:-60px;background-image:linear-gradient(rgba(31,95,219,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(31,95,219,.05) 1px,transparent 1px);background-size:60px 60px}
+#edit{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
+.card{position:absolute;border-radius:22px;background:#fff;box-shadow:0 24px 56px rgba(11,31,77,.20),0 0 0 1.5px rgba(11,31,77,.07);overflow:hidden;opacity:0}
+.zm{position:absolute;left:0;top:0;transform-origin:0 0}
+.zm>img{display:block}
+.ring{position:absolute;border:5px solid var(--blue);border-radius:12px;box-shadow:0 0 0 4px rgba(31,95,219,.16);opacity:0}
+.ring.l{border-color:var(--lime);box-shadow:0 0 0 4px rgba(191,248,22,.25)}
+.src{position:absolute;font-family:Mono,monospace;font-weight:700;font-size:17px;letter-spacing:.05em;color:var(--mute);white-space:nowrap;text-transform:uppercase;opacity:0}
+.stamp{position:absolute;padding:10px 26px;border:7px solid var(--blue);border-radius:16px;color:var(--blue);font-family:Anton,sans-serif;font-size:66px;line-height:1;white-space:nowrap;background:rgba(255,255,255,.96);opacity:0}
+.stamp.r{border-color:var(--red);color:var(--red)}
+.chip{position:absolute;padding:14px 28px;border-radius:999px;background:#fff;box-shadow:0 12px 28px rgba(11,31,77,.16);font-size:36px;white-space:nowrap;opacity:0}
+.chip b{color:var(--blue)}
+.chip small{display:block;font-family:Mono,monospace;font-weight:700;font-size:16px;letter-spacing:.06em;color:var(--mute);margin-bottom:2px}
+/* the giant $0 (hook, and again on "no capital needed") */
+#zero{position:absolute;left:0;top:150px;width:1920px;text-align:center;opacity:0}
+#zero b{display:block;font-family:Anton,sans-serif;font-weight:400;font-size:420px;line-height:1;color:var(--lime);-webkit-text-stroke:16px #0B0B12;paint-order:stroke fill;text-shadow:0 24px 50px rgba(11,31,77,.28)}
+#zero span{display:inline-block;margin-top:8px;padding:12px 34px;border-radius:999px;background:#0B1F4D;color:#fff;font-family:Mono,monospace;font-weight:700;font-size:40px;letter-spacing:.14em}
+/* the rail: four ways in */
+#rail{position:absolute;left:34px;top:150px;width:310px;opacity:0}
+#rail h4{margin:0 0 14px 6px;font-family:Mono,monospace;font-weight:700;font-size:20px;letter-spacing:.12em;color:var(--mute)}
+.rt{position:relative;height:150px;margin-bottom:16px;padding:20px 22px;border-radius:22px;background:#fff;box-shadow:0 12px 28px rgba(11,31,77,.12);border:4px solid transparent;transform-origin:0 50%}
+.rt i{font-style:normal;position:absolute;right:14px;top:14px;width:38px;height:38px;border-radius:50%;background:#EEF2FA;color:var(--mute);font-family:Anton,sans-serif;font-size:24px;line-height:38px;text-align:center}
+.rt h5{margin:0;font-size:29px;line-height:1.1;white-space:nowrap}
+.rt p{margin:10px 0 0;font-family:Mono,monospace;font-weight:700;font-size:16px;letter-spacing:.04em;color:var(--mute);text-transform:uppercase;line-height:1.35}
+.rt .z{position:absolute;right:14px;bottom:10px;font-family:Anton,sans-serif;font-size:66px;line-height:1;color:var(--lime);-webkit-text-stroke:5px #0B0B12;paint-order:stroke fill;opacity:0}
+/* the copy mirror, the four steps, the rewards */
+.mir{position:absolute;width:360px;padding:18px 24px;border-radius:22px;background:#fff;box-shadow:0 14px 32px rgba(11,31,77,.14);opacity:0}
+.mir small{display:block;font-family:Mono,monospace;font-weight:700;font-size:17px;letter-spacing:.08em;color:var(--mute)}
+.mir div{display:flex;align-items:center;justify-content:space-between;margin-top:6px;font-size:40px}
+.mir u{text-decoration:none;padding:4px 18px;border-radius:12px;background:#E6F9D0;color:#2E7D0A;font-size:32px}
+#steps4{position:absolute;left:470px;top:150px;width:1320px;opacity:0}
+.s4{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;width:300px;height:250px;margin-right:24px;border-radius:26px;background:#fff;box-shadow:0 14px 32px rgba(11,31,77,.12);opacity:0;vertical-align:top}
+.s4 em{font-style:normal;font-family:Mono,monospace;font-weight:700;font-size:20px;letter-spacing:.08em;color:var(--mute)}
+.s4 .bx{width:96px;height:96px;margin-top:14px;border-radius:22px;border:7px solid #C9D3E6;display:flex;align-items:center;justify-content:center;font-size:66px;color:#fff}
+.s4.on .bx{border-color:var(--green);background:var(--green)}
+.rw{position:absolute;padding:20px 34px;border-radius:24px;background:#fff;box-shadow:0 16px 36px rgba(11,31,77,.16);white-space:nowrap;opacity:0;text-align:center}
+.rw b{display:block;font-family:Anton,sans-serif;font-weight:400;font-size:86px;line-height:1;color:var(--gp)}
+.rw span{display:block;margin-top:8px;font-size:30px}
+/* $GAMBIT */
+#tok{position:absolute;left:660px;top:250px;width:600px;height:300px;border-radius:30px;background:#fff;box-shadow:0 20px 46px rgba(11,31,77,.18);opacity:0}
+#tok b{position:absolute;left:0;width:600px;top:70px;text-align:center;font-family:Anton,sans-serif;font-weight:400;font-size:150px;line-height:1;color:var(--ink)}
+#tok small{position:absolute;left:0;width:600px;top:30px;text-align:center;font-family:Mono,monospace;font-weight:700;font-size:20px;letter-spacing:.1em;color:var(--mute)}
+#tokx{position:absolute;left:40px;top:146px;width:520px;height:16px;border-radius:8px;background:var(--red);transform-origin:0 50%;transform:rotate(-8deg) scaleX(0)}
+#cap{position:absolute;left:0;top:962px;width:1920px;text-align:center;opacity:0}
+#cap span{display:inline-block;padding:9px 30px 11px;border-radius:22px;background:rgba(255,255,255,.96);box-shadow:0 12px 30px rgba(11,31,77,.16);font-size:38px;line-height:50px;white-space:nowrap}
+#cap b{color:var(--blue)}
+#handle{position:absolute;left:36px;top:28px;font-family:Mono,monospace;font-weight:700;font-size:22px;color:var(--mute);letter-spacing:.04em}
+#stk{position:absolute;opacity:0;transform-origin:50% 90%;filter:drop-shadow(0 14px 22px rgba(11,31,77,.28))}
+#endc{position:absolute;left:0;top:0;width:1920px;height:1080px;opacity:0}
+.er{display:inline-block;margin:0 10px;padding:14px 28px;border-radius:999px;background:#fff;box-shadow:0 10px 24px rgba(11,31,77,.12);font-size:34px;white-space:nowrap}
+.er b{color:var(--gp)}
+</style></head>
+<body>
+<div id="grid"></div>
+<div id="edit">
+  <div id="cards"></div>
+  <div id="zero"><b>$0</b><span>MONEY DOWN</span></div>
+  <div id="rail"><h4>4 WAYS IN</h4>
+    <div class="rt" id="r0"><i>1</i><h5>Trade</h5><p>yes or no<br>with your own money</p></div>
+    <div class="rt" id="r1"><i>2</i><h5>Copy an agent</h5><p>your deposit<br>sets your size</p></div>
+    <div class="rt" id="r2"><i>3</i><h5>Build an agent</h5><p id="r2p">weekly tournament</p></div>
+    <div class="rt" id="r3"><i>4</i><h5>Create</h5><p>post your picks</p><div class="z" id="r3z">$0</div></div>
+  </div>
+  <div id="extra"></div>
+  <div id="tok"><small>NO CONTRACT ADDRESS PUBLISHED</small><b>$GAMBIT</b><div id="tokx"></div></div>
+  <div class="stamp r" id="notok" style="left:700px;top:600px">NO OFFICIAL CONTRACT</div>
+  <div class="src" id="toksrc" style="left:0;width:1920px;text-align:center;top:760px">GAMBIT DOCS, READ 27 NOV 2026: NO CONTRACT ADDRESS, NO LAUNCH DATE</div>
+  <div id="endc">
+    <img src="img/logo_s.png" style="position:absolute;left:660px;top:120px;width:600px">
+    <div style="position:absolute;left:0;width:1920px;top:410px;text-align:center;font-family:Anton,sans-serif;font-size:96px;line-height:1">FOUR WAYS IN. <span style="color:var(--gp)">ONE NEEDS $0.</span></div>
+    <div style="position:absolute;left:0;width:1920px;top:560px;text-align:center"><span class="er">Trade</span><span class="er">Copy an agent</span><span class="er">Build an agent</span><span class="er"><b>Create: post picks</b></span></div>
+    <div style="position:absolute;left:0;width:1920px;top:690px;text-align:center;font-size:56px">Follow <span style="color:var(--blue)">@i_am_vickyd</span> on X</div>
+    <div class="src" id="endsrc" style="position:absolute;left:0;width:1920px;text-align:center;top:790px;opacity:1">GAMBITMARKETS.COM · OFFICIAL IMAGES AND PAGES, READ 27 NOV 2026 · 18+ · NOT FINANCIAL ADVICE</div>
+  </div>
+</div>
+<img id="stk">
+<div id="handle">@i_am_vickyd</div>
+<div id="cap"></div>
+<script src="file:///home/user/cmv-alphascanner/video/lib/motion.js"></script>
+<script src="file:///home/user/cmv-alphascanner/video/out/reactions/lib.js"></script>
+<script src="timing.js"></script>
+<script>
+const $ = id => document.getElementById(id), W = window.WORDS, FPS = 30, { E, cl } = M
+const ws = i => W[i].s, we = i => W[i].e
+const LAST = we(W.length - 1), ENDC = LAST + .25, END = 69.5, DROP = 3.7
+const seg = (t, a, d) => cl((t - a) / d)
+let SIG = []
+const css = (el, k, v) => { el.style[k] = v; SIG.push(v) }
+let BND = new Set(); const XI = .12, XO = .06, sa = a => BND.has(a) ? a + XI : a, sb = b => BND.has(b) ? b - XO : b
+const io = (el, t, a, b = 1e9, o = {}) => { el = typeof el === 'string' ? $(el) : el; SIG.push(M.apply(el, M.inout(t, sa(a), sb(b), o), o.base || '')) }
+const mk = (tag, cls, parent, style = {}, html = '') => { const e = document.createElement(tag); e.className = cls; Object.assign(e.style, style); if (html) e.innerHTML = html; parent.appendChild(e); return e }
+const STAGE = { x: 390, y: 34, w: 1490, h: 890 }, FULL = { x: 160, y: 40, w: 1600, h: 880 }
+// a picture whole inside a box, at the largest size that fits
+const C = {}
+function card(id, src, iw, ih, box = STAGE, srcText = '') {
+  const s = Math.min(box.w / iw, box.h / ih), w = iw * s, h = ih * s, x = box.x + (box.w - w) / 2, y = box.y + (box.h - h) / 2
+  const el = mk('div', 'card', $('cards'), { left: x + 'px', top: y + 'px', width: w + 'px', height: h + 'px' })
+  const zm = mk('div', 'zm', el, { width: w + 'px', height: h + 'px' }); mk('img', '', zm, { width: w + 'px', height: h + 'px' }).src = src
+  const sr = srcText ? mk('div', 'src', $('cards'), { left: x + 'px', top: (y + h + 12) + 'px' }, srcText) : null
+  return (C[id] = { el, zm, s, w, h, x, y, sr })
+}
+const ring = (c, [x0, y0, x1, y1], px = 8, py = 4, cls = 'ring') => mk('div', cls, c.zm, { left: (x0 * c.s - px) + 'px', top: (y0 * c.s - py) + 'px', width: ((x1 - x0) * c.s + 2 * px) + 'px', height: ((y1 - y0) * c.s + 2 * py) + 'px' })
+const drawRing = (e, t, a, b = 1e9, pad = 14) => { b = sb(b); const on = t >= a && t < b, u = on ? E.standard(seg(t, a, .4)) : 0, q = on ? 1 - E.exit(seg(t, b - .18, .18)) : 0
+  css(e, 'opacity', (Math.min(1, u * 3) * q).toFixed(3)); css(e, 'clipPath', `inset(-${pad}px ${(-pad + (e.offsetWidth + 2 * pad) * (1 - u)).toFixed(1)}px -${pad}px -${pad}px)`) }
+// push-in on a named point (cx, cy in IMAGE pixels): it grows and drifts toward the middle; the picture covers its frame
+const zoom = (c, t, segs) => { let z = 1, tx = 0, ty = 0
+  for (const [a, b, Z, ix, iy] of segs) { const u = E.standard(seg(t, a, .6)) * (1 - E.standard(seg(t, b - .5, .5))); if (u <= 0) continue
+    const cx = ix * c.s, cy = iy * c.s; z = 1 + (Z - 1) * u; const px = cx + (c.w / 2 - cx) * u * .7, py = cy + (c.h / 2 - cy) * u * .7
+    tx = Math.min(0, Math.max(c.w - z * c.w, px - z * cx)); ty = Math.min(0, Math.max(c.h - z * c.h, py - z * cy)) }
+  css(c.zm, 'transform', `translate(${tx.toFixed(2)}px,${ty.toFixed(2)}px) scale(${z.toFixed(4)})`) }
+const stamp = (el, t, a, b = 1e9, rot = 0, s0 = 1.4) => { el = typeof el === 'string' ? $(el) : el; b = sb(b); const sp = M.spring(t, a, M.SP.pop), [qx, qy] = M.squash(t, a + .12)
+  const v = t >= b ? seg(t, b, .2) : 0, s = (s0 - (s0 - 1) * cl(sp, 0, 1.2))
+  css(el, 'opacity', ((t >= a ? cl((t - a) / .08) : 0) * (1 - v)).toFixed(3)); css(el, 'transform', `rotate(${rot}deg) scale(${(s * qx).toFixed(4)},${(s * qy).toFixed(4)})`) }
+const pop = (el, t, a, b = 1e9, base = '') => { el = typeof el === 'string' ? $(el) : el; b = sb(b); const sp = cl(M.spring(t, a, M.SP.pop), 0, 1.3), v = t >= b ? E.exit(seg(t, b, .22)) : 0
+  css(el, 'opacity', ((t >= a ? cl((t - a) / .1) : 0) * (1 - v)).toFixed(3)); css(el, 'transform', `${base} translateY(${((1 - sp) * 30 - v * 20).toFixed(1)}px) scale(${(.6 + .4 * sp).toFixed(4)})`) }
+const IN = { dx: 60, dy: 0, d: .42 }
+
+// ---- the official images (sent by the owner, from Gambit) and the real pages (caps_site.js)
+const SRC_OFF = 'GAMBIT · OFFICIAL IMAGE'
+card('og', 'img/og-image.png', 1200, 630, FULL, SRC_OFF)
+card('logo', 'img/logo_s.png', 1400, 585, { x: 560, y: 260, w: 1150, h: 480 })
+C.logo.el.style.background = 'transparent'; C.logo.el.style.boxShadow = 'none'
+card('live', 'img/live-market-preview.png', 1750, 825, STAGE, 'GAMBIT · OFFICIAL IMAGE · A LIVE MARKET PAGE')
+card('copy', 'img/copy-agents.png', 1080, 1350, STAGE, SRC_OFF + ' · COPY AGENTS')
+card('tour', 'img/weekly-tournament-standings.png', 1638, 2048, STAGE, SRC_OFF + ' · WEEKLY TOURNAMENT')
+card('ih8y', 'img/creator-ih8y.png', 1080, 1350, STAGE, SRC_OFF + ' · CREATORS')
+card('spice', 'img/creator-spice-bets.png', 1080, 1350, STAGE, SRC_OFF + ' · CREATORS')
+card('rh', 'img/robinhood-chain-deposits.png', 1280, 853, { x: 390, y: 34, w: 1150, h: 890 }, SRC_OFF + ' · DEPOSITS')
+const RD = ' · READ 27 NOV 2026'
+card('mk', 'img/mk.png', 1520, 900, STAGE, 'APP.GAMBITMARKETS.COM · MARKETS' + RD)
+card('liq', 'img/liq.png', 1520, 910, STAGE, 'GAMBITMARKETS.COM · DOCS · LIQUIDITY STRATEGY' + RD)
+card('ai', 'img/ai.png', 1520, 910, STAGE, 'APP.GAMBITMARKETS.COM · A LIVE MARKET PAGE, ANALYZE MENU' + RD)
+card('lb', 'img/lb.png', 1520, 1120, STAGE, 'APP.GAMBITMARKETS.COM · LEADERBOARD · WEEKLY, NOV 23 – NOV 30' + RD)
+// rings, in each picture's own pixels
+const R = {
+  yes: ring(C.live, [1413, 236, 1570, 276]), no: ring(C.live, [1577, 236, 1731, 276]),
+  c1: ring(C.copy, [70, 655, 1010, 780], 6, 4, 'ring l'), c2: ring(C.copy, [70, 798, 1010, 943], 6, 4, 'ring l'), c3: ring(C.copy, [70, 962, 1010, 1087], 6, 4, 'ring l'),
+  wk: ring(C.tour, [540, 252, 1060, 320]), roi: ring(C.tour, [990, 975, 1150, 1022]), t250: ring(C.tour, [1040, 368, 1278, 474]),
+  nc: ring(C.ih8y, [76, 175, 390, 262]), call: ring(C.ih8y, [76, 1040, 300, 1118]),
+  trade: ring(C.spice, [672, 925, 800, 1040]), back: ring(C.spice, [300, 935, 430, 1040]),
+  rhc: ring(C.rh, [70, 278, 664, 348]), rhd: ring(C.rh, [70, 508, 440, 580]),
+}
+Object.assign(R, { sp: ring(C.mk, [196, 176, 298, 234]), po: ring(C.mk, [350, 176, 497, 234]), cr: ring(C.mk, [548, 176, 693, 234]), more: ring(C.mk, [1330, 176, 1463, 234]),
+  liq: ring(C.liq, [110, 425, 1230, 483]), aim: ring(C.ai, [60, 634, 272, 704]), l3: ring(C.lb, [112, 884, 232, 936]), l100: ring(C.lb, [304, 884, 480, 936]),
+  ctag: ring(C.spice, [246, 376, 366, 432]) })
+// the copy mirror, the tournament chips, the four steps, the rewards, the deposit chips
+const X = $('extra')
+const mir = mk('div', 'mir', X, { left: '1500px', top: '420px' }, '<small>THE AGENT OPENS</small><div>Avalanche <u>YES</u></div>')
+const mir2 = mk('div', 'mir', X, { left: '1500px', top: '600px' }, '<small>YOU TAKE THE SAME SIDE</small><div>Avalanche <u>YES</u></div>')
+const mirS = mk('div', 'src', X, { left: '1500px', top: '780px' }, 'ILLUSTRATION')
+const chT = [['BEST ROI', 'takes the prize'], ['$250', 'every week']].map(([b, s], i) => mk('div', 'chip', X, { left: '1500px', top: (170 + 150 * i) + 'px' }, `<small>${s.toUpperCase()}</small><b>${b}</b>`))
+const rws = [['', ''], ['1,000', 'Gambit points'], ['50%', 'referral share']].map(([b, s], i) => mk('div', 'rw', X, { left: '1500px', top: [0, 250, 480][i] + 'px' }, `<b>${b}</b><span>${s}</span>`))
+const rwS = mk('div', 'src', X, { left: '1500px', top: '700px', whiteSpace: 'normal', width: '360px', lineHeight: '1.4' }, 'CREATOR TAG, 1,000 POINTS AND A 50% REFERRAL SHARE: GAMBIT APP, READ 27 NOV')
+const big1 = mk('div', 'chip', X, { left: '1500px', top: '300px', padding: '18px 36px' }, '<small>YOU EARN</small><b style="font-family:Anton,sans-serif;font-weight:400;font-size:150px;line-height:1;color:var(--gp)">1%</b>')
+const big1s = mk('div', 'src', X, { left: '1500px', top: '560px', whiteSpace: 'normal', width: '340px', lineHeight: '1.4' }, 'OF WHATEVER PEOPLE TRADE THROUGH YOUR PICK')
+const chD = [['USDG', 'deposits in'], ['CONNECT', 'your wallet']].map(([b, s], i) => mk('div', 'chip', X, { left: '1580px', top: [330, 480][i] + 'px' }, `<small>${s.toUpperCase()}</small><b>${b}</b>`))
+
+// captions: [from word, to word, html]
+const CAPS = [[0, 10, 'You can earn from prediction markets without putting <b>any money down</b>'], [11, 14, 'This is <b>Gambit Markets</b>'],
+  [15, 19, 'You bet <b>yes or no</b>'], [20, 26, 'on <b>sports, politics, crypto</b> and world events'], [27, 33, 'Trades fill on <b>Polymarket</b> and <b>Kalshi</b> liquidity,'],
+  [34, 38, 'so the markets are real'], [39, 48, 'And you get <b>AI insights</b> right on the market page'], [49, 54, 'You can also <b>copy an agent</b>'],
+  [55, 60, 'Pick one whose record you trust'], [61, 66, 'Every time it opens a position,'], [67, 71, 'you take <b>the same side</b>'], [72, 73, '<b>Withdraw</b> anytime'],
+  [74, 83, 'Or build your own agent and enter the <b>weekly tournament</b>'], [84, 89, 'Best ROI takes <b>$250</b> every week'],
+  [90, 100, 'You need at least <b>3 trades</b> and <b>$100 volume</b> to qualify'], [101, 109, 'But the part I like is the <b>creator program</b>'],
+  [110, 115, 'Post your picks, <b>no capital needed</b>'], [116, 125, 'You earn <b>1%</b> of whatever people trade through your pick'],
+  [126, 134, 'Finish <b>4 quick steps</b> to get the creator badge,'], [135, 144, '<b>1,000 Gambit points</b> and <b>50%</b> of your referral volume fees'],
+  [145, 151, 'Deposits are in <b>USDG</b> on <b>Robinhood Chain</b>,'], [152, 156, 'you just connect your wallet'], [157, 160, '<b>No token</b> confirmed yet,'],
+  [161, 168, 'so don’t buy any <b>$GAMBIT</b> contract you see'], [169, 173, 'If you post picks anyway,'], [174, 180, 'might as well <b>get paid</b> for them']]
+const CAP = CAPS.map(([a, b, h], i, A) => ({ t0: ws(a) - .08, t1: Math.min(we(b) + .45, A[i + 1] ? ws(A[i + 1][0]) - .08 : LAST + .3), h }))
+// stickers: The Grin (grey T-shirt) on "the part I like is the creator program"; The Stare (shirtless) on "don't buy any $GAMBIT"
+const SROOT = 'file:///home/user/cmv-alphascanner/video/out/reactions/'
+const swap = async (im, src) => { if (im.getAttribute('src') !== src) { im.src = src; try { await im.decode() } catch (e) {} } SIG.push(src) }
+
+window.render = async t => {
+  SIG = []
+  css($('grid'), 'transform', `translate(${M.float(t, 20, 23).toFixed(1)}px,${M.float(t, 14, 31, .3).toFixed(1)}px)`)
+  // scenes, each a beat before its first word
+  const A = ws(11) - .3, B1 = ws(15) - .3, B2 = ws(20) - .3, B3 = ws(27) - .3, B4 = ws(39) - .3
+  const Cc = ws(49) - .3, D = ws(74) - .3, D2 = ws(90) - .3, E1 = ws(101) - .3, E2 = ws(110) - .3, E3 = ws(116) - .3, E4 = ws(126) - .3, E5 = ws(135) - .3
+  const F = ws(145) - .3, H = ws(157) - .3, H2 = ws(169) - .3
+  BND = new Set([A, B1, B2, B3, B4, Cc, D, D2, E1, E2, E3, E4, E5, F, H, H2, ENDC])
+
+  // ---- 1. the hook: Gambit's own banner, then $0 MONEY DOWN slams in; the drop lands on the wordmark
+  io(C.og.el, t, -1, A, { dy: 0, d: .01 }); io(C.og.sr, t, -1, A, { dy: 0, d: .01 })
+  { const z = E.standard(seg(t, ws(8) - .1, .35)); css(C.og.el, 'filter', `blur(${(6 * z).toFixed(2)}px) saturate(${(1 - .4 * z).toFixed(3)})`); css(C.og.zm, 'transform', `scale(${(1 + .04 * E.gentle(seg(t, 0, A))).toFixed(4)})`) }
+  const zeroOn = t < E2 + 1 ? [ws(8) - .05, A] : [ws(113) - .05, E3]
+  stamp('zero', t, zeroOn[0], zeroOn[1], 0, 1.25)
+  io(C.logo.el, t, A, B1, { dy: 0, s0: 1.25, spring: M.SP.pop, d: .3 })
+
+  // ---- the rail: four ways in, lighting one by one
+  io('rail', t, A + .2, ENDC, { dx: -50, dy: 0, d: .45 })
+  const cur = t < Cc ? 0 : t < D ? 1 : t < E1 ? 2 : 3
+  for (let i = 0; i < 4; i++) { const r = $('r' + i), on = i === cur && t >= B1, past = i < cur
+    const k = on ? E.standard(seg(t, [B1, Cc, D, E1][i], .35)) : 0
+    css(r, 'borderColor', on ? 'var(--blue)' : 'transparent'); css(r, 'opacity', (past ? .55 : (i > cur ? .8 : 1)).toFixed(2))
+    css(r, 'transform', `scale(${(1 + .05 * k).toFixed(4)})`) }
+  stamp('r3z', t, ws(113) - .05, ENDC, -8, 1.6)
+
+  // ---- 2. a live market: yes or no; the categories; the liquidity; AI insights
+  io(C.live.el, t, B1, B2, IN); io(C.live.sr, t, B1 + .2, B2, { dy: 8 })
+  drawRing(R.yes, t, ws(17) - .08, B2); drawRing(R.no, t, ws(19) - .08, B2)
+  zoom(C.live, t, [[ws(16) - .3, B2 + .6, 1.55, 1570, 300]])
+  io(C.mk.el, t, B2, B3, IN); io(C.mk.sr, t, B2 + .2, B3, { dy: 8 })
+  drawRing(R.sp, t, ws(21) - .08, B3); drawRing(R.po, t, ws(22) - .08, B3); drawRing(R.cr, t, ws(23) - .08, B3); drawRing(R.more, t, ws(25) - .08, B3)
+  io(C.liq.el, t, B3, B4, IN); io(C.liq.sr, t, B3 + .2, B4, { dy: 8 }); drawRing(R.liq, t, ws(30) - .08, B4)
+  zoom(C.liq, t, [[B3 + .2, B4 + 1, 1.18, 668, 454]])
+  io(C.ai.el, t, B4, Cc, IN); io(C.ai.sr, t, B4 + .2, Cc, { dy: 8 }); drawRing(R.aim, t, ws(42) - .08, Cc)
+  zoom(C.ai, t, [[B4 + .2, Cc + 1, 1.6, 230, 560]])
+
+  // ---- 3. copy an agent: the official card, each step ringed on its words; the mirror acted out
+  io(C.copy.el, t, Cc, D, IN); io(C.copy.sr, t, Cc + .2, D, { dy: 8 })
+  drawRing(R.c1, t, ws(55) - .08, ws(61) - .2); drawRing(R.c2, t, ws(61) - .08, ws(72) - .2); drawRing(R.c3, t, ws(72) - .08, D)
+  io(mir, t, ws(63) - .1, D, { dx: 40, dy: 0 }); io(mir2, t, ws(70) - .1, D, { dx: 40, dy: 0 }); io(mirS, t, ws(70), D, { dy: 8 })
+
+  // ---- 4. build an agent: the standings, the prize ringed, the rules as chips (and the real rules page)
+  io(C.tour.el, t, D, D2, IN); io(C.tour.sr, t, D + .2, D2, { dy: 8 })
+  drawRing(R.wk, t, ws(82) - .08, ws(84) - .2); drawRing(R.roi, t, ws(85) - .08, D2); drawRing(R.t250, t, ws(87) - .08, D2)
+  zoom(C.tour, t, [[ws(84) - .3, D2 + .6, 1.3, 1000, 700]])
+  pop(chT[0], t, ws(85) - .05, D2); pop(chT[1], t, ws(87) - .05, D2)
+  io(C.lb.el, t, D2, E1, IN); io(C.lb.sr, t, D2 + .2, E1, { dy: 8 }); drawRing(R.l3, t, ws(94) - .08, E1); drawRing(R.l100, t, ws(97) - .08, E1)
+  zoom(C.lb, t, [[D2 + .2, E1 + 1, 1.5, 420, 860]])
+
+  // ---- 5. the creator program: the official card; $0 again; 1% on the pick; four steps, three rewards
+  if (t < E2 + .5) { io(C.ih8y.el, t, E1, E2, IN); io(C.ih8y.sr, t, E1 + .2, E2, { dy: 8 }) }
+  else { io(C.ih8y.el, t, H2, ENDC, IN); io(C.ih8y.sr, t, H2 + .2, ENDC, { dy: 8 }) }
+  drawRing(R.nc, t, ws(108) - .08, E2); drawRing(R.call, t, ws(171) - .08, ENDC)
+  io(C.spice.el, t, E3, F, IN); io(C.spice.sr, t, E3 + .2, F, { dy: 8 }); drawRing(R.trade, t, ws(122) - .08, E4); drawRing(R.ctag, t, ws(133) - .08, F)
+  pop(big1, t, ws(118) - .05, E4); io(big1s, t, ws(120), E4, { dy: 8 })
+  pop(rws[1], t, ws(135) - .05, F); pop(rws[2], t, ws(139) - .05, F); io(rwS, t, ws(135) + .2, F, { dy: 8 })
+
+  // ---- 6. deposits: the official image, Robinhood Chain ringed; USDG, connect your wallet
+  io(C.rh.el, t, F, H, IN); io(C.rh.sr, t, F + .2, H, { dy: 8 })
+  drawRing(R.rhc, t, ws(150) - .08, H); drawRing(R.rhd, t, ws(145) - .08, ws(150) - .2)
+  pop(chD[1], t, ws(154) - .05, H)
+
+  // ---- 7. no token: $GAMBIT struck through; then post picks, get paid
+  io('tok', t, H, H2, { dy: 30, d: .4 }); stamp('notok', t, ws(159) - .05, H2, -5)
+  { const u = E.standard(seg(t, ws(162) - .05, .35)); css($('tokx'), 'transform', `rotate(-8deg) scaleX(${u.toFixed(4)})`) }
+  io('toksrc', t, ws(159), H2, { dy: 8 })
+
+  // ---- the end card
+  io('endc', t, ENDC, 1e9, { dy: 30, d: .5 })
+
+  // ---- stickers: the edit eases left, the sticker pops in on the right
+  const RX = [{ id: 'grin', t0: ws(103) - .05, t1: we(109) + .4, rot: -4, f: [0, 107] }, { id: 'stare', t0: ws(162), t1: we(168) + .35, rot: 4, f: [0, 122] }]
+  let d = 0
+  for (const r of RX) d = Math.max(d, t < r.t0 - .35 || t > r.t1 + .3 ? 0 : Math.min(E.standard(cl((t - r.t0 + .35) / .35)), E.standard(cl((r.t1 + .3 - t) / .3))))
+  css($('edit'), 'transform', `translate(0px,${(76 * d).toFixed(1)}px) scale(${(1 - .28 * d).toFixed(4)})`)
+  const sr = RX.find(r => t >= r.t0 && t < r.t1), im = $('stk')
+  if (sr) {
+    const L = window.RLIB[sr.id], n = sr.f[1] - sr.f[0] + 1, per = 2 * (n - 1), lt = t - sr.t0
+    let i = Math.floor(lt * FPS + 1e-6); i = ((i % per) + per) % per; if (i >= n) i = per - i
+    await swap(im, `${SROOT}${sr.id}/f_${String(sr.f[0] + i + 1).padStart(4, '0')}.png`)
+    const sw = 470, h = sw * L.h / L.w, pin = cl(lt / .22), pout = cl((sr.t1 - t) / .16)
+    const sc = (pin < 1 ? 1 + 3.2 * Math.pow(pin - 1, 3) + 2.2 * Math.pow(pin - 1, 2) : 1) * (.85 + .15 * pout)
+    css(im, 'width', sw + 'px'); css(im, 'left', (1651 - sw / 2) + 'px'); css(im, 'top', (912 - h).toFixed(1) + 'px'); css(im, 'opacity', Math.min(cl(pin * 5), pout).toFixed(3))
+    css(im, 'transform', `rotate(${sr.rot}deg) scale(${sc.toFixed(3)}) translateY(${M.float(lt, 4, 3.9).toFixed(1)}px)`)
+  } else { css(im, 'opacity', '0'); SIG.push('nostk') }
+
+  // ---- captions
+  const c = t < ENDC ? CAP.find(x => t >= x.t0 && t < x.t1) : null, html = c ? '<span>' + c.h + '</span>' : ''
+  if ($('cap').innerHTML !== html) $('cap').innerHTML = html
+  SIG.push(html); css($('cap'), 'opacity', c ? Math.min(1, (t - c.t0) / .12).toFixed(3) : '0')
+  return SIG.join('|')
+}
+window.READY = Promise.all([document.fonts.load('80px Anton'), document.fonts.load('800 40px Man'), document.fonts.load('700 30px Mono'),
+  ...[...document.images].filter(i => i.getAttribute('src')).map(i => i.decode ? i.decode().catch(() => 0) : 1)])
+</script>
+</body></html>
