@@ -44,6 +44,12 @@ has not been said: ask once when the next one comes up.)
   which got a Short blocked on YouTube (Content ID claim, 11 Oct).
 - **Trending sound:** songs by top artists are copyrighted. Give a copyright-free track in that style and a second
   file with no music, so they can add a trending sound in the app (told to the owner 9 Nov; no objection).
+- **Any soundtrack, chosen for fit, not for being copyright-free.** 27 Nov, asking for a motion design of their X
+  profile: "Make sure to use any soundtrack even if there are copyright issues there". So the pick is no longer
+  limited to copyright-free tracks: released songs and the music in the reels they send are allowed. (My reading:
+  they want the sound of the quality reels they see, not stock music.) What stays: a copy with no music goes with
+  every music-led video, so a post that gets muted or claimed can be re-posted with another sound. Songs are not
+  pulled off streaming sites from here; a song they name is used from the file or the reel they send.
 - **Level:** the music is clearly music: about 12 dB under the voice while they speak, the drop in the first seconds,
   full level on the end card (`remix.py` in the 10 Nov Bagel template). The whole mix at -14 LUFS, EXCEPT under the
   owner's own recorded voice: that is never squashed to reach a number. There the mix gets one plain gain up to a
@@ -184,6 +190,10 @@ has not been said: ask once when the next one comes up.)
   - A pose change moves like the character is moving (a dip and a spring back), never a jump cut.
 - **The one exception:** when they say to reuse a template, do exactly that (17 Oct: "Use the same templates, cos my
   credits have almost finished").
+
+- **A motion design of their own profile is a show-piece.** 27 Nov: "I want to do a state of the art motion design of
+  my X profile @i_am_vickyd. Take your time and deliver me a master piece". (My reading: music-led, no narrator,
+  built from the real profile: their avatar, banner, bio, numbers and posts.)
 
 ## By kind of video
 - **Match analysis:** every match on the slate (21 Oct: "do the analysis for all the matches, not some, cos I see you
