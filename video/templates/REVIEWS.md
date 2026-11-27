@@ -28,6 +28,42 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
+## 27 Nov: "SEEN", the @i_am_vickyd X profile film (0:51, 16:9 and 9:16, music-led, no narrator)
+
+- **The ask:** "a state of the art motion design of my X profile @i_am_vickyd. Take your time and deliver me a master
+  piece.... use any soundtrack even if there are copyright issues there". Template:
+  `video/templates/art-series/profile-seen-2026-11-27/`.
+- **What worked:**
+  - One idea from his own art: the catchlight he drew in one eye is the same size as the lure on his avatar, so the drop
+    cuts light to light. The circle then carries the film: the avatar, every post collapsing into its own avatar circle,
+    242,220 points (one per post) gathering into his avatar, the lure first.
+  - Four critics (owner rules, craft, feasibility, director) reviewed the first design before the build. Their changes
+    (WHO cut to three facts, the gallery dropped, the bio words as the whispers, the chart shrinking into its post, the
+    powers-of-ten count) made the second design.
+  - The determinism check, run at 50 times in both shapes, found two order-dependent spots before any render (the wall
+    cards and the motto letters). Each shape then rendered in about 9 minutes with 3 workers; no flashes, clean joins.
+  - Both candidate songs sit on one 160 bpm grid, so the picture was built once and either track goes under it.
+- **Mistakes, and how they got through:**
+  1. **His bio words never showed on the first render.** The drawings carry z-index 10 and up, which put them above the
+     word chips. The stills were looked at for the iris lock and never for the words. Found on the half-second sheets;
+     the first 14 s of both shapes were rendered again (about 3 minutes).
+  2. **The first gather sent each point to a random place on the disc** (points matched by distance from the centre
+     only), which read as snow. Rebuilt on the area-preserving concentric map with shutter-sampled drawing.
+  3. **The field left a thin dark edge** (660 x 2.9 px = 1914 px): the pitch is now W/660 across and H/367 down.
+  4. **The formed disc showed striped wedges** (the warped grid is coarser in two of the four triangles): landing
+     points grow to cover their share.
+  5. **The sheets in the rhyme were not iris-locked at first** (`.sheet` had no `transform-origin: 0 0`). Found on stills.
+- **Change next time:**
+  - A layer that must stay on top gets its own z-index. On stills, look for every piece of type the plan names.
+  - Hard cuts are decided on the frame (`CUTS` clamp), and anything at opacity 0 is display:none.
+  - Cards shown across a big zoom range: PNG at twice the shown size, a larger file for the one seen close.
+- **Sound:** "Royalty" (Instrumental), NCS, as mastered, -14.1 LUFS, -3.1 dBTP; "No Rival" on the same picture. Samples
+  of both went to the owner before the render. The pre-send check holds the film until the owner says yes to one
+  (1 FAIL, the soundtrack; everything else ok).
+- **The owner's reaction:** (to come)
+
+---
+
 ## 27 Nov: "MMIX" (1:22, 16:9, the owner's written post with four screenshots of MMIX's pages, Lara)
 
 - **What worked:**

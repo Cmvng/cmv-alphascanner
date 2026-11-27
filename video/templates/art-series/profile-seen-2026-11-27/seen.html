@@ -1,0 +1,498 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>SEEN: the @i_am_vickyd profile film</title>
+<style>
+@font-face{font-family:Anton;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/anton-latin-400-normal.woff2)}
+@font-face{font-family:Man;font-weight:800;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-800-normal.woff2)}
+@font-face{font-family:Man;font-weight:600;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-600-normal.woff2)}
+@font-face{font-family:Mono;font-weight:700;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/jetbrains-mono-latin-700-normal.woff2)}
+/* SEEN, the @i_am_vickyd profile film (27 Nov 2026). The light in his eye: the catchlight he drew in one charcoal eye
+   is the same size as the lure of light on his avatar, so the film cuts light to light on the drop; every post card
+   collapses into its own avatar circle; 242,220 posts become 242,220 points of light that gather into his avatar, the
+   lure first. Music-led, no narrator. Only his real material: six charcoal eyes, his avatar drawing, his posts as X
+   draws them, his app's real screens, his own words. Nothing is drawn over his art or over a real screen except our
+   rings, chips and type, which are labelled. Light sky and deep navy grounds, never black. */
+:root{--ink:#0B1F4D;--brand:#1F5FDB;--sky:#7CC4FF}
+*{box-sizing:border-box}
+html,body{margin:0;overflow:hidden;background:#EEF4FF}
+#stage{position:absolute;left:0;top:0;overflow:hidden;font-family:Man,sans-serif;font-weight:800;color:var(--ink)}
+.full{position:absolute;left:0;top:0;width:100%;height:100%}
+#bgL{background:radial-gradient(120% 90% at 50% 42%,#FFFFFF 0%,#EEF4FF 46%,#D6E4F8 100%)}
+#bgN{background:radial-gradient(110% 90% at 50% 40%,#1D3C86 0%,#0F2A66 45%,#0B1F4D 100%)}
+.sheet{position:absolute;left:0;top:0;transform-origin:0 0}
+.sheet img{display:block;width:100%;height:100%}
+.abs{position:absolute;left:0;top:0;transform-origin:0 0}
+.abs img{display:block;width:100%;height:100%}
+.card{border-radius:2.2%/1.6%;overflow:hidden}
+.w{position:absolute;left:0;top:0;white-space:pre;will-change:transform}
+.mono{font-family:Mono,monospace;font-weight:700}
+.chip{position:absolute;left:0;top:0;padding:0 24px;border-radius:999px;font-family:Mono,monospace;font-weight:700;white-space:nowrap;will-change:transform}
+.ringbox{position:absolute;left:0;top:0;border:5px solid #2F7BFF;border-radius:14px;box-shadow:0 0 0 5px rgba(47,123,255,.18)}
+#whisper{position:absolute;left:0;top:0;z-index:100;padding:0 30px;border-radius:999px;background:#fff;box-shadow:0 10px 30px rgba(11,31,77,.28);font-family:Man,sans-serif;font-weight:800;white-space:nowrap;color:var(--ink)}
+#handle{position:absolute;left:0;top:0;z-index:100;font-family:Mono,monospace;font-weight:700;font-size:24px;letter-spacing:.04em;white-space:nowrap}
+#av{position:absolute;left:0;top:0;width:2048px;height:2048px;transform-origin:0 0}
+#ringsvg{position:absolute;left:0;top:0;overflow:visible}
+#pill{position:absolute;left:0;top:0;padding:0 46px;border-radius:999px;background:#fff;color:#0B1F4D;font-family:Man,sans-serif;font-weight:800;white-space:nowrap;box-shadow:0 18px 44px rgba(3,10,30,.35);will-change:transform}
+#cursor{position:absolute;left:0;top:0;width:44px;height:58px}
+#dots{position:absolute;left:0;top:0}
+</style></head>
+<body>
+<div id="stage">
+  <div id="bgL" class="full"></div>
+  <div id="bgN" class="full"></div>
+  <div id="pile" class="full"></div>
+  <div id="tw" class="full"></div>
+  <div id="cards" class="full"></div>
+  <div id="wall" class="full"></div>
+  <canvas id="dots"></canvas>
+  <img id="av" src="img/av2048.jpg">
+  <svg id="ringsvg"><circle id="ringc" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round"/></svg>
+  <div id="who" class="full"></div>
+  <div id="txt" class="full"></div>
+  <div id="whisper"></div>
+  <div id="handle">@i_am_vickyd</div>
+</div>
+<script src="file:///home/user/cmv-alphascanner/video/lib/motion.js"></script>
+<script src="img/cards_meta.js"></script>
+<script>
+const $ = id => document.getElementById(id), FPS = 30, { E, cl, lerp } = M, CM = window.CM
+const V = location.hash.includes('v') || innerHeight > innerWidth, W = V ? 1080 : 1920, H = V ? 1920 : 1080, CX = W / 2, CY = H / 2
+for (const el of [document.documentElement, document.body, $('stage')]) { el.style.width = W + 'px'; el.style.height = H + 'px' }
+$('ringsvg').setAttribute('width', W); $('ringsvg').setAttribute('height', H)
+const BEAT = .375, DROP = 12
+let SIG = []
+const css = (el, k, v) => { if (el.style[k] !== v) el.style[k] = v; SIG.push(v) }
+const seg = (t, a, d) => cl((t - a) / d)
+const r1 = x => Math.round(x * 10) / 10, r3 = x => Math.round(x * 1000) / 1000, r5 = x => x.toFixed(5)
+const mk = (tag, cls, parent, html = '') => { const e = document.createElement(tag); if (cls) e.className = cls; if (html) e.innerHTML = html; parent.appendChild(e); return e }
+const expoOut = u => u >= 1 ? 1 : 1 - Math.pow(2, -10 * u)
+const quint = u => u < .5 ? 16 * u ** 5 : 1 - Math.pow(-2 * u + 2, 5) / 2
+const plog = (a, b, u) => a * Math.pow(b / a, u)            // perceptual zoom
+const key = (t, keys) => {                                    // [t, value..., ease] keyframes; {z:} values zoom perceptually
+  if (t <= keys[0][0]) return keys[0].slice(1, -1).map(v => typeof v === 'object' ? v.z : v)
+  for (let i = 1; i < keys.length; i++) { const a = keys[i - 1], b = keys[i]; if (t <= b[0]) { const e = b[b.length - 1], u = (typeof e === 'function' ? e : E[e] || E.standard)(seg(t, a[0], b[0] - a[0]))
+    return a.slice(1, -1).map((v, j) => typeof v === 'object' ? plog(v.z, b[j + 1].z, u) : lerp(v, b[j + 1], u)) } }
+  return keys[keys.length - 1].slice(1, -1).map(v => typeof v === 'object' ? v.z : v)
+}
+// placing an element so that its own point (ix, iy) lands on screen (sx, sy) at scale s
+const place = (el, ix, iy, sx, sy, s, rot = 0) => css(el, 'transform', `translate(${r1(sx)}px,${r1(sy)}px) rotate(${r3(rot)}deg) scale(${r5(s)}) translate(${-ix}px,${-iy}px)`)
+
+// ======================= 1. THE ARTIST: his six eyes, the iris locked to one circle =======================
+const EYES = { e1: { w: 1440, h: 1174, cx: 676, cy: 627, r: 265 }, e2: { w: 1438, h: 1130, cx: 625, cy: 421, r: 298 },
+  e3: { w: 3072, h: 2315, cx: 1528, cy: 1190, r: 502 }, e5: { w: 1440, h: 1672, cx: 678, cy: 830, r: 214 }, e6: { w: 1440, h: 1020, cx: 920, cy: 496, r: 264, lx: 969.6, ly: 552 } }
+const RI = 210                                    // the iris lock (e5's iris is 214 at its own pixels)
+// [time, eye, rotation, his own word or '', kind]: one drawing a bar on a growing pile, then hard cuts in steps
+const SEQ = [[-9, 'e3', 0, '', 'hook'], [1.5, 'e6', -2.6, 'Charcoal', 'pile'], [3.0, 'e5', 2.2, 'pencil', 'pile'], [4.5, 'e2', 2.8, 'artist', 'pile'], [6.0, 'e1', -1.6, '& trader', 'pile'],
+  [7.5, 'e3', -3.0, '', 'cut'], [8.25, 'e1', 2.0, '', 'cut'], [9.0, 'e5', -2.4, '', 'cut'], [9.375, 'e2', 3.0, '', 'cut'], [9.75, 'e3', -1.5, '', 'cut'], [10.125, 'e1', 1.5, '', 'cut']]
+const SH = {}
+for (const k in EYES) { const e = EYES[k], d = mk('div', 'sheet', $('pile')); d.style.width = e.w + 'px'; d.style.height = e.h + 'px'; mk('img', '', d).src = `img/${k}.jpg`; SH[k] = d }
+const LOCK = mk('div', 'sheet', $('pile')); LOCK.style.width = '1440px'; LOCK.style.height = '1020px'; mk('img', '', LOCK).src = 'img/e6.jpg'
+const PL = V ? { x: 700, y: 1000 } : { x: 1356, y: 540 }        // where the light sits across the drop
+const ICX = CX, ICY = V ? 900 : CY                             // the iris lock point
+function rhyme(t) {
+  const hookS = V ? 500 : 402, sHook = t < 1.47 ? plog(hookS, RI, expoOut(seg(t, 0, 1.47))) : RI
+  for (const k in SH) {
+    let last = -1; SEQ.forEach((s, i) => { if (s[1] === k && s[0] <= t + 1e-6) last = i })
+    const el = SH[k], e = EYES[k]
+    if (last < 0 || t >= 10.5) { css(el, 'opacity', '0'); css(el, 'zIndex', '0'); continue }
+    const [ta, , rot, , kind] = SEQ[last]
+    const R = kind === 'hook' ? sHook : RI
+    const land = kind === 'pile' ? E.standard(seg(t, ta, 4 / 30)) : 1, k2 = 1.02 - .02 * land
+    const sh = kind === 'pile' ? lerp(24, 6, land) : 10
+    css(el, 'zIndex', String(10 + last)); css(el, 'opacity', '1')
+    css(el, 'boxShadow', `0 ${r1(sh)}px ${r1(sh * 2)}px rgba(11,31,77,${kind === 'pile' ? r3(.32 - .2 * land) : .14})`)
+    place(el, e.cx, e.cy, ICX, ICY, R / e.r * k2, rot)
+  }
+  // the still bar: e6 alone, anchored on its catchlight; a slow push, a snap at the pre-hit, then stillness
+  const on = t >= 10.5 && t < DROP
+  css(LOCK, 'opacity', on ? '1' : '0'); css(LOCK, 'zIndex', '40')
+  const s = t < 11.633 ? plog(.90, .95, E.gentle(seg(t, 10.5, 1.133))) : plog(.95, .994, expoOut(seg(t, 11.633, 4 / 30)))
+  place(LOCK, EYES.e6.lx, EYES.e6.ly, PL.x, PL.y, s)
+  css(LOCK, 'boxShadow', '0 10px 30px rgba(11,31,77,.18)')
+  // his own words, one a bar, readable
+  const w = SEQ.filter(x => x[3] && t >= x[0] && t < x[0] + 1.42).pop(), wh = $('whisper')
+  if (w) { if (wh.textContent !== w[3]) { wh.textContent = w[3]; wh.style.fontSize = (V ? 60 : 50) + 'px'; wh.style.lineHeight = (V ? 104 : 88) + 'px' }
+    const a = seg(t, w[0] + .04, .25), b = seg(t, w[0] + 1.22, .2)
+    css(wh, 'opacity', r3(E.enter(a) * (1 - b)) + ''); css(wh, 'transform', `translate(${Math.round(CX - wh.offsetWidth / 2)}px,${Math.round((V ? 1540 : H - 140) + 18 * (1 - E.enter(a)) - 12 * b)}px)`) }
+  else css(wh, 'opacity', '0')
+  SIG.push(w ? w[3] : '-')
+}
+
+// ======================= 2. THE LIGHT: the drop cuts to the lure of his avatar, which pulls back to its circle ==========
+const LURE = { x: 1428.6, y: 648.8 }, AC = { x: 1042, y: 1042, r: 914.5 }       // the avatar drawing (2048): lure, X's circle
+const WHO_C = V ? { x: 540, y: 700, r: 440 } : { x: 560, y: 540, r: 380 }
+const IRIS = { x: ICX, y: ICY, r: RI }
+// where the dots gather (#c: the cover art, the disc at the left of the cover's safe band, or at the right of the thumbnail)
+const CVR = location.hash.includes('c')
+const DISC = CVR ? (V ? { x: 300, y: 963, r: 235 } : { x: 1290, y: 540, r: 380 }) : V ? { x: 540, y: 1100, r: 400 } : { x: 1180, y: 540, r: 450 }
+const ENDC = V ? { x: 540, y: 640, r: 330 } : { x: 560, y: 520, r: 330 }
+const angLure = Math.atan2(LURE.x - AC.x, -(LURE.y - AC.y))                     // 44.5 degrees clockwise from 12
+function avState(t) {
+  // returns {show, s, cx, cy (screen point of the circle centre), mask (radius in image px), ring (0..1 drawn)}
+  if (t < DROP) return { show: 0 }
+  if (t < 12.733) { const u = expoOut(seg(t, DROP, .733)), s = plog(.979, WHO_C.r / AC.r, u)
+    const c0 = { x: PL.x + .979 * (AC.x - LURE.x), y: PL.y + .979 * (AC.y - LURE.y) }
+    const [x, y] = M.arc(u, [c0.x, c0.y], [WHO_C.x, WHO_C.y], 80)
+    const mask = lerp(1500, AC.r, E.standard(seg(t, DROP, 8 / 30)))
+    return { show: 1, s, cx: x, cy: y, mask, ring: seg(t, 12.367, .366) }
+  }
+  if (t < 19.5) { const b = 1 + .01 * Math.sin((t - 12.733) * Math.PI * 2 / 4)
+    return { show: 1, s: WHO_C.r / AC.r * b, cx: WHO_C.x, cy: WHO_C.y, mask: AC.r, ring: 1 } }
+  if (t < 19.75) { const u = E.enter(seg(t, 19.5, .25)), r = lerp(WHO_C.r, IRIS.r, u)
+    return { show: 1, s: r / AC.r, cx: lerp(WHO_C.x, IRIS.x, u), cy: lerp(WHO_C.y, IRIS.y, u), mask: AC.r, ring: 1 - u } }
+  if (t < 46.5) return { show: 0 }
+  if (t < 47.25) return { show: 1, op: cl((t - 46.5) / .5), s: DISC.r / AC.r, cx: DISC.x, cy: DISC.y, mask: AC.r, ring: seg(t, 46.875, .375) }
+  const u = E.standard(seg(t, 47.25, .75)), r = plog(DISC.r, ENDC.r, u), b = t > 48 ? 1 + .008 * Math.sin((t - 48) * Math.PI * 2 / 4) : 1
+  return { show: 1, s: r / AC.r * b, cx: lerp(DISC.x, ENDC.x, u), cy: lerp(DISC.y, ENDC.y, u), mask: AC.r, ring: 1 }
+}
+function avatar(t) {
+  const a = avState(t), el = $('av'), rc = $('ringc')
+  css(el, 'opacity', a.show ? r3(a.op === undefined ? 1 : a.op) + '' : '0')
+  if (!a.show) { css(rc, 'opacity', '0'); SIG.push('av0'); return }
+  place(el, AC.x, AC.y, a.cx, a.cy, a.s)
+  css(el, 'clipPath', `circle(${r1(a.mask)}px at ${AC.x}px ${AC.y}px)`)
+  // the white ring draws on clockwise from the lure's angle
+  const R = AC.r * a.s + 5, L = 2 * Math.PI * R, k = cl(a.ring || 0)
+  rc.setAttribute('cx', r1(a.cx)); rc.setAttribute('cy', r1(a.cy)); rc.setAttribute('r', r1(R))
+  rc.setAttribute('transform', `rotate(${r3(angLure * 180 / Math.PI - 90)} ${r1(a.cx)} ${r1(a.cy)})`)
+  css(rc, 'strokeDasharray', `${r1(L * k)} ${r1(L)}`); css(rc, 'opacity', k > 0 ? '1' : '0')
+  SIG.push(r1(R) + '|' + r3(k) + '|' + r1(a.cx) + ',' + r1(a.cy))
+}
+
+// ======================= 3. WHO: the wordmark is his name, then his handle, then his followers ======================
+let WM, HAN, SINCE, FOL, FOLL, SRC
+const WL = V ? { wx: 540, wy: 1210, u: 5.6, hy: 1420, sy: 1530, fy: 1615, srcY: 1830, align: 'center' } : { wx: 1040, wy: 250, u: 7, hy: 520, sy: 638, fy: 722, srcY: 960, align: 'left' }
+function buildWho() {
+  // the site's own logo: three bars leaning 11 degrees, and "cmvng" in Manrope 800 (dark-theme colours on navy)
+  const u = WL.u, box = mk('div', 'w', $('who')); box.style.height = 28 * u + 'px'
+  const bars = [[13, 15, 10], [20, 9, 16], [27, 3, 22]].map(([x, y, h]) => { const b = mk('div', '', box); b.style.cssText = `position:absolute;left:${x * u}px;top:${y * u}px;width:${5 * u}px;height:${h * u}px;border-radius:${1.6 * u}px;background:#4C84F0;transform-origin:50% 100%;opacity:0`; return b })
+  const word = mk('div', '', box); word.style.cssText = `position:absolute;left:${38 * u}px;top:${-2.6 * u}px;font:800 ${29 * u}px/1 Man,sans-serif;color:#fff;white-space:pre`
+  const lets = [...'cmvng'].map(c => { const s = mk('span', '', word); s.textContent = c; s.style.cssText = 'display:inline-block;opacity:0'; return s })
+  const tw = Math.round(38 * u + word.getBoundingClientRect().width)
+  box.style.width = tw + 'px'; box.style.left = Math.round(WL.align === 'center' ? WL.wx - tw / 2 : WL.wx - 13 * u) + 'px'; box.style.top = WL.wy + 'px'
+  WM = { box, bars, lets }
+  HAN = mk('div', 'w mono', $('who')); HAN.textContent = '@i_am_vickyd'; HAN.style.cssText += `font-size:${V ? 76 : 84}px;color:var(--sky);opacity:0`
+  SINCE = mk('div', 'chip', $('who')); SINCE.textContent = 'on X since Aug 2011 · Nigeria'; SINCE.style.cssText += `font-size:${V ? 34 : 38}px;line-height:${V ? 74 : 80}px;background:rgba(255,255,255,.1);color:rgba(255,255,255,.88);border:1.5px solid rgba(255,255,255,.26);opacity:0`
+  FOL = mk('div', 'w', $('who')); FOL.style.cssText += `font:800 ${V ? 120 : 132}px/1 Man,sans-serif;color:#fff;opacity:0`; FOL.textContent = '12,719'
+  FOLL = mk('div', 'w', $('who')); FOLL.style.cssText += `font:600 ${V ? 50 : 54}px/1 Man,sans-serif;color:rgba(255,255,255,.82);opacity:0`; FOLL.textContent = 'followers'
+  SRC = mk('div', 'w mono', $('who')); SRC.style.cssText += `font-size:${V ? 26 : 22}px;letter-spacing:.16em;color:rgba(255,255,255,.55);opacity:0`; SRC.textContent = 'X · 27 NOV 2026'
+}
+const ax = (el, x) => WL.align === 'center' ? Math.round(x - el.offsetWidth / 2) : Math.round(x)
+function who(t) {
+  const won = t >= 13.2 && t < 19.4; css($('who'), 'display', won ? 'block' : 'none'); if (!won) { SIG.push('who0'); return }
+  const fr = Math.round(t * FPS) / FPS, out = i => E.exit(seg(t, 19.0 + i * .04, .26))
+  WM.bars.forEach((b, i) => { const land = 13.5 + i * BEAT, u = E.standard(seg(t, land - .22, .22)), x = out(0)
+    css(b, 'opacity', r3(cl(u * 3) * (1 - x)) + ''); css(b, 'transform', `skewX(-11deg) scaleY(${r3(.08 + .92 * u)}) translateY(${r1(-x * 40)}px)`) })
+  WM.lets.forEach((s, i) => { const a = 14.625 - .3 + i * .03, u = E.enter(seg(t, a, .3)), x = out(1)
+    css(s, 'opacity', r3(u * (1 - x)) + ''); css(s, 'transform', `translateY(${Math.round((1 - u) * 60 - x * 40)}px)`) })
+  const hu = E.enter(seg(t, 15.0 - .3, .3)), hx = out(2)
+  css(HAN, 'opacity', r3(hu * (1 - hx)) + ''); css(HAN, 'transform', `translate(${ax(HAN, WL.wx)}px,${Math.round(WL.hy + 40 * (1 - hu) - 40 * hx)}px)`)
+  const su = E.standard(seg(t, 15.0 - .05, .25)), sx = out(3)
+  css(SINCE, 'opacity', r3(su * (1 - sx)) + ''); css(SINCE, 'transform', `translate(${ax(SINCE, WL.wx)}px,${Math.round(WL.sy - 40 * sx)}px) scale(${r3(.9 + .1 * su)})`)
+  // the followers: a fast odometer that slows on its last digits and lands on the bar (16.5), no bounce
+  const v = Math.round(12719 * expoOut(seg(fr, 15.9, .6))), str = v.toLocaleString('en-US'); if (FOL.textContent !== str) FOL.textContent = str
+  const fu = cl((t - 15.9) / .15), fx = out(4)
+  css(FOL, 'opacity', r3(fu * (1 - fx)) + ''); css(FOL, 'transform', `translate(${V ? Math.round(WL.wx - 140 - FOL.offsetWidth / 2) : Math.round(WL.wx)}px,${Math.round(WL.fy - 40 * fx)}px)`)
+  css(FOLL, 'opacity', r3(fu * (1 - fx)) + ''); css(FOLL, 'transform', `translate(${V ? Math.round(WL.wx + 70) : Math.round(WL.wx + 4)}px,${Math.round(WL.fy + (V ? 50 : 150) - 40 * fx)}px)`)
+  css(SRC, 'opacity', r3(cl((t - 15.0) / .3) * (1 - out(5))) + ''); css(SRC, 'transform', `translate(${ax(SRC, WL.wx)}px,${WL.srcY}px)`)
+  SIG.push(str)
+}
+
+// ======================= 4. THE TRADER: from the vein chart in his drawing to his own Bitcoin chart (one camera) ========
+const TW = { e1: mk('div', 'abs', $('tw')), ch: mk('div', 'abs', $('tw')) }
+TW.e1.style.cssText += 'width:1440px;height:1174px'; mk('img', '', TW.e1).src = 'img/e1.jpg'
+TW.ch.style.cssText += 'width:3064px;height:1884px;border-radius:10px;overflow:hidden;box-shadow:0 30px 70px rgba(11,31,77,.22)'; mk('img', '', TW.ch).src = 'img/btc.jpg'
+$('tw').style.transformOrigin = '0 0'
+const CH0 = { x: 1540, y: 650 - 968 }                                       // the chart in the e1 world, his last candle level with the veins
+const ZIGC = { x: CH0.x + 2366, y: CH0.y + 1194 }
+const CHW = V ? 1080 / 3064 : 1756 / 3064                                   // the chart whole
+const TCAM = [[19.75, 676, 627, { z: RI / 265 }, 'linear'], [20.0, 676, 627, { z: RI / 265 }, 'linear'], [21.0, 1100, 650, { z: 1.0 }, 'gentle'],
+  [24.0, CH0.x + 1532, CH0.y + 942, { z: CHW }, quint], [25.5, ZIGC.x, ZIGC.y, { z: 1.0 }, 'gentle']]
+function trader(t) {
+  const on = t >= 19.75 && t < 25.5
+  css($('tw'), 'opacity', on ? '1' : '0'); if (!on) { SIG.push('tw0'); return }
+  const [x, y, s] = key(t, TCAM)
+  css($('tw'), 'transform', `translate(${r1(CX - x * s)}px,${r1(ICY - y * s)}px) scale(${r5(s)})`)
+  css(TW.ch, 'transform', `translate(${CH0.x}px,${CH0.y}px)`)
+  SIG.push('tw' + r1(x) + r5(s))
+}
+
+// ======================= 5. HIS POSTS AND HIS APP: each X card arrives from, and leaves into, its own avatar circle ===
+const AVK = { x: 120 / 1644, y: 110 / 1644, r: 72 / 1644 }          // X draws the avatar at (120,110) r 72 on a 1644-wide card
+function card(src, w, h, cls = 'card') { const d = mk('div', 'abs ' + cls, $('cards')); d.style.width = w + 'px'; d.style.height = h + 'px'; mk('img', '', d).src = src; return d }
+const CHM = mk('div', 'abs', $('cards')); CHM.style.cssText += 'width:3064px;height:1884px'; mk('img', '', CHM).src = 'img/btc.jpg'
+const BTC = card('img/feat/2126330379674014066.jpg', 1100, CM.F2126330379674014066[1])
+const PAT = card('img/feat/1880638229655007572.jpg', 1300, CM.F1880638229655007572[1])
+const RMC = card('img/feat/2126054588662813136.jpg', 1300, CM.F2126054588662813136[1])
+const BLD = mk('div', 'w', $('cards')); BLD.textContent = 'BUILDING'; BLD.style.cssText += `font:800 ${V ? 200 : 300}px/1 Man,sans-serif;color:#0B1F4D;letter-spacing:-.02em;opacity:0`
+const TYP = card('img/feat/04_match_chelsea__type_of_match.jpg', 1496, 492, '')
+const FRM = card('img/feat/04_match_chelsea__form_last10.jpg', 1496, 736, '')
+const RING1 = mk('div', 'ringbox', $('cards')), RING2 = mk('div', 'ringbox', $('cards'))
+// the common card width and the avatar lock point
+const CW = V ? 980 : 1095, LAV = V ? { x: 50 + 980 * AVK.x, y: 700 + 980 * AVK.y } : { x: CX - CW / 2 + CW * AVK.x, y: CY - 272 + CW * AVK.y }
+const RL = CW * AVK.r
+// the Bitcoin card shown whole, and where the chart sits inside it (measured on the 1644 card: x 48, y 684, 1548 x 993)
+const BTCH = V ? 1500 : 1000, BTCS = BTCH / CM.F2126330379674014066[1], BTCW = 1100 * BTCS
+const BTCX = CX - BTCW / 2, BTCY = V ? 210 : 40, K1644 = 1100 / 1644
+const BOX = { x: BTCX + 48 * K1644 * BTCS, y: BTCY + 684 * K1644 * BTCS, w: 1548 * K1644 * BTCS, h: 993 * K1644 * BTCS }
+const cardAv = cw => ({ x: cw * AVK.x, y: cw * AVK.y, r: cw * AVK.r })        // in the element's own px (its width cw)
+function circ(el, r, cx, cy) { css(el, 'clipPath', `circle(${r1(r)}px at ${r1(cx)}px ${r1(cy)}px)`) }
+function cards(t) {
+  // 25.5: his chart leaves the camera world and shrinks into its place inside his post (box morph)
+  const mo = t >= 25.5 && t < 26.3
+  css(CHM, 'opacity', mo ? '1' : '0')
+  if (mo) { const u = E.standard(seg(t, 25.5, .75)), x0 = CX - 2366, y0 = ICY - 1194
+    const s1 = BOX.h / 1884, x1 = BOX.x - (3064 * s1 - BOX.w) / 2, y1 = BOX.y
+    const s = plog(1.0, s1, u), x = lerp(x0, x1, u), y = lerp(y0, y1, u), cut = lerp(0, (3064 * s1 - BOX.w) / 2 / s1, u)
+    css(CHM, 'transform', `translate(${r1(x)}px,${r1(y)}px) scale(${r5(s)})`); css(CHM, 'clipPath', `inset(0px ${r1(cut)}px 0px ${r1(cut)}px round ${r1(12 / s)}px)`) }
+  // the Bitcoin card: fades in round its chart, collapses into its avatar, which flies to the lock point and grows
+  { const on = t >= 25.95 && t < 27.05, av = cardAv(1100)
+    css(BTC, 'opacity', on ? r3(cl((t - 25.95) / .3)) + '' : '0')
+    if (on) { const c = E.standard(seg(t, 26.25, .5)), f = E.standard(seg(t, 26.75, .25))
+      const sAt = lerp(BTCS, RL / av.r, f), sx = lerp(BTCX + av.x * BTCS, LAV.x, f), sy = lerp(BTCY + av.y * BTCS, LAV.y, f)
+      place(BTC, av.x, av.y, sx, sy, sAt); circ(BTC, lerp(2600, av.r, c), av.x, av.y) } }
+  // a card that unfolds from its avatar at the lock point, holds, and folds back
+  const xcard = (el, cw, a, b) => { const on = t >= a && t < b + .3, av = cardAv(cw), s = CW / cw
+    css(el, 'opacity', on ? '1' : '0'); if (!on) return
+    const open = E.standard(seg(t, a, .4)), shut = E.standard(seg(t, b, .25)), gone = E.exit(seg(t, b + .2, .1))
+    const R = lerp(av.r, 1.2 * Math.hypot(cw, el.offsetHeight), open * (1 - shut))
+    place(el, av.x, av.y, LAV.x, LAV.y, s * (1 - .3 * gone)); circ(el, R, av.x, av.y); css(el, 'opacity', r3(1 - gone) + '') }
+  xcard(PAT, 1300, 27.0, 28.2)
+  xcard(RMC, 1300, 31.45, 99)                                                     // the RM card does not fold: it joins the wall
+  if (t >= 34.5) css(RMC, 'opacity', '0')
+  // BUILDING: his bio word as architecture, his app's real match card in front, the headline ringed
+  { const on = t >= 28.3 && t < 31.6, u = E.enter(seg(t, 28.4, .5)), x = E.exit(seg(t, 31.2, .3))
+    css(BLD, 'opacity', on ? r3(u * (1 - x) * .95) + '' : '0'); css(BLD, 'transform', `translate(${Math.round(CX - BLD.offsetWidth / 2)}px,${Math.round((V ? 330 : 40) + 60 * (1 - u) - 40 * x)}px)`) }
+  const appCard = (el, w, a, x0, y0, b) => { const on = t >= a - .02 && t < b + .3, u = cl(M.spring(t, a, { k: 210, c: 24 }), 0, 1.15), x = E.exit(seg(t, b, .28)), s = w / 1496
+    css(el, 'opacity', on ? r3(cl((t - a) / .12) * (1 - x)) + '' : '0')
+    css(el, 'transform', `translate(${Math.round(x0)}px,${Math.round(y0 + (1 - u) * 160 - x * 60)}px) scale(${r5(s * (.94 + .06 * u))})`)
+    css(el, 'filter', 'drop-shadow(0 24px 40px rgba(11,31,77,.30))'); return s }
+  const AW = V ? 1000 : 780, ty = V ? 640 : 392
+  const sT = appCard(TYP, AW, 28.875 - .3, CX - AW / 2, ty, 31.2)
+  appCard(FRM, AW, 30.0 - .3, CX - AW / 2, ty + 492 * AW / 1496 + 24, 31.2)
+  // the ring on "A RED FLAG ON THE FAVOURITE" (card px 58..735, 145..197), drawn on at 29.25
+  { const r = E.standard(seg(t, 29.25 - .3, .3)), on = t >= 28.95 && t < 31.5, x = E.exit(seg(t, 31.2, .25))
+    css(RING1, 'opacity', on ? r3(r * (1 - x)) + '' : '0')
+    const bx = CX - AW / 2 + (58 - 14) * sT, by = ty + (145 - 10) * sT, bw = (735 - 58 + 28) * sT, bh = (197 - 145 + 20) * sT
+    css(RING1, 'transform', `translate(${r1(bx)}px,${r1(by - x * 60)}px)`); RING1.style.width = Math.round(bw) + 'px'; RING1.style.height = Math.round(bh) + 'px'
+    css(RING1, 'clipPath', `inset(-12px ${r1((1 - r) * (bw + 24) - 12)}px -12px -12px)`) }
+  // the ring on "I am calling it now" (card px 48..640, 228..285 of 1644), drawn on at 31.875
+  { const r = E.standard(seg(t, 31.875 - .3, .3)), on = t >= 31.6 && t < 34.5, x = E.exit(seg(t, 34.3, .2))
+    const k = CW / 1644, x0 = LAV.x - 120 * k, y0 = LAV.y - 110 * k
+    const bx = x0 + (48 - 14) * k, by = y0 + (228 - 12) * k, bw = (640 - 48 + 28) * k, bh = (285 - 228 + 24) * k
+    css(RING2, 'opacity', on ? r3(r * (1 - x)) + '' : '0')
+    css(RING2, 'transform', `translate(${r1(bx)}px,${r1(by)}px)`); RING2.style.width = Math.round(bw) + 'px'; RING2.style.height = Math.round(bh) + 'px'
+    css(RING2, 'clipPath', `inset(-12px ${r1((1 - r) * (bw + 24) - 12)}px -12px -12px)`) }
+}
+
+// ======================= 6. THE WALL: 24 of his posts; each collapses into its own avatar, a point of light ===========
+const WALL = ['2126330379674014066', '2126271599347142833', '2126257500517216571', '2126190474448785535', '2126054588662813136', '2125931450721505471', '2125676385763045393', '1990997890102083642',
+  '1981589379102670927', '1980979261709443411', '1881736604710289754', '1881655256397775208', '1881643222079779282', '1881297377639940600', '1881031573027393982', '1881006746753204499',
+  '1880638229655007572', '1880556149046702411', '1880299171674013812', '1878354767644099004', '1876888797310296282', '1874396703350280218', '1870202321222939008', '1869313707152707632']
+const WW = V ? 236 : 220, WG = V ? 18 : 16
+$('wall').style.transformOrigin = '0 0'
+const WC = WALL.map(id => { const h = Math.round(WW * CM[id][1] / CM[id][0]), d = mk('div', 'abs card', $('wall')); d.style.width = WW + 'px'; d.style.height = h + 'px'; mk('img', '', d).src = `img/wallp/${id}.png`; return { id, el: d, h } })
+{ const cols = V ? 4 : 8, colH = Array(cols).fill(0)
+  WC.forEach(o => { const c = colH.indexOf(Math.min(...colH)); o.col = c; o.x = (c - (cols - 1) / 2) * (WW + WG) - WW / 2; o.y = colH[c]; colH[c] += o.h + WG })
+  const tot = Math.max(...colH) - WG
+  WC.forEach(o => { o.y += CY - tot / 2; o.x += CX; o.ax = o.x + WW * AVK.x; o.ay = o.y + WW * AVK.y; o.d = Math.hypot(o.ax - CX, o.ay - CY) }) }
+const RMW = WC.find(o => o.id === '2126054588662813136')
+const ZB = CW / WW
+const RMB = mk('div', 'abs card', $('wall')); RMB.style.width = WW + 'px'; RMB.style.height = RMW.h + 'px'; mk('img', '', RMB).src = 'img/wallp/2126054588662813136_big.png'
+const wallZ = t => plog(ZB, 1, E.standard(seg(t, 34.5, 1.5))) * (1 + .02 * seg(t, 36.0, 2.2))
+function wall(t) {
+  const on = t >= 34.5 && t < 38.3
+  css($('wall'), 'display', on ? 'block' : 'none'); if (!on) { SIG.push('wl0'); return }
+  // camera: at 34.5 the RM card fills its lock rect; it pulls back to the whole wall by 36.0, then a slow drift
+  const u = E.standard(seg(t, 34.5, 1.5)), z = wallZ(t), big = wallZ(FR) >= 2.2
+  const fx = lerp(LAV.x, RMW.ax, u), fy = lerp(LAV.y, RMW.ay, u)
+  css($('wall'), 'transform', `translate(${r1(fx)}px,${r1(fy)}px) scale(${r5(z)}) translate(${r1(-RMW.ax)}px,${r1(-RMW.ay)}px)`)
+  WC.forEach(o => {
+    // neighbours come in only once the zoom is within their own pixels (560 px files)
+    const show = o === RMW ? 1 : cl((2.0 - z) / .5) * cl((t - 34.6 - o.d / 3000) / .3)
+    const c = E.standard(seg(t, 37.5 + o.d / 900 * .4, .5))
+    const R = lerp(1.25 * Math.hypot(WW, o.h), WW * AVK.r, c)
+    css(o.el, 'opacity', o === RMW && big ? '0' : r3(show * (1 - seg(t, 38.15, .1))) + '')
+    css(o.el, 'transform', `translate(${Math.round(o.x)}px,${Math.round(o.y)}px)`)
+    circ(o.el, R, WW * AVK.x, WW * AVK.y)
+  })
+  css(RMB, 'opacity', big ? '1' : '0'); css(RMB, 'transform', `translate(${Math.round(RMW.x)}px,${Math.round(RMW.y)}px)`); circ(RMB, 1.25 * Math.hypot(WW, RMW.h), WW * AVK.x, WW * AVK.y)
+  SIG.push('wl' + r5(z) + big)
+}
+
+// ======================= 7. 242,220: the points of light, the powers-of-ten pull-back, the gather =======================
+const NDOT = 242220, FCOL = V ? 367 : 660, FROW = V ? 660 : 367, P1 = W / FCOL, P0 = 200, KY = (H / FROW) / (W / FCOL)
+const dcv = $('dots'), dctx = dcv.getContext('2d', { willReadFrequently: true }); dcv.width = W; dcv.height = H; dcv.style.width = W + 'px'; dcv.style.height = H + 'px'
+const IMGD = dctx.createImageData(W, H), BUF = new Uint32Array(IMGD.data.buffer)
+function hash(i) { let x = (i + 1) * 2654435761 >>> 0; x ^= x >>> 16; x = Math.imul(x, 2246822507) >>> 0; x ^= x >>> 13; x = Math.imul(x, 3266489909) >>> 0; x ^= x >>> 16; return (x >>> 0) / 4294967296 }
+let FX, FY, FB, TX, TY, TC, TS, CENT, CSET
+function buildDots() {
+  // the field: 660 x 367 (wide) points in field units (1 = one pitch), centred, each jittered by up to 0.35 of a pitch
+  FX = new Float32Array(NDOT); FY = new Float32Array(NDOT); FB = new Uint8Array(NDOT)
+  for (let j = 0, n = 0; j < FROW; j++) for (let i = 0; i < FCOL; i++, n++) {
+    FX[n] = i - (FCOL - 1) / 2 + (hash(n * 5) - .5) * .7; FY[n] = j - (FROW - 1) / 2 + (hash(n * 5 + 1) - .5) * .7; FB[n] = Math.round(200 + 55 * hash(n * 5 + 2)) }
+  // the 24 posts of the wall are the block at the centre of the field
+  CENT = []; const bc = V ? 4 : 6, br = V ? 6 : 4
+  for (let j = 0; j < br; j++) for (let i = 0; i < bc; i++) { const fi = Math.round((FCOL - bc) / 2) + i, fj = Math.round((FROW - br) / 2) + j; CENT.push(fj * FCOL + fi) }
+  CENT.forEach(n => { FX[n] = Math.round(FX[n] * 2) / 2; FY[n] = Math.round(FY[n] * 2) / 2 })
+  CSET = new Map(CENT.map((n, i) => [n, i]))
+  // the disc: each post of the field maps to one point of the avatar circle by the area-preserving concentric map
+  // (Shirley and Chiu), so neighbours stay neighbours and the whole field contracts as one flow, evenly dense
+  const av = document.createElement('canvas'); av.width = 1024; av.height = 1024; const axc = av.getContext('2d', { willReadFrequently: true }); axc.drawImage($('av'), 0, 0, 2048, 2048, 0, 0, 1024, 1024)
+  const ad = axc.getImageData(0, 0, 1024, 1024).data, k = AC.r / 2 / DISC.r
+  TX = new Float32Array(NDOT); TY = new Float32Array(NDOT); TC = new Uint32Array(NDOT); TS = new Float32Array(NDOT)
+  const lureD = { x: (LURE.x - AC.x) / AC.r * DISC.r, y: (LURE.y - AC.y) / AC.r * DISC.r }, dl = new Float32Array(NDOT)
+  for (let j = 0, n = 0; j < FROW; j++) for (let i = 0; i < FCOL; i++, n++) {
+    const a = (i + .5) / FCOL * 2 - 1, b = (j + .5) / FROW * 2 - 1
+    let r, ph; if (Math.abs(a) > Math.abs(b)) { r = a; ph = Math.PI / 4 * (b / a) } else { r = b; ph = Math.PI / 2 - Math.PI / 4 * (a / b) }
+    const px = DISC.r * r * Math.cos(ph), py = DISC.r * r * Math.sin(ph)
+    TX[n] = DISC.x + px; TY[n] = DISC.y + py
+    const sx = Math.min(1023, Math.max(0, Math.round(AC.x / 2 + px * k))), sy = Math.min(1023, Math.max(0, Math.round(AC.y / 2 + py * k))), o = (sy * 1024 + sx) * 4
+    TC[n] = (255 << 24) | (ad[o + 2] << 16) | (ad[o + 1] << 8) | ad[o]; dl[n] = Math.hypot(px - lureD.x, py - lureD.y) }
+  // start order: nearest the lure first (the light forms first), in scene time
+  const ord = Array.from({ length: NDOT }, (_, i) => i).sort((a, b) => dl[a] - dl[b])
+  ord.forEach((n, m) => { TS[n] = 43.5 + 1.85 * Math.pow(m / NDOT, .85) + .12 * hash(n * 9 + 4) })
+}
+// scene time of the gather: a held moment with the avatar half made (rate 0.45 from 44.25 to 45.5), then it catches up
+function tau(t) { if (t < 44.25) return t; if (t < 45.5) return 44.25 + .45 * (t - 44.25); return 44.8125 + (46.38 - 44.8125) / .75 * Math.min(t - 45.5, .75) + Math.max(0, t - 46.25) }
+function pitchAt(t) { return t < 39.0 ? P0 : t < 42.0 ? plog(P0, P1, E.standard(seg(t, 39.0, 3.0))) : P1 }
+function lerpCol(a, b, u) { const ia = 1 - u; return (255 << 24) | ((((a >> 16) & 255) * ia + ((b >> 16) & 255) * u) << 16) | ((((a >> 8) & 255) * ia + ((b >> 8) & 255) * u) << 8) | (((a & 255) * ia + (b & 255) * u) | 0) }
+let CNT
+const ACC = new Float32Array(W * H * 4), SHUT = .5 / FPS
+function splat(x, y, rad, c, w) {               // a point of radius rad, colour c (packed rgba), weight w
+  const cr = c & 255, cg = (c >> 8) & 255, cb = (c >> 16) & 255
+  if (rad < 1.25) { const sz = Math.max(1, Math.round(rad * 2)), xi = Math.round(x - sz / 2), yi = Math.round(y - sz / 2)
+    if (xi < 0 || yi < 0 || xi > W - sz || yi > H - sz) return
+    for (let dy = 0; dy < sz; dy++) { let o = ((yi + dy) * W + xi) * 4; for (let dx = 0; dx < sz; dx++, o += 4) { ACC[o] += cr * w; ACC[o + 1] += cg * w; ACC[o + 2] += cb * w; ACC[o + 3] += w } }
+    return }
+  const x0 = Math.max(0, Math.floor(x - rad - 1)), x1 = Math.min(W - 1, Math.ceil(x + rad + 1)), y0 = Math.max(0, Math.floor(y - rad - 1)), y1 = Math.min(H - 1, Math.ceil(y + rad + 1))
+  for (let yy = y0; yy <= y1; yy++) for (let xx = x0; xx <= x1; xx++) {
+    const cov = cl(rad + .5 - Math.hypot(xx + .5 - x, yy + .5 - y)); if (cov <= 0) continue
+    const o = (yy * W + xx) * 4, ww = w * cov; ACC[o] += cr * ww; ACC[o + 1] += cg * ww; ACC[o + 2] += cb * ww; ACC[o + 3] += ww }
+}
+function compose() {
+  const d = IMGD.data
+  for (let i = 0, o = 0; i < ACC.length; i += 4, o += 4) { const A = ACC[i + 3]
+    if (A <= 0) { d[o + 3] = 0; continue }
+    d[o] = ACC[i] / A; d[o + 1] = ACC[i + 1] / A; d[o + 2] = ACC[i + 2] / A; d[o + 3] = A >= 1 ? 255 : A * 255 }
+  dctx.putImageData(IMGD, 0, 0)
+}
+const fieldCol = n => { const b = FB[n]; return (255 << 24) | (b << 16) | (Math.round(b * .88) << 8) | Math.round(b * .81) }
+function dots(t) {
+  const on = t >= 38.12 && t < 47.05
+  css(dcv, 'display', on ? 'block' : 'none'); if (!on) { SIG.push('d0'); return }
+  const fr = Math.round(t * FPS) / FPS, gx = CX, gy = CY
+  ACC.fill(0); let count = 0
+  if (fr < 43.5) {
+    // the powers-of-ten pull-back: every point at k instants across the shutter, k from how far it travels
+    const pA = pitchAt(fr - SHUT / 2), pB = pitchAt(fr + SHUT / 2), p = pitchAt(fr), rd = Math.min(10, Math.max(.9, .33 * p))
+    const g = E.gentle(seg(fr, 38.25, .7)), fa = fr < 39.0 ? 0 : cl((fr - 39.0) / .25), pm = Math.max(pA, pB)
+    const i0 = Math.max(0, Math.floor((-gx - 20) / p + (FCOL - 1) / 2) - 1), i1 = Math.min(FCOL - 1, Math.ceil((W - gx + 20) / p + (FCOL - 1) / 2) + 1)
+    const j0 = Math.max(0, Math.floor((-gy - 20) / (p * KY) + (FROW - 1) / 2) - 1), j1 = Math.min(FROW - 1, Math.ceil((H - gy + 20) / (p * KY) + (FROW - 1) / 2) + 1)
+    for (let j = j0; j <= j1; j++) for (let i = i0; i <= i1; i++) { const n = j * FCOL + i, isC = CSET.has(n)
+      const a = isC ? 1 : fa; if (a <= 0) continue
+      const rr = isC ? lerp(10, rd, E.standard(seg(fr, 39.0, .9))) : rd
+      let x = gx + FX[n] * p, y = gy + FY[n] * p * KY
+      if (isC) { const w = WC[CSET.get(n)]; x = lerp(w.ax, x, g); y = lerp(w.ay, y, g) }
+      if (x < -rr || y < -rr || x > W + rr || y > H + rr) continue
+      count++
+      const trav = Math.hypot(FX[n], FY[n] * KY) * Math.abs(pB - pA), kk = isC ? 1 : Math.min(24, Math.max(1, Math.ceil(trav / 2.5))), c = fieldCol(n)
+      if (kk === 1) splat(x, y, rr, c, a)
+      else for (let q = 0; q < kk; q++) { const pq = lerp(pA, pB, (q + .5) / kk); splat(gx + FX[n] * pq, gy + FY[n] * pq * KY, rr, c, a / kk) }
+    }
+  } else {
+    // the gather: each point peels off the field, swirls into its own pixel of his drawing, the light first
+    const p = P1, sz0 = Math.max(.9, .33 * p)
+    const tsA = tau(fr - SHUT / 2), tsB = tau(fr + SHUT / 2)
+    const pos = (n, ts, out) => { const u = cl((ts - TS[n]) / .9), e = E.standard(u), hx = gx + FX[n] * p, hy = gy + FY[n] * p * KY, dx = TX[n] - hx, dy = TY[n] - hy
+      let x = hx + dx * e, y = hy + dy * e
+      if (u > 0 && u < 1) { const sw = .16 * Math.sin(Math.PI * e); x += -dy * sw; y += dx * sw }
+      out[0] = x; out[1] = y; out[2] = u; out[3] = e }
+    const A = [0, 0, 0, 0], B = [0, 0, 0, 0], Q = [0, 0, 0, 0]
+    for (let n = 0; n < NDOT; n++) {
+      pos(n, tsA, A); pos(n, tsB, B)
+      const white = fieldCol(n), colAt = e => e < .7 ? white : lerpCol(white, TC[n], (e - .7) / .3)
+      const radAt = e => e < .7 ? sz0 : lerp(sz0, 1.45, (e - .7) / .3)
+      const trav = Math.hypot(B[0] - A[0], B[1] - A[1]), kk = Math.min(24, Math.max(1, Math.ceil(trav / 2.5)))
+      if (kk === 1) { pos(n, (tsA + tsB) / 2, Q); splat(Q[0], Q[1], radAt(Q[3]), colAt(Q[3]), 1) }
+      else for (let q = 0; q < kk; q++) { pos(n, lerp(tsA, tsB, (q + .5) / kk), Q); splat(Q[0], Q[1], radAt(Q[3]), colAt(Q[3]), 1 / kk) }
+    }
+    count = NDOT
+  }
+  compose()
+  css(dcv, 'opacity', r3(1 - seg(t, 46.55, .45)) + '')
+  // the counter: points in the frame, landing on exactly 242,220 at 42.0 (a bar line)
+  const cnt = fr >= 42.0 ? NDOT : fr < 39.0 ? 24 : count, str = cnt.toLocaleString('en-US'); if (CNT.n.textContent !== str) CNT.n.textContent = str
+  SIG.push('d' + fr)
+}
+function buildCount() {
+  CNT = { g: mk('div', 'w', $('txt')), n: mk('div', 'w', $('txt')), l: mk('div', 'w mono', $('txt')), k: mk('div', 'w mono', $('txt')) }
+  CNT.g.style.cssText += `width:${V ? 1000 : 940}px;height:${V ? 520 : 560}px;opacity:0;background:radial-gradient(closest-side,rgba(8,22,58,.9) 0%,rgba(8,22,58,.78) 45%,rgba(8,22,58,0) 100%)`
+  CNT.n.style.cssText += `font:800 ${V ? 140 : 150}px/1 Man,sans-serif;color:#fff;opacity:0;letter-spacing:-.02em;text-shadow:0 6px 30px rgba(11,31,77,.9),0 0 60px rgba(11,31,77,.8)`
+  CNT.l.style.cssText += `font-size:28px;letter-spacing:.16em;color:var(--sky);opacity:0;text-shadow:0 0 24px rgba(11,31,77,.9)`; CNT.l.textContent = 'POSTS · X · 27 NOV 2026'
+  CNT.k.style.cssText += `font-size:30px;letter-spacing:.2em;color:rgba(255,255,255,.88);opacity:0;text-shadow:0 0 24px rgba(11,31,77,.9)`; CNT.k.textContent = '1 DOT = 1 POST'
+}
+function counter(t) {
+  const on = cl((t - 38.3) / .3) * (1 - seg(t, 46.7, .35))
+  for (const k of ['g', 'n', 'l', 'k']) css(CNT[k], 'opacity', r3(on) + '')
+  if (V) { css(CNT.n, 'transform', `translate(${Math.round(540 - CNT.n.offsetWidth / 2)}px,400px)`); css(CNT.l, 'transform', `translate(${Math.round(540 - CNT.l.offsetWidth / 2)}px,560px)`)
+    css(CNT.k, 'transform', `translate(${Math.round(540 - CNT.k.offsetWidth / 2)}px,610px)`); css(CNT.g, 'transform', 'translate(40px,260px)') }
+  else { css(CNT.n, 'transform', 'translate(110px,420px)'); css(CNT.l, 'transform', 'translate(116px,590px)'); css(CNT.k, 'transform', 'translate(116px,644px)'); css(CNT.g, 'transform', 'translate(-110px,265px)') }
+}
+
+// ======================= 8. THE END: his own words; follow =======================
+let MOT, MCH, PILL, CUR
+function buildEnd() {
+  MOT = []; MCH = mk('div', 'chip', $('txt')); PILL = mk('div', '', $('txt')); CUR = mk('div', '', $('txt'))
+  const lines = ['its not over', 'until I win'], fs = V ? 104 : 112, lh = fs * 1.08, x0 = V ? 540 : 1010, y0 = V ? 1040 : 300
+  lines.forEach((ln, li) => { const probe = mk('div', 'w', $('txt')); probe.style.cssText += `font:800 ${fs}px/1 Man,sans-serif;visibility:hidden`
+    const ws = [...ln].map(c => { probe.textContent = c === ' ' ? ' ' : c; return probe.getBoundingClientRect().width }); probe.remove()
+    const tot = ws.reduce((a, b) => a + b, 0); let x = V ? x0 - tot / 2 : x0
+    ;[...ln].forEach((c, i) => { const el = mk('div', 'w', $('txt')); el.textContent = c; el.style.cssText += `font:800 ${fs}px/1 Man,sans-serif;color:#fff;opacity:0;left:${Math.round(x)}px;top:${Math.round(y0 + li * lh)}px`; MOT.push(el); x += ws[i] }) })
+  MCH.textContent = '@i_am_vickyd on X · 24 OCT 2025'; MCH.style.cssText += `font-size:26px;line-height:58px;background:rgba(255,255,255,.1);color:rgba(255,255,255,.8);border:1.5px solid rgba(255,255,255,.24);opacity:0`
+  PILL.id = 'pill'; PILL.style.cssText += `font-size:${V ? 42 : 44}px;line-height:${V ? 100 : 104}px;opacity:0`; PILL.innerHTML = 'Follow <span>@i_am_vickyd</span> on X'
+  CUR.id = 'cursor'; CUR.innerHTML = '<svg viewBox="0 0 22 29" width="44" height="58"><path d="M2 2 L2 23 L7.5 18 L11 26.5 L14.5 25 L11 16.8 L18.5 16.8 Z" fill="#fff" stroke="#0B1F4D" stroke-width="1.6" stroke-linejoin="round"/></svg>'; CUR.style.opacity = 0
+}
+function endCard(t) {
+  MOT.forEach((el, i) => { const a = 48.0 + i * .025, u = E.enter(seg(t, a, .4))
+    css(el, 'opacity', r3(u) + ''); css(el, 'transform', `translateY(${Math.round((1 - u) * 50)}px)`) })
+  const cu = E.enter(seg(t, 48.4, .35)), mx = V ? Math.round(540 - MCH.offsetWidth / 2) : 1014, my = V ? 1290 : 560
+  css(MCH, 'opacity', r3(cu) + ''); css(MCH, 'transform', `translate(${mx}px,${Math.round(my + 16 * (1 - cu))}px)`)
+  const pu = E.standard(seg(t, 48.75, .35)), press = FR >= 49.5 && FR < 49.6 ? .96 : 1, done = FR >= 49.55
+  const px = V ? Math.round(540 - PILL.offsetWidth / 2) : 1010, py = V ? 1400 : 700
+  css(PILL, 'opacity', r3(pu) + ''); css(PILL, 'transform', `translate(${px}px,${Math.round(py + 30 * (1 - pu))}px) scale(${r3(press * (.92 + .08 * pu))})`)
+  css(PILL, 'background', done ? '#1F5FDB' : '#fff'); css(PILL, 'color', done ? '#fff' : '#0B1F4D'); css(PILL.firstElementChild, 'color', done ? '#CFE5FF' : '#1F5FDB')
+  // the cursor comes in from the lower right and clicks at 49.5
+  const cm = E.standard(seg(t, 49.0, .5)), tx = px + PILL.offsetWidth * .72, ty = py + (V ? 62 : 64)
+  css(CUR, 'opacity', r3(cl((t - 49.0) / .15) * (1 - seg(t, 50.6, .3))) + ''); css(CUR, 'transform', `translate(${r1(lerp(tx + 260, tx, cm))}px,${r1(lerp(ty + 220, ty, cm))}px) scale(${press < 1 ? .9 : 1})`)
+}
+
+// ======================= the ground and the handle =======================
+function ground(t) {
+  const n = t < 12 ? 0 : t < 19.5 ? 1 : t < 19.86 ? 1 - seg(t, 19.5, .36) : t < 37.5 ? 0 : seg(t, 37.5, .6)
+  css($('bgN'), 'opacity', r3(n) + '')
+  const hd = $('handle'); css(hd, 'transform', `translate(${V ? 44 : 40}px,${V ? 44 : 34}px)`)
+  css(hd, 'color', n > .5 ? 'rgba(255,255,255,.6)' : 'rgba(11,31,77,.55)'); css(hd, 'opacity', (t < 10.5 || (t >= 19.86 && t < 46.5)) ? '1' : '0')
+}
+
+// every hard cut and switch: a frame's motion-blur samples stay on that frame's side of it
+const CUTS = [1.5, 3.0, 4.5, 6.0, 7.5, 8.25, 9.0, 9.375, 9.75, 10.125, 10.5, 12.0, 19.75, 25.5, 25.95, 26.3, 27.0, 27.05, 28.3, 31.45, 31.6, 34.5, 38.12, 38.3, 46.5, 47.05]
+let FR = 0, HIDE = [], FIRST = 0
+function draw(t) {
+  FR = Math.round(t * FPS) / FPS
+  for (const c of CUTS) { if (FR >= c - 1e-6 && t < c) t = c; else if (FR < c - 1e-6 && t >= c) t = c - 1e-4 }
+  SIG = []
+  for (const el of HIDE) if (el.style.display === 'none') el.style.display = ''
+  ground(t); rhyme(t); avatar(t); who(t); trader(t); cards(t); wall(t); dots(t); counter(t); endCard(t)
+  for (const el of HIDE) { const d = el.style.opacity === '0' ? 'none' : ''; if (el.style.display !== d) el.style.display = d }
+  return SIG.join('|')
+}
+const raf2 = () => new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)))
+window.render = async t => { const s = draw(t); if (!FIRST) { FIRST = 1; await raf2() } return s }
+window.READY = Promise.all([document.fonts.load('200px Anton'), document.fonts.load('800 40px Man'), document.fonts.load('600 40px Man'), document.fonts.load('700 30px Mono'),
+  ...[...document.images].map(i => i.decode().catch(() => 0))])
+  .then(() => { buildWho(); buildDots(); buildCount(); buildEnd()
+    HIDE = [...Object.values(SH), LOCK, $('av'), $('ringc'), HAN, SINCE, FOL, FOLL, SRC, $('tw'), CHM, BTC, PAT, RMC, RMB, BLD, TYP, FRM, RING1, RING2, CNT.g, CNT.n, CNT.l, CNT.k, ...MOT, MCH, PILL, CUR, $('whisper'), $('handle')]
+    for (const w of [0.2, 2, 5, 8, 11, 12.5, 15, 17, 20.5, 23, 25.7, 26.5, 27.5, 29.6, 30.6, 32.5, 35.2, 37.0, 37.9, 38.6, 40.0, 42.5, 44.5, 45.5, 46.8, 48.2, 49.8]) draw(w)
+    draw(0); return new Promise(r => requestAnimationFrame(() => requestAnimationFrame(() => setTimeout(r, 400)))) })
+</script>
+</body></html>

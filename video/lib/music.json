@@ -893,6 +893,38 @@
     "hit_db": 8.7
    },
    "used": "Bagel 'Sleep on it', 9 Nov 2026"
+  },
+  {
+   "id": 90001,
+   "name": "Royalty (Instrumental)",
+   "artist": "Egzod, Maestro Chives & Neoni",
+   "source": "NCS",
+   "page": "https://ncs.io/royalty",
+   "genre": "Trap / orchestral",
+   "mood": "drop",
+   "bpm": 160.0,
+   "start": 156.032,
+   "seconds": 219.3,
+   "drop": 168.032,
+   "about": "strings and choir over a trap drop; used as a 51.27 s excerpt (track 156.032-178.532 + 190.532-219.30, drop at 12.0 s of the excerpt)",
+   "licence": "NCS: free for the creator's own videos with the credit 'Egzod, Maestro Chives & Neoni - Royalty (Instrumental) [NCS Release]'; ads and sponsored videos need an NCS licence",
+   "sample_sent": "27 Nov 2026 (X profile film), no answer yet"
+  },
+  {
+   "id": 90002,
+   "name": "No Rival (Instrumental)",
+   "artist": "Egzod, Maestro Chives & Alaina Cross",
+   "source": "NCS",
+   "page": "https://ncs.io/norival",
+   "genre": "Trap / cinematic",
+   "mood": "drop",
+   "bpm": 160.0,
+   "start": 48.102,
+   "seconds": 98.2,
+   "drop": 60.102,
+   "about": "a hard drop out of 0.7 s of silence; used as a 50.10 s excerpt (track 48.102-98.20), on the same grid as Royalty",
+   "licence": "NCS: free for the creator's own videos with the credit 'Egzod, Maestro Chives & Alaina Cross - No Rival (Instrumental) [NCS Release]'; ads and sponsored videos need an NCS licence",
+   "sample_sent": "27 Nov 2026 (X profile film), no answer yet"
   }
  ],
  "_wow": "The owner's soundtrack, for every analysis and post-match video (4-6 Oct 2026): cinematic film score with a quiet build and a hard drop that keeps people wowed, like 'A New Life' (543). 'wow' tracks jump at least 12 dB at the drop with a hit of at least 9 dB in the first half second (measured; see impact). Soft-drop tracks (Silent Descent, Moon Walk, Walking Dead, Red Lights, Cinematic Jazz) are not used for these videos.",

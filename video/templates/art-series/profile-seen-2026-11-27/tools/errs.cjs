@@ -1,0 +1,11 @@
+const { chromium } = require('/opt/node22/lib/node_modules/playwright')
+const [page_, w = 1920, h = 1080, t = '0'] = process.argv.slice(2)
+;(async () => {
+  const b = await chromium.launch({ args: ['--allow-file-access-from-files'] })
+  const p = await b.newPage({ viewport: { width: +w, height: +h } })
+  p.on('pageerror', e => console.log('PAGEERROR', e.message, (e.stack || '').split('\n').slice(0, 3).join(' | ')))
+  p.on('console', m => { if (m.type() === 'error' || m.type() === 'warning') console.log('CONSOLE', m.type(), m.text()) })
+  await p.goto('file://' + page_); await p.waitForTimeout(2000)
+  const ok = await p.evaluate(async t => { if (!window.READY) return 'no READY'; await window.READY; const r = []; for (const x of t.split(',')) { const t0 = Date.now(); await window.render(+x); r.push(x + ':' + (Date.now() - t0) + 'ms') } return r.join(' ') }, t).catch(e => 'ERR ' + e.message)
+  console.log(ok); await b.close()
+})()

@@ -1,0 +1,40 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>SEEN: cover (#v, 1080x1920; its middle square is the picture for X) and wide thumbnail (#t, 1280x720, YouTube)</title>
+<style>
+@font-face{font-family:Man;font-weight:800;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-800-normal.woff2)}
+@font-face{font-family:Mono;font-weight:700;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/jetbrains-mono-latin-700-normal.woff2)}
+/* The film's own frame: 242,220 points of light (one per post) half-way into his avatar, the lure formed first (the
+   page seen.html in its cover mode #c, t = 45.7). Deep navy, his avatar in its own colours, white and sky type. */
+*{box-sizing:border-box}
+html,body{margin:0;overflow:hidden;background:#0B1F4D;font-family:Man,sans-serif;font-weight:800;color:#fff}
+.abs{position:absolute;white-space:nowrap}
+.glow{position:absolute;background:radial-gradient(closest-side,rgba(8,22,58,.92) 0%,rgba(8,22,58,.75) 50%,rgba(8,22,58,0) 100%)}
+.mono{font-family:Mono,monospace;font-weight:700}
+.sky{color:#7CC4FF}
+</style></head>
+<body>
+<div id="v" style="display:none;position:absolute;left:0;top:0;width:1080px;height:1920px;overflow:hidden">
+  <img src="img/art_v.png" style="position:absolute;left:0;top:0;width:1080px;height:1920px">
+  <!-- Cut edges from the middle: 3:4 y 240/1680, 7:8 y 343/1577, 1:1 y 420/1500, 16:9 y 656/1263. The avatar (disc
+       centre 300,963, r 235: y 728-1198), the title and the handle all lie between 690 and 1240, inside 16:9. Only the
+       stream of points (no type) crosses a cut edge. -->
+  <div class="glow" style="left:470px;top:640px;width:700px;height:640px"></div>
+  <div class="abs" style="left:576px;top:716px;font-size:112px;line-height:1;letter-spacing:-.02em">242,220</div>
+  <div class="abs sky" style="left:580px;top:846px;font-size:70px;line-height:1">POSTS</div>
+  <div class="abs" style="left:580px;top:936px;font-size:70px;line-height:1">BECAME</div>
+  <div class="abs" style="left:580px;top:1026px;font-size:70px;line-height:1">THIS</div>
+  <div class="abs mono" style="left:582px;top:1150px;font-size:38px;line-height:1;color:rgba(255,255,255,.86)">@i_am_vickyd</div>
+</div>
+<div id="t" style="display:none;position:absolute;left:0;top:0;width:1280px;height:720px;overflow:hidden">
+  <img src="img/art_w.png" style="position:absolute;left:0;top:0;width:1280px;height:720px">
+  <div class="glow" style="left:-120px;top:-60px;width:820px;height:520px"></div>
+  <div class="abs" style="left:64px;top:56px;font-size:136px;line-height:1;letter-spacing:-.02em">242,220</div>
+  <div class="abs" style="left:68px;top:206px;font-size:56px;line-height:1"><span class="sky">POSTS</span> BECAME THIS</div>
+  <div class="abs mono" style="left:70px;top:292px;font-size:32px;line-height:1;color:rgba(255,255,255,.86)">@i_am_vickyd</div>
+</div>
+<script>
+const m = location.hash.includes('t') ? 't' : 'v'
+document.getElementById(m).style.display = 'block'
+window.READY = Promise.all([...[...document.images].map(i => i.decode().catch(() => 0))]).then(() => document.fonts.load('800 30px Man')).then(() => document.fonts.load('700 24px Mono'))
+</script>
+</body></html>
