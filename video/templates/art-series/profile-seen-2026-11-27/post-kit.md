@@ -16,9 +16,21 @@ For the "No Rival" version, the credit line is: 🎵 Egzod, Maestro Chives & Ala
 
 ## YouTube (wide)
 - Title: 242,220 Posts Became This | @i_am_vickyd
-- Description: A motion film of my X profile: six of my charcoal eyes, my avatar, my posts and my app, and 242,220
-  points of light, one for every post. Follow me on X: @i_am_vickyd.
-  Music: Egzod, Maestro Chives & Neoni - Royalty (Instrumental) [NCS Release]. Free download / stream: https://ncs.io/royalty
+- Description: A motion film of my X profile: five of my charcoal eyes, my avatar, my posts and my app, and 242,220
+  points of light, one for every post. Follow @i_am_vickyd on X.
+
+  Song: Egzod, Maestro Chives, Neoni - Royalty [NCS Release]
+  Music provided by NoCopyrightSounds
+  Free Download/Stream: https://ncs.io/royalty
+
+  For the "No Rival" version, the credit block is:
+  Song: Egzod & Maestro Chives & Alaina Cross - No Rival [NCS Release]
+  Music provided by NoCopyrightSounds
+  Free Download/Stream: https://ncs.io/norival
+
+## NCS terms in one line
+Fine for his own profile and channel with the credit. A paid ad, a sponsored post, or a post made to promote the app
+needs an NCS licence (ncs.io/help/ncs-music-in-paid-ads-and-sponsored-videos).
 
 ## TikTok / Instagram (upright)
 > 242,220 posts became this. ✍️ #charcoalart #motiondesign

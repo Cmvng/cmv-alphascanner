@@ -8,8 +8,8 @@
 /* SEEN, the @i_am_vickyd profile film (27 Nov 2026). The light in his eye: the catchlight he drew in one charcoal eye
    is the same size as the lure of light on his avatar, so the film cuts light to light on the drop; every post card
    collapses into its own avatar circle; 242,220 posts become 242,220 points of light that gather into his avatar, the
-   lure first. Music-led, no narrator. Only his real material: six charcoal eyes, his avatar drawing, his posts as X
-   draws them, his app's real screens, his own words. Nothing is drawn over his art or over a real screen except our
+   lure first. Music-led, no narrator. Only his real material: five of his charcoal eyes, his avatar drawing, his posts
+   as X draws them, his app's real screens, his bio words and the line he quoted. Nothing is drawn over his art or over a real screen except our
    rings, chips and type, which are labelled. Light sky and deep navy grounds, never black. */
 :root{--ink:#0B1F4D;--brand:#1F5FDB;--sky:#7CC4FF}
 *{box-sizing:border-box}
@@ -76,7 +76,7 @@ const key = (t, keys) => {                                    // [t, value..., e
 // placing an element so that its own point (ix, iy) lands on screen (sx, sy) at scale s
 const place = (el, ix, iy, sx, sy, s, rot = 0) => css(el, 'transform', `translate(${r1(sx)}px,${r1(sy)}px) rotate(${r3(rot)}deg) scale(${r5(s)}) translate(${-ix}px,${-iy}px)`)
 
-// ======================= 1. THE ARTIST: his six eyes, the iris locked to one circle =======================
+// ======================= 1. THE ARTIST: five of his eyes, the iris locked to one circle =======================
 const EYES = { e1: { w: 1440, h: 1174, cx: 676, cy: 627, r: 265 }, e2: { w: 1438, h: 1130, cx: 625, cy: 421, r: 298 },
   e3: { w: 3072, h: 2315, cx: 1528, cy: 1190, r: 502 }, e5: { w: 1440, h: 1672, cx: 678, cy: 830, r: 214 }, e6: { w: 1440, h: 1020, cx: 920, cy: 496, r: 264, lx: 969.6, ly: 552 } }
 const RI = 210                                    // the iris lock (e5's iris is 214 at its own pixels)
@@ -108,7 +108,7 @@ function rhyme(t) {
   const s = t < 11.633 ? plog(.90, .95, E.gentle(seg(t, 10.5, 1.133))) : plog(.95, .994, expoOut(seg(t, 11.633, 4 / 30)))
   place(LOCK, EYES.e6.lx, EYES.e6.ly, PL.x, PL.y, s)
   css(LOCK, 'boxShadow', '0 10px 30px rgba(11,31,77,.18)')
-  // his own words, one a bar, readable
+  // his bio words, one a bar, readable
   const w = SEQ.filter(x => x[3] && t >= x[0] && t < x[0] + 1.42).pop(), wh = $('whisper')
   if (w) { if (wh.textContent !== w[3]) { wh.textContent = w[3]; wh.style.fontSize = (V ? 60 : 50) + 'px'; wh.style.lineHeight = (V ? 104 : 88) + 'px' }
     const a = seg(t, w[0] + .04, .25), b = seg(t, w[0] + 1.22, .2)
@@ -439,7 +439,7 @@ function counter(t) {
   else { css(CNT.n, 'transform', 'translate(110px,420px)'); css(CNT.l, 'transform', 'translate(116px,590px)'); css(CNT.k, 'transform', 'translate(116px,644px)'); css(CNT.g, 'transform', 'translate(-110px,265px)') }
 }
 
-// ======================= 8. THE END: his own words; follow =======================
+// ======================= 8. THE END: the line he quoted; follow =======================
 let MOT, MCH, PILL, CUR
 function buildEnd() {
   MOT = []; MCH = mk('div', 'chip', $('txt')); PILL = mk('div', '', $('txt')); CUR = mk('div', '', $('txt'))

@@ -50,6 +50,9 @@ has not been said: ask once when the next one comes up.)
   they want the sound of the quality reels they see, not stock music.) What stays: a copy with no music goes with
   every music-led video, so a post that gets muted or claimed can be re-posted with another sound. Songs are not
   pulled off streaming sites from here; a song they name is used from the file or the reel they send.
+- **Two samples sent, the choice left to us.** 27 Nov, on the 10-second samples of "Royalty" and "No Rival" (NCS) for
+  the profile film: "Choose any song or send both". So when both samples suit, send the video on our pick with the
+  other as a second version, rather than wait. (My reading: the sample step stays; a yes can be this short.)
 - **Level:** the music is clearly music: about 12 dB under the voice while they speak, the drop in the first seconds,
   full level on the end card (`remix.py` in the 10 Nov Bagel template). The whole mix at -14 LUFS, EXCEPT under the
   owner's own recorded voice: that is never squashed to reach a number. There the mix gets one plain gain up to a

@@ -57,9 +57,26 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
   - A layer that must stay on top gets its own z-index. On stills, look for every piece of type the plan names.
   - Hard cuts are decided on the frame (`CUTS` clamp), and anything at opacity 0 is display:none.
   - Cards shown across a big zoom range: PNG at twice the shown size, a larger file for the one seen close.
-- **Sound:** "Royalty" (Instrumental), NCS, as mastered, -14.1 LUFS, -3.1 dBTP; "No Rival" on the same picture. Samples
-  of both went to the owner before the render. The pre-send check holds the film until the owner says yes to one
-  (1 FAIL, the soundtrack; everything else ok).
+  6. **The text that goes with the film had five errors**, caught by an independent read-only audit (workflow, two
+     agents: files and text) before sending:
+     - "six of my charcoal eyes": the film uses five (e4 was left out at the lock);
+     - the Real Madrid post read as a prediction, when it is an "if";
+     - the wall dated from Jan 2025, when two posts are from Dec 2024;
+     - a dead LiveScore link, replaced with the SI original;
+     - the YouTube follow line not in the owner's exact words.
+     The motto is a Les Brown title the owner quoted, so it is never "his own words".
+  7. **The No Rival cut went silent 1.2 s before the end** under the end card. It is re-cut to run to 51.3 s, bit-identical
+     to the heard cut up to 47.95 s.
+  8. **preflight.py crashed on a file with no audio stream** (the no-music copies). It now says "no audio stream" and
+     runs the picture checks.
+- **Sound:** "Royalty" (Instrumental), NCS, as mastered, -14.1 LUFS, -3.1 dBTP (the AAC encode adds a peak on the first
+  hit; the source is -6.2); "No Rival" on the same picture, -14.3 LUFS, -5.8 dBTP. Samples of both went to the owner
+  first; the owner: "Choose any song or send both". Pre-send check: 0 FAIL on every master.
+- **Sent (27 Nov):**
+  - chat copies (crf 25, 31 to 36 MB), upright and wide, on Royalty, on No Rival, and with no music;
+  - the covers, the X square, and the post kit with NCS's own credit blocks;
+  - a private download page with 10 Mbit/s copies on Royalty (64.8 and 63.6 MB, 6 parts each; the last part's served
+    sha256 checked): https://claude.ai/artifact/PWGL7iCN4JzSjszjcQ7MbR
 - **The owner's reaction:** (to come)
 
 ---

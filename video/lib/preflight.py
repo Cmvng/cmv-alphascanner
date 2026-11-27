@@ -31,7 +31,7 @@ def say(level, msg): res.append(level); print(f'{level:5s} {msg}')
 # ---- 1. the soundtrack: one the owner approved by ear, or a sample they said yes to
 lib = {t['id']: t for t in json.load(open(os.path.join(HERE, 'music.json')))['tracks']}
 if A.music == 'none':
-    say('ok', 'no music: voice only')
+    say('ok', 'no music')
 elif A.music == 'owner':
     say('ok', "music from the owner's own samples")
 else:
@@ -43,10 +43,16 @@ else:
     elif A.kind == 'picks': say('WARN', f'"{t["name"]}" comes from the rotation and the owner has never judged it: name it in the message, and record what they say in music.json')
     else: say('FAIL', f'"{t["name"]}" has never been approved by the owner. Send a 10-second sample and wait for a yes (--sample-ok), or use an approved track')
 
-# ---- 2. loudness
-out = subprocess.run(['ffmpeg', '-nostdin', '-hide_banner', '-nostats', '-i', A.video, '-af', 'loudnorm=print_format=json', '-f', 'null', '-'], capture_output=True, text=True).stderr
-I = float(re.search(r'"input_i"\s*:\s*"(-?[\d.]+)"', out).group(1)); TP = float(re.search(r'"input_tp"\s*:\s*"(-?[\d.]+)"', out).group(1))
-if A.kind == 'recording':
+# ---- 2. loudness (a copy with no audio stream at all, the no-music copy of a music-led video, has none to measure)
+has_audio = bool(subprocess.run(['ffprobe', '-v', 'error', '-select_streams', 'a', '-show_entries', 'stream=index', '-of', 'csv=p=0', A.video],
+                                capture_output=True, text=True).stdout.strip())
+if not has_audio:
+    say('ok' if A.music == 'none' else 'FAIL', 'no audio stream' + ('' if A.music == 'none' else f' (but --music {A.music} was given)'))
+else:
+  out = subprocess.run(['ffmpeg', '-nostdin', '-hide_banner', '-nostats', '-i', A.video, '-af', 'loudnorm=print_format=json', '-f', 'null', '-'], capture_output=True, text=True).stderr
+  I = float(re.search(r'"input_i"\s*:\s*"(-?[\d.]+)"', out).group(1)); TP = float(re.search(r'"input_tp"\s*:\s*"(-?[\d.]+)"', out).group(1))
+if not has_audio: pass
+elif A.kind == 'recording':
     # The owner's own voice is never squashed to reach a number (11 Nov: "the sound of the video was top quality. But when
     # you made the edit... it was just poor"). No compressor, no limiter: one plain gain, as far as the peaks allow.
     say('ok' if I <= -13.0 and -2.0 <= TP <= -0.5 else 'FAIL', f'loudness {I:.1f} LUFS with the peak at {TP:.2f} dBTP (their own recording: one plain gain up to a peak '

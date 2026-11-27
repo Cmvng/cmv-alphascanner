@@ -14,7 +14,7 @@ his avatar, the lure first.
 | Time (s) | Section | What happens |
 |---|---|---|
 | 0.0-1.5 | Hook | His signed eye (e3) pulls back from a close-up of the iris to the whole sheet on torn paper |
-| 1.5-7.5 | The rhyme | One drawing a bar on a growing pile, the iris locked to one screen circle (r 210); his own bio words on chips: "Charcoal", "pencil", "artist", "& trader" |
+| 1.5-7.5 | The rhyme | One drawing a bar (five of his eyes) on a growing pile, the iris locked to one screen circle (r 210); his own bio words on chips: "Charcoal", "pencil", "artist", "& trader" |
 | 7.5-10.5 | Burst | Cuts on two beats, then on single beats, same locked iris |
 | 10.5-12.0 | Still bar | e6 alone, anchored on its catchlight: a slow push, a snap on the pre-hit, stillness |
 | 12.0 | Drop | Hard cut light to light: the avatar's lure on the catchlight's place and size, pulling back into its circle; a white ring draws on from the lure's angle |
@@ -28,10 +28,11 @@ his avatar, the lure first.
 | 38.2-43.5 | 242,220 | The 24 avatars become 24 points; a powers-of-ten pull-back to 242,220 points (one per post), counted in frame, landing on the bar at 42.0 |
 | 43.5-46.5 | The gather | Every point swirls into its own pixel of his avatar, the lure first; held half-made for about a second (the screenshot moment) |
 | 46.5-48.0 | | The real drawing fades in under the points; the ring draws on again from the lure |
-| 48.0-51.3 | End | His motto "its not over / until I win" (his post of 24 Oct 2025), "Follow @i_am_vickyd on X" clicked |
+| 48.0-51.3 | End | The line he quoted on 24 Oct 2025, "its not over / until I win" (a Les Brown title, so never "his own words"), "Follow @i_am_vickyd on X" clicked |
 
 ## Real material only (none of it committed: it is the owner's)
-- Six charcoal eyes he posted on 26 Nov (`page/img/e1..e6`, at their own pixels; the GAMDOM drawing left out).
+- Five of the charcoal eyes he posted on 26 Nov (`page/img/e1, e2, e3, e5, e6`, at their own pixels; e4, the pixel-edged
+  cut-out whose iris would pass its own pixels at the lock, and the GAMDOM drawing left out).
 - The 2048 drawing his avatar is cropped from (post 1990997890102083642).
 - His posts as X's own embed draws them (light theme, 1644 px wide): the wall cards are PNG at 440 px (twice their
   shown size), the RM card also at 1100 px for the close part of the pull-back.
@@ -42,9 +43,12 @@ his avatar, the lure first.
 
 ## Soundtrack
 "Royalty" (Instrumental), Egzod, Maestro Chives & Neoni (NCS), a 51.27 s excerpt as mastered (one join at 22.5 s,
-8 ms crossfade), -14 LUFS, -6.2 dBTP. "No Rival" (Instrumental), same makers, NCS, is on the same 160 bpm grid
+8 ms crossfade), -14 LUFS, -6.2 dBTP. "No Rival" (Instrumental), Egzod, Maestro Chives & Alaina Cross (NCS), is on the same 160 bpm grid
 (bar 1.5 s = 45 frames; drop 12.0, lifts 24.0 and 36.0, last hit 48.0), so the second version is a swap of the sound
-only. Samples of both went to the owner before the render. NCS lets creators use them free with a credit.
+only. Samples of both went to the owner before the render; the owner: "Choose any song or send both". NCS lets creators
+use them free with a credit on their own content; a paid ad, a sponsored post or a post made to promote the app needs
+an NCS licence. The No Rival excerpt is re-cut to 51.3 s (track 48.102-99.402) with a fade from 48.6 s, so it does
+not fall silent under the end card.
 
 ## Build
 ```bash
