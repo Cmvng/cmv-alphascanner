@@ -28,6 +28,40 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
+## 27 Nov: "MMIX" (1:22, 16:9, the owner's written post with four screenshots of MMIX's pages, Lara)
+
+- **What worked:**
+  - MMIX's terms were read before any capture. They ban automated tools and reserve the logo, so the owner's four
+    screenshots plus MMIX's own sentences, quoted with their page and date, carried the whole video. No capture was
+    needed.
+  - One idea held the whole video together: the open chain in the hook comes back on "the next rug". The asset drops
+    in beside the RUG, the RUG falls off, and every tile is checked.
+  - The music level was measured before the render: 12.8 dB under the voice, -14.5 LUFS, -1.5 dBTP at 256k.
+  - The pre-send check gave 0 FAIL and 0 WARN on the first full render.
+- **Mistakes, and how they got through:**
+  1. **A quote card set only inside its scene's `if` block** (the FAQ validators quote) stayed on screen over every
+     later scene when frames were drawn out of order. The determinism check caught it (22 of 24 frames) before any
+     render. Fixed: anything that is not a child of the scene's own container is set on every frame.
+  2. **The gate tiles flew over each other.** The second tile crossed the first one's landing spot. Found on stills.
+     Now the first one through goes furthest.
+  3. **The first payoff layout had no room for the asset** next to the RUG, so it landed on top of another tile.
+     Found on stills. The row now opens a slot right beside the RUG.
+  4. **Three list cards (the registry, the hub steps, "You need to know") sat empty for 1.5 to 4 s** before their
+     first row was spoken. They passed the stills, which were taken on the words, and were caught on the half-second
+     sheets of the first render. The rows are now there from the start, faded, and light up on their words. This
+     cost one more render.
+  5. **Rings on 13 px text in a 1x screenshot** (the hub's three steps) touched each other at the usual padding, and
+     the text was too small to read. Fixed with tight rings plus a numbered panel beside the screenshot that writes
+     the steps out large.
+- **Change next time:**
+  - A list that builds on the words shows all its rows faded from the first frame, never an empty card.
+  - Take stills a beat before each scene's first word too, not only on the words.
+  - Check a site's terms first. Where captures are not allowed, use the owner's screenshots and the site's own
+    sentences quoted with their source.
+- **The owner's reaction:** (to come)
+
+---
+
 ## 27 Nov: "Gambit" (1:10, 16:9, the owner's seven-scene script with Gambit's official images, Lara)
 
 - **What worked:**

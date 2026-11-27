@@ -71,5 +71,8 @@ screenshots are the owner's and are not committed.
   scene. The determinism check caught it (22 of 24 frames). A card that is not a child of the scene's own container
   is set on every frame.
 - **Things that fly to the same row must not cross each other.** The first one through the gate now goes furthest.
+- **A list that builds on the words never starts as an empty card.** On the first render the registry, the hub steps
+  and "You need to know" sat empty for 1.5 to 4 s. Their rows are now there from the start, faded, and light up on
+  their words (`lit()`).
 - **Small text in a 1x screenshot cannot be pushed in.** On the hub, the three steps (about 13 px) are ringed where
   they are and written out large in a numbered panel beside the screenshot.

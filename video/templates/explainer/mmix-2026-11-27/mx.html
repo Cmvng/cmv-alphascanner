@@ -161,6 +161,9 @@ const stamp = (el, t, a, b = 1e9, rot = 0, s0 = 1.4) => { el = typeof el === 'st
 const pop = (el, t, a, b = 1e9, base = '') => { el = typeof el === 'string' ? $(el) : el; b = sb(b); const sp = cl(M.spring(t, a, M.SP.pop), 0, 1.3), v = t >= b ? E.exit(seg(t, b, .22)) : 0
   css(el, 'opacity', ((t >= a ? cl((t - a) / .1) : 0) * (1 - v)).toFixed(3)); css(el, 'transform', `${base} translateY(${((1 - sp) * 30 - v * 20).toFixed(1)}px) scale(${(.6 + .4 * sp).toFixed(4)})`) }
 const IN = { dx: 60, dy: 0, d: .42 }
+// a list row: there from the start, faded, and lit on its word (a checklist that lights up, S1)
+const lit = (id, t, a) => { const el = $(id), u = E.standard(seg(t, a, .3)), [qx, qy] = M.squash(t, a + .05)
+  css(el, 'opacity', (.22 + .78 * u).toFixed(3)); css(el, 'transform', `translateX(${(10 * u).toFixed(1)}px) scale(${qx.toFixed(4)},${qy.toFixed(4)})`) }
 
 // ---- the owner's four screenshots of MMIX's own pages (shown at their own pixels, no push-in past them)
 const RD = 'MMIX.IO · SCREENSHOT SENT BY THE OWNER'
@@ -299,7 +302,7 @@ window.render = async t => {
 
   // ---- 7. compliance: the registry builds row by row
   io('reg', t, F2, G, { dy: 30, d: .4 })
-  io('rw0', t, ws(111) - .1, 1e9, { dx: 40, dy: 0 }); io('rw1', t, ws(113) - .1, 1e9, { dx: 40, dy: 0 }); io('rw2', t, ws(116) - .1, 1e9, { dx: 40, dy: 0 })
+  lit('rw0', t, ws(111) - .1); lit('rw1', t, ws(113) - .1); lit('rw2', t, ws(116) - .1)
 
   // ---- 8. MMIX Coin: one coin flies to each app it pays for
   drawRing(R.re2, t, ws(128) - .08, ws(130) - .1); drawRing(R.bank, t, ws(132) - .08, ws(134) - .1); drawRing(R.chk, t, ws(136) - .08, H)
@@ -311,12 +314,12 @@ window.render = async t => {
 
   // ---- 9. the quest hub (the leaderboard left out)
   io(C.hub.el, t, I, J, IN); io(C.hub.sr, t, I + .2, J, { dy: 8 })
-  io('hsp', t, I + .5, J, { dx: 50, dy: 0, d: .4 }); io('hs0', t, ws(171) - .1, 1e9, { dx: 40, dy: 0 }); io('hs1', t, ws(173) - .1, 1e9, { dx: 40, dy: 0 }); io('hs2', t, ws(178) - .1, 1e9, { dx: 40, dy: 0 })
+  io('hsp', t, I + .5, J, { dx: 50, dy: 0, d: .4 }); lit('hs0', t, ws(171) - .1); lit('hs1', t, ws(173) - .1); lit('hs2', t, ws(178) - .1)
   drawRing(R.hubT, t, ws(164) - .08, ws(170) - .2); drawRing(R.task, t, ws(171) - .08, J); drawRing(R.pts, t, ws(173) - .08, J); drawRing(R.elig, t, ws(178) - .08, J)
 
   // ---- 10. you need to know; then MMIX's own line
   io('qCav', t, J, K, { dy: 30, d: .4 })
-  io('cv0', t, ws(186) - .1, 1e9, { dx: 40, dy: 0 }); io('cv1', t, ws(193) - .1, 1e9, { dx: 40, dy: 0 }); io('cv2', t, ws(199) - .1, 1e9, { dx: 40, dy: 0 })
+  lit('cv0', t, ws(186) - .1); lit('cv1', t, ws(193) - .1); lit('cv2', t, ws(199) - .1)
   stamp('nog', t, ws(201) - .05, K, -5)
   io('qEnd', t, K, ENDC, { dy: 30, d: .4 })
 
