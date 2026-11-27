@@ -41,11 +41,15 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
      The categories have no zoom now, and the docs zoom is 1.18.
   2. **A card shown twice in one render was set twice per frame** (the live market, a creator card): the second call
      hid the first. Found in the code before the first stills; each card now has one window per time range.
-  3. **The first draft put unconfirmed things on screen** (a "4 steps" checklist, a USDG chip, "NO TOKEN CONFIRMED").
+  3. **Scene changes still overlapped in the first full render.** The stagger (new +0.12 s, old -0.06 s) was shorter
+     than the exit itself (0.29 s), so the half-second sheets caught the outgoing image fading over the incoming one at
+     7.5, 27.5 and 53.5 s. The new picture now arrives 0.26 s late, after the old one has gone (one more render).
+  4. **The first draft put unconfirmed things on screen** (a "4 steps" checklist, a USDG chip, "NO TOKEN CONFIRMED").
      They came out when the fact check came back: the four steps are not on any Gambit page, deposits are USDC on six
      networks, and the docs describe a token but publish no contract.
 - **Change next time:**
   - Before any push-in, check that the ringed words stay whole at the zoom's largest size.
+  - Make the stagger at a scene change longer than the exit (about 0.29 s), so the old picture is gone before the new one comes in.
   - Draft scenes only from the confirmed facts, or keep unconfirmed ones as captions only until the check returns.
   - When an official image shows an older interface, carry the claim on the real page.
 - **The owner's reaction:** (to come)
