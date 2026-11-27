@@ -105,7 +105,8 @@ const LAST = we(W.length - 1), ENDC = LAST + .25, END = 69.5, DROP = 3.7
 const seg = (t, a, d) => cl((t - a) / d)
 let SIG = []
 const css = (el, k, v) => { el.style[k] = v; SIG.push(v) }
-let BND = new Set(); const XI = .12, XO = .06, sa = a => BND.has(a) ? a + XI : a, sb = b => BND.has(b) ? b - XO : b
+// at a scene change the old picture is gone (its exit takes about 0.29 s) before the new one comes in
+let BND = new Set(); const XI = .26, XO = .06, sa = a => BND.has(a) ? a + XI : a, sb = b => BND.has(b) ? b - XO : b
 const io = (el, t, a, b = 1e9, o = {}) => { el = typeof el === 'string' ? $(el) : el; SIG.push(M.apply(el, M.inout(t, sa(a), sb(b), o), o.base || '')) }
 const mk = (tag, cls, parent, style = {}, html = '') => { const e = document.createElement(tag); e.className = cls; Object.assign(e.style, style); if (html) e.innerHTML = html; parent.appendChild(e); return e }
 const STAGE = { x: 390, y: 34, w: 1490, h: 890 }, FULL = { x: 160, y: 40, w: 1600, h: 880 }
