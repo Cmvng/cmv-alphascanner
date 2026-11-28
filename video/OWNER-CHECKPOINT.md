@@ -232,6 +232,14 @@ has not been said: ask once when the next one comes up.)
   way), the illustrations built around what they say, in their order. A fact of theirs that is off does not stop the
   build: their words stay, the real page goes on screen, and the doubt goes in the message with the finished video.
   The cartoon is for their written briefs and posts, not for a video they filmed.
+- **Where they look down at their screen while recording, their face is not shown.** 28 Nov, on their Entropy
+  recording: "There are some parts where I'm actually looking at the screen while talking… that's where you actually
+  like showcase what I'm actually talking about… the opportunities from their Discord… what creators are saying… their
+  website, what the team said, how to position… But once I'm looking at the screen, you will not show my face anymore
+  again, because basically it will make it look as if I'm doing an unprofessional video." So: find those stretches
+  (eye direction on every few frames, checked by eye), and there the real material fills the whole frame, captions
+  still running; their face comes back when they look at the camera, with the talking-head moves of their samples.
+  Reference: `video/templates/talking-head/camera-entropy-2026-11-28/`.
 - **Their own take on a market or a coin:** show what they are talking about. 12 Nov, on a recording about meme
   coins: "adding motion effects, showing memes I'm talking about, the charts, references to it in the video, and make
   what I'm talking about illustrative… make sure that you look at your notes of the things I talked about previously."

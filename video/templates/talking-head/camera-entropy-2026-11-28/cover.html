@@ -1,0 +1,48 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Entropy (28 Nov): cover (#v, 1080x1920; its middle square is the picture for X) and wide thumbnail (#t, 1280x720, YouTube)</title>
+<style>
+@font-face{font-family:Anton;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/anton-latin-400-normal.woff2)}
+@font-face{font-family:Man;font-weight:800;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-800-normal.woff2)}
+@font-face{font-family:Mono;font-weight:700;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/jetbrains-mono-latin-700-normal.woff2)}
+/* img/still.png is one frame of the owner's recording (285.4 s, the grin on "feel good about it"), untouched, shown
+   smaller, never cropped into the face. Light blue house look; Entropy keeps its own iO tile (from its Discord invite,
+   at its own size). The title is the owner's own number: "you can make as much as $2,500". */
+:root{--ink:#0B1F4D;--deep:#0A1A44;--blue:#1F5FDB;--sky:#7CC4FF;--mute:#5A6B8C}
+*{box-sizing:border-box}
+html,body{margin:0;overflow:hidden;font-family:Man,sans-serif;font-weight:800;color:var(--ink);background:#EEF4FF}
+.abs{position:absolute}
+.bg{position:absolute;inset:0;background:radial-gradient(1200px 1200px at 30% 40%,#FFFFFF 0%,#EEF4FF 45%,#CFE0FA 100%)}
+.h{font-family:Anton,sans-serif;font-weight:400;line-height:.92;white-space:nowrap}
+.plate{display:flex;align-items:center;gap:20px;padding:14px 30px 14px 14px;border-radius:36px;background:#fff;box-shadow:0 16px 36px rgba(11,31,77,.16);font-size:40px}
+.plate img{width:84px;height:84px;border-radius:21px;display:block}
+.pill{display:inline-block;height:76px;padding:0 30px;border-radius:38px;background:var(--ink);color:#fff;font-size:36px;line-height:76px;white-space:nowrap}
+</style></head>
+<body>
+<div id="v" style="display:none;position:absolute;left:0;top:0;width:1080px;height:1920px;overflow:hidden">
+  <div class="bg"></div>
+  <!-- Cut edges from the middle: 3:4 y 240/1680, 7:8 y 343/1577, 1:1 y 420/1500, 16:9 y 656/1263. The face (y 678 to 1224
+       at this size), the title and the handle all sit between 680 and 1240 (whole in every cut); the tile sits above. -->
+  <div class="abs" style="left:420px;top:0;width:660px;height:1920px;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 120px);mask-image:linear-gradient(90deg,transparent 0,#000 120px)"><img src="img/still.png" style="position:absolute;left:-10px;top:300px;width:756px;height:1344px"></div>
+  <div class="abs" style="left:0;top:1440px;width:1080px;height:480px;background:linear-gradient(180deg,rgba(238,244,255,0),#E4EEFD 40%)"></div>
+  <div class="abs" style="left:56px;top:520px"><div class="plate"><img src="img/io_tile.png"><span>entropy<span style="color:var(--blue)">.io</span></span></div></div>
+  <div class="abs h" style="left:58px;top:690px;font-size:92px">EARN UP TO</div>
+  <div class="abs h" style="left:50px;top:785px;font-size:172px;color:var(--blue)">$2,500</div>
+  <div class="abs h" style="left:58px;top:968px;font-size:84px">ON ENTROPY</div>
+  <div class="abs" style="left:58px;top:1080px;font-size:34px;color:var(--mute);white-space:nowrap">trade volume · or create</div>
+  <div class="abs" style="left:58px;top:1150px"><span class="pill">@i_am_vickyd</span></div>
+</div>
+<div id="t" style="display:none;position:absolute;left:0;top:0;width:1280px;height:720px;overflow:hidden">
+  <div class="bg"></div>
+  <div class="abs" style="right:0;top:0;width:640px;height:720px;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent 5%,#000 22%);mask-image:linear-gradient(90deg,transparent 5%,#000 22%)"><img src="img/still.png" style="position:absolute;left:0;top:-240px;width:640px"></div>
+  <div class="abs" style="left:60px;top:56px"><div class="plate" style="padding:10px 24px 10px 10px;font-size:32px"><img src="img/io_tile.png" style="width:64px;height:64px;border-radius:16px"><span>entropy<span style="color:var(--blue)">.io</span></span></div></div>
+  <div class="abs h" style="left:62px;top:180px;font-size:84px">EARN UP TO</div>
+  <div class="abs h" style="left:56px;top:262px;font-size:210px;color:var(--blue)">$2,500</div>
+  <div class="abs h" style="left:62px;top:470px;font-size:80px">ON ENTROPY</div>
+  <div class="abs" style="left:62px;top:604px"><span class="pill" style="height:62px;line-height:62px;font-size:30px">@i_am_vickyd</span></div>
+</div>
+<script>
+const m = location.hash.includes('t') ? 't' : 'v'
+document.getElementById(m).style.display = 'block'
+window.READY = Promise.all([document.fonts.ready, ...[...document.images].map(i => i.decode().catch(() => 0))]).then(() => document.fonts.load('116px Anton')).then(() => document.fonts.load('800 30px Man')).then(() => document.fonts.load('700 24px Mono'))
+</script>
+</body></html>

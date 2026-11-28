@@ -28,6 +28,29 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
+## 28 Nov: "Entropy" (4:52, upright, the owner's own recording, untouched picture and voice, the screen takes over when they look down)
+Template: `video/templates/talking-head/camera-entropy-2026-11-28/` (README, sources, post kit, tools).
+- **What worked:**
+  - Their brief turned into a rule the page follows by itself: seven stretches where they look at their screen
+    (MediaPipe gaze plus frames checked by eye, joined under 6 s, edges moved out to the pauses). A light-blue panel
+    takes the whole frame there and drops away when they look up, so their face is never seen reading.
+  - One object carried through: the six-plan ladder fills on their words full screen, and its current row sits in a
+    card above their head in between, so the story does not restart at every switch.
+  - Rings drawn from the DOM word boxes of X's own embed and the real pages: they sit exactly on the words.
+- **Mistakes, and how they got through:**
+  - The first layout put the cards on the chest from a misread of the framing (thumbnail heights read against the
+    wrong scale): the cards covered the beard and mouth on the first stills. Caught on the stills, before any render;
+    every card moved to the ceiling (y 36 to 550) after measuring the head top on frames with a 100 px grid.
+  - The owner's file ends with 2 s of CapCut's black logo screen. Found when looking at frames for the cover; the take
+    now ends at 288.033 s (blackdetect) and the end card follows.
+  - A container restart wiped the scratch work (download, transcript, matte, captures): everything was rebuilt from the
+    plan in the summary, about 25 minutes lost.
+- **Change next time:**
+  - Measure the head on full-size frames with a grid before placing anything, every recording.
+  - Run blackdetect on the last 5 s of every file the owner sends (CapCut exports end with its logo).
+  - Keep the gaze stretches and capture lists in the template as data as soon as they exist.
+- **Owner's reaction:** (waiting)
+
 ## 28 Nov: post-match AI parody, "General Palmer has spoken" (Forest 3-2 Chelsea, 1:07, upright, voice only)
 Template: `video/templates/post-match/general-palmer-2026-11-27/` (README, sources, post kit, tools).
 - **What worked:**
