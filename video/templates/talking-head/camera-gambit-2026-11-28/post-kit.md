@@ -12,8 +12,9 @@ the past tournaments with their "$250 Winner" badges ringed on "$250" (1:23).
 - their own screenshots, as they took them, ringed on their words before the app takes over;
 - one screen stretch from 0:21 to the end, since they read from their screen from there on.
 
-**Music:** "Sparta", quiet under their voice (13.7 dB under). **Voice and picture:** theirs, untouched (30 frames a
-second, one encode, plain gain only). CapCut's black logo screen at the end of their file is left out.
+**Music:** "Sparta", quiet under their voice (15 dB under). **Voice:** theirs, with the background noise, the sizzle
+and a high whine taken out (as asked on Entropy, 28 Nov), plain gain only. **Picture:** theirs, untouched (30 frames a
+second, one encode). CapCut's black logo screen at the end of their file is left out.
 
 ## Files (video/out/gambit-2026-11-28/)
 | File | Use |

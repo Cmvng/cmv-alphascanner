@@ -65,12 +65,15 @@ has not been said: ask once when the next one comes up.)
 - **Background sound in their recording is taken out.** 28 Nov, on the Entropy video: "remove the noise, the background
   noise… There is background sound music that is playing in the video, and it's making the version of no music to sound
   somehow… so that it's the video sound is very clean and very audible… Can't you hear the screeching sound that is
-  going on in the background?" (Entropy's pauses were only 14 dB under their voice, Gambit's 5 dB; the 6 to 10 kHz band
-  in the pauses nearly as loud as their speech.) So before mixing ANY recording of theirs, measure the pauses (their
-  level against the speech, and the high band): if anything is there beyond a quiet room, separate their voice from it
-  (Demucs `htdemucs`, vocals stem, `video/templates/talking-head/camera-entropy-2026-11-28/tools/clean_rebuild.sh`) and
-  use that voice in both the music and the no-music versions; then check every caption is still heard (hear-back). I
-  cannot hear: the numbers decide, and the message says it was done.
+  going on in the background?" Measured: no music in the recording (Demucs found nothing to separate), but a room hiss
+  between the words (-64 dBFS), a sizzle riding on every word (6 to 10 kHz only 9 dB under the 1 to 3 kHz voice band on
+  Entropy, 5 dB on Gambit; clean speech sits 20 dB or more under) and a 19.2 kHz whine through 83% of the take. So every
+  recording of theirs now gets, before mixing: DeepFilterNet3 (speech enhancement, `tools/dfclean.py`), then a gentle
+  de-ess, a 5 dB soft cut above 7 kHz and nothing above 15 kHz (`tools/clean_rebuild.sh` in
+  `video/templates/talking-head/camera-entropy-2026-11-28/`). Still no compressor or limiter, plain gain only. That voice
+  goes in both the music and the no-music versions; the music's highs stay 11 dB or more under the voice's 4 to 12 kHz.
+  Checks: `voice_check.py` (no word down more than about 6 dB), hear-back (every caption heard). I cannot hear: the
+  numbers decide, and the message says what was done.
 - **The narrator** is "Lara" on ElevenLabs (the owner pays; voice `vChnJZ1Cu89g2XXumPfT`, `eleven_v4`, one generation).
   Never change her pitch or tempo, never generate twice to retry, hear every take back before using it. Say what a
   long script will cost before generating. The free house voice only when the owner chooses it to save credits, and

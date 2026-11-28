@@ -68,6 +68,15 @@ node $F/cover.mjs $EN/page/cover.html video/out/entropy-2026-11-28/entropy
 - **The opaque screen frames** (the panel covers everything) go through `render_raw.mjs`'s alpha fix one by one, so
   the screen stretches render at about 6 frames a second against about 20 on camera.
 
+## The sound (28 Nov, after the second version)
+The owner: "remove the noise, the background noise… Can't you hear the screeching sound that is going on in the
+background?" `tools/clean_rebuild.sh <clean voice>` rebuilds every file from a cleaned voice: `tools/dfclean.py`
+(DeepFilterNet3, run in its own environment: `deepfilternet` 0.5.6 with torch 2.0.1 and numpy below 2; the weights from
+Hugging Face `fal/DeepFilterNet3`, converted to its checkpoint layout), then `deesser`, a 5 dB high shelf at 7 kHz and two
+15 kHz low-passes in ffmpeg; music under 11.5 + 4 (15.6 dB under the voice). The picture of every file is a stream copy.
+`tools/voice_check.py` measures the gaps, the high band and every word against the recording. Demucs was tried first and
+found no music to take out.
+
 ## Checks done
 Stills over the recording's own frames at every scene; half-second sheets of the finished file; `versus_quality.py`
 against the raw; `preflight.py --kind recording --music 720`; the cover cut to 3:4, 1:1, 7:8 and 16:9.

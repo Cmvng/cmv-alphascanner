@@ -89,6 +89,18 @@ Template: `video/templates/talking-head/camera-entropy-2026-11-28/` (README, sou
   before every page change. Same checks (0 FAIL), the download page updated in place.
 - **Change next time:** when the owner says "show what I'm explaining", it means the product in motion as a screen
   recording, never a card of ours, even a well-made one. Written into the checkpoint the same day.
+- **The sound (28 Nov, after v2):** "remove the noise, the background noise… it's making the version of no music to sound
+  somehow… Can't you hear the screeching sound that is going on in the background?… are you not listening to the video
+  yourself?" Nothing checked the recording's own sound for anything but loudness. Measured afterwards: no music in it
+  (Demucs: everything that is not voice 36 dB down), a room hiss between the words, a sizzle riding on every word (6 to
+  10 kHz only 9 dB under the voice band) and a 19.2 kHz whine. Fixed: DeepFilterNet3 (the Hugging Face copy of the
+  weights; GitHub refused the download and running a downloaded binary was refused by the safety check), a gentle
+  de-ess, a 5 dB soft cut above 7 kHz, nothing above 15 kHz; the music 1.5 dB lower (15.6 under the voice). Checks: the
+  gaps 23 dB quieter, every word within 6 dB of the recording (median 0.0), the voice's range 7.0 against 7.2 LU, the
+  picture byte for byte the same (stream copy), preflight 0 FAIL, hear-back 105 of 105 captions heard (the raw sound had
+  3 flagged). Sent: both chat copies; the download page updated (v12, the last part's sha256 checked).
+  - Change next time: measure the recording's own sound before building (the gaps, the 6 to 10 kHz band, steady tones)
+    and clean it as above when anything is there. Now in the checkpoint.
 
 ## 28 Nov: post-match AI parody, "General Palmer has spoken" (Forest 3-2 Chelsea, 1:07, upright, voice only)
 Template: `video/templates/post-match/general-palmer-2026-11-27/` (README, sources, post kit, tools).

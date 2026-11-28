@@ -19,8 +19,9 @@ the tier brackets clipping on (1:02 to 2:27).
   their head in between;
 - the posts of the team and of creators side by side (what the team said, what creators say).
 
-**Music:** "New Bass 01", quiet under their voice (13.7 dB under). **Voice and picture:** theirs, untouched (30 frames a
-second, one encode, plain gain only). CapCut's black logo screen at the end of their file is left out.
+**Music:** "New Bass 01", quiet under their voice (15.6 dB under). **Voice:** theirs, with the background noise, the
+sizzle and a high whine taken out (28 Nov, at their word), plain gain only. **Picture:** theirs, untouched (30 frames a
+second, one encode). CapCut's black logo screen at the end of their file is left out.
 
 ## Files (video/out/entropy-2026-11-28/)
 | File | Use |
