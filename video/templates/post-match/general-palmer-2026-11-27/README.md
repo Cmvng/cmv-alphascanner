@@ -31,8 +31,11 @@ Alibaba's own public demo of Wan2.2-S2V on Hugging Face (`Wan-AI/Wan2.2-S2V`: on
 queue (13 jobs at one point on 28 Nov). What we learned about it:
 - **It drops the first 0.1875 s of the audio** it is given. Every piece starts with 0.35 s of silence.
 - **It trims the silence at the end,** and the picture stops about where the speech stops.
-- **The audio must be under 20 s.** Fewer, longer pieces wait in the queue fewer times. Queue several at once
-  (`run_parallel.py`) so the waits overlap.
+- **Keep every piece under about 8 s of audio (padding included).** Alibaba's API documents 20 s, but on 28 Nov the
+  demo failed pieces of 12.2 s and 17.5 s, a minute apart once each reached the front of the queue, with no message.
+  Every piece of 7.85 s or less went through. The fix that worked: line-sized pieces of 3 to 7 s.
+- **Queue them all at once** (`run_parallel.py`), so the waits overlap. The queue held 9 to 15 jobs on 28 Nov, and a
+  piece waited 20 to 25 minutes.
 - **The first frame is close to the reference image** (mouth shut, a stare): a clean poster frame.
 - **The output's own audio is the input, cut,** so `align.py` finds each piece's place on the master voice by
   cross-correlation (match 0.99).
