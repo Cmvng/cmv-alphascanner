@@ -19,9 +19,10 @@ second, one encode). CapCut's black logo screen at the end of their file is left
 ## Files (video/out/gambit-2026-11-28/)
 | File | Use |
 |---|---|
-| `gambit_9x16.mp4` | the master, 1080×1920, 30 frames a second, 1:38 |
-| `gambit_chat-copy.mp4` | a smaller copy for the chat |
-| `gambit_no-music_chat-copy.mp4` | the same, their voice only |
+| `gambit_9x16.mp4` | the master, 1080×1920, 30 frames a second, 1:38 (63.5 MB) |
+| download page | the master, to load and save: https://claude.ai/artifact/6srXgRFo8w2fVq4KMp9uRN |
+| `gambit_chat-copy.mp4` | a smaller copy for the chat (1080×1920, 26 MB) |
+| `gambit_no-music_chat-copy.mp4` | the same, their voice only (26 MB) |
 | `gambit.srt` | subtitles |
 | `gambit_x-square.png` | **the picture for X** (1080×1080) |
 | `gambit_cover.png` | upright cover (1080×1920) |
@@ -40,7 +41,8 @@ watch the full breakdown 👇
 18+ · not financial advice
 
 ## Before you post
-- The ranking: you say P&L; your own screenshot has the ROI tab open. The page itself only says "top-ranked agent".
+- The ranking: you say P&L; your own screenshot shows "ROI · TOURNAMENT" over the top three. Your words stay; the end
+  card says "this week: nov 23 – 30" instead of a ranking.
 - Robinhood, Kalshi and Polymarket are not named on any public Gambit page found; they stay in the captions as your
   words, nothing on screen claims them.
 - No combo builder is visible without a login; the sports board and a game's lines are shown on "combo picks".

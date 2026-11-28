@@ -57,7 +57,15 @@ Template: `video/templates/talking-head/camera-gambit-2026-11-28/` (README, sour
   - Decode every finished master whole (`ffmpeg -v error -i … -f null -`) before anything else reads it.
   - When a screen stretch reaches the end of the take, check the hand-off to the end card frame by frame.
   - With a screen recording over most of the video, run `versus_quality.py --camera` with the on-camera stretches.
-- **Checks:** (filled in below)
+- **Checks:** the master decoded whole, 0 errors, 2952 frames, 1:38.4; `versus_quality.py --camera 0-21.2` 0 FAIL (19.8
+  against 9.6 Mbit/s where their picture is shown, detail 111%, colour 0.0, voice range 4.5 against 4.1 LU); preflight 0
+  FAIL, 0 WARN (music 15.6 dB under); every half second looked at on the render before the sound fix (the picture is the
+  same page); the end hand-off frame by frame; the cover cut to 3:4, 1:1, 7:8, 16:9; hear-back 28 of 29 on the cleaned
+  sound (the names Kalshi and Polymarket, misheard on the raw sound too when cut out alone), 29 of 29 on the raw.
+- **Sent (28 Nov):** the 1080p chat copy and the no-music copy (26 MB each), the covers, the srt, the post kit, and a
+  private download page with the master (63.5 MB, 6 parts; the last part's served sha256 checked):
+  https://claude.ai/artifact/6srXgRFo8w2fVq4KMp9uRN
+- **Owner's reaction:** (waiting)
 
 ## 28 Nov: "Entropy" (4:52, upright, the owner's own recording, untouched picture and voice, the screen takes over when they look down)
 Template: `video/templates/talking-head/camera-entropy-2026-11-28/` (README, sources, post kit, tools).
