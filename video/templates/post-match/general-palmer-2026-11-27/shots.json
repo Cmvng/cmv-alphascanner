@@ -36,6 +36,11 @@
    "Wesley. No interviews. No penalties."
   ],
   [
+   20.44,
+   "punch",
+   "No penalties."
+  ],
+  [
    "J4",
    "wide",
    "Gibbs-White scored twice."
@@ -105,5 +110,10 @@
    "punch",
    "Dismissed."
   ]
- ]
+ ],
+ "lead": 0.4,
+ "tail": 0.9,
+ "join_at": {
+  "8": 44.867
+ }
 }

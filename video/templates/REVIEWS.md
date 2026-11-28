@@ -28,6 +28,47 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
+## 28 Nov: post-match AI parody, "General Palmer has spoken" (Forest 3-2 Chelsea, 1:07, upright, voice only)
+Template: `video/templates/post-match/general-palmer-2026-11-27/` (README, sources, post kit, tools).
+- **What worked:**
+  - The owner's sample (S11) kept whole: the seated general in the glass office, captions on the chest, the AI
+    PARODY tag, no music.
+  - Every line is a real fact from the match, checked twice by eight researchers (`sources.md`).
+  - A free talking model that holds the character: Alibaba's Wan2.2-S2V demo. Lips, brows and small gestures move
+    with the voice; 13 pieces line up with the master voice at 0.95 to 0.995.
+  - Every join reads as a camera change; the punch-ins sit in the pause before each punchline.
+- **Mistakes, and how they got through:**
+  1. **Long pieces failed on the free demo.** Pieces of 12.2 s and 17.5 s failed with no message, each after about
+     20 minutes in the public queue; about 45 minutes lost. The 20 s limit in Alibaba's documentation was trusted
+     without a test. Every piece of 7.85 s or less went through. Rule: pieces of 3 to 7 s, all queued at once.
+  2. **The piece audio was first cut on the output side** (`-ss` after `-i`), so the padding was cut off instead of
+     added. The last piece would have lost the end of "Dismissed." Caught by printing each file's length; now the
+     cut is on the input side.
+  3. **Whisper base put "Three" half a second early** and swallowed two pauses. Medium was better, but it still runs
+     a few frames late on s, th and f. Captions now start on the first sound of their word, measured on the audio.
+  4. **"BEAUTIFULLY… TO NOBODY." first showed as one caption,** giving the punchline away. Caption breaks are set by
+     hand (`phrases.txt`).
+  5. **The caption line ran across the medal row in every close shot.** That is 28 s of the film, found by the
+     independent review, not by me. Each framing now has its own caption height.
+  6. **The film started five frames into the first piece, on a blink.** That is the poster frame on X. It now opens
+     on the character's own first frames, a stare, 0.4 s before the voice.
+  7. **It ended 0.15 s after "Dismissed."** The last stare now holds 0.9 s.
+  8. **The AI PARODY tag was 16 px tall, under the phone's status bar.** It is the only disclosure on a caricature
+     of a real player. Now a navy pill at y 196.
+  9. **The cover took three tries.**
+     - The fade washed out the cap.
+     - The title card covered the chin.
+     - The 16:9 middle cut lost the face and the handle. That cut (608 px tall) is the tightest; design for it first.
+- **Change next time:**
+  - Test what a free model really accepts with one short and one long piece before cutting the whole take.
+  - Measure caption starts on the audio, never on word times alone.
+  - Give each framing its own caption height from the start.
+  - Look at frame 0 and the last second before anything else.
+- **Sound:** the ElevenLabs voice only (Jayce), levelled to -14.6 LUFS, -1.4 dBTP. No music, as in the sample.
+- **Sent:** the video, the upright cover, the X square, the YouTube thumbnail and the captions file, with a copy of
+  the covers carrying @i_am_vickyd. The handle question went to the owner.
+- **The owner's reaction:** waiting.
+
 ## 27 Nov: "SEEN", the @i_am_vickyd X profile film (0:51, 16:9 and 9:16, music-led, no narrator)
 
 - **The ask:** "a state of the art motion design of my X profile @i_am_vickyd. Take your time and deliver me a master

@@ -1,5 +1,8 @@
 """Join the talking pieces into one upright film on the master voice, with the captions and the AI PARODY tag.
-  python3 -I assemble.py <plan.json> <shots.json> <voice.wav> <captions.ass> <out.mp4> [--nocaps]
+  python3 -I assemble.py <plan.json> <shots.json> <voice.wav> <captions.ass> <out.mp4> [--nocaps] [--framing-out f.json] [--dry]
+shots.json may also set "lead" (s of the first piece's own opening frames before the voice starts, its first frame
+held as needed), "tail" (s the last frame holds after the voice ends) and "join_at" ({"8": 44.867}: place join 8 there,
+if both pieces have picture). The captions file must be built with the same lead (captions_ass.py --offset).
 plan.json: the pieces with t0 (master time of each piece's first frame) and vdur, from align.py.
 shots.json: {"zoom": {"wide": 1.0, "close": 1.16, "punch": 1.34}, "cy": {...},
              "timeline": [[0.0, "wide"], ["J1", "close"], [15.05, "punch"], ...]}
@@ -12,6 +15,10 @@ the pieces' own audio."""
 import json, subprocess, sys
 plan = json.load(open(sys.argv[1])); S = json.load(open(sys.argv[2])); voice, ass, out = sys.argv[3:6]
 nocaps = '--nocaps' in sys.argv
+FO = sys.argv[sys.argv.index('--framing-out') + 1] if '--framing-out' in sys.argv else None
+DRY = '--dry' in sys.argv
+LEAD, TAIL = S.get('lead', 0.0), S.get('tail', 0.0)
+JAT = {int(k): v for k, v in S.get('join_at', {}).items()}
 W, H, FPS = 1080, 1920, 30
 DUR = float(subprocess.check_output(['ffprobe', '-v', 'error', '-show_entries', 'format=duration', '-of', 'csv=p=0', voice]).decode())
 q = lambda t: round(t * FPS) / FPS                       # every change on a frame
@@ -19,14 +26,15 @@ q = lambda t: round(t * FPS) / FPS                       # every change on a fra
 # 1. the joins
 segs = []
 for i, p in enumerate(plan):
-    a = 0.0 if i == 0 else segs[-1][2]
+    a = -LEAD if i == 0 else segs[-1][2]
     end = p['t0'] + p['vdur']
     if i + 1 < len(plan):
         nx = plan[i + 1]['t0']
-        b = q(min(max(p['cut_e'], nx), end) if end >= nx else end)
+        want = JAT.get(i + 1, p['cut_e'])
+        b = q(min(max(want, nx), end) if end >= nx else end)
         if end < nx: print(f'join {p["n"]}/{plan[i + 1]["n"]}: a gap of {nx - end:.3f} s, the next first frame is held')
     else:
-        b = DUR
+        b = DUR + TAIL
     segs.append((p, a, b))
 joins = [b for _, _, b in segs[:-1]]
 
@@ -38,7 +46,9 @@ tl.sort()
 for k, j in enumerate(joins):
     before = [f for t, f in tl if t < j][-1]; after = [f for t, f in tl if t <= j][-1]
     if before == after: sys.exit(f'join {k + 1} at {j:.3f} does not change the framing ({before}): fix the timeline')
-frame_at = lambda t: [f for x, f in tl if x <= t + 1e-6][-1]
+frame_at = lambda t: ([f for x, f in tl if x <= t + 1e-6] or [tl[0][1]])[-1]
+if FO: json.dump([[round(t, 4), f] for t, f in tl], open(FO, 'w')); print('framing written to', FO)
+if DRY: sys.exit(0)
 
 # 3. one sub-segment per framing change inside each piece
 inputs, chains, labels, k = [], [], [], 0
@@ -64,7 +74,9 @@ else:
     af = ass.replace('\\', '/').replace(':', '\\:')
     chains.append(f"[cv]ass='{af}'[vo]")
 n = len(segs)
-cmd = ['ffmpeg', '-nostdin', '-v', 'error', '-y', *inputs, '-i', voice, '-filter_complex', ';'.join(chains), '-map', '[vo]', '-map', f'{n}:a',
+TOT = LEAD + DUR + TAIL
+chains.append(f'[{n}:a]adelay={int(round(LEAD * 1000))}:all=1,apad=whole_dur={TOT:.3f}[ao]')
+cmd = ['ffmpeg', '-nostdin', '-v', 'error', '-y', *inputs, '-i', voice, '-filter_complex', ';'.join(chains), '-map', '[vo]', '-map', '[ao]',
        '-c:v', 'libx264', '-preset', 'slow', '-crf', '16', '-pix_fmt', 'yuv420p', '-profile:v', 'high', '-r', str(FPS), '-movflags', '+faststart',
-       '-c:a', 'aac', '-b:a', '192k', '-ar', '48000', '-t', f'{DUR:.3f}', out]
+       '-c:a', 'aac', '-b:a', '192k', '-ar', '48000', '-t', f'{TOT:.3f}', out]
 subprocess.run(cmd, check=True); print(out, 'joins at', [round(j, 3) for j in joins])

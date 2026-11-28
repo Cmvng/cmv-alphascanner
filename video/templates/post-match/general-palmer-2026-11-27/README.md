@@ -42,16 +42,29 @@ queue (13 jobs at one point on 28 Nov). What we learned about it:
 - **Every piece starts from the reference pose.** A join is a pose reset, so every join changes the framing
   (`assemble.py` refuses a timeline that does not).
 
-## Build
+## Build (as made on 28 Nov: 13 pieces)
 ```bash
 GP=<scratch>/gp; T=video/templates/post-match/general-palmer-2026-11-27
-python3 -I $T/tools/make_pieces.py $GP/audio/take.mp3 $GP/pieces        # cut at the middle of real silences, padded
-python3 -I $T/tools/run_parallel.py $GP/pieces/plan.json $GP/img/a.jpg 1,2,3 720P
-python3 -I $T/tools/align.py $GP/pieces/plan.json $GP/audio/take.mp3     # t0 and vdur of each piece
-python3 -I $T/tools/captions_ass.py $T/words.json $GP/caps.ass           # Whisper medium word times, snapped to the sound
-python3 -I $T/tools/assemble.py $GP/pieces/plan.json $T/shots.json $GP/audio/voice_m14.wav $GP/caps.ass out.mp4
-node $T/tools/cover.mjs $T/cover.html <out prefix> "h=@Cmv_ng&shift=230"
+# 1. pieces of 3 to 7 s, cut at the middle of real silences, each with 0.35 s of silence in front, all queued at once
+python3 -I $T/tools/make_pieces.py $GP/audio/take.mp3 $GP/pieces          # edit C (the cuts) first; keep every piece under 8 s
+RETRIES=3 python3 -I $T/tools/run_parallel.py $GP/pieces/plan.json $GP/img/a.jpg 1,2,...,13 720P
+python3 -I $T/tools/align.py $GP/pieces/plan.json $GP/audio/take.mp3      # t0 and vdur of each piece (match 0.95 to 0.995)
+# 2. the framing (resolved joins), then the captions on it, then the film
+python3 -I $T/tools/assemble.py $GP/pieces/plan.json $T/shots.json $GP/audio/voice_m14.wav caps.ass x.mp4 --framing-out framing.json --dry
+python3 -I $T/tools/captions_ass.py $T/words.json caps.ass --phrases $T/phrases.txt --framing framing.json \
+    --audio master16k.f32 --offset 0.4 --dur 66.82                       # master16k: ffmpeg -i take.mp3 -ac 1 -ar 16000 -f f32le
+python3 -I $T/tools/ass2srt.py caps.ass $T/phrases.txt general_palmer.srt
+python3 -I $T/tools/assemble.py $GP/pieces/plan.json $T/shots.json $GP/audio/voice_m14.wav caps.ass general_palmer_9x16.mp4
+# 3. checks and covers
+python3 -I $T/tools/review_kit.py general_palmer_9x16.mp4 review <change times>  # sheets, cuts, hear-back
+node $T/tools/cover.mjs $T/cover.html <out prefix> "h=@Cmv_ng"             # also writes the 3:4, 7:8, 16:9 middle cuts to look at
 ```
+- `shots.json`: the framing timeline ("J1".."J12" are the joins), `lead` 0.4 (the character's own first frames, a
+  stare, before the voice), `tail` 0.9 (the last stare holds), `join_at` (join 8 moved to 44.867 so the mouth is not
+  seen hanging open before "Emegha").
+- Caption heights by framing, so the text sits on the chest under the medal row: wide y 1229, close 1400, punch 1470.
+- The cover is built for its 16:9 middle cut (y 656 to 1264), the tightest: brows to chin, the title card and the
+  handle all inside it.
 
 ## Captions
 Word times from faster-whisper medium.en (base.en put "Three" half a second early and swallowed two pauses); a word
