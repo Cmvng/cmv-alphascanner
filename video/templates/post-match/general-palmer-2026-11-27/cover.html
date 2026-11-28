@@ -1,0 +1,53 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>General Palmer has spoken: cover (#v, 1080x1920; its middle square is the picture for X) and wide thumbnail (#t, 1280x720, YouTube)</title>
+<style>
+@font-face{font-family:Anton;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/anton-latin-400-normal.woff2)}
+@font-face{font-family:Manrope;font-weight:800;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-800-normal.woff2)}
+@font-face{font-family:Mono;font-weight:700;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/jetbrains-mono-latin-700-normal.woff2)}
+/* img/still.png is one frame of the film itself (1080x1920). Nothing sits on the face. #h in the address picks the handle. */
+:root{--ink:#0B1F4D;--blue:#1F5FDB}
+*{box-sizing:border-box}
+html,body{margin:0;overflow:hidden;font-family:Manrope,sans-serif;font-weight:800;color:var(--ink);background:#DCE7F6}
+.abs{position:absolute}
+.mono{font-family:Mono,monospace;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
+.h{font-family:Anton,sans-serif;font-weight:400;line-height:1;text-transform:uppercase;white-space:nowrap}
+.card{position:absolute;border-radius:36px;background:rgba(255,255,255,.96);box-shadow:0 30px 70px rgba(10,24,64,.34),0 0 0 1.5px rgba(11,31,77,.06)}
+.tag{position:absolute;height:52px;padding:0 20px;border-radius:26px;background:rgba(11,31,77,.78);color:#fff;font-size:22px;line-height:52px}
+.hd{position:absolute;height:64px;padding:0 26px;border-radius:32px;background:#fff;font-size:34px;line-height:64px;box-shadow:0 12px 30px rgba(10,24,64,.26)}
+</style></head>
+<body>
+<div id="v" style="display:none;position:absolute;left:0;top:0;width:1080px;height:1920px;overflow:hidden;background:linear-gradient(180deg,#EEF4FD 0%,#DCE7F6 40%,#C9D8EE 100%)">
+  <!-- Everything that must be read sits inside the middle square (y 420 to 1500). The film's frame is moved down so
+       the whole face sits inside it; its top fades into the page. Nothing readable crosses y 343, 420, 656, 1263,
+       1500 or 1577 (the edges of the 7:8, 1:1 and 16:9 middle cuts). -->
+  <img id="st" src="img/still.png" class="abs" style="left:0;top:var(--shift);width:1080px;height:1920px;-webkit-mask-image:linear-gradient(180deg,transparent var(--m0),#000 var(--m1));mask-image:linear-gradient(180deg,transparent var(--m0),#000 var(--m1))">
+  <div class="tag mono" style="left:44px;top:236px">AI parody</div>
+  <div class="card" style="left:70px;width:940px;top:962px;height:290px">
+    <div class="abs mono" style="left:0;width:940px;top:30px;text-align:center;font-size:27px;color:var(--blue)">Forest 3–2 Chelsea · 27 Nov 2026</div>
+    <div class="abs h" style="left:0;width:940px;top:76px;text-align:center;font-size:100px">General Palmer</div>
+    <div class="abs h" style="left:0;width:940px;top:176px;text-align:center;font-size:100px;color:var(--blue)">has spoken.</div>
+  </div>
+  <div class="hd" id="hv" style="left:50%;transform:translateX(-50%);top:1310px"></div>
+</div>
+<div id="t" style="display:none;position:absolute;left:0;top:0;width:1280px;height:720px;overflow:hidden;background:linear-gradient(100deg,#EEF4FD 0%,#DCE7F6 50%,#C9D8EE 100%)">
+  <img id="tt" src="img/still.png" class="abs" style="right:-40px;top:var(--tshift);width:720px;height:1280px">
+  <div class="tag mono" style="left:40px;top:36px">AI parody</div>
+  <div class="abs mono" style="left:60px;top:186px;font-size:26px;color:var(--blue)">Forest 3–2 Chelsea</div>
+  <div class="abs h" style="left:56px;top:232px;font-size:112px">General</div>
+  <div class="abs h" style="left:56px;top:344px;font-size:112px">Palmer</div>
+  <div class="abs h" style="left:56px;top:456px;font-size:112px;color:var(--blue)">has spoken.</div>
+  <div class="hd" id="ht" style="left:56px;top:600px;font-size:30px;height:58px;line-height:58px"></div>
+</div>
+<script>
+const P = new URLSearchParams(location.search)
+const mode = location.hash.includes('t') ? 't' : 'v'
+document.documentElement.style.setProperty('--shift', (P.get('shift') || 230) + 'px')
+document.documentElement.style.setProperty('--m0', (P.get('m0') || 420) + 'px')
+document.documentElement.style.setProperty('--m1', (P.get('m1') || 560) + 'px')
+document.documentElement.style.setProperty('--tshift', (P.get('tshift') || -150) + 'px')
+const handle = P.get('h') || '@Cmv_ng'
+document.getElementById('hv').textContent = handle; document.getElementById('ht').textContent = handle
+document.getElementById(mode).style.display = 'block'
+window.READY = Promise.all([document.fonts.ready, ...[...document.images].map(i => i.decode().catch(() => {}))])
+</script>
+</body></html>

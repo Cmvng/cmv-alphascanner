@@ -50,6 +50,9 @@ Different is the floor; creative is the bar. Before building, write the concept 
 - **Pay off the morning's device (used 8 Oct, `post-match/arrivals-2026-10-08.json`):** when the analysis had a strong
   picture (a route around the globe), the post-match answers it in a new look (an arrivals board, every game a flight
   that lands). Other pairs: a heist plan → the heist's aftermath; a newspaper's two front pages → the one that printed.
+- **The character in charge (AI parody, S11, 27 Nov):** after a loss, a 3D caricature of the side's star as a general
+  at his desk tears into the squad, every line a real match fact turned into a joke. One seated shot, captions on the
+  chest, AI PARODY on screen throughout. `post-match/general-palmer-2026-11-27/`.
 
 ## The owner's own recordings (crypto, Polymarket)
 - The two creators' look (4 Oct): the owner full frame, screens floating in as tilted cards, numbers popping out,
@@ -392,3 +395,28 @@ Sent by the owner: "Can't you make videos like this with characters talking or e
   - Lip-sync each line of Lara's take onto its pose (OmniHuman 1.5, prompted for the gesture).
   - Composite it in our page beside the real screens, with captions and music as usual.
   - Lara voices the character: the owner's 2 Oct rule says no male presenter voice.
+
+## S11, 27 Nov: "General Palmer", an AI parody made in another chat (TikTok and a Facebook reel, about 1:00, upright)
+Sent by the owner: "Can you make videos like this..... I need a video of Chelsea reaction after the match against
+Nottingham forest with Cole Palmer as the general", then "Since Chelsea lost.. The idea will be another loss and general
+cold Palmer having a go at everyone.. You have to get the script right".
+- **The picture:** one seated shot for the whole video. The character dead centre behind a white desk, a glass office
+  behind him with the training pitch through the window, daylight. He barely moves: a stare, small head turns, the
+  mouth. No cuts to anything else, no graphics.
+- **Type:** bold white captions of two or three words, centred on the chest, each phrase as it is said; a small
+  "AI PARODY" tag top left for the whole video.
+- **The script (what makes it):** deadpan, short sentences, the character talking down to the squad ("Sit down."). Each
+  line takes one real fact of the match (the early goal, the possession, the penalty, the cards, the scorers, the
+  table) and turns it into a dictator's joke, then a self-serving twist about himself, then the orders, then
+  "Dismissed." No music.
+- **How we build it (27 Nov):**
+  - A 3D caricature, never a photoreal fake of the real player and never a voice made to sound like him. A general's
+    uniform in the club's blue, the same office set.
+  - The voice: a male ElevenLabs voice, one take, delivery tags in the script.
+  - The talking: Alibaba's free Wan2.2-S2V demo on Hugging Face (image + audio in, 720x1280 out), the take cut into
+    line-sized pieces at the middle of real silences, each padded with 0.35 s of silence (the model drops the first
+    0.1875 s and trims the silence at the end).
+  - Each piece placed on the master voice by cross-correlating its own audio. A cut between wide and close shots at
+    every join, so the pose reset reads as a camera change; one harder punch-in on the shout.
+  - Captions from Whisper medium word times, snapped to where the sound starts.
+
