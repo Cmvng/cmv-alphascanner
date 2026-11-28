@@ -49,6 +49,13 @@ Template: `video/templates/talking-head/camera-entropy-2026-11-28/` (README, sou
   - Measure the head on full-size frames with a grid before placing anything, every recording.
   - Run blackdetect on the last 5 s of every file the owner sends (CapCut exports end with its logo).
   - Keep the gaze stretches and capture lists in the template as data as soon as they exist.
+- **Checks:** `versus_quality.py` 0 FAIL (30 fps, 10.4 against 9.5 Mbit/s at crf 12, face detail 107%, no colour shift,
+  voice range 7.2 LU both); preflight 0 FAIL, 0 WARN (music 14.1 dB under the voice); every half second looked at; the
+  behind-the-head type looked at full size (clean hair edge); hear-back on the finished sound: 102 of 105 captions
+  heard as written, the other 3 re-heard on their own and matching the raw recording word for word.
+- **Sent (28 Nov):** the chat copy and the no-music chat copy (28 MB each), the covers, the srt, the post kit, and a
+  private download page with the 4.9 Mbit/s copy (178 MB, 16 parts; the last part's served sha256 checked):
+  https://claude.ai/artifact/JQHkbsTNPDf6buxjDRTUXY
 - **Owner's reaction:** (waiting)
 
 ## 28 Nov: post-match AI parody, "General Palmer has spoken" (Forest 3-2 Chelsea, 1:07, upright, voice only)

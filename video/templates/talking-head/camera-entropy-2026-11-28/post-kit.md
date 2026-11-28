@@ -25,9 +25,10 @@ second, one encode, plain gain only). CapCut's black logo screen at the end of t
 ## Files (video/out/entropy-2026-11-28/)
 | File | Use |
 |---|---|
-| `entropy_9x16.mp4` | the video, 1080×1920, 30 frames a second, 4:52 |
-| `entropy_chat-copy.mp4` | a smaller copy for the chat |
-| `entropy_no-music.mp4` | the same picture with their voice only |
+| `entropy_9x16.mp4` | the master, 1080×1920, 30 frames a second, 4:52, 10.4 Mbit/s (391 MB, under X's 512 MB) |
+| download page | the same picture at 4.9 Mbit/s (178 MB), to load and save: https://claude.ai/artifact/JQHkbsTNPDf6buxjDRTUXY |
+| `entropy_chat-copy.mp4` | a smaller copy for the chat (720×1280, 28 MB) |
+| `entropy_no-music_chat-copy.mp4` | the same, their voice only (28 MB) |
 | `entropy.srt` | subtitles |
 | `entropy_x-square.png` | **the picture for X** (1080×1080) |
 | `entropy_cover.png` | upright cover (1080×1920) |
