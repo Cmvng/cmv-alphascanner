@@ -28,6 +28,29 @@ pronunciation list (`say-check.txt`, printed before the voice is recorded) is re
 
 ---
 
+## 28 Nov: "Gambit" (1:38, upright, the owner's own recording, untouched picture and voice, the app takes over when they look down)
+Template: `video/templates/talking-head/camera-gambit-2026-11-28/` (README, sources, post kit, tools).
+- **What worked:**
+  - The Entropy lesson applied from the start: where they read from their screen, a screen recording of the real app
+    made by us (Playwright at phone size, no login), never a card of ours.
+  - Their own screenshots used as they took them, cut to the part they talk about and ringed on their words, before
+    the app takes over.
+  - A palette chosen for the subject when they opened it up: the chess table (forest green, gold, lime), no blue.
+- **Mistakes, and how they got through:**
+  - **The end card wiped up while the screen panel dropped away**, so for about a quarter second a light strip of
+    their room showed at the top (94.5 s). The stills before the render did not include the hand-off; it was seen on
+    the half-second sheet of the finished file and confirmed frame by frame, before anything was sent. Fixed: a screen stretch that runs to the end of the take stays up
+    under the end card. One more 5-minute render.
+  - **`versus_quality.py` measured the chess board as the face.** Its twelve moments are spread over the whole edit and
+    its bitrate is the whole file's; here the phone screen covers the frame for 77% of the video. It failed the video
+    (4.9 against 9.4 Mbit/s; lightness -114) while their picture, where it is shown, had 19.8 against 9.6 Mbit/s,
+    111% of the detail and no colour shift. The tool now takes `--camera a-b` (the stretches of the edit where their
+    picture is on screen) and measures those only; without it, it works as before.
+- **Change next time:**
+  - When a screen stretch reaches the end of the take, check the hand-off to the end card frame by frame.
+  - With a screen recording over most of the video, run `versus_quality.py --camera` with the on-camera stretches.
+- **Checks:** (filled in below)
+
 ## 28 Nov: "Entropy" (4:52, upright, the owner's own recording, untouched picture and voice, the screen takes over when they look down)
 Template: `video/templates/talking-head/camera-entropy-2026-11-28/` (README, sources, post kit, tools).
 - **What worked:**
@@ -56,7 +79,16 @@ Template: `video/templates/talking-head/camera-entropy-2026-11-28/` (README, sou
 - **Sent (28 Nov):** the chat copy and the no-music chat copy (28 MB each), the covers, the srt, the post kit, and a
   private download page with the 4.9 Mbit/s copy (178 MB, 16 parts; the last part's served sha256 checked):
   https://claude.ai/artifact/JQHkbsTNPDf6buxjDRTUXY
-- **Owner's reaction:** (waiting)
+- **Owner's reaction (to the first version):** "those parts where I'm looking at the screen and explaining… You'll be
+  displaying the app, the application. You'll be displaying the features of the app… I did not say you can't put one of
+  our stupid mock photo or something… as if… I'm recording a video now and I'm not attaching a screenshot or a screen
+  recording." The light panel with our own card of the six plans read to them as a mock-up, not the app.
+- **Second version (28 Nov):** the screen stretches became a screen recording of Entropy's real app, made by us in
+  Playwright: the Referrals tab, their amounts typed into the real Amount field ($10,000 … $100,000,000), Long then Short
+  for "delta neutral", the docs tier table ringed row by row, the real posts and the Discord invite; a white touch dot
+  before every page change. Same checks (0 FAIL), the download page updated in place.
+- **Change next time:** when the owner says "show what I'm explaining", it means the product in motion as a screen
+  recording, never a card of ours, even a well-made one. Written into the checkpoint the same day.
 
 ## 28 Nov: post-match AI parody, "General Palmer has spoken" (Forest 3-2 Chelsea, 1:07, upright, voice only)
 Template: `video/templates/post-match/general-palmer-2026-11-27/` (README, sources, post kit, tools).

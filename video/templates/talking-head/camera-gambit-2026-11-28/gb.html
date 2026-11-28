@@ -1,0 +1,399 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Gambit (the owner's 28 Nov recording): their words, Gambit's real app</title>
+<style>
+@font-face{font-family:Anton;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/anton-latin-400-normal.woff2)}
+@font-face{font-family:Manrope;font-weight:600;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-600-normal.woff2)}
+@font-face{font-family:Manrope;font-weight:800;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-800-normal.woff2)}
+@font-face{font-family:Mono;font-weight:700;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/jetbrains-mono-latin-700-normal.woff2)}
+/* The owner talks about Gambit's weekly tournament on their untouched picture and sound (phone selfie, 30 fps, one
+   encode). From 0:21 to the end they read from their screen, so from there the video is a screen recording of Gambit's
+   real app (the leaderboard and its $250 cash giveaway, the P&L ranking, AI and Manual agents, the markets, a game's
+   lines, the past tournaments with their "$250 Winner" badges), with their words ringed. Before that, on camera:
+   GAMBIT and $250 behind the head, their own two screenshots above it. Palette (their 28 Nov "free expression… you
+   don't need to use the blue again"): the chess table, a deep green board with gold rings and lime words, ivory type;
+   Gambit keeps its own dark app, its crown logo and its chess art. */
+:root{--ink:#10241A;--deep:#06140D;--blue:#F2C14E;--sky:#9BF26E;--sky2:#F2C14E;--mute:#5E7869;--line:#DCE6DF;--green:#22A347;--red:#E5484D;--gw:#1E8E3E}
+*{box-sizing:border-box}
+html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:transparent;font-family:Manrope,sans-serif;font-weight:800;color:#fff}
+.mono{font-family:Mono,monospace;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+.it{position:absolute;left:0;top:0;width:1080px;display:flex;flex-direction:column;align-items:center;opacity:0;transform-origin:50% 40%}
+.ic{position:relative;width:190px;height:190px}
+.ic img{width:190px;height:190px;display:block;filter:drop-shadow(0 16px 22px rgba(4,10,36,.45))}
+.lb{margin-top:8px;font-size:50px;line-height:60px;letter-spacing:-.005em;white-space:nowrap;-webkit-text-stroke:9px var(--deep);paint-order:stroke fill;text-shadow:0 6px 16px rgba(4,10,36,.5)}
+.lb b{color:var(--sky);font-weight:800}
+.pill{display:flex;align-items:center;height:96px;padding:0 14px 0 32px;border-radius:48px;background:#10241A;box-shadow:0 18px 40px rgba(4,10,36,.45);font-size:38px;white-space:nowrap}
+.pill span{margin-left:20px;height:66px;padding:0 24px;border-radius:33px;background:var(--blue);color:var(--ink);font-size:32px;line-height:66px}
+.chip{height:100px;padding:0 38px 0 18px;border-radius:50px;font-size:44px;line-height:98px;white-space:nowrap;background:#fff;color:var(--ink);box-shadow:0 16px 34px rgba(4,10,36,.42);display:flex;align-items:center;gap:18px}
+.chip b{font-weight:800;color:var(--gw)}
+.chip img{width:72px;height:72px;display:block;border-radius:18px}
+.bt{font-family:Anton,sans-serif;font-weight:400;line-height:.92;letter-spacing:.01em;white-space:nowrap;color:#fff;-webkit-text-stroke:12px var(--deep);paint-order:stroke fill;text-shadow:0 12px 26px rgba(4,10,36,.45)}
+.bt b{font-weight:400;color:var(--sky)}
+/* a real page or post: the capture at its own pixels or under, in a window with rounded edges */
+.win{position:relative;border-radius:30px;overflow:hidden;background:#fff;box-shadow:0 22px 50px rgba(4,10,36,.45)}
+.win.dk{background:#000}
+.win>img{position:absolute;left:0;display:block}
+.ring{position:absolute;border:6px solid var(--blue);border-radius:14px;box-shadow:0 0 0 6px rgba(242,193,78,.25);opacity:0}
+.dk .ring{border-color:var(--sky2);box-shadow:0 0 0 6px rgba(79,179,255,.22)}
+.lab{margin-top:14px;height:54px;padding:0 24px;border-radius:27px;background:#fff;color:var(--ink);font-family:Mono,monospace;font-weight:700;font-size:21px;line-height:54px;letter-spacing:.05em;white-space:nowrap;box-shadow:0 12px 26px rgba(4,10,36,.35)}
+.lab b{color:var(--gw)}
+/* ---- the screen: Entropy fills the frame while the owner looks at their screen */
+#scr{position:absolute;left:0;top:0;width:1080px;height:1920px;background:repeating-conic-gradient(#173A27 0 25%,#13311F 0 50%) 0 0/180px 180px;opacity:0;overflow:hidden}
+#scr::before{content:'';position:absolute;inset:0;background:radial-gradient(1100px 1300px at 50% 45%,rgba(19,49,31,0) 0%,rgba(8,24,15,.55) 100%)}
+#shd{position:absolute;left:0;top:58px;width:1080px;display:flex;justify-content:center}
+.sl{height:64px;padding:0 28px 0 12px;border-radius:32px;background:#F4F1E6;color:#10241A;font-family:Mono,monospace;font-weight:700;font-size:23px;line-height:64px;letter-spacing:.06em;white-space:nowrap;display:flex;align-items:center;gap:14px;box-shadow:0 12px 26px rgba(4,10,36,.3)}
+.sl img{width:44px;height:44px;border-radius:11px;display:block}
+.sl b{color:#1E8E3E}
+/* ---- the ladder: the six plans, filled on the owner's words */
+#lad{display:none;position:absolute;left:40px;top:0;width:1000px;transform-origin:50% 0;opacity:0;color:var(--ink)}
+.lc{border-radius:40px;background:#fff;box-shadow:0 24px 60px rgba(4,10,36,.4);padding:30px 34px 22px;position:relative}
+.lh{display:flex;align-items:flex-end;justify-content:space-between;padding:0 6px 14px}
+.lh h1{margin:0;font-family:Anton,sans-serif;font-weight:400;font-size:74px;line-height:.95;letter-spacing:.01em;color:var(--ink)}
+.lh h1 b{font-weight:400;color:var(--blue)}
+.lh img{width:96px;height:96px;border-radius:24px;display:block}
+.lcols{display:grid;grid-template-columns:90px 290px 1fr 268px;padding:10px 6px 8px;border-top:2px solid var(--line);font-family:Mono,monospace;font-weight:700;font-size:21px;letter-spacing:.12em;color:var(--mute)}
+.lcols span:last-child{text-align:right}
+.rows{position:relative}
+.row{display:grid;grid-template-columns:90px 290px 1fr 268px;align-items:center;height:160px;padding:0 6px;border-radius:26px;position:relative}
+.row .act{position:absolute;inset:4px 0;border-radius:26px;background:#EAF2FF;border:4px solid var(--blue);opacity:0}
+.row .nm{position:relative;display:flex;align-items:center;gap:16px;font-size:50px;white-space:nowrap;opacity:0}
+.row .md{width:46px;height:46px;border-radius:23px;box-shadow:inset 0 -6px 0 rgba(0,0,0,.18),inset 0 5px 0 rgba(255,255,255,.4)}
+.row .vo{position:relative;font-family:Mono,monospace;font-weight:700;font-size:38px;letter-spacing:.01em;color:var(--ink);opacity:0;white-space:nowrap}
+.row .vo small{display:block;font-size:17px;letter-spacing:.14em;color:var(--mute);margin-bottom:2px}
+.row .rw{position:relative;text-align:right;font-family:Anton,sans-serif;font-weight:400;font-size:88px;line-height:1;color:var(--blue);opacity:0;white-space:nowrap}
+.row .rr{position:absolute;left:634px;width:290px;top:18px;height:124px;border:6px solid var(--blue);border-radius:18px;box-shadow:0 0 0 6px rgba(31,95,219,.16);opacity:0}
+.row .wh{position:absolute;right:-78px;top:4px;width:124px;height:124px;opacity:0;filter:drop-shadow(0 10px 16px rgba(4,10,36,.35))}
+.tier{position:absolute;left:8px;width:72px;border-radius:22px;background:var(--ink);color:#fff;font-family:Anton,sans-serif;font-weight:400;font-size:34px;line-height:1;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;letter-spacing:.02em}
+.tier small{font-family:Mono,monospace;font-weight:700;font-size:15px;letter-spacing:.14em;margin-bottom:6px;color:var(--sky)}
+.lnote{margin-top:12px;padding:0 6px;font-family:Mono,monospace;font-weight:700;font-size:19px;letter-spacing:.05em;color:var(--mute);white-space:nowrap}
+.lnote b{color:var(--blue)}
+/* the phone: Entropy's real screens, whole, in a thin bezel */
+.phone{padding:10px;border-radius:58px;background:#1A1D24;box-shadow:0 30px 70px rgba(4,10,36,.45),inset 0 0 0 2px #2C313B}
+.pscr{position:relative;width:711px;height:1540px;border-radius:48px;overflow:hidden;background:#000}
+.pin{position:absolute;inset:0}
+.pl{position:absolute;inset:0;display:none}
+.pl img{position:absolute;left:0;top:0;display:block}
+.tap{position:absolute;left:0;top:0;width:96px;height:96px;margin:-48px 0 0 -48px;border-radius:48px;background:rgba(255,255,255,.55);border:4px solid rgba(255,255,255,.9);opacity:0;box-shadow:0 0 0 10px rgba(255,255,255,.18)}
+/* the plan card: the ladder's current row, above the head while the owner talks to the camera */
+#pc{display:none;position:absolute;left:60px;top:40px;width:960px;opacity:0;color:var(--ink)}
+.pcard{border-radius:36px;background:#fff;box-shadow:0 22px 50px rgba(4,10,36,.42);padding:22px 30px 26px}
+.pstrip{display:flex;gap:10px;margin-bottom:16px}
+.pstrip span{flex:1;height:46px;border-radius:23px;background:#EEF3FB;font-family:Mono,monospace;font-weight:700;font-size:17px;letter-spacing:.08em;line-height:46px;text-align:center;color:var(--mute);white-space:nowrap}
+.pstrip span.on{background:var(--ink);color:#fff}
+.pmain{display:grid;grid-template-columns:92px 272px 1fr 286px;align-items:center;height:150px;border-radius:26px;background:#EAF2FF;border:4px solid var(--blue);padding:0 18px}
+.pmain .md{width:74px;height:74px;border-radius:37px;box-shadow:inset 0 -8px 0 rgba(0,0,0,.18),inset 0 6px 0 rgba(255,255,255,.4)}
+.pn{font-size:54px;white-space:nowrap;line-height:1}
+.pn small{display:block;margin-top:8px;font-family:Mono,monospace;font-weight:700;font-size:20px;letter-spacing:.14em;color:var(--blue)}
+.pv{font-family:Mono,monospace;font-weight:700;font-size:36px;white-space:nowrap}
+.pv small{display:block;font-size:17px;letter-spacing:.14em;color:var(--mute);margin-bottom:4px}
+.pr{text-align:right;font-family:Anton,sans-serif;font-weight:400;font-size:88px;line-height:1;color:var(--blue);white-space:nowrap}
+/* the 25 creators */
+.grid25{display:grid;grid-template-columns:repeat(5,60px);gap:14px;padding:24px 26px;border-radius:34px;background:#fff;box-shadow:0 18px 40px rgba(4,10,36,.4)}
+.grid25 i{display:block;width:60px;height:60px;border-radius:30px;background:radial-gradient(circle at 34% 28%,#8CCBFF 0%,#2F7BF0 55%,#1747B8 100%);opacity:0;box-shadow:inset 0 -6px 0 rgba(0,0,0,.16)}
+/* role chips (the owner's list; not Discord's interface) */
+.role{display:flex;align-items:center;gap:22px;height:118px;padding:0 44px 0 22px;border-radius:59px;background:#fff;color:var(--ink);font-size:52px;white-space:nowrap;box-shadow:0 16px 34px rgba(4,10,36,.3);opacity:0;margin:14px 0}
+.role i{display:block;width:74px;height:74px;border-radius:37px;font-style:normal;color:#fff;font-family:Anton,sans-serif;font-size:40px;line-height:76px;text-align:center}
+/* the follow pill: ours, not a copy of any app's button */
+/* ---- captions: word by word low on the frame; key phrases go big under them */
+#cap{position:absolute;left:0;top:1704px;width:1080px;text-align:center;font-size:58px;line-height:74px;letter-spacing:-.005em;white-space:nowrap}
+#cap span{display:inline-block;margin:0 .13em;-webkit-text-stroke:9px var(--deep);paint-order:stroke fill;text-shadow:0 6px 16px rgba(4,10,36,.5)}
+#cap span.k{color:var(--sky)}
+#big{position:absolute;left:0;top:1780px;width:1080px;text-align:center;font-size:104px;line-height:120px;letter-spacing:-.02em;white-space:nowrap;color:var(--sky);opacity:0;
+  -webkit-text-stroke:13px var(--deep);paint-order:stroke fill;text-shadow:0 10px 26px rgba(4,10,36,.55);transform-origin:50% 50%}
+/* ---- end card */
+#end{position:absolute;left:0;top:0;width:1080px;height:1920px;background:radial-gradient(1200px 1400px at 50% 30%,#1C4A31 0%,#123222 60%,#0D2618 100%);opacity:0;color:#F4F1E6}
+#end .c{position:absolute;left:0;width:1080px;text-align:center}
+.ec{display:inline-block;height:76px;padding:0 32px;border-radius:38px;font-size:36px;line-height:74px;background:#F4F1E6;color:#10241A;border:0;margin:0 6px 16px;opacity:0;white-space:nowrap}
+.ec b{color:#1E8E3E}
+/* ---- layers */
+#bk{position:absolute;inset:0}
+body.L-behind #top,body.L-behind #cap,body.L-behind #big,body.L-behind #end,body.L-behind #scr,body.L-behind #lad,body.L-behind #pc{display:none}
+body.L-front #bk{display:none}
+</style></head>
+<body>
+<div id="bk"></div>
+<div id="scr"><div id="shd"></div><div id="sit"></div></div>
+<div id="top"></div>
+<div id="lad"><div class="lc">
+  <div class="lh"><h1>TRADING <b>REWARDS</b><div class="mono" style="font-size:20px;letter-spacing:.1em;color:var(--mute);margin-top:12px">6 plans · by trading volume</div></h1></div>
+  <div class="lcols"><span>TIER</span><span>PLAN</span><span>YOU TRADE</span><span>YOU EARN</span></div>
+  <div class="rows" id="rows"></div>
+  <div class="lnote">as <b>@i_am_vickyd</b> reads them · live for partners in testing <b>(@Athayagg, 27 Nov)</b></div>
+</div></div>
+<div id="pc"><div class="pcard"><div class="pstrip" id="pst"></div><div class="pmain"><div class="md" id="pmd"></div><div class="pn" id="pn"></div><div class="pv" id="pv"></div><div class="pr" id="pr"></div></div></div></div>
+<div id="cap"></div>
+<div id="big"></div>
+
+<div id="end">
+  <div class="c" style="top:300px"><img id="ekng" src="img/king-pile.webp" style="width:760px;border-radius:40px;opacity:0;box-shadow:0 30px 70px rgba(0,0,0,.45)"></div>
+  <div class="c" style="top:840px"><img id="elogo" src="img/crown-logo.png" style="width:260px;opacity:0"></div>
+  <div class="c" id="ename" style="top:1030px;font-family:Anton,sans-serif;font-weight:400;font-size:116px;letter-spacing:.02em;opacity:0">$250 <span style="color:var(--sky)">EVERY WEEK</span></div>
+  <div class="c" id="etag" style="top:1170px;font-size:42px;letter-spacing:-.01em;opacity:0;white-space:nowrap">to the top-ranked agent · <span style="color:var(--blue)">3+ trades · $100+ volume</span></div>
+  <div class="c" style="top:1270px;padding:0 50px"><span class="ec" id="e0"></span><span class="ec" id="e1"></span><span class="ec" id="e2"></span></div>
+  <div class="c mono" id="eget" style="top:1470px;font-size:24px;color:var(--blue);opacity:0">app.gambitmarkets.com · 18+ · not financial advice</div>
+  <div class="c" id="eby" style="top:1570px;font-size:50px;opacity:0">Follow <span style="color:var(--sky)">@i_am_vickyd</span> on X</div>
+</div>
+
+<script src="plan.js"></script>
+<script src="tok.js"></script>
+<script src="boxes.js"></script>
+<script>
+const P = window.PLAN, $ = id => document.getElementById(id), BX = window.BOXES
+const cl = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x))
+const seg = (t, a, d) => cl((t - a) / d)
+const eo = x => 1 - Math.pow(1 - x, 3), eio = x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2, ei = x => x * x * x
+const back = x => { const c = 1.9; return 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2) }
+let SIG = []
+const st = (el, o) => { if (!el) return; for (const k in o) { const v = typeof o[k] === 'number' ? +o[k].toFixed(3) : o[k]; el.style[k] = v; SIG.push(v) } }
+const NOTEXT = location.hash.includes('notext')
+const LAYER = ['behind', 'front'].find(h => location.hash.includes(h)) || 'all'
+document.body.classList.add('L-' + LAYER)
+const I = n => `img/e/${n}.png`
+const wt = i => P.wt[i], we = i => P.we[i]
+const SCR = P.screen                                                   // [[a, b], ...]: the owner looks at their screen
+// ---- captions (tokens.py gives every caption word its time)
+const CAPS = P.caps.map((c, ci) => {
+  const toks = []; let em = false
+  for (const raw of c.t.split(' ')) {
+    let w = raw; const open = w.startsWith('*'); if (open) { em = true; w = w.slice(1) }
+    const close = w.replace(/[.,?!:…]+$/, '').endsWith('*'); const k = em; if (close) { em = false; w = w.replace('*', '') }
+    toks.push({ w, k })
+  }
+  toks.forEach((k, i) => k.t = window.TOK[ci][i])
+  return { ...c, ci, toks }
+})
+const BIG = { 3: '$250', 5: 'top of the leaderboard', 8: 'P&L,', 9: '$250.', 12: 'one winner.', 13: 'manually.', 22: 'combo picks', 25: '$250', 26: 'Gambit points.' }
+const len = a => a.reduce((n, x) => n + x.w.length + 1, -1)
+for (const c of CAPS) {
+  const b = BIG[c.ci]; c.small = c.toks; c.chunks = []; let groups = [c.toks]
+  const clean = s => s.replace(/[.,?!:…]+$/, '')
+  if (b) { const bw = b.split(' '), n = bw.length, i0 = c.toks.findIndex((k, i) => bw.every((w, j) => c.toks[i + j] && clean(c.toks[i + j].w) === clean(w)))
+    if (i0 >= 0) { c.big = { text: b, t: c.toks[i0].t }; groups = [c.toks.slice(0, i0), c.toks.slice(i0 + n)]; c.small = groups.flat() } else console.log('BIG PHRASE NOT FOUND', c.ci, b) }
+  for (const g of groups) {
+    const out = []; let cur = []
+    const flush = () => { if (cur.length) out.push(cur); cur = [] }
+    for (const k of g) {
+      if (cur.length && (cur.length >= 3 || len(cur) + 1 + k.w.length > 17)) flush()
+      cur.push(k); if (/[.,?!:…]$/.test(k.w) && cur.length >= 2) flush()
+    }
+    flush()
+    const n = out.length
+    if (n > 1 && out[n - 1].length === 1 && len(out[n - 2]) + 1 + out[n - 1][0].w.length <= 19 && !/[.,?!:…]$/.test(out[n - 2][out[n - 2].length - 1].w)) out.splice(n - 2, 2, [...out[n - 2], ...out[n - 1]])
+    c.chunks.push(...out)
+  }
+}
+let CHUNKS = []
+CAPS.forEach(c => c.chunks.forEach((ch, i) => CHUNKS.push({ c, ch, t0: i === 0 ? Math.min(ch[0].t, c.o0) : ch[0].t - .04 })))
+CHUNKS.forEach((x, i) => { const nx = CHUNKS[i + 1]; x.t1 = Math.min(nx ? nx.t0 : 1e9, (x.c.chunks[x.c.chunks.length - 1] === x.ch ? x.c.o1 + .3 : 1e9)) })
+const capHtml = ch => ch.map(k => `<span${k.k ? ' class="k"' : ''}>${k.w}</span>`).join('')
+
+// ---- the screen: how far the frame is covered (0 = the owner, 1 = Entropy full frame)
+const TIN = .32, TOUT = .3
+const scrK = t => { let k = 0; for (const [a, b] of SCR) { if (t >= a - TIN && t < b + TOUT) k = Math.max(k, t < a ? eo(seg(t, a - TIN, TIN)) : 1 - ei(seg(t, b, TOUT))) } return k }
+const inScr = t => SCR.some(([a, b]) => t >= a - TIN && t < b + TOUT)
+
+// ---- items
+const TOP = $('top'), SIT = $('sit'), ITEMS = []
+function item(a, b, html, o = {}) {
+  const el = document.createElement('div'); el.className = 'it'; el.style.top = (o.y ?? 150) + 'px'; el.innerHTML = html
+  ;(o.bk ? $('bk') : o.scr ? SIT : o.hd ? $('shd') : TOP).appendChild(el)
+  if (o.hd) { el.style.position = 'absolute'; el.style.top = '0px' }
+  const it = { a, b, el, bk: !!o.bk, scr: !!o.scr, rot: o.rot || 0, push: o.push }; ITEMS.push(it); return it
+}
+const ic = n => `<div class="ic"><img src="${I(n)}"></div>`
+const lb = s => `<div class="lb">${s}</div>`
+const tile = `<img src="img/crown-logo.png">`
+// a real capture <file> (cw px wide) from y0 to y1, at scale s; rings {id: [[x0,y0,x1,y1], ...]} in capture px
+const WIN = {}
+function win(id, file, cw, y0, y1, s, rings, label, dark) {
+  const w = cw * s, h = (y1 - y0) * s
+  WIN[id] = { y0, s, w, h }
+  const rs = Object.entries(rings).map(([rid, bs]) => bs.map((b, j) => `<div class="ring" id="${rid}${j}" data-r="${rid}" style="left:${(b[0] * s - 10).toFixed(1)}px;top:${((b[1] - y0) * s - 7).toFixed(1)}px;width:${((b[2] - b[0]) * s + 20).toFixed(1)}px;height:${((b[3] - b[1]) * s + 14).toFixed(1)}px"></div>`).join('')).join('')
+  return `<div class="win${dark ? ' dk' : ''}" id="${id}" style="width:${w.toFixed(1)}px;height:${h.toFixed(1)}px"><img src="img/${file}" style="width:${w.toFixed(1)}px;top:${(-y0 * s).toFixed(1)}px">${rs}</div>` + (label ? `<div class="lab">${label}</div>` : '')
+}
+const RINGS = []
+const ring = (rid, a, b) => RINGS.push([rid, a, b])
+const B = (cap, k) => BX[cap][k]
+const hd = (a, b, s) => item(a, b, `<div class="sl"><img src="img/crown-logo.png" style="width:54px;height:38px;object-fit:contain;border-radius:0">${s}</div>`, { hd: 1 })          // the label at the top of the screen
+
+const s0 = SCR.map(x => x[0]), s1 = SCR.map(x => x[1])
+// On camera (0 to 21.2 s) their head reaches from about y 600 down past the chin: the cards live above it (y 36 to 520),
+// the giant type sits behind the top of the head, the captions low on the frame (y 1704).
+const PH = { x: 184, y: 120, w: 711, h: 1540 }                         // the phone's screen in the frame (a 1075x2330 capture at 0.661)
+const PHONES = []
+// layers: [file, capture width, t0, t1, white?]; rings: [layer index, [x0,y0,x1,y1] in that capture's px, on, off];
+// taps: [x, y, t] in app-capture px; push: [layer index, t, zoom, origin y in % of the screen]
+function phone(a, b, layers, rings = [], taps = [], push = []) {
+  const id = 'ph' + PHONES.length
+  const L = layers.map(([f, cw, t0, t1, white], i) => { const s = PH.w / cw
+    return `<div class="pl" id="${id}l${i}" style="background:${white ? '#fff' : '#000'}"><img src="img/${f}" style="width:${PH.w}px"></div>` }).join('')
+  const R = rings.map(([li, bx, on, off], j) => { const s = PH.w / layers[li][1], rid = `${id}r${j}`; RINGS.push([rid, on, off])
+    return `<div class="ring" id="${rid}0" data-r="${rid}" data-l="${li}" style="left:${(bx[0] * s - 9).toFixed(1)}px;top:${(bx[1] * s - 7).toFixed(1)}px;width:${((bx[2] - bx[0]) * s + 18).toFixed(1)}px;height:${((bx[3] - bx[1]) * s + 14).toFixed(1)}px"></div>` }).join('')
+  const T = taps.map((tp, j) => `<div class="tap" id="${id}t${j}"></div>`).join('')
+  const it = item(a, b, `<div class="phone"><div class="pscr"><div class="pin" id="${id}s">${L}${R}${T}</div></div></div>`, { y: PH.y - 10, scr: 1 })
+  PHONES.push({ id, layers, taps, push, it }); return it
+}
+const LOGO = `<img src="img/crown-logo.png" style="width:120px;height:84px;object-fit:contain;display:block">`
+// ===== 0-21.2: on camera
+item(0, wt(12) - .3, `<div class="pill">@i_am_vickyd<span>28 Nov 2026</span></div>`, { y: 56 })
+item(0, wt(18) - .3, `<div class="bt" style="font-size:300px"><b>GAMBIT</b></div>`, { y: 440, bk: 1 })
+item(wt(9) - .12, wt(18) - .3, `<div class="chip" style="height:124px;font-size:52px">${LOGO}<span>gambit<b>markets</b></span></div>`, { y: 200 })
+// their own screenshot of the weekly tournament (as sent), the $250 and "top-ranked agent" ringed on their words
+item(wt(18) - .25, wt(36) - .3, win('wO1', 'own/owner_tournament.jpg', 1280, 8, 356, .82, { rO250: [[196, 92, 402, 188]], rOtop: [[404, 98, 570, 154]], rOreq: [[408, 156, 610, 184]] }, 'your screenshot · <b>weekly tournament, nov 23 – 30</b>', 1), { y: 40 })
+ring('rO250', wt(23) - .1, wt(36) - .3); ring('rOtop', wt(33) - .1, wt(36) - .3)
+item(wt(23) - .2, 20.9, `<div class="bt" style="font-size:330px"><b>$250</b></div>`, { y: 440, bk: 1 })
+item(wt(36) - .25, s0[0] - .05, win('wO2', 'own/owner_tournament.jpg', 1280, 420, 776, .82, { rO1st: [[540, 422, 896, 776]] }, 'your screenshot · <b>the top of the leaderboard</b>', 1), { y: 40 })
+ring('rO1st', wt(36) - .1, s0[0])
+
+// ===== 21.2 to the end: a screen recording of Gambit's real app (the owner looks at their screen from here on)
+const CARD1 = [420, 688, 660, 1120], CARD2 = [150, 712, 400, 1120], PNL = [100, 562, 238, 640], L250 = [118, 748, 500, 1048], LTOP = [74, 1012, 740, 1088]
+const AILBL = [262, 795, 640, 910], MANLBL = [262, 795, 560, 910], MANTAB = [404, 502, 536, 572], LIQ = [150, 462, 742, 518], MONEY = [64, 1700, 1012, 1905], LINES = [62, 1560, 262, 1622]
+const PAST250 = [468, 640, 638, 695], PASTGP = [842, 635, 1000, 700], TIMER = [64, 1205, 525, 1445], BOARD = [30, 285, 778, 350], PRED = [80, 380, 586, 578]
+hd(s0[0] - .3, wt(60) - .52, 'gambit · <b>the weekly leaderboard, by p&amp;l</b>')
+hd(wt(60) - .3, wt(81) - .52, 'gambit · <b>weekly tournament · nov 23 – 30</b>')
+hd(wt(81) - .3, wt(107) - .52, 'gambit · <b>agents: ai or manual</b>')
+hd(wt(107) - .3, wt(136) - .52, 'gambit · <b>the markets</b>')
+hd(wt(136) - .3, wt(165) - .52, 'gambit · <b>rank up with your picks</b>')
+hd(wt(165) - .3, wt(185) - .52, 'gambit · <b>past tournaments</b>')
+hd(wt(185) - .3, s1[0] + .2, 'gambit · <b>weekly tournament · nov 23 – 30</b>')
+phone(s0[0] - .3, s1[0] + .1, [
+  ['cap/lb2.png', 1075, -1, wt(60) - .3], ['cap/lb0.png', 1075, wt(60) - .3, wt(81) - .3], ['cap/ag0.png', 1075, wt(81) - .3, wt(85) - .05],
+  ['cap/ag_ai.png', 1075, wt(85) - .05, wt(91) - .05], ['cap/ag_manual.png', 1075, wt(91) - .05, wt(107) - .3], ['cap/mk0.png', 1075, wt(107) - .3, wt(120) - .3],
+  ['cap/ev.png', 1075, wt(120) - .3, wt(136) - .3], ['cap/lb2.png', 1075, wt(136) - .3, wt(149) - .3], ['cap/sb.png', 1075, wt(149) - .3, wt(153) - .3],
+  ['cap/ev.png', 1075, wt(153) - .3, wt(165) - .3], ['cap/lb2.png', 1075, wt(165) - .3, wt(175) - .3], ['cap/lb_past.png', 1075, wt(175) - .3, wt(185) - .3],
+  ['cap/lb0.png', 1075, wt(185) - .3, 1e9]],
+  [[0, CARD1, wt(48) - .1, wt(55) - .2], [0, PNL, wt(55) - .1, wt(60) - .3], [1, L250, wt(63) - .1, wt(73) - .2], [1, LTOP, wt(73) - .1, wt(81) - .3],
+   [3, AILBL, wt(85) + .05, wt(91) - .05], [4, MANTAB, wt(91) + .05, wt(97) - .1], [4, MANLBL, wt(97) - .1, wt(107) - .3], [5, PRED, wt(108) + .1, wt(120) - .3],
+   [6, LIQ, wt(124) - .1, wt(131) - .2], [6, MONEY, wt(131) - .1, wt(136) - .3], [7, CARD2, wt(143) - .1, wt(146) - .1], [7, CARD1, wt(146) - .1, wt(149) - .3],
+   [8, BOARD, wt(149) + .05, wt(153) - .3], [9, LINES, wt(153) + .05, wt(165) - .3], [9, MONEY, wt(154) + .1, wt(165) - .3], [10, CARD1, wt(165) - .1, wt(175) - .3],
+   [11, PAST250, wt(175) - .1, wt(185) - .3], [11, PASTGP, wt(183) - .1, wt(185) - .3], [12, TIMER, wt(187) - .1, s1[0] + .3]],
+  [[228, 2282, wt(81) - .3], [190, 537, wt(85) - .05], [470, 537, wt(91) - .05], [537, 2282, wt(107) - .3], [540, 1795, wt(153) - .3]])
+const ROLES = []
+
+// ---- the ladder rows
+const ROWS = [['Starter', '#8FA3BF', '$10K', '$10', 194, 221, 228], ['Bronze', '#C98348', '$50K', '$20', 197, 244, 250], ['Silver', '#A9B6C6', '$250K', '$100', 200, 263, 258],
+  ['Gold', '#E0AE3A', '$3M', '$750', 203, 281, 274], ['Diamond', '#55C7F0', '$6M–10M', '$1,500', 206, 296, 311], ['Mythic', '#8B5CF6', '$10M–100M', '$2,500', 210, 330, 345]]
+$('rows').innerHTML = ROWS.map(([n, c, v, r], i) => `<div class="row" id="rw${i}"><div class="act"></div><span></span><div class="nm"><div class="md" style="background:${c}"></div>${n}</div><div class="vo"><small>VOLUME</small>${v}</div><div class="rw">${r}</div><div class="rr"></div>${i === 5 ? `<img class="wh" src="${I('spouting_whale_3d')}">` : ''}</div>`).join('') +
+  [['T1', 0], ['T2', 3], ['T3', 4], ['T4', 5]].map(([k, r], i) => `<div class="tier" id="ti${i}" style="top:${r * 160 + 12}px;height:136px"><small>TIER</small>${k.slice(1)}</div>`).join('')
+const ACT = [[0, wt(215) - .2, wt(230) - .1], [1, wt(230) - .1, wt(252) - .1], [2, wt(252) - .1, wt(268) - .1], [3, wt(268) - .1, wt(286) - .1], [4, wt(286) - .1, wt(314) - .1], [5, wt(314) - .1, wt(367) - .2],
+  [0, wt(367) - .1, wt(377) - .1], [1, wt(377) - .1, wt(384) - .1], [2, wt(384) - .1, wt(392) - .1], [3, wt(392) - .1, wt(401) - .1], [4, wt(401) - .1, wt(426) - .1], [5, wt(426) - .1, wt(434) + .3], [5, wt(755) - .1, 1e9]]
+const RR = [[4, wt(419) - .1, wt(426) - .2], [5, wt(762) - .1, 1e9], [5, wt(345) - .1, wt(348) + 1.5]]
+// when the ladder is up: from "several plans" to "another program", and from "as much as" to the end of screen 7
+const LADW = [[-10, -9]]                                      // the plan ladder is gone (28 Nov: the screen parts are the real app)
+const ladOn = t => LADW.some(([a, b]) => t >= a && t < b)
+
+// ---- end card
+$('e0').innerHTML = 'ai or <b>manual</b> agent'; $('e1').innerHTML = 'ranked by <b>p&amp;l</b>'; $('e2').innerHTML = '<b>$250</b> + gambit points'
+
+let lastCap = -1, lastBig = -1
+window.render = t => {
+  SIG = []
+  const FRONT = LAYER !== 'behind', BACK = LAYER !== 'front'
+  // a screen stretch that runs to the end of the take stays up under the end card: dropping it there showed their room
+  // in a strip at the top for a quarter of a second (seen at 94.5 s on the first render)
+  const K = t >= P.end - .05 && SCR.some(([, b]) => b >= P.end - .01) ? 1 : scrK(t)
+  for (const it of ITEMS) {
+    if (it.bk ? !BACK : !FRONT) continue
+    const on = t >= it.a - .01 && t < it.b + .25, k0 = it.a <= 0 ? 1 : 0
+    if (it.bk) { const k = Math.max(k0, eo(seg(t, it.a, .4))), o = eio(seg(t, it.b, .24))
+      st(it.el, { opacity: on ? cl(k * 2) * (1 - o) : 0, transform: `translateY(${((1 - k) * 120 + o * 110).toFixed(1)}px) scale(${(.9 + .1 * k).toFixed(4)}) rotate(${it.rot}deg)` })
+    } else if (it.scr || it.el.parentNode.id === 'shd') {          // on the screen: a soft rise, no pop
+      const k = eo(seg(t, it.a, .3)), o = seg(t, it.b, .18)
+      let tr = `translateY(${((1 - k) * 40 - o * 30).toFixed(1)}px)`
+      if (it.push) { const z = 1 + (it.push.z - 1) * eio(seg(t, it.push.a, it.push.d)); it.el.style.transformOrigin = `50% ${it.push.oy}`; tr += ` scale(${z.toFixed(4)})` }
+      st(it.el, { opacity: on ? cl(k * 1.6) * (1 - o) : 0, transform: tr })
+    } else { const k = Math.max(k0, eo(seg(t, it.a, .26))), o = seg(t, it.b, .16), bk = Math.max(k0, back(seg(t, it.a, .34)))
+      st(it.el, { opacity: on ? cl(k * 1.7) * (1 - o) * (1 - K) : 0, transform: `translateY(${((1 - k) * 26 - o * 20).toFixed(1)}px) scale(${((.62 + .38 * bk) * (1 - .1 * o)).toFixed(4)}) rotate(${it.rot}deg)` }) }
+  }
+  if (!FRONT) return SIG.join('|')
+  // the screen panel rises from the bottom over the owner, and drops away when they look up
+  st($('scr'), { opacity: K > 0 ? 1 : 0, transform: `translateY(${((1 - K) * 1920).toFixed(1)}px)` })
+  // rings draw themselves on their word, left to right
+  for (const [rid, a, b] of RINGS) document.querySelectorAll(`[data-r="${rid}"]`).forEach((e, j) => {
+    const a2 = a + .1 * j, on = t >= a2 && t < b, u = on ? eo(seg(t, a2, .38)) : 0, q = on ? 1 - seg(t, b - .16, .16) : 0
+    st(e, { opacity: cl(u * 3) * q, clipPath: `inset(-16px ${(-16 + (e.offsetWidth + 32) * (1 - u)).toFixed(1)}px -16px -16px)` }) })
+  // the ladder: big on the screen, small on the chest when the owner looks up
+  { const lad = $('lad'), on = ladOn(t)
+    const a = LADW.find(([x, y]) => t >= x - .01 && t < y + .3)
+    if (!a) st(lad, { opacity: 0 })
+    else {
+      const kin = eo(seg(t, a[0], .35)), kout = seg(t, a[1], .2)
+      st(lad, { opacity: K > 0 ? cl(kin * 1.6) * (1 - kout) : 0, transform: `translateY(${(175 + (1 - K) * 1920 + (1 - kin) * 40).toFixed(1)}px) scale(${(.94 + .06 * kin).toFixed(4)})` })
+      ROWS.forEach(([, , , , wn, wv, wr], i) => {
+        const r = $('rw' + i), nm = r.children[2], vo = r.children[3], rw = r.children[4]
+        const tn = wt(wn) - .1, tv = wt(wv) - .1, tr = wt(wr) - .1
+        st(nm, { opacity: seg(t, tn, .14), transform: `translateX(${((1 - eo(seg(t, tn, .3))) * -30).toFixed(1)}px)` })
+        st(vo, { opacity: seg(t, tv, .14), transform: `translateY(${((1 - eo(seg(t, tv, .3))) * 16).toFixed(1)}px)` })
+        st(rw, { opacity: seg(t, tr, .1), transform: `scale(${(.6 + .4 * back(seg(t, tr, .34))).toFixed(4)})` })
+        const act = ACT.some(([k, x, y]) => k === i && t >= x && t < y) ? 1 : 0
+        const aa = ACT.filter(([k]) => k === i).reduce((m, [, x, y]) => Math.max(m, Math.min(seg(t, x, .2), 1 - seg(t, y, .2))), 0)
+        st(r.children[0], { opacity: aa })
+        const rr = RR.filter(([k]) => k === i).reduce((m, [, x, y]) => Math.max(m, Math.min(eo(seg(t, x, .3)), 1 - seg(t, y, .2))), 0)
+        st(r.children[5], { opacity: cl(rr * 3), clipPath: `inset(-16px ${(-16 + 322 * (1 - rr)).toFixed(1)}px -16px -16px)` })
+      })
+      const wh = document.querySelector('.wh'); const wa = seg(t, wt(324) - .1, .3) * (1 - seg(t, wt(348), .2)); st(wh, { opacity: wa, transform: `scale(${(.6 + .4 * back(seg(t, wt(324) - .1, .4))).toFixed(4)}) rotate(${(-6 * Math.sin(t * 3)).toFixed(2)}deg)` })
+      // the tier brackets: tier 1 clips onto Starter, then grows over Bronze and Silver; 2, 3, 4 onto their rows
+      const T1 = $('ti0'), g = eo(seg(t, wt(391) - .1, .35))
+      st(T1, { opacity: seg(t, wt(376) - .1, .15), height: `${(136 + 320 * g).toFixed(1)}px`, transform: `scale(${(.6 + .4 * back(seg(t, wt(376) - .1, .34))).toFixed(4)})` })
+      ;[[1, 399], [2, 405], [3, 432]].forEach(([n, w]) => st($('ti' + n), { opacity: seg(t, wt(w) - .1, .15), transform: `scale(${(.6 + .4 * back(seg(t, wt(w) - .1, .34))).toFixed(4)})` }))
+    } }
+  // the plan card above the head: the ladder's current row while the owner looks up (between screens 1 and 5)
+  { const pcEl = $('pc'), inW = t >= LADW[0][0] && t < LADW[0][1] + .2
+    let row = -1; for (const [k, x] of ACT) if (x <= t && x < LADW[0][1]) row = k
+    if (!inW || row < 0 || K >= 1) st(pcEl, { opacity: 0 })
+    else {
+      const [n, c, v, r, wn, wv, wr] = ROWS[row]
+      const tierAt = [[0, 376], [1, 391], [2, 391], [3, 399], [4, 405], [5, 432]].find(([k]) => k === row)[1]
+      const tier = t >= wt(tierAt) - .1 ? 'TIER ' + ({ 0: 1, 1: 1, 2: 1, 3: 2, 4: 3, 5: 4 })[row] : 'PLAN ' + (row + 1) + ' OF 6'
+      const key = row + tier
+      if (pcEl.dataset.k !== key) { pcEl.dataset.k = key
+        $('pst').innerHTML = ROWS.map(([m], i) => `<span class="${i === row ? 'on' : ''}">${m.toUpperCase()}</span>`).join('')
+        $('pmd').style.background = c; $('pn').innerHTML = `${n}<small>${tier}</small>`; $('pv').innerHTML = `<small>YOU TRADE</small>${v}`; $('pr').textContent = r }
+      SIG.push(key)
+      const tv = wt(wv) - .1, tr = wt(wr) - .1
+      st($('pv'), { opacity: seg(t, tv, .14) }); st($('pr'), { opacity: seg(t, tr, .1), transform: `scale(${(.6 + .4 * back(seg(t, tr, .34))).toFixed(4)})` })
+      const kin = eo(seg(t, LADW[0][0], .3)), kout = seg(t, LADW[0][1], .2)
+      st(pcEl, { opacity: cl((.6 - K) / .6) * cl(kin * 1.6) * (1 - kout), transform: `translateY(${(-(K) * 60).toFixed(1)}px)` })
+    } }
+  // the phones: the page that is on screen now (a hard change, as a recording does), its rings, the taps, the push-ins
+  for (const P of PHONES) { const sc = document.getElementById(P.id + 's'); let cur = -1
+    P.layers.forEach(([f, cw, t0, t1], i) => { const on = t >= t0 && t < t1; if (on) cur = i; const el = document.getElementById(P.id + 'l' + i); const v = on ? 'block' : 'none'; if (el.style.display !== v) { el.style.display = v; SIG.push(P.id + i + v) } })
+    sc.querySelectorAll('.ring').forEach(r => { if (+r.dataset.l !== cur) { r.style.opacity = 0; SIG.push(0) } })
+    P.taps.forEach(([x, y, tt], j) => { const s = PH.w / 1075, u = seg(t, tt - .35, .5), e = document.getElementById(P.id + 't' + j)
+      st(e, { opacity: u > 0 && u < 1 ? Math.sin(Math.PI * u) * .95 : 0, transform: `translate(${(x * s).toFixed(1)}px,${(y * s).toFixed(1)}px) scale(${(.6 + .5 * u).toFixed(3)})` }) })
+    let z = 1, oy = '50%'; for (const [li, tt, zz, o] of P.push) if (li === cur) { z = 1 + (zz - 1) * eio(seg(t, tt, .9)); oy = o }
+    st(sc, { transform: `scale(${z.toFixed(4)})`, transformOrigin: `50% ${oy}` }) }
+  // the roles, each on its word
+  ROLES.forEach(([, , , w], i) => { const e = $('ro' + i); if (e) st(e, { opacity: seg(t, wt(w) - .12, .14), transform: `translateX(${((1 - eo(seg(t, wt(w) - .12, .32))) * -50).toFixed(1)}px) scale(${(.8 + .2 * back(seg(t, wt(w) - .12, .34))).toFixed(4)})` }) })
+  // the 25 creators light up on "top 25 creators"; the pool on "$2,500"
+  for (let i = 0; i < 25; i++) { const a = wt(641) - .05 + i * .035; st($('gd' + i), { opacity: .18 + .82 * seg(t, a, .1), transform: `scale(${(.4 + .6 * back(seg(t, a, .3))).toFixed(4)})` }) }
+  st($('g25p'), { opacity: seg(t, wt(652) - .1, .12), transform: `scale(${(.6 + .4 * back(seg(t, wt(652) - .1, .34))).toFixed(4)})` }); st($('g25w'), { opacity: seg(t, wt(654) - .1, .15) })
+  // the three opportunities, one after the other on "opportunities"
+  for (let i = 0; i < 3; i++) { const a = wt(792) - .1 + i * .22; st($('op' + i), { opacity: seg(t, a, .14), transform: `translateY(${((1 - eo(seg(t, a, .32))) * 30).toFixed(1)}px)` }) }
+  // ---- captions, word by word; the key phrase big under them
+  let ch = null; for (const x of CHUNKS) if (t >= x.t0 && t < x.t1) ch = x
+  const cap = $('cap')
+  if (ch && !NOTEXT && t < P.end - .05) {
+    const id = CHUNKS.indexOf(ch); if (id !== lastCap) { cap.innerHTML = capHtml(ch.ch); lastCap = id }
+    ch.ch.forEach((k, i) => st(cap.children[i], { opacity: t >= k.t - .05 ? 1 : .42 }))
+    const a = eo(seg(t, ch.t0, .1)); st(cap, { opacity: a, transform: `translateY(${((1 - a) * 8).toFixed(1)}px)` }); SIG.push(id)
+  } else st(cap, { opacity: 0 })
+  const nxt = c => CAPS[c.ci + 1] ? CAPS[c.ci + 1].o0 : 1e9
+  let bg = null; for (const c of CAPS) if (c.big && t >= Math.max(c.big.t, c.o0) - .06 && t < Math.min(c.o1 + .3, nxt(c))) bg = c
+  const big = $('big')
+  if (bg && !bg.small.length) st(cap, { opacity: 0 })
+  if (bg && !NOTEXT && t < P.end - .05) { if (bg.ci !== lastBig) { big.innerHTML = '<span>' + bg.big.text + '</span>'; lastBig = bg.ci; big.style.fontSize = '104px'; const w = big.firstChild.offsetWidth; if (w > 1000) big.style.fontSize = Math.floor(104 * 1000 / w) + 'px' }
+    const a = seg(t, bg.big.t - .06, .3), o = seg(t, Math.min(bg.o1 + .16, nxt(bg) - .14), .12)
+    st(big, { opacity: cl(a * 3) * (1 - o), transform: `scale(${(.7 + .3 * back(a)).toFixed(4)})`, top: (bg.small.length ? 1780 : 1712) + 'px' }); SIG.push(bg.ci)
+  } else st(big, { opacity: 0 })
+  // ---- end card: it rises over the last frame
+  { const a = eo(seg(t, P.end - .05, .5)); st($('end'), { opacity: a > 0 ? 1 : 0, transform: `translateY(${((1 - a) * 1920).toFixed(1)}px)` })
+    const e0 = P.end + .35
+    st($('ekng'), { opacity: seg(t, e0 - .2, .4), transform: `translateY(${((1 - eo(seg(t, e0 - .2, .6))) * 40).toFixed(1)}px)` }); st($('elogo'), { opacity: seg(t, e0, .3), transform: `scale(${(.85 + .15 * back(seg(t, e0, .45))).toFixed(4)})` })
+    st($('ename'), { opacity: seg(t, e0 + .15, .3) }); st($('etag'), { opacity: seg(t, e0 + .35, .3) })
+    for (let i = 0; i < 3; i++) { const k = eo(seg(t, e0 + .6 + i * .14, .32)); st($('e' + i), { opacity: cl(k * 1.6), transform: `scale(${(.86 + .14 * back(seg(t, e0 + .6 + i * .14, .32))).toFixed(4)})` }) }
+    st($('eget'), { opacity: seg(t, e0 + 1.2, .3) }); st($('eby'), { opacity: seg(t, e0 + 1.4, .3) }) }
+  return SIG.join('|')
+}
+window.READY = Promise.all([document.fonts.ready, ...[...document.images].map(i => i.decode().catch(() => 0))]).then(() => document.fonts.load('800 40px Manrope')).then(() => document.fonts.load('600 22px Manrope')).then(() => document.fonts.load('106px Anton')).then(() => document.fonts.load('700 24px Mono'))
+</script>
+</body></html>

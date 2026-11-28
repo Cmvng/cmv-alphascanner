@@ -1,0 +1,48 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Gambit (28 Nov): cover (#v, 1080x1920; its middle square is the picture for X) and wide thumbnail (#t, 1280x720, YouTube)</title>
+<style>
+@font-face{font-family:Anton;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/anton-latin-400-normal.woff2)}
+@font-face{font-family:Man;font-weight:800;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/manrope-latin-800-normal.woff2)}
+@font-face{font-family:Mono;font-weight:700;src:url(file:///home/user/cmv-alphascanner/video/assets/fonts/jetbrains-mono-latin-700-normal.woff2)}
+/* img/still.png: one frame of the owner's recording (8.5 s, "you can earn $250"), untouched, shown smaller, never
+   cropped into the face. The chess table: a deep green board, gold, lime and ivory (their 28 Nov "free expression");
+   Gambit keeps its crown logo. The title is the owner's own number and Gambit's own page: "$250 to this week's
+   top-ranked agent". */
+:root{--ivory:#F4F1E6;--ink:#10241A;--gold:#F2C14E;--lime:#9BF26E}
+*{box-sizing:border-box}
+html,body{margin:0;overflow:hidden;font-family:Man,sans-serif;font-weight:800;color:var(--ivory);background:#13311F}
+.abs{position:absolute}
+.bg{position:absolute;inset:0;background:repeating-conic-gradient(#173A27 0 25%,#13311F 0 50%) 0 0/180px 180px}
+.bg::after{content:'';position:absolute;inset:0;background:radial-gradient(1100px 1300px at 40% 45%,rgba(19,49,31,0) 0%,rgba(8,24,15,.6) 100%)}
+.h{font-family:Anton,sans-serif;font-weight:400;line-height:.92;white-space:nowrap}
+.pill{display:inline-block;height:76px;padding:0 30px;border-radius:38px;background:var(--ivory);color:var(--ink);font-size:36px;line-height:76px;white-space:nowrap}
+</style></head>
+<body>
+<div id="v" style="display:none;position:absolute;left:0;top:0;width:1080px;height:1920px;overflow:hidden">
+  <div class="bg"></div>
+  <!-- Cut edges from the middle: 3:4 y 240/1680, 7:8 y 343/1577, 1:1 y 420/1500, 16:9 y 656/1263. The face (y 680 to
+       1250 at this size), the title and the handle all sit between 680 and 1240; the logo sits above. -->
+  <div class="abs" style="left:430px;top:0;width:650px;height:1920px;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 120px),linear-gradient(180deg,transparent 330px,#000 470px);-webkit-mask-composite:source-in;mask-image:linear-gradient(90deg,transparent 0,#000 120px),linear-gradient(180deg,transparent 330px,#000 470px);mask-composite:intersect"><img src="img/still.png" style="position:absolute;left:-40px;top:320px;width:648px;height:1152px"></div>
+  <div class="abs" style="left:0;top:1440px;width:1080px;height:480px;background:linear-gradient(180deg,rgba(19,49,31,0),#10291A 45%)"></div>
+  <div class="abs" style="left:52px;top:500px"><img src="img/crown-logo.png" style="width:190px"></div>
+  <div class="abs h" style="left:58px;top:690px;font-size:84px;color:var(--gold)">EARN</div>
+  <div class="abs h" style="left:50px;top:770px;font-size:236px;color:var(--lime)">$250</div>
+  <div class="abs h" style="left:58px;top:990px;font-size:84px">EVERY WEEK</div>
+  <div class="abs" style="left:58px;top:1086px;font-size:34px;color:#CFE3D5;white-space:nowrap">top agent on Gambit</div>
+  <div class="abs" style="left:58px;top:1150px"><span class="pill">@i_am_vickyd</span></div>
+</div>
+<div id="t" style="display:none;position:absolute;left:0;top:0;width:1280px;height:720px;overflow:hidden">
+  <div class="bg"></div>
+  <div class="abs" style="right:0;top:0;width:620px;height:720px;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent 5%,#000 22%);mask-image:linear-gradient(90deg,transparent 5%,#000 22%)"><img src="img/still.png" style="position:absolute;left:0;top:-150px;width:620px"></div>
+  <div class="abs" style="left:60px;top:44px"><img src="img/crown-logo.png" style="width:140px"></div>
+  <div class="abs h" style="left:62px;top:180px;font-size:76px;color:var(--gold)">EARN</div>
+  <div class="abs h" style="left:56px;top:252px;font-size:220px;color:var(--lime)">$250</div>
+  <div class="abs h" style="left:62px;top:460px;font-size:80px">EVERY WEEK</div>
+  <div class="abs" style="left:62px;top:604px"><span class="pill" style="height:62px;line-height:62px;font-size:30px">@i_am_vickyd</span></div>
+</div>
+<script>
+const m = location.hash.includes('t') ? 't' : 'v'
+document.getElementById(m).style.display = 'block'
+window.READY = Promise.all([document.fonts.ready, ...[...document.images].map(i => i.decode().catch(() => 0))]).then(() => document.fonts.load('116px Anton')).then(() => document.fonts.load('800 30px Man')).then(() => document.fonts.load('700 24px Mono'))
+</script>
+</body></html>

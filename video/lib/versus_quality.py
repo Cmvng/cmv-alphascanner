@@ -1,5 +1,6 @@
 """Is the edit at least as good as the owner's recording? Measured, before anything is sent.
   python3 -I versus_quality.py <raw.mp4> <final.mp4> <segs.json> [--flip] [--voice <voice-only mix.wav>] [--face y0,y1,x0,x1]
+                                [--camera a-b,a-b…]
 
 The owner, 11 Nov, after four edits of one recording: "the original quality of the video, the sound of the video was
 top quality. But when you made the edit… it was just poor… you are making it worse." Every earlier check compared the
@@ -12,13 +13,18 @@ edit with our own targets; none compared it with what the owner sent. This one d
 segs.json: the kept stretches of the recording, [{"s": seconds, "e": seconds}, …], in order. --flip if the edit mirrors
 the picture. --face: the box (in pixels) where the face sits in this recording, when it is not in the middle of the
 frame (20 Nov: the owner sat low in the car, the middle of the frame was our cards, and the check read their lightness
-as a +13.5 shift on the face; on the face itself it was +0.1). A FAIL means the video does not go out. This is measurement, not eyes or ears: still look, and say so."""
+as a +13.5 shift on the face; on the face itself it was +0.1). --camera: the stretches of the EDIT (seconds) where the
+owner's picture is on screen, when a screen recording covers the frame the rest of the time; bitrate, detail and colour
+are then measured there only (28 Nov, Gambit: their face is shown 0 to 21.2 s and the phone screen covers the frame
+from there to the end. Over the whole file the picture was 4.9 against 9.4 Mbit/s and the "face" was the chess board,
+lightness -114; where their picture is shown it was 19.8 against 9.6 Mbit/s, detail 111%, colour shift 0.0). A FAIL means the video does not go out. This is measurement, not eyes or ears: still look, and say so."""
 import json, re, subprocess, sys
 import cv2, numpy as np
 RAW, FIN, SEGS = sys.argv[1:4]
 FLIP = '--flip' in sys.argv
 VOICE = sys.argv[sys.argv.index('--voice') + 1] if '--voice' in sys.argv else None
 FACE = [int(v) for v in sys.argv[sys.argv.index('--face') + 1].split(',')] if '--face' in sys.argv else None
+CAM = [tuple(float(x) for x in v.split('-')) for v in sys.argv[sys.argv.index('--camera') + 1].split(',')] if '--camera' in sys.argv else None
 segs = json.load(open(SEGS)); fails = 0
 def say(ok, text):
     global fails
@@ -30,20 +36,38 @@ def fps(path):
     a, b = probe(path, 'v:0', 'avg_frame_rate').split('/'); return float(a) / float(b)
 fr, ff = fps(RAW), fps(FIN)
 say(abs(fr - ff) < .5, f'frame rate: the recording {fr:.2f}, the edit {ff:.2f} frames a second')
-br, bf = float(probe(RAW, 'v:0', 'bit_rate')) / 1e6, float(probe(FIN, 'v:0', 'bit_rate')) / 1e6
-say(bf >= br * .98, f'picture bitrate: the recording {br:.1f}, the edit {bf:.1f} Mbit/s')
 tab, acc = [], 0.0
 for g in segs: tab.append((acc, acc + g['e'] - g['s'], g['s'])); acc += g['e'] - g['s']
 def raw_t(t):
     for a, b, s in tab:
         if a <= t < b: return s + (t - a)
+def packets(path):
+    o = subprocess.check_output(['ffprobe', '-v', 'error', '-select_streams', 'v:0', '-show_entries', 'packet=pts_time,size', '-of', 'csv=p=0', path]).decode()
+    return [(float(a), int(b)) for a, b in (l.strip().strip(',').split(',')[:2] for l in o.split('\n') if l.strip() and 'N/A' not in l)]
+if CAM:                                     # the bitrate where the owner's picture is on screen, against the same moments of the raw
+    pr, pf, n = packets(RAW), packets(FIN), 0.0; br = bf = 0.0
+    for a, b in CAM:
+        bf += sum(z for t, z in pf if a <= t < b); n += b - a
+        for c, d, s in tab:                 # the same stretch of the recording, through the cuts
+            lo, hi = max(a, c), min(b, d)
+            if hi > lo: br += sum(z for t, z in pr if s + lo - c <= t < s + hi - c)
+    br, bf = br * 8 / n / 1e6, bf * 8 / n / 1e6
+else: br, bf = float(probe(RAW, 'v:0', 'bit_rate')) / 1e6, float(probe(FIN, 'v:0', 'bit_rate')) / 1e6
+say(bf >= br * .98, f'picture bitrate: the recording {br:.1f}, the edit {bf:.1f} Mbit/s' + (' (where their picture is on screen)' if CAM else ''))
 def grab(path, t):
     w, h = int(probe(path, 'v:0', 'width')), int(probe(path, 'v:0', 'height'))
     r = subprocess.check_output(['ffmpeg', '-nostdin', '-v', 'error', '-ss', f'{t:.4f}', '-i', path, '-frames:v', '1', '-f', 'rawvideo', '-pix_fmt', 'bgr24', '-'])
     return np.frombuffer(r, np.uint8).reshape(h, w, 3)
 det, col = [], []
+cam_len = sum(b - a for a, b in CAM) if CAM else 0
+def moment(i):                              # twelve moments spread over the whole edit, or over the camera stretches only
+    if not CAM: return acc * (i + .5) / 12
+    u = cam_len * (i + .5) / 12
+    for a, b in CAM:
+        if u < b - a: return a + u
+        u -= b - a
 for i in range(12):
-    t = acc * (i + .5) / 12
+    t = moment(i)
     a, b = grab(RAW, raw_t(t)), grab(FIN, t)
     if FLIP: a = cv2.flip(a, 1)
     h, w = a.shape[:2]; y0, y1, x0, x1 = int(.38 * h), int(.62 * h), int(.36 * w), int(.64 * w)      # the middle of the frame: the face, clear of graphics
