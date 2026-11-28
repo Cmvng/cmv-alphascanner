@@ -1,3 +1,22 @@
-{"close": 1.16, "close_cy": 0.0, "punch": 1.34, "punch_cy": 0.08,
- "shots": {"1": "wide", "2": "close", "3": "wide", "4": "close", "5": "wide", "6": "close", "7": "wide", "8": "wide", "9": "close", "10": "wide", "11": "close", "12": "wide"},
- "punches": [[37.50, 38.23]]}
+{"zoom": {"wide": 1.0, "close": 1.16, "punch": 1.34}, "cy": {"wide": 0.0, "close": 0.0, "punch": 0.08},
+ "timeline": [
+  [0.00, "wide",  "Sit down. All of you. Again."],
+  ["J1", "close", "Five minutes. Igor Jesus... cold yet."],
+  ["J2", "wide",  "65% of the ball... beautifully"],
+  [15.05, "punch", "...to nobody."],
+  ["J3", "close", "Wesley. No interviews. No penalties."],
+  [21.75, "wide", "Gibbs-White scored twice."],
+  [23.73, "punch", "TWICE."],
+  [24.74, "wide", "Write his name on the wall..."],
+  [27.59, "close", "3 yellow cards... the manager tackled harder"],
+  ["J4", "wide",  "23 goals conceded. Only Palace..."],
+  [37.25, "punch", "PALACE!"],
+  [38.23, "close", "Leeds put four past us... three in a row."],
+  ["J5", "wide",  "Emegha. Off the bench, two goals... orders."],
+  [49.95, "close", "Promoted. Effective immediately."],
+  [52.38, "wide",  "And me? I was perfect. Ask anyone."],
+  [55.67, "punch", "Don't ask the stats."],
+  ["J6", "wide",  "From tomorrow: double training..."],
+  [62.45, "close", "General Palmer has spoken."],
+  [64.40, "punch", "Dismissed."]
+ ]}

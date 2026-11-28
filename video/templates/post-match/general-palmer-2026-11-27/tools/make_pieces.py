@@ -11,7 +11,7 @@ plan = []
 for i in range(len(C) - 1):
     a = max(0, C[i] - (OV if i else 0)); b = min(dur, C[i + 1] + OV)
     f = os.path.join(d, f'a{i + 1:02d}.wav')
-    subprocess.run(['ffmpeg', '-nostdin', '-v', 'error', '-y', '-i', src, '-ss', f'{a:.3f}', '-t', f'{b - a:.3f}', '-af',
+    subprocess.run(['ffmpeg', '-nostdin', '-v', 'error', '-y', '-ss', f'{a:.3f}', '-t', f'{b - a:.3f}', '-i', src, '-af',   # cut on the input side, so the padding is added after the cut
                     f'adelay={int(PRE * 1000)}:all=1,apad=pad_dur={POST}', '-ac', '1', '-ar', '44100', f], check=True)
     plan.append({'n': i + 1, 'cut_s': C[i], 'cut_e': C[i + 1], 'src_s': round(a, 3), 'src_e': round(b, 3), 'pre': PRE, 'audio': f, 'video': os.path.join(d, f'v{i + 1:02d}.mp4')})
 json.dump(plan, open(os.path.join(d, 'plan.json'), 'w'), indent=1)
