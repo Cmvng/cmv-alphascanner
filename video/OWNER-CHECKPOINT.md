@@ -62,6 +62,15 @@ has not been said: ask once when the next one comes up.)
 - **Their own voice:** their recorded sound first (11 Nov: the original sound "was top quality"; see "Look"). Cleaned
   (echo, then noise) only where that is clearly better than the raw by a side-by-side; clear and forward, never pitch- or tempo-shifted. 3 Oct: "the voice
   should be more audible." Cut only at real silences; never clip or drop a word.
+- **Background sound in their recording is taken out.** 28 Nov, on the Entropy video: "remove the noise, the background
+  noise… There is background sound music that is playing in the video, and it's making the version of no music to sound
+  somehow… so that it's the video sound is very clean and very audible… Can't you hear the screeching sound that is
+  going on in the background?" (Entropy's pauses were only 14 dB under their voice, Gambit's 5 dB; the 6 to 10 kHz band
+  in the pauses nearly as loud as their speech.) So before mixing ANY recording of theirs, measure the pauses (their
+  level against the speech, and the high band): if anything is there beyond a quiet room, separate their voice from it
+  (Demucs `htdemucs`, vocals stem, `video/templates/talking-head/camera-entropy-2026-11-28/tools/clean_rebuild.sh`) and
+  use that voice in both the music and the no-music versions; then check every caption is still heard (hear-back). I
+  cannot hear: the numbers decide, and the message says it was done.
 - **The narrator** is "Lara" on ElevenLabs (the owner pays; voice `vChnJZ1Cu89g2XXumPfT`, `eleven_v4`, one generation).
   Never change her pitch or tempo, never generate twice to retry, hear every take back before using it. Say what a
   long script will cost before generating. The free house voice only when the owner chooses it to save credits, and

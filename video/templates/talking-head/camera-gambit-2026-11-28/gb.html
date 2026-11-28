@@ -282,7 +282,7 @@ const LADW = [[-10, -9]]                                      // the plan ladder
 const ladOn = t => LADW.some(([a, b]) => t >= a && t < b)
 
 // ---- end card
-$('e0').innerHTML = 'ai or <b>manual</b> agent'; $('e1').innerHTML = 'ranked by <b>p&amp;l</b>'; $('e2').innerHTML = '<b>$250</b> + gambit points'
+$('e0').innerHTML = 'ai or <b>manual</b> agent'; $('e1').innerHTML = 'this week: <b>nov 23 – 30</b>'; $('e2').innerHTML = '<b>$250</b> + gambit points'   // e1 is not 'ranked by p&l': their own screenshot shows the tournament ranked by ROI
 
 let lastCap = -1, lastBig = -1
 window.render = t => {
