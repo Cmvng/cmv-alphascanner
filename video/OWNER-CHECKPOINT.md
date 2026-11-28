@@ -92,6 +92,9 @@ has not been said: ask once when the next one comes up.)
   denoise, sharpen, regrade or shade on their picture; ONE encode, straight from the original, at its bitrate or
   more. Their voice track as recorded: no echo or noise removal on a recording that is already clean, no compressor,
   no limiter; make it louder by plain gain only as far as the peaks allow. Keep the music's highs off the voice.
+- **Colour, 28 Nov:** on the Gambit recording: "you [have] free expression to use any color palette... You don't need to
+  use the blue again lete see how creative you can be". So for that video (and, my reading, from now on unless they
+  say otherwise) the palette is ours to choose for the subject; still never a black background.
 - **Colour:** "my style is light or shades of blue" (6 Oct). Light or blue backgrounds, blue accents. The subject keeps
   its own colours (a project's brand, a team's kit). Green and red only where they mean something. No yellow accents.
   Never a black background, cold opens included; deep navy or royal blue is fine.
@@ -240,6 +243,13 @@ has not been said: ask once when the next one comes up.)
   (eye direction on every few frames, checked by eye), and there the real material fills the whole frame, captions
   still running; their face comes back when they look at the camera, with the talking-head moves of their samples.
   Reference: `video/templates/talking-head/camera-entropy-2026-11-28/`.
+  Same day, on the first version (real posts and our own card of the six plans on a light panel): "those parts where
+  I'm looking at the screen and explaining… You'll be displaying the app, the application. You'll be displaying the
+  features of the app. You'll be describing. You'll be showing what I'm actually explaining on… I did not say you can't
+  put one of our stupid mock photo or something… as if… I'm recording a video now and I'm not attaching a screenshot or
+  a screen recording." So the screen parts are a screen recording WE make of the project's real app: its own pages in
+  motion (scrolling, tapping, typing the amounts they say into the real fields), on the feature they are explaining,
+  in their order, the phone screen filling the frame. No card of ours standing in for the app.
 - **Their own take on a market or a coin:** show what they are talking about. 12 Nov, on a recording about meme
   coins: "adding motion effects, showing memes I'm talking about, the charts, references to it in the video, and make
   what I'm talking about illustrative… make sure that you look at your notes of the things I talked about previously."
