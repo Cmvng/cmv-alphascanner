@@ -46,7 +46,15 @@ Template: `video/templates/talking-head/camera-gambit-2026-11-28/` (README, sour
     (4.9 against 9.4 Mbit/s; lightness -114) while their picture, where it is shown, had 19.8 against 9.6 Mbit/s,
     111% of the detail and no colour shift. The tool now takes `--camera a-b` (the stretches of the edit where their
     picture is on screen) and measures those only; without it, it works as before.
+  - **Two renders wrote the same file at once** (the sound-cleaned re-render): `mix … | tail && cp … && nohup node render … &`
+    puts the WHOLE chain in the background, so the render had already started when I started it again. The master
+    came out with thousands of broken frames (found by decoding it whole before sending; the copy step also failed).
+    Deleted and rendered once more, alone.
+  - **The end card said "ranked by p&l"**, while the owner's own screenshot shows "ROI · TOURNAMENT". Their spoken
+    words stay; the chip now says "this week: nov 23 – 30".
 - **Change next time:**
+  - Start a background render on its own line, never at the end of an `&&` chain; check `pgrep -fc render_raw` is 1.
+  - Decode every finished master whole (`ffmpeg -v error -i … -f null -`) before anything else reads it.
   - When a screen stretch reaches the end of the take, check the hand-off to the end card frame by frame.
   - With a screen recording over most of the video, run `versus_quality.py --camera` with the on-camera stretches.
 - **Checks:** (filled in below)
