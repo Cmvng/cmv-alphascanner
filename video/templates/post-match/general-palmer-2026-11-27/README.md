@@ -52,7 +52,7 @@ python3 -I $T/tools/align.py $GP/pieces/plan.json $GP/audio/take.mp3      # t0 a
 # 2. the framing (resolved joins), then the captions on it, then the film
 python3 -I $T/tools/assemble.py $GP/pieces/plan.json $T/shots.json $GP/audio/voice_m14.wav caps.ass x.mp4 --framing-out framing.json --dry
 python3 -I $T/tools/captions_ass.py $T/words.json caps.ass --phrases $T/phrases.txt --framing framing.json \
-    --audio master16k.f32 --offset 0.4 --dur 66.82                       # master16k: ffmpeg -i take.mp3 -ac 1 -ar 16000 -f f32le
+    --audio master16k.f32 --pins $T/pins.json --offset 0.4 --dur 66.82                       # master16k: ffmpeg -i take.mp3 -ac 1 -ar 16000 -f f32le
 python3 -I $T/tools/ass2srt.py caps.ass $T/phrases.txt general_palmer.srt
 python3 -I $T/tools/assemble.py $GP/pieces/plan.json $T/shots.json $GP/audio/voice_m14.wav caps.ass general_palmer_9x16.mp4
 # 3. checks and covers

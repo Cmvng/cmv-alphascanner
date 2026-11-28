@@ -16,13 +16,17 @@ a = sys.argv[1:]
 def opt(name, default=None, conv=str):
     if name in a: i = a.index(name); v = a[i + 1]; del a[i:i + 2]; return conv(v)
     return default
-PH = opt('--phrases'); FR = opt('--framing'); AU = opt('--audio'); OFF = opt('--offset', 0.0, float); DUR = opt('--dur', None, float)
+PINS = opt('--pins'); PH = opt('--phrases'); FR = opt('--framing'); AU = opt('--audio'); OFF = opt('--offset', 0.0, float); DUR = opt('--dur', None, float)
 YS = dict((k, int(v)) for k, v in (x.split(':') for x in opt('--ys', 'wide:1229,close:1400,punch:1470').split(',')))
 words = json.load(open(a[0])); out = a[1]
 W, H = 1080, 1920
 def ts(t):
-    t = max(0, t); h = int(t // 3600); m = int(t % 3600 // 60); s = t % 60
+    t = max(0, t); cs = int(round(t * 100)); h = cs // 360000; m = cs // 6000 % 60; s = cs % 6000 / 100
     return f'{h}:{m:02d}:{s:05.2f}'
+import math
+def at_frame(t):
+    """a time on the 30 fps frame grid, written so libass switches on that very frame (the frame before stays old)"""
+    return (math.ceil(t * 100 - 1e-6) - 1) / 100
 # chunks, from the hand-set phrases
 lines = [l.strip() for l in open(PH, encoding='utf8') if l.strip()]
 chunks, k = [], 0
@@ -46,13 +50,21 @@ if AU:
     for c in chunks:
         s = c[0]['s']; lo, hi = int((s - 0.30) * 100), int((s + 0.40) * 100)
         si = int(round(s * 100))
-        cand = [i for i in range(max(6, lo), min(len(loud) - 4, hi)) if loud[i:i + 4].all() and not loud[i - 6:i].any()
+        cand = [i for i in range(max(15, lo), min(len(loud) - 4, hi)) if loud[i:i + 4].all() and not loud[i - 15:i].any()   # a real pause (150 ms) before it
                 and ((i >= si and tail_then_quiet(loud[si:i]))             # later: across silence (or a word's tail, then silence)
                      or (i < si and loud[i:si].mean() > 0.5))]              # earlier: only into speech that runs on to s
         if cand:
             best = min(cand, key=lambda i: abs(i / 100 - s)) / 100
             if best > prev + 0.2: c[0]['s'] = round(best, 2)
         prev = c[0]['s']
+# pins: word starts measured by hand on the film's audio, where a word runs on from the last with no pause
+if PINS:
+    pins = json.load(open(PINS))
+    for c in chunks:
+        k = f"{c[0]['w'].lower().strip('.,!?:…')}@{round(c[0]['s'])}"
+        for key, v in pins.items():
+            w0, t0 = key.split('@')
+            if c[0]['w'].lower().strip('.,!?:…') == w0 and abs(c[0]['s'] - float(t0)) < 0.6: c[0]['s'] = v
 # where the framing changes
 fr = json.load(open(FR)) if FR else [[-1e9, 'wide']]
 frame_at = lambda t: ([f for x, f in fr if x <= t + 1e-6] or [fr[0][1]])[-1]
@@ -69,7 +81,7 @@ n_ev = 0
 for i, c in enumerate(chunks):
     s = c[0]['s']; last_e = c[-1]['e']
     nxt = chunks[i + 1][0]['s'] if i + 1 < len(chunks) else None
-    e = last_e + 0.9 if nxt is None else min(nxt, last_e + 0.9)
+    e = (end_all - OFF) if nxt is None else min(nxt, last_e + 0.9)   # the last caption stays to the end
     if nxt is not None and nxt - e < 0.4: e = nxt                    # no blink of empty screen before the next line
     txt = ' '.join(x['w'] for x in c).upper().replace('{', '(').replace('}', ')')
     cuts = sorted({s, e, *[t for t, _ in fr if s < t < e]})
@@ -78,5 +90,8 @@ for i, c in enumerate(chunks):
         if p1 - p0 < 0.02: continue
         y = YS[frame_at(p0)]
         pop = '\\fscx92\\fscy92\\t(0,80,\\fscx100\\fscy100)' if m == 0 else ''
-        L.append(f'Dialogue: 0,{ts(p0 + OFF)},{ts(p1 + OFF)},Cap,,0,0,0,,{{\\an5\\pos({W // 2},{y}){pop}}}{txt}'); n_ev += 1
+        on_cut = lambda t: any(abs(t - x) < 0.02 for x, _ in fr)
+        T0 = at_frame(p0 + OFF) if on_cut(p0) else p0 + OFF
+        T1 = at_frame(p1 + OFF) if on_cut(p1) else p1 + OFF
+        L.append(f'Dialogue: 0,{ts(T0)},{ts(T1)},Cap,,0,0,0,,{{\\an5\\pos({W // 2},{y}){pop}}}{txt}'); n_ev += 1
 open(out, 'w').write('\n'.join(L) + '\n'); print(out, len(chunks), 'captions,', n_ev, 'events')

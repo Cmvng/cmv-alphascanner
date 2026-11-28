@@ -18,6 +18,7 @@ nocaps = '--nocaps' in sys.argv
 FO = sys.argv[sys.argv.index('--framing-out') + 1] if '--framing-out' in sys.argv else None
 DRY = '--dry' in sys.argv
 LEAD, TAIL = S.get('lead', 0.0), S.get('tail', 0.0)
+HOLD = S.get('hold_from')            # the last piece's picture holds still from this moment (a closed-mouth frame)
 JAT = {int(k): v for k, v in S.get('join_at', {}).items()}
 W, H, FPS = 1080, 1920, 30
 DUR = float(subprocess.check_output(['ffprobe', '-v', 'error', '-show_entries', 'format=duration', '-of', 'csv=p=0', voice]).decode())
@@ -31,7 +32,8 @@ for i, p in enumerate(plan):
     if i + 1 < len(plan):
         nx = plan[i + 1]['t0']
         want = JAT.get(i + 1, p['cut_e'])
-        b = q(min(max(want, nx), end) if end >= nx else end)
+        lim = end + 0.1 if (i + 1) in JAT else end                  # a set join may hold the last frame up to 0.1 s
+        b = q(min(max(want, nx), lim) if end >= nx else end)
         if end < nx: print(f'join {p["n"]}/{plan[i + 1]["n"]}: a gap of {nx - end:.3f} s, the next first frame is held')
     else:
         b = DUR + TAIL
@@ -57,7 +59,8 @@ for i, (p, a, b) in enumerate(segs):
     pts = sorted({a, b, *[t for t, _ in tl if a < t < b]})
     subs = [(pts[m], pts[m + 1], frame_at(pts[m])) for m in range(len(pts) - 1)]
     print(f"piece {p['n']}: {a:7.3f} - {b:7.3f}  " + ' | '.join(f'{x:.2f} {f}' for x, _, f in subs))
-    chains.append(f'[{i}:v]fps={FPS},setpts=PTS-STARTPTS,split={len(subs)}' + ''.join(f'[s{i}_{m}]' for m in range(len(subs))))
+    hold = f',trim=end={HOLD - p["t0"]:.4f}' if (HOLD and i == len(segs) - 1) else ''
+    chains.append(f'[{i}:v]fps={FPS},setpts=PTS-STARTPTS{hold},split={len(subs)}' + ''.join(f'[s{i}_{m}]' for m in range(len(subs))))
     for m, (x, y, f) in enumerate(subs):
         lead = max(0.0, p['t0'] - x)                   # hold the first frame before the piece's picture begins
         st = max(0.0, x - p['t0']); en = y - p['t0'] + lead

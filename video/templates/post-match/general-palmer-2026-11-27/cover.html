@@ -22,12 +22,12 @@ html,body{margin:0;overflow:hidden;font-family:Manrope,sans-serif;font-weight:80
        fades into the page. The tag sits inside the square (y 420 to 1500). -->
   <img id="st" src="img/still.png" class="abs" style="left:0;top:var(--shift);width:1080px;height:1920px;-webkit-mask-image:linear-gradient(180deg,transparent var(--m0),#000 var(--m1));mask-image:linear-gradient(180deg,transparent var(--m0),#000 var(--m1))">
   <div class="tag mono" style="left:44px;top:452px">AI parody</div>
-  <div class="card" style="left:90px;width:900px;top:958px;height:228px">
-    <div class="abs mono" style="left:0;width:900px;top:18px;text-align:center;font-size:23px;color:var(--blue)">Forest 3–2 Chelsea · 27 Nov 2026</div>
-    <div class="abs h" style="left:0;width:900px;top:52px;text-align:center;font-size:84px">General Palmer</div>
-    <div class="abs h" style="left:0;width:900px;top:134px;text-align:center;font-size:84px;color:var(--blue)">has spoken.</div>
+  <div class="card" style="left:90px;width:900px;top:972px;height:218px">
+    <div class="abs mono" style="left:0;width:900px;top:16px;text-align:center;font-size:22px;color:var(--blue)">AI parody · Forest 3–2 Chelsea · 27 Nov 2026</div>
+    <div class="abs h" style="left:0;width:900px;top:48px;text-align:center;font-size:80px">General Palmer</div>
+    <div class="abs h" style="left:0;width:900px;top:126px;text-align:center;font-size:80px;color:var(--blue)">has spoken.</div>
   </div>
-  <div class="hd" id="hv" style="left:50%;transform:translateX(-50%);top:1196px;height:54px;line-height:54px;font-size:30px"></div>
+  <div class="hd" id="hv" style="left:50%;transform:translateX(-50%);top:1200px;height:50px;line-height:50px;font-size:29px"></div>
 </div>
 <div id="t" style="display:none;position:absolute;left:0;top:0;width:1280px;height:720px;overflow:hidden;background:linear-gradient(100deg,#EEF4FD 0%,#DCE7F6 50%,#C9D8EE 100%)">
   <img id="tt" src="img/still.png" class="abs" style="right:-40px;top:var(--tshift);width:720px;height:1280px">
@@ -41,7 +41,7 @@ html,body{margin:0;overflow:hidden;font-family:Manrope,sans-serif;font-weight:80
 <script>
 const P = new URLSearchParams(location.search)
 const mode = location.hash.includes('t') ? 't' : 'v'
-document.documentElement.style.setProperty('--shift', (P.get("shift") || 170) + 'px')
+document.documentElement.style.setProperty('--shift', (P.get("shift") || 188) + 'px')
 document.documentElement.style.setProperty('--m0', (P.get("m0") || 0) + 'px')
 document.documentElement.style.setProperty('--m1', (P.get("m1") || 110) + 'px')
 document.documentElement.style.setProperty('--tshift', (P.get('tshift') || -150) + 'px')
