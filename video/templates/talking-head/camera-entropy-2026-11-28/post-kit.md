@@ -1,6 +1,6 @@
 # Post kit: Entropy, the owner's recording (28 Nov 2026)
 
-**Concept: when they look at their screen, Entropy fills the frame.**
+**Concept: when they look at their screen, the video becomes a screen recording of Entropy's real app.**
 - Their brief: "once I'm looking at the screen, you will not show my face anymore". The seven stretches where they look
   down at their screen (1:52 of the 4:48) are full-frame Entropy: the post that lists the six plans, the plans
   themselves building on their words, the team's Creator Grants post, the Discord and the roles they name, the

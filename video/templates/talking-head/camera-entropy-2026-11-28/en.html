@@ -73,6 +73,13 @@ html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:transpa
 .tier small{font-family:Mono,monospace;font-weight:700;font-size:15px;letter-spacing:.14em;margin-bottom:6px;color:var(--sky)}
 .lnote{margin-top:12px;padding:0 6px;font-family:Mono,monospace;font-weight:700;font-size:19px;letter-spacing:.05em;color:var(--mute);white-space:nowrap}
 .lnote b{color:var(--blue)}
+/* the phone: Entropy's real screens, whole, in a thin bezel */
+.phone{padding:10px;border-radius:58px;background:#1A1D24;box-shadow:0 30px 70px rgba(4,10,36,.45),inset 0 0 0 2px #2C313B}
+.pscr{position:relative;width:711px;height:1540px;border-radius:48px;overflow:hidden;background:#000}
+.pin{position:absolute;inset:0}
+.pl{position:absolute;inset:0;display:none}
+.pl img{position:absolute;left:0;top:0;display:block}
+.tap{position:absolute;left:0;top:0;width:96px;height:96px;margin:-48px 0 0 -48px;border-radius:48px;background:rgba(255,255,255,.55);border:4px solid rgba(255,255,255,.9);opacity:0;box-shadow:0 0 0 10px rgba(255,255,255,.18)}
 /* the plan card: the ladder's current row, above the head while the owner talks to the camera */
 #pc{position:absolute;left:60px;top:40px;width:960px;opacity:0;color:var(--ink)}
 .pcard{border-radius:36px;background:#fff;box-shadow:0 22px 50px rgba(4,10,36,.42);padding:22px 30px 26px}
@@ -237,45 +244,100 @@ ring('rLS', wt(95) - .1, wt(111) - .3)
 item(wt(111) - .25, wt(135) - .3, `<div class="chip" style="height:120px;font-size:54px">${TILE}<span>the <b>new program</b></span></div>`, { y: 210 })
 item(wt(135) - .2, 51.15, `<div class="bt" style="font-size:330px"><b>$2,500</b></div>`, { y: 440, bk: 1 })
 
-// ===== screen 1 (51.6-104.3): the post that lists the six plans, then the ladder itself
-hd(s0[0] - .3, wt(183) - .52, '@Athayagg on X · <b>27 nov 2026</b>')
-item(s0[0] - .3, wt(183) - .52, win('wAt', 'posts/athaya.png', 1100, 0, 1836, .78, { rTR: B('athaya', 'Trading Rewards'), rTi: B('athaya', '6 tiers (Starter to Mythic) from $10 to $2,500 based on volume milestones'), rPt: B('athaya', '(currently live for Partners in testing).') }), { y: 170, scr: 1, push: { a: wt(160) - .5, d: .9, z: 1.2, oy: '17%' } })
-ring('rTR', wt(160) - .1, wt(183) - .4); ring('rTi', wt(168) - .1, wt(183) - .4); ring('rPt', wt(181) - .1, wt(183) - .4)
-hd(wt(183) - .3, s1[0] + .2, 'the six plans · <b>in @i_am_vickyd\'s words</b>')
-hd(s0[1] - .3, s1[1] + .2, 'the six plans · <b>mythic</b>')
-hd(s0[2] - .3, s1[2] + .2, 'the plans in <b>tiers</b>')
-hd(s0[3] - .3, s1[3] + .2, 'the plans in <b>tiers</b>')
+// ===== the screen parts: a screen recording of Entropy's real app, made by us (the owner, 28 Nov: "You'll be displaying
+// the app, the application… the features of the app… what I'm actually explaining on"). The phone screen sits whole
+// in the frame (its edges in view); its pages change the way a recording does (a tap, then the next page), the amounts
+// they say are typed into the real Amount field, and the words they say are ringed on the real page.
+const PH = { x: 184, y: 120, w: 711, h: 1540 }                         // the phone's screen in the frame (a 1075x2330 capture at 0.661)
+const PHONES = []
+// layers: [file, capture width, t0, t1, white?]; rings: [layer index, [x0,y0,x1,y1] in that capture's px, on, off];
+// taps: [x, y, t] in app-capture px; push: [layer index, t, zoom, origin y in % of the screen]
+function phone(a, b, layers, rings = [], taps = [], push = []) {
+  const id = 'ph' + PHONES.length
+  const L = layers.map(([f, cw, t0, t1, white], i) => { const s = PH.w / cw
+    return `<div class="pl" id="${id}l${i}" style="background:${white ? '#fff' : '#000'}"><img src="img/${f}" style="width:${PH.w}px"></div>` }).join('')
+  const R = rings.map(([li, bx, on, off], j) => { const s = PH.w / layers[li][1], rid = `${id}r${j}`; RINGS.push([rid, on, off])
+    return `<div class="ring" id="${rid}0" data-r="${rid}" data-l="${li}" style="left:${(bx[0] * s - 9).toFixed(1)}px;top:${(bx[1] * s - 7).toFixed(1)}px;width:${((bx[2] - bx[0]) * s + 18).toFixed(1)}px;height:${((bx[3] - bx[1]) * s + 14).toFixed(1)}px"></div>` }).join('')
+  const T = taps.map((tp, j) => `<div class="tap" id="${id}t${j}"></div>`).join('')
+  const it = item(a, b, `<div class="phone"><div class="pscr"><div class="pin" id="${id}s">${L}${R}${T}</div></div></div>`, { y: PH.y - 10, scr: 1 })
+  PHONES.push({ id, layers, taps, push, it }); return it
+}
+const AMT = [66, 1772, 1009, 1902], LONG = [40, 1590, 532, 1676], SHORT = [543, 1590, 1035, 1676]
+const ROW = n => [60, 920 + 95.3 * (n - 1) - 18, 1012, 920 + 95.3 * (n - 1) + 72]   // the docs' tier table, row n
+const ATH_TI = B('athaya', '6 tiers (Starter to Mythic) from $10 to $2,500 based on volume milestones'), ATH_TR = B('athaya', 'Trading Rewards'), ATH_CG = B('athaya', 'Creator Grants - $2,500 weekly pool')
+const U1 = bs => [Math.min(...bs.map(b => b[0])), Math.min(...bs.map(b => b[1])), Math.max(...bs.map(b => b[2])), Math.max(...bs.map(b => b[3]))]
 
-// ===== 150-158.5: on camera. THE ONLY PLATFORM?, then AS JUICY AS THIS, behind the head (the plan card above it)
+// screen 1 (51.6-104.3): the app → Referrals (where the rewards live) → the post that lists the six plans → the trade
+// screen, the amounts they say typed into it one after another
+hd(s0[0] - .3, wt(168) - .52, 'entropy.io · <b>28 nov 2026</b>')
+hd(wt(168) - .3, wt(215) - .52, '@Athayagg on X · <b>27 nov 2026</b>')
+hd(wt(215) - .3, s1[0] + .2, 'entropy.io · <b>trade, and generate volume</b>')
+phone(s0[0] - .3, s1[0] + .1, [
+  ['app/t0.png', 1075, -1, wt(154) - .3], ['app/nav_ref.png', 1075, wt(154) - .3, wt(168) - .3], ['posts/athaya.png', 1100, wt(168) - .3, wt(215) - .3, 1],
+  ['app/t_long.png', 1075, wt(215) - .3, wt(221) - .05], ['app/t_amt_10000.png', 1075, wt(221) - .05, wt(244) - .05], ['app/t_amt_50000.png', 1075, wt(244) - .05, wt(263) - .05],
+  ['app/t_amt_250000.png', 1075, wt(263) - .05, wt(281) - .05], ['app/t_amt_3000000.png', 1075, wt(281) - .05, wt(296) - .05], ['app/t_amt_6000000.png', 1075, wt(296) - .05, wt(299) - .05],
+  ['app/t_amt_10000000.png', 1075, wt(299) - .05, 1e9]],
+  [[1, [70, 195, 1010, 360], wt(160) - .1, wt(168) - .3], [2, ATH_TR[0], wt(173) - .1, wt(215) - .3], [2, U1(ATH_TI), wt(177) - .1, wt(215) - .3],
+   [4, AMT, wt(221) + .05, s1[0] + .3]],
+  [[968, 2289, wt(154) - .3], [540, 1838, wt(221) - .05]])
+
+// screen 2 (112.1-117.5): "$10 million… to $100 million" typed in
+hd(s0[1] - .3, s1[1] + .2, 'entropy.io · <b>trade</b>')
+phone(s0[1] - .3, s1[1] + .1, [['app/t_amt_10000000.png', 1075, -1, wt(335) - .05], ['app/t_amt_100000000.png', 1075, wt(335) - .05, 1e9]],
+  [[0, AMT, s0[1], s1[1] + .3]], [[540, 1838, wt(335) - .05]])
+
+// screen 3 (127-137.6) and 4 (143.5-149.9): Entropy's own docs, the volume tier table, each row ringed on its word
+hd(s0[2] - .3, s1[2] + .2, 'docs.entropy.io · <b>tiers by trading volume</b>')
+phone(s0[2] - .3, s1[2] + .1, [['app/docs_ff.png', 1075, -1, 1e9, 1]],
+  [[0, ROW(1), wt(376) - .1, wt(392) - .2], [0, ROW(2), wt(393) - .1, s1[2] + .3], [0, ROW(3), wt(396) - .1, s1[2] + .3]])
+hd(s0[3] - .3, s1[3] + .2, 'docs.entropy.io · <b>tiers by trading volume</b>')
+phone(s0[3] - .3, s1[3] + .1, [['app/docs_ff.png', 1075, -1, 1e9, 1]], [[0, ROW(3), s0[3], wt(426) - .2], [0, ROW(4), wt(432) - .1, s1[3] + .3]])
+
+// screen 5 (158.5-164.1): the tier table ("as juicy as this"), then the team's own post on the Creator Grants
+hd(s0[4] - .3, wt(476) - .52, 'docs.entropy.io · <b>tiers by trading volume</b>')
+hd(wt(476) - .3, s1[4] + .2, '@entropyIO on X · <b>25 nov 2026</b>')
+phone(s0[4] - .3, s1[4] + .1, [['app/docs_ff.png', 1075, -1, wt(476) - .3, 1], ['posts/grants.png', 1100, wt(476) - .3, 1e9, 1]],
+  [[1, B('grants', 'Get rewarded for building the Entropy community.')[0], wt(476) + .2, s1[4] + .3], [1, U1(B('grants', 'Creator Grants credited directly to your Entropy account.')), wt(482) - .1, s1[4] + .3]])
+
+// screen 6 (174-192.4): the Discord they name, then the $2,500 weekly pool for creators
+hd(s0[5] - .3, wt(545) - .52, 'discord.gg/entropyio · <b>28 nov 2026</b>')
+hd(wt(545) - .3, s1[5] + .2, '@Athayagg on X · <b>27 nov 2026</b>')
+phone(s0[5] - .3, s1[5] + .1, [['pages/discord_top.png', 1075, -1, wt(545) - .3], ['posts/athaya.png', 1100, wt(545) - .3, 1e9, 1]],
+  [[0, B('discordP', 'entropy.io')[0], wt(518) + .1, wt(545) - .3], [0, B('discordP', 'Members')[0], wt(528) - .1, wt(545) - .3], [1, ATH_CG[0], wt(552) - .1, s1[5] + .3]],
+  [])
+
+// screen 7 (261.7-274.1): delta neutral on the real trade screen (Long, Short), generate volume, then "up to $2,500"
+hd(s0[6] - .3, wt(755) - .52, 'entropy.io · <b>long, short, volume</b>')
+hd(wt(755) - .3, s1[6] + .2, '@Athayagg on X · <b>27 nov 2026</b>')
+phone(s0[6] - .3, s1[6] + .1, [['app/t_long.png', 1075, -1, wt(748) - .05], ['app/t_short.png', 1075, wt(748) - .05, wt(753) - .05], ['app/t_amt_10000.png', 1075, wt(753) - .05, wt(755) - .3],
+  ['posts/athaya.png', 1100, wt(755) - .3, 1e9, 1]],
+  [[0, LONG, wt(747) - .1, wt(748) - .05], [1, SHORT, wt(748) + .05, wt(753) - .05], [2, AMT, wt(753) + .05, wt(755) - .3], [3, U1(ATH_TI), wt(760) - .1, s1[6] + .3]],
+  [[286, 1632, wt(747) - .05], [764, 1632, wt(748) - .05], [540, 1838, wt(753) - .05]])
+
+// ===== 104-158: on camera between the screen parts: the real lines they are reading, above the head
+item(s1[0] + .05, s0[1] - .05, win('wAtA', 'posts/athaya.png', 1100, 270, 436, .9, { rTiA: ATH_TI }, '@Athayagg on X · 27 nov 2026 · <b>trading rewards</b>'), { y: 150 })
+ring('rTiA', wt(311) - .1, s0[1] - .1)
+item(s1[1] + .05, s0[2] - .05, win('wAtB', 'posts/athaya.png', 1100, 270, 436, .9, { rTiB: ATH_TI }, '@Athayagg on X · 27 nov 2026 · <b>trading rewards</b>'), { y: 150 })
+ring('rTiB', wt(345) - .1, s0[2] - .1)
+item(s1[2] + .05, s0[3] - .05, win('wDf', 'app/docs_ff.png', 1075, 690, 1290, .8, { rT2: [ROW(2)], rT3: [ROW(3)] }, 'docs.entropy.io · <b>tiers by trading volume</b>'), { y: 36 })
+ring('rT2', wt(399) - .1, s0[3] - .1); ring('rT3', wt(405) - .1, s0[3] - .1)
+
+// ===== 150-158.5: on camera. THE ONLY PLATFORM?, then AS JUICY AS THIS, behind the head
 item(wt(441) - .15, wt(464) - .25, `<div class="bt" style="font-size:140px">THE ONLY</div><div class="bt" style="font-size:190px;margin-top:6px"><b>PLATFORM?</b></div>`, { y: 400, bk: 1 })
 item(wt(464) + .02, 158.1, `<div class="bt" style="font-size:150px">AS JUICY</div><div class="bt" style="font-size:190px;margin-top:6px"><b>AS THIS</b></div>`, { y: 400, bk: 1 })
-
-// ===== screen 5 (158.5-164.1): the ladder ("as juicy as this"), then the team's post on the Creator Grants
-hd(s0[4] - .3, wt(476) - .52, 'the six plans')
-hd(wt(476) - .06, s1[4] + .2, '@entropyIO on X · <b>25 nov 2026</b>')
-item(wt(476) - .06, s1[4] + .1, win('wGr', 'posts/grants.png', 1100, 0, 1280, .9, { rGet: B('grants', 'Get rewarded for building the Entropy community.'), rCG: B('grants', 'Creator Grants credited directly to your Entropy account.') }), { y: 330, scr: 1 })
-ring('rGet', wt(476) + .2, s1[4] + .1); ring('rCG', wt(482) - .1, s1[4] + .1)
 
 // ===== 164-174: on camera. CREATOR PROGRAM behind the head; then the Discord
 item(s1[4] - .05, 169.8, `<div class="bt" style="font-size:180px">CREATOR</div><div class="bt" style="font-size:180px;margin-top:6px"><b>PROGRAM</b></div>`, { y: 380, bk: 1 })
 item(s1[4] + .05, wt(510) - .25, `${ic('megaphone_3d')}`, { y: 80 })
 item(wt(510) - .25, s0[5] - .05, win('wDc', 'pages/discord_top.png', 1075, 150, 620, .78, { rMem: B('discordP', 'Members') }, 'discord.gg/entropyio · <b>28 nov 2026</b>', 1), { y: 60 })
 ring('rMem', wt(516) - .1, s0[5])
+const ROLES = []
 
-// ===== screen 6 (174-192.4): the Discord, the three roles they name, then the $2,500 weekly pool
-hd(s0[5] - .3, wt(545) - .52, 'the entropy discord · <b>roles</b>')
-item(s0[5] - .3, wt(545) - .52, win('wDc2', 'pages/discord_top.png', 1075, 120, 640, .93, { rMem2: B('discordP', 'Members') }, '', 1), { y: 170, scr: 1 })
-ring('rMem2', s0[5] + .3, wt(545) - .3)
-const ROLES = [['Entropy Voices', '#5865F2', 'V', 524], ['Entropy Council', '#1F5FDB', 'C', 534], ['Genesis badge', '#12A150', 'G', 541]]
-item(s0[5] - .3, wt(545) - .52, `<div style="display:flex;flex-direction:column;align-items:center">${ROLES.map(([n, c, l], i) => `<div class="role" id="ro${i}"><i style="background:${c}">${l}</i>${n}</div>`).join('')}</div><div class="lab" style="margin-top:20px">the roles, <b>as @i_am_vickyd names them</b></div>`, { y: 800, scr: 1 })
-hd(wt(545) - .3, s1[5] + .2, '@Athayagg on X · <b>27 nov 2026</b>')
-item(wt(545) - .3, s1[5] + .1, win('wAt2', 'posts/athaya.png', 1100, 0, 540, .95, { rCGw: B('athaya', 'Creator Grants - $2,500 weekly pool') }), { y: 560, scr: 1 })
-ring('rCGw', wt(552) - .1, s1[5] + .1)
-
-// ===== 192.4-261.7: on camera. What creators say, the roles, the guidelines, the content, the 25, bonuses, alpha
+// ===== 192.4-261.7: on camera. What creators say, the Discord, the guidelines, the content, the 25, bonuses, alpha
 item(s1[5] + .05, wt(580) - .25, win('wAm', 'posts/aman.png', 1100, 0, 420, .8, { rAm: B('aman', 'ENTROPY IS BUILDING A NEW WAY TO TRADE REAL WORLD ASSETS.') }, '@Amank1412 on X · 24 aug 2026 · <b>what creators say</b>'), { y: 60 })
 ring('rAm', wt(575) - .1, wt(580) - .3)
-item(wt(580) - .25, wt(593) - .25, `<div style="display:flex;flex-direction:column;align-items:center;transform:scale(.72);transform-origin:50% 0">${ROLES.map(([n, c, l]) => `<div class="role" style="opacity:1;margin:8px 0"><i style="background:${c}">${l}</i>${n}</div>`).join('')}</div>`, { y: 60 })
+item(wt(580) - .25, wt(593) - .25, win('wDc3', 'pages/discord_top.png', 1075, 150, 620, .78, { rDc3: B('discordP', 'entropy.io') }, 'discord.gg/entropyio · <b>badges and roles</b>', 1), { y: 60 })
+ring('rDc3', wt(587) - .1, wt(593) - .3)
 item(wt(593) - .25, wt(611) - .25, win('wGr2', 'posts/grants.png', 1100, 0, 500, .8, { rDG: B('grants', 'discord.gg/entropyio') }, '@entropyIO on X · 25 nov 2026 · <b>details and guidelines</b>'), { y: 60 })
 ring('rDG', wt(597) - .1, wt(611) - .3)
 item(wt(611) - .25, wt(635) - .25, win('wFd', 'posts/feed.png', 1100, 0, 340, .9, { rTh: B('feed', 'Post your thesis.') }, '@entropyIO on X · 25 nov 2026 · <b>the social feed</b>'), { y: 90 })
@@ -292,11 +354,6 @@ item(wt(726) - .25, wt(731) - .25, `${ic('light_bulb_3d')}${lb('your <b>strategy
 item(wt(731) - .25, s0[6] - .05, win('wTr3', 'pages/home_top.png', 1075, 1570, 2010, .8, { rLS3: LS }, 'entropy.io · <b>do it manually</b>', 1), { y: Y1 })
 ring('rLS3', wt(736) - .1, s0[6] - .05)
 
-// ===== screen 7 (261.7-274.1): delta neutral on the trade screen, then the ladder ($2,500)
-hd(s0[6] - .3, wt(755) - .52, 'entropy.io · <b>28 nov 2026</b>')
-item(s0[6] - .3, wt(755) - .52, win('wHo', 'pages/home_top.png', 1075, 0, 2330, .615, { rLg: B('homeP', 'Long'), rSh: B('homeP', 'Short') }, '', 1), { y: 175, scr: 1 })
-ring('rLg', wt(747) - .1, wt(755) - .3); ring('rSh', wt(747) + .15, wt(755) - .3)
-hd(wt(755) - .3, s1[6] + .2, 'the six plans · <b>up to $2,500</b>')
 
 // ===== 274-288: on camera. This weekend; the platform; the opportunities; peace
 item(s1[6] + .05, wt(781) - .25, `${ic('sparkles_3d')}${lb('this <b>weekend</b>')}`, { y: 90 })
@@ -313,7 +370,7 @@ const ACT = [[0, wt(215) - .2, wt(230) - .1], [1, wt(230) - .1, wt(252) - .1], [
   [0, wt(367) - .1, wt(377) - .1], [1, wt(377) - .1, wt(384) - .1], [2, wt(384) - .1, wt(392) - .1], [3, wt(392) - .1, wt(401) - .1], [4, wt(401) - .1, wt(426) - .1], [5, wt(426) - .1, wt(434) + .3], [5, wt(755) - .1, 1e9]]
 const RR = [[4, wt(419) - .1, wt(426) - .2], [5, wt(762) - .1, 1e9], [5, wt(345) - .1, wt(348) + 1.5]]
 // when the ladder is up: from "several plans" to "another program", and from "as much as" to the end of screen 7
-const LADW = [[wt(183) - .3, wt(476) - .3], [wt(755) - .3, s1[6] + TOUT]]
+const LADW = [[-10, -9]]                                      // the plan ladder is gone (28 Nov: the screen parts are the real app)
 const ladOn = t => LADW.some(([a, b]) => t >= a && t < b)
 
 // ---- end card
@@ -387,6 +444,14 @@ window.render = t => {
       const kin = eo(seg(t, LADW[0][0], .3)), kout = seg(t, LADW[0][1], .2)
       st(pcEl, { opacity: cl((.6 - K) / .6) * cl(kin * 1.6) * (1 - kout), transform: `translateY(${(-(K) * 60).toFixed(1)}px)` })
     } }
+  // the phones: the page that is on screen now (a hard change, as a recording does), its rings, the taps, the push-ins
+  for (const P of PHONES) { const sc = document.getElementById(P.id + 's'); let cur = -1
+    P.layers.forEach(([f, cw, t0, t1], i) => { const on = t >= t0 && t < t1; if (on) cur = i; const el = document.getElementById(P.id + 'l' + i); const v = on ? 'block' : 'none'; if (el.style.display !== v) { el.style.display = v; SIG.push(P.id + i + v) } })
+    sc.querySelectorAll('.ring').forEach(r => { if (+r.dataset.l !== cur) { r.style.opacity = 0; SIG.push(0) } })
+    P.taps.forEach(([x, y, tt], j) => { const s = PH.w / 1075, u = seg(t, tt - .35, .5), e = document.getElementById(P.id + 't' + j)
+      st(e, { opacity: u > 0 && u < 1 ? Math.sin(Math.PI * u) * .95 : 0, transform: `translate(${(x * s).toFixed(1)}px,${(y * s).toFixed(1)}px) scale(${(.6 + .5 * u).toFixed(3)})` }) })
+    let z = 1, oy = '50%'; for (const [li, tt, zz, o] of P.push) if (li === cur) { z = 1 + (zz - 1) * eio(seg(t, tt, .9)); oy = o }
+    st(sc, { transform: `scale(${z.toFixed(4)})`, transformOrigin: `50% ${oy}` }) }
   // the roles, each on its word
   ROLES.forEach(([, , , w], i) => { const e = $('ro' + i); if (e) st(e, { opacity: seg(t, wt(w) - .12, .14), transform: `translateX(${((1 - eo(seg(t, wt(w) - .12, .32))) * -50).toFixed(1)}px) scale(${(.8 + .2 * back(seg(t, wt(w) - .12, .34))).toFixed(4)})` }) })
   // the 25 creators light up on "top 25 creators"; the pool on "$2,500"

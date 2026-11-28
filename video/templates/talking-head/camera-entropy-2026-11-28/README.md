@@ -8,16 +8,20 @@ how to do. But once I'm looking at the screen, you will not show my face anymore
 it look as if I'm doing an unprofessional video… as quickly as possible, while making sure that there are no mistakes."
 Out folder: `video/out/entropy-2026-11-28/`. Sources: `sources.md`. Post kit: `post-kit.md`.
 
-## The idea
+## The idea (second version, 28 Nov)
 Two modes, switched by where they look:
 - **On camera:** the talking-head moves of their samples (S1 to S4 in `video/templates/STYLE-LIBRARY.md`): giant type
   behind the head, real pages and posts above it ringed on their words, icons, word-by-word captions with big phrases.
-- **Looking at their screen (seven stretches, 1:52):** a light-blue panel rises over the whole frame and Entropy takes
-  it: the post that lists the six plans, the plan ladder filling on their words, the team's Creator Grants post, the
-  Discord invite and the three roles they name, the $2,500 weekly pool, the trade screen for "delta neutral". The panel
-  drops away when they look up. The captions keep running on both.
-- **One object through the story:** the six-plan ladder (our card of their numbers, labelled as theirs) is full screen on
-  the screen stretches; in between, its current row sits in a card above their head.
+- **Looking at their screen (seven stretches, 1:52): a screen recording of Entropy's real app, made by us.** The phone
+  screen sits whole in the frame and its pages change the way a recording does: a tap (a white touch dot), then the
+  next page. The amounts they say are typed into the real Amount field of the trade screen ($10,000 … $100,000,000,
+  `tools/trade.cjs`); "delta neutral" is a tap on Long, then Short; the tiers are Entropy's own docs page (Frontend
+  Fees: Tier 1 $0M, Tier 2 $3M, Tier 3 $8M, Tier 4 $15M of rolling 30-day volume), each row ringed on its word; the
+  program is the app's Referrals tab and the real posts (@Athayagg's list of the six plans, @entropyIO's Creator
+  Grants post), the Discord is its real invite page.
+- **The first version** had a light panel with our own card of the six plans and our own role chips there. The owner,
+  28 Nov: "You'll be displaying the app, the application… the features of the app… I did not say you can't put one of
+  our stupid mock photo". No card of ours stands in for the app any more.
 
 ## The recording
 A CapCut export, 1080×1920, 30 frames a second, not mirrored, 9.5 Mbit/s, 290.04 s. **The last 2 s are CapCut's black
